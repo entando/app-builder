@@ -1,6 +1,5 @@
-// FIXME move language init in its own file
-/* react-intl imports */
 import pluginArray from 'entando-plugins';
+
 import { addLocaleData } from 'react-intl';
 import enLocale from 'locales/en';
 import itLocale from 'locales/it';
