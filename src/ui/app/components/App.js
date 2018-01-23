@@ -5,12 +5,21 @@ import pluginArray from 'entando-plugins';
 
 import HelloWorldMessageContainer from 'ui/hello-world/containers/HelloWorldMessageContainer';
 
+import RedButton from 'frontend-common-components/dist/js/RedButton';
+import 'frontend-common-components/dist/css/RedButton.css';
+
+import BlueButton from 'frontend-common-components/dist/js/BlueButton';
+import 'frontend-common-components/dist/css/BlueButton.css';
+
+
 const App = () => (
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <h1 className="App-title">
         <HelloWorldMessageContainer />
+        <RedButton text="i am redbutton" />
+        <BlueButton text="i am bluebutton" />
       </h1>
     </header>
     <p className="App-intro">
