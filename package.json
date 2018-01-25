@@ -4,6 +4,7 @@
   "repository": "https://github.com/entando/designtime-admin-app",
   "private": true,
   "dependencies": {
+    "frontend-common-components": "github:entando/frontend-common-components#dev",
     "node-sass-chokidar": "0.0.3",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -26,7 +27,6 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "lint": "eslint ./src",
     "coverage": "react-scripts test --env=jsdom --coverage",
-
     "precommit": "npm run lint"
   },
   "devDependencies": {
