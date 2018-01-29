@@ -9,6 +9,8 @@ import registerServiceWorker from 'registerServiceWorker';
 import { Provider } from 'react-redux';
 import store from 'state/store';
 
+import 'app-init/router';
+
 import { IntlProvider } from 'react-intl';
 import i18nConfig from 'app-init/locale';
 

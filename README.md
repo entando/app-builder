@@ -4,6 +4,31 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 You can find the most recent version of Create React App [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
+---
+## Commands
+
+### Clone and set up:
+
+- Make sure to have **git**, **npm** + **node** installed and up to date.
+- Clone the repo: `git clone https://github.com/entando/frontend-common-components.git`
+- `cd frontend-common-components.git`
+- `npm install`: installs npm dependencies
+
+
+### Deploy:
+
+- `npm run lint`: runs the linter. It fails if linting rules are not matched.
+- `npm run coverage`: runs unit tests. It fails if an unit test fails, or if the minimum coverage threshold is not met.
+- `npm run import-plugins`: compiles and imports Entando plugins.
+- `npm run build`: compiles the project and creates the `build` directory.
+- `npm run build-full`: runs `npm run lint`, `npm run coverage`, `npm run import-plugins` and `npm run build`
+
+
+### Develop
+
+- `npm start`: starts the application in dev mode (local web server)
+
+---
 
 ## Styles
 
@@ -26,7 +51,7 @@ The `app` directory is a _domain_ directory. Domain directories are used to orga
 
 Each Component should have its own `.scss` file, and domain directories should reflect those used in the `src/ui` directory.
 
-
+---
 
 ## Internationalization (I18n)
 
@@ -43,6 +68,7 @@ src
     └── it.js
 ```
 
+---
 
 ## Plugins
 

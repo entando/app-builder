@@ -5,11 +5,11 @@ import pluginArray from 'entando-plugins';
 
 import HelloWorldMessageContainer from 'ui/hello-world/containers/HelloWorldMessageContainer';
 
-import RedButton from 'frontend-common-components/dist/js/RedButton';
-import 'frontend-common-components/dist/css/RedButton.css';
+import RedButton from 'frontend-common-components/dist/RedButton';
+import 'frontend-common-components/dist/RedButton.css';
 
-import BlueButton from 'frontend-common-components/dist/js/BlueButton';
-import 'frontend-common-components/dist/css/BlueButton.css';
+import BlueButton from 'frontend-common-components/dist/BlueButton';
+import 'frontend-common-components/dist/BlueButton.css';
 
 
 const App = () => (
