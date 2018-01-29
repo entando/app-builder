@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run lint && echo 'lint ok' && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "import-plugins": "node ./entando-plugins-config/import-plugins.js",
@@ -27,7 +27,8 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "lint": "eslint ./src",
     "coverage": "react-scripts test --env=jsdom --coverage",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "build-full": "npm run lint && npm run coverage && npm run import-plugins && react-scripts build"
   },
   "devDependencies": {
     "chalk": "^2.3.0",
@@ -47,7 +48,15 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}",
       "!src/*.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 20,
+        "functions": 20,
+        "lines": 20,
+        "statements": 20
+      }
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
