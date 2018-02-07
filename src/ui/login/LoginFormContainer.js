@@ -2,22 +2,19 @@
 import { connect } from 'react-redux';
 
 // import the Component to be connected
-import { LoginForm, gotoRoute } from 'frontend-common-components';
+import { LoginForm } from 'frontend-common-components';
 
-import { login } from 'api/login';
+import { performLogin } from 'state/form/actions';
+import { getLoginErrorMessage } from 'state/form/selectors';
 
 
-const mapStateToProps = () => ({
-  loginErrorMessage: '',
+const mapStateToProps = state => ({
+  loginErrorMessage: getLoginErrorMessage(state),
 });
 
 // map the props
-const mapDispatchToProps = () => ({
-  performLogin: (username, password) => {
-    login(username, password).then(() => {
-      gotoRoute('dashboard');
-    });
-  },
+const mapDispatchToProps = dispatch => ({
+  performLogin: (username, password) => dispatch(performLogin(username, password)),
 });
 
 // connect the component

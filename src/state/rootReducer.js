@@ -4,10 +4,14 @@ import { routerReducer as router } from 'frontend-common-components';
 
 import pluginArray from 'entando-plugins';
 
+import form from 'state/form/reducer';
+
 
 const reducerDef = {
 
   router,
+
+  form,
 
 };
 
