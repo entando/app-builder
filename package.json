@@ -4,7 +4,7 @@
   "repository": "https://github.com/entando/designtime-admin-app",
   "private": true,
   "dependencies": {
-    "frontend-common-components": "github:entando/frontend-common-components#master",
+    "frontend-common-components": "github:entando/frontend-common-components#dev",
     "node-sass-chokidar": "0.0.3",
     "patternfly": "^3.38.1",
     "prop-types": "^15.6.0",

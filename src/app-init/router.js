@@ -7,8 +7,8 @@ routerConfig(
   {
     mode: 'browser',
     routes: [
-      { name: 'homePage', path: '/' },
-      { name: 'fake', path: '/fake' },
+      { name: 'home', path: '/' },
+      { name: 'dashboard', path: '/dashboard' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
