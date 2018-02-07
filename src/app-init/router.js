@@ -1,8 +1,8 @@
 import store from 'state/store';
-import { config as configRouter } from 'frontend-common-components/dist/router';
+import { routerConfig } from 'frontend-common-components';
 
 
-configRouter(
+routerConfig(
   store,
   {
     mode: 'browser',

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { reducer as router } from 'frontend-common-components/dist/router';
+import { reducer as router } from 'frontend-common-components';
 
 import helloWorld from 'state/hello-world';
 
