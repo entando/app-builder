@@ -4,6 +4,7 @@
   "repository": "https://github.com/entando/designtime-admin-app",
   "private": true,
   "dependencies": {
+    "enzyme-redux": "^0.1.7",
     "frontend-common-components": "github:entando/frontend-common-components#dev",
     "node-sass-chokidar": "0.0.3",
     "patternfly": "^3.38.1",
@@ -16,6 +17,7 @@
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
     "redux-mock-store": "^1.4.0",
+    "redux-test-utils": "^0.2.2",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"
   },
