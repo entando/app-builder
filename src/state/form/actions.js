@@ -1,5 +1,5 @@
 
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute, formattedText } from 'frontend-common-components';
 import login from 'api/login';
 
 import { SET_LOGIN_ERROR_MESSAGE } from './types';
@@ -16,6 +16,8 @@ export const setLoginErrorMessage = (message) => ({
 
 // thunks
 
+const ERROR_LOGIN_MESSAGE = 'error: username or password is invalid';
+
 export const performLogin = (username, password) => (dispatch) => {
   if (username && password) {
     dispatch(setLoginErrorMessage(''));
@@ -23,6 +25,6 @@ export const performLogin = (username, password) => (dispatch) => {
       gotoRoute('dashboard');
     });
   } else {
-    dispatch(setLoginErrorMessage('ERROR: USERNAME OR PASSWORD IS INVALID'));
+    dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
   }
 };

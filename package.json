@@ -8,6 +8,7 @@
     "frontend-common-components": "github:entando/frontend-common-components#master",
     "node-sass-chokidar": "0.0.3",
     "patternfly": "^3.38.1",
+    "patternfly-react": "^1.8.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
