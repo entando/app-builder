@@ -8,12 +8,12 @@ import { performLogin } from 'state/form/actions';
 import { getLoginErrorMessage } from 'state/form/selectors';
 
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   loginErrorMessage: getLoginErrorMessage(state),
 });
 
 // map the props
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   performLogin: (username, password) => dispatch(performLogin(username, password)),
 });
 

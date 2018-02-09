@@ -8,11 +8,8 @@ import form from 'state/form/reducer';
 
 
 const reducerDef = {
-
   router,
-
   form,
-
 };
 
 if (pluginArray.length) {
