@@ -1,6 +1,6 @@
 
 import { gotoRoute } from 'frontend-common-components';
-import { login } from 'api/login';
+import login from 'api/login';
 
 import { SET_LOGIN_ERROR_MESSAGE } from './types';
 

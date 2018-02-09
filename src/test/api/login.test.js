@@ -1,6 +1,6 @@
 
 import 'test/enzyme-init';
-import { login } from 'api/login';
+import login from 'api/login';
 import { BODY_OK, BODY_ERROR } from 'test/mocks/login';
 
 jest.unmock('api/login');
