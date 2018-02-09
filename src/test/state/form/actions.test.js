@@ -1,3 +1,4 @@
+
 import { setLoginErrorMessage, performLogin } from 'state/form/actions';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/form/types';
 import configureMockStore from 'redux-mock-store';

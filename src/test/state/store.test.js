@@ -1,3 +1,4 @@
+
 import store from 'state/store';
 
 describe('state/store', () => {
