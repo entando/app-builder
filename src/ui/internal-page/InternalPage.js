@@ -22,14 +22,12 @@ const InternalPage = ({ children }) => (
   </div>
 );
 
-
 InternalPage.propTypes = {
   children: PropTypes.node,
-
 };
 
 InternalPage.defaultProps = {
   children: null,
-
 };
+
 export default InternalPage;
