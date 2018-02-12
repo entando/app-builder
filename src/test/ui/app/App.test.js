@@ -4,8 +4,9 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import App from 'ui/app/App';
+import InternalPage from 'ui/internal-page/InternalPage';
 
-const DASHBOARD_MOCK = <h1>DASHBOARD</h1>; // wanna be DashboardPage
+
 const DEFAULT_MOCK = <h1>NOT FOUND</h1>; // NotFoundPage
 
 it('renders without crashing', () => {
@@ -15,7 +16,7 @@ it('renders without crashing', () => {
 
 it('route to dashboard', () => {
   const component = shallow(<App route="dashboard" />);
-  expect(component.contains(DASHBOARD_MOCK)).toEqual(true);
+  expect(component.contains(<InternalPage />)).toEqual(true);
 });
 
 it('default route', () => {
