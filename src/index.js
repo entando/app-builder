@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import App from 'ui/app/components/App';
 import registerServiceWorker from 'registerServiceWorker';
 
 // state manager (Redux)
