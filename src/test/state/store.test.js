@@ -1,3 +1,4 @@
+
 import store from 'state/store';
 
 describe('state/store', () => {
@@ -7,12 +8,8 @@ describe('state/store', () => {
   });
 
   describe('default state', () => {
-    it('contains property "helloWorld"', () => {
-      expect(defaultState.helloWorld).toBeDefined();
-    });
-
-    it('contains property "helloWorld.message"', () => {
-      expect(defaultState.helloWorld.message).toBeDefined();
+    it('contains at least one property', () => {
+      expect(defaultState).toBeDefined();
     });
   });
 });

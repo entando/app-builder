@@ -1,14 +1,14 @@
 import store from 'state/store';
-import { config as configRouter } from 'frontend-common-components/dist/router';
+import { routerConfig } from 'frontend-common-components';
 
 
-configRouter(
+routerConfig(
   store,
   {
     mode: 'browser',
     routes: [
-      { name: 'homePage', path: '/' },
-      { name: 'fake', path: '/fake' },
+      { name: 'home', path: '/' },
+      { name: 'dashboard', path: '/dashboard' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

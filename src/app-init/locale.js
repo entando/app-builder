@@ -6,8 +6,12 @@ import itLocale from 'locales/it';
 /* ('en' is included by default) */
 import itLocaleData from 'react-intl/locale-data/it';
 
+import { locales, setCurrentLocale } from 'frontend-common-components';
+
 addLocaleData(itLocaleData);
 
+enLocale.messages = { ...enLocale.messages, ...locales.en.messages };
+itLocale.messages = { ...itLocale.messages, ...locales.it.messages };
 
 // enrich locales with messages coming from the plugins
 pluginArray.forEach((plugin) => {
@@ -30,5 +34,6 @@ pluginArray.forEach((plugin) => {
 
 // FIXME this will be handled with user selection (and maybe localStorage)
 const i18nConfig = window.location.href.match('lang=ita') ? itLocale : enLocale;
+setCurrentLocale(i18nConfig);
 
 export default i18nConfig;

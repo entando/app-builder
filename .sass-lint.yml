@@ -1,0 +1,157 @@
+# sass-lint config
+# Rules docs: https://github.com/sasstools/sass-lint/tree/master/docs/rules
+# Airbnb conventions reference: https://github.com/airbnb/css
+
+files:
+  include: '**/*.scss'
+options:
+  formatter: stylish
+  merge-default-rules: false
+rules:
+
+  # Use soft tabs (2 spaces) for indentation
+  indentation:
+    - 2
+    - size: 2
+
+  # Do not use ID selectors
+  no-ids: 2
+
+  # When using multiple selectors in a rule declaration, give each selector its own line
+  single-line-per-selector: 2
+
+  # Put a space before the opening brace { in rule declarations
+  space-before-brace: 2
+
+  # In properties, put a space after, but not before, the : character
+  space-after-colon: 2
+  space-before-colon: 2
+
+  # Put blank lines between rule declarations
+  empty-line-between-blocks:
+    - 2
+    - include: true
+    - allow-single-line-rulesets: false
+
+  # Prefer line comments (// in Sass-land) to block comments
+  no-css-comments: 2
+
+  # Prefer comments on their own line. Avoid end-of-line comments
+  # sass-lint does not support this rule
+
+
+  # We recommend creating JavaScript-specific classes to bind to, prefixed with .js-
+  # We recommend a variant of BEM with PascalCased “blocks”, which works particularly well when
+  # combined with components (e.g. React). Underscores and dashes are still used for modifiers and children
+  class-name-format:
+    - 2
+    - convention: ^([A-Z][a-zA-Z]*)((__)([a-z]+(\-[a-z]+)*))?((\-\-)([a-z]+(\-[a-z]+)*))?$
+      convention-explanation: >
+        valid BEM selectors:
+          BlockName,
+          BlockName__element-name,
+          BlockName--modifier-name,
+          BlockName__element-name--modifier-name
+
+  # Nested selectors, if necessary, go last, and nothing goes after them
+  declarations-before-nesting: 2
+
+  # Do not nest selectors more than three levels deep!
+  nesting-depth:
+    - 2
+    - max-depth: 1
+
+  # Prefer dash-cased variable names
+  variable-name-format:
+    - 2
+    - allow-leading-underscore: true
+    - convention: hyphenatedlowercase
+
+  # @extend should be avoided because it has unintuitive and potentially dangerous behavior
+  no-extends: 2
+
+
+  # Additional rules:
+
+  # Enforce coherent brace style
+  brace-style:
+    - 2
+    - allow-single-line: false
+
+  # With Autoprefixer, don't need to add vendor prefixes to SASS
+  no-vendor-prefixes: 2
+
+  # Prefer 0 values without unit
+  zero-unit:
+    - 2
+    - include: false
+
+  # Do not have more than one lebel elements
+  bem-depth: 2
+
+  # Nest elements in its parent class
+  force-element-nesting: 2
+
+  # use hex form for colors
+  no-color-keywords: 1
+
+  # use one property per line
+  one-declaration-per-line: 2
+
+  # avoid universal selectors (*)
+  no-universal-selectors: 2
+
+  # check typos in properties
+  no-misspelled-properties:
+  - 2
+  -
+    'extra-properties':
+      - 'appearance'
+
+  # Forbid trailing spaces
+  no-trailing-whitespace: 2
+
+  # Prefer no leading zero, e.g.
+  # width: .5px;  YES
+  # width: 0.5px; NO
+  leading-zero:
+    - 2
+    - include: false
+
+  # Use zero instead of none for borders
+  border-zero:
+    - 2
+    - convention: zero
+
+  # Do not add qualifying elements (e.g. div.ClassName not allowed)
+  no-qualifying-elements: 2
+
+  # Prefer SMACSS ordering (https://smacss.com/book/formatting)
+  property-sort-order:
+    - 1
+    - order: smacss
+
+  # Use only double quoted strings
+  quotes:
+    - 2
+    - style: double
+
+  # Use variables for colors
+  variable-for-property:
+  - 1
+  -
+    'properties':
+    - 'color'
+    - 'background'
+    - 'background-color'
+    - 'border-color'
+
+  # Avoid important
+  no-important: 2
+
+  function-name-format: 1
+  mixin-name-format: 1
+  mixins-before-declarations: 1
+  placeholder-name-format:
+    - 2
+    - convention: hyphenatedbem

@@ -1,18 +1,15 @@
 import { combineReducers } from 'redux';
 
-import { reducer as router } from 'frontend-common-components/dist/router';
-
-import helloWorld from 'state/hello-world';
+import { routerReducer as router } from 'frontend-common-components';
 
 import pluginArray from 'entando-plugins';
 
+import form from 'state/form/reducer';
+
 
 const reducerDef = {
-
   router,
-
-  // sample domain reducer
-  helloWorld,
+  form,
 };
 
 if (pluginArray.length) {
