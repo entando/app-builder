@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // import { LoginPage } from 'frontend-common-components';
 // import LoginFormContainer from 'ui/login/LoginFormContainer';
-import InternalPage from 'ui/internalPage/InternalPage';
+import InternalPage from 'ui/internal-page/InternalPage';
 
 const App = ({ route }) => {
   switch (route) {
