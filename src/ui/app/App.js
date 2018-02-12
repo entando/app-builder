@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { LoginPage } from 'frontend-common-components';
-import LoginFormContainer from 'ui/login/LoginFormContainer';
+// import { LoginPage } from 'frontend-common-components';
+// import LoginFormContainer from 'ui/login/LoginFormContainer';
+import InternalPage from 'ui/internalPage/InternalPage';
 
 const App = ({ route }) => {
   switch (route) {
     case 'home': return (
-      <LoginPage>
-        <LoginFormContainer />
-      </LoginPage>
+      <InternalPage />
     );
     case 'dashboard': return (
       <h1>DASHBOARD</h1>
