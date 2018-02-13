@@ -13,5 +13,5 @@ it('renders without crashing', () => {
 
 it('verify if exist InternalPage', () => {
   const component = shallow(<DashboardPage />);
-  expect(component.contains(<InternalPage />)).toEqual(true);
+  expect(component.contains(<InternalPage className="DashboardPage" />)).toEqual(true);
 });
