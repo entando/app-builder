@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "enzyme-redux": "^0.1.7",
-    "frontend-common-components": "github:entando/frontend-common-components#master",
+    "frontend-common-components": "github:entando/frontend-common-components#EN-617_create_activity_stream",
     "node-sass-chokidar": "0.0.3",
     "patternfly": "^3.38.1",
     "patternfly-react": "^1.8.0",

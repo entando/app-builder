@@ -5,11 +5,12 @@ import { routerReducer as router } from 'frontend-common-components';
 import pluginArray from 'entando-plugins';
 
 import form from 'state/form/reducer';
-
+import activityStream from 'state/activity-stream/reducer';
 
 const reducerDef = {
   router,
   form,
+  activityStream,
 };
 
 if (pluginArray.length) {
