@@ -17,3 +17,5 @@ export const AdminAppSwitch = () => (<span />);
 export const LinkMenuItem = () => (<span />);
 export const FirstLevelMenuItem = () => (<span />);
 export const DropdownMenuItem = () => (<span />);
+export const ActiviStreamMenu = () => (<span />);
+export const ActivityStream = () => (<span />);

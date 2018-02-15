@@ -2,6 +2,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
+import 'test/mocks/mockContainers';
 import { shallow } from 'enzyme';
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
