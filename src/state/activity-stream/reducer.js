@@ -1,16 +1,16 @@
-import { CLOSE_NOTIFICATION_DRAWER } from './types';
+import { TOGGLE_NOTIFICATION_DRAWER } from './types';
 
 const initialState = {
-  notificationDrawerIsHide: true,
+  hidden: true,
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case CLOSE_NOTIFICATION_DRAWER: {
+    case TOGGLE_NOTIFICATION_DRAWER: {
       return Object.assign(
         {},
         state,
-        { notificationDrawerIsHide: !state.notificationDrawerIsHide },
+        { hidden: !state.hidden },
       );
     }
     default: return state;

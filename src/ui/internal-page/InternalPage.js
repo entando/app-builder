@@ -10,6 +10,7 @@ import {
   formattedText } from 'frontend-common-components';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
+import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -60,6 +61,7 @@ const InternalPage = ({ className, children }) => (
         pullRight
       />
     </BrandMenu>
+    <ActivityStreamContainer />
     {children}
   </div>
 );

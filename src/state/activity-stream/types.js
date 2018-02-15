@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const CLOSE_NOTIFICATION_DRAWER = 'activitystream/close-notification-drawer';
+export const TOGGLE_NOTIFICATION_DRAWER = 'activitystream/toggle-notification-drawer';
