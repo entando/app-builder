@@ -2,7 +2,6 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import 'test/mocks/mockContainers';
 import { shallow } from 'enzyme';
 import InternalPage from 'ui/internal-page/InternalPage';
 

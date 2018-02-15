@@ -1,5 +1,4 @@
 import 'test/enzyme-init';
-import 'test/mocks/mockContainers';
 
 import { mapStateToProps } from 'ui/app/AppContainer';
 
