@@ -6,8 +6,4 @@ export const toggleNotificationDrawer = () => ({
   type: TOGGLE_NOTIFICATION_DRAWER,
 });
 
-export const getNotifications = () => {
-  getApiNotifications().then((result) => {
-    console.log(result);
-  });
-};
+export const getJsonNotifications = () => getApiNotifications();
