@@ -1,7 +1,6 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-
 import { shallow } from 'enzyme';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import InternalPage from 'ui/internal-page/InternalPage';
