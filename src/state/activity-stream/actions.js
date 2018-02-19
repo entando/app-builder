@@ -1,7 +1,7 @@
 import { getApiNotifications } from 'api/notification';
 import { gotoRoute } from 'frontend-common-components';
 import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from './types';
-import { getHidden } from './selectors';
+import { getHidden, getNotifications } from './selectors';
 // declare action for close notification drawer
 // eslint-disable-next-line
 export const toggleNotificationDrawer = () => ({
@@ -15,7 +15,7 @@ export const addNotifications = notifications => ({
   },
 });
 
-export const getNotifications = () => (dispatch) => {
+export const fetchNotifications = () => (dispatch) => {
   getApiNotifications().then((data) => {
     dispatch(addNotifications(data.payload.notifications));
   });
@@ -26,14 +26,38 @@ export const getNotifications = () => (dispatch) => {
 export const toggleNotificationList = () => (dispatch, getState) => {
   dispatch(toggleNotificationDrawer());
   if (!getHidden(getState())) {
-    dispatch(getNotifications());
+    dispatch(fetchNotifications());
   }
 };
 
 
 export const getRouteUserName = id => (dispatch, getState) => {
-  const notification = getState().activityStream.notifications.find(item => item.id === id);
+  const notification = getNotifications(getState()).find(item => item.id === id);
   gotoRoute('userprofile', {
     username: notification.author.username,
   });
+};
+
+
+export const getRouteTargetName = id => (dispatch, getState) => {
+  const notification = getNotifications(getState()).find(item => item.id === id);
+  switch (notification.targetType) {
+    case 'content':
+      gotoRoute('content', {
+        content: notification.target.pageCode,
+        frame: notification.target.frame,
+      });
+      break;
+    case 'widget':
+      gotoRoute('widget', {
+        widget: notification.target.id,
+      });
+      break;
+    case 'page':
+      gotoRoute('page', {
+        page: notification.target.pageCode,
+      });
+      break;
+    default: gotoRoute('dashboard'); break;
+  }
 };
