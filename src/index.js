@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import store from 'state/store';
 
 import 'app-init/router';
+import 'app-init/locale';
 
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 
