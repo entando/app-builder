@@ -5,11 +5,13 @@ import { routerReducer as router } from 'frontend-common-components';
 import pluginArray from 'entando-plugins';
 
 import form from 'state/form/reducer';
+import locale from 'state/locale/reducer';
 
 
 const reducerDef = {
   router,
   form,
+  locale,
 };
 
 if (pluginArray.length) {

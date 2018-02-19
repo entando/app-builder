@@ -15,6 +15,7 @@ export const mapStateToProps = state => ({
 // map the props
 export const mapDispatchToProps = dispatch => ({
   performLogin: (username, password) => dispatch(performLogin(username, password)),
+  // bindare setLanguage
 });
 
 // connect the component
