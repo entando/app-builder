@@ -1,20 +1,23 @@
-import { TOGGLE_NOTIFICATION_DRAWER } from './types';
+import { combineReducers } from 'redux';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from './types';
 
-const initialState = {
-  hidden: true,
-};
 
-const reducer = (state = initialState, action = {}) => {
+const hidden = (state = true, action = {}) => {
   switch (action.type) {
     case TOGGLE_NOTIFICATION_DRAWER: {
-      return Object.assign(
-        {},
-        state,
-        { hidden: !state.hidden },
-      );
+      return !state;
     }
     default: return state;
   }
 };
 
-export default reducer;
+const notifications = (state = [], action = {}) => {
+  switch (action.type) {
+    case ADD_NOTIFICATIONS: {
+      return action.payload.notifications;
+    }
+    default: return state;
+  }
+};
+
+export default combineReducers({ hidden, notifications });

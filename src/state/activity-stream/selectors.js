@@ -2,11 +2,15 @@
 import { createSelector } from 'reselect';
 
 
-const getActivityStream = state => state.activityStream;
+export const getActivityStream = state => state.activityStream;
 
-
-// eslint-disable-next-line
 export const getHidden = createSelector(
   [getActivityStream],
   activityStream => activityStream.hidden,
+);
+// created selector expects an input array.
+// activityStream is arbitrary name that identifies the array name.
+export const getNotifications = createSelector(
+  [getActivityStream],
+  activityStream => activityStream.notifications,
 );

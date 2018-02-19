@@ -11,6 +11,9 @@ import {
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
+import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
+import NotificationList from 'ui/activity-stream/NotificationList';
+
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -24,7 +27,6 @@ const menuHeader = [
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
 ];
-
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
@@ -61,7 +63,12 @@ const InternalPage = ({ className, children }) => (
         pullRight
       />
     </BrandMenu>
-    <ActivityStreamContainer />
+    <ActivityStreamContainer >
+      <NotificationListContainer >
+        <NotificationList />
+      </NotificationListContainer>
+    </ActivityStreamContainer>
+
     {children}
   </div>
 );

@@ -9,6 +9,7 @@ routerConfig(
     routes: [
       { name: 'home', path: '/' },
       { name: 'dashboard', path: '/dashboard' },
+      { name: 'userprofile', path: '/userprofile/:username' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

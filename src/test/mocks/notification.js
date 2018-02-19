@@ -44,7 +44,7 @@ export const NOTIFICATION = {
       },
 
       {
-        id: 3,
+        id: 1,
         author: {
           username: 'Lorentz',
           fullName: 'Franco Locci',

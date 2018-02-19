@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { ActivityStreamMenu } from 'frontend-common-components';
 
-import { toggleNotificationDrawer } from 'state/activity-stream/actions';
+import { toggleNotificationList } from 'state/activity-stream/actions';
 
 export const mapDispatchToProps = dispatch => ({
   onClickToggle: () => {
-    dispatch(toggleNotificationDrawer());
+    dispatch(toggleNotificationList());
   },
 });
 
