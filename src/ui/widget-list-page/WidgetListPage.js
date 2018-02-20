@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
-import { Row, Col, Button, OverlayTrigger, Popover, TablePfProvider, Header, Body } from 'patternfly-react';
+import { Row, Col, Button, OverlayTrigger, Popover } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
 import 'sass/widget-list-page/WidgetListPage.scss';
@@ -85,18 +85,6 @@ const WidgetListPage = ({ onClickCreate }) => {
                   </tr>
                 </tbody>
               </table>
-              <TablePfProvider
-                striped
-                bordered
-                hover
-                columns={[]}
-              >
-                <Header />
-                <Body
-                  rows={[]}
-                  rowKey="id"
-                />
-              </TablePfProvider>
             </Col>
           </Col>
         </Row>
