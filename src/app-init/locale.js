@@ -32,3 +32,4 @@ pluginArray.forEach((plugin) => {
 });
 setCurrentLocale(enLocale);
 export default enLocale;
+export { itLocale, enLocale };
