@@ -2,7 +2,7 @@
 import { getLoginErrorMessage } from 'state/login-form/selectors';
 
 const TEST_STATE = {
-  form: { loginErrorMessage: 'ERROR' },
+  loginForm: { loginErrorMessage: 'ERROR' },
 };
 
 it('verify getLoginErrorMessage selector', () => {
