@@ -19,3 +19,4 @@ export const FirstLevelMenuItem = () => (<span />);
 export const DropdownMenuItem = () => (<span />);
 // export const ActivityStreamMenu = () => (<span />);
 export const ActivityStream = () => (<span />);
+export const Notification = () => (<span />);
