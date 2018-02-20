@@ -4,14 +4,14 @@ import { Notification } from 'frontend-common-components';
 
 
 const NotificationList = ({
-  notifications, onClickUsername, onClickTargetName, onClickLike,
+  notifications, onClickUsername, onClickTargetName, onClickLike, locale,
 }) => (
   notifications.map(item => (
     <Notification
       key={item.id}
       id={item.id}
       username={item.author.username}
-      notification={item.notification.en}
+      notification={item.notification[locale]}
       targetName={item.target.name}
       onClickUsername={onClickUsername}
       onClickTargetName={onClickTargetName}
@@ -34,6 +34,7 @@ NotificationList.propTypes = {
     onClickTargetName: PropTypes.func,
     onClickUsername: PropTypes.func,
     onClickLike: PropTypes.func,
+    locale: PropTypes.string,
   })).isRequired,
 };
 
@@ -43,5 +44,6 @@ NotificationList.defaultProps = {
   onClickUsername: () => {},
   onClickTargetName: () => {},
   onClickLike: () => {},
+  locale: 'en',
 };
 export default NotificationList;
