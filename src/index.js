@@ -8,9 +8,9 @@ import { Provider } from 'react-redux';
 import store from 'state/store';
 
 import 'app-init/router';
+import 'app-init/locale';
 
-import { IntlProvider } from 'react-intl';
-import i18nConfig from 'app-init/locale';
+import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 
 import AppContainer from 'ui/app/AppContainer';
 
@@ -23,11 +23,11 @@ import 'sass/index.css';
 
 // exporting for tests
 export default ReactDOM.render(
-  <IntlProvider locale={i18nConfig.locale} messages={i18nConfig.messages}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <IntlProviderContainer>
       <AppContainer />
-    </Provider>
-  </IntlProvider>,
+    </IntlProviderContainer>
+  </Provider>,
   document.getElementById('root'),
 );
 registerServiceWorker();
