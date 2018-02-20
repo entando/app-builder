@@ -8,5 +8,6 @@ export default {
     'menu.integration': 'Integrazioni',
     'menu.data': 'Data',
     'menu.configuration': 'Impostazioni',
+    'widget.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
   },
 };

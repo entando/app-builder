@@ -8,6 +8,7 @@ export default {
     'menu.integration': 'Integration',
     'menu.data': 'Data',
     'menu.configuration': 'Configuration',
+    'widget.help.code': 'You can insert characters uppercase and lowercase letters, numbers and special characters _',
   },
 
 };
