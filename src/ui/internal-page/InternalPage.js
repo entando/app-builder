@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrandMenu, ProjectLink, UserDropdown, HelpMenu, AdminAppSwitch, LinkMenuItem, formattedText } from 'frontend-common-components';
+import {
+  BrandMenu,
+  ProjectLink,
+  UserDropdown,
+  HelpMenu,
+  AdminAppSwitch,
+  LinkMenuItem,
+  formattedText } from 'frontend-common-components';
 
+import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
+import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
+import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -10,11 +20,11 @@ const USERNAME = 'Admin';
 const TITLE = 'Title';
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
+  <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserDropdown key="userDropdown" userName={USERNAME} />,
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
 ];
-
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
@@ -51,6 +61,10 @@ const InternalPage = ({ className, children }) => (
         pullRight
       />
     </BrandMenu>
+    <ActivityStreamContainer >
+      <NotificationListContainer />
+    </ActivityStreamContainer>
+
     {children}
   </div>
 );
