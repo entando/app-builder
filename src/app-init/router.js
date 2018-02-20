@@ -9,6 +9,7 @@ routerConfig(
     routes: [
       { name: 'home', path: '/' },
       { name: 'dashboard', path: '/dashboard' },
+      { name: 'widgetList', path: '/widgetList' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
