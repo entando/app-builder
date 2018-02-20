@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 
 import { routerReducer as router } from 'frontend-common-components';
+import { reducer as form } from 'redux-form';
 
 import pluginArray from 'entando-plugins';
 
-import form from 'state/form/reducer';
+import loginForm from 'state/login-form/reducer';
 import locale from 'state/locale/reducer';
 
 
 const reducerDef = {
   router,
   form,
+  loginForm,
   locale,
 };
 
