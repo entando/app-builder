@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
-import { Grid, Row, Col, Button, OverlayTrigger, Popover } from 'patternfly-react';
+import { Row, Col, Button, OverlayTrigger, Popover, TablePfProvider, Header, Body } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
 import 'sass/widget-list-page/WidgetListPage.scss';
 
-const WIDGET_HELP = 'widget.list.help';
+const WIDGET_HELP = 'widget.help';
 
 const popover = () => (
   <Popover id="popover-admin-app-switch" title="">
@@ -16,12 +16,13 @@ const popover = () => (
   </Popover>
 );
 
-
 const WidgetListPage = ({ onClickCreate }) => {
   const onClickAdd = (ev) => {
     ev.preventDefault();
     onClickCreate();
+    alert('Gianni');
   };
+
   return (
     <InternalPage className="WidgetListPage">
       <div className="WidgetListPage__header">
@@ -34,17 +35,17 @@ const WidgetListPage = ({ onClickCreate }) => {
               trigger={['click']}
               rootClose
             >
-              <i className="fa pficon-help" />
+              <i className="WidgetListPage__icon fa pficon-help" />
             </OverlayTrigger>
           </span>
         </h1>
       </div>
-      <Grid>
+      <div>
         <Row>
-          <Col md={12}>
+          <Col md={12} className="">
             <Button
               type="button"
-              className="pull-right"
+              className="pull-right WidgetListPage__add"
               bsStyle="primary"
               onClick={onClickAdd}
             >
@@ -54,12 +55,52 @@ const WidgetListPage = ({ onClickCreate }) => {
             </Button>
             <Col md={12} className="WidgetListPage__tables">
               <h3><FormattedMessage id="widget.list.type" defaultMessage="" /></h3>
-              <h1>TABLES</h1>
-
+              <table className="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>lando</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Larry the Bird</td>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
+              <TablePfProvider
+                striped
+                bordered
+                hover
+                columns={[]}
+              >
+                <Header />
+                <Body
+                  rows={[]}
+                  rowKey="id"
+                />
+              </TablePfProvider>
             </Col>
           </Col>
         </Row>
-      </Grid>
+      </div>
     </InternalPage>
 
   );

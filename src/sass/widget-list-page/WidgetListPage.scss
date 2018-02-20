@@ -1,12 +1,16 @@
 @import "../patternfly.scss";
 
 .WidgetListPage {
-  width: 100%;
-}
-
-.WidgetListPage {
   .WidgetListPage__header {
-    padding: 1em;
+    padding:  0 15px 0 15px ;
     border: 1px solid $color-pf-black-300;
-  }
+ }
+
+  .WidgetListPage__icon {
+    color: $color-pf-blue-400;
+ }
+
+  .WidgetListPage__add {
+    margin: 2em 2em 0 0;
+ }
 }
