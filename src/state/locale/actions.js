@@ -1,6 +1,6 @@
 import { setCurrentLocale } from 'frontend-common-components';
-import itLocale from 'locales/it';
-import enLocale from 'locales/en';
+import { itLocale, enLocale } from 'app-init/locale';
+
 
 import { SET_LANGUAGE } from './types';
 

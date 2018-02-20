@@ -5,6 +5,7 @@ import { reducer as form } from 'redux-form';
 
 import pluginArray from 'entando-plugins';
 
+import activityStream from 'state/activity-stream/reducer';
 import loginForm from 'state/login-form/reducer';
 import locale from 'state/locale/reducer';
 
@@ -14,6 +15,7 @@ const reducerDef = {
   form,
   loginForm,
   locale,
+  activityStream,
 };
 
 if (pluginArray.length) {
