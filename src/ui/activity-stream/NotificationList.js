@@ -39,18 +39,9 @@ NotificationList.propTypes = {
 
 
 NotificationList.defaultProps = {
-  notifications: [{
-    author: {
-      username: '',
-    },
-    notification: {},
-    target: {
-      name: '',
-    },
-    modificationDate: '',
-    onClickUsername: () => {},
-    onClickTargetName: () => {},
-    onClickLike: () => {},
-  }],
+  notifications: [],
+  onClickUsername: () => {},
+  onClickTargetName: () => {},
+  onClickLike: () => {},
 };
 export default NotificationList;

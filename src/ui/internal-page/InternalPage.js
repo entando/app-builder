@@ -12,8 +12,6 @@ import {
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
-import NotificationList from 'ui/activity-stream/NotificationList';
-
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -64,9 +62,7 @@ const InternalPage = ({ className, children }) => (
       />
     </BrandMenu>
     <ActivityStreamContainer >
-      <NotificationListContainer >
-        <NotificationList />
-      </NotificationListContainer>
+      <NotificationListContainer />
     </ActivityStreamContainer>
 
     {children}

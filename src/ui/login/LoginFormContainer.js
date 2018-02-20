@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { LoginForm } from 'frontend-common-components';
 
 import { performLogin } from 'state/form/actions';
+import { setCurrentLanguage } from 'state/locale/actions';
 import { getLoginErrorMessage } from 'state/form/selectors';
 
 
@@ -15,6 +16,7 @@ export const mapStateToProps = state => ({
 // map the props
 export const mapDispatchToProps = dispatch => ({
   performLogin: (username, password) => dispatch(performLogin(username, password)),
+  setLanguage: langCode => dispatch(setCurrentLanguage(langCode)),
 });
 
 // connect the component

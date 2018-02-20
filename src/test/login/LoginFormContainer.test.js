@@ -21,10 +21,13 @@ it('maps login error message property with state.form.loginErrorMessage', () => 
 it('verify that performLogin is defined from mapDispatchToProps', () => {
   const result = mapDispatchToProps(dispatchMock);
   expect(result.performLogin).toBeDefined();
+  expect(result.setLanguage).toBeDefined();
 });
 
 it('verify that performLogin is called from mapDispatchToProps', () => {
   const result = mapDispatchToProps(dispatchMock);
   result.performLogin('gianni', 'moi');
+  expect(dispatchMock).toHaveBeenCalled();
+  result.setLanguage('it');
   expect(dispatchMock).toHaveBeenCalled();
 });
