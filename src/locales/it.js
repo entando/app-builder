@@ -29,5 +29,6 @@ export default {
     'widget.page.create.title.it.placeholder': 'Italian italiano',
     'widget.page.create.group': 'Gruppo',
     'widget.page.create.save': 'Salva',
+    'generic.label.fieldsRequired': 'Campi obbligatori',
   },
 };

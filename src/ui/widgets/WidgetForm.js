@@ -27,7 +27,9 @@ export const WidgetFormBody = (props) => {
     <form onSubmit={onSubmit} className="form-horizontal">
       <fieldset className="col-xs-12 no-padding">
         <legend><FormattedMessage id="widget.page.create.pageTitle" />
-          <div className="required-fields text-right">* Required Fields</div>
+          <div className="required-fields text-right">
+            * <FormattedMessage id="generic.label.fieldsRequired" />
+          </div>
         </legend>
 
         <Field
