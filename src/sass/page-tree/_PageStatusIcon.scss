@@ -1,0 +1,13 @@
+@import "../patternfly.scss";
+
+.PageStatusIcon--draft {
+  color: $color-pf-black-600;
+}
+
+.PageStatusIcon--published {
+  color: $color-pf-light-green-500;
+}
+
+.PageStatusIcon--unpublished {
+  color: $color-pf-red-200;
+}

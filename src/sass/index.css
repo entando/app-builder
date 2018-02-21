@@ -1,32 +1,60 @@
-body {
+.PageStatusIcon--draft {
+  color: #72767b; }
+
+.PageStatusIcon--published {
+  color: #6ca100; }
+
+.PageStatusIcon--unpublished {
+  color: #a30000; }
+
+.PageTree__drag-handle {
+  width: 25px;
+  height: 25px;
+  border: 0;
+  visibility: hidden; }
+
+.PageTree__row:not(:first-child):hover .PageTree__drag-handle {
+  visibility: visible; }
+
+.PageTree__page-name,
+.PageTree .PageExpandedIcon,
+.PageTree .PageFolderIcon,
+.PageTree .RowSpinner {
+  margin-left: 10px; }
+
+.PageTree .PageFolderIcon {
+  color: #00b9e4; }
+
+.PageTree__icons-label {
+  outline: 0;
+  cursor: pointer; }
+
+.PageTree__tree-column-td--empty .PageExpandedIcon {
+  opacity: 0;
+  visibility: hidden; }
+
+.PageTree .PageTreeActionMenuButton,
+.PageTree .PageTreeActionMenuButton:focus {
+  height: 18px;
   margin: 0;
-  padding: 0;
-  font-family: sans-serif; }
+  padding: 0 10px;
+  outline: 0; }
 
-.App {
-  text-align: center; }
+.table-bordered > tbody > tr > td.PageTree__tree-column-td {
+  padding: 0; }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px; }
+.RowSpinner {
+  display: inline-block;
+  position: relative; }
+  .RowSpinner__spinner {
+    display: inline-block;
+    position: absolute;
+    top: -14px;
+    left: 0; }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white; }
-
-.App-title {
-  font-size: 1.5em; }
-
-.App-intro {
-  font-size: large; }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(360deg); } }
-
-.HelloWorldMessage {
-  color: cyan; }
+.PageTreePreview {
+  width: 100%;
+  background: rgba(125, 195, 232, 0.5); }
+  .PageTreePreview .PageFolderIcon {
+    margin-left: 10px;
+    color: #00b9e4; }
