@@ -24,7 +24,7 @@ describe('WidgetForm', () => {
       invalid,
 
       fields: {
-        widgetTypeCode: {
+        showletTypeCode: {
           value: 'test_widget',
           touched,
           error,
@@ -34,6 +34,47 @@ describe('WidgetForm', () => {
     };
     return shallow(<WidgetFormBody {...props} />);
   };
+
+  it('root component renders without crashing', () => {
+    widgetForm = buildWidgetForm();
+    expect(widgetForm.exists()).toEqual(true);
+  });
+
+  it('root component renders showletTypeCode field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="showletTypeCode"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
+
+  it('root component renders italianTitle field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="italianTitle"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
+
+  it('root component renders englishTitle field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="englishTitle"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
+
+  it('root component renders mainGroup field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="mainGroup"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
+
+  it('root component renders gui field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="gui"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
+
+  it('root component renders showletTypeCode field', () => {
+    widgetForm = buildWidgetForm();
+    const widgetTypeCode = widgetForm.find('[name="showletTypeCode"]');
+    expect(widgetTypeCode.exists()).toEqual(true);
+  });
 
   it('disables submit button while submitting', () => {
     submitting = true;
@@ -48,61 +89,18 @@ describe('WidgetForm', () => {
     const submitButton = widgetForm.find('button[type="submit"]');
     expect(submitButton.props().disabled).toEqual(true);
   });
-});
-/*
 
-  context('when submitting', () => {
+  it('on tab click calls preventDefault', () => {
+    widgetForm = buildWidgetForm();
+    const noFunc = { preventDefault: jest.fn() };
+    widgetForm.find('[data-toggle="tab"]').simulate('click', noFunc);
+    expect(noFunc.preventDefault).toHaveBeenCalled();
+  });
 
-
-    context('when server returns an error', () => {
-      beforeEach(() => {
-        onSaveResponse = Promise.reject('some rejection');
-      });
-
-      it('throws a SubmissionError on error in the form submit handler', () => {
-        let promiseReturnedFromFormHandler;
-        handleSubmit = fn => function () {
-          // In this test, we know arguments will be empty because we
-          // control it in our test when we simulate the submit, and
-          // don't pass it any arguments. But it's just good practice to
-          // pass them along.
-          promiseReturnedFromFormHandler = fn(arguments);
-        };
-        subject = buildSubject();
-        subject.find('form').simulate('submit');
-        expect(onSave.callCount).to.equal(1);
-        return promiseReturnedFromFormHandler.then(() => {
-          throw new Error("Submission error should have been checked but wasn't");
-        }).catch((error) => {
-          expect(error).to.be.instanceof(SubmissionError);
-        });
-      });
-
-      it('alternative approach to previous test - throws a SubmissionError on error in the form submit handler', () => {
-        subject = buildSubject();
-        const promiseReturnedFromFormHandler = subject.instance().mySubmit({ firstName: 'somename' });
-        return promiseReturnedFromFormHandler.then(() => {
-          throw new Error('Should not hit this then block - test was set up incorrectly');
-        }).catch((error) => {
-          expect(error).to.be.instanceof(SubmissionError);
-        });
-      });
-    });
+  it('on form submit calls handleSubmit', () => {
+    widgetForm = buildWidgetForm();
+    const preventDefault = jest.fn();
+    widgetForm.find('form').simulate('submit', { preventDefault });
+    expect(handleSubmit).toHaveBeenCalled();
   });
 });
-
-describe('RenderTextInput', () => {
-  let widgetTypeCode;
-
-  it('render error message for widgetTypeCode', () => {
-    const input = { name: 'widgetTypeCode', value: '' };
-    const label = 'Code';
-    const meta = { touched: true, error: 'Required' };
-    const element = RenderTextInput({ input, label, meta });
-    widgetTypeCode = shallow(element);
-    const firstNameHelpBlock = widgetTypeCode.find('.help-block').first();
-    expect(firstNameHelpBlock.exists()).toEqual(true);
-    expect(firstNameHelpBlock.text()).toEqual('Required');
-  });
-});
-*/
