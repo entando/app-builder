@@ -34,7 +34,7 @@ export const WidgetFormBody = (props) => {
 
         <Field
           component={RenderTextInput}
-          name="showletTypeCode"
+          name="code"
           label={
             <span>
               <FormattedMessage id="widget.page.create.code" />
@@ -47,7 +47,7 @@ export const WidgetFormBody = (props) => {
         />
         <Field
           component={RenderTextInput}
-          name="englishTitle"
+          name="titles.en"
           label={
             <span>
               <span className="label label-info">
@@ -62,7 +62,7 @@ export const WidgetFormBody = (props) => {
         />
         <Field
           component={RenderTextInput}
-          name="italianTitle"
+          name="titles.it"
           label={
             <span>
               <span className="label label-info">
@@ -80,7 +80,7 @@ export const WidgetFormBody = (props) => {
             <FormattedMessage id="widget.page.create.group" />
           </label>
           <div className="col-sm-10">
-            <Field name="mainGroup" component="select" className="form-control">
+            <Field name="group" component="select" className="form-control">
               {fetchGroups()}
             </Field>
           </div>
@@ -105,7 +105,7 @@ export const WidgetFormBody = (props) => {
               <div className="tab-content margin-large-bottom ">
                 <div className="tab-pane fade in active" id="widget-gui">
                   <Field
-                    name="gui"
+                    name="customUi"
                     component="textarea"
                     cols="50"
                     rows="8"

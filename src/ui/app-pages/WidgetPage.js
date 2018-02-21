@@ -4,7 +4,10 @@ import WidgetForm from 'ui/widgets/WidgetForm';
 
 const WidgetPage = () => (
   <InternalPage className="WidgetPage">
-    <WidgetForm handleSubmit={() => {}} />
+    <WidgetForm onSubmit={(values) => {
+      console.log('values', values);
+    }}
+    />
   </InternalPage>
 );
 
