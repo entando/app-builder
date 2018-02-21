@@ -6,7 +6,7 @@ const RenderTextInput = ({
   input, name, label, placeholder, meta: { touched, error }, help,
 }) => (
 
-  <div className={(touched && error) ? 'form-group ' : 'form-group'}>
+  <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
     <label htmlFor={name} className="col-sm-2 control-label">
       {label}&nbsp;{help}
     </label>
