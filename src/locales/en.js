@@ -19,6 +19,16 @@ export default {
     'validateForm.alphaNumeric': 'Only alphanumeric characters',
     'validateForm.phoneNumber': 'Invalid phone number, must be 10 digits',
     'validateForm.widgetCode': '{name} Contains invalid characters. Only alphanumeric characters and the underscore _ are allowed',
+    'widget.page.create.pageTitle': 'Info',
+    'widget.page.create.code': 'Code',
+    'widget.page.create.code.placeholder': 'Code',
+    'widget.page.create.en': 'en',
+    'widget.page.create.it': 'it',
+    'widget.page.create.title': 'Title',
+    'widget.page.create.title.en.placeholder': 'English title',
+    'widget.page.create.title.it.placeholder': 'Italian title',
+    'widget.page.create.group': 'Group',
+    'widget.page.create.save': 'Save',
   },
 
 };
