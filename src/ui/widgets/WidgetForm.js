@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FieldLevelHelp } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import formattedText from 'frontend-common-components';
 import { Field, reduxForm } from 'redux-form';
+
+
+console.log('frontend-common-components: ', formattedText);
 
 const fetchGroups = () => {
   const groups = [1, 2, 3];
@@ -24,7 +27,13 @@ const WidgetFormBody = ({ handleSubmit }) => (
           <FieldLevelHelp content={formattedText('widget.help.code')} />
         </label>
         <div className="col-sm-10">
-          <Field component="input" type="text" name="showletTypeCode" className="form-control" />
+          <Field
+            component="input"
+            type="text"
+            // validate={[validateForm.required, validateForm.widgetCode]}
+            name="showletTypeCode"
+            className="form-control"
+          />
         </div>
       </div>
       <div className="form-group">
