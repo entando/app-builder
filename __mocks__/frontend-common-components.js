@@ -20,3 +20,10 @@ export const DropdownMenuItem = () => (<span />);
 export const ActivityStreamMenu = () => (<span />);
 export const ActivityStream = () => (<span />);
 export const Notification = () => (<span />);
+export const DDTable = () => (<span />);
+DDTable.Handle = () => (<span />);
+DDTable.Tr = () => (<span />);
+DDTable.DROP_MEDIUM = 'medium';
+DDTable.DROP_HIGH = 'high';
+DDTable.DROP_LOW = 'low';
+

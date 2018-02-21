@@ -7,6 +7,8 @@ import pluginArray from 'entando-plugins';
 import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
+import pages from 'state/pages/reducer';
+import pageTree from 'state/page-tree/reducer';
 
 
 const reducerDef = {
@@ -15,6 +17,8 @@ const reducerDef = {
   loginForm,
   locale,
   activityStream,
+  pages,
+  pageTree,
 };
 
 if (pluginArray.length) {
