@@ -4,28 +4,12 @@ import { FieldLevelHelp } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 import { Field, reduxForm } from 'redux-form';
 import { required, widgetCode } from 'util/validateForm';
+import RenderTextInput from 'ui/form/RenderTextInput';
 
 const fetchGroups = () => {
   const groups = [1, 2, 3];
   return groups.map(group => (<option key={group} value={group}>{group}</option>));
 };
-
-const renderField = ({
-  input, label, type, meta: { touched, error },
-}) => (
-
-  <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <label htmlFor="showletTypeCode" className="col-sm-2 control-label">
-    Code <i className="fa fa-asterisk required-icon" />&nbsp;
-      <FieldLevelHelp content={formattedText('widget.help.code')} />
-    </label>
-    <div className="col-sm-10">
-      <input {...input} placeholder={label} type={type} className="form-control" />
-      {touched && ((error && <span className="help-block">{error}</span>))}
-    </div>
-  </div>
-
-);
 
 const WidgetFormBody = (props) => {
   const {
@@ -45,54 +29,56 @@ const WidgetFormBody = (props) => {
         </legend>
 
         <Field
-          component={renderField}
-          type="text"
+          component={RenderTextInput}
           name="showletTypeCode"
+          label={<span>Code <i className="fa fa-asterisk required-icon" /></span>}
+          placeholder="Code"
+          help={<FieldLevelHelp content={formattedText('widget.help.code')} />}
+
           validate={[required, widgetCode]}
+
         />
 
+        {/* <FieldisRequired
+          component={RenderTextInput}
+          type="text"
+          name="englishTitle"
+          label={
+            <span>
+          <span className="label label-info">en</span>&nbsp;
+          Title <i className="fa fa-asterisk required-icon" />
+            </span>
+          }
+          placeholder="English title"
+          validate={[required, widgetCode]}
+          />
+
+          <Field
+          component={RenderTextInput}
+          type="text"
+          name="italianTitle"
+          label={
+            <span>
+          <span className="label label-info">it</span>
+          Title <i className="fa fa-asterisk required-icon" />
+            </span>
+          }
+          placeholder="Italian title"
+          validate={[required, widgetCode]}
+        /> */}
         <div className="form-group">
-          <label htmlFor="englishTitle" className="col-sm-2 control-label">
-            <span className="label label-info">en
-            </span> Title <i className="fa fa-asterisk required-icon" />
-          </label>
-          <div className="col-sm-10">
-            <Field component="input" type="text" name="englishTitle" className="form-control" />
-          </div>
-        </div>
-
-        <div className="form-group">
-
-          <label
-            htmlFor="italianTitle"
-            className="col-sm-2 control-label"
-          >
-            <code
-              className="label label-info"
-            >it
-            </code> Title <i className="fa fa-asterisk required-icon" />
-          </label>
-          <div className="col-sm-10">
-            <Field component="input" type="text" name="italianTitle" className="form-control" />
-          </div>
-        </div>
-
-        <div className="form-group">
-
           <label htmlFor="mainGroup" className="col-sm-2 control-label">Group</label>
           <div className="col-sm-10">
 
             <Field name="mainGroup" component="select" className="form-control">
               {fetchGroups()}
             </Field>
-
-
           </div>
         </div>
       </fieldset>
       <fieldset className="col-xs-12 col-md-12 no-padding">
 
-        <div className="col-xs-12">
+        <div className="col-xs-12">isRequired
           <div className="form-group">
             <span className="control-label col-sm-2" />
             <div className=" col-sm-10">
@@ -100,7 +86,6 @@ const WidgetFormBody = (props) => {
                 <li className="active">
                   <a href=" " data-toggle="tab">Custom <span title="User Interface">UI</span></a>
                 </li>
-
               </ul>
               <div className="tab-content margin-large-bottom ">
                 <div className="tab-pane fade in active" id="widget-gui">
@@ -112,7 +97,7 @@ const WidgetFormBody = (props) => {
                     className="form-control"
                   />
                 </div>
-                <div className="tab-pane fade" id="widget-default-gui" />
+                <div className="tab-pane isRequiredfade" id="widget-default-gui" />
               </div>
             </div>
           </div>
@@ -126,20 +111,27 @@ const WidgetFormBody = (props) => {
 
           <div className="form-group pull-right ">
             <button type="submit" className="btn btn-primary" disabled={invalid}>
-            Save
+              Save
             </button>
 
           </div>
 
         </div>
-      </div>
+      </div>isRequired
     </form>
   );
 };
 
 WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  invalid: PropTypes.bool,
+
 };
+
+WidgetFormBody.defaultProps = {
+  invalid: false,
+};
+
 
 const WidgetForm = reduxForm({
   form: 'widget',
