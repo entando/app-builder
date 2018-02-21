@@ -40,40 +40,34 @@ describe('WidgetForm', () => {
     expect(widgetForm.exists()).toEqual(true);
   });
 
-  it('root component renders showletTypeCode field', () => {
+  it('root component renders code field', () => {
     widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="showletTypeCode"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
+    const code = widgetForm.find('[name="code"]');
+    expect(code.exists()).toEqual(true);
   });
 
-  it('root component renders italianTitle field', () => {
+  it('root component renders titles.it field', () => {
     widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="italianTitle"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
+    const titlesIt = widgetForm.find('[name="titles.it"]');
+    expect(titlesIt.exists()).toEqual(true);
   });
 
-  it('root component renders englishTitle field', () => {
+  it('root component renders titles.en field', () => {
     widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="englishTitle"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
+    const titlesEn = widgetForm.find('[name="titles.en"]');
+    expect(titlesEn.exists()).toEqual(true);
   });
 
-  it('root component renders mainGroup field', () => {
+  it('root component renders group field', () => {
     widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="mainGroup"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
+    const group = widgetForm.find('[name="group"]');
+    expect(group.exists()).toEqual(true);
   });
 
-  it('root component renders gui field', () => {
+  it('root component renders customUi field', () => {
     widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="gui"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
-  });
-
-  it('root component renders showletTypeCode field', () => {
-    widgetForm = buildWidgetForm();
-    const widgetTypeCode = widgetForm.find('[name="showletTypeCode"]');
-    expect(widgetTypeCode.exists()).toEqual(true);
+    const customUi = widgetForm.find('[name="customUi"]');
+    expect(customUi.exists()).toEqual(true);
   });
 
   it('disables submit button while submitting', () => {
