@@ -1,6 +1,6 @@
 
-import { setLoginErrorMessage, performLogin } from 'state/form/actions';
-import { SET_LOGIN_ERROR_MESSAGE } from 'state/form/types';
+import { setLoginErrorMessage, performLogin } from 'state/login-form/actions';
+import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
