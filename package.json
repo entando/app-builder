@@ -1,12 +1,12 @@
 {
   "name": "designtime-admin-app",
   "version": "0.1.0",
-  "repository": "https://github.com/entando/designtime-admin-app",
+  "repository": "https://github.com/entando/designtime-admin-app#master",
   "private": true,
   "dependencies": {
     "concurrently": "^3.5.1",
     "enzyme-redux": "^0.1.7",
-    "frontend-common-components": "github:entando/frontend-common-components#EN-770-widget-page",
+    "frontend-common-components": "github:entando/frontend-common-components",
     "node-sass-chokidar": "0.0.3",
     "patternfly": "^3.38.1",
     "patternfly-react": "^1.8.0",
