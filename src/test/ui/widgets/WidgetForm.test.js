@@ -72,15 +72,15 @@ describe('WidgetForm', () => {
   it('disables submit button while submitting', () => {
     submitting = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('button[type="submit"]');
-    expect(submitButton.props().disabled).toEqual(true);
+    const submitButton = widgetForm.find('Button');
+    expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('button[type="submit"]');
-    expect(submitButton.props().disabled).toEqual(true);
+    const submitButton = widgetForm.find('Button');
+    expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('on form submit calls handleSubmit', () => {
