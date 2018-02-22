@@ -25,7 +25,10 @@ class WidgetListActionToggle extends Component {
 }
 
 WidgetListActionToggle.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+};
+WidgetListActionToggle.defaultProps = {
+  onClick: () => {},
 };
 
 export default WidgetListActionToggle;

@@ -12,6 +12,9 @@ export default {
     'widget.list.new': 'Nuovo',
     'widget.list.type': 'Custom widget',
     'widget.help': 'The WIDGET section lets you manage existing widget or add new widget. Widgets are objects used to display information and functionality or services on the pages of an application.',
-
+    'app.name': 'nome',
+    'app.code': 'codice',
+    'app.used': 'usato',
+    'app.actions': 'azioni',
   },
 };

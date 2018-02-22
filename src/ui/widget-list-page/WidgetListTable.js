@@ -16,10 +16,10 @@ const WidgetListTable = ({ children }) => (
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
-            <th>Widget name</th>
-            <th>Widget code</th>
-            <th>Used</th>
-            <th>Actions</th>
+            <th><FormattedMessage id="app.name" /></th>
+            <th><FormattedMessage id="app.code" /></th>
+            <th><FormattedMessage id="app.used" /></th>
+            <th><FormattedMessage id="app.actions" /></th>
           </tr>
         </thead>
         <tbody>

@@ -23,7 +23,7 @@ const WidgetListPage = ({ onClickCreate }) => {
   const onClickAdd = (ev) => {
     ev.preventDefault();
     onClickCreate();
-    // alert('Gianni');
+    alert('Gianni');
   };
   const fetchWidgetList = () => {
     console.log('fetch widget list');
