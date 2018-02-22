@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
 import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
-import WidgetListRow from 'ui/widget-list-page/WidgetListRow';
+import RowListContainer from 'ui/widget-list-page/RowListContainer';
 
 import { Row, Col, Button, OverlayTrigger, Popover } from 'patternfly-react';
 
@@ -19,19 +19,15 @@ const popover = () => (
   </Popover>
 );
 
-const WidgetListPage = ({ onClickCreate }) => {
+const WidgetListPage = ({ onClickCreate, onLoad }) => {
   const onClickAdd = (ev) => {
     ev.preventDefault();
     onClickCreate();
-    alert('Gianni');
+    // alert('Gianni');
   };
-  const fetchWidgetList = () => {
-    console.log('fetch widget list');
-  };
-
+  onLoad();
   return (
     <InternalPage className="WidgetListPage">
-      {fetchWidgetList()}
       <div className="WidgetListPage__header">
         <h1>
           <span><FormattedMessage id="widget.list.title" /></span>
@@ -61,7 +57,7 @@ const WidgetListPage = ({ onClickCreate }) => {
               />
             </Button>
             <WidgetListTable >
-              <WidgetListRow />
+              <RowListContainer />
             </WidgetListTable>
 
           </Col>
@@ -73,10 +69,12 @@ const WidgetListPage = ({ onClickCreate }) => {
 
 WidgetListPage.propTypes = {
   onClickCreate: PropTypes.func,
+  onLoad: PropTypes.func,
 };
 
 WidgetListPage.defaultProps = {
   onClickCreate: () => {},
+  onLoad: () => {},
 };
 
 

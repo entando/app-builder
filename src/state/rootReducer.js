@@ -7,12 +7,15 @@ import pluginArray from 'entando-plugins';
 import form from 'state/form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
+import widgetList from 'state/widget-list/reducer';
 
 const reducerDef = {
   router,
   form,
   locale,
   activityStream,
+  widgetList,
+
 };
 
 if (pluginArray.length) {

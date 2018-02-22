@@ -11,6 +11,7 @@ export const getWidgetRow = tableRow => ({
 
 export const fetchWidgetListRow = () => (dispatch) => {
   getApiWidgetList().then((data) => {
+    console.log('data actions', data.payload.tableRow);
     dispatch(getWidgetRow(data.payload.tableRow));
   });
 };

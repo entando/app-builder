@@ -1,6 +1,6 @@
 // eslinter-disable-next-line
-const WIDGETTABLEROW = [
-  {
+export const WIDGETTABLEROW = {
+  payload: {
     tableRow: [
       {
         code: 'WTF',
@@ -39,5 +39,6 @@ const WIDGETTABLEROW = [
         },
       },
     ],
-  }];
+  },
+};
 export default WIDGETTABLEROW;
