@@ -73,7 +73,7 @@ export const DASHBOARD_PAYLOAD = {
 export const SERVICE_PAYLOAD = {
   code: 'service',
   status: 'published',
-  displayedInMenu: true,
+  displayedInMenu: false,
   pageModel: 'serviceModel',
   charset: 'utf8',
   contentType: 'text/html',
@@ -120,8 +120,8 @@ export const NOTFOUND_PAYLOAD = {
 
 export const ERROR_PAYLOAD = {
   code: 'error',
-  status: 'published',
-  displayedInMenu: true,
+  status: 'unpublished',
+  displayedInMenu: false,
   pageModel: 'errorModel',
   charset: 'utf8',
   contentType: 'text/html',
@@ -141,7 +141,7 @@ export const ERROR_PAYLOAD = {
 };
 
 export const LOGIN_PAYLOAD = {
-  code: 'error',
+  code: 'login',
   status: 'published',
   displayedInMenu: true,
   pageModel: 'loginModel',
@@ -164,8 +164,8 @@ export const LOGIN_PAYLOAD = {
 
 export const CONTACTS_PAYLOAD = {
   code: 'contacts',
-  status: 'published',
-  displayedInMenu: true,
+  status: 'draft',
+  displayedInMenu: false,
   pageModel: 'contactsModel',
   charset: 'utf8',
   contentType: 'text/html',

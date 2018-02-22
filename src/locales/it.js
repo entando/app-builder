@@ -14,6 +14,7 @@ export default {
     'app.unpublish': 'Depubblica',
     'menu.dashborad': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
+    'menu.pageTree': 'Albero delle pagine',
     'menu.uxPatterns': 'UX Patterns',
     'menu.integration': 'Integrazioni',
     'menu.data': 'Data',

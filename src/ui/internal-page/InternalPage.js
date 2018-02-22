@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrandMenu, ProjectLink, UserDropdown, HelpMenu, AdminAppSwitch, LinkMenuItem, formattedText } from 'frontend-common-components';
+import {
+  BrandMenu, ProjectLink, UserDropdown, HelpMenu, AdminAppSwitch, LinkMenuItem, FirstLevelMenuItem,
+  formattedText,
+} from 'frontend-common-components';
 
+import {
+  ROUTE_DASHBOARD, ROUTE_PAGE_TREE,
+} from 'app-init/router';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -22,32 +28,37 @@ const InternalPage = ({ className, children }) => (
       <LinkMenuItem
         id="menu-dashboard"
         label={formattedText('menu.dashboard', 'Dashboard')}
-        route="dashboard"
+        route={ROUTE_DASHBOARD}
       />
-      <LinkMenuItem
+      <FirstLevelMenuItem
         id="menu-page-creator"
         label={formattedText('menu.pageCreator', 'Page Creator')}
-        route="dashboard"
-      />
+      >
+        <LinkMenuItem
+          id="menu-page-tree"
+          label={formattedText('menu.pageTree', 'Page Tree')}
+          route={ROUTE_PAGE_TREE}
+        />
+      </FirstLevelMenuItem>
       <LinkMenuItem
         id="menu-ux-pattern"
         label={formattedText('menu.uxPattern', 'UX Pattern')}
-        route="dashboard"
+        route={ROUTE_DASHBOARD}
       />
       <LinkMenuItem
         id="menu-integration"
         label={formattedText('menu.integration', 'Integration')}
-        route="dashboard"
+        route={ROUTE_DASHBOARD}
       />
       <LinkMenuItem
         id="menu-data"
         label={formattedText('menu.data', 'Data')}
-        route="dashboard"
+        route={ROUTE_DASHBOARD}
       />
       <LinkMenuItem
         id="menu-configuration"
         label={formattedText('menu.configuration', 'Configuration')}
-        route="dashboard"
+        route={ROUTE_DASHBOARD}
         pullRight
       />
     </BrandMenu>

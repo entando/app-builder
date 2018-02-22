@@ -14,6 +14,7 @@ export default {
     'app.unpublish': 'Unpublish',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
+    'menu.pageTree': 'Page Tree',
     'menu.uxPatterns': 'UX Patterns',
     'menu.integration': 'Integration',
     'menu.data': 'Data',

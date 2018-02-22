@@ -58,3 +58,12 @@
   .PageTreePreview .PageFolderIcon {
     margin-left: 10px;
     color: #00b9e4; }
+
+.InternalPage .breadcrumb {
+  margin-bottom: 0;
+  border-bottom: 1px solid #d1d1d1; }
+
+.InternalPage__page-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d1d1d1;
+  font-weight: bold; }
