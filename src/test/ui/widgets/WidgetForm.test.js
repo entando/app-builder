@@ -83,13 +83,6 @@ describe('WidgetForm', () => {
     expect(submitButton.props().disabled).toEqual(true);
   });
 
-  it('on tab click calls preventDefault', () => {
-    widgetForm = buildWidgetForm();
-    const noFunc = { preventDefault: jest.fn() };
-    widgetForm.find('[data-toggle="tab"]').simulate('click', noFunc);
-    expect(noFunc.preventDefault).toHaveBeenCalled();
-  });
-
   it('on form submit calls handleSubmit', () => {
     widgetForm = buildWidgetForm();
     const preventDefault = jest.fn();

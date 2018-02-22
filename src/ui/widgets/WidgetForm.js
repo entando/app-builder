@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FieldLevelHelp } from 'patternfly-react';
+import { FieldLevelHelp, Tabs, Tab, Row } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
@@ -12,9 +12,6 @@ const fetchGroups = () => {
   return groups.map(group => (<option key={group} value={group}>{group}</option>));
 };
 
-const noFunc = (ev) => {
-  ev.preventDefault();
-};
 export const WidgetFormBody = (props) => {
   const {
     handleSubmit, invalid, submitting,
@@ -92,36 +89,29 @@ export const WidgetFormBody = (props) => {
           <div className="form-group">
             <span className="control-label col-sm-2" />
             <div className=" col-sm-10">
-              <ul className="nav nav-tabs">
-                <li className="active">
-                  <a
-                    href=" "
-                    onClick={noFunc}
-                    data-toggle="tab"
-                  >
-                    Custom <span title="User Interface">UI</span>
-                  </a>
-                </li>
-              </ul>
-              <div className="tab-content margin-large-bottom ">
-                <div className="tab-pane fade in active" id="widget-gui">
-                  <Field
-                    name="customUi"
-                    component="textarea"
-                    cols="50"
-                    rows="8"
-                    className="form-control"
-                    validate={[required]}
-                  />
-                </div>
-                <div className="tab-pane isRequiredfade" id="widget-default-gui" />
-              </div>
+              <Tabs id="basic-tabs" defaultActiveKey={1}>
+                <Tab eventKey={1} title={formattedText('widget.page.tab.customUi')} >
+                  <div className="tab-content margin-large-bottom ">
+                    <div className="tab-pane fade in active" id="widget-gui">
+                      <Field
+                        name="customUi"
+                        component="textarea"
+                        cols="50"
+                        rows="8"
+                        className="form-control"
+                        validate={[required]}
+                      />
+                    </div>
+                    <div className="tab-pane isRequiredfade" id="widget-default-gui" />
+                  </div>
+                </Tab>
+              </Tabs>
             </div>
           </div>
         </div>
       </fieldset>
       <br />
-      <div className="row">
+      <Row>
         <div className="form-group col-md-12">
           <div className="form-group pull-right ">
             <button type="submit" className="btn btn-primary" disabled={invalid || submitting}>
@@ -129,7 +119,7 @@ export const WidgetFormBody = (props) => {
             </button>
           </div>
         </div>
-      </div>
+      </Row>
     </form>
   );
 };

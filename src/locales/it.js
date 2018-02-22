@@ -45,5 +45,6 @@ export default {
     'widget.page.create.title.en.placeholder': 'Titolo inglese',
     'widget.page.create.title.it.placeholder': 'Italian italiano',
     'widget.page.create.group': 'Gruppo',
+    'widget.page.tab.customUi': 'Custom UI',
   },
 };
