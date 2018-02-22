@@ -22,9 +22,8 @@ describe('WidgetForm', () => {
     const props = {
       submitting,
       invalid,
-
       fields: {
-        showletTypeCode: {
+        code: {
           value: 'test_widget',
           touched,
           error,

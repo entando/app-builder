@@ -14,23 +14,24 @@ export const maxLength = max => value =>
 export const minLength = min => value =>
   (value && value.length < min ?
     <FormattedMessage
-      id="fcc.validateForm.minLength"
+      id="validateForm.minLength"
       values={{ min: <b>{min}</b> }}
     /> : undefined);
 
-export const number = value =>
-  (Number.IsNan(value) ?
-    <FormattedMessage id="validateForm.number" /> : undefined);
+export const isNumber = value =>
+  (Number.isNaN(parseFloat(value)) ? <FormattedMessage id="validateForm.number" /> : undefined);
+
+const number = value => !Number.isNaN(parseFloat(value));
 
 export const minValue = min => value =>
-  (Number.IsNan(value) && value < min ?
+  (number(value) && value < min ?
     <FormattedMessage
       id="validateForm.minValue"
       values={{ min: <b>{min}</b> }}
     /> : undefined);
 
 export const maxValue = max => value =>
-  (Number.IsNan(value) && value > max ?
+  (number(value) && value > max ?
     <FormattedMessage
       id="validateForm.maxValue"
       values={{ max: <b>{max}</b> }}
@@ -41,16 +42,13 @@ export const email = value =>
     ? <FormattedMessage id="validateForm.email" /> : undefined);
 
 export const alphaNumeric = value =>
-  (value && /[^a-zA-Z0-9 ]/i.test(value) ?
+  (value && /^[a-z0-9]+$/i.test(value) ?
     <FormattedMessage id="validateForm.alphaNumeric" /> : undefined);
 
-export const phoneNumber = value =>
-  (value && !/^(0|[1-9][0-9]{9})$/i.test(value) ?
-    <FormattedMessage id="validateForm.phoneNumber" /> : undefined);
-
 export const widgetCode = value =>
-  (value && /[^a-zA-Z0-9_]/i.test(value) ?
+  (value && /^[0-9a-zA-Z_]+$/i.test(value) ?
+    undefined :
     <FormattedMessage
       id="validateForm.widgetCode"
       values={{ name: <b>{value}</b> }}
-    /> : undefined);
+    />);

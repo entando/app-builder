@@ -31,7 +31,7 @@ const InternalPage = ({ className, children }) => (
       />
       <LinkMenuItem
         id="menu-ux-pattern"
-        label={formattedText('menu.uxPattern', 'UX Pattern')}
+        label={formattedText('menu.uxPatternq', 'UX Pattern')}
         route="dashboard"
       />
       <LinkMenuItem

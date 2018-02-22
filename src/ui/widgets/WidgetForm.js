@@ -28,7 +28,7 @@ export const WidgetFormBody = (props) => {
       <fieldset className="col-xs-12 no-padding">
         <legend><FormattedMessage id="widget.page.create.pageTitle" />
           <div className="required-fields text-right">
-            * <FormattedMessage id="generic.label.fieldsRequired" />
+            * <FormattedMessage id="app.fieldsRequired" />
           </div>
         </legend>
 
@@ -45,14 +45,15 @@ export const WidgetFormBody = (props) => {
           help={<FieldLevelHelp content={formattedText('widget.help.code')} />}
           validate={[required, widgetCode]}
         />
+
         <Field
           component={RenderTextInput}
           name="titles.en"
           label={
             <span>
               <span className="label label-info">
-                <FormattedMessage id="widget.page.create.en" />
-              </span>&nbsp;
+                <FormattedMessage id="app.en" />
+              </span>
               <FormattedMessage id="widget.page.create.title" />
               <i className="fa fa-asterisk required-icon" />
             </span>
@@ -66,8 +67,8 @@ export const WidgetFormBody = (props) => {
           label={
             <span>
               <span className="label label-info">
-                <FormattedMessage id="widget.page.create.it" />
-              </span>&nbsp;
+                <FormattedMessage id="app.it" />
+              </span>
               <FormattedMessage id="widget.page.create.title" />
               <i className="fa fa-asterisk required-icon" />
             </span>
@@ -76,7 +77,7 @@ export const WidgetFormBody = (props) => {
           validate={[required, maxLength(255)]}
         />
         <div className="form-group">
-          <label htmlFor="mainGroup" className="col-sm-2 control-label">&nbsp;
+          <label htmlFor="mainGroup" className="col-sm-2 control-label">
             <FormattedMessage id="widget.page.create.group" />
           </label>
           <div className="col-sm-10">
@@ -124,7 +125,7 @@ export const WidgetFormBody = (props) => {
         <div className="form-group col-md-12">
           <div className="form-group pull-right ">
             <button type="submit" className="btn btn-primary" disabled={invalid || submitting}>
-              <FormattedMessage id="widget.page.create.save" />
+              <FormattedMessage id="app.save" />
             </button>
           </div>
         </div>
