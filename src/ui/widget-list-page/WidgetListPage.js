@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
+import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
+import WidgetListRow from 'ui/widget-list-page/WidgetListRow';
+
 import { Row, Col, Button, OverlayTrigger, Popover } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
@@ -20,11 +23,15 @@ const WidgetListPage = ({ onClickCreate }) => {
   const onClickAdd = (ev) => {
     ev.preventDefault();
     onClickCreate();
-    alert('Gianni');
+    // alert('Gianni');
+  };
+  const fetchWidgetList = () => {
+    console.log('fetch widget list');
   };
 
   return (
     <InternalPage className="WidgetListPage">
+      {fetchWidgetList()}
       <div className="WidgetListPage__header">
         <h1>
           <span><FormattedMessage id="widget.list.title" /></span>
@@ -53,44 +60,14 @@ const WidgetListPage = ({ onClickCreate }) => {
                 id="widget.list.new"
               />
             </Button>
-            <Col md={12} className="WidgetListPage__tables">
-              <h3><FormattedMessage id="widget.list.type" defaultMessage="" /></h3>
-              <table className="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>lando</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
-            </Col>
+            <WidgetListTable >
+              <WidgetListRow />
+            </WidgetListTable>
+
           </Col>
         </Row>
       </div>
     </InternalPage>
-
   );
 };
 
