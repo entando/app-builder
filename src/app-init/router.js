@@ -13,6 +13,7 @@ routerConfig(
       { name: 'page', path: '/page/:page' },
       { name: 'content', path: '/content/:content/frame/:frame' },
       { name: 'widget', path: '/widget/:widget' },
+      { name: 'widgetEdit', path: '/widgetEdit' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
