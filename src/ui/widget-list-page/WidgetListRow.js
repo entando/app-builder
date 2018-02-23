@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WidgetListActionToggle from 'ui/widget-list-page/WidgetListActionToggle';
+import WidgetListMenuActions from 'ui/widget-list-page/WidgetListMenuActions';
 
 const WidgetListRow = (props) => {
   const { name, code, used } = props;
@@ -8,8 +8,8 @@ const WidgetListRow = (props) => {
     <tr>
       <td>{name}</td>
       <td>{code}</td>
-      <td>{used}</td>
-      <td><WidgetListActionToggle /></td>
+      <td className="text-center">{used}</td>
+      <td className="text-center"><WidgetListMenuActions /></td>
     </tr>
   );
 };

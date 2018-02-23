@@ -5,7 +5,6 @@ import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import 'sass/widget-list-page/WidgetListTable.scss';
 
-
 const WidgetListTable = ({ children }) => (
 
   <div className="WidgetListTable">
@@ -18,8 +17,8 @@ const WidgetListTable = ({ children }) => (
           <tr>
             <th><FormattedMessage id="app.name" /></th>
             <th><FormattedMessage id="app.code" /></th>
-            <th><FormattedMessage id="app.used" /></th>
-            <th><FormattedMessage id="app.actions" /></th>
+            <th className="text-center" width="10%"><FormattedMessage id="app.used" /></th>
+            <th className="text-center" width="10%"><FormattedMessage id="app.actions" /></th>
           </tr>
         </thead>
         <tbody>

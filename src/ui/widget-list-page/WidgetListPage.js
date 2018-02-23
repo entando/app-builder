@@ -23,7 +23,7 @@ const WidgetListPage = ({ onClickCreate, onLoad }) => {
   const onClickAdd = (ev) => {
     ev.preventDefault();
     onClickCreate();
-    // alert('Gianni');
+    alert('connect to create a new widget function');
   };
   onLoad();
   return (

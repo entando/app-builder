@@ -58,3 +58,20 @@
   .PageTreePreview .PageFolderIcon {
     margin-left: 10px;
     color: #00b9e4; }
+
+.WidgetListPage .WidgetListPage__header {
+  padding: 0 15px 0 15px;
+  border: 1px solid #d1d1d1; }
+
+.WidgetListPage .WidgetListPage__icon {
+  color: #8b8d8f; }
+
+.WidgetListPage .WidgetListPage__add {
+  margin: 2em 2em 0 0; }
+
+.WidgetListTable__type {
+  margin: 0 0 1em 0;
+  border-bottom: 1px solid #ededed; }
+
+.WidgetListActionToggle {
+  color: #72767b; }
