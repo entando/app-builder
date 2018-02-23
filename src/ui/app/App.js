@@ -5,7 +5,7 @@ import { LoginPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import WidgetPage from 'ui/app-pages/WidgetPage';
-import WidgetEditPage from 'ui/app-pages/WidgetEditPage';
+import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
 
 const App = ({ route }) => {
   switch (route) {
@@ -16,7 +16,7 @@ const App = ({ route }) => {
     );
     case 'dashboard': return <DashboardPage />;
     case 'widgetForm': return <WidgetPage />;
-    case 'widgetEdit': return <WidgetEditPage />;
+    case 'widgetEdit': return <WidgetEditPageContainer />;
     default: return <h1>NOT FOUND</h1>;
   }
 };

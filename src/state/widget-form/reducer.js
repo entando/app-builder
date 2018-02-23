@@ -1,7 +1,7 @@
 import { SET_WIDGET } from './types';
 
 const initialState = {
-  mode: '',
+  widgetValues: {},
 };
 
 const reducer = (state = initialState, action = {}) => {

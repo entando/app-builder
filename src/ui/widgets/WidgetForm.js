@@ -116,18 +116,24 @@ export class WidgetFormBody extends Component {
                   <Col xs={10}>
                     <Tabs id="basic-tabs" defaultActiveKey={1}>
                       <Tab eventKey={1} title={formattedText('widget.page.tab.customUi')} >
-                        <div className="tab-content margin-large-bottom ">
-                          <div className="tab-pane fade in active">
-                            <Field
-                              name="customUi"
-                              component="textarea"
-                              cols="50"
-                              rows="8"
-                              className="form-control"
-                              validate={[required]}
-                            />
-                          </div>
-                        </div>
+                        <Field
+                          name="customUi"
+                          component="textarea"
+                          cols="50"
+                          rows="8"
+                          className="form-control"
+                          validate={[required]}
+                        />
+                      </Tab>
+                      <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
+                        <Field
+                          name="defaultUi"
+                          component="textarea"
+                          cols="50"
+                          rows="8"
+                          className="form-control"
+                          disabled
+                        />
                       </Tab>
                     </Tabs>
                   </Col>
