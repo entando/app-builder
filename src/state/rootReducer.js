@@ -8,14 +8,17 @@ import form from 'state/form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
 import widgetList from 'state/widget-list/reducer';
+import pages from 'state/pages/reducer';
+import pageTree from 'state/page-tree/reducer';
 
 const reducerDef = {
   router,
   form,
   locale,
   activityStream,
+  pages,
+  pageTree,
   widgetList,
-
 };
 
 if (pluginArray.length) {

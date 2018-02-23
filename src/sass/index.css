@@ -1,13 +1,60 @@
-.WidgetListPage .WidgetListPage__header {
-  padding: 0 15px 0 15px;
-  border: 1px solid #d1d1d1; }
+.PageStatusIcon--draft {
+  color: #72767b; }
 
-.WidgetListPage .WidgetListPage__icon {
-  color: #0088ce; }
+.PageStatusIcon--published {
+  color: #6ca100; }
 
-.WidgetListPage .WidgetListPage__add {
-  margin: 2em 2em 0 0; }
+.PageStatusIcon--unpublished {
+  color: #a30000; }
 
-.WidgetListTable__type {
-  margin: 0 0 1em 0;
-  border-bottom: 1px solid #ededed; }
+.PageTree__drag-handle {
+  width: 25px;
+  height: 25px;
+  border: 0;
+  visibility: hidden; }
+
+.PageTree__row:not(:first-child):hover .PageTree__drag-handle {
+  visibility: visible; }
+
+.PageTree__page-name,
+.PageTree .PageExpandedIcon,
+.PageTree .PageFolderIcon,
+.PageTree .RowSpinner {
+  margin-left: 10px; }
+
+.PageTree .PageFolderIcon {
+  color: #00b9e4; }
+
+.PageTree__icons-label {
+  outline: 0;
+  cursor: pointer; }
+
+.PageTree__tree-column-td--empty .PageExpandedIcon {
+  opacity: 0;
+  visibility: hidden; }
+
+.PageTree .PageTreeActionMenuButton,
+.PageTree .PageTreeActionMenuButton:focus {
+  height: 18px;
+  margin: 0;
+  padding: 0 10px;
+  outline: 0; }
+
+.table-bordered > tbody > tr > td.PageTree__tree-column-td {
+  padding: 0; }
+
+.RowSpinner {
+  display: inline-block;
+  position: relative; }
+  .RowSpinner__spinner {
+    display: inline-block;
+    position: absolute;
+    top: -14px;
+    left: 0; }
+
+.PageTreePreview {
+  width: 100%;
+  background: rgba(125, 195, 232, 0.5); }
+  .PageTreePreview .PageFolderIcon {
+    margin-left: 10px;
+    color: #00b9e4; }
