@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import { LoginForm } from 'frontend-common-components';
 
-import { performLogin } from 'state/form/actions';
+import { performLogin } from 'state/login-form/actions';
 import { setCurrentLanguage } from 'state/locale/actions';
-import { getLoginErrorMessage } from 'state/form/selectors';
+import { getLoginErrorMessage } from 'state/login-form/selectors';
 
 
 export const mapStateToProps = state => ({

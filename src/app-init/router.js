@@ -12,6 +12,7 @@ routerConfig(
       { name: 'userprofile', path: '/userprofile/:username' },
       { name: 'page', path: '/page/:page' },
       { name: 'content', path: '/content/:content/frame/:frame' },
+      { name: 'widgetForm', path: '/widget/form' },
       { name: 'widget', path: '/widget/:widget' },
       { name: 'widgetList', path: '/widgetList' },
     ],
