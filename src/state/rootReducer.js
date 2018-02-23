@@ -9,8 +9,7 @@ import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
 import pages from 'state/pages/reducer';
 import pageTree from 'state/page-tree/reducer';
-import widgetForm from 'state/widget-form/reducer';
-
+import groups from 'state/groups/reducer';
 
 const reducerDef = {
   router,
@@ -20,7 +19,7 @@ const reducerDef = {
   activityStream,
   pages,
   pageTree,
-  widgetForm,
+  groups,
 };
 
 if (pluginArray.length) {

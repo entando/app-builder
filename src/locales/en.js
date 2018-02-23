@@ -22,6 +22,8 @@ export default {
     'menu.integration': 'Integration',
     'menu.data': 'Data',
     'menu.configuration': 'Configuration',
+    'menu.widgets': 'Widgets',
+    'menu.widgetEdit': 'Widget Edit',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -45,6 +47,9 @@ export default {
     'widget.page.create.title.en.placeholder': 'English title',
     'widget.page.create.title.it.placeholder': 'Italian title',
     'widget.page.create.group': 'Group',
+    'widget.page.tab.customUi': 'Custom UI',
+    'widget.page.edit.pageTitle': 'Edit Widget',
+    'widget.page.edit.help': 'The WIDGET section lets you manage existing widget or add new widget. Widgets are objects used to display information and functionality or services on the pages of an application.',
   },
 
 };

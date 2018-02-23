@@ -5,7 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import WidgetEditFormContainer from 'ui/widgets/WidgetEditFormContainer';
 
-const WIDGET_EDIT_HELP = 'widget.edit.help';
+const WIDGET_EDIT_HELP = 'widget.page.edit.help';
 
 const popover = () => (
   <Popover id="popover-admin-app-switch" title="">
@@ -20,21 +20,18 @@ const WidgetEditPage = () => (
     <Grid fluid>
       <Breadcrumb>
         <BreadcrumbItem route="home">
-        Ux Pattern
+          <FormattedMessage id="menu.uxPattern" />
         </BreadcrumbItem>
         <BreadcrumbItem route="home">
-        Widgets
+          <FormattedMessage id="menu.widgets" />
         </BreadcrumbItem>
-        <BreadcrumbItem route="home" active>
-        Modifica Widget
-        </BreadcrumbItem>
-        <BreadcrumbItem route="home" active>
-        Widget Name
+        <BreadcrumbItem active>
+          <FormattedMessage id="menu.widgetEdit" />
         </BreadcrumbItem>
       </Breadcrumb>
       <div className="WidgetEditPage__header">
         <h1>
-          <span><FormattedMessage id="widget.edit.title" /></span>
+          <span><FormattedMessage id="widget.page.edit.pageTitle" /></span>
           <span className="pull-right">
             <OverlayTrigger
               overlay={popover()}

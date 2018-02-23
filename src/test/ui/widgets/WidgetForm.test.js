@@ -4,33 +4,29 @@ import { shallow } from 'enzyme';
 import { WidgetFormBody } from 'ui/widgets/WidgetForm';
 
 const handleSubmit = jest.fn();
+const onWillMount = jest.fn();
 
 describe('WidgetForm', () => {
   let widgetForm = null;
   let submitting;
-  let touched;
-  let error;
   let invalid;
+  let groups;
+
 
   beforeEach(() => {
     submitting = false;
-    touched = false;
     invalid = false;
-    error = null;
+    groups = [];
   });
   const buildWidgetForm = () => {
     const props = {
       submitting,
       invalid,
-      fields: {
-        code: {
-          value: 'test_widget',
-          touched,
-          error,
-        },
-      },
       handleSubmit,
+      onWillMount,
+      groups,
     };
+
     return shallow(<WidgetFormBody {...props} />);
   };
 
@@ -72,22 +68,15 @@ describe('WidgetForm', () => {
   it('disables submit button while submitting', () => {
     submitting = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('button[type="submit"]');
-    expect(submitButton.props().disabled).toEqual(true);
+    const submitButton = widgetForm.find('Button');
+    expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('button[type="submit"]');
-    expect(submitButton.props().disabled).toEqual(true);
-  });
-
-  it('on tab click calls preventDefault', () => {
-    widgetForm = buildWidgetForm();
-    const noFunc = { preventDefault: jest.fn() };
-    widgetForm.find('[data-toggle="tab"]').simulate('click', noFunc);
-    expect(noFunc.preventDefault).toHaveBeenCalled();
+    const submitButton = widgetForm.find('Button');
+    expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('on form submit calls handleSubmit', () => {

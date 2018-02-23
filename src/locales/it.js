@@ -22,6 +22,8 @@ export default {
     'menu.integration': 'Integrazioni',
     'menu.data': 'Data',
     'menu.configuration': 'Impostazioni',
+    'menu.widgets': 'Widgets',
+    'menu.widgetEdit': 'Modifica Widget',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -45,5 +47,8 @@ export default {
     'widget.page.create.title.en.placeholder': 'Titolo inglese',
     'widget.page.create.title.it.placeholder': 'Italian italiano',
     'widget.page.create.group': 'Gruppo',
+    'widget.page.tab.customUi': 'Custom UI',
+    'widget.page.edit.pageTitle': 'Modifica Widget',
+    'widget.page.edit.help': 'Dalla sezione WIDGET puoi gestire i widget esistenti o crearne di nuovi. I widget sono oggetti utilizzati per visualizzare informazioni e funzionalitá o servizi sulle pagine di un\'applicazione.',
   },
 };
