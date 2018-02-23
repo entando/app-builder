@@ -6,7 +6,7 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/login/LoginFormContainer
 jest.unmock('ui/login/LoginFormContainer');
 
 const TEST_STATE = {
-  form: { loginErrorMessage: 'test' },
+  loginForm: { loginErrorMessage: 'test' },
 };
 
 // declare a mock empty function
