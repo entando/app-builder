@@ -1,0 +1,12 @@
+@import "../patternfly.scss";
+
+.PageTitle {
+  .PageTitle__header {
+    padding:  0 15px 0 15px ;
+    border: 1px solid $color-pf-black-300;
+  }
+
+  .PageTitle__icon {
+    color: $color-pf-black-500;
+  }
+}

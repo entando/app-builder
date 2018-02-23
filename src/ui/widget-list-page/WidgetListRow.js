@@ -5,11 +5,16 @@ import WidgetListMenuActions from 'ui/widget-list-page/WidgetListMenuActions';
 const WidgetListRow = (props) => {
   const { name, code, used } = props;
   return (
-    <tr>
-      <td>{name}</td>
-      <td>{code}</td>
-      <td className="text-center">{used}</td>
-      <td className="text-center"><WidgetListMenuActions /></td>
+    <tr className="WidgetListRow">
+      <td className="WidgetListRow--line-height">
+        <div className="list-view-pf-left">
+          <span className="fa fa-puzzle-piece list-view-pf-icon-sm" />
+          &nbsp;&nbsp;{name}
+        </div>
+      </td>
+      <td className="WidgetListRow--line-height">{code}</td>
+      <td className="WidgetListRow--line-height text-center">{used}</td>
+      <td className="WidgetListRow--line-height text-center"><WidgetListMenuActions /></td>
     </tr>
   );
 };

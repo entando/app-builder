@@ -3,15 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import WidgetSectionTitle from 'ui/widget-list-page/WidgetSectionTitle';
 import 'sass/widget-list-page/WidgetListTable.scss';
+import { formattedText } from 'frontend-common-components';
 
 const WidgetListTable = ({ children }) => (
 
   <div className="WidgetListTable">
     <Col md={12} className="WidgetListTable__tables">
-      <div className="WidgetListTable__type">
-        <h3><FormattedMessage id="widget.list.type" defaultMessage="" /></h3>
-      </div>
+      <WidgetSectionTitle title={formattedText('widget.list.type')} />
       <table className="table table-striped table-bordered">
         <thead>
           <tr>

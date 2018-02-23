@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import WidgetListRow from 'ui/widget-list-page/WidgetListRow';
 
 
-const RowList = ({ tableRow }) => {
-  console.log('rowList', tableRow);
-  return (
+const RowList = ({ tableRow }) =>
+  // console.log('rowList', tableRow);
+  (
     tableRow.map(item => (
       <WidgetListRow
         key={item.code}
@@ -14,8 +14,6 @@ const RowList = ({ tableRow }) => {
         used={item.used}
       />
     )));
-};
-
 WidgetListRow.propTypes = {
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

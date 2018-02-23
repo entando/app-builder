@@ -21,7 +21,7 @@ class WidgetListMenuAction extends Component {
     const { onClickDelete } = this.props;
 
     return (
-      <Dropdown>
+      <Dropdown id="widgetList-dropown">
         <PageTreeActionMenuButton bsRole="toggle" />
         <Dropdown.Menu className="dropdown-menu-right">
           <MenuItem
