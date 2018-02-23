@@ -27,9 +27,7 @@ export class WidgetFormBody extends Component {
         label={
           <span>
             <FormattedMessage id="widget.page.create.code" />
-
             <i className="fa fa-asterisk required-icon WidgetForm__required-icon" />
-
           </span>
         }
         placeholder={formattedText('widget.page.create.code.placeholder')}
@@ -52,9 +50,7 @@ export class WidgetFormBody extends Component {
                   * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
-
               {codeField}
-
               <Field
                 component={RenderTextInput}
                 name="titles.en"
@@ -182,7 +178,6 @@ WidgetFormBody.defaultProps = {
   }],
   mode: MODE_NEW,
 };
-
 
 const WidgetForm = reduxForm({
   form: 'widget',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { Breadcrumb, OverlayTrigger, Popover, Grid } from 'patternfly-react';
+import { Row, Col } from 'react-bootstrap';
 import { BreadcrumbItem } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import WidgetEditFormContainer from 'ui/widgets/WidgetEditFormContainer';
@@ -25,35 +26,45 @@ class WidgetEditPage extends Component {
     return (
       <InternalPage className="WidgetEditPage">
         <Grid fluid>
-          <Breadcrumb>
-            <BreadcrumbItem route="home">
-              <FormattedMessage id="menu.uxPattern" />
-            </BreadcrumbItem>
-            <BreadcrumbItem route="home">
-              <FormattedMessage id="menu.widgets" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.widgetEdit" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              {this.props.widgetName}
-            </BreadcrumbItem>
-          </Breadcrumb>
-          <div className="WidgetEditPage__header">
-            <h1>
-              <span><FormattedMessage id="widget.page.edit.pageTitle" /></span>
-              <span className="pull-right">
-                <OverlayTrigger
-                  overlay={popover()}
-                  placement="left"
-                  trigger={['click']}
-                  rootClose
-                >
-                  <i className="WidgetListPage__icon fa pficon-help" />
-                </OverlayTrigger>
-              </span>
-            </h1>
-          </div>
+          <Row>
+            <Col xs={12}>
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <FormattedMessage id="menu.uxPattern" />
+                </BreadcrumbItem>
+                {/* FIXME replace route with widget list route when available */}
+                <BreadcrumbItem route="home">
+                  <FormattedMessage id="menu.widgets" />
+                </BreadcrumbItem>
+                <BreadcrumbItem active>
+                  <FormattedMessage id="menu.widgetEdit" />
+                </BreadcrumbItem>
+                <BreadcrumbItem active>
+                  {this.props.widgetName}
+                </BreadcrumbItem>
+              </Breadcrumb>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              {/* FIXME replace with PageHeader component when available */}
+              <div className="WidgetEditPage__header">
+                <h1>
+                  <span><FormattedMessage id="widget.page.edit.pageTitle" /></span>
+                  <span className="pull-right">
+                    <OverlayTrigger
+                      overlay={popover()}
+                      placement="left"
+                      trigger={['click']}
+                      rootClose
+                    >
+                      <i className="WidgetListPage__icon fa pficon-help" />
+                    </OverlayTrigger>
+                  </span>
+                </h1>
+              </div>
+            </Col>
+          </Row>
           <WidgetEditFormContainer />
         </Grid>
       </InternalPage>
