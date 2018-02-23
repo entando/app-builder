@@ -46,6 +46,11 @@ export default {
     'widget.page.create.title.it.placeholder': 'Italian title',
     'widget.page.create.group': 'Group',
     'widget.page.tab.customUi': 'Custom UI',
+    'fragment.create.code': 'Code',
+    'fragment.create.code.placeholder': 'Code',
+    'fragment.tab.giuCode': 'Gui Code',
+    'fragment.tab.defualtGuiCode': 'Default Gui Code',
+    'fragment.body.defaultGuiCode': 'Not available.',
   },
 
 };

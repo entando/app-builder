@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Col } from 'patternfly-react';
 
 const RenderTextInput = ({
   input, name, label, placeholder, meta: { touched, error }, help,
@@ -10,10 +10,10 @@ const RenderTextInput = ({
     <label htmlFor={name} className="col-sm-2 control-label">
       {label} {help}
     </label>
-    <div className="col-sm-10">
+    <Col xs={10}>
       <input {...input} placeholder={placeholder} type="text" className="form-control" />
       {touched && ((error && <span className="help-block">{error}</span>))}
-    </div>
+    </Col>
   </div>
 
 );
