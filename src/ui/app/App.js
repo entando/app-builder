@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { LoginPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
-import WidgetPageContainer from 'ui/app-pages/WidgetPageContainer';
+import WidgetPage from 'ui/app-pages/WidgetPage';
 
 const App = ({ route }) => {
   switch (route) {
@@ -14,7 +14,7 @@ const App = ({ route }) => {
       </LoginPage>
     );
     case 'dashboard': return <DashboardPage />;
-    case 'widgetForm': return <WidgetPageContainer />;
+    case 'widgetForm': return <WidgetPage />;
     default: return <h1>NOT FOUND</h1>;
   }
 };

@@ -4,33 +4,29 @@ import { shallow } from 'enzyme';
 import { WidgetFormBody } from 'ui/widgets/WidgetForm';
 
 const handleSubmit = jest.fn();
+const onWillMount = jest.fn();
 
 describe('WidgetForm', () => {
   let widgetForm = null;
   let submitting;
-  let touched;
-  let error;
   let invalid;
+  let groups;
+
 
   beforeEach(() => {
     submitting = false;
-    touched = false;
     invalid = false;
-    error = null;
+    groups = [];
   });
   const buildWidgetForm = () => {
     const props = {
       submitting,
       invalid,
-      fields: {
-        code: {
-          value: 'test_widget',
-          touched,
-          error,
-        },
-      },
       handleSubmit,
+      onWillMount,
+      groups,
     };
+
     return shallow(<WidgetFormBody {...props} />);
   };
 

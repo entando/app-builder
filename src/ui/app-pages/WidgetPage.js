@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
-import WidgetForm from 'ui/widgets/WidgetForm';
+import WidgetFormContainer from 'ui/widgets/WidgetFormContainer';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import { BreadcrumbItem } from 'frontend-common-components';
 
-const WidgetPage = ({ onSubmit }) => (
+const WidgetPage = () => (
   <InternalPage className="WidgetPage">
     <Grid fluid>
       <Row>
@@ -27,19 +26,11 @@ const WidgetPage = ({ onSubmit }) => (
       </Row>
       <Row>
         <Col xs={12}>
-          <WidgetForm onSubmit={onSubmit} />
+          <WidgetFormContainer />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
-
-WidgetPage.propTypes = {
-  onSubmit: PropTypes.func,
-};
-
-WidgetPage.defaultProps = {
-  onSubmit: () => {},
-};
 
 export default WidgetPage;
