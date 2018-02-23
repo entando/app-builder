@@ -7,7 +7,7 @@ const RenderTextInput = ({
 }) => (
 
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <label htmlFor={name} className="col-sm-2 control-label">
+    <label htmlFor={name} className="col-xs-2 control-label">
       {label} {help}
     </label>
     <Col xs={10}>

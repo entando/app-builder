@@ -17,8 +17,8 @@ export const FragmentFormBody = (props) => {
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
       <Row>
-        <Col xs={10}>
-          <div className="form-group">
+        <Col xs={12}>
+          <fieldset className="no-padding">
             <Field
               component={RenderTextInput}
               name="code"
@@ -31,42 +31,44 @@ export const FragmentFormBody = (props) => {
               placeholder={formattedText('fragment.create.code.placeholder')}
               validate={[required]}
             />
-          </div>
+          </fieldset>
         </Col>
       </Row>
       <hr />
       <Row>
-        <Col xs={10}>
-          <div className="form-group">
-            <span className="control-label col-xs-2" />
-            <Col xs={10}>
-              <Tabs id="basic-tabs" defaultActiveKey={1}>
-                <Tab eventKey={1} title={formattedText('fragment.tab.giuCode')} >
-                  <div className="tab-content margin-large-bottom ">
-                    <div className="tab-pane fade in active">
-                      <Field
-                        name="guiCode"
-                        component="textarea"
-                        cols="50"
-                        rows="8"
-                        className="form-control"
-                        validate={[required]}
-                      />
-                    </div>
-                  </div>
-                </Tab>
-                <Tab eventKey={2} title={formattedText('fragment.tab.defualtGuiCode')} >
-                  <div className="tab-content margin-large-bottom ">
-                    <div className="tab-pane fade in active">
-                      <div className="margin-none alert alert-info">
-                        <FormattedMessage id="fragment.body.defaultGuiCode" />
+        <Col xs={12}>
+          <fieldset className="no-padding">
+            <div className="form-group">
+              <span className="control-label col-xs-2" />
+              <Col xs={10}>
+                <Tabs id="basic-tabs" defaultActiveKey={1}>
+                  <Tab eventKey={1} title={formattedText('fragment.tab.giuCode')} >
+                    <div className="tab-content margin-large-bottom ">
+                      <div className="tab-pane fade in active">
+                        <Field
+                          name="guiCode"
+                          component="textarea"
+                          cols="50"
+                          rows="8"
+                          className="form-control"
+                          validate={[required]}
+                        />
                       </div>
                     </div>
-                  </div>
-                </Tab>
-              </Tabs>
-            </Col>
-          </div>
+                  </Tab>
+                  <Tab eventKey={2} title={formattedText('fragment.tab.defualtGuiCode')} >
+                    <div className="tab-content margin-large-bottom ">
+                      <div className="tab-pane fade in active">
+                        <div className="margin-none alert alert-info">
+                          <FormattedMessage id="fragment.body.defaultGuiCode" />
+                        </div>
+                      </div>
+                    </div>
+                  </Tab>
+                </Tabs>
+              </Col>
+            </div>
+          </fieldset>
         </Col>
       </Row>
       <br />
