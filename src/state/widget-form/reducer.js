@@ -1,13 +1,13 @@
-import { SET_LOGIN_ERROR_MESSAGE } from './types';
+import { SET_WIDGET } from './types';
 
 const initialState = {
-  loginErrorMessage: '',
+  mode: '',
 };
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SET_LOGIN_ERROR_MESSAGE:
-      return Object.assign({}, state, { loginErrorMessage: action.payload.message });
+    case SET_WIDGET:
+      return Object.assign({}, state, action.payload);
     default: return state;
   }
 };
