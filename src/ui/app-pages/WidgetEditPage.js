@@ -29,14 +29,16 @@ class WidgetEditPage extends Component {
           <Row>
             <Col xs={12}>
               <Breadcrumb>
-                <BreadcrumbItem>
+                {/* FIXME remove route when BreadcrumbItem fix available */}
+                <BreadcrumbItem route="home">
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
                 {/* FIXME replace route with widget list route when available */}
                 <BreadcrumbItem route="home">
                   <FormattedMessage id="menu.widgets" />
                 </BreadcrumbItem>
-                <BreadcrumbItem active>
+                {/* FIXME remove route when BreadcrumbItem fix available */}
+                <BreadcrumbItem route="home" active>
                   <FormattedMessage id="menu.widgetEdit" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>

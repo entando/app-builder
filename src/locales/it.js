@@ -51,5 +51,6 @@ export default {
     'widget.page.tab.defaultUi': 'Deafult UI',
     'widget.page.edit.pageTitle': 'Modifica Widget',
     'widget.page.edit.help': 'Dalla sezione WIDGET puoi gestire i widget esistenti o crearne di nuovi. I widget sono oggetti utilizzati per visualizzare informazioni e funzionalitá o servizi sulle pagine di un\'applicazione.',
+    'widget.page.alert.notAvaible': 'Non disponibile',
   },
 };

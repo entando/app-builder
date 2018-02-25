@@ -51,6 +51,7 @@ export default {
     'widget.page.tab.defaultUi': 'Deafult UI',
     'widget.page.edit.pageTitle': 'Edit Widget',
     'widget.page.edit.help': 'The WIDGET section lets you manage existing widget or add new widget. Widgets are objects used to display information and functionality or services on the pages of an application.',
+    'widget.page.alert.notAvaible': 'Not avaible',
   },
 
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FieldLevelHelp, Button, Tabs, Tab, Row, Col } from 'patternfly-react';
+import { FieldLevelHelp, Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Panel } from 'react-bootstrap';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
@@ -36,8 +37,36 @@ export class WidgetFormBody extends Component {
       />
     );
 
+    const defaultUIField = (
+      <Field
+        name="defaultUi"
+        component={({ input }) => {
+          if (!input.value) {
+            return (
+              <Alert type="info">
+                <FormattedMessage id="widget.page.alert.notAvaible" />
+              </Alert>
+            );
+          }
+          return (
+            <Panel>
+              <Panel.Body><pre>{input.value}</pre></Panel.Body>
+            </Panel>
+          );
+        }}
+      />
+    );
+
+    let defaultUITab = (
+      <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
+        {defaultUIField}
+      </Tab>
+    );
+
     if (this.props.mode === 'edit') {
       codeField = null;
+    } else {
+      defaultUITab = null;
     }
 
     return (
@@ -121,16 +150,7 @@ export class WidgetFormBody extends Component {
                           validate={[required]}
                         />
                       </Tab>
-                      <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
-                        <Field
-                          name="defaultUi"
-                          component="textarea"
-                          cols="50"
-                          rows="8"
-                          className="form-control"
-                          disabled
-                        />
-                      </Tab>
+                      {defaultUITab}
                     </Tabs>
                   </Col>
                 </div>
