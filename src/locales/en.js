@@ -67,7 +67,10 @@ export default {
     'fragment.create.code.placeholder': 'Code',
     'fragment.tab.guiCode': 'Gui Code',
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
-    'fragment.body.defaultGuiCode': 'Non disponibile',
+    'fragment.body.defaultGuiCode': 'Not available.',
+    'fragment.detail.widgetName': 'Widget name',
+    'fragment.detail.widgetType': 'Widget Type',
+    'fragment.detail.pluginCode': 'Plugin code',
   },
 
 };

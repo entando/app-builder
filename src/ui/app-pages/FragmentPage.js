@@ -3,7 +3,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-import FragmentFormContainer from 'ui/fragments/FragmentFormContainer';
+import FragmentDetail from 'ui/fragments/FragmentDetail';
 
 const FragmentPage = () => (
 
@@ -26,7 +26,7 @@ const FragmentPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <FragmentFormContainer />
+          <FragmentDetail />
         </Col>
       </Row>
     </Grid>
