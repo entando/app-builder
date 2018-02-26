@@ -10,6 +10,22 @@ import RenderTextInput from 'ui/form/RenderTextInput';
 
 const MODE_NEW = 'new';
 
+export const renderDefaultUIField = (field) => {
+  const { input } = field;
+  if (!input.value) {
+    return (
+      <Alert type="info">
+        <FormattedMessage id="widget.page.alert.notAvaible" />
+      </Alert>
+    );
+  }
+  return (
+    <Panel>
+      <Panel.Body><pre>{input.value}</pre></Panel.Body>
+    </Panel>
+  );
+};
+
 export class WidgetFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -40,20 +56,7 @@ export class WidgetFormBody extends Component {
     const defaultUIField = (
       <Field
         name="defaultUi"
-        component={({ input }) => {
-          if (!input.value) {
-            return (
-              <Alert type="info">
-                <FormattedMessage id="widget.page.alert.notAvaible" />
-              </Alert>
-            );
-          }
-          return (
-            <Panel>
-              <Panel.Body><pre>{input.value}</pre></Panel.Body>
-            </Panel>
-          );
-        }}
+        component={renderDefaultUIField}
       />
     );
 
