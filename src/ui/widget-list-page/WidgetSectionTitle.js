@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const WidgetSectionTitle = ({ title }) => (
   <div className="WidgetSectionTitle">
-    <div className="WidgetListTable__type">
+    <div className="WidgetSectionTitle__type">
       <h3>{ title }</h3>
     </div>
   </div>
