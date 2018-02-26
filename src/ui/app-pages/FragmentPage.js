@@ -1,13 +1,13 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
-import WidgetFormContainer from 'ui/widgets/WidgetFormContainer';
+import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-
 import { BreadcrumbItem } from 'frontend-common-components';
+import FragmentFormContainer from 'ui/fragments/FragmentFormContainer';
 
-const WidgetPage = () => (
-  <InternalPage className="WidgetPage">
+const FragmentPage = () => (
+
+  <InternalPage className="FragmentPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -15,10 +15,10 @@ const WidgetPage = () => (
             <BreadcrumbItem route="home" active>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="widgetForm">
-              <FormattedMessage id="menu.uxPattern.widget" />
+            <BreadcrumbItem route="fragment">
+              <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="widgetForm" active>
+            <BreadcrumbItem route="fragment" active>
               <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
@@ -26,11 +26,12 @@ const WidgetPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <WidgetFormContainer />
+          <FragmentFormContainer />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default WidgetPage;
+
+export default FragmentPage;

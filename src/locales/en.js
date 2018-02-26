@@ -22,6 +22,8 @@ export default {
     'menu.integration': 'Integration',
     'menu.data': 'Data',
     'menu.configuration': 'Configuration',
+    'menu.uxPattern.widget': 'Widgets',
+    'menu.uxPattern.fragment': 'Fragments',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -46,6 +48,11 @@ export default {
     'widget.page.create.title.it.placeholder': 'Italian title',
     'widget.page.create.group': 'Group',
     'widget.page.tab.customUi': 'Custom UI',
+    'fragment.create.code': 'Code',
+    'fragment.create.code.placeholder': 'Code',
+    'fragment.tab.guiCode': 'Gui Code',
+    'fragment.tab.defaultGuiCode': 'Default Gui Code',
+    'fragment.body.defaultGuiCode': 'Non disponibile',
   },
 
 };

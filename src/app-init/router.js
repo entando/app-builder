@@ -14,6 +14,7 @@ routerConfig(
       { name: 'content', path: '/content/:content/frame/:frame' },
       { name: 'widgetForm', path: '/widget/form' },
       { name: 'widget', path: '/widget/:widget' },
+      { name: 'fragment', path: '/fragment' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
