@@ -4,7 +4,6 @@ import WidgetListRow from 'ui/widget-list-page/WidgetListRow';
 
 
 const RowList = ({ tableRow }) =>
-  // console.log('rowList', tableRow);
   (
     tableRow.map(item => (
       <WidgetListRow
