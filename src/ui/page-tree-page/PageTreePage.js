@@ -5,7 +5,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import { BreadcrumbItem } from 'frontend-common-components';
-
+import PageSearchForm from 'ui/page-tree-page/PageSearchForm';
 import PageTreeContainer from 'ui/page-tree/PageTreeContainer';
 
 class PageTreePage extends Component {
@@ -35,6 +35,11 @@ class PageTreePage extends Component {
                 <FormattedMessage id="menu.pageTree" />
                 <i className="pficon pficon-help pull-right" />
               </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6} mdOffset={3}>
+              <PageSearchForm />
             </Col>
           </Row>
           <Row>
