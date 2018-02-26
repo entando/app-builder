@@ -44,7 +44,7 @@ class PageTreeActionMenu extends Component {
       );
 
     return (
-      <Dropdown>
+      <Dropdown id="PageTreeActionMenuButton">
         <PageTreeActionMenuButton bsRole="toggle" />
         <Dropdown.Menu className="dropdown-menu-right">
           <MenuItem

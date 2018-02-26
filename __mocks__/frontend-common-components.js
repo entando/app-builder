@@ -22,6 +22,7 @@ export const ActivityStream = () => (<span />);
 export const Notification = () => (<span />);
 export const DDTable = () => (<span />);
 export const BreadcrumbItem = () => (<span />);
+export const NotFoundPage = () => (<span />);
 DDTable.Handle = () => (<span />);
 DDTable.Tr = () => (<span />);
 DDTable.DROP_MEDIUM = 'medium';

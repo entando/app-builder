@@ -3,6 +3,10 @@ import {
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD,
 } from 'test/mocks/pages';
 
+const throttle = (func) => {
+  setTimeout(func, (Math.floor(Math.random() * 700) + 300));
+};
+
 /*
  * - homepage
  *   |- dashboard
@@ -26,9 +30,7 @@ const fetchPageResponseMap = {
 
 export const fetchPage = pageCode => new Promise((resolve, reject) => {
   if (fetchPageResponseMap[pageCode]) {
-    setTimeout(() => {
-      resolve(fetchPageResponseMap[pageCode]);
-    }, (Math.floor(Math.random() * 700) + 300));
+    throttle(() => resolve(fetchPageResponseMap[pageCode]));
   } else {
     reject(ERROR);
   }
@@ -44,12 +46,25 @@ const fetchPageChildrenResponseMap = {
   contacts: [],
 };
 
+// will call http://confluence.entando.org/display/E5/Page+Tree
+// e.g. /pages?parentCode=homepage
 export const fetchPageChildren = pageCode => new Promise((resolve, reject) => {
   if (fetchPageChildrenResponseMap[pageCode]) {
-    setTimeout(() => {
-      resolve(fetchPageChildrenResponseMap[pageCode]);
-    }, (Math.floor(Math.random() * 700) + 300));
+    throttle(() => resolve(fetchPageChildrenResponseMap[pageCode]));
   } else {
     reject(ERROR);
   }
+});
+
+
+// will call http://confluence.entando.org/display/E5/Page+Position+Change
+// e.g. /pages/<pageCode>/position  (code, position, parent)
+export const setPagePosition = (pageCode, position, parentCode) => new Promise((resolve) => {
+  const response = {
+    code: pageCode,
+    position,
+    parent: parentCode,
+  };
+  console.info(`calling API /pages/${pageCode}/position\n\t${JSON.stringify(response, 2)}`);
+  throttle(() => resolve(response));
 });

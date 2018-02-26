@@ -8,9 +8,8 @@ import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import WidgetPage from 'ui/app-pages/WidgetPage';
 import FragmentPage from 'ui/app-pages/FragmentPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
+import { NotFoundPage } from 'frontend-common-components';
 
-
-const DEFAULT_MOCK = <h1>NOT FOUND</h1>; // NotFoundPage
 
 it('renders without crashing', () => {
   const component = shallow(<App route="home" />);
@@ -44,5 +43,5 @@ it('route to fragment entry page', () => {
 
 it('default route', () => {
   const component = shallow(<App route="test" />);
-  expect(component.contains(DEFAULT_MOCK)).toEqual(true);
+  expect(component.contains(<NotFoundPage />)).toEqual(true);
 });

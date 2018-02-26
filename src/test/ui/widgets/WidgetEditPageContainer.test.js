@@ -46,6 +46,9 @@ jest.mock('frontend-common-components', () => ({
   ActivityStreamMenu: () => (<span />),
   ActivityStream: () => (<span />),
   Notification: () => (<span />),
+  routerConfig: jest.fn(),
+  gotoRoute: jest.fn(),
+  routerReducer: state => state || {},
 }));
 
 

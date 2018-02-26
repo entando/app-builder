@@ -18,6 +18,7 @@ export default {
     'app.fieldsRequired': 'Required Fields',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
+    'menu.pageTree': 'Page Tree',
     'menu.uxPattern': 'UX Pattern',
     'menu.integration': 'Integration',
     'menu.data': 'Data',
