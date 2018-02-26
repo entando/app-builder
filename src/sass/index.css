@@ -67,3 +67,25 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #d1d1d1;
   font-weight: bold; }
+
+.WidgetForm__language-label {
+  margin-right: 5px;
+  background-color: #0088ce; }
+
+.WidgetForm__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
+
+.WidgetForm__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }
+
+.FragmentForm__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
+
+.FragmentForm__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }

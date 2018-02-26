@@ -1,20 +1,23 @@
 import { combineReducers } from 'redux';
 
 import { routerReducer as router } from 'frontend-common-components';
-
+import { reducer as form } from 'redux-form';
 import pluginArray from 'entando-plugins';
 
-import form from 'state/form/reducer';
+import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
 import pages from 'state/pages/reducer';
+import groups from 'state/groups/reducer';
 
 const reducerDef = {
   router,
   form,
+  loginForm,
   locale,
   activityStream,
   pages,
+  groups,
 };
 
 if (pluginArray.length) {

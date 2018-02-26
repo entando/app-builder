@@ -18,7 +18,7 @@ describe('ui/page-tree-page/PageTreePage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    const component = shallow(<PageTreePage onWillMount={onWillMount} />);
+    shallow(<PageTreePage onWillMount={onWillMount} />);
     expect(onWillMount).toHaveBeenCalled();
   });
 });

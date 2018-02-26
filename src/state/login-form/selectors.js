@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 
-const getForm = state => state.form;
+const getForm = state => state.loginForm;
 
 
 // eslint-disable-next-line
