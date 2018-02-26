@@ -1,3 +1,4 @@
+import React from 'react';
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/WidgetEditPageContainer';
@@ -30,6 +31,21 @@ const TEST_STATE = {
 const dispatchMock = jest.fn();
 jest.mock('frontend-common-components', () => ({
   getParams: jest.fn().mockReturnValue({ widgetCode: 'code' }),
+  BreadcrumbItem: () => (<span />),
+  Link: () => (<span />),
+  LoginPage: () => (<span />),
+  LoginForm: () => (<span />),
+  BrandMenu: () => (<span />),
+  ProjectLink: () => (<span />),
+  UserDropdown: () => (<span />),
+  HelpMenu: () => (<span />),
+  AdminAppSwitch: () => (<span />),
+  LinkMenuItem: () => (<span />),
+  FirstLevelMenuItem: () => (<span />),
+  DropdownMenuItem: () => (<span />),
+  ActivityStreamMenu: () => (<span />),
+  ActivityStream: () => (<span />),
+  Notification: () => (<span />),
 }));
 
 
