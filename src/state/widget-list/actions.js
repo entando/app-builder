@@ -9,8 +9,6 @@ export const getWidgetRow = tableRow => ({
   },
 });
 
-export const fetchWidgetListRow = () => (dispatch) => {
-  getApiWidgetList().then((data) => {
-    dispatch(getWidgetRow(data.payload.tableRow));
-  });
-};
+export const fetchWidgetListRow = () => dispatch => getApiWidgetList().then((data) => {
+  dispatch(getWidgetRow(data.payload.tableRow));
+});

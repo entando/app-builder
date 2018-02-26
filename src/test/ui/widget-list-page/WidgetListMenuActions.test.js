@@ -1,10 +1,9 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow, mount } from 'enzyme';
-// import PageTreeActionMenuButton from 'ui/page-tree/PageTreeActionMenuButton';
+import { shallow } from 'enzyme';
 import WidgetListMenuAction from 'ui/widget-list-page/WidgetListMenuActions';
-import { Dropdown, MenuItem } from 'patternfly-react';
+import { Dropdown } from 'patternfly-react';
 
 const EVENT = {
   preventDefault: jest.fn(),
