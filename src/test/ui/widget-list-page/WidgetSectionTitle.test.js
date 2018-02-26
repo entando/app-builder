@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import WidgetSectionTitle from 'ui/widget-list-page/WidgetSectionTitle';
 
-describe('ui/menu/activity-stream-item/Notification', () => {
+describe('ui/widget-list-page/WidgetSectionTitle', () => {
   let component;
   beforeEach(() => {
     component = shallow(<WidgetSectionTitle />);

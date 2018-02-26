@@ -91,7 +91,7 @@
 .WidgetListActionToggle {
   color: #72767b; }
 
-.WidgetListRow .WidgetListRow--line-height {
+.WidgetListRow .WidgetListRow__td {
   height: 30px;
   line-height: 30px; }
 

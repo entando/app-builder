@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import WidgetSectionTitle from 'ui/widget-list-page/WidgetSectionTitle';
-import 'sass/widget-list-page/WidgetListTable.scss';
 import { formattedText } from 'frontend-common-components';
+import 'sass/widget-list-page/WidgetListTable.scss';
 
 const WidgetListTable = ({ children }) => (
 

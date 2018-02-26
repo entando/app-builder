@@ -8,7 +8,7 @@ const eventMock = {
   preventDefault: jest.fn(),
 };
 
-describe('ui/menu/activity-stream-item/Notification', () => {
+describe('ui/widget-list-page/WidgetListPage', () => {
   let component;
   beforeEach(() => {
     component = shallow(<WidgetListPage />);

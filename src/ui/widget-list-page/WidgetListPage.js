@@ -8,8 +8,8 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import { Row, Col, Button } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
-import 'sass/widget-list-page/WidgetListPage.scss';
 import { formattedText } from 'frontend-common-components';
+import 'sass/widget-list-page/WidgetListPage.scss';
 
 class WidgetListPage extends Component {
   constructor(props, context) {
