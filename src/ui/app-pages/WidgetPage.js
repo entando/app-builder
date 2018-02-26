@@ -16,10 +16,10 @@ const WidgetPage = () => (
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
             <BreadcrumbItem route="widgetForm">
-              Widgets
+              <FormattedMessage id="menu.uxPattern.widget" />
             </BreadcrumbItem>
             <BreadcrumbItem route="widgetForm" active>
-              Add
+              <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>

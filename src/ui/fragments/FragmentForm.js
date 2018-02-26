@@ -42,7 +42,7 @@ export const FragmentFormBody = (props) => {
               <span className="control-label col-xs-2" />
               <Col xs={10}>
                 <Tabs id="basic-tabs" defaultActiveKey={1}>
-                  <Tab eventKey={1} title={formattedText('fragment.tab.giuCode')} >
+                  <Tab eventKey={1} title={formattedText('fragment.tab.guiCode')} >
                     <div className="tab-content margin-large-bottom ">
                       <div className="tab-pane fade in active">
                         <Field
@@ -56,7 +56,7 @@ export const FragmentFormBody = (props) => {
                       </div>
                     </div>
                   </Tab>
-                  <Tab eventKey={2} title={formattedText('fragment.tab.defualtGuiCode')} >
+                  <Tab eventKey={2} title={formattedText('fragment.tab.defaultGuiCode')} >
                     <div className="tab-content margin-large-bottom ">
                       <div className="tab-pane fade in active">
                         <div className="margin-none alert alert-info">

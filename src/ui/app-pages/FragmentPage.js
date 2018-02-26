@@ -16,10 +16,10 @@ const FragmentPage = () => (
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
             <BreadcrumbItem route="fragment">
-              Fragments
+              <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem route="fragment" active>
-              Add
+              <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>

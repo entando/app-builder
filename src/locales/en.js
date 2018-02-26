@@ -22,6 +22,8 @@ export default {
     'menu.integration': 'Integration',
     'menu.data': 'Data',
     'menu.configuration': 'Configuration',
+    'menu.uxPattern.widget': 'Widgets',
+    'menu.uxPattern.fragment': 'Fragments',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -48,9 +50,9 @@ export default {
     'widget.page.tab.customUi': 'Custom UI',
     'fragment.create.code': 'Code',
     'fragment.create.code.placeholder': 'Code',
-    'fragment.tab.giuCode': 'Gui Code',
-    'fragment.tab.defualtGuiCode': 'Default Gui Code',
-    'fragment.body.defaultGuiCode': 'Not available.',
+    'fragment.tab.guiCode': 'Gui Code',
+    'fragment.tab.defaultGuiCode': 'Default Gui Code',
+    'fragment.body.defaultGuiCode': 'Non disponibile',
   },
 
 };
