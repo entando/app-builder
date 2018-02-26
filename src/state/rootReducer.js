@@ -8,7 +8,6 @@ import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
 import pages from 'state/pages/reducer';
-import pageTree from 'state/page-tree/reducer';
 import groups from 'state/groups/reducer';
 
 const reducerDef = {
@@ -18,7 +17,6 @@ const reducerDef = {
   locale,
   activityStream,
   pages,
-  pageTree,
   groups,
 };
 

@@ -11,8 +11,7 @@ const PAGES = [
     code: 'homepage',
     status: 'published',
     displayedInMenu: true,
-    titles: { en: 'Homepage', it: 'Casapagina' },
-
+    title: 'Homepage',
     depth: 0,
     isEmpty: false,
     expanded: true,
@@ -21,8 +20,7 @@ const PAGES = [
     code: 'services',
     status: 'published',
     displayedInMenu: false,
-    titles: { en: 'Services', it: 'Servizi' },
-
+    title: 'Services',
     depth: 0,
     isEmpty: true,
     expanded: true,

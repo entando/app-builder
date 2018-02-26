@@ -7,7 +7,7 @@ import PageStatusIcon from 'ui/page-tree/PageStatusIcon';
 import PageFolderIcon from 'ui/page-tree/PageFolderIcon';
 import PageExpandedIcon from 'ui/page-tree/PageExpandedIcon';
 import RowSpinner from 'ui/page-tree/RowSpinner';
-import PageTreePreviewContainer from 'ui/page-tree/PageTreePreviewContainer';
+import PageTreePreview from 'ui/page-tree/PageTreePreview';
 import PageTreeActionMenu from 'ui/page-tree/PageTreeActionMenu';
 
 class PageTree extends Component {
@@ -32,7 +32,7 @@ class PageTree extends Component {
   }
 
   renderRows() {
-    const { pages, locale } = this.props;
+    const { pages } = this.props;
 
 
     return pages.map((page, i) => {
@@ -65,7 +65,7 @@ class PageTree extends Component {
               <PageExpandedIcon expanded={page.expanded} />
               <PageFolderIcon empty={page.isEmpty} />
               <span className="PageTree__page-name">
-                { page.titles[locale] }
+                { page.title }
               </span>
               <RowSpinner loading={!!page.loading} />
             </span>
@@ -96,7 +96,7 @@ class PageTree extends Component {
 
   render() {
     return (
-      <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreviewContainer}>
+      <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
         <table className="PageTree table table-bordered table-hover table-treegrid">
           <thead>
             <tr>
@@ -124,16 +124,12 @@ class PageTree extends Component {
 }
 
 PageTree.propTypes = {
-  locale: PropTypes.string.isRequired,
 
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     displayedInMenu: PropTypes.bool.isRequired,
-    titles: PropTypes.shape({
-      en: PropTypes.string.isRequired,
-      it: PropTypes.string.isRequired,
-    }).isRequired,
+    title: PropTypes.string.isRequired,
     depth: PropTypes.number.isRequired,
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
