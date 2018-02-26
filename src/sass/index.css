@@ -71,3 +71,24 @@
 .WidgetForm__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
+
+.WidgetListPage .WidgetListPage__add {
+  margin: 2em 2em 0 0; }
+
+.WidgetListTable__type {
+  margin: 0 0 1em 0;
+  border-bottom: 1px solid #ededed; }
+
+.WidgetListActionToggle {
+  color: #72767b; }
+
+.WidgetListRow .WidgetListRow--line-height {
+  height: 30px;
+  line-height: 30px; }
+
+.PageTitle .PageTitle__header {
+  padding: 0 15px 0 15px;
+  border: 1px solid #d1d1d1; }
+
+.PageTitle .PageTitle__icon {
+  color: #8b8d8f; }

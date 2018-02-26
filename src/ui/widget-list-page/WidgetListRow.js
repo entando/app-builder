@@ -22,7 +22,7 @@ const WidgetListRow = (props) => {
 WidgetListRow.propTypes = {
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  used: PropTypes.number.isRequired,
+  used: PropTypes.string.isRequired,
 };
 
 export default WidgetListRow;

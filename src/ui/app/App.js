@@ -21,8 +21,8 @@ const App = ({ route }) => {
       <WidgetListPageContainer />
     );
     case 'widgetForm': return (
-     <WidgetPage />;
-    );    
+      <WidgetPage />
+    );
     default: return <h1>NOT FOUND</h1>;
   }
 };
