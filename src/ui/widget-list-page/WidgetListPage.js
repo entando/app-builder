@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
 import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
@@ -11,48 +11,59 @@ import { FormattedMessage } from 'react-intl';
 import 'sass/widget-list-page/WidgetListPage.scss';
 import { formattedText } from 'frontend-common-components';
 
-const WidgetListPage = ({ onClickCreate, onLoad }) => {
-  const onClickAdd = (ev) => {
+class WidgetListPage extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.onClickAdd = this.onClickAdd.bind(this);
+  }
+  componentWillMount() {
+    this.props.onWillMount(this.props);
+  }
+
+  onClickAdd(ev) {
     ev.preventDefault();
-    onClickCreate();
+    this.props.onClickCreate();
     // alert('connect to create a new widget function');
-  };
-  onLoad();
-  return (
-    <InternalPage className="WidgetListPage">
-      <PageTitle
-        title={formattedText('widget.list.title')}
-        helpMessage={formattedText('widget.help')}
-      />
-      <Row>
-        <Col md={12} className="">
-          <Button
-            type="button"
-            className="pull-right WidgetListPage__add"
-            bsStyle="primary"
-            onClick={onClickAdd}
-          >
-            <FormattedMessage
-              id="widget.list.new"
-            />
-          </Button>
-          <WidgetListTable >
-            <RowListContainer />
-          </WidgetListTable>
-        </Col>
-      </Row>
-    </InternalPage>
-  );
-};
+  }
+
+  render() {
+    return (
+      <InternalPage className="WidgetListPage">
+        <PageTitle
+          title={formattedText('widget.list.title')}
+          helpMessage={formattedText('widget.help')}
+        />
+        <Row>
+          <Col md={12} className="">
+            <Button
+              type="button"
+              className="pull-right WidgetListPage__add"
+              bsStyle="primary"
+              onClick={this.onClickAdd}
+            >
+              <FormattedMessage
+                id="widget.list.new"
+              />
+            </Button>
+            <WidgetListTable >
+              <RowListContainer />
+            </WidgetListTable>
+          </Col>
+        </Row>
+      </InternalPage>
+    );
+  }
+}
 
 WidgetListPage.propTypes = {
   onClickCreate: PropTypes.func,
-  onLoad: PropTypes.func,
+  onWillMount: PropTypes.func,
 };
 
 WidgetListPage.defaultProps = {
   onClickCreate: () => {},
-  onLoad: () => {},
+  onWillMount: () => {},
 };
 
 
