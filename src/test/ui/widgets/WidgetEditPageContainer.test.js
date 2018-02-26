@@ -28,6 +28,9 @@ const TEST_STATE = {
 };
 
 const dispatchMock = jest.fn();
+jest.mock('frontend-common-components', () => ({
+  getParams: jest.fn().mockReturnValue({ widgetCode: 'code' }),
+}));
 
 
 it('maps widgetCode and widgetName property state in WidgetEditPage', () => {
