@@ -5,6 +5,7 @@ import { LoginPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import WidgetPage from 'ui/app-pages/WidgetPage';
+import FragmentPage from 'ui/app-pages/FragmentPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
 
 const App = ({ route }) => {
@@ -17,6 +18,7 @@ const App = ({ route }) => {
     case 'dashboard': return <DashboardPage />;
     case 'widgetForm': return <WidgetPage />;
     case 'widgetEdit': return <WidgetEditPageContainer />;
+    case 'fragment': return <FragmentPage />;
     default: return <h1>NOT FOUND</h1>;
   }
 };
