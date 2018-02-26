@@ -3,7 +3,11 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/page-tree/PageTreeContai
 
 const FAKE_STATE = {
   locale: 'en',
-  pages: [],
+  pages: {
+    map: {},
+    childrenMap: {},
+    titlesMap: {},
+  },
 };
 
 const dispatchMock = jest.fn();
@@ -14,7 +18,6 @@ describe('ui/page-tree/PageTreeContainer', () => {
   describe('mapStateToProps', () => {
     it('should map the correct properties', () => {
       const props = mapStateToProps(FAKE_STATE);
-      expect(props.locale).toBeDefined();
       expect(props.pages).toBeDefined();
     });
   });
@@ -37,11 +40,19 @@ describe('ui/page-tree/PageTreeContainer', () => {
       expect(dispatchMock).toHaveBeenCalled();
     });
 
-    it('should not dispatch an action if a placeholder callback is called', () => {
+    it('should dispatch an action if onDropIntoPage is called', () => {
       props.onDropIntoPage('a', 'b');
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onDropAbovePage is called', () => {
       props.onDropAbovePage('a', 'b');
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onDropBelowPage is called', () => {
       props.onDropBelowPage('a', 'b');
-      expect(dispatchMock).not.toHaveBeenCalled();
+      expect(dispatchMock).toHaveBeenCalled();
     });
   });
 });

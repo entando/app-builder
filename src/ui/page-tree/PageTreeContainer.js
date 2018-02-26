@@ -4,23 +4,28 @@ import { connect } from 'react-redux';
 import PageTree from 'ui/page-tree/PageTree';
 
 import {
-  togglePageExpanded,
-} from 'state/page-tree/actions';
+  handleExpandPage,
+  setPageParent,
+  movePageAbove,
+  movePageBelow,
+} from 'state/pages/actions';
 
-import { getPageTreePages } from 'state/page-tree/selectors';
-import { getLocale } from 'state/locale/selectors';
+import { getPageTreePages } from 'state/pages/selectors';
 
 
 export const mapStateToProps = state => ({
   pages: getPageTreePages(state),
-  locale: getLocale(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onDropIntoPage: (sourcePageCode, targetPageCode) => console.log(`dragged ${sourcePageCode} into ${targetPageCode}`),
-  onDropAbovePage: (sourcePageCode, targetPageCode) => console.log(`dragged ${sourcePageCode} above ${targetPageCode}`),
-  onDropBelowPage: (sourcePageCode, targetPageCode) => console.log(`dragged ${sourcePageCode} below ${targetPageCode}`),
-  onExpandPage: pageCode => dispatch(togglePageExpanded(pageCode)),
+  onDropIntoPage: (sourcePageCode, targetPageCode) =>
+    dispatch(setPageParent(sourcePageCode, targetPageCode)),
+  onDropAbovePage: (sourcePageCode, targetPageCode) =>
+    dispatch(movePageAbove(sourcePageCode, targetPageCode)),
+  onDropBelowPage: (sourcePageCode, targetPageCode) =>
+    dispatch(movePageBelow(sourcePageCode, targetPageCode)),
+  onExpandPage: pageCode =>
+    dispatch(handleExpandPage(pageCode)),
 });
 
 

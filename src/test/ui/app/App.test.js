@@ -5,9 +5,8 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
+import { NotFoundPage } from 'frontend-common-components';
 
-
-const DEFAULT_MOCK = <h1>NOT FOUND</h1>; // NotFoundPage
 
 it('renders without crashing', () => {
   const component = shallow(<App route="home" />);
@@ -21,5 +20,5 @@ it('route to dashboard', () => {
 
 it('default route', () => {
   const component = shallow(<App route="test" />);
-  expect(component.contains(DEFAULT_MOCK)).toEqual(true);
+  expect(component.contains(<NotFoundPage />)).toEqual(true);
 });

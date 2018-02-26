@@ -17,6 +17,11 @@ export const FragmentFormBody = (props) => {
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
       <Row>
+        <Col xs={12} >
+          <fieldset className="no-padding" />
+        </Col>
+      </Row>
+      <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
             <Field
