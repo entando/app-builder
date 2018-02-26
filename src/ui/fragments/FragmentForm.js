@@ -7,13 +7,56 @@ import { FormattedMessage } from 'react-intl';
 import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/form/RenderTextInput';
 
+const NEW_MODE = 'new';
+
+export const renderStaticField = (field) => {
+  const { input, label, name } = field;
+  if (!input.value) {
+    return null;
+  }
+  return (
+    <div className="form-group">
+      <label htmlFor={name} className="control-label col-sm-2">
+        {label}
+      </label>
+      <Col sm={10}>
+        {input.value.title}
+      </Col>
+    </div>
+  );
+};
 
 export const FragmentFormBody = (props) => {
-  const { handleSubmit, invalid, submitting } = props;
+  const {
+    handleSubmit, invalid, submitting, mode,
+  } = props;
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
   };
+
+  let widgetTypeField = (
+    <Field
+      name="widgetType"
+      component={renderStaticField}
+      label={<FormattedMessage id="fragment.edit.widgetType" />}
+    />
+  );
+
+  let pluginField = (
+    <Field
+      name="plugin"
+      component={renderStaticField}
+      label={<FormattedMessage id="fragment.edit.plugin" />}
+    />
+  );
+
+  if (mode === NEW_MODE) {
+    pluginField = null;
+    widgetTypeField = null;
+  }
+
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
       <Row>
@@ -36,6 +79,8 @@ export const FragmentFormBody = (props) => {
               placeholder={formattedText('fragment.create.code.placeholder')}
               validate={[required]}
             />
+            {widgetTypeField}
+            {pluginField}
           </fieldset>
         </Col>
       </Row>
@@ -89,10 +134,7 @@ export const FragmentFormBody = (props) => {
           </Button>
         </Col>
       </Row>
-
-
     </form>
-
   );
 };
 
@@ -100,11 +142,13 @@ FragmentFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 FragmentFormBody.defaultProps = {
   invalid: false,
   submitting: false,
+  mode: NEW_MODE,
 };
 
 const FragmentForm = reduxForm({

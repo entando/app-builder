@@ -11,6 +11,7 @@ export const ROUTE_WIDGET_FORM = 'widgetForm';
 export const ROUTE_WIDGET_EDIT = 'widgetEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_FRAGMENT = 'fragment';
+export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
 
 routerConfig(
   store,
@@ -27,6 +28,7 @@ routerConfig(
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },
       { name: ROUTE_PAGE_TREE, path: '/page-tree' },
       { name: ROUTE_FRAGMENT, path: '/fragment' },
+      { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
