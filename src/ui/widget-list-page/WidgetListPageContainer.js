@@ -4,7 +4,7 @@ import WidgetListPage from 'ui/widget-list-page/WidgetListPage';
 
 
 export const mapDispatchToProps = dispatch => ({
-  onLoad: () => {
+  onWillMount: () => {
     dispatch(fetchWidgetListRow());
   },
 });
