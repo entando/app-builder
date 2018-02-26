@@ -7,7 +7,8 @@ import PageTreePreview from 'ui/page-tree/PageTreePreview';
 
 const PAGE = {
   code: 'pagecode',
-  titles: { it: 'Titolo', en: 'Title' },
+  title: 'Title',
+  isEmpty: false,
 };
 
 describe('ui/page-tree/PageTreePreview', () => {

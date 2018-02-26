@@ -8,7 +8,7 @@ import {
 import { LoginPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
-import PageTreePage from 'ui/page-tree-page/PageTreePage';
+import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
 
 const App = ({ route }) => {
   switch (route) {
@@ -18,7 +18,7 @@ const App = ({ route }) => {
       </LoginPage>
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
-    case ROUTE_PAGE_TREE: return <PageTreePage />;
+    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     default: return <h1>NOT FOUND</h1>;
   }
 };

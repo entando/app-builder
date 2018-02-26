@@ -44,6 +44,7 @@ export const HOMEPAGE_PAYLOAD = {
   ],
   children: [
     'dashboard',
+    'service',
     'contacts',
   ],
 };
