@@ -7,6 +7,7 @@ import pluginArray from 'entando-plugins';
 import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
+import widgetList from 'state/widget-list/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
 import widgetForm from 'state/widget-form/reducer';
@@ -19,6 +20,7 @@ const reducerDef = {
   activityStream,
   pages,
   groups,
+  widgetList,
   widgetForm,
 };
 
