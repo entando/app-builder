@@ -59,6 +59,15 @@
     margin-left: 10px;
     color: #00b9e4; }
 
+.InternalPage .breadcrumb {
+  margin-bottom: 0;
+  border-bottom: 1px solid #d1d1d1; }
+
+.InternalPage__page-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d1d1d1;
+  font-weight: bold; }
+
 .WidgetForm__language-label {
   margin-right: 5px;
   background-color: #0088ce; }
@@ -71,24 +80,3 @@
 .WidgetForm__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
-
-.WidgetListPage .WidgetListPage__add {
-  margin: 2em 2em 0 0; }
-
-.WidgetListTable__type {
-  margin: 0 0 1em 0;
-  border-bottom: 1px solid #ededed; }
-
-.WidgetListActionToggle {
-  color: #72767b; }
-
-.WidgetListRow .WidgetListRow--line-height {
-  height: 30px;
-  line-height: 30px; }
-
-.PageTitle .PageTitle__header {
-  padding: 0 15px 0 15px;
-  border: 1px solid #d1d1d1; }
-
-.PageTitle .PageTitle__icon {
-  color: #8b8d8f; }
