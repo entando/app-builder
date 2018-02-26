@@ -4,7 +4,6 @@ import { getWidgetList } from 'state/widget-list/selectors';
 
 
 export const mapStateToProps = state =>
-  // console.log('stato', state);
   (
     {
       tableRow: getWidgetList(state),
