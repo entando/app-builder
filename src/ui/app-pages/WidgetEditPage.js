@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import InternalPage from 'ui/internal-page/InternalPage';
-import { Breadcrumb, OverlayTrigger, Popover, Grid } from 'patternfly-react';
-import { Row, Col } from 'react-bootstrap';
-import { BreadcrumbItem } from 'frontend-common-components';
-import { FormattedMessage } from 'react-intl';
-import WidgetEditFormContainer from 'ui/widgets/WidgetEditFormContainer';
 import PropTypes from 'prop-types';
-
-const WIDGET_EDIT_HELP = 'widget.page.edit.help';
-
-const popover = () => (
-  <Popover id="popover-admin-app-switch" title="">
-    <p>
-      <FormattedMessage id={WIDGET_EDIT_HELP} />
-    </p>
-  </Popover>
-);
+import { FormattedMessage } from 'react-intl';
+import InternalPage from 'ui/internal-page/InternalPage';
+import { Breadcrumb, Grid, Row, Col } from 'patternfly-react';
+import { BreadcrumbItem } from 'frontend-common-components';
+import PageTitle from 'ui/internal-page/PageTitle';
+import WidgetEditFormContainer from 'ui/widgets/WidgetEditFormContainer';
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 class WidgetEditPage extends Component {
   componentWillMount() {
@@ -32,8 +23,7 @@ class WidgetEditPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
-                {/* FIXME replace route with widget list route when available */}
-                <BreadcrumbItem route="home">
+                <BreadcrumbItem route={ROUTE_WIDGET_LIST}>
                   <FormattedMessage id="menu.widgets" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
@@ -47,22 +37,7 @@ class WidgetEditPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              {/* FIXME replace with PageHeader component when available */}
-              <div className="WidgetEditPage__header">
-                <h1>
-                  <span><FormattedMessage id="widget.page.edit.pageTitle" /></span>
-                  <span className="pull-right">
-                    <OverlayTrigger
-                      overlay={popover()}
-                      placement="left"
-                      trigger={['click']}
-                      rootClose
-                    >
-                      <i className="WidgetListPage__icon fa pficon-help" />
-                    </OverlayTrigger>
-                  </span>
-                </h1>
-              </div>
+              <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help" />
             </Col>
           </Row>
           <WidgetEditFormContainer />

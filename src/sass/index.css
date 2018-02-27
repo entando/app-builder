@@ -96,8 +96,11 @@
   line-height: 30px; }
 
 .PageTitle .PageTitle__header {
-  padding: 0 15px 0 15px;
-  border: 1px solid #d1d1d1; }
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ededed; }
+
+.PageTitle .PageTitle__title {
+  font-weight: bold; }
 
 .PageTitle .PageTitle__icon {
   color: #8b8d8f; }
@@ -108,5 +111,18 @@
   vertical-align: super; }
 
 .FragmentForm__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }
+
+.FormLabel__language-label {
+  margin-right: 5px;
+  background-color: #0088ce; }
+
+.FormLabel__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
+
+.FormSectionTitle__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
