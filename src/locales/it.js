@@ -68,8 +68,12 @@ export default {
     'fragment.tab.guiCode': 'Gui Code',
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.body.defaultGuiCode': 'Non disponibile',
+    'fragment.detail.title': 'Dettagli dei fragments',
     'fragment.detail.widgetName': 'Widget name',
     'fragment.detail.widgetType': 'Widget Type',
     'fragment.detail.pluginCode': 'Plugin code',
+    'fragment.detail.help': 'Dalla sezione FRAGMENT puoi gestire i fragments esistenti o crearne di nuovi. I fragments sono singole porzioni di interfaccia di front-end utilizzati nei Widget (anche quelli dei plugin) e nei Modelli di Pagina',
+    'fragment.detail.emptyReferenceFragments': 'Non ci sono fragments associati',
+    'fragment.detail.emptyReferencepageModels': 'Non ci sono modelli di pagina associati ',
   },
 };

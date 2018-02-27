@@ -5,7 +5,8 @@ import {
   ROUTE_DASHBOARD,
   ROUTE_PAGE_TREE,
   ROUTE_WIDGET_FORM,
-  ROUTE_FRAGMENT,
+  ROUTE_FRAGMENT_ADD,
+  ROUTE_FRAGMENT_DETAIL,
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_EDIT,
 } from 'app-init/router';
@@ -16,7 +17,8 @@ import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
 import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
 import WidgetPage from 'ui/app-pages/WidgetPage';
-import FragmentPage from 'ui/app-pages/FragmentPage';
+import AddFragmentPage from 'ui/app-pages/fragments/add/AddFragmentPage';
+import DetailFragmentPage from 'ui/app-pages/fragments/detail/DetailFragmentPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
 
 const App = ({ route }) => {
@@ -31,7 +33,8 @@ const App = ({ route }) => {
     case ROUTE_WIDGET_LIST: return <WidgetListPageContainer />;
     case ROUTE_WIDGET_FORM: return <WidgetPage />;
     case ROUTE_WIDGET_EDIT: return <WidgetEditPageContainer />;
-    case ROUTE_FRAGMENT: return <FragmentPage />;
+    case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
+    case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPage />;
     default: return <NotFoundPage />;
   }
 };

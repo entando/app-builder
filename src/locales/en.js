@@ -68,9 +68,13 @@ export default {
     'fragment.tab.guiCode': 'Gui Code',
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.body.defaultGuiCode': 'Not available.',
+    'fragment.detail.title': 'Fragment details',
     'fragment.detail.widgetName': 'Widget name',
     'fragment.detail.widgetType': 'Widget Type',
     'fragment.detail.pluginCode': 'Plugin code',
+    'fragment.detail.help': 'The FRAGMENTS section lets you manage existing fragments or add new fragments. The fragments are single portions of front-end interface used in Widgets (including plugins) and Page Models',
+    'fragment.detail.emptyReferenceFragments': 'There are no referenced fragments',
+    'fragment.detail.emptyReferencepageModels': 'There are no referenced page models',
   },
 
 };
