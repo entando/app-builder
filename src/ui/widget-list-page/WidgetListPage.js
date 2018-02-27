@@ -4,12 +4,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
 import RowListContainer from 'ui/widget-list-page/RowListContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
-
-import { Row, Col, Button } from 'patternfly-react';
-
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
-import 'sass/widget-list-page/WidgetListPage.scss';
+import { Link } from 'frontend-common-components';
+import { ROUTE_WIDGET_FORM } from 'app-init/router';
 
 class WidgetListPage extends Component {
   constructor(props, context) {
@@ -30,27 +28,35 @@ class WidgetListPage extends Component {
   render() {
     return (
       <InternalPage className="WidgetListPage">
-        <PageTitle
-          title={formattedText('widget.list.title')}
-          helpMessage={formattedText('widget.help')}
-        />
-        <Row>
-          <Col md={12} className="">
-            <Button
-              type="button"
-              className="pull-right WidgetListPage__add"
-              bsStyle="primary"
-              onClick={this.onClickAdd}
-            >
-              <FormattedMessage
-                id="widget.list.new"
+        <Grid fluid>
+          <Row>
+            <Col md={12}>
+              <PageTitle
+                titleId="widget.list.title"
+                helpId="widget.help"
               />
-            </Button>
-            <WidgetListTable >
-              <RowListContainer />
-            </WidgetListTable>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <Link route={ROUTE_WIDGET_FORM}>
+                <Button
+                  type="button"
+                  className="pull-right WidgetListPage__add"
+                  bsStyle="primary"
+                  onClick={this.onClickAdd}
+                >
+                  <FormattedMessage
+                    id="widget.list.new"
+                  />
+                </Button>
+              </Link>
+              <WidgetListTable >
+                <RowListContainer />
+              </WidgetListTable>
+            </Col>
+          </Row>
+        </Grid>
       </InternalPage>
     );
   }

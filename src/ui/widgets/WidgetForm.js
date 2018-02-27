@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FieldLevelHelp, Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { required, widgetCode, maxLength } from 'util/validateForm';
 import RenderTextInput from 'ui/form/RenderTextInput';
+import FormLabel from 'ui/form/FormLabel';
+import FormSectionTitle from 'ui/form/FormSectionTitle';
 
 const MODE_NEW = 'new';
 
@@ -42,13 +44,9 @@ export class WidgetFormBody extends Component {
         component={RenderTextInput}
         name="code"
         label={
-          <span>
-            <FormattedMessage id="widget.page.create.code" />
-            <i className="fa fa-asterisk required-icon WidgetForm__required-icon" />
-          </span>
+          <FormLabel labelId="widget.page.create.code" helpId="widget.help.code" required />
         }
         placeholder={formattedText('widget.page.create.code.placeholder')}
-        help={<FieldLevelHelp content={formattedText('widget.help.code')} />}
         validate={[required, widgetCode]}
       />
     );
@@ -77,25 +75,13 @@ export class WidgetFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <legend><FormattedMessage id="widget.page.create.pageTitle" />
-                <div className="WidgetForm__required-fields text-right">
-                  * <FormattedMessage id="app.fieldsRequired" />
-                </div>
-              </legend>
+              <FormSectionTitle titleId="widget.page.create.pageTitle" />
               {codeField}
               <Field
                 component={RenderTextInput}
                 name="titles.en"
                 label={
-                  <span>
-                    <span className="label WidgetForm__language-label">
-                      <FormattedMessage id="app.en" />
-                    </span>
-                    <FormattedMessage id="widget.page.create.title" />
-                    <sup>
-                      <i className="fa fa-asterisk required-icon WidgetForm__required-icon" />
-                    </sup>
-                  </span>
+                  <FormLabel labelId="widget.page.create.title" langLabelId="app.en" required />
                 }
                 placeholder={formattedText('widget.page.create.title.en.placeholder')}
                 validate={[required, maxLength(255)]}
@@ -104,15 +90,7 @@ export class WidgetFormBody extends Component {
                 component={RenderTextInput}
                 name="titles.it"
                 label={
-                  <span>
-                    <span className="label WidgetForm__language-label">
-                      <FormattedMessage id="app.it" />
-                    </span>
-                    <FormattedMessage id="widget.page.create.title" />
-                    <sup>
-                      <i className="fa fa-asterisk required-icon WidgetForm__required-icon" />
-                    </sup>
-                  </span>
+                  <FormLabel labelId="widget.page.create.title" langLabelId="app.it" required />
                 }
                 placeholder={formattedText('widget.page.create.title.it.placeholder')}
                 validate={[required, maxLength(255)]}
