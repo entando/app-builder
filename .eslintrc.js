@@ -5,7 +5,8 @@ module.exports = {
     "extends": "airbnb",
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "jsx-a11y/anchor-is-valid": "off"
     },
     "settings": {
         "import/resolver": {

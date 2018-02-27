@@ -2,8 +2,12 @@
 
 .PageTitle {
   .PageTitle__header {
-    padding:  0 15px 0 15px ;
-    border: 1px solid $color-pf-black-300;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $color-pf-black-200;
+  }
+
+  .PageTitle__title {
+    font-weight: bold;
   }
 
   .PageTitle__icon {

@@ -1,45 +1,48 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { OverlayTrigger, Popover } from 'patternfly-react';
 
 
-const popover = messageId => (
-  <Popover id={messageId}>
-    <p>
-      {messageId}
-    </p>
-  </Popover>
+const helpIcon = helpId => (
+  helpId ?
+    <span className="pull-right">
+      <OverlayTrigger
+        overlay={
+          <Popover id={helpId}>
+            <p>
+              <FormattedMessage id={helpId} />
+            </p>
+          </Popover>
+        }
+        placement="left"
+        trigger={['click']}
+        rootClose
+      >
+        <i className="PageTitle__icon fa pficon-help" />
+      </OverlayTrigger>
+    </span> :
+    null
 );
 
-const PageTitle = ({ title, helpMessage }) => (
+const PageTitle = ({ titleId, helpId }) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
-      <h1>
-        <span>{title}</span>
-        <span className="pull-right">
-          <OverlayTrigger
-            overlay={popover(helpMessage)}
-            placement="left"
-            trigger={['click']}
-            rootClose
-          >
-            <i className="PageTitle__icon fa pficon-help" />
-          </OverlayTrigger>
-        </span>
+      <h1 className="PageTitle__title">
+        <FormattedMessage id={titleId} />
+        {helpIcon(helpId)}
       </h1>
     </div>
   </div>
 );
 
 PageTitle.propTypes = {
-  helpMessage: PropTypes.string,
-  title: PropTypes.string,
+  titleId: PropTypes.string.isRequired,
+  helpId: PropTypes.string,
 };
 
 PageTitle.defaultProps = {
-  helpMessage: '',
-  title: '',
+  helpId: '',
 };
 
 export default PageTitle;
