@@ -5,7 +5,7 @@ import { Button, Tabs, Tab, Row, Col } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { required } from 'util/validateForm';
-import RenderTextInput from 'ui/form/RenderTextInput';
+import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 
 export const FragmentFormBody = (props) => {

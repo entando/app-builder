@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import FormSectionTitle from 'ui/form/FormSectionTitle';
+import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 describe('FormSectionTitle', () => {
   let textInput;

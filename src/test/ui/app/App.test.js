@@ -4,7 +4,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import App from 'ui/app/App';
-import DashboardPage from 'ui/dashboard-page/DashboardPage';
+import DashboardPage from 'ui/dashboard/DashboardPage';
 import WidgetPage from 'ui/app-pages/WidgetPage';
 import FragmentPage from 'ui/app-pages/FragmentPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';

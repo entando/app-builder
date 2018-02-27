@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import RenderTextInput from 'ui/form/RenderTextInput';
+import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 const INPUT = { name: 'textInput', value: 'sample text' };
 const LABEL = 'Some Text';

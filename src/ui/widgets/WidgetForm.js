@@ -6,9 +6,9 @@ import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { required, widgetCode, maxLength } from 'util/validateForm';
-import RenderTextInput from 'ui/form/RenderTextInput';
-import FormLabel from 'ui/form/FormLabel';
-import FormSectionTitle from 'ui/form/FormSectionTitle';
+import RenderTextInput from 'ui/common/form/RenderTextInput';
+import FormLabel from 'ui/common/form/FormLabel';
+import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 const MODE_NEW = 'new';
 

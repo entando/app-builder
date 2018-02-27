@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import FormLabel from 'ui/form/FormLabel';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const LABEL_ID = 'label.id';
 const LANG_LABEL_ID = 'lang.label.id';

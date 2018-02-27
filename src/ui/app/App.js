@@ -12,7 +12,7 @@ import {
 
 import { LoginPage, NotFoundPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
-import DashboardPage from 'ui/dashboard-page/DashboardPage';
+import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
 import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
 import WidgetPage from 'ui/app-pages/WidgetPage';
