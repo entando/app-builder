@@ -18,7 +18,7 @@ class EditFragmentPage extends Component {
 
   render() {
     return (
-      <InternalPage className="FragmentEditPage">
+      <InternalPage className="EditFragmentPage">
         <Grid fluid>
           <Row>
             <Col xs={12}>

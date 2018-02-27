@@ -12,7 +12,7 @@ export const mapStateToProps = () => (
 
 // map the props
 export const mapDispatchToProps = () => ({
-  onSubmit: (values) => { console.log(values); },
+  onSubmit: () => {},
 });
 
 // connect the component
