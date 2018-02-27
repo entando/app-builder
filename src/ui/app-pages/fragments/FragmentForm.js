@@ -29,11 +29,11 @@ export const FragmentFormBody = (props) => {
               name="code"
               label={
                 <span>
-                  <FormattedMessage id="fragment.create.code" />
+                  <FormattedMessage id="fragment.code" />
                   <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
                 </span>
               }
-              placeholder={formattedText('fragment.create.code.placeholder')}
+              placeholder={formattedText('fragment.code.placeholder')}
               validate={[required]}
             />
           </fieldset>

@@ -114,10 +114,18 @@
   color: #d1d1d1;
   font-size: 12px; }
 
-<<<<<<< HEAD
 .DetailFragmentPage {
   margin-top: 15px; }
-=======
+
+.DetailFragmentPage__table {
+  margin-bottom: 0; }
+
+.DetailFragmentPage__div-search {
+  border-top: 0; }
+
+.DetailFragmentPage__th-actions {
+  text-align: center; }
+
 .FormLabel__language-label {
   margin-right: 5px;
   background-color: #0088ce; }
@@ -130,4 +138,3 @@
 .FormSectionTitle__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
->>>>>>> master
