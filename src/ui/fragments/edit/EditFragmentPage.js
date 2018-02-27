@@ -4,10 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { Breadcrumb, OverlayTrigger, Popover, Grid } from 'patternfly-react';
 import { Row, Col } from 'react-bootstrap';
 import { BreadcrumbItem } from 'frontend-common-components';
-import FragmentFormContainer from 'ui/fragments/FragmentFormContainer';
+import EditFormContainer from 'ui/fragments/edit/EditFormContainer';
 import PropTypes from 'prop-types';
 
-const FRAGMENT_EDIT_HELP = 'fragment.page.edit.help';
+const FRAGMENT_EDIT_HELP = 'fragment.page.help';
 
 const popover = () => (
   <Popover id="popover-admin-app-switch" title="">
@@ -17,7 +17,7 @@ const popover = () => (
   </Popover>
 );
 
-class FragmentEditPage extends Component {
+class EditFragmentPage extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
@@ -33,7 +33,7 @@ class FragmentEditPage extends Component {
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
                 {/* FIXME change route when fragmentlist component is avaible */}
-                <BreadcrumbItem route="fragment">
+                <BreadcrumbItem route="home">
                   <FormattedMessage id="menu.uxPattern.fragment" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
@@ -47,7 +47,7 @@ class FragmentEditPage extends Component {
               {/* FIXME replace with PageHeader component when available */}
               <div className="FragmentEditPage__header">
                 <h1>
-                  <span><FormattedMessage id="fragment.page.edit.pageTitle" /></span>
+                  <span><FormattedMessage id="app.edit" /></span>
                   <span className="pull-right">
                     <OverlayTrigger
                       overlay={popover()}
@@ -64,7 +64,7 @@ class FragmentEditPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <FragmentFormContainer />
+              <EditFormContainer />
             </Col>
           </Row>
         </Grid>
@@ -73,12 +73,12 @@ class FragmentEditPage extends Component {
   }
 }
 
-FragmentEditPage.propTypes = {
+EditFragmentPage.propTypes = {
   onWillMount: PropTypes.func,
 };
 
-FragmentEditPage.defaultProps = {
+EditFragmentPage.defaultProps = {
   onWillMount: () => {},
 };
 
-export default FragmentEditPage;
+export default EditFragmentPage;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import FragmentForm from 'ui/fragments/FragmentForm';
 
-const EDIT_MODE = 'edit';
+export const EDIT_MODE = 'edit';
 
 export const mapStateToProps = () => (
   {
@@ -12,11 +12,11 @@ export const mapStateToProps = () => (
 
 // map the props
 export const mapDispatchToProps = () => ({
-  onSubmit: () => {},
+  onSubmit: (values) => { console.log(values); },
 });
 
 // connect the component
-const FragmentEditFormContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentForm);
+const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentForm);
 
 // export connected component (Container)
-export default FragmentEditFormContainer;
+export default EditFormContainer;

@@ -3,22 +3,23 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-import FragmentFormContainer from 'ui/fragments/FragmentFormContainer';
+import AddFormContainer from 'ui/fragments/add/AddFormContainer';
 
-const FragmentPage = () => (
+const AddFragmentPage = () => (
 
-  <InternalPage className="FragmentPage">
+  <InternalPage className="AddFragmentPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem route="home" active>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="fragment">
+            {/* FIXME change route when fragmentlist component is avaible */}
+            <BreadcrumbItem route="home">
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="fragment" active>
+            <BreadcrumbItem active>
               <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
@@ -26,7 +27,7 @@ const FragmentPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <FragmentFormContainer />
+          <AddFormContainer />
         </Col>
       </Row>
     </Grid>
@@ -34,4 +35,4 @@ const FragmentPage = () => (
 );
 
 
-export default FragmentPage;
+export default AddFragmentPage;

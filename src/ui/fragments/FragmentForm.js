@@ -1,13 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Panel } from 'react-bootstrap';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/form/RenderTextInput';
 
+const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
+
+export const renderDefaultGuiCodeField = (field) => {
+  const { input } = field;
+  if (!input.value) {
+    return (
+      <Alert type="info">
+        <FormattedMessage id="app.alert.notAvaible" />
+      </Alert>
+    );
+  }
+  return (
+    <Panel>
+      <Panel.Body><pre>{input.value}</pre></Panel.Body>
+    </Panel>
+  );
+};
+
+const defaultGuiCodeField = (
+  <Field
+    name="defaultGuiCode"
+    component={renderDefaultGuiCodeField}
+  />
+);
 
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
@@ -40,7 +65,7 @@ export const FragmentFormBody = (props) => {
     <Field
       name="widgetType"
       component={renderStaticField}
-      label={<FormattedMessage id="fragment.edit.widgetType" />}
+      label={<FormattedMessage id="fragment.form.edit.widgetType" />}
     />
   );
 
@@ -48,7 +73,7 @@ export const FragmentFormBody = (props) => {
     <Field
       name="plugin"
       component={renderStaticField}
-      label={<FormattedMessage id="fragment.edit.plugin" />}
+      label={<FormattedMessage id="fragment.form.edit.plugin" />}
     />
   );
 
@@ -60,24 +85,26 @@ export const FragmentFormBody = (props) => {
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
       <Row>
-        <Col xs={12} >
-          <fieldset className="no-padding" />
-        </Col>
-      </Row>
-      <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
+            <legend>
+              <FormattedMessage id="app.info" />
+              <div className="WidgetForm__required-fields text-right">
+                * <FormattedMessage id="app.fieldsRequired" />
+              </div>
+            </legend>
             <Field
               component={RenderTextInput}
               name="code"
               label={
                 <span>
-                  <FormattedMessage id="fragment.create.code" />
+                  <FormattedMessage id="fragment.form.add.code" />
                   <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
                 </span>
               }
-              placeholder={formattedText('fragment.create.code.placeholder')}
+              placeholder={formattedText('fragment.form.add.code.placeholder')}
               validate={[required]}
+              disabled={mode === EDIT_MODE}
             />
             {widgetTypeField}
             {pluginField}
@@ -107,13 +134,7 @@ export const FragmentFormBody = (props) => {
                     </div>
                   </Tab>
                   <Tab eventKey={2} title={formattedText('fragment.tab.defaultGuiCode')} >
-                    <div className="tab-content margin-large-bottom ">
-                      <div className="tab-pane fade in active">
-                        <div className="margin-none alert alert-info">
-                          <FormattedMessage id="fragment.body.defaultGuiCode" />
-                        </div>
-                      </div>
-                    </div>
+                    {defaultGuiCodeField}
                   </Tab>
                 </Tabs>
               </Col>

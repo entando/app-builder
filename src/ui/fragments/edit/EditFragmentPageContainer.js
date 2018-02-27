@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // import the Component to be connected
-import FragmentEditPage from 'ui/app-pages/FragmentEditPage';
+import EditFragmentPage from 'ui/fragments/edit/EditFragmentPage';
 import { fetchFragment } from 'state/fragment-form/actions';
 import { getParams } from 'frontend-common-components';
 
@@ -18,7 +18,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 // connect the component
-const FragmentEditFormContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentEditPage);
+const EditFragmentFormContainer = connect(mapStateToProps, mapDispatchToProps)(EditFragmentPage);
 
 // export connected component (Container)
-export default FragmentEditFormContainer;
+export default EditFragmentFormContainer;

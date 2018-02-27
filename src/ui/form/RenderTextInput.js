@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 
 const RenderTextInput = ({
-  input, name, label, placeholder, meta: { touched, error }, help,
+  input, name, label, placeholder, meta: { touched, error }, help, disabled,
 }) => (
 
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
@@ -11,7 +11,13 @@ const RenderTextInput = ({
       {label} {help}
     </label>
     <Col xs={10}>
-      <input {...input} placeholder={placeholder} type="text" className="form-control" />
+      <input
+        {...input}
+        placeholder={placeholder}
+        type="text"
+        className="form-control"
+        disabled={disabled}
+      />
       {touched && ((error && <span className="help-block">{error}</span>))}
     </Col>
   </div>
@@ -25,6 +31,7 @@ RenderTextInput.propTypes = {
   placeholder: PropTypes.string,
   meta: PropTypes.shape({}),
   help: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 
 RenderTextInput.defaultProps = {
@@ -34,5 +41,6 @@ RenderTextInput.defaultProps = {
   placeholder: '',
   meta: {},
   help: null,
+  disabled: false,
 };
 export default RenderTextInput;
