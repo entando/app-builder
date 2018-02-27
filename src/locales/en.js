@@ -27,6 +27,8 @@ export default {
     'menu.widgetEdit': 'Widget Edit',
     'menu.uxPattern.widget': 'Widgets',
     'menu.uxPattern.fragment': 'Fragments',
+    'menu.pageDesigner': 'Page Designer',
+    'menu.pageSettings': 'Page Settings',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -68,6 +70,8 @@ export default {
     'fragment.tab.guiCode': 'Gui Code',
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.body.defaultGuiCode': 'Non disponibile',
+    'PageSettings.title': 'Page Settings',
+    'PageSettings.help': 'The PAGE SETTING section let the administrator specify which pages must be used for particular aims and define some general page settings.',
   },
 
 };

@@ -4,6 +4,7 @@ import {
   ROUTE_HOME,
   ROUTE_DASHBOARD,
   ROUTE_PAGE_TREE,
+  ROUTE_PAGE_SETTINGS,
   ROUTE_WIDGET_FORM,
   ROUTE_FRAGMENT,
   ROUTE_WIDGET_LIST,
@@ -14,6 +15,7 @@ import { LoginPage, NotFoundPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
+import PageSettings from 'ui/settings/PageSettings';
 import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
 import WidgetPage from 'ui/app-pages/WidgetPage';
 import FragmentPage from 'ui/app-pages/FragmentPage';
@@ -28,6 +30,7 @@ const App = ({ route }) => {
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
+    case ROUTE_PAGE_SETTINGS: return <PageSettings />;
     case ROUTE_WIDGET_LIST: return <WidgetListPageContainer />;
     case ROUTE_WIDGET_FORM: return <WidgetPage />;
     case ROUTE_WIDGET_EDIT: return <WidgetEditPageContainer />;

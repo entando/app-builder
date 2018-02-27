@@ -27,6 +27,8 @@ export default {
     'menu.widgetEdit': 'Modifica Widget',
     'menu.uxPattern.widget': 'Widgets',
     'menu.uxPattern.fragment': 'Frammenti',
+    'menu.pageDesigner': 'Page Designer',
+    'menu.pageSettings': 'Impostazione Pagine',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -68,5 +70,7 @@ export default {
     'fragment.tab.guiCode': 'Gui Code',
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.body.defaultGuiCode': 'Not available.',
+    'PageSettings.title': 'Impostazione Pagine',
+    'PageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
   },
 };
