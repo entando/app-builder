@@ -6,30 +6,33 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import { PageSettingsForm } from 'ui/settings/PageSettingsForm';
 
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
-import { BreadcrumbItem, formattedText } from 'frontend-common-components';
+import { BreadcrumbItem } from 'frontend-common-components';
 
 // import 'sass/page-designer-settings/PageSettings.scss';
 
 const PageSettings = () => (
   <InternalPage className="PageSettings">
     <Grid fluid>
-      <Col xs={12}>
-        <Breadcrumb>
-          <BreadcrumbItem route="home" active>
-            <FormattedMessage id="menu.pageDesigner" />
-          </BreadcrumbItem>
-          <BreadcrumbItem route="fragment">
-            <FormattedMessage id="menu.pageSettings" />
-
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </Col>
+      <Row>
+        <Col xs={12}>
+          <Breadcrumb>
+            <BreadcrumbItem route="home" active>
+              <FormattedMessage id="menu.pageDesigner" />
+            </BreadcrumbItem>
+            <BreadcrumbItem route="fragment">
+              <FormattedMessage id="menu.pageSettings" />
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </Col>
+      </Row>
       <PageTitle
-        title={formattedText('PageSettings.title')}
-        helpMessage={formattedText('PageSettings.help')}
+        titleId="PageSettings.title"
+        helpId="PageSettings.help"
       />
       <Row>
-        <PageSettingsForm />
+        <Col xs={12}>
+          <PageSettingsForm />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>

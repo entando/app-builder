@@ -126,3 +126,11 @@
 .FormSectionTitle__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
+
+.PageSettings__required-icon {
+  margin-left: 3px;
+  color: #393f44;
+  font-size: 9px; }
+
+.PageSettings__popover-icon {
+  color: #00659c; }
