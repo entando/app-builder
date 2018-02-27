@@ -4,6 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 import AddFormContainer from 'ui/fragments/add/AddFormContainer';
+import PageTitle from 'ui/internal-page/PageTitle';
+
+const FRAGMENT_HELP = 'fragment.help';
+const PAGE_TITLE = 'app.add';
 
 const AddFragmentPage = () => (
 
@@ -20,9 +24,14 @@ const AddFragmentPage = () => (
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id={PAGE_TITLE} />
             </BreadcrumbItem>
           </Breadcrumb>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <PageTitle titleId={PAGE_TITLE} helpId={FRAGMENT_HELP} />
         </Col>
       </Row>
       <Row>

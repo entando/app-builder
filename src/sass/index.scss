@@ -5,4 +5,12 @@
 @import "page-tree/PageTreePreview.scss";
 @import "internal-page/InternalPage.scss";
 @import "widget/WidgetForm.scss";
+@import "./widget-list-page/WidgetListPage.scss";
+@import "./widget-list-page/WidgetListTable.scss";
+@import "./widget-list-page/WidgetListActionToggle";
+@import "./widget-list-page/WidgetListRow";
+@import "./internal-page/PageTitle";
 @import "fragment/FragmentForm.scss";
+@import "form/FormLabel.scss";
+@import "form/FormSectionTitle.scss";
+

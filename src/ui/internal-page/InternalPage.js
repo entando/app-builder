@@ -6,7 +6,7 @@ import {
 } from 'frontend-common-components';
 
 import {
-  ROUTE_DASHBOARD, ROUTE_PAGE_TREE,
+  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST,
 } from 'app-init/router';
 
 const PROJECT_LINK = 'http://www.entando.com';
@@ -40,11 +40,16 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_PAGE_TREE}
         />
       </FirstLevelMenuItem>
-      <LinkMenuItem
+      <FirstLevelMenuItem
         id="menu-ux-pattern"
-        label={formattedText('menu.uxPattern', 'UX Pattern')}
-        route={ROUTE_DASHBOARD}
-      />
+        label={formattedText('menu.uxPattern')}
+      >
+        <LinkMenuItem
+          id="menu-ux-pattern-widgets"
+          label={formattedText('menu.widgets')}
+          route={ROUTE_WIDGET_LIST}
+        />
+      </FirstLevelMenuItem>
       <LinkMenuItem
         id="menu-integration"
         label={formattedText('menu.integration', 'Integration')}

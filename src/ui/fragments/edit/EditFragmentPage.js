@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
-import { Breadcrumb, OverlayTrigger, Popover, Grid } from 'patternfly-react';
+import { Breadcrumb, Grid } from 'patternfly-react';
 import { Row, Col } from 'react-bootstrap';
 import { BreadcrumbItem } from 'frontend-common-components';
 import EditFormContainer from 'ui/fragments/edit/EditFormContainer';
 import PropTypes from 'prop-types';
+import PageTitle from 'ui/internal-page/PageTitle';
 
-const FRAGMENT_EDIT_HELP = 'fragment.page.help';
-
-const popover = () => (
-  <Popover id="popover-admin-app-switch" title="">
-    <p>
-      <FormattedMessage id={FRAGMENT_EDIT_HELP} />
-    </p>
-  </Popover>
-);
+const FRAGMENT_HELP = 'fragment.help';
+const PAGE_TITLE = 'app.edit';
 
 class EditFragmentPage extends Component {
   componentWillMount() {
@@ -37,29 +31,14 @@ class EditFragmentPage extends Component {
                   <FormattedMessage id="menu.uxPattern.fragment" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
-                  <FormattedMessage id="app.edit" />
+                  <FormattedMessage id={PAGE_TITLE} />
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              {/* FIXME replace with PageHeader component when available */}
-              <div className="FragmentEditPage__header">
-                <h1>
-                  <span><FormattedMessage id="app.edit" /></span>
-                  <span className="pull-right">
-                    <OverlayTrigger
-                      overlay={popover()}
-                      placement="left"
-                      trigger={['click']}
-                      rootClose
-                    >
-                      <i className="FragmentEditPage__icon fa pficon-help" />
-                    </OverlayTrigger>
-                  </span>
-                </h1>
-              </div>
+              <PageTitle titleId={PAGE_TITLE} helpId={FRAGMENT_HELP} />
             </Col>
           </Row>
           <Row>

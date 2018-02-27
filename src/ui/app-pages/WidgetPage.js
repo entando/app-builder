@@ -1,10 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
 import WidgetFormContainer from 'ui/widgets/WidgetFormContainer';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-
 import { BreadcrumbItem } from 'frontend-common-components';
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
+
 
 const WidgetPage = () => (
   <InternalPage className="WidgetPage">
@@ -12,16 +14,21 @@ const WidgetPage = () => (
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem route="home" active>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="widgetForm">
+            <BreadcrumbItem route={ROUTE_WIDGET_LIST}>
               <FormattedMessage id="menu.uxPattern.widget" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="widgetForm" active>
+            <BreadcrumbItem active>
               <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <PageTitle titleId="app.add" helpId="widget.help" />
         </Col>
       </Row>
       <Row>

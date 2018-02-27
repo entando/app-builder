@@ -7,7 +7,8 @@ export const ROUTE_USER_PROFILE = 'userprofile';
 export const ROUTE_PAGE = 'page';
 export const ROUTE_CONTENT = 'content';
 export const ROUTE_WIDGET = 'widget';
-export const ROUTE_WIDGET_FORM = 'widgetForm';
+export const ROUTE_WIDGET_LIST = 'widgetList';
+export const ROUTE_WIDGET_ADD = 'widgetForm';
 export const ROUTE_WIDGET_EDIT = 'widgetEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_FRAGMENT_ADD = 'fragmentAdd';
@@ -23,12 +24,13 @@ routerConfig(
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
       { name: ROUTE_PAGE, path: '/page/:page' },
       { name: ROUTE_CONTENT, path: '/content/:content/frame/:frame' },
-      { name: ROUTE_WIDGET, path: '/widget/:widget' },
-      { name: ROUTE_WIDGET_FORM, path: '/widget/form' },
+      { name: ROUTE_WIDGET_ADD, path: '/widget/form' },
+      { name: ROUTE_WIDGET_LIST, path: '/widget/list' },
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },
+      { name: ROUTE_WIDGET, path: '/widget/:widget' },
       { name: ROUTE_PAGE_TREE, path: '/page-tree' },
-      { name: ROUTE_FRAGMENT_ADD, path: '/fragments/add' },
-      { name: ROUTE_FRAGMENT_EDIT, path: '/fragments/edit/:fragmentCode' },
+      { name: ROUTE_FRAGMENT_ADD, path: '/fragment/add' },
+      { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
