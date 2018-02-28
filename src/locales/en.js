@@ -16,10 +16,11 @@ export default {
     'app.it': 'it',
     'app.save': 'Save',
     'app.fieldsRequired': 'Required Fields',
+    'app.title': 'title',
     'app.name': 'name',
     'app.code': 'code',
     'app.used': 'used',
-    'app.actions': 'Actions',
+    'app.actions': 'actions',
     'app.search.returned': 'Your search returned {value} results',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
@@ -69,7 +70,6 @@ export default {
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.body.defaultGuiCode': 'Not available.',
     'fragment.detail.title': 'Fragment details',
-    'fragment.detail.widgetName': 'Widget name',
     'fragment.detail.widgetType': 'Widget Type',
     'fragment.detail.pluginCode': 'Plugin code',
     'fragment.detail.help': 'The FRAGMENTS section lets you manage existing fragments or add new fragments. The fragments are single portions of front-end interface used in Widgets (including plugins) and Page Models',
@@ -79,7 +79,8 @@ export default {
     'fragment.detail.table.column.widgetName': 'Widget name',
     'fragment.detail.title.referencedFragments': 'Referenced fragments',
     'fragment.detail.title.referencedWidgetType': 'Referenced widget types',
-    'fragment.title': 'Title',
+    'fragment.detail.title.referencedPageModels': 'Referenced page models',
+
   },
 
 };

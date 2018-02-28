@@ -116,15 +116,16 @@
 
 .DetailFragmentPage {
   margin-top: 15px; }
-
-.DetailFragmentPage__table {
-  margin-bottom: 0; }
-
-.DetailFragmentPage__div-search {
-  border-top: 0; }
-
-.DetailFragmentPage__th-actions {
-  text-align: center; }
+  .DetailFragmentPage__div-search {
+    border-top: 0; }
+  .DetailFragmentPage__table {
+    margin-bottom: 0; }
+  .DetailFragmentPage__table-th {
+    text-transform: capitalize; }
+  .DetailFragmentPage__th-actions {
+    width: 5%;
+    text-align: center;
+    text-transform: capitalize; }
 
 .FormLabel__language-label {
   margin-right: 5px;

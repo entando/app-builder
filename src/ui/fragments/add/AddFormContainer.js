@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import FragmentForm from 'ui/app-pages/fragments/FragmentForm';
+import FragmentForm from 'ui/fragments/FragmentForm';
 
 export const mapDispatchToProps = () => ({
   onSubmit: (values) => {

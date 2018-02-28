@@ -16,6 +16,7 @@ export default {
     'app.it': 'it',
     'app.save': 'Salva',
     'app.fieldsRequired': 'Campi obbligatori',
+    'app.title': 'titolo',
     'app.name': 'nome',
     'app.code': 'codice',
     'app.used': 'usato',
@@ -79,6 +80,6 @@ export default {
     'fragment.detail.table.column.widgetName': 'Nome Widget',
     'fragment.detail.title.referencedFragments': 'Fragment associati',
     'fragment.detail.title.referencedWidgetType': 'Tipi Widget associati',
-    'fragment.title': 'Titolo',
+    'fragment.detail.title.referencedPageModels': 'Modelli di pagine associati',
   },
 };

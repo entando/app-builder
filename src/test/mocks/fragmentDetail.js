@@ -1,4 +1,5 @@
-export const FRAGMENT_DETAIL = {
+export const BODY_OK = {
+
   payload: {
     code: 'myCode',
     isLocked: false,
@@ -6,10 +7,7 @@ export const FRAGMENT_DETAIL = {
       code: 'widgetcode',
       title: 'Widget Title',
     },
-    plugin: {
-      code: 'pluginCode',
-      title: 'pluginTitlte',
-    },
+    pluginCode: 'pluginCode',
     fragments: [{
       code: 'fragmentCode',
     }],
@@ -23,4 +21,14 @@ export const FRAGMENT_DETAIL = {
   errors: [],
   metaData: {},
 };
-export default FRAGMENT_DETAIL;
+
+export const BODY_KO = {
+  payload: {},
+  errors: [
+    {
+      code: 1,
+      message: 'what went wrong',
+    },
+  ],
+  metaData: {},
+};

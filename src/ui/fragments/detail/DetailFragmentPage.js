@@ -20,8 +20,9 @@ class DetailFragmentPage extends Component {
       this.props.handleEdit();
     };
 
-    const onEditReferencedFragments = (ev) => {
+    const onEditReferenced = (ev, item) => {
       ev.preventDefault();
+      console.log(item);
     };
 
     const renderEmptyData = messageId => (
@@ -53,7 +54,7 @@ class DetailFragmentPage extends Component {
           <td key={key} className="text-center">
             <DropdownKebab key={key} id={key}>
               <MenuItem
-                onClick={onEditReferencedFragments}
+                onClick={onEditReferenced(item)}
               ><FormattedMessage id="app.edit" />
               </MenuItem>
             </DropdownKebab>
@@ -62,14 +63,12 @@ class DetailFragmentPage extends Component {
       </tr>
     );
 
-
     const redenderTableRow = (obj, keys) => {
       if (Array.isArray(obj)) {
         return obj.map(item => (
           row(item, keys)
         ));
       }
-      console.log(obj[keys[0]]);
       return row(obj, keys);
     };
 
@@ -85,6 +84,7 @@ class DetailFragmentPage extends Component {
                 <tr>
                   <th
                     width={meta.firstColumn.width}
+                    className="DetailFragmentPage__table-th"
                   >
                     <FormattedMessage id={meta.messages.firstColumn} />
                   </th>
@@ -96,10 +96,10 @@ class DetailFragmentPage extends Component {
                   </th>
                   { meta.thirdColumn &&
                     <th
-                      width={meta.secondColumn.width}
-                      className={meta.secondColumn.class}
+                      width={meta.thirdColumn.width}
+                      className={meta.thirdColumn.class}
                     >
-                      <FormattedMessage id={meta.messages.secondColumn} />
+                      <FormattedMessage id={meta.messages.thirdColumn} />
                     </th>
                   }
                 </tr>
@@ -124,7 +124,7 @@ class DetailFragmentPage extends Component {
           <tbody>
             <tr>
               <th className="td-pagetree-width" width="10%">
-                <FormattedMessage id="fragment.detail.widgetName" />
+                <FormattedMessage id="fragment.code" />
               </th>
               <td>
                 {this.props.code}
@@ -135,7 +135,7 @@ class DetailFragmentPage extends Component {
                 <FormattedMessage id="fragment.detail.widgetType" />
               </th>
               <td>
-                {this.props.widgetType.title}
+                {this.props.widgetType.title ? this.props.widgetType.title : ''}
               </td>
             </tr>
             <tr>
@@ -143,7 +143,7 @@ class DetailFragmentPage extends Component {
                 <FormattedMessage id="fragment.detail.pluginCode" />
               </th>
               <td >
-                {this.props.plugin.code ? this.props.plugin.code : ''}
+                {this.props.pluginCode}
               </td>
             </tr>
           </tbody>
@@ -153,6 +153,7 @@ class DetailFragmentPage extends Component {
           type="button"
           onClick={onEdit}
           bsStyle="primary"
+
         >
           <FormattedMessage id="app.edit" />
         </Button>
@@ -162,11 +163,11 @@ class DetailFragmentPage extends Component {
           this.props.fragments, ['code', 'actions'],
           {
             firstColumn: { width: '95%' },
-            secondColumn: { width: '5%', class: 'DetailFragmentPage__th-actions' },
+            secondColumn: { class: 'DetailFragmentPage__table-th DetailFragmentPage__th-actions' },
             messages: {
               messageId: 'fragment.detail.emptyReferenceFragments',
               referencedTitle: 'fragment.detail.title.referencedFragments',
-              firstColumn: 'fragment.detail.table.column.widgetName',
+              firstColumn: 'app.name',
               secondColumn: 'app.actions',
             },
           },
@@ -176,13 +177,14 @@ class DetailFragmentPage extends Component {
           this.props.pageModels, ['code', 'name', 'actions'],
           {
             firstColumn: { width: '70%' },
-            secondColumn: { width: '30%' },
-            thirdColumn: { width: '5%', class: 'DetailFragmentPage__th-actions' },
+            secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
+            thirdColumn: { class: 'DetailFragmentPage__th-actions' },
             messages: {
               messageId: 'fragment.detail.emptyReferencePageModels',
-              referencedTitle: 'fragment.detail.title.referencedFragments',
-              firstColumn: 'fragment.detail.table.column.widgetName',
-              secondColumn: 'app.actions',
+              referencedTitle: 'fragment.detail.title.referencedPageModels',
+              firstColumn: 'app.code',
+              secondColumn: 'app.name',
+              thirdColumn: 'app.actions',
             },
 
           },
@@ -192,12 +194,12 @@ class DetailFragmentPage extends Component {
           this.props.widgetType, ['code', 'title'],
           {
             firstColumn: { width: '50%' },
-            secondColumn: { width: '50%' },
+            secondColumn: { width: '50%', class: 'DetailFragmentPage__table-th' },
             messages: {
               messageId: 'fragment.detail.title.referencedWidgetType',
               referencedTitle: 'fragment.detail.title.referencedWidgetType',
-              firstColumn: 'fragment.title',
-              secondColumn: 'fragment.code',
+              firstColumn: 'app.title',
+              secondColumn: 'app.code',
             },
 
           },
@@ -218,7 +220,7 @@ class DetailFragmentPage extends Component {
                 <BreadcrumbItem route="fragmentDetail">
                   <FormattedMessage id="menu.uxPattern.fragment" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route="fragmentDetail" active>
+                <BreadcrumbItem route="fragmpageModelCodeentDetail" active>
                   <FormattedMessage id="fragment.detail.title" />
                 </BreadcrumbItem>
               </Breadcrumb>
@@ -243,24 +245,19 @@ DetailFragmentPage.propTypes = {
   onWillMount: PropTypes.func,
   handleEdit: PropTypes.func,
   code: PropTypes.string,
-  widgetName: PropTypes.string,
   fragments: PropTypes.arrayOf(PropTypes.shape({})),
+  pageModels: PropTypes.arrayOf(PropTypes.shape({})),
   widgetType: PropTypes.shape({}),
-  plugin: PropTypes.shape({}),
+  pluginCode: PropTypes.string,
 };
 
 DetailFragmentPage.defaultProps = {
   onWillMount: () => {},
   handleEdit: () => {},
-  code: 'myCode',
-  widgetName: '',
-  fragments: [{
-    code: 'fragmentCode',
-  }],
-  widgetType: {
-    code: 'widgetCode',
-    title: 'Widget Title',
-  },
-  plugin: {},
+  code: '',
+  widgetType: {},
+  fragments: [],
+  pageModels: [],
+  pluginCode: '',
 };
 export default DetailFragmentPage;

@@ -17,8 +17,8 @@ import DashboardPage from 'ui/dashboard-page/DashboardPage';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
 import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
 import WidgetPage from 'ui/app-pages/WidgetPage';
-import AddFragmentPage from 'ui/app-pages/fragments/add/AddFragmentPage';
-import DetailFragmentPage from 'ui/app-pages/fragments/detail/DetailFragmentPage';
+import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
+import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
 
 const App = ({ route }) => {
