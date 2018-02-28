@@ -3,9 +3,9 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageStatusIcon from 'ui/page-tree/PageStatusIcon';
+import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 
-describe('ui/page-tree/PageStatusIcon', () => {
+describe('PageStatusIcon', () => {
   it('renders without crashing', () => {
     const component = shallow(<PageStatusIcon status="draft" />);
     expect(component.exists()).toEqual(true);

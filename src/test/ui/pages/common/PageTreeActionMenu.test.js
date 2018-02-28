@@ -3,7 +3,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTreeActionMenu from 'ui/page-tree/PageTreeActionMenu';
+import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 
 const EVENT = { preventDefault: jest.fn() };
 
@@ -29,7 +29,7 @@ const DRAFT_PAGE = {
   status: 'draft',
 };
 
-describe('ui/page-tree/PageTreeActionMenu', () => {
+describe('PageTreeActionMenu', () => {
   beforeEach(jest.clearAllMocks);
 
   it('renders without crashing', () => {

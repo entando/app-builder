@@ -2,10 +2,10 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTreePage from 'ui/page-tree-page/PageTreePage';
+import PageTreePage from 'ui/pages/list/PageTreePage';
 
 
-describe('ui/page-tree-page/PageTreePage', () => {
+describe('PageTreePage', () => {
   beforeEach(jest.clearAllMocks);
 
   let component;
@@ -23,5 +23,11 @@ describe('ui/page-tree-page/PageTreePage', () => {
 
   it('has the PageTreePage class', () => {
     expect(component.hasClass('PageTreePage')).toBe(true);
+  });
+
+  it('will call onWillMount on componentWillMount', () => {
+    const onWillMount = jest.fn();
+    shallow(<PageTreePage onWillMount={onWillMount} />);
+    expect(onWillMount).toHaveBeenCalled();
   });
 });

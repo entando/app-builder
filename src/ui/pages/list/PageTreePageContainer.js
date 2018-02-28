@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux';
 
-import PageTreePage from 'ui/page-tree-page/PageTreePage';
+import PageTreePage from 'ui/pages/list/PageTreePage';
 
 import {
   handleExpandPage,

@@ -3,9 +3,9 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageFolderIcon from 'ui/page-tree/PageFolderIcon';
+import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
 
-describe('ui/page-tree/PageFolderIcon', () => {
+describe('PageFolderIcon', () => {
   it('renders without crashing', () => {
     const component = shallow(<PageFolderIcon />);
     expect(component.exists()).toEqual(true);

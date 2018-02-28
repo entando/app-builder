@@ -6,7 +6,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import { BreadcrumbItem } from 'frontend-common-components';
 
-import PageTreeContainer from 'ui/page-tree/PageTreeContainer';
+import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
 
 class PageTreePage extends Component {
   componentWillMount() {

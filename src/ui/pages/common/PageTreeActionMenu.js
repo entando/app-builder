@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Dropdown, MenuItem } from 'patternfly-react';
-import PageTreeActionMenuButton from 'ui/page-tree/PageTreeActionMenuButton';
+import PageTreeActionMenuButton from 'ui/pages/common/PageTreeActionMenuButton';
 
 
 class PageTreeActionMenu extends Component {

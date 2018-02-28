@@ -3,13 +3,13 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTreeActionMenuButton from 'ui/page-tree/PageTreeActionMenuButton';
+import PageTreeActionMenuButton from 'ui/pages/common/PageTreeActionMenuButton';
 
 const EVENT = { preventDefault: jest.fn() };
 
 const onClickHandler = jest.fn();
 
-describe('ui/page-tree/PageTreeActionMenuButton', () => {
+describe('PageTreeActionMenuButton', () => {
   beforeEach(jest.clearAllMocks);
   it('renders without crashing', () => {
     const component = shallow(<PageTreeActionMenuButton />);

@@ -3,9 +3,9 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageExpandedIcon from 'ui/page-tree/PageExpandedIcon';
+import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
 
-describe('ui/page-tree/PageExpandedIcon', () => {
+describe('PageExpandedIcon', () => {
   it('renders without crashing', () => {
     const component = shallow(<PageExpandedIcon />);
     expect(component.exists()).toEqual(true);

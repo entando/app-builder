@@ -3,7 +3,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTree from 'ui/page-tree/PageTree';
+import PageTree from 'ui/pages/common/PageTree';
 import { DDTable } from 'frontend-common-components';
 
 const PAGES = [
@@ -27,7 +27,7 @@ const PAGES = [
   },
 ];
 
-describe('ui/page-tree/PageTree', () => {
+describe('PageTree', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('basic rendering', () => {

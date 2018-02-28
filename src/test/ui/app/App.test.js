@@ -9,7 +9,7 @@ import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
-import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
+import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import { NotFoundPage } from 'frontend-common-components';
 

@@ -1,5 +1,5 @@
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/page-tree/PageTreeContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeContainer';
 
 const FAKE_STATE = {
   locale: 'en',
@@ -12,7 +12,7 @@ const FAKE_STATE = {
 
 const dispatchMock = jest.fn();
 
-describe('ui/page-tree/PageTreeContainer', () => {
+describe('PageTreeContainer', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('mapStateToProps', () => {

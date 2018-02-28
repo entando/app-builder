@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { DDTable } from 'frontend-common-components';
-import PageStatusIcon from 'ui/page-tree/PageStatusIcon';
-import PageFolderIcon from 'ui/page-tree/PageFolderIcon';
-import PageExpandedIcon from 'ui/page-tree/PageExpandedIcon';
-import RowSpinner from 'ui/page-tree/RowSpinner';
-import PageTreePreview from 'ui/page-tree/PageTreePreview';
-import PageTreeActionMenu from 'ui/page-tree/PageTreeActionMenu';
+import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
+import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
+import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
+import RowSpinner from 'ui/pages/common/RowSpinner';
+import PageTreePreview from 'ui/pages/common/PageTreePreview';
+import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 
 class PageTree extends Component {
   constructor(props) {

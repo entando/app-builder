@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PageFolderIcon from 'ui/page-tree/PageFolderIcon';
+import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
 
 const PageTreePreview = ({ rowData }) => (
   <div className="PageTreePreview">

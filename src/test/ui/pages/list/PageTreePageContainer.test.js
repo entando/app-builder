@@ -1,5 +1,5 @@
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/page-tree-page/PageTreePageContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/pages/list/PageTreePageContainer';
 
 const FAKE_STATE = {
   locale: 'en',
