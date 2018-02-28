@@ -17,6 +17,8 @@ export default {
     'app.save': 'Save',
     'app.fieldsRequired': 'Required Fields',
     'app.title': 'title',
+    'app.alert.notAvaible': 'Not avaible',
+    'app.info': 'Info',
     'app.name': 'name',
     'app.code': 'code',
     'app.used': 'used',
@@ -80,6 +82,10 @@ export default {
     'fragment.detail.title.referencedFragments': 'Referenced fragments',
     'fragment.detail.title.referencedWidgetType': 'Referenced widget types',
     'fragment.detail.title.referencedPageModels': 'Referenced page models',
+    'fragment.help': 'The FRAGMENTS section lets you manage existing fragments or add new fragments. The fragments are single portions of front-end interface used in Widgets (including plugins) and Page Models.',
+    'fragment.form.add.code.placeholder': 'Code',
+    'fragment.form.edit.widgetType': 'Widget Type',
+    'fragment.form.edit.plugin': 'Plugin',
 
   },
 

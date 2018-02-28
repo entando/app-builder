@@ -1,13 +1,13 @@
-export const BODY_OK = {
-
+export const BODY_OK =
+{
   payload: {
-    code: 'myCode',
+    code: 'fragment_code',
     isLocked: false,
-    widgetType: {
-      code: 'widgetcode',
-      title: 'Widget Title',
+    widgetType: null,
+    plugin: {
+      code: 'pluginCode',
+      title: 'pluginTitlte',
     },
-    pluginCode: 'pluginCode',
     fragments: [{
       code: 'fragmentCode',
     }],
@@ -22,7 +22,8 @@ export const BODY_OK = {
   metaData: {},
 };
 
-export const BODY_KO = {
+export const BODY_ERROR =
+{
   payload: {},
   errors: [
     {
