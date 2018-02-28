@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Breadcrumb, Button, Alert, Row, Col, DropdownKebab, MenuItem } from 'patternfly-react';
+import { Grid, Breadcrumb, Button, Row, Col, DropdownKebab, MenuItem } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
 import { BreadcrumbItem } from 'frontend-common-components';
+import EmptyData from 'ui/fragments/detail/EmptyData';
+import FragmentReferenceTable from 'ui/fragments/detail/FragmentReferenceTable';
 
 
 class DetailFragmentPage extends Component {
@@ -31,13 +33,6 @@ class DetailFragmentPage extends Component {
         default: break;
       }
     };
-
-    const renderEmptyData = messageId => (
-      <Alert type="info">
-        <strong>
-          <FormattedMessage id={messageId} />
-        </strong>
-      </Alert>);
 
     const renderSearch = value => (
       value > 0 ?
@@ -122,9 +117,11 @@ class DetailFragmentPage extends Component {
     );
 
     const references = (obj, keys, meta) => (
+
       obj.length === 0 || Object.keys(obj).length === 0 ?
-        renderEmptyData(meta.messages.messageId) :
-        renderDetailData(obj, keys, meta));
+        <EmptyData messageId={meta.messages.messageId} /> :
+        renderDetailData(obj, keys, meta)
+    );
 
     const body = () => (
       <div>
@@ -166,43 +163,33 @@ class DetailFragmentPage extends Component {
         </Button>
         <br />
         <hr />
-        {references(
-          this.props.fragments, ['code', 'actions'],
-          {
-            origin: 'fragments',
-            firstColumn: { width: '95%' },
-            secondColumn: { class: 'DetailFragmentPage__table-th DetailFragmentPage__th-actions' },
-            messages: {
-              messageId: 'fragment.detail.emptyReferenceFragments',
-              referencedTitle: 'fragment.detail.title.referencedFragments',
-              firstColumn: 'app.name',
-              secondColumn: 'app.actions',
-            },
-          },
-        )}
+        <FragmentReferenceTable
+          fragments={this.props.fragments}
+          referencesFragments={onEditReferenced}
+        />
         <hr />
         {references(
-          this.props.pageModels, ['code', 'name', 'actions'],
-          {
-            origin: 'pageModels',
-            firstColumn: { width: '70%' },
-            secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
-            thirdColumn: { class: 'DetailFragmentPage__th-actions' },
-            messages: {
-              messageId: 'fragment.detail.emptyReferencePageModels',
-              referencedTitle: 'fragment.detail.title.referencedPageModels',
-              firstColumn: 'app.code',
-              secondColumn: 'app.name',
-              thirdColumn: 'app.actions',
-            },
+            this.props.pageModels, ['code', 'name', 'actions'],
+            {
+              origin: 'pageModels',
+              firstColumn: { width: '70%' },
+              secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
+              thirdColumn: { class: 'DetailFragmentPage__th-actions' },
+              messages: {
+                messageId: 'fragment.detail.emptyReferencePageModels',
+                referencedTitle: 'fragment.detail.title.referencedPageModels',
+                firstColumn: 'app.code',
+                secondColumn: 'app.name',
+                thirdColumn: 'app.actions',
+              },
 
-          },
-        )}
+            },
+          )}
         <hr />
         {references(
-          this.props.widgetType, ['code', 'title'],
-          {
-            origin: 'widgetType',
+            this.props.widgetType, ['code', 'title'],
+            {
+              origin: 'widgetType',
             firstColumn: { width: '50%' },
             secondColumn: { width: '50%', class: 'DetailFragmentPage__table-th' },
             messages: {
