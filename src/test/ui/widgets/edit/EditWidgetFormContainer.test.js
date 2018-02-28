@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/WidgetEditFormContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetFormContainer';
 
 const GROUP = {
   code: '1',

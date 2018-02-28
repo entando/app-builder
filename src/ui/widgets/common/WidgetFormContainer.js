@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroups } from 'state/groups/selectors';
-import WidgetForm from './WidgetForm';
+import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 export const mapStateToProps = state => ({
   groups: getGroups(state),

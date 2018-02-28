@@ -5,17 +5,17 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { Breadcrumb, Grid, Row, Col } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 import PageTitle from 'ui/internal-page/PageTitle';
-import WidgetEditFormContainer from 'ui/widgets/WidgetEditFormContainer';
+import EditWidgetFormContainer from 'ui/widgets/edit/EditWidgetFormContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
-class WidgetEditPage extends Component {
+class EditWidgetPage extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
 
   render() {
     return (
-      <InternalPage className="WidgetEditPage">
+      <InternalPage className="EditWidgetPage">
         <Grid fluid>
           <Row>
             <Col xs={12}>
@@ -40,21 +40,21 @@ class WidgetEditPage extends Component {
               <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help" />
             </Col>
           </Row>
-          <WidgetEditFormContainer />
+          <EditWidgetFormContainer />
         </Grid>
       </InternalPage>
     );
   }
 }
 
-WidgetEditPage.propTypes = {
+EditWidgetPage.propTypes = {
   onWillMount: PropTypes.func,
   widgetName: PropTypes.string,
 };
 
-WidgetEditPage.defaultProps = {
+EditWidgetPage.defaultProps = {
   onWillMount: () => {},
   widgetName: '',
 };
 
-export default WidgetEditPage;
+export default EditWidgetPage;

@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // import the Component to be connected
-import WidgetEditPage from 'ui/app-pages/WidgetEditPage';
+import EditWidgetPage from 'ui/widgets/edit/EditWidgetPage';
 import { fetchWidget } from 'state/widget-form/actions';
 import { getParams } from 'frontend-common-components';
 import { getWidgetName } from 'state/widget-form/selectors';
@@ -21,7 +21,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 // connect the component
-const WidgetEditFormContainer = connect(mapStateToProps, mapDispatchToProps)(WidgetEditPage);
+const EditWidgetPageContainer = connect(mapStateToProps, mapDispatchToProps)(EditWidgetPage);
 
 // export connected component (Container)
-export default WidgetEditFormContainer;
+export default EditWidgetPageContainer;

@@ -5,10 +5,10 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard/DashboardPage';
-import WidgetPage from 'ui/app-pages/WidgetPage';
+import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
-import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
+import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
 import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
 import { NotFoundPage } from 'frontend-common-components';
@@ -46,12 +46,12 @@ it('route to widget list page', () => {
 
 it('route to widget entry page', () => {
   const component = shallow(<App route={ROUTE_WIDGET_ADD} />);
-  expect(component.contains(<WidgetPage />)).toEqual(true);
+  expect(component.contains(<AddWidgetPage />)).toEqual(true);
 });
 
 it('route to widget edit page', () => {
   const component = shallow(<App route={ROUTE_WIDGET_EDIT} />);
-  expect(component.contains(<WidgetEditPageContainer />)).toEqual(true);
+  expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
 });
 
 it('route to add fragment page', () => {

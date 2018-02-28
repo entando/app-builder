@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/WidgetEditPageContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
 
 const TEST_STATE = {
   router: {

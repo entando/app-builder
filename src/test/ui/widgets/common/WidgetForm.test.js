@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/WidgetForm';
+import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/common/WidgetForm';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();

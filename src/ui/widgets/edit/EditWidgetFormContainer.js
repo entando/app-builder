@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // import the Component to be connected
-import WidgetForm from 'ui/widgets/WidgetForm';
+import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchGroups } from 'state/groups/actions';
 import { getGroups } from 'state/groups/selectors';
@@ -24,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 // connect the component
-const WidgetEditFormContainer = connect(mapStateToProps, mapDispatchToProps)(WidgetForm);
+const EditWidgetFormContainer = connect(mapStateToProps, mapDispatchToProps)(WidgetForm);
 
 // export connected component (Container)
-export default WidgetEditFormContainer;
+export default EditWidgetFormContainer;
