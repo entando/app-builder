@@ -11,5 +11,5 @@ const TEST_STATE = {
 };
 
 it('maps hidden property state with activistream.hidden', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ tableRow: { tableRow: [] } });
+  expect(mapStateToProps(TEST_STATE)).toEqual({ tableRow: [] });
 });

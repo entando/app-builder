@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import RowList from 'ui/widget-list-page/widget-list/RowList';
-import { getWidgetList } from 'state/widget-list/selectors';
+import { getTableRow } from 'state/widget-list/selectors';
 
 
 export const mapStateToProps = state =>
   (
     {
-      tableRow: getWidgetList(state),
+      tableRow: getTableRow(state),
       // tableRow: state.widgetList,
       // getTableRow è definito nel selettore
     });
