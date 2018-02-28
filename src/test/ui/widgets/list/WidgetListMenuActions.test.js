@@ -9,7 +9,7 @@ const EVENT = {
 };
 
 
-describe('ui/widgets/list/WidgetListMenuAction', () => {
+describe('WidgetListMenuAction', () => {
   beforeEach(jest.clearAllMocks);
   it('renders without crashing', () => {
     const component = shallow(<WidgetListMenuAction />);

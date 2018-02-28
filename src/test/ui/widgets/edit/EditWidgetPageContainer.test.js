@@ -51,15 +51,15 @@ jest.mock('frontend-common-components', () => ({
   routerReducer: state => state || {},
 }));
 
+describe('EditWidgetPageContainer', () => {
+  it('maps widgetCode and widgetName property state in WidgetEditPage', () => {
+    expect(mapStateToProps(TEST_STATE)).toEqual({ widgetCode: 'code', widgetName: 'Test Widget' });
+  });
 
-it('maps widgetCode and widgetName property state in WidgetEditPage', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ widgetCode: 'code', widgetName: 'Test Widget' });
-});
-
-
-it('verify that onWillMount and toBeDefined is defined by mapDispatchToProps', () => {
-  const result = mapDispatchToProps(dispatchMock);
-  expect(result.onWillMount).toBeDefined();
-  result.onWillMount({ widgetCode: 'code' });
-  expect(dispatchMock).toHaveBeenCalled();
+  it('verify that onWillMount and toBeDefined is defined by mapDispatchToProps', () => {
+    const result = mapDispatchToProps(dispatchMock);
+    expect(result.onWillMount).toBeDefined();
+    result.onWillMount({ widgetCode: 'code' });
+    expect(dispatchMock).toHaveBeenCalled();
+  });
 });

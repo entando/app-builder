@@ -6,11 +6,11 @@ const TEST_STATE = {
   mode: 'edit',
 };
 
-it('verify that mode is set to edit', () => {
-  expect(mapStateToProps()).toEqual(TEST_STATE);
-});
+describe('EditFormContainer', () => {
+  it('verify that mode is set to edit', () => {
+    expect(mapStateToProps()).toEqual(TEST_STATE);
+  });
 
-describe('ui/fragments/edit/EditFormContainer', () => {
   it('verify that  onSubmit is defined by mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     const result = mapDispatchToProps(dispatchMock);

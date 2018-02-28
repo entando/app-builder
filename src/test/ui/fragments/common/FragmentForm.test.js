@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/FragmentForm';
+import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/common/FragmentForm';
 
 const handleSubmit = jest.fn();
 

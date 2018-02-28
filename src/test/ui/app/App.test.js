@@ -24,47 +24,49 @@ import {
   ROUTE_FRAGMENT_EDIT,
 } from 'app-init/router';
 
-it('renders without crashing', () => {
-  const component = shallow(<App route={ROUTE_HOME} />);
-  expect(component.exists()).toEqual(true);
-});
+describe('App', () => {
+  it('renders without crashing', () => {
+    const component = shallow(<App route={ROUTE_HOME} />);
+    expect(component.exists()).toEqual(true);
+  });
 
-it('route to dashboard', () => {
-  const component = shallow(<App route={ROUTE_DASHBOARD} />);
-  expect(component.contains(<DashboardPage />)).toEqual(true);
-});
+  it('route to dashboard', () => {
+    const component = shallow(<App route={ROUTE_DASHBOARD} />);
+    expect(component.contains(<DashboardPage />)).toEqual(true);
+  });
 
-it('route to page tree page', () => {
-  const component = shallow(<App route={ROUTE_PAGE_TREE} />);
-  expect(component.contains(<PageTreePageContainer />)).toEqual(true);
-});
+  it('route to page tree page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_TREE} />);
+    expect(component.contains(<PageTreePageContainer />)).toEqual(true);
+  });
 
-it('route to widget list page', () => {
-  const component = shallow(<App route={ROUTE_WIDGET_LIST} />);
-  expect(component.contains(<ListWidgetPageContainer />)).toEqual(true);
-});
+  it('route to widget list page', () => {
+    const component = shallow(<App route={ROUTE_WIDGET_LIST} />);
+    expect(component.contains(<ListWidgetPageContainer />)).toEqual(true);
+  });
 
-it('route to widget entry page', () => {
-  const component = shallow(<App route={ROUTE_WIDGET_ADD} />);
-  expect(component.contains(<AddWidgetPage />)).toEqual(true);
-});
+  it('route to widget entry page', () => {
+    const component = shallow(<App route={ROUTE_WIDGET_ADD} />);
+    expect(component.contains(<AddWidgetPage />)).toEqual(true);
+  });
 
-it('route to widget edit page', () => {
-  const component = shallow(<App route={ROUTE_WIDGET_EDIT} />);
-  expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
-});
+  it('route to widget edit page', () => {
+    const component = shallow(<App route={ROUTE_WIDGET_EDIT} />);
+    expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
+  });
 
-it('route to add fragment page', () => {
-  const component = shallow(<App route={ROUTE_FRAGMENT_ADD} />);
-  expect(component.contains(<AddFragmentPage />)).toEqual(true);
-});
+  it('route to add fragment page', () => {
+    const component = shallow(<App route={ROUTE_FRAGMENT_ADD} />);
+    expect(component.contains(<AddFragmentPage />)).toEqual(true);
+  });
 
-it('route to edit fragment page', () => {
-  const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} />);
-  expect(component.contains(<EditFragmentPageContainer />)).toEqual(true);
-});
+  it('route to edit fragment page', () => {
+    const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} />);
+    expect(component.contains(<EditFragmentPageContainer />)).toEqual(true);
+  });
 
-it('default route', () => {
-  const component = shallow(<App route="test" />);
-  expect(component.contains(<NotFoundPage />)).toEqual(true);
+  it('default route', () => {
+    const component = shallow(<App route="test" />);
+    expect(component.contains(<NotFoundPage />)).toEqual(true);
+  });
 });

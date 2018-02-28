@@ -16,13 +16,15 @@ const TEST_STATE = {
 
 const dispatchMock = jest.fn();
 
-it('maps groups and mode property state in WidgetForm', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ mode: 'edit', groups: [GROUP] });
-});
+describe('EditWidgetFormContainer', () => {
+  it('maps groups and mode property state in WidgetForm', () => {
+    expect(mapStateToProps(TEST_STATE)).toEqual({ mode: 'edit', groups: [GROUP] });
+  });
 
-it('verify that onWillMount and onSubmit is defined by mapDispatchToProps', () => {
-  const result = mapDispatchToProps(dispatchMock);
-  expect(result.onWillMount).toBeDefined();
-  result.onWillMount();
-  expect(dispatchMock).toHaveBeenCalled();
+  it('verify that onWillMount and onSubmit is defined by mapDispatchToProps', () => {
+    const result = mapDispatchToProps(dispatchMock);
+    expect(result.onWillMount).toBeDefined();
+    result.onWillMount();
+    expect(dispatchMock).toHaveBeenCalled();
+  });
 });

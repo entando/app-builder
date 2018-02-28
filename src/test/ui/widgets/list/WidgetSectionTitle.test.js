@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import WidgetSectionTitle from 'ui/widgets/list/WidgetSectionTitle';
 
-describe('ui/widgets/list/WidgetSectionTitle', () => {
+describe('WidgetSectionTitle', () => {
   let component;
   beforeEach(() => {
     component = shallow(<WidgetSectionTitle />);

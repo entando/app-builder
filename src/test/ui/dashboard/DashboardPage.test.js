@@ -5,13 +5,14 @@ import { shallow } from 'enzyme';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import InternalPage from 'ui/internal-page/InternalPage';
 
+describe('DashboardPage', () => {
+  it('renders without crashing', () => {
+    const component = shallow(<DashboardPage />);
+    expect(component.exists()).toEqual(true);
+  });
 
-it('renders without crashing', () => {
-  const component = shallow(<DashboardPage />);
-  expect(component.exists()).toEqual(true);
-});
-
-it('verify if exist InternalPage', () => {
-  const component = shallow(<DashboardPage />);
-  expect(component.contains(<InternalPage className="DashboardPage" />)).toEqual(true);
+  it('verify if exist InternalPage', () => {
+    const component = shallow(<DashboardPage />);
+    expect(component.contains(<InternalPage className="DashboardPage" />)).toEqual(true);
+  });
 });

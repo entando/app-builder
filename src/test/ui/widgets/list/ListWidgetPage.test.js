@@ -8,7 +8,7 @@ const eventMock = {
   preventDefault: jest.fn(),
 };
 
-describe('ui/widgets/list/ListWidgetPage', () => {
+describe('ListWidgetPage', () => {
   let component;
   beforeEach(() => {
     component = shallow(<ListWidgetPage />);

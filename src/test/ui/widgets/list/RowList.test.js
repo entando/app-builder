@@ -11,7 +11,7 @@ const TABLEROWMOCK = (
 );
 
 let component;
-describe('ui/widgets/list/RowList', () => {
+describe('RowList', () => {
   beforeEach(() => {
     component = shallow(TABLEROWMOCK);
   });

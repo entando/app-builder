@@ -15,7 +15,7 @@ const NOTIFICATION_LIST_MOCK = (
 );
 
 let component;
-describe('ui/activity-stream/NotifcationList', () => {
+describe('NotifcationList', () => {
   beforeEach(() => {
     component = shallow(NOTIFICATION_LIST_MOCK);
   });
