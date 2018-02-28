@@ -1,0 +1,12 @@
+@import "../patternfly.scss";
+
+
+.FragmentReferenceTable {
+
+  margin-bottom: 0 ;
+
+  &__th {
+    text-transform: capitalize;
+  }
+
+}

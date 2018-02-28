@@ -8,6 +8,7 @@ import { Table } from 'react-bootstrap';
 import { BreadcrumbItem } from 'frontend-common-components';
 import EmptyData from 'ui/fragments/detail/EmptyData';
 import FragmentReferenceTable from 'ui/fragments/detail/FragmentReferenceTable';
+import PageModelReferenceTable from 'ui/fragments/detail/PageModelReferenceTable';
 
 
 class DetailFragmentPage extends Component {
@@ -33,6 +34,7 @@ class DetailFragmentPage extends Component {
         default: break;
       }
     };
+
 
     const renderSearch = value => (
       value > 0 ?
@@ -163,28 +165,46 @@ class DetailFragmentPage extends Component {
         </Button>
         <br />
         <hr />
-        <FragmentReferenceTable
-          fragments={this.props.fragments}
-          referencesFragments={onEditReferenced}
-        />
+        <Row>
+          <p className="col-xs-12" >
+            <FormattedMessage id="fragment.detail.title.referencedFragments" />
+          </p>
+          <Col xs={12} className="no-padding">
+            <FragmentReferenceTable
+              fragments={this.props.fragments}
+              referencesFragments={this.props.referencesFragments}
+            />
+          </Col>
+        </Row>
         <hr />
-        {references(
+        <Row>
+          <p className="col-xs-12" >
+            <FormattedMessage id="fragment.detail.title.referencedPageModels" />
+          </p>
+          <Col xs={12} className="no-padding">
+            <PageModelReferenceTable
+              pageModel={this.props.pageModels}
+              referencesPageModels={this.props.referencesPageModels}
+            />
+          </Col>
+        </Row>
+        {/* {references(
             this.props.pageModels, ['code', 'name', 'actions'],
-            {
-              origin: 'pageModels',
-              firstColumn: { width: '70%' },
-              secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
-              thirdColumn: { class: 'DetailFragmentPage__th-actions' },
-              messages: {
-                messageId: 'fragment.detail.emptyReferencePageModels',
-                referencedTitle: 'fragment.detail.title.referencedPageModels',
-                firstColumn: 'app.code',
-                secondColumn: 'app.name',
-                thirdColumn: 'app.actions',
-              },
+          {
+          origin: 'pageModels',
+            firstColumn: { width: '70%' },
+            secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
+            thirdColumn: { class: 'DetailFragmentPage__th-actions' },
+            messages: {
+          messageId: 'fragment.detail.emptyReferencePageModels',
+          referencedTitle: 'fragment.detail.title.referencedPageModels',
+          firstColumn: 'app.code',
+          secondColumn: 'app.name',
+          thirdColumn: 'app.actions',
+          },
 
             },
-          )}
+        )} */}
         <hr />
         {references(
             this.props.widgetType, ['code', 'title'],

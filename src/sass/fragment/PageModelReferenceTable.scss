@@ -1,0 +1,12 @@
+@import "../patternfly.scss";
+
+
+.PageModelReferenceTable {
+
+  margin-bottom: 0 ;
+
+  &__th {
+    text-transform: capitalize;
+  }
+
+}

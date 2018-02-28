@@ -4,45 +4,52 @@ import { FormattedMessage } from 'react-intl';
 import { Table } from 'react-bootstrap';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 
-const FragmentReferenceTable = ({ fragments, referencesFragments }) => (
 
-  <Table bordered hover className="DetailFragmentPage__table">
-    <thead>
-      <tr>
-        <th
-          width="95%"
-          className="DetailFragmentPage__table-th"
-        >
-          <FormattedMessage id="app.name" />
-        </th>
-        <th
-          width="5%"
-          className="DetailFragmentPage__table-th DetailFragmentPage__th-actions"
-        >
-          <FormattedMessage id="app.actions" />
-        </th>
+const FragmentReferenceTable = ({ fragments, referencesFragments }) => {
+  const onEdit = item => (ev) => {
+    ev.preventDefault();
+    referencesFragments(item);
+  };
+  return (
 
-      </tr>
-    </thead>
-    <tbody>
-      {
-        fragments.map(item => (
-          <tr key={item.code} >
-            <td key={item.code}>{item.code} </td>
-            <td key={item.code} className="text-center">
-              <DropdownKebab key={item.code} id={item.code}>
-                <MenuItem
-                  onClick={referencesFragments(item)}
-                ><FormattedMessage id="app.edit" />
-                </MenuItem>
-              </DropdownKebab>
-            </td>
-          </tr>
-        ))
-      }
-    </tbody>
-  </Table>
-);
+    <Table bordered hover className="FragmentReferenceTable">
+      <thead>
+        <tr>
+          <th
+            width="95%"
+            className="FragmentReferenceTable__th"
+          >
+            <FormattedMessage id="app.code" />
+          </th>
+          <th
+            width="5%"
+            className="FragmentReferenceTable__th text-center"
+          >
+            <FormattedMessage id="app.actions" />
+          </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {
+          fragments.map(item => (
+            <tr key={item.code} >
+              <td >{item.code} </td>
+              <td className="text-center">
+                <DropdownKebab key={item.code} id={item.code}>
+                  <MenuItem
+                    onClick={onEdit(item)}
+                  ><FormattedMessage id="app.edit" />
+                  </MenuItem>
+                </DropdownKebab>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </Table>
+  );
+};
 
 FragmentReferenceTable.propTypes = {
   referencesFragments: PropTypes.func,

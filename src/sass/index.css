@@ -127,6 +127,16 @@
     text-align: center;
     text-transform: capitalize; }
 
+.FragmentReferenceTable {
+  margin-bottom: 0; }
+  .FragmentReferenceTable__th {
+    text-transform: capitalize; }
+
+.PageModelReferenceTable {
+  margin-bottom: 0; }
+  .PageModelReferenceTable__th {
+    text-transform: capitalize; }
+
 .FormLabel__language-label {
   margin-right: 5px;
   background-color: #0088ce; }
