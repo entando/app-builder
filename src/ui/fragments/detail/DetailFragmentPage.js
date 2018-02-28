@@ -13,16 +13,23 @@ class DetailFragmentPage extends Component {
     this.props.onWillMount(this.props);
   }
 
-
   render() {
     const onEdit = (ev) => {
       ev.preventDefault();
       this.props.handleEdit();
     };
 
-    const onEditReferenced = (ev, item) => {
+    const onEditReferenced = (item, origin) => (ev) => {
       ev.preventDefault();
-      console.log(item);
+      switch (origin) {
+        case 'fragments':
+          this.props.referencesFragments(item);
+          break;
+        case 'pageModels':
+          this.props.referencesPageModels(item);
+          break;
+        default: break;
+      }
     };
 
     const renderEmptyData = messageId => (
@@ -47,14 +54,14 @@ class DetailFragmentPage extends Component {
         </Row> : null
     );
 
-    const row = (item, keys) => (
+    const row = (item, keys, origin) => (
       <tr key={item[keys[0]]} >
         {keys.map(key => (
           key !== 'actions' ? <td key={key}>{item[key]} </td> :
           <td key={key} className="text-center">
             <DropdownKebab key={key} id={key}>
               <MenuItem
-                onClick={onEditReferenced(item)}
+                onClick={onEditReferenced(item, origin)}
               ><FormattedMessage id="app.edit" />
               </MenuItem>
             </DropdownKebab>
@@ -63,13 +70,13 @@ class DetailFragmentPage extends Component {
       </tr>
     );
 
-    const redenderTableRow = (obj, keys) => {
+    const redenderTableRow = (obj, keys, origin) => {
       if (Array.isArray(obj)) {
         return obj.map(item => (
-          row(item, keys)
+          row(item, keys, origin)
         ));
       }
-      return row(obj, keys);
+      return row(obj, keys, origin);
     };
 
     const renderDetailData = (obj, keys, meta) => (
@@ -105,7 +112,7 @@ class DetailFragmentPage extends Component {
                 </tr>
               </thead>
               <tbody>
-                {redenderTableRow(obj, keys)}
+                {redenderTableRow(obj, keys, meta.origin)}
               </tbody>
             </Table>
           </Col>
@@ -115,16 +122,17 @@ class DetailFragmentPage extends Component {
     );
 
     const references = (obj, keys, meta) => (
-      !obj ? renderEmptyData(meta.messages.messageId) : renderDetailData(obj, keys, meta)
-    );
+      obj.length === 0 || Object.keys(obj).length === 0 ?
+        renderEmptyData(meta.messages.messageId) :
+        renderDetailData(obj, keys, meta));
 
     const body = () => (
-      <div className="DetailFragmentPage">
+      <div>
         <Table bordered >
           <tbody>
             <tr>
               <th className="td-pagetree-width" width="10%">
-                <FormattedMessage id="fragment.code" />
+                <FormattedMessage id="app.code" />
               </th>
               <td>
                 {this.props.code}
@@ -153,7 +161,6 @@ class DetailFragmentPage extends Component {
           type="button"
           onClick={onEdit}
           bsStyle="primary"
-
         >
           <FormattedMessage id="app.edit" />
         </Button>
@@ -162,6 +169,7 @@ class DetailFragmentPage extends Component {
         {references(
           this.props.fragments, ['code', 'actions'],
           {
+            origin: 'fragments',
             firstColumn: { width: '95%' },
             secondColumn: { class: 'DetailFragmentPage__table-th DetailFragmentPage__th-actions' },
             messages: {
@@ -176,6 +184,7 @@ class DetailFragmentPage extends Component {
         {references(
           this.props.pageModels, ['code', 'name', 'actions'],
           {
+            origin: 'pageModels',
             firstColumn: { width: '70%' },
             secondColumn: { width: '25%', class: 'DetailFragmentPage__table-th' },
             thirdColumn: { class: 'DetailFragmentPage__th-actions' },
@@ -193,6 +202,7 @@ class DetailFragmentPage extends Component {
         {references(
           this.props.widgetType, ['code', 'title'],
           {
+            origin: 'widgetType',
             firstColumn: { width: '50%' },
             secondColumn: { width: '50%', class: 'DetailFragmentPage__table-th' },
             messages: {
@@ -209,7 +219,7 @@ class DetailFragmentPage extends Component {
 
     return (
 
-      <InternalPage>
+      <InternalPage className="DetailFragmentPage">
         <Grid fluid>
           <Row>
             <Col xs={12}>
@@ -217,10 +227,10 @@ class DetailFragmentPage extends Component {
                 <BreadcrumbItem route="home" active>
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route="fragmentDetail">
+                <BreadcrumbItem route="home">
                   <FormattedMessage id="menu.uxPattern.fragment" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route="fragmpageModelCodeentDetail" active>
+                <BreadcrumbItem active>
                   <FormattedMessage id="fragment.detail.title" />
                 </BreadcrumbItem>
               </Breadcrumb>
@@ -244,16 +254,20 @@ class DetailFragmentPage extends Component {
 DetailFragmentPage.propTypes = {
   onWillMount: PropTypes.func,
   handleEdit: PropTypes.func,
+  referencesFragments: PropTypes.func,
+  referencesPageModels: PropTypes.func,
   code: PropTypes.string,
   fragments: PropTypes.arrayOf(PropTypes.shape({})),
   pageModels: PropTypes.arrayOf(PropTypes.shape({})),
-  widgetType: PropTypes.shape({}),
+  widgetType: PropTypes.shape({ title: PropTypes.string }),
   pluginCode: PropTypes.string,
 };
 
 DetailFragmentPage.defaultProps = {
   onWillMount: () => {},
   handleEdit: () => {},
+  referencesFragments: () => {},
+  referencesPageModels: () => {},
   code: '',
   widgetType: {},
   fragments: [],

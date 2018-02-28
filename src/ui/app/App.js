@@ -21,7 +21,7 @@ import WidgetPage from 'ui/app-pages/WidgetPage';
 import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
-import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
+import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 
 const App = ({ route }) => {
   switch (route) {
@@ -37,7 +37,7 @@ const App = ({ route }) => {
     case ROUTE_WIDGET_EDIT: return <WidgetEditPageContainer />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
-    case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPage />;
+    case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     default: return <NotFoundPage />;
   }
 };

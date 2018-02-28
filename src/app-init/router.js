@@ -12,8 +12,8 @@ export const ROUTE_WIDGET_ADD = 'widgetForm';
 export const ROUTE_WIDGET_EDIT = 'widgetEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_FRAGMENT_ADD = 'fragmentAdd';
-export const ROUTE_FRAGMENT_DETAIL = 'fragmentDetail';
 export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
+export const ROUTE_FRAGMENT_DETAIL = 'fragmentDetail';
 
 
 routerConfig(
@@ -33,7 +33,7 @@ routerConfig(
       { name: ROUTE_PAGE_TREE, path: '/page-tree' },
       { name: ROUTE_FRAGMENT_ADD, path: '/fragment/add' },
       { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },
-      { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/detail/:fragmentCode  ' },
+      { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/detail/:fragmentCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
