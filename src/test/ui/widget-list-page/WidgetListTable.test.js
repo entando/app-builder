@@ -2,23 +2,38 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import WidgetListPage from 'ui/widget-list-page/WidgetListPage';
-
-const eventMock = {
-  preventDefault: jest.fn(),
-};
+import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
 
 describe('ui/widget-list-page/WidgetListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<WidgetListPage />);
+    component = shallow(<WidgetListTable />);
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);
   });
-
-  it('should call onClickCreate when clicking ', () => {
-    component.find('.WidgetListPage__add').simulate('click', eventMock);
-    expect(eventMock.preventDefault).toHaveBeenCalled();
+  it('root component has class WidgetListTable', () => {
+    expect(component.hasClass('WidgetListTable')).toEqual(true);
+  });
+  it('renders WidgetSectionTitle sub component', () => {
+    expect(component.find('WidgetSectionTitle').exists()).toEqual(true);
+  });
+  describe('inner table', () => {
+    const children = (
+      <tr>
+        <td>widget name</td>
+        <td>widget code</td>
+        <td>used</td>
+        <td>action</td>
+      </tr>
+    );
+    it('renders table header with 4 cols', () => {
+      expect(component.find('table thead tr th')).toHaveLength(4);
+    });
+    it('renders table with children', () => {
+      component = shallow(<WidgetListTable >{children}</WidgetListTable>);
+      expect(component.find('table tbody tr').exists()).toEqual(true);
+      expect(component.find('table tbody tr td')).toHaveLength(4);
+    });
   });
 });
