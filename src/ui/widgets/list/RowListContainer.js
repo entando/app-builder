@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import RowList from 'ui/widget-list-page/widget-list/RowList';
+import RowList from 'ui/widgets/list/RowList';
 import { getWidgetList } from 'state/widget-list/selectors';
 
 

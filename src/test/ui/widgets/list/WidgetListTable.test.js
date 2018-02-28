@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import WidgetSectionTitle from 'ui/widget-list-page/WidgetSectionTitle';
+import WidgetListTable from 'ui/widgets/list/WidgetListTable';
 
-describe('ui/widget-list-page/WidgetSectionTitle', () => {
+describe('ui/widgets/list/WidgetListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<WidgetSectionTitle />);
+    component = shallow(<WidgetListTable />);
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);

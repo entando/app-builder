@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import WidgetSectionTitle from 'ui/widget-list-page/WidgetSectionTitle';
+import WidgetSectionTitle from 'ui/widgets/list/WidgetSectionTitle';
 import { formattedText } from 'frontend-common-components';
 
 const WidgetListTable = ({ children }) => (

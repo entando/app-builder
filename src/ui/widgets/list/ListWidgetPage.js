@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
-import WidgetListTable from 'ui/widget-list-page/WidgetListTable';
-import RowListContainer from 'ui/widget-list-page/RowListContainer';
+import WidgetListTable from 'ui/widgets/list/WidgetListTable';
+import RowListContainer from 'ui/widgets/list/RowListContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'frontend-common-components';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
 
-class WidgetListPage extends Component {
+class ListWidgetPage extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -27,7 +27,7 @@ class WidgetListPage extends Component {
 
   render() {
     return (
-      <InternalPage className="WidgetListPage">
+      <InternalPage className="ListWidgetPage">
         <Grid fluid>
           <Row>
             <Col md={12}>
@@ -42,7 +42,7 @@ class WidgetListPage extends Component {
               <Link route={ROUTE_WIDGET_ADD}>
                 <Button
                   type="button"
-                  className="pull-right WidgetListPage__add"
+                  className="pull-right ListWidgetPage__add"
                   bsStyle="primary"
                   onClick={this.onClickAdd}
                 >
@@ -62,15 +62,15 @@ class WidgetListPage extends Component {
   }
 }
 
-WidgetListPage.propTypes = {
+ListWidgetPage.propTypes = {
   onClickCreate: PropTypes.func,
   onWillMount: PropTypes.func,
 };
 
-WidgetListPage.defaultProps = {
+ListWidgetPage.defaultProps = {
   onClickCreate: () => {},
   onWillMount: () => {},
 };
 
 
-export default WidgetListPage;
+export default ListWidgetPage;

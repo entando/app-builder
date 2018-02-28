@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps } from 'ui/widget-list-page/RowListContainer';
+import { mapStateToProps } from 'ui/widgets/list/RowListContainer';
 
-jest.unmock('ui/widget-list-page/RowListContainer');
+jest.unmock('ui/widgets/list/RowListContainer');
 
 const TEST_STATE = {
   widgetList: {

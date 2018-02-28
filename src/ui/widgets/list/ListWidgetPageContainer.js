@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchWidgetListRow } from 'state/widget-list/actions';
-import WidgetListPage from 'ui/widget-list-page/WidgetListPage';
+import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 
 
 export const mapDispatchToProps = dispatch => ({
@@ -9,6 +9,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const WidgetListPageContainer = connect(null, mapDispatchToProps)(WidgetListPage);
+const ListWidgetPageContainer = connect(null, mapDispatchToProps)(ListWidgetPage);
 
-export default WidgetListPageContainer;
+export default ListWidgetPageContainer;

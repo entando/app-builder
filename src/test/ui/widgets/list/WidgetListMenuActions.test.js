@@ -2,14 +2,14 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import WidgetListMenuAction from 'ui/widget-list-page/WidgetListMenuActions';
+import WidgetListMenuAction from 'ui/widgets/list/WidgetListMenuActions';
 
 const EVENT = {
   preventDefault: jest.fn(),
 };
 
 
-describe('ui/widget-list-page/WidgetListMenuAction', () => {
+describe('ui/widgets/list/WidgetListMenuAction', () => {
   beforeEach(jest.clearAllMocks);
   it('renders without crashing', () => {
     const component = shallow(<WidgetListMenuAction />);

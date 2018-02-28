@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import RowList from 'ui/widget-list-page/widget-list/RowList';
+import RowList from 'ui/widgets/list/RowList';
 
 const TABLEROWMOCK = (
   <RowList
@@ -11,7 +11,7 @@ const TABLEROWMOCK = (
 );
 
 let component;
-describe('ui/widget-list-page/widget-list/RowList', () => {
+describe('ui/widgets/list/RowList', () => {
   beforeEach(() => {
     component = shallow(TABLEROWMOCK);
   });

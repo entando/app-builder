@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WidgetListRow from 'ui/widget-list-page/WidgetListRow';
+import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 
 const RowList = ({ tableRow }) =>

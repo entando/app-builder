@@ -10,7 +10,7 @@ import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
-import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
+import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import { NotFoundPage } from 'frontend-common-components';
 
 import {
@@ -41,7 +41,7 @@ it('route to page tree page', () => {
 
 it('route to widget list page', () => {
   const component = shallow(<App route={ROUTE_WIDGET_LIST} />);
-  expect(component.contains(<WidgetListPageContainer />)).toEqual(true);
+  expect(component.contains(<ListWidgetPageContainer />)).toEqual(true);
 });
 
 it('route to widget entry page', () => {
