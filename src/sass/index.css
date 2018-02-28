@@ -1,3 +1,62 @@
+.InternalPage .breadcrumb {
+  margin-bottom: 0;
+  border-bottom: 1px solid #d1d1d1; }
+
+.InternalPage__page-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d1d1d1;
+  font-weight: bold; }
+
+.PageTitle .PageTitle__header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ededed; }
+
+.PageTitle .PageTitle__title {
+  font-weight: bold; }
+
+.PageTitle .PageTitle__icon {
+  color: #8b8d8f; }
+
+.FormLabel__language-label {
+  margin-right: 5px;
+  background-color: #0088ce; }
+
+.FormLabel__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
+
+.FormSectionTitle__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }
+
+.WidgetForm__language-label {
+  margin-right: 5px;
+  background-color: #0088ce; }
+
+.WidgetForm__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
+
+.WidgetForm__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }
+
+.ListWidgetPage .ListWidgetPage__add {
+  margin: 2em 2em 0 0; }
+
+.WidgetListTable__type {
+  margin: 0 0 1em 0;
+  border-bottom: 1px solid #ededed; }
+
+.WidgetListActionToggle {
+  color: #72767b; }
+
+.WidgetListRow .WidgetListRow__td {
+  height: 30px;
+  line-height: 30px; }
+
 .PageStatusIcon--draft {
   color: #72767b; }
 
@@ -59,70 +118,11 @@
     margin-left: 10px;
     color: #00b9e4; }
 
-.InternalPage .breadcrumb {
-  margin-bottom: 0;
-  border-bottom: 1px solid #d1d1d1; }
-
-.InternalPage__page-title {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d1d1d1;
-  font-weight: bold; }
-
-.WidgetForm__language-label {
-  margin-right: 5px;
-  background-color: #0088ce; }
-
-.WidgetForm__required-icon {
-  margin-left: 3px;
-  font-size: 8px;
-  vertical-align: super; }
-
-.WidgetForm__required-fields {
-  color: #d1d1d1;
-  font-size: 12px; }
-
-.ListWidgetPage .ListWidgetPage__add {
-  margin: 2em 2em 0 0; }
-
-.WidgetListTable__type {
-  margin: 0 0 1em 0;
-  border-bottom: 1px solid #ededed; }
-
-.WidgetListActionToggle {
-  color: #72767b; }
-
-.WidgetListRow .WidgetListRow__td {
-  height: 30px;
-  line-height: 30px; }
-
-.PageTitle .PageTitle__header {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ededed; }
-
-.PageTitle .PageTitle__title {
-  font-weight: bold; }
-
-.PageTitle .PageTitle__icon {
-  color: #8b8d8f; }
-
 .FragmentForm__required-icon {
   margin-left: 3px;
   font-size: 8px;
   vertical-align: super; }
 
 .FragmentForm__required-fields {
-  color: #d1d1d1;
-  font-size: 12px; }
-
-.FormLabel__language-label {
-  margin-right: 5px;
-  background-color: #0088ce; }
-
-.FormLabel__required-icon {
-  margin-left: 3px;
-  font-size: 8px;
-  vertical-align: super; }
-
-.FormSectionTitle__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
