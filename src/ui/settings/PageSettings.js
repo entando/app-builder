@@ -3,12 +3,11 @@ import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
 import PageTitle from 'ui/internal-page/PageTitle';
-import { PageSettingsForm } from 'ui/settings/PageSettingsForm';
+import PageSettingsForm from 'ui/settings/PageSettingsForm';
 
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
-// import 'sass/page-designer-settings/PageSettings.scss';
 
 const PageSettings = () => (
   <InternalPage className="PageSettings">

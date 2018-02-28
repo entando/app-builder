@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
-// import { Field } from 'redux-form';
+import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
-// const options = ['nello', 'lallo', 'rollo'];
 
-
-const RenderSelectInput = ({ options, labelId }) => {
+const RenderSelectInput = ({ options, labelId, mandatory }) => {
   const optionList = options.map(option =>
     <option key={option}>{option}</option>);
 
@@ -17,12 +15,12 @@ const RenderSelectInput = ({ options, labelId }) => {
         <span id="settings-homePageCode">
           <FormattedMessage id={labelId} />
         </span>
-        <i className="fa fa-asterisk PageSettings__required-icon" />
+        <i className={(mandatory) ? 'fa fa-asterisk PageSettings__required-icon' : ''} />
       </Col>
       <Col xs={10}>
-        <select component="select" className="form-control" >
+        <Field component="select" name={labelId} className="form-control" >
           {optionList}
-        </select>
+        </Field>
       </Col>
     </div>
   );
@@ -31,9 +29,11 @@ const RenderSelectInput = ({ options, labelId }) => {
 RenderSelectInput.propTypes = {
   options: PropTypes.node,
   labelId: PropTypes.string.isRequired,
+  mandatory: PropTypes.bool,
 };
 
 RenderSelectInput.defaultProps = {
   options: [],
+  mandatory: false,
 };
 export default RenderSelectInput;

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Alert, Switch, OverlayTrigger, Popover } from 'patternfly-react';
+import { Row, Col, Alert, OverlayTrigger, Popover } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-// import { formattedText } from 'frontend-common-components';
+
 import { FormattedMessage } from 'react-intl';
-// import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 // import { required, widgetCode, maxLength } from 'util/validateForm';
-// import RenderTextInput from 'ui/form/RenderTextInput';
 import RenderSelectInput from 'ui/form/RenderSelectInput';
+import RenderRadioInput from 'ui/form/RenderRadioInput';
+import RenderSwitchInput from 'ui/form/RenderSwitchInput';
 
 
 export const renderDefaultUIField = (field) => {
@@ -46,7 +47,7 @@ const baseUrl = () => (
 );
 
 
-export class PageSettingsForm extends Component {
+export class PageSettingsBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
@@ -63,87 +64,25 @@ export class PageSettingsForm extends Component {
           <Col xs={12}>
             <fieldset className="no-padding">
               <RenderSelectInput
-                options={['nello', 'lallo', 'rollo']}
+                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.homepage"
+                mandatory
               />
-              {/* <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <span id="settings-homePageCode">
-                <FormattedMessage id="PageSettings.input.homepage" />
-                  </span>
-                  <i className="fa fa-asterisk PageSettings__required-icon" />
-                </Col>
-                <Col xs={10}>
-                  <select name="homePageCode" id="settings-homePageCode" className="form-control" >
-                <option selected="selected" value="homepage">Home</option>
-                <option value="service"> [i].. / Service</option>
-                <option value="notfound">.. / .. / Page not found</option>
-                  </select>
-                </Col>
-              </div> */}
+              <RenderSelectInput
+                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                labelId="PageSettings.input.500"
+                mandatory
+              />
+              <RenderSelectInput
+                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                labelId="PageSettings.input.proceed"
+                mandatory
+              />
+              <RenderSelectInput
+                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                labelId="PageSettings.input.404"
 
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <span id="settings-notFoundPageCode">
-                    <FormattedMessage id="PageSettings.input.404" />
-                  </span>
-                  <i className="fa fa-asterisk PageSettings__required-icon" />
-                </Col>
-                <Col xs={10}>
-                  <select
-                    name="notFoundPageCode"
-                    id="settings-notFoundPageCode"
-                    className="form-control"
-                  >
-                    <option value="homepage">Home</option>
-                    <option value="service"> [i].. / Service</option>
-                    <option selected="selected" value="notfound" >.. / .. / Page not found</option>
-                  </select>
-                </Col>
-              </div>
-
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <span id="settings-errorPageCode" >
-                    <FormattedMessage id="PageSettings.input.500" />
-                  </span>
-                  <i className="fa fa-asterisk PageSettings__required-icon" />
-                </Col>
-                <Col xs={10}>
-                  <select
-                    name="errorPageCode"
-                    id="settings-errorPageCode"
-                    className="form-control"
-                  >
-                    <option value="homepage">Home</option>
-                    <option value="service"> [i].. / Service</option>
-                    <option value="notfound">.. / .. / Page not found</option>
-                    <option selected="selected" value="errorpage">.. / .. / Error page</option>
-                  </select>
-                </Col>
-              </div>
-
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <span id="settings-loginPageCode" >
-                    <FormattedMessage id="PageSettings.input.proceed" />
-                  </span>
-                  <i className="fa fa-asterisk PageSettings__required-icon" />
-                </Col>
-                <Col xs={10}>
-                  <select
-                    name="loginPageCode"
-                    id="settings-loginPageCode"
-                    className="form-control"
-                  >
-                    <option value="homepage">Home</option>
-                    <option selected="selected" value="login">.. / .. / Login</option>
-                    <option value="backoffice">.. / backoffice</option>
-                    <option value="form_mobile">.. / Form Mobile</option>
-                  </select>
-                </Col>
-              </div>
-
+              />
               <div className="form-group">
                 <Col xs={2} className="text-right">
                   <FormattedMessage id="PageSettings.input.BaseURL" />&nbsp;
@@ -157,39 +96,27 @@ export class PageSettingsForm extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <div className="btn-group" data-toggle="buttons">
-                    <label htmlFor="1" className="btn btn-default ">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-urlStyle-relative"
-                        name="baseUrl"
-                        value="relative"
-                      />
-                      <FormattedMessage id="PageSettings.input.BaseURL.relative" />
-                    </label>
-                    <label htmlFor="1" className="btn btn-default active">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-urlStyle-baseUrl"
-                        name="baseUrl"
-                        value="request"
-                        checked="checked"
-                      />
-                      <FormattedMessage id="PageSettings.input.BaseURL.http" />
-                    </label>
-                    <label htmlFor="1" className="btn btn-default ">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-urlStyle-static"
-                        name="baseUrl"
-                        value="static"
-                      />
-                      <FormattedMessage id="PageSettings.input.BaseURL.static" />
-                    </label>
-                  </div>
+                  <label htmlFor="1" >
+                    <Field
+                      component={RenderRadioInput}
+                      toggleElement={[
+                        {
+                          id: '1',
+                          label: 'Relative',
+                        },
+                        {
+                          id: '2',
+                          label: 'Built by HTTP request parameters',
+                        },
+                        {
+                          id: '3',
+                          label: 'Static',
+                        },
+                        ]
+                      }
+                      name="test"
+                    />
+                  </label>
                 </Col>
               </div>
 
@@ -206,11 +133,9 @@ export class PageSettingsForm extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <Switch
-                    bsSize="normal"
-                    title="normal"
-                    id="BaseURL"
-                    onChange=""
+                  <Field
+                    component={RenderSwitchInput}
+                    name="switch1"
                   />
                 </Col>
                 <Col xs={2} className="text-right">
@@ -225,11 +150,9 @@ export class PageSettingsForm extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <Switch
-                    bsSize="normal"
-                    title="normal"
-                    id="jsession"
-                    onChange="{onChange()}"
+                  <Field
+                    component={RenderSwitchInput}
+                    name="switch2"
                   />
                 </Col>
               </div>
@@ -239,11 +162,9 @@ export class PageSettingsForm extends Component {
                   <FormattedMessage id="PageSettings.input.languageBroswer" />&nbsp;
                 </Col>
                 <Col xs={4}>
-                  <Switch
-                    bsSize="normal"
-                    title="normal"
-                    id="languageBroswer"
-                    onChange=""
+                  <Field
+                    component={RenderSwitchInput}
+                    name="switch3"
                   />
                 </Col>
               </div>
@@ -255,58 +176,43 @@ export class PageSettingsForm extends Component {
                   </span>
                 </Col>
                 <Col xs={4}>
-                  <div className="btn-group" data-toggle="buttons">
-
-                    <label htmlFor="2" className="btn btn-default  active">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-treeStyle_page_classic"
-                        name="treeStyle_page"
-                        value="classic"
-                        checked="checked"
-                      />
-                      <FormattedMessage id="PageSettings.input.pageTreeStyle.classic" />
-                    </label>
-                    <label htmlFor="2" className="btn btn-default ">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-treeStyle_page_request"
-                        name="treeStyle_page"
-                        value="request"
-                      />
-                      <FormattedMessage id="PageSettings.input.pageTreeStyle.demand" />
-                    </label>
-                  </div>
+                  <label htmlFor="2" >
+                    <Field
+                      component={RenderRadioInput}
+                      toggleElement={[
+                        {
+                          id: '4',
+                          label: 'Classic',
+                        },
+                        {
+                          id: '5',
+                          label: 'Loads node on Demand',
+                        },
+                        ]
+                      }
+                      name="test2"
+                    />
+                  </label>
                 </Col>
                 <Col xs={2} className="text-right">
                   <FormattedMessage id="PageSettings.input.pageTreeStyle.url" />
                 </Col>
                 <Col xs={4}>
-                  <div className="btn-group" data-toggle="buttons">
-                    <label htmlFor="2" className="btn btn-default  active">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-urlStyle-classic"
-                        name="urlStyle"
-                        value="classic"
-                        checked="checked"
-                      />
-                      <FormattedMessage id="PageSettings.input.pageTreeStyle.classic" />
-                    </label>
-                    <label htmlFor="2" className="btn btn-default ">
-                      <input
-                        type="radio"
-                        className="radiocheck"
-                        id="settings-urlStyle-breadcrumbs"
-                        name="urlStyle"
-                        value="breadcrumbs"
-                      />
-                      <FormattedMessage id="PageSettings.input.pageTreeStyle.breadcrumbs" />
-                    </label>
-                  </div>
+                  <Field
+                    component={RenderRadioInput}
+                    toggleElement={[
+                      {
+                        id: '6',
+                        label: 'Classic',
+                      },
+                      {
+                        id: '7',
+                        label: 'Breadcrumbs',
+                      },
+                      ]
+                    }
+                    name="test3"
+                  />
                 </Col>
 
               </div>
@@ -332,15 +238,19 @@ export class PageSettingsForm extends Component {
   }
 }
 
-PageSettingsForm.propTypes = {
+PageSettingsBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
 };
 
-PageSettingsForm.defaultProps = {
+PageSettingsBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
 };
+
+const PageSettingsForm = reduxForm({
+  form: 'settings',
+})(PageSettingsBody);
 
 export default PageSettingsForm;
