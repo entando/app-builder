@@ -7,7 +7,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'frontend-common-components';
-import { ROUTE_WIDGET_FORM } from 'app-init/router';
+import { ROUTE_WIDGET_ADD } from 'app-init/router';
 
 class WidgetListPage extends Component {
   constructor(props, context) {
@@ -39,7 +39,7 @@ class WidgetListPage extends Component {
           </Row>
           <Row>
             <Col md={12}>
-              <Link route={ROUTE_WIDGET_FORM}>
+              <Link route={ROUTE_WIDGET_ADD}>
                 <Button
                   type="button"
                   className="pull-right WidgetListPage__add"

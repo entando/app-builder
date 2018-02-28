@@ -1,15 +1,17 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
-import PageTitle from 'ui/internal-page/PageTitle';
-import WidgetFormContainer from 'ui/widgets/WidgetFormContainer';
+import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import AddFormContainer from 'ui/fragments/add/AddFormContainer';
+import PageTitle from 'ui/internal-page/PageTitle';
 
+const FRAGMENT_HELP = 'fragment.help';
+const PAGE_TITLE = 'app.add';
 
-const WidgetPage = () => (
-  <InternalPage className="WidgetPage">
+const AddFragmentPage = () => (
+
+  <InternalPage className="AddFragmentPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -17,27 +19,29 @@ const WidgetPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_WIDGET_LIST}>
-              <FormattedMessage id="menu.uxPattern.widget" />
+            {/* FIXME change route when fragmentlist component is avaible */}
+            <BreadcrumbItem route="home">
+              <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id={PAGE_TITLE} />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <PageTitle titleId="app.add" helpId="widget.help" />
+          <PageTitle titleId={PAGE_TITLE} helpId={FRAGMENT_HELP} />
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <WidgetFormContainer />
+          <AddFormContainer />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default WidgetPage;
+
+export default AddFragmentPage;

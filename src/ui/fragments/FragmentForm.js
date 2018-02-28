@@ -1,41 +1,113 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Panel } from 'react-bootstrap';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/form/RenderTextInput';
 
+const EDIT_MODE = 'edit';
+const NEW_MODE = 'new';
+
+export const renderDefaultGuiCodeField = (field) => {
+  const { input } = field;
+  if (!input.value) {
+    return (
+      <Alert type="info">
+        <FormattedMessage id="app.alert.notAvaible" />
+      </Alert>
+    );
+  }
+  return (
+    <Panel>
+      <Panel.Body><pre>{input.value}</pre></Panel.Body>
+    </Panel>
+  );
+};
+
+const defaultGuiCodeField = (
+  <Field
+    name="defaultGuiCode"
+    component={renderDefaultGuiCodeField}
+  />
+);
+
+export const renderStaticField = (field) => {
+  const { input, label, name } = field;
+  if (!input.value) {
+    return null;
+  }
+  return (
+    <div className="form-group">
+      <label htmlFor={name} className="control-label col-sm-2">
+        {label}
+      </label>
+      <Col sm={10}>
+        {input.value.title}
+      </Col>
+    </div>
+  );
+};
 
 export const FragmentFormBody = (props) => {
-  const { handleSubmit, invalid, submitting } = props;
+  const {
+    handleSubmit, invalid, submitting, mode,
+  } = props;
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
   };
+
+  let widgetTypeField = (
+    <Field
+      name="widgetType"
+      component={renderStaticField}
+      label={<FormattedMessage id="fragment.form.edit.widgetType" />}
+    />
+  );
+
+  let pluginField = (
+    <Field
+      name="plugin"
+      component={renderStaticField}
+      label={<FormattedMessage id="fragment.form.edit.plugin" />}
+    />
+  );
+
+  if (mode === NEW_MODE) {
+    pluginField = null;
+    widgetTypeField = null;
+  }
+
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
       <Row>
-        <Col xs={12} >
-          <fieldset className="no-padding" />
-        </Col>
-      </Row>
-      <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
+            <legend>
+              <FormattedMessage id="app.info" />
+              <div className="WidgetForm__required-fields text-right">
+                * <FormattedMessage id="app.fieldsRequired" />
+              </div>
+            </legend>
             <Field
               component={RenderTextInput}
               name="code"
               label={
                 <span>
-                  <FormattedMessage id="fragment.create.code" />
+                  <FormattedMessage id="fragment.form.add.code" />
                   <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
                 </span>
               }
-              placeholder={formattedText('fragment.create.code.placeholder')}
+              placeholder={formattedText('fragment.form.add.code.placeholder')}
               validate={[required]}
+              disabled={mode === EDIT_MODE}
             />
+            {widgetTypeField}
+            {pluginField}
           </fieldset>
         </Col>
       </Row>
@@ -62,13 +134,7 @@ export const FragmentFormBody = (props) => {
                     </div>
                   </Tab>
                   <Tab eventKey={2} title={formattedText('fragment.tab.defaultGuiCode')} >
-                    <div className="tab-content margin-large-bottom ">
-                      <div className="tab-pane fade in active">
-                        <div className="margin-none alert alert-info">
-                          <FormattedMessage id="fragment.body.defaultGuiCode" />
-                        </div>
-                      </div>
-                    </div>
+                    {defaultGuiCodeField}
                   </Tab>
                 </Tabs>
               </Col>
@@ -89,10 +155,7 @@ export const FragmentFormBody = (props) => {
           </Button>
         </Col>
       </Row>
-
-
     </form>
-
   );
 };
 
@@ -100,11 +163,13 @@ FragmentFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 FragmentFormBody.defaultProps = {
   invalid: false,
   submitting: false,
+  mode: NEW_MODE,
 };
 
 const FragmentForm = reduxForm({
