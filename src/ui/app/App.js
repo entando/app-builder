@@ -14,11 +14,11 @@ import {
 
 import { LoginPage, NotFoundPage } from 'frontend-common-components';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
-import DashboardPage from 'ui/dashboard-page/DashboardPage';
-import PageTreePageContainer from 'ui/page-tree-page/PageTreePageContainer';
-import WidgetListPageContainer from 'ui/widget-list-page/WidgetListPageContainer';
-import WidgetPage from 'ui/app-pages/WidgetPage';
-import WidgetEditPageContainer from 'ui/widgets/WidgetEditPageContainer';
+import DashboardPage from 'ui/dashboard/DashboardPage';
+import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
+import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
+import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
+import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
@@ -32,9 +32,9 @@ const App = ({ route }) => {
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
-    case ROUTE_WIDGET_LIST: return <WidgetListPageContainer />;
-    case ROUTE_WIDGET_ADD: return <WidgetPage />;
-    case ROUTE_WIDGET_EDIT: return <WidgetEditPageContainer />;
+    case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
+    case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
+    case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;

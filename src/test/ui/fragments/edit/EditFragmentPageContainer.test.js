@@ -37,15 +37,15 @@ jest.mock('frontend-common-components', () => ({
   routerReducer: state => state || {},
 }));
 
+describe('EditFragmentPageContainer', () => {
+  it('maps fragmentCode property state in EditFragmentPage', () => {
+    expect(mapStateToProps(TEST_STATE)).toEqual({ fragmentCode: 'code' });
+  });
 
-it('maps fragmentCode property state in EditFragmentPage', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ fragmentCode: 'code' });
-});
-
-
-it('verify that onWillMount and toBeDefined is defined by mapDispatchToProps', () => {
-  const result = mapDispatchToProps(dispatchMock);
-  expect(result.onWillMount).toBeDefined();
-  result.onWillMount({ fragmentCode: 'code' });
-  expect(dispatchMock).toHaveBeenCalled();
+  it('verify that onWillMount and toBeDefined is defined by mapDispatchToProps', () => {
+    const result = mapDispatchToProps(dispatchMock);
+    expect(result.onWillMount).toBeDefined();
+    result.onWillMount({ fragmentCode: 'code' });
+    expect(dispatchMock).toHaveBeenCalled();
+  });
 });

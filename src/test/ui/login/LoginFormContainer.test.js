@@ -12,19 +12,20 @@ const TEST_STATE = {
 // declare a mock empty function
 const dispatchMock = jest.fn();
 
+describe('LoginFormContainer', () => {
+  it('maps login error message property with state.form.loginErrorMessage', () => {
+    expect(mapStateToProps(TEST_STATE)).toEqual({ loginErrorMessage: 'test' });
+  });
 
-it('maps login error message property with state.form.loginErrorMessage', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ loginErrorMessage: 'test' });
-});
 
+  it('verify that performLogin is called from mapDispatchToProps', () => {
+    const result = mapDispatchToProps(dispatchMock);
+    expect(result.performLogin).toBeDefined();
+  });
 
-it('verify that performLogin is called from mapDispatchToProps', () => {
-  const result = mapDispatchToProps(dispatchMock);
-  expect(result.performLogin).toBeDefined();
-});
-
-it('verify that performLogin is called from mapDispatchToProps', () => {
-  const result = mapDispatchToProps(dispatchMock);
-  result.performLogin('gianni', 'moi');
-  expect(dispatchMock).toHaveBeenCalled();
+  it('verify that performLogin is called from mapDispatchToProps', () => {
+    const result = mapDispatchToProps(dispatchMock);
+    result.performLogin('gianni', 'moi');
+    expect(dispatchMock).toHaveBeenCalled();
+  });
 });
