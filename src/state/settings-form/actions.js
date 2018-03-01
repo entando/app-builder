@@ -1,9 +1,15 @@
 import { getPageSettingsListAPI } from 'api/pageSettings';
 import { initialize } from 'redux-form';
+import { GET_OPTIONS } from './types';
+
+export const getOptions = options => ({
+  type: GET_OPTIONS,
+  payload: {
+    options,
+  },
+});
 
 // thunks
-// eslint-disable-next-line
-
 
 export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})

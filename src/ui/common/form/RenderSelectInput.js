@@ -9,7 +9,7 @@ const RenderSelectInput = ({
   options, labelId, fieldName, mandatory,
 }) => {
   const optionList = options.map(option =>
-    <option key={option} value={option}>{option}</option>);
+    <option key={option.pageCode} value={option.pageCode}>{option.shortFullTitle}</option>);
 
   return (
     <div className="form-group">

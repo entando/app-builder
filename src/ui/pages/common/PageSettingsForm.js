@@ -64,26 +64,26 @@ export class PageSettingsBody extends Component {
           <Col xs={12}>
             <fieldset className="no-padding">
               <RenderSelectInput
-                options={['homepage', 'test']}
+                // options={['homepage', 'test']}
                 labelId="PageSettings.input.homepage"
                 // mandatory
                 fieldName="homePageCode"
               />
-              <RenderSelectInput
+              {/* <RenderSelectInput
                 options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.500"
                 mandatory
-              />
-              <RenderSelectInput
+                />
+                <RenderSelectInput
                 options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.proceed"
                 mandatory
-              />
-              <RenderSelectInput
+                />
+                <RenderSelectInput
                 options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.404"
 
-              />
+              /> */}
               <div className="form-group">
                 <Col xs={2} className="text-right">
                   <FormattedMessage id="PageSettings.input.BaseURL" />&nbsp;

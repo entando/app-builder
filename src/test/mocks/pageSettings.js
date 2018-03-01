@@ -47,7 +47,7 @@ export const PAGESETTINGS = {
 };
 export default PAGESETTINGS;
 
-// export const PAGESETTINGS_BAD = {
+// export const PAGESETTINGS_ERROR = {
 //   payload: {},
 //   errors: [
 //     {
@@ -57,3 +57,39 @@ export default PAGESETTINGS;
 //   ],
 //   metaData: {},
 // };
+
+
+export const SELECTOPTIONS_OK = {
+  payload: [
+    {
+      pageCode: 'homepage',
+      shortFullTitle: 'Home',
+    },
+    {
+      pageCode: 'service',
+      shortFullTitle: '[i].. / Service',
+    },
+    {
+      pageCode: 'notfound',
+      shortFullTitle: '.. / .. / Page not found',
+    },
+    {
+      pageCode: 'errorpage',
+      shortFullTitle: '.. / .. / Error page',
+    },
+  ],
+  errors: [],
+  metaData: {},
+};
+
+export const SELECTOPTIONS_ERROR = {
+
+  payload: {},
+  errors: [
+    {
+      code: 1,
+      message: 'what went wrong',
+    },
+  ],
+  metaData: {},
+};

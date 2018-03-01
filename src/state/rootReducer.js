@@ -10,6 +10,7 @@ import locale from 'state/locale/reducer';
 import widgetList from 'state/widget-list/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
+import options from 'state/settings-form/reducer';
 import widgetForm from 'state/widget-form/reducer';
 import fragmentForm from 'state/fragment-form/reducer';
 
@@ -24,6 +25,7 @@ const reducerDef = {
   widgetList,
   widgetForm,
   fragmentForm,
+  options,
 };
 
 if (pluginArray.length) {
