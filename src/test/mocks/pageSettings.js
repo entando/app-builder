@@ -3,7 +3,7 @@ export const PAGESETTINGS = {
   payload: {
     param: [{
       name: 'urlStyle',
-      value: 'classic|breadcrumbs',
+      value: 'breadcrumbs',
     },
     {
       name: 'treeStyle_page',
@@ -30,7 +30,7 @@ export const PAGESETTINGS = {
     },
     {
       name: 'homePageCode',
-      value: 'homepage',
+      value: 'test',
     },
     {
       name: 'errorPageCode',
@@ -46,3 +46,14 @@ export const PAGESETTINGS = {
   metaData: {},
 };
 export default PAGESETTINGS;
+
+// export const PAGESETTINGS_BAD = {
+//   payload: {},
+//   errors: [
+//     {
+//       code: 1,
+//       message: 'what went wrong',
+//     },
+//   ],
+//   metaData: {},
+// };
