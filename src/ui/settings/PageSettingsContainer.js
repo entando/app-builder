@@ -10,7 +10,7 @@ import { getGroups } from 'state/groups/selectors';
 
 export const mapStateToProps = state => (
   {
-    mode: EDIT_MODE,
+    // mode: EDIT_MODE,
     groups: getGroups(state),
   });
 
