@@ -11,67 +11,66 @@ const FragmentReferenceTable = ({ fragments, referencesFragments }) => {
     ev.preventDefault();
     referencesFragments(item);
   };
+
+  if (fragments.length === 0) {
+    return (<EmptyData messageId="fragment.detail.emptyReferenceFragments" />);
+  }
   return (
     <div>
-      {
-        fragments.length === 0 ?
-          <EmptyData messageId="fragment.detail.emptyReferenceFragments" /> :
-          <div>
-            <Table bordered hover className="FragmentReferenceTable">
-              <thead>
-                <tr>
-                  <th
-                    width="95%"
-                    className="FragmentReferenceTable__th"
-                  >
-                    <FormattedMessage id="app.code" />
-                  </th>
-                  <th
-                    width="5%"
-                    className="FragmentReferenceTable__th text-center"
-                  >
-                    <FormattedMessage id="app.actions" />
-                  </th>
+      <Table bordered hover className="FragmentReferenceTable">
+        <thead>
+          <tr>
+            <th
+              width="95%"
+              className="FragmentReferenceTable__th"
+            >
+              <FormattedMessage id="app.code" />
+            </th>
+            <th
+              width="5%"
+              className="FragmentReferenceTable__th text-center"
+            >
+              <FormattedMessage id="app.actions" />
+            </th>
 
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  fragments.map(item => (
-                    <tr key={item.code} >
-                      <td >{item.code} </td>
-                      <td className="text-center">
-                        <DropdownKebab key={item.code} id={item.code}>
-                          <MenuItem
-                            onClick={onEdit(item)}
-                          ><FormattedMessage id="app.edit" />
-                          </MenuItem>
-                        </DropdownKebab>
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </Table>
-            <Row>
-              <Col xs={12}>
-                <div
-                  className="FragmentReferenceTable__div-search content-view-pf-pagination clearfix"
-                >
-                  <div className="form-group">
-                    <span>
-                      <FormattedMessage
-                        id="app.search.returned"
-                        values={{ value: fragments.length }}
-                      />
-                    </span>
-                  </div>
-                </div>
-              </Col>
-            </Row>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            fragments.map(item => (
+              <tr key={item.code} >
+                <td >{item.code} </td>
+                <td className="text-center">
+                  <DropdownKebab key={item.code} id={item.code} pullRight>
+                    <MenuItem
+                      onClick={onEdit(item)}
+                    ><FormattedMessage id="app.edit" />
+                    </MenuItem>
+                  </DropdownKebab>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </Table>
+      <Row>
+        <Col xs={12}>
+          <div
+            className="FragmentReferenceTable__div-search content-view-pf-pagination clearfix"
+          >
+            <div className="form-group">
+              <span>
+                <FormattedMessage
+                  id="app.search.returned"
+                  values={{ value: fragments.length }}
+                />
+              </span>
+            </div>
           </div>
-      }
+        </Col>
+      </Row>
     </div>
+
   );
 };
 

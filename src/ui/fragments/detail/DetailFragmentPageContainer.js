@@ -16,17 +16,11 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (props) => {
-    console.log('mapDispatchToProps- props ', props.code);
     dispatch(fetchFragment(props.code));
   },
-  handleEdit: () => {
-  },
-  referencesFragments: (item) => {
-    console.log('referencesFragments ', item);
-  },
-  referencesPageModels: (item) => {
-    console.log('referencesPageModels ', item);
-  },
+  handleEdit: code => code,
+  referencesFragments: item => item,
+  referencesPageModels: item => item,
 
 });
 

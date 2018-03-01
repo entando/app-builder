@@ -1,4 +1,5 @@
 @import "patternfly.scss";
+@import "common/patternfly-override.scss";
 @import "internal-page/InternalPage.scss";
 @import "internal-page/PageTitle";
 @import "common/form/FormLabel.scss";
@@ -17,5 +18,3 @@
 @import "fragment/FragmentReferenceTable.scss";
 @import "fragment/PageModelReferenceTable.scss";
 @import "fragment/WidgetTypeReferenceTable.scss";
-@import "form/FormLabel.scss";
-@import "form/FormSectionTitle.scss";

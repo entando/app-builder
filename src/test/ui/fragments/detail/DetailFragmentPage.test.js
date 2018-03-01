@@ -9,6 +9,7 @@ describe('DetailFragmentPage', () => {
   let component;
   beforeEach(() => {
     component = shallow(<DetailFragmentPage />);
+    // console.log(component.debug());
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);
@@ -18,10 +19,19 @@ describe('DetailFragmentPage', () => {
     expect(component.find('InternalPage').hasClass('DetailFragmentPage')).toEqual(true);
   });
 
-  describe('functions', () => {
-    it('body', () => {
-      const result = component.instance().body();
-      console.log(result);
-    });
+  it('verify if exist DetailFragmentTable ', () => {
+    expect(component.find('DetailFragmentTable').exists()).toEqual(true);
+  });
+
+  it('verify if exist FragmentReferenceTable ', () => {
+    expect(component.find('FragmentReferenceTable').exists()).toEqual(true);
+  });
+
+  it('verify if exist PageModelReferenceTable ', () => {
+    expect(component.find('PageModelReferenceTable').exists()).toEqual(true);
+  });
+
+  it('verify if exist WidgetTypeReferenceTable ', () => {
+    expect(component.find('WidgetTypeReferenceTable').exists()).toEqual(true);
   });
 });

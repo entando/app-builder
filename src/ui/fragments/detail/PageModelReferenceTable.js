@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Table } from 'react-bootstrap';
 import { DropdownKebab, MenuItem, Row, Col } from 'patternfly-react';
+import EmptyData from 'ui/fragments/detail/EmptyData';
 
 const PageModelReferenceTable = ({ pageModel, referencesPageModels }) => {
   const onEdit = item => (ev) => {
     ev.preventDefault();
     referencesPageModels(item);
   };
-
+  if (pageModel.length === 0) {
+    return (<EmptyData messageId="fragment.detail.emptyReferencePageModels" />);
+  }
   return (
     <div>
       <Table bordered hover className="PageModelReferenceTable">
