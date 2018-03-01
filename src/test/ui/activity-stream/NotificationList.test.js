@@ -15,7 +15,7 @@ const NOTIFICATION_LIST_MOCK = (
 );
 
 let component;
-describe('NotifcationList', () => {
+describe('NotificationList', () => {
   beforeEach(() => {
     component = shallow(NOTIFICATION_LIST_MOCK);
   });
