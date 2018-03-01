@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // import the Component to be connected
-import FragmentForm from 'ui/fragments/FragmentForm';
+import FragmentForm from 'ui/fragments/common/FragmentForm';
 
 export const EDIT_MODE = 'edit';
 

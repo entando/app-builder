@@ -1,16 +1,16 @@
 
-@import "page-tree/PageStatusIcon.scss";
-@import "page-tree/PageTree.scss";
-@import "page-tree/RowSpinner.scss";
-@import "page-tree/PageTreePreview.scss";
+@import "patternfly.scss";
 @import "internal-page/InternalPage.scss";
-@import "widget/WidgetForm.scss";
-@import "./widget-list-page/WidgetListPage.scss";
-@import "./widget-list-page/WidgetListTable.scss";
-@import "./widget-list-page/WidgetListActionToggle";
-@import "./widget-list-page/WidgetListRow";
-@import "./internal-page/PageTitle";
+@import "internal-page/PageTitle";
+@import "common/form/FormLabel.scss";
+@import "common/form/FormSectionTitle.scss";
+@import "widgets/common/WidgetForm.scss";
+@import "widgets/list/ListWidgetPage.scss";
+@import "widgets/list/WidgetListTable.scss";
+@import "widgets/list/WidgetListActionToggle";
+@import "widgets/list/WidgetListRow";
+@import "pages/common/PageStatusIcon.scss";
+@import "pages/common/PageTree.scss";
+@import "pages/common/RowSpinner.scss";
+@import "pages/common/PageTreePreview.scss";
 @import "fragment/FragmentForm.scss";
-@import "form/FormLabel.scss";
-@import "form/FormSectionTitle.scss";
-
