@@ -1,16 +1,12 @@
 @import "../patternfly.scss";
 
 
-.FragmentReferenceTable {
+.WidgetTypeReferenceTable {
 
   margin-bottom: 0 ;
 
   &__th {
     text-transform: capitalize;
-  }
-
-  &__div-search {
-    border-top: 0
   }
 
 }
