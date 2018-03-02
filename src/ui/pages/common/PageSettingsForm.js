@@ -105,31 +105,31 @@ export class PageSettingsBody extends Component {
             <fieldset className="no-padding">
               <RenderSelectInput
                 options={selectOptions}
-                labelId="PageSettings.input.homepage"
+                labelId="pageSettings.input.homepage"
                 fieldName="homePageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="PageSettings.input.500"
+                labelId="pageSettings.input.500"
                 fieldName="errorPageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="PageSettings.input.proceed"
+                labelId="pageSettings.input.proceed"
                 fieldName="loginPageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="PageSettings.input.404"
+                labelId="pageSettings.input.404"
                 fieldName="notFoundPageCode"
                 mandatory
               />
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="PageSettings.input.BaseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.BaseURL" />&nbsp;
                   <OverlayTrigger
                     overlay={appendBaseUrl()}
                     placement="top"
@@ -152,7 +152,7 @@ export class PageSettingsBody extends Component {
 
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="PageSettings.input.AppendBaseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.AppendBaseURL" />&nbsp;
                   <OverlayTrigger
                     overlay={baseUrl()}
                     placement="top"
@@ -169,7 +169,7 @@ export class PageSettingsBody extends Component {
                   />
                 </Col>
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="PageSettings.input.jsession" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.jsession" />&nbsp;
                   <OverlayTrigger
                     overlay={jsession()}
                     placement="top"
@@ -189,7 +189,7 @@ export class PageSettingsBody extends Component {
 
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="PageSettings.input.languageBroswer" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.languageBroswer" />&nbsp;
                 </Col>
                 <Col xs={4}>
                   <Field
@@ -202,7 +202,7 @@ export class PageSettingsBody extends Component {
               <div className="form-group">
                 <Col xs={2} className="text-right">
                   <span className="display-block">
-                    <FormattedMessage id="PageSettings.input.pageTreeStyle" />
+                    <FormattedMessage id="pageSettings.input.pageTreeStyle" />
                   </span>
                 </Col>
                 <Col xs={4}>
@@ -215,7 +215,7 @@ export class PageSettingsBody extends Component {
                   </label>
                 </Col>
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="PageSettings.input.pageTreeStyle.url" />
+                  <FormattedMessage id="pageSettings.input.pageTreeStyle.url" />
                 </Col>
                 <Col xs={4}>
                   <Field

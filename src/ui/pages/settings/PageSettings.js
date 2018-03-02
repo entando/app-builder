@@ -9,7 +9,7 @@ import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
 
-const PageSettings = () => (
+const pageSettings = () => (
   <InternalPage className="PageSettings">
     <Grid fluid>
       <Row>
@@ -25,8 +25,8 @@ const PageSettings = () => (
         </Col>
       </Row>
       <PageTitle
-        titleId="PageSettings.title"
-        helpId="PageSettings.help"
+        titleId="pageSettings.title"
+        helpId="pageSettings.help"
       />
       <Row>
         <Col xs={12}>
@@ -38,4 +38,4 @@ const PageSettings = () => (
 );
 
 
-export default PageSettings;
+export default pageSettings;

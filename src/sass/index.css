@@ -128,15 +128,6 @@
   color: #d1d1d1;
   font-size: 12px; }
 
-<<<<<<< HEAD
-.PageSettings__required-icon {
-  margin-left: 3px;
-  color: #393f44;
-  font-size: 9px; }
-
-.PageSettings__popover-icon {
-  color: #00659c; }
-=======
 .FormLabel__language-label {
   margin-right: 5px;
   background-color: #0088ce; }
@@ -201,4 +192,11 @@
   font-size: 15px;
   content: "\f192";
   vertical-align: middle; }
->>>>>>> master
+
+.PageSettings__required-icon {
+  margin-left: 3px;
+  color: #393f44;
+  font-size: 9px; }
+
+.PageSettings__popover-icon {
+  color: #00659c; }

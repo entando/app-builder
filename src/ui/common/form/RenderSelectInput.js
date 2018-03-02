@@ -2,18 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const RenderSelectInput = ({
   options, labelId, fieldName, mandatory,
 }) => (
   <div className="form-group">
-    <Col xs={2} className="text-right">
-      <span id="settings-homePageCode">
-        <FormattedMessage id={labelId} />
-      </span>
-      <i className={(mandatory) ? 'fa fa-asterisk PageSettings__required-icon' : ''} />
-    </Col>
+    <label htmlFor={fieldName} className="col-xs-2 control-label text-right">
+      <FormLabel labelId={labelId} required={mandatory} />
+    </label>
     <Col xs={10}>
       <Field component="select" name={fieldName} className="form-control" >
         {options.map(item => (

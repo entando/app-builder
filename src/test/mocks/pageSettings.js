@@ -1,5 +1,4 @@
-// eslinter-disable-next-line
-export const PAGESETTINGS = {
+export const PAGE_SETTINGS = {
   payload: {
     param: [{
       name: 'urlStyle',
@@ -45,21 +44,9 @@ export const PAGESETTINGS = {
   errors: [],
   metaData: {},
 };
-export default PAGESETTINGS;
+export default PAGE_SETTINGS;
 
-// export const PAGESETTINGS_ERROR = {
-//   payload: {},
-//   errors: [
-//     {
-//       code: 1,
-//       message: 'what went wrong',
-//     },
-//   ],
-//   metaData: {},
-// };
-
-
-export const SELECTOPTIONS_OK = {
+export const SELECT_OPTIONS_OK = {
   payload: [
     {
       pageCode: 'homepage',
@@ -86,7 +73,7 @@ export const SELECTOPTIONS_OK = {
   metaData: {},
 };
 
-export const SELECTOPTIONS_ERROR = {
+export const SELECT_OPTIONS_ERROR = {
 
   payload: {},
   errors: [

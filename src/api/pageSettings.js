@@ -1,14 +1,13 @@
-import { PAGESETTINGS, SELECTOPTIONS_OK } from 'test/mocks/pageSettings';
+import { PAGE_SETTINGS, SELECT_OPTIONS_OK } from 'test/mocks/pageSettings';
 
-// eslint-disable-next-line
 export const getPageSettingsListAPI = () => (
   new Promise((resolve) => {
-    resolve(PAGESETTINGS);
+    resolve(PAGE_SETTINGS);
   })
 );
 
 export const getSelectOptionsAPI = () => (
   new Promise((resolve) => {
-    resolve(SELECTOPTIONS_OK);
+    resolve(SELECT_OPTIONS_OK);
   })
 );
