@@ -5,7 +5,7 @@ import {
 
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
-  getPageTreePages,
+  getPageTreePages, getCharsets, getContentTypes,
 } from 'state/pages/selectors';
 
 const LOCALE_MOCK = 'en';
@@ -146,6 +146,34 @@ describe('state/pages/selectors', () => {
       expect(pageTreePages[1].loaded).toBe(false);
       expect(pageTreePages[2].loaded).toBe(false);
       expect(pageTreePages[3].loaded).toBe(false);
+    });
+  });
+
+  describe('getCharsets(state)', () => {
+    let charsets;
+    beforeEach(() => {
+      charsets = getCharsets(MOCK_STATE);
+    });
+    it('returns the page possible charsets', () => {
+      expect(charsets.length).toBe(2);
+      expect(charsets[0]).toBe('iso-8859-1');
+      expect(charsets[1]).toBe('utf-8');
+    });
+  });
+
+  describe('getContentTypes(state)', () => {
+    let contentTypes;
+    beforeEach(() => {
+      contentTypes = getContentTypes(MOCK_STATE);
+    });
+    it('returns the page possible charsets', () => {
+      expect(contentTypes).toEqual([
+        'application/json',
+        'application/xhtml+xml',
+        'application/xml',
+        'text/html',
+        'text/xml',
+      ]);
     });
   });
 });

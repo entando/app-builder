@@ -15,11 +15,11 @@ export const addNotifications = notifications => ({
   },
 });
 
-export const fetchNotifications = () => (dispatch) => {
+export const fetchNotifications = () => dispatch => (
   getApiNotifications().then((data) => {
     dispatch(addNotifications(data.payload.notifications));
-  });
-};
+  })
+);
 
 // if you have to check a property before call a dispatch action,
 // you have to use a thunk by passing a second argument to check the state

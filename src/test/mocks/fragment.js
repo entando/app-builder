@@ -3,11 +3,11 @@ export const BODY_OK =
   payload: {
     code: 'fragment_code',
     isLocked: false,
-    widgetType: null,
-    plugin: {
-      code: 'pluginCode',
-      title: 'pluginTitlte',
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
     },
+    pluginCode: 'pluginCode',
     fragments: [{
       code: 'fragmentCode',
     }],

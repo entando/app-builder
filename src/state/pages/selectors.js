@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+
 import { getLocale } from 'state/locale/selectors';
 
 
@@ -84,3 +85,17 @@ export const getPageTreePages = createSelector(
         title: pagesTitles[pageCode][locale],
       })),
 );
+
+
+export const getCharsets = () => ([
+  'iso-8859-1',
+  'utf-8',
+]);
+
+export const getContentTypes = () => ([
+  'application/json',
+  'application/xhtml+xml',
+  'application/xml',
+  'text/html',
+  'text/xml',
+]);

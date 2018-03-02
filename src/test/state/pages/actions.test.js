@@ -1,23 +1,35 @@
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
-  handleExpandPage, setPageParent, movePageBelow, movePageAbove,
+  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
 } from 'state/pages/types';
 
+import { ADD_ERRORS } from 'state/errors/types';
+
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition } from 'api/pages';
+import { setPagePosition, postPage } from 'api/pages';
 
 
 import rootReducer from 'state/rootReducer';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
+jest.mock('api/pages', () => ({
+  fetchPage: () => new Promise(resolve => resolve({})),
+  fetchPageChildren: () => new Promise(resolve => resolve([])),
+  setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
+  postPage: jest.fn(),
+}));
+const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
+const mockPostPageFailure = () =>
+  new Promise(resolve => resolve({ payload: {}, errors: [{ code: 1, message: 'Wrong!' }] }));
 
 const mockStore = configureStore([thunk]);
 const INITIAL_STATE = rootReducer();
@@ -61,13 +73,6 @@ const INITIALIZED_STATE = {
     },
   },
 };
-
-
-jest.mock('api/pages', () => ({
-  fetchPage: () => new Promise(resolve => resolve({})),
-  fetchPageChildren: () => new Promise(resolve => resolve([])),
-  setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
-}));
 
 const PAGE_CODE = 'pagecode';
 const OLD_PARENT_CODE = 'oldParent';
@@ -250,6 +255,30 @@ describe('state/pages/actions', () => {
         const actions = store.getActions();
         expect(setPagePosition).not.toHaveBeenCalled();
         expect(actions.length).toBe(0);
+      });
+    });
+  });
+
+  describe('sendPostPage()', () => {
+    let store;
+    beforeEach(() => {
+      jest.resetModules();
+      store = mockStore(INITIALIZED_STATE);
+    });
+    it('when postPage succeeds, should dispatch ADD_PAGES', () => {
+      postPage.mockImplementation(mockPostPageSuccess);
+      store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
+        const addPagesAction = store.getActions().find(action => action.type === ADD_PAGES);
+        expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(addPagesAction).toBeDefined();
+      });
+    });
+    it('when postPage fails, should dispatch ADD_ERRORS', () => {
+      postPage.mockImplementation(mockPostPageFailure);
+      store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(addErrorsAction).toBeDefined();
       });
     });
   });
