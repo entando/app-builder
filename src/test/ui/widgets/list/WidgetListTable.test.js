@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import WidgetListTable from 'ui/widgets/list/WidgetListTable';
 
-describe('ui/widget-list-page/WidgetListTable', () => {
+describe('WidgetListTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<WidgetListTable />);

@@ -7,8 +7,6 @@ export const mapStateToProps = state =>
   (
     {
       tableRow: getTableRow(state),
-      // tableRow: state.widgetList,
-      // getTableRow è definito nel selettore
     });
 const RowListContainer = connect(mapStateToProps, null)(RowList);
 

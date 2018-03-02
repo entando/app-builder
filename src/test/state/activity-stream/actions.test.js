@@ -42,7 +42,6 @@ const TOGGLE_NOTIFICATION_LIST_VISIBLE = {
 
 const GET_ROUTE_USER_NAME = {
   activityStream: {
-    type: ADD_NOTIFICATIONS,
     hidden: true,
     notifications: NOTIFICATION_PAYLOAD.notifications,
   },
@@ -50,7 +49,6 @@ const GET_ROUTE_USER_NAME = {
 
 const GET_ROUTE_TARGET_NAME_DEFAULT_ROUTE = {
   activityStream: {
-    type: ADD_NOTIFICATIONS,
     hidden: true,
     notifications: [{
       id: 0,

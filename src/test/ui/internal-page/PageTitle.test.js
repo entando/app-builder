@@ -10,7 +10,7 @@ const props = {
   helpId: 'widget.help',
 };
 
-describe('ui/internal-page/PageTitle', () => {
+describe('PageTitle', () => {
   let component;
   beforeEach(() => {
     component = shallow(<PageTitle {...props} />);

@@ -21,6 +21,8 @@ describe('coherence test between locales files', () => {
     expect(itKeys.length).toEqual(enKeys.length);
   });
   it('same key values in each file', () => {
+    itKeys.sort();
+    enKeys.sort();
     expect(itKeys).toEqual(enKeys);
   });
 });

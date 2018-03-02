@@ -15,26 +15,30 @@ const ADD_GROUP_MOCK_INITIAL_STATE = {
 
 const GROUP_PAYLOAD = GROUPS.payload;
 
-it('test addGroups action sets the correct type', () => {
-  const action = addGroups(GROUP_PAYLOAD);
-  expect(action.type).toEqual(ADD_GROUPS);
-});
-
-describe('test fetchFragment', () => {
-  const store = mockStore(ADD_GROUP_MOCK_INITIAL_STATE);
-  it('fetchGroups calls ADDgROUPS action', (done) => {
-    store.dispatch(fetchGroups()).then(() => {
-      const actions = store.getActions();
-      expect(actions[0].type).toEqual(ADD_GROUPS);
-      done();
+describe('state/groups/actions', () => {
+  describe('test addGroups', () => {
+    it('test addGroups action sets the correct type', () => {
+      const action = addGroups(GROUP_PAYLOAD);
+      expect(action.type).toEqual(ADD_GROUPS);
     });
   });
-  it('state contains groups', (done) => {
-    store.dispatch(fetchGroups()).then(() => {
-      const actions = store.getActions();
-      expect(actions[0].payload.groups).toBeDefined();
-      expect(actions[0].payload.groups).toEqual(GROUP_PAYLOAD);
-      done();
+
+  describe('test fetchFragment', () => {
+    const store = mockStore(ADD_GROUP_MOCK_INITIAL_STATE);
+    it('fetchGroups calls ADDgROUPS action', (done) => {
+      store.dispatch(fetchGroups()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toEqual(ADD_GROUPS);
+        done();
+      });
+    });
+    it('state contains groups', (done) => {
+      store.dispatch(fetchGroups()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].payload.groups).toBeDefined();
+        expect(actions[0].payload.groups).toEqual(GROUP_PAYLOAD);
+        done();
+      });
     });
   });
 });
