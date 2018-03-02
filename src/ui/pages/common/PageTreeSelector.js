@@ -29,7 +29,7 @@ class PageTreeSelector extends Component {
       }
 
       return (
-        <tr key={page.code} rowData={page} className="PageTreeSelector__row">
+        <tr key={page.code} className="PageTreeSelector__row">
           <td className={className.join(' ').trim()}>
             <span
               role="button"

@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 // import the Component to be connected
 import EditWidgetPage from 'ui/widgets/edit/EditWidgetPage';
-import { fetchWidget } from 'state/widget-form/actions';
+import { fetchWidget } from 'state/widgets/actions';
 import { getParams } from 'frontend-common-components';
-import { getWidgetName } from 'state/widget-form/selectors';
+import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => (
   {
     widgetCode: getParams(state).widgetCode,
-    widgetName: getWidgetName(state),
+    widgetName: formValueSelector('widget')(state, 'name'),
   });
 
   // map the props

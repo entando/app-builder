@@ -9,8 +9,6 @@ import locale from 'state/locale/reducer';
 import widgetList from 'state/widget-list/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
-import widgetForm from 'state/widget-form/reducer';
-import fragmentForm from 'state/fragment-form/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 
@@ -23,8 +21,6 @@ const reducerDef = {
   pages,
   groups,
   widgetList,
-  fragmentForm,
-  widgetForm, // FIXME to remove, use redux-form state to initialize the widget form
   pageModels,
   errors,
 };
