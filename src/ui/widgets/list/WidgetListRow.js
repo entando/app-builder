@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WidgetListMenuActions from 'ui/widgets/list/WidgetListMenuActions';
+import { Link } from 'frontend-common-components';
+import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 const WidgetListRow = (props) => {
   const { name, code, used } = props;
@@ -9,7 +11,8 @@ const WidgetListRow = (props) => {
       <td className="WidgetListRow__td ">
         <div className="list-view-pf-left">
           <span className="fa fa-puzzle-piece list-view-pf-icon-sm" />
-          &nbsp;&nbsp;{name}
+          &nbsp;&nbsp;
+          <Link route={ROUTE_WIDGET_EDIT} params={{ widgetCode: code }} >{name}</Link>
         </div>
       </td>
       <td className="WidgetListRow__td ">{code}</td>
