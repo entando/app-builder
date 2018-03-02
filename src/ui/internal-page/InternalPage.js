@@ -6,7 +6,10 @@ import {
 } from 'frontend-common-components';
 
 import {
-  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST,
+  ROUTE_DASHBOARD,
+  ROUTE_PAGE_TREE,
+  ROUTE_WIDGET_LIST,
+  ROUTE_FRAGMENT_LIST,
 } from 'app-init/router';
 
 const PROJECT_LINK = 'http://www.entando.com';
@@ -48,6 +51,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-ux-pattern-widgets"
           label={formattedText('menu.widgets')}
           route={ROUTE_WIDGET_LIST}
+        />
+        <LinkMenuItem
+          id="menu-ux-pattern-fragments"
+          label={formattedText('menu.fragments')}
+          route={ROUTE_FRAGMENT_LIST}
         />
       </FirstLevelMenuItem>
       <LinkMenuItem
