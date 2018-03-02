@@ -48,12 +48,21 @@ class MultiSelectRenderer extends Component {
       options, selectedValues, labelKey, valueKey, emptyOptionTextId,
     } = this.props;
 
-    const filteredOptions = options.filter(opt => !selectedValues.includes(opt[valueKey]));
+    const filteredOptions = options
+      .filter(opt => !selectedValues.includes(opt[valueKey]))
+      .map(item => (
+        <option key={`opt-${item[valueKey]}`} value={item[valueKey]}>
+          {item[labelKey]}
+        </option>
+      ));
 
     if (emptyOptionTextId) {
-      const emptyOption = {};
-      emptyOption[labelKey] = formattedText(emptyOptionTextId);
-      filteredOptions.unshift(emptyOption);
+      const emptyOptionText = formattedText(emptyOptionTextId);
+      filteredOptions.unshift((
+        <option key={emptyOptionText} value="">
+          {emptyOptionText}
+        </option>
+      ));
     }
 
     return (
@@ -63,15 +72,7 @@ class MultiSelectRenderer extends Component {
             className="form-control"
             ref={(select) => { this.select = select; }}
           >
-            {
-              filteredOptions.map(item => (
-                <option
-                  key={`opt-${item[valueKey]}`}
-                  value={item[valueKey]}
-                >
-                  {item[labelKey]}
-                </option>))
-            }
+            {filteredOptions}
           </select>
           <span className="input-group-btn">
             <Button
