@@ -11,12 +11,7 @@ const PAGE_MODEL_MOCK = {
 
 describe('PageModelReferenceTable', () => {
   let component;
-  let referencesPageModels;
-
-
-  beforeEach(() => {
-    referencesPageModels = jest.fn();
-  });
+  const referencesPageModels = jest.fn();
 
   const buildPageModelReferenceTable = (pageModel) => {
     const props = {

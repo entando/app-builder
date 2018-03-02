@@ -12,7 +12,7 @@ const WIDGET_MOCK = {
 describe('WidgetTypeReferenceTable', () => {
   let component;
 
-  const buildWidgetTypeReferenceTable = (widgetType = {}) => {
+  const buildWidgetTypeReferenceTable = (widgetType = null) => {
     const props = {
       widgetType,
     };
@@ -24,7 +24,7 @@ describe('WidgetTypeReferenceTable', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('verify return EmptyData if pageModels array is empty', () => {
+  it('verify return EmptyData if WidgetType is null', () => {
     component = buildWidgetTypeReferenceTable();
     expect(component.find('EmptyData').exists()).toEqual(true);
   });

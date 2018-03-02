@@ -29,7 +29,7 @@ const DetailFragmentTable = ({
               <FormattedMessage id="fragment.detail.widgetType" />
             </th>
             <td>
-              {title}
+              {title || ''}
             </td>
           </tr>
           <tr>
@@ -57,8 +57,12 @@ const DetailFragmentTable = ({
 DetailFragmentTable.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   pluginCode: PropTypes.string.isRequired,
+};
+
+DetailFragmentTable.defaultProps = {
+  title: null,
 };
 
 

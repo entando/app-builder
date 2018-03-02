@@ -9,7 +9,6 @@ describe('DetailFragmentPage', () => {
   let component;
   beforeEach(() => {
     component = shallow(<DetailFragmentPage />);
-    // console.log(component.debug());
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

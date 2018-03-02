@@ -11,12 +11,7 @@ const FRAGMENT_MOCK = {
 
 describe('FragmentReferenceTable', () => {
   let component;
-  let referencesFragments;
-
-
-  beforeEach(() => {
-    referencesFragments = jest.fn();
-  });
+  const referencesFragments = jest.fn();
 
   const buildDetailFragmentTable = (fragments) => {
     const props = {

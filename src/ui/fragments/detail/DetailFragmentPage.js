@@ -22,10 +22,10 @@ class DetailFragmentPage extends Component {
           <Row>
             <Col xs={12}>
               <Breadcrumb>
-                <BreadcrumbItem route="home" active>
+                <BreadcrumbItem>
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route="home">
+                <BreadcrumbItem>
                   <FormattedMessage id="menu.uxPattern.fragment" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
@@ -43,7 +43,7 @@ class DetailFragmentPage extends Component {
               <DetailFragmentTable
                 handleEdit={this.props.handleEdit}
                 code={this.props.code}
-                title={this.props.widgetType.title}
+                title={this.props.widgetType && this.props.widgetType.title}
                 pluginCode={this.props.pluginCode}
               />
               <br />
@@ -96,9 +96,16 @@ DetailFragmentPage.propTypes = {
   referencesFragments: PropTypes.func,
   referencesPageModels: PropTypes.func,
   code: PropTypes.string,
-  fragments: PropTypes.arrayOf(PropTypes.shape({})),
-  pageModels: PropTypes.arrayOf(PropTypes.shape({})),
-  widgetType: PropTypes.shape({ title: PropTypes.string }),
+  fragments: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+  })),
+  pageModels: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+  })),
+  widgetType: PropTypes.oneOfType([
+    PropTypes.shape({ title: PropTypes.string }),
+  ]),
   pluginCode: PropTypes.string,
 };
 
@@ -108,7 +115,7 @@ DetailFragmentPage.defaultProps = {
   referencesFragments: () => {},
   referencesPageModels: () => {},
   code: '',
-  widgetType: { title: '' },
+  widgetType: null,
   fragments: [],
   pageModels: [],
   pluginCode: '',

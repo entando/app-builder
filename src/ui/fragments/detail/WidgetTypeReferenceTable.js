@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap';
 import EmptyData from 'ui/fragments/detail/EmptyData';
 
 const WidgetTypeReferenceTable = ({ widgetType }) => {
-  if (Object.keys(widgetType).length === 0 && widgetType.constructor === Object) {
+  if (!widgetType) {
     return (<EmptyData messageId="fragment.detail.emptyReferenceWidgetTypes" />);
   }
   return (
@@ -14,13 +14,11 @@ const WidgetTypeReferenceTable = ({ widgetType }) => {
         <tr>
           <th
             width="50%"
-            className="WidgetTypeReferenceTable__th"
           >
             <FormattedMessage id="app.code" />
           </th>
           <th
             width="50%"
-            className="WidgetTypeReferenceTable__th"
           >
             <FormattedMessage id="app.name" />
           </th>
@@ -44,7 +42,7 @@ WidgetTypeReferenceTable.propTypes = {
 };
 
 WidgetTypeReferenceTable.defaultProps = {
-  widgetType: {},
+  widgetType: null,
 };
 
 export default WidgetTypeReferenceTable;

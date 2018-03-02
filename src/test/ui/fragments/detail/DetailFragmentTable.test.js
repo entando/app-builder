@@ -7,17 +7,10 @@ import DetailFragmentTable from 'ui/fragments/detail/DetailFragmentTable';
 
 describe('DetailFragmentTable', () => {
   let component;
-  let handleEdit;
-  let code;
-  let title;
-  let pluginCode;
-
-  beforeEach(() => {
-    code = 'code_test';
-    title = 'title_test';
-    pluginCode = 'plugincode_test';
-    handleEdit = jest.fn();
-  });
+  const code = 'code_test';
+  const title = 'title_test';
+  const pluginCode = 'plugincode_test';
+  const handleEdit = jest.fn();
 
   const buildDetailFragmentTable = () => {
     const props = {

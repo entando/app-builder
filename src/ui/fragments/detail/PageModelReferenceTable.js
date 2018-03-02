@@ -20,19 +20,17 @@ const PageModelReferenceTable = ({ pageModel, referencesPageModels }) => {
           <tr>
             <th
               width="70%"
-              className="PageModelReferenceTable__th"
             >
               <FormattedMessage id="app.code" />
             </th>
             <th
               width="25%"
-              className="PageModelReferenceTable__th"
             >
               <FormattedMessage id="app.name" />
             </th>
             <th
               width="5%"
-              className="PageModelReferenceTable__th text-center"
+              className="text-center"
             >
               <FormattedMessage id="app.actions" />
             </th>

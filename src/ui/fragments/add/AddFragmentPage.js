@@ -14,13 +14,13 @@ const FragmentPage = () => (
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem route="home" active>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="fragment">
+            <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="fragment" active>
+            <BreadcrumbItem active>
               <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>

@@ -5,14 +5,15 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/detail/DetailF
 
 const MOCK_DATA = {
   code: 'code',
+  widgetType: { code: 'widgetcode', title: 'Widget Title' },
+  pluginCode: 'pluginCode',
   fragments: [
     { code: 'fragmentCode' },
   ],
   pageModels: [
     { code: 'pageModelCode', name: 'My Page Model' }],
-  pluginCode: 'pluginCode',
-  widgetType: { code: 'widgetcode', title: 'Widget Title' },
 };
+
 const TEST_STATE = {
   fragmentForm: {
     fragmentValues: MOCK_DATA,

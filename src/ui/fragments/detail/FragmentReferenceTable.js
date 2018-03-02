@@ -22,13 +22,12 @@ const FragmentReferenceTable = ({ fragments, referencesFragments }) => {
           <tr>
             <th
               width="95%"
-              className="FragmentReferenceTable__th"
             >
               <FormattedMessage id="app.code" />
             </th>
             <th
               width="5%"
-              className="FragmentReferenceTable__th text-center"
+              className="text-center"
             >
               <FormattedMessage id="app.actions" />
             </th>

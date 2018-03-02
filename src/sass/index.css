@@ -136,8 +136,6 @@
     border-top: 0; }
   .DetailFragmentPage__table {
     margin-bottom: 0; }
-  .DetailFragmentPage__table-th {
-    text-transform: capitalize; }
   .DetailFragmentPage__th-actions {
     width: 5%;
     text-align: center;
@@ -145,19 +143,13 @@
 
 .FragmentReferenceTable {
   margin-bottom: 0; }
-  .FragmentReferenceTable__th {
-    text-transform: capitalize; }
   .FragmentReferenceTable__div-search {
     border-top: 0; }
 
 .PageModelReferenceTable {
   margin-bottom: 0; }
-  .PageModelReferenceTable__th {
-    text-transform: capitalize; }
   .PageModelReferenceTable__div-search {
     border-top: 0; }
 
 .WidgetTypeReferenceTable {
   margin-bottom: 0; }
-  .WidgetTypeReferenceTable__th {
-    text-transform: capitalize; }
