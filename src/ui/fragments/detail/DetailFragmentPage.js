@@ -36,7 +36,7 @@ class DetailFragmentPage extends Component {
           </Row>
           <PageTitle
             titleId="fragment.detail.title"
-            helpId="fragment.detail.help"
+            helpId="fragment.help"
           />
           <Row>
             <Col xs={12}>
