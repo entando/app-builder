@@ -6,14 +6,14 @@ import { formattedText } from 'frontend-common-components';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
 
-export const FragmentFormBody = (props) => {
+export const PageSearchFormBody = (props) => {
   const { handleSubmit } = props;
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
   };
   return (
-    <form onSubmit={onSubmit} className="form-horizontal well">
+    <form onSubmit={onSubmit} className="PageSearchForm form-horizontal well">
       <h3>Search</h3>
       <FormGroup>
         <Row>
@@ -49,12 +49,12 @@ export const FragmentFormBody = (props) => {
   );
 };
 
-FragmentFormBody.propTypes = {
+PageSearchFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-const FragmentForm = reduxForm({
+const PageSearchForm = reduxForm({
   form: 'pageSearch',
-})(FragmentFormBody);
+})(PageSearchFormBody);
 
-export default FragmentForm;
+export default PageSearchForm;

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
+import { BreadcrumbItem, Link } from 'frontend-common-components';
+
 import InternalPage from 'ui/internal-page/InternalPage';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
-import PageSearchForm from 'ui/page-tree-page/PageSearchForm';
+import PageSearchForm from 'ui/pages/list/PageSearchForm';
 import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
+import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 class PageTreePage extends Component {
   componentWillMount() {
@@ -41,6 +43,16 @@ class PageTreePage extends Component {
               <PageSearchForm />
             </Col>
           </Row>
+          <Row>
+            <Col xs={12}>
+              <Link route={ROUTE_PAGE_ADD} className="pull-right">
+                <Button bsStyle="primary">
+                  <FormattedMessage id="app.add" />
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+          <br />
           <Row>
             <Col xs={12}>
               <PageTreeContainer />

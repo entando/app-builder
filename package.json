@@ -34,7 +34,7 @@
     "eject": "react-scripts eject",
     "import-plugins": "node ./entando-plugins-config/import-plugins.js",
     "build-css": "node-sass-chokidar src/sass/index.scss -o src/sass/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/sass/index.scss -o src/sass/ --watch --recursive",
+    "watch-css": "npm run build-css && node-sass-chokidar src/sass/ -o src/sass/ --watch --recursive",
     "lint": "eslint ./src",
     "coverage": "react-scripts test --env=jsdom --coverage",
     "sass-lint": "sass-lint ./src/sass/**/*.scss ./src/sass/*.scss -v -q",

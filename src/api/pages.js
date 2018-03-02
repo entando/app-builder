@@ -68,3 +68,18 @@ export const setPagePosition = (pageCode, position, parentCode) => new Promise((
   console.info(`calling API /pages/${pageCode}/position\n\t${JSON.stringify(response, 2)}`);
   throttle(() => resolve(response));
 });
+
+
+export const postPage = pageObject => new Promise((resolve) => {
+  console.info(`calling POST /pages\n\t${JSON.stringify(pageObject, 2)}`);
+  if (pageObject.code !== 'error') {
+    throttle(() => resolve({ payload: pageObject }));
+  } else {
+    resolve({
+      errors: [
+        { code: 1, message: 'Page code cannot be error!' },
+        { code: 2, message: 'This is a mock error!' },
+      ],
+    });
+  }
+});
