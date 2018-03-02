@@ -7,11 +7,6 @@ import EmptyData from 'ui/fragments/detail/EmptyData';
 
 
 const FragmentReferenceTable = ({ fragments, referencesFragments }) => {
-  const onEdit = item => (ev) => {
-    ev.preventDefault();
-    referencesFragments(item);
-  };
-
   if (fragments.length === 0) {
     return (<EmptyData messageId="fragment.detail.emptyReferenceFragments" />);
   }
@@ -42,7 +37,7 @@ const FragmentReferenceTable = ({ fragments, referencesFragments }) => {
                 <td className="text-center">
                   <DropdownKebab key={item.code} id={item.code} pullRight>
                     <MenuItem
-                      onClick={onEdit(item)}
+                      onClick={() => referencesFragments(item)}
                     ><FormattedMessage id="app.edit" />
                     </MenuItem>
                   </DropdownKebab>

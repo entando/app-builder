@@ -1,15 +1,20 @@
 export const BODY_OK =
 {
   payload: {
+    code: 'fragment_code',
     isLocked: false,
-    code: 'code',
-    widgetType: { code: 'widgetcode', title: 'Widget Title' },
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
+    },
     pluginCode: 'pluginCode',
-    fragments: [
-      { code: 'fragmentCode' },
-    ],
-    pageModels: [
-      { code: 'pageModelCode', name: 'My Page Model' }],
+    fragments: [{
+      code: 'fragmentCode',
+    }],
+    pageModels: [{
+      code: 'pageModelCode',
+      name: 'My Page Model',
+    }],
     defaultGuiCode: '<div></div>',
     guiCode: '<div></div>',
   },

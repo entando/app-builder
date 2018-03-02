@@ -10,8 +10,7 @@ import locale from 'state/locale/reducer';
 import widgetList from 'state/widget-list/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
-import widgetForm from 'state/widget-form/reducer';
-import fragmentForm from 'state/fragment-form/reducer';
+import fragments from 'state/fragments/reducer';
 
 const reducerDef = {
   router,
@@ -22,8 +21,7 @@ const reducerDef = {
   pages,
   groups,
   widgetList,
-  widgetForm,
-  fragmentForm,
+  fragments,
 };
 
 if (pluginArray.length) {

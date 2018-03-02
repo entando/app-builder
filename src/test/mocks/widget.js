@@ -8,7 +8,7 @@ export const BODY_OK =
       it: 'Widget di Test',
       en: 'Test Widget',
     },
-    group: 'group',
+    group: 'administrator',
     customUi: '<p>Custom UI</p>',
     defaultUi: '<p>Default UI</p>',
     createdAt: '2018/02/22',

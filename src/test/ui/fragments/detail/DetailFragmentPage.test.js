@@ -3,12 +3,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
-
+import { BODY_OK } from 'test/mocks/fragment';
 
 describe('DetailFragmentPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DetailFragmentPage />);
+    component = shallow(<DetailFragmentPage fragment={BODY_OK} />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

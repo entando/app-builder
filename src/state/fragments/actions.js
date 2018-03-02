@@ -1,20 +1,19 @@
 import getFragmentAPI from 'api/fragment';
 import { initialize } from 'redux-form';
+import { SET_SELECTED } from 'state/fragments/types';
 
-import { SET_FRAGMENT } from './types';
-
-// eslint-disable-next-line
-export const setFragment = (fragmentValues) => ({
-  type: SET_FRAGMENT,
+export const setSelectedFragment = fragment => ({
+  type: SET_SELECTED,
   payload: {
-    fragmentValues,
+    fragment,
   },
 });
 
 // thunks
+// eslint-disable-next-line
 export const fetchFragment = fragmentCode => dispatch => (
   getFragmentAPI(fragmentCode).then((response) => {
-    dispatch(setFragment(response.payload));
     dispatch(initialize('fragment', response.payload));
+    dispatch(setSelectedFragment(response.payload));
   })
 );

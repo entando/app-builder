@@ -1,9 +1,13 @@
 import { SET_STATE } from './types';
 
-const tableRowItems = (state = [], action = {}) => {
+const initialState = {
+  tableRow: [],
+};
+
+const tableRowItems = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_STATE: {
-      return action.payload.tableRow;
+      return Object.assign({}, state, action.payload);
     }
     default: return state;
   }

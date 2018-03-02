@@ -36,16 +36,18 @@ const defaultGuiCodeField = (
 
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
+  const fieldValue = (input.value.title) ? input.value.title : input.value;
   if (!input.value) {
     return null;
   }
+
   return (
     <div className="form-group">
       <label htmlFor={name} className="control-label col-sm-2">
         {label}
       </label>
       <Col sm={10}>
-        {input.value.title}
+        {fieldValue}
       </Col>
     </div>
   );
@@ -71,7 +73,7 @@ export const FragmentFormBody = (props) => {
 
   let pluginField = (
     <Field
-      name="plugin"
+      name="pluginCode"
       component={renderStaticField}
       label={<FormattedMessage id="fragment.form.edit.plugin" />}
     />

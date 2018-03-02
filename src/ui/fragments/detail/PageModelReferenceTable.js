@@ -6,10 +6,6 @@ import { DropdownKebab, MenuItem, Row, Col } from 'patternfly-react';
 import EmptyData from 'ui/fragments/detail/EmptyData';
 
 const PageModelReferenceTable = ({ pageModel, referencesPageModels }) => {
-  const onEdit = item => (ev) => {
-    ev.preventDefault();
-    referencesPageModels(item);
-  };
   if (pageModel.length === 0) {
     return (<EmptyData messageId="fragment.detail.emptyReferencePageModels" />);
   }
@@ -46,7 +42,7 @@ const PageModelReferenceTable = ({ pageModel, referencesPageModels }) => {
                 <td className="text-center">
                   <DropdownKebab key={item.code} id={item.code}>
                     <MenuItem
-                      onClick={onEdit(item)}
+                      onClick={() => referencesPageModels(item)}
                     ><FormattedMessage id="app.edit" />
                     </MenuItem>
                   </DropdownKebab>

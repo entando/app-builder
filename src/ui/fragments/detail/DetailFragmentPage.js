@@ -42,9 +42,9 @@ class DetailFragmentPage extends Component {
             <Col xs={12}>
               <DetailFragmentTable
                 handleEdit={this.props.handleEdit}
-                code={this.props.code}
-                title={this.props.widgetType && this.props.widgetType.title}
-                pluginCode={this.props.pluginCode}
+                code={this.props.fragment && this.props.fragment.code}
+                title={this.props.fragment.widgetType && this.props.fragment.widgetType.title}
+                pluginCode={this.props.fragment.pluginCode}
               />
               <br />
               <hr />
@@ -54,7 +54,7 @@ class DetailFragmentPage extends Component {
                 </p>
                 <Col xs={12} className="no-padding">
                   <FragmentReferenceTable
-                    fragments={this.props.fragments}
+                    fragments={this.props.fragment.fragments}
                     referencesFragments={this.props.referencesFragments}
                   />
                 </Col>
@@ -66,7 +66,7 @@ class DetailFragmentPage extends Component {
                 </p>
                 <Col xs={12} className="no-padding">
                   <PageModelReferenceTable
-                    pageModel={this.props.pageModels}
+                    pageModel={this.props.fragment.pageModels}
                     referencesPageModels={this.props.referencesPageModels}
                   />
                 </Col>
@@ -78,7 +78,7 @@ class DetailFragmentPage extends Component {
                 </p>
                 <Col xs={12} className="no-padding">
                   <WidgetTypeReferenceTable
-                    widgetType={this.props.widgetType}
+                    widgetType={this.props.fragment.widgetType}
                   />
                 </Col>
               </Row>
@@ -95,18 +95,20 @@ DetailFragmentPage.propTypes = {
   handleEdit: PropTypes.func,
   referencesFragments: PropTypes.func,
   referencesPageModels: PropTypes.func,
-  code: PropTypes.string,
-  fragments: PropTypes.arrayOf(PropTypes.shape({
+  fragment: PropTypes.shape({
     code: PropTypes.string,
-  })),
-  pageModels: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-  })),
-  widgetType: PropTypes.oneOfType([
-    PropTypes.shape({ title: PropTypes.string }),
-  ]),
-  pluginCode: PropTypes.string,
+    pluginCode: PropTypes.string,
+    fragments: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+    })),
+    pageModels: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+      name: PropTypes.string,
+    })),
+    widgetType: PropTypes.oneOfType([
+      PropTypes.shape({ title: PropTypes.string }),
+    ]),
+  }).isRequired,
 };
 
 DetailFragmentPage.defaultProps = {
@@ -114,10 +116,5 @@ DetailFragmentPage.defaultProps = {
   handleEdit: () => {},
   referencesFragments: () => {},
   referencesPageModels: () => {},
-  code: '',
-  widgetType: null,
-  fragments: [],
-  pageModels: [],
-  pluginCode: '',
 };
 export default DetailFragmentPage;

@@ -1,26 +1,22 @@
 import { connect } from 'react-redux';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
-import { fetchFragment } from 'state/fragment-form/actions';
-import { getFragments, getPageModels, getWidgetType, getPluginCode } from 'state/fragment-form/selectors';
+import { fetchFragment } from 'state/fragments/actions';
+import { getFragmentSelected } from 'state/fragments/selectors';
 import { getParams } from 'frontend-common-components';
 
 
 export const mapStateToProps = state => ({
   code: getParams(state).fragmentCode,
-  widgetType: getWidgetType(state),
-  pluginCode: getPluginCode(state),
-  fragments: getFragments(state),
-  pageModels: getPageModels(state),
-
+  fragment: getFragmentSelected(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (props) => {
     dispatch(fetchFragment(props.code));
   },
-  handleEdit: code => code,
-  referencesFragments: item => item,
-  referencesPageModels: item => item,
+  handleEdit: code => (code),
+  referencesFragments: item => (item),
+  referencesPageModels: item => (item),
 
 });
 

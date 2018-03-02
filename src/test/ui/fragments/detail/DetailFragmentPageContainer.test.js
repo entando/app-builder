@@ -2,21 +2,11 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/detail/DetailFragmentPageContainer';
-
-const MOCK_DATA = {
-  code: 'code',
-  widgetType: { code: 'widgetcode', title: 'Widget Title' },
-  pluginCode: 'pluginCode',
-  fragments: [
-    { code: 'fragmentCode' },
-  ],
-  pageModels: [
-    { code: 'pageModelCode', name: 'My Page Model' }],
-};
+import { BODY_OK } from 'test/mocks/fragment';
 
 const TEST_STATE = {
-  fragmentForm: {
-    fragmentValues: MOCK_DATA,
+  fragments: {
+    selected: BODY_OK.payload,
   },
 };
 
@@ -48,7 +38,7 @@ jest.mock('frontend-common-components', () => ({
 
 describe('DetailFragmentPageContainer', () => {
   it('maps groups and mode property state in DetailFragmentPage', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual(MOCK_DATA);
+    expect(mapStateToProps(TEST_STATE)).toEqual({ code: 'code', fragment: BODY_OK.payload });
   });
 
 

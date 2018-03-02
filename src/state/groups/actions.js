@@ -9,8 +9,8 @@ export const addGroups = groups => ({
 });
 
 // thunk
-export const fetchGroups = () => (dispatch) => {
+export const fetchGroups = () => dispatch => (
   getApiGroups().then((data) => {
     dispatch(addGroups(data.payload));
-  });
-};
+  })
+);
