@@ -14,6 +14,7 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
 } from 'app-init/router';
+
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';

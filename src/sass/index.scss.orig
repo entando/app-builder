@@ -1,3 +1,4 @@
+
 @import "patternfly.scss";
 @import "common/patternfly-override.scss";
 @import "internal-page/InternalPage.scss";
@@ -20,9 +21,9 @@
 @import "fragment/PageModelReferenceTable.scss";
 @import "fragment/WidgetTypeReferenceTable.scss";
 =======
+>>>>>>> master
 @import "common/form/FormLabel.scss";
 @import "common/form/FormSectionTitle.scss";
 @import "pages/common/MultiSelectRenderer";
 @import "pages/common/PageTreeSelector";
 @import "pages/common/PageForm";
->>>>>>> master

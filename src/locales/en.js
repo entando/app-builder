@@ -24,6 +24,7 @@ export default {
     'app.code': 'Code',
     'app.used': 'used',
     'app.actions': 'Actions',
+    'app.errors': 'Errors',
     'app.search.returned': 'Your search returned {value} results',
     'app.enTitle': 'English title',
     'app.itTitle': 'Italian title',
@@ -102,5 +103,4 @@ export default {
     'pages.pageForm.mimeTypeHelp': 'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
     'pages.pageForm.saveAndConfigure': 'Save and Configure',
   },
-
 };

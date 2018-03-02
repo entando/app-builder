@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import { routerReducer as router } from 'frontend-common-components';
 
-
 import pluginArray from 'entando-plugins';
 
 import loginForm from 'state/login-form/reducer';
