@@ -1,6 +1,6 @@
 
 import 'test/enzyme-init';
-import { fetchPage, fetchPageChildren, setPagePosition } from 'api/pages';
+import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
 import {
   ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
 } from 'test/mocks/pages';
@@ -44,6 +44,18 @@ describe('api/pages', () => {
         position: POSITION,
         parent: PARENT_CODE,
       });
+    });
+  });
+
+  describe('postPage()', () => {
+    it('if successful, returns a mock ok response', () => {
+      expect(postPage(CONTACTS_PAYLOAD)).resolves.toEqual({ payload: CONTACTS_PAYLOAD });
+    });
+
+    it('if given a page with code "error", returns an error response', () => {
+      const errorPayload = { ...CONTACTS_PAYLOAD, code: 'error' };
+      expect(postPage(errorPayload)).resolves
+        .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
     });
   });
 });

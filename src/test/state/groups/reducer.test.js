@@ -1,22 +1,29 @@
-import reducer from 'state/groups/reducer';
+
 import { addGroups } from 'state/groups/actions';
 import { GROUPS } from 'test/mocks/groups';
+import reducer from 'state/groups/reducer';
 
-const GROUPS_PAYLOAD = GROUPS.payload;
 
 describe('state/groups/reducer', () => {
-  it('should return an object', () => {
-    const state = reducer();
-    expect(typeof state).toBe('object');
+  let state;
+  beforeEach(() => {
+    state = reducer();
   });
 
-  describe('after action ADD_GROUPS', () => {
-    let state;
-    beforeEach(() => {
-      state = reducer({}, addGroups(GROUPS_PAYLOAD));
+  describe('default state', () => {
+    it('should be an array', () => {
+      expect(state).toBeDefined();
+      expect(Array.isArray(state)).toBe(true);
     });
-    it('should define groups array', () => {
-      expect(state[0]).toEqual(GROUPS_PAYLOAD[0]);
+  });
+
+  describe('on action addGroups', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, addGroups(GROUPS));
+    });
+    it('should be equal to the added groups', () => {
+      expect(newState).toEqual(GROUPS);
     });
   });
 });

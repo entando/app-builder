@@ -4,7 +4,8 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
-import { DDTable } from 'frontend-common-components';
+import { DDTable, gotoRoute } from 'frontend-common-components';
+import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 const PAGES = [
   {
@@ -52,7 +53,6 @@ describe('PageTree', () => {
       component = shallow((
         <PageTree
           pages={PAGES}
-          locale="en"
           onDropIntoPage={handleDropIntoPage}
           onDropAbovePage={handleDropAbovePage}
           onDropBelowPage={handleDropBelowPage}
@@ -85,7 +85,6 @@ describe('PageTree', () => {
       component = shallow((
         <PageTree
           pages={PAGES}
-          locale="en"
           onExpandPage={handleExpandPage}
         />));
     });
@@ -100,6 +99,20 @@ describe('PageTree', () => {
       component.find('.PageTree__icons-label').at(notEmptyPageIndex).simulate('click', { preventDefault: () => {} });
       expect(PAGES[notEmptyPageIndex].isEmpty).toBe(false);
       expect(handleExpandPage).toHaveBeenCalled();
+    });
+  });
+
+  describe('on menu action', () => {
+    let component;
+    beforeEach(() => {
+      component = shallow(<PageTree pages={PAGES} />);
+    });
+    describe('add', () => {
+      it('redirects to the "add page" route', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickAdd')();
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
+      });
     });
   });
 });

@@ -1,8 +1,14 @@
 
-import { fetchPage, fetchPageChildren, setPagePosition } from 'api/pages';
+import { gotoRoute } from 'frontend-common-components';
 
-import { ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT, MOVE_PAGE } from './types';
-import { getStatusMap, getPagesMap, getChildrenMap } from './selectors';
+import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
+import {
+  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
+  MOVE_PAGE,
+} from 'state/pages/types';
+import { getStatusMap, getPagesMap, getChildrenMap } from 'state/pages/selectors';
+import { addErrors } from 'state/errors/actions';
+import { ROUTE_PAGE_TREE } from 'app-init/router';
 
 
 const HOMEPAGE_CODE = 'homepage';
@@ -128,3 +134,13 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
+
+export const sendPostPage = pageData => dispatch => postPage(pageData)
+  .then((data) => {
+    if (data.errors && data.errors.length) {
+      dispatch(addErrors(data.errors.map(err => err.message)));
+    } else {
+      dispatch(addPages([data]));
+      gotoRoute(ROUTE_PAGE_TREE);
+    }
+  });
