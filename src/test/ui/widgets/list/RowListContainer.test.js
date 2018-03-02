@@ -10,8 +10,6 @@ const TEST_STATE = {
   },
 };
 
-describe('RowListContainer', () => {
-  it('maps hidden property state with activistream.hidden', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ tableRow: { tableRow: [] } });
-  });
+it('maps hidden property state with activistream.hidden', () => {
+  expect(mapStateToProps(TEST_STATE)).toEqual({ tableRow: [] });
 });

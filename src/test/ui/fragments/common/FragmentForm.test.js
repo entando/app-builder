@@ -65,9 +65,9 @@ describe('FragmentForm', () => {
     expect(widgetType.find('.form-group').exists()).toEqual(true);
   });
 
-  it('root component renders plugin Field on edit mode', () => {
+  it('root component renders pluginCode Field on edit mode', () => {
     fragmentForm = buildFragmentForm('edit');
-    const defaultGuiCode = fragmentForm.find('[name="plugin"]');
+    const defaultGuiCode = fragmentForm.find('[name="pluginCode"]');
     expect(defaultGuiCode.exists()).toEqual(true);
   });
 
