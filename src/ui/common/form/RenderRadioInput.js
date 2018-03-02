@@ -10,7 +10,13 @@ const RenderRadioInput = ({ input, toggleElement }) =>
       {...input}
     >
       { toggleElement.map(item => (
-        <ToggleButton key={item.id} value={item.id}>{item.label}</ToggleButton>
+        <ToggleButton
+          key={item.id}
+          value={item.id}
+          defaultValue={input.value}
+        >
+          {item.label}
+        </ToggleButton>
       ))
       }
     </ToggleButtonGroup>

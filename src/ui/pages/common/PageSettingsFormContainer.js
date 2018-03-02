@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import PageSettingsForm from 'ui/pages/common/PageSettingsForm';
 import { fetchPageSettings, fetchSelectOptions } from 'state/settings-form/actions';
-// import { getOptions } from 'state/pages/selectors';
+import { getOptions } from 'state/settings-form/selectors';
 
-// export const mapStateToProps = state => (
-//   {
-//     options: getOptions(state),
-//   });
+export const mapStateToProps = state => ({
+  options: getOptions(state),
+});
 
 // map the props
 export const mapDispatchToProps = dispatch => ({
@@ -23,7 +22,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 // connect the component
-const PageSettingsFormContainer = connect(null, mapDispatchToProps)(PageSettingsForm);
+const PageSettingsFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageSettingsForm);
 
 // export connected component (Container)
 export default PageSettingsFormContainer;

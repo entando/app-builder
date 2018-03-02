@@ -22,7 +22,7 @@ import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
-import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
+import PageSettingsPage from 'ui/pages/settings/PageSettings';
 
 const App = ({ route }) => {
   switch (route) {
@@ -38,7 +38,7 @@ const App = ({ route }) => {
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
-    case ROUTE_PAGE_SETTINGS: return <PageSettingsFormContainer />;
+    case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     default: return <NotFoundPage />;
   }
 };

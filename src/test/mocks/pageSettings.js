@@ -77,6 +77,10 @@ export const SELECTOPTIONS_OK = {
       pageCode: 'errorpage',
       shortFullTitle: '.. / .. / Error page',
     },
+    {
+      pageCode: 'login',
+      shortFullTitle: '.. / .. / Login',
+    },
   ],
   errors: [],
   metaData: {},

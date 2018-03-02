@@ -5,10 +5,46 @@ import { Panel } from 'react-bootstrap';
 
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-// import { required, widgetCode, maxLength } from 'util/validateForm';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import RenderSwitchInput from 'ui/common/form/RenderSwitchInput';
+
+const BASE_URL_TYPES = [
+  {
+    id: 'relative',
+    label: 'Relative',
+  },
+  {
+    id: 'request',
+    label: 'Built by HTTP request parameters',
+  },
+  {
+    id: 'static',
+    label: 'Static',
+  },
+];
+
+const TREE_STYLE_PAGE = [
+  {
+    id: 'classic',
+    label: 'Classic',
+  },
+  {
+    id: 'request',
+    label: 'Loads node on Demand',
+  },
+];
+
+const URL_STYLE = [
+  {
+    id: 'classic',
+    label: 'Classic',
+  },
+  {
+    id: 'breadcrumbs',
+    label: 'Breadcrumbs',
+  },
+];
 
 
 export const renderDefaultUIField = (field) => {
@@ -46,10 +82,9 @@ const baseUrl = () => (
   </Popover>
 );
 
-
 export class PageSettingsBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    this.props.onWillMount();
   }
 
   render() {
@@ -58,32 +93,40 @@ export class PageSettingsBody extends Component {
       this.props.handleSubmit();
     };
 
+    const selectOptions = this.props.options.map(item => ({
+      value: item.pageCode,
+      text: item.shortFullTitle,
+    }));
+
     return (
       <form onSubmit={onSubmit} className="form-horizontal">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
               <RenderSelectInput
-                // options={['homepage', 'test']}
+                options={selectOptions}
                 labelId="PageSettings.input.homepage"
-                // mandatory
                 fieldName="homePageCode"
+                mandatory
               />
-              {/* <RenderSelectInput
-                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+              <RenderSelectInput
+                options={selectOptions}
                 labelId="PageSettings.input.500"
+                fieldName="errorPageCode"
                 mandatory
-                />
-                <RenderSelectInput
-                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+              />
+              <RenderSelectInput
+                options={selectOptions}
                 labelId="PageSettings.input.proceed"
+                fieldName="loginPageCode"
                 mandatory
-                />
-                <RenderSelectInput
-                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+              />
+              <RenderSelectInput
+                options={selectOptions}
                 labelId="PageSettings.input.404"
-
-              /> */}
+                fieldName="notFoundPageCode"
+                mandatory
+              />
               <div className="form-group">
                 <Col xs={2} className="text-right">
                   <FormattedMessage id="PageSettings.input.BaseURL" />&nbsp;
@@ -100,22 +143,8 @@ export class PageSettingsBody extends Component {
                   <label htmlFor="1" >
                     <Field
                       component={RenderRadioInput}
-                      toggleElement={[
-                        {
-                          id: '1',
-                          label: 'Relative',
-                        },
-                        {
-                          id: '2',
-                          label: 'Built by HTTP request parameters',
-                        },
-                        {
-                          id: '3',
-                          label: 'Static',
-                        },
-                        ]
-                      }
-                      name="test"
+                      toggleElement={BASE_URL_TYPES}
+                      name="baseUrl"
                     />
                   </label>
                 </Col>
@@ -136,7 +165,7 @@ export class PageSettingsBody extends Component {
                 <Col xs={4}>
                   <Field
                     component={RenderSwitchInput}
-                    name="switch1"
+                    name="baseUrlContext"
                   />
                 </Col>
                 <Col xs={2} className="text-right">
@@ -153,7 +182,7 @@ export class PageSettingsBody extends Component {
                 <Col xs={4}>
                   <Field
                     component={RenderSwitchInput}
-                    name="switch2"
+                    name="useJsessionId"
                   />
                 </Col>
               </div>
@@ -165,7 +194,7 @@ export class PageSettingsBody extends Component {
                 <Col xs={4}>
                   <Field
                     component={RenderSwitchInput}
-                    name="switch3"
+                    name="startLangFromBrowser"
                   />
                 </Col>
               </div>
@@ -180,39 +209,19 @@ export class PageSettingsBody extends Component {
                   <label htmlFor="2" >
                     <Field
                       component={RenderRadioInput}
-                      toggleElement={[
-                        {
-                          id: '4',
-                          label: 'Classic',
-                        },
-                        {
-                          id: '5',
-                          label: 'Loads node on Demand',
-                        },
-                        ]
-                      }
-                      name="test2"
+                      toggleElement={TREE_STYLE_PAGE}
+                      name="treeStyle_page"
                     />
                   </label>
                 </Col>
-                <Col xs={2} className="text-right">u
+                <Col xs={2} className="text-right">
                   <FormattedMessage id="PageSettings.input.pageTreeStyle.url" />
                 </Col>
                 <Col xs={4}>
                   <Field
                     component={RenderRadioInput}
-                    toggleElement={[
-                      {
-                        id: '6',
-                        label: 'Classic',
-                      },
-                      {
-                        id: '7',
-                        label: 'Breadcrumbs',
-                      },
-                      ]
-                    }
-                    name="test3"
+                    toggleElement={URL_STYLE}
+                    name="urlStyle"
                   />
                 </Col>
 
@@ -240,12 +249,17 @@ export class PageSettingsBody extends Component {
 PageSettingsBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    pageCode: PropTypes.string,
+    shortFullTitle: PropTypes.string,
+  })),
 };
 
 PageSettingsBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
+  options: [],
 };
 
 const PageSettingsForm = reduxForm({

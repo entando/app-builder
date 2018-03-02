@@ -3,7 +3,7 @@ import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
 import PageTitle from 'ui/internal-page/PageTitle';
-import PageSettingsForm from 'ui/pages/common/PageSettingsForm';
+import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
 
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
@@ -30,7 +30,7 @@ const PageSettings = () => (
       />
       <Row>
         <Col xs={12}>
-          <PageSettingsForm />
+          <PageSettingsFormContainer />
         </Col>
       </Row>
     </Grid>

@@ -12,5 +12,3 @@ export const getSelectOptionsAPI = () => (
     resolve(SELECTOPTIONS_OK);
   })
 );
-
-export default getPageSettingsListAPI;

@@ -3,9 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Switch } from 'patternfly-react';
 
-const RenderSwitchInput = ({ input: { onChange } }) =>
-  <Switch onChange={(el, value) => onChange(value)} />;
+const TRUE_VALUE = 'true';
 
+const RenderSwitchInput = ({ input }) => {
+  const switchValue = (input.value === TRUE_VALUE);
+  return (
+    <Switch
+      {...input}
+      value={switchValue}
+      onChange={(el, value) => input.onChange(value.toString())}
+    />
+  );
+};
 
 RenderSwitchInput.propTypes = {
   input: PropTypes.shape({
@@ -13,6 +22,5 @@ RenderSwitchInput.propTypes = {
     onChange: PropTypes.func.isRequired,
   }).isRequired,
 };
-
 
 export default RenderSwitchInput;
