@@ -30,7 +30,7 @@ export const PAGESETTINGS = {
     },
     {
       name: 'homePageCode',
-      value: 'test',
+      value: 'homepage',
     },
     {
       name: 'errorPageCode',

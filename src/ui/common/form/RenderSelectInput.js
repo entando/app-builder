@@ -7,11 +7,10 @@ import { FormattedMessage } from 'react-intl';
 
 const RenderSelectInput = ({
   options, labelId, fieldName, mandatory,
-}) => {
-  const optionList = options.map(option =>
-    <option key={option.pageCode} value={option.pageCode}>{option.shortFullTitle}</option>);
-
-  return (
+}) =>
+  // const optionList = options.map(option =>
+  // <option key={option} value={option}>{option}</option>);
+  (
     <div className="form-group">
       <Col xs={2} className="text-right">
         <span id="settings-homePageCode">
@@ -21,13 +20,17 @@ const RenderSelectInput = ({
       </Col>
       <Col xs={10}>
         <Field component="select" name={fieldName} className="form-control" >
-          {optionList}
+          {/* {optionList} */}
+          {options.map(item => (
+            <option
+              key={item.code}
+              value={item.code}
+            > {item.name}
+            </option>))}
         </Field>
       </Col>
     </div>
   );
-};
-
 RenderSelectInput.propTypes = {
   options: PropTypes.node,
   labelId: PropTypes.string.isRequired,

@@ -70,17 +70,17 @@ export class PageSettingsBody extends Component {
                 fieldName="homePageCode"
               />
               {/* <RenderSelectInput
-                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.500"
                 mandatory
                 />
                 <RenderSelectInput
-                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.proceed"
                 mandatory
                 />
                 <RenderSelectInput
-                options={['Home', '[i].. / Service', '.. / .. / Page not found']}
+                // options={['Home', '[i].. / Service', '.. / .. / Page not found']}
                 labelId="PageSettings.input.404"
 
               /> */}
