@@ -1,14 +1,12 @@
-.dropdown-kebab-pf.btn-group {
-  margin-left: 0; }
-
-.InternalPage .breadcrumb {
-  margin-bottom: 0;
-  border-bottom: 1px solid #d1d1d1; }
-
-.InternalPage__page-title {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d1d1d1;
-  font-weight: bold; }
+.InternalPage {
+  margin-bottom: 20px; }
+  .InternalPage .breadcrumb {
+    margin-bottom: 0;
+    border-bottom: 1px solid #d1d1d1; }
+  .InternalPage__page-title {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d1d1d1;
+    font-weight: bold; }
 
 .PageTitle .PageTitle__header {
   margin-bottom: 20px;
@@ -130,26 +128,67 @@
   color: #d1d1d1;
   font-size: 12px; }
 
-.DetailFragmentPage {
-  margin-top: 15px; }
-  .DetailFragmentPage__div-search {
-    border-top: 0; }
-  .DetailFragmentPage__table {
-    margin-bottom: 0; }
-  .DetailFragmentPage__th-actions {
-    width: 5%;
-    text-align: center;
-    text-transform: capitalize; }
+.FormLabel__language-label {
+  margin-right: 5px;
+  background-color: #0088ce; }
 
-.FragmentReferenceTable {
-  margin-bottom: 0; }
-  .FragmentReferenceTable__div-search {
-    border-top: 0; }
+.FormLabel__required-icon {
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: super; }
 
-.PageModelReferenceTable {
-  margin-bottom: 0; }
-  .PageModelReferenceTable__div-search {
-    border-top: 0; }
+.FormSectionTitle__required-fields {
+  color: #d1d1d1;
+  font-size: 12px; }
 
-.WidgetTypeReferenceTable {
-  margin-bottom: 0; }
+.MultiSelectRenderer__tag {
+  margin-right: 3px;
+  background: #0088ce; }
+
+.MultiSelectRenderer__remove-tag-btn {
+  outline: 0;
+  color: #d1d1d1; }
+
+.MultiSelectRenderer__remove-tag-btn:hover, .MultiSelectRenderer__remove-tag-btn:focus {
+  outline: 0;
+  color: #fafafa; }
+
+.PageTreeSelector__expand-area {
+  display: table-cell;
+  outline: 0; }
+
+.PageTreeSelector__select-area {
+  display: table-cell;
+  width: 100%;
+  outline: 0; }
+
+.PageTreeSelector__column-td--empty .PageExpandedIcon {
+  opacity: 0;
+  visibility: hidden; }
+
+.PageTreeSelector__page-name,
+.PageTreeSelector .PageExpandedIcon,
+.PageTreeSelector .PageFolderIcon,
+.PageTreeSelector .RowSpinner {
+  margin-left: 10px; }
+
+.PageTreeSelector .PageFolderIcon {
+  color: #00b9e4; }
+
+.PageForm .PageForm__bullet-option:before {
+  display: inline-block;
+  padding-right: 3px;
+  color: #0088ce;
+  font-family: FontAwesome;
+  font-size: 15px;
+  content: "\f10c";
+  vertical-align: middle; }
+
+.PageForm .PageForm__bullet-option:checked:before {
+  display: inline-block;
+  padding-right: 3px;
+  color: #0088ce;
+  font-family: FontAwesome;
+  font-size: 15px;
+  content: "\f192";
+  vertical-align: middle; }

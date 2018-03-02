@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-
-import { routerReducer as router } from 'frontend-common-components';
 import { reducer as form } from 'redux-form';
+import { routerReducer as router } from 'frontend-common-components';
+
+
 import pluginArray from 'entando-plugins';
 
 import loginForm from 'state/login-form/reducer';
@@ -11,6 +12,8 @@ import widgetList from 'state/widget-list/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
 import fragments from 'state/fragments/reducer';
+import pageModels from 'state/page-models/reducer';
+import errors from 'state/errors/reducer';
 
 const reducerDef = {
   router,
@@ -22,6 +25,8 @@ const reducerDef = {
   groups,
   widgetList,
   fragments,
+  pageModels,
+  errors,
 };
 
 if (pluginArray.length) {
