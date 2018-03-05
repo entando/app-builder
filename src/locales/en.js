@@ -35,6 +35,7 @@ export default {
     'menu.uxPattern': 'UX Pattern',
     'menu.integration': 'Integration',
     'menu.data': 'Data',
+    'menu.dataModel': 'Data Model',
     'menu.configuration': 'Configuration',
     'menu.widgets': 'Widgets',
     'menu.widgetEdit': 'Widget Edit',
@@ -109,5 +110,9 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
     'pages.pageForm.saveAndConfigure': 'Save and Configure',
+    'dataModel.help': 'The DATA MODELS section lets the admnistrator add new content data or edit those already existing. Entando has a formatting engine based on models used to present the contents (or part of it) to users. Contents data are Velocity templates and, like contents, they are easily managed from the administration Interface.',
+    'dataModel.type': 'Type',
+    'dataModel.stylesheet': 'Style Sheet',
+    'dataModel.model': 'Model',
   },
 };

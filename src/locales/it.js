@@ -35,6 +35,7 @@ export default {
     'menu.uxPattern': 'UX Pattern',
     'menu.integration': 'Integrazioni',
     'menu.data': 'Data',
+    'menu.dataModel': 'Data Model',
     'menu.configuration': 'Impostazioni',
     'menu.widgets': 'Widgets',
     'menu.widgetEdit': 'Modifica Widget',
@@ -109,5 +110,9 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
     'pages.pageForm.saveAndConfigure': 'Salva e Configura',
+    'dataModel.help': 'Dalla sezione MODELLI DI DATI lamministratore può aggiungere nuovi modelli di dati o modificare quelli già esistenti. Il modello di dato è uno schema di formattazione di uno specifico tipo di contenuto. il Modello di Dato è realizzato in modo che il motore di renderizzazione di Entando lo traduca in un frammento di HTML che insieme ad opportuni fogli di stile CSS produrrá il risultato desiderato',
+    'dataModel.type': 'Tipo',
+    'dataModel.stylesheet': 'Foglio di Stile',
+    'dataModel.model': 'Modello',
   },
 };
