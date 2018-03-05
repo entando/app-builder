@@ -3,6 +3,9 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
 
+// mocked
+import { returnedFuncMock } from 'redux-form';
+
 const TEST_STATE = {
   router: {
     params: {
@@ -55,6 +58,7 @@ jest.mock('frontend-common-components', () => ({
 
 describe('EditWidgetPageContainer', () => {
   it('maps widgetCode and widgetName property state in WidgetEditPage', () => {
+    returnedFuncMock.mockReturnValue('Test Widget');
     expect(mapStateToProps(TEST_STATE)).toEqual({ widgetCode: 'code', widgetName: 'Test Widget' });
   });
 

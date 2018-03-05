@@ -16,7 +16,7 @@ describe('api/pages', () => {
   });
   describe('fetchPage()', () => {
     it('resolves with a mock page if present', () => {
-      expect(fetchPage('homepage')).resolves.toEqual(HOMEPAGE_PAYLOAD);
+      expect(fetchPage('homepage')).resolves.toEqual({ payload: HOMEPAGE_PAYLOAD });
     });
     it('rejects if a mock page is not present', () => {
       expect(fetchPage('pippo')).rejects.toEqual(ERROR);
@@ -25,9 +25,9 @@ describe('api/pages', () => {
 
   describe('fetchPageChildren()', () => {
     it('resolves with a mock page children if present', () => {
-      expect(fetchPageChildren('homepage')).resolves.toEqual([
-        DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
-      ]);
+      expect(fetchPageChildren('homepage')).resolves.toEqual({
+        payload: [DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD],
+      });
     });
     it('rejects if a mock page is not present', () => {
       expect(fetchPageChildren('pippo')).rejects.toEqual(ERROR);

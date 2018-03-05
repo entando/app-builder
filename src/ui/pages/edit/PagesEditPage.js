@@ -7,18 +7,18 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
-import PagesAddFormContainer from 'ui/pages/add/PagesAddFormContainer';
+import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 
 
-class PagesAddPage extends Component {
+class PagesEditPage extends Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
   render() {
     return (
-      <InternalPage className="PagesAddPage">
+      <InternalPage className="PagesEditPage">
         <Grid fluid>
           <Row>
             <Col xs={12}>
@@ -30,14 +30,14 @@ class PagesAddPage extends Component {
                   <FormattedMessage id="menu.pageTree" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
-                  <FormattedMessage id="app.add" />
+                  <FormattedMessage id="app.edit" />
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <PageTitle titleId="app.add" helpId="pageTreePage.help" />
+              <PageTitle titleId="app.edit" helpId="pageTreePage.help" />
             </Col>
           </Row>
           <Row>
@@ -47,7 +47,7 @@ class PagesAddPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <PagesAddFormContainer />
+              <PagesEditFormContainer />
             </Col>
           </Row>
         </Grid>
@@ -56,12 +56,12 @@ class PagesAddPage extends Component {
   }
 }
 
-PagesAddPage.propTypes = {
+PagesEditPage.propTypes = {
   onWillMount: PropTypes.func,
 };
 
-PagesAddPage.defaultProps = {
+PagesEditPage.defaultProps = {
   onWillMount: null,
 };
 
-export default PagesAddPage;
+export default PagesEditPage;
