@@ -14,6 +14,12 @@ export const setSelectedFragment = fragment => ({
 export const fetchFragment = fragmentCode => dispatch => (
   getFragmentAPI(fragmentCode).then((response) => {
     dispatch(initialize('fragment', response.payload));
+  })
+);
+
+// thunks
+export const fetchFragmentDetail = fragmentCode => dispatch => (
+  getFragmentAPI(fragmentCode).then((response) => {
     dispatch(setSelectedFragment(response.payload));
   })
 );

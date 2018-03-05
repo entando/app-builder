@@ -7,7 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import AddFormContainer from './AddFormContainer';
 
-const FragmentPage = () => (
+const AddFragmentPage = () => (
 
   <InternalPage className="AddFragmentPage">
     <Grid fluid>
@@ -40,4 +40,4 @@ const FragmentPage = () => (
 );
 
 
-export default FragmentPage;
+export default AddFragmentPage;

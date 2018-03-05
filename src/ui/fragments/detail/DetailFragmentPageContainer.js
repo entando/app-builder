@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
-import { fetchFragment } from 'state/fragments/actions';
+import { fetchFragmentDetail } from 'state/fragments/actions';
 import { getFragmentSelected } from 'state/fragments/selectors';
 import { getParams } from 'frontend-common-components';
 
@@ -12,7 +12,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (props) => {
-    dispatch(fetchFragment(props.code));
+    dispatch(fetchFragmentDetail(props.code));
   },
   handleEdit: code => (code),
   referencesFragments: item => (item),

@@ -32,6 +32,6 @@ describe('DetailFragmentTable', () => {
     const preventDefault = jest.fn();
     component.find('Button').simulate('click', { preventDefault });
     expect(handleEdit).toHaveBeenCalled();
-    expect(handleEdit).toHaveBeenCalledWith('code_test');
+    expect(handleEdit).toHaveBeenCalledWith(code);
   });
 });
