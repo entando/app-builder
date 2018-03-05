@@ -1,3 +1,6 @@
+.dropdown-kebab-pf.btn-group {
+  margin-left: 0; }
+
 .InternalPage {
   margin-bottom: 20px; }
   .InternalPage .breadcrumb {
@@ -127,6 +130,30 @@
 .FragmentForm__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
+
+.DetailFragmentPage {
+  margin-top: 15px; }
+  .DetailFragmentPage__div-search {
+    border-top: 0; }
+  .DetailFragmentPage__table {
+    margin-bottom: 0; }
+  .DetailFragmentPage__th-actions {
+    width: 5%;
+    text-align: center;
+    text-transform: capitalize; }
+
+.FragmentReferenceTable {
+  margin-bottom: 0; }
+  .FragmentReferenceTable__div-search {
+    border-top: 0; }
+
+.PageModelReferenceTable {
+  margin-bottom: 0; }
+  .PageModelReferenceTable__div-search {
+    border-top: 0; }
+
+.WidgetTypeReferenceTable {
+  margin-bottom: 0; }
 
 .FormLabel__language-label {
   margin-right: 5px;
