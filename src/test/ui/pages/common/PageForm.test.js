@@ -14,6 +14,12 @@ const PAGE_MODELS = GET_LIST_RESPONSE.payload;
 const GROUPS = GROUPS_RESPONSE.payload;
 const CONTENT_TYPES = getContentTypes();
 const CHARSETS = getCharsets();
+const ON_WILL_MOUNT = jest.fn();
+const ON_CHANGE_EN_TITLE = jest.fn();
+
+const CHANGE_EVENT = {
+  currentTarget: { value: 'test' },
+};
 
 
 describe('PageForm', () => {
@@ -34,12 +40,15 @@ describe('PageForm', () => {
         />
       ));
     });
+
     it('renders without crashing', () => {
       expect(component.exists()).toBe(true);
     });
+
     it('has class PageForm', () => {
       expect(component.hasClass('PageForm')).toBe(true);
     });
+
     it('renders the charsets options', () => {
       const options = component.find('.PageForm__charsets-select option');
       expect(options).toHaveLength(CHARSETS.length);
@@ -48,6 +57,7 @@ describe('PageForm', () => {
         expect(option.text()).toBe(CHARSETS[i]);
       });
     });
+
     it('renders the content-types options', () => {
       const options = component.find('.PageForm__content-types-select option');
       expect(options).toHaveLength(CONTENT_TYPES.length);
@@ -55,6 +65,51 @@ describe('PageForm', () => {
         expect(option.prop('value')).toBe(CONTENT_TYPES[i]);
         expect(option.text()).toBe(CONTENT_TYPES[i]);
       });
+    });
+
+    it('when changing the en title, it calls nothing', () => {
+      component.find('Field[name="titles.en"]').prop('onChange')(CHANGE_EVENT);
+      expect(ON_CHANGE_EN_TITLE).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('with onWillMount callback', () => {
+    beforeEach(() => {
+      shallow((
+        <PageFormBody
+          onSubmit={ON_SUBMIT}
+          handleSubmit={HANDLE_SUBMIT}
+          groups={GROUPS}
+          pageModels={PAGE_MODELS}
+          contentTypes={CONTENT_TYPES}
+          charsets={CHARSETS}
+          selectedJoinGroups={[]}
+          onWillMount={ON_WILL_MOUNT}
+        />
+      ));
+    });
+
+    it('calls onWillMount', () => {
+      expect(ON_WILL_MOUNT).toHaveBeenCalled();
+    });
+  });
+
+  describe('with onChangeEnTitle callback', () => {
+    it('when changing the en title, it calls onChangeEnTitle', () => {
+      const component = shallow((
+        <PageFormBody
+          onSubmit={ON_SUBMIT}
+          handleSubmit={HANDLE_SUBMIT}
+          groups={GROUPS}
+          pageModels={PAGE_MODELS}
+          contentTypes={CONTENT_TYPES}
+          charsets={CHARSETS}
+          selectedJoinGroups={[]}
+          onChangeEnTitle={ON_CHANGE_EN_TITLE}
+        />
+      ));
+      component.find('Field[name="titles.en"]').prop('onChange')(CHANGE_EVENT);
+      expect(ON_CHANGE_EN_TITLE).toHaveBeenCalledWith(CHANGE_EVENT.currentTarget.value);
     });
   });
 

@@ -1,6 +1,12 @@
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { gotoRoute } from 'frontend-common-components';
+import { initialize } from 'redux-form';
+
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
-  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
+  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, sendPutPage,
+  fetchPageForm,
 } from 'state/pages/actions';
 
 import {
@@ -14,19 +20,19 @@ import {
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition, postPage } from 'api/pages';
-
-
+import { setPagePosition, postPage, putPage, fetchPage } from 'api/pages';
 import rootReducer from 'state/rootReducer';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { ROUTE_PAGE_TREE } from 'app-init/router';
+
 
 jest.mock('api/pages', () => ({
-  fetchPage: () => new Promise(resolve => resolve({})),
+  fetchPage: jest.fn().mockReturnValue(new Promise(resolve => resolve({}))),
   fetchPageChildren: () => new Promise(resolve => resolve([])),
   setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
   postPage: jest.fn(),
+  putPage: jest.fn(),
 }));
+
 const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
 const mockPostPageFailure = () =>
   new Promise(resolve => resolve({ payload: {}, errors: [{ code: 1, message: 'Wrong!' }] }));
@@ -278,6 +284,52 @@ describe('state/pages/actions', () => {
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
         expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(addErrorsAction).toBeDefined();
+      });
+    });
+  });
+
+  describe('sendPutPage()', () => {
+    let store;
+    beforeEach(() => {
+      jest.resetModules();
+      store = mockStore(INITIALIZED_STATE);
+    });
+    it('when putPage succeeds, should dispatch ADD_PAGES', () => {
+      putPage.mockImplementation(mockPostPageSuccess);
+      store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
+        expect(putPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+      });
+    });
+    it('when putPage fails, should dispatch ADD_ERRORS', () => {
+      putPage.mockImplementation(mockPostPageFailure);
+      store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(putPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(addErrorsAction).toBeDefined();
+      });
+    });
+  });
+
+  describe('fetchPageForm()', () => {
+    let store;
+    beforeEach(() => {
+      jest.resetModules();
+      store = mockStore(INITIALIZED_STATE);
+    });
+    it('when fetchPage succeeds, should dispatch redux-form initialize', () => {
+      fetchPage.mockImplementation(mockPostPageSuccess);
+      store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
+        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(initialize).toHaveBeenCalledWith('page', 'contacts');
+      });
+    });
+    it('when putPage fails, should dispatch ADD_ERRORS', () => {
+      fetchPage.mockImplementation(mockPostPageFailure);
+      store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
         expect(addErrorsAction).toBeDefined();
       });
     });
