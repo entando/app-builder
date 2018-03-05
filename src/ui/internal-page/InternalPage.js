@@ -5,9 +5,7 @@ import {
   formattedText,
 } from 'frontend-common-components';
 
-import {
-  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST,
-} from 'app-init/router';
+import { ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST } from 'app-init/router';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';

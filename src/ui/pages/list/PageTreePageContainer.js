@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 
 import PageTreePage from 'ui/pages/list/PageTreePage';
 
-import {
-  handleExpandPage,
-} from 'state/pages/actions';
+import { handleExpandPage } from 'state/pages/actions';
 
 import { getLocale } from 'state/locale/selectors';
 
