@@ -2,7 +2,8 @@
 import 'test/enzyme-init';
 import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
 import {
-  ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
+  ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD,
+  CONTACTS_PAYLOAD,
 } from 'test/mocks/pages';
 
 jest.unmock('api/pages');

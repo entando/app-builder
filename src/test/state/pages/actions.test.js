@@ -4,7 +4,8 @@ import {
 } from 'state/pages/actions';
 
 import {
-  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
+  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE,
+  SET_PAGE_PARENT,
 } from 'state/pages/types';
 
 import { ADD_ERRORS } from 'state/errors/types';
