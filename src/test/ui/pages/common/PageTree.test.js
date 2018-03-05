@@ -5,7 +5,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
 import { DDTable, gotoRoute } from 'frontend-common-components';
-import { ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT } from 'app-init/router';
 
 const PAGES = [
   {
@@ -90,13 +90,15 @@ describe('PageTree', () => {
     });
     it('does not call onExpandPage if the page is empty', () => {
       const emptyPageIndex = 1;
-      component.find('.PageTree__icons-label').at(emptyPageIndex).simulate('click', { preventDefault: () => {} });
+      component.find('.PageTree__icons-label').at(emptyPageIndex)
+        .simulate('click', { preventDefault: () => {} });
       expect(PAGES[emptyPageIndex].isEmpty).toBe(true);
       expect(handleExpandPage).not.toHaveBeenCalled();
     });
     it('calls onExpandPage if the page is not empty', () => {
       const notEmptyPageIndex = 0;
-      component.find('.PageTree__icons-label').at(notEmptyPageIndex).simulate('click', { preventDefault: () => {} });
+      component.find('.PageTree__icons-label').at(notEmptyPageIndex)
+        .simulate('click', { preventDefault: () => {} });
       expect(PAGES[notEmptyPageIndex].isEmpty).toBe(false);
       expect(handleExpandPage).toHaveBeenCalled();
     });
@@ -107,11 +109,21 @@ describe('PageTree', () => {
     beforeEach(() => {
       component = shallow(<PageTree pages={PAGES} />);
     });
+
     describe('add', () => {
       it('redirects to the "add page" route', () => {
         const pageIndex = 1;
         component.find('PageTreeActionMenu').at(pageIndex).prop('onClickAdd')();
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
+      });
+    });
+
+    describe('edit', () => {
+      it('redirects to the "edit page" route with pageCode = the page code', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickEdit')();
+        expect(gotoRoute)
+          .toHaveBeenCalledWith(ROUTE_PAGE_EDIT, { pageCode: PAGES[pageIndex].code });
       });
     });
   });

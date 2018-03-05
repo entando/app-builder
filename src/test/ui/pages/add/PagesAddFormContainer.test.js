@@ -2,7 +2,7 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/add/PagesAddFormContainer';
 
 // mocked
-import { formValueSelector, mockSelector } from 'redux-form';
+import { formValueSelector, change, mockSelector } from 'redux-form';
 import { getGroups } from 'state/groups/selectors';
 import { getPageModels } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
@@ -27,6 +27,7 @@ jest.mock('redux-form', () => {
   return {
     mockSelector: mockSelectorFunc,
     formValueSelector: jest.fn().mockReturnValue(mockSelectorFunc),
+    change: jest.fn().mockReturnValue('change_result'),
     reduxForm: () => () => 'span',
   };
 });
@@ -92,6 +93,13 @@ describe('PagesAddFormContainer', () => {
       expect(props.onSubmit).toBeDefined();
       props.onSubmit();
       expect(dispatchMock).toHaveBeenCalledWith('sendPostPage_result');
+    });
+
+    it('maps the "onChangeEnTitle" prop a redux-form change dispatch', () => {
+      expect(props.onChangeEnTitle).toBeDefined();
+      props.onChangeEnTitle('En Title');
+      expect(dispatchMock).toHaveBeenCalledWith('change_result');
+      expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
     });
   });
 });

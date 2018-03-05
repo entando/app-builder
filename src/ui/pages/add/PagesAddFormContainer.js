@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
+import { formValueSelector, change } from 'redux-form';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getGroups } from 'state/groups/selectors';
@@ -19,11 +19,14 @@ export const mapStateToProps = state => ({
     charset: 'utf-8',
     contentType: 'text/html',
   },
+  mode: 'add',
 });
 
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: data => dispatch(sendPostPage(data)),
+  onChangeEnTitle: title =>
+    dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
 });
 
 
