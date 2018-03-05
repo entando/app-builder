@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 
 // import the Component to be connected
 import PageSettingsForm from 'ui/pages/common/PageSettingsForm';
-import { fetchPageSettings, fetchSelectOptions } from 'state/settings-form/actions';
-import { getOptions } from 'state/settings-form/selectors';
+import { fetchPageSettings, fetchFreePages } from 'state/pages/actions';
+import { getFreePages } from 'state/pages/selectors';
 
 export const mapStateToProps = state => ({
-  options: getOptions(state),
+  options: getFreePages(state),
 });
 
 // map the props
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     // get select options from API
-    dispatch(fetchSelectOptions());
+    dispatch(fetchFreePages());
     // get page settings from API
     dispatch(fetchPageSettings());
   },

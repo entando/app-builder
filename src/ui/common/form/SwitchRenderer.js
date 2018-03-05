@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch } from 'patternfly-react';
 
-const SwitchRenderer = ({ input: { onChange, value } }) =>
-  <Switch defaultValue={value} onChange={(el, val) => onChange(val)} />;
+const SwitchRenderer = ({ input }) => {
+  const switchValue = typeof input.value === 'string' ? (input.value === 'true') : input.value;
+  return (<Switch
+    {...input}
+    value={switchValue}
+    onChange={(el, val) => input.onChange(val)}
+  />);
+};
 
 
 SwitchRenderer.propTypes = {
   input: PropTypes.shape({
-    value: PropTypes.bool.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
     onChange: PropTypes.func.isRequired,
   }).isRequired,
 };

@@ -1,6 +1,8 @@
 import 'test/enzyme-init';
-import { getPageSettingsListAPI, getSelectOptionsAPI } from 'api/pageSettings';
-import { PAGE_SETTINGS, SELECT_OPTIONS_OK } from 'test/mocks/pageSettings';
+import { getPageSettingsListAPI } from 'api/pageSettings';
+import { getFreePages } from 'api/pages';
+import { PAGE_SETTINGS } from 'test/mocks/pageSettings';
+import { FREE_PAGES_PAYLOAD } from 'test/mocks/pages';
 
 jest.unmock('api/pageSettings');
 
@@ -16,14 +18,14 @@ describe('test pageSettings API', () => {
   });
 });
 
-describe('test getSelectOptions API', () => {
+describe('test getFreePages API', () => {
   it('returns a promise', () => {
-    const filledInput = getSelectOptionsAPI();
+    const filledInput = getFreePages();
     expect(typeof filledInput.then === 'function').toBeDefined();
   });
   it('verify success groups', () => {
-    getSelectOptionsAPI().then((response) => {
-      expect(response).toEqual(SELECT_OPTIONS_OK);
+    getFreePages().then((response) => {
+      expect(response).toEqual(FREE_PAGES_PAYLOAD);
     });
   });
 });

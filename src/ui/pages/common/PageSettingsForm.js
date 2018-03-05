@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
-import RenderSwitchInput from 'ui/common/form/RenderSwitchInput';
+import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 const BASE_URL_TYPES = [
   {
@@ -146,7 +146,7 @@ export class PageSettingsBody extends Component {
                 </Col>
                 <Col xs={4}>
                   <Field
-                    component={RenderSwitchInput}
+                    component={SwitchRenderer}
                     name="baseUrlContext"
                   />
                 </Col>
@@ -163,7 +163,7 @@ export class PageSettingsBody extends Component {
                 </Col>
                 <Col xs={4}>
                   <Field
-                    component={RenderSwitchInput}
+                    component={SwitchRenderer}
                     name="useJsessionId"
                   />
                 </Col>
@@ -175,7 +175,7 @@ export class PageSettingsBody extends Component {
                 </Col>
                 <Col xs={4}>
                   <Field
-                    component={RenderSwitchInput}
+                    component={SwitchRenderer}
                     name="startLangFromBrowser"
                   />
                 </Col>

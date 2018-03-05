@@ -2,11 +2,12 @@ import reducer from 'state/pages/reducer';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
-  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
+  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
+  setFreePages,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -129,6 +130,16 @@ describe('state/pages/reducer', () => {
         newState = reducer(state, setPageLoaded(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].loading).toBe(false);
       });
+    });
+  });
+
+  describe('after action SET_FREE_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer({}, setFreePages(FREE_PAGES_PAYLOAD));
+    });
+    it('state should be valued with an array of options', () => {
+      expect(state.freePages[0]).toEqual(FREE_PAGES_PAYLOAD[0]);
     });
   });
 });

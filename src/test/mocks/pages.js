@@ -184,3 +184,69 @@ export const CONTACTS_PAYLOAD = {
   ],
   children: [],
 };
+
+export const FREE_PAGES_PAYLOAD = [
+  {
+    pageCode: 'homepage',
+    shortFullTitle: 'Home',
+  },
+  {
+    pageCode: 'service',
+    shortFullTitle: '[i].. / Service',
+  },
+  {
+    pageCode: 'notfound',
+    shortFullTitle: '.. / .. / Page not found',
+  },
+  {
+    pageCode: 'errorpage',
+    shortFullTitle: '.. / .. / Error page',
+  },
+  {
+    pageCode: 'login',
+    shortFullTitle: '.. / .. / Login',
+  },
+];
+
+export const PAGE_SETTINGS_PAYLOAD = {
+  param: [{
+    name: 'urlStyle',
+    value: 'breadcrumbs',
+  },
+  {
+    name: 'treeStyle_page',
+    value: 'request',
+  },
+  {
+    name: 'startLangFromBrowser',
+    value: 'false',
+  },
+  {
+    name: 'baseUrl',
+    value: 'static',
+  },
+  {
+    name: 'baseUrlContext',
+    value: 'true',
+  },
+  {
+    name: 'useJsessionId',
+    value: 'false',
+  }, {
+    name: 'notFoundPageCode',
+    value: 'notfound',
+  },
+  {
+    name: 'homePageCode',
+    value: 'homepage',
+  },
+  {
+    name: 'errorPageCode',
+    value: 'errorpage',
+  },
+  {
+    name: 'loginPageCode',
+    value: 'login',
+  },
+  ],
+};

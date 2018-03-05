@@ -1,17 +1,19 @@
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
-  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
+  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, setFreePages,
+  fetchFreePages, fetchPageSettings, mapItem,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
+  SET_FREE_PAGES,
 } from 'state/pages/types';
 
 import { ADD_ERRORS } from 'state/errors/types';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
-  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
+  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
 import { setPagePosition, postPage } from 'api/pages';
@@ -71,6 +73,7 @@ const INITIALIZED_STATE = {
       login: {},
       notfound: {},
     },
+    freePages: FREE_PAGES_PAYLOAD,
   },
 };
 
@@ -279,6 +282,67 @@ describe('state/pages/actions', () => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
         expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
         expect(addErrorsAction).toBeDefined();
+      });
+    });
+  });
+
+  const FREE_PAGES_MOCKED = {
+    type: SET_FREE_PAGES,
+    payload: {
+      freePages: [],
+    },
+  };
+
+  const PAGE_SETTINGS_MOCKED = {
+    form: {
+      settings: {
+        initial: {},
+      },
+    },
+  };
+
+  describe('setFreePages()', () => {
+    it('test FREE_PAGES_MOCKED for empty object on initial state', () => {
+      expect(setFreePages([])).toEqual(FREE_PAGES_MOCKED);
+    });
+
+    it('checks action type', () => {
+      const action = setFreePages();
+      expect(action.type).toBe(SET_FREE_PAGES);
+    });
+    it('search for the payload to be defined', () => {
+      const action = setFreePages();
+      expect(action.payload).toBeDefined();
+    });
+
+    describe('test fetchFreePages', () => {
+      it('fetchFreePages calls setFreePages action', (done) => {
+        const store = mockStore(INITIALIZED_STATE);
+        store.dispatch(fetchFreePages()).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).toEqual(SET_FREE_PAGES);
+          done();
+        });
+      });
+      it('freePages array is defined and properly valued', (done) => {
+        const store = mockStore(INITIALIZED_STATE);
+        store.dispatch(fetchFreePages()).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].payload.options).toBeDefined();
+          expect(actions[0].payload.options).toEqual(FREE_PAGES_PAYLOAD);
+          done();
+        });
+      });
+    });
+
+    describe('test fetchPageSettings', () => {
+      it('fetchPageSettings', (done) => {
+        const store = mockStore(PAGE_SETTINGS_MOCKED);
+        store.dispatch(fetchPageSettings()).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].payload).toEqual(mapItem(PAGE_SETTINGS_PAYLOAD.param));
+          done();
+        });
       });
     });
   });

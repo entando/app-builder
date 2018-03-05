@@ -1,14 +1,15 @@
 
 import { gotoRoute } from 'frontend-common-components';
 
-import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
+import { fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages, getPageSettingsList } from 'api/pages';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES,
 } from 'state/pages/types';
 import { getStatusMap, getPagesMap, getChildrenMap } from 'state/pages/selectors';
 import { addErrors } from 'state/errors/actions';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { initialize } from 'redux-form';
 
 
 const HOMEPAGE_CODE = 'homepage';
@@ -59,6 +60,13 @@ export const setPageParentSync = (pageCode, oldParentCode, newParentCode) => ({
     pageCode,
     oldParentCode,
     newParentCode,
+  },
+});
+
+export const setFreePages = freePages => ({
+  type: SET_FREE_PAGES,
+  payload: {
+    freePages,
   },
 });
 
@@ -144,3 +152,19 @@ export const sendPostPage = pageData => dispatch => postPage(pageData)
       gotoRoute(ROUTE_PAGE_TREE);
     }
   });
+
+export const fetchFreePages = () => dispatch => (
+  getFreePages().then((freePages) => {
+    dispatch(setFreePages(freePages));
+  })
+);
+
+export const mapItem = param => (
+  param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
+);
+// thunks
+export const fetchPageSettings = () => dispatch => (
+  getPageSettingsList().then((response) => {
+    dispatch(initialize('settings', mapItem(response.param)));
+  })
+);
