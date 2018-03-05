@@ -1,9 +1,7 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
-import {
-  fetchPage, fetchPageChildren, setPagePosition, postPage, putPage,
-} from 'api/pages';
+import { fetchPage, fetchPageChildren, setPagePosition, postPage, putPage } from 'api/pages';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE,
