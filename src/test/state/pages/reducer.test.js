@@ -6,7 +6,8 @@ import {
 } from 'test/mocks/pages';
 
 import {
-  addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
+  addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading,
+  setPageLoaded,
 } from 'state/pages/actions';
 
 const PAGES = [
