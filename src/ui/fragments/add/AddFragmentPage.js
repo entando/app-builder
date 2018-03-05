@@ -1,13 +1,11 @@
 import React from 'react';
-import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-import AddFormContainer from 'ui/fragments/add/AddFormContainer';
-import PageTitle from 'ui/internal-page/PageTitle';
 
-const FRAGMENT_HELP = 'fragment.help';
-const PAGE_TITLE = 'app.add';
+import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
+import AddFormContainer from 'ui/fragments/add/AddFormContainer';
 
 const AddFragmentPage = () => (
 
@@ -19,21 +17,19 @@ const AddFragmentPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            {/* FIXME change route when fragmentlist component is avaible */}
-            <BreadcrumbItem route="home">
+            <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id={PAGE_TITLE} />
+              <FormattedMessage id="app.add" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <PageTitle titleId={PAGE_TITLE} helpId={FRAGMENT_HELP} />
-        </Col>
-      </Row>
+      <PageTitle
+        titleId="fragment.detail.title"
+        helpId="fragment.detail.help"
+      />
       <Row>
         <Col xs={12}>
           <AddFormContainer />

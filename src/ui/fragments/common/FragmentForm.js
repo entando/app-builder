@@ -100,11 +100,11 @@ export const FragmentFormBody = (props) => {
               name="code"
               label={
                 <span>
-                  <FormattedMessage id="fragment.form.add.code" />
+                  <FormattedMessage id="app.code" />
                   <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
                 </span>
               }
-              placeholder={formattedText('fragment.form.add.code.placeholder')}
+              placeholder={formattedText('fragment.code.placeholder')}
               validate={[required]}
               disabled={mode === EDIT_MODE}
             />

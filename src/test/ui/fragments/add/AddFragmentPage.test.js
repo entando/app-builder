@@ -13,7 +13,7 @@ describe('AddFragmentPage', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('verify if exist InternalPage with class FragmentPage', () => {
+  it('verify if exist InternalPage with class AddFragmentPage', () => {
     expect(component.find('InternalPage').hasClass('AddFragmentPage')).toEqual(true);
   });
 });
