@@ -17,7 +17,7 @@ const RenderSelectInput = ({
           <option
             key={item.value}
             value={item.value}
-          > {item.text}
+          >{item.text}
           </option>))}
       </Field>
     </Col>
