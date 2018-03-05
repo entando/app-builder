@@ -1,11 +1,11 @@
 import React from 'react';
-import InternalPage from 'ui/internal-page/InternalPage';
-import PageTitle from 'ui/internal-page/PageTitle';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
-import AddFormContainer from './AddFormContainer';
+import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
+import AddFormContainer from 'ui/fragments/add/AddFormContainer';
 
 const AddFragmentPage = () => (
 
