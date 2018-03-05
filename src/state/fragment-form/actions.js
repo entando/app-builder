@@ -1,4 +1,4 @@
-import getFragmentAPI from 'api/fragment';
+import { getFragment } from 'api/fragment';
 import { initialize } from 'redux-form';
 
 import { SET_FRAGMENT } from './types';
@@ -13,7 +13,7 @@ export const setFragment = (fragmentValues) => ({
 
 // thunks
 export const fetchFragment = fragmentCode => dispatch => (
-  getFragmentAPI(fragmentCode).then((response) => {
+  getFragment(fragmentCode).then((response) => {
     dispatch(setFragment(response.payload));
     dispatch(initialize('fragment', response.payload));
   })

@@ -126,3 +126,6 @@
 .FragmentForm__required-fields {
   color: #d1d1d1;
   font-size: 12px; }
+
+.ListFragmentPage .FragmentListTable__table {
+  margin: 2em 0; }

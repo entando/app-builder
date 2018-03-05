@@ -1,4 +1,4 @@
-export const BODY_OK =
+export const GET_FRAGMENT_OK =
 {
   payload: {
     code: 'fragment_code',
@@ -20,6 +20,27 @@ export const BODY_OK =
   },
   errors: [],
   metaData: {},
+};
+
+export const LIST_FRAGMENTS_OK =
+{
+  payload: [
+    {
+      code: 'myCode',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
+  ],
+  errors: [],
+  metaData: {
+    page: 1,
+    pageSize: 10,
+    lastPage: 10,
+  },
 };
 
 export const BODY_ERROR =

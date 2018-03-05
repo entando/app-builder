@@ -1,14 +1,14 @@
 
 import { setFragment, fetchFragment } from 'state/fragment-form/actions';
 import { SET_FRAGMENT } from 'state/fragment-form/types';
-import { BODY_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragment';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-const FRAGMENT_MOCK = BODY_OK.payload;
+const FRAGMENT_MOCK = GET_FRAGMENT_OK.payload;
 
 const FRAGMENT_CODE = 'test_fragment';
 

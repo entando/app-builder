@@ -1,11 +1,13 @@
-import { BODY_OK, BODY_ERROR } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK, LIST_FRAGMENTS_OK, BODY_ERROR } from 'test/mocks/fragment';
 
-const getFragment = fragmentCode => new Promise((resolve, reject) => {
+export const getFragment = fragmentCode => new Promise((resolve, reject) => {
   if (fragmentCode) {
-    resolve(BODY_OK);
+    resolve(GET_FRAGMENT_OK);
   } else {
     reject(BODY_ERROR);
   }
 });
 
-export default getFragment;
+export const getFragments = () => new Promise((resolve) => {
+  resolve(LIST_FRAGMENTS_OK);
+});

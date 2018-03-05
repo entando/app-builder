@@ -73,5 +73,7 @@ export default {
     'fragment.tab.defaultGuiCode': 'Default Gui Code',
     'fragment.form.edit.widgetType': 'Widget Type',
     'fragment.form.edit.plugin': 'Plugin',
+    'fragment.table.widgetType': 'Widget Type',
+    'fragment.table.plugin': 'Plugin',
   },
 };

@@ -1,8 +1,8 @@
 import reducer from 'state/fragment-form/reducer';
 import { setFragment } from 'state/fragment-form/actions';
-import { BODY_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragment';
 
-const FRAGMENT_PAYLOAD = BODY_OK.payload;
+const FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
 
 describe('state/fragment-form/reducer', () => {
   it('should return an object', () => {
