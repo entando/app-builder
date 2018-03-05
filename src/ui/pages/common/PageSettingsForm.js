@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Alert, OverlayTrigger, Popover } from 'patternfly-react';
-import { Panel } from 'react-bootstrap';
+import { Row, Col, OverlayTrigger, Popover } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
@@ -46,23 +45,6 @@ const URL_STYLE = [
   },
 ];
 
-
-export const renderDefaultUIField = (field) => {
-  const { input } = field;
-  if (!input.value) {
-    return (
-      <Alert type="info">
-        <FormattedMessage id="widget.page.alert.notAvaible" />
-      </Alert>
-    );
-  }
-  return (
-    <Panel>
-      <Panel.Body><pre>{input.value}</pre></Panel.Body>
-    </Panel>
-  );
-};
-
 const HELP_TEXT_APPENDBASEURL = 'pageSettings.appendBaseUrl.help';
 const appendBaseUrl = () => (
   <Popover id="appendBaseUrl-switch">
@@ -99,7 +81,7 @@ export class PageSettingsBody extends Component {
     }));
 
     return (
-      <form onSubmit={onSubmit} className="form-horizontal">
+      <form onSubmit={onSubmit} className="PageSettingsForm form-horizontal">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
