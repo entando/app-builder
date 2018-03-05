@@ -18,6 +18,7 @@ export const BODY_OK =
     defaultGuiCode: '<div></div>',
     guiCode: '<div></div>',
   },
+
   errors: [],
   metaData: {},
 };
