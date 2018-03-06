@@ -1,9 +1,10 @@
 
 import 'test/enzyme-init';
-import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
+import { fetchPage, fetchPageChildren, setPagePosition, postPage,
+  getPageSettingsList, getFreePages } from 'api/pages';
 import {
-  ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD,
-  CONTACTS_PAYLOAD,
+  ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
+  FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
 jest.unmock('api/pages');
@@ -59,5 +60,29 @@ describe('api/pages', () => {
         .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
     });
   });
-});
 
+
+  describe('test pageSettings API', () => {
+    it('returns a promise', () => {
+      const filledInput = getPageSettingsList();
+      expect(typeof filledInput.then === 'function').toBeDefined();
+    });
+    it('verify success page settings', () => {
+      getPageSettingsList().then((response) => {
+        expect(response).toEqual(PAGE_SETTINGS_PAYLOAD);
+      });
+    });
+  });
+
+  describe('test getFreePages API', () => {
+    it('returns a promise', () => {
+      const filledInput = getFreePages();
+      expect(typeof filledInput.then === 'function').toBeDefined();
+    });
+    it('verify success groups', () => {
+      getFreePages().then((response) => {
+        expect(response).toEqual(FREE_PAGES_PAYLOAD);
+      });
+    });
+  });
+});

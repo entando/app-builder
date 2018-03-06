@@ -1,6 +1,13 @@
 
 import { combineReducers } from 'redux';
-import { ADD_PAGES, TOGGLE_PAGE_EXPANDED, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_PARENT, MOVE_PAGE } from 'state/pages/types';
+import {
+  ADD_PAGES,
+  TOGGLE_PAGE_EXPANDED,
+  SET_PAGE_LOADING,
+  SET_PAGE_LOADED,
+  SET_PAGE_PARENT,
+  MOVE_PAGE,
+  SET_FREE_PAGES } from './types';
 
 
 // creates a map from an array
@@ -125,9 +132,19 @@ const statusMap = (state = {}, action = {}) => {
   }
 };
 
+const freePages = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_FREE_PAGES: {
+      return action.payload.freePages;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map: reducer,
   childrenMap,
   titlesMap,
   statusMap,
+  freePages,
 });

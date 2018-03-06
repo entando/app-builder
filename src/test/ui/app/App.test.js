@@ -8,11 +8,13 @@ import DashboardPage from 'ui/dashboard/DashboardPage';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
+import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import { NotFoundPage } from 'frontend-common-components';
 
 import {
@@ -24,6 +26,8 @@ import {
   ROUTE_WIDGET_EDIT,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_DETAIL,
+  ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
 } from 'app-init/router';
@@ -69,6 +73,11 @@ describe('App', () => {
     expect(component.contains(<EditFragmentPageContainer />)).toEqual(true);
   });
 
+  it('route to detail fragment page', () => {
+    const component = shallow(<App route={ROUTE_FRAGMENT_DETAIL} />);
+    expect(component.contains(<DetailFragmentPageContainer />)).toEqual(true);
+  });
+
   it('route to add page page', () => {
     const component = shallow(<App route={ROUTE_PAGE_ADD} />);
     expect(component.contains(<PagesAddPageContainer />)).toBe(true);
@@ -77,6 +86,11 @@ describe('App', () => {
   it('route to edit page page', () => {
     const component = shallow(<App route={ROUTE_PAGE_EDIT} />);
     expect(component.contains(<PagesEditPage />)).toBe(true);
+  });
+
+  it('route to page settings page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_SETTINGS} />);
+    expect(component.contains(<PageSettingsPage />)).toBe(true);
   });
 
   it('default route', () => {

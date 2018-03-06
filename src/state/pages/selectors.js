@@ -8,6 +8,7 @@ export const getPagesMap = state => state.pages.map;
 export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
+export const getFreePages = state => state.pages.freePages;
 
 
 // relies on the children map order
