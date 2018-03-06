@@ -1,5 +1,5 @@
 import { getApiWidgetList } from 'api/widgetList';
-import { SET_STATE } from './types';
+import { SET_STATE } from 'state/widget-list/types';
 
 // eslinter-disable-next-line
 export const getWidgetRow = tableRow => ({

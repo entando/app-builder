@@ -5,6 +5,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import PagesAddFormContainer from 'ui/pages/add/PagesAddFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
@@ -36,10 +37,7 @@ class PagesAddPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <h1 className="InternalPage__page-title">
-                <FormattedMessage id="app.add" />
-                <i className="pficon pficon-help pull-right" />
-              </h1>
+              <PageTitle titleId="app.add" helpId="pageTreePage.help" />
             </Col>
           </Row>
           <Row>
