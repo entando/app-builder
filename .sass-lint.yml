@@ -3,7 +3,9 @@
 # Airbnb conventions reference: https://github.com/airbnb/css
 
 files:
-  include: '**/*.scss'
+  include:
+    - 'sass/*.scss'
+    - 'sass/**/*.scss'
 options:
   formatter: stylish
   merge-default-rules: false
