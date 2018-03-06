@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
 import DataModelListTable from 'ui/data/data-model/list/DataModelListTable';
 import DataModelSearchForm from 'ui/data/data-model/list/DataModelSearchForm';
-// import DataModelListContainer from 'ui/widgets/list/DataModelListContainer';
+import RowListContainer from 'ui/data/data-model/list/RowListContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
@@ -72,9 +72,9 @@ class DataModelListPage extends Component {
           <Row>
             <Col xs={12}>
               <DataModelListTable >
-                {/* <DataModelListContainer /> */}
+                <RowListContainer />
               </DataModelListTable>
-              <h1>paginator</h1>
+              <h1>paginatore da nico</h1>
             </Col>
           </Row>
         </Grid>

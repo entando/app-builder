@@ -28,7 +28,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
-import DataModelListPage from 'ui/data/data-model/list/DataModelListPage';
+import DataModelListPage from 'ui/data/data-model/list/DataModelListPageContainer';
 
 const App = ({ route }) => {
   switch (route) {

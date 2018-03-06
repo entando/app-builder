@@ -11,7 +11,7 @@ const DataModelListTable = ({ children }) => (
         <thead>
           <tr>
             <th><FormattedMessage id="app.name" /></th>
-            <th><FormattedMessage id="app.type" /></th>
+            <th className="text-center"><FormattedMessage id="app.type" /></th>
             <th className="text-center" width="10%"><FormattedMessage id="app.id" /></th>
             <th className="text-center" width="10%"><FormattedMessage id="app.actions" /></th>
           </tr>
