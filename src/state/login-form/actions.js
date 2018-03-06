@@ -2,7 +2,7 @@
 import { gotoRoute, formattedText } from 'frontend-common-components';
 import login from 'api/login';
 
-import { SET_LOGIN_ERROR_MESSAGE } from './types';
+import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 
 // eslint-disable-next-line

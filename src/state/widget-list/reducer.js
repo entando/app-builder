@@ -1,4 +1,4 @@
-import { SET_STATE } from './types';
+import { SET_STATE } from 'state/widget-list/types';
 
 const initialState = {
   tableRow: [],
