@@ -20,7 +20,7 @@ module.exports = {
     "settings": {
         "import/resolver": {
             "node": {
-                "moduleDirectory": ["node_modules", "src"]
+                "moduleDirectory": ["node_modules", "src", "sass"]
             }
         }
     },
