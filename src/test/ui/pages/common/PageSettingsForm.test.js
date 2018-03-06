@@ -3,12 +3,10 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageSettingsBody } from 'ui/pages/common/PageSettingsForm';
-import { SELECT_OPTIONS_OK } from 'test/mocks/pageSettings';
+import { FREE_PAGES_PAYLOAD as OPTIONS } from 'test/mocks/pages';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
-const OPTIONS = SELECT_OPTIONS_OK.payload;
-
 
 describe('PageSettingsForm', () => {
   beforeEach(jest.clearAllMocks);

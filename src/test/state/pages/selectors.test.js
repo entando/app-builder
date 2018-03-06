@@ -5,7 +5,7 @@ import {
 
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
-  getPageTreePages, getCharsets, getContentTypes,
+  getPageTreePages, getCharsets, getContentTypes, getFreePages,
 } from 'state/pages/selectors';
 
 const LOCALE_MOCK = 'en';
@@ -49,6 +49,7 @@ const MOCK_STATE = {
       login: {},
       notfound: {},
     },
+    freePages: [],
   },
 };
 
@@ -174,6 +175,12 @@ describe('state/pages/selectors', () => {
         'text/html',
         'text/xml',
       ]);
+    });
+  });
+
+  describe('getFreePages(state)', () => {
+    it('verify getFreePages selector', () => {
+      expect(getFreePages(MOCK_STATE)).toBeDefined();
     });
   });
 });

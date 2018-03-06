@@ -1,13 +1,17 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageSettingsFormContainer';
-import { SELECT_OPTIONS_OK } from 'test/mocks/pageSettings';
+import { FREE_PAGES_PAYLOAD as OPTIONS } from 'test/mocks/pages';
 
-const OPTIONS = SELECT_OPTIONS_OK.payload;
 const TEST_STATE = {
-  options: OPTIONS,
+  locale: 'en',
+  pages: {
+    map: {},
+    childrenMap: {},
+    titlesMap: {},
+    freePages: OPTIONS,
+  },
 };
-
 
 describe('PageSettingsFormContainer', () => {
   it('maps options property state in PageSettingsForm', () => {

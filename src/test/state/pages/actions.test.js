@@ -1,7 +1,7 @@
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, setFreePages,
-  fetchFreePages, fetchPageSettings, mapItem,
+  fetchFreePages,
 } from 'state/pages/actions';
 
 import {
@@ -13,7 +13,7 @@ import { ADD_ERRORS } from 'state/errors/types';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
-  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
+  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
 import { setPagePosition, postPage } from 'api/pages';
@@ -28,6 +28,8 @@ jest.mock('api/pages', () => ({
   fetchPageChildren: () => new Promise(resolve => resolve([])),
   setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
   postPage: jest.fn(),
+  getFreePages: () => new Promise(resolve => resolve([])),
+  getPageSettingsList: () => new Promise(resolve => resolve([])),
 }));
 const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
 const mockPostPageFailure = () =>
@@ -286,22 +288,13 @@ describe('state/pages/actions', () => {
     });
   });
 
-  const FREE_PAGES_MOCKED = {
-    type: SET_FREE_PAGES,
-    payload: {
-      freePages: [],
-    },
-  };
-
-  const PAGE_SETTINGS_MOCKED = {
-    form: {
-      settings: {
-        initial: {},
-      },
-    },
-  };
-
   describe('setFreePages()', () => {
+    const FREE_PAGES_MOCKED = {
+      type: SET_FREE_PAGES,
+      payload: {
+        freePages: [],
+      },
+    };
     it('test FREE_PAGES_MOCKED for empty object on initial state', () => {
       expect(setFreePages([])).toEqual(FREE_PAGES_MOCKED);
     });
@@ -316,32 +309,12 @@ describe('state/pages/actions', () => {
     });
 
     describe('test fetchFreePages', () => {
-      it('fetchFreePages calls setFreePages action', (done) => {
+      it('fetchFreePages calls setFreePages action', () => {
         const store = mockStore(INITIALIZED_STATE);
         store.dispatch(fetchFreePages()).then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_FREE_PAGES);
-          done();
-        });
-      });
-      it('freePages array is defined and properly valued', (done) => {
-        const store = mockStore(INITIALIZED_STATE);
-        store.dispatch(fetchFreePages()).then(() => {
-          const actions = store.getActions();
-          expect(actions[0].payload.options).toBeDefined();
-          expect(actions[0].payload.options).toEqual(FREE_PAGES_PAYLOAD);
-          done();
-        });
-      });
-    });
-
-    describe('test fetchPageSettings', () => {
-      it('fetchPageSettings', (done) => {
-        const store = mockStore(PAGE_SETTINGS_MOCKED);
-        store.dispatch(fetchPageSettings()).then(() => {
-          const actions = store.getActions();
-          expect(actions[0].payload).toEqual(mapItem(PAGE_SETTINGS_PAYLOAD.param));
-          done();
+          expect(actions[0].payload.freePages).toBeDefined();
         });
       });
     });
