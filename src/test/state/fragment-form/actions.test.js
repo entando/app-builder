@@ -1,7 +1,7 @@
 
 import { setFragment, fetchFragment } from 'state/fragment-form/actions';
 import { SET_FRAGMENT } from 'state/fragment-form/types';
-import { GET_FRAGMENT_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -10,7 +10,7 @@ const mockStore = configureMockStore(middlewares);
 
 const FRAGMENT_MOCK = GET_FRAGMENT_OK.payload;
 
-const FRAGMENT_CODE = 'test_fragment';
+const FRAGMENT_CODE = 'myCode';
 
 const SET_FRAGMENT_MOCK_INITIAL_STATE = {
   type: SET_FRAGMENT,

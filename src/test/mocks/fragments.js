@@ -1,7 +1,7 @@
 export const GET_FRAGMENT_OK =
 {
   payload: {
-    code: 'fragment_code',
+    code: 'myCode',
     isLocked: false,
     widgetType: null,
     plugin: {

@@ -1,4 +1,4 @@
-import { getFragments } from 'api/fragment';
+import { getFragments } from 'api/fragments';
 import { SET_FRAGMENTS } from 'state/fragment-list/types';
 
 // eslinter-disable-next-line

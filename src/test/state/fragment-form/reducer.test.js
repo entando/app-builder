@@ -1,6 +1,6 @@
 import reducer from 'state/fragment-form/reducer';
 import { setFragment } from 'state/fragment-form/actions';
-import { GET_FRAGMENT_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 const FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
 

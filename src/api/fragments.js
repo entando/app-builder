@@ -1,7 +1,7 @@
-import { GET_FRAGMENT_OK, LIST_FRAGMENTS_OK, BODY_ERROR } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK, LIST_FRAGMENTS_OK, BODY_ERROR } from 'test/mocks/fragments';
 
 export const getFragment = fragmentCode => new Promise((resolve, reject) => {
-  if (fragmentCode) {
+  if (fragmentCode === GET_FRAGMENT_OK.payload.code) {
     resolve(GET_FRAGMENT_OK);
   } else {
     reject(BODY_ERROR);

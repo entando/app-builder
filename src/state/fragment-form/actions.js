@@ -1,4 +1,4 @@
-import { getFragment } from 'api/fragment';
+import { getFragment } from 'api/fragments';
 import { initialize } from 'redux-form';
 
 import { SET_FRAGMENT } from './types';
