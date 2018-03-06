@@ -14,7 +14,7 @@ export const DATA_MODELS = {
   },
 };
 
-export const DATA_MODELS_ERROR = {
+export const ERROR = {
   payload: [],
   errors: [
     {

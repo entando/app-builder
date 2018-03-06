@@ -5,7 +5,7 @@ import { FieldLevelHelp } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 
 const FormLabel = ({
-  labelId, langLabelId, helpId, required,
+  labelId, langLabelId, helpId, required, pullRight,
 }) => {
   const requiredIcon = required ? (
     <sup><i className="fa fa-asterisk required-icon FormLabel__required-icon" /></sup>
@@ -22,8 +22,13 @@ const FormLabel = ({
     <FieldLevelHelp content={formattedText(helpId)} />
   ) : null;
 
+  let classNameSpan = 'FormLabel';
+  if (pullRight) {
+    classNameSpan += ' pull-right';
+  }
+
   return (
-    <span className="FormLabel">
+    <span className={classNameSpan}>
       {langLabel}
       <FormattedMessage id={labelId} />
       {requiredIcon}
@@ -37,11 +42,13 @@ FormLabel.propTypes = {
   langLabelId: PropTypes.string,
   helpId: PropTypes.string,
   required: PropTypes.bool,
+  pullRight: PropTypes.bool,
 };
 
 FormLabel.defaultProps = {
   langLabelId: '',
   helpId: '',
   required: false,
+  pullRight: false,
 };
 export default FormLabel;
