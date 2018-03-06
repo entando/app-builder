@@ -1,8 +1,10 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
-import { fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages,
-  getPageSettingsList, putPage } from 'api/pages';
+import {
+  fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages,
+  getPageSettingsList, putPage,
+} from 'api/pages';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES,
@@ -10,8 +12,6 @@ import {
 import { getStatusMap, getPagesMap, getChildrenMap } from 'state/pages/selectors';
 import { addErrors } from 'state/errors/actions';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
-import { initialize } from 'redux-form';
-
 
 const HOMEPAGE_CODE = 'homepage';
 const noopPromise = arg => new Promise(resolve => resolve(arg));

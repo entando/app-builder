@@ -29,6 +29,7 @@ describe('PageSettingsFormContainer', () => {
     const dispatchMock = jest.fn();
     const result = mapDispatchToProps(dispatchMock);
     expect(result.onSubmit).toBeDefined();
+    result.onWillMount();
     result.onSubmit();
     expect(dispatchMock).toHaveBeenCalled();
   });
