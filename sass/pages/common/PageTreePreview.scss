@@ -1,6 +1,8 @@
+$_color-preview-row: rgba($color-pf-blue-200, .5);
+
 .PageTreePreview {
   width: 100%;
-  background: rgba($color-pf-blue-200, .5);
+  background: $_color-preview-row;
 
   .PageFolderIcon {
     margin-left: 10px;
