@@ -1,0 +1,12 @@
+
+.RowSpinner {
+  display: inline-block;
+  position: relative;
+
+  &__spinner {
+    display: inline-block;
+    position: absolute;
+    top: -14px;
+    left: 0;
+  }
+}

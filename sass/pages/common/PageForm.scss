@@ -1,0 +1,24 @@
+@import "../../patternfly.scss";
+
+.PageForm {
+
+  .PageForm__bullet-option:before {
+    display: inline-block;
+    padding-right: 3px;
+    color: $color-pf-blue-400;
+    font-family: FontAwesome;
+    font-size: 15px;
+    content: "\f10c";
+    vertical-align: middle;
+  }
+
+  .PageForm__bullet-option:checked:before {
+    display: inline-block;
+    padding-right: 3px;
+    color: $color-pf-blue-400;
+    font-family: FontAwesome;
+    font-size: 15px;
+    content: "\f192";
+    vertical-align: middle;
+  }
+}
