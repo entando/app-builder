@@ -6,6 +6,9 @@ export default {
     'app.no': 'No',
     'app.add': 'Aggiungi',
     'app.edit': 'Modifica',
+    'app.new': 'Nuovo',
+    'app.type': 'Aggiungi',
+    'app.id': 'Id',
     'app.configure': 'Configura',
     'app.details': 'Dettagli',
     'app.clone': 'Clona',
@@ -109,5 +112,7 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
     'pages.pageForm.saveAndConfigure': 'Salva e Configura',
+    'datamodel.help': 'Dalla sezione MODELLI DI DATI lamministratore può aggiungere nuovi modelli di dati o modificare quelli già esistenti. Il modello di dato è uno schema di formattazione di uno specifico tipo di contenuto. il Modello di Dato è realizzato in modo che il motore di renderizzazione di Entando lo traduca in un frammento di HTML che insieme ad opportuni fogli di stile CSS produrrá il risultato desiderato',
+    'menu.datamodel': 'Data Model',
   },
 };

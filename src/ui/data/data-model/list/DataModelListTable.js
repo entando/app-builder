@@ -1,13 +1,12 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 const DataModelListTable = ({ children }) => (
 
   <div className="DataModelListTable">
-    <Col md={12} className="WidgetListTable__tables">
+    <div className="WidgetListTable__tables">
       <table className="table table-striped table-bordered">
         <thead>
           <tr>
@@ -21,7 +20,7 @@ const DataModelListTable = ({ children }) => (
           {children}
         </tbody>
       </table>
-    </Col>
+    </div>
   </div>
 );
 

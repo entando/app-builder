@@ -6,6 +6,9 @@ export default {
     'app.no': 'No',
     'app.add': 'Add',
     'app.edit': 'Edit',
+    'app.new': 'New',
+    'app.type': 'Type',
+    'app.id': 'Id',
     'app.configure': 'Configure',
     'app.details': 'Details',
     'app.clone': 'Clone',
@@ -109,5 +112,7 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
     'pages.pageForm.saveAndConfigure': 'Save and Configure',
+    'datamodel.help': 'The DATA MODELS section lets the admnistrator add new content data or edit those already existing. Entando has a formatting engine based on models used to present the contents (or part of it) to users. Contents data are Velocity templates and, like contents, they are easily managed from the administration Interface.',
+    'menu.datamodel': 'Data Model',
   },
 };

@@ -6,27 +6,26 @@ import { formattedText } from 'frontend-common-components';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
 
-export const PageSearchFormBody = (props) => {
+export const DataModelSearchFormBody = (props) => {
   const { handleSubmit } = props;
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
   };
   return (
-    <form onSubmit={onSubmit} className="PageSearchForm form-horizontal well">
+    <form onSubmit={onSubmit} className="DataModelSearchForm form-horizontal well">
       <h3><FormattedMessage id="app.search" /></h3>
       <FormGroup>
         <Row>
           <label className="control-label col-sm-2" htmlFor="pagecode">
-            <FormattedMessage id="pageTree.searchForm.code" />
+            <FormattedMessage id="app.type" />
           </label>
           <Col sm={9}>
             <Field
-              id="pagecode"
-              component="input"
+              id={formattedText('app.type')}
+              component="select"
               className="form-control"
-              name="code"
-              placeholder={formattedText('pageTree.searchForm.code')}
+              name="type"
             />
           </Col>
         </Row>
@@ -49,12 +48,12 @@ export const PageSearchFormBody = (props) => {
   );
 };
 
-PageSearchFormBody.propTypes = {
+DataModelSearchFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-const PageSearchForm = reduxForm({
-  form: 'pageSearch',
-})(PageSearchFormBody);
+const DataModelSearchForm = reduxForm({
+  form: 'dataModelSearch',
+})(DataModelSearchFormBody);
 
-export default PageSearchForm;
+export default DataModelSearchForm;
