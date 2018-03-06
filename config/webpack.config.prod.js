@@ -85,6 +85,7 @@ module.exports = {
       // Entando custom paths
       paths.appSrc,
       paths.appSass,
+      paths.appTest,
 
     ].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
