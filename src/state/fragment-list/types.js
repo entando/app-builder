@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const ADD_FRAGMENTS = 'fragmentList/add-fragments';
+export const SET_FRAGMENTS = 'fragmentList/set-fragments';

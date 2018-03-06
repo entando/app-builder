@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
+import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
+
 class FragmentListTable extends Component {
   componentWillMount() {
     this.props.onWillMount();
@@ -11,10 +13,12 @@ class FragmentListTable extends Component {
   render() {
     const tr = this.props.fragments.map(fragment => (
       <tr key={fragment.code}>
-        <td>{fragment.code}</td>
-        <td>{fragment.widgetType.title}</td>
-        <td>{fragment.pluginCode}</td>
-        <td>...</td>
+        <td className="FragmentListRow__td">{fragment.code}</td>
+        <td className="FragmentListRow__td">{fragment.widgetType.title}</td>
+        <td className="FragmentListRow__td text-center">{fragment.pluginCode}</td>
+        <td className="FragmentListRow__td text-center">
+          <FragmentListMenuActions code={fragment.code} />
+        </td>
       </tr>
     ));
     return (

@@ -75,6 +75,8 @@ export default {
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.table.widgetType': 'Widget Type',
     'fragment.table.plugin': 'Plugin',
+    'fragment.table.edit': 'Edit {code}',
+    'fragment.table.details': 'Details for: {code}',
   },
 
 };
