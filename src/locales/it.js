@@ -23,7 +23,7 @@ export default {
     'app.code': 'codice',
     'app.used': 'usato',
     'app.actions': 'azioni',
-    'menu.dashborad': 'Dashboard',
+    'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',
     'menu.uxPattern': 'UX Pattern',
