@@ -1,6 +1,7 @@
 import {
   ERROR, HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
-  NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD,
+  NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
+  PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
 const throttle = (func) => {
@@ -30,7 +31,7 @@ const fetchPageResponseMap = {
 
 export const fetchPage = pageCode => new Promise((resolve, reject) => {
   if (fetchPageResponseMap[pageCode]) {
-    throttle(() => resolve(fetchPageResponseMap[pageCode]));
+    throttle(() => resolve({ payload: fetchPageResponseMap[pageCode] }));
   } else {
     reject(ERROR);
   }
@@ -50,7 +51,7 @@ const fetchPageChildrenResponseMap = {
 // e.g. /pages?parentCode=homepage
 export const fetchPageChildren = pageCode => new Promise((resolve, reject) => {
   if (fetchPageChildrenResponseMap[pageCode]) {
-    throttle(() => resolve(fetchPageChildrenResponseMap[pageCode]));
+    throttle(() => resolve({ payload: fetchPageChildrenResponseMap[pageCode] }));
   } else {
     reject(ERROR);
   }
@@ -83,3 +84,29 @@ export const postPage = pageObject => new Promise((resolve) => {
     });
   }
 });
+
+export const putPage = pageObject => new Promise((resolve) => {
+  console.info(`calling PUT /pages\n\t${JSON.stringify(pageObject, 2)}`);
+  if (pageObject.titles.en !== 'error') {
+    throttle(() => resolve({ payload: pageObject }));
+  } else {
+    resolve({
+      errors: [
+        { code: 1, message: 'Page en title cannot be error!' },
+        { code: 2, message: 'This is a mock error!' },
+      ],
+    });
+  }
+});
+
+export const getFreePages = () => (
+  new Promise((resolve) => {
+    resolve(FREE_PAGES_PAYLOAD);
+  })
+);
+
+export const getPageSettingsList = () => (
+  new Promise((resolve) => {
+    resolve(PAGE_SETTINGS_PAYLOAD);
+  })
+);

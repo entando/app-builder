@@ -1,15 +1,17 @@
-
+import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
-import { fetchPage, fetchPageChildren, setPagePosition, postPage } from 'api/pages';
+import {
+  fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages,
+  getPageSettingsList, putPage,
+} from 'api/pages';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES,
 } from 'state/pages/types';
 import { getStatusMap, getPagesMap, getChildrenMap } from 'state/pages/selectors';
 import { addErrors } from 'state/errors/actions';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
-
 
 const HOMEPAGE_CODE = 'homepage';
 const noopPromise = arg => new Promise(resolve => resolve(arg));
@@ -62,6 +64,13 @@ export const setPageParentSync = (pageCode, oldParentCode, newParentCode) => ({
   },
 });
 
+export const setFreePages = freePages => ({
+  type: SET_FREE_PAGES,
+  payload: {
+    freePages,
+  },
+});
+
 
 const fetchPageTree = (pageCode) => {
   if (pageCode === HOMEPAGE_CODE) {
@@ -69,9 +78,10 @@ const fetchPageTree = (pageCode) => {
       fetchPage(pageCode),
       fetchPageChildren(pageCode),
     ])
-      .then(payloads => [payloads[0]].concat(payloads[1]));
+      .then(responses => [responses[0].payload].concat(responses[1].payload));
   }
-  return fetchPageChildren(pageCode);
+  return fetchPageChildren(pageCode)
+    .then(response => response.payload);
 };
 
 
@@ -142,5 +152,39 @@ export const sendPostPage = pageData => dispatch => postPage(pageData)
     } else {
       dispatch(addPages([data]));
       gotoRoute(ROUTE_PAGE_TREE);
+    }
+  });
+
+export const fetchFreePages = () => dispatch => (
+  getFreePages().then((freePages) => {
+    dispatch(setFreePages(freePages));
+  })
+);
+
+export const mapItem = param => (
+  param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
+);
+  // thunks
+export const fetchPageSettings = () => dispatch => (
+  getPageSettingsList().then((response) => {
+    dispatch(initialize('settings', mapItem(response.param)));
+  })
+);
+
+export const sendPutPage = pageData => dispatch => putPage(pageData)
+  .then((data) => {
+    if (data.errors && data.errors.length) {
+      dispatch(addErrors(data.errors.map(err => err.message)));
+    } else {
+      gotoRoute(ROUTE_PAGE_TREE);
+    }
+  });
+
+export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)
+  .then((response) => {
+    if (response.errors && response.errors.length) {
+      dispatch(addErrors(response.errors.map(err => err.message)));
+    } else {
+      dispatch(initialize('page', response.payload));
     }
   });

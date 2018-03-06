@@ -13,6 +13,8 @@ import {
   ROUTE_FRAGMENT_EDIT,
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
+  ROUTE_PAGE_EDIT,
+  ROUTE_PAGE_SETTINGS,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -25,6 +27,8 @@ import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
+import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PageSettingsPage from 'ui/pages/settings/PageSettings';
 
 const App = ({ route }) => {
   switch (route) {
@@ -42,6 +46,8 @@ const App = ({ route }) => {
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
+    case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     default: return <NotFoundPage />;
   }
 };

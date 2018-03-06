@@ -3,6 +3,7 @@ import React from 'react';
 export const gotoRoute = jest.fn();
 export const routerReducer = state => state || {};
 export const routerConfig = jest.fn();
+export const getParams = jest.fn().mockReturnValue({});
 export const formattedText = jest.fn().mockImplementation(id => id);
 export const setCurrentLocale = jest.fn();
 export const locales = { en: {}, it: {} };

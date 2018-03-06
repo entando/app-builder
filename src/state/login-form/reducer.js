@@ -1,4 +1,4 @@
-import { SET_LOGIN_ERROR_MESSAGE } from './types';
+import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 const initialState = {
   loginErrorMessage: '',

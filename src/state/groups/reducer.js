@@ -1,4 +1,4 @@
-import { ADD_GROUPS } from './types';
+import { ADD_GROUPS } from 'state/groups/types';
 
 const reducer = (state = [], action = {}) => {
   switch (action.type) {
