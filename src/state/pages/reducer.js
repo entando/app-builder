@@ -7,7 +7,8 @@ import {
   SET_PAGE_LOADED,
   SET_PAGE_PARENT,
   MOVE_PAGE,
-  SET_FREE_PAGES } from './types';
+  SET_FREE_PAGES,
+} from 'state/pages/types';
 
 
 // creates a map from an array
