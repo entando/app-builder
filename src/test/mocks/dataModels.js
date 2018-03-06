@@ -1,11 +1,20 @@
 export const DATA_MODELS = {
-  payload: [{
-    modelId: 'ID',
-    descr: 'data model sample',
-    type: 'AAA',
-    model: '',
-    stylesheet: '',
-  }],
+  payload: [
+    {
+      modelId: 'ID',
+      descr: 'data model sample',
+      type: 'AAA',
+      model: '',
+      stylesheet: '',
+    },
+    {
+      modelId: 'ID2',
+      descr: 'data model sample2',
+      type: 'BBBB',
+      model: '<html></html>',
+      stylesheet: 'style.css',
+    },
+  ],
   errors: [],
   metaData: {
     page: 1,

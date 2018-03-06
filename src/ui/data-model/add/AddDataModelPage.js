@@ -5,7 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DataModelForm from 'ui/data-model/common/DataModelForm';
+import DataModelFormContainer from 'ui/data-model/common/DataModelFormContainer';
 
 const AddDataModelPage = () => (
   <InternalPage className="AddFragmentPage">
@@ -31,7 +31,7 @@ const AddDataModelPage = () => (
       />
       <Row>
         <Col xs={12} >
-          <DataModelForm handleSubmit={() => {}} />
+          <DataModelFormContainer />
         </Col>
       </Row>
     </Grid>

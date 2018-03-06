@@ -2,9 +2,9 @@ import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
 import throttle from 'util/throttle';
 
 
-const getDataModels = type => (
+export const getDataModels = type => (
   new Promise((resolve, reject) => {
-    if (type.error) {
+    if (type.errors) {
       throttle(() => resolve(DATA_MODELS.payload));
     } else {
       reject(ERROR);
