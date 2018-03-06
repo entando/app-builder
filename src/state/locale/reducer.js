@@ -1,4 +1,4 @@
-import { SET_LANGUAGE } from './types';
+import { SET_LANGUAGE } from 'state/locale/types';
 
 const initialState = 'en';
 

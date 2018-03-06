@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from './types';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-stream/types';
 
 
 const hidden = (state = true, action = {}) => {
