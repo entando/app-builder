@@ -1,11 +1,16 @@
 import { connect } from 'react-redux';
+import { fetchDataTypes } from 'state/data-types/actions';
+import { getListDataTypes } from 'state/data-types/selector';
 import DataModelForm from 'ui/data-models/common/DataModelForm';
-import { fetchDataTypes } from 'state/data-types/action';
+
+export const mapStateToProps = state => ({
+  dataTypes: getListDataTypes(state),
+});
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchDataTypes()); },
-  handleSubmit: () => {},
+  handleSubmit: values => (values),
 
 });
-const DataModelFormContainer = connect(null, mapDispatchToProps)(DataModelForm);
+const DataModelFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataModelForm);
 export default DataModelFormContainer;

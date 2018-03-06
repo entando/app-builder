@@ -2,7 +2,7 @@ import { setCurrentLocale } from 'frontend-common-components';
 import { itLocale, enLocale } from 'app-init/locale';
 
 
-import { SET_LANGUAGE } from './types';
+import { SET_LANGUAGE } from 'state/locale/types';
 
 export const setLanguage = langCode => ({
   type: SET_LANGUAGE,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import { Button, Row, Col, FormGroup } from 'patternfly-react';
+import { Row, Col, FormGroup } from 'patternfly-react';
+import { Button } from 'react-bootstrap';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
 
@@ -240,8 +241,9 @@ export class PageFormBody extends Component {
           <Col xs={12}>
             <div className="btn-toolbar pull-right">
               <Button
-                className="PageForm__save-and-configure-btn btn-success"
+                className="PageForm__save-and-configure-btn"
                 type="submit"
+                bsStyle="success"
                 disabled={invalid || submitting}
               >
                 <FormattedMessage id="pages.pageForm.saveAndConfigure" />

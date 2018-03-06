@@ -52,4 +52,8 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  // Entando: custom sass and unit tests directory
+  appSass: resolveApp('sass'),
+  appTest: resolveApp('test'),
 };

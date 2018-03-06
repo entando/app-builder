@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import DataModelFormContainer from 'ui/data-models/common/DataModelFormContainer';
 
 const AddDataModelPage = () => (
-  <InternalPage className="AddFragmentPage">
+  <InternalPage className="AddDataModelPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>

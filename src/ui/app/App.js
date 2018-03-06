@@ -14,6 +14,7 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
+  ROUTE_PAGE_SETTINGS,
   ROUTE_DATA_ADD,
 } from 'app-init/router';
 
@@ -28,7 +29,8 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
-import AddDataModelPage from 'ui/data-model/add/AddDataModelPage';
+import PageSettingsPage from 'ui/pages/settings/PageSettings';
+import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 
 const App = ({ route }) => {
   switch (route) {
@@ -47,6 +49,7 @@ const App = ({ route }) => {
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_DATA_ADD: return <AddDataModelPage />;
     default: return <NotFoundPage />;
   }

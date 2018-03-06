@@ -78,7 +78,16 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
-    modules: ['node_modules', paths.appNodeModules].concat(
+    modules: [
+      'node_modules',
+      paths.appNodeModules,
+
+      // Entando custom paths
+      paths.appSrc,
+      paths.appSass,
+      paths.appTest,
+
+    ].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
       process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
     ),
@@ -166,7 +175,9 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            // Entando: test scss and css files
+            // test: /\.css$/,
+            test: /\.s?css$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -205,6 +216,8 @@ module.exports = {
                         ],
                       },
                     },
+                    // Entando: pre-process scss files
+                    require.resolve('sass-loader'),
                   ],
                 },
                 extractTextPluginOptions
