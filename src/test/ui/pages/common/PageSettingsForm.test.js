@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { PageSettingsBody } from 'ui/pages/common/PageSettingsForm';
+import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
 import { FREE_PAGES_PAYLOAD as OPTIONS } from 'test/mocks/pages';
 
 const ON_SUBMIT = jest.fn();
@@ -15,7 +15,7 @@ describe('PageSettingsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <PageSettingsBody
+        <PageSettingsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           options={OPTIONS}
@@ -42,7 +42,7 @@ describe('PageSettingsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <PageSettingsBody
+        <PageSettingsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           options={OPTIONS}
@@ -94,7 +94,7 @@ describe('PageSettingsForm', () => {
 
   describe('test form actions', () => {
     const component = shallow((
-      <PageSettingsBody
+      <PageSettingsFormBody
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         options={OPTIONS}

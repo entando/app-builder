@@ -64,7 +64,7 @@ const baseUrl = () => (
   </Popover>
 );
 
-export class PageSettingsBody extends Component {
+export class PageSettingsFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -228,7 +228,7 @@ export class PageSettingsBody extends Component {
   }
 }
 
-PageSettingsBody.propTypes = {
+PageSettingsFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -237,7 +237,7 @@ PageSettingsBody.propTypes = {
   })),
 };
 
-PageSettingsBody.defaultProps = {
+PageSettingsFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
@@ -246,6 +246,6 @@ PageSettingsBody.defaultProps = {
 
 const PageSettingsForm = reduxForm({
   form: 'settings',
-})(PageSettingsBody);
+})(PageSettingsFormBody);
 
 export default PageSettingsForm;

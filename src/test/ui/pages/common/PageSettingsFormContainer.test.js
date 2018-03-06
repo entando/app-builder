@@ -18,13 +18,17 @@ describe('PageSettingsFormContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({ options: OPTIONS });
   });
 
-  it('verify that onWillMount and onSubmit is defined by mapDispatchToProps', () => {
+  it('verify that onWillMount is defined by mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     const result = mapDispatchToProps(dispatchMock);
     expect(result.onWillMount).toBeDefined();
-    expect(result.onSubmit).toBeDefined();
     result.onWillMount();
     expect(dispatchMock).toHaveBeenCalled();
+  });
+  it('verify that onSubmit is defined by mapDispatchToProps', () => {
+    const dispatchMock = jest.fn();
+    const result = mapDispatchToProps(dispatchMock);
+    expect(result.onSubmit).toBeDefined();
     result.onSubmit();
     expect(dispatchMock).toHaveBeenCalled();
   });
