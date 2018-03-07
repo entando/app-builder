@@ -46,7 +46,7 @@ export class WidgetFormBody extends Component {
         component={RenderTextInput}
         name="code"
         label={
-          <FormLabel labelId="widget.page.create.code" helpId="widget.help.code" required />
+          <FormLabel labelId="widget.page.create.code" helpId="app.help.code" required />
         }
         placeholder={formattedText('widget.page.create.code.placeholder')}
         validate={[required, widgetCode]}

@@ -45,7 +45,7 @@ export class DataModelFormBody extends Component {
                  component={RenderTextInput}
                  name="modelId"
                  label={
-                   <FormLabel labelId="app.code" required />
+                   <FormLabel labelId="app.code" helpId="app.help.code" required />
                  }
                  validate={[required, maxLength(255)]}
                />
