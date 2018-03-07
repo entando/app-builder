@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 
 
-class DataModelListMenuActions extends Component {
+class DataModelListActionsMenu extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -21,15 +21,15 @@ class DataModelListMenuActions extends Component {
 
     return (
 
-      <DropdownKebab id="DataModelListMenuActions" pullRight>
+      <DropdownKebab id="DataModelListActionsMenu" pullRight>
         <MenuItem
-          className="DataModelListMenuActions__menu-item-delete"
+          className="DataModelListActionsMenu__menu-item-delete"
           onClick={this.handleClick(onClickDelete)}
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>
         <MenuItem
-          className="DataModelListMenuActions__menu-item-edit"
+          className="DataModelListActionsMenu__menu-item-edit"
           onClick={this.handleClick(onClickEdit)}
         >
           <FormattedMessage id="app.edit" />
@@ -39,14 +39,14 @@ class DataModelListMenuActions extends Component {
   }
 }
 
-DataModelListMenuActions.propTypes = {
+DataModelListActionsMenu.propTypes = {
   onClickDelete: PropTypes.func,
   onClickEdit: PropTypes.func,
 };
 
-DataModelListMenuActions.defaultProps = {
+DataModelListActionsMenu.defaultProps = {
   onClickDelete: null,
   onClickEdit: null,
 };
 
-export default DataModelListMenuActions;
+export default DataModelListActionsMenu;

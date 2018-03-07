@@ -5,14 +5,14 @@ export const DATAMODELTABLEROW = {
       {
         modelId: 'MNV24352',
         descr: 'data modell sample',
-        type: 'AAA',
+        type: 'AFA',
         model: 'vbn model',
         stylesheet: '',
       },
       {
         modelId: 'sdfgfg',
         descr: 'data modell sample',
-        type: 'AAA',
+        type: 'LAC',
         model: 'modello solo model',
         stylesheet: '',
       },

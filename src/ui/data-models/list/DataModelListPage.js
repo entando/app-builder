@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
-import DataModelListTable from 'ui/data/data-model/list/DataModelListTable';
-import DataModelSearchForm from 'ui/data/data-model/list/DataModelSearchForm';
-import RowListContainer from 'ui/data/data-model/list/RowListContainer';
+import DataModelListTable from 'ui/data-models/list/DataModelListTable';
+import DataModelSearchFormContainer from 'ui/data-models/common/DataModelSearchFormContainer';
+import RowListContainer from 'ui/data-models/list/RowListContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { BreadcrumbItem, Link } from 'frontend-common-components';
-import { ROUTE_WIDGET_ADD } from 'app-init/router';
+import { ROUTE_DATA_MODEL_ADD } from 'app-init/router';
 
 class DataModelListPage extends Component {
   constructor(props, context) {
@@ -52,12 +52,12 @@ class DataModelListPage extends Component {
           </Row>
           <Row>
             <Col md={6} mdOffset={3}>
-              <DataModelSearchForm />
+              <DataModelSearchFormContainer />
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <Link route={ROUTE_WIDGET_ADD} className="pull-right">
+              <Link route={ROUTE_DATA_MODEL_ADD} className="pull-right">
                 <Button
                   className="Datamodel__add"
                   bsStyle="primary"
@@ -74,7 +74,7 @@ class DataModelListPage extends Component {
               <DataModelListTable >
                 <RowListContainer />
               </DataModelListTable>
-              <h1>paginatore nico </h1>
+              {/* paginator */}
             </Col>
           </Row>
         </Grid>

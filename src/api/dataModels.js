@@ -1,7 +1,7 @@
 import { DATAMODELTABLEROW } from 'test/mocks/dataModelList';
 
 // eslint-disable-next-line
-export const getApiDataModelList = () => (
+export const getDataModels = () => (
   new Promise((resolve) => {
     resolve(DATAMODELTABLEROW);
   })

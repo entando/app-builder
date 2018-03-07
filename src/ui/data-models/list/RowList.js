@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DataModelListRow from 'ui/data/data-model/list/DataModelListRow';
+import DataModelListRow from 'ui/data-models/list/DataModelListRow';
 
 export const renderRow = item => (
   <DataModelListRow
@@ -17,7 +17,7 @@ const RowList = ({ tableRow }) => (
   ))
 );
 DataModelListRow.propTypes = {
-  code: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   descr: PropTypes.string.isRequired,
   modelId: PropTypes.string.isRequired,
 };

@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const SET_STATE = 'datamodel/fetch-table-row';
+export const SET_DATA_MODELS = 'datamodel/fetch-table-row';

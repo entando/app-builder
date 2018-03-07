@@ -1,8 +1,18 @@
 export const DATA_TYPES = {
-  payload: [{
-    name: 'dataType1',
-    code: 'XYZ',
-  }],
+  payload: [
+    {
+      name: 'dataType1',
+      code: 'XYZ',
+    },
+    {
+      name: 'dataType2',
+      code: 'NEL',
+    },
+    {
+      name: 'dataType1',
+      code: 'LLO',
+    },
+  ],
   errors: [],
   metaData: {
     page: 1,

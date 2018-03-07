@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import RowList from 'ui/data/data-model/list/RowList';
+import RowList from 'ui/data-models/list/RowList';
 import { getTableRow } from 'state/data-model-list/selectors';
 
 
