@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WidgetListMenuActions from 'ui/widgets/list/WidgetListMenuActions';
+import DataModelListMenuActions from 'ui/data/data-model/list/DataModelListMenuActions';
 
 const DataModelListRow = (props) => {
   const { descr, type, modelId } = props;
@@ -9,7 +9,7 @@ const DataModelListRow = (props) => {
       <td className="DataModelListRow__td">{descr}</td>
       <td className="DataModelListRow__td text-center">{type}</td>
       <td className="DataModelListRow__td text-center">{modelId}</td>
-      <td className="DataModelListRow__td text-center"><WidgetListMenuActions /></td>
+      <td className="DataModelListRow__td text-center"><DataModelListMenuActions /></td>
     </tr>
   );
 };

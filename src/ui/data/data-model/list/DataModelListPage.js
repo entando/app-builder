@@ -74,7 +74,7 @@ class DataModelListPage extends Component {
               <DataModelListTable >
                 <RowListContainer />
               </DataModelListTable>
-              <h1>paginatore da nico</h1>
+              <h1>paginatore nico </h1>
             </Col>
           </Row>
         </Grid>

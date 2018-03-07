@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
-
 export const DataModelSearchFormBody = (props) => {
   const { handleSubmit } = props;
   const onSubmit = (ev) => {
@@ -17,7 +16,7 @@ export const DataModelSearchFormBody = (props) => {
       <h3><FormattedMessage id="app.search" /></h3>
       <FormGroup>
         <Row>
-          <label className="control-label col-sm-2" htmlFor="pagecode">
+          <label className="control-label col-sm-2" htmlFor="dataModelList">
             <FormattedMessage id="app.type" />
           </label>
           <Col sm={9}>
@@ -33,18 +32,13 @@ export const DataModelSearchFormBody = (props) => {
       <FormGroup>
         <Row>
           <Col xs={11}>
-            <Button
-              type="submit"
-              bsStyle="primary"
-              className="pull-right"
-            >
+            <Button type="submit" bsStyle="primary" className="pull-right" >
               <FormattedMessage id="app.search" />
             </Button>
           </Col>
         </Row>
       </FormGroup>
     </form>
-
   );
 };
 
