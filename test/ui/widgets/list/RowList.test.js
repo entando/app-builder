@@ -10,13 +10,11 @@ const rows = [
     code: 'code1',
     name: 'name1',
     used: 5,
-    type: 'BAA',
   },
   {
     code: 'code2',
     name: 'name2',
     used: 1,
-    type: 'AAA',
   },
 ];
 
