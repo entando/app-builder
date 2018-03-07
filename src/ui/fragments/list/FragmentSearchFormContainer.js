@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { fetchWidgetTypes, fetchPlugins } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
+import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
 
 export const mapStateToProps = state => ({
-  widgetTypes: state,
-  plugins: state,
+  widgetTypes: getWidgetTypesOptions(state),
+  plugins: getPluginsOptions(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -16,5 +17,8 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: () => {},
 });
 
-const WidgetFormContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentSearchForm);
-export default WidgetFormContainer;
+const FragmentSearchFormContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FragmentSearchForm);
+export default FragmentSearchFormContainer;

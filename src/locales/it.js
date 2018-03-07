@@ -29,6 +29,7 @@ export default {
     'app.enTitle': 'Titolo inglese',
     'app.itTitle': 'Titolo italiano',
     'app.chooseAnOption': 'Seleziona un\'opzione',
+    'app.all': 'Tutti',
     'menu.dashborad': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

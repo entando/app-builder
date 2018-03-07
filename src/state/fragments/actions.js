@@ -1,6 +1,6 @@
-import getFragmentAPI from 'api/fragment';
 import { initialize } from 'redux-form';
-import { SET_SELECTED } from 'state/fragments/types';
+import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS } from 'state/fragments/types';
+import { getFragment, getWidgetTypes, getPlugins } from 'api/fragment';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -9,28 +9,41 @@ export const setSelectedFragment = fragment => ({
   },
 });
 
+export const setWidgetTypes = widgetTypes => ({
+  type: SET_WIDGET_TYPES,
+  payload: {
+    widgetTypes,
+  },
+});
+
+export const setPlugin = plugins => ({
+  type: SET_PLUGINS,
+  payload: {
+    plugins,
+  },
+});
+
 // thunks
-// eslint-disable-next-line
 export const fetchFragment = fragmentCode => dispatch => (
-  getFragmentAPI(fragmentCode).then((response) => {
+  getFragment(fragmentCode).then((response) => {
     dispatch(initialize('fragment', response.payload));
   })
 );
 
 export const fetchFragmentDetail = fragmentCode => dispatch => (
-  getFragmentAPI(fragmentCode).then((response) => {
+  getFragment(fragmentCode).then((response) => {
     dispatch(setSelectedFragment(response.payload));
   })
 );
 
 export const fetchWidgetTypes = () => dispatch => (
   getWidgetTypes().then((response) => {
-    dispatch(initialize('fragment', response.payload));
+    dispatch(setWidgetTypes(response));
   })
 );
 
 export const fetchPlugins = () => dispatch => (
   getPlugins().then((response) => {
-    dispatch(initialize('fragment', response.payload));
+    dispatch(setPlugin(response));
   })
 );

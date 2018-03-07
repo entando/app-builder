@@ -35,10 +35,66 @@ export const BODY_ERROR =
   metaData: {},
 };
 
-export const WIDGET_TYPES_PAYLOAD = {
+export const WIDGET_TYPES_PAYLOAD = [
+  {
+    widgetType: {
+      en: 'CMS',
+      it: 'CMS',
+    },
+    widgetList: [
+      {
+        code: 'row_content_viewer_list',
+        titles: {
+          en: 'Contents - Publish Contents',
+          it: 'Contenuti - Pubblica contenuti',
+        },
+      },
+      {
+        code: 'content_viewer',
+        titles: {
+          en: 'Contents - Publish a Content',
+          it: 'Contenuti - Pubblica un contenuto',
+        },
+      },
+      {
+        code: 'content_viewer_list',
+        titles: {
+          en: 'Contents - Publish a List of Contents',
+          it: 'Contenuti - Pubblica una lista di contenuti',
+        },
+      },
+      {
+        code: 'search_result',
+        titles: {
+          en: 'Search - Search Result',
+          it: 'Ricerca - risultati della ricerca',
+        },
+      },
+    ],
+  },
+  {
+    widgetType: {
+      en: 'User widgets',
+      it: 'User widgets',
+    },
+    widgetList: [
+      {
+        code: 'user_widget_test',
+        titles: {
+          en: 'Test Widget',
+          it: 'Widget di test',
+        },
+      },
+    ],
+  },
+];
 
-};
-
-export const PLUGINS = {
-
-};
+export const PLUGINS_PAYLOAD = [
+  {
+    code: 'jacms',
+    titles: {
+      en: 'CMS',
+      it: 'CMS',
+    },
+  },
+];

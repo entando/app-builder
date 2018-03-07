@@ -2,7 +2,7 @@ import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col } from 'patternfly-react';
-import { FragmentSearchFormContainer } from 'ui/fragments/list/FragmentSearchFormContainer';
+import FragmentSearchFormContainer from 'ui/fragments/list/FragmentSearchFormContainer';
 
 const FragmentPage = () => (
   <InternalPage className="ListWidgetPage">

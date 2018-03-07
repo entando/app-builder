@@ -29,6 +29,7 @@ export default {
     'app.enTitle': 'English title',
     'app.itTitle': 'Italian title',
     'app.chooseAnOption': 'Choose an option',
+    'app.all': 'All',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
