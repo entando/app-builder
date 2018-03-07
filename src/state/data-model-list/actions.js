@@ -15,7 +15,6 @@ export const fetchDataModelList = () => dispatch =>
     if (data.errors && data.errors.length) {
       dispatch(addErrors(data.errors.map(err => err.message)));
     } else {
-      console.log('actions', data);
       dispatch(setDataModels(data));
     }
   });
