@@ -16,7 +16,7 @@ export class FragmentSearchFormBody extends Component {
     this.props.handleSubmit();
   };
 
-  renderSelectOptions = options => (
+  renderSelectOptgroup = options => (
     options.map(item => (
       <optgroup key={item.optgroup} label={item.optgroup}>
         {item.options.map(option =>
@@ -64,7 +64,7 @@ export class FragmentSearchFormBody extends Component {
                 name="widgetType"
               >
                 <option>{formattedText('app.all')}</option>
-                {this.renderSelectOptions(this.props.widgetTypes)}
+                {this.renderSelectOptgroup(this.props.widgetTypes)}
               </Field>
             </Col>
           </Row>
