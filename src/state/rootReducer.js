@@ -13,6 +13,7 @@ import groups from 'state/groups/reducer';
 import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
+import dataTypes from 'state/data-types/reducer';
 import dataModelList from 'state/data-model-list/reducer';
 
 const reducerDef = {
@@ -28,6 +29,7 @@ const reducerDef = {
   pageModels,
   errors,
   dataModelList,
+  dataTypes,
 };
 
 if (pluginArray.length) {
