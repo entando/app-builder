@@ -13,6 +13,7 @@ import groups from 'state/groups/reducer';
 import widgetForm from 'state/widget-form/reducer';
 import fragmentForm from 'state/fragment-form/reducer';
 import fragmentList from 'state/fragment-list/reducer';
+import pagination from 'state/pagination/reducer';
 
 const reducerDef = {
   router,
@@ -26,6 +27,7 @@ const reducerDef = {
   widgetForm,
   fragmentForm,
   fragmentList,
+  pagination,
 };
 
 if (pluginArray.length) {

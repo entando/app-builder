@@ -9,7 +9,7 @@ const fragmentList = [
 const TEST_STATE = { fragmentList };
 
 describe('fragment-list selectors', () => {
-  it('verify getFragmentValues selector', () => {
+  it('verify getFragmentList selector', () => {
     expect(getFragmentList(TEST_STATE)).toEqual(fragmentList);
   });
 });

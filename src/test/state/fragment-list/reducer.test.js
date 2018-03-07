@@ -8,6 +8,7 @@ describe('fragment-list reducer', () => {
   it('should return an object', () => {
     const state = reducer();
     expect(typeof state).toBe('object');
+    expect(state instanceof Array).toBe(true);
   });
 
   describe('after action SET_FRAGMENTS', () => {
