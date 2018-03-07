@@ -15,7 +15,7 @@ import {
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_SETTINGS,
-  ROUTE_DATA_ADD,
+  ROUTE_DATA_MODEL_ADD,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -50,7 +50,7 @@ const App = ({ route }) => {
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
-    case ROUTE_DATA_ADD: return <AddDataModelPage />;
+    case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     default: return <NotFoundPage />;
   }
 };
