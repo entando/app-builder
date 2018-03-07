@@ -30,31 +30,27 @@ describe('state/fragments/actions', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('test sync actions', () => {
-    const store = mockStore(FRAGMENTS_INITIAL_STATE);
     describe('test setWidgetTypes', () => {
       it('action payload contains widgetTypes list', () => {
-        store.dispatch(setWidgetTypes(WIDGET_TYPES_PAYLOAD));
-        const actions = store.getActions();
-        expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
-        expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
+        const action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
+        expect(action.type).toBe(SET_WIDGET_TYPES);
+        expect(action.payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
       });
     });
     describe('test setPlugins', () => {
       it('action payload contains plugins list', () => {
-        store.dispatch(setPlugins(PLUGINS_PAYLOAD));
-        const actions = store.getActions();
-        expect(actions[1].type).toEqual(SET_PLUGINS);
-        expect(actions[1].payload.plugins).toEqual(PLUGINS_PAYLOAD);
+        const action = setPlugins(PLUGINS_PAYLOAD);
+        expect(action.type).toBe(SET_PLUGINS);
+        expect(action.payload.plugins).toEqual(PLUGINS_PAYLOAD);
       });
     });
-    // describe('test setSelectedFragment', () => {
-    //   it('action payload contains selected fragment', () => {
-    //     store.dispatch(setSelectedFragment(FRAGMENT_MOCK));
-    //     const actions = store.getActions();
-    //     expect(actions[0].type).toEqual(SET_SELECTED);
-    //     expect(actions[0].payload).toEqual(FRAGMENT_MOCK);
-    //   });
-    // });
+    describe('test setSelectedFragment', () => {
+      it('action payload contains selected fragment', () => {
+        const action = setSelectedFragment(FRAGMENT_MOCK);
+        expect(action.type).toBe(SET_SELECTED);
+        expect(action.payload.fragment).toEqual(FRAGMENT_MOCK);
+      });
+    });
   });
 
   describe('test thunks', () => {
@@ -81,7 +77,7 @@ describe('state/fragments/actions', () => {
         store.dispatch(fetchWidgetTypes()).then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
-          expect(actions[0].payload).toEqual(WIDGET_TYPES_PAYLOAD);
+          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
         });
       });
     });
@@ -92,7 +88,7 @@ describe('state/fragments/actions', () => {
         store.dispatch(fetchPlugins()).then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_PLUGINS);
-          expect(actions[0].payload).toEqual(PLUGINS_PAYLOAD);
+          expect(actions[0].payload.plugins).toEqual(PLUGINS_PAYLOAD);
         });
       });
     });
