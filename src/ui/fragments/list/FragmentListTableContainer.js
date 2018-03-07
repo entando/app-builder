@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import { fetchFragments } from 'state/fragment-list/actions';
-import { getFragmentList } from 'state/fragment-list/selectors';
+import { fetchFragments } from 'state/fragments/actions';
+import { getFragmentList } from 'state/fragments/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
 
