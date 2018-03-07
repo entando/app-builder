@@ -8,9 +8,6 @@ const selected = (state = {}, action = {}) => {
     case SET_SELECTED: {
       return action.payload.fragment;
     }
-    case SET_PLUGINS: {
-      return action.payload.plugins;
-    }
     default: return state;
   }
 };

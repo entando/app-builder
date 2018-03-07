@@ -1,8 +1,5 @@
 import { BODY_OK, BODY_ERROR, WIDGET_TYPES_PAYLOAD, PLUGINS_PAYLOAD } from 'test/mocks/fragment';
-
-const throttle = (func) => {
-  setTimeout(func, (Math.floor(Math.random() * 700) + 300));
-};
+import throttle from 'util/throttle';
 
 export const getFragment = fragmentCode => new Promise((resolve, reject) => {
   if (fragmentCode) {

@@ -16,7 +16,7 @@ export const setWidgetTypes = widgetTypes => ({
   },
 });
 
-export const setPlugin = plugins => ({
+export const setPlugins = plugins => ({
   type: SET_PLUGINS,
   payload: {
     plugins,
@@ -44,6 +44,6 @@ export const fetchWidgetTypes = () => dispatch => (
 
 export const fetchPlugins = () => dispatch => (
   getPlugins().then((response) => {
-    dispatch(setPlugin(response));
+    dispatch(setPlugins(response));
   })
 );
