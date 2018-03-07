@@ -2,7 +2,7 @@
 import { setFragments, fetchFragments } from 'state/fragment-list/actions';
 import { SET_FRAGMENTS } from 'state/fragment-list/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { LIST_FRAGMENTS_OK } from 'test/mocks/fragments';
+import { LIST_FRAGMENTS_OK_PAGE_1 } from 'test/mocks/fragments';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -21,7 +21,7 @@ const INITIAL_STATE = {
 describe('fragment-list actions', () => {
   describe('setFragments', () => {
     it('test setFragments action sets the correct type', () => {
-      const action = setFragments(LIST_FRAGMENTS_OK.payload);
+      const action = setFragments(LIST_FRAGMENTS_OK_PAGE_1.payload);
       expect(action.type).toEqual(SET_FRAGMENTS);
     });
   });
@@ -46,9 +46,9 @@ describe('fragment-list actions', () => {
     it('fragments is defined and properly valued', (done) => {
       store.dispatch(fetchFragments()).then(() => {
         const actionPayload = store.getActions()[0].payload;
-        expect(actionPayload.fragments).toHaveLength(1);
+        expect(actionPayload.fragments).toHaveLength(2);
         const fragment = actionPayload.fragments[0];
-        expect(fragment).toHaveProperty('code');
+        expect(fragment).toHaveProperty('code', 'myCode');
         expect(fragment).toHaveProperty('isLocked');
         expect(fragment).toHaveProperty('widgetType');
         expect(fragment).toHaveProperty('pluginCode');
@@ -56,12 +56,32 @@ describe('fragment-list actions', () => {
       });
     });
 
+    it('fragments page two is retrieved correctly and properly valued', (done) => {
+      store.dispatch(fetchFragments(2)).then(() => {
+        const actionPayload = store.getActions()[0].payload;
+        expect(actionPayload.fragments).toHaveLength(2);
+        expect(actionPayload.fragments[0]).toHaveProperty('code', 'myCode3');
+        expect(actionPayload.fragments[1]).toHaveProperty('code', 'myCode4');
+        done();
+      });
+    });
+
     it('page is defined and properly valued', (done) => {
       store.dispatch(fetchFragments()).then(() => {
         const actionPayload = store.getActions()[1].payload.page;
-        expect(actionPayload).toHaveProperty('page');
-        expect(actionPayload).toHaveProperty('pageSize');
-        expect(actionPayload).toHaveProperty('lastPage');
+        expect(actionPayload).toHaveProperty('page', 1);
+        expect(actionPayload).toHaveProperty('pageSize', 2);
+        expect(actionPayload).toHaveProperty('lastPage', 3);
+        done();
+      });
+    });
+
+    it('page 2 is defined and properly valued', (done) => {
+      store.dispatch(fetchFragments(2)).then(() => {
+        const actionPayload = store.getActions()[1].payload.page;
+        expect(actionPayload).toHaveProperty('page', 2);
+        expect(actionPayload).toHaveProperty('pageSize', 2);
+        expect(actionPayload).toHaveProperty('lastPage', 3);
         done();
       });
     });

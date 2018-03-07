@@ -22,7 +22,7 @@ export const GET_FRAGMENT_OK =
   metaData: {},
 };
 
-export const LIST_FRAGMENTS_OK =
+export const LIST_FRAGMENTS_OK_PAGE_1 =
 {
   payload: [
     {
@@ -34,12 +34,81 @@ export const LIST_FRAGMENTS_OK =
       },
       pluginCode: 'pluginCode',
     },
+    {
+      code: 'myCode2',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
   ],
   errors: [],
   metaData: {
     page: 1,
-    pageSize: 10,
-    lastPage: 10,
+    pageSize: 2,
+    lastPage: 3,
+  },
+};
+
+export const LIST_FRAGMENTS_OK_PAGE_2 =
+{
+  payload: [
+    {
+      code: 'myCode3',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
+    {
+      code: 'myCode4',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
+  ],
+  errors: [],
+  metaData: {
+    page: 2,
+    pageSize: 2,
+    lastPage: 3,
+  },
+};
+
+export const LIST_FRAGMENTS_OK_PAGE_3 =
+{
+  payload: [
+    {
+      code: 'myCode5',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
+    {
+      code: 'myCode6',
+      isLocked: false,
+      widgetType: {
+        code: 'widgetcode',
+        title: 'Widget Title',
+      },
+      pluginCode: 'pluginCode',
+    },
+  ],
+  errors: [],
+  metaData: {
+    page: 3,
+    pageSize: 2,
+    lastPage: 3,
   },
 };
 

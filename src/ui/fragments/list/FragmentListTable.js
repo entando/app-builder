@@ -6,8 +6,18 @@ import { FormattedMessage } from 'react-intl';
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
 
 class FragmentListTable extends Component {
+  constructor(props) {
+    super(props);
+
+    this.changePage = this.changePage.bind(this);
+  }
+
   componentWillMount() {
     this.props.onWillMount();
+  }
+
+  changePage(page) {
+    this.props.onWillMount(page);
   }
 
   render() {
@@ -24,7 +34,7 @@ class FragmentListTable extends Component {
 
     const pagination = {
       page: this.props.page,
-      perPage: 10,
+      perPage: this.props.pageSize,
       perPageOptions: [5, 10, 15, 25, 50],
     };
     return (
@@ -51,7 +61,7 @@ class FragmentListTable extends Component {
             pagination={pagination}
             viewType="table"
             itemCount={this.props.totalItems}
-            onPageSet={(e) => { console.log(e); }}
+            onPageSet={this.changePage}
           />
         </Col>
       </div>
@@ -71,6 +81,7 @@ FragmentListTable.propTypes = {
     pluginCode: PropTypes.string,
   })),
   page: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
 };
 

@@ -10,7 +10,7 @@ export const setFragments = fragments => ({
   },
 });
 
-export const fetchFragments = () => dispatch => getFragments().then((data) => {
+export const fetchFragments = (page = 1) => dispatch => getFragments(page).then((data) => {
   dispatch(setFragments(data.payload));
   dispatch(setPage(data.metaData));
 });
