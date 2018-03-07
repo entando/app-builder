@@ -6,6 +6,22 @@ import { formattedText } from 'frontend-common-components';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
 
+export const renderSelectOptgroup = options => (
+  options.map(item => (
+    <optgroup key={item.optgroup} label={item.optgroup}>
+      {item.options.map(option =>
+        (
+          <option
+            key={option.code}
+            value={option.code}
+          >
+            {option.title}
+          </option>
+        ))}
+    </optgroup>
+  ))
+);
+
 export class FragmentSearchFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
@@ -15,22 +31,6 @@ export class FragmentSearchFormBody extends Component {
     ev.preventDefault();
     this.props.handleSubmit();
   };
-
-  renderSelectOptgroup = options => (
-    options.map(item => (
-      <optgroup key={item.optgroup} label={item.optgroup}>
-        {item.options.map(option =>
-          (
-            <option
-              key={option.code}
-              value={option.code}
-            >
-              {option.title}
-            </option>
-          ))}
-      </optgroup>
-    ))
-  );
 
   render() {
     return (
@@ -64,7 +64,7 @@ export class FragmentSearchFormBody extends Component {
                 name="widgetType"
               >
                 <option>{formattedText('app.all')}</option>
-                {this.renderSelectOptgroup(this.props.widgetTypes)}
+                {renderSelectOptgroup(this.props.widgetTypes)}
               </Field>
             </Col>
           </Row>

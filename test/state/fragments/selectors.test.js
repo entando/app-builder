@@ -5,7 +5,6 @@ import {
   getWidgetTypesOptions, getPluginsOptions,
 } from 'state/fragments/selectors';
 
-const LOCALE_MOCK = 'en';
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
 const MOCK_STATE = {
