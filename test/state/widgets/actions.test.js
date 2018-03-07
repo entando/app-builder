@@ -26,45 +26,43 @@ const STATE_MOCKED = {
   },
 };
 
-it('test SET_STATE_MOCKED for empty object on initial state', () => {
-  expect(getWidgetList([])).toEqual(STATE_MOCKED);
-});
+describe('state/widgets/actions', () => {
+  it('test SET_STATE_MOCKED for empty object on initial state', () => {
+    expect(getWidgetList([])).toEqual(STATE_MOCKED);
+  });
 
-it('checks action type', () => {
-  const action = getWidgetList();
-  expect(action.type).toBe(SET_WIDGET_LIST);
-});
-it('search for the payload to be defined', () => {
-  const action = getWidgetList();
-  expect(action.payload).toBeDefined();
-});
+  it('checks action type', () => {
+    const action = getWidgetList();
+    expect(action.type).toBe(SET_WIDGET_LIST);
+  });
+  it('search for the payload to be defined', () => {
+    const action = getWidgetList();
+    expect(action.payload).toBeDefined();
+  });
 
+  it('action payload contains widget information', (done) => {
+    const store = mockStore(FORM_MOCK_INITIAL_STATE);
+    store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
+      const actions = store.getActions();
+      expect(actions[0].payload).toEqual(WIDGET_MOCK);
+      done();
+    });
+  });
 
-describe('test fetchWidgetList', () => {
-  const store = mockStore(STATE_MOCKED);
   it('fetchWidgetList calls setWidget action', (done) => {
+    const store = mockStore(STATE_MOCKED);
     store.dispatch(fetchWidgetList()).then(() => {
       const actions = store.getActions();
       expect(actions[0].type).toEqual(SET_WIDGET_LIST);
       done();
     });
   });
+
   it('fetchWidgetLis is defined and properly valued', (done) => {
+    const store = mockStore(STATE_MOCKED);
     store.dispatch(fetchWidgetList()).then(() => {
       const actions = store.getActions();
       expect(actions[0].payload.widgetList).toBeDefined();
-      done();
-    });
-  });
-});
-
-
-describe('test fetchWidget', () => {
-  const store = mockStore(FORM_MOCK_INITIAL_STATE);
-  it('action payload contains widget information', (done) => {
-    store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
-      const actions = store.getActions();
-      expect(actions[0].payload).toEqual(WIDGET_MOCK);
       done();
     });
   });
