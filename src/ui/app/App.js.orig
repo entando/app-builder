@@ -52,8 +52,12 @@ const App = ({ route }) => {
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
-    case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
+<<<<<<< HEAD
+    case ROUTE_DATA_ADD: return <AddDataModelPage />;
     case ROUTE_DATAMODEL_LIST: return <DataModelListPage />;
+=======
+    case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
+>>>>>>> master
     default: return <NotFoundPage />;
   }
 };
