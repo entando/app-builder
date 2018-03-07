@@ -15,6 +15,7 @@ import {
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_SETTINGS,
+  ROUTE_DATA_ADD,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -29,6 +30,7 @@ import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageC
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
+import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 
 const App = ({ route }) => {
   switch (route) {
@@ -48,6 +50,7 @@ const App = ({ route }) => {
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
+    case ROUTE_DATA_ADD: return <AddDataModelPage />;
     default: return <NotFoundPage />;
   }
 };
