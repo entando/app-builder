@@ -1,39 +1,41 @@
 import React from 'react';
+
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import RowList, { renderRow } from 'ui/data-models/list/RowList';
+import RowList, { renderRow } from 'ui/widgets/list/RowList';
+
 
 const rows = [
   {
-    descr: 'descr2',
+    code: 'code1',
     name: 'name1',
-    type: 'AAA',
+    used: 5,
   },
   {
-    descr: 'descr3',
+    code: 'code2',
     name: 'name2',
-    type: 'AAA',
+    used: 1,
   },
 ];
 
-const DATA_MODEL_MOCK = (
+const TABLEROWMOCK = (
   <RowList
-    dataModels={rows}
+    tableRow={rows}
   />
 );
 
 let component;
 describe('RowList', () => {
   beforeEach(() => {
-    component = shallow(DATA_MODEL_MOCK);
+    component = shallow(TABLEROWMOCK);
   });
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('renderRow method renders a DataModelListRow class element', () => {
+  it('renderRow method renders a WidgetListRow class element', () => {
     component = shallow(renderRow(rows[0]));
-    expect(component.find('.DataModelListRow').exists()).toEqual(true);
+    expect(component.find('.WidgetListRow').exists()).toEqual(true);
   });
 });
