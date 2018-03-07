@@ -1,7 +1,7 @@
 import { getApiNotifications } from 'api/notification';
 import { gotoRoute } from 'frontend-common-components';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from './types';
-import { getHidden, getNotifications } from './selectors';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-stream/types';
+import { getHidden, getNotifications } from 'state/activity-stream/selectors';
 // declare action for close notification drawer
 // eslint-disable-next-line
 export const toggleNotificationDrawer = () => ({
@@ -15,11 +15,11 @@ export const addNotifications = notifications => ({
   },
 });
 
-export const fetchNotifications = () => (dispatch) => {
+export const fetchNotifications = () => dispatch => (
   getApiNotifications().then((data) => {
     dispatch(addNotifications(data.payload.notifications));
-  });
-};
+  })
+);
 
 // if you have to check a property before call a dispatch action,
 // you have to use a thunk by passing a second argument to check the state

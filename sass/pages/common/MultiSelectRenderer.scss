@@ -1,0 +1,21 @@
+@import "../../patternfly.scss";
+
+.MultiSelectRenderer {
+
+  &__tag {
+    margin-right: 3px;
+    background: $color-pf-blue-400;
+  }
+
+  &__remove-tag-btn {
+    outline: 0;
+    color: $color-pf-black-300;
+  }
+
+  &__remove-tag-btn:hover,
+  &__remove-tag-btn:focus {
+    outline: 0;
+    color: $color-pf-black-100;
+  }
+
+}

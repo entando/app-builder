@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+
 import { getLocale } from 'state/locale/selectors';
 
 
@@ -7,6 +8,7 @@ export const getPagesMap = state => state.pages.map;
 export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
+export const getFreePages = state => state.pages.freePages;
 
 
 // relies on the children map order
@@ -84,3 +86,17 @@ export const getPageTreePages = createSelector(
         title: pagesTitles[pageCode][locale],
       })),
 );
+
+
+export const getCharsets = () => ([
+  'iso-8859-1',
+  'utf-8',
+]);
+
+export const getContentTypes = () => ([
+  'application/json',
+  'application/xhtml+xml',
+  'application/xml',
+  'text/html',
+  'text/xml',
+]);

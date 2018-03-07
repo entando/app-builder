@@ -21,7 +21,7 @@ import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';
 
 import 'frontend-common-components/index.css';
-import 'sass/index.css';
+import 'index.scss';
 
 
 // exporting for tests

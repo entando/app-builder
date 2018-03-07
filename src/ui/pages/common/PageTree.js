@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { DDTable, gotoRoute } from 'frontend-common-components';
 
-import { DDTable } from 'frontend-common-components';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
 import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT } from 'app-init/router';
 
 class PageTree extends Component {
   constructor(props) {
@@ -79,8 +80,8 @@ class PageTree extends Component {
           <td className="text-center">
             <PageTreeActionMenu
               page={page}
-              onClickAdd={() => console.info(`clicked ADD on page ${page.code}`)}
-              onClickEdit={() => console.info(`clicked EDIT on page ${page.code}`)}
+              onClickAdd={() => gotoRoute(ROUTE_PAGE_ADD)}
+              onClickEdit={() => gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code })}
               onClickConfigure={() => console.info(`clicked CONFIGURE on page ${page.code}`)}
               onClickDetails={() => console.info(`clicked DETAILS on page ${page.code}`)}
               onClickClone={() => console.info(`clicked CLONE on page ${page.code}`)}
