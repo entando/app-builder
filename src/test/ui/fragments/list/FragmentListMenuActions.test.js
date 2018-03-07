@@ -10,7 +10,7 @@ describe('FragmentListMenuActions', () => {
     component = shallow(<FragmentListMenuActions code="myCode" />);
   });
 
-  it('crashes without a code', () => {
+  it('errors without a code', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
     shallow(<FragmentListMenuActions />);
     expect(consoleError).toHaveBeenCalledWith('Warning: Failed prop type: The prop `code` is marked as required in `FragmentListMenuActions`, but its value is `undefined`.\n    in FragmentListMenuActions (at FragmentListMenuActions.test.js:15)');
