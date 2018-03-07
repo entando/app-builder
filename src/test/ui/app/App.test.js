@@ -11,6 +11,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
+import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import { NotFoundPage } from 'frontend-common-components';
 
 import {
@@ -22,6 +23,7 @@ import {
   ROUTE_WIDGET_EDIT,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_LIST,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -63,6 +65,11 @@ describe('App', () => {
   it('route to edit fragment page', () => {
     const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} />);
     expect(component.contains(<EditFragmentPageContainer />)).toEqual(true);
+  });
+
+  it('route to list fragment page', () => {
+    const component = shallow(<App route={ROUTE_FRAGMENT_LIST} />);
+    expect(component.contains(<ListFragmentPage />)).toEqual(true);
   });
 
   it('default route', () => {
