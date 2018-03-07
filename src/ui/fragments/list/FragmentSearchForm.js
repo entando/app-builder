@@ -7,7 +7,7 @@ import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
 
 export const FragmentSearchFormBody = (props) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, widgetTypes, plugins } = props;
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
@@ -85,6 +85,13 @@ export const FragmentSearchFormBody = (props) => {
 
 FragmentSearchFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  widgetTypes: PropTypes.arrayOf(PropTypes.shape({})),
+  plugins: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+FragmentSearchFormBody.propTypes = {
+  widgetTypes: [],
+  plugins: [],
 };
 
 const FragmentSearchForm = reduxForm({

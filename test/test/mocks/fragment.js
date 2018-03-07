@@ -34,3 +34,11 @@ export const BODY_ERROR =
   ],
   metaData: {},
 };
+
+export const WIDGET_TYPES_PAYLOAD = {
+
+};
+
+export const PLUGINS = {
+
+};

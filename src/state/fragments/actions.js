@@ -17,9 +17,20 @@ export const fetchFragment = fragmentCode => dispatch => (
   })
 );
 
-// thunks
 export const fetchFragmentDetail = fragmentCode => dispatch => (
   getFragmentAPI(fragmentCode).then((response) => {
     dispatch(setSelectedFragment(response.payload));
+  })
+);
+
+export const fetchWidgetTypes = () => dispatch => (
+  getWidgetTypes().then((response) => {
+    dispatch(initialize('fragment', response.payload));
+  })
+);
+
+export const fetchPlugins = () => dispatch => (
+  getPlugins().then((response) => {
+    dispatch(initialize('fragment', response.payload));
   })
 );
