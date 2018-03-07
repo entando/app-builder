@@ -6,7 +6,8 @@ export const renderRow = item => (
   <WidgetListRow
     key={item.code}
     name={item.name}
-    type={item.type}
+    code={item.code}
+    used={item.used}
   />
 );
 
@@ -17,7 +18,8 @@ const RowList = ({ tableRow }) =>
     )));
 WidgetListRow.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
+  used: PropTypes.number.isRequired,
 };
 
 export default RowList;
