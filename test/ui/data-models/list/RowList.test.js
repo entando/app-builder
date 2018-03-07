@@ -9,11 +9,13 @@ const rows = [
     descr: 'descr2',
     name: 'name1',
     type: 'AAA',
+    modelId: 'test',
   },
   {
     descr: 'descr3',
     name: 'name2',
     type: 'AAA',
+    modelId: 'rest',
   },
 ];
 
