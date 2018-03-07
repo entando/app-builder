@@ -1,6 +1,7 @@
 import {
   ERROR, HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
-  NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD,
+  NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
+  PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
 const throttle = (func) => {
@@ -97,3 +98,15 @@ export const putPage = pageObject => new Promise((resolve) => {
     });
   }
 });
+
+export const getFreePages = () => (
+  new Promise((resolve) => {
+    resolve(FREE_PAGES_PAYLOAD);
+  })
+);
+
+export const getPageSettingsList = () => (
+  new Promise((resolve) => {
+    resolve(PAGE_SETTINGS_PAYLOAD);
+  })
+);
