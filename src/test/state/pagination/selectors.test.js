@@ -6,6 +6,7 @@ import {
   getNextPage,
   isFirstPage,
   getPreviousPage,
+  getTotalItems,
 } from 'state/pagination/selectors';
 
 const firstPage = {
@@ -31,7 +32,7 @@ describe('fragment-list selectors', () => {
   let page;
 
   function setPage(mockState) {
-    state = { page: mockState };
+    state = { pagination: mockState };
     page = mockState;
   }
 
@@ -49,6 +50,10 @@ describe('fragment-list selectors', () => {
 
   it('verify getPageSize selector', () => {
     expect(getPageSize(state)).toEqual(page.pageSize);
+  });
+
+  it('verify getTotalItems selector', () => {
+    expect(getTotalItems(state)).toEqual(page.pageSize * page.lastPage);
   });
 
   describe('isLastPage', () => {

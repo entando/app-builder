@@ -69,4 +69,8 @@ describe('FragmentListTable', () => {
       });
     });
   });
+
+  it('has a paginator', () => {
+    expect(component.find('Paginator')).toHaveLength(1);
+  });
 });

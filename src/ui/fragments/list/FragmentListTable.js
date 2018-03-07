@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
+import { Col, Paginator } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
@@ -21,6 +21,12 @@ class FragmentListTable extends Component {
         </td>
       </tr>
     ));
+
+    const pagination = {
+      page: this.props.page,
+      perPage: 10,
+      perPageOptions: [5, 10, 15, 25, 50],
+    };
     return (
       <div className="FragmentListTable">
         <Col md={12} className="FragmentListTable__table">
@@ -41,6 +47,12 @@ class FragmentListTable extends Component {
               {tr}
             </tbody>
           </table>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={this.props.totalItems}
+            onPageSet={(e) => { console.log(e); }}
+          />
         </Col>
       </div>
     );
@@ -58,6 +70,8 @@ FragmentListTable.propTypes = {
     }).isRequired,
     pluginCode: PropTypes.string,
   })),
+  page: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired,
 };
 
 FragmentListTable.defaultProps = {

@@ -5,14 +5,18 @@ import { LIST_FRAGMENTS_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
   fragmentList: LIST_FRAGMENTS_OK.payload,
-  otherProperties: true,
+  pagination: LIST_FRAGMENTS_OK.metaData,
 };
 
 const dispatchMock = jest.fn();
 
 describe('FragmentListTableContainer', () => {
   it('maps fragmentList property state in FragmentListTable', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ fragments: TEST_STATE.fragmentList });
+    expect(mapStateToProps(TEST_STATE)).toEqual({
+      fragments: TEST_STATE.fragmentList,
+      page: TEST_STATE.pagination.page,
+      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
+    });
   });
 
   describe('mapDispatchToProps', () => {

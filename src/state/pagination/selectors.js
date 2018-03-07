@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-export const getCurrentPage = state => state.page.page;
-export const getLastPage = state => state.page.lastPage;
-export const getPageSize = state => state.page.pageSize;
+export const getCurrentPage = state => state.pagination.page;
+export const getLastPage = state => state.pagination.lastPage;
+export const getPageSize = state => state.pagination.pageSize;
 
 export const isLastPage = createSelector(
   getCurrentPage,
@@ -25,4 +25,10 @@ export const getPreviousPage = createSelector(
   getCurrentPage,
   isFirstPage,
   (page, isFirst) => (isFirst ? page : page - 1),
+);
+
+export const getTotalItems = createSelector(
+  getLastPage,
+  getPageSize,
+  (lastPage, size) => lastPage * size,
 );

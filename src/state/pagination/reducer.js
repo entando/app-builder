@@ -1,5 +1,11 @@
 import { SET_PAGE } from 'state/pagination/types';
 
+const initialState = {
+  page: 1,
+  pageSize: 10,
+  lastPage: 1,
+};
+
 const isAttributeANumber = attribute => (
   !Number.isNaN(parseFloat(attribute)) && Number.isInteger(parseFloat(attribute))
 );
@@ -46,7 +52,7 @@ const castValues = page => (
   }
 );
 
-const reducer = (state = { page: null, pageSize: null, lastPage: null }, action = {}) => {
+const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_PAGE: {
       return isPayloadValid(action.payload.page) ? castValues(action.payload.page) : state;
