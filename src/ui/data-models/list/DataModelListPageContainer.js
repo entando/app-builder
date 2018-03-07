@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { fetchDataModelListRow } from 'state/data-model-list/actions';
+import { fetchDataModelList } from 'state/data-model-list/actions';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(fetchDataModelListRow());
+    dispatch(fetchDataModelList());
   },
 });
 

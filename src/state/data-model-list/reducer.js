@@ -1,16 +1,15 @@
-import { SET_DATA_MODELS } from './types';
+import { combineReducers } from 'redux';
+import { SET_DATA_MODELS } from 'state/data-model-list/types';
 
-const initialState = {
-  tableRow: [],
-};
-
-const tableRowItems = (state = initialState, action = {}) => {
+export const getModelsList = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DATA_MODELS: {
-      return Object.assign({}, state, action.payload);
+      return action.payload.dataModels;
     }
     default: return state;
   }
 };
 
-export default tableRowItems;
+export default combineReducers({
+  list: getModelsList,
+});

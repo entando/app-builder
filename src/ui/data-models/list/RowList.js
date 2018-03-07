@@ -11,11 +11,12 @@ export const renderRow = item => (
   />
 );
 
-const RowList = ({ tableRow }) => (
-  tableRow.map(item => (
+const RowList = ({ dataModels }) => (
+  dataModels.map(item => (
     renderRow(item)
   ))
 );
+
 DataModelListRow.propTypes = {
   type: PropTypes.string.isRequired,
   descr: PropTypes.string.isRequired,

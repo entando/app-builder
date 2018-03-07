@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-export const getDataModelList = state => state.dataModelList;
+export const getDataModels = state => state.dataModelList;
 
-export const getTableRow = createSelector(
-  [getDataModelList],
-  dataModelList => dataModelList.tableRow,
+export const getListDataModels = createSelector(
+  [getDataModels],
+  dataModelList => dataModelList.list,
 );

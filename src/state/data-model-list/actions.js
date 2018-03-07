@@ -1,15 +1,21 @@
+import { SET_DATA_MODELS } from 'state/data-model-list/types';
 import { getDataModels } from 'api/dataModels';
-import { SET_DATA_MODELS } from './types';
+import { DATA_MODELS } from 'test/mocks/dataModels';
+import { addErrors } from 'state/errors/actions';
 
-// eslinter-disable-next-line
-export const setDataModels = tableRow => ({
+export const setDataModels = dataModels => ({
   type: SET_DATA_MODELS,
   payload: {
-    tableRow,
+    dataModels,
   },
 });
 
-export const fetchDataModelListRow = () => dispatch =>
-  getDataModels().then((data) => {
-    dispatch(setDataModels(data.payload.tableRow));
+export const fetchDataModelList = () => dispatch =>
+  getDataModels(DATA_MODELS).then((data) => {
+    if (data.errors && data.errors.length) {
+      dispatch(addErrors(data.errors.map(err => err.message)));
+    } else {
+      console.log('actions', data);
+      dispatch(setDataModels(data));
+    }
   });
