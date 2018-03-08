@@ -30,6 +30,7 @@ export default {
     'app.itTitle': 'Titolo italiano',
     'app.chooseAnOption': 'Seleziona un\'opzione',
     'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
+    'app.pages': 'Pagine',
     'menu.dashborad': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

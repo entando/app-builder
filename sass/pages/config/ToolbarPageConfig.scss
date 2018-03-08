@@ -1,0 +1,46 @@
+@import "../../patternfly.scss";
+
+.ToolbarPageConfig {
+  // sass-lint:disable class-name-format
+  .drawer-pf {
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  // sass-lint:enable class-name-format
+
+  &__title {
+    padding: 1.2em 0 1.2em 0;
+    background-color: $color-pf-black-700;
+    cursor: pointer;
+  }
+
+  &__title:hover > i {
+    color: $color-pf-blue-300;
+    text-decoration: none;
+  }
+
+  &__title>a:hover {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  &__header {
+    margin-left: 19px;
+    color: $color-pf-black-100;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  &__header > i {
+    color: $color-pf-black-500 ;
+    font-size: 18px;
+  }
+
+  &__header > span {
+    padding-left: 10px;
+  }
+
+}
