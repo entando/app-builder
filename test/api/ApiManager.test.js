@@ -7,7 +7,7 @@ import { config, makeRequest } from 'api/ApiManager';
 const mockStore = configureMockStore([]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };
-const REAL_GOOD_RESPONSE = { code: 30 };
+const REAL_GOOD_RESPONSE = { payload: { code: 30 } };
 
 const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
   new Promise((resolve) => {
@@ -78,7 +78,7 @@ describe('ApiManager', () => {
       expect(fetch).not.toHaveBeenCalled();
       expect(result).toBeInstanceOf(Promise);
       result.then((data) => {
-        expect(data).toEqual(MOCKED_GOOD_RESPONSE);
+        expect(data).toMatchObject({ payload: MOCKED_GOOD_RESPONSE });
       });
     });
   });
@@ -98,7 +98,7 @@ describe('ApiManager', () => {
       );
       expect(result).toBeInstanceOf(Promise);
       result.then((data) => {
-        expect(data).toEqual(REAL_GOOD_RESPONSE);
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
       });
     });
   });
