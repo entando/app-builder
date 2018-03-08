@@ -53,12 +53,12 @@ export const fetchFragments = (page = 1, params) => dispatch =>
 
 export const fetchWidgetTypes = () => dispatch => (
   getWidgetTypes().then((response) => {
-    dispatch(setWidgetTypes(response));
+    dispatch(setWidgetTypes(response.payload));
   })
 );
 
 export const fetchPlugins = () => dispatch => (
   getPlugins().then((response) => {
-    dispatch(setPlugins(response));
+    dispatch(setPlugins(response.payload));
   })
 );

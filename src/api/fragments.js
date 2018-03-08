@@ -9,8 +9,8 @@ import {
 
 import { throttle } from 'util';
 
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
-const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
+// const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
+// const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
 
 export const getFragment = fragmentCode => new Promise((resolve, reject) => {
   if (fragmentCode === GET_FRAGMENT_OK.payload.code) {
@@ -21,6 +21,7 @@ export const getFragment = fragmentCode => new Promise((resolve, reject) => {
 });
 
 export const getFragments = (page = 1, params) => new Promise((resolve) => {
+  // params management when avaible
   console.log(params);
   switch (page) {
     case 1:
@@ -38,9 +39,9 @@ export const getFragments = (page = 1, params) => new Promise((resolve) => {
 });
 
 export const getWidgetTypes = () => new Promise((resolve) => {
-  throttle(resolve(WIDGET_TYPES_PAYLOAD));
+  throttle(resolve(WIDGET_TYPES_OK));
 });
 
 export const getPlugins = () => new Promise((resolve) => {
-  throttle(resolve(PLUGINS_PAYLOAD));
+  throttle(resolve(PLUGINS_OK));
 });
