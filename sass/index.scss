@@ -14,6 +14,12 @@
 @import "pages/common/PageTree.scss";
 @import "pages/common/RowSpinner.scss";
 @import "pages/common/PageTreePreview.scss";
+@import "pages/common/MultiSelectRenderer";
+@import "pages/common/PageTreeSelector";
+@import "pages/common/PageForm";
+@import "pages/settings/PageSettings.scss";
+@import "fragments/common/FragmentForm.scss";
+@import "fragments/list/ListFragmentPage.scss";
 @import "fragment/FragmentForm.scss";
 @import "fragment/DetailFragmentPage.scss";
 @import "fragment/FragmentReferenceTable.scss";
@@ -26,3 +32,5 @@
 @import "pages/common/PageForm";
 @import "pages/settings/PageSettings.scss";
 @import "pages/config/ToolbarPageConfig.scss";
+@import "pages/config/ContentWidget.scss";
+@import "pages/config/ContentWidgetElement.scss";

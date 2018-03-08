@@ -1,13 +1,13 @@
 import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
-import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
+import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
 const PageConfig = () => (
-  <InternalPage className="PageSettings">
+  <InternalPage className="PageConfigPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -23,7 +23,7 @@ const PageConfig = () => (
       </Row>
       <Row>
         <Col xs={6} xsOffset={6} >
-          <ToolbarPageConfig />
+          <ToolbarPageConfigContainer />
         </Col>
       </Row>
     </Grid>

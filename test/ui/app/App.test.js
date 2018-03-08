@@ -12,6 +12,7 @@ import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageC
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
+import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
@@ -26,6 +27,7 @@ import {
   ROUTE_WIDGET_EDIT,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_ADD,
@@ -91,6 +93,11 @@ describe('App', () => {
   it('route to page settings page', () => {
     const component = shallow(<App route={ROUTE_PAGE_SETTINGS} />);
     expect(component.contains(<PageSettingsPage />)).toBe(true);
+  });
+
+  it('route to list fragment page', () => {
+    const component = shallow(<App route={ROUTE_FRAGMENT_LIST} />);
+    expect(component.contains(<ListFragmentPage />)).toEqual(true);
   });
 
   it('default route', () => {

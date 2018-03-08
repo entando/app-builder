@@ -1,45 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { FormattedMessage } from 'react-intl';
+import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
+import { FormattedMessage } from 'react-intl';
 
 class ToolbarPageConfig extends Component {
-  constructor(props) {
-    super(props);
-    this.toggleDrawer = this.toggleDrawer.bind(this);
-    this.onClickClose = this.onClickClose.bind(this);
-    this.state = { addClass: false };
-  }
   componentWillMount() {
     this.props.onWillMount();
   }
 
-  onClickClose(ev) {
-    ev.preventDefault();
-    this.props.closeDrawer();
-  }
-  toggleDrawer(ev) {
-    ev.preventDefault();
-    this.setState({ addClass: !this.state.addClass });
-  }
-
   render() {
     return (
-      <div className="ToolbarPageConfig">
-        <div className="drawer-pf drawer-pf-notifications-non-clickable">
-          <div className="ToolbarPageConfig__title drawer-pf-title">
-            <a>
-              <span className="ToolbarPageConfig__header">
-                <i className="fa fa-sitemap hidden-xs" />
-                <span>Pages</span>
-                <i className="drawer-pf-close fa fa-angle-right hidden-xs" />
-              </span>
-            </a>
-          </div>
-          <div className="panel-group" id="notification-drawer-accordion" />
+      <div className="ToolbarPageConfig ToolbarPageConfig__drawer-pf-sidebar-right">
+        <a
+          href=""
+          onClick={this.showContentPages}
+          className="ToolbarPageConfig__drawer-pf-title
+          drawer-pf-title-right-menu
+          ToolbarPageConfig__drawer-pf-title-clickable"
+        >
+          <span className="ToolbarPageConfig__right-bar-title">
+            <i className="ToolbarPageConfig__sitemap fa fa-sitemap" aria-hidden="true" />
+            <span className="ToolbarPageConfig__title">
+              <FormattedMessage id="app.pages" />
+            </span>
+            <span className="ToolbarPageConfig__open-button-menu-right pull-right">
+              <i className="fa fa-angle-right" aria-hidden="true" />
+            </span>
+          </span>
+        </a>
+
+        <div className="ToolbarPageConfig__drawer-pf-container" >
+          {this.props.content === 'WIDGET_LIST' ? <ContentWidgetContainer /> : null }
         </div>
       </div>
-
-
     );
   }
 }
@@ -47,13 +40,11 @@ class ToolbarPageConfig extends Component {
 
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
-  closeDrawer: PropTypes.func,
-  // children: PropTypes.node,
+  content: PropTypes.string,
 };
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
-  // children: null,
-  closeDrawer: () => {},
+  content: 'WIDGET_LIST',
 };
 export default ToolbarPageConfig;

@@ -9,6 +9,7 @@ import {
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
+  ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
   ROUTE_FRAGMENT_DETAIL,
@@ -25,13 +26,14 @@ import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
+import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
-import PageConfigPage from 'ui/pages/config/PageConfig';
+import PageConfigPage from 'ui/pages/config/PageConfigPage';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 
 const App = ({ route }) => {
@@ -46,6 +48,7 @@ const App = ({ route }) => {
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
+    case ROUTE_FRAGMENT_LIST: return <ListFragmentPage />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;

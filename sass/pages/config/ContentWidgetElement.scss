@@ -1,0 +1,39 @@
+@import "../../patternfly.scss";
+
+.ContentWidgetElement {
+
+  &__widget-list {
+    margin-bottom: 0
+  }
+
+  &__widget-title {
+    padding: 16px 0 16px 18px;
+    background: $color-pf-black-300;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &__widget-grid {
+    display: block;
+    width: 146px;
+    margin: 2px 0 2px 4px;
+    float: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__list-group-item-custom {
+    background: $color-pf-black-200;
+  }
+
+  &__icon-pos {
+    position: absolute;
+    top: 6px;
+    left: 55px;
+  }
+
+  &__list-group-item-heading {
+    min-width: 200px;
+  }
+}

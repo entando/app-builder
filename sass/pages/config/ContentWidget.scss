@@ -1,0 +1,25 @@
+@import "../../patternfly.scss";
+
+.ContentWidget {
+
+  &__right-menu-title {
+    padding: 15px 0 15px 18px;
+    background: $color-pf-black-400 ;
+    font-size: 16px;
+    text-transform: uppercase;
+    }
+
+  &__drawer-pf-icons-right-menu {
+    margin-right: 18px;
+  }
+
+  &__drawer-pf-icons-right-menu > i {
+    padding-right: 3px;
+  }
+
+  &__input-pf-right-menu {
+    width: 94%;
+    font-size: 14px;
+  }
+
+}
