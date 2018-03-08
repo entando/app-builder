@@ -184,6 +184,41 @@ export const PLUGINS_OK = {
   metaData: {},
 };
 
+export const WIDGET_TYPES_OPTIONS = [
+  {
+    optgroup: 'CMS',
+    options: [
+      {
+        code: 'row_content_viewer_list',
+        title: 'Contents - Publish Contents',
+      },
+      {
+        code: 'content_viewer',
+        title: 'Contents - Publish a Content',
+      },
+      {
+        code: 'content_viewer_list',
+        title: 'Contents - Publish a List of Contents',
+      },
+      {
+        code: 'search_result',
+        title: 'Search - Search Result',
+      },
+    ],
+  },
+  {
+    optgroup: 'User widgets',
+    options: [
+      {
+        code: 'user_widget_test',
+        title: 'Test Widget',
+      },
+    ],
+  },
+];
+
+export const PLUGINS_OPTIONS = [{ code: 'jacms', title: 'CMS' }];
+
 export const BODY_ERROR =
 {
   payload: {},

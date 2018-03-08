@@ -1,4 +1,7 @@
-import { WIDGET_TYPES_OK, PLUGINS_OK, GET_FRAGMENT_OK } from 'test/mocks/fragments';
+import {
+  WIDGET_TYPES_OK, PLUGINS_OK, GET_FRAGMENT_OK, WIDGET_TYPES_OPTIONS,
+  PLUGINS_OPTIONS,
+} from 'test/mocks/fragments';
 
 import {
   getFragments, getWidgetTypes, getPlugins, getFragmentSelected,
@@ -26,40 +29,6 @@ const MOCK_STATE = {
     plugins: PLUGINS_PAYLOAD,
   },
 };
-
-const PLUGINS_OPTIONS = [{ code: 'jacms', title: 'CMS' }];
-const WIDGET_TYPES_OPTIONS = [
-  {
-    optgroup: 'CMS',
-    options: [
-      {
-        code: 'row_content_viewer_list',
-        title: 'Contents - Publish Contents',
-      },
-      {
-        code: 'content_viewer',
-        title: 'Contents - Publish a Content',
-      },
-      {
-        code: 'content_viewer_list',
-        title: 'Contents - Publish a List of Contents',
-      },
-      {
-        code: 'search_result',
-        title: 'Search - Search Result',
-      },
-    ],
-  },
-  {
-    optgroup: 'User widgets',
-    options: [
-      {
-        code: 'user_widget_test',
-        title: 'Test Widget',
-      },
-    ],
-  },
-];
 
 describe('state/fragments/selectors', () => {
   it('getFragments(state) returns the fragments object', () => {

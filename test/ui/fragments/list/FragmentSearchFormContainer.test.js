@@ -1,7 +1,10 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentSearchFormContainer';
-import { GET_FRAGMENT_OK, WIDGET_TYPES_OK, PLUGINS_OK } from 'test/mocks/fragments';
+import {
+  GET_FRAGMENT_OK, WIDGET_TYPES_OK, PLUGINS_OK, WIDGET_TYPES_OPTIONS,
+  PLUGINS_OPTIONS,
+} from 'test/mocks/fragments';
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
 const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
@@ -14,40 +17,6 @@ const TEST_STATE = {
     plugins: PLUGINS_PAYLOAD,
   },
 };
-
-const PLUGINS_OPTIONS = [{ code: 'jacms', title: 'CMS' }];
-const WIDGET_TYPES_OPTIONS = [
-  {
-    optgroup: 'CMS',
-    options: [
-      {
-        code: 'row_content_viewer_list',
-        title: 'Contents - Publish Contents',
-      },
-      {
-        code: 'content_viewer',
-        title: 'Contents - Publish a Content',
-      },
-      {
-        code: 'content_viewer_list',
-        title: 'Contents - Publish a List of Contents',
-      },
-      {
-        code: 'search_result',
-        title: 'Search - Search Result',
-      },
-    ],
-  },
-  {
-    optgroup: 'User widgets',
-    options: [
-      {
-        code: 'user_widget_test',
-        title: 'Test Widget',
-      },
-    ],
-  },
-];
 
 const page = 1;
 const SEARCH_FORM_VALUES = {

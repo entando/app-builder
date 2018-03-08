@@ -2,41 +2,9 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { FragmentSearchFormBody, renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
+import { WIDGET_TYPES_OPTIONS } from 'test/mocks/fragments';
 
 const handleSubmit = jest.fn();
-
-const WIDGET_TYPES_OPTIONS = [
-  {
-    optgroup: 'CMS',
-    options: [
-      {
-        code: 'row_content_viewer_list',
-        title: 'Contents - Publish Contents',
-      },
-      {
-        code: 'content_viewer',
-        title: 'Contents - Publish a Content',
-      },
-      {
-        code: 'content_viewer_list',
-        title: 'Contents - Publish a List of Contents',
-      },
-      {
-        code: 'search_result',
-        title: 'Search - Search Result',
-      },
-    ],
-  },
-  {
-    optgroup: 'User widgets',
-    options: [
-      {
-        code: 'user_widget_test',
-        title: 'Test Widget',
-      },
-    ],
-  },
-];
 
 describe('FragmentSearchForm', () => {
   let fragmentSearchForm;

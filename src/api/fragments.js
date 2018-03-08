@@ -9,9 +9,6 @@ import {
 
 import { throttle } from 'util';
 
-// const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
-// const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
-
 export const getFragment = fragmentCode => new Promise((resolve, reject) => {
   if (fragmentCode === GET_FRAGMENT_OK.payload.code) {
     resolve(GET_FRAGMENT_OK);
@@ -20,9 +17,13 @@ export const getFragment = fragmentCode => new Promise((resolve, reject) => {
   }
 });
 
+// will call http://confluence.entando.org/display/E5/Fragments+List
+// e.g. /fragments?filters[0][attribute]=code&filters[0][operator]=eq
+//      &filters[0][value]=fragment_code
 export const getFragments = (page = 1, params) => new Promise((resolve) => {
-  // params management when avaible
-  console.log(params);
+  if (params) {
+    console.info(`calling API /fragments${params}`);
+  }
   switch (page) {
     case 1:
       resolve(LIST_FRAGMENTS_OK_PAGE_1);
