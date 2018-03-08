@@ -1,9 +1,19 @@
 import reducer from 'state/fragments/reducer';
-import { setSelectedFragment, setWidgetTypes, setPlugins } from 'state/fragments/actions';
-import { BODY_OK, WIDGET_TYPES_PAYLOAD, PLUGINS_PAYLOAD } from 'test/mocks/fragment';
+import {
+  setSelectedFragment, setFragments,
+  setWidgetTypes, setPlugins,
+} from 'state/fragments/actions';
+import {
+  GET_FRAGMENT_OK, LIST_FRAGMENTS_OK_PAGE_1, WIDGET_TYPES_OK,
+  PLUGINS_OK,
+} from 'test/mocks/fragments';
+
+const FRAGMENT_PAYLOAD = LIST_FRAGMENTS_OK_PAGE_1.payload;
+const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
+const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
 
 
-describe('state/fragments/reducer', () => {
+describe('fragments/reducer', () => {
   const state = reducer();
 
   it('should return an object', () => {
@@ -13,10 +23,25 @@ describe('state/fragments/reducer', () => {
   describe('after action SET_SELECTED', () => {
     let newState;
     beforeEach(() => {
-      newState = reducer(state, setSelectedFragment(BODY_OK.payload));
+      newState = reducer(state, setSelectedFragment(GET_FRAGMENT_OK.payload));
     });
+
     it('should define the fragment payload', () => {
-      expect(newState.selected).toEqual(BODY_OK.payload);
+      expect(newState.selected).toEqual(GET_FRAGMENT_OK.payload);
+    });
+  });
+
+  describe('list reducer', () => {
+    it('should return an object', () => {
+      expect(typeof state.list).toBe('object');
+      expect(state.list instanceof Array).toBe(true);
+    });
+
+    describe('after action SET_FRAGMENTS', () => {
+      it('should define fragmentList', () => {
+        const newState = reducer({}, setFragments(FRAGMENT_PAYLOAD));
+        expect(newState.list).toHaveLength(2);
+      });
     });
   });
 

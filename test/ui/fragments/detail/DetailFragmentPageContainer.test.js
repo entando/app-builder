@@ -2,11 +2,11 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/detail/DetailFragmentPageContainer';
-import { BODY_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
   fragments: {
-    selected: BODY_OK.payload,
+    selected: GET_FRAGMENT_OK.payload,
   },
 };
 
@@ -38,7 +38,7 @@ jest.mock('frontend-common-components', () => ({
 
 describe('DetailFragmentPageContainer', () => {
   it('maps groups and mode property state in DetailFragmentPage', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ code: 'code', fragment: BODY_OK.payload });
+    expect(mapStateToProps(TEST_STATE)).toEqual({ code: 'code', fragment: GET_FRAGMENT_OK.payload });
   });
 
 

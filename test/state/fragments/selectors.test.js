@@ -1,15 +1,27 @@
-import { WIDGET_TYPES_PAYLOAD, PLUGINS_PAYLOAD, BODY_OK } from 'test/mocks/fragment';
+import { WIDGET_TYPES_OK, PLUGINS_OK, GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 import {
   getFragments, getWidgetTypes, getPlugins, getFragmentSelected,
-  getWidgetTypesOptions, getPluginsOptions,
+  getWidgetTypesOptions, getPluginsOptions, getFragmentList,
 } from 'state/fragments/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
+const list = [
+  {
+    code: 'myCode',
+  },
+];
+
+const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
+const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
+const FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
+
+
 const MOCK_STATE = {
   fragments: {
-    selected: BODY_OK,
+    list,
+    selected: FRAGMENT_PAYLOAD,
     widgetTypes: WIDGET_TYPES_PAYLOAD,
     plugins: PLUGINS_PAYLOAD,
   },
@@ -49,11 +61,13 @@ const WIDGET_TYPES_OPTIONS = [
   },
 ];
 
-
 describe('state/fragments/selectors', () => {
   it('getFragments(state) returns the fragments object', () => {
     const selected = getFragments(MOCK_STATE);
     expect(selected).toBe(MOCK_STATE.fragments);
+  });
+  it('verify getFragmentList selector', () => {
+    expect(getFragmentList(MOCK_STATE)).toEqual(list);
   });
   it('getWidgetTypes(state) returns the widgetTypes list', () => {
     const selected = getWidgetTypes(MOCK_STATE);

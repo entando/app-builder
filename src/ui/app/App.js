@@ -25,7 +25,7 @@ import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
-import FragmentPage from 'ui/fragments/list/FragmentPage';
+import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
@@ -46,7 +46,7 @@ const App = ({ route }) => {
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
-    case ROUTE_FRAGMENT_LIST: return <FragmentPage />;
+    case ROUTE_FRAGMENT_LIST: return <ListFragmentPage />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;

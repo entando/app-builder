@@ -7,6 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import EditFormContainer from 'ui/fragments/edit/EditFormContainer';
 import PropTypes from 'prop-types';
 import PageTitle from 'ui/internal-page/PageTitle';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
 const FRAGMENT_HELP = 'fragment.help';
 const PAGE_TITLE = 'app.edit';
@@ -26,9 +27,8 @@ class EditFragmentPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.uxPattern" />
                 </BreadcrumbItem>
-                {/* FIXME change route when fragmentlist component is avaible */}
-                <BreadcrumbItem route="home">
-                  <FormattedMessage id="menu.uxPattern.fragment" />
+                <BreadcrumbItem route={ROUTE_FRAGMENT_LIST}>
+                  <FormattedMessage id="menu.fragments" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   <FormattedMessage id={PAGE_TITLE} />

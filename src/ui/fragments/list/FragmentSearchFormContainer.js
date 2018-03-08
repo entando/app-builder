@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
-import { fetchWidgetTypes, fetchPlugins } from 'state/fragments/actions';
+import { fetchWidgetTypes, fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
+import { convertToQueryString } from 'util/queryStringManager';
 
 export const mapStateToProps = state => ({
   widgetTypes: getWidgetTypesOptions(state),
@@ -14,7 +15,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchPlugins());
   },
   // calls search API when avaible
-  onSubmit: () => {},
+  onSubmit: (values) => { dispatch(fetchFragments(1, convertToQueryString(values))); },
 });
 
 const FragmentSearchFormContainer = connect(

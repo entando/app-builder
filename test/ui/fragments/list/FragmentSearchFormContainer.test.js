@@ -1,11 +1,15 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentSearchFormContainer';
-import { BODY_OK, WIDGET_TYPES_PAYLOAD, PLUGINS_PAYLOAD } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK, WIDGET_TYPES_OK, PLUGINS_OK } from 'test/mocks/fragments';
+
+const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
+const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
+const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
 
 const TEST_STATE = {
   fragments: {
-    selected: BODY_OK.payload,
+    selected: GET_FRAGMENT_PAYLOAD,
     widgetTypes: WIDGET_TYPES_PAYLOAD,
     plugins: PLUGINS_PAYLOAD,
   },
@@ -45,6 +49,13 @@ const WIDGET_TYPES_OPTIONS = [
   },
 ];
 
+const page = 1;
+const SEARCH_FORM_VALUES = {
+  code: 'my fragment',
+  widgetType: 'content_viewer',
+  plugin: 'jacms',
+};
+
 const dispatchMock = jest.fn();
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
@@ -65,7 +76,7 @@ describe('FragmentSearchFormContainer', () => {
   it('verify that onSubmit is defined by mapDispatchToProps', () => {
     const result = mapDispatchToProps(dispatchMock);
     expect(result.onSubmit).toBeDefined();
-    result.onSubmit();
+    result.onSubmit(page, SEARCH_FORM_VALUES);
     expect(dispatchMock).toHaveBeenCalled();
   });
 });

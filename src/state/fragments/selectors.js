@@ -5,6 +5,11 @@ export const getFragments = state => state.fragments;
 export const getWidgetTypes = state => state.fragments.widgetTypes;
 export const getPlugins = state => state.fragments.plugins;
 
+export const getFragmentList = createSelector(
+  getFragments,
+  fragments => fragments.list,
+);
+
 export const getFragmentSelected = createSelector(
   [getFragments],
   fragment => fragment.selected,
