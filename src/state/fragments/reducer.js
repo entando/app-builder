@@ -1,6 +1,6 @@
 
 import { combineReducers } from 'redux';
-import { SET_SELECTED } from 'state/fragments/types';
+import { SET_SELECTED, SET_FRAGMENTS } from 'state/fragments/types';
 
 
 const selected = (state = {}, action = {}) => {
@@ -12,7 +12,16 @@ const selected = (state = {}, action = {}) => {
   }
 };
 
+const list = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_FRAGMENTS: {
+      return action.payload.fragments;
+    }
+    default: return state;
+  }
+};
 
 export default combineReducers({
   selected,
+  list,
 });

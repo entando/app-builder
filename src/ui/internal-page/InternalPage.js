@@ -5,7 +5,7 @@ import {
   formattedText,
 } from 'frontend-common-components';
 
-import { ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST } from 'app-init/router';
+import { ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
@@ -51,6 +51,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-ux-pattern-widgets"
           label={formattedText('menu.widgets')}
           route={ROUTE_WIDGET_LIST}
+        />
+        <LinkMenuItem
+          id="menu-ux-pattern-fragments"
+          label={formattedText('menu.fragments')}
+          route={ROUTE_FRAGMENT_LIST}
         />
       </FirstLevelMenuItem>
       <LinkMenuItem

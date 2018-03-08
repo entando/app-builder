@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/edit/EditFragmentPageContainer';
-import { BODY_OK } from 'test/mocks/fragment';
+import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
   router: {
@@ -11,7 +11,7 @@ const TEST_STATE = {
     },
   },
   mode: 'edit',
-  fragmentForm: BODY_OK.payload,
+  fragmentForm: GET_FRAGMENT_OK.payload,
 };
 
 const dispatchMock = jest.fn();
