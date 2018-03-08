@@ -47,6 +47,7 @@ export default {
     'menu.uxPattern.fragment': 'Fragments',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageSettings': 'Page Settings',
+    'menu.datatype': 'Data Types',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -145,5 +146,7 @@ export default {
     'dataModel.type': 'Type',
     'dataModel.stylesheet': 'Style Sheet',
     'dataModel.model': 'Model',
+    'datatype.list.title': 'Data Type',
+    'datatype.help': 'The DATA TYPES section let the administrator add new data types or edit those already existing.',
   },
 };

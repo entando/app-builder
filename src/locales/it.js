@@ -47,6 +47,7 @@ export default {
     'menu.uxPattern.fragment': 'Frammenti',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageSettings': 'Impostazione Pagine',
+    'menu.datatype': 'Data Type',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -145,5 +146,7 @@ export default {
     'dataModel.type': 'Tipo',
     'dataModel.stylesheet': 'Foglio di Stile',
     'dataModel.model': 'Modello',
+    'datatype.list.title': 'Data Type',
+    'datatype.help': 'Dalla sezione DATA TYPE l\'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.',
   },
 };
