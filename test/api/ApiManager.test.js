@@ -6,7 +6,14 @@ import { config, makeRequest } from 'api/ApiManager';
 
 const mockStore = configureMockStore([]);
 
-const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => {});
+const MOCKED_GOOD_RESPONSE = { code: 12 };
+const REAL_GOOD_RESPONSE = { code: 30 };
+
+const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+  new Promise((resolve) => {
+    resolve(REAL_GOOD_RESPONSE);
+  })
+));
 
 const MOCKED = {
   api: {
@@ -17,13 +24,14 @@ const MOCKED = {
 const REAL = {
   api: {
     useMocks: false,
+    domain: '//google.com',
   },
 };
 
 const validRequest = {
   uri: '/api/test',
   method: 'GET',
-  mockResponse: {},
+  mockResponse: MOCKED_GOOD_RESPONSE,
 };
 
 describe('ApiManager', () => {
@@ -66,8 +74,12 @@ describe('ApiManager', () => {
 
   describe('mock request', () => {
     it('fetches from the mock when useMocks is true', () => {
-      makeRequest(validRequest);
+      const result = makeRequest(validRequest);
       expect(fetch).not.toHaveBeenCalled();
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toEqual(MOCKED_GOOD_RESPONSE);
+      });
     });
   });
 
@@ -77,8 +89,17 @@ describe('ApiManager', () => {
     });
 
     it('fetches from the real api when useMocks is false', () => {
-      makeRequest(validRequest);
-      expect(fetch).toHaveBeenCalled();
+      const result = makeRequest(validRequest);
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test',
+        {
+          method: validRequest.method,
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toEqual(REAL_GOOD_RESPONSE);
+      });
     });
   });
 });

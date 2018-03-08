@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-import { useMocks } from 'state/api/selectors';
+import { useMocks, getDomain } from 'state/api/selectors';
 
 let store = null;
 
@@ -25,17 +25,19 @@ export const config = (reduxStore) => {
 
 export const makeMockRequest = (request) => {
   validateRequest(request);
+  return new Promise(resolve => resolve(request.mockResponse));
 };
 
 export const makeRealRequest = (request) => {
   validateRequest(request);
-  fetch('google.com');
+  return fetch(`${getDomain(store.getState())}${request.uri}`, {
+    method: request.method,
+  });
 };
 
 export const makeRequest = (request) => {
   if (useMocks(store.getState())) {
-    makeMockRequest(request);
-  } else {
-    makeRealRequest(request);
+    return makeMockRequest(request);
   }
+  return makeRealRequest(request);
 };
