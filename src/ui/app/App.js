@@ -34,7 +34,7 @@ import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
-import DataModelListPage from 'ui/data-models/list/DataModelListPageContainer';
+import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 
 const App = ({ route }) => {
   switch (route) {
