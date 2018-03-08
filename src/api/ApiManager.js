@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 
+import { buildResponse } from 'api/ResponseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
 
 let store = null;
@@ -25,7 +26,7 @@ export const config = (reduxStore) => {
 
 export const makeMockRequest = (request) => {
   validateRequest(request);
-  return new Promise(resolve => resolve(request.mockResponse));
+  return new Promise(resolve => resolve(buildResponse(request.mockResponse)));
 };
 
 export const makeRealRequest = (request) => {
