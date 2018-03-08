@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import { fetchDataModelList } from 'state/data-model-list/actions';
+import { fetchDataModelListPaged } from 'state/data-model-list/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import DataModelListTable from 'ui/data-models/list/DataModelListTable';
-import { getListDataModels } from 'state/data-model-list/selectors';
+import { getListDataModelsPaged } from 'state/data-model-list/selectors';
 
 
 export const mapStateToProps = state => (
   {
-    dataModels: getListDataModels(state),
+    dataModels: getListDataModelsPaged(state),
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
@@ -15,8 +15,8 @@ export const mapStateToProps = state => (
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
-    dispatch(fetchDataModelList());
+  onWillMount: (page = 1) => {
+    dispatch(fetchDataModelListPaged(page));
   },
 });
 

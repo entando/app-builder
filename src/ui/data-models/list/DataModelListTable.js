@@ -27,7 +27,9 @@ class DataModelListTable extends Component {
         <td className="DataModelListRow__td">{item.type}</td>
         <td className="DataModelListRow__td">{item.descr}</td>
         <td className="DataModelListRow__td text-center">{item.modelId}</td>
-        <td className="DataModelListRow__td text-center"><DataModelListActionsMenu code={item.type} /></td>
+        <td className="DataModelListRow__td text-center">
+          <DataModelListActionsMenu code={item.type} />
+        </td>
       </tr>
     ));
 
@@ -43,9 +45,15 @@ class DataModelListTable extends Component {
           <thead>
             <tr>
               <th><FormattedMessage id="app.name" /></th>
-              <th className="text-center"><FormattedMessage id="app.type" /></th>
-              <th className="text-center" width="10%"><FormattedMessage id="app.id" /></th>
-              <th className="text-center" width="10%"><FormattedMessage id="app.actions" /></th>
+              <th className="text-center">
+                <FormattedMessage id="app.type" />
+              </th>
+              <th className="text-center" width="10%">
+                <FormattedMessage id="app.id" />
+              </th>
+              <th className="text-center" width="10%">
+                <FormattedMessage id="app.actions" />
+              </th>
             </tr>
           </thead>
           <tbody>

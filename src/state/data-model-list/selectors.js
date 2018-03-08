@@ -6,3 +6,8 @@ export const getListDataModels = createSelector(
   [getDataModels],
   dataModelList => dataModelList.list,
 );
+
+export const getListDataModelsPaged = createSelector(
+  [getDataModels],
+  dataModelList => dataModelList.pagedList,
+);
