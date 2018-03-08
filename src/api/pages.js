@@ -3,10 +3,8 @@ import {
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
   PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
+import throttle from 'util/throttle';
 
-const throttle = (func) => {
-  setTimeout(func, (Math.floor(Math.random() * 700) + 300));
-};
 
 /*
  * - homepage

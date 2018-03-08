@@ -6,9 +6,13 @@ import {
 } from 'frontend-common-components';
 
 import {
-  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST,
+  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG,
 } from 'app-init/router';
+
+import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
+import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
+import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -17,6 +21,7 @@ const USERNAME = 'Admin';
 const TITLE = 'Title';
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
+  <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserDropdown key="userDropdown" userName={USERNAME} />,
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
@@ -56,6 +61,11 @@ const InternalPage = ({ className, children }) => (
           label={formattedText('menu.widgets')}
           route={ROUTE_WIDGET_LIST}
         />
+        <LinkMenuItem
+          id="menu-ux-pattern-fragments"
+          label={formattedText('menu.fragments')}
+          route={ROUTE_FRAGMENT_LIST}
+        />
       </FirstLevelMenuItem>
       <LinkMenuItem
         id="menu-integration"
@@ -74,6 +84,9 @@ const InternalPage = ({ className, children }) => (
         pullRight
       />
     </BrandMenu>
+    <ActivityStreamContainer >
+      <NotificationListContainer />
+    </ActivityStreamContainer>
     {children}
   </div>
 );
