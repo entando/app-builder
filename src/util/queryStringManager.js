@@ -1,4 +1,4 @@
-const addFilter = (filterValues) => {
+export const addFilter = (filterValues) => {
   const {
     attribute, pos, operator, value,
   } = filterValues;
