@@ -49,7 +49,6 @@ export default {
     'menu.uxPattern.fragment': 'Frammenti',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageSettings': 'Impostazione Pagine',
-    'menu.datamodel': 'Data Model',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
