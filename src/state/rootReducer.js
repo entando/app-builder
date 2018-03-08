@@ -10,6 +10,7 @@ import locale from 'state/locale/reducer';
 import widgets from 'state/widgets/reducer';
 import pages from 'state/pages/reducer';
 import groups from 'state/groups/reducer';
+import pagination from 'state/pagination/reducer';
 import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
@@ -24,6 +25,7 @@ const reducerDef = {
   activityStream,
   pages,
   groups,
+  pagination,
   widgets,
   fragments,
   pageModels,
