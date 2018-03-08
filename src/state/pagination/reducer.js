@@ -1,4 +1,5 @@
 import { SET_PAGE } from 'state/pagination/types';
+import { isInteger } from 'util/Numeric';
 
 const initialState = {
   page: 1,
@@ -6,12 +7,8 @@ const initialState = {
   lastPage: 1,
 };
 
-const isAttributeANumber = attribute => (
-  !Number.isNaN(parseFloat(attribute)) && Number.isInteger(parseFloat(attribute))
-);
-
 const isPageValid = (page, lastPage) => {
-  if (!isAttributeANumber(page) ||
+  if (!isInteger(page) ||
     page < 1 ||
     page > lastPage
   ) {
@@ -21,14 +18,14 @@ const isPageValid = (page, lastPage) => {
 };
 
 const isPageSizeValid = (pageSize) => {
-  if (!isAttributeANumber(pageSize) || pageSize < 0) {
+  if (!isInteger(pageSize) || pageSize < 0) {
     return false;
   }
   return true;
 };
 
 const isLastPageValid = (lastPage) => {
-  if (!isAttributeANumber(lastPage)) {
+  if (!isInteger(lastPage)) {
     return false;
   }
   return true;

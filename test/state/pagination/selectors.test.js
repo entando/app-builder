@@ -31,10 +31,10 @@ describe('fragment-list selectors', () => {
   let state;
   let page;
 
-  function setPage(mockState) {
+  const setPage = (mockState) => {
     state = { pagination: mockState };
     page = mockState;
-  }
+  };
 
   beforeEach(() => {
     setPage(firstPage);
