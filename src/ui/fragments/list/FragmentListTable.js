@@ -39,8 +39,8 @@ class FragmentListTable extends Component {
     };
     return (
       <div className="FragmentListTable">
-        <Col md={12} className="FragmentListTable__table">
-          <table className="table table-striped table-bordered">
+        <Col md={12}>
+          <table className="FragmentListTable__table table table-striped table-bordered">
             <thead>
               <tr>
                 <th><FormattedMessage id="app.name" /></th>
