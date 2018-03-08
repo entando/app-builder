@@ -44,8 +44,8 @@ class DataModelListTable extends Component {
         <table className="table table-striped table-bordered">
           <thead>
             <tr>
-              <th><FormattedMessage id="app.name" /></th>
-              <th className="text-center">
+              <th width="30%"><FormattedMessage id="app.name" /></th>
+              <th>
                 <FormattedMessage id="app.type" />
               </th>
               <th className="text-center" width="10%">
