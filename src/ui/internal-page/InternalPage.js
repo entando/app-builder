@@ -5,7 +5,10 @@ import {
   formattedText,
 } from 'frontend-common-components';
 
-import { ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST } from 'app-init/router';
+import {
+  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST,
+  ROUTE_PAGE_CONFIG,
+} from 'app-init/router';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -36,6 +39,12 @@ const InternalPage = ({ className, children }) => (
           id="menu-page-tree"
           label={formattedText('menu.pageTree', 'Page Tree')}
           route={ROUTE_PAGE_TREE}
+        />
+        <LinkMenuItem
+          id="menu-page-config"
+          label={formattedText('menu.pageConfig')}
+          route={ROUTE_PAGE_CONFIG}
+          params={{ pageCode: 'homepage' }}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
