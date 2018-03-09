@@ -33,7 +33,7 @@ import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageC
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
-import PageConfigPage from 'ui/pages/config/PageConfigPage';
+import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 
 const App = ({ route }) => {
@@ -55,7 +55,7 @@ const App = ({ route }) => {
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
-    case ROUTE_PAGE_CONFIG: return <PageConfigPage />;
+    case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     default: return <NotFoundPage />;
   }

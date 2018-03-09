@@ -14,6 +14,10 @@ class PageConfigPage extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+  componentWillUnmount() {
+    if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
+  }
+
   render() {
     return (
       <InternalPage className="PageConfigPage">
@@ -36,10 +40,7 @@ class PageConfigPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={2}>
-              stuff
-            </Col>
-            <Col xs={8}>
+            <Col xs={10}>
               <PageConfigGridContainer />
             </Col>
           </Row>
@@ -51,10 +52,12 @@ class PageConfigPage extends Component {
 
 PageConfigPage.propTypes = {
   onWillMount: PropTypes.func,
+  onWillUnmount: PropTypes.func,
 };
 
 PageConfigPage.defaultProps = {
   onWillMount: null,
+  onWillUnmount: null,
 };
 
 export default PageConfigPage;

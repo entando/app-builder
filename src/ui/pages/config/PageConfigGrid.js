@@ -1,49 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const ROW_HEIGHT = 80;
 
-const renderGrid = (gridStruct, parentBsWidth) => {
-  if (!gridStruct.rows) {
-    return null;
-  }
-  return gridStruct.rows.map((row) => {
-    const renderedCols = row.cols.map((col) => {
-      const width = (col.x2 - col.x1) + 1;
-      const height = (col.y2 - col.y1) + 1;
-      const pcWidth = ((width / parentBsWidth) * 100);
-      let className;
-      if (col.rows) {
-        className = 'PageConfigGrid__container';
-      } else if (!col.frame) {
-        className = 'PageConfigGrid__hole';
-      } else {
-        className = 'PageConfigGrid__slot';
-      }
+let renderGrid;
 
-      return (
-        <div
-          key={`col-${col.x1}`}
-          style={{ minHeight: 80 * height, width: `${pcWidth}%` }}
-          className={className}
-        >
-          {col.rows ? renderGrid(col, width) : col.frame && col.frame.descr }
-        </div>
-      );
-    });
+
+const renderCols = (cols, parentBsWidth) =>
+  cols.map((col) => {
+    const width = (col.x2 - col.x1) + 1;
+    const height = (col.y2 - col.y1) + 1;
+    const pcWidth = ((width / parentBsWidth) * 100);
+    let className;
+    if (col.rows) {
+      className = 'PageConfigGrid__container';
+    } else if (!col.frame) {
+      className = 'PageConfigGrid__hole';
+    } else {
+      className = 'PageConfigGrid__slot';
+    }
+
     return (
       <div
-        key={`row-${row.y1}`}
-        className="PageConfigGrid__row"
+        key={`col-${col.x1}`}
+        style={{ minHeight: ROW_HEIGHT * height, width: `${pcWidth}%` }}
+        className={className}
       >
-        {renderedCols}
+        {col.rows ? renderGrid(col, width) : col.frame && col.frame.descr }
       </div>
     );
   });
+
+
+renderGrid = (gridStruct, parentBsWidth) => {
+  if (!gridStruct.rows) {
+    return null;
+  }
+  return gridStruct.rows.map(row => (
+    <div
+      key={`row-${row.y1}`}
+      className="PageConfigGrid__row"
+    >
+      { renderCols(row.cols, parentBsWidth) }
+    </div>
+  ));
 };
 
 const PageConfigGrid = ({ pageModelStruct }) => (
   <div className="PageConfigGrid">
-    { renderGrid(pageModelStruct, 12) }
+    { pageModelStruct && renderGrid(pageModelStruct, 12) }
   </div>
 );
 
@@ -76,7 +81,11 @@ ROW_TYPE = PropTypes.shape({
 });
 
 PageConfigGrid.propTypes = {
-  pageModelStruct: COL_TYPE.isRequired,
+  pageModelStruct: COL_TYPE,
+};
+
+PageConfigGrid.defaultProps = {
+  pageModelStruct: null,
 };
 
 export default PageConfigGrid;

@@ -1,7 +1,10 @@
 
 import 'test/enzyme-init';
-import { fetchPage, fetchPageChildren, setPagePosition, postPage,
-  getPageSettingsList, getFreePages } from 'api/pages';
+import {
+  fetchPage, fetchPageChildren, setPagePosition, postPage, putPage,
+  getPageSettingsList, getFreePages,
+} from 'api/pages';
+
 import {
   ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
@@ -57,6 +60,18 @@ describe('api/pages', () => {
     it('if given a page with code "error", returns an error response', () => {
       const errorPayload = { ...CONTACTS_PAYLOAD, code: 'error' };
       expect(postPage(errorPayload)).resolves
+        .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
+    });
+  });
+
+  describe('putPage()', () => {
+    it('if successful, returns a mock ok response', () => {
+      expect(putPage(CONTACTS_PAYLOAD)).resolves.toEqual({ payload: CONTACTS_PAYLOAD });
+    });
+
+    it('if given a page with en title "error", returns an error response', () => {
+      const errorPayload = { ...CONTACTS_PAYLOAD, titles: { en: 'error' } };
+      expect(putPage(errorPayload)).resolves
         .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
     });
   });

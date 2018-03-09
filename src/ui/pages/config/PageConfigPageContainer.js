@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 
-import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
+import PageConfigPage from 'ui/pages/config/PageConfigPage';
 
-import { fetchPageConfigData } from 'state/pages/actions';
+import { initConfigPage } from 'state/page-config/actions';
+import { setSelectedPageModel } from 'state/page-models/actions';
 
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => dispatch(fetchPageConfigData()),
+  onWillMount: () => dispatch(initConfigPage()),
+  onWillUnmount: () => dispatch(setSelectedPageModel(null)),
 });
 
 
-const PageConfigPageContainer = connect(null, mapDispatchToProps)(PageConfigGrid);
+const PageConfigPageContainer = connect(null, mapDispatchToProps)(PageConfigPage);
 export default PageConfigPageContainer;

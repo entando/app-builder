@@ -97,3 +97,11 @@ export const PAGE_MODEL = {
 export const COMPLEX_RESPONSE = {
   payload: COMPLEX_PAYLOAD,
 };
+
+export const SINGLE_CELL_RESPONSE = {
+  payload: SINGLE_CELL_PAYLOAD,
+};
+
+export const SIDEBAR_HOLES_RESPONSE = {
+  payload: SIDEBAR_HOLES_PAYLOAD,
+};

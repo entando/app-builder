@@ -11,7 +11,7 @@ const list = (state = [], action = {}) => {
   }
 };
 
-const selected = (state = {}, action = {}) => {
+const selected = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE_MODEL: {
       return action.payload.pageModel;

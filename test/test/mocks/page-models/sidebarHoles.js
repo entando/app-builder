@@ -19,8 +19,8 @@
 */
 
 export const PAYLOAD = {
-  code: 'model_1',
-  description: 'Model 1',
+  code: 'sidebar_holes_model',
+  description: 'Sidebar Holes Model',
   template: '<html></html>',
   configuration: {
     frames: [

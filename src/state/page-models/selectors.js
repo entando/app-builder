@@ -1,12 +1,8 @@
-import { pad } from 'lodash';
 import { createSelector } from 'reselect';
-import { COMPLEX_PAYLOAD } from 'test/mocks/pageModels';
 
 export const getPageModels = state => state.pageModels;
 export const getPageModelsList = state => state.pageModels.list;
-// export const getSelectedPageModel = state => state.pageModels.selected;
-// FIXME: This is mocked for now (Partial PR)
-export const getSelectedPageModel = () => COMPLEX_PAYLOAD;
+export const getSelectedPageModel = state => state.pageModels.selected;
 
 
 const createFramesMatrix = (frames) => {
@@ -24,19 +20,6 @@ const createFramesMatrix = (frames) => {
   return matrix;
 };
 
-const printMatrix = (matrix) => {
-  const yMax = matrix.length ? matrix[0].length : 0;
-  let row = [];
-  const rowstr = [];
-  for (let y = 0; y < yMax; y += 1) {
-    for (let x = 0; x < matrix.length; x += 1) {
-      row.push(pad(matrix[x][y] ? matrix[x][y].descr : 'x', 10));
-    }
-    rowstr.push(`|${row.join('|')}|`);
-    row = [];
-  }
-};
-
 const getNextRow = (matrix, { x1, x2 }, yStart) => {
   let y2 = yStart;
   for (let x = x1; x <= x2; x += 1) {
@@ -52,8 +35,8 @@ const getNextRow = (matrix, { x1, x2 }, yStart) => {
 };
 
 const getRows = (matrix, bounds) => {
-  let yCur = bounds.y1;
   const rows = [];
+  let yCur = bounds.y1;
   while (yCur <= bounds.y2) {
     const row = getNextRow(matrix, bounds, yCur);
     yCur = row.y2 + 1;
@@ -77,8 +60,8 @@ const getNextCol = (matrix, { y1, y2 }, xStart) => {
 };
 
 const getCols = (matrix, bounds) => {
-  let xCur = bounds.x1;
   const cols = [];
+  let xCur = bounds.x1;
   while (xCur <= bounds.x2) {
     const col = getNextCol(matrix, bounds, xCur);
     xCur = col.x2 + 1;
@@ -100,8 +83,7 @@ const getPageModelGridStruct = (pageModel) => {
   }
   const yMax = pageModel.configuration.frames
     .reduce((acc, frame) => (acc < frame.sketch.y2 ? frame.sketch.y2 : acc), 0);
-  const matrix = createFramesMatrix(pageModel.configuration.frames);
-  printMatrix(matrix);
+
   const bounds = {
     x1: 0, x2: 11, y1: 0, y2: yMax,
   };
@@ -109,9 +91,12 @@ const getPageModelGridStruct = (pageModel) => {
   const stack = [bounds];
   while (stack.length) {
     const curBounds = stack.pop();
-    const rows = getRowsWithChildren(matrix, curBounds);
-    const isLeaf = curBounds !== bounds && rows.length === 1 && rows[0].cols.length === 1;
-    if (!isLeaf) {
+    const rows = getRowsWithChildren(
+      createFramesMatrix(pageModel.configuration.frames),
+      curBounds,
+    );
+    // if the current node is not a leaf
+    if (!(curBounds !== bounds && rows.length === 1 && rows[0].cols.length === 1)) {
       rows.forEach((row) => {
         row.cols.forEach((col) => {
           if (!col.isLeaf) {

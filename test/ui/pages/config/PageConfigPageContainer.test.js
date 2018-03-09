@@ -1,14 +1,21 @@
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/PageConfigPageContainer';
+import { mapDispatchToProps } from 'ui/pages/config/PageConfigPageContainer';
 
-
-jest.mock('state/pages/actions', () => ({
-  fetchPageConfigData: jest.fn().mockReturnValue('fetchPageConfigData_result'),
-}));
+// mocked
+import { setSelectedPageModel } from 'state/page-models/actions';
 
 jest.mock('state/page-models/selectors', () => ({
   getPageModelStruct: jest.fn().mockReturnValue('getPageModelStruct_result'),
 }));
+
+jest.mock('state/page-models/actions', () => ({
+  setSelectedPageModel: jest.fn().mockReturnValue('setSelectedPageModel_result'),
+}));
+
+jest.mock('state/page-config/actions', () => ({
+  initConfigPage: jest.fn().mockReturnValue('initConfigPage_result'),
+}));
+
 
 describe('PageConfigPageContainer', () => {
   beforeEach(jest.clearAllMocks);
@@ -24,8 +31,18 @@ describe('PageConfigPageContainer', () => {
       beforeEach(() => {
         props.onWillMount();
       });
-      it('dispatch fetchPageConfigData', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('fetchPageConfigData_result');
+      it('dispatch initConfigPage', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('initConfigPage_result');
+      });
+    });
+
+    describe('prop onWillUnmount', () => {
+      beforeEach(() => {
+        props.onWillUnmount();
+      });
+      it('dispatch setSelectedPageModel(null)', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result');
+        expect(setSelectedPageModel).toHaveBeenCalledWith(null);
       });
     });
   });
