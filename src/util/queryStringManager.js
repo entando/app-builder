@@ -7,6 +7,10 @@ export const FILTER_OPERATORS = {
   NOT: 'not',
   LIKE: 'like',
 };
+export const SORT_DIRECTIONS = {
+  ASCENDANT: 'ASC',
+  DESCENDANT: 'DESC',
+};
 export const DEFAULT_SORT_DIRECTION = 'ASC';
 
 export const addFilter = (filterValues) => {
@@ -25,17 +29,19 @@ export const addFilter = (filterValues) => {
 export const setSorting = sorting => (
   [
     `sort=${sorting.attribute}`,
-    `direction=${sorting.direction ? sorting.direction : DEFAULT_SORT_DIRECTION}`,
+    `direction=${Object.values(SORT_DIRECTIONS).includes(sorting.direction) ?
+      sorting.direction : DEFAULT_SORT_DIRECTION}`,
   ]
 );
 
-export const setFilters = (object, operators = []) => {
+export const setFilters = (object = {}, operators = []) => {
+  let filters = [];
   const properties = Object.keys(object);
-  const filters = properties.map((property, index) => {
+  filters = properties.map((property, index) => {
     const filterValues = {
       attribute: property,
       value: object[property],
-      operator: operators[property] ? operators[property] : DEFAULT_FILTER_OPERATOR,
+      operator: (property in operators) ? operators[property] : DEFAULT_FILTER_OPERATOR,
       pos: index,
     };
     return addFilter(filterValues);
