@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 
 import throttle from 'util/throttle';
-import { isEmpty } from 'util/String';
-import { buildResponse } from 'api/ResponseFactory';
+import { isEmpty } from 'util/string';
+import { buildResponse } from 'api/responseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
 
 export const METHODS = {

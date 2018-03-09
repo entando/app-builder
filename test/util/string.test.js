@@ -1,4 +1,4 @@
-import { isEmpty } from 'util/String';
+import { isEmpty } from 'util/string';
 
 describe('String.isEmpty', () => {
   it('does not validate booleans', () => {

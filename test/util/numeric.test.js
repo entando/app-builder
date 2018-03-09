@@ -1,4 +1,4 @@
-import { isInteger } from 'util/Numeric';
+import { isInteger } from 'util/numeric';
 
 describe('Numeric.isInteger', () => {
   it('does not validate booleans', () => {

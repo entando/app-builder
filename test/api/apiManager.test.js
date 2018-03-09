@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 
-import { config, makeRequest } from 'api/ApiManager';
+import { config, makeRequest } from 'api/apiManager';
 
 // jest.unmock('api/ApiManager');
 
@@ -34,7 +34,7 @@ const validRequest = {
   mockResponse: MOCKED_GOOD_RESPONSE,
 };
 
-describe('ApiManager', () => {
+describe('apiManager', () => {
   beforeEach(() => {
     config(mockStore(MOCKED));
   });

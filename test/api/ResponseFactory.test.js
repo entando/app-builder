@@ -1,8 +1,8 @@
-import { buildResponse } from 'api/ResponseFactory';
+import { buildResponse } from 'api/responseFactory';
 
 const createList = size => new Array(size).fill(1).map((item, index) => ({ data: index + 1 }));
 
-describe('ResponseFactory', () => {
+describe('responseFactory', () => {
   it('returns an empty object if mockResponse is not of type object', () => {
     const response = buildResponse(12);
     expect(typeof response).toEqual('object');
