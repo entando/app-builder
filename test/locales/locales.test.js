@@ -16,13 +16,14 @@ describe('test locales objects structure', () => {
 
 describe('coherence test between locales files', () => {
   const itKeys = Object.keys(localeIt.messages);
-  const enKeys = Object.keys(localeIt.messages);
+  const enKeys = Object.keys(localeEn.messages);
   it('same number of keys in locales files', () => {
     expect(itKeys.length).toEqual(enKeys.length);
   });
   it('same key values in each file', () => {
     itKeys.sort();
     enKeys.sort();
+
     expect(itKeys).toEqual(enKeys);
   });
 });

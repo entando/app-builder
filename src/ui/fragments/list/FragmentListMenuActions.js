@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
 
-import { ROUTE_FRAGMENT_EDIT } from 'app-init/router';
+import { ROUTE_FRAGMENT_EDIT, ROUTE_FRAGMENT_DETAIL } from 'app-init/router';
 
 class FragmentListMenuActions extends Component {
   constructor(props) {
@@ -24,8 +24,11 @@ class FragmentListMenuActions extends Component {
     const editLabel = (
       <FormattedMessage id="fragment.table.edit" values={{ code: this.props.code }} />
     );
+    const detailLabel = (
+      <FormattedMessage id="fragment.table.details" values={{ code: this.props.code }} />
+    );
     return (
-      <DropdownKebab pullRight id="asdf">
+      <DropdownKebab pullRight id={`${this.props.code}-actions`}>
         <LinkMenuItem
           id={`edit-${this.props.code}`}
           route={ROUTE_FRAGMENT_EDIT}
@@ -33,11 +36,13 @@ class FragmentListMenuActions extends Component {
           label={editLabel}
           className="FragmentListMenuAction__menu-item-edit"
         />
-        <MenuItem
+        <LinkMenuItem
+          id={`edit-${this.props.code}`}
+          route={ROUTE_FRAGMENT_DETAIL}
+          params={{ fragmentCode: this.props.code }}
+          label={detailLabel}
           className="FragmentListMenuAction__menu-item-details"
-        >
-          <FormattedMessage id="fragment.table.details" values={{ code: this.props.code }} />
-        </MenuItem>
+        />
         <MenuItem
           className="FragmentListMenuAction__menu-item-delete"
           onClick={this.handleClick(onClickDelete)}

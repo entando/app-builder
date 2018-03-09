@@ -6,6 +6,7 @@ import { BreadcrumbItem, Link } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FragmentListTableContainer from 'ui/fragments/list/FragmentListTableContainer';
+import FragmentSearchFormContainer from 'ui/fragments/list/FragmentSearchFormContainer';
 import { ROUTE_FRAGMENT_ADD } from 'app-init/router';
 
 const ListFragmentPage = () => (
@@ -29,6 +30,11 @@ const ListFragmentPage = () => (
             titleId="fragment.list.title"
             helpId="fragment.help"
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6} mdOffset={3}>
+          <FragmentSearchFormContainer />
         </Col>
       </Row>
       <Row>
