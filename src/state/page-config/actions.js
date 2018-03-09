@@ -1,4 +1,4 @@
-import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER } from 'state/page-config/types';
+import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST } from 'state/page-config/types';
 
 export const setContentToolbar = content => ({
   type: SET_CONTENT_TOOLBAR,
@@ -11,6 +11,13 @@ export const setSearchFilter = filter => ({
   type: SET_SEARCH_FILTER,
   payload: {
     filter,
+  },
+});
+
+export const changeViewList = view => ({
+  type: CHANGE_VIEW_LIST,
+  payload: {
+    view,
   },
 });
 

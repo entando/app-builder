@@ -1,38 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContentWidgetElement = ({ title, description }) => (
-  <div className="ContentWidgetElement">
-    <div className="list-group list-view-pf ContentWidgetElement__widget-list">
+const ContentWidgetElement = ({ title, description, viewList }) => {
+  const rootClass = 'ContentWidgetElement';
+  const commonA = `${rootClass}__pointer ${rootClass}__list-group-item-custom list-group-item widget-square`;
+  const commonB = `list-view-pf-left ${rootClass}__icon-pos`;
+  const commonC = `${rootClass}__list-group-item-heading widget-name widget-name-list`;
 
+  const styleList = {
+    a: commonA,
+    b: `${commonB} hidden`,
+    c: `${commonC}`,
+  };
+
+  const styleCard = {
+    a: `${commonA} ${rootClass}__widget-grid`,
+    b: commonB,
+    c: `${commonC} ${rootClass}__description-widget-overlay`,
+  };
+
+  const style = viewList === 'list' ? styleList : styleCard;
+
+  return (
+    <div className={rootClass}>
       {
         title &&
-        <div className="widget-spacer">
-          <h2 className="panel-title ContentWidgetElement__widget-title">  {title}  </h2>
+        <div className="ContentWidgetElement__widget-spacer">
+          <h2 className="
+            panel-title
+            ContentWidgetElement__widget-title"
+          >  {title}
+          </h2>
         </div>
       }
-      <div
-        className="
-        list-group-item
-        widget-square
-        ContentWidgetElement__list-group-item-custom
-        pointer"
-      >
-        <div className=" hidden list-view-pf-left icon-pos">
-          <span className="fa fa-default list-view-pf-icon-sm fa-banner-main-left " />
+      <div className={style.a} >
+        <div className={style.b}>
+          <span className="
+            fa fa-default
+            list-view-pf-icon-sm
+            fa-banner-main-left "
+          />
         </div>
         <div className="list-view-pf-main-info">
           <div className="list-view-pf-left">
-            <span className="fa fa-default fa-puzzle-piece list-view-pf-icon-sm widget-icon fa-banner-main-left " />
+            <span className="
+              fa fa-default
+              fa-puzzle-piece
+              list-view-pf-icon-sm
+              ContentWidgetElement__widget-icon
+              fa-banner-main-left"
+            />
           </div>
           <div className="list-view-pf-body">
             <div className="list-view-pf-description">
-              <div
-                className="
-                ContentWidgetListElement__list-group-item-heading
-                widget-name
-                widget-name-list "
-              >
+              <div className={style.c} >
                 <a href="" title={`Configure${{ description }}`}>
                   {description}
                 </a>
@@ -44,17 +65,19 @@ const ContentWidgetElement = ({ title, description }) => (
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 ContentWidgetElement.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
+  viewList: PropTypes.string,
 };
 
 ContentWidgetElement.defaultProps = {
   title: null,
   description: null,
+  viewList: 'list',
 };
 
 export default ContentWidgetElement;

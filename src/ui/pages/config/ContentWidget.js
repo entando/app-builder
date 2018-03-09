@@ -6,7 +6,7 @@ import { formattedText } from 'frontend-common-components';
 import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
 
 
-const renderComponent = widgetList =>
+const renderComponent = (widgetList, viewList) =>
   Object.keys(widgetList).map(widget =>
     widgetList[widget].map((el, index) => {
       if (index === 0) {
@@ -15,6 +15,7 @@ const renderComponent = widgetList =>
             key={el.name}
             title={el.widgetCategory}
             description={el.name}
+            viewList={viewList}
           />);
       }
 
@@ -22,12 +23,15 @@ const renderComponent = widgetList =>
         <ContentWidgetElement
           key={el.name}
           description={el.name}
+          viewList={viewList}
         />
       );
     }));
 
 
-const ContentWidget = ({ widgetList, filterWidget }) => {
+const ContentWidget = ({
+  widgetList, filterWidget, changeViewList, viewList,
+}) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
   };
@@ -38,8 +42,8 @@ const ContentWidget = ({ widgetList, filterWidget }) => {
       <div className="ContentWidget__right-menu-title">
         <FormattedMessage id="menu.widgets" />
         <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
-          <i className="fa fa-th-large pointer" aria-hidden="true" />
-          <i className="fa fa-th-list pointer" aria-hidden="true" />
+          <i className="fa fa-th-large ContentWidget__pointer" aria-hidden="true" onClick={() => changeViewList('card')} />
+          <i className="fa fa-th-list ContentWidget__pointer" aria-hidden="true" onClick={() => changeViewList('list')} />
         </span>
         <input
           className="ContentWidget__input-pf-right-menu"
@@ -48,7 +52,13 @@ const ContentWidget = ({ widgetList, filterWidget }) => {
           placeholder={formattedText('app.search')}
         />
       </div>
-      {renderComponent(widgetList)}
+      <div className="
+        list-group
+        list-view-pf
+        widget-list"
+      >
+        {renderComponent(widgetList, viewList)}
+      </div>
     </div>
   );
 };
@@ -56,11 +66,16 @@ const ContentWidget = ({ widgetList, filterWidget }) => {
 ContentWidget.propTypes = {
   widgetList: PropTypes.shape({}),
   filterWidget: PropTypes.func,
+  changeViewList: PropTypes.func,
+  viewList: PropTypes.string,
 };
 
 ContentWidget.defaultProps = {
   widgetList: {},
   filterWidget: PropTypes.noop,
+  changeViewList: PropTypes.noop,
+  viewList: 'list',
+
 };
 
 export default ContentWidget;

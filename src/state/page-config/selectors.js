@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect';
 import { getListWidget } from 'state/widgets/selectors';
 
-const getPageConfig = state => state.pageConfig;
-
 const widgetGroupByCategory = widgetList =>
 
   widgetList.reduce((acc, widget) => {
@@ -14,7 +12,11 @@ const widgetGroupByCategory = widgetList =>
     return acc;
   }, {});
 
+export const getPageConfig = state => state.pageConfig;
+
 export const getSearchFilter = createSelector(getPageConfig, pageConfig => pageConfig.searchFilter);
+
+export const getViewList = createSelector(getPageConfig, pageConfig => pageConfig.viewList);
 
 export const filterWidgetList = createSelector(
   [getListWidget, getSearchFilter],

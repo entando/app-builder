@@ -3,7 +3,13 @@
 .ContentWidgetElement {
 
   &__widget-list {
-    margin-bottom: 0
+    margin-bottom: 0;
+    border-top: 0;
+  }
+
+  &__widget-spacer {
+    width: 100%;
+    float: left;
   }
 
   &__widget-title {
@@ -11,6 +17,25 @@
     background: $color-pf-black-300;
     font-size: 14px;
     font-weight: 600;
+
+  }
+
+  &__list-group-item-custom {
+    background: $color-pf-black-200;
+  }
+
+  &__pointer {
+    cursor: pointer;
+  }
+
+  &__icon-pos {
+    position: absolute;
+    top: 6px;
+    left: 55px;
+  }
+
+  &__list-view-pf &__list-group-item-heading {
+    min-width: 200px;
   }
 
   &__widget-grid {
@@ -23,17 +48,18 @@
     overflow: hidden;
   }
 
-  &__list-group-item-custom {
-    background: $color-pf-black-200;
+  &__description-widget-overlay {
+    min-width: 115px ;
+    height: 53px;
+    margin: 17px 0 -3px -20px ;
+    font-size: 11px;
+    white-space: normal;
   }
 
-  &__icon-pos {
-    position: absolute;
-    top: 6px;
-    left: 55px;
-  }
+}
 
-  &__list-group-item-heading {
-    min-width: 200px;
+.ContentWidgetElement--card {
+  .ContentWidgetElement__pointer {
+    height: 146px;
   }
 }

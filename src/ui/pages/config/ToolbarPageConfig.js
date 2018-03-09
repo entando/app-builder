@@ -28,9 +28,10 @@ class ToolbarPageConfig extends Component {
             </span>
           </span>
         </a>
-
-        <div className="ToolbarPageConfig__drawer-pf-container" >
-          {this.props.content === 'WIDGET_LIST' ? <ContentWidgetContainer /> : null }
+        <div className="panel-group">
+          <div className="ToolbarPageConfig__drawer-pf-container" >
+            {this.props.content === 'WIDGET_LIST' ? <ContentWidgetContainer /> : null }
+          </div>
         </div>
       </div>
     );
