@@ -1,14 +1,7 @@
-import { SET_DATA_MODELS, SET_DATA_MODELS_PAGED } from 'state/data-model-list/types';
+import { SET_DATA_MODELS_PAGED } from 'state/data-models/types';
 import { getDataModelsPaged } from 'api/dataModels';
 import { addErrors } from 'state/errors/actions';
 import { setPage } from 'state/pagination/actions';
-
-export const setDataModels = dataModels => ({
-  type: SET_DATA_MODELS,
-  payload: {
-    dataModels,
-  },
-});
 
 export const setDataModelsPaged = dataModelsPaged => ({
   type: SET_DATA_MODELS_PAGED,

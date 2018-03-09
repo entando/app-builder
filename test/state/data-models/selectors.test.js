@@ -1,4 +1,4 @@
-import { getListDataModelsPaged } from 'state/data-model-list/selectors';
+import { getListDataModelsPaged } from 'state/data-models/selectors';
 
 const pagedList = [
   {
@@ -6,7 +6,7 @@ const pagedList = [
   },
 ];
 
-const TEST_STATE = { dataModelList: { pagedList } };
+const TEST_STATE = { dataModels: { pagedList } };
 
 describe('data models list selectors', () => {
   it('verify getListDataModelsPaged selector', () => {

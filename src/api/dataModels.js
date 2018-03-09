@@ -9,11 +9,11 @@ import throttle from 'util/throttle';
 
 
 export const getDataModels = type => (
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     if (type.errors) {
       throttle(() => resolve(DATA_MODELS.payload));
     } else {
-      reject(ERROR);
+      throttle(() => resolve(ERROR.payload));
     }
   })
 );

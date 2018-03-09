@@ -126,7 +126,6 @@ export default {
     'pageSettings.title': 'Impostazione Pagine',
     'pageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
     'pageSettings.input.homepage': 'Pagina Iniziale',
-
     'pageSettings.input.404': 'Pagina per: 404 - Pagina non trovata',
     'pageSettings.input.500': 'Pagina per: 500 - Errore generico',
     'pageSettings.input.proceed': 'Pagina di Login',

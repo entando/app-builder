@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { fetchDataModelListPaged } from 'state/data-model-list/actions';
+import { fetchDataModelListPaged } from 'state/data-models/actions';
 import { DATA_MODELS_P1 } from 'test/mocks/dataModels';
 
 const middlewares = [thunk];

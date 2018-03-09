@@ -1,5 +1,5 @@
-import reducer from 'state/data-model-list/reducer';
-import { setDataModels } from 'state/data-model-list/actions';
+import reducer from 'state/data-models/reducer';
+import { setDataModels } from 'state/data-models/actions';
 import { DATA_MODELS } from 'test/mocks/dataModels';
 
 describe('state/data-types/reducer', () => {

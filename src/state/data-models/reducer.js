@@ -1,14 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_DATA_MODELS, SET_DATA_MODELS_PAGED } from 'state/data-model-list/types';
-
-export const getModelsList = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_DATA_MODELS: {
-      return action.payload.dataModels;
-    }
-    default: return state;
-  }
-};
+import { SET_DATA_MODELS_PAGED } from 'state/data-models/types';
 
 export const getModelsListPaged = (state = [], action = {}) => {
   switch (action.type) {
@@ -20,6 +11,5 @@ export const getModelsListPaged = (state = [], action = {}) => {
 };
 
 export default combineReducers({
-  list: getModelsList,
   pagedList: getModelsListPaged,
 });

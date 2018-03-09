@@ -15,7 +15,7 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
-  ROUTE_DATAMODEL_LIST,
+  ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_DATA_MODEL_ADD,
 } from 'app-init/router';
@@ -56,7 +56,7 @@ const App = ({ route }) => {
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
-    case ROUTE_DATAMODEL_LIST: return <DataModelListPage />;
+    case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     default: return <NotFoundPage />;
   }
 };

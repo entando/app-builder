@@ -15,7 +15,7 @@ import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
-import dataModelList from 'state/data-model-list/reducer';
+import dataModels from 'state/data-models/reducer';
 
 const reducerDef = {
   router,
@@ -30,7 +30,7 @@ const reducerDef = {
   fragments,
   pageModels,
   errors,
-  dataModelList,
+  dataModels,
   dataTypes,
 };
 
