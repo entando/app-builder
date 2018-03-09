@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 
+import throttle from 'util/throttle';
 import { buildResponse } from 'api/ResponseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
 
@@ -26,7 +27,7 @@ export const config = (reduxStore) => {
 
 export const makeMockRequest = (request) => {
   validateRequest(request);
-  return new Promise(resolve => resolve(buildResponse(request.mockResponse)));
+  return new Promise(resolve => throttle(() => resolve(buildResponse(request.mockResponse))));
 };
 
 export const makeRealRequest = (request) => {
