@@ -12,40 +12,46 @@ const renderComponent = widgetList =>
       if (index === 0) {
         return (
           <ContentWidgetElement
-            title={el.root}
+            key={el.name}
+            title={el.widgetCategory}
             description={el.name}
           />);
       }
 
       return (
         <ContentWidgetElement
+          key={el.name}
           description={el.name}
         />
       );
     }));
 
-const ContentWidget = ({ widgetList, filterWidget }) => (
 
-  <div className="ContentWidget">
-    <div className="ContentWidget__right-menu-title">
-      <FormattedMessage id="menu.widgets" />
-      <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
-        <i className="fa fa-th-large pointer" aria-hidden="true" />
-        <i className="fa fa-th-list pointer" aria-hidden="true" />
-      </span>
-      <input
-        className="ContentWidget__input-pf-right-menu"
-        type="text"
-        onChange={filterWidget}
-        placeholder={formattedText('app.search')}
-      />
+const ContentWidget = ({ widgetList, filterWidget }) => {
+  const onChange = (event) => {
+    filterWidget(event.target.value);
+  };
+
+  return (
+
+    <div className="ContentWidget">
+      <div className="ContentWidget__right-menu-title">
+        <FormattedMessage id="menu.widgets" />
+        <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
+          <i className="fa fa-th-large pointer" aria-hidden="true" />
+          <i className="fa fa-th-list pointer" aria-hidden="true" />
+        </span>
+        <input
+          className="ContentWidget__input-pf-right-menu"
+          type="text"
+          onChange={onChange}
+          placeholder={formattedText('app.search')}
+        />
+      </div>
+      {renderComponent(widgetList)}
     </div>
-
-    {renderComponent(widgetList)}
-
-
-  </div>
-);
+  );
+};
 
 ContentWidget.propTypes = {
   widgetList: PropTypes.shape({}),

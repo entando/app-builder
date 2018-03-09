@@ -2,6 +2,7 @@
 export const WIDGET_LIST = {
   payload: [
     {
+      widgetCategory: 'User Widget',
       code: 'WTF',
       name: 'My first  Widget',
       used: 0,
@@ -11,6 +12,7 @@ export const WIDGET_LIST = {
       },
     },
     {
+      widgetCategory: 'User Widget',
       code: 'LOL',
       name: 'My second Widget',
       used: 2,
@@ -20,6 +22,7 @@ export const WIDGET_LIST = {
       },
     },
     {
+      widgetCategory: 'User Widget',
       code: 'TIK',
       name: 'My third Widget',
       used: 3,
@@ -29,6 +32,7 @@ export const WIDGET_LIST = {
       },
     },
     {
+      widgetCategory: 'User Widget',
       code: 'ROLF',
       name: 'My fourth Widget',
       used: 4,

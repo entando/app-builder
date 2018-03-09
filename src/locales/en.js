@@ -31,6 +31,7 @@ export default {
     'app.itTitle': 'Italian title',
     'app.chooseAnOption': 'Choose an option',
     'app.help.code': 'You can insert characters uppercase and lowercase letters, numbers and special characters _',
+    'app.all': 'All',
     'app.pages': 'Pages',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',

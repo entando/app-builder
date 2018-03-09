@@ -1,21 +1,37 @@
+
+import {
+  fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
+  fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment,
+} from 'state/fragments/actions';
+import {
+  WIDGET_TYPES_OK, PLUGINS_OK, GET_FRAGMENT_OK,
+  LIST_FRAGMENTS_OK_PAGE_1,
+} from 'test/mocks/fragments';
+import {
+  SET_SELECTED, SET_WIDGET_TYPES,
+  SET_PLUGINS, SET_FRAGMENTS,
+} from 'state/fragments/types';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { fetchFragment, fetchFragmentDetail, setFragments, fetchFragments } from 'state/fragments/actions';
-import { GET_FRAGMENT_OK, LIST_FRAGMENTS_OK_PAGE_1 } from 'test/mocks/fragments';
-import { SET_FRAGMENTS } from 'state/fragments/types';
 import { SET_PAGE } from 'state/pagination/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-const FRAGMENT_MOCK = GET_FRAGMENT_OK.payload;
+const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
+const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
+const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
 
 const FRAGMENT_CODE = 'myCode';
 
 const INITIAL_STATE = {
   form: {},
-  fragments: [],
+  fragments: {
+    list: [],
+    widgetTypes: [],
+    plugins: [],
+  },
 };
 
 describe('fragment actions', () => {
@@ -29,7 +45,7 @@ describe('fragment actions', () => {
     it('action payload contains fragment information', (done) => {
       store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
         const actions = store.getActions();
-        expect(actions[0].payload).toEqual(FRAGMENT_MOCK);
+        expect(actions[0].payload).toEqual(GET_FRAGMENT_PAYLOAD);
         done();
       });
     });
@@ -37,7 +53,7 @@ describe('fragment actions', () => {
     it('action payload contains fragment information', (done) => {
       store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
         const actions = store.getActions();
-        expect(actions[0].payload.fragment).toEqual(FRAGMENT_MOCK);
+        expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
         done();
       });
     });
@@ -101,6 +117,68 @@ describe('fragment actions', () => {
         expect(actionPayload).toHaveProperty('pageSize', 2);
         expect(actionPayload).toHaveProperty('lastPage', 3);
         done();
+      });
+    });
+  });
+
+  describe('test sync actions', () => {
+    describe('test setWidgetTypes', () => {
+      it('action payload contains widgetTypes list', () => {
+        const action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
+        expect(action.type).toBe(SET_WIDGET_TYPES);
+        expect(action.payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
+      });
+    });
+    describe('test setPlugins', () => {
+      it('action payload contains plugins list', () => {
+        const action = setPlugins(PLUGINS_PAYLOAD);
+        expect(action.type).toBe(SET_PLUGINS);
+        expect(action.payload.plugins).toEqual(PLUGINS_PAYLOAD);
+      });
+    });
+    describe('test setSelectedFragment', () => {
+      it('action payload contains selected fragment', () => {
+        const action = setSelectedFragment(GET_FRAGMENT_PAYLOAD);
+        expect(action.type).toBe(SET_SELECTED);
+        expect(action.payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+      });
+    });
+  });
+
+  describe('test thunks', () => {
+    describe('test fetchFragment', () => {
+      it('action payload contains fragment information', () => {
+        store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].payload).toEqual(GET_FRAGMENT_PAYLOAD);
+        });
+      });
+
+      it('action payload contains fragment information', () => {
+        store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+        });
+      });
+    });
+
+    describe('test fetchWidgetTypes', () => {
+      it('action payload contains widgetTypes list', () => {
+        store.dispatch(fetchWidgetTypes()).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
+          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
+        });
+      });
+    });
+
+    describe('test fetchPlugins', () => {
+      it('action payload contains plugins list', () => {
+        store.dispatch(fetchPlugins()).then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).toEqual(SET_PLUGINS);
+          expect(actions[0].payload.plugins).toEqual(PLUGINS_PAYLOAD);
+        });
       });
     });
   });
