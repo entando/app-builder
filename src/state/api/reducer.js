@@ -12,14 +12,8 @@ const isDomainValid = (domain, useMocks) => (
   (useMocks && domain == null) || /^(http(s)?\:)?\/\/[a-z0-9][a-z0-9-]*(\.)?[a-z0-9-]*\.[a-z]{2,6}$/i.test(domain)
 );
 
-const isPayloadValid = (payload) => {
-  if (!isUseMockValid(payload.useMocks) ||
-    !isDomainValid(payload.domain, payload.useMocks)
-  ) {
-    return false;
-  }
-  return true;
-};
+const isPayloadValid = payload => (isUseMockValid(payload.useMocks) &&
+  isDomainValid(payload.domain, payload.useMocks));
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {

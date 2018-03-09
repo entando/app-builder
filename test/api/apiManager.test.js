@@ -2,8 +2,6 @@ import configureMockStore from 'redux-mock-store';
 
 import { config, makeRequest } from 'api/apiManager';
 
-// jest.unmock('api/ApiManager');
-
 const mockStore = configureMockStore([]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };

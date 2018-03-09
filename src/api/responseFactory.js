@@ -21,7 +21,7 @@ const buildList = (mockResponse, page) => {
 };
 
 const buildPayload = (mockResponse, page) => {
-  if (mockResponse instanceof Array) {
+  if (Array.isArray(mockResponse)) {
     buildList(mockResponse, page);
   } else if (typeof mockResponse === 'object') {
     payload = mockResponse;
