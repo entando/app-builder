@@ -1,6 +1,5 @@
 import { SET_DATA_MODELS, SET_DATA_MODELS_PAGED } from 'state/data-model-list/types';
-import { getDataModels, getDataModelsPaged } from 'api/dataModels';
-import { DATA_MODELS } from 'test/mocks/dataModels';
+import { getDataModelsPaged } from 'api/dataModels';
 import { addErrors } from 'state/errors/actions';
 import { setPage } from 'state/pagination/actions';
 
@@ -17,15 +16,6 @@ export const setDataModelsPaged = dataModelsPaged => ({
     dataModelsPaged,
   },
 });
-
-export const fetchDataModelList = () => dispatch =>
-  getDataModels(DATA_MODELS).then((data) => {
-    if (data.errors && data.errors.length) {
-      dispatch(addErrors(data.errors.map(err => err.message)));
-    } else {
-      dispatch(setDataModels(data));
-    }
-  });
 
 export const fetchDataModelListPaged = (page = 1) => dispatch =>
   getDataModelsPaged(page).then((data) => {

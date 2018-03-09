@@ -18,19 +18,19 @@ export const getDataModels = type => (
   })
 );
 
-
-export const getDataModelsPaged = (page = 1) => new Promise((resolve) => {
-  switch (page) {
-    case 1:
-      resolve(DATA_MODELS_P1);
-      break;
-    case 2:
-      resolve(DATA_MODELS_P2);
-      break;
-    case 3:
-      resolve(DATA_MODELS_P3);
-      break;
-    default:
-      resolve(DATA_MODELS_P1);
-  }
-});
+export const getDataModelsPaged = (page = 1) =>
+  new Promise((resolve) => {
+    switch (page) {
+      case 1:
+        resolve(DATA_MODELS_P1);
+        break;
+      case 2:
+        resolve(DATA_MODELS_P2);
+        break;
+      case 3:
+        resolve(DATA_MODELS_P3);
+        break;
+      default:
+        resolve(DATA_MODELS_P1);
+    }
+  });
