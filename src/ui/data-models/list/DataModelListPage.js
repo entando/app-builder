@@ -1,6 +1,6 @@
 import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
-import DataModelSearchFormContainer from 'ui/data-models/common/DataModelSearchFormContainer';
+import DataModelSearchFormContainer from 'ui/data-models/list/DataModelSearchFormContainer';
 import DataModelListTableContainer from 'ui/data-models/list/DataModelListTableContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';

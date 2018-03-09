@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getListDataTypes } from 'state/data-types/selector';
-import DataModelSearchForm from 'ui/data-models/common/DataModelSearchForm';
+import DataModelSearchForm from 'ui/data-models/list/DataModelSearchForm';
 
 export const mapStateToProps = state => ({
   dataTypes: getListDataTypes(state),
