@@ -16,6 +16,7 @@ import {
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_SETTINGS,
+  ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
 } from 'app-init/router';
@@ -33,6 +34,7 @@ import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageC
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
+import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 
@@ -44,7 +46,6 @@ const App = ({ route }) => {
       </LoginPage>
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
-    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
@@ -52,9 +53,11 @@ const App = ({ route }) => {
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
+    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
+    case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     default: return <NotFoundPage />;

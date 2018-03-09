@@ -10,6 +10,7 @@ export const ROUTE_PAGE_ADD = 'pageAdd';
 export const ROUTE_PAGE_EDIT = 'pageEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
+export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
 export const ROUTE_CONTENT = 'content';
 export const ROUTE_WIDGET = 'widget';
 export const ROUTE_WIDGET_LIST = 'widgetList';
@@ -36,6 +37,7 @@ routerConfig(
       { name: ROUTE_PAGE, path: '/page/view/:page' },
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
+      { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
       { name: ROUTE_WIDGET_LIST, path: '/widget' },
       { name: ROUTE_WIDGET_ADD, path: '/widget/add' },
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },

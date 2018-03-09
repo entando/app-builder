@@ -4,7 +4,7 @@
 @import "internal-page/InternalPage.scss";
 @import "internal-page/PageTitle";
 @import "common/form/FormLabel.scss";
-@import "common/form/FormSectionTitle.scss";
+@import "common/form/FormSectionTitle";
 @import "widgets/common/WidgetForm.scss";
 @import "widgets/list/ListWidgetPage.scss";
 @import "widgets/list/WidgetListTable.scss";
@@ -25,3 +25,4 @@
 @import "fragment/FragmentReferenceTable.scss";
 @import "fragment/PageModelReferenceTable.scss";
 @import "fragment/WidgetTypeReferenceTable.scss";
+@import "pages/config/PageConfigGrid";

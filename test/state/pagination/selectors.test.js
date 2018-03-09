@@ -27,7 +27,7 @@ const middlePage = {
   lastPage: 10,
 };
 
-describe('fragment-list selectors', () => {
+describe('pagination selectors', () => {
   let state;
   let page;
 

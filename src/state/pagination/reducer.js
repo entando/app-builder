@@ -1,5 +1,5 @@
 import { SET_PAGE } from 'state/pagination/types';
-import { isInteger } from 'util/Numeric';
+import { isInteger } from 'util/numeric';
 
 const initialState = {
   page: 1,

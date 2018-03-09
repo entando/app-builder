@@ -4,7 +4,7 @@ import { getParams } from 'frontend-common-components';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getGroups } from 'state/groups/selectors';
-import { getPageModels } from 'state/page-models/selectors';
+import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { handleExpandPage, sendPutPage, fetchPageForm } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
@@ -12,7 +12,7 @@ import { fetchPageModels } from 'state/page-models/actions';
 
 export const mapStateToProps = state => ({
   groups: getGroups(state),
-  pageModels: getPageModels(state),
+  pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],

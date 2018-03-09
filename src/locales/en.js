@@ -47,6 +47,7 @@ export default {
     'menu.uxPattern.fragment': 'Fragments',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageSettings': 'Page Settings',
+    'menu.pageConfig': 'Page Configuration',
     'menu.datatype': 'Data Types',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',

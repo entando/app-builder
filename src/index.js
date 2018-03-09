@@ -12,6 +12,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import 'app-init/router';
 import 'app-init/locale';
+import 'app-init/apiManager';
 
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 
