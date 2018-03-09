@@ -8,8 +8,8 @@ const pagedList = [
 
 const TEST_STATE = { dataModelList: { pagedList } };
 
-describe('fragment list selectors', () => {
-  it('verify getFragmentList selector', () => {
+describe('data models list selectors', () => {
+  it('verify getListDataModelsPaged selector', () => {
     expect(getListDataModelsPaged(TEST_STATE)).toEqual(pagedList);
   });
 });
