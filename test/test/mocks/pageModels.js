@@ -1,3 +1,11 @@
+import { PAYLOAD as COMPLEX_PAYLOAD, STRUCT as COMPLEX_STRUCT } from 'test/mocks/page-models/complex';
+import { PAYLOAD as SINGLE_CELL_PAYLOAD, STRUCT as SINGLE_CELL_STRUCT } from 'test/mocks/page-models/singleCell';
+import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, STRUCT as SIDEBAR_HOLES_STRUCT } from 'test/mocks/page-models/sidebarHoles';
+
+export {
+  COMPLEX_PAYLOAD, COMPLEX_STRUCT, SINGLE_CELL_PAYLOAD, SINGLE_CELL_STRUCT,
+  SIDEBAR_HOLES_PAYLOAD, SIDEBAR_HOLES_STRUCT,
+};
 
 export const ERROR = {
   payload: [
@@ -80,4 +88,20 @@ export const GET_LIST_RESPONSE = {
     pageSize: 2,
     lastPage: 1,
   },
+};
+
+export const PAGE_MODEL = {
+  payload: GET_LIST_RESPONSE.payload[0],
+};
+
+export const COMPLEX_RESPONSE = {
+  payload: COMPLEX_PAYLOAD,
+};
+
+export const SINGLE_CELL_RESPONSE = {
+  payload: SINGLE_CELL_PAYLOAD,
+};
+
+export const SIDEBAR_HOLES_RESPONSE = {
+  payload: SIDEBAR_HOLES_PAYLOAD,
 };
