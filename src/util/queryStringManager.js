@@ -1,7 +1,13 @@
 
 export const DEFAULT_FILTER_OPERATOR = 'eq';
-export const FILTER_OPERATORS = ['eq', 'gt', 'lt', 'not', 'like'];
-export const DEFAULT_SORT_DIRECTION = ['ASC'];
+export const FILTER_OPERATORS = {
+  EQUAL: 'eq',
+  GREATER_THAN: 'gt',
+  LESS_THAN: 'lt',
+  NOT: 'not',
+  LIKE: 'like',
+};
+export const DEFAULT_SORT_DIRECTION = 'ASC';
 
 export const addFilter = (filterValues) => {
   const {

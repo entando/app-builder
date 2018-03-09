@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import { fetchWidgetTypes, fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
-import { convertToQueryString, DEFAULT_SORT_DIRECTION } from 'util/queryStringManager';
+import { convertToQueryString, FILTER_OPERATORS } from 'util/queryStringManager';
 
 const FIELD_OPERATORS = {
-  code: 'eq',
-  widgetType: 'eq',
-  plugin: 'eq',
+  code: FILTER_OPERATORS.EQUAL,
+  widgetType: FILTER_OPERATORS.GREATER_THAN,
+  plugin: FILTER_OPERATORS.LIKE,
 };
 
 export const mapStateToProps = state => ({
@@ -27,7 +27,6 @@ export const mapDispatchToProps = dispatch => ({
       operators: FIELD_OPERATORS,
       sorting: {
         attribute: 'code',
-        direction: DEFAULT_SORT_DIRECTION,
       },
     })));
   },
