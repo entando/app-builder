@@ -1,7 +1,9 @@
+// status property added
 export const DATA_TYPES = {
   payload: [{
     name: 'dataType1',
     code: 'XYZ',
+    status: 'ok',
   }],
   errors: [],
   metaData: {

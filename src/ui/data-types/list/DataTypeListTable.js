@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-
+import { formattedText } from 'frontend-common-components';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
+import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -24,8 +25,13 @@ class DataTypeListTable extends Component {
     const tr = this.props.datatypes.map(datatype => (
       <tr key={datatype.code}>
         <td className="DataTypeListRow__td">{datatype.name}</td>
-        <td className="DataTypeListRow__td">{datatype.code}</td>
-        <td className="DataTypeListRow__td text-center">{datatype.status}</td>
+        <td className="DataTypeListRow__td text-center">{datatype.code}</td>
+        <td className="DataTypeListRow__td text-center">
+          <DataTypeStatusIcon
+            status={datatype.status}
+            title={formattedText(`dataType.table.status.${datatype.status}`)}
+          />
+        </td>
         <td className="DataTypeListRow__td text-center">
           <DataTypeListMenuActions code={datatype.code} />
         </td>
@@ -40,15 +46,17 @@ class DataTypeListTable extends Component {
     return (
       <div className="DataTypeListTable">
         <Col md={12}>
-          <table className="DataTypeListTable__table table table-striped table-bordered">
+          <table className="DataTypeListTable__table TableList table table-striped table-bordered">
             <thead>
               <tr>
                 <th><FormattedMessage id="app.name" /></th>
-                <th><FormattedMessage id="datatype.table.code" /></th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="datatype.table.status" />
+                <th className="TableListRow__th-sm text-center">
+                  <FormattedMessage id="app.code" />
                 </th>
-                <th className="text-center" width="10%">
+                <th className="TableListRow__th-xs text-center">
+                  <FormattedMessage id="dataType.table.status" />
+                </th>
+                <th className="TableListRow__th-xs text-center">
                   <FormattedMessage id="app.actions" />
                 </th>
               </tr>
@@ -74,7 +82,7 @@ DataTypeListTable.propTypes = {
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   })),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,

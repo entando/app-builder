@@ -5,6 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import DataTypeListTableContainer from 'ui/data-types/list/DataTypeListTableContainer';
 
 const ListDataTypePage = () => (
   <InternalPage className="ListDataTypePage">
@@ -16,7 +17,7 @@ const ListDataTypePage = () => (
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="menu.datatype" />
+              <FormattedMessage id="menu.dataType" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
@@ -24,8 +25,8 @@ const ListDataTypePage = () => (
       <Row>
         <Col md={12}>
           <PageTitle
-            titleId="datatype.list.title"
-            helpId="datatype.help"
+            titleId="dataType.list.title"
+            helpId="dataType.help"
           />
         </Col>
       </Row>
@@ -49,7 +50,9 @@ const ListDataTypePage = () => (
           {/* </Link> */}
         </Col>
       </Row>
-      <Row />
+      <Row>
+        <DataTypeListTableContainer />
+      </Row>
     </Grid>
   </InternalPage>
 );

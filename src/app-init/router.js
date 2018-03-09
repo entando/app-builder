@@ -22,6 +22,7 @@ export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
 export const ROUTE_FRAGMENT_DETAIL = 'fragmentDetail';
 export const ROUTE_DATA_MODEL_ADD = 'dataModelAdd';
 export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
+export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
 
 
 routerConfig(
@@ -48,6 +49,7 @@ routerConfig(
       { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/view/:fragmentCode' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
+      { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatype' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

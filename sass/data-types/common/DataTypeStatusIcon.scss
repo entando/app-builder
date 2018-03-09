@@ -1,0 +1,18 @@
+.DataTypeStatusIcon {
+  font-family: FontAwesome;
+}
+
+.DataTypeStatusIcon--ok:before {
+  color: $color-pf-green;
+  content: "\f00c";
+}
+
+.DataTypeStatusIcon--ko:before {
+  // warning
+  color: $color-pf-orange;
+  content: "\f12a";
+}
+
+.DataTypeStatusIcon--wip {
+  content: "\f110";
+}

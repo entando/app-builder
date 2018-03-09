@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 export const getDataTypes = state => state.dataTypes;
 
-export const getListDataTypes = createSelector(
+export const getDataTypeList = createSelector(
   [getDataTypes],
   dataTypes => dataTypes.list,
 );

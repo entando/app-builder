@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
-import DataTypeListTable from 'ui/data-type/list/DataTypeListTable';
+import DataTypeListTable from 'ui/data-types/list/DataTypeListTable';
 
 export const mapStateToProps = state => (
   {
