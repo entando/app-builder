@@ -20,14 +20,6 @@ const isPayloadValid = (payload) => {
   }
   return true;
 };
-//
-// const castValues = page => (
-//   {
-//     useMocks: page,
-//     pageSize: parseFloat(page.pageSize),
-//     lastPage: parseFloat(page.lastPage),
-//   }
-// );
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
