@@ -5,10 +5,13 @@ let metaData = {};
 
 const buildList = (mockResponse, page) => {
   const totalItems = mockResponse.length;
-  const lastPage = Math.ceil(totalItems / page.pageSize);
+  const lastPage = page.pageSize === 0 ? 1 : Math.ceil(totalItems / page.pageSize);
   const computedPage = page.page <= lastPage ? page.page : lastPage;
-  const firstElement = (computedPage * page.pageSize) - page.pageSize;
-  payload = mockResponse.splice(firstElement, page.pageSize);
+
+  payload = page.pageSize === 0 ?
+    mockResponse :
+    mockResponse.splice((computedPage * page.pageSize) - page.pageSize, page.pageSize);
+
   metaData = {
     page: computedPage,
     pageSize: page.pageSize,

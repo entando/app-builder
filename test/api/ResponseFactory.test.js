@@ -162,6 +162,19 @@ describe('ResponseFactory', () => {
       });
     });
 
+    it('returns every item if pageSize is zero', () => {
+      const data = createList(20);
+      const response = buildResponse(data, { page: 1, pageSize: 0 });
+      expect(typeof response).toEqual('object');
+      expect(response).toHaveProperty('payload', data);
+      expect(response).toHaveProperty('metaData', {
+        page: 1,
+        pageSize: 0,
+        totalItems: 20,
+        lastPage: 1,
+      });
+    });
+
     it('returns the correct page size', () => {
       const data = createList(18);
       const response = buildResponse(data);

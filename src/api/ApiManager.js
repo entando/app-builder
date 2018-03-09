@@ -1,14 +1,22 @@
 import 'whatwg-fetch';
 
 import throttle from 'util/throttle';
+import { isEmpty } from 'util/String';
 import { buildResponse } from 'api/ResponseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
 
+export const METHODS = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+};
+
 let store = null;
 
-const isEmpty = string => !string || string.trim().length === 0;
+const defaultPage = { page: 1, pageSize: 10 };
 
-const isValidMethod = method => ['GET', 'POST', 'PUT', 'DELETE'].indexOf(method) !== -1;
+const isValidMethod = method => method in METHODS;
 
 const validateRequest = (request) => {
   if (typeof request !== 'object' ||
@@ -25,9 +33,9 @@ export const config = (reduxStore) => {
   store = reduxStore;
 };
 
-export const makeMockRequest = (request) => {
+export const makeMockRequest = (request, page = defaultPage) => {
   validateRequest(request);
-  return new Promise(resolve => throttle(() => resolve(buildResponse(request.mockResponse))));
+  return new Promise(resolve => throttle(() => resolve(buildResponse(request.mockResponse, page))));
 };
 
 export const makeRealRequest = (request) => {
@@ -37,9 +45,9 @@ export const makeRealRequest = (request) => {
   });
 };
 
-export const makeRequest = (request) => {
+export const makeRequest = (request, page = defaultPage) => {
   if (useMocks(store.getState())) {
-    return makeMockRequest(request);
+    return makeMockRequest(request, page);
   }
-  return makeRealRequest(request);
+  return makeRealRequest(request, page);
 };
