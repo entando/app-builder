@@ -5,7 +5,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
 import { DDTable, gotoRoute } from 'frontend-common-components';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 const PAGES = [
   {
@@ -124,6 +124,15 @@ describe('PageTree', () => {
         component.find('PageTreeActionMenu').at(pageIndex).prop('onClickEdit')();
         expect(gotoRoute)
           .toHaveBeenCalledWith(ROUTE_PAGE_EDIT, { pageCode: PAGES[pageIndex].code });
+      });
+    });
+
+    describe('config', () => {
+      it('redirects to the "config page" route with pageCode = the page code', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickConfigure')();
+        expect(gotoRoute)
+          .toHaveBeenCalledWith(ROUTE_PAGE_CONFIG, { pageCode: PAGES[pageIndex].code });
       });
     });
   });

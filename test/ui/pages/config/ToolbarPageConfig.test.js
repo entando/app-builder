@@ -7,6 +7,7 @@ import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
 describe('ToolbarPageConfig', () => {
   let component;
   beforeEach(() => {
+    jest.clearAllMocks();
     component = shallow(<ToolbarPageConfig />);
   });
 
@@ -23,7 +24,8 @@ describe('ToolbarPageConfig', () => {
   describe('ToolbarPageConfig with prop content', () => {
     it('with WIDGET_LIST', () => {
       component = shallow(<ToolbarPageConfig content="WIDGET_LIST" />);
-      expect(component.exists()).toEqual(true);
+      expect(component.exists()).toBe(true);
+      expect(component.instance().props.content).toEqual('WIDGET_LIST');
     });
   });
 });

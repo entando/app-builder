@@ -9,7 +9,7 @@ import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class PageTree extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class PageTree extends Component {
               page={page}
               onClickAdd={() => gotoRoute(ROUTE_PAGE_ADD)}
               onClickEdit={() => gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code })}
-              onClickConfigure={() => console.info(`clicked CONFIGURE on page ${page.code}`)}
+              onClickConfigure={() => gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code })}
               onClickDetails={() => console.info(`clicked DETAILS on page ${page.code}`)}
               onClickClone={() => console.info(`clicked CLONE on page ${page.code}`)}
               onClickDelete={() => console.info(`clicked DELETE on page ${page.code}`)}

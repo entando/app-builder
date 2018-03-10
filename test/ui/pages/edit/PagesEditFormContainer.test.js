@@ -28,7 +28,7 @@ jest.mock('state/groups/selectors', () => ({
 }));
 
 jest.mock('state/page-models/selectors', () => ({
-  getPageModels: jest.fn().mockReturnValue('getPageModels_result'),
+  getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
 }));
 
 jest.mock('state/pages/selectors', () => ({
