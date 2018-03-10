@@ -1,65 +1,70 @@
-@import "../../patternfly.scss";
+$widget-title-bg-color: #e0e0db;
+
+.ContentWidgetList {
+  .ContentWidgetElement {
+    border-right: 1px solid $color-pf-white;
+    border-left: 1px solid $color-pf-white;
+    background-color: $color-pf-black-200;
+    cursor: pointer;
+  }
+}
 
 .ContentWidgetElement {
-
   &__widget-list {
     margin-bottom: 0;
     border-top: 0;
   }
 
   &__widget-spacer {
+    display: block;
     width: 100%;
-    float: left;
   }
 
   &__widget-title {
     padding: 16px 0 16px 18px;
-    background: $color-pf-black-300;
+    background: $widget-title-bg-color;
     font-size: 14px;
     font-weight: 600;
-
   }
-
-  &__list-group-item-custom {
-    background: $color-pf-black-200;
-  }
-
-  &__pointer {
-    cursor: pointer;
-  }
-
-  &__icon-pos {
-    position: absolute;
-    top: 6px;
-    left: 55px;
-  }
-
-  &__list-view-pf &__list-group-item-heading {
-    min-width: 200px;
-  }
-
-  &__widget-grid {
-    display: block;
-    width: 146px;
-    margin: 2px 0 2px 4px;
-    float: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  &__description-widget-overlay {
-    min-width: 115px ;
-    height: 53px;
-    margin: 17px 0 -3px -20px ;
-    font-size: 11px;
-    white-space: normal;
-  }
-
 }
 
-.ContentWidgetElement--card {
-  .ContentWidgetElement__pointer {
-    height: 146px;
+.ContentWidgetList--list {
+  .ContentWidgetElement {
+    padding: 0 15px;
+  }
+
+  .ContentWidgetElement__icon {
+    line-height: 9px;
+  }
+}
+
+.ContentWidgetList--card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  border-right: 0;
+  border-left: 0;
+
+  .ContentWidgetElement__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ContentWidgetElement {
+    display: flex;
+    flex-basis: calc(50% - 10px);
+    margin-top: 5px;
+    padding: 0 15px;
+  }
+
+  .ContentWidgetElement__description {
+    max-width: 115px;
+    margin: 0;
+  }
+
+  .ContentWidgetElement__icon {
+    padding: 0;
   }
 }
