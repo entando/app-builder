@@ -6,26 +6,33 @@ import { formattedText } from 'frontend-common-components';
 import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
 
 
+const renderWidgetCategory = title => (
+  <div className="ContentWidgetElement__widget-spacer">
+    <h2 className="
+      panel-title
+      ContentWidgetElement__widget-title"
+    >  {title}
+    </h2>
+  </div>
+);
+
+const renderWidgetElement = (el, viewList) => (
+  <ContentWidgetElement
+    key={el.name}
+    description={el.name}
+    viewList={viewList}
+  />
+);
+
 const renderComponent = (widgetList, viewList) =>
   Object.keys(widgetList).map(widget =>
     widgetList[widget].map((el, index) => {
+      const element = [];
       if (index === 0) {
-        return (
-          <ContentWidgetElement
-            key={el.name}
-            title={el.widgetCategory}
-            description={el.name}
-            viewList={viewList}
-          />);
+        element.push(renderWidgetCategory(el.widgetCategory));
       }
-
-      return (
-        <ContentWidgetElement
-          key={el.name}
-          description={el.name}
-          viewList={viewList}
-        />
-      );
+      element.push(renderWidgetElement(el, viewList));
+      return element;
     }));
 
 
@@ -57,6 +64,7 @@ const ContentWidget = ({
         list-view-pf
         widget-list"
       >
+
         {renderComponent(widgetList, viewList)}
       </div>
     </div>
