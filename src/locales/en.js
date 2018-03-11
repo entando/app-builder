@@ -154,5 +154,6 @@ export default {
     'dataType.table.status.ok': 'Ok. Reload if you want to.',
     'dataType.table.status.ko': 'Stale status, please reload.',
     'dataType.table.status.wip': 'Reloading. Refresh this page.',
+    'dataType.listEmpty': 'Thera are no DATA TYPES available',
   },
 };

@@ -31,11 +31,6 @@ const ListDataTypePage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={6} mdOffset={3}>
-          {/* <DataTypeSearchFormContainer /> */}
-        </Col>
-      </Row>
-      <Row>
         <Col md={12}>
           {/* <Link route={}> */}
           <Button
@@ -44,7 +39,7 @@ const ListDataTypePage = () => (
             bsStyle="primary"
           >
             <FormattedMessage
-              id="app.new"
+              id="app.add"
             />
           </Button>
           {/* </Link> */}
@@ -53,6 +48,7 @@ const ListDataTypePage = () => (
       <Row>
         <DataTypeListTableContainer />
       </Row>
+      {/* Entity references placeholder */}
     </Grid>
   </InternalPage>
 );

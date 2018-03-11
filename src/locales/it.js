@@ -154,5 +154,6 @@ export default {
     'dataType.table.status.ok': 'A posto. Se vuoi, ricarica',
     'dataType.table.status.ko': 'Necessità di un ricaricamento: lancialo ora.',
     'dataType.table.status.wip': 'Ricaricamento in corso. Aggiorna la pagina.',
+    'dataType.listEmpty': 'Non ci sono DATA TYPES disponibili',
   },
 };
