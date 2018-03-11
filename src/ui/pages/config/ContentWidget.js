@@ -24,14 +24,14 @@ const renderWidgetElement = (el, viewList) => (
   />
 );
 
-const renderComponent = (widgetList, viewList) =>
+const renderComponent = widgetList =>
   Object.keys(widgetList).map(widget =>
     widgetList[widget].map((el, index) => {
       const element = [];
       if (index === 0) {
         element.push(renderWidgetCategory(el.widgetCategory));
       }
-      element.push(renderWidgetElement(el, viewList));
+      element.push(renderWidgetElement(el));
       return element;
     }));
 
@@ -59,13 +59,8 @@ const ContentWidget = ({
           placeholder={formattedText('app.search')}
         />
       </div>
-      <div className="
-        list-group
-        list-view-pf
-        widget-list"
-      >
-
-        {renderComponent(widgetList, viewList)}
+      <div className={`ContentWidgetList ContentWidgetList--${viewList}`}>
+        {renderComponent(widgetList)}
       </div>
     </div>
   );
