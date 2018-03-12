@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import ContentWidget from 'ui/pages/config/ContentWidget';
 import { setSearchFilter, changeViewList } from 'state/page-config/actions';
-import { getWidgetList, getViewList } from 'state/page-config/selectors';
+import { getGroupedWidgetList, getViewList } from 'state/page-config/selectors';
 
 
-const mapStateToProps = state => ({
-  widgetList: getWidgetList(state),
+export const mapStateToProps = state => ({
+  widgetList: getGroupedWidgetList(state),
   viewList: getViewList(state),
 });
 
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   filterWidget: value => dispatch(setSearchFilter(value)),
   changeViewList: view => dispatch(changeViewList(view)),
 });

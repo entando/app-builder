@@ -3,10 +3,9 @@ import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
 import { fetchWidgetList } from 'state/widgets/actions';
 
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchWidgetList()); },
 });
-
 
 const ToolbarPageConfigContainer = connect(null, mapDispatchToProps)(ToolbarPageConfig);
 

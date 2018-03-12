@@ -24,9 +24,7 @@ export const filterWidgetList = createSelector(
     widgetList.filter(f => f.name.includes(searchFilter))),
 );
 
-export const getWidgetList = createSelector(
+export const getGroupedWidgetList = createSelector(
   [filterWidgetList],
   widget => widgetGroupByCategory(widget),
 );
-
-export default getWidgetList;

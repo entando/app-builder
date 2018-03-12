@@ -1,16 +1,18 @@
-// eslinter-disable-next-line
+export const WIDGET_ONE_ELEMENT = {
+  widgetCategory: 'User Widget',
+  code: 'WTF',
+  name: 'My first  Widget',
+  used: 0,
+  titles: {
+    it: 'Mio Widget',
+    en: 'My Widget',
+  },
+};
+
+
 export const WIDGET_LIST = {
   payload: [
-    {
-      widgetCategory: 'User Widget',
-      code: 'WTF',
-      name: 'My first  Widget',
-      used: 0,
-      titles: {
-        it: 'Mio Widget',
-        en: 'My Widget',
-      },
-    },
+    WIDGET_ONE_ELEMENT,
     {
       widgetCategory: 'User Widget',
       code: 'LOL',
@@ -43,4 +45,18 @@ export const WIDGET_LIST = {
     },
   ],
 };
-export default WIDGET_LIST;
+
+export const WIDGET_ONE_LIST = {
+  'User Widget': [
+    {
+      widgetCategory: 'User Widget',
+      code: 'WTF',
+      name: 'My first  Widget',
+      used: 0,
+      titles: {
+        it: 'Mio Widget',
+        en: 'My Widget',
+      },
+    },
+  ],
+};

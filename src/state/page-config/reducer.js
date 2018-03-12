@@ -1,13 +1,7 @@
 import { combineReducers } from 'redux';
 import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST } from 'state/page-config/types';
 
-const initialValue = {
-  content: 'WIDGET_LIST',
-  searchFilter: null,
-  viewList: 'list',
-};
-
-export const setContent = (state = initialValue.content, action = {}) => {
+export const content = (state = 'WIDGET_LIST', action = {}) => {
   switch (action.type) {
     case SET_CONTENT_TOOLBAR: {
       return action.payload.content;
@@ -16,7 +10,7 @@ export const setContent = (state = initialValue.content, action = {}) => {
   }
 };
 
-export const setSearchFilter = (state = initialValue.searchFilter, action = {}) => {
+export const searchFilter = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SEARCH_FILTER: {
       return action.payload.filter;
@@ -25,7 +19,7 @@ export const setSearchFilter = (state = initialValue.searchFilter, action = {}) 
   }
 };
 
-export const changeViewList = (state = initialValue.viewList, action = {}) => {
+export const viewList = (state = 'list', action = {}) => {
   switch (action.type) {
     case CHANGE_VIEW_LIST: {
       return action.payload.view;
@@ -35,7 +29,7 @@ export const changeViewList = (state = initialValue.viewList, action = {}) => {
 };
 
 export default combineReducers({
-  content: setContent,
-  searchFilter: setSearchFilter,
-  viewList: changeViewList,
+  content,
+  searchFilter,
+  viewList,
 });

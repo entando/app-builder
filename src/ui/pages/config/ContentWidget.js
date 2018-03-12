@@ -7,7 +7,7 @@ import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
 
 
 const renderWidgetCategory = title => (
-  <div className="ContentWidgetElement__widget-spacer">
+  <div key={title} className="ContentWidgetElement__widget-spacer">
     <h2 className="
       panel-title
       ContentWidgetElement__widget-title"
@@ -16,11 +16,10 @@ const renderWidgetCategory = title => (
   </div>
 );
 
-const renderWidgetElement = (el, viewList) => (
+const renderWidgetElement = el => (
   <ContentWidgetElement
     key={el.name}
     description={el.name}
-    viewList={viewList}
   />
 );
 

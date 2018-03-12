@@ -38,7 +38,6 @@ const handleResponseErrors = dispatch => (payload) => {
   return payload;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const initConfigPage = () => (dispatch, getState) => {
   const { pageCode } = getParams(getState());
   return fetchPage(pageCode)
