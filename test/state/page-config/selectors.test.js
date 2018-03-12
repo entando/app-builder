@@ -24,15 +24,19 @@ describe('state/page-config/selectors', () => {
     const pageConfig = getPageConfig(MOCK_STATE);
     expect(pageConfig).toMatchObject(MOCK_STATE.pageConfig);
   });
+
   it('verify getSearchFilter selector', () => {
     expect(getSearchFilter(MOCK_STATE)).toEqual(MOCK_DATA.searchFilter);
   });
+
   it('verify getViewList selector', () => {
     expect(getViewList(MOCK_STATE)).toEqual(MOCK_DATA.viewList);
   });
+
   it('verify filterWidgetList selector', () => {
     expect(filterWidgetList(MOCK_STATE)).toEqual([WIDGET_ONE_ELEMENT]);
   });
+
   it('verify getGroupedWidgetList selector', () => {
     expect(getGroupedWidgetList(MOCK_STATE)).toEqual(WIDGET_ONE_LIST);
   });

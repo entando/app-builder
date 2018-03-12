@@ -2,7 +2,6 @@
 
 .ToolbarPageConfig {
 
-
   &__drawer-pf-sidebar-right {
     position: fixed;
     top: 73px;
@@ -16,12 +15,12 @@
     overflow-y: auto;
   }
 
-  &__drawer-pf-sidebar-right > a:hover &__right-bar-title > i  {
+  &__drawer-pf-title:hover &__sitemap  {
     color: $color-pf-blue-300;
     text-decoration: none;
   }
 
-  &__drawer-pf-sidebar-right > a:focus {
+  &__drawer-pf-title:focus {
     text-decoration: none;
   }
 
@@ -32,6 +31,13 @@
     background: $color-pf-black-700;
     color: $color-pf-black-100;
     font-weight: normal;
+  }
+
+  &__drawer-pf-title-clickable:hover {
+    background: $color-pf-black-800;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   &__right-bar-title {
@@ -60,13 +66,6 @@
     right: 10px;
     color: $color-pf-black-500;
     font-size: 23px;
-  }
-
-  &__drawer-pf-title-clickable:hover {
-    background: $color-pf-black-800;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
   }
 
   &__drawer-pf-container {

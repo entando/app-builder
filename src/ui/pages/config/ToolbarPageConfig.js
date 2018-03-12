@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
 import { FormattedMessage } from 'react-intl';
+import { WIDGET_LIST } from 'state/page-config/const';
 
 class ToolbarPageConfig extends Component {
   componentWillMount() {
@@ -30,7 +31,7 @@ class ToolbarPageConfig extends Component {
         </a>
         <div className="panel-group">
           <div className="ToolbarPageConfig__drawer-pf-container" >
-            {this.props.content === 'WIDGET_LIST' ? <ContentWidgetContainer /> : null }
+            {this.props.content === WIDGET_LIST ? <ContentWidgetContainer /> : null }
           </div>
         </div>
       </div>
@@ -46,6 +47,6 @@ ToolbarPageConfig.propTypes = {
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
-  content: 'WIDGET_LIST',
+  content: WIDGET_LIST,
 };
 export default ToolbarPageConfig;

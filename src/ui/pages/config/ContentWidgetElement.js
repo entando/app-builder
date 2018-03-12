@@ -16,8 +16,8 @@ const ContentWidgetElement = ({ description }) => (
       </div>
       <div className="list-view-pf-body">
         <div className="list-view-pf-description">
-          <div className="ContentWidgetElement__description list-group-item-heading">
-            <a href="#" title={description}>
+          <div className="ContentWidgetElement__description">
+            <a href="" title={description} onClick={ev => ev.preventDefault()}>
               {description}
             </a>
           </div>

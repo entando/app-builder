@@ -1,4 +1,4 @@
-$widget-title-bg-color: #e0e0db;
+
 
 .ContentWidgetList {
   .ContentWidgetElement {
@@ -22,7 +22,7 @@ $widget-title-bg-color: #e0e0db;
 
   &__widget-title {
     padding: 16px 0 16px 18px;
-    background: $widget-title-bg-color;
+    background: $color-widget-title-bg-color;
     font-size: 14px;
     font-weight: 600;
   }
