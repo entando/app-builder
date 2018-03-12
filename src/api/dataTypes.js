@@ -1,15 +1,19 @@
-import { DATA_TYPES, ERROR } from 'test/mocks/dataTypes';
-import throttle from 'util/throttle';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_OK_PAGE_2 } from 'test/mocks/dataTypes';
 
-
-export const getDataTypes = type => (
-  new Promise((resolve, reject) => {
-    if (type.errors) {
-      throttle(() => resolve(DATA_TYPES.payload));
-    } else {
-      reject(ERROR);
-    }
-  })
-);
+export const getDataTypes = (page = 1, params) => new Promise((resolve) => {
+  if (params) {
+    console.info(`calling API /datatypes${params}`);
+  }
+  switch (page) {
+    case 1:
+      resolve(DATA_TYPES_OK_PAGE_1);
+      break;
+    case 2:
+      resolve(DATA_TYPES_OK_PAGE_2);
+      break;
+    default:
+      resolve(DATA_TYPES_OK_PAGE_1);
+  }
+});
 
 export default getDataTypes;
