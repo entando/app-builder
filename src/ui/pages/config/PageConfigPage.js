@@ -7,6 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
+import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 
 
 class PageConfigPage extends Component {
@@ -42,6 +43,9 @@ class PageConfigPage extends Component {
           <Row>
             <Col xs={10}>
               <PageConfigGridContainer />
+            </Col>
+            <Col xs={2}>
+              <ToolbarPageConfigContainer />
             </Col>
           </Row>
         </Grid>

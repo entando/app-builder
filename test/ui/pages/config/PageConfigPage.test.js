@@ -24,6 +24,10 @@ describe('PageConfigPage', () => {
     expect(component.hasClass('PageConfigPage')).toBe(true);
   });
 
+  it('has a breadcrumb', () => {
+    expect(component.find('Breadcrumb')).toHaveLength(1);
+  });
+
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
     shallow(<PageConfigPage onWillMount={onWillMount} />);

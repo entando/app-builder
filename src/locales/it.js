@@ -32,6 +32,7 @@ export default {
     'app.chooseAnOption': 'Seleziona un\'opzione',
     'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
     'app.all': 'Tutti',
+    'app.pages': 'Pagine',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

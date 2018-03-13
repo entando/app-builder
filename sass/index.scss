@@ -18,6 +18,10 @@
 @import "pages/common/PageTreeSelector";
 @import "pages/common/PageForm";
 @import "pages/settings/PageSettings.scss";
+@import "pages/config/ToolbarPageConfig.scss";
+@import "pages/config/ContentWidget.scss";
+@import "pages/config/ContentWidgetElement.scss";
+@import "pages/config/PageConfigGrid";
 @import "fragments/common/FragmentForm.scss";
 @import "fragments/list/ListFragmentPage.scss";
 @import "fragment/FragmentForm.scss";
@@ -25,4 +29,3 @@
 @import "fragment/FragmentReferenceTable.scss";
 @import "fragment/PageModelReferenceTable.scss";
 @import "fragment/WidgetTypeReferenceTable.scss";
-@import "pages/config/PageConfigGrid";
