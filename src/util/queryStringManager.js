@@ -1,4 +1,19 @@
-const addFilter = (filterValues) => {
+
+export const DEFAULT_FILTER_OPERATOR = 'eq';
+export const FILTER_OPERATORS = {
+  EQUAL: 'eq',
+  GREATER_THAN: 'gt',
+  LESS_THAN: 'lt',
+  NOT: 'not',
+  LIKE: 'like',
+};
+export const SORT_DIRECTIONS = {
+  ASCENDANT: 'ASC',
+  DESCENDANT: 'DESC',
+};
+export const DEFAULT_SORT_DIRECTION = 'ASC';
+
+export const addFilter = (filterValues) => {
   const {
     attribute, pos, operator, value,
   } = filterValues;
@@ -11,18 +26,33 @@ const addFilter = (filterValues) => {
   return filter.join('&');
 };
 
-export const convertToQueryString = (object, operator = 'eq') => {
+export const setSorting = sorting => (
+  [
+    `sort=${sorting.attribute}`,
+    `direction=${Object.values(SORT_DIRECTIONS).includes(sorting.direction) ?
+      sorting.direction : DEFAULT_SORT_DIRECTION}`,
+  ]
+);
+
+export const setFilters = (object = {}, operators = []) => {
+  let filters = [];
   const properties = Object.keys(object);
-  const queryString = properties.map((property, index) => {
+  filters = properties.map((property, index) => {
     const filterValues = {
       attribute: property,
       value: object[property],
-      operator,
+      operator: (property in operators) ? operators[property] : DEFAULT_FILTER_OPERATOR,
       pos: index,
     };
     return addFilter(filterValues);
   });
 
+  return filters;
+};
+
+export const convertToQueryString = (filters) => {
+  const sorting = filters.sorting ? setSorting(filters.sorting) : [];
+  const queryString = [...sorting, ...setFilters(filters.formValues, filters.operators)];
   return `?${queryString.join('&')}`;
 };
 

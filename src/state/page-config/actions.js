@@ -1,4 +1,8 @@
 import { getParams } from 'frontend-common-components';
+import {
+  SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST,
+  SET_PAGE_WIDGET, SET_PAGE_WIDGETS, REMOVE_PAGE_WIDGET,
+} from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
@@ -9,7 +13,7 @@ import {
   putPageWidget,
 } from 'api/pages';
 import { getPageModel } from 'api/pageModels';
-import { SET_PAGE_WIDGET, SET_PAGE_WIDGETS, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
+
 
 export const setPageWidgets = (pageCode, pageWidgets) => ({
   type: SET_PAGE_WIDGETS,
@@ -38,6 +42,28 @@ export const removePageWidgetSync = (pageCode, frameId) => ({
 });
 
 
+export const setContentToolbar = content => ({
+  type: SET_CONTENT_TOOLBAR,
+  payload: {
+    content,
+  },
+});
+
+export const setSearchFilter = filter => ({
+  type: SET_SEARCH_FILTER,
+  payload: {
+    filter,
+  },
+
+});
+
+export const changeViewList = view => ({
+  type: CHANGE_VIEW_LIST,
+  payload: {
+    view,
+  },
+});
+
 // dispatch an action to populate errors
 const handleResponseErrors = dispatch => (payload) => {
   if (payload.errors && payload.errors.length) {
@@ -47,7 +73,6 @@ const handleResponseErrors = dispatch => (payload) => {
   }
   return payload;
 };
-
 
 export const initConfigPage = () => (dispatch, getState) => {
   const { pageCode } = getParams(getState());
