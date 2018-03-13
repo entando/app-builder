@@ -16,6 +16,7 @@ import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
 import pageConfig from 'state/page-config/reducer';
+import users from 'state/users/reducer';
 
 const reducerDef = {
   router,
@@ -32,6 +33,7 @@ const reducerDef = {
   errors,
   dataTypes,
   pageConfig,
+  users,
 };
 
 if (pluginArray.length) {
