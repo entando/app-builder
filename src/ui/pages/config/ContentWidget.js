@@ -19,6 +19,7 @@ const renderWidgetCategory = title => (
 const renderWidgetElement = el => (
   <ContentWidgetElement
     key={el.name}
+    code={el.name}
     description={el.name}
   />
 );
@@ -48,8 +49,22 @@ const ContentWidget = ({
       <div className="ContentWidget__right-menu-title">
         <FormattedMessage id="menu.widgets" />
         <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
-          <i className="fa fa-th-large ContentWidget__pointer ContentWidget__view-mode-icon" aria-hidden="true" onClick={() => changeViewList('card')} />
-          <i className="fa fa-th-list ContentWidget__pointer ContentWidget__view-mode-icon" aria-hidden="true" onClick={() => changeViewList('list')} />
+          <i
+            className="fa fa-th-large ContentWidget__pointer ContentWidget__view-mode-icon"
+            ariaHidden="true"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => changeViewList('card')}
+            onClick={() => changeViewList('card')}
+          />
+          <i
+            className="fa fa-th-list ContentWidget__pointer ContentWidget__view-mode-icon"
+            ariaHidden="true"
+            role="button"
+            tabIndex={-2}
+            onKeyDown={() => changeViewList('list')}
+            onClick={() => changeViewList('list')}
+          />
         </span>
         <input
           className="ContentWidget__input-pf-right-menu"

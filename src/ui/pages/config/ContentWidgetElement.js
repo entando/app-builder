@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
-const ContentWidgetElement = ({ description }) => (
+import { Link } from 'frontend-common-components';
+
+const ContentWidgetElement = ({ code, description }) => (
 
   <div className="ContentWidgetElement list-group-item">
     <div className="ContentWidgetElement__main list-view-pf-main-info">
@@ -17,9 +20,12 @@ const ContentWidgetElement = ({ description }) => (
       <div className="list-view-pf-body">
         <div className="list-view-pf-description">
           <div className="ContentWidgetElement__description">
-            <a href="" title={description} onClick={ev => ev.preventDefault()}>
+            <Link
+              route={ROUTE_WIDGET_EDIT}
+              params={{ widgetCode: code }}
+            >
               {description}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -28,10 +34,12 @@ const ContentWidgetElement = ({ description }) => (
 );
 
 ContentWidgetElement.propTypes = {
+  code: PropTypes.string,
   description: PropTypes.string,
 };
 
 ContentWidgetElement.defaultProps = {
+  code: null,
   description: null,
 };
 
