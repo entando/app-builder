@@ -7,7 +7,7 @@ import {
 
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
-  ROUTE_PAGE_CONFIG,
+  ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -72,11 +72,16 @@ const InternalPage = ({ className, children }) => (
         label={formattedText('menu.integration', 'Integration')}
         route={ROUTE_DASHBOARD}
       />
-      <LinkMenuItem
+      <FirstLevelMenuItem
         id="menu-data"
-        label={formattedText('menu.data', 'Data')}
-        route={ROUTE_DASHBOARD}
-      />
+        label={formattedText('menu.data')}
+      >
+        <LinkMenuItem
+          id="menu-data-types"
+          label={formattedText('menu.dataType')}
+          route={ROUTE_DATA_TYPE_LIST}
+        />
+      </FirstLevelMenuItem>
       <LinkMenuItem
         id="menu-configuration"
         label={formattedText('menu.configuration', 'Configuration')}
