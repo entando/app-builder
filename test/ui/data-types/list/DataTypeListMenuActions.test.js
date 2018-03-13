@@ -17,7 +17,7 @@ describe('DataTypeListMenuActions', () => {
   it('errors without a code', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
     shallow(<DataTypeListMenuActions />);
-    expect(consoleError).toHaveBeenCalledWith('Warning: Failed prop type: The prop `code` is marked as required in `DataTypeListMenuActions`, but its value is `undefined`.\n    in DataTypeListMenuActions (at DataTypeListMenuActions.test.js:19)');
+    expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });

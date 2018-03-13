@@ -53,13 +53,13 @@ class DataTypeListTable extends Component {
             <thead>
               <tr>
                 <th><FormattedMessage id="app.name" /></th>
-                <th className="TableListRow__th-sm text-center">
+                <th className="DataTypeListTable__th-sm text-center">
                   <FormattedMessage id="app.code" />
                 </th>
-                <th className="TableListRow__th-xs text-center">
+                <th className="DataTypeListTable__th-xs text-center">
                   <FormattedMessage id="dataType.table.status" />
                 </th>
-                <th className="TableListRow__th-xs text-center">
+                <th className="DataTypeListTable__th-xs text-center">
                   <FormattedMessage id="app.actions" />
                 </th>
               </tr>
