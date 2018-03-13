@@ -29,11 +29,13 @@ describe('ContentWidget', () => {
       expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeFalsy();
       expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(0);
     });
+
     it('widgetList with data', () => {
       component = shallow(<ContentWidget widgetList={WIDGET_ONE_LIST} />);
       expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeTruthy();
       expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(1);
     });
+
     it('filterWidget', () => {
       const filterWidget = jest.fn().mockReturnValue('test');
       component = shallow(<ContentWidget filterWidget={filterWidget} />);
@@ -41,6 +43,7 @@ describe('ContentWidget', () => {
       expect(filterWidget).toHaveBeenCalled();
       expect(filterWidget).toHaveBeenCalledWith('test');
     });
+
     it('changeViewList with card view  ', () => {
       const changeViewList = jest.fn().mockReturnValue('card');
       component = shallow(<ContentWidget changeViewList={changeViewList} />);
@@ -48,6 +51,7 @@ describe('ContentWidget', () => {
       expect(changeViewList).toHaveBeenCalled();
       expect(changeViewList).toHaveBeenCalledWith('card');
     });
+
     it('changeViewList with list view  ', () => {
       const changeViewList = jest.fn().mockReturnValue('list');
       component = shallow(<ContentWidget changeViewList={changeViewList} />);
