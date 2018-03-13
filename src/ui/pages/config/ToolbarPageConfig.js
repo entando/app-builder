@@ -20,12 +20,12 @@ class ToolbarPageConfig extends Component {
           ToolbarPageConfig__drawer-pf-title-clickable"
         >
           <span className="ToolbarPageConfig__right-bar-title">
-            <i className="ToolbarPageConfig__sitemap fa fa-sitemap" aria-hidden="true" />
+            <i className="ToolbarPageConfig__sitemap fa fa-sitemap" />
             <span className="ToolbarPageConfig__title">
               <FormattedMessage id="app.pages" />
             </span>
             <span className="ToolbarPageConfig__open-button-menu-right pull-right">
-              <i className="fa fa-angle-right" aria-hidden="true" />
+              <i className="fa fa-angle-right" />
             </span>
           </span>
         </a>
