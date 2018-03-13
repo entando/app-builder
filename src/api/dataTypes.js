@@ -1,4 +1,5 @@
 import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_OK_PAGE_2 } from 'test/mocks/dataTypes';
+import throttle from 'util/throttle';
 
 export const getDataTypes = (page, params) => new Promise((resolve) => {
   if (params) {
@@ -6,13 +7,13 @@ export const getDataTypes = (page, params) => new Promise((resolve) => {
   }
   switch (page) {
     case 1:
-      resolve(DATA_TYPES_OK_PAGE_1);
+      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
       break;
     case 2:
-      resolve(DATA_TYPES_OK_PAGE_2);
+      throttle(resolve(DATA_TYPES_OK_PAGE_2));
       break;
     default:
-      resolve(DATA_TYPES_OK_PAGE_1);
+      throttle(resolve(DATA_TYPES_OK_PAGE_1));
   }
 });
 
