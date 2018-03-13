@@ -15,6 +15,7 @@ import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
+import pageConfig from 'state/page-config/reducer';
 
 const reducerDef = {
   router,
@@ -30,6 +31,7 @@ const reducerDef = {
   pageModels,
   errors,
   dataTypes,
+  pageConfig,
 };
 
 if (pluginArray.length) {

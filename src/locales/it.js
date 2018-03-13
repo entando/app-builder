@@ -33,6 +33,7 @@ export default {
     'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
     'app.all': 'Tutti',
     'app.reload': 'Ricarica',
+    'app.pages': 'Pagine',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

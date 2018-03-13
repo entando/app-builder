@@ -1,0 +1,75 @@
+@import "../../patternfly.scss";
+
+.ToolbarPageConfig {
+
+  &__drawer-pf-sidebar-right {
+    position: fixed;
+    top: 73px;
+    right: 0;
+    width: 320px;
+    height: 93%;
+    border: 1px solid $color-pf-black-300 ;
+    background-color: $color-pf-black-100 ;
+    box-shadow: 0 6px 12px rgba(3,3,3,.175);
+    z-index: 10;
+    overflow-y: auto;
+  }
+
+  &__drawer-pf-title:hover &__sitemap  {
+    color: $color-pf-blue-300;
+    text-decoration: none;
+  }
+
+  &__drawer-pf-title:focus {
+    text-decoration: none;
+  }
+
+  &__drawer-pf-title {
+    position: absolute;
+    width: 100% ;
+    padding: 1.2em 0 1.2em 0;
+    background: $color-pf-black-700;
+    color: $color-pf-black-100;
+    font-weight: normal;
+  }
+
+  &__drawer-pf-title-clickable:hover {
+    background: $color-pf-black-800;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &__right-bar-title {
+    margin-left: 19px;
+    color: $color-pf-black-100;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration: none;
+    text-transform: capitalize;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &__sitemap {
+    color: $color-pf-black-500 ;
+    font-size: 18px;
+  }
+
+  &__title {
+    margin-left: 10px;
+  }
+
+  &__open-button-menu-right {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    color: $color-pf-black-500;
+    font-size: 23px;
+  }
+
+  &__drawer-pf-container {
+    margin-top: 50px;
+    border-top: 1px solid $color-pf-black-200;
+  }
+}
