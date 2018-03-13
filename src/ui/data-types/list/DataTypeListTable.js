@@ -49,7 +49,7 @@ class DataTypeListTable extends Component {
 
       return (
         <Col md={12}>
-          <table className="DataTypeListTable__table TableList table table-striped table-bordered">
+          <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
                 <th><FormattedMessage id="app.name" /></th>
