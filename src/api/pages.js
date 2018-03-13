@@ -3,7 +3,14 @@ import {
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
   PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
+
+import {
+  HOMEPAGE_RESPONSE, LOGIN_RESPONSE, SERVICE_RESPONSE, CONTACTS_RESPONSE,
+  NOTFOUND_RESPONSE, ERROR_RESPONSE, DASHBOARD_RESPONSE,
+} from 'test/mocks/pageWidgets';
+
 import throttle from 'util/throttle';
+import { errorResponse } from 'testUtils';
 
 
 /*
@@ -64,12 +71,14 @@ export const setPagePosition = (pageCode, position, parentCode) => new Promise((
     position,
     parent: parentCode,
   };
+  // eslint-disable-next-line no-console
   console.info(`calling API /pages/${pageCode}/position\n\t${JSON.stringify(response, 2)}`);
   throttle(() => resolve(response));
 });
 
 
 export const postPage = pageObject => new Promise((resolve) => {
+  // eslint-disable-next-line no-console
   console.info(`calling POST /pages\n\t${JSON.stringify(pageObject, 2)}`);
   if (pageObject.code !== 'error') {
     throttle(() => resolve({ payload: pageObject }));
@@ -84,6 +93,7 @@ export const postPage = pageObject => new Promise((resolve) => {
 });
 
 export const putPage = pageObject => new Promise((resolve) => {
+  // eslint-disable-next-line no-console
   console.info(`calling PUT /pages\n\t${JSON.stringify(pageObject, 2)}`);
   if (pageObject.titles.en !== 'error') {
     throttle(() => resolve({ payload: pageObject }));
@@ -108,3 +118,61 @@ export const getPageSettingsList = () => (
     resolve(PAGE_SETTINGS_PAYLOAD);
   })
 );
+
+const PAGE_WIDGETS_MAP = {
+  homepage: HOMEPAGE_RESPONSE,
+  dashboard: DASHBOARD_RESPONSE,
+  login: LOGIN_RESPONSE,
+  service: SERVICE_RESPONSE,
+  notfound: NOTFOUND_RESPONSE,
+  error: ERROR_RESPONSE,
+  contacts: CONTACTS_RESPONSE,
+};
+
+// call GET /pages/<pageCode>/widget/
+export const getPageWidgets = pageCode =>
+  new Promise((resolve) => {
+    // eslint-disable-next-line no-console
+    console.info(`calling GET /pages/${pageCode}/widget`);
+    throttle(() => {
+      if (PAGE_WIDGETS_MAP[pageCode]) {
+        resolve(PAGE_WIDGETS_MAP[pageCode]);
+      } else {
+        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
+      }
+    });
+  });
+
+// call DELETE /pages/<pageCode>/widget/<frameId>
+export const deletePageWidget = (pageCode, frameId) =>
+  new Promise((resolve) => {
+    // eslint-disable-next-line no-console
+    console.info(`calling DELETE /pages/${pageCode}/widget/${frameId}`);
+    throttle(() => {
+      if (PAGE_WIDGETS_MAP[pageCode]) {
+        resolve({
+          payload: {
+            code: frameId,
+          },
+        });
+      } else {
+        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
+      }
+    });
+  });
+
+// call PUT /pages/<pageCode>/widget/<frameId>
+export const putPageWidget = (pageCode, frameId, widget) =>
+  new Promise((resolve) => {
+    // eslint-disable-next-line no-console
+    console.info(`calling PUT /pages/${pageCode}/widget/${frameId}\n\t${JSON.stringify(widget)}`);
+    throttle(() => {
+      if (PAGE_WIDGETS_MAP[pageCode]) {
+        resolve({
+          payload: widget,
+        });
+      } else {
+        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
+      }
+    });
+  });

@@ -2,7 +2,7 @@
 import 'test/enzyme-init';
 import {
   fetchPage, fetchPageChildren, setPagePosition, postPage, putPage,
-  getPageSettingsList, getFreePages,
+  getPageSettingsList, getFreePages, getPageWidgets, deletePageWidget, putPageWidget,
 } from 'api/pages';
 
 import {
@@ -92,11 +92,64 @@ describe('api/pages', () => {
   describe('test getFreePages API', () => {
     it('returns a promise', () => {
       const filledInput = getFreePages();
-      expect(typeof filledInput.then === 'function').toBeDefined();
+      expect(typeof filledInput.then === 'function').toBe(true);
     });
     it('verify success groups', () => {
       getFreePages().then((response) => {
         expect(response).toEqual(FREE_PAGES_PAYLOAD);
+      });
+    });
+  });
+
+  describe('getPageWidgets', () => {
+    it('returns a promise resolved with errors if called with a not found pageCode', () => {
+      getPageWidgets('blabla').then((response) => {
+        expect(Array.isArray(response.errors)).toBe(true);
+        expect(response.errors.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('returns a promise resolved with payload if called with a valid pageCode', () => {
+      getPageWidgets('homepage').then((response) => {
+        const isErrorResponse = !!(response.errors && response.errors.length);
+        expect(isErrorResponse).toBe(false);
+        expect(response.payload).toBeTruthy();
+      });
+    });
+  });
+
+  describe('deletePageWidget', () => {
+    it('returns a promise resolved with errors if called with a not found pageCode', () => {
+      deletePageWidget('blabla', 1).then((response) => {
+        expect(Array.isArray(response.errors)).toBe(true);
+        expect(response.errors.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('returns a promise resolved with payload if called with a valid pageCode', () => {
+      deletePageWidget('homepage', 1).then((response) => {
+        const isErrorResponse = !!(response.errors && response.errors.length);
+        expect(isErrorResponse).toBe(false);
+        expect(response.payload).toBeTruthy();
+      });
+    });
+  });
+
+  describe('putPageWidget', () => {
+    const WIDGET = { code: 'some_code' };
+
+    it('returns a promise resolved with errors if called with a not found pageCode', () => {
+      putPageWidget('blabla', 1, WIDGET).then((response) => {
+        expect(Array.isArray(response.errors)).toBe(true);
+        expect(response.errors.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('returns a promise resolved with payload if called with a valid pageCode', () => {
+      putPageWidget('homepage', 1, WIDGET).then((response) => {
+        const isErrorResponse = !!(response.errors && response.errors.length);
+        expect(isErrorResponse).toBe(false);
+        expect(response.payload).toBeTruthy();
       });
     });
   });
