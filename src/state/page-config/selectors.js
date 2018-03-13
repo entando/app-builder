@@ -14,9 +14,14 @@ const widgetGroupByCategory = widgetList =>
 
 export const getPageConfig = state => state.pageConfig;
 
+export const getContent = state => state.pageConfig.content;
+
+export const getToolbarExpanded = state => state.pageConfig.toolbarExpanded;
+
 export const getSearchFilter = createSelector(getPageConfig, pageConfig => pageConfig.searchFilter);
 
 export const getViewList = createSelector(getPageConfig, pageConfig => pageConfig.viewList);
+
 
 export const filterWidgetList = createSelector(
   [getListWidget, getSearchFilter],

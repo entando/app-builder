@@ -1,2 +1,2 @@
-export const WIDGET_LIST = 'WIDGET_LIST';
-export default WIDGET_LIST;
+export const WIDGET_LIST = 'widgets';
+export const PAGES = 'pages';

@@ -1,6 +1,6 @@
 import { setContentToolbar, setSearchFilter, changeViewList } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
-import { WIDGET_LIST } from 'state/page-config/const';
+import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 
 describe('state/page-config/reducer', () => {
@@ -26,15 +26,17 @@ describe('state/page-config/reducer', () => {
     });
 
     describe('on action SET_CONTENT_TOOLBAR', () => {
-      let newState;
-      beforeEach(() => {
-        newState = reducer(state, setContentToolbar(WIDGET_LIST));
-      });
-
-      it('state.content should be equal to WIDGET_LIST', () => {
+      it('state.content should be equal to default WIDGET_LIST', () => {
+        const newState = reducer();
         expect(newState.content).toEqual(WIDGET_LIST);
       });
+
+      it('state.content should be equal to PAGES', () => {
+        const newState = reducer(state, setContentToolbar());
+        expect(newState.content).toEqual(PAGES);
+      });
     });
+
     describe('on action SET_SEARCH_FILTER', () => {
       let newState;
       beforeEach(() => {

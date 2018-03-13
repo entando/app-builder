@@ -1,0 +1,32 @@
+@import "../../patternfly.scss";
+
+.ToolbarContentIcon {
+
+  color: $color-pf-black-500 ;
+  font-family: FontAwesome;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+
+  &--widgets-left:before {
+    content: "\f0e8";
+  }
+
+  &--widgets-right:before {
+    content: "\f105";
+  }
+
+  &--pages-left:before {
+    color: $color-pf-black-100;
+    content: "\f100";
+  }
+
+  &--pages-left-expanded:before {
+    color: $color-pf-black-100;
+    content: "\f101";
+  }
+
+  &--pages-right:before {
+    content: "\f00d";
+  }
+}
