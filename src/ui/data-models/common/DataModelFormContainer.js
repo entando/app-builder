@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
-import { getListDataTypes } from 'state/data-types/selector';
+import { getDataTypeList } from 'state/data-types/selectors';
 import DataModelForm from 'ui/data-models/common/DataModelForm';
 
 export const mapStateToProps = state => ({
-  dataTypes: getListDataTypes(state),
+  dataTypes: getDataTypeList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

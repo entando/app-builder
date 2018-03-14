@@ -1,0 +1,18 @@
+.DataTypeStatusIcon {
+  font-family: FontAwesome;
+}
+
+.DataTypeStatusIcon--ok:before {
+  color: $color-pf-green;
+  content: $fa-check;
+}
+
+.DataTypeStatusIcon--ko:before {
+  // warning
+  color: $color-pf-orange;
+  content: $fa-exclamation;
+}
+
+.DataTypeStatusIcon--wip {
+  content: $fa-spinner;
+}
