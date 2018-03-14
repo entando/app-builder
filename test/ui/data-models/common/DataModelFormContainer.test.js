@@ -1,16 +1,29 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-models/common/DataModelFormContainer';
-import { DATA_TYPES } from 'test/mocks/dataTypes';
+import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 const TEST_STATE = {
-  dataTypes: { list: DATA_TYPES.payload },
-
+  dataTypes: {
+    list: ['ABC', 'DEF'],
+    map: {
+      ABC: {
+        name: 'dataType1',
+        code: 'ABC',
+        status: 'ok',
+      },
+      DEF: {
+        name: 'dataType2',
+        code: 'DEF',
+        status: 'ok',
+      },
+    },
+  },
 };
 
 describe('DataModelFormContainer', () => {
   it('maps dataTypes property state in DataModelForm', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ dataTypes: DATA_TYPES.payload });
+    expect(mapStateToProps(TEST_STATE)).toEqual({ dataTypes: DATA_TYPES_OK_PAGE_1.payload });
   });
 
   it('verify that onWillMount and handleSubmit are defined and called in mapDispatchToProps', () => {
