@@ -20,6 +20,8 @@ import {
   ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
+  ROUTE_USER_LIST,
+
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -39,6 +41,7 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
+import UserListPage from 'ui/users/list/UserListPage';
 
 const App = ({ route }) => {
   switch (route) {
@@ -63,6 +66,7 @@ const App = ({ route }) => {
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
+    case ROUTE_USER_LIST: return <UserListPage />;
     default: return <NotFoundPage />;
   }
 };
