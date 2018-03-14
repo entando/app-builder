@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { WIDGET_LIST } from 'state/page-config/const';
 import ToolbarContentIcon from 'ui/pages/config/ToolbarContentIcon';
 import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
-import ContentPages from 'ui/pages/config/ContentPages';
+import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
 class ToolbarPageConfig extends Component {
   componentWillMount() {
@@ -49,7 +49,10 @@ class ToolbarPageConfig extends Component {
         </span>
         <div className="panel-group">
           <div className="ToolbarPageConfig__drawer-pf-container" >
-            {this.props.content === WIDGET_LIST ? <ContentWidgetContainer /> : <ContentPages /> }
+            {
+              this.props.content === WIDGET_LIST ?
+                <ContentWidgetContainer /> : <ContentPagesContainer />
+            }
           </div>
         </div>
       </div>
@@ -69,7 +72,7 @@ ToolbarPageConfig.propTypes = {
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
   changeContent: PropTypes.noop,
-  content: WIDGET_LIST,
+  content: 'WIDGET_LIST',
   toolbarExpanded: false,
   expandContentToolbar: PropTypes.noop,
 };

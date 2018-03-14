@@ -9,24 +9,24 @@
   font-weight: 400;
 
   &--widgets-left:before {
-    content: "\f0e8";
+    content: $fa-sitemap;
   }
 
   &--widgets-right:before {
-    content: "\f105";
+    content: $fa-angle-right;
   }
 
   &--pages-left:before {
     color: $color-pf-black-100;
-    content: "\f100";
+    content: $fa-angle-double-left;
   }
 
   &--pages-left-expanded:before {
     color: $color-pf-black-100;
-    content: "\f101";
+    content: $fa-angle-double-right;
   }
 
   &--pages-right:before {
-    content: "\f00d";
+    content: $fa-times;
   }
 }
