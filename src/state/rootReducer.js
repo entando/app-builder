@@ -15,8 +15,10 @@ import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
+import api from 'state/api/reducer';
 
 const reducerDef = {
+  api,
   router,
   form,
   loginForm,
