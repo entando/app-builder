@@ -32,12 +32,15 @@ describe('state/users/selectors', () => {
     const selected = getDataTypes(TEST_STATE);
     expect(selected).toBe(TEST_STATE.dataTypes);
   });
+
   it('verify getDataTypesIdList selector', () => {
     expect(getDataTypesIdList(TEST_STATE)).toEqual(TEST_STATE.dataTypes.list);
   });
+
   it('verify getDataTypesMap selector', () => {
     expect(getDataTypesMap(TEST_STATE)).toEqual(TEST_STATE.dataTypes.map);
   });
+
   it('verify getUserList selector', () => {
     expect(getDataTypeList(TEST_STATE)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
   });
