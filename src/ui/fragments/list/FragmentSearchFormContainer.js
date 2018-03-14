@@ -2,7 +2,13 @@ import { connect } from 'react-redux';
 import { fetchWidgetTypes, fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
-import { convertToQueryString } from 'util/queryStringManager';
+import { convertToQueryString, FILTER_OPERATORS } from 'util/queryStringManager';
+
+const FIELD_OPERATORS = {
+  code: FILTER_OPERATORS.EQUAL,
+  widgetType: FILTER_OPERATORS.GREATER_THAN,
+  plugin: FILTER_OPERATORS.LIKE,
+};
 
 export const mapStateToProps = state => ({
   widgetTypes: getWidgetTypesOptions(state),
@@ -15,7 +21,15 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchPlugins());
   },
   // calls search API when avaible
-  onSubmit: (values) => { dispatch(fetchFragments(1, convertToQueryString(values))); },
+  onSubmit: (values) => {
+    dispatch(fetchFragments(1, convertToQueryString({
+      formValues: values,
+      operators: FIELD_OPERATORS,
+      sorting: {
+        attribute: 'code',
+      },
+    })));
+  },
 });
 
 const FragmentSearchFormContainer = connect(

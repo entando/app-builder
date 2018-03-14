@@ -5,7 +5,10 @@ import {
   formattedText,
 } from 'frontend-common-components';
 
-import { ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import {
+  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
+  ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST,
+} from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
@@ -42,6 +45,12 @@ const InternalPage = ({ className, children }) => (
           label={formattedText('menu.pageTree', 'Page Tree')}
           route={ROUTE_PAGE_TREE}
         />
+        <LinkMenuItem
+          id="menu-page-config"
+          label={formattedText('menu.pageConfig')}
+          route={ROUTE_PAGE_CONFIG}
+          params={{ pageCode: 'homepage' }}
+        />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-ux-pattern"
@@ -63,11 +72,16 @@ const InternalPage = ({ className, children }) => (
         label={formattedText('menu.integration', 'Integration')}
         route={ROUTE_DASHBOARD}
       />
-      <LinkMenuItem
+      <FirstLevelMenuItem
         id="menu-data"
-        label={formattedText('menu.data', 'Data')}
-        route={ROUTE_DASHBOARD}
-      />
+        label={formattedText('menu.data')}
+      >
+        <LinkMenuItem
+          id="menu-data-types"
+          label={formattedText('menu.dataType')}
+          route={ROUTE_DATA_TYPE_LIST}
+        />
+      </FirstLevelMenuItem>
       <LinkMenuItem
         id="menu-configuration"
         label={formattedText('menu.configuration', 'Configuration')}

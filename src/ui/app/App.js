@@ -17,7 +17,9 @@ import {
   ROUTE_PAGE_EDIT,
   ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
+  ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
+  ROUTE_DATA_TYPE_LIST,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -33,7 +35,9 @@ import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageC
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
+import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
+import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 
 const App = ({ route }) => {
@@ -55,7 +59,9 @@ const App = ({ route }) => {
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
+    case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
+    case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     default: return <NotFoundPage />;
   }

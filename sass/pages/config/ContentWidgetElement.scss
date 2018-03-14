@@ -1,0 +1,70 @@
+
+
+.ContentWidgetList {
+  .ContentWidgetElement {
+    border-right: 1px solid $color-pf-white;
+    border-left: 1px solid $color-pf-white;
+    background-color: $color-pf-black-200;
+    cursor: pointer;
+  }
+}
+
+.ContentWidgetElement {
+  &__widget-list {
+    margin-bottom: 0;
+    border-top: 0;
+  }
+
+  &__widget-spacer {
+    display: block;
+    width: 100%;
+  }
+
+  &__widget-title {
+    padding: 16px 0 16px 18px;
+    background: $color-widget-title-bg-color;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.ContentWidgetList--list {
+  .ContentWidgetElement {
+    padding: 0 15px;
+  }
+
+  .ContentWidgetElement__icon {
+    line-height: 9px;
+  }
+}
+
+.ContentWidgetList--card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  border-right: 0;
+  border-left: 0;
+
+  .ContentWidgetElement__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ContentWidgetElement {
+    display: flex;
+    flex-basis: calc(50% - 10px);
+    margin-top: 5px;
+    padding: 0 15px;
+  }
+
+  .ContentWidgetElement__description {
+    max-width: 115px;
+    margin: 0;
+  }
+
+  .ContentWidgetElement__icon {
+    padding: 0;
+  }
+}
