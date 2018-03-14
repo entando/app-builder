@@ -1,0 +1,21 @@
+.UserStatus {
+  &__icon {
+    font-family: FontAwesome;
+  }
+}
+
+.UserStatus--active {
+  color: $color-pf-green;
+
+  .UserStatus__icon:before {
+    content: $fa-check;
+  }
+}
+
+.UserStatus--disabled {
+  color: $color-pf-red;
+
+  .UserStatus__icon:before {
+    content: $fa-ban;
+  }
+}

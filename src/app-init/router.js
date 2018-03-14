@@ -23,6 +23,7 @@ export const ROUTE_FRAGMENT_DETAIL = 'fragmentDetail';
 export const ROUTE_DATA_MODEL_ADD = 'dataModelAdd';
 export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
+export const ROUTE_USER_LIST = 'userList';
 
 
 routerConfig(
@@ -51,6 +52,7 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       // use when edit route when component will be available
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
+      { name: ROUTE_USER_LIST, path: '/user' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
