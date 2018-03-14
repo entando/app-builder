@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
+import { fetchDataModelListPaged } from 'state/data-models/actions';
 import DataModelSearchForm from 'ui/data-models/list/DataModelSearchForm';
+import { convertToQueryString } from 'util/queryStringManager';
 
 export const mapStateToProps = state => ({
   dataTypes: getDataTypeList(state),
@@ -11,7 +13,12 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypes());
   },
-  handleSubmit: values => (values),
+
+  handleSubmit: (values) => {
+    dispatch(fetchDataModelListPaged(1, convertToQueryString({
+      formValues: values,
+    })));
+  },
 
 });
 const DataModelSearchFormContainer =

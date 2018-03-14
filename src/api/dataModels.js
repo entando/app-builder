@@ -18,8 +18,11 @@ export const getDataModels = type => (
   })
 );
 
-export const getDataModelsPaged = (page = 1) =>
+export const getDataModelsPaged = (page = 1, params) =>
   new Promise((resolve) => {
+    if (params) {
+      console.info(`calling API /dataModels${params}`);
+    }
     switch (page) {
       case 1:
         resolve(DATA_MODELS_P1);

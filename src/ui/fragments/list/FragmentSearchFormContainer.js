@@ -20,7 +20,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchWidgetTypes());
     dispatch(fetchPlugins());
   },
-  // calls search API when avaible
+  // calls search API when available
   onSubmit: (values) => {
     dispatch(fetchFragments(1, convertToQueryString({
       formValues: values,

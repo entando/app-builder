@@ -10,8 +10,8 @@ export const setDataModelsPaged = dataModelsPaged => ({
   },
 });
 
-export const fetchDataModelListPaged = (page = 1) => dispatch =>
-  getDataModelsPaged(page).then((data) => {
+export const fetchDataModelListPaged = (page = 1, params) => dispatch =>
+  getDataModelsPaged(page, params).then((data) => {
     if (data.errors && data.errors.length) {
       dispatch(addErrors(data.errors.map(err => err.message)));
     } else {
