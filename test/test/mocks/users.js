@@ -69,3 +69,22 @@ export const USERS_OK_PAGE_2 =
     lastPage: 2,
   },
 };
+
+export const USER_PROFILE_MOCK = {
+  admin: {
+    fullName: 'Mario Rossi',
+    email: 'mario.rossi@test.it',
+  },
+  user1: {
+    fullName: 'Gianni Moi',
+    email: 'gianni.moi@test.it',
+  },
+  user2: {
+    fullName: 'Utente test 2',
+    email: 'user2@test.it',
+  },
+  user3: {
+    fullName: 'Utente test 3',
+    email: 'user3@test.it',
+  },
+};

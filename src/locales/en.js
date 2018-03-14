@@ -163,6 +163,8 @@ export default {
     'user.table.status.active': 'Active',
     'user.table.status.disabled': 'Not active',
     'user.table.username': 'Username',
+    'user.table.fullName': 'Full name',
+    'user.table.email': 'Email',
     'user.table.status': 'Status',
     'user.listEmpty': 'There are no USERS available',
     'user.action.manageAuth': 'Manage autorization for: {username}',

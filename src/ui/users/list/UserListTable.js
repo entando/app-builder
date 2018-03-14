@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
+import { USER_PROFILE_MOCK } from 'test/mocks/users';
 
 class UserListTable extends Component {
   constructor(props) {
@@ -25,11 +26,9 @@ class UserListTable extends Component {
     return this.props.users.map(user => (
       <tr key={user.username}>
         <td className="UserListRow__td">{user.username}</td>
-        {/*
-          FIXME: user profiles info
-          <td className="UserListRow__td">{user.fullName}</td>
-          <td className="UserListRow__td">{user.email}</td>
-        */}
+        {/* FIXME: user profiles info */}
+        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].fullName}</td>
+        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].email}</td>
         <td className="UserListRow__td text-center">
           <UserStatus
             status={user.status}
@@ -57,6 +56,8 @@ class UserListTable extends Component {
             <thead>
               <tr>
                 <th><FormattedMessage id="user.table.username" /></th>
+                <th><FormattedMessage id="user.table.fullName" /></th>
+                <th><FormattedMessage id="user.table.email" /></th>
                 <th className="UserListTable__th-sm text-center">
                   <FormattedMessage id="user.table.status" />
                 </th>
