@@ -72,7 +72,7 @@ ToolbarPageConfig.propTypes = {
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
   changeContent: PropTypes.noop,
-  content: 'WIDGET_LIST',
+  content: WIDGET_LIST,
   toolbarExpanded: false,
   expandContentToolbar: PropTypes.noop,
 };
