@@ -8,7 +8,7 @@
   color: $color-pf-green;
 
   .UserStatus__icon:before {
-    content: "\f00c";
+    content: $fa-check;
   }
 }
 
@@ -16,7 +16,6 @@
   color: $color-pf-red;
 
   .UserStatus__icon:before {
-    // warning
-    content: "\f05e";
+    content: $fa-ban;
   }
 }
