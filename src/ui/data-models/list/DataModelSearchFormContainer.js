@@ -17,6 +17,9 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: (values) => {
     dispatch(fetchDataModelListPaged(1, convertToQueryString({
       formValues: values,
+      sorting: {
+        attribute: 'code',
+      },
     })));
   },
 

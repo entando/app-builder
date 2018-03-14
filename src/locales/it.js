@@ -70,7 +70,6 @@ export default {
     'validateForm.maxValue': 'Deve essre maggiore {max}',
     'validateForm.email': 'Indirizzo email non valido!',
     'validateForm.alphaNumeric': 'Solo caratteri alfanumerici',
-    'widget.help.code': 'You can insert characters uppercase and lowercase letters, numbers and   _',
     'validateForm.widgetCode': '{name} contiene caratteri non consentiti. Usare solo caratteri alfanumerici o undescore _',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Codice',

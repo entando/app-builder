@@ -1,8 +1,7 @@
 import 'test/enzyme-init';
 
-import { getDataModels, getDataModelsPaged } from 'api/dataModels';
+import { getDataModelsPaged } from 'api/dataModels';
 import {
-  DATA_MODELS,
   DATA_MODELS_P1,
   DATA_MODELS_P2,
   DATA_MODELS_P3,
@@ -16,12 +15,12 @@ const PAGE_KEY_BAD = 'Gianni';
 
 describe('getDataModels', () => {
   it('returns a promise', () => {
-    const promise = getDataModels();
+    const promise = getDataModelsPaged();
     expect(typeof promise.then === 'function').toBeDefined();
   });
 
   it('get an error response with a not existing KEY', () => {
-    getDataModels(PAGE_KEY_BAD).then(() => {}, (error) => {
+    getDataModelsPaged(PAGE_KEY_BAD).then(() => {}, (error) => {
       expect(error).toEqual(ERROR);
     });
   });
@@ -30,7 +29,7 @@ describe('getDataModels', () => {
 describe('getDataModelsPaged', () => {
   it('get success response', () => {
     getDataModelsPaged(PAGE_MODEL_ID).then((response) => {
-      expect(response).toEqual(DATA_MODELS);
+      expect(response).toEqual(DATA_MODELS_P1);
     });
   });
 
@@ -40,7 +39,7 @@ describe('getDataModelsPaged', () => {
   });
 
   it('verifies success on loading PageModels', () => {
-    getDataModels().then((response) => {
+    getDataModelsPaged().then((response) => {
       expect(response).toEqual(DATA_MODELS_P1);
     });
   });

@@ -10,6 +10,7 @@ const FIELD_OPERATORS = {
   plugin: FILTER_OPERATORS.LIKE,
 };
 
+
 export const mapStateToProps = state => ({
   widgetTypes: getWidgetTypesOptions(state),
   plugins: getPluginsOptions(state),

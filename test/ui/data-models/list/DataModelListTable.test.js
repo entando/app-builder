@@ -4,6 +4,36 @@ import { shallow } from 'enzyme';
 
 import DataModelListTable from 'ui/data-models/list/DataModelListTable';
 
+describe('inner table errors', () => {
+  let consoleError;
+  beforeEach(() => {
+    consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+  afterEach(() => {
+    consoleError.mockReset();
+    consoleError.mockRestore();
+  });
+
+  it('errors without a page', () => {
+    shallow(<DataModelListTable pageSize={1} totalItems={1} />);
+    expect(consoleError).toHaveBeenCalled();
+    consoleError.mockReset();
+    consoleError.mockRestore();
+  });
+  it('errors without a pageSize', () => {
+    shallow(<DataModelListTable page={1} totalItems={1} />);
+    expect(consoleError).toHaveBeenCalled();
+    consoleError.mockReset();
+    consoleError.mockRestore();
+  });
+  it('errors without a totalItems', () => {
+    shallow(<DataModelListTable page={1} pageSize={1} />);
+    expect(consoleError).toHaveBeenCalled();
+    consoleError.mockReset();
+    consoleError.mockRestore();
+  });
+});
+
 describe('DataModelListTable', () => {
   let component;
   beforeEach(() => {
@@ -23,28 +53,6 @@ describe('DataModelListTable', () => {
       component = shallow(<DataModelListTable pageSize={1} page={1} totalItems={1} />);
       expect(component.find('table thead tr').exists()).toEqual(true);
       expect(component.find('table thead tr th').exists()).toEqual(true);
-    });
-
-    it('errors without a page', () => {
-      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-      shallow(<DataModelListTable pageSize={1} totalItems={1} />);
-      expect(consoleError).toHaveBeenCalled();
-      consoleError.mockReset();
-      consoleError.mockRestore();
-    });
-    it('errors without a pageSize', () => {
-      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-      shallow(<DataModelListTable page={1} totalItems={1} />);
-      expect(consoleError).toHaveBeenCalled();
-      consoleError.mockReset();
-      consoleError.mockRestore();
-    });
-    it('errors without a totalItems', () => {
-      const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-      shallow(<DataModelListTable page={1} pageSize={1} />);
-      expect(consoleError).toHaveBeenCalled();
-      consoleError.mockReset();
-      consoleError.mockRestore();
     });
     it('has a table header', () => {
       const thead = component.find('thead');

@@ -41,7 +41,7 @@ class DataModelListTable extends Component {
 
     return (
       <div className="DataModelListTable">
-        <table className="table table-striped table-bordered">
+        <table className="DataModelListTable__wrap table table-striped table-bordered">
           <thead>
             <tr>
               <th width="30%"><FormattedMessage id="app.name" /></th>
