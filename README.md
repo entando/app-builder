@@ -17,13 +17,15 @@ Dev instances should be using the `.env.development.local` file while production
 a boolean used to determine whether the API calls will be against a real Entando Core or if they are just being mocked internally.
 
 #### `DOMAIN` (string, default: `null`)
-a string representing the domain name of the Entando Core instance. The protocol is optional.
+a string representing the domain name of the Entando Core instance. The protocol is optional and it is possible to specify a subdirectory of the domain.
+Trailing slashes are not valid and it only vaildates up to 3rd level domains.
 
 All the following would be valid values:
 
 - http://my.entando.com
 - https://my.entando.com
 - //my.entando.com
+- //my.entando.com/entando-sample
 
 ### Sample .env file
 

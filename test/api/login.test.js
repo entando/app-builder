@@ -15,7 +15,7 @@ describe('api/login', () => {
   it('returns a promise', () => {
     const response = login('gianni', 'moi');
     expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/entando-sample/OAuth2/access_token',
+      uri: '/OAuth2/access_token',
       method: 'POST',
       mockResponse: BODY_OK,
       contentType: 'application/x-www-form-urlencoded',

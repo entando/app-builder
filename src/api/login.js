@@ -8,7 +8,7 @@ export const getErrors = (username, password) => (
 );
 
 const login = (username, password) => makeRequest({
-  uri: '/entando-sample/OAuth2/access_token',
+  uri: '/OAuth2/access_token',
   method: METHODS.POST,
   mockResponse: BODY_OK,
   contentType: 'application/x-www-form-urlencoded',

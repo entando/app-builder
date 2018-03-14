@@ -1,6 +1,6 @@
 import { gotoRoute, formattedText } from 'frontend-common-components';
 import login from 'api/login';
-
+import { ROUTE_DASHBOARD } from 'app-init/router';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 
@@ -23,7 +23,7 @@ export const performLogin = (username, password) => (dispatch) => {
     return login(username, password).then((response) => {
       if (response.ok) {
         response.json().then(() => {
-          gotoRoute('dashboard');
+          gotoRoute(ROUTE_DASHBOARD);
         });
       } else {
         dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
