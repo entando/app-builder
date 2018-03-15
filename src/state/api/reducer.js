@@ -9,7 +9,7 @@ const isUseMockValid = useMocks => typeof useMocks === 'boolean';
 
 const isDomainValid = (domain, useMocks) => (
   // eslint-disable-next-line no-useless-escape
-  (useMocks && domain == null) || /^(http(s)?\:)?\/\/[a-z0-9][a-z0-9-]*(\.)?[a-z0-9-]*\.[a-z]{2,6}$/i.test(domain)
+  (useMocks && domain == null) || /^(http(s)?\:)?\/\/[a-z0-9][a-z0-9-]+(\.)?[a-z0-9-]*\.[a-z]{2,6}(\/[a-zA-Z0-9-_]+)?$/i.test(domain)
 );
 
 const isPayloadValid = payload => (isUseMockValid(payload.useMocks) &&

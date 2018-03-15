@@ -18,44 +18,29 @@ class UserListMenuActions extends Component {
 
   render() {
     const { onClickDelete } = this.props;
-    const editLabel = (
-      <FormattedMessage id="app.edit" values={{ username: this.props.username }} />
-    );
-    const manageAuthLabel = (
-      <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
-    );
-    const editProfileLabel = (
-      <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
-    );
-    const viewProfileLabel = (
-      <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
-    );
+
     return (
       <DropdownKebab pullRight id={`${this.props.username}-actions`}>
 
         <MenuItem
           className="UserListMenuAction__menu-item-edit"
-          onClick={this.handleClick()}
         >
-          {editLabel}
+          <FormattedMessage id="app.edit" />
         </MenuItem>
         <MenuItem
           className="UserListMenuAction__menu-item-auth"
-          onClick={this.handleClick()}
         >
-          {manageAuthLabel}
+          <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
         </MenuItem>
         <MenuItem
           className="UserListMenuAction__menu-item-edit-profile"
-          onClick={this.handleClick()}
         >
-          {editProfileLabel}
+          <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
         </MenuItem>
         <MenuItem
           className="UserListMenuAction__menu-item-view-profile"
-          onClick={this.handleClick()}
         >
-          {viewProfileLabel}
+          <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
         </MenuItem>
         <MenuItem
           className="UserListMenuAction__menu-item-delete"

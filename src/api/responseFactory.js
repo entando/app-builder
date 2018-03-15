@@ -25,6 +25,7 @@ const buildPayload = (mockResponse, page) => {
     buildList(mockResponse, page);
   } else if (typeof mockResponse === 'object') {
     payload = mockResponse;
+    metaData = {};
   }
 };
 
@@ -45,6 +46,15 @@ export const buildResponse = (mockResponse, page = { page: 1, pageSize: 10 }) =>
   buildPayload(mockResponse, page);
   return {
     payload,
+    errors: [],
     metaData,
   };
 };
+
+export const buildErrorResponse = (errors = []) => (
+  {
+    payload: {},
+    metaData: {},
+    errors: Array.isArray(errors) ? errors : [],
+  }
+);

@@ -30,7 +30,7 @@ class ListWidgetPage extends Component {
       <InternalPage className="ListWidgetPage">
         <Grid fluid>
           <Row>
-            <Col md={12}>
+            <Col xs={12}>
               <PageTitle
                 titleId="widget.list.title"
                 helpId="widget.help"
@@ -38,7 +38,7 @@ class ListWidgetPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={12}>
+            <Col xs={12}>
               <Link route={ROUTE_WIDGET_ADD}>
                 <Button
                   type="button"
@@ -51,6 +51,11 @@ class ListWidgetPage extends Component {
                   />
                 </Button>
               </Link>
+            </Col>
+
+          </Row>
+          <Row>
+            <Col xs={12}>
               <WidgetListTable >
                 <RowListContainer />
               </WidgetListTable>

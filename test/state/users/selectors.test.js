@@ -40,12 +40,15 @@ describe('state/users/selectors', () => {
     const selected = getUsers(TEST_STATE);
     expect(selected).toBe(TEST_STATE.users);
   });
+
   it('verify getUsersIdList selector', () => {
     expect(getUsersIdList(TEST_STATE)).toEqual(TEST_STATE.users.list);
   });
+
   it('verify getUsersMap selector', () => {
     expect(getUsersMap(TEST_STATE)).toEqual(TEST_STATE.users.map);
   });
+
   it('verify getUserList selector', () => {
     expect(getUserList(TEST_STATE)).toEqual(USERS_OK_PAGE_1.payload);
   });

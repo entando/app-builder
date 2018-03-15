@@ -50,6 +50,11 @@ describe('api reducer', () => {
         const state = reducer(defaultState, setApi({ domain: 'https://domain.com', useMocks: true }));
         expect(state).toHaveProperty('domain', 'https://domain.com');
       });
+
+      it('should assign the domain status if there is up to one directory after the domain name', () => {
+        const state = reducer(defaultState, setApi({ domain: '//domain.com/entando-sample', useMocks: true }));
+        expect(state).toHaveProperty('domain', '//domain.com/entando-sample');
+      });
     });
 
     describe('useMocks', () => {
