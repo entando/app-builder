@@ -2,6 +2,7 @@ import thunk from 'redux-thunk';
 
 import { setLoginErrorMessage, performLogin } from 'state/login-form/actions';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
+import { SET_USER } from 'state/current-user/types';
 import configureMockStore from 'redux-mock-store';
 import { config } from 'api/apiManager';
 
@@ -61,9 +62,14 @@ describe('api-form actions', () => {
     expect(result).toBeInstanceOf(Promise);
     result.then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(1);
+      expect(actions).toHaveLength(2);
       expect(actions[0]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
       expect(actions[0]).toHaveProperty('payload.message', '');
+      expect(actions[1]).toHaveProperty('type', SET_USER);
+      expect(actions[1]).toHaveProperty(
+        'payload.user',
+        { username: 'admin', token: expect.any(String) },
+      );
       done();
     });
   });
