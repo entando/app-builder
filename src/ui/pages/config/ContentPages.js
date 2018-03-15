@@ -36,8 +36,8 @@ ContentPages.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
 };
 ContentPages.defaultProps = {
-  onWillMount: null,
-  onExpandPage: null,
+  onWillMount: () => {},
+  onExpandPage: () => {},
   pages: [],
 };
 

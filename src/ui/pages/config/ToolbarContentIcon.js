@@ -33,14 +33,13 @@ const ToolbarContentIcon = ({
 
 ToolbarContentIcon.propTypes = {
   handleClick: PropTypes.func,
-  position: PropTypes.string,
+  position: PropTypes.oneOf(['left', 'right']).isRequired,
   content: PropTypes.oneOf(['widgets', 'pages']).isRequired,
   toolbarExpanded: PropTypes.bool,
 };
 
 ToolbarContentIcon.defaultProps = {
   handleClick: () => {},
-  position: null,
   toolbarExpanded: false,
 };
 

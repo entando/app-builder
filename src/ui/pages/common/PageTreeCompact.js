@@ -9,7 +9,7 @@ import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
-class PageTree extends Component {
+class PageTreeCompact extends Component {
   renderRows() {
     const { pages } = this.props;
     return pages.map((page, i) => {
@@ -86,7 +86,7 @@ class PageTree extends Component {
   }
 }
 
-PageTree.propTypes = {
+PageTreeCompact.propTypes = {
 
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
@@ -99,9 +99,9 @@ PageTree.propTypes = {
   onExpandPage: PropTypes.func,
 };
 
-PageTree.defaultProps = {
+PageTreeCompact.defaultProps = {
   pages: [],
   onExpandPage: () => {},
 };
 
-export default PageTree;
+export default PageTreeCompact;
