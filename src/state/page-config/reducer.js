@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, EXPAND_CONTENT_TOOLBAR } from 'state/page-config/types';
+import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOOGLE_CONTENT_TOOLBAR } from 'state/page-config/types';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 export const content = (state = WIDGET_LIST, action = {}) => {
@@ -31,7 +31,7 @@ export const viewList = (state = 'list', action = {}) => {
 
 export const toolbarExpanded = (state = false, action = {}) => {
   switch (action.type) {
-    case EXPAND_CONTENT_TOOLBAR: {
+    case TOOGLE_CONTENT_TOOLBAR: {
       return !state;
     }
     default: return state;

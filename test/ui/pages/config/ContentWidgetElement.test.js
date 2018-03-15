@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
 
-describe('PageTreeCompact', () => {
+describe('ContentWidgetElement', () => {
   let component;
   beforeEach(() => {
     component = shallow(<ContentWidgetElement />);

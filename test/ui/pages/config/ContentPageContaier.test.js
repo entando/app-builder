@@ -1,32 +1,12 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentPagesContainer';
 import { HOMEPAGE_PAYLOAD } from 'test/mocks/pages';
+import { getPageTreePages } from 'state/pages/selectors';
 
 jest.mock('state/pages/selectors', () => ({
-  getPageTreePages: () => ({
-    code: 'homepage',
-    status: 'published',
-    displayedInMenu: true,
-    pageModel: 'complex_model',
-    charset: 'utf-8',
-    contentType: 'text/xml',
-    parentCode: null,
-    seo: false,
-    position: 1,
-    titles: {
-      it: 'Pagina iniziale',
-      en: 'Home page',
-    },
-    ownerGroup: 'administrators',
-    joinGroups: [
-      'administrators',
-    ],
-    children: [
-      'dashboard',
-      'service',
-      'contacts',
-    ],
-  }),
+  getPageTreePages: jest.fn(),
 }));
+
+getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
 
 const TEST_STATE = {
   pages: HOMEPAGE_PAYLOAD,
@@ -36,7 +16,7 @@ describe('ContentPagesContainer', () => {
   describe('mapStateToProps', () => {
     it('maps content and pages property state', () => {
       expect(mapStateToProps(TEST_STATE)).toEqual({
-        pages: HOMEPAGE_PAYLOAD,
+        pages: [HOMEPAGE_PAYLOAD],
       });
     });
   });

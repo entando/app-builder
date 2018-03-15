@@ -20,7 +20,7 @@ describe('ContentWidget', () => {
   });
 
   it('has the ContentPages__content-action class', () => {
-    expect(component.find('div').at(1).hasClass('ContentPages__content-action')).toBe(true);
+    expect(component.find('.ContentPages__content-action').exists()).toBe(true);
   });
 
   it('has the PageTreeCompact component', () => {

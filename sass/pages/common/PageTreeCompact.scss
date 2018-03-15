@@ -39,16 +39,20 @@
     padding: 0 10px;
     outline: 0;
   }
+
+  // Bootstrap overrides
+  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+  .dropdown-kebab-pf.btn-group > .btn:first-child {
+    padding: 0 10px;
+  }
+  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
 }
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-.table > tbody > tr > td {
+.PageTreeCompact.table > tbody > tr > td {
   padding: 2px 0;
   border-top: 0;
-}
-
-.dropdown-kebab-pf.btn-group > .btn:first-child {
-  padding: 0 10px;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
