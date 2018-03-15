@@ -55,6 +55,7 @@ export default {
     'menu.dataType': 'Data Type',
     'menu.userSettings': 'Gestione Utenti',
     'menu.users': 'Utenti',
+    'menu.users.authority': 'Autorizzazioni',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -172,5 +173,9 @@ export default {
     'user.action.manageAuth': 'Gestisci le autorizzazioni per: {username}',
     'user.action.editProfile': 'Modifica il profilo di: {username}',
     'user.action.viewProfile': 'Visualizza il profilo di: {username}',
+    'user.authority.title': 'Autorizzazioni per {username}',
+    'user.authority.groups': 'Gruppo utenti',
+    'user.authority.roles': 'Ruolo utenti',
+    'user.authority.new': 'Nuove autorizzazioni',
   },
 };

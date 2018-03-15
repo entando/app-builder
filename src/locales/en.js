@@ -55,6 +55,7 @@ export default {
     'menu.dataType': 'Data Types',
     'menu.userSettings': 'User Settings',
     'menu.users': 'Users',
+    'menu.users.authority': 'Authorizations',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -172,5 +173,9 @@ export default {
     'user.action.manageAuth': 'Manage autorization for: {username}',
     'user.action.editProfile': 'Edit profile of: {username}',
     'user.action.viewProfile': 'View profile of: {username}',
+    'user.authority.title': 'Autorizzazioni per {username}',
+    'user.authority.groups': 'User Group',
+    'user.authority.roles': 'User Role',
+    'user.authority.new': 'Nuove autorizzazioni',
   },
 };
