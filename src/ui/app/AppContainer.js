@@ -1,11 +1,14 @@
 
 import { connect } from 'react-redux';
 
+import { getRoute } from 'frontend-common-components';
+import { getUsername } from 'state/current-user/selectors';
 import App from 'ui/app/App';
 
 // map the props
 export const mapStateToProps = state => ({
-  route: state.router.route,
+  route: getRoute(state),
+  username: getUsername(state),
 });
 
 // connect the component

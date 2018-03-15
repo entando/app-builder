@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginPage, NotFoundPage } from 'frontend-common-components';
+import { LoginPage, NotFoundPage, gotoRoute } from 'frontend-common-components';
 
 import {
   ROUTE_HOME,
@@ -43,7 +43,12 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 
-const App = ({ route }) => {
+const App = ({ route, username }) => {
+  if (username === null && route !== ROUTE_HOME && route) {
+    gotoRoute(ROUTE_HOME);
+    return <h1>401</h1>;
+  }
+
   switch (route) {
     case ROUTE_HOME: return (
       <LoginPage>
@@ -73,6 +78,11 @@ const App = ({ route }) => {
 
 App.propTypes = {
   route: PropTypes.string.isRequired,
+  username: PropTypes.string,
+};
+
+App.defaultProps = {
+  username: null,
 };
 
 export default App;

@@ -19,9 +19,11 @@ import api from 'state/api/reducer';
 import pageConfig from 'state/page-config/reducer';
 import users from 'state/users/reducer';
 import profileTypes from 'state/profile-types/reducer';
+import currentUser from 'state/current-user/reducer';
 
 const reducerDef = {
   api,
+  currentUser,
   router,
   form,
   loginForm,
