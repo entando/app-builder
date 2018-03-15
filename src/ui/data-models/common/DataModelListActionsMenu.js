@@ -1,43 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 
 
-class DataModelListActionsMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+const DataModelListActionsMenu = ({ onClickEdit, onClickDelete }) => (
 
-  handleClick(handler) {
-    return (ev) => {
-      ev.preventDefault();
-      if (handler) { handler(this.props); }
-    };
-  }
-  render() {
-    const { onClickDelete, onClickEdit } = this.props;
+  <DropdownKebab id="DataModelListActionsMenu" pullRight>
+    <MenuItem
+      className="DataModelListActionsMenu__menu-item-delete"
+      onClick={onClickDelete}
+    >
+      <FormattedMessage id="app.delete" />
+    </MenuItem>
+    <MenuItem
+      className="DataModelListActionsMenu__menu-item-edit"
+      onClick={onClickEdit}
+    >
+      <FormattedMessage id="app.edit" />
+    </MenuItem>
+  </DropdownKebab>
+);
 
-    return (
-
-      <DropdownKebab id="DataModelListActionsMenu" pullRight>
-        <MenuItem
-          className="DataModelListActionsMenu__menu-item-delete"
-          onClick={this.handleClick(onClickDelete)}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
-        <MenuItem
-          className="DataModelListActionsMenu__menu-item-edit"
-          onClick={this.handleClick(onClickEdit)}
-        >
-          <FormattedMessage id="app.edit" />
-        </MenuItem>
-      </DropdownKebab>
-    );
-  }
-}
 
 DataModelListActionsMenu.propTypes = {
   onClickDelete: PropTypes.func,
@@ -45,8 +29,8 @@ DataModelListActionsMenu.propTypes = {
 };
 
 DataModelListActionsMenu.defaultProps = {
-  onClickDelete: null,
-  onClickEdit: null,
+  onClickDelete: () => {},
+  onClickEdit: () => {},
 };
 
 export default DataModelListActionsMenu;
