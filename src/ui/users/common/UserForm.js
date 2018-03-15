@@ -1,208 +1,125 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
-import { Panel } from 'react-bootstrap';
+import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 import { FormattedMessage } from 'react-intl';
-import { required } from 'util/validateForm';
+import { required, maxLength, minLength, matchPassword, userFormText } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
-export const renderDefaultGuiCodeField = (field) => {
-  const { input } = field;
-  if (!input.value) {
+export class UserFormBody extends Component {
+  componentWillMount() {
+    this.props.onWillMount(this.props);
+  }
+
+  render() {
+    const {
+      onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
+    } = this.props;
+
     return (
-      <Alert type="info">
-        <FormattedMessage id="app.alert.notAvaible" />
-      </Alert>
+      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserForm form-horizontal">
+        <Row>
+          <Col xs={12}>
+            <fieldset className="no-padding">
+              <legend>
+                <FormattedMessage id="app.info" />
+                <div className="UserForm__required-fields text-right">
+                * <FormattedMessage id="app.fieldsRequired" />
+                </div>
+              </legend>
+              <Field
+                component={RenderTextInput}
+                name="username"
+                label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
+                placeholder={formattedText('user.table.username')}
+                validate={[required, minLength(8), maxLength(20), userFormText]}
+                disabled={mode === EDIT_MODE}
+              />
+              <Field
+                component={RenderTextInput}
+                name="password"
+                type="password"
+                label={<FormLabel labelId="user.password" helpId="user.password.help" required />}
+                placeholder={formattedText('user.password')}
+                validate={[required, minLength(8), maxLength(20), userFormText]}
+              />
+              <Field
+                component={RenderTextInput}
+                name="passwordConfirm"
+                type="password"
+                label={<FormLabel labelId="user.passwordConfirm" required />}
+                placeholder={formattedText('user.passwordConfirm')}
+                validate={[required, matchPassword]}
+              />
+              {/* Insert user info and reset button on EDIT */}
+              <RenderSelectInput
+                options={profileTypes}
+                defaultOptionId="form.select.chooseOne"
+                labelId="user.profileType"
+                fieldName="profileType"
+              />
+              <FormGroup>
+                <label htmlFor="status" className="col-xs-2 control-label">
+                  <FormattedMessage id="user.status" />&nbsp;
+                </label>
+                <Col xs={4}>
+                  <Field
+                    component={SwitchRenderer}
+                    name="status"
+                  />
+                </Col>
+              </FormGroup>
+            </fieldset>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col xs={12}>
+            <Button
+              className="pull-right"
+              type="submit"
+              bsStyle="primary"
+              disabled={invalid || submitting}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+          </Col>
+        </Row>
+      </form>
     );
   }
-  return (
-    <Panel>
-      <Panel.Body><pre>{input.value}</pre></Panel.Body>
-    </Panel>
-  );
-};
-
-const defaultGuiCodeField = (
-  <Field
-    name="defaultGuiCode"
-    component={renderDefaultGuiCodeField}
-  />
-);
-
-export const renderStaticField = (field) => {
-  const { input, label, name } = field;
-  const fieldValue = (input.value.title) ? input.value.title : input.value;
-  if (!input.value) {
-    return null;
-  }
-
-  return (
-    <div className="form-group">
-      <label htmlFor={name} className="control-label col-sm-2">
-        {label}
-      </label>
-      <Col sm={10}>
-        {fieldValue}
-      </Col>
-    </div>
-  );
-};
-
-export const FragmentFormBody = (props) => {
-  const {
-    handleSubmit, invalid, submitting, mode,
-  } = props;
-
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    handleSubmit();
-  };
-
-  let widgetTypeField = (
-    <Field
-      name="widgetType"
-      component={renderStaticField}
-      label={<FormattedMessage id="fragment.form.edit.widgetType" />}
-    />
-  );
-
-  let pluginField = (
-    <Field
-      name="pluginCode"
-      component={renderStaticField}
-      label={<FormattedMessage id="fragment.form.edit.plugin" />}
-    />
-  );
-
-  if (mode === NEW_MODE) {
-    pluginField = null;
-    widgetTypeField = null;
-  }
-
-  return (
-    <form onSubmit={onSubmit} className="UserForm form-horizontal">
-      <Row>
-        <Col xs={12}>
-          <fieldset className="no-padding">
-            <legend>
-              <FormattedMessage id="app.info" />
-              <div className="UserForm__required-fields text-right">
-                * <FormattedMessage id="app.fieldsRequired" />
-              </div>
-            </legend>
-            {/* username */}
-            <Field
-              component={RenderTextInput}
-              name="Username"
-              label={
-                <span>
-                  <FormattedMessage id="app.code" />
-                  <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
-                </span>
-              }
-              placeholder={formattedText('fragment.code.placeholder')}
-              validate={[required]}
-              disabled={mode === EDIT_MODE}
-            />
-            {/* password */}
-            <Field
-              component={RenderTextInput}
-              name="Username"
-              label={
-                <span>
-                  <FormattedMessage id="app.code" />
-                  <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
-                </span>
-              }
-              placeholder={formattedText('fragment.code.placeholder')}
-              validate={[required]}
-              disabled={mode === EDIT_MODE}
-            />
-
-            <Field
-              component={RenderTextInput}
-              name="Username"
-              label={
-                <span>
-                  <FormattedMessage id="app.code" />
-                  <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
-                </span>
-              }
-              placeholder={formattedText('fragment.code.placeholder')}
-              validate={[required]}
-              disabled={mode === EDIT_MODE}
-            />
-          </fieldset>
-        </Col>
-      </Row>
-      <hr />
-      <Row>
-        <Col xs={12}>
-          <fieldset className="no-padding">
-            <div className="form-group">
-              <span className="control-label col-xs-2" />
-              <Col xs={10}>
-                <Tabs id="basic-tabs" defaultActiveKey={1}>
-                  <Tab eventKey={1} title={formattedText('fragment.tab.guiCode')} >
-                    <div className="tab-content margin-large-bottom ">
-                      <div className="tab-pane fade in active">
-                        <Field
-                          name="guiCode"
-                          component="textarea"
-                          cols="50"
-                          rows="8"
-                          className="form-control"
-                          validate={[required]}
-                        />
-                      </div>
-                    </div>
-                  </Tab>
-                  <Tab eventKey={2} title={formattedText('fragment.tab.defaultGuiCode')} >
-                    {defaultGuiCodeField}
-                  </Tab>
-                </Tabs>
-              </Col>
-            </div>
-          </fieldset>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col xs={12}>
-          <Button
-            className="pull-right"
-            type="submit"
-            bsStyle="primary"
-            disabled={invalid || submitting}
-          >
-            <FormattedMessage id="app.save" />
-          </Button>
-        </Col>
-      </Row>
-    </form>
-  );
-};
+}
 
 UserFormBody.propTypes = {
+  onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
+  profileTypes: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    text: PropTypes.string,
+  })),
 };
 
 UserFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: NEW_MODE,
+  onWillMount: null,
+  profileTypes: [],
 };
 
-const FragmentForm = reduxForm({
-  form: 'fragment',
-})(FragmentFormBody);
+const UserForm = reduxForm({
+  form: 'user',
+})(UserFormBody);
 
-export default FragmentForm;
+export default UserForm;
