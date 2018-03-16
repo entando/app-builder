@@ -70,6 +70,8 @@ describe('api-form actions', () => {
         'payload.user',
         { username: 'admin', token: expect.any(String) },
       );
+      expect(localStorage.setItem).toHaveBeenCalledWith('username', 'admin');
+      expect(localStorage.setItem).toHaveBeenCalledWith('token', expect.any(String));
       done();
     });
   });

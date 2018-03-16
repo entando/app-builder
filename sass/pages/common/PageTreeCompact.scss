@@ -1,0 +1,58 @@
+.PageTreeCompact {
+  width: 100%;
+
+  &__page-name,
+  .PageExpandedIcon,
+  .PageFolderIcon,
+  .RowSpinner {
+    margin-left: 10px;
+  }
+
+  &__kebab-button {
+    visibility: hidden;
+   }
+
+  &__row:hover &__kebab-button {
+    visibility: visible;
+   }
+
+  .PageFolderIcon {
+    color: $color-pf-light-blue-400;
+  }
+
+  &__icons-label {
+    outline: 0;
+    cursor: pointer;
+  }
+
+  &__tree-column-td--empty {
+    .PageExpandedIcon {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .PageTreeActionMenuButton,
+  .PageTreeActionMenuButton:focus {
+    height: 18px;
+    margin: 0;
+    padding: 0 10px;
+    outline: 0;
+  }
+
+  // Bootstrap overrides
+  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+  .dropdown-kebab-pf.btn-group > .btn:first-child {
+    padding: 0 10px;
+  }
+  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
+}
+
+// Bootstrap overrides
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.PageTreeCompact.table > tbody > tr > td {
+  padding: 2px 0;
+  border-top: 0;
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
