@@ -11,10 +11,10 @@ export const getDataTypes = (page, params) => new Promise((resolve) => {
       throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
       break;
     case 2:
-      throttle(resolve(DATA_TYPES_OK_PAGE_2));
+      throttle(() => resolve(DATA_TYPES_OK_PAGE_2));
       break;
     default:
-      throttle(resolve(DATA_TYPES_OK_PAGE_1));
+      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
   }
 });
 

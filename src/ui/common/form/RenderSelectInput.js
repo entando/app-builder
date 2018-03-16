@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { Field } from 'redux-form';
 import FormLabel from 'ui/common/form/FormLabel';
+import { formattedText } from 'frontend-common-components';
 
 const RenderSelectInput = ({
-  options, labelId, fieldName, mandatory,
+  defaultOptionId, options, labelId, fieldName, mandatory,
 }) => (
   <div className="form-group">
     <label htmlFor={fieldName} className="col-xs-2 control-label text-right">
@@ -13,6 +14,10 @@ const RenderSelectInput = ({
     </label>
     <Col xs={10}>
       <Field component="select" name={fieldName} className="form-control" >
+        {defaultOptionId &&
+          <option value="">
+            {formattedText(defaultOptionId)}
+          </option>}
         {options.map(item => (
           <option
             key={item.value}
@@ -25,6 +30,7 @@ const RenderSelectInput = ({
 );
 
 RenderSelectInput.propTypes = {
+  defaultOptionId: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([
       PropTypes.string,
@@ -38,6 +44,7 @@ RenderSelectInput.propTypes = {
 };
 
 RenderSelectInput.defaultProps = {
+  defaultOptionId: '',
   options: [],
   mandatory: false,
 };

@@ -1,4 +1,3 @@
-// status property added, waiting for confirmation from BE
 export const DATA_TYPES = {
   payload: [{
     name: 'dataType1',

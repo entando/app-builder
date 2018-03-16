@@ -21,8 +21,11 @@ export const ROUTE_FRAGMENT_ADD = 'fragmentAdd';
 export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
 export const ROUTE_FRAGMENT_DETAIL = 'fragmentDetail';
 export const ROUTE_DATA_MODEL_ADD = 'dataModelAdd';
+export const ROUTE_DATA_MODEL_LIST = 'dataModelList';
 export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
+export const ROUTE_USER_LIST = 'userList';
+export const ROUTE_USER_ADD = 'userAdd';
 
 
 routerConfig(
@@ -47,10 +50,13 @@ routerConfig(
       { name: ROUTE_FRAGMENT_ADD, path: '/fragment/add' },
       { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },
       { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/view/:fragmentCode' },
+      { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       // use when edit route when component will be available
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
+      { name: ROUTE_USER_LIST, path: '/user' },
+      { name: ROUTE_USER_ADD, path: '/user/add' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

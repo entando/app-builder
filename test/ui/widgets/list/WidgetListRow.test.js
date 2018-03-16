@@ -7,7 +7,7 @@ import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 describe('WidgetListRow', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<WidgetListRow name="test" code="WTF" used="2" />);
+    component = shallow(<WidgetListRow name="test" code="WTF" used={2} />);
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);

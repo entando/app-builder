@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginPage, NotFoundPage } from 'frontend-common-components';
+import { LoginPage, NotFoundPage, gotoRoute } from 'frontend-common-components';
 
 import {
   ROUTE_HOME,
@@ -15,10 +15,14 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
+  ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
+  ROUTE_USER_LIST,
+  ROUTE_USER_ADD,
+
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -37,8 +41,16 @@ import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
+import DataModelListPage from 'ui/data-models/list/DataModelListPage';
+import UserListPage from 'ui/users/list/UserListPage';
+import AddUserPage from 'ui/users/add/AddUserPage';
 
-const App = ({ route }) => {
+const App = ({ route, username }) => {
+  if (username === null && route !== ROUTE_HOME && route) {
+    gotoRoute(ROUTE_HOME);
+    return <h1>401</h1>;
+  }
+
   switch (route) {
     case ROUTE_HOME: return (
       <LoginPage>
@@ -46,6 +58,7 @@ const App = ({ route }) => {
       </LoginPage>
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
+    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
@@ -53,19 +66,26 @@ const App = ({ route }) => {
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
-    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
+    case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
+    case ROUTE_USER_LIST: return <UserListPage />;
+    case ROUTE_USER_ADD: return <AddUserPage />;
     default: return <NotFoundPage />;
   }
 };
 
 App.propTypes = {
   route: PropTypes.string.isRequired,
+  username: PropTypes.string,
+};
+
+App.defaultProps = {
+  username: null,
 };
 
 export default App;

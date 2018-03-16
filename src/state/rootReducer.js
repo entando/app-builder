@@ -15,9 +15,16 @@ import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
 import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
+import api from 'state/api/reducer';
 import pageConfig from 'state/page-config/reducer';
+import users from 'state/users/reducer';
+import profileTypes from 'state/profile-types/reducer';
+import currentUser from 'state/current-user/reducer';
+import dataModels from 'state/data-models/reducer';
 
 const reducerDef = {
+  api,
+  currentUser,
   router,
   form,
   loginForm,
@@ -30,8 +37,11 @@ const reducerDef = {
   fragments,
   pageModels,
   errors,
+  dataModels,
   dataTypes,
   pageConfig,
+  users,
+  profileTypes,
 };
 
 if (pluginArray.length) {

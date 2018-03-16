@@ -4,15 +4,15 @@
 
 .DataTypeStatusIcon--ok:before {
   color: $color-pf-green;
-  content: "\f00c";
+  content: $fa-check;
 }
 
 .DataTypeStatusIcon--ko:before {
   // warning
   color: $color-pf-orange;
-  content: "\f12a";
+  content: $fa-exclamation;
 }
 
 .DataTypeStatusIcon--wip {
-  content: "\f110";
+  content: $fa-spinner;
 }
