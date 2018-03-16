@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import WidgetListRow from 'ui/widgets/list/WidgetListRow';
+import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 
-describe('WidgetListRow', () => {
+describe('DataModelListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<WidgetListRow name="test" code="WTF" used={2} />);
+    component = shallow(<DataModelListPage />);
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);

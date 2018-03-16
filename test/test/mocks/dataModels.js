@@ -1,4 +1,4 @@
-export const DATA_MODELS = {
+export const DATA_MODELS_P1 = {
   payload: [
     {
       modelId: 'ID',
@@ -10,7 +10,7 @@ export const DATA_MODELS = {
     {
       modelId: 'ID2',
       descr: 'data model sample2',
-      type: 'BBBB',
+      type: 'BASBB',
       model: '<html></html>',
       stylesheet: 'style.css',
     },
@@ -18,8 +18,56 @@ export const DATA_MODELS = {
   errors: [],
   metaData: {
     page: 1,
-    pageSize: 100,
-    lastPage: 10,
+    pageSize: 2,
+    lastPage: 3,
+  },
+};
+export const DATA_MODELS_P2 = {
+  payload: [
+    {
+      modelId: 'ID2',
+      descr: 'data model sample',
+      type: 'JHGD',
+      model: '',
+      stylesheet: '',
+    },
+    {
+      modelId: 'ID3',
+      descr: 'data model sample2',
+      type: 'JHG',
+      model: '<html></html>',
+      stylesheet: 'style.css',
+    },
+  ],
+  errors: [],
+  metaData: {
+    page: 2,
+    pageSize: 2,
+    lastPage: 3,
+  },
+};
+export const DATA_MODELS_P3 = {
+  payload: [
+    {
+      modelId: 'ID4',
+      descr: 'data model sample',
+      type: 'FFDh',
+      model: '',
+      stylesheet: '',
+    },
+    {
+      modelId: 'ID5',
+      descr: 'data model sample2',
+      type: 'KLJHKLHK',
+      model: '<html></html>',
+      stylesheet: 'style.css',
+    },
+  ],
+  errors: [],
+  metaData: {
+    page: 3,
+    pageSize: 2,
+    lastPage: 3,
   },
 };
 
@@ -34,6 +82,6 @@ export const ERROR = {
   metaData: {
     page: 1,
     pageSize: 100,
-    lastPage: 10,
+    lastPage: 20,
   },
 };

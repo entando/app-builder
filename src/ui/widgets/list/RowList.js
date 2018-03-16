@@ -17,8 +17,8 @@ const RowList = ({ tableRow }) =>
       renderRow(item)
     )));
 WidgetListRow.propTypes = {
-  code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
   used: PropTypes.number.isRequired,
 };
 

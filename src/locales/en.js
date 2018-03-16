@@ -7,6 +7,8 @@ export default {
     'app.add': 'Add',
     'app.edit': 'Edit',
     'app.new': 'New',
+    'app.type': 'Type',
+    'app.id': 'Id',
     'app.configure': 'Configure',
     'app.details': 'Details',
     'app.clone': 'Clone',

@@ -14,7 +14,7 @@ export const PageSearchFormBody = (props) => {
   };
   return (
     <form onSubmit={onSubmit} className="PageSearchForm form-horizontal well">
-      <h3>Search</h3>
+      <h3><FormattedMessage id="app.search" /></h3>
       <FormGroup>
         <Row>
           <label className="control-label col-sm-2" htmlFor="pagecode">
