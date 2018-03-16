@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { getDataModelsPaged } from 'api/dataModels';
+import { getDataModels } from 'api/dataModels';
 import {
   DATA_MODELS_P1,
   DATA_MODELS_P2,
@@ -15,51 +15,51 @@ const PAGE_KEY_BAD = 'Gianni';
 
 describe('getDataModels', () => {
   it('returns a promise', () => {
-    const promise = getDataModelsPaged();
+    const promise = getDataModels();
     expect(typeof promise.then === 'function').toBeDefined();
   });
 
   it('get an error response with a not existing KEY', () => {
-    getDataModelsPaged(PAGE_KEY_BAD).then(() => {}, (error) => {
+    getDataModels(PAGE_KEY_BAD).then(() => {}, (error) => {
       expect(error).toEqual(ERROR);
     });
   });
 });
 
-describe('getDataModelsPaged', () => {
+describe('getDataModels', () => {
   it('get success response', () => {
-    getDataModelsPaged(PAGE_MODEL_ID).then((response) => {
+    getDataModels(PAGE_MODEL_ID).then((response) => {
       expect(response).toEqual(DATA_MODELS_P1);
     });
   });
 
   it('returns a promise', () => {
-    const filledInput = getDataModelsPaged(PAGE_MODEL_ID);
+    const filledInput = getDataModels(PAGE_MODEL_ID);
     expect(typeof filledInput.then === 'function').toBeDefined();
   });
 
   it('verifies success on loading PageModels', () => {
-    getDataModelsPaged().then((response) => {
+    getDataModels().then((response) => {
       expect(response).toEqual(DATA_MODELS_P1);
     });
   });
   it('get error response', () => {
-    getDataModelsPaged().then(() => {}, (error) => {
+    getDataModels().then(() => {}, (error) => {
       expect(error).toEqual(ERROR);
     });
   });
   it('get PageModels page 1 by default', () => {
-    getDataModelsPaged().then((response) => {
+    getDataModels().then((response) => {
       expect(response).toEqual(DATA_MODELS_P1);
     });
   });
   it('get PageModels page 2 by default', () => {
-    getDataModelsPaged(2).then((response) => {
+    getDataModels(2).then((response) => {
       expect(response).toEqual(DATA_MODELS_P2);
     });
   });
   it('get PageModels page 3 by default', () => {
-    getDataModelsPaged(3).then((response) => {
+    getDataModels(3).then((response) => {
       expect(response).toEqual(DATA_MODELS_P3);
     });
   });

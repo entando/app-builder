@@ -5,7 +5,7 @@ import {
 
 } from 'test/mocks/dataModels';
 
-export const getDataModelsPaged = (page = 1, params) =>
+export const getDataModels = (page = 1, params) =>
   new Promise((resolve) => {
     if (params) {
       console.info(`calling API /dataModels${params}`);
@@ -25,4 +25,4 @@ export const getDataModelsPaged = (page = 1, params) =>
     }
   });
 
-export default getDataModelsPaged;
+export default getDataModels;

@@ -5,11 +5,41 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 You can find the most recent version of Create React App [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 ---
+## Configuration
+
+The application uses `.env` files to set up some environment variables.
+
+Dev instances should be using the `.env.development.local` file while production instances use `.env.production`
+
+### Configurable properties
+
+#### `USE_MOCKS` (boolean, default: `true`)
+a boolean used to determine whether the API calls will be against a real Entando Core or if they are just being mocked internally.
+
+#### `DOMAIN` (string, default: `null`)
+a string representing the domain name of the Entando Core instance. The protocol is optional and it is possible to specify a subdirectory of the domain.
+Trailing slashes are not valid and it only vaildates up to 3rd level domains.
+
+All the following would be valid values:
+
+- http://my.entando.com
+- https://my.entando.com
+- //my.entando.com
+- //my.entando.com/entando-sample
+
+### Sample .env file
+
+```
+USE_MOCKS=false
+DOMAIN=//my.entando.com
+```
+---
+
 ## Commands
 
 ### Clone and set up:
 
-- Make sure to have **git**, **npm** + **node** installed and up to date.
+- Make sure to have `git`, `npm` + `node` installed and up to date.
 - Clone the repo: `git clone https://github.com/entando/frontend-common-components.git`
 - `cd frontend-common-components.git`
 - `npm install`: installs npm dependencies

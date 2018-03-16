@@ -1,4 +1,4 @@
-import { getListDataModelsPaged } from 'state/data-models/selectors';
+import { getListDataModels } from 'state/data-models/selectors';
 
 const pagedList = [
   {
@@ -9,7 +9,7 @@ const pagedList = [
 const TEST_STATE = { dataModels: { pagedList } };
 
 describe('data models list selectors', () => {
-  it('verify getListDataModelsPaged selector', () => {
-    expect(getListDataModelsPaged(TEST_STATE)).toEqual(pagedList);
+  it('verify getListDataModels selector', () => {
+    expect(getListDataModels(TEST_STATE)).toEqual(pagedList);
   });
 });
