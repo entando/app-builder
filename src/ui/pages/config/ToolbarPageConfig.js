@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
 import { FormattedMessage } from 'react-intl';
+
 import { WIDGET_LIST } from 'state/page-config/const';
+import ToolbarContentIcon from 'ui/pages/config/ToolbarContentIcon';
+import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
+import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
 class ToolbarPageConfig extends Component {
   componentWillMount() {
@@ -10,28 +13,46 @@ class ToolbarPageConfig extends Component {
   }
 
   render() {
+    const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
+    if (this.props.toggleExpanded) {
+      classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
+    }
+    const container = this.props.content === WIDGET_LIST ?
+      <ContentWidgetContainer /> :
+      <ContentPagesContainer />;
     return (
-      <div className="ToolbarPageConfig ToolbarPageConfig__drawer-pf-sidebar-right">
-        <a
-          href=""
-          onClick={this.showContentPages}
-          className="ToolbarPageConfig__drawer-pf-title
-          drawer-pf-title-right-menu
-          ToolbarPageConfig__drawer-pf-title-clickable"
+      <div className={classContainer.join(' ').trim()} >
+        <span
+          role="link"
+          tabIndex={0}
+          onKeyDown={() => {}}
+          onClick={() => { this.props.changeContent(this.props.content); }}
+          className="
+          ToolbarPageConfig__drawer-pf-title
+          drawer-pf-title-right-menu"
         >
           <span className="ToolbarPageConfig__right-bar-title">
-            <i className="ToolbarPageConfig__sitemap fa fa-sitemap" />
+            <ToolbarContentIcon
+              content={this.props.content}
+              position="left"
+              toggleExpanded={this.props.toggleExpanded}
+              handleClick={this.props.toggleContentToolbar}
+            />
             <span className="ToolbarPageConfig__title">
               <FormattedMessage id="app.pages" />
             </span>
             <span className="ToolbarPageConfig__open-button-menu-right pull-right">
-              <i className="fa fa-angle-right" />
+              <ToolbarContentIcon
+                content={this.props.content}
+                handleClick={this.props.changeContent}
+                position="right"
+              />
             </span>
           </span>
-        </a>
+        </span>
         <div className="panel-group">
           <div className="ToolbarPageConfig__drawer-pf-container" >
-            {this.props.content === WIDGET_LIST ? <ContentWidgetContainer /> : null }
+            {container}
           </div>
         </div>
       </div>
@@ -42,11 +63,17 @@ class ToolbarPageConfig extends Component {
 
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
+  changeContent: PropTypes.func,
   content: PropTypes.string,
+  toggleExpanded: PropTypes.bool,
+  toggleContentToolbar: PropTypes.func,
 };
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
+  changeContent: PropTypes.noop,
   content: WIDGET_LIST,
+  toggleExpanded: false,
+  toggleContentToolbar: PropTypes.noop,
 };
 export default ToolbarPageConfig;

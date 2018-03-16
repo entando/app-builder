@@ -1,10 +1,11 @@
 import {
-  setContentToolbar, setSearchFilter, changeViewList, setPageConfig,
+  toggleContent, setSearchFilter, changeViewList, setPageConfig,
   setPageWidget, removePageWidgetSync,
 } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
-import { WIDGET_LIST } from 'state/page-config/const';
+import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 import { HOMEPAGE_CONFIG } from 'test/mocks/pageConfig';
+
 
 const PAGE_CONFIG = HOMEPAGE_CONFIG;
 const EMPTY_FRAME_INDEX = PAGE_CONFIG.findIndex(item => item === null);
@@ -33,16 +34,18 @@ describe('state/page-config/reducer', () => {
       expect(typeof state.viewList).toBe('string');
     });
 
-    describe('on action SET_CONTENT_TOOLBAR', () => {
-      let newState;
-      beforeEach(() => {
-        newState = reducer(state, setContentToolbar(WIDGET_LIST));
-      });
-
-      it('state.content should be equal to WIDGET_LIST', () => {
+    describe('on action TOOGLE_CONTENT', () => {
+      it('state.content should be equal to default WIDGET_LIST', () => {
+        const newState = reducer();
         expect(newState.content).toEqual(WIDGET_LIST);
       });
+
+      it('state.content should be equal to PAGES', () => {
+        const newState = reducer(state, toggleContent());
+        expect(newState.content).toEqual(PAGES);
+      });
     });
+
     describe('on action SET_SEARCH_FILTER', () => {
       let newState;
       beforeEach(() => {

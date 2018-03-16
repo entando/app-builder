@@ -1,7 +1,7 @@
 import { getParams, formattedText } from 'frontend-common-components';
 import {
-  SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST,
-  SET_PAGE_WIDGET, SET_PAGE_CONFIG, REMOVE_PAGE_WIDGET,
+  SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_PAGE_WIDGET, SET_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
@@ -50,12 +50,19 @@ export const setContentToolbar = content => ({
   },
 });
 
+export const toggleContent = () => ({
+  type: TOGGLE_CONTENT,
+});
+
+export const toggleContentToolbarExpanded = () => ({
+  type: TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+});
+
 export const setSearchFilter = filter => ({
   type: SET_SEARCH_FILTER,
   payload: {
     filter,
   },
-
 });
 
 export const changeViewList = view => ({

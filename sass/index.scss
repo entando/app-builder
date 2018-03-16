@@ -12,6 +12,7 @@
 @import "widgets/list/WidgetListRow";
 @import "pages/common/PageStatusIcon";
 @import "pages/common/PageTree";
+@import "pages/common/PageTreeCompact";
 @import "pages/common/RowSpinner";
 @import "pages/common/PageTreePreview";
 @import "pages/common/MultiSelectRenderer";
@@ -19,8 +20,10 @@
 @import "pages/common/PageForm";
 @import "pages/settings/PageSettings";
 @import "pages/config/ToolbarPageConfig";
+@import "pages/config/ToolbarContentIcon";
 @import "pages/config/ContentWidget";
 @import "pages/config/ContentWidgetElement";
+@import "pages/config/ContentPages";
 @import "fragments/common/FragmentForm";
 @import "fragments/list/ListFragmentPage";
 @import "fragment/FragmentForm";

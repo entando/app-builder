@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 import {
-  SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST,
+  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
 } from 'state/page-config/types';
-import { WIDGET_LIST } from 'state/page-config/const';
+import { WIDGET_LIST, PAGES } from 'state/page-config/const';
+
 
 export const content = (state = WIDGET_LIST, action = {}) => {
   switch (action.type) {
-    case SET_CONTENT_TOOLBAR: {
-      return action.payload.content;
+    case TOGGLE_CONTENT: {
+      return state === WIDGET_LIST ? PAGES : WIDGET_LIST;
     }
     default: return state;
   }
@@ -80,14 +81,23 @@ const configMap = (state = {}, action = {}) => {
         [pageCode]: newPageWidgets,
       };
     }
-
     default: return state;
   }
 };
+export const toolbarExpanded = (state = false, action = {}) => {
+  switch (action.type) {
+    case TOGGLE_CONTENT_TOOLBAR_EXPANDED: {
+      return !state;
+    }
+    default: return state;
+  }
+};
+
 
 export default combineReducers({
   content,
   searchFilter,
   viewList,
   configMap,
+  toolbarExpanded,
 });
