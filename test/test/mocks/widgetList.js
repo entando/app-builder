@@ -46,6 +46,11 @@ export const WIDGET_LIST = {
   ],
 };
 
+export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
+  acc[widget.code] = widget;
+  return acc;
+}, {});
+
 export const WIDGET_ONE_LIST = {
   'User Widget': [
     {

@@ -6,14 +6,16 @@ import { shallow } from 'enzyme';
 import PageConfigGridCol from 'ui/pages/config/PageConfigGridCol';
 import { CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
 
-
+const FRAME_KEY = 'col:0-0/1-14';
 const HOLE_CELL = CELL_MAP['col:2-6/2-6'];
 const CONTAINER_CELL = CELL_MAP['col:2-0/11-14'];
-const EMPTY_FRAME_CELL = CELL_MAP['col:0-0/1-14'];
-const FULL_FRAME_CELL = {
+const EMPTY_FRAME_CELL = CELL_MAP[FRAME_KEY];
+
+const CELL_MAP_WITH_WIDGET = { ...CELL_MAP };
+CELL_MAP_WITH_WIDGET[FRAME_KEY] = {
   ...EMPTY_FRAME_CELL,
-  widgetId: 'single_content',
-  widgetName: 'Single Content',
+  widgetCode: 'single_content',
+  widgetTitle: 'Single Content',
   widgetHasConfig: true,
 };
 
@@ -22,7 +24,7 @@ describe('PageConfigGridCol (col with empty frame)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <PageConfigGridCol cellMap={CELL_MAP} cellKey={EMPTY_FRAME_CELL.key} />
+      <PageConfigGridCol cellMap={CELL_MAP} cellKey={FRAME_KEY} />
     ));
   });
 
@@ -43,7 +45,7 @@ describe('PageConfigGridCol (col with widget frame)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <PageConfigGridCol cellMap={CELL_MAP} cellKey={FULL_FRAME_CELL.key} />
+      <PageConfigGridCol cellMap={CELL_MAP_WITH_WIDGET} cellKey={FRAME_KEY} />
     ));
   });
 

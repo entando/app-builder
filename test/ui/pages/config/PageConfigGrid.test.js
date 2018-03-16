@@ -6,24 +6,45 @@ import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 import { CELL_MAP } from 'test/mocks/page-models/complex';
 
 const ROOT_KEY = Object.keys(CELL_MAP).find(key => key.match(/^root/));
+const NO_ROOT_CELL_MAP = { ...CELL_MAP };
+delete NO_ROOT_CELL_MAP[ROOT_KEY];
 
-describe('PageConfigGrid (with COMPLEX page model)', () => {
+describe('PageConfigGrid', () => {
   let component;
-  beforeEach(() => {
-    component = shallow((
-      <PageConfigGrid cellMap={CELL_MAP} />
-    ));
+
+  describe('with COMPLEX page model', () => {
+    beforeEach(() => {
+      component = shallow(<PageConfigGrid cellMap={CELL_MAP} />);
+    });
+
+    it('has the PageConfigGrid class', () => {
+      expect(component.hasClass('PageConfigGrid')).toBe(true);
+    });
+
+    it('renders a PageConfigGridCol with cellMap = its cellMap prop', () => {
+      expect(component.find('PageConfigGridCol').prop('cellMap')).toBe(CELL_MAP);
+    });
+
+    it('renders a PageConfigGridCol with cellKey = the root key from the CELL MAP', () => {
+      expect(component.find('PageConfigGridCol').prop('cellKey')).toBe(ROOT_KEY);
+    });
   });
 
-  it('has the PageConfigGrid class', () => {
-    expect(component.hasClass('PageConfigGrid')).toBe(true);
+  describe('with no page model', () => {
+    beforeEach(() => {
+      component = shallow(<PageConfigGrid />);
+    });
+
+    it('renders nothing', () => {
+      expect(component.children()).toHaveLength(0);
+    });
   });
 
-  it('renders a PageConfigGridCol with cellMap = its cellMap prop', () => {
-    expect(component.find('PageConfigGridCol').prop('cellMap')).toBe(CELL_MAP);
-  });
-
-  it('renders a PageConfigGridCol with cellKey = the root key from the CELL MAP', () => {
-    expect(component.find('PageConfigGridCol').prop('cellKey')).toBe(ROOT_KEY);
+  describe('with a page model with no root (wrong)', () => {
+    it('throws an error', () => {
+      expect(() => {
+        shallow(<PageConfigGrid cellMap={NO_ROOT_CELL_MAP} />);
+      }).toThrow();
+    });
   });
 });

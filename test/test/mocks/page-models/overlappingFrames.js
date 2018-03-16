@@ -3,7 +3,6 @@
 
     Error: the 2 frames are overlapping
 */
-// eslint-disable-next-line import/prefer-default-export
 export const PAYLOAD = {
   code: 'overlapping_frames',
   description: 'Overlapping Frames',
@@ -39,3 +38,5 @@ export const PAYLOAD = {
     ],
   },
 };
+
+export const CELL_MAP = null;

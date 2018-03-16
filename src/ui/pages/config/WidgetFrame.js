@@ -14,17 +14,17 @@ class WidgetFrame extends Component {
     if (widgetHasConfig) {
       configMenuItems = [
         (
-          <MenuItem key="menu-settings">
+          <MenuItem key="menu-settings" className="WidgetFrame__settings-btn">
             <FormattedMessage id="app.settings" />
           </MenuItem>
         ),
         (
-          <MenuItem key="menu-api">
+          <MenuItem key="menu-api" className="WidgetFrame__api-btn">
             <FormattedMessage id="app.api" />
           </MenuItem>
         ),
         (
-          <MenuItem key="menu-saveasnew">
+          <MenuItem key="menu-saveasnew" className="WidgetFrame__save-btn">
             <FormattedMessage id="pageConfig.saveAsNewWidget" />
           </MenuItem>
         ),

@@ -20,6 +20,7 @@ import { fetchPage, deletePageWidget, putPageWidget } from 'api/pages';
 import { getPageModel } from 'api/pageModels';
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
+import { validatePageModel } from 'state/page-models/helpers';
 
 jest.mock('api/pages', () => ({
   fetchPage: jest.fn(),
@@ -41,6 +42,10 @@ jest.mock('state/page-models/actions', () => ({
     .mockImplementation(require.requireActual('state/page-models/actions').setSelectedPageModel),
 }));
 
+jest.mock('state/page-models/helpers', () => ({
+  validatePageModel: jest.fn(),
+}));
+
 
 const resolve = arg => new Promise(r => r(arg));
 
@@ -52,7 +57,9 @@ const CURRENT_PAGE_CODE = 'homepage';
 getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
 
 describe('state/page-config/actions', () => {
-  beforeEach(jest.clearAllMocks);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   let store;
 
@@ -103,6 +110,9 @@ describe('state/page-config/actions', () => {
 
   describe('initConfigPage()', () => {
     beforeEach(() => {
+      fetchPage.mockReturnValue(resolve(HOMEPAGE_RESPONSE));
+      getPageModel.mockReturnValue(resolve(COMPLEX_RESPONSE));
+      validatePageModel.mockReturnValue([]);
       store = mockStore(INITIAL_STATE);
     });
 
@@ -116,7 +126,6 @@ describe('state/page-config/actions', () => {
     });
 
     it('when GET /pagemodels/<code> returns errors, it will dispatch ADD_ERRORS', () => {
-      fetchPage.mockReturnValue(resolve(HOMEPAGE_RESPONSE));
       getPageModel.mockReturnValue(resolve(ERROR));
       return store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
@@ -126,16 +135,23 @@ describe('state/page-config/actions', () => {
       });
     });
 
-    it('when API responses are ok', () => {
-      fetchPage.mockReturnValue(resolve(HOMEPAGE_RESPONSE));
-      getPageModel.mockReturnValue(resolve(COMPLEX_RESPONSE));
+    it('when GET /page/<code> returns a non valid page model, it will dispatch ADD_ERRORS', () => {
+      validatePageModel.mockImplementation(() => [{ id: 'message.id' }]);
       return store.dispatch(initConfigPage()).then(() => {
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes).toEqual([ADD_ERRORS]);
+      });
+    });
+
+    it('when API responses are ok', () => {
+      const promise = store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG]);
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
       });
+      return promise;
     });
   });
 

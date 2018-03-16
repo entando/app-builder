@@ -61,7 +61,9 @@ const configMap = (state = {}, action = {}) => {
 
       // set the new widgets in the right frames
       newConfig[targetFrameId] = newWidget;
-      newConfig[sourceFrameId] = replacedWidget;
+      if (isChangingFrame) {
+        newConfig[sourceFrameId] = replacedWidget;
+      }
 
       return {
         ...state,

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import { validatePageModel } from 'state/page-models/helpers';
 
 const GRID_WIDTH = 12;
 
@@ -13,7 +14,8 @@ export const getPageModels = state => state.pageModels;
 export const getPageModelsList = state => state.pageModels.list;
 export const getSelectedPageModel = state => state.pageModels.selected;
 
-// useful debug function
+// useful debug functions, please do not remove
+/*
 // eslint-disable-next-line no-unused-vars
 const printMatrix = (frames, matrix) => {
   const yMax = matrix.reduce((acc, col) => (acc < col.length ? col.length : acc), 0);
@@ -35,30 +37,36 @@ const printMatrix = (frames, matrix) => {
   console.log(colAr.join('\n'));
 };
 
+const cellMapToTree = (cellMap, parentKey) => {
+  let rootKey = parentKey;
+  if (!rootKey) {
+    rootKey = Object.keys(cellMap).find(key => key.match(/^root:/));
+  }
+  const rootCell = { ...cellMap[rootKey] };
+  const children = objectValues(cellMap)
+    .filter(cell => cell.parentKey === rootKey)
+    .map(cell => cellMapToTree(cellMap, cell.key));
+  if (children.length) {
+    const childrenName = rootCell.type === CELL_TYPE.ROW ? 'cols' : 'rows';
+    rootCell[childrenName] = children;
+  }
+  return rootCell;
+};
+*/
+
 const createFramesMatrix = (frames) => {
   const matrix = [];
   for (let x = 0; x < GRID_WIDTH; x += 1) {
     matrix.push([]);
   }
-  try {
-    frames.forEach((frame, i) => {
-      for (let x = frame.sketch.x1; x <= frame.sketch.x2; x += 1) {
-        for (let y = frame.sketch.y1; y <= frame.sketch.y2; y += 1) {
-          // using != instead of !== to check both null and undefined
-          if (matrix[x][y] != null) {
-            // overlapping
-            throw new Error(`Overlapping frames: "${frames[matrix[x][y]].descr}" and "${frame.descr}"`);
-          }
-          matrix[x][y] = i;
-        }
+  frames.forEach((frame, i) => {
+    for (let x = frame.sketch.x1; x <= frame.sketch.x2; x += 1) {
+      for (let y = frame.sketch.y1; y <= frame.sketch.y2; y += 1) {
+        matrix[x][y] = i;
       }
-    });
-    return matrix;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn(e);
-    return null;
-  }
+    }
+  });
+  return matrix;
 };
 
 
@@ -127,22 +135,6 @@ const getCols = (frames, matrix, bounds) => {
 
 const objectValues = object => Object.keys(object).map(prop => object[prop]);
 
-// useful debug method
-const cellMapToTree = (cellMap, parentKey) => {
-  let rootKey = parentKey;
-  if (!rootKey) {
-    rootKey = Object.keys(cellMap).find(key => key.match(/^root:/));
-  }
-  const rootCell = { ...cellMap[rootKey] };
-  const children = objectValues(cellMap)
-    .filter(cell => cell.parentKey === rootKey)
-    .map(cell => cellMapToTree(cellMap, cell.key));
-  if (children.length) {
-    const childrenName = rootCell.type === CELL_TYPE.ROW ? 'cols' : 'rows';
-    rootCell[childrenName] = children;
-  }
-  return rootCell;
-};
 
 const fixMissingSketch = (frames) => {
   let yMax = frames
@@ -163,6 +155,11 @@ const getCellMap = (pageModel) => {
   if (!pageModel) {
     return null;
   }
+  const errors = validatePageModel(pageModel);
+  if (errors && errors.length) {
+    return null;
+  }
+
   const frames = fixMissingSketch(pageModel.configuration.frames);
 
   const yMax = frames
@@ -173,9 +170,6 @@ const getCellMap = (pageModel) => {
   };
   rootCol.key = getCellKey(rootCol);
   const matrix = createFramesMatrix(frames);
-  if (!matrix) {
-    return null;
-  }
 
   const stack = [];
   const cellsMap = {

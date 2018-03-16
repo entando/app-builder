@@ -140,3 +140,30 @@ describe('WidgetFrame (with onClickDelete handler)', () => {
     expect(onClickDeleteMock).toHaveBeenCalledWith(FRAME_ID);
   });
 });
+
+describe('WidgetFrame (with widget that has config)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        widgetHasConfig
+      />
+    ));
+  });
+
+  it('renders the API menu item', () => {
+    expect(component.find('.WidgetFrame__api-btn').exists()).toBe(true);
+  });
+
+  it('renders the Settings menu item', () => {
+    expect(component.find('.WidgetFrame__settings-btn').exists()).toBe(true);
+  });
+
+  it('renders the Save as new widget menu item', () => {
+    expect(component.find('.WidgetFrame__save-btn').exists()).toBe(true);
+  });
+});
