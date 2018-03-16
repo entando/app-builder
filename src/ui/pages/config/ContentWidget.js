@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 
-import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
+import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
 
 const renderWidgetCategory = title => (
@@ -17,10 +17,10 @@ const renderWidgetCategory = title => (
 );
 
 const renderWidgetElement = el => (
-  <ContentWidgetElement
-    key={el.name}
-    code={el.name}
-    description={el.name}
+  <DraggableContentWidgetElement
+    key={el.code}
+    widgetName={el.name}
+    widgetId={el.code}
   />
 );
 
@@ -51,7 +51,6 @@ const ContentWidget = ({
         <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
           <i
             className="fa fa-th-large ContentWidget__pointer ContentWidget__view-mode-icon"
-            ariaHidden="true"
             role="button"
             tabIndex={-1}
             onKeyDown={() => changeViewList('card')}
@@ -59,7 +58,6 @@ const ContentWidget = ({
           />
           <i
             className="fa fa-th-list ContentWidget__pointer ContentWidget__view-mode-icon"
-            ariaHidden="true"
             role="button"
             tabIndex={-2}
             onKeyDown={() => changeViewList('list')}

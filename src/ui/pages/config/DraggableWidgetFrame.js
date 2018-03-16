@@ -7,8 +7,9 @@ import { updatePageWidget, removePageWidget } from 'state/page-config/actions';
 
 
 export const mapDispatchToProps = dispatch => ({
-  onDrop: ({ sourceWidget, sourceFrame, targetFrame }) =>
-    dispatch(updatePageWidget(sourceWidget, targetFrame.pos, sourceFrame.pos)),
+  onDrop: ({ sourceWidgetId, sourceFrameId, targetFrameId }) => {
+    dispatch(updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId));
+  },
   onClickDelete: frameId => dispatch(removePageWidget(frameId)),
 });
 

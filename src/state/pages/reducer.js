@@ -10,8 +10,6 @@ import {
   SET_FREE_PAGES,
 } from 'state/pages/types';
 
-import { SET_PAGE_WIDGETS, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
-
 
 // creates a map from an array
 const toMap = (array, propKey) => array.reduce((acc, page) => {
@@ -144,51 +142,6 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
-const widgetsMap = (state = {}, action = {}) => {
-  switch (action.type) {
-    case SET_PAGE_WIDGETS: {
-      const { pageCode, pageWidgets } = action.payload;
-      return {
-        ...state,
-        [pageCode]: pageWidgets,
-      };
-    }
-
-    case SET_PAGE_WIDGET: {
-      const {
-        pageCode, widget, frameId, oldFrameId,
-      } = action.payload;
-
-      const newPageWidgets = [...state[pageCode]];
-      const prevWidget = newPageWidgets[frameId];
-      newPageWidgets[frameId] = {
-        type: widget.code,
-        config: widget.config,
-      };
-      if (prevWidget) {
-        newPageWidgets[oldFrameId] = prevWidget;
-      } else {
-        newPageWidgets[oldFrameId] = null;
-      }
-      return {
-        ...state,
-        [pageCode]: newPageWidgets,
-      };
-    }
-
-    case REMOVE_PAGE_WIDGET: {
-      const { pageCode, frameId } = action.payload;
-      const newPageWidgets = [...state[pageCode]];
-      newPageWidgets[frameId] = null;
-      return {
-        ...state,
-        [pageCode]: newPageWidgets,
-      };
-    }
-
-    default: return state;
-  }
-};
 
 export default combineReducers({
   map: reducer,
@@ -196,5 +149,4 @@ export default combineReducers({
   titlesMap,
   statusMap,
   freePages,
-  widgetsMap,
 });

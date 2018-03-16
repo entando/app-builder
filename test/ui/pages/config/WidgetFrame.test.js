@@ -4,15 +4,11 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import WidgetFrame from 'ui/pages/config/WidgetFrame';
 
-const FRAME = {
-  pos: 1,
-  descr: 'The frame descr',
-};
+const FRAME_ID = 1;
+const FRAME_NAME = 'The frame descr';
+const WIDGET_ID = 'widget_code';
+const WIDGET_NAME = 'The widget name';
 
-const WIDGET = {
-  code: 'widget_code',
-  name: 'The widget name',
-};
 
 const connectDropTargetMock = jest.fn().mockImplementation(arg => arg);
 const connectDragSourceMock = jest.fn().mockImplementation(arg => arg);
@@ -22,7 +18,12 @@ describe('WidgetFrame (basic rendering)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <WidgetFrame frame={FRAME} widget={WIDGET} />
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+      />
     ));
   });
 
@@ -35,7 +36,7 @@ describe('WidgetFrame (basic rendering)', () => {
   });
 
   it('renders the frame descr', () => {
-    expect(component.contains(FRAME.descr)).toBe(true);
+    expect(component.contains(FRAME_NAME)).toBe(true);
   });
 });
 
@@ -43,7 +44,13 @@ describe('WidgetFrame (droppable)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <WidgetFrame frame={FRAME} widget={WIDGET} connectDropTarget={connectDropTargetMock} />
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        connectDropTarget={connectDropTargetMock}
+      />
     ));
   });
 
@@ -64,7 +71,13 @@ describe('WidgetFrame (draggable)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <WidgetFrame frame={FRAME} widget={WIDGET} connectDragSource={connectDragSourceMock} />
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        connectDragSource={connectDragSourceMock}
+      />
     ));
   });
 
@@ -85,7 +98,13 @@ describe('WidgetFrame (hovered)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <WidgetFrame frame={FRAME} widget={WIDGET} isOver />
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        isOver
+      />
     ));
   });
 
@@ -106,12 +125,18 @@ describe('WidgetFrame (with onClickDelete handler)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <WidgetFrame frame={FRAME} widget={WIDGET} onClickDelete={onClickDeleteMock} />
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        onClickDelete={onClickDeleteMock}
+      />
     ));
   });
 
   it('calls the onClickDelete function', () => {
     component.find('.WidgetFrame__delete-btn').prop('onClick')();
-    expect(onClickDeleteMock).toHaveBeenCalledWith(FRAME.pos);
+    expect(onClickDeleteMock).toHaveBeenCalledWith(FRAME_ID);
   });
 });

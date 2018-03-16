@@ -14,7 +14,15 @@ export const HOMEPAGE_WIDGETS = [
   null,
   { type: 'login_form' },
   null,
-  { type: 'pippo' },
+  { type: 'search_form' },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  { type: 'single_content', config: {} },
 ];
 export const DASHBOARD_WIDGETS = [];
 export const SERVICE_WIDGETS = [];

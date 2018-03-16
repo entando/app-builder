@@ -34,6 +34,8 @@ export default {
     'app.all': 'All',
     'app.reload': 'Reload',
     'app.pages': 'Pages',
+    'app.settings': 'Settings',
+    'app.api': 'API',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -156,5 +158,8 @@ export default {
     'dataType.table.status.ko': 'Stale status, please reload.',
     'dataType.table.status.wip': 'Reloading. Refresh this page.',
     'dataType.listEmpty': 'Thera are no DATA TYPES available',
+    'pageConfig.saveAsNewWidget': 'Save it as new widget',
+    'pageModel.error.overlapping': 'Frame "{frame1}" and "{frame2}" are overlapping',
+    'pageModel.error.pos': 'Frame "{frame}" "pos" property differs from its index',
   },
 };

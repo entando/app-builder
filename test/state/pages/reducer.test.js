@@ -10,7 +10,7 @@ import {
   setFreePages,
 } from 'state/pages/actions';
 
-import { setPageWidgets, setPageWidget, removePageWidgetSync } from 'state/page-config/actions';
+// import { setPageWidgets, setPageWidget, removePageWidgetSync } from 'state/page-config/actions';
 
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
@@ -22,8 +22,8 @@ const PAGE_WIDGETS = [
   { type: 'login_form' },
   null,
 ];
-const EMPTY_FRAME_INDEX = 2;
-const FULL_FRAME_INDEX = 1;
+// const EMPTY_FRAME_INDEX = 2;
+// const FULL_FRAME_INDEX = 1;
 
 
 describe('state/pages/reducer', () => {
@@ -57,10 +57,6 @@ describe('state/pages/reducer', () => {
       PAGES.forEach((page) => {
         expect(state.titlesMap[page.code]).toBeDefined();
       });
-    });
-
-    it('should define the widgetsMap', () => {
-      expect(state.widgetsMap).toBeDefined();
     });
 
 
@@ -161,6 +157,7 @@ describe('state/pages/reducer', () => {
     });
   });
 
+  /*
   describe('after action SET_PAGE_WIDGETS', () => {
     const PAGE_CODE = 'some_page';
     let state;
@@ -231,4 +228,5 @@ describe('state/pages/reducer', () => {
       expect(state.widgetsMap[PAGE_CODE][FULL_FRAME_INDEX]).toBe(null);
     });
   });
+  */
 });

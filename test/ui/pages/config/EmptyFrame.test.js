@@ -4,10 +4,9 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import EmptyFrame from 'ui/pages/config/EmptyFrame';
 
-const FRAME = {
-  pos: 1,
-  descr: 'The frame descr',
-};
+const FRAME_ID = 1;
+const FRAME_NAME = 'The frame descr';
+
 
 const connectDropTargetMock = jest.fn().mockImplementation(arg => arg);
 
@@ -15,7 +14,7 @@ describe('EmptyFrame (basic rendering)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <EmptyFrame frame={FRAME} />
+      <EmptyFrame frameId={FRAME_ID} frameName={FRAME_NAME} />
     ));
   });
 
@@ -28,7 +27,7 @@ describe('EmptyFrame (basic rendering)', () => {
   });
 
   it('renders the frame descr', () => {
-    expect(component.contains(FRAME.descr)).toBe(true);
+    expect(component.contains(FRAME_NAME)).toBe(true);
   });
 });
 
@@ -36,7 +35,11 @@ describe('EmptyFrame (droppable, not hovered)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <EmptyFrame frame={FRAME} connectDropTarget={connectDropTargetMock} />
+      <EmptyFrame
+        frameId={FRAME_ID}
+        frameName={FRAME_NAME}
+        connectDropTarget={connectDropTargetMock}
+      />
     ));
   });
 
@@ -57,7 +60,12 @@ describe('EmptyFrame (droppable, hovered)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <EmptyFrame frame={FRAME} connectDropTarget={connectDropTargetMock} isOver />
+      <EmptyFrame
+        frameId={FRAME_ID}
+        frameName={FRAME_NAME}
+        connectDropTarget={connectDropTargetMock}
+        isOver
+      />
     ));
   });
 

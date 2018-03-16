@@ -1,4 +1,3 @@
-import { getParams } from 'frontend-common-components';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
@@ -7,19 +6,12 @@ import {
 
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
-  getPageTreePages, getCharsets, getContentTypes, getFreePages, getCurrentPageWidgets,
+  getPageTreePages, getCharsets, getContentTypes, getFreePages,
 } from 'state/pages/selectors';
 
 const LOCALE_MOCK = 'en';
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
-const CUR_PAGE = 'some_page';
-
-const PAGE_WIDGETS = [
-  null,
-  { type: 'some_widget' },
-  null,
-];
 
 const MOCK_STATE = {
   pages: {
@@ -60,9 +52,6 @@ const MOCK_STATE = {
       notfound: {},
     },
     freePages: [],
-    widgetsMap: {
-      [CUR_PAGE]: PAGE_WIDGETS,
-    },
   },
 };
 
@@ -194,13 +183,6 @@ describe('state/pages/selectors', () => {
   describe('getFreePages(state)', () => {
     it('verify getFreePages selector', () => {
       expect(getFreePages(MOCK_STATE)).toBeDefined();
-    });
-  });
-
-  describe('getCurrentPageWidgets(state)', () => {
-    it('verify getCurrentPageWidgets selector when there is no current page', () => {
-      getParams.mockReturnValue({});
-      expect(getCurrentPageWidgets(MOCK_STATE)).toEqual([]);
     });
   });
 });

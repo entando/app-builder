@@ -4,10 +4,16 @@ import PropTypes from 'prop-types';
 import PageConfigGridCol from 'ui/pages/config/PageConfigGridCol';
 
 
-const PageConfigGrid = ({ pageModelStruct, pageWidgets }) => {
-  const content = pageModelStruct ?
-    <PageConfigGridCol col={pageModelStruct} pageWidgets={pageWidgets} /> :
-    null;
+const PageConfigGrid = ({ cellMap }) => {
+  let content = null;
+
+  if (cellMap) {
+    const rootKey = Object.keys(cellMap).find(key => key.match(/^root/));
+    if (!rootKey) {
+      throw new Error('Root key not found in cell map');
+    }
+    content = <PageConfigGridCol cellMap={cellMap} cellKey={rootKey} />;
+  }
 
   return (
     <div className="PageConfigGrid">
@@ -19,29 +25,26 @@ const PageConfigGrid = ({ pageModelStruct, pageWidgets }) => {
 
 // PropTypes
 
-const COL_TYPE = PropTypes.shape({
-  x1: PropTypes.number.isRequired,
-  x2: PropTypes.number.isRequired,
-  y1: PropTypes.number.isRequired,
-  y2: PropTypes.number.isRequired,
-  frame: PropTypes.shape({
-    descr: PropTypes.string.isRequired,
-    pos: PropTypes.number.isRequired,
-  }),
-});
-
-
 PageConfigGrid.propTypes = {
-  pageModelStruct: COL_TYPE,
-  pageWidgets: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    config: PropTypes.shape({}),
+  cellMap: PropTypes.objectOf(PropTypes.shape({
+    x1: PropTypes.number.isRequired,
+    x2: PropTypes.number.isRequired,
+    y1: PropTypes.number.isRequired,
+    y2: PropTypes.number.isRequired,
+    frame: PropTypes.shape({
+      descr: PropTypes.string.isRequired,
+      pos: PropTypes.number.isRequired,
+    }),
+    widget: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      hasConfig: PropTypes.bool.isRequired,
+    }),
   })),
 };
 
 PageConfigGrid.defaultProps = {
-  pageModelStruct: null,
-  pageWidgets: [],
+  cellMap: null,
 };
 
 export default PageConfigGrid;

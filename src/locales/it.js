@@ -34,6 +34,8 @@ export default {
     'app.all': 'Tutti',
     'app.reload': 'Ricarica',
     'app.pages': 'Pagine',
+    'app.settings': 'Impostazioni',
+    'app.api': 'API',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',
@@ -156,5 +158,8 @@ export default {
     'dataType.table.status.ko': 'Necessità di un ricaricamento: lancialo ora.',
     'dataType.table.status.wip': 'Ricaricamento in corso. Aggiorna la pagina.',
     'dataType.listEmpty': 'Non ci sono DATA TYPES disponibili',
+    'pageConfig.saveAsNewWidget': 'Salva come nuovo widget',
+    'pageModel.error.overlapping': 'I frame "{frame1}" e "{frame2}" sono sovrapposti',
+    'pageModel.error.pos': 'La proprietà "pos" del frame "{frame}" è diversa dal suo indice',
   },
 };

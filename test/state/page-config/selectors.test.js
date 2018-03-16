@@ -1,6 +1,6 @@
 import { getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig } from 'state/page-config/selectors';
 import { WIDGET_LIST, WIDGET_ONE_ELEMENT, WIDGET_ONE_LIST } from 'test/mocks/widgetList';
-import { getListWidget } from 'state/widgets/selectors';
+import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 
 const MOCK_DATA = {
   content: 'WIDGET_LIST',
@@ -14,10 +14,12 @@ const MOCK_STATE = {
 jest.mock('state/widgets/selectors', () => (
   {
     getListWidget: jest.fn(),
+    getWidgetsMap: jest.fn(),
   }
 ));
 
-getListWidget.mockReturnValue(WIDGET_LIST.payload);
+getListWidget.mockImplementation(() => WIDGET_LIST.payload);
+getWidgetsMap.mockImplementation(() => ({}));
 
 describe('state/page-config/selectors', () => {
   it('getPageConfig(state) return a pageConfig object', () => {

@@ -5,8 +5,9 @@ import frameDropTarget from 'ui/pages/config/frameDropTarget';
 import { updatePageWidget } from 'state/page-config/actions';
 
 export const mapDispatchToProps = dispatch => ({
-  onDrop: ({ sourceWidget, sourceFrame, targetFrame }) =>
-    dispatch(updatePageWidget(sourceWidget, targetFrame.pos, sourceFrame.pos)),
+  onDrop: ({ sourceWidgetId, sourceFrameId, targetFrameId }) => {
+    dispatch(updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId));
+  },
 });
 
 export default connect(null, mapDispatchToProps)(frameDropTarget(EmptyFrame));

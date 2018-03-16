@@ -9,7 +9,7 @@ import {
 
 import { ADD_ERRORS } from 'state/errors/types';
 import { SET_SELECTED_PAGE_MODEL } from 'state/page-models/types';
-import { SET_PAGE_WIDGETS, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
+import { SET_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 
 import { HOMEPAGE_RESPONSE, ERROR } from 'test/mocks/pages';
 import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
@@ -57,13 +57,13 @@ describe('state/page-config/actions', () => {
   let store;
 
   describe('setPageWidget()', () => {
-    const WIDGET = {};
+    const WIDGET_ID = 'widget_code';
     const FRAME_ID = 1;
     const OLD_FRAME_ID = 2;
     let action;
 
     beforeEach(() => {
-      action = setPageWidget(CURRENT_PAGE_CODE, WIDGET, FRAME_ID, OLD_FRAME_ID);
+      action = setPageWidget(CURRENT_PAGE_CODE, WIDGET_ID, OLD_FRAME_ID, FRAME_ID);
     });
 
     it('returns an action with the correct action type', () => {
@@ -73,9 +73,9 @@ describe('state/page-config/actions', () => {
     it('returns an action with a well formed payload', () => {
       expect(action.payload).toEqual({
         pageCode: CURRENT_PAGE_CODE,
-        widget: WIDGET,
-        frameId: FRAME_ID,
-        oldFrameId: OLD_FRAME_ID,
+        widgetId: WIDGET_ID,
+        targetFrameId: FRAME_ID,
+        sourceFrameId: OLD_FRAME_ID,
       });
     });
   });
@@ -133,7 +133,7 @@ describe('state/page-config/actions', () => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_WIDGETS]);
+        expect(actionTypes).toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG]);
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
       });
     });
@@ -145,11 +145,12 @@ describe('state/page-config/actions', () => {
       store = mockStore(INITIAL_STATE);
     });
 
-    it('calls DELETE page widget API and dispatches REMOVE_PAGE_WIDGET', () => {
+    it('calls DELETE page widget API and dispatches REMOVE_PAGE_WIDGET', (done) => {
       store.dispatch(removePageWidget(FRAME_ID)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([REMOVE_PAGE_WIDGET]);
         expect(deletePageWidget).toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID);
+        done();
       });
     });
   });
@@ -162,11 +163,12 @@ describe('state/page-config/actions', () => {
       store = mockStore(INITIAL_STATE);
     });
 
-    it('calls PUT page widget API and dispatches SET_PAGE_WIDGET', () => {
-      store.dispatch(updatePageWidget(WIDGET, FRAME_ID, OLD_FRAME_ID)).then(() => {
+    it('calls PUT page widget API and dispatches SET_PAGE_WIDGET', (done) => {
+      store.dispatch(updatePageWidget(WIDGET, OLD_FRAME_ID, FRAME_ID)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
         expect(putPageWidget).toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, WIDGET);
+        done();
       });
     });
   });

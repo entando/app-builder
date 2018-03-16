@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { getParams } from 'frontend-common-components';
 
 import { getLocale } from 'state/locale/selectors';
 
@@ -10,7 +9,6 @@ export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
 export const getFreePages = state => state.pages.freePages;
-export const getPageWidgetsMap = state => state.pages.widgetsMap;
 
 
 // relies on the children map order
@@ -102,14 +100,3 @@ export const getContentTypes = () => ([
   'text/html',
   'text/xml',
 ]);
-
-export const getCurrentPageWidgets = createSelector(
-  [getPageWidgetsMap, getParams],
-  (pageWidgetsMap, params) => {
-    const { pageCode } = params;
-    if (!pageCode) {
-      return [];
-    }
-    return pageWidgetsMap[pageCode];
-  },
-);

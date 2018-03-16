@@ -7,7 +7,7 @@ import {
 import {
   HOMEPAGE_RESPONSE, LOGIN_RESPONSE, SERVICE_RESPONSE, CONTACTS_RESPONSE,
   NOTFOUND_RESPONSE, ERROR_RESPONSE, DASHBOARD_RESPONSE,
-} from 'test/mocks/pageWidgets';
+} from 'test/mocks/pageConfig';
 
 import throttle from 'util/throttle';
 import { errorResponse } from 'testUtils';

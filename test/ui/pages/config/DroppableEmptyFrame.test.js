@@ -9,10 +9,10 @@ jest.mock('state/page-config/actions', () => ({
   updatePageWidget: jest.fn().mockReturnValue('updatePageWidget__result'),
 }));
 
-const SOURCE_WIDGET = { code: 'sample' };
+const SOURCE_WIDGET_ID = 'widget_code';
 
-const SOURCE_FRAME = { pos: 1 };
-const TARGET_FRAME = { pos: 2 };
+const SOURCE_FRAME_ID = 1;
+const TARGET_FRAME_ID = 2;
 
 describe('ui/pages/config/DraggableWidgetFrame', () => {
   beforeEach(jest.clearAllMocks);
@@ -25,12 +25,12 @@ describe('ui/pages/config/DraggableWidgetFrame', () => {
 
     it('onDrop will dispatch "updatePageWidget" action', () => {
       props.onDrop({
-        sourceWidget: SOURCE_WIDGET,
-        sourceFrame: SOURCE_FRAME,
-        targetFrame: TARGET_FRAME,
+        sourceWidgetId: SOURCE_WIDGET_ID,
+        sourceFrameId: SOURCE_FRAME_ID,
+        targetFrameId: TARGET_FRAME_ID,
       });
       expect(updatePageWidget)
-        .toHaveBeenCalledWith(SOURCE_WIDGET, TARGET_FRAME.pos, SOURCE_FRAME.pos);
+        .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID);
       expect(dispatchMock).toHaveBeenCalledWith('updatePageWidget__result');
     });
   });

@@ -2,8 +2,8 @@ import { dropTarget, collect } from 'ui/pages/config/frameDropTarget';
 
 
 const PROPS = {
-  frame: { pos: 1, descr: 'A Frame' },
-  widget: { code: 'widget_code' },
+  frame: 1,
+  widget: 'widget_code',
 };
 
 const PROPS_WITH_ONDROP = {
@@ -16,8 +16,8 @@ const IS_OVER = false;
 const CAN_DROP = true;
 const ITEM_TYPE = 'ITEM_TYPE';
 const ITEM = {
-  frame: { pos: 2, descr: 'Item Frame' },
-  widget: { code: 'widget_code_2' },
+  frameId: 2,
+  widgetId: 'widget_code_2',
 };
 
 const CONNECT_MOCK = {
@@ -38,7 +38,7 @@ describe('ui/pages/config/frameDropTarget', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('dropTarget', () => {
-    it('canDrop returns true if item.widget !== props.widget', () => {
+    it('canDrop returns true if item.widgetId !== props.widgetId', () => {
       const result = dropTarget.canDrop(PROPS, MONITOR_MOCK);
       expect(result).toBe(true);
     });
@@ -60,10 +60,10 @@ describe('ui/pages/config/frameDropTarget', () => {
       dropTarget.drop(PROPS_WITH_ONDROP, MONITOR_MOCK);
       expect(global.console.warn).not.toHaveBeenCalled();
       expect(PROPS_WITH_ONDROP.onDrop).toHaveBeenCalledWith({
-        targetFrame: PROPS_WITH_ONDROP.frame,
-        targetWidget: PROPS_WITH_ONDROP.widget,
-        sourceFrame: ITEM.frame,
-        sourceWidget: ITEM.widget,
+        targetFrameId: PROPS_WITH_ONDROP.frameId,
+        targetWidgetId: PROPS_WITH_ONDROP.widgetId,
+        sourceFrameId: ITEM.frameId,
+        sourceWidgetId: ITEM.widgetId,
       });
     });
   });

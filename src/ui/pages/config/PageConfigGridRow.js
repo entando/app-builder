@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import PageConfigGridCol from 'ui/pages/config/PageConfigGridCol';
 
 
-const PageConfigGridRow = ({ row, gridWidth, pageWidgets }) => {
-  const columns = row.cols.map(col => (
+const PageConfigGridRow = ({ cellMap, cellKey, gridWidth }) => {
+  const children = Object.keys(cellMap)
+    .map(key => cellMap[key])
+    .filter(cell => cell.parentKey === cellKey);
+
+  const columns = children.map(col => (
     <PageConfigGridCol
-      key={`col-${col.x1}`}
-      col={col}
+      key={col.key}
+      cellMap={cellMap}
+      cellKey={col.key}
       gridWidth={gridWidth}
-      pageWidgets={pageWidgets}
     />
   ));
 
@@ -24,38 +28,28 @@ const PageConfigGridRow = ({ row, gridWidth, pageWidgets }) => {
 
 // PropTypes
 
-const COORDS_SHAPE = {
-  x1: PropTypes.number.isRequired,
-  x2: PropTypes.number.isRequired,
-  y1: PropTypes.number.isRequired,
-  y2: PropTypes.number.isRequired,
-};
-
-
-const COL_TYPE = PropTypes.shape({
-  ...COORDS_SHAPE,
-  frame: PropTypes.shape({
-    descr: PropTypes.string.isRequired,
-    sketch: PropTypes.shape(COORDS_SHAPE),
-  }),
-});
-
-
 PageConfigGridRow.propTypes = {
-  row: PropTypes.shape({
-    ...COORDS_SHAPE,
-    cols: PropTypes.arrayOf(COL_TYPE).isRequired,
-  }).isRequired,
+  cellMap: PropTypes.objectOf(PropTypes.shape({
+    x1: PropTypes.number.isRequired,
+    x2: PropTypes.number.isRequired,
+    y1: PropTypes.number.isRequired,
+    y2: PropTypes.number.isRequired,
+    frame: PropTypes.shape({
+      descr: PropTypes.string.isRequired,
+      pos: PropTypes.number.isRequired,
+    }),
+    widget: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      hasConfig: PropTypes.bool.isRequired,
+    }),
+  })).isRequired,
+  cellKey: PropTypes.string.isRequired,
   gridWidth: PropTypes.number,
-  pageWidgets: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    config: PropTypes.shape({}),
-  })),
 };
 
 PageConfigGridRow.defaultProps = {
   gridWidth: 12,
-  pageWidgets: [],
 };
 
 export default PageConfigGridRow;

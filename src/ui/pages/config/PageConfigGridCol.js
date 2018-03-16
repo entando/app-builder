@@ -7,42 +7,56 @@ import DraggableWidgetFrame from 'ui/pages/config/DraggableWidgetFrame';
 
 export const ROW_HEIGHT = 80;
 
-const PageConfigGridCol = ({ col, gridWidth, pageWidgets }) => {
+
+const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
+  const col = cellMap[cellKey];
+  const childrenRows = Object.keys(cellMap)
+    .map(key => cellMap[key])
+    .filter(cell => cell.parentKey === cellKey);
+
+
   const width = (col.x2 - col.x1) + 1;
   const height = (col.y2 - col.y1) + 1;
   const pcWidth = ((width / gridWidth) * 100);
 
-  const pageWidget = col.frame && pageWidgets[col.frame.pos];
-
   const classNameAr = ['PageConfigGridCol'];
   let content;
-  if (col.rows) {
+  if (childrenRows.length) {
+    // this col contains nested rows
     classNameAr.push('PageConfigGridCol--container');
-    content = col.rows.map(row => (
+    content = childrenRows.map(row => (
       <PageConfigGridRow
-        key={`row-${row.y1}`}
-        row={row}
-        parentBsWidth={width}
-        pageWidgets={pageWidgets}
+        key={row.key}
+        cellMap={cellMap}
+        cellKey={row.key}
+        gridWidth={width}
       />
     ));
-  } else if (!col.frame) {
+  } else if (!Number.isInteger(col.framePos)) {
+    // this col does not contain a frame
     classNameAr.push('PageConfigGridCol--hole');
     content = null;
-  } else if (pageWidget) {
+  } else if (col.widgetCode) {
+    // this col contains a frame with a widget
     classNameAr.push('PageConfigGridCol--frame');
     content = (
       <DraggableWidgetFrame
-        frame={col.frame}
-        widget={{
-          code: pageWidget.type,
-          name: pageWidget.type,
-        }}
+        frameId={col.framePos}
+        frameName={col.frameDescr}
+        widgetId={col.widgetCode}
+        widgetName={col.widgetTitle}
+        widgetHasConfig={col.widgetHasConfig}
       />
     );
   } else {
+    // this col contains an empty frame
     classNameAr.push('PageConfigGridCol--frame');
-    content = <DroppableEmptyFrame frame={col.frame} />;
+    content = (
+      <DroppableEmptyFrame
+        frameId={col.framePos}
+        frameName={col.frameDescr}
+      />
+    );
   }
 
   return (
@@ -57,30 +71,28 @@ const PageConfigGridCol = ({ col, gridWidth, pageWidgets }) => {
 };
 
 
-// PropTypes
-const COL_TYPE = PropTypes.shape({
-  x1: PropTypes.number.isRequired,
-  x2: PropTypes.number.isRequired,
-  y1: PropTypes.number.isRequired,
-  y2: PropTypes.number.isRequired,
-  frame: PropTypes.shape({
-    descr: PropTypes.string.isRequired,
-    pos: PropTypes.number.isRequired,
-  }),
-});
-
 PageConfigGridCol.propTypes = {
-  col: COL_TYPE.isRequired,
+  cellMap: PropTypes.objectOf(PropTypes.shape({
+    x1: PropTypes.number.isRequired,
+    x2: PropTypes.number.isRequired,
+    y1: PropTypes.number.isRequired,
+    y2: PropTypes.number.isRequired,
+    frame: PropTypes.shape({
+      descr: PropTypes.string.isRequired,
+      pos: PropTypes.number.isRequired,
+    }),
+    widget: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      hasConfig: PropTypes.bool.isRequired,
+    }),
+  })).isRequired,
+  cellKey: PropTypes.string.isRequired,
   gridWidth: PropTypes.number,
-  pageWidgets: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    config: PropTypes.shape({}),
-  })),
 };
 
 PageConfigGridCol.defaultProps = {
   gridWidth: 12,
-  pageWidgets: [],
 };
 
 export default PageConfigGridCol;

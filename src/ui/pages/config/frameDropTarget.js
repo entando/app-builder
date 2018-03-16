@@ -6,17 +6,17 @@ import { DND_TYPE_PAGE_CONFIG } from 'ui/pages/config/const';
 export const dropTarget = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    return item.widget !== props.widget;
+    return item.widgetId !== props.widgetId;
   },
 
   drop(props, monitor) {
     if (props.onDrop) {
       const item = monitor.getItem();
       props.onDrop({
-        targetFrame: props.frame,
-        targetWidget: props.widget,
-        sourceFrame: item.frame,
-        sourceWidget: item.widget,
+        targetFrameId: props.frameId,
+        targetWidgetId: props.widgetId,
+        sourceFrameId: item.frameId,
+        sourceWidgetId: item.widgetId,
       });
     } else {
       // eslint-disable-next-line no-console

@@ -1,11 +1,12 @@
-import { getParams } from 'frontend-common-components';
+import { getParams, formattedText } from 'frontend-common-components';
 import {
   SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST,
-  SET_PAGE_WIDGET, SET_PAGE_WIDGETS, REMOVE_PAGE_WIDGET,
+  SET_PAGE_WIDGET, SET_PAGE_CONFIG, REMOVE_PAGE_WIDGET,
 } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
+import { validatePageModel } from 'state/page-models/helpers';
 import {
   fetchPage,
   getPageWidgets,
@@ -15,21 +16,21 @@ import {
 import { getPageModel } from 'api/pageModels';
 
 
-export const setPageWidgets = (pageCode, pageWidgets) => ({
-  type: SET_PAGE_WIDGETS,
+export const setPageConfig = (pageCode, pageConfig) => ({
+  type: SET_PAGE_CONFIG,
   payload: {
     pageCode,
-    pageWidgets,
+    pageConfig,
   },
 });
 
-export const setPageWidget = (pageCode, widget, frameId, oldFrameId) => ({
+export const setPageWidget = (pageCode, widgetId, sourceFrameId, targetFrameId) => ({
   type: SET_PAGE_WIDGET,
   payload: {
     pageCode,
-    widget,
-    frameId,
-    oldFrameId,
+    widgetId,
+    sourceFrameId,
+    targetFrameId,
   },
 });
 
@@ -83,14 +84,22 @@ export const initConfigPage = () => (dispatch, getState) => {
       return getPageModel(pageModelCode)
         .then(handleResponseErrors(dispatch))
         .then((pmResp) => {
-          dispatch(setSelectedPageModel(pmResp.payload));
+          const pageModel = pmResp.payload;
+          const errors = validatePageModel(pageModel);
+          if (errors && errors.length) {
+            const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
+            dispatch(addErrors(translatedErrors));
+            throw new Error('Page model invalid', errors);
+          } else {
+            dispatch(setSelectedPageModel(pageModel));
+          }
         });
     })
     .then(() => {
       getPageWidgets(pageCode)
         .then(handleResponseErrors(dispatch))
         .then((pwResp) => {
-          dispatch(setPageWidgets(pageCode, pwResp.payload));
+          dispatch(setPageConfig(pageCode, pwResp.payload));
         });
     })
     .catch(() => {});
@@ -105,10 +114,12 @@ export const removePageWidget = frameId => (dispatch, getState) => {
     });
 };
 
-export const updatePageWidget = (widget, frameId, oldFrameId) => (dispatch, getState) => {
-  const { pageCode } = getParams(getState());
-  return putPageWidget(pageCode, frameId, widget)
-    .then(() => {
-      dispatch(setPageWidget(pageCode, widget, frameId, oldFrameId));
-    });
-};
+export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
+  (dispatch, getState) => {
+    const { pageCode } = getParams(getState());
+    // build payload
+    return putPageWidget(pageCode, targetFrameId, widgetId)
+      .then(() => {
+        dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
+      });
+  };

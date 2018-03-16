@@ -3,15 +3,15 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
-import { COMPLEX_STRUCT } from 'test/mocks/pageModels';
-import { HOMEPAGE_WIDGETS } from 'test/mocks/pageWidgets';
+import { CELL_MAP } from 'test/mocks/page-models/complex';
 
+const ROOT_KEY = Object.keys(CELL_MAP).find(key => key.match(/^root/));
 
 describe('PageConfigGrid (with COMPLEX page model)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <PageConfigGrid pageModelStruct={COMPLEX_STRUCT} pageWidgets={HOMEPAGE_WIDGETS} />
+      <PageConfigGrid cellMap={CELL_MAP} />
     ));
   });
 
@@ -19,11 +19,11 @@ describe('PageConfigGrid (with COMPLEX page model)', () => {
     expect(component.hasClass('PageConfigGrid')).toBe(true);
   });
 
-  it('renders a PageConfigGridCol with col = its pageModelStruct prop', () => {
-    expect(component.find('PageConfigGridCol').prop('col')).toBe(COMPLEX_STRUCT);
+  it('renders a PageConfigGridCol with cellMap = its cellMap prop', () => {
+    expect(component.find('PageConfigGridCol').prop('cellMap')).toBe(CELL_MAP);
   });
 
-  it('renders a PageConfigGridCol with pageWidgets = its pageWidgets prop', () => {
-    expect(component.find('PageConfigGridCol').prop('pageWidgets')).toBe(HOMEPAGE_WIDGETS);
+  it('renders a PageConfigGridCol with cellKey = the root key from the CELL MAP', () => {
+    expect(component.find('PageConfigGridCol').prop('cellKey')).toBe(ROOT_KEY);
   });
 });

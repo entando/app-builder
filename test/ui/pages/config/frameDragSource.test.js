@@ -1,8 +1,8 @@
 import { dragSource, collect } from 'ui/pages/config/frameDragSource';
 
 const PROPS = {
-  frame: { pos: 1, descr: 'A Frame' },
-  widget: { code: 'widget_code' },
+  frameId: 1,
+  widgetId: 'widget_code',
 };
 
 const CONNECT_DRAG_SOURCE = 'CONNECT_DRAG_SOURCE';
@@ -26,8 +26,8 @@ describe('ui/pages/config/frameDragSource', () => {
     it('beginDrag return the item description ("frame" and "widget" props)', () => {
       const item = dragSource.beginDrag(PROPS);
       expect(item).toEqual({
-        frame: PROPS.frame,
-        widget: PROPS.widget,
+        frameId: PROPS.frameId,
+        widgetId: PROPS.widgetId,
       });
     });
   });
