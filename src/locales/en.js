@@ -71,7 +71,7 @@ export default {
     'validateForm.email': 'Invalid email address',
     'validateForm.alphaNumeric': 'Only alphanumeric characters',
     'validateForm.widgetCode': '{name} Contains invalid characters. Only alphanumeric characters and the underscore _ are allowed',
-    'validateForm.passwordNotMatch': 'Confirm value doesn\'t match width Password value',
+    'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Code',
     'widget.page.create.code.placeholder': 'Code',
