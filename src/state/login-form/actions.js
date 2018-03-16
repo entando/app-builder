@@ -28,8 +28,10 @@ export const performLogin = (username, password) => dispatch => (
           response.json().then((json) => {
             dispatch(setUser({
               username,
-              token: json.payload.access_token,
+              token: json.access_token || json.payload.access_token,
             }));
+            localStorage.setItem('username', username);
+            localStorage.setItem('token', json.access_token || json.payload.access_token);
             gotoRoute(ROUTE_DASHBOARD);
             resolve();
           });

@@ -14,6 +14,15 @@ describe('current-user reducer', () => {
     expect(defaultState).toHaveProperty('token', null);
   });
 
+  it('should return predefined values if the localStorage exist', () => {
+    localStorage.setItem('username', 'admin');
+    localStorage.setItem('token', 'myToken');
+    const state = reducer();
+    expect(state).toHaveProperty('username', 'admin');
+    expect(state).toHaveProperty('token', 'myToken');
+    localStorage.clear();
+  });
+
   describe('after action setUser', () => {
     describe('username', () => {
       it('should assign the username status if a string', () => {
