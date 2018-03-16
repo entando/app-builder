@@ -17,6 +17,9 @@ class ToolbarPageConfig extends Component {
     if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
     }
+    const container = this.props.content === WIDGET_LIST ?
+      <ContentWidgetContainer /> :
+      <ContentPagesContainer />;
     return (
       <div className={classContainer.join(' ').trim()} >
         <span
@@ -49,10 +52,7 @@ class ToolbarPageConfig extends Component {
         </span>
         <div className="panel-group">
           <div className="ToolbarPageConfig__drawer-pf-container" >
-            {
-              this.props.content === WIDGET_LIST ?
-                <ContentWidgetContainer /> : <ContentPagesContainer />
-            }
+            {container}
           </div>
         </div>
       </div>
