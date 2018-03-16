@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 
-import { ROUTE_USER_EDIT } from 'app-init/router';
-
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import EditFormContainer from 'ui/users/edit/EditFormContainer';
 
 const EditUserPage = () => (
   <InternalPage className="EditUserPage">
@@ -17,7 +16,7 @@ const EditUserPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_USER_EDIT}>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.users" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
@@ -32,7 +31,7 @@ const EditUserPage = () => (
       />
       <Row>
         <Col xs={12}>
-          Edit User
+          <EditFormContainer />
         </Col>
       </Row>
     </Grid>

@@ -29,21 +29,19 @@ describe('ContentPagesContainer', () => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    describe('prop onWillMount', () => {
-      it('should map the correct function properties', () => {
-        expect(props.onWillMount).toBeDefined();
-        expect(props.onExpandPage).toBeDefined();
-      });
+    it('should map the correct function properties', () => {
+      expect(props.onWillMount).toBeDefined();
+      expect(props.onExpandPage).toBeDefined();
+    });
 
-      it('should dispatch an action if onWillMount is called', () => {
-        props.onWillMount();
-        expect(dispatchMock).toHaveBeenCalled();
-      });
+    it('should dispatch an action if onWillMount is called', () => {
+      props.onWillMount();
+      expect(dispatchMock).toHaveBeenCalled();
+    });
 
-      it('should dispatch an action if onExpandPage is called', () => {
-        props.onExpandPage('page');
-        expect(dispatchMock).toHaveBeenCalled();
-      });
+    it('should dispatch an action if onExpandPage is called', () => {
+      props.onExpandPage('page');
+      expect(dispatchMock).toHaveBeenCalled();
     });
   });
 });

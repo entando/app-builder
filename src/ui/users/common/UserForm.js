@@ -31,7 +31,7 @@ export class UserFormBody extends Component {
               <legend>
                 <FormattedMessage id="app.info" />
                 <div className="UserForm__required-fields text-right">
-                * <FormattedMessage id="app.fieldsRequired" />
+                  * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
               <Field
@@ -41,6 +41,7 @@ export class UserFormBody extends Component {
                 placeholder={formattedText('user.table.username')}
                 validate={[required, minLength(8), maxLength(20), userFormText]}
                 disabled={mode === EDIT_MODE}
+
               />
               <Field
                 component={RenderTextInput}
