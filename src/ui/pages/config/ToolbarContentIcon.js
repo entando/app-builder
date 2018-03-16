@@ -4,7 +4,7 @@ import { WIDGET_LIST } from 'state/page-config/const';
 
 
 const ToolbarContentIcon = ({
-  content, position, toolbarExpanded, handleClick,
+  content, position, toggleExpanded, handleClick,
 }) => {
   const iconClass = ['ToolbarContentIcon', `ToolbarContentIcon--${content}-${position}`];
   let target = content;
@@ -15,7 +15,7 @@ const ToolbarContentIcon = ({
     } else if (position === 'right') {
       target = WIDGET_LIST;
     }
-    if (toolbarExpanded) {
+    if (toggleExpanded) {
       iconClass[1] = `ToolbarContentIcon--${content}-${position}-expanded`;
     }
   }
@@ -35,12 +35,12 @@ ToolbarContentIcon.propTypes = {
   handleClick: PropTypes.func,
   position: PropTypes.oneOf(['left', 'right']).isRequired,
   content: PropTypes.oneOf(['widgets', 'pages']).isRequired,
-  toolbarExpanded: PropTypes.bool,
+  toggleExpanded: PropTypes.bool,
 };
 
 ToolbarContentIcon.defaultProps = {
   handleClick: () => {},
-  toolbarExpanded: false,
+  toggleExpanded: false,
 };
 
 export default ToolbarContentIcon;

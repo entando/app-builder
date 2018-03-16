@@ -55,10 +55,10 @@ describe('ToolbarPageConfig', () => {
       expect(component.instance().props.content).toEqual('pages');
     });
 
-    it('verify with prop toolbarExpanded', () => {
-      component = shallow(<ToolbarPageConfig toolbarExpanded />);
+    it('verify with prop toggleExpanded', () => {
+      component = shallow(<ToolbarPageConfig toggleExpanded />);
       expect(component.exists()).toBe(true);
-      expect(component.instance().props.toolbarExpanded).toBe(true);
+      expect(component.instance().props.toggleExpanded).toBe(true);
       expect(component.find('div').first().hasClass('ToolbarPageConfig__drawer-pf-sidebar-right-expanded')).toBeTruthy();
     });
   });

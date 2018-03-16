@@ -14,7 +14,7 @@ class ToolbarPageConfig extends Component {
 
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
-    if (this.props.toolbarExpanded) {
+    if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
     }
     return (
@@ -32,8 +32,8 @@ class ToolbarPageConfig extends Component {
             <ToolbarContentIcon
               content={this.props.content}
               position="left"
-              toolbarExpanded={this.props.toolbarExpanded}
-              handleClick={this.props.expandContentToolbar}
+              toggleExpanded={this.props.toggleExpanded}
+              handleClick={this.props.toggleContentToolbar}
             />
             <span className="ToolbarPageConfig__title">
               <FormattedMessage id="app.pages" />
@@ -65,15 +65,15 @@ ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
   changeContent: PropTypes.func,
   content: PropTypes.string,
-  toolbarExpanded: PropTypes.bool,
-  expandContentToolbar: PropTypes.func,
+  toggleExpanded: PropTypes.bool,
+  toggleContentToolbar: PropTypes.func,
 };
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
   changeContent: PropTypes.noop,
   content: WIDGET_LIST,
-  toolbarExpanded: false,
-  expandContentToolbar: PropTypes.noop,
+  toggleExpanded: false,
+  toggleContentToolbar: PropTypes.noop,
 };
 export default ToolbarPageConfig;

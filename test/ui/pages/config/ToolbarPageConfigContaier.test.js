@@ -3,13 +3,13 @@ import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 jest.mock('state/page-config/selectors', () => ({
   getContent: () => ('widgets'),
-  getToolbarExpanded: () => true,
+  getToggleExpanded: () => true,
 }));
 
 const TEST_STATE = {
   pageConfig: {
     content: WIDGET_LIST,
-    toolbarExpanded: true,
+    toggleExpanded: true,
   },
 };
 
@@ -52,28 +52,28 @@ describe('ToolbarPageConfigContainer', () => {
       });
     });
 
-    describe('prop expandContentToolbar', () => {
+    describe('prop toogleContentToolbar', () => {
       it('should map the correct function properties', () => {
-        props.expandContentToolbar();
-        expect(props.expandContentToolbar).toBeDefined();
+        props.toggleContentToolbar();
+        expect(props.toggleContentToolbar).toBeDefined();
       });
 
-      it('should not dispatch an action if expandContentToolbar have parameter value pages', () => {
-        props.expandContentToolbar();
+      it('should not dispatch an action if toggleContentToolbar have parameter value pages', () => {
+        props.toggleContentToolbar();
         expect(dispatchMock).not.toHaveBeenCalled();
       });
 
-      it('should dispatch an action if expandContentToolbar have parameter value pages', () => {
-        props.expandContentToolbar(PAGES);
+      it('should dispatch an action if toggleContentToolbar have parameter value pages', () => {
+        props.toggleContentToolbar(PAGES);
         expect(dispatchMock).toHaveBeenCalled();
       });
     });
 
     describe('mapStateToProps', () => {
-      it('maps content and toolbarExpanded property state', () => {
+      it('maps content and toggleExpanded property state', () => {
         expect(mapStateToProps(TEST_STATE)).toEqual({
           content: WIDGET_LIST,
-          toolbarExpanded: true,
+          toggleExpanded: true,
         });
       });
     });

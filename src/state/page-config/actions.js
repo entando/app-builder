@@ -1,5 +1,5 @@
 import { getParams } from 'frontend-common-components';
-import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOOGLE_CONTENT_TOOLBAR } from 'state/page-config/types';
+import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
@@ -10,8 +10,8 @@ export const setContentToolbar = () => ({
   type: SET_CONTENT_TOOLBAR,
 });
 
-export const expandContentToolbar = () => ({
-  type: TOOGLE_CONTENT_TOOLBAR,
+export const toggleContentToolbar = () => ({
+  type: TOGGLE_CONTENT_TOOLBAR,
 });
 
 export const setSearchFilter = filter => ({

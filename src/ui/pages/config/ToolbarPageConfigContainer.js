@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
 import { fetchWidgetList } from 'state/widgets/actions';
-import { setContentToolbar, expandContentToolbar } from 'state/page-config/actions';
-import { getContent, getToolbarExpanded } from 'state/page-config/selectors';
+import { setContentToolbar, toggleContentToolbar } from 'state/page-config/actions';
+import { getContent, getToggleExpanded } from 'state/page-config/selectors';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 export const mapStateToProps = state => ({
   content: getContent(state),
-  toolbarExpanded: getToolbarExpanded(state),
+  toggleExpanded: getToggleExpanded(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -17,9 +17,9 @@ export const mapDispatchToProps = dispatch => ({
       dispatch(setContentToolbar());
     }
   },
-  expandContentToolbar: (content) => {
+  toggleContentToolbar: (content) => {
     if (content === PAGES) {
-      dispatch(expandContentToolbar());
+      dispatch(toggleContentToolbar());
     }
   },
 });

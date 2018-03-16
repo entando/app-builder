@@ -68,7 +68,7 @@ describe('ToolbarContentIcon', () => {
   });
 
   it('has class ToolbarContentIcon--pages-left-expanded', () => {
-    component = shallow(<ToolbarContentIcon content={PAGES} position="left" toolbarExpanded />);
+    component = shallow(<ToolbarContentIcon content={PAGES} position="left" toggleExpanded />);
     expect(component.hasClass('ToolbarContentIcon--pages-left-expanded')).toBe(true);
   });
 
