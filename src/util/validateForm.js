@@ -52,3 +52,22 @@ export const widgetCode = value =>
       id="validateForm.widgetCode"
       values={{ name: <b>{value}</b> }}
     />);
+
+export const userFormText = value => (
+  value && /^[0-9a-zA-Z_.]+$/i.test(value) ?
+    undefined :
+    <FormattedMessage
+      id="user.validate.text"
+    />
+);
+
+export const matchElement = (fieldName, messageId) => (value, allValues) =>
+  (
+    value && value === allValues[fieldName] ?
+      undefined :
+      <FormattedMessage
+        id={messageId}
+      />
+  );
+
+export const matchPassword = matchElement('password', 'validateForm.passwordNotMatch');

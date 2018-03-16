@@ -9,6 +9,8 @@ import {
   email,
   alphaNumeric,
   widgetCode,
+  userFormText,
+  matchElement,
 } from 'util/validateForm';
 
 
@@ -117,6 +119,32 @@ describe('util/validateForm', () => {
     });
     it('pass', () => {
       foo = widgetCode('code_');
+      expect(foo).toBeUndefined();
+    });
+  });
+
+  describe('verify userFormText function', () => {
+    it('fail', () => {
+      foo = userFormText('text!!witherror');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'user.validate.text');
+    });
+
+    it('pass', () => {
+      foo = widgetCode('correct_text');
+      expect(foo).toBeUndefined();
+    });
+  });
+
+  describe('verify matchElement function', () => {
+    it('fail', () => {
+      foo = matchElement('element', 'error.message')('badvalue', { element: 'value' });
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'error.message');
+    });
+
+    it('pass', () => {
+      foo = matchElement('element', 'error.message')('value', { element: 'value' });
       expect(foo).toBeUndefined();
     });
   });

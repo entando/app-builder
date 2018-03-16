@@ -18,6 +18,7 @@ import dataTypes from 'state/data-types/reducer';
 import api from 'state/api/reducer';
 import pageConfig from 'state/page-config/reducer';
 import users from 'state/users/reducer';
+import profileTypes from 'state/profile-types/reducer';
 import currentUser from 'state/current-user/reducer';
 import dataModels from 'state/data-models/reducer';
 
@@ -40,6 +41,7 @@ const reducerDef = {
   dataTypes,
   pageConfig,
   users,
+  profileTypes,
 };
 
 if (pluginArray.length) {
