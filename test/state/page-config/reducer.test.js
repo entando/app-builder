@@ -1,4 +1,4 @@
-import { getContentToolbar, setSearchFilter, changeViewList } from 'state/page-config/actions';
+import { toggleContent, setSearchFilter, changeViewList } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
@@ -25,14 +25,14 @@ describe('state/page-config/reducer', () => {
       expect(typeof state.viewList).toBe('string');
     });
 
-    describe('on action SET_CONTENT_TOOLBAR', () => {
+    describe('on action TOOGLE_CONTENT', () => {
       it('state.content should be equal to default WIDGET_LIST', () => {
         const newState = reducer();
         expect(newState.content).toEqual(WIDGET_LIST);
       });
 
       it('state.content should be equal to PAGES', () => {
-        const newState = reducer(state, getContentToolbar());
+        const newState = reducer(state, toggleContent());
         expect(newState.content).toEqual(PAGES);
       });
     });

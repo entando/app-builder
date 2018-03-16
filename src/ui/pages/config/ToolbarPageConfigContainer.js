@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
 import { fetchWidgetList } from 'state/widgets/actions';
-import { getContentToolbar, toggleContentToolbar } from 'state/page-config/actions';
+import { toggleContent, toggleContentToolbarExpanded } from 'state/page-config/actions';
 import { getContent, getToolbarExpanded } from 'state/page-config/selectors';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
@@ -14,12 +14,12 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchWidgetList()); },
   changeContent: (content) => {
     if (content === WIDGET_LIST) {
-      dispatch(getContentToolbar());
+      dispatch(toggleContent());
     }
   },
   toggleContentToolbar: (content) => {
     if (content === PAGES) {
-      dispatch(toggleContentToolbar());
+      dispatch(toggleContentToolbarExpanded());
     }
   },
 });
