@@ -26,6 +26,7 @@ export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
 export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
+export const ROUTE_USER_EDIT = 'userEdit';
 
 
 routerConfig(
@@ -57,6 +58,7 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
+      { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
