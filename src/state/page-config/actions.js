@@ -1,16 +1,17 @@
 import { getParams } from 'frontend-common-components';
-import { SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST } from 'state/page-config/types';
+import { TOGGLE_CONTENT, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
 import { fetchPage } from 'api/pages';
 import { getPageModel } from 'api/pageModels';
 
-export const setContentToolbar = content => ({
-  type: SET_CONTENT_TOOLBAR,
-  payload: {
-    content,
-  },
+export const toggleContent = () => ({
+  type: TOGGLE_CONTENT,
+});
+
+export const toggleContentToolbarExpanded = () => ({
+  type: TOGGLE_CONTENT_TOOLBAR_EXPANDED,
 });
 
 export const setSearchFilter = filter => ({
@@ -18,7 +19,6 @@ export const setSearchFilter = filter => ({
   payload: {
     filter,
   },
-
 });
 
 export const changeViewList = view => ({

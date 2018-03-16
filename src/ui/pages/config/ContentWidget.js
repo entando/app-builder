@@ -51,7 +51,6 @@ const ContentWidget = ({
         <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
           <i
             className="fa fa-th-large ContentWidget__pointer ContentWidget__view-mode-icon"
-            ariaHidden="true"
             role="button"
             tabIndex={-1}
             onKeyDown={() => changeViewList('card')}
@@ -59,7 +58,6 @@ const ContentWidget = ({
           />
           <i
             className="fa fa-th-list ContentWidget__pointer ContentWidget__view-mode-icon"
-            ariaHidden="true"
             role="button"
             tabIndex={-2}
             onKeyDown={() => changeViewList('list')}
