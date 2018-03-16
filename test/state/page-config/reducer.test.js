@@ -1,4 +1,4 @@
-import { setContentToolbar, setSearchFilter, changeViewList } from 'state/page-config/actions';
+import { getContentToolbar, setSearchFilter, changeViewList } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
@@ -32,7 +32,7 @@ describe('state/page-config/reducer', () => {
       });
 
       it('state.content should be equal to PAGES', () => {
-        const newState = reducer(state, setContentToolbar());
+        const newState = reducer(state, getContentToolbar());
         expect(newState.content).toEqual(PAGES);
       });
     });

@@ -16,7 +16,7 @@ export const getPageConfig = state => state.pageConfig;
 
 export const getContent = state => state.pageConfig.content;
 
-export const getToggleExpanded = state => state.pageConfig.toggleExpanded;
+export const getToolbarExpanded = state => state.pageConfig.toolbarExpanded;
 
 export const getSearchFilter = createSelector(getPageConfig, pageConfig => pageConfig.searchFilter);
 

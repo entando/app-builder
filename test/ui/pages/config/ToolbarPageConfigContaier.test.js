@@ -3,7 +3,7 @@ import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 jest.mock('state/page-config/selectors', () => ({
   getContent: () => ('widgets'),
-  getToggleExpanded: () => true,
+  getToolbarExpanded: () => true,
 }));
 
 const TEST_STATE = {
@@ -70,7 +70,7 @@ describe('ToolbarPageConfigContainer', () => {
     });
 
     describe('mapStateToProps', () => {
-      it('maps content and toggleExpanded property state', () => {
+      it('maps content and toolbarExpanded property state', () => {
         expect(mapStateToProps(TEST_STATE)).toEqual({
           content: WIDGET_LIST,
           toggleExpanded: true,
