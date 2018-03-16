@@ -1,25 +1,33 @@
 
 import 'test/enzyme-init';
+
 import login from 'api/login';
-import { BODY_OK, BODY_ERROR } from 'test/mocks/login';
+import { makeRequest } from 'api/apiManager';
+import { BODY_OK } from 'test/mocks/login';
 
 jest.unmock('api/login');
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { POST: 'POST' },
+}));
 
-
-it('returns a promise', () => {
-  const filledInput = login('gianni', 'moi');
-  expect(typeof filledInput.then === 'function').toBeDefined();
-});
-
-
-it('verify success login', () => {
-  login('gianni', 'moi').then((response) => {
-    expect(response).toEqual(BODY_OK);
-  });
-});
-
-it('verify success error', () => {
-  login('gianni', '').then(() => {}, (error) => {
-    expect(error).toEqual(BODY_ERROR);
+describe('api/login', () => {
+  it('returns a promise', () => {
+    const response = login('gianni', 'moi');
+    expect(makeRequest).toHaveBeenCalledWith({
+      uri: '/OAuth2/access_token',
+      method: 'POST',
+      mockResponse: BODY_OK,
+      contentType: 'application/x-www-form-urlencoded',
+      body: {
+        username: 'gianni',
+        password: 'moi',
+        grant_type: 'password',
+        client_id: true,
+        client_secret: true,
+      },
+      errors: expect.any(Function),
+    });
+    expect(response).toBeInstanceOf(Promise);
   });
 });
