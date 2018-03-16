@@ -24,7 +24,7 @@ const AuthorizationTable = () => (
         </tr>
       </thead>
       <tbody>
-        nello
+        contenuto table
       </tbody>
     </table>
   </div>
