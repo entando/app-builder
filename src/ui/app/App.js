@@ -46,7 +46,7 @@ import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
 
 const App = ({ route, username }) => {
-  if (username === null && route !== ROUTE_HOME && route) {
+  if (1 === 2 && username === null && route !== ROUTE_HOME && route) {
     gotoRoute(ROUTE_HOME);
     return <h1>401</h1>;
   }
