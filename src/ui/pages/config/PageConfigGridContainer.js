@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
-import { getPageModelStruct } from 'state/page-models/selectors';
+import { getPageConfigCellMap } from 'state/page-config/selectors';
 
 export const mapStateToProps = state => ({
-  pageModelStruct: getPageModelStruct(state),
+  cellMap: getPageConfigCellMap(state),
 });
 
 

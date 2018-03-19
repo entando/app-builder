@@ -7,7 +7,7 @@
     top: 73px;
     right: 0;
     width: 320px;
-    height: 93%;
+    height: calc(100vh - 46px);
     border: 1px solid $color-pf-black-300 ;
     background-color: $color-pf-black-100 ;
     box-shadow: 0 6px 12px rgba(3,3,3,.175);
@@ -15,12 +15,12 @@
     overflow-y: auto;
   }
 
-  &__drawer-pf-title:hover &__sitemap  {
-    color: $color-pf-blue-300;
-    text-decoration: none;
+  &__drawer-pf-sidebar-right-expanded {
+    width: calc(100% - 200px);
   }
 
   &__drawer-pf-title:focus {
+    outline: 0;
     text-decoration: none;
   }
 
@@ -33,13 +33,6 @@
     font-weight: normal;
   }
 
-  &__drawer-pf-title-clickable:hover {
-    background: $color-pf-black-800;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
   &__right-bar-title {
     margin-left: 19px;
     color: $color-pf-black-100;
@@ -49,11 +42,6 @@
     text-transform: capitalize;
     cursor: pointer;
     text-decoration: none;
-  }
-
-  &__sitemap {
-    color: $color-pf-black-500 ;
-    font-size: 18px;
   }
 
   &__title {
@@ -71,5 +59,17 @@
   &__drawer-pf-container {
     margin-top: 50px;
     border-top: 1px solid $color-pf-black-200;
+  }
+}
+
+.ToolbarPageConfig__drawer-pf-title:hover {
+  background: $color-pf-black-800;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  .ToolbarContentIcon--widgets-left:before  {
+    color: $color-pf-blue-300;
+    text-decoration: none;
   }
 }

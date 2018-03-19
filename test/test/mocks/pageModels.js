@@ -1,10 +1,12 @@
 import { PAYLOAD as COMPLEX_PAYLOAD, STRUCT as COMPLEX_STRUCT } from 'test/mocks/page-models/complex';
 import { PAYLOAD as SINGLE_CELL_PAYLOAD, STRUCT as SINGLE_CELL_STRUCT } from 'test/mocks/page-models/singleCell';
 import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, STRUCT as SIDEBAR_HOLES_STRUCT } from 'test/mocks/page-models/sidebarHoles';
+import { PAYLOAD as OVERLAPPING_FRAMES_PAYLOAD } from 'test/mocks/page-models/overlappingFrames';
+import { PAYLOAD as MISSING_SKETCH_PAYLOAD } from 'test/mocks/page-models/missingSketch';
 
 export {
   COMPLEX_PAYLOAD, COMPLEX_STRUCT, SINGLE_CELL_PAYLOAD, SINGLE_CELL_STRUCT,
-  SIDEBAR_HOLES_PAYLOAD, SIDEBAR_HOLES_STRUCT,
+  SIDEBAR_HOLES_PAYLOAD, SIDEBAR_HOLES_STRUCT, OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD,
 };
 
 export const ERROR = {
@@ -104,4 +106,12 @@ export const SINGLE_CELL_RESPONSE = {
 
 export const SIDEBAR_HOLES_RESPONSE = {
   payload: SIDEBAR_HOLES_PAYLOAD,
+};
+
+export const OVERLAPPING_FRAMES_RESPONSE = {
+  payload: OVERLAPPING_FRAMES_PAYLOAD,
+};
+
+export const MISSING_SKETCH_RESPONSE = {
+  payload: MISSING_SKETCH_PAYLOAD,
 };

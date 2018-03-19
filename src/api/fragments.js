@@ -22,6 +22,7 @@ export const getFragment = fragmentCode => new Promise((resolve, reject) => {
 //      &filters[0][value]=fragment_code
 export const getFragments = (page = 1, params) => new Promise((resolve) => {
   if (params) {
+    // eslint-disable-next-line no-console
     console.info(`calling API /fragments${params}`);
   }
   switch (page) {

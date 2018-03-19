@@ -4,9 +4,6 @@ import { mapDispatchToProps } from 'ui/pages/config/PageConfigPageContainer';
 // mocked
 import { setSelectedPageModel } from 'state/page-models/actions';
 
-jest.mock('state/page-models/selectors', () => ({
-  getPageModelStruct: jest.fn().mockReturnValue('getPageModelStruct_result'),
-}));
 
 jest.mock('state/page-models/actions', () => ({
   setSelectedPageModel: jest.fn().mockReturnValue('setSelectedPageModel_result'),
