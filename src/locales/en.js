@@ -190,5 +190,8 @@ export default {
     'user.password.help': 'You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters. ',
     'user.validate.text': 'Contains invalid characters. You can use only alphanumeric characters, the dot \'.\' and the underscore \'_\'.',
     'form.select.chooseOne': 'Choose one option',
+    'user.profile.all': 'All',
+    'user.profile.with': 'User with a profile',
+    'user.profile.without': 'User without a profile',
   },
 };

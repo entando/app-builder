@@ -9,15 +9,15 @@ import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 const PROFILE_FILTER_OPTIONS = [
   {
     id: 'all',
-    label: 'All',
+    label: formattedText('user.profile.all'),
   },
   {
     id: 'with',
-    label: 'User with a profile',
+    label: formattedText('user.profile.with'),
   },
   {
     id: 'without',
-    label: 'User without a profile',
+    label: formattedText('user.profile.without'),
   },
 ];
 
@@ -144,7 +144,7 @@ UserSearchFormBody.propTypes = {
 
 UserSearchFormBody.defaultProps = {
   onWillMount: () => {},
-  setProfileType: () => {},
+  setProfileType: null,
   profileTypes: [],
 };
 

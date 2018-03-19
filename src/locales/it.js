@@ -190,5 +190,8 @@ export default {
     'user.password.help': 'Inserire tra 8 e 20 caratteri, lettere maiuscole e minuscole, numeri \'.\' e  \'_\'.',
     'user.validate.text': 'Contiene caratteri non consentiti. Usare solo caratteri alfanumerici, il punto \'.\' o l\'undescore \'_\'.',
     'form.select.chooseOne': 'Seleziona un\'opzione',
+    'user.profile.all': 'Tutti',
+    'user.profile.with': 'Utente con un profilo',
+    'user.profile.without': 'Utente senza profilo',
   },
 };
