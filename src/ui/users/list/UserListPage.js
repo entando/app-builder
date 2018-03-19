@@ -6,6 +6,7 @@ import { BreadcrumbItem, Link } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UserListTableContainer from 'ui/users/list/UserListTableContainer';
+import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
 import { ROUTE_USER_ADD } from 'app-init/router';
 
 const ListUserPage = () => (
@@ -29,6 +30,11 @@ const ListUserPage = () => (
             titleId="user.list.title"
             helpId="user.help"
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6} mdOffset={3}>
+          <UserSearchFormContainer />
         </Col>
       </Row>
       <Row>
