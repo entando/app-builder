@@ -56,4 +56,5 @@ module.exports = {
   // Entando: custom sass and unit tests directory
   appSass: resolveApp('sass'),
   appTest: resolveApp('test'),
+  appTestResources: resolveApp('test/test'),
 };

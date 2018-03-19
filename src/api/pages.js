@@ -10,7 +10,7 @@ import {
 } from 'test/mocks/pageConfig';
 
 import throttle from 'util/throttle';
-import { errorResponse } from 'testUtils';
+import { errorResponse } from 'test/testUtils';
 
 
 /*
