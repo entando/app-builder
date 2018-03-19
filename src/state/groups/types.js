@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const ADD_GROUPS = 'api/fetch-groups';
+export const SET_GROUPS = 'users/set-groups';

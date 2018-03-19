@@ -1,2 +1,10 @@
-// eslint-disable-next-line import/prefer-default-export
+import { createSelector } from 'reselect';
+
 export const getGroups = state => state.groups;
+export const getGroupsIdList = state => state.groups.list;
+export const getGroupsMap = state => state.groups.map;
+
+export const getGroupsList = createSelector(
+  [getGroupsMap, getGroupsIdList],
+  (GroupsMap, idList) => idList.map(id => (GroupsMap[id])),
+);

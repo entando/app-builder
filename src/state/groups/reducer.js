@@ -1,12 +1,32 @@
-import { ADD_GROUPS } from 'state/groups/types';
+import { combineReducers } from 'redux';
+import { SET_GROUPS } from 'state/groups/types';
 
-const reducer = (state = [], action = {}) => {
+export const toMap = array => array.reduce((acc, group) => {
+  acc[group.code] = group;
+  return acc;
+}, {});
+
+export const toIdList = array => array.map(group => group.code);
+
+export const list = (state = [], action = {}) => {
   switch (action.type) {
-    case ADD_GROUPS: {
-      return action.payload.groups;
+    case SET_GROUPS: {
+      return toIdList(action.payload.users);
     }
     default: return state;
   }
 };
 
-export default reducer;
+export const groupMap = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_GROUPS: {
+      return toMap(action.payload.groups);
+    }
+    default: return state;
+  }
+};
+
+export default combineReducers({
+  list,
+  map: groupMap,
+});
