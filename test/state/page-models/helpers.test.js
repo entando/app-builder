@@ -31,11 +31,13 @@ describe('state/page-config/helpers', () => {
     it('returns errors when validating a page model with overlapping frames', () => {
       const errors = validatePageModel(OVERLAPPING_FRAMES_PAYLOAD);
       expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.overlapping');
     });
 
     it('returns errors when validating a page model with frame.pos != frame index', () => {
       const errors = validatePageModel(WRONG_POS_PAYLOAD);
       expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.pos');
     });
 
     it('returns an error if sketch.x1 < 0', () => {
