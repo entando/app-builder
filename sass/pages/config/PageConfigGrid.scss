@@ -2,30 +2,4 @@
   width: 100%;
   border: 1px solid $color-pf-black-400;
   border-radius: 1px;
-
-  &__slot {
-    flex-grow: 1;
-    min-height: 80px;
-    padding: 5px 10px;
-    border: 1px dashed $color-pf-black-400;
-    background: $color-pf-black-100;
-    color: $color-pf-black-400;
-  }
-
-  &__hole {
-    flex-grow: 1;
-    min-height: 80px;
-    background: $color-pf-black-300;
-  }
-
-  &__container {
-    flex-grow: 1;
-  }
-
-  &__row {
-    display: flex;
-    flex-grow: 1;
-    width: 100%;
-  }
-
 }

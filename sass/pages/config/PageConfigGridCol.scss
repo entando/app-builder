@@ -1,0 +1,24 @@
+.PageConfigGridCol {
+
+  &.PageConfigGridCol--frame {
+    flex-grow: 1;
+    min-height: 80px;
+  }
+
+  &.PageConfigGridCol--hole {
+    flex-grow: 1;
+    min-height: 80px;
+    background: $color-pf-black-300;
+  }
+
+  &.PageConfigGridCol--container {
+    flex-grow: 1;
+  }
+
+  &.PageConfigGridCol--row {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,13 @@
+.EmptyFrame {
+  width: 100%;
+  height: 100%;
+  padding: 3px 8px;
+  border: 1px dashed $color-pf-black-400;
+  background: $color-pf-black-100;
+  color: $color-pf-black-400;
+
+  &--drag-hover {
+    border: 1px solid $color-pf-orange-300;
+    background: $color-pf-black-200;
+  }
+}

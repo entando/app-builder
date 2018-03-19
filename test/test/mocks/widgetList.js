@@ -15,36 +15,41 @@ export const WIDGET_LIST = {
     WIDGET_ONE_ELEMENT,
     {
       widgetCategory: 'User Widget',
-      code: 'LOL',
-      name: 'My second Widget',
+      code: 'login_form',
+      name: 'LoginForm',
       used: 2,
       titles: {
-        it: 'Mio secondo Widget',
-        en: 'My second Widget',
+        it: 'Form di accesso',
+        en: 'Login form',
       },
     },
     {
       widgetCategory: 'User Widget',
-      code: 'TIK',
-      name: 'My third Widget',
+      code: 'search_form',
+      name: 'SearchForm',
       used: 3,
       titles: {
-        it: 'Mio terzo Widget',
-        en: 'My third Widget',
+        it: 'Form di ricerca',
+        en: 'Search form',
       },
     },
     {
       widgetCategory: 'User Widget',
-      code: 'ROLF',
-      name: 'My fourth Widget',
+      code: 'single_content',
+      name: 'SingleContent',
       used: 4,
       titles: {
-        it: 'Mio quarto Widget',
-        en: 'My fourth Widget',
+        it: 'Singolo contenuto',
+        en: 'Single content',
       },
     },
   ],
 };
+
+export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
+  acc[widget.code] = widget;
+  return acc;
+}, {});
 
 export const WIDGET_ONE_LIST = {
   'User Widget': [
