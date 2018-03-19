@@ -25,7 +25,7 @@ const ListUserPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="user.list.title"
             helpId="user.help"
@@ -33,7 +33,7 @@ const ListUserPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={6} mdOffset={3}>
+        <Col xs={6} xsOffset={3}>
           <UserSearchFormContainer />
         </Col>
       </Row>
