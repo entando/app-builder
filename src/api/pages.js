@@ -130,7 +130,7 @@ const PAGE_WIDGETS_MAP = {
 };
 
 // call GET /pages/<pageCode>/widget/
-export const getPageWidgets = pageCode =>
+export const getPageConfig = pageCode =>
   new Promise((resolve) => {
     // eslint-disable-next-line no-console
     console.info(`calling GET /pages/${pageCode}/widget`);

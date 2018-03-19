@@ -166,6 +166,8 @@ export default {
     'pageConfig.saveAsNewWidget': 'Salva come nuovo widget',
     'pageModel.error.overlapping': 'I frame "{frame1}" e "{frame2}" sono sovrapposti',
     'pageModel.error.pos': 'La proprietà "pos" del frame "{frame}" è diversa dal suo indice',
+    'pageModel.error.sketchX1X2format': 'Frame "{frame}": gli attributi di sketch x1 e x2 devono essere numeri interi compresi tra 0 e 11, con x1 <= x2',
+    'pageModel.error.sketchY1Y2format': 'Frame "{frame}": gli attributi di sketch y1 e y2 devono essere numeri interi positivi, con y1 <= y2',
     'user.list.title': 'Utenti',
     'user.help': 'Dalla sezione UTENTI l\'amministratore può accedere alla lista degli utenti, gestirne i profili, le autorizzazioni - assegnando ruoli e gruppi - e aggiungere nuovi utenti.',
     'user.table.status.active': 'Attivo',

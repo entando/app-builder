@@ -10,20 +10,11 @@ import {
   setFreePages,
 } from 'state/pages/actions';
 
-// import { setPageWidgets, setPageWidget, removePageWidgetSync } from 'state/page-config/actions';
 
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 ];
-
-const PAGE_WIDGETS = [
-  null,
-  { type: 'login_form' },
-  null,
-];
-// const EMPTY_FRAME_INDEX = 2;
-// const FULL_FRAME_INDEX = 1;
 
 
 describe('state/pages/reducer', () => {

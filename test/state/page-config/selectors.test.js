@@ -95,7 +95,7 @@ describe('state/page-config/selectors', () => {
           expect(cell.widgetHasConfig).toBe(!!item.config);
         } else {
           expect(cell.widgetCode).toBeUndefined();
-          // expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.type].titles[CURRENT_LOCALE]);
+          expect(cell.widgetTitle).toBeUndefined();
           expect(cell.widgetHasConfig).toBeUndefined();
         }
       });

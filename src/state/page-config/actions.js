@@ -1,6 +1,6 @@
 import { getParams, formattedText } from 'frontend-common-components';
 import {
-  SET_CONTENT_TOOLBAR, SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 
@@ -9,7 +9,7 @@ import { setSelectedPageModel } from 'state/page-models/actions';
 import { validatePageModel } from 'state/page-models/helpers';
 import {
   fetchPage,
-  getPageWidgets,
+  getPageConfig,
   deletePageWidget,
   putPageWidget,
 } from 'api/pages';
@@ -39,14 +39,6 @@ export const removePageWidgetSync = (pageCode, frameId) => ({
   payload: {
     pageCode,
     frameId,
-  },
-});
-
-
-export const setContentToolbar = content => ({
-  type: SET_CONTENT_TOOLBAR,
-  payload: {
-    content,
   },
 });
 
@@ -88,26 +80,24 @@ export const initConfigPage = () => (dispatch, getState) => {
     .then(handleResponseErrors(dispatch))
     .then((response) => {
       const pageModelCode = response.payload.pageModel;
-      return getPageModel(pageModelCode)
-        .then(handleResponseErrors(dispatch))
-        .then((pmResp) => {
-          const pageModel = pmResp.payload;
-          const errors = validatePageModel(pageModel);
-          if (errors && errors.length) {
-            const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
-            dispatch(addErrors(translatedErrors));
-            throw new Error('Page model invalid', errors);
-          } else {
-            dispatch(setSelectedPageModel(pageModel));
-          }
-        });
+      return getPageModel(pageModelCode);
     })
-    .then(() => {
-      getPageWidgets(pageCode)
-        .then(handleResponseErrors(dispatch))
-        .then((pwResp) => {
-          dispatch(setPageConfig(pageCode, pwResp.payload));
-        });
+    .then(handleResponseErrors(dispatch))
+    .then((pmResp) => {
+      const pageModel = pmResp.payload;
+      const errors = validatePageModel(pageModel);
+      if (errors && errors.length) {
+        const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
+        dispatch(addErrors(translatedErrors));
+        throw new Error('Page model invalid', errors);
+      } else {
+        dispatch(setSelectedPageModel(pageModel));
+      }
+    })
+    .then(() => getPageConfig(pageCode))
+    .then(handleResponseErrors(dispatch))
+    .then((pwResp) => {
+      dispatch(setPageConfig(pageCode, pwResp.payload));
     })
     .catch(() => {});
 };

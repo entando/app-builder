@@ -17,7 +17,7 @@ export const PAYLOAD = {
         pos: 0,
         sketch: {
           x1: 0,
-          x2: 6,
+          x2: 11,
           y1: 0,
           y2: 1,
         },

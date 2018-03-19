@@ -24,7 +24,7 @@ import { validatePageModel } from 'state/page-models/helpers';
 
 jest.mock('api/pages', () => ({
   fetchPage: jest.fn(),
-  getPageWidgets: jest.fn().mockReturnValue(new Promise(r => r([]))),
+  getPageConfig: jest.fn().mockReturnValue(new Promise(r => r([]))),
   deletePageWidget: jest.fn().mockReturnValue(new Promise(r => r())),
   putPageWidget: jest.fn().mockReturnValue(new Promise(r => r())),
 }));
@@ -116,42 +116,45 @@ describe('state/page-config/actions', () => {
       store = mockStore(INITIAL_STATE);
     });
 
-    it('when GET /page/<code> returns errors, it will dispatch ADD_ERRORS', () => {
+    it('when GET /page/<code> returns errors, it will dispatch ADD_ERRORS', (done) => {
       fetchPage.mockReturnValue(resolve(ERROR));
-      return store.dispatch(initConfigPage()).then(() => {
+      store.dispatch(initConfigPage()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([ADD_ERRORS]);
         expect(addErrors).toHaveBeenCalledWith(ERROR_MESSAGES);
+        done();
       });
     });
 
-    it('when GET /pagemodels/<code> returns errors, it will dispatch ADD_ERRORS', () => {
+    it('when GET /pagemodels/<code> returns errors, it will dispatch ADD_ERRORS', (done) => {
       getPageModel.mockReturnValue(resolve(ERROR));
-      return store.dispatch(initConfigPage()).then(() => {
+      store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([ADD_ERRORS]);
         expect(addErrors).toHaveBeenCalledWith(ERROR_MESSAGES);
+        done();
       });
     });
 
-    it('when GET /page/<code> returns a non valid page model, it will dispatch ADD_ERRORS', () => {
+    it('when GET /page/<code> returns a non valid page model, it dispatch ADD_ERRORS', (done) => {
       validatePageModel.mockImplementation(() => [{ id: 'message.id' }]);
-      return store.dispatch(initConfigPage()).then(() => {
+      store.dispatch(initConfigPage()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([ADD_ERRORS]);
+        done();
       });
     });
 
-    it('when API responses are ok', () => {
-      const promise = store.dispatch(initConfigPage()).then(() => {
+    it('when API responses are ok', (done) => {
+      store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG]);
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
+        done();
       });
-      return promise;
     });
   });
 
