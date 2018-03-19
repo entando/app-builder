@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Switch } from 'patternfly-react';
 
 const SwitchRenderer = ({ input }) => {
-  const switchValue = typeof input.value === 'string' ? (input.value === 'true') : input.value;
+  const switchValue = typeof input.value === 'string' ? (input.value === 'true' || input.value === 'active') : input.value;
   return (<Switch
     {...input}
     value={switchValue}

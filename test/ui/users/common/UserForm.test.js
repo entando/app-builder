@@ -1,11 +1,12 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { UserFormBody } from 'ui/users/common/UserForm';
+import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
+const EDIT_MODE = 'edit';
 
 describe('UserForm', () => {
   let userForm;
@@ -34,6 +35,23 @@ describe('UserForm', () => {
   it('root component renders without crashing', () => {
     userForm = buildUserForm();
     expect(userForm.exists()).toEqual(true);
+  });
+
+  it('root component does not render registration Field if its value is null', () => {
+    const input = { name: 'registration', value: '' };
+    const name = 'registration';
+    const label = <label htmlFor={name}>registration</label>;
+    const element = renderStaticField({ input, label, name });
+    expect(element).toBe(null);
+  });
+
+  it('root component renders registration Field if its value is not null', () => {
+    const input = { name: 'registration', value: 'registration' };
+    const name = 'registration';
+    const label = <label htmlFor={name}>registration</label>;
+    const element = renderStaticField({ input, label, name });
+    const registration = shallow(element);
+    expect(registration.find('.form-group').exists()).toBe(true);
   });
 
   describe('test with mode = new', () => {
@@ -65,6 +83,23 @@ describe('UserForm', () => {
       userForm = buildUserForm();
       const status = userForm.find('[fieldName="profileType"]');
       expect(status.exists()).toEqual(true);
+    });
+  });
+
+  describe('test with mode = edit', () => {
+    beforeEach(() => {
+      submitting = false;
+      invalid = false;
+      userForm = buildUserForm(EDIT_MODE);
+    });
+    it('root component has class UserForm__content-edit', () => {
+      expect(userForm.find('.UserForm__content-edit').exists()).toBe(true);
+    });
+
+    it('root component contains edit fields', () => {
+      // userForm = buildUserForm(EDIT_MODE);
+      // console.log(userForm.debug());
+      expect(userForm.find('.UserForm__content-edit').find('Field')).toHaveLength(4);
     });
   });
 
