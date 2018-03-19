@@ -76,10 +76,11 @@ export class UserSearchFormBody extends Component {
               <FormattedMessage id="user.searchForm.users" />
             </label>
             <Col sm={9}>
-              <label htmlFor="1" >
+              <label htmlFor="withProfile" >
                 <Field
                   component={RenderRadioInput}
                   toggleElement={PROFILE_FILTER_OPTIONS}
+                  defaultValue={PROFILE_FILTER_OPTIONS[0].id}
                   name="withProfile"
                 />
               </label>
@@ -136,7 +137,7 @@ UserSearchFormBody.propTypes = {
   setProfileType: PropTypes.func,
   onWillMount: PropTypes.func,
   profileTypes: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
   })),
 };

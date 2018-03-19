@@ -62,7 +62,20 @@ describe('UserSearchForm', () => {
       userSearchForm = buildUserSearchForm();
     });
 
-    it('on form submit calls handleSubmit', () => {
+    it('on click profileType button calls setProfileType', () => {
+      userSearchForm
+        .find('.UserSearchForm_set-profile-btn')
+        .simulate('click', { preventDefault });
+      expect(setProfileType).toHaveBeenCalled();
+    });
+
+    it('on click profileType button calls setProfileType default', () => {
+      const props = {
+        submitting,
+        invalid,
+        handleSubmit,
+      };
+      userSearchForm = shallow(<UserSearchFormBody {...props} />);
       userSearchForm
         .find('.UserSearchForm_set-profile-btn')
         .simulate('click', { preventDefault });
