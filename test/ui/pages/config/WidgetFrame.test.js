@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import WidgetFrame from 'ui/pages/config/WidgetFrame';
+import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 const FRAME_ID = 1;
 const FRAME_NAME = 'The frame descr';
@@ -165,5 +166,76 @@ describe('WidgetFrame (with widget that has config)', () => {
 
   it('renders the Save as new widget menu item', () => {
     expect(component.find('.WidgetFrame__save-btn').exists()).toBe(true);
+  });
+});
+
+describe('WidgetFrame (with widget status = WIDGET_STATUS_DIFF)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        widgetStatus={WIDGET_STATUS_DIFF}
+      />
+    ));
+  });
+
+  it('has the WidgetFrame--status-diff class', () => {
+    expect(component.hasClass('WidgetFrame--status-diff')).toBe(true);
+  });
+
+  it('renders the actions menu', () => {
+    expect(component.find('.WidgetFrame__menu-button').exists()).toBe(true);
+  });
+});
+
+describe('WidgetFrame (with widget status = WIDGET_STATUS_MATCH)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        widgetHasConfig
+        widgetStatus={WIDGET_STATUS_MATCH}
+      />
+    ));
+  });
+
+  it('has the WidgetFrame--status-match class', () => {
+    expect(component.hasClass('WidgetFrame--status-match')).toBe(true);
+  });
+
+  it('renders the actions menu', () => {
+    expect(component.find('.WidgetFrame__menu-button').exists()).toBe(true);
+  });
+});
+
+describe('WidgetFrame (with widget status = WIDGET_STATUS_REMOVED)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        widgetName={WIDGET_NAME}
+        widgetHasConfig
+        widgetStatus={WIDGET_STATUS_REMOVED}
+      />
+    ));
+  });
+
+  it('has the WidgetFrame--status-removed class', () => {
+    expect(component.hasClass('WidgetFrame--status-removed')).toBe(true);
+  });
+
+  it('does not render the actions menu', () => {
+    expect(component.find('.WidgetFrame__menu-button').exists()).toBe(false);
   });
 });

@@ -46,3 +46,23 @@
     background: $color-pf-black-200;
   }
 }
+
+.WidgetFrame--status-diff {
+  .WidgetFrame__icon {
+    color: $color-pf-gold-400;
+  }
+}
+
+.WidgetFrame--status-removed {
+  background: $color-pf-black-100;
+
+  .WidgetFrame__content {
+    border-color: transparent;
+    color: $color-pf-black-400;
+    cursor: initial;
+  }
+
+  .WidgetFrame__icon {
+    color: $color-pf-black-400;
+  }
+}
