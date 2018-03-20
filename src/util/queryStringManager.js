@@ -53,7 +53,9 @@ export const setFilters = (object = {}, operators = []) => {
 export const convertToQueryString = (filters) => {
   const sorting = filters.sorting ? setSorting(filters.sorting) : [];
   const queryString = [...sorting, ...setFilters(filters.formValues, filters.operators)];
-  return `?${queryString.join('&')}`;
+  const result = `?${queryString.join('&')}`;
+
+  return result === '?' ? '' : result;
 };
 
 export default convertToQueryString;

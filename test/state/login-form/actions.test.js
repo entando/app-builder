@@ -1,9 +1,9 @@
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 
 import { setLoginErrorMessage, performLogin } from 'state/login-form/actions';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 import { SET_USER } from 'state/current-user/types';
-import configureMockStore from 'redux-mock-store';
 import { config } from 'api/apiManager';
 
 const middlewares = [thunk];
