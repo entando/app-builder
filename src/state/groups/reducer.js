@@ -11,7 +11,7 @@ export const toIdList = array => array.map(group => group.code);
 export const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_GROUPS: {
-      return toIdList(action.payload.users);
+      return toIdList(action.payload.groups);
     }
     default: return state;
   }

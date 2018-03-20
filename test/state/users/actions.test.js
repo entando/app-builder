@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   },
 };
 
-describe('data types actions ', () => {
+describe('users actions ', () => {
   let store;
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('data types actions ', () => {
   });
 
   describe('test fetchUsers', () => {
-    it('fetchUsers calls fetchUsers and setPage actions', (done) => {
+    it('fetchUsers calls setUsers and setPage actions', (done) => {
       store.dispatch(fetchUsers()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);

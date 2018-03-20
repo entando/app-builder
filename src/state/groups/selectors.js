@@ -6,5 +6,5 @@ export const getGroupsMap = state => state.groups.map;
 
 export const getGroupsList = createSelector(
   [getGroupsMap, getGroupsIdList],
-  (GroupsMap, idList) => idList.map(id => (GroupsMap[id])),
+  (groupsMap, idList) => idList.map(id => (groupsMap[id])),
 );
