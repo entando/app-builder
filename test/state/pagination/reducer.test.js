@@ -1,8 +1,5 @@
 import reducer from 'state/pagination/reducer';
 import { setPage } from 'state/pagination/actions';
-import { LIST_FRAGMENTS_OK_PAGE_1 } from 'test/mocks/fragments';
-
-const FRAGMENT_METADATA = LIST_FRAGMENTS_OK_PAGE_1.metaData;
 
 let defaultState;
 
@@ -17,7 +14,7 @@ describe('pagination reducer', () => {
 
   describe('after action SET_PAGE', () => {
     it('should define page with the correct parameters', () => {
-      const state = reducer(defaultState, setPage(FRAGMENT_METADATA));
+      const state = reducer(defaultState, setPage({ page: 1, pageSize: 2, lastPage: 3 }));
       expect(state).toHaveProperty('page', 1);
       expect(state).toHaveProperty('pageSize', 2);
       expect(state).toHaveProperty('lastPage', 3);
@@ -97,9 +94,9 @@ describe('pagination reducer', () => {
       });
 
       it('should define page if the pageSize is numeric', () => {
-        const state = reducer(defaultState, setPage({ pageSize: '10', lastPage: 50, page: 22 }));
+        const state = reducer(defaultState, setPage({ pageSize: '30', lastPage: 50, page: 22 }));
         expect(state).toHaveProperty('page', 22);
-        expect(state).toHaveProperty('pageSize', 10);
+        expect(state).toHaveProperty('pageSize', 30);
         expect(state).toHaveProperty('lastPage', 50);
       });
 

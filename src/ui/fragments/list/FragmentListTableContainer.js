@@ -15,7 +15,7 @@ export const mapStateToProps = state => (
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = 1) => {
+  onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchFragments(page));
   },
 });
