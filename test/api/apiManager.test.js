@@ -34,17 +34,16 @@ const validRequest = {
   mockResponse: MOCKED_GOOD_RESPONSE,
 };
 
-let fetch;
+const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+  new Promise((resolve) => {
+    resolve(REAL_GOOD_RESPONSE);
+  })
+));
 
 describe('apiManager', () => {
   beforeEach(() => {
     config(mockStore(MOCKED));
-    jest.resetAllMocks();
-    fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
-      new Promise((resolve) => {
-        resolve(REAL_GOOD_RESPONSE);
-      })
-    ));
+    jest.clearAllMocks();
   });
 
   it('cannot make a request if request is not an object', () => {

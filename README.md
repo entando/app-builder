@@ -146,7 +146,7 @@ If an array is being returned the `responseFactory` will automatically generate 
 #### contentType [optional]
 the default value is `application/json` but it can be overwritten.
 
-#### body [optiona]
+#### body [optional]
 this object is only being submitted as part of the request if it is either a POST or a PUT.
 
 #### errors [optional]
