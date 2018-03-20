@@ -78,6 +78,7 @@ export default {
     'validateForm.alphaNumeric': 'Solo caratteri alfanumerici',
     'validateForm.widgetCode': '{name} contiene caratteri non consentiti. Usare solo caratteri alfanumerici o undescore _',
     'validateForm.passwordNotMatch': 'Il valore di Conferma non coincide col valore della Password',
+    'validateForm.code': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici o l\'undescore \'_\'.',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Codice',
     'widget.page.create.code.placeholder': 'Codice',
@@ -196,5 +197,9 @@ export default {
     'user.profile.without': 'Utente senza profilo',
     'group.help': 'Dalla sezione GRUPPI l\'amministratore può gestire i gruppi esistenti o crearne di nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.',
     'group.listEmpty': 'Non ci sono GRUPPI disponibili',
+    'group.name': 'Nome',
+    'group.code': 'Codice',
+    'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
+    'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
   },
 };

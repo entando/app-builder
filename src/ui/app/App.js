@@ -23,6 +23,7 @@ import {
   ROUTE_USER_LIST,
   ROUTE_USER_ADD,
   ROUTE_GROUP_LIST,
+  ROUTE_GROUP_ADD,
 
 } from 'app-init/router';
 
@@ -46,6 +47,7 @@ import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserListPage from 'ui/users/list/UserListPage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
+import AddGroupPage from 'ui/groups/add/AddGroupPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -78,6 +80,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_LIST: return <UserListPage />;
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
+    case ROUTE_GROUP_ADD: return <AddGroupPage />;
     default: return <NotFoundPage />;
   }
 };
