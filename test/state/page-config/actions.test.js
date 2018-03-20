@@ -9,9 +9,9 @@ import {
 
 import { ADD_ERRORS } from 'state/errors/types';
 import { SET_SELECTED_PAGE_MODEL } from 'state/page-models/types';
-import { SET_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
+import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 
-import { HOMEPAGE_RESPONSE, ERROR } from 'test/mocks/pages';
+import { HOMEPAGE_RESPONSE, CONTACTS_RESPONSE, ERROR } from 'test/mocks/pages';
 import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
 
 // mocked
@@ -146,12 +146,28 @@ describe('state/page-config/actions', () => {
       });
     });
 
-    it('when API responses are ok', (done) => {
+    it('when API responses are ok and the page is published', (done) => {
       store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
-        expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG]);
+        expect(actionTypes)
+          .toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG]);
+        expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
+        done();
+      });
+    });
+
+    it('when API responses are ok and the page is not published', (done) => {
+      fetchPage.mockReturnValue(resolve(CONTACTS_RESPONSE));
+      store.dispatch(initConfigPage()).then(() => {
+        expect(getPageModel).toHaveBeenCalledWith(CONTACTS_RESPONSE.payload.pageModel);
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes)
+          .toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG]);
+        expect(store.getActions()[2].payload).toEqual({
+          pageCode: CURRENT_PAGE_CODE,
+          pageConfig: null,
+        });
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
         done();
       });

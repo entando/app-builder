@@ -4,11 +4,12 @@ import {
   setWidgetTypes, setPlugins,
 } from 'state/fragments/actions';
 import {
-  GET_FRAGMENT_OK, LIST_FRAGMENTS_OK_PAGE_1, WIDGET_TYPES_OK,
+  GET_FRAGMENT_OK,
+  LIST_FRAGMENTS_OK as FRAGMENT_PAYLOAD,
+  WIDGET_TYPES_OK,
   PLUGINS_OK,
 } from 'test/mocks/fragments';
 
-const FRAGMENT_PAYLOAD = LIST_FRAGMENTS_OK_PAGE_1.payload;
 const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
 const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
 
@@ -40,7 +41,7 @@ describe('fragments/reducer', () => {
     describe('after action SET_FRAGMENTS', () => {
       it('should define fragmentList', () => {
         const newState = reducer({}, setFragments(FRAGMENT_PAYLOAD));
-        expect(newState.list).toHaveLength(2);
+        expect(newState.list).toHaveLength(7);
       });
     });
   });
@@ -54,6 +55,7 @@ describe('fragments/reducer', () => {
       expect(newState.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
     });
   });
+
   describe('after action SET_PLUGINS', () => {
     let newState;
     beforeEach(() => {

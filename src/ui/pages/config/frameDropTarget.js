@@ -6,7 +6,7 @@ import { DND_TYPE_PAGE_CONFIG } from 'ui/pages/config/const';
 export const dropTarget = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    return item.widgetId !== props.widgetId;
+    return item.frameId !== props.frameId;
   },
 
   drop(props, monitor) {

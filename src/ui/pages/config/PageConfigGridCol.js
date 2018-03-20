@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import PageConfigGridRow from 'ui/pages/config/PageConfigGridRow';
 import DroppableEmptyFrame from 'ui/pages/config/DroppableEmptyFrame';
 import DraggableWidgetFrame from 'ui/pages/config/DraggableWidgetFrame';
+import DroppableWidgetFrame from 'ui/pages/config/DroppableWidgetFrame';
+import { WIDGET_STATUS_REMOVED } from 'state/page-config/const';
+
 
 export const ROW_HEIGHT = 80;
 
@@ -37,15 +40,19 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
     classNameAr.push('PageConfigGridCol--hole');
     content = null;
   } else if (col.widgetCode) {
+    const DecoratedWidgetFrame =
+      (col.widgetStatus === WIDGET_STATUS_REMOVED) ? DroppableWidgetFrame : DraggableWidgetFrame;
+
     // this col contains a frame with a widget
     classNameAr.push('PageConfigGridCol--frame');
     content = (
-      <DraggableWidgetFrame
+      <DecoratedWidgetFrame
         frameId={col.framePos}
         frameName={col.frameDescr}
         widgetId={col.widgetCode}
         widgetName={col.widgetTitle}
         widgetHasConfig={col.widgetHasConfig}
+        widgetStatus={col.widgetStatus}
       />
     );
   } else {

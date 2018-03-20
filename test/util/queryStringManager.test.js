@@ -52,7 +52,7 @@ describe('test convertToQueryString', () => {
   });
   it('test with empty object', () => {
     const queryString = convertToQueryString({});
-    expect(queryString).toEqual('?');
+    expect(queryString).toEqual('');
   });
 });
 describe('test addFilter', () => {

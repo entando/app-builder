@@ -119,7 +119,17 @@ export const getPageSettingsList = () => (
   })
 );
 
-const PAGE_WIDGETS_MAP = {
+const PAGE_CONFIG_DRAFT_MAP = {
+  homepage: HOMEPAGE_RESPONSE,
+  dashboard: DASHBOARD_RESPONSE,
+  login: LOGIN_RESPONSE,
+  service: SERVICE_RESPONSE,
+  notfound: NOTFOUND_RESPONSE,
+  error: ERROR_RESPONSE,
+  contacts: CONTACTS_RESPONSE,
+};
+
+const PAGE_CONFIG_PUBLISHED_MAP = {
   homepage: HOMEPAGE_RESPONSE,
   dashboard: DASHBOARD_RESPONSE,
   login: LOGIN_RESPONSE,
@@ -130,13 +140,14 @@ const PAGE_WIDGETS_MAP = {
 };
 
 // call GET /pages/<pageCode>/widget/
-export const getPageConfig = pageCode =>
+export const getPageConfig = (pageCode, status = 'draft') =>
   new Promise((resolve) => {
     // eslint-disable-next-line no-console
     console.info(`calling GET /pages/${pageCode}/widget`);
+    const responseMap = status === 'draft' ? PAGE_CONFIG_DRAFT_MAP : PAGE_CONFIG_PUBLISHED_MAP;
     throttle(() => {
-      if (PAGE_WIDGETS_MAP[pageCode]) {
-        resolve(PAGE_WIDGETS_MAP[pageCode]);
+      if (responseMap[pageCode]) {
+        resolve(responseMap[pageCode]);
       } else {
         resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
       }
@@ -149,7 +160,7 @@ export const deletePageWidget = (pageCode, frameId) =>
     // eslint-disable-next-line no-console
     console.info(`calling DELETE /pages/${pageCode}/widget/${frameId}`);
     throttle(() => {
-      if (PAGE_WIDGETS_MAP[pageCode]) {
+      if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
         resolve({
           payload: {
             code: frameId,
@@ -167,7 +178,7 @@ export const putPageWidget = (pageCode, frameId, widget) =>
     // eslint-disable-next-line no-console
     console.info(`calling PUT /pages/${pageCode}/widget/${frameId}\n\t${JSON.stringify(widget)}`);
     throttle(() => {
-      if (PAGE_WIDGETS_MAP[pageCode]) {
+      if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
         resolve({
           payload: widget,
         });

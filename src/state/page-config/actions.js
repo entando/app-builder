@@ -1,7 +1,7 @@
 import { getParams, formattedText } from 'frontend-common-components';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
-  SET_PAGE_WIDGET, SET_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
+  SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
@@ -18,6 +18,14 @@ import { getPageModel } from 'api/pageModels';
 
 export const setPageConfig = (pageCode, pageConfig) => ({
   type: SET_PAGE_CONFIG,
+  payload: {
+    pageCode,
+    pageConfig,
+  },
+});
+
+export const setPublishedPageConfig = (pageCode, pageConfig) => ({
+  type: SET_PUBLISHED_PAGE_CONFIG,
   payload: {
     pageCode,
     pageConfig,
@@ -76,28 +84,44 @@ const handleResponseErrors = dispatch => (payload) => {
 
 export const initConfigPage = () => (dispatch, getState) => {
   const { pageCode } = getParams(getState());
+  let pageIsPublished = false;
   return fetchPage(pageCode)
     .then(handleResponseErrors(dispatch))
     .then((response) => {
       const pageModelCode = response.payload.pageModel;
-      return getPageModel(pageModelCode);
+      pageIsPublished = response.payload.status === 'published';
+      const requests = [
+        getPageModel(pageModelCode),
+        getPageConfig(pageCode, 'draft'),
+        pageIsPublished && getPageConfig(pageCode, 'published'),
+      ];
+
+      return Promise.all(requests);
     })
-    .then(handleResponseErrors(dispatch))
-    .then((pmResp) => {
-      const pageModel = pmResp.payload;
+    .then((responses) => {
+      // check if there are errors in any of the responses
+      responses.forEach(handleResponseErrors(dispatch));
+
+      // validate the page model
+      const pageModel = responses[0].payload;
       const errors = validatePageModel(pageModel);
       if (errors && errors.length) {
         const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
         dispatch(addErrors(translatedErrors));
-        throw new Error('Page model invalid', errors);
+        throw new Error('Page model is invalid', errors);
       } else {
         dispatch(setSelectedPageModel(pageModel));
       }
-    })
-    .then(() => getPageConfig(pageCode))
-    .then(handleResponseErrors(dispatch))
-    .then((pwResp) => {
-      dispatch(setPageConfig(pageCode, pwResp.payload));
+
+      // set draft config
+      dispatch(setPageConfig(pageCode, responses[1].payload));
+
+      // set published config
+      if (pageIsPublished) {
+        dispatch(setPublishedPageConfig(pageCode, responses[2].payload));
+      } else {
+        dispatch(setPublishedPageConfig(pageCode, null));
+      }
     })
     .catch(() => {});
 };
