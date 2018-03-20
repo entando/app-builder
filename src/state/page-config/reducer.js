@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
-  SET_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
+  SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
 } from 'state/page-config/types';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
@@ -84,6 +84,21 @@ const configMap = (state = {}, action = {}) => {
     default: return state;
   }
 };
+
+const publishedConfigMap = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_PUBLISHED_PAGE_CONFIG: {
+      const { pageCode, pageConfig } = action.payload;
+      return {
+        ...state,
+        [pageCode]: pageConfig,
+      };
+    }
+    default: return state;
+  }
+};
+
+
 export const toolbarExpanded = (state = false, action = {}) => {
   switch (action.type) {
     case TOGGLE_CONTENT_TOOLBAR_EXPANDED: {
@@ -99,5 +114,6 @@ export default combineReducers({
   searchFilter,
   viewList,
   configMap,
+  publishedConfigMap,
   toolbarExpanded,
 });

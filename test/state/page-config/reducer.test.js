@@ -1,6 +1,6 @@
 import {
-  toggleContent, setSearchFilter, changeViewList, setPageConfig,
-  setPageWidget, removePageWidgetSync,
+  toggleContent, setSearchFilter, changeViewList, setPageConfig, setPublishedPageConfig,
+  setPageWidget, removePageWidgetSync, toggleContentToolbarExpanded,
 } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
@@ -34,6 +34,16 @@ describe('state/page-config/reducer', () => {
       expect(typeof state.viewList).toBe('string');
     });
 
+    it('should define configMap', () => {
+      expect(state.configMap).toBeDefined();
+      expect(typeof state.configMap).toBe('object');
+    });
+
+    it('should define publishedConfigMap', () => {
+      expect(state.publishedConfigMap).toBeDefined();
+      expect(typeof state.publishedConfigMap).toBe('object');
+    });
+
     describe('on action TOOGLE_CONTENT', () => {
       it('state.content should be equal to default WIDGET_LIST', () => {
         const newState = reducer();
@@ -43,6 +53,15 @@ describe('state/page-config/reducer', () => {
       it('state.content should be equal to PAGES', () => {
         const newState = reducer(state, toggleContent());
         expect(newState.content).toEqual(PAGES);
+      });
+
+      it('state.content should toggle between WIDGET_LIST and PAGES', () => {
+        let newState = reducer();
+        expect(newState.content).toEqual(WIDGET_LIST);
+        newState = reducer(newState, toggleContent());
+        expect(newState.content).toEqual(PAGES);
+        newState = reducer(newState, toggleContent());
+        expect(newState.content).toEqual(WIDGET_LIST);
       });
     });
 
@@ -68,6 +87,17 @@ describe('state/page-config/reducer', () => {
     });
   });
 
+  describe('after action SET_TOOLBAR_EXPANDED', () => {
+    beforeEach(() => {
+      state = reducer({}, toggleContentToolbarExpanded());
+    });
+    it('should toggle the toolbar expanded value', () => {
+      expect(state.toolbarExpanded).toBe(true);
+      state = reducer(state, toggleContentToolbarExpanded());
+      expect(state.toolbarExpanded).toBe(false);
+    });
+  });
+
 
   describe('after action SET_PAGE_CONFIG', () => {
     const PAGE_CODE = 'some_page';
@@ -76,6 +106,16 @@ describe('state/page-config/reducer', () => {
     });
     it('the page config should be added to the configMap', () => {
       expect(state.configMap[PAGE_CODE]).toEqual(PAGE_CONFIG);
+    });
+  });
+
+  describe('after action SET_PUBLISHED_PAGE_CONFIG', () => {
+    const PAGE_CODE = 'some_page';
+    beforeEach(() => {
+      state = reducer({}, setPublishedPageConfig(PAGE_CODE, PAGE_CONFIG));
+    });
+    it('the page config should be added to the publishedConfigMap', () => {
+      expect(state.publishedConfigMap[PAGE_CODE]).toEqual(PAGE_CONFIG);
     });
   });
 
