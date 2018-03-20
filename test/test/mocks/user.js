@@ -8,15 +8,11 @@ export const ERROR = {
 };
 
 export const USER_OK = {
-  payload:
-        {
-          username: 'login',
-          registration: '2018-01-08 00:00:00',
-          lastLogin: '2018-01-08 00:00:00',
-          lastPasswordChange: '2018-01-08 00:00:00',
-          status: 'active',
-          passwordChangeRequired: true,
-        },
-  errors: [],
-  metaData: {},
+  username: 'login',
+  registration: '2018-01-08 00:00:00',
+  lastLogin: '2018-01-08 00:00:00',
+  lastPasswordChange: '2018-01-08 00:00:00',
+  status: 'active',
+  passwordChangeRequired: true,
+
 };

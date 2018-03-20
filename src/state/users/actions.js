@@ -25,17 +25,22 @@ export const fetchUsers = (page = 1, params) => dispatch =>
 
 
 export const fetchUserForm = username => dispatch =>
-  getUser(username).then((response) => {
-    if (response.ok) {
-      response.json().then((json) => {
-        dispatch(initialize('user', json.payload));
-      });
-    } else {
-      response.json().then((json) => {
-        dispatch(addErrors(json.errors.map(err => err.message)));
-      });
-    }
+  new Promise((resolve) => {
+    getUser(username).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(initialize('user', json.payload));
+          resolve();
+        }).catch(resolve);
+      } else {
+        response.json().then((json) => {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          resolve();
+        }).catch(resolve);
+      }
+    });
   });
+
 
 export const sendPutUser = user => dispatch => (
   new Promise((resolve) => {
@@ -51,6 +56,8 @@ export const sendPutUser = user => dispatch => (
           });
         }
       });
+    } else {
+      resolve();
     }
   })
 );

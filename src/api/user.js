@@ -8,7 +8,7 @@ export const getUser = (params) => {
   return makeRequest({
     uri: '/users/',
     method: METHODS.GET,
-    mockResponse: USER_OK.payload,
+    mockResponse: USER_OK,
   });
 };
 
