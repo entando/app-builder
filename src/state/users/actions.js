@@ -41,8 +41,10 @@ export const sendPutUser = user => dispatch => (
           gotoRoute(ROUTE_USER_LIST);
           resolve();
         } else {
-          dispatch(addErrors(response.errors.map(err => err.message)));
-          resolve();
+          response.json().then((json) => {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+            resolve();
+          });
         }
       });
     }

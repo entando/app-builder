@@ -97,9 +97,11 @@ describe('UserForm', () => {
     });
 
     it('root component contains edit fields', () => {
-      // userForm = buildUserForm(EDIT_MODE);
-      // console.log(userForm.debug());
       expect(userForm.find('.UserForm__content-edit').find('Field')).toHaveLength(4);
+      expect(userForm.find('[name="registration"]').exists()).toBe(true);
+      expect(userForm.find('[name="lastLogin"]').exists()).toBe(true);
+      expect(userForm.find('[name="lastPasswordChange"]').exists()).toBe(true);
+      expect(userForm.find('[name="reset"]').exists()).toBe(true);
     });
   });
 

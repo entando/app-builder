@@ -1,19 +1,38 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { setUsers, fetchUsers } from 'state/users/actions';
+import { gotoRoute } from 'frontend-common-components';
+import { setUsers, fetchUsers, sendPutUser } from 'state/users/actions';
 import { SET_USERS } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { putUser } from 'api/user';
+import { ROUTE_USER_LIST } from 'app-init/router';
+import { addErrors } from 'state/errors/actions';
+
+import { ADD_ERRORS } from 'state/errors/types';
+
+jest.mock('api/user', () => ({
+  putUser: jest.fn(),
+}));
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-
 const INITIAL_STATE = {
   users: {
     list: [],
+    map: {},
   },
 };
+
+
+const USER = {
+  username: 'test',
+  password: 'password',
+  status: 'active',
+  reset: false,
+};
+
 
 describe('data types actions ', () => {
   let store;
@@ -47,6 +66,39 @@ describe('data types actions ', () => {
         const user = actionPayload.users[0];
         expect(user).toHaveProperty('username', 'admin');
         expect(user).toHaveProperty('status', 'active');
+        done();
+      });
+    });
+  });
+
+  describe('sendPutUser()', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('when putUser succeeds, should dispatch gotoRoute user list', (done) => {
+      putUser.mockReturnValueOnce(new Promise(resolve => resolve({ ok: true })));
+      store.dispatch(sendPutUser(USER)).then(() => {
+        expect(putUser).toHaveBeenCalled();
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+        done();
+      });
+    });
+
+    it('when putUser get error, should dispatch gotoRoute user list', (done) => {
+      putUser.mockReturnValueOnce(new Promise(resolve => resolve({
+        ok: false,
+        json: () => new Promise(err => err({
+          errors: [
+            { message: 'what went wrong' },
+          ],
+        })),
+      })));
+      store.dispatch(sendPutUser(USER)).then(() => {
+        expect(putUser).toHaveBeenCalled();
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(addErrorsAction).toBeDefined();
         done();
       });
     });
