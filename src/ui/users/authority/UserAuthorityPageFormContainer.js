@@ -16,6 +16,7 @@ export const mapStateToProps = state =>
     groups: getGroups(state),
     roles: getRoles(state),
     selectedJoinValues: formValueSelector('autorityForm')(state, 'groups', 'roles') || [],
+
   });
 
 // export const mapDispatchToProps = dispatch => ({
