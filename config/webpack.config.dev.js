@@ -150,7 +150,9 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            // Entando: transpile mock files and test utilities
+            // include: paths.appSrc,
+            include: [paths.appSrc, paths.appTestResources],
             loader: require.resolve('babel-loader'),
             options: {
               

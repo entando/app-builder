@@ -23,9 +23,7 @@
 @import "pages/config/ToolbarContentIcon";
 @import "pages/config/ContentWidget";
 @import "pages/config/ContentWidgetElement";
-@import "pages/config/PageConfigGrid";
 @import "pages/config/ContentPages";
-@import "pages/config/PageConfigGrid";
 @import "fragments/common/FragmentForm";
 @import "fragments/list/ListFragmentPage";
 @import "fragment/FragmentForm";
@@ -35,6 +33,11 @@
 @import "fragment/WidgetTypeReferenceTable";
 @import "data-types/common/DataTypeStatusIcon";
 @import "data-types/list/DataTypeListTable";
+@import "pages/config/PageConfigGrid";
+@import "pages/config/PageConfigGridCol";
+@import "pages/config/PageConfigGridRow";
+@import "pages/config/WidgetFrame";
+@import "pages/config/EmptyFrame";
 @import "users/common/UserStatus";
 @import "users/common/UserForm";
 @import "users/list/UserListTable";

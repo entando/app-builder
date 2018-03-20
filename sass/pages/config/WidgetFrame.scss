@@ -1,0 +1,68 @@
+.WidgetFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 2px;
+  border: 1px dashed $color-pf-black-400;
+
+  &__content {
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    border: 1px solid $color-pf-black-600;
+    border-radius: 3px;
+    color: $color-pf-black-800;
+    text-align: center;
+    cursor: move;
+  }
+
+  &__frame-name {
+    position: absolute;
+    left: 10px;
+    color: $color-pf-black-400;
+  }
+
+  &__menu-button {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+  }
+
+  &__descriptor {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__icon {
+    color: $color-pf-green-400;
+    font-size: 20px;
+    line-height: 35px;
+  }
+
+  &--drag-hover {
+    border: 1px solid $color-pf-orange-300;
+    background: $color-pf-black-200;
+  }
+}
+
+.WidgetFrame--status-diff {
+  .WidgetFrame__icon {
+    color: $color-pf-gold-400;
+  }
+}
+
+.WidgetFrame--status-removed {
+  background: $color-pf-black-100;
+
+  .WidgetFrame__content {
+    border-color: transparent;
+    color: $color-pf-black-400;
+    cursor: initial;
+  }
+
+  .WidgetFrame__icon {
+    color: $color-pf-black-400;
+  }
+}

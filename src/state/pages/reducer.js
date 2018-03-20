@@ -142,6 +142,7 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
+
 export default combineReducers({
   map: reducer,
   childrenMap,

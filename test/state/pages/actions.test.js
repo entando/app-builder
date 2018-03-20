@@ -6,7 +6,7 @@ import { initialize } from 'redux-form';
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
-  fetchPageForm, sendPutPage, setFreePages, fetchFreePages,
+  fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings,
 } from 'state/pages/actions';
 
 import {
@@ -21,7 +21,7 @@ import {
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition, postPage, putPage, fetchPage } from 'api/pages';
+import { setPagePosition, postPage, putPage, fetchPage, getPageSettingsList } from 'api/pages';
 import rootReducer from 'state/rootReducer';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 
@@ -33,7 +33,8 @@ jest.mock('api/pages', () => ({
   postPage: jest.fn(),
   putPage: jest.fn(),
   getFreePages: () => new Promise(resolve => resolve([])),
-  getPageSettingsList: () => new Promise(resolve => resolve([])),
+  getPageSettingsList: jest.fn().mockImplementation(() =>
+    new Promise(resolve => resolve({ param: [{ name: 'a', value: 'b' }] }))),
 }));
 
 const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
@@ -327,6 +328,28 @@ describe('state/pages/actions', () => {
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
         expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
         expect(initialize).toHaveBeenCalledWith('page', 'contacts');
+      });
+    });
+    it('when putPage fails, should dispatch ADD_ERRORS', () => {
+      fetchPage.mockImplementation(mockPostPageFailure);
+      store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(addErrorsAction).toBeDefined();
+      });
+    });
+  });
+
+  describe('fetchPageSettings()', () => {
+    let store;
+    beforeEach(() => {
+      jest.resetModules();
+      store = mockStore(INITIALIZED_STATE);
+    });
+    it('when getPageSettingsList succeeds, should dispatch redux-form initialize', () => {
+      store.dispatch(fetchPageSettings()).then(() => {
+        expect(getPageSettingsList).toHaveBeenCalled();
+        expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
       });
     });
     it('when putPage fails, should dispatch ADD_ERRORS', () => {
