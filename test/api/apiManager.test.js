@@ -1,21 +1,20 @@
 import configureMockStore from 'redux-mock-store';
+import { gotoRoute } from 'frontend-common-components';
 
 import { config, makeRequest, METHODS } from 'api/apiManager';
+import { ROUTE_HOME } from 'app-init/router';
 
 const mockStore = configureMockStore([]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };
 const REAL_GOOD_RESPONSE = { payload: { code: 30 } };
 
-const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
-  new Promise((resolve) => {
-    resolve(REAL_GOOD_RESPONSE);
-  })
-));
-
 const MOCKED = {
   api: {
     useMocks: true,
+  },
+  currentUser: {
+    token: null,
   },
 };
 
@@ -23,6 +22,9 @@ const REAL = {
   api: {
     useMocks: false,
     domain: '//google.com',
+  },
+  currentUser: {
+    token: null,
   },
 };
 
@@ -32,9 +34,17 @@ const validRequest = {
   mockResponse: MOCKED_GOOD_RESPONSE,
 };
 
+let fetch;
+
 describe('apiManager', () => {
   beforeEach(() => {
     config(mockStore(MOCKED));
+    jest.resetAllMocks();
+    fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+      new Promise((resolve) => {
+        resolve(REAL_GOOD_RESPONSE);
+      })
+    ));
   });
 
   it('cannot make a request if request is not an object', () => {
@@ -102,63 +112,89 @@ describe('apiManager', () => {
       });
     });
 
-    it('returns an error if the errors callback is returning an array', (done) => {
-      const result = makeRequest({
-        ...validRequest,
-        errors: () => ['test'],
+    describe('errors handling', () => {
+      it('returns an error if the errors callback is returning an array', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          errors: () => ['test'],
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toBeInstanceOf(Response);
+          expect(data).toHaveProperty('ok', false);
+          expect(data).toHaveProperty('status', 400);
+          return data.json();
+        }).then((json) => {
+          expect(json).toHaveProperty('payload', {});
+          expect(json).toHaveProperty('errors', ['test']);
+          done();
+        });
       });
-      expect(fetch).not.toHaveBeenCalled();
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toBeInstanceOf(Response);
-        expect(data).toHaveProperty('ok', false);
-        return data.json();
-      }).then((json) => {
-        expect(json).toHaveProperty('payload', {});
-        expect(json).toHaveProperty('errors', ['test']);
-        done();
+
+      it('does not return an error if the errors callback is not a function', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          errors: 12,
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toBeInstanceOf(Response);
+          expect(data).toHaveProperty('ok', true);
+          done();
+        });
+      });
+
+      it('does not return an error if the errors callback is not returning an array', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          errors: () => 12,
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toBeInstanceOf(Response);
+          expect(data).toHaveProperty('ok', true);
+          done();
+        });
+      });
+
+      it('does not return an error if the errors callback is returning an empty array', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          errors: () => [],
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toBeInstanceOf(Response);
+          expect(data).toHaveProperty('ok', true);
+          done();
+        });
       });
     });
 
-    it('does not return an error if the errors callback is not a function', (done) => {
-      const result = makeRequest({
-        ...validRequest,
-        errors: 12,
-      });
-      expect(fetch).not.toHaveBeenCalled();
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toBeInstanceOf(Response);
-        expect(data).toHaveProperty('ok', true);
-        done();
-      });
-    });
-
-    it('does not return an error if the errors callback is not returning an array', (done) => {
-      const result = makeRequest({
-        ...validRequest,
-        errors: () => 12,
-      });
-      expect(fetch).not.toHaveBeenCalled();
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toBeInstanceOf(Response);
-        expect(data).toHaveProperty('ok', true);
-        done();
-      });
-    });
-
-    it('does not return an error if the errors callback is returning an empty array', (done) => {
-      const result = makeRequest({
-        ...validRequest,
-        errors: () => [],
-      });
-      expect(fetch).not.toHaveBeenCalled();
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toBeInstanceOf(Response);
-        expect(data).toHaveProperty('ok', true);
-        done();
+    describe('authentication', () => {
+      it('returns 403 if the request requires authentication and no token was found', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          useAuthentication: true,
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toBeInstanceOf(Response);
+          expect(data).toHaveProperty('ok', false);
+          expect(data).toHaveProperty('status', 401);
+          data.json().then((json) => {
+            expect(json).toHaveProperty('payload', {});
+            expect(json.errors).toHaveLength(1);
+            expect(json.errors).toContainEqual({ code: 120, message: 'authorization required' });
+            expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
+            done();
+          });
+        });
       });
     });
   });
@@ -241,6 +277,49 @@ describe('apiManager', () => {
       result.then((data) => {
         expect(data).toMatchObject(REAL_GOOD_RESPONSE);
         done();
+      });
+    });
+
+    describe('authentication', () => {
+      it('returns 403 if the request requires authentication and no token was found', (done) => {
+        const result = makeRequest({
+          ...validRequest,
+          useAuthentication: true,
+        });
+        expect(fetch).not.toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toHaveProperty('ok', false);
+          expect(data).toHaveProperty('status', 401);
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
+          done();
+        });
+      });
+
+      it('sends the bearer token if the authentication is necessary and the token is found', (done) => {
+        config(mockStore({
+          ...REAL,
+          currentUser: { token: '395d491d59fba6c5d3a371c9549d7015' },
+        }));
+        const result = makeRequest({
+          ...validRequest,
+          useAuthentication: true,
+        });
+        expect(fetch).toHaveBeenCalledWith(
+          '//google.com/api/test',
+          {
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer 395d491d59fba6c5d3a371c9549d7015',
+            },
+          },
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        });
       });
     });
   });

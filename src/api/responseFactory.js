@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 import { isInteger } from 'util/numeric';
 
 let payload = {};
@@ -22,7 +24,7 @@ const buildList = (mockResponse, page) => {
 
 const buildPayload = (mockResponse, page) => {
   if (Array.isArray(mockResponse)) {
-    buildList(mockResponse, page);
+    buildList(cloneDeep(mockResponse), page);
   } else if (typeof mockResponse === 'object') {
     payload = mockResponse;
     metaData = {};

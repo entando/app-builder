@@ -45,11 +45,21 @@ export const fetchFragmentDetail = fragmentCode => dispatch => (
   })
 );
 
-export const fetchFragments = (page = 1, params) => dispatch =>
-  getFragments(page, params).then((data) => {
-    dispatch(setFragments(data.payload));
-    dispatch(setPage(data.metaData));
-  });
+export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+  new Promise((resolve) => {
+    getFragments(page, params).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          dispatch(setFragments(data.payload));
+          dispatch(setPage(data.metaData));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  })
+);
 
 export const fetchWidgetTypes = () => dispatch => (
   getWidgetTypes().then((response) => {

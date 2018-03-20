@@ -17,7 +17,7 @@ class FragmentListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: 10 });
   }
 
   render() {
