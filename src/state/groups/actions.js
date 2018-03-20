@@ -10,8 +10,17 @@ export const setGroups = groups => ({
 });
 
 // thunk
-export const fetchGroups = (page = 1, params) => dispatch =>
-  getGroups(page, params).then((data) => {
-    dispatch(setGroups(data.payload));
-    dispatch(setPage(data.metaData));
+export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
+  new Promise((resolve) => {
+    getGroups(page, params).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          dispatch(setGroups(data.payload));
+          dispatch(setPage(data.metaData));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
   });

@@ -1,21 +1,16 @@
-import { GROUPS_OK_PAGE_1, GROUPS_OK_PAGE_2 } from 'test/mocks/groups';
-import throttle from 'util/throttle';
+import { makeRequest, METHODS } from 'api/apiManager';
+import { LIST_GROUPS_OK } from 'test/mocks/groups';
 
-export const getGroups = (page, params) => new Promise((resolve) => {
-  if (params) {
-    // eslint-disable-next-line no-console
-    console.info(`calling API /groups${params}`);
-  }
-  switch (page) {
-    case 1:
-      throttle(() => resolve(GROUPS_OK_PAGE_1));
-      break;
-    case 2:
-      throttle(() => resolve(GROUPS_OK_PAGE_2));
-      break;
-    default:
-      throttle(() => resolve(GROUPS_OK_PAGE_1));
-  }
-});
+export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/groups${params}`,
+      method: METHODS.GET,
+      mockResponse: LIST_GROUPS_OK,
+      useAuthentication: true,
+    },
+    page,
+  )
+);
 
 export default getGroups;
