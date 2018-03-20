@@ -22,10 +22,10 @@ export const renderStaticField = (field) => {
 
   return (
     <div className="form-group">
-      <label htmlFor={name} className="control-label col-sm-2">
+      <label htmlFor={name} className="control-label col-xs-2">
         {label}
       </label>
-      <Col sm={10}>
+      <Col xs={10}>
         {fieldValue}
       </Col>
     </div>
@@ -133,6 +133,8 @@ export class UserFormBody extends Component {
                   <Field
                     component={SwitchRenderer}
                     name="status"
+                    trueValue="active"
+                    falseValue="inactive"
                   />
                 </Col>
               </FormGroup>

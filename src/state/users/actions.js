@@ -26,10 +26,14 @@ export const fetchUsers = (page = 1, params) => dispatch =>
 
 export const fetchUserForm = username => dispatch =>
   getUser(username).then((response) => {
-    if (response.errors && response.errors.length) {
-      dispatch(addErrors(response.errors.map(err => err.message)));
+    if (response.ok) {
+      response.json().then((json) => {
+        dispatch(initialize('user', json.payload));
+      });
     } else {
-      dispatch(initialize('user', response.payload));
+      response.json().then((json) => {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      });
     }
   });
 

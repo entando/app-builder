@@ -7,7 +7,6 @@ import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1 } from 'test/mocks/users';
 import { putUser } from 'api/user';
 import { ROUTE_USER_LIST } from 'app-init/router';
-import { addErrors } from 'state/errors/actions';
 
 import { ADD_ERRORS } from 'state/errors/types';
 
