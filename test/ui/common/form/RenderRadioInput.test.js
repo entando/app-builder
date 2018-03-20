@@ -37,18 +37,17 @@ describe('RenderRadioInput', () => {
       />
     ));
   });
+
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);
   });
+
   it('renders three ToggleButton elements', () => {
     expect(component.find('ToggleButton')).toHaveLength(3);
   });
-  it('provides the ToggleButton with a defaultValue prop', () => {
-    const toggleButton = component.find('ToggleButton').first();
-    expect(toggleButton.prop('defaultValue')).toBe(INPUT.value);
-  });
+
   it('calls onChange on ToggleButton\'s onChange', () => {
-    component.prop('onChange')(INPUT.value);
+    component.find('[name="base"]').prop('onChange')(INPUT.value);
     expect(onChangeMock).toHaveBeenCalledWith(INPUT.value);
   });
 });

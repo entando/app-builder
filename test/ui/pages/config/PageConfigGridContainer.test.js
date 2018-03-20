@@ -2,13 +2,10 @@
 import { mapStateToProps } from 'ui/pages/config/PageConfigGridContainer';
 
 
-jest.mock('state/pages/actions', () => ({
-  fetchPageConfigData: jest.fn().mockReturnValue('fetchPageConfigData_result'),
+jest.mock('state/page-config/selectors', () => ({
+  getPageConfigCellMap: jest.fn().mockReturnValue('getPageConfigCellMap_result'),
 }));
 
-jest.mock('state/page-models/selectors', () => ({
-  getPageModelStruct: jest.fn().mockReturnValue('getPageModelStruct_result'),
-}));
 
 describe('PageConfigGridContainer', () => {
   beforeEach(jest.clearAllMocks);
@@ -18,8 +15,9 @@ describe('PageConfigGridContainer', () => {
     beforeEach(() => {
       props = mapStateToProps({});
     });
-    it('maps prop "pageModelStruct" with getPageModelStruct(state)', () => {
-      expect(props.pageModelStruct).toBe('getPageModelStruct_result');
+
+    it('maps prop "cellMap" with getPageConfigCellMap(state)', () => {
+      expect(props.cellMap).toBe('getPageConfigCellMap_result');
     });
   });
 });

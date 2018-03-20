@@ -28,7 +28,6 @@ export const getFragments = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
-
 export const getWidgetTypes = () => new Promise((resolve) => {
   throttle(resolve(WIDGET_TYPES_OK));
 });

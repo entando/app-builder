@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 
-import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
+import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
 
 const renderWidgetCategory = title => (
@@ -17,10 +17,10 @@ const renderWidgetCategory = title => (
 );
 
 const renderWidgetElement = el => (
-  <ContentWidgetElement
-    key={el.name}
-    code={el.name}
-    description={el.name}
+  <DraggableContentWidgetElement
+    key={el.code}
+    widgetName={el.name}
+    widgetId={el.code}
   />
 );
 

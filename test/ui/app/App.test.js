@@ -20,6 +20,8 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
+import AddUserPage from 'ui/users/add/AddUserPage';
+import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import { NotFoundPage, gotoRoute } from 'frontend-common-components';
 
 import {
@@ -38,8 +40,10 @@ import {
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
+  ROUTE_DATA_MODEL_LIST,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
+  ROUTE_USER_ADD,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -128,6 +132,11 @@ describe('App', () => {
     expect(component.contains(<AddDataModelPage />)).toEqual(true);
   });
 
+  it('route to data model list page', () => {
+    const component = shallow(<App route={ROUTE_DATA_MODEL_LIST} username="admin" />);
+    expect(component.contains(<DataModelListPage />)).toEqual(true);
+  });
+
   it('route to data type list page', () => {
     const component = shallow(<App route={ROUTE_DATA_TYPE_LIST} username="admin" />);
     expect(component.contains(<ListDataTypePage />)).toEqual(true);
@@ -136,6 +145,11 @@ describe('App', () => {
   it('route to user list page', () => {
     const component = shallow(<App route={ROUTE_USER_LIST} username="admin" />);
     expect(component.contains(<UserListPage />)).toEqual(true);
+  });
+
+  it('route to user add page', () => {
+    const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />);
+    expect(component.contains(<AddUserPage />)).toEqual(true);
   });
 
   it('default route', () => {

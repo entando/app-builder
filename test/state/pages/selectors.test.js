@@ -1,3 +1,4 @@
+
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
@@ -10,6 +11,7 @@ import {
 
 const LOCALE_MOCK = 'en';
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
+
 
 const MOCK_STATE = {
   pages: {

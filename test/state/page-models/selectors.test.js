@@ -1,11 +1,16 @@
-import 'state/page-models/customJestExpects';
 
 import {
   getPageModels, getPageModelsList, getSelectedPageModel,
-  getPageModelStruct,
+  getSelectedPageModelCellMap,
 } from 'state/page-models/selectors';
 
-import { GET_LIST_RESPONSE, COMPLEX_PAYLOAD } from 'test/mocks/pageModels';
+import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
+import { PAYLOAD as COMPLEX_PAYLOAD, CELL_MAP as COMPLEX_CELL_MAP } from 'test/mocks/page-models/complex';
+import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, CELL_MAP as SIDEBAR_HOLES_CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
+import { PAYLOAD as SINGLE_CELL_PAYLOAD, CELL_MAP as SINGLE_CELL_CELL_MAP } from 'test/mocks/page-models/singleCell';
+import { PAYLOAD as MISSING_SKETCH_PAYLOAD, CELL_MAP as MISSING_SKETCH_CELL_MAP } from 'test/mocks/page-models/missingSketch';
+import { PAYLOAD as WRONG_POS_PAYLOAD, CELL_MAP as WRONG_POS_CELL_MAP } from 'test/mocks/page-models/wrongPos';
+import { PAYLOAD as OVERLAPPING_FRAMES_PAYLOAD, CELL_MAP as OVERLAPPING_FRAMES_CELL_MAP } from 'test/mocks/page-models/overlappingFrames';
 
 const PAGE_MODELS = GET_LIST_RESPONSE.payload;
 
@@ -16,7 +21,7 @@ const STATE = {
   },
 };
 
-const buildStateWithSelected = pageModel => ({
+const buildStateWithSelectedPageModel = pageModel => ({
   pageModels: {
     list: PAGE_MODELS,
     selected: pageModel,
@@ -36,80 +41,41 @@ describe('state/page-models/selectors', () => {
   it('getSelectedPageModel returns the selected page models', () => {
     expect(getSelectedPageModel(STATE)).toEqual(COMPLEX_PAYLOAD);
   });
-});
 
-describe('state/page-models/selectors getPageModelStruct()', () => {
-  let struct;
-  // FIXME decomment when getSelectedPageModel is not mocked anymore
-  // it('returns null if there is no selected page model', () => {
-  //   const state = buildStateWithSelected(null);
-  //   expect(getPageModelStruct(state)).toBe(null);
-  // });
-
-  /*
-  COMPLEX_PAGE_MODEL structure
-
-  | 2 | 2 | 2 | 2 | 2 | 2 |
-  |       8       |   4   |
-  |      7      |    5    |
-  |   4   |   4   |   4   |
-  |           12          |
-  |           12          |
-  |           12          |
-  */
-  describe('with COMPLEX_PAGE_MODEL', () => {
-    beforeEach(() => {
-      const state = buildStateWithSelected(COMPLEX_PAYLOAD);
-      struct = getPageModelStruct(state);
+  describe('getSelectedPageModelCellMap', () => {
+    it('with COMPLEX page model', () => {
+      const state = buildStateWithSelectedPageModel(COMPLEX_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(COMPLEX_CELL_MAP);
     });
 
-    it('root struct should have 7 rows', () => {
-      expect(struct.rows).toHaveLength(7);
+    it('with SIDEBAR_HOLES page model', () => {
+      const state = buildStateWithSelectedPageModel(SIDEBAR_HOLES_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(SIDEBAR_HOLES_CELL_MAP);
     });
 
-    it('first row should have 6 leaf cols of width 2', () => {
-      const row = struct.rows[0];
-      expect(row.cols).toHaveLength(6);
-      row.cols.forEach((col) => {
-        expect(col).toBeLeafCol();
-        expect(col).toBeCellOfWidth(2);
-      });
+    it('with SINGLE_CELL page model', () => {
+      const state = buildStateWithSelectedPageModel(SINGLE_CELL_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(SINGLE_CELL_CELL_MAP);
     });
 
-    it('second row should have 2 leaf cols of width 8 and 4', () => {
-      const row = struct.rows[1];
-      expect(row.cols).toHaveLength(2);
-      expect(row.cols[0]).toBeLeafCol();
-      expect(row.cols[0]).toBeCellOfWidth(8);
-      expect(row.cols[1]).toBeLeafCol();
-      expect(row.cols[1]).toBeCellOfWidth(4);
+    it('with MISSING_SKETCH page model', () => {
+      const state = buildStateWithSelectedPageModel(MISSING_SKETCH_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(MISSING_SKETCH_CELL_MAP);
     });
 
-    it('third row should have 2 leaf cols of width 7 and 5', () => {
-      const row = struct.rows[2];
-      expect(row.cols).toHaveLength(2);
-      expect(row.cols[0]).toBeLeafCol();
-      expect(row.cols[0]).toBeCellOfWidth(7);
-      expect(row.cols[1]).toBeLeafCol();
-      expect(row.cols[1]).toBeCellOfWidth(5);
+    it('with WRONG_POS page model', () => {
+      const state = buildStateWithSelectedPageModel(WRONG_POS_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(WRONG_POS_CELL_MAP);
     });
 
-    it('fourth row should have 3 leaf cols of width 4', () => {
-      const row = struct.rows[3];
-      expect(row.cols).toHaveLength(3);
-      row.cols.forEach((col) => {
-        expect(col).toBeLeafCol();
-        expect(col).toBeCellOfWidth(4);
-      });
+    it('with OVERLAPPING_FRAMES page model', () => {
+      const state = buildStateWithSelectedPageModel(OVERLAPPING_FRAMES_PAYLOAD);
+      expect(getSelectedPageModelCellMap(state)).toEqual(OVERLAPPING_FRAMES_CELL_MAP);
     });
 
-    it('rows from fifth to seventh to have one single col of width 12', () => {
-      for (let i = 4; i < struct.rows.length; i += 1) {
-        const row = struct.rows[i];
-        expect(row.cols).toHaveLength(1);
-        expect(row.cols[0]).toBeLeafCol();
-        expect(row.cols[0]).toBeCellOfWidth(12);
-      }
+    it('with no page model', () => {
+      const state = buildStateWithSelectedPageModel();
+      expect(getSelectedPageModelCellMap(state)).toEqual(null);
     });
   });
 });
