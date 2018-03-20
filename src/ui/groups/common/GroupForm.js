@@ -16,7 +16,7 @@ const NEW_MODE = 'new';
 
 export const GroupFormBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, mode,
+    handleSubmit, invalid, submitting, mode, onChangeName,
   } = props;
 
   const onSubmit = (ev) => {
@@ -42,6 +42,7 @@ export const GroupFormBody = (props) => {
               label={<FormLabel labelId="group.name" helpId="group.name.help" required />}
               placeholder={formattedText('group.name')}
               validate={[required, maxLength50]}
+              onChange={(ev) => { if (onChangeName) onChangeName(ev.currentTarget.value); }}
             />
             <Field
               component={RenderTextInput}
@@ -75,12 +76,14 @@ GroupFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
+  onChangeName: PropTypes.func,
 };
 
 GroupFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: NEW_MODE,
+  onChangeName: null,
 };
 
 const GroupForm = reduxForm({
