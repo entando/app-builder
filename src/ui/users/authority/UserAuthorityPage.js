@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { BreadcrumbItem } from 'frontend-common-components';
@@ -7,7 +8,8 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UserAuthorityPageFormContainer from 'ui/users/authority/UserAuthorityPageFormContainer';
 
-const UserAuthorityPage = () => (
+
+const UserAuthorityPage = ({ username }) => (
   <InternalPage className="authorityPage">
     <Grid fluid>
       <Row>
@@ -30,6 +32,7 @@ const UserAuthorityPage = () => (
           <PageTitle
             titleId="user.authority.title"
             helpId="user.help"
+            titleParam={username}
           />
         </Col>
       </Row>
@@ -40,4 +43,10 @@ const UserAuthorityPage = () => (
   </InternalPage>
 );
 
+UserAuthorityPage.propTypes = {
+  username: PropTypes.string,
+};
+UserAuthorityPage.defaultProps = {
+  username: '',
+};
 export default UserAuthorityPage;

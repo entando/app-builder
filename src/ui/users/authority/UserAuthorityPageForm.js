@@ -41,7 +41,6 @@ export class UserAuthorityPageFormBody extends Component {
               </Col>
             </Row>
           </Grid>
-
           <Col sm={12}>
             <Button
               type="submit"

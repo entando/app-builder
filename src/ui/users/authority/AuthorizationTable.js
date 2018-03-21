@@ -8,23 +8,67 @@ import { formattedText } from 'frontend-common-components';
 class AuthorizationTable extends Component {
   constructor(props) {
     super(props);
-    this.select = null;
+    this.onClickAdd = this.onClickAdd.bind(this);
+    this.group = null;
+    this.role = null;
+  }
+
+  onClickAdd() {
+    const { fields } = this.props;
+    if (this.group.value === this.role.value) {
+      return;
+    }
+    if (this.group.value || this.role.value) {
+      fields.push({
+        group: this.group.value,
+        role: this.role.value,
+      });
+    }
+  }
+
+  renderTable(renderRow) {
+    if (this.props.groupRolesCombo.length === 0) {
+      return (
+        <div>
+          <p>
+            <FormattedMessage id="user.authority.noAuthYet" />
+          </p>
+          <hr />
+        </div>
+      );
+    }
+    return (
+      <table className="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>
+              <FormattedMessage id="user.authority.groups" />
+            </th>
+            <th className="text-center">
+              <FormattedMessage id="user.authority.roles" />
+            </th>
+            <th className="text-center" width="10%">
+              <FormattedMessage id="app.actions" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {renderRow}
+        </tbody>
+      </table>
+    );
   }
 
   render() {
     const { groups, roles, fields } = this.props;
-
     const groupsWithEmpty =
           [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
-
     const rolesWithEmpty =
           [{ code: '', name: formattedText('app.chooseAnOption') }].concat(roles);
-
     const groupOptions =
-        groupsWithEmpty.map(gr => (<option key={gr.code} value={gr.code}>{gr.name}</option>));
-
+        groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.name}>{gr.name}</option>));
     const rolesOptions =
-        rolesWithEmpty.map(rl => (<option key={rl.code} value={rl.code}>{rl.name}</option>));
+        rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.name}>{rl.name}</option>));
 
     const renderRow = this.props.groupRolesCombo.map((item, index) => (
       // eslint-disable-next-line
@@ -37,31 +81,15 @@ class AuthorizationTable extends Component {
               className="AuthorizationTable__delete-tag-btn"
               onClick={() => fields.remove(index)}
             >
-              <i className="fa fa-times" />
+              <i className="fa fa-trash-o" />
             </Button>
           </td>
         </tr>
     ));
+
     return (
       <div className="AuthorizationTable" >
-        <table className="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>
-                <FormattedMessage id="user.authority.groups" />
-              </th>
-              <th className="text-center">
-                <FormattedMessage id="user.authority.roles" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="app.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderRow}
-          </tbody>
-        </table>
+        {this.renderTable(renderRow)}
         <Row>
           <Col sm={12}>
             <h1><FormattedMessage id="user.authority.new" /></h1>
@@ -106,12 +134,7 @@ class AuthorizationTable extends Component {
                 type="button"
                 bsStyle="primary"
                 className="pull-right"
-                onClick={() => {
-                  fields.push({
-                    group: this.group.value,
-                    role: this.role.value,
-                  });
-                }}
+                onClick={this.onClickAdd}
               >
                 <FormattedMessage id="app.add" />
               </Button>
@@ -137,20 +160,12 @@ AuthorizationTable.propTypes = {
     group: PropTypes.string,
     role: PropTypes.string,
   })),
-  // selectedJoinValues: PropTypes.shape({
-  //   groups: PropTypes.string,
-  //   roles: PropTypes.string,
-  // }),
 };
 
 AuthorizationTable.defaultProps = {
   groups: [],
   roles: [],
   groupRolesCombo: [],
-  // selectedJoinValues: {
-  //   groups: null,
-  //   roles: null,
-  // },
 };
 
 export default AuthorizationTable;

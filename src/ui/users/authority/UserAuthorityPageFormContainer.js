@@ -6,23 +6,12 @@ import { fetchRoles } from 'state/roles/actions';
 import { getRoles } from 'state/roles/selectors';
 import UserAuthorityPageForm from 'ui/users/authority/UserAuthorityPageForm';
 
-// import { sendPostPage } from 'state/pages/actions';
-
 export const mapStateToProps = state =>
-  // console.log('STATO', state);
-  // console.log('STATO formValueSelector',
-  // formValueSelector('autorityForm')(state, 'groups', 'roles'));
   ({
     groups: getGroups(state),
     roles: getRoles(state),
-    selectedJoinValues: formValueSelector('autorityForm')(state, 'groups', 'roles'),
     groupRolesCombo: formValueSelector('autorityForm')(state, 'groupRolesCombo'),
   });
-
-// export const mapDispatchToProps = dispatch => ({
-//   onSubmit: data => dispatch(sendPostPage(data)),
-// });
-
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
@@ -31,6 +20,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     // call post
+    // eslint-disable-next-line
     console.log(values);
   },
 

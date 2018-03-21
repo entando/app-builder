@@ -43,7 +43,7 @@ import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserListPage from 'ui/users/list/UserListPage';
-import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
+import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 
 const App = ({ route, username }) => {
   if (1 === 2 && username === null && route !== ROUTE_HOME && route) {
@@ -74,7 +74,7 @@ const App = ({ route, username }) => {
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     case ROUTE_USER_LIST: return <UserListPage />;
-    case ROUTE_USER_AUTHORITY: return <UserAuthorityPage />;
+    case ROUTE_USER_AUTHORITY: return <UserAuthorityPageContainer />;
     default: return <NotFoundPage />;
   }
 };

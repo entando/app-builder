@@ -56,7 +56,7 @@ routerConfig(
       // use when edit route when component will be available
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
-      { name: ROUTE_USER_AUTHORITY, path: '/authority' },
+      { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

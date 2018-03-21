@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
+import { LinkMenuItem } from 'frontend-common-components';
+import { ROUTE_USER_AUTHORITY } from 'app-init/router';
 
 class UserListMenuActions extends Component {
   constructor(props) {
@@ -18,7 +20,9 @@ class UserListMenuActions extends Component {
 
   render() {
     const { onClickDelete } = this.props;
-
+    const manageAuthLabel = (
+      <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
+    );
     return (
       <DropdownKebab pullRight id={`${this.props.username}-actions`}>
 
@@ -27,11 +31,13 @@ class UserListMenuActions extends Component {
         >
           <FormattedMessage id="app.edit" />
         </MenuItem>
-        <MenuItem
+        <LinkMenuItem
+          id={`manageAuth-${this.props.username}`}
+          route={ROUTE_USER_AUTHORITY}
+          params={{ username: this.props.username }}
+          label={manageAuthLabel}
           className="UserListMenuAction__menu-item-auth"
-        >
-          <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
-        </MenuItem>
+        />
         <MenuItem
           className="UserListMenuAction__menu-item-edit-profile"
         >
