@@ -5,6 +5,7 @@ const initialState = {
   page: 1,
   pageSize: 10,
   lastPage: 1,
+  totalItems: 0,
 };
 
 const isPageValid = (page, lastPage) => {
@@ -24,6 +25,8 @@ const isPageSizeValid = (pageSize) => {
   return true;
 };
 
+const isTotalItemsValid = totalItems => isInteger(totalItems) && totalItems > 0;
+
 const isLastPageValid = (lastPage) => {
   if (!isInteger(lastPage)) {
     return false;
@@ -34,7 +37,8 @@ const isLastPageValid = (lastPage) => {
 const isPayloadValid = (payload) => {
   if (!isPageValid(payload.page, payload.lastPage) ||
     !isPageSizeValid(payload.pageSize) ||
-    !isLastPageValid(payload.lastPage)
+    !isLastPageValid(payload.lastPage) ||
+    !isTotalItemsValid(payload.totalItems)
   ) {
     return false;
   }
@@ -46,6 +50,7 @@ const castValues = page => (
     page: parseFloat(page.page),
     pageSize: parseFloat(page.pageSize),
     lastPage: parseFloat(page.lastPage),
+    totalItems: parseFloat(page.totalItems),
   }
 );
 

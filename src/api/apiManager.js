@@ -114,16 +114,35 @@ const getRequestParams = (request) => {
   return requestParams;
 };
 
-export const makeRealRequest = (request) => {
+const getCompleteRequestUrl = (request, page) => {
+  const url = `${getDomain(store.getState())}${request.uri}`;
+  if (!page || !page.page) {
+    return url;
+  }
+
+  const pageQueryString = `page=${page.page}&pageSize=${page.pageSize}`;
+
+  return url.concat(url.indexOf('?') !== -1 ? '&' : '?', pageQueryString);
+};
+
+export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
     gotoRoute(ROUTE_HOME);
     return new Promise(resolve => resolve({ ok: false, status: 401 }));
   }
-  return fetch(`${getDomain(store.getState())}${request.uri}`, getRequestParams(request));
+  return fetch(
+    getCompleteRequestUrl(request, page),
+    getRequestParams(request),
+  ).then((response) => {
+    if (response.status === 403) {
+      gotoRoute(ROUTE_HOME);
+    }
+    return response;
+  });
 };
 
-export const makeRequest = (request, page = defaultPage) => {
+export const makeRequest = (request, page) => {
   if (useMocks(store.getState())) {
     return makeMockRequest(request, page);
   }

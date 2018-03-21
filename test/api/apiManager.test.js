@@ -221,6 +221,35 @@ describe('apiManager', () => {
       });
     });
 
+    it('appends the page to the uri when there is no query string', () => {
+      makeRequest(validRequest, { page: 1, pageSize: 10 });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test?page=1&pageSize=10',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+
+    it('appends the page to the uri when there is a query string', () => {
+      makeRequest({
+        ...validRequest,
+        uri: '/api/test?my=var',
+      }, { page: 1, pageSize: 10 });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test?my=var&page=1&pageSize=10',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+
     it('sends the body when the request is post', (done) => {
       const result = makeRequest({
         uri: '/api/test',
