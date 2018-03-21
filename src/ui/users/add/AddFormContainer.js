@@ -9,7 +9,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   // calls post api
-  onSubmit: (values) => { console.log(values); },
+  onSubmit: values => values,
   onWillMount: () => {
     dispatch(fetchProfileTypes());
   },
