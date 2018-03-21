@@ -26,6 +26,7 @@ export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
 export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
+export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 
@@ -59,6 +60,7 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
+      { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
     ],
