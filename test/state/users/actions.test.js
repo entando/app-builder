@@ -24,16 +24,14 @@ const INITIAL_STATE = {
   },
 };
 
+describe('users actions ', () => {
+  const USER = {
+    username: 'test',
+    password: 'password',
+    status: 'active',
+    reset: false,
+  };
 
-const USER = {
-  username: 'test',
-  password: 'password',
-  status: 'active',
-  reset: false,
-};
-
-
-describe('data types actions ', () => {
   let store;
 
   beforeEach(() => {
@@ -48,7 +46,7 @@ describe('data types actions ', () => {
   });
 
   describe('test fetchUsers', () => {
-    it('fetchUsers calls fetchUsers and setPage actions', (done) => {
+    it('fetchUsers calls setUsers and setPage actions', (done) => {
       store.dispatch(fetchUsers()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);

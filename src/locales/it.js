@@ -58,6 +58,7 @@ export default {
     'menu.dataType': 'Data Type',
     'menu.userSettings': 'Gestione Utenti',
     'menu.users': 'Utenti',
+    'menu.groups': 'Groups',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -197,5 +198,7 @@ export default {
     'user.profile.all': 'Tutti',
     'user.profile.with': 'Utente con un profilo',
     'user.profile.without': 'Utente senza profilo',
+    'group.help': 'Dalla sezione GRUPPI l\'amministratore può gestire i gruppi esistenti o crearne di nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.',
+    'group.listEmpty': 'Non ci sono GRUPPI disponibili',
   },
 };

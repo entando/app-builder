@@ -4,14 +4,13 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageFormBody } from 'ui/pages/common/PageForm';
-import { GROUPS as GROUPS_RESPONSE } from 'test/mocks/groups';
+import { LIST_GROUPS_OK as GROUPS } from 'test/mocks/groups';
 import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
 import { getContentTypes, getCharsets } from 'state/pages/selectors';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
 const PAGE_MODELS = GET_LIST_RESPONSE.payload;
-const GROUPS = GROUPS_RESPONSE.payload;
 const CONTENT_TYPES = getContentTypes();
 const CHARSETS = getCharsets();
 const ON_WILL_MOUNT = jest.fn();
@@ -20,7 +19,6 @@ const ON_CHANGE_EN_TITLE = jest.fn();
 const CHANGE_EVENT = {
   currentTarget: { value: 'test' },
 };
-
 
 describe('PageForm', () => {
   beforeEach(jest.clearAllMocks);
