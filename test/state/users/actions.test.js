@@ -1,11 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from 'frontend-common-components';
-import { setUsers, fetchUsers, sendPutUser } from 'state/users/actions';
-import { SET_USERS } from 'state/users/types';
+import { setUsers, fetchUsers, sendPutUser, setSelectedUserDetail, fetchUserDetail } from 'state/users/actions';
+import { SET_USERS, SELECTED_USER } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { USERS_OK_PAGE_1, USER_PROFILE_MOCK } from 'test/mocks/users';
 import { putUser } from 'api/user';
+import { getUserDetail } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -14,6 +15,11 @@ jest.mock('api/user', () => ({
   putUser: jest.fn(),
 }));
 
+jest.mock('api/users', () => ({
+  getUserDetail: jest.fn(),
+}));
+
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -21,6 +27,7 @@ const INITIAL_STATE = {
   users: {
     list: [],
     map: {},
+    selected: {},
   },
 };
 
@@ -47,6 +54,13 @@ describe('data types actions ', () => {
     });
   });
 
+  describe('setSelectedUserDetail', () => {
+    it('test setSelectedUserDetail action sets the correct type', () => {
+      const action = setSelectedUserDetail(USER_PROFILE_MOCK);
+      expect(action.type).toEqual(SELECTED_USER);
+    });
+  });
+
   describe('test fetchUsers', () => {
     it('fetchUsers calls fetchUsers and setPage actions', (done) => {
       store.dispatch(fetchUsers()).then(() => {
@@ -65,6 +79,22 @@ describe('data types actions ', () => {
         const user = actionPayload.users[0];
         expect(user).toHaveProperty('username', 'admin');
         expect(user).toHaveProperty('status', 'active');
+        done();
+      });
+    });
+  });
+
+  describe('fetchUserDetail', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('when fetchUserDetail succeeds, should dispatch setSelectedUserDetail', (done) => {
+      getUserDetail.mockReturnValueOnce(new Promise(resolve => resolve({ ok: true })));
+      store.dispatch(fetchUserDetail(USER.username)).then(() => {
+        expect(getUserDetail).toHaveBeenCalled();
+        // expect(setSelectedUserDetail).toHaveBeenCalled();
         done();
       });
     });

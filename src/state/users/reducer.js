@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_USERS } from 'state/users/types';
+import { SET_USERS, SELECTED_USER } from 'state/users/types';
 
 const toMap = array => array.reduce((acc, user) => {
   acc[user.username] = user;
@@ -26,7 +26,17 @@ const userMap = (state = {}, action = {}) => {
   }
 };
 
+export const selected = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SELECTED_USER: {
+      return action.payload.user;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: userMap,
+  selected,
 });

@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
-import { SET_USERS } from 'state/users/types';
-import { getUsers } from 'api/users';
+import { SET_USERS, SELECTED_USER } from 'state/users/types';
+import { getUsers, getUserDetail } from 'api/users';
 import { getUser, putUser } from 'api/user';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
@@ -16,11 +16,35 @@ export const setUsers = users => ({
   },
 });
 
+export const setSelectedUserDetail = user => ({
+  type: SELECTED_USER,
+  payload: {
+    user,
+  },
+});
+
 // thunk
 export const fetchUsers = (page = 1, params) => dispatch =>
   getUsers(page, params).then((data) => {
     dispatch(setUsers(data.payload));
     dispatch(setPage(data.metaData));
+  });
+
+export const fetchUserDetail = username => dispatch =>
+  new Promise((resolve) => {
+    getUserDetail(username).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(setSelectedUserDetail(json.payload));
+          resolve();
+        });
+      } else {
+        response.json().then((json) => {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          resolve();
+        });
+      }
+    });
   });
 
 
@@ -31,12 +55,12 @@ export const fetchUserForm = username => dispatch =>
         response.json().then((json) => {
           dispatch(initialize('user', json.payload));
           resolve();
-        }).catch(resolve);
+        });
       } else {
         response.json().then((json) => {
           dispatch(addErrors(json.errors.map(err => err.message)));
           resolve();
-        }).catch(resolve);
+        });
       }
     });
   });

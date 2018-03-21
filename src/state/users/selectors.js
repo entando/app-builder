@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 export const getUsers = state => state.users;
 export const getUsersIdList = state => state.users.list;
 export const getUsersMap = state => state.users.map;
+export const getUser = state => state.users.selected;
 
 export const getUserList = createSelector(
   [getUsersMap, getUsersIdList],

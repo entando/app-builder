@@ -19,6 +19,7 @@ export default {
     'app.it': 'it',
     'app.save': 'Salva',
     'app.search': 'Cerca',
+    'app.back': 'Indietro',
     'app.fieldsRequired': 'Campi obbligatori',
     'app.title': 'Titolo',
     'app.alert.notAvaible': 'Non disponibile',
@@ -58,6 +59,7 @@ export default {
     'menu.dataType': 'Data Type',
     'menu.userSettings': 'Gestione Utenti',
     'menu.users': 'Utenti',
+    'menu.details': 'Dettagli',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -197,5 +199,6 @@ export default {
     'user.profile.all': 'Tutti',
     'user.profile.with': 'Utente con un profilo',
     'user.profile.without': 'Utente senza profilo',
+    'user.detail.title': 'Dettagli',
   },
 };

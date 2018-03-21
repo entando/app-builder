@@ -19,6 +19,7 @@ export default {
     'app.it': 'it',
     'app.save': 'Save',
     'app.search': 'Search',
+    'app.back': 'Back',
     'app.fieldsRequired': 'Required Fields',
     'app.title': 'Title',
     'app.alert.notAvaible': 'Not avaible',
@@ -58,6 +59,7 @@ export default {
     'menu.dataType': 'Data Types',
     'menu.userSettings': 'User Settings',
     'menu.users': 'Users',
+    'menu.details': 'Details',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -197,5 +199,6 @@ export default {
     'user.profile.all': 'All',
     'user.profile.with': 'User with a profile',
     'user.profile.without': 'User without a profile',
+    'user.detail.title': 'Details',
   },
 };
