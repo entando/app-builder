@@ -1,9 +1,18 @@
-import { SET_USER } from 'state/current-user/types';
+import { SET_USER, UNSET_USER } from 'state/current-user/types';
 
-// eslint-disable-next-line
 export const setUser = user => ({
   type: SET_USER,
   payload: {
     user,
+  },
+});
+
+export const unsetUser = () => ({
+  type: UNSET_USER,
+  payload: {
+    user: {
+      username: null,
+      token: null,
+    },
   },
 });

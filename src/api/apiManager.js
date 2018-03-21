@@ -5,6 +5,7 @@ import throttle from 'util/throttle';
 import { isEmpty } from 'util/string';
 import { buildResponse, buildErrorResponse } from 'api/responseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
+import { unsetUser } from 'state/current-user/actions';
 import { getToken } from 'state/current-user/selectors';
 import { ROUTE_HOME } from 'app-init/router';
 
@@ -120,9 +121,10 @@ const getCompleteRequestUrl = (request, page) => {
     return url;
   }
 
-  const pageQueryString = `page=${page.page}&pageSize=${page.pageSize}`;
-
-  return url.concat(url.indexOf('?') !== -1 ? '&' : '?', pageQueryString);
+  return url.concat(
+    url.indexOf('?') !== -1 ? '&' : '?',
+    `page=${page.page}&pageSize=${page.pageSize}`,
+  );
 };
 
 export const makeRealRequest = (request, page) => {
@@ -135,7 +137,8 @@ export const makeRealRequest = (request, page) => {
     getCompleteRequestUrl(request, page),
     getRequestParams(request),
   ).then((response) => {
-    if (response.status === 403) {
+    if (response.status === 401) {
+      store.dispatch(unsetUser());
       gotoRoute(ROUTE_HOME);
     }
     return response;

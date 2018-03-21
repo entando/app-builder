@@ -9,6 +9,7 @@ const TEST_STATE = {
     page: 1,
     pageSize: 10,
     lastPage: 2,
+    totalItems: 20,
   },
 };
 

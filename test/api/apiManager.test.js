@@ -3,6 +3,7 @@ import { gotoRoute } from 'frontend-common-components';
 
 import { config, makeRequest, METHODS } from 'api/apiManager';
 import { ROUTE_HOME } from 'app-init/router';
+import { UNSET_USER } from 'state/current-user/types';
 
 const mockStore = configureMockStore([]);
 
@@ -348,6 +349,38 @@ describe('apiManager', () => {
           expect(data).toMatchObject(REAL_GOOD_RESPONSE);
           done();
         });
+      });
+
+      it('redirects and unset the user if fetch returns a 401', (done) => {
+        const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+          new Promise((resolve) => {
+            resolve({ ok: false, status: 401 });
+          })
+        ));
+
+        const store = mockStore({
+          ...REAL,
+          currentUser: { token: '395d491d59fba6c5d3a371c9549d7015' },
+        });
+
+        config(store);
+
+        const result = makeRequest({
+          ...validRequest,
+          useAuthentication: true,
+        });
+        expect(customFetch).toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', UNSET_USER);
+          done();
+        });
+
+        customFetch.mockReset();
+        customFetch.mockRestore();
       });
     });
   });

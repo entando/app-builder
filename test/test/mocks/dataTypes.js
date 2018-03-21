@@ -46,6 +46,7 @@ export const DATA_TYPES_OK_PAGE_1 =
     page: 1,
     pageSize: 2,
     lastPage: 2,
+    totalItems: 4,
   },
 };
 
@@ -68,5 +69,6 @@ export const DATA_TYPES_OK_PAGE_2 =
     page: 2,
     pageSize: 2,
     lastPage: 2,
+    totalItems: 4,
   },
 };

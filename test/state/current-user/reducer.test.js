@@ -1,5 +1,5 @@
 import reducer from 'state/current-user/reducer';
-import { setUser } from 'state/current-user/actions';
+import { setUser, unsetUser } from 'state/current-user/actions';
 
 let defaultState;
 
@@ -66,6 +66,23 @@ describe('current-user reducer', () => {
         const state = reducer(defaultState, setUser({ token: 'asdf123' }));
         expect(state).toHaveProperty('token', null);
       });
+    });
+  });
+
+  describe('after action unsetUser', () => {
+    it('should return null username and token', () => {
+      const state = reducer(defaultState, unsetUser());
+      expect(state).toHaveProperty('username', null);
+      expect(state).toHaveProperty('token', null);
+    });
+
+    it('should return null username and token even after setting a user', () => {
+      let state = reducer(defaultState, setUser({ username: 'nic', token: 'asdf123' }));
+      expect(state).toHaveProperty('username', 'nic');
+      expect(state).toHaveProperty('token', 'asdf123');
+      state = reducer(defaultState, unsetUser());
+      expect(state).toHaveProperty('username', null);
+      expect(state).toHaveProperty('token', null);
     });
   });
 });
