@@ -6,7 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/groups/add/AddFormContainer';
-import { ROUTE_USER_LIST } from 'app-init/router';
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 const AddGroupPage = () => (
 
@@ -18,7 +18,7 @@ const AddGroupPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_USER_LIST}>
+            <BreadcrumbItem route={ROUTE_GROUP_LIST}>
               <FormattedMessage id="menu.groups" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

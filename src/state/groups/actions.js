@@ -29,12 +29,19 @@ export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => di
     });
   });
 
-export const sendPostGroup = groupData => dispatch => postGroup(groupData)
-  .then((data) => {
-    if (data.errors && data.errors.length) {
-      dispatch(addErrors(data.errors.map(err => err.message)));
-    } else {
-      dispatch(setGroups([data]));
-      gotoRoute(ROUTE_GROUP_LIST);
-    }
+
+export const sendPostGroup = groupData => dispatch =>
+  new Promise((resolve) => {
+    postGroup(groupData).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setGroups([data]));
+          gotoRoute(ROUTE_GROUP_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
   });

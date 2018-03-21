@@ -1,19 +1,20 @@
 import 'test/enzyme-init';
-import { getGroups } from 'api/groups';
-import { makeRequest } from 'api/apiManager';
-import { LIST_GROUPS_OK } from 'test/mocks/groups';
+import { getGroups, postGroup } from 'api/groups';
+import { makeMockRequest, METHODS } from 'api/apiManager';
+import { LIST_GROUPS_OK, GROUP_PAYLOAD } from 'test/mocks/groups';
+
 
 const correctRequest = {
   uri: '/api/groups',
-  method: 'GET',
+  method: METHODS.GET,
   mockResponse: LIST_GROUPS_OK,
   useAuthentication: true,
 };
 
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET' },
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET', POST: 'POST' },
 }));
 
 describe('api/groups', () => {
@@ -28,7 +29,7 @@ describe('api/groups', () => {
 
     it('get group page 1 by default', () => {
       getGroups({ page: 1, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -39,7 +40,7 @@ describe('api/groups', () => {
 
     it('request page 2', () => {
       getGroups({ page: 2, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -50,7 +51,7 @@ describe('api/groups', () => {
 
     it('request different page size', () => {
       getGroups({ page: 1, pageSize: 5 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -61,7 +62,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       getGroups({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/groups?param=true',
@@ -73,4 +74,12 @@ describe('api/groups', () => {
       );
     });
   });
+
+  describe('postGroup()', () => {
+    it('if successful, returns a mock ok response', () => {
+      expect(postGroup(GROUP_PAYLOAD)).resolves.toEqual({ payload: GROUP_PAYLOAD });
+    });
+  });
 });
+
+// expect.objectContaining({ errors: expect.any(Array) })

@@ -1,7 +1,7 @@
 import reducer from 'state/groups/reducer';
 import { setGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import { GROUPS_OK_PAGE_1 } from 'test/mocks/groups';
+import { LIST_GROUPS_OK } from 'test/mocks/groups';
 
 describe('state/groups/reducer', () => {
   const state = reducer();
@@ -19,11 +19,11 @@ describe('state/groups/reducer', () => {
   describe('after action SET_GROUPS', () => {
     let newState;
     beforeEach(() => {
-      newState = reducer(state, setGroups(GROUPS_OK_PAGE_1.payload));
+      newState = reducer(state, setGroups(LIST_GROUPS_OK));
     });
 
     it('should define the groups payload', () => {
-      expect(getGroupsList({ groups: newState })).toEqual(GROUPS_OK_PAGE_1.payload);
+      expect(getGroupsList({ groups: newState })).toEqual(LIST_GROUPS_OK);
     });
   });
 });

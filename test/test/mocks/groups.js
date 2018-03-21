@@ -41,66 +41,9 @@ export const LIST_GROUPS_OK = [
   },
 ];
 
-export const GROUPS_OK_PAGE_1 = {
-  payload: [
-    {
-      name: 'Account Executive',
-      code: 'account_executive',
-    },
-    {
-      name: 'Administrators',
-      code: 'administrators',
-    },
-    {
-      name: 'Bpm Admin',
-      code: 'bpm_admin',
-    },
-    {
-      name: 'Bpm Appraiser',
-      code: 'bpm_appraiser',
-    },
-    {
-      name: 'Bpm Broker',
-      code: 'bpm_broker',
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 5,
-    lastPage: 2,
-  },
-};
-
-export const GROUPS_OK_PAGE_2 = {
-  payload: [
-    {
-      name: 'Bpm Manager',
-      code: 'bpm_manager',
-    },
-    {
-      name: 'Client Onboarding Manager',
-      code: 'client_manager',
-    },
-    {
-      name: 'Customers',
-      code: 'customers',
-    },
-    {
-      name: 'Free Access',
-      code: 'free',
-    },
-    {
-      name: 'KYC Analyst',
-      code: 'knowledge_worker',
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 2,
-    pageSize: 5,
-    lastPage: 2,
-  },
+export const BODY_OK = {
+  name: 'New Group',
+  code: 'new_group',
 };
 
 export const GROUPS_NORMALIZED = {
@@ -111,6 +54,11 @@ export const GROUPS_NORMALIZED = {
       'bpm_admin',
       'bpm_appraiser',
       'bpm_broker',
+      'bpm_manager',
+      'client_manager',
+      'customers',
+      'free',
+      'knowledge_worker',
     ],
     map: {
       account_executive: {
@@ -132,6 +80,26 @@ export const GROUPS_NORMALIZED = {
       bpm_broker: {
         name: 'Bpm Broker',
         code: 'bpm_broker',
+      },
+      bpm_manager: {
+        name: 'Bpm Manager',
+        code: 'bpm_manager',
+      },
+      client_manager: {
+        name: 'Client Onboarding Manager',
+        code: 'client_manager',
+      },
+      customers: {
+        name: 'Customers',
+        code: 'customers',
+      },
+      free: {
+        name: 'Free Access',
+        code: 'free',
+      },
+      knowledge_worker: {
+        name: 'KYC Analyst',
+        code: 'knowledge_worker',
       },
     },
   },
