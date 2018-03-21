@@ -26,7 +26,6 @@ const userMap = (state = {}, action = {}) => {
   }
 };
 
-
 export default combineReducers({
   list,
   map: userMap,
