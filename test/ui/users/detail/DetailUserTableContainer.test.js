@@ -1,15 +1,15 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/detail/DetailUserTableContainer';
-import { getUser } from 'state/users/selectors';
+import { getSelectedUser } from 'state/users/selectors';
 import { getParams } from 'frontend-common-components';
 import { USER_PROFILE_MOCK } from 'test/mocks/users';
 
 jest.mock('state/users/selectors', () => ({
-  getUser: jest.fn(),
+  getSelectedUser: jest.fn(),
 }));
 
 getParams.mockReturnValue(USER_PROFILE_MOCK.admin);
 
-getUser.mockReturnValue(USER_PROFILE_MOCK.admin);
+getSelectedUser.mockReturnValue(USER_PROFILE_MOCK.admin);
 
 
 describe('DetailUserTableContainer', () => {
