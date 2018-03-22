@@ -3,7 +3,7 @@ import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { gotoRoute } from 'frontend-common-components';
 import { setUsers, fetchUsers, fetchUserForm, sendPutUser, setSelectedUserDetail, fetchCurrentPageUserDetail } from 'state/users/actions';
-import { SET_USERS, SELECTED_USER } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1, USER_PROFILE_MOCK } from 'test/mocks/users';
 import { getUser, putUser } from 'api/user';
@@ -80,7 +80,7 @@ describe('users actions ', () => {
     describe('setSelectedUserDetail', () => {
       it('test setSelectedUserDetail action sets the correct type', () => {
         const action = setSelectedUserDetail(USER_PROFILE_MOCK);
-        expect(action.type).toEqual(SELECTED_USER);
+        expect(action.type).toEqual(SET_SELECTED_USER);
       });
     });
 
@@ -117,7 +117,7 @@ describe('users actions ', () => {
           const actions = store.getActions();
           expect(getUserDetail).toHaveBeenCalled();
           expect(actions).toHaveLength(1);
-          expect(actions[0].type).toEqual(SELECTED_USER);
+          expect(actions[0].type).toEqual(SET_SELECTED_USER);
           expect(setSelectedUserDetail).toBeDefined();
           done();
         });

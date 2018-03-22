@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { SET_USERS, SELECTED_USER } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { getUsers, getUserDetail } from 'api/users';
 import { getUser, putUser } from 'api/user';
 import { setPage } from 'state/pagination/actions';
@@ -17,7 +17,7 @@ export const setUsers = users => ({
 });
 
 export const setSelectedUserDetail = user => ({
-  type: SELECTED_USER,
+  type: SET_SELECTED_USER,
   payload: {
     user,
   },

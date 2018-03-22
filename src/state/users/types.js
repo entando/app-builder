@@ -1,2 +1,2 @@
 export const SET_USERS = 'users/set-users';
-export const SELECTED_USER = 'users/selected-users';
+export const SET_SELECTED_USER = 'users/set-selected-user';

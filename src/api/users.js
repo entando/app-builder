@@ -18,10 +18,17 @@ export const getUsers = (page, params) => new Promise((resolve) => {
   }
 });
 
+const getErrors = username => (
+  USER_PROFILE_MOCK[username] ? [] : [
+    { code: 1, message: 'user not found' },
+  ]
+);
+
 export const getUserDetail = username => makeMockRequest({
   uri: `/users/detail/${username}`,
   method: METHODS.GET,
   mockResponse: USER_PROFILE_MOCK[username],
+  errors: () => getErrors(username),
 });
 
 export default getUsers;
