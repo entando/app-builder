@@ -166,7 +166,7 @@ export default {
     'dataType.table.status.ok': 'Ok. Reload if you want to.',
     'dataType.table.status.ko': 'Stale status, please reload.',
     'dataType.table.status.wip': 'Reloading. Refresh this page.',
-    'dataType.listEmpty': 'Thera are no DATA TYPES available',
+    'dataType.listEmpty': 'There are no DATA TYPES available',
     'pageConfig.saveAsNewWidget': 'Save it as new widget',
     'pageModel.error.overlapping': 'Frame "{frame1}" and "{frame2}" are overlapping',
     'pageModel.error.pos': 'Frame "{frame}" "pos" property differs from its index',
