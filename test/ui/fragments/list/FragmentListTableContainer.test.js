@@ -9,6 +9,7 @@ const TEST_STATE = {
     page: 1,
     pageSize: 10,
     lastPage: 2,
+    totalItems: 20,
   },
 };
 
@@ -19,7 +20,7 @@ describe('FragmentListTableContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       fragments: TEST_STATE.fragments.list,
       page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
+      totalItems: TEST_STATE.pagination.totalItems,
       pageSize: TEST_STATE.pagination.pageSize,
     });
   });

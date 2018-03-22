@@ -10,6 +10,7 @@ class FragmentListTable extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -17,14 +18,18 @@ class FragmentListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: 10 });
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   render() {
     const tr = this.props.fragments.map(fragment => (
       <tr key={fragment.code}>
         <td className="FragmentListRow__td">{fragment.code}</td>
-        <td className="FragmentListRow__td">{fragment.widgetType.title}</td>
+        <td className="FragmentListRow__td">{fragment.widgetType ? fragment.widgetType.title : ''}</td>
         <td className="FragmentListRow__td text-center">{fragment.pluginCode}</td>
         <td className="FragmentListRow__td text-center">
           <FragmentListMenuActions code={fragment.code} />
@@ -62,6 +67,7 @@ class FragmentListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       </div>

@@ -17,7 +17,7 @@ describe('GroupListTableContainer', () => {
     expect(mapStateToProps(GROUPS_NORMALIZED)).toEqual({
       groups: LIST_GROUPS_OK,
       page: GROUPS_NORMALIZED.pagination.page,
-      totalItems: GROUPS_NORMALIZED.pagination.lastPage * GROUPS_NORMALIZED.pagination.pageSize,
+      totalItems: GROUPS_NORMALIZED.pagination.totalItems,
       pageSize: GROUPS_NORMALIZED.pagination.pageSize,
     });
   });
