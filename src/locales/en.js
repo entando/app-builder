@@ -200,5 +200,10 @@ export default {
     'user.profile.all': 'All',
     'user.profile.with': 'User with a profile',
     'user.profile.without': 'User without a profile',
+    'group.help': 'The GROUPS section lets administrators manage existing groups or add new groups.',
+    'group.name': 'Name',
+    'group.code': 'Code',
+    'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
+    'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
   },
 };

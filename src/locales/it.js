@@ -200,5 +200,11 @@ export default {
     'user.profile.all': 'Tutti',
     'user.profile.with': 'Utente con un profilo',
     'user.profile.without': 'Utente senza profilo',
+    'group.help': 'Dalla sezione GRUPPI l\'amministratore può gestire i gruppi esistenti o crearne di nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.',
+    'group.listEmpty': 'Non ci sono GRUPPI disponibili',
+    'group.name': 'Nome',
+    'group.code': 'Codice',
+    'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
+    'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
   },
 };
