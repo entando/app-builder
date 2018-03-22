@@ -12,6 +12,9 @@ import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
 
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
 jest.mock('api/user', () => ({
   putUser: jest.fn(),
   getUser: jest.fn(),
@@ -36,15 +39,12 @@ const MOCK_RETURN_PROMISE_ERROR =
       ],
     })),
   };
+
 getUserDetail.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE)));
 
 getUser.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE)));
 
 getUsers.mockReturnValue(new Promise(resolve => resolve(USERS_OK_PAGE_1)));
-
-const middlewares = [thunk];
-
-const mockStore = configureMockStore(middlewares);
 
 const INITIAL_STATE = {
   users: {
