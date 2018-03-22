@@ -21,4 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #meld files
-.origin
+.orig

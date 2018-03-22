@@ -27,7 +27,7 @@ const DetailUserPage = () => (
         </Col>
       </Row>
       <PageTitle
-        titleId="user.detail.title"
+        titleId="app.details"
         helpId="user.help"
       />
       <Row>
