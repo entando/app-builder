@@ -24,6 +24,7 @@ import {
   ROUTE_USER_ADD,
   ROUTE_USER_EDIT,
   ROUTE_GROUP_LIST,
+  ROUTE_GROUP_DETAIL,
 
 } from 'app-init/router';
 
@@ -48,6 +49,7 @@ import UserListPage from 'ui/users/list/UserListPage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
+import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -81,6 +83,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
+    case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
     default: return <NotFoundPage />;
   }
 };

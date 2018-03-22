@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_GROUPS } from 'state/groups/types';
+import { SET_GROUPS, SELECTED_GROUP } from 'state/groups/types';
 
 export const toMap = array => array.reduce((acc, group) => {
   acc[group.code] = group;
@@ -26,7 +26,17 @@ export const groupMap = (state = {}, action = {}) => {
   }
 };
 
+export const selected = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SELECTED_GROUP: {
+      return action.payload.group;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: groupMap,
+  selected,
 });

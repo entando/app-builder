@@ -24,6 +24,7 @@ export default {
     'app.alert.notAvaible': 'Non disponibile',
     'app.info': 'Info',
     'app.name': 'Nome',
+    'app.group': 'Gruppo',
     'app.code': 'Codice',
     'app.used': 'usato',
     'app.actions': 'Azioni',
@@ -200,5 +201,9 @@ export default {
     'user.profile.without': 'Utente senza profilo',
     'group.help': 'Dalla sezione GRUPPI l\'amministratore può gestire i gruppi esistenti o crearne di nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.',
     'group.listEmpty': 'Non ci sono GRUPPI disponibili',
+    'group.detail.title.users': 'Utenti',
+    'group.detail.title.widgetTypes': 'Widget Types',
+    'group.detail.title.contents': 'Contenuti',
+    'group.detail.title.resources': 'Risorse',
   },
 };

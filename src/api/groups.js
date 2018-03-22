@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
 import { LIST_GROUPS_OK } from 'test/mocks/groups';
 
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
@@ -13,4 +13,10 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
+export const getGroup = groupname =>
+  makeMockRequest({
+    uri: `groups/${groupname}`,
+    method: METHODS.GET,
+    mockResponse: LIST_GROUPS_OK[groupname],
+  });
 export default getGroups;

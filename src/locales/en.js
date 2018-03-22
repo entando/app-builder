@@ -24,6 +24,7 @@ export default {
     'app.alert.notAvaible': 'Not avaible',
     'app.info': 'Info',
     'app.name': 'Name',
+    'app.group': 'Group',
     'app.code': 'Code',
     'app.used': 'used',
     'app.actions': 'Actions',
@@ -200,5 +201,10 @@ export default {
     'user.profile.without': 'User without a profile',
     'group.help': 'The GROUPS section lets administrators manage existing groups or add new groups.',
     'group.listEmpty': 'There are no GROUPS available',
+    'group.detail.title.users': 'Users',
+    'group.detail.title.widgetTypes': 'Widget Types',
+    'group.detail.title.contents': 'Contents',
+    'group.detail.title.resources': 'Resources',
+
   },
 };
