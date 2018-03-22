@@ -10,7 +10,7 @@ import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 const EditGroupPage = () => (
 
-  <InternalPage className="AddGroupPage">
+  <InternalPage className="EditGroupPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -22,7 +22,7 @@ const EditGroupPage = () => (
               <FormattedMessage id="menu.groups" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.edit" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>

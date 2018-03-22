@@ -47,10 +47,9 @@ export const fetchGroup = groupCode => dispatch =>
 
 export const sendPutGroup = groupData => dispatch =>
   new Promise((resolve) => {
-    postGroup(groupData).then((response) => {
+    putGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(putGroup(data));
           gotoRoute(ROUTE_GROUP_LIST);
           resolve();
         } else {
@@ -66,7 +65,6 @@ export const sendPostGroup = groupData => dispatch =>
     postGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setGroups([data]));
           gotoRoute(ROUTE_GROUP_LIST);
           resolve();
         } else {

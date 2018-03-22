@@ -1,15 +1,23 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
-import { setGroups, fetchGroups, sendPostGroup } from 'state/groups/actions';
+import { setGroups, fetchGroups, sendPostGroup, fetchGroup, sendPutGroup } from 'state/groups/actions';
 import { config } from 'api/apiManager';
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import { SET_GROUPS } from 'state/groups/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const GROUP_CODE = LIST_GROUPS_OK[0].code;
+const UPDATED_GROUP = {
+  code: LIST_GROUPS_OK[0].code,
+  name: 'new_group_name',
+};
+const INITIALIZE_TYPE = '@@redux-form/INITIALIZE';
 
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'test_token' } }));
 jest.unmock('api/groups');
@@ -92,12 +100,31 @@ describe('state/groups/actions', () => {
   });
 
   describe('sendPostGroup()', () => {
-    it('when postGroup succeeds, should dispatch SET_GROUPS', (done) => {
+    it('when postGroup succeeds, should dispatch inizialize', (done) => {
       store.dispatch(sendPostGroup(BODY_OK)).then(() => {
+        expect(gotoRoute).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('fetchGroup()', () => {
+    it('when getGroup succeeds, should dispatch inizialize', (done) => {
+      store.dispatch(fetchGroup(GROUP_CODE)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', SET_GROUPS);
-        expect(gotoRoute).toHaveBeenCalled();
+        expect(actions[0]).toHaveProperty('type', INITIALIZE_TYPE);
+        expect(actions[0]).toHaveProperty('payload', LIST_GROUPS_OK[0]);
+        expect(initialize).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
+  describe('sendPutGroup()', () => {
+    it('when putGroup succeeds, should dispatch gotoRoute', (done) => {
+      store.dispatch(sendPutGroup(UPDATED_GROUP)).then(() => {
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
       });
     });
