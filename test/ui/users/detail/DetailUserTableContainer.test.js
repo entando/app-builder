@@ -36,10 +36,6 @@ describe('DetailUserTableContainer', () => {
       props = mapStateToProps(USER_PROFILE_MOCK);
     });
 
-    it('verify that username prop is defined and properly valued', () => {
-      expect(props).toHaveProperty('username', 'admin');
-    });
-
     it('verify that user prop is defined and properly valued', () => {
       props = mapStateToProps(USER_PROFILE_MOCK);
       expect(typeof props.user).toEqual('object');

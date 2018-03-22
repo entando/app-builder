@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { gotoRoute } from 'frontend-common-components';
-import { setUsers, fetchUsers, fetchUserForm, sendPutUser, setSelectedUserDetail, fetchUserDetail } from 'state/users/actions';
+import { setUsers, fetchUsers, fetchUserForm, sendPutUser, setSelectedUserDetail, fetchCurrentPageUserDetail } from 'state/users/actions';
 import { SET_USERS, SELECTED_USER } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1, USER_PROFILE_MOCK } from 'test/mocks/users';
@@ -113,7 +113,7 @@ describe('users actions ', () => {
       });
 
       it('when fetchUserDetail succeeds, should dispatch setSelectedUserDetail', (done) => {
-        store.dispatch(fetchUserDetail(USER.username)).then(() => {
+        store.dispatch(fetchCurrentPageUserDetail(USER.username)).then(() => {
           const actions = store.getActions();
           expect(getUserDetail).toHaveBeenCalled();
           expect(actions).toHaveLength(1);

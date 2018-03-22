@@ -8,8 +8,7 @@ import { ROUTE_USER_LIST } from 'app-init/router';
 
 class DetailUserTable extends React.Component {
   componentWillMount() {
-    const { username } = this.props;
-    this.props.onWillMount(username);
+    this.props.onWillMount();
   }
   render() {
     const { user } = this.props;
@@ -57,7 +56,6 @@ class DetailUserTable extends React.Component {
 
 DetailUserTable.propTypes = {
   onWillMount: PropTypes.func,
-  username: PropTypes.string.isRequired,
   user: PropTypes.shape({
     username: PropTypes.string,
     fullName: PropTypes.string,

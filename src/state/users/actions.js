@@ -6,7 +6,7 @@ import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
-import { gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from 'frontend-common-components';
 
 
 export const setUsers = users => ({
@@ -30,8 +30,9 @@ export const fetchUsers = (page = 1, params) => dispatch =>
     dispatch(setPage(data.metaData));
   });
 
-export const fetchUserDetail = username => dispatch =>
+export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
   new Promise((resolve) => {
+    const { username } = getParams(getState());
     getUserDetail(username).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
