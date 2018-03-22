@@ -1,8 +1,8 @@
-import { makeRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK } from 'test/mocks/groups';
+import { makeMockRequest, METHODS } from 'api/apiManager';
+import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/api/groups${params}`,
       method: METHODS.GET,
@@ -11,6 +11,16 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
     },
     page,
   )
+);
+
+export const postGroup = groupObject => (
+  makeMockRequest({
+    uri: '/api/groups',
+    method: METHODS.POST,
+    mockResponse: BODY_OK,
+    body: groupObject,
+    useAuthentication: true,
+  })
 );
 
 export default getGroups;

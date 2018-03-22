@@ -78,6 +78,7 @@ export default {
     'validateForm.alphaNumeric': 'Only alphanumeric characters',
     'validateForm.widgetCode': '{name} Contains invalid characters. Only alphanumeric characters and the underscore _ are allowed',
     'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',
+    'validateForm.code': 'Code contains invalid characters. Only alphanumeric characters and the underscore \'_\' are allowed.',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Code',
     'widget.page.create.code.placeholder': 'Code',
@@ -200,5 +201,9 @@ export default {
     'user.profile.without': 'User without a profile',
     'group.help': 'The GROUPS section lets administrators manage existing groups or add new groups.',
     'group.listEmpty': 'There are no GROUPS available',
+    'group.name': 'Name',
+    'group.code': 'Code',
+    'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
+    'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
   },
 };
