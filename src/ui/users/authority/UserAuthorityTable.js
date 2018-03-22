@@ -5,7 +5,7 @@ import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import { formattedText } from 'frontend-common-components';
 
 
-class AuthorizationTable extends Component {
+class UserAuthorityTable extends Component {
   constructor(props) {
     super(props);
     this.onClickAdd = this.onClickAdd.bind(this);
@@ -73,12 +73,12 @@ class AuthorizationTable extends Component {
     const renderRow = this.props.groupRolesCombo.map((item, index) => (
       // eslint-disable-next-line
         <tr key={`groupRole-${index}`}>
-          <td className="AuthorizationTable__td">{item.group}</td>
-          <td className="AuthorizationTable__td text-center">{item.role}</td>
-          <td className="AuthorizationTable__td text-center">
+          <td className="UserAuthorityTable__td">{item.group}</td>
+          <td className="UserAuthorityTable__td text-center">{item.role}</td>
+          <td className="UserAuthorityTable__td text-center">
             <Button
               bsStyle="link"
-              className="AuthorizationTable__delete-tag-btn"
+              className="UserAuthorityTable__delete-tag-btn"
               onClick={() => fields.remove(index)}
             >
               <i className="fa fa-trash-o" />
@@ -88,7 +88,7 @@ class AuthorizationTable extends Component {
     ));
 
     return (
-      <div className="AuthorizationTable" >
+      <div className="UserAuthorityTable" >
         {this.renderTable(renderRow)}
         <Row>
           <Col sm={12}>
@@ -146,7 +146,7 @@ class AuthorizationTable extends Component {
   }
 }
 
-AuthorizationTable.propTypes = {
+UserAuthorityTable.propTypes = {
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -162,10 +162,10 @@ AuthorizationTable.propTypes = {
   })),
 };
 
-AuthorizationTable.defaultProps = {
+UserAuthorityTable.defaultProps = {
   groups: [],
   roles: [],
   groupRolesCombo: [],
 };
 
-export default AuthorizationTable;
+export default UserAuthorityTable;

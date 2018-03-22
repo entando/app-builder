@@ -6,7 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import UserAuthorityPageFormContainer from 'ui/users/authority/UserAuthorityPageFormContainer';
+import UserAuthorityPageFormContainer from 'ui/users/common/UserAuthorityPageFormContainer';
 
 
 const UserAuthorityPage = ({ username }) => (

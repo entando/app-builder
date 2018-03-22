@@ -4,7 +4,7 @@ import { fetchGroups } from 'state/groups/actions';
 import { getGroups } from 'state/groups/selectors';
 import { fetchRoles } from 'state/roles/actions';
 import { getRoles } from 'state/roles/selectors';
-import UserAuthorityPageForm from 'ui/users/authority/UserAuthorityPageForm';
+import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
 
 export const mapStateToProps = state =>
   ({

@@ -4,7 +4,7 @@ import { Grid, Row, Col, Button } from 'patternfly-react';
 import { reduxForm, FieldArray } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 
-import AuthorizationTable from 'ui/users/authority/AuthorizationTable';
+import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 
 export class UserAuthorityPageFormBody extends Component {
   constructor(props) {
@@ -17,22 +17,18 @@ export class UserAuthorityPageFormBody extends Component {
     this.props.onWillMount();
   }
 
-  onSubmit = (ev) => {
-    ev.preventDefault();
-    this.props.handleSubmit();
-  };
-
 
   render() {
+    const { handleSubmit, onSubmit } = this.props;
     return (
-      <form onSubmit={this.onSubmit} className="UserAuthorityPageForm form-horizontal">
+      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserAuthorityPageForm form-horizontal">
         <Col sm={12}>
           <Grid fluid>
             <Row>
               <Col sm={12}>
                 <FieldArray
                   name="groupRolesCombo"
-                  component={AuthorizationTable}
+                  component={UserAuthorityTable}
                   groups={this.props.groups}
                   roles={this.props.roles}
                   groupRolesCombo={this.props.groupRolesCombo}
@@ -58,6 +54,7 @@ export class UserAuthorityPageFormBody extends Component {
 
 UserAuthorityPageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
