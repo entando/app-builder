@@ -1,26 +1,39 @@
 import configureMockStore from 'redux-mock-store';
+import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { gotoRoute } from 'frontend-common-components';
-import { setUsers, fetchUsers, sendPutUser, setSelectedUserDetail, fetchUserDetail } from 'state/users/actions';
+import { setUsers, fetchUsers, fetchUserForm, sendPutUser, setSelectedUserDetail, fetchUserDetail } from 'state/users/actions';
 import { SET_USERS, SELECTED_USER } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1, USER_PROFILE_MOCK } from 'test/mocks/users';
-import { putUser } from 'api/user';
-import { getUserDetail } from 'api/users';
+import { getUser, putUser } from 'api/user';
+import { getUsers, getUserDetail } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
-
 import { ADD_ERRORS } from 'state/errors/types';
 
 jest.mock('api/user', () => ({
   putUser: jest.fn(),
+  getUser: jest.fn(),
 }));
 
 jest.mock('api/users', () => ({
   getUserDetail: jest.fn(),
+  getUsers: jest.fn(),
 }));
 
+const MOCK_RETURN_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: {} })),
+};
+
+getUserDetail.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE)));
+
+getUser.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE)));
+
+getUsers.mockReturnValue(new Promise(resolve => resolve(USERS_OK_PAGE_1)));
 
 const middlewares = [thunk];
+
 const mockStore = configureMockStore(middlewares);
 
 const INITIAL_STATE = {
@@ -39,10 +52,8 @@ const USER = {
   reset: false,
 };
 
-
 describe('data types actions ', () => {
   let store;
-
   beforeEach(() => {
     store = mockStore(INITIAL_STATE);
   });
@@ -86,15 +97,30 @@ describe('data types actions ', () => {
 
   describe('fetchUserDetail', () => {
     beforeEach(() => {
-      jest.clearAllMocks();
       store = mockStore(INITIAL_STATE);
     });
 
     it('when fetchUserDetail succeeds, should dispatch setSelectedUserDetail', (done) => {
-      getUserDetail.mockReturnValueOnce(new Promise(resolve => resolve({ ok: true })));
       store.dispatch(fetchUserDetail(USER.username)).then(() => {
+        const actions = store.getActions();
         expect(getUserDetail).toHaveBeenCalled();
-        // expect(setSelectedUserDetail).toHaveBeenCalled();
+        expect(actions).toHaveLength(1);
+        expect(actions[0].type).toEqual(SELECTED_USER);
+        expect(setSelectedUserDetail).toBeDefined();
+        done();
+      });
+    });
+  });
+
+  describe('fetchUserForm', () => {
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('when fetchUserForm succeeds, should dispatch initialize', (done) => {
+      store.dispatch(fetchUserForm(USER.username)).then(() => {
+        expect(getUser).toHaveBeenCalled();
+        expect(initialize).toBeDefined();
         done();
       });
     });
