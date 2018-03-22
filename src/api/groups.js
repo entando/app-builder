@@ -13,9 +13,15 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
+const getErrors = groupname => (
+  GROUPS_NORMALIZED.groups.map[groupname] ? [] :
+    [{ code: 1, message: 'invalid group name' }]
+);
+
 export const getGroup = groupname => makeMockRequest({
   uri: `/api/groups/${groupname}`,
   method: METHODS.GET,
-  mockResponse: GROUPS_NORMALIZED.groups.map[groupname],
+  mockResponse: GROUPS_NORMALIZED.groups.map[groupname] || {},
+  errors: () => getErrors(groupname),
 });
 export default getGroups;
