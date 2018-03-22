@@ -6,11 +6,6 @@ jest.mock('state/groups/actions', () => ({
   sendPostGroup: jest.fn().mockReturnValue('sendPostGroup_result'),
 }));
 
-jest.mock('redux-form', () => ({
-  change: jest.fn().mockReturnValue('change_result'),
-  reduxForm: () => () => 'span',
-}));
-
 describe('AddFormContainer', () => {
   describe('mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
@@ -28,7 +23,6 @@ describe('AddFormContainer', () => {
     it('verify that onChangeName is defined by mapDispatchToProps', () => {
       expect(props.onChangeName).toBeDefined();
       props.onChangeName('Group Name');
-      expect(dispatchMock).toHaveBeenCalledWith('change_result');
       expect(change).toHaveBeenCalledWith('group', 'code', 'group_name');
     });
   });
