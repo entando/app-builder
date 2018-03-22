@@ -13,18 +13,21 @@ const firstPage = {
   page: 1,
   pageSize: 5,
   lastPage: 10,
+  totalItems: 48,
 };
 
 const lastPage = {
   page: 10,
   pageSize: 5,
   lastPage: 10,
+  totalItems: 48,
 };
 
 const middlePage = {
   page: 5,
   pageSize: 5,
   lastPage: 10,
+  totalItems: 48,
 };
 
 describe('pagination selectors', () => {
@@ -53,7 +56,7 @@ describe('pagination selectors', () => {
   });
 
   it('verify getTotalItems selector', () => {
-    expect(getTotalItems(state)).toEqual(page.pageSize * page.lastPage);
+    expect(getTotalItems(state)).toEqual(page.totalItems);
   });
 
   describe('isLastPage', () => {

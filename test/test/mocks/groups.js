@@ -107,6 +107,7 @@ export const GROUPS_NORMALIZED = {
     page: 2,
     pageSize: 5,
     lastPage: 2,
+    totalItems: 10,
   },
 };
 
