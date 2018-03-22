@@ -1,11 +1,16 @@
+import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { gotoRoute } from 'frontend-common-components';
 
 import { config, makeRequest, METHODS } from 'api/apiManager';
+import { logoutUser } from 'state/current-user/actions';
 import { ROUTE_HOME } from 'app-init/router';
-import { UNSET_USER } from 'state/current-user/types';
 
-const mockStore = configureMockStore([]);
+jest.mock('state/current-user/actions', () => ({
+  logoutUser: jest.fn(() => ({ type: '' })),
+}));
+
+const mockStore = configureMockStore([thunk]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };
 const REAL_GOOD_RESPONSE = { payload: { code: 30 } };
@@ -372,10 +377,7 @@ describe('apiManager', () => {
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
         result.then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
-          const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', UNSET_USER);
+          expect(logoutUser).toHaveBeenCalled();
           done();
         });
 

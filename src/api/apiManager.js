@@ -5,7 +5,7 @@ import throttle from 'util/throttle';
 import { isEmpty } from 'util/string';
 import { buildResponse, buildErrorResponse } from 'api/responseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
-import { unsetUser } from 'state/current-user/actions';
+import { logoutUser } from 'state/current-user/actions';
 import { getToken } from 'state/current-user/selectors';
 import { ROUTE_HOME } from 'app-init/router';
 
@@ -138,8 +138,7 @@ export const makeRealRequest = (request, page) => {
     getRequestParams(request),
   ).then((response) => {
     if (response.status === 401) {
-      store.dispatch(unsetUser());
-      gotoRoute(ROUTE_HOME);
+      store.dispatch(logoutUser());
     }
     return response;
   });
