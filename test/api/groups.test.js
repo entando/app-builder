@@ -81,5 +81,3 @@ describe('api/groups', () => {
     });
   });
 });
-
-// expect.objectContaining({ errors: expect.any(Array) })
