@@ -73,8 +73,8 @@ export const USERS_OK_PAGE_2 =
 };
 
 export const USER_PROFILE_MOCK = {
-  admin: { fullName: 'Admin', email: 'admin@test.it' },
-  user1: { fullName: 'User 1', email: 'user1@test.it' },
-  user2: { fullName: 'User 2', email: 'user2@test.it' },
-  user3: { fullName: 'User 3', email: 'user3@test.it' },
+  admin: { username: 'admin', fullName: 'Admin', email: 'admin@test.it' },
+  user1: { username: 'user1', fullName: 'User 1', email: 'user1@test.it' },
+  user2: { username: 'user2', fullName: 'User 2', email: 'user2@test.it' },
+  user3: { username: 'user3', fullName: 'User 3', email: 'user3@test.it' },
 };
