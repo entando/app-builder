@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { formValueSelector, change } from 'redux-form';
 
 import PageForm from 'ui/pages/common/PageForm';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendPostPage } from 'state/pages/actions';
 
 export const mapStateToProps = state => ({
-  groups: getGroups(state),
+  groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),

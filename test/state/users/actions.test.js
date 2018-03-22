@@ -1,21 +1,37 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { setUsers, fetchUsers } from 'state/users/actions';
+import { gotoRoute } from 'frontend-common-components';
+import { setUsers, fetchUsers, sendPutUser } from 'state/users/actions';
 import { SET_USERS } from 'state/users/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { putUser } from 'api/user';
+import { ROUTE_USER_LIST } from 'app-init/router';
+
+import { ADD_ERRORS } from 'state/errors/types';
+
+jest.mock('api/user', () => ({
+  putUser: jest.fn(),
+}));
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-
 const INITIAL_STATE = {
   users: {
     list: [],
+    map: {},
   },
 };
 
-describe('data types actions ', () => {
+describe('users actions ', () => {
+  const USER = {
+    username: 'test',
+    password: 'password',
+    status: 'active',
+    reset: false,
+  };
+
   let store;
 
   beforeEach(() => {
@@ -30,7 +46,7 @@ describe('data types actions ', () => {
   });
 
   describe('test fetchUsers', () => {
-    it('fetchUsers calls fetchUsers and setPage actions', (done) => {
+    it('fetchUsers calls setUsers and setPage actions', (done) => {
       store.dispatch(fetchUsers()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
@@ -47,6 +63,39 @@ describe('data types actions ', () => {
         const user = actionPayload.users[0];
         expect(user).toHaveProperty('username', 'admin');
         expect(user).toHaveProperty('status', 'active');
+        done();
+      });
+    });
+  });
+
+  describe('sendPutUser()', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('when putUser succeeds, should dispatch gotoRoute user list', (done) => {
+      putUser.mockReturnValueOnce(new Promise(resolve => resolve({ ok: true })));
+      store.dispatch(sendPutUser(USER)).then(() => {
+        expect(putUser).toHaveBeenCalled();
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+        done();
+      });
+    });
+
+    it('when putUser get error, should dispatch gotoRoute user list', (done) => {
+      putUser.mockReturnValueOnce(new Promise(resolve => resolve({
+        ok: false,
+        json: () => new Promise(err => err({
+          errors: [
+            { message: 'what went wrong' },
+          ],
+        })),
+      })));
+      store.dispatch(sendPutUser(USER)).then(() => {
+        expect(putUser).toHaveBeenCalled();
+        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
+        expect(addErrorsAction).toBeDefined();
         done();
       });
     });
