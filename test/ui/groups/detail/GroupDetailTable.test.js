@@ -8,7 +8,7 @@ import GroupDetailTable from 'ui/groups/detail/GroupDetailTable';
 describe('DetailGroupPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<GroupDetailTable />);
+    component = shallow(<GroupDetailTable groupname="test" />);
   });
 
   it('renders without crashing', () => {

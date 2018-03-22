@@ -4,10 +4,12 @@ import { FormattedMessage } from 'react-intl';
 
 class GroupDetailTable extends React.Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.groupname);
   }
 
   render() {
+    const { group } = this.props;
+    console.log(this.props);
     return (
       <div className="DetailGroupPage">
         <div className="form-horizontal">
@@ -16,7 +18,7 @@ class GroupDetailTable extends React.Component {
               <FormattedMessage id="app.group" />
             </label>
             <div className="col-xs-9 col-xs-9 form-control-static">
-              <code>{this.props.group.code}</code>
+              <code>{group.code}</code>
             </div>
           </div>
           <div className="form-group">
@@ -24,7 +26,7 @@ class GroupDetailTable extends React.Component {
               <FormattedMessage id="app.name" />
             </label>
             <div className="col-xs-9 col-xs-9 form-control-static">
-              {this.props.group.name}
+              {group.name}
             </div>
           </div>
 
@@ -35,6 +37,7 @@ class GroupDetailTable extends React.Component {
 
 GroupDetailTable.propTypes = {
   onWillMount: PropTypes.func,
+  groupname: PropTypes.string.isRequired,
   group: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -44,8 +47,8 @@ GroupDetailTable.propTypes = {
 GroupDetailTable.defaultProps = {
   onWillMount: () => {},
   group: {
-    code: 'code_group',
-    name: 'name_group',
+    code: '',
+    name: '',
   },
 };
 

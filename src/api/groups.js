@@ -1,5 +1,5 @@
 import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK } from 'test/mocks/groups';
+import { LIST_GROUPS_OK, GROUPS_NORMALIZED } from 'test/mocks/groups';
 
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
@@ -13,10 +13,9 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
-export const getGroup = groupname =>
-  makeMockRequest({
-    uri: `groups/${groupname}`,
-    method: METHODS.GET,
-    mockResponse: LIST_GROUPS_OK[groupname],
-  });
+export const getGroup = groupname => makeMockRequest({
+  uri: `/api/groups/${groupname}`,
+  method: METHODS.GET,
+  mockResponse: GROUPS_NORMALIZED.groups.map[groupname],
+});
 export default getGroups;
