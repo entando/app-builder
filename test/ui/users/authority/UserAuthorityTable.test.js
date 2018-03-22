@@ -1,8 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { GROUPS } from 'test/mocks/groups';
-import { ROLES } from 'test/mocks/roles';
+// import { GROUPS } from 'test/mocks/groups';
+// import { ROLES } from 'test/mocks/roles';
 
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 

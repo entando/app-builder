@@ -177,6 +177,6 @@ export default {
     'user.authority.groups': 'Gruppo utenti',
     'user.authority.roles': 'Ruolo utenti',
     'user.authority.new': 'Nuove autorizzazioni',
-    'user.authority.noAuthYet': 'No authorizations yet',
+    'user.authority.noAuthYet': 'Non ci sono autorizzazione presenti',
   },
 };

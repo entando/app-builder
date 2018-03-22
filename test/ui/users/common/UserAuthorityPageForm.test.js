@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import UserAuthorityPageForm, { UserAuthorityPageFormBody } from 'ui/users/authority/UserAuthorityPageForm';
+import UserAuthorityPageForm, { UserAuthorityPageFormBody } from 'ui/users/common/UserAuthorityPageForm';
 
 const ON_WILL_MOUNT = jest.fn();
 const ON_SUBMIT = jest.fn();

@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/users/authority/UserAuthorityPageFormContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/users/common/UserAuthorityPageFormContainer';
 import { GROUPS } from 'test/mocks/groups';
 import { ROLES } from 'test/mocks/roles';
 
