@@ -201,6 +201,7 @@ export default {
     'user.profile.with': 'User with a profile',
     'user.profile.without': 'User without a profile',
     'group.help': 'The GROUPS section lets administrators manage existing groups or add new groups.',
+    'group.listEmpty': 'There are no GROUPS available',
     'group.name': 'Name',
     'group.code': 'Code',
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
