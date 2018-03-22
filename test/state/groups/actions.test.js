@@ -4,14 +4,17 @@ import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
 import { setGroups, fetchGroups, sendPostGroup, fetchGroup, sendPutGroup } from 'state/groups/actions';
-import { config } from 'api/apiManager';
+import { putGroup, getGroup, getGroups, postGroup } from 'api/groups';
+
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import { SET_GROUPS } from 'state/groups/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
+import { ADD_ERRORS } from 'state/errors/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
 const GROUP_CODE = LIST_GROUPS_OK[0].code;
 const UPDATED_GROUP = {
   code: LIST_GROUPS_OK[0].code,
@@ -19,8 +22,45 @@ const UPDATED_GROUP = {
 };
 const INITIALIZE_TYPE = '@@redux-form/INITIALIZE';
 
-config(mockStore({ api: { useMocks: true }, currentUser: { token: 'test_token' } }));
-jest.unmock('api/groups');
+jest.mock('api/groups', () => ({
+  getGroups: jest.fn(),
+  getGroup: jest.fn(),
+  postGroup: jest.fn(),
+  putGroup: jest.fn(),
+}));
+
+const GET_GROUPS_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: LIST_GROUPS_OK })),
+};
+
+const GET_GROUP_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: LIST_GROUPS_OK[0] })),
+};
+
+const POST_GROUP_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: BODY_OK })),
+};
+
+const PUT_GROUP_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: UPDATED_GROUP })),
+};
+
+const MOCK_RETURN_PROMISE_ERROR =
+  {
+    ok: false,
+    json: () => new Promise(err => err({
+      errors: [
+        { message: 'what went wrong' },
+      ],
+    })),
+  };
+
+getGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
+getGroup.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
 
 const INITIAL_STATE = {
   form: {},
@@ -65,44 +105,25 @@ describe('state/groups/actions', () => {
         done();
       });
     });
-
-    it('groups page two is retrieved correctly and properly valued', (done) => {
-      store.dispatch(fetchGroups({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[0].payload;
-        expect(actionPayload.groups).toHaveLength(2);
-        expect(actionPayload.groups[0]).toHaveProperty('code', 'bpm_admin');
-        expect(actionPayload.groups[1]).toHaveProperty('code', 'bpm_appraiser');
-        done();
-      });
-    });
-
-    it('page is defined and properly valued', (done) => {
-      store.dispatch(fetchGroups()).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
-        expect(actionPayload).toHaveProperty('page', 1);
-        expect(actionPayload).toHaveProperty('pageSize', 10);
-        expect(actionPayload).toHaveProperty('lastPage', 1);
-        expect(actionPayload).toHaveProperty('totalItems', 10);
-        done();
-      });
-    });
-
-    it('page 2 is defined and properly valued', (done) => {
-      store.dispatch(fetchGroups({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
-        expect(actionPayload).toHaveProperty('page', 2);
-        expect(actionPayload).toHaveProperty('pageSize', 2);
-        expect(actionPayload).toHaveProperty('lastPage', 5);
-        expect(actionPayload).toHaveProperty('totalItems', 10);
-        done();
-      });
-    });
   });
 
   describe('sendPostGroup()', () => {
-    it('when postGroup succeeds, should dispatch inizialize', (done) => {
+    it('when postGroup succeeds, should dispatch gotoRoute', (done) => {
+      postGroup.mockReturnValueOnce(new Promise(resolve => resolve(POST_GROUP_PROMISE)));
       store.dispatch(sendPostGroup(BODY_OK)).then(() => {
-        expect(gotoRoute).toHaveBeenCalled();
+        expect(postGroup).toHaveBeenCalled();
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
+        done();
+      });
+    });
+
+    it('when postGroup get error, should dispatch addError', (done) => {
+      postGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(sendPostGroup(BODY_OK)).then(() => {
+        expect(postGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       });
     });
@@ -110,7 +131,9 @@ describe('state/groups/actions', () => {
 
   describe('fetchGroup()', () => {
     it('when getGroup succeeds, should dispatch inizialize', (done) => {
+      getGroup.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
       store.dispatch(fetchGroup(GROUP_CODE)).then(() => {
+        expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', INITIALIZE_TYPE);
@@ -123,8 +146,21 @@ describe('state/groups/actions', () => {
 
   describe('sendPutGroup()', () => {
     it('when putGroup succeeds, should dispatch gotoRoute', (done) => {
+      putGroup.mockReturnValueOnce(new Promise(resolve => resolve(PUT_GROUP_PROMISE)));
       store.dispatch(sendPutGroup(UPDATED_GROUP)).then(() => {
+        expect(putGroup).toHaveBeenCalled();
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
+        done();
+      });
+    });
+
+    it('when putGroup get error, should dispatch gotoRoute group list', (done) => {
+      putGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(sendPutGroup()).then(() => {
+        expect(putGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       });
     });
