@@ -8,6 +8,7 @@ import {
   SET_PAGE_PARENT,
   MOVE_PAGE,
   SET_FREE_PAGES,
+  SET_SELECTED_PAGE,
 } from 'state/pages/types';
 
 
@@ -142,6 +143,15 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
+const selected = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_PAGE: {
+      return action.payload.page;
+    }
+    default: return state;
+  }
+};
+
 
 export default combineReducers({
   map: reducer,
@@ -149,4 +159,5 @@ export default combineReducers({
   titlesMap,
   statusMap,
   freePages,
+  selected,
 });

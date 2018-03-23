@@ -43,6 +43,16 @@ export const WIDGET_LIST = {
         en: 'Single content',
       },
     },
+    {
+      widgetCategory: 'User Widget',
+      code: 'content_viewer',
+      name: 'ContentViewer',
+      used: 2,
+      titles: {
+        it: 'Contenuti - Pubblica un contenuto',
+        en: 'Contents - Publish a content',
+      },
+    },
   ],
 };
 

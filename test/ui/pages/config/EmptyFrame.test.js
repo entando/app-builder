@@ -14,7 +14,7 @@ describe('EmptyFrame (basic rendering)', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <EmptyFrame frameId={FRAME_ID} frameName={FRAME_NAME} />
+      <EmptyFrame frameId={FRAME_ID} frameName={FRAME_NAME} frameIsMainFrame={false} />
     ));
   });
 
@@ -38,6 +38,7 @@ describe('EmptyFrame (droppable, not hovered)', () => {
       <EmptyFrame
         frameId={FRAME_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         connectDropTarget={connectDropTargetMock}
       />
     ));
@@ -63,6 +64,7 @@ describe('EmptyFrame (droppable, hovered)', () => {
       <EmptyFrame
         frameId={FRAME_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         connectDropTarget={connectDropTargetMock}
         isOver
       />
@@ -79,5 +81,22 @@ describe('EmptyFrame (droppable, hovered)', () => {
 
   it('calls the connectDropTarget function', () => {
     expect(connectDropTargetMock).toHaveBeenCalled();
+  });
+});
+
+describe('EmptyFrame (with main frame)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <EmptyFrame
+        frameId={FRAME_ID}
+        frameName={FRAME_NAME}
+        frameIsMainFrame
+      />
+    ));
+  });
+
+  it('has the EmptyFrame--main-frame class', () => {
+    expect(component.hasClass('EmptyFrame--main-frame')).toBe(true);
   });
 });

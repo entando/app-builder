@@ -1,12 +1,20 @@
+import { cloneDeep } from 'lodash';
+import { getParams } from 'frontend-common-components';
+
 import {
   getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig,
-  getConfigMap, getPageConfigCellMap, getToolbarExpanded, getContent,
+  getConfigMap, getPageConfigCellMap, getToolbarExpanded, getContent, getSelectedPageConfig,
+  getSelectedPagePublishedConfig, getPageIsOnTheFly, getSelectedPageDiffersFromPublished,
+  getSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
 import { WIDGET_LIST, WIDGET_ONE_ELEMENT, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgetList';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
-import { getParams } from 'frontend-common-components';
-import { getSelectedPageModelCellMap } from 'state/page-models/selectors';
+import {
+  getSelectedPageModelCellMap,
+  getSelectedPageModelMainFrame,
+  getSelectedPageModelDefaultConfig,
+} from 'state/page-models/selectors';
 import { CELL_MAP } from 'test/mocks/page-models/complex';
 import { HOMEPAGE_CONFIG } from 'test/mocks/pageConfig';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
@@ -14,6 +22,8 @@ import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from '
 
 jest.mock('state/page-models/selectors', () => ({
   getSelectedPageModelCellMap: jest.fn(),
+  getSelectedPageModelMainFrame: jest.fn(),
+  getSelectedPageModelDefaultConfig: jest.fn(),
 }));
 
 jest.mock('state/widgets/selectors', () => ({
@@ -52,10 +62,7 @@ const MOCK_DATA = {
     [CURRENT_PAGE_CODE]: HOMEPAGE_PUBLISHED_CONFIG,
   },
 };
-const MOCK_STATE = {
-  pageConfig: MOCK_DATA,
-};
-
+let MOCK_STATE;
 
 describe('state/page-config/selectors', () => {
   beforeEach(() => {
@@ -64,6 +71,9 @@ describe('state/page-config/selectors', () => {
     getListWidget.mockImplementation(() => WIDGET_LIST.payload);
     getWidgetsMap.mockReturnValue(WIDGETS_MAP);
     getLocale.mockReturnValue(CURRENT_LOCALE);
+    MOCK_STATE = {
+      pageConfig: cloneDeep(MOCK_DATA),
+    };
   });
 
   it('getPageConfig(state) return a pageConfig object', () => {
@@ -99,16 +109,39 @@ describe('state/page-config/selectors', () => {
     expect(getContent(MOCK_STATE)).toEqual(MOCK_DATA.content);
   });
 
+  describe('getSelectedPageConfig', () => {
+    it('when there is a page config for the current pageCode', () => {
+      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+      expect(getSelectedPageConfig(MOCK_STATE)).toEqual(MOCK_DATA.configMap[CURRENT_PAGE_CODE]);
+    });
+
+    it('when there is NOT a page config for the current pageCode', () => {
+      getParams.mockReturnValue({ pageCode: 'some_other_code' });
+      expect(getSelectedPageConfig(MOCK_STATE)).toBe(null);
+    });
+  });
+
+  describe('getSelectedPagePublishedConfig', () => {
+    it('when there is a page config for the current pageCode', () => {
+      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+      expect(getSelectedPagePublishedConfig(MOCK_STATE))
+        .toEqual(MOCK_DATA.publishedConfigMap[CURRENT_PAGE_CODE]);
+    });
+
+    it('when there is NOT a page config for the current pageCode', () => {
+      getParams.mockReturnValue({ pageCode: 'some_other_code' });
+      expect(getSelectedPagePublishedConfig(MOCK_STATE)).toBe(null);
+    });
+  });
+
   describe('getPageConfigCellMap', () => {
-    let mockState;
     beforeEach(() => {
       getSelectedPageModelCellMap.mockReturnValue(CELL_MAP);
       getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
-      mockState = { ...MOCK_STATE };
     });
 
     it('verify getPageConfigCellMap selector', () => {
-      const configCellMap = getPageConfigCellMap(mockState);
+      const configCellMap = getPageConfigCellMap(MOCK_STATE);
       Object.keys(configCellMap).forEach((cellKey) => {
         const cell = configCellMap[cellKey];
         const draftItem = HOMEPAGE_DRAFT_CONFIG[cell.framePos];
@@ -138,7 +171,81 @@ describe('state/page-config/selectors', () => {
 
     it('if no page is selected, returns null', () => {
       getParams.mockReturnValue({});
-      expect(getPageConfigCellMap(mockState)).toEqual(null);
+      expect(getPageConfigCellMap(MOCK_STATE)).toEqual(null);
+    });
+  });
+
+  describe('getPageIsOnTheFly', () => {
+    const MAIN_FRAME_POS = 3;
+    beforeEach(() => {
+      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+      getSelectedPageModelMainFrame.mockReturnValue({ pos: MAIN_FRAME_POS });
+    });
+
+    it('returns true if the config has a "content_viewer" with no config in the main frame', () => {
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
+        { type: 'content_viewer' };
+      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(true);
+    });
+
+    it('returns false if the config has a "content_viewer" with config in the main frame', () => {
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
+        { type: 'content_viewer', config: {} };
+      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+    });
+
+    it('returns false if there is no main frame on the selected page model', () => {
+      getSelectedPageModelMainFrame.mockReturnValue(null);
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
+        { type: 'content_viewer', config: {} };
+      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+    });
+
+    it('returns false if there is no config for the current page code', () => {
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] = null;
+      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+    });
+  });
+
+  describe('getSelectedPageDiffersFromPublished', () => {
+    beforeEach(() => {
+      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+    });
+
+    it('returns false if the draft and published configs are equal', () => {
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] =
+        MOCK_STATE.pageConfig.publishedConfigMap[CURRENT_PAGE_CODE];
+      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+    });
+
+    it('returns false if the draft config is null', () => {
+      MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] = null;
+      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+    });
+
+    it('returns false if the published config is null', () => {
+      MOCK_STATE.pageConfig.publishedConfigMap[CURRENT_PAGE_CODE] = null;
+      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+    });
+
+    it('returns true if the draft and published configs are different', () => {
+      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(true);
+    });
+  });
+
+  describe('getSelectedPageConfigMatchesDefault', () => {
+    beforeEach(() => {
+      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+    });
+
+    it('returns true if the draft and default configs are equal', () => {
+      getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_DRAFT_CONFIG);
+      expect(getSelectedPageConfigMatchesDefault(MOCK_STATE)).toBe(true);
+    });
+
+    it('returns false if the draft and default configs are different', () => {
+      getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_PUBLISHED_CONFIG);
+      expect(getSelectedPageConfigMatchesDefault(MOCK_STATE)).toBe(false);
     });
   });
 });

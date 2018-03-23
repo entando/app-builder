@@ -1,7 +1,7 @@
 
 import {
-  getPageModels, getPageModelsList, getSelectedPageModel,
-  getSelectedPageModelCellMap,
+  getPageModels, getPageModelsList, getSelectedPageModel, getSelectedPageModelDefaultConfig,
+  getSelectedPageModelCellMap, getSelectedPageModelCanBeOnTheFly, getSelectedPageModelMainFrame,
 } from 'state/page-models/selectors';
 
 import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
@@ -76,6 +76,68 @@ describe('state/page-models/selectors', () => {
     it('with no page model', () => {
       const state = buildStateWithSelectedPageModel();
       expect(getSelectedPageModelCellMap(state)).toEqual(null);
+    });
+  });
+
+  describe('getSelectedPageModelCanBeOnTheFly', () => {
+    it('returns true if the selected page model can be on the fly', () => {
+      const state = buildStateWithSelectedPageModel(COMPLEX_PAYLOAD);
+      expect(getSelectedPageModelCanBeOnTheFly(state)).toBe(true);
+    });
+
+    it('returns false if the selected page model cannot be on the fly', () => {
+      const state = buildStateWithSelectedPageModel(SINGLE_CELL_PAYLOAD);
+      expect(getSelectedPageModelCanBeOnTheFly(state)).toBe(false);
+    });
+
+    it('returns false if there is no selected page model', () => {
+      const state = buildStateWithSelectedPageModel(null);
+      expect(getSelectedPageModelCanBeOnTheFly(state)).toBe(false);
+    });
+  });
+
+  describe('getSelectedPageModelMainFrame', () => {
+    it('returns the main frame object if the selected page model has a main frame', () => {
+      const state = buildStateWithSelectedPageModel(COMPLEX_PAYLOAD);
+      expect(getSelectedPageModelMainFrame(state)).toEqual(expect.objectContaining({
+        descr: expect.any(String),
+        pos: expect.any(Number),
+        mainFrame: true,
+      }));
+    });
+
+    it('returns null if the selected page model does not have a main frame', () => {
+      const state = buildStateWithSelectedPageModel(SINGLE_CELL_PAYLOAD);
+      expect(getSelectedPageModelMainFrame(state)).toBe(null);
+    });
+
+    it('returns null if there is no selected page model', () => {
+      const state = buildStateWithSelectedPageModel(null);
+      expect(getSelectedPageModelMainFrame(state)).toBe(null);
+    });
+  });
+
+  describe('getSelectedPageModelDefaultConfig', () => {
+    it('returns null if there is no selected page model', () => {
+      const state = buildStateWithSelectedPageModel(null);
+      expect(getSelectedPageModelDefaultConfig(state)).toBe(null);
+    });
+
+    it('returns a page config array containing null for frames with no default widget', () => {
+      const state = buildStateWithSelectedPageModel(SINGLE_CELL_PAYLOAD);
+      expect(getSelectedPageModelDefaultConfig(state)).toEqual(expect.arrayContaining([null]));
+    });
+
+    it('returns a page config array containing config items for frames with default widget', () => {
+      const state = buildStateWithSelectedPageModel(COMPLEX_PAYLOAD);
+      expect(getSelectedPageModelDefaultConfig(state)).toEqual(expect.arrayContaining([
+        null,
+        null,
+        null,
+        null,
+        null,
+        { type: 'login_form' },
+      ]));
     });
   });
 });

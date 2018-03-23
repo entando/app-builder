@@ -4,6 +4,8 @@ import { gotoRoute } from 'frontend-common-components';
 import { config, makeRequest, METHODS } from 'api/apiManager';
 import { ROUTE_HOME } from 'app-init/router';
 
+jest.unmock('api/apiManager');
+
 const mockStore = configureMockStore([]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };

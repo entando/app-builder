@@ -4,7 +4,7 @@ import { getParams } from 'frontend-common-components';
 
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
-import { getSelectedPageModelCellMap } from 'state/page-models/selectors';
+import { getSelectedPageModelCellMap, getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
@@ -41,6 +41,16 @@ export const filterWidgetList = createSelector(
 export const getGroupedWidgetList = createSelector(
   [filterWidgetList],
   widget => widgetGroupByCategory(widget),
+);
+
+export const getSelectedPageConfig = createSelector(
+  [getConfigMap, getParams],
+  (configMap, params) => configMap[params.pageCode] || null,
+);
+
+export const getSelectedPagePublishedConfig = createSelector(
+  [getPublishedConfigMap, getParams],
+  (publishedConfigMap, params) => publishedConfigMap[params.pageCode] || null,
 );
 
 
@@ -84,4 +94,30 @@ export const getPageConfigCellMap = createSelector(
     });
     return newCellMap;
   },
+);
+
+export const getPageIsOnTheFly = createSelector(
+  [getSelectedPageConfig, getSelectedPageModelMainFrame],
+  (draftConfig, mainFrame) => {
+    if (!draftConfig || !mainFrame) {
+      return false;
+    }
+    const mainConfigItem = draftConfig[mainFrame.pos];
+    return (mainConfigItem && mainConfigItem.type === 'content_viewer' && !mainConfigItem.config);
+  },
+);
+
+export const getSelectedPageDiffersFromPublished = createSelector(
+  [getSelectedPageConfig, getSelectedPagePublishedConfig],
+  (draftConfig, publishedConfig) => {
+    if (!draftConfig || !publishedConfig) {
+      return false;
+    }
+    return !isEqual(draftConfig, publishedConfig);
+  },
+);
+
+export const getSelectedPageConfigMatchesDefault = createSelector(
+  [getSelectedPageConfig, getSelectedPageModelDefaultConfig],
+  (draftConfig, defaultConfig) => isEqual(draftConfig, defaultConfig),
 );

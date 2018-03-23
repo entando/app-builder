@@ -1,4 +1,3 @@
-
 import 'test/enzyme-init';
 import {
   fetchPage, fetchPageChildren, setPagePosition, postPage, putPage,
@@ -10,6 +9,12 @@ import {
   FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
+import { makeRequest, METHODS } from 'api/apiManager';
+
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: require.requireActual('api/apiManager').METHODS,
+}));
 jest.unmock('api/pages');
 jest.useFakeTimers();
 
@@ -65,14 +70,19 @@ describe('api/pages', () => {
   });
 
   describe('putPage()', () => {
-    it('if successful, returns a mock ok response', () => {
-      expect(putPage(CONTACTS_PAYLOAD)).resolves.toEqual({ payload: CONTACTS_PAYLOAD });
+    it('returns a promise', () => {
+      expect(putPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
 
-    it('if given a page with en title "error", returns an error response', () => {
-      const errorPayload = { ...CONTACTS_PAYLOAD, titles: { en: 'error' } };
-      expect(putPage(errorPayload)).resolves
-        .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
+    it('get fragment page 1 by default', () => {
+      putPage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/pages/${CONTACTS_PAYLOAD.code}`,
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.PUT,
+        errors: expect.any(Function),
+        useAuthentication: true,
+      }));
     });
   });
 
