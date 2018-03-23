@@ -40,6 +40,7 @@ export default {
     'app.set': 'Set',
     'app.settings': 'Settings',
     'app.api': 'API',
+    'app.cancel': 'Cancel',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -207,5 +208,6 @@ export default {
     'group.code': 'Code',
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
     'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'modal.confirm.delete': 'Do you really want to delete {code}?',
   },
 };

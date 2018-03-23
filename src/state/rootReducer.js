@@ -21,6 +21,7 @@ import users from 'state/users/reducer';
 import profileTypes from 'state/profile-types/reducer';
 import currentUser from 'state/current-user/reducer';
 import dataModels from 'state/data-models/reducer';
+import modal from 'state/modal/reducer';
 
 const reducerDef = {
   api,
@@ -42,6 +43,7 @@ const reducerDef = {
   pageConfig,
   users,
   profileTypes,
+  modal,
 };
 
 if (pluginArray.length) {
