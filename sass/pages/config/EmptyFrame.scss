@@ -11,3 +11,20 @@
     background: $color-pf-black-200;
   }
 }
+
+.EmptyFrame--main-frame {
+  .EmptyFrame__frame-name:after {
+    display: inline;
+    margin-left: 10px;
+    padding: .2em .6em .3em;
+    background-color: $color-pf-black-400;
+    color: $color-pf-black-100;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    content: "Main Frame";
+    vertical-align: baseline;
+  }
+}

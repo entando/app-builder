@@ -9,8 +9,8 @@ import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from '
 class WidgetFrame extends Component {
   render() {
     const {
-      widgetName, widgetHasConfig, widgetStatus, frameId, frameName, onClickDelete,
-      connectDragSource, connectDropTarget, isOver,
+      widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
+      onClickDelete, connectDragSource, connectDropTarget, isOver,
     } = this.props;
 
     let actionsMenu = null;
@@ -61,6 +61,9 @@ class WidgetFrame extends Component {
     if (isOver) {
       classNameAr.push('WidgetFrame--drag-hover');
     }
+    if (frameIsMainFrame) {
+      classNameAr.push('WidgetFrame--main-frame');
+    }
     switch (widgetStatus) {
       case WIDGET_STATUS_DIFF: classNameAr.push('WidgetFrame--status-diff'); break;
       case WIDGET_STATUS_MATCH: classNameAr.push('WidgetFrame--status-match'); break;
@@ -95,6 +98,7 @@ class WidgetFrame extends Component {
 WidgetFrame.propTypes = {
 
   frameName: PropTypes.string.isRequired,
+  frameIsMainFrame: PropTypes.bool.isRequired,
   widgetName: PropTypes.string.isRequired,
   widgetHasConfig: PropTypes.bool,
   widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),

@@ -6,6 +6,8 @@ import { config, makeRequest, METHODS } from 'api/apiManager';
 import { logoutUser } from 'state/current-user/actions';
 import { ROUTE_HOME } from 'app-init/router';
 
+jest.unmock('api/apiManager');
+
 jest.mock('state/current-user/actions', () => ({
   logoutUser: jest.fn(() => ({ type: '' })),
 }));
