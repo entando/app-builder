@@ -122,3 +122,8 @@ export const BODY_ERROR =
   ],
   metaData: {},
 };
+
+export const PAGE_REFERENCES = {
+  administrators: ['Pages1', 'Pages2'],
+  free: ['free1', 'free2'],
+};

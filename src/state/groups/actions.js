@@ -67,3 +67,8 @@ export const sendPostGroup = groupData => dispatch =>
       });
     });
   });
+
+// export const fetchCurrentReferencePages = groupname => dispatch =>
+//  new Promise((resolve) =>{
+//      get
+//  });

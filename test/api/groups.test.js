@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getGroups, postGroup } from 'api/groups';
+import { getGroups, postGroup, getPageReferences } from 'api/groups';
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, GROUP_PAYLOAD } from 'test/mocks/groups';
+import { LIST_GROUPS_OK, BODY_OK, PAGE_REFERENCES } from 'test/mocks/groups';
 
 
 const correctRequest = {
@@ -76,8 +76,32 @@ describe('api/groups', () => {
   });
 
   describe('postGroup()', () => {
-    it('if successful, returns a mock ok response', () => {
-      expect(postGroup(GROUP_PAYLOAD)).resolves.toEqual({ payload: GROUP_PAYLOAD });
+    xit('if successful, returns a mock ok response', () => {
+      expect(postGroup(BODY_OK)).resolves.toEqual({ payload: BODY_OK });
+    });
+  });
+
+  describe('getPageReferences', () => {
+    it('returns a promise', () => {
+      expect(getPageReferences()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestPageReferences = {
+        uri: '/groups/administrators/references/Pages',
+        method: METHODS.GET,
+        mockResponse: PAGE_REFERENCES.administrators,
+        errors: () => jest.fn(),
+      };
+
+      getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestPageReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });
