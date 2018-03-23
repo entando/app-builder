@@ -125,7 +125,7 @@ describe('state/page-models/selectors', () => {
 
     it('returns a page config array containing null for frames with no default widget', () => {
       const state = buildStateWithSelectedPageModel(SINGLE_CELL_PAYLOAD);
-      expect(getSelectedPageModelDefaultConfig(state)).toEqual(expect.arrayContaining([null]));
+      expect(getSelectedPageModelDefaultConfig(state)).toEqual([null]);
     });
 
     it('returns a page config array containing config items for frames with default widget', () => {

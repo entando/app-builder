@@ -260,7 +260,7 @@ describe('state/page-config/actions', () => {
     it('dispatches nothing if there is no main frame', (done) => {
       getSelectedPageModelMainFrame.mockReturnValue(null);
       store.dispatch(setSelectedPageOnTheFly(true)).then(() => {
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
@@ -276,7 +276,7 @@ describe('state/page-config/actions', () => {
       restorePageConfig.mockImplementation(() => new Promise(r => r({ ok: false })));
       store.dispatch(restoreSelectedPageConfig()).then(() => {
         expect(restorePageConfig).toHaveBeenCalled();
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
@@ -294,7 +294,7 @@ describe('state/page-config/actions', () => {
       getParams.mockReturnValue({});
       store.dispatch(restoreSelectedPageConfig()).then(() => {
         expect(restorePageConfig).not.toHaveBeenCalled();
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
@@ -303,7 +303,7 @@ describe('state/page-config/actions', () => {
       getPublishedConfigMap.mockReturnValue({});
       store.dispatch(restoreSelectedPageConfig()).then(() => {
         expect(restorePageConfig).not.toHaveBeenCalled();
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
@@ -328,7 +328,7 @@ describe('state/page-config/actions', () => {
       getParams.mockReturnValue({});
       store.dispatch(applyDefaultConfig()).then(() => {
         expect(applyDefaultPageConfig).not.toHaveBeenCalled();
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
@@ -337,7 +337,7 @@ describe('state/page-config/actions', () => {
       applyDefaultPageConfig.mockImplementation(resolveRespNotOk);
       store.dispatch(applyDefaultConfig()).then(() => {
         expect(applyDefaultPageConfig).toHaveBeenCalled();
-        expect(store.getActions().length).toBe(0);
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });
