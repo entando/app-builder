@@ -133,7 +133,7 @@ class UserAuthorityTable extends Component {
               <Button
                 type="button"
                 bsStyle="primary"
-                className="pull-right"
+                className="pull-right UserAuthorityTable__add"
                 onClick={this.onClickAdd}
               >
                 <FormattedMessage id="app.add" />
