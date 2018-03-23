@@ -2,14 +2,18 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
 import { setLoginErrorMessage, performLogin } from 'state/login-form/actions';
-import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
-import { SET_USER } from 'state/current-user/types';
+import { loginUser } from 'state/current-user/actions';
 import { config } from 'api/apiManager';
+import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 jest.unmock('api/login');
+
+jest.mock('state/current-user/actions', () => ({
+  loginUser: jest.fn(() => ({ type: '' })),
+}));
 
 config(mockStore({ api: { useMocks: true } }));
 
@@ -65,13 +69,7 @@ describe('api-form actions', () => {
       expect(actions).toHaveLength(2);
       expect(actions[0]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
       expect(actions[0]).toHaveProperty('payload.message', '');
-      expect(actions[1]).toHaveProperty('type', SET_USER);
-      expect(actions[1]).toHaveProperty(
-        'payload.user',
-        { username: 'admin', token: expect.any(String) },
-      );
-      expect(localStorage.setItem).toHaveBeenCalledWith('username', 'admin');
-      expect(localStorage.setItem).toHaveBeenCalledWith('token', expect.any(String));
+      expect(loginUser).toHaveBeenCalledWith('admin', expect.any(String));
       done();
     });
   });

@@ -1,12 +1,10 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { GROUPS_OK_PAGE_1 } from 'test/mocks/groups';
+import { LIST_GROUPS_OK } from 'test/mocks/groups';
 
 
 import GroupListTable from 'ui/groups/list/GroupListTable';
-
-const groups = GROUPS_OK_PAGE_1.payload;
 
 jest.mock('state/groups/selectors', () => ({
   getGroupList: jest.fn(),
@@ -61,14 +59,14 @@ describe('GroupListTable', () => {
 
     describe('with groups', () => {
       beforeEach(() => {
-        component.setProps({ groups });
+        component.setProps({ groups: LIST_GROUPS_OK });
       });
 
-      it('has 5 rows if there are 5 groups', () => {
+      it('has 10 rows if there are 10 groups', () => {
         const tbody = component.find('tbody');
         expect(tbody).toHaveLength(1);
-        expect(tbody.find('tr')).toHaveLength(5);
-        expect(tbody.find('GroupListMenuActions')).toHaveLength(5);
+        expect(tbody.find('tr')).toHaveLength(10);
+        expect(tbody.find('GroupListMenuActions')).toHaveLength(10);
       });
 
       it('has a menu in the action column of each row', () => {

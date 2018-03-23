@@ -1,7 +1,10 @@
 import { SET_GROUPS, SET_SELECTED_GROUP } from 'state/groups/types';
-import { getGroups, getGroup } from 'api/groups';
+import { getGroups, getGroup, postGroup } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
-import { getParams } from 'frontend-common-components';
+import { addErrors } from 'state/errors/actions';
+import { getParams, gotoRoute } from 'frontend-common-components';
+
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 export const setGroups = groups => ({
   type: SET_GROUPS,
@@ -45,5 +48,22 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
       } else {
         resolve();
       }
+    });
+  });
+
+
+export const sendPostGroup = groupData => dispatch =>
+  new Promise((resolve) => {
+    postGroup(groupData).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setGroups([data]));
+          gotoRoute(ROUTE_GROUP_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
     });
   });

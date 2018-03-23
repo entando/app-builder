@@ -1,11 +1,12 @@
-import { LIST_GROUPS_OK } from 'test/mocks/groups';
+import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import { gotoRoute } from 'frontend-common-components';
+
+import { setGroups, fetchGroups, sendPostGroup } from 'state/groups/actions';
+import { config } from 'api/apiManager';
+import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import { SET_GROUPS } from 'state/groups/types';
 import { SET_PAGE } from 'state/pagination/types';
-
-import { setGroups, fetchGroups } from 'state/groups/actions';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { config } from 'api/apiManager';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -36,7 +37,7 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroups', () => {
-    it('fetchGroups calls setFragments and setPage actions', (done) => {
+    it('fetchGroups calls setGroups and setPage actions', (done) => {
       store.dispatch(fetchGroups()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
@@ -46,7 +47,7 @@ describe('state/groups/actions', () => {
       });
     });
 
-    it('fragments is defined and properly valued', (done) => {
+    it('group is defined and properly valued', (done) => {
       store.dispatch(fetchGroups()).then(() => {
         const actionPayload = store.getActions()[0].payload;
         expect(actionPayload.groups).toHaveLength(10);
@@ -85,6 +86,18 @@ describe('state/groups/actions', () => {
         expect(actionPayload).toHaveProperty('pageSize', 2);
         expect(actionPayload).toHaveProperty('lastPage', 5);
         expect(actionPayload).toHaveProperty('totalItems', 10);
+        done();
+      });
+    });
+  });
+
+  describe('sendPostGroup()', () => {
+    it('when postGroup succeeds, should dispatch SET_GROUPS', (done) => {
+      store.dispatch(sendPostGroup(BODY_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_GROUPS);
+        expect(gotoRoute).toHaveBeenCalled();
         done();
       });
     });

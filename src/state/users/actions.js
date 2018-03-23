@@ -1,18 +1,25 @@
 import { initialize } from 'redux-form';
-import { SET_USERS } from 'state/users/types';
-import { getUsers } from 'api/users';
+import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
+import { getUsers, getUserDetail } from 'api/users';
 import { getUser, putUser } from 'api/user';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
-import { gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from 'frontend-common-components';
 
 
 export const setUsers = users => ({
   type: SET_USERS,
   payload: {
     users,
+  },
+});
+
+export const setSelectedUserDetail = user => ({
+  type: SET_SELECTED_USER,
+  payload: {
+    user,
   },
 });
 
@@ -23,6 +30,24 @@ export const fetchUsers = (page = 1, params) => dispatch =>
     dispatch(setPage(data.metaData));
   });
 
+export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const { username } = getParams(getState());
+    getUserDetail(username).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(setSelectedUserDetail(json.payload));
+          resolve();
+        });
+      } else {
+        response.json().then((json) => {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          resolve();
+        });
+      }
+    });
+  });
+
 
 export const fetchUserForm = username => dispatch =>
   new Promise((resolve) => {
@@ -31,12 +56,12 @@ export const fetchUserForm = username => dispatch =>
         response.json().then((json) => {
           dispatch(initialize('user', json.payload));
           resolve();
-        }).catch(resolve);
+        });
       } else {
         response.json().then((json) => {
           dispatch(addErrors(json.errors.map(err => err.message)));
           resolve();
-        }).catch(resolve);
+        });
       }
     });
   });
