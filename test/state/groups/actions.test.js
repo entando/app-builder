@@ -92,7 +92,7 @@ describe('state/groups/actions', () => {
         expect(actions[0].type).toEqual(SET_GROUPS);
         expect(actions[1].type).toEqual(SET_PAGE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('group is defined and properly valued', (done) => {
@@ -103,7 +103,7 @@ describe('state/groups/actions', () => {
         expect(group).toHaveProperty('code', 'account_executive');
         expect(group).toHaveProperty('name');
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -114,7 +114,7 @@ describe('state/groups/actions', () => {
         expect(postGroup).toHaveBeenCalled();
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when postGroup get error, should dispatch addError', (done) => {
@@ -125,7 +125,7 @@ describe('state/groups/actions', () => {
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -140,7 +140,7 @@ describe('state/groups/actions', () => {
         expect(actions[0]).toHaveProperty('payload', LIST_GROUPS_OK[0]);
         expect(initialize).toHaveBeenCalled();
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -151,7 +151,7 @@ describe('state/groups/actions', () => {
         expect(putGroup).toHaveBeenCalled();
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when putGroup get error, should dispatch gotoRoute group list', (done) => {
@@ -162,7 +162,7 @@ describe('state/groups/actions', () => {
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
-      });
+      }).catch(done.fail);
     });
   });
 });
