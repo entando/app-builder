@@ -49,6 +49,7 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
       <DecoratedWidgetFrame
         frameId={col.framePos}
         frameName={col.frameDescr}
+        frameIsMainFrame={col.frameIsMainFrame}
         widgetId={col.widgetCode}
         widgetName={col.widgetTitle}
         widgetHasConfig={col.widgetHasConfig}
@@ -62,6 +63,7 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
       <DroppableEmptyFrame
         frameId={col.framePos}
         frameName={col.frameDescr}
+        frameIsMainFrame={col.frameIsMainFrame}
       />
     );
   }

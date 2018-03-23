@@ -4,11 +4,12 @@ import thunk from 'redux-thunk';
 import rootReducer from 'state/rootReducer';
 import {
   initConfigPage, setPageWidget, removePageWidgetSync, removePageWidget,
-  updatePageWidget,
+  updatePageWidget, setSelectedPageOnTheFly, restoreSelectedPageConfig, applyDefaultConfig,
 } from 'state/page-config/actions';
 
 import { ADD_ERRORS } from 'state/errors/types';
 import { SET_SELECTED_PAGE_MODEL } from 'state/page-models/types';
+import { SET_SELECTED_PAGE } from 'state/pages/types';
 import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 
 import { HOMEPAGE_RESPONSE, CONTACTS_RESPONSE, ERROR } from 'test/mocks/pages';
@@ -16,17 +17,22 @@ import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
 
 // mocked
 import { getParams } from 'frontend-common-components';
-import { fetchPage, deletePageWidget, putPageWidget } from 'api/pages';
+import { fetchPage, deletePageWidget, putPageWidget, restorePageConfig, applyDefaultPageConfig } from 'api/pages';
 import { getPageModel } from 'api/pageModels';
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
+import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
+import { getPublishedConfigMap } from 'state/page-config/selectors';
 import { validatePageModel } from 'state/page-models/helpers';
+
 
 jest.mock('api/pages', () => ({
   fetchPage: jest.fn(),
   getPageConfig: jest.fn().mockReturnValue(new Promise(r => r([]))),
-  deletePageWidget: jest.fn().mockReturnValue(new Promise(r => r())),
-  putPageWidget: jest.fn().mockReturnValue(new Promise(r => r())),
+  deletePageWidget: jest.fn(),
+  putPageWidget: jest.fn(),
+  restorePageConfig: jest.fn(),
+  applyDefaultPageConfig: jest.fn().mockReturnValue(new Promise(r => r([]))),
 }));
 
 jest.mock('api/pageModels', () => ({
@@ -46,6 +52,15 @@ jest.mock('state/page-models/helpers', () => ({
   validatePageModel: jest.fn(),
 }));
 
+jest.mock('state/page-models/selectors', () => ({
+  getSelectedPageModelMainFrame: jest.fn(),
+  getSelectedPageModelCellMap: jest.fn(),
+  getSelectedPageModelDefaultConfig: jest.fn(),
+}));
+
+jest.mock('state/page-config/selectors', () => ({
+  getPublishedConfigMap: jest.fn(),
+}));
 
 const resolve = arg => new Promise(r => r(arg));
 
@@ -54,11 +69,20 @@ const INITIAL_STATE = rootReducer();
 const ERROR_MESSAGES = ERROR.errors.map(err => err.message);
 
 const CURRENT_PAGE_CODE = 'homepage';
-getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
+
+
+const resolveRespOk = () => new Promise(r => r({ ok: true }));
+const resolveRespNotOk = () => new Promise(r => r({ ok: false }));
+
 
 describe('state/page-config/actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    deletePageWidget.mockImplementation(resolveRespOk);
+    putPageWidget.mockImplementation(resolveRespOk);
+    restorePageConfig.mockImplementation(resolveRespOk);
+    applyDefaultPageConfig.mockImplementation(resolveRespOk);
+    getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
   });
 
   let store;
@@ -123,7 +147,7 @@ describe('state/page-config/actions', () => {
         expect(actionTypes).toEqual([ADD_ERRORS]);
         expect(addErrors).toHaveBeenCalledWith(ERROR_MESSAGES);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when GET /pagemodels/<code> returns errors, it will dispatch ADD_ERRORS', (done) => {
@@ -131,19 +155,19 @@ describe('state/page-config/actions', () => {
       store.dispatch(initConfigPage()).then(() => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([ADD_ERRORS]);
+        expect(actionTypes).toEqual([SET_SELECTED_PAGE, ADD_ERRORS]);
         expect(addErrors).toHaveBeenCalledWith(ERROR_MESSAGES);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when GET /page/<code> returns a non valid page model, it dispatch ADD_ERRORS', (done) => {
       validatePageModel.mockImplementation(() => [{ id: 'message.id' }]);
       store.dispatch(initConfigPage()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([ADD_ERRORS]);
+        expect(actionTypes).toEqual([SET_SELECTED_PAGE, ADD_ERRORS]);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when API responses are ok and the page is published', (done) => {
@@ -151,10 +175,11 @@ describe('state/page-config/actions', () => {
         expect(getPageModel).toHaveBeenCalledWith(HOMEPAGE_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([SET_SELECTED_PAGE, SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG,
+            SET_PUBLISHED_PAGE_CONFIG]);
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('when API responses are ok and the page is not published', (done) => {
@@ -163,14 +188,15 @@ describe('state/page-config/actions', () => {
         expect(getPageModel).toHaveBeenCalledWith(CONTACTS_RESPONSE.payload.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([SET_SELECTED_PAGE, SET_SELECTED_PAGE_MODEL, SET_PAGE_CONFIG,
+            SET_PUBLISHED_PAGE_CONFIG]);
         expect(store.getActions()[2].payload).toEqual({
           pageCode: CURRENT_PAGE_CODE,
           pageConfig: null,
         });
         expect(setSelectedPageModel).toHaveBeenCalledWith(COMPLEX_RESPONSE.payload);
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -186,7 +212,7 @@ describe('state/page-config/actions', () => {
         expect(actionTypes).toEqual([REMOVE_PAGE_WIDGET]);
         expect(deletePageWidget).toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID);
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -204,7 +230,116 @@ describe('state/page-config/actions', () => {
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
         expect(putPageWidget).toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, WIDGET);
         done();
-      });
+      }).catch(done.fail);
+    });
+  });
+
+  describe('setSelectedPageOnTheFly()', () => {
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('dispatches REMOVE_PAGE_WIDGET if value = false', (done) => {
+      getSelectedPageModelMainFrame.mockReturnValue({ pos: 3 });
+      store.dispatch(setSelectedPageOnTheFly(false)).then(() => {
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes).toEqual([REMOVE_PAGE_WIDGET]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('dispatches SET_PAGE_WIDGET if value = true', (done) => {
+      getSelectedPageModelMainFrame.mockReturnValue({ pos: 3 });
+      store.dispatch(setSelectedPageOnTheFly(true)).then(() => {
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('dispatches nothing if there is no main frame', (done) => {
+      getSelectedPageModelMainFrame.mockReturnValue(null);
+      store.dispatch(setSelectedPageOnTheFly(true)).then(() => {
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('restoreSelectedPageConfig()', () => {
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+      getPublishedConfigMap.mockReturnValue({ [CURRENT_PAGE_CODE]: [null, null] });
+    });
+
+    it('does not dispatch if the api response is not ok', (done) => {
+      restorePageConfig.mockImplementation(() => new Promise(r => r({ ok: false })));
+      store.dispatch(restoreSelectedPageConfig()).then(() => {
+        expect(restorePageConfig).toHaveBeenCalled();
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('dispatches SET_PAGE_CONFIG', (done) => {
+      store.dispatch(restoreSelectedPageConfig()).then(() => {
+        expect(restorePageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE);
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes).toEqual([SET_PAGE_CONFIG]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('does nothing if there is no pageCode parameter', (done) => {
+      getParams.mockReturnValue({});
+      store.dispatch(restoreSelectedPageConfig()).then(() => {
+        expect(restorePageConfig).not.toHaveBeenCalled();
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('does nothing if there is no config for the current page', (done) => {
+      getPublishedConfigMap.mockReturnValue({});
+      store.dispatch(restoreSelectedPageConfig()).then(() => {
+        expect(restorePageConfig).not.toHaveBeenCalled();
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('applyDefaultConfig()', () => {
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+      getSelectedPageModelDefaultConfig.mockReturnValue([null, null]);
+    });
+
+    it('dispatches SET_PAGE_CONFIG', (done) => {
+      store.dispatch(applyDefaultConfig()).then(() => {
+        expect(applyDefaultPageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE);
+        const actionTypes = store.getActions().map(action => action.type);
+        expect(actionTypes).toEqual([SET_PAGE_CONFIG]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('does nothing if there is no pageCode parameter', (done) => {
+      getParams.mockReturnValue({});
+      store.dispatch(applyDefaultConfig()).then(() => {
+        expect(applyDefaultPageConfig).not.toHaveBeenCalled();
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('does not dispatch if response is not ok', (done) => {
+      applyDefaultPageConfig.mockImplementation(resolveRespNotOk);
+      store.dispatch(applyDefaultConfig()).then(() => {
+        expect(applyDefaultPageConfig).toHaveBeenCalled();
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
     });
   });
 });

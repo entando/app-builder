@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getGroups, postGroup } from 'api/groups';
+import { getGroups, postGroup, putGroup, getGroup } from 'api/groups';
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, GROUP_PAYLOAD } from 'test/mocks/groups';
+import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 
 
 const correctRequest = {
@@ -11,10 +11,16 @@ const correctRequest = {
   useAuthentication: true,
 };
 
+const GROUP_CODE = 'group_code';
+const EDITED_GROUP = {
+  code: LIST_GROUPS_OK[0].code,
+  name: 'new_group_name',
+};
+
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
   makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST' },
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
 
 describe('api/groups', () => {
@@ -75,9 +81,51 @@ describe('api/groups', () => {
     });
   });
 
-  describe('postGroup()', () => {
+  describe('getGroup()', () => {
+    it('returns a promise', () => {
+      expect(getGroup(GROUP_CODE)).toBeInstanceOf(Promise);
+    });
+
     it('if successful, returns a mock ok response', () => {
-      expect(postGroup(GROUP_PAYLOAD)).resolves.toEqual({ payload: GROUP_PAYLOAD });
+      getGroup(GROUP_CODE);
+      expect(makeMockRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: `/api/groups/${GROUP_CODE}`,
+        mockResponse: {},
+      });
+    });
+  });
+
+  describe('postGroup()', () => {
+    it('returns a promise', () => {
+      expect(postGroup(BODY_OK)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      postGroup(BODY_OK);
+      expect(makeMockRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        method: 'POST',
+        mockResponse: BODY_OK,
+        body: BODY_OK,
+      });
+    });
+  });
+
+  describe('putGroup()', () => {
+    it('returns a promise', () => {
+      expect(putGroup(EDITED_GROUP)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      putGroup(EDITED_GROUP);
+      expect(makeMockRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: `/api/groups/${EDITED_GROUP.code}`,
+        method: 'PUT',
+        mockResponse: BODY_OK,
+        body: EDITED_GROUP,
+      });
     });
   });
 });

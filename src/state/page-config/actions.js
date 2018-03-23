@@ -6,17 +6,23 @@ import {
 
 import { addErrors } from 'state/errors/actions';
 import { setSelectedPageModel } from 'state/page-models/actions';
+import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
+import { setSelectedPage } from 'state/pages/actions';
 import { validatePageModel } from 'state/page-models/helpers';
 import {
   fetchPage,
   getPageConfig,
   deletePageWidget,
   putPageWidget,
+  restorePageConfig,
+  applyDefaultPageConfig,
 } from 'api/pages';
 import { getPageModel } from 'api/pageModels';
+import { getPublishedConfigMap } from 'state/page-config/selectors';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 
-export const setPageConfig = (pageCode, pageConfig) => ({
+export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
   payload: {
     pageCode,
@@ -72,6 +78,7 @@ export const changeViewList = view => ({
   },
 });
 
+
 // dispatch an action to populate errors
 const handleResponseErrors = dispatch => (payload) => {
   if (payload.errors && payload.errors.length) {
@@ -88,14 +95,15 @@ export const initConfigPage = () => (dispatch, getState) => {
   return fetchPage(pageCode)
     .then(handleResponseErrors(dispatch))
     .then((response) => {
-      const pageModelCode = response.payload.pageModel;
-      pageIsPublished = response.payload.status === 'published';
-      const requests = [
-        getPageModel(pageModelCode),
-        getPageConfig(pageCode, 'draft'),
-        pageIsPublished && getPageConfig(pageCode, 'published'),
-      ];
+      const pageObject = response.payload;
+      dispatch(setSelectedPage(pageObject));
 
+      pageIsPublished = pageObject.status === PAGE_STATUS_PUBLISHED;
+      const requests = [
+        getPageModel(pageObject.pageModel),
+        getPageConfig(pageCode, PAGE_STATUS_DRAFT),
+        pageIsPublished && getPageConfig(pageCode, PAGE_STATUS_PUBLISHED),
+      ];
       return Promise.all(requests);
     })
     .then((responses) => {
@@ -144,3 +152,58 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
         dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
       });
   };
+
+export const setSelectedPageOnTheFly = value => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const state = getState();
+    const { pageCode } = getParams(state);
+    const mainFrame = getSelectedPageModelMainFrame(state);
+
+    if (!pageCode || !mainFrame) {
+      resolve(null);
+    }
+    if (value) {
+      updatePageWidget('content_viewer', null, mainFrame.pos)(dispatch, getState)
+        .then(resolve);
+    } else {
+      removePageWidget(mainFrame.pos)(dispatch, getState)
+        .then(resolve);
+    }
+  });
+
+export const restoreSelectedPageConfig = () => (dispatch, getState) => {
+  const state = getState();
+  const { pageCode } = getParams(state);
+  const publishedPageConfigMap = getPublishedConfigMap(state);
+  const publishedConfig = publishedPageConfigMap[pageCode];
+  if (!pageCode || !publishedConfig) {
+    return new Promise(r => r());
+  }
+  return new Promise((resolve) => {
+    restorePageConfig(pageCode).then((response) => {
+      if (response.ok) {
+        dispatch(setPageConfig(pageCode, publishedConfig));
+      }
+      resolve();
+    }, resolve);
+  });
+};
+
+
+export const applyDefaultConfig = () => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const state = getState();
+    const { pageCode } = getParams(state);
+    const defaultConfig = getSelectedPageModelDefaultConfig(state);
+
+    if (!pageCode || !defaultConfig) {
+      resolve();
+      return;
+    }
+    applyDefaultPageConfig(pageCode).then((response) => {
+      if (response.ok) {
+        dispatch(setPageConfig(pageCode, defaultConfig));
+      }
+      resolve();
+    });
+  });

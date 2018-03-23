@@ -25,11 +25,11 @@ const helpIcon = helpId => (
     null
 );
 
-const PageTitle = ({ titleId, helpId }) => (
+const PageTitle = ({ titleId, helpId, titleParam }) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
       <h1 className="PageTitle__title">
-        <FormattedMessage id={titleId} />
+        <FormattedMessage id={titleId} values={{ titleParam }} />
         {helpIcon(helpId)}
       </h1>
     </div>
@@ -39,10 +39,12 @@ const PageTitle = ({ titleId, helpId }) => (
 PageTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
   helpId: PropTypes.string,
+  titleParam: PropTypes.string,
 };
 
 PageTitle.defaultProps = {
   helpId: '',
+  titleParam: '',
 };
 
 export default PageTitle;
