@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
@@ -14,62 +14,68 @@ export const maxLength20 = maxLength(20);
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
-export const GroupFormBody = (props) => {
-  const {
-    handleSubmit, invalid, submitting, mode, onChangeName,
-  } = props;
+export class GroupFormBody extends Component {
+  componentWillMount() {
+    this.props.onWillMount(this.props);
+  }
 
-  const onSubmit = (ev) => {
+  onSubmit = (ev) => {
     ev.preventDefault();
-    handleSubmit();
+    this.props.handleSubmit();
   };
 
-  const isEdit = mode === EDIT_MODE;
+  render() {
+    const {
+      invalid, submitting, mode, onChangeName,
+    } = this.props;
 
-  return (
-    <form onSubmit={onSubmit} className="GroupForm form-horizontal">
-      <Row>
-        <Col xs={12}>
-          <fieldset className="no-padding">
-            <legend>
-              <div className="GroupForm__required-fields text-right">
+    const isEdit = mode === EDIT_MODE;
+
+    return (
+      <form onSubmit={this.onSubmit} className="GroupForm form-horizontal">
+        <Row>
+          <Col xs={12}>
+            <fieldset className="no-padding">
+              <legend>
+                <div className="GroupForm__required-fields text-right">
                 * <FormattedMessage id="app.fieldsRequired" />
-              </div>
-            </legend>
-            <Field
-              component={RenderTextInput}
-              name="name"
-              label={<FormLabel labelId="group.name" helpId="group.name.help" required />}
-              placeholder={formattedText('group.name')}
-              validate={[required, maxLength50]}
-              onChange={(ev) => { if (onChangeName) onChangeName(ev.currentTarget.value); }}
-            />
-            <Field
-              component={RenderTextInput}
-              name="code"
-              label={<FormLabel labelId="group.code" helpId="group.code.help" required />}
-              placeholder={formattedText('group.code')}
-              validate={[required, maxLength20, code]}
-              disabled={isEdit}
-            />
-          </fieldset>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <Button
-            className="pull-right"
-            type="submit"
-            bsStyle="primary"
-            disabled={invalid || submitting}
-          >
-            <FormattedMessage id="app.save" />
-          </Button>
-        </Col>
-      </Row>
-    </form>
-  );
-};
+                </div>
+              </legend>
+              <Field
+                component={RenderTextInput}
+                name="name"
+                label={<FormLabel labelId="group.name" helpId="group.name.help" required />}
+                placeholder={formattedText('group.name')}
+                validate={[required, maxLength50]}
+                onChange={(ev) => { if (onChangeName) onChangeName(ev.currentTarget.value); }}
+              />
+              <Field
+                component={RenderTextInput}
+                name="code"
+                label={<FormLabel labelId="group.code" helpId="group.code.help" required />}
+                placeholder={formattedText('group.code')}
+                validate={[required, maxLength20, code]}
+                disabled={isEdit}
+              />
+            </fieldset>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Button
+              className="pull-right"
+              type="submit"
+              bsStyle="primary"
+              disabled={invalid || submitting}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+          </Col>
+        </Row>
+      </form>
+    );
+  }
+}
 
 GroupFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
@@ -77,6 +83,7 @@ GroupFormBody.propTypes = {
   submitting: PropTypes.bool,
   mode: PropTypes.string,
   onChangeName: PropTypes.func,
+  onWillMount: PropTypes.func,
 };
 
 GroupFormBody.defaultProps = {
@@ -84,6 +91,7 @@ GroupFormBody.defaultProps = {
   submitting: false,
   mode: NEW_MODE,
   onChangeName: null,
+  onWillMount: null,
 };
 
 const GroupForm = reduxForm({
