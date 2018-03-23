@@ -31,6 +31,7 @@ export const ROUTE_USER_DETAIL = 'userDetail';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
+export const ROUTE_USER_AUTHORITY = 'authorityPage';
 
 
 routerConfig(
@@ -67,6 +68,7 @@ routerConfig(
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
+      { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
