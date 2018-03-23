@@ -1,0 +1,32 @@
+.PageConfigPage {
+  &__title {
+    font-weight: bold;
+  }
+
+  &__toolbar-row {
+    margin-bottom: 5px;
+  }
+
+  .PageStatusIcon {
+    margin-right: 10px;
+  }
+
+  &__default-applied-label {
+    margin-left: 5px;
+    color: $color-pf-black-400;
+  }
+
+  &__default-applied-icon {
+    margin-left: 5px;
+    color: $color-pf-green-400;
+    font-size: 20px;
+  }
+
+  &__on-the-fly-label {
+    margin-right: 5px;
+  }
+
+  &__info-panel {
+    border: 0;
+  }
+}

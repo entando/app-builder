@@ -19,3 +19,20 @@ $fa-angle-right: "\f105";
 $fa-angle-double-left: "\f100";
 $fa-angle-double-right: "\f101";
 $fa-times: "\f00d";
+
+// Bootstrap custom styles
+// sass-lint:disable class-name-format
+.btn-entando-apply,
+.btn-entando-apply:hover,
+.btn-entando-apply:focus {
+  border-color: $color-pf-blue;
+  background: $color-pf-black-200;
+  color: $color-pf-blue;
+  font-weight: normal;
+}
+
+.btn-entando-apply:hover,
+.btn-entando-apply:focus {
+  background: $color-pf-black-100;
+}
+// sass-lint:enable class-name-format

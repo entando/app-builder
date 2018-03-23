@@ -118,6 +118,7 @@ export const CELL_MAP = {
     parentKey: 'row:0-0/11-14',
     framePos: 0,
     frameDescr: 'Zero',
+    frameIsMainFrame: false,
   },
   'col:2-0/11-14': {
     x1: 2,
@@ -147,6 +148,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-0/11-4',
     framePos: 1,
     frameDescr: 'One',
+    frameIsMainFrame: false,
   },
   'col:2-5/6-9': {
     x1: 2,
@@ -167,6 +169,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-5/11-9',
     framePos: 4,
     frameDescr: 'Four',
+    frameIsMainFrame: false,
   },
   'col:8-5/8-9': {
     x1: 8,
@@ -205,6 +208,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-5/11-9',
     framePos: 5,
     frameDescr: 'Five',
+    frameIsMainFrame: false,
   },
   'col:2-10/11-14': {
     x1: 2,
@@ -216,6 +220,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-10/11-14',
     framePos: 6,
     frameDescr: 'Six',
+    frameIsMainFrame: false,
   },
   'row:2-0/11-4': {
     x1: 2,
@@ -524,6 +529,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-5/6-5',
     framePos: 2,
     frameDescr: 'Two',
+    frameIsMainFrame: false,
   },
   'col:2-6/2-6': {
     x1: 2,
@@ -670,6 +676,7 @@ export const CELL_MAP = {
     parentKey: 'row:2-9/6-9',
     framePos: 3,
     frameDescr: 'Three',
+    frameIsMainFrame: false,
   },
   'row:2-5/6-5': {
     x1: 2,

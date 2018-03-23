@@ -78,6 +78,7 @@ export const CELL_MAP = {
   'col:0-1/7-1': {
     frameDescr: 'Main Bar 1',
     framePos: 2,
+    frameIsMainFrame: false,
     key: 'col:0-1/7-1',
     parentKey: 'row:0-1/11-1',
     type: 'col',
@@ -89,6 +90,7 @@ export const CELL_MAP = {
   'col:0-2/11-2': {
     frameDescr: 'Frame with no sketch 1',
     framePos: 0,
+    frameIsMainFrame: false,
     key: 'col:0-2/11-2',
     parentKey: 'row:0-2/11-2',
     type: 'col',
@@ -100,6 +102,7 @@ export const CELL_MAP = {
   'col:0-3/11-3': {
     frameDescr: 'Frame with no sketch 2',
     framePos: 1,
+    frameIsMainFrame: false,
     key: 'col:0-3/11-3',
     parentKey: 'row:0-3/11-3',
     type: 'col',
@@ -111,6 +114,7 @@ export const CELL_MAP = {
   'col:0-4/11-4': {
     frameDescr: 'Footer with no sketch 3',
     framePos: 4,
+    frameIsMainFrame: false,
     key: 'col:0-4/11-4',
     parentKey: 'row:0-4/11-4',
     type: 'col',
@@ -212,6 +216,7 @@ export const CELL_MAP = {
   'col:8-1/11-1': {
     frameDescr: 'Main Bar 2',
     framePos: 3,
+    frameIsMainFrame: false,
     key: 'col:8-1/11-1',
     parentKey: 'row:0-1/11-1',
     type: 'col',

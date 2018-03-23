@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const EmptyFrame = ({ frameName, connectDropTarget, isOver }) => {
+const EmptyFrame = ({
+  frameName, frameIsMainFrame, connectDropTarget, isOver,
+}) => {
   const classNameAr = ['EmptyFrame'];
   if (isOver) {
     classNameAr.push('EmptyFrame--drag-hover');
   }
+  if (frameIsMainFrame) {
+    classNameAr.push('EmptyFrame--main-frame');
+  }
   const component = (
     <div className={classNameAr.join(' ')}>
-      { frameName }
+      <span className="EmptyFrame__frame-name">{ frameName }</span>
     </div>
   );
   if (connectDropTarget) {
@@ -22,6 +27,7 @@ const EmptyFrame = ({ frameName, connectDropTarget, isOver }) => {
 EmptyFrame.propTypes = {
 
   frameName: PropTypes.string.isRequired,
+  frameIsMainFrame: PropTypes.bool.isRequired,
 
   // needed if it's droppable
   /* eslint-disable react/no-unused-prop-types */
