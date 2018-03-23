@@ -61,6 +61,14 @@ export const userFormText = value => (
     />
 );
 
+export const code = value => (
+  value && /^[0-9a-zA-Z_.]+$/i.test(value) ?
+    undefined :
+    <FormattedMessage
+      id="validateForm.code"
+    />
+);
+
 export const matchElement = (fieldName, messageId) => (value, allValues) =>
   (
     value && value === allValues[fieldName] ?

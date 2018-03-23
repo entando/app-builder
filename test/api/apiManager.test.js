@@ -1,12 +1,18 @@
+import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { gotoRoute } from 'frontend-common-components';
 
 import { config, makeRequest, METHODS } from 'api/apiManager';
+import { logoutUser } from 'state/current-user/actions';
 import { ROUTE_HOME } from 'app-init/router';
 
 jest.unmock('api/apiManager');
 
-const mockStore = configureMockStore([]);
+jest.mock('state/current-user/actions', () => ({
+  logoutUser: jest.fn(() => ({ type: '' })),
+}));
+
+const mockStore = configureMockStore([thunk]);
 
 const MOCKED_GOOD_RESPONSE = { code: 12 };
 const REAL_GOOD_RESPONSE = { payload: { code: 30 } };
@@ -223,6 +229,35 @@ describe('apiManager', () => {
       });
     });
 
+    it('appends the page to the uri when there is no query string', () => {
+      makeRequest(validRequest, { page: 1, pageSize: 10 });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test?page=1&pageSize=10',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+
+    it('appends the page to the uri when there is a query string', () => {
+      makeRequest({
+        ...validRequest,
+        uri: '/api/test?my=var',
+      }, { page: 1, pageSize: 10 });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test?my=var&page=1&pageSize=10',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+
     it('sends the body when the request is post', (done) => {
       const result = makeRequest({
         uri: '/api/test',
@@ -321,6 +356,35 @@ describe('apiManager', () => {
           expect(data).toMatchObject(REAL_GOOD_RESPONSE);
           done();
         });
+      });
+
+      it('redirects and unset the user if fetch returns a 401', (done) => {
+        const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+          new Promise((resolve) => {
+            resolve({ ok: false, status: 401 });
+          })
+        ));
+
+        const store = mockStore({
+          ...REAL,
+          currentUser: { token: '395d491d59fba6c5d3a371c9549d7015' },
+        });
+
+        config(store);
+
+        const result = makeRequest({
+          ...validRequest,
+          useAuthentication: true,
+        });
+        expect(customFetch).toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        result.then(() => {
+          expect(logoutUser).toHaveBeenCalled();
+          done();
+        });
+
+        customFetch.mockReset();
+        customFetch.mockRestore();
       });
     });
   });

@@ -13,6 +13,25 @@ import FormLabel from 'ui/common/form/FormLabel';
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
+export const renderStaticField = (field) => {
+  const { input, label, name } = field;
+  const fieldValue = (input.value.title) ? input.value.title : input.value;
+  if (!input.value) {
+    return null;
+  }
+
+  return (
+    <div className="form-group">
+      <label htmlFor={name} className="control-label col-xs-2">
+        {label}
+      </label>
+      <Col xs={10}>
+        {fieldValue}
+      </Col>
+    </div>
+  );
+};
+
 export class UserFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -23,6 +42,58 @@ export class UserFormBody extends Component {
       onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
     } = this.props;
 
+    const showUsername = (
+      <Field
+        component={RenderTextInput}
+        name="username"
+        label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
+        placeholder={formattedText('user.table.username')}
+        validate={mode !== EDIT_MODE ?
+          [required, minLength(8), maxLength(20), userFormText] : undefined}
+        disabled={mode === EDIT_MODE}
+      />
+    );
+    const showEdit = (
+      <div className="UserForm__content-edit" >
+        <Field
+          name="registration"
+          component={renderStaticField}
+          label={<FormattedMessage id="user.registration" />}
+        />
+        <Field
+          name="lastLogin"
+          component={renderStaticField}
+          label={<FormattedMessage id="user.lastLogin" />}
+        />
+        <Field
+          name="lastPasswordChange"
+          component={renderStaticField}
+          label={<FormattedMessage id="user.lastPasswordChange" />}
+        />
+        <FormGroup>
+          <label htmlFor="reset" className="col-xs-2 control-label">
+            <FormattedMessage id="user.reset" />&nbsp;
+          </label>
+          <Col xs={4}>
+            <Field
+              component={SwitchRenderer}
+              name="reset"
+            />
+          </Col>
+        </FormGroup>
+      </div>
+    );
+
+    const showProfileType = (
+      mode !== EDIT_MODE ?
+        (<RenderSelectInput
+          options={profileTypes}
+          defaultOptionId="form.select.chooseOne"
+          labelId="user.profileType"
+          fieldName="profileType"
+        />) : null
+    );
+
     return (
       <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserForm form-horizontal">
         <Row>
@@ -31,17 +102,10 @@ export class UserFormBody extends Component {
               <legend>
                 <FormattedMessage id="app.info" />
                 <div className="UserForm__required-fields text-right">
-                * <FormattedMessage id="app.fieldsRequired" />
+                  * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
-              <Field
-                component={RenderTextInput}
-                name="username"
-                label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
-                placeholder={formattedText('user.table.username')}
-                validate={[required, minLength(8), maxLength(20), userFormText]}
-                disabled={mode === EDIT_MODE}
-              />
+              {showUsername}
               <Field
                 component={RenderTextInput}
                 name="password"
@@ -59,12 +123,8 @@ export class UserFormBody extends Component {
                 validate={[required, matchPassword]}
               />
               {/* Insert user info and reset button on EDIT */}
-              <RenderSelectInput
-                options={profileTypes}
-                defaultOptionId="form.select.chooseOne"
-                labelId="user.profileType"
-                fieldName="profileType"
-              />
+              {showEdit}
+              {showProfileType}
               <FormGroup>
                 <label htmlFor="status" className="col-xs-2 control-label">
                   <FormattedMessage id="user.status" />&nbsp;
@@ -73,6 +133,8 @@ export class UserFormBody extends Component {
                   <Field
                     component={SwitchRenderer}
                     name="status"
+                    trueValue="active"
+                    falseValue="inactive"
                   />
                 </Col>
               </FormGroup>
