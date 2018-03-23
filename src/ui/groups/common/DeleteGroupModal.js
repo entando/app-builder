@@ -13,7 +13,7 @@ const DeleteGroupModal = ({
   onConfirmDelete, info,
 }) => {
   const buttons = (
-    <Button bsStyle="danger" onClick={onConfirmDelete}>
+    <Button bsStyle="danger" onClick={() => { onConfirmDelete(info.code); }}>
       <FormattedMessage id="app.delete" />
     </Button>
   );
@@ -25,11 +25,11 @@ const DeleteGroupModal = ({
   return (
     <GenericModalContainer modalId={MODAL_ID} buttons={buttons} modalTitle={modalTitle}>
       <EmptyState>
-        <EmptyStateIcon name="exclamation" type="fa" />
+        <EmptyStateIcon name="exclamation" type="fa" className="DeleteGroupModal__icon" />
         <EmptyStateTitle>
           <FormattedMessage id="app.delete" />&nbsp;{info.type}
         </EmptyStateTitle>
-        <EmptyStateInfo>
+        <EmptyStateInfo className="DeleteGroupModal__info">
           <FormattedMessage id="modal.confirm.delete" values={{ code: info.code }} />
         </EmptyStateInfo>
       </EmptyState>

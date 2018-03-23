@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 
-import { getGroups, postGroup, getGroup, putGroup } from 'api/groups';
+import { getGroups, postGroup, getGroup, putGroup, deleteGroup } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { gotoRoute } from 'frontend-common-components';
@@ -66,6 +66,20 @@ export const sendPostGroup = groupData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           gotoRoute(ROUTE_GROUP_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
+
+export const sendDeleteGroup = groupCode => dispatch =>
+  new Promise((resolve) => {
+    deleteGroup(groupCode).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
