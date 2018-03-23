@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col, Button, Breadcrumb, Modal, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { BreadcrumbItem, Link } from 'frontend-common-components';
 
@@ -49,6 +49,7 @@ const ListGroupPage = () => (
       <Row>
         <GroupListTableContainer />
       </Row>
+      {/* insert delete modal container */}
     </Grid>
   </InternalPage>
 );
