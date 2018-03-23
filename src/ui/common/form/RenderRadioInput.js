@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ToggleButtonGroup, ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
-
-const RenderRadioInput = ({ input, toggleElement }) =>
+const RenderRadioInput = ({ input, toggleElement, defaultValue }) =>
   (
-    <ToggleButtonGroup
-      type="radio"
-      {...input}
-    >
-      { toggleElement.map(item => (
-        <ToggleButton
-          key={item.id}
-          value={item.id}
-          defaultValue={input.value}
-        >
-          {item.label}
-        </ToggleButton>
+    <ButtonToolbar>
+      <ToggleButtonGroup
+        type="radio"
+        {...input}
+        value={input.value ? input.value : defaultValue}
+      >
+        { toggleElement.map(item => (
+          <ToggleButton
+            key={item.id}
+            value={item.id}
+          >
+            {item.label}
+          </ToggleButton>
       ))
       }
-    </ToggleButtonGroup>
+      </ToggleButtonGroup>
+    </ButtonToolbar>
   );
 
 RenderRadioInput.propTypes = {
@@ -28,12 +29,14 @@ RenderRadioInput.propTypes = {
     label: PropTypes.string,
   })),
   input: PropTypes.shape({}).isRequired,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 RenderRadioInput.defaultProps = {
   toggleElement: [{
     id: '',
     label: '',
   }],
+  defaultValue: '',
 };
 
 export default RenderRadioInput;

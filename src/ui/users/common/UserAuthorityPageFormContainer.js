@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { fetchGroups } from 'state/groups/actions';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import { fetchRoles } from 'state/roles/actions';
 import { getRoles } from 'state/roles/selectors';
 import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
 
 export const mapStateToProps = state =>
   ({
-    groups: getGroups(state),
+    groups: getGroupsList(state),
     roles: getRoles(state),
     groupRolesCombo: formValueSelector('autorityForm')(state, 'groupRolesCombo'),
   });

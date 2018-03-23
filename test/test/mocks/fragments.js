@@ -22,95 +22,71 @@ export const GET_FRAGMENT_OK =
   metaData: {},
 };
 
-export const LIST_FRAGMENTS_OK_PAGE_1 =
-{
-  payload: [
-    {
-      code: 'myCode',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
+export const LIST_FRAGMENTS_OK = [
+  {
+    code: 'myCode',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
     },
-    {
-      code: 'myCode2',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 2,
-    lastPage: 3,
+    pluginCode: 'pluginCode',
   },
-};
-
-export const LIST_FRAGMENTS_OK_PAGE_2 =
-{
-  payload: [
-    {
-      code: 'myCode3',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
+  {
+    code: 'myCode2',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
     },
-    {
-      code: 'myCode4',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 2,
-    pageSize: 2,
-    lastPage: 3,
+    pluginCode: 'pluginCode',
   },
-};
-
-export const LIST_FRAGMENTS_OK_PAGE_3 =
-{
-  payload: [
-    {
-      code: 'myCode5',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
+  {
+    code: 'myCode3',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
     },
-    {
-      code: 'myCode6',
-      isLocked: false,
-      widgetType: {
-        code: 'widgetcode',
-        title: 'Widget Title',
-      },
-      pluginCode: 'pluginCode',
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 3,
-    pageSize: 2,
-    lastPage: 3,
+    pluginCode: 'pluginCode',
   },
-};
+  {
+    code: 'myCode4',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
+    },
+    pluginCode: 'pluginCode',
+  },
+  {
+    code: 'myCode5',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
+    },
+    pluginCode: 'pluginCode',
+  },
+  {
+    code: 'myCode6',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
+    },
+    pluginCode: 'pluginCode',
+  },
+  {
+    code: 'myCode7',
+    isLocked: false,
+    widgetType: {
+      code: 'widgetcode',
+      title: 'Widget Title',
+    },
+    pluginCode: 'pluginCode',
+  },
+];
 
 export const WIDGET_TYPES_OK = {
   payload: [

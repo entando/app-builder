@@ -1,0 +1,32 @@
+@import "../../patternfly.scss";
+
+.ToolbarContentIcon {
+
+  color: $color-pf-black-500 ;
+  font-family: FontAwesome;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+
+  &--widgets-left:before {
+    content: $fa-sitemap;
+  }
+
+  &--widgets-right:before {
+    content: $fa-angle-right;
+  }
+
+  &--pages-left:before {
+    color: $color-pf-black-100;
+    content: $fa-angle-double-left;
+  }
+
+  &--pages-left-expanded:before {
+    color: $color-pf-black-100;
+    content: $fa-angle-double-right;
+  }
+
+  &--pages-right:before {
+    content: $fa-times;
+  }
+}

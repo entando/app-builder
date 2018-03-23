@@ -23,7 +23,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   // calls search API when available
   onSubmit: (values) => {
-    dispatch(fetchFragments(1, convertToQueryString({
+    dispatch(fetchFragments({ page: 1, pageSize: 10 }, convertToQueryString({
       formValues: values,
       operators: FIELD_OPERATORS,
       sorting: {

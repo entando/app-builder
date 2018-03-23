@@ -10,10 +10,12 @@ import {
   setFreePages,
 } from 'state/pages/actions';
 
+
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 ];
+
 
 describe('state/pages/reducer', () => {
   it('should return an object', () => {
@@ -26,18 +28,21 @@ describe('state/pages/reducer', () => {
     beforeEach(() => {
       state = reducer({}, addPages(PAGES));
     });
+
     it('should define the pages map', () => {
       expect(state.map).toBeDefined();
       PAGES.forEach((page) => {
         expect(state.map[page.code]).toBeDefined();
       });
     });
+
     it('should define the childrenMap', () => {
       expect(state.childrenMap).toBeDefined();
       PAGES.forEach((page) => {
         expect(state.childrenMap[page.code]).toBeDefined();
       });
     });
+
     it('should define the titlesMap', () => {
       expect(state.titlesMap).toBeDefined();
       PAGES.forEach((page) => {

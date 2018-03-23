@@ -11,6 +11,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchGroups()); },
   onSubmit: (values) => {
     // call post
+    // eslint-disable-next-line no-console
     console.log(values);
   },
 

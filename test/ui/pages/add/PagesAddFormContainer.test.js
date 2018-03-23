@@ -3,13 +3,13 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/pages/add/PagesAddFormCo
 
 // mocked
 import { formValueSelector, change, mockSelector } from 'redux-form';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 
 
 jest.mock('state/groups/selectors', () => ({
-  getGroups: jest.fn().mockReturnValue('getGroups_result'),
+  getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
 }));
 jest.mock('state/page-models/selectors', () => ({
   getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
@@ -46,9 +46,9 @@ describe('PagesAddFormContainer', () => {
       props = mapStateToProps(STATE);
     });
 
-    it('maps the "groups" prop with the getGroups selector', () => {
-      expect(getGroups).toHaveBeenCalledWith(STATE);
-      expect(props.groups).toBe('getGroups_result');
+    it('maps the "groups" prop with the getGroupsList selector', () => {
+      expect(getGroupsList).toHaveBeenCalledWith(STATE);
+      expect(props.groups).toBe('getGroupsList_result');
     });
 
     it('maps the "pageModels" prop with the getPageModels selector', () => {

@@ -1,9 +1,8 @@
-import { gotoRoute, formattedText } from 'frontend-common-components';
+import { formattedText } from 'frontend-common-components';
 
 import login from 'api/login';
-import { setUser } from 'state/current-user/actions';
+import { loginUser } from 'state/current-user/actions';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
-import { ROUTE_DASHBOARD } from 'app-init/router';
 
 
 // eslint-disable-next-line
@@ -26,11 +25,10 @@ export const performLogin = (username, password) => dispatch => (
       login(username, password).then((response) => {
         if (response.ok) {
           response.json().then((json) => {
-            dispatch(setUser({
+            dispatch(loginUser(
               username,
-              token: json.payload.access_token,
-            }));
-            gotoRoute(ROUTE_DASHBOARD);
+              json.access_token || json.payload.access_token,
+            ));
             resolve();
           });
         } else {

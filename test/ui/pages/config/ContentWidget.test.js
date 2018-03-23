@@ -44,19 +44,33 @@ describe('ContentWidget', () => {
       expect(filterWidget).toHaveBeenCalledWith('test');
     });
 
-    it('changeViewList with card view  ', () => {
+    it('changeViewList with card view  onClick', () => {
       const changeViewList = jest.fn().mockReturnValue('card');
       component = shallow(<ContentWidget changeViewList={changeViewList} />);
       component.find('.fa.fa-th-large').simulate('click');
-      expect(changeViewList).toHaveBeenCalled();
+      expect(changeViewList).toHaveBeenCalledWith('card');
+      component.find('.fa.fa-th-large').simulate('keyDown');
       expect(changeViewList).toHaveBeenCalledWith('card');
     });
 
-    it('changeViewList with list view  ', () => {
+    it('changeViewList with card view onKeydown', () => {
+      const changeViewList = jest.fn().mockReturnValue('card');
+      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component.find('.fa.fa-th-large').simulate('keyDown');
+      expect(changeViewList).toHaveBeenCalledWith('card');
+    });
+
+    it('changeViewList with list view onClick', () => {
       const changeViewList = jest.fn().mockReturnValue('list');
       component = shallow(<ContentWidget changeViewList={changeViewList} />);
       component.find('.fa.fa-th-list').simulate('click');
-      expect(changeViewList).toHaveBeenCalled();
+      expect(changeViewList).toHaveBeenCalledWith('list');
+    });
+
+    it('changeViewList with list view onKeydown', () => {
+      const changeViewList = jest.fn().mockReturnValue('list');
+      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component.find('.fa.fa-th-list').simulate('keyDown');
       expect(changeViewList).toHaveBeenCalledWith('list');
     });
   });

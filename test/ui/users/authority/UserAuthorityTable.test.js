@@ -28,12 +28,12 @@ const FIELDS = {
 };
 
 const GROUPS_MOCKS = [
-  { code: 'opt1', name: 'Option 1' },
-  { code: 'opt1', name: 'Option 1' },
+  { code: 'group1', name: 'group 1' },
+  { code: 'group2', name: 'group 2' },
 ];
 const ROLES_MOCKS = [
-  { code: 'opt1', name: 'Option 1' },
-  { code: 'opt1', name: 'Option 1' },
+  { code: 'role1', name: 'role 1' },
+  { code: 'role2', name: 'role 2' },
 ];
 
 jest.mock('state/users/selectors', () => ({

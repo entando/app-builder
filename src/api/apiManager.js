@@ -1,9 +1,13 @@
 import 'whatwg-fetch';
+import { gotoRoute } from 'frontend-common-components';
 
 import throttle from 'util/throttle';
 import { isEmpty } from 'util/string';
 import { buildResponse, buildErrorResponse } from 'api/responseFactory';
 import { useMocks, getDomain } from 'state/api/selectors';
+import { logoutUser } from 'state/current-user/actions';
+import { getToken } from 'state/current-user/selectors';
+import { ROUTE_HOME } from 'app-init/router';
 
 export const METHODS = {
   GET: 'GET',
@@ -36,13 +40,27 @@ const validateRequest = (request) => {
   }
 };
 
-const getErrors = (errorsCallback) => {
+const getAuthenticationToken = () => (
+  getToken(store.getState())
+);
+
+const getErrors = (errorsCallback, request) => {
   let errors = [];
-  if (typeof errorsCallback === 'function') {
+  if (request.useAuthentication && !getAuthenticationToken()) {
+    errors = [{ code: 120, message: 'authorization required' }];
+  } else if (typeof errorsCallback === 'function') {
     errors = errorsCallback();
   }
 
   return Array.isArray(errors) ? errors : [];
+};
+
+const getMockResponseStatusCode = (errors) => {
+  if (errors.length) {
+    return typeof errors[0] === 'object' && errors[0].code === 120 ? 401 : 400;
+  }
+
+  return 200;
 };
 
 export const config = (reduxStore) => {
@@ -51,7 +69,11 @@ export const config = (reduxStore) => {
 
 export const makeMockRequest = (request, page = defaultPage) => {
   validateRequest(request);
-  const errors = getErrors(request.errors);
+  const errors = getErrors(request.errors, request);
+  const statusCode = getMockResponseStatusCode(errors);
+  if (statusCode === 401) {
+    gotoRoute(ROUTE_HOME);
+  }
   return new Promise(resolve => throttle(() => (
     resolve(new Response(
       new Blob(
@@ -64,7 +86,7 @@ export const makeMockRequest = (request, page = defaultPage) => {
         ],
         { type: 'application/json' },
       ),
-      { status: errors.length ? 400 : 200 },
+      { status: statusCode },
     ))
   )));
 };
@@ -83,19 +105,46 @@ const getRequestParams = (request) => {
       'Content-Type': request.contentType || 'application/json',
     },
   };
-  if (request.method === METHODS.POST) {
+  if (request.method === METHODS.POST || request.method === METHODS.PUT) {
     requestParams.body = getParsedBody(request.contentType, request.body);
+  }
+  if (request.useAuthentication) {
+    requestParams.headers.Authorization = `Bearer ${getAuthenticationToken()}`;
   }
 
   return requestParams;
 };
 
-export const makeRealRequest = (request) => {
-  validateRequest(request);
-  return fetch(`${getDomain(store.getState())}${request.uri}`, getRequestParams(request));
+const getCompleteRequestUrl = (request, page) => {
+  const url = `${getDomain(store.getState())}${request.uri}`;
+  if (!page || !page.page) {
+    return url;
+  }
+
+  return url.concat(
+    url.indexOf('?') !== -1 ? '&' : '?',
+    `page=${page.page}&pageSize=${page.pageSize}`,
+  );
 };
 
-export const makeRequest = (request, page = defaultPage) => {
+export const makeRealRequest = (request, page) => {
+  validateRequest(request);
+  if (request.useAuthentication && !getAuthenticationToken()) {
+    gotoRoute(ROUTE_HOME);
+    return new Promise(resolve => resolve({ ok: false, status: 401 }));
+  }
+  return fetch(
+    getCompleteRequestUrl(request, page),
+    getRequestParams(request),
+  ).then((response) => {
+    if (response.status === 401) {
+      store.dispatch(logoutUser());
+    }
+    return response;
+  });
+};
+
+export const makeRequest = (request, page) => {
   if (useMocks(store.getState())) {
     return makeMockRequest(request, page);
   }

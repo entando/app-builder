@@ -1,23 +1,29 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
+import { config } from 'api/apiManager';
 import {
   fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
   fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment,
 } from 'state/fragments/actions';
 import {
-  WIDGET_TYPES_OK, PLUGINS_OK, GET_FRAGMENT_OK,
-  LIST_FRAGMENTS_OK_PAGE_1,
+  WIDGET_TYPES_OK,
+  PLUGINS_OK,
+  GET_FRAGMENT_OK,
+  LIST_FRAGMENTS_OK,
 } from 'test/mocks/fragments';
 import {
   SET_SELECTED, SET_WIDGET_TYPES,
   SET_PLUGINS, SET_FRAGMENTS,
 } from 'state/fragments/types';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 import { SET_PAGE } from 'state/pagination/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
+jest.unmock('api/fragments');
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
 const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
@@ -61,7 +67,7 @@ describe('fragment actions', () => {
 
   describe('setFragments', () => {
     it('test setFragments action sets the correct type', () => {
-      const action = setFragments(LIST_FRAGMENTS_OK_PAGE_1.payload);
+      const action = setFragments(LIST_FRAGMENTS_OK.payload);
       expect(action.type).toEqual(SET_FRAGMENTS);
     });
   });
@@ -80,7 +86,7 @@ describe('fragment actions', () => {
     it('fragments is defined and properly valued', (done) => {
       store.dispatch(fetchFragments()).then(() => {
         const actionPayload = store.getActions()[0].payload;
-        expect(actionPayload.fragments).toHaveLength(2);
+        expect(actionPayload.fragments).toHaveLength(7);
         const fragment = actionPayload.fragments[0];
         expect(fragment).toHaveProperty('code', 'myCode');
         expect(fragment).toHaveProperty('isLocked');
@@ -91,7 +97,7 @@ describe('fragment actions', () => {
     });
 
     it('fragments page two is retrieved correctly and properly valued', (done) => {
-      store.dispatch(fetchFragments(2)).then(() => {
+      store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
         const actionPayload = store.getActions()[0].payload;
         expect(actionPayload.fragments).toHaveLength(2);
         expect(actionPayload.fragments[0]).toHaveProperty('code', 'myCode3');
@@ -104,18 +110,20 @@ describe('fragment actions', () => {
       store.dispatch(fetchFragments()).then(() => {
         const actionPayload = store.getActions()[1].payload.page;
         expect(actionPayload).toHaveProperty('page', 1);
-        expect(actionPayload).toHaveProperty('pageSize', 2);
-        expect(actionPayload).toHaveProperty('lastPage', 3);
+        expect(actionPayload).toHaveProperty('pageSize', 10);
+        expect(actionPayload).toHaveProperty('lastPage', 1);
+        expect(actionPayload).toHaveProperty('totalItems', 7);
         done();
       });
     });
 
     it('page 2 is defined and properly valued', (done) => {
-      store.dispatch(fetchFragments(2)).then(() => {
+      store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
         const actionPayload = store.getActions()[1].payload.page;
         expect(actionPayload).toHaveProperty('page', 2);
         expect(actionPayload).toHaveProperty('pageSize', 2);
-        expect(actionPayload).toHaveProperty('lastPage', 3);
+        expect(actionPayload).toHaveProperty('lastPage', 4);
+        expect(actionPayload).toHaveProperty('totalItems', 7);
         done();
       });
     });

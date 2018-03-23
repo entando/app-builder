@@ -5,10 +5,13 @@ import {
   DATA_TYPES_OK_PAGE_2,
 } from 'test/mocks/dataTypes';
 
-
 jest.unmock('api/dataTypes');
+jest.useFakeTimers();
 
 describe('api/dataTypes', () => {
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+  });
   describe('getDataTypes', () => {
     it('returns a promise', () => {
       const filledInput = getDataTypes();
@@ -16,21 +19,15 @@ describe('api/dataTypes', () => {
     });
 
     it('get data type page 1 as first page', () => {
-      getDataTypes().then((response) => {
-        expect(response).toEqual(DATA_TYPES_OK_PAGE_1);
-      });
+      expect(getDataTypes()).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
     });
 
     it('get data type page 2', () => {
-      getDataTypes(2).then((response) => {
-        expect(response).toEqual(DATA_TYPES_OK_PAGE_2);
-      });
+      expect(getDataTypes(2)).resolves.toEqual(DATA_TYPES_OK_PAGE_2);
     });
 
     it('get data type page 1 by default', () => {
-      getDataTypes('nopage').then((response) => {
-        expect(response).toEqual(DATA_TYPES_OK_PAGE_1);
-      });
+      expect(getDataTypes('nopage')).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
     });
   });
 });

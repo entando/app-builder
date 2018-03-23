@@ -1,10 +1,10 @@
-import { SET_USER } from 'state/current-user/types';
+import { SET_USER, UNSET_USER } from 'state/current-user/types';
 import { isEmpty } from 'util/string';
 
-const initialState = {
-  username: null,
-  token: null,
-};
+const getInitialState = () => ({
+  username: localStorage.getItem('username'),
+  token: localStorage.getItem('token'),
+});
 
 const isPayloadValid = payload => (
   !isEmpty(payload.username) &&
@@ -13,10 +13,13 @@ const isPayloadValid = payload => (
   typeof payload.token === 'string'
 );
 
-const reducer = (state = initialState, action = {}) => {
+const reducer = (state = getInitialState(), action = {}) => {
   switch (action.type) {
     case SET_USER: {
       return isPayloadValid(action.payload.user) ? action.payload.user : state;
+    }
+    case UNSET_USER: {
+      return action.payload.user;
     }
     default: return state;
   }

@@ -252,3 +252,7 @@ export const PAGE_SETTINGS_PAYLOAD = {
 export const HOMEPAGE_RESPONSE = {
   payload: HOMEPAGE_PAYLOAD,
 };
+
+export const CONTACTS_RESPONSE = {
+  payload: CONTACTS_PAYLOAD,
+};

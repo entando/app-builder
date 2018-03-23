@@ -1,11 +1,16 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentListTableContainer';
-import { LIST_FRAGMENTS_OK_PAGE_1 } from 'test/mocks/fragments';
+import { LIST_FRAGMENTS_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
-  fragments: { list: LIST_FRAGMENTS_OK_PAGE_1.payload },
-  pagination: LIST_FRAGMENTS_OK_PAGE_1.metaData,
+  fragments: { list: LIST_FRAGMENTS_OK },
+  pagination: {
+    page: 1,
+    pageSize: 10,
+    lastPage: 2,
+    totalItems: 20,
+  },
 };
 
 const dispatchMock = jest.fn();
@@ -15,7 +20,7 @@ describe('FragmentListTableContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       fragments: TEST_STATE.fragments.list,
       page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
+      totalItems: TEST_STATE.pagination.totalItems,
       pageSize: TEST_STATE.pagination.pageSize,
     });
   });
