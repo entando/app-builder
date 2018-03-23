@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const ADD_ROLES = 'api/fetch-roles';
+export const SET_ROLES = 'api/set-roles';

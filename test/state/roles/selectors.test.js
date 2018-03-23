@@ -1,15 +1,28 @@
 
-import { getRoles } from 'state/roles/selectors';
-import { ROLES } from 'test/mocks/roles';
+import { LIST_ROLES_OK, ROLES_NORMALIZED } from 'test/mocks/roles';
 
-const STATE = {
-  roles: ROLES,
-};
+import {
+  getRoles,
+  getRolesIdList,
+  getRolesMap,
+  getRolesList,
+} from 'state/roles/selectors';
 
-describe('state/errors/selectors', () => {
-  describe('getErrors', () => {
-    it('returns the errors state', () => {
-      expect(getRoles(STATE)).toEqual(ROLES);
-    });
+describe('state/roles/selectors', () => {
+  it('getRoles(state) returns the roles object', () => {
+    const selected = getRoles(ROLES_NORMALIZED);
+    expect(selected).toBe(ROLES_NORMALIZED.roles);
+  });
+
+  it('verify getRolesIdList selector', () => {
+    expect(getRolesIdList(ROLES_NORMALIZED)).toEqual(ROLES_NORMALIZED.roles.list);
+  });
+
+  it('verify getRolesMap selector', () => {
+    expect(getRolesMap(ROLES_NORMALIZED)).toEqual(ROLES_NORMALIZED.roles.map);
+  });
+
+  it('verify getUserList selector', () => {
+    expect(getRolesList(ROLES_NORMALIZED)).toEqual(LIST_ROLES_OK);
   });
 });
