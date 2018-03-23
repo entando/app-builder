@@ -29,11 +29,13 @@ export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
 export const ROUTE_GROUP_LIST = 'groupList';
+export const ROUTE_GROUP_ADD = 'groupAdd';
 <<<<<<< HEAD
 export const ROUTE_GROUP_DETAIL = 'groupDetail';
 =======
-export const ROUTE_GROUP_ADD = 'groupAdd';
->>>>>>> 301609ef39695ba7a0e29d576d145d3e53550ff4
+export const ROUTE_GROUP_EDIT = 'groupEdit';
+export const ROUTE_USER_AUTHORITY = 'authorityPage';
+>>>>>>> master
 
 
 routerConfig(
@@ -68,11 +70,13 @@ routerConfig(
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
+      { name: ROUTE_GROUP_ADD, path: '/group/add' },
 <<<<<<< HEAD
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
 =======
-      { name: ROUTE_GROUP_ADD, path: '/group/add' },
->>>>>>> 301609ef39695ba7a0e29d576d145d3e53550ff4
+      { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
+      { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
+>>>>>>> master
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

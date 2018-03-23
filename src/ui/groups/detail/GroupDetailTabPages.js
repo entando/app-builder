@@ -10,9 +10,9 @@ class GroupDetailTabPages extends React.Component {
   }
 
   render() {
-    const tr = this.props.referencePages.map(() => (
-      <tr>
-        <td>.</td>
+    const tr = this.props.pageReferences.map(item => (
+      <tr key={item}>
+        <td>{item}</td>
         <td>.</td>
       </tr>
     ));
@@ -37,14 +37,12 @@ class GroupDetailTabPages extends React.Component {
 
 GroupDetailTabPages.propTypes = {
   onWillMount: PropTypes.func,
-  referencePages: PropTypes.arrayOf(PropTypes.shape({
-
-  })),
+  pageReferences: PropTypes.arrayOf(PropTypes.string),
 };
 
 GroupDetailTabPages.defaultProps = {
   onWillMount: () => {},
-  referencePages: [],
+  pageReferences: [],
 };
 
 export default GroupDetailTabPages;

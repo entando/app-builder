@@ -1,11 +1,27 @@
-<<<<<<< HEAD
-import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, GROUPS_NORMALIZED } from 'test/mocks/groups';
-=======
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
->>>>>>> 301609ef39695ba7a0e29d576d145d3e53550ff4
+import { LIST_GROUPS_OK, GROUPS_NORMALIZED, BODY_OK, PAGE_REFERENCES } from 'test/mocks/groups';
 
+<<<<<<< HEAD
+const getErrors = groupname => (
+  GROUPS_NORMALIZED.groups.map[groupname] ? [] :
+    [{ code: 1, message: 'invalid group name' }]
+);
+
+const getErrorsPageReferences = groupname => (
+  PAGE_REFERENCES[groupname] ? [] :
+    [{ code: 1, message: 'invalid group name' }]
+);
+=======
+const filterMockList = (groupCode) => {
+  const selected = LIST_GROUPS_OK.filter(group => (group.code === groupCode));
+  if (selected.length) {
+    return selected[0];
+  }
+
+  return {};
+};
+
+>>>>>>> master
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeMockRequest(
     {
@@ -18,19 +34,25 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
-<<<<<<< HEAD
-const getErrors = groupname => (
-  GROUPS_NORMALIZED.groups.map[groupname] ? [] :
-    [{ code: 1, message: 'invalid group name' }]
+export const getGroup = groupCode => (
+  makeMockRequest({
+    uri: `/api/groups/${groupCode}`,
+    method: METHODS.GET,
+    mockResponse: filterMockList(groupCode),
+    useAuthentication: true,
+  })
 );
 
-export const getGroup = groupname => makeMockRequest({
-  uri: `/api/groups/${groupname}`,
-  method: METHODS.GET,
-  mockResponse: GROUPS_NORMALIZED.groups.map[groupname] || {},
-  errors: () => getErrors(groupname),
-});
-=======
+export const putGroup = groupObject => (
+  makeMockRequest({
+    uri: `/api/groups/${groupObject.code}`,
+    method: METHODS.PUT,
+    mockResponse: BODY_OK,
+    body: groupObject,
+    useAuthentication: true,
+  })
+);
+
 export const postGroup = groupObject => (
   makeMockRequest({
     uri: '/api/groups',
@@ -41,5 +63,22 @@ export const postGroup = groupObject => (
   })
 );
 
->>>>>>> 301609ef39695ba7a0e29d576d145d3e53550ff4
+export const getGroup = groupname => makeMockRequest({
+  uri: `/api/groups/${groupname}`,
+  method: METHODS.GET,
+  mockResponse: GROUPS_NORMALIZED.groups.map[groupname] || {},
+  errors: () => getErrors(groupname),
+});
+
+export const getPageReferences = (page = { page: 1, pageSize: 10 }, groupname) =>
+  makeMockRequest(
+    {
+      uri: `/groups/${groupname}/references/Pages`,
+      method: METHODS.GET,
+      mockResponse: PAGE_REFERENCES[groupname],
+      errors: () => getErrorsPageReferences(groupname),
+    },
+    page,
+  );
+
 export default getGroups;

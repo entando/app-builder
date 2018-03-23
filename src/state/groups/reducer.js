@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import { SET_GROUPS, SET_SELECTED_GROUP } from 'state/groups/types';
+import {
+  SET_GROUPS,
+  SET_SELECTED_GROUP,
+  SET_SELECTED_GROUP_PAGE_REFERENCES,
+} from 'state/groups/types';
 
 export const toMap = array => array.reduce((acc, group) => {
   acc[group.code] = group;
@@ -30,6 +34,9 @@ export const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_GROUP: {
       return action.payload.group;
+    }
+    case SET_SELECTED_GROUP_PAGE_REFERENCES: {
+      return { ...state, pageReferences: action.payload.references };
     }
     default: return state;
   }

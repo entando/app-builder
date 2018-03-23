@@ -1,8 +1,15 @@
-import { SET_GROUPS, SET_SELECTED_GROUP } from 'state/groups/types';
-import { getGroups, getGroup, postGroup } from 'api/groups';
+import { initialize } from 'redux-form';
+
+import { getGroups, postGroup, getGroup, putGroup, getPageReferences } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { getParams, gotoRoute } from 'frontend-common-components';
+
+import {
+  SET_GROUPS,
+  SET_SELECTED_GROUP,
+  SET_SELECTED_GROUP_PAGE_REFERENCES,
+} from 'state/groups/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 
@@ -19,6 +26,14 @@ export const setSelectedGroup = group => ({
     group,
   },
 });
+
+export const setSelectedGroupPageReferences = references => ({
+  type: SET_SELECTED_GROUP_PAGE_REFERENCES,
+  payload: {
+    references,
+  },
+});
+
 
 // thunk
 export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
@@ -51,13 +66,25 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
     });
   });
 
-
-export const sendPostGroup = groupData => dispatch =>
+export const fetchGroup = groupCode => dispatch =>
   new Promise((resolve) => {
-    postGroup(groupData).then((response) => {
+    getGroup(groupCode).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          dispatch(initialize('group', data.payload));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  });
+
+export const sendPutGroup = groupData => dispatch =>
+  new Promise((resolve) => {
+    putGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setGroups([data]));
           gotoRoute(ROUTE_GROUP_LIST);
           resolve();
         } else {
@@ -68,7 +95,33 @@ export const sendPostGroup = groupData => dispatch =>
     });
   });
 
-// export const fetchCurrentReferencePages = groupname => dispatch =>
-//  new Promise((resolve) =>{
-//      get
-//  });
+export const sendPostGroup = groupData => dispatch =>
+  new Promise((resolve) => {
+    postGroup(groupData).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_GROUP_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
+
+export const fetchCurrentReferencePages = () => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const { groupname } = getParams(getState());
+    getPageReferences(groupname).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(setSelectedGroupPageReferences(json.payload));
+          // dispatch(setPage(json.metaData));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  });
