@@ -22,10 +22,10 @@ import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 //   },
 // ];
 //
-// const FIELDS = {
-//   push: jest.fn(),
-//   remove: jest.fn(),
-// };
+const FIELDS = {
+  push: jest.fn(),
+  remove: jest.fn(),
+};
 
 const GROUPS_MOCKS = [
   { code: 'opt1', name: 'Option 1' },
@@ -34,7 +34,6 @@ const GROUPS_MOCKS = [
 const ROLES_MOCKS = [
   { code: 'opt1', name: 'Option 1' },
   { code: 'opt1', name: 'Option 1' },
-
 ];
 
 jest.mock('state/users/selectors', () => ({
@@ -45,12 +44,11 @@ describe('UserListTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<UserAuthorityTable
-      groups={GROUPS_MOCKS}
-      roles={ROLES_MOCKS}
+      groups={ROLES_MOCKS}
+      roles={GROUPS_MOCKS}
+      fields={FIELDS}
     />);
   });
-
-  console.log(component.debug());
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);
@@ -58,6 +56,9 @@ describe('UserListTable', () => {
 
   it('renders with a BUTTON', () => {
     expect(component.find('BUTTON').exists());
+  });
+  it('renders with a table', () => {
+    expect(component.find('table').exists());
   });
 
   // it('renders as many <option> as the provided array', () => {
