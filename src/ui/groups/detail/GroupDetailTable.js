@@ -15,18 +15,18 @@ class GroupDetailTable extends React.Component {
       <div className="DetailGroupPage">
         <div className="DetailGroupPage__header form-horizontal">
           <div className="form-group">
-            <label className="control-label col-xs-3 col-x3-3">
+            <label className="control-label col-xs-3">
               <FormattedMessage id="app.group" />
             </label>
-            <div className="col-xs-9 col-xs-9 form-control-static">
+            <div className="col-xs-9 form-control-static">
               <code>{group.code}</code>
             </div>
           </div>
           <div className="form-group">
-            <label className="control-label col-xs-3 col-xs-3">
+            <label className="control-label col-xs-3">
               <FormattedMessage id="app.name" />
             </label>
-            <div className="col-xs-9 col-xs-9 form-control-static">
+            <div className="col-xs-9 form-control-static">
               {group.name}
             </div>
           </div>

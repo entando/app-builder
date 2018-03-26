@@ -14,4 +14,8 @@ describe('DetailGroupPage', () => {
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);
   });
+
+  it('has component GroupDetailTabs', () => {
+    expect(component.find('GroupDetailTabs').exists()).toBe(true);
+  });
 });

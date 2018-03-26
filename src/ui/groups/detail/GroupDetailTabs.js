@@ -6,9 +6,9 @@ import GroupDetailTabPagesContainer from 'ui/groups/detail/GroupDetailTabPagesCo
 
 const GroupDetailTabs = () => (
   <div>
-    <TabContainer id="basic-tabs" defaultActiveKey={1}>
+    <TabContainer className="GroupDetailTabs__container" id="group-detail-tabs" defaultActiveKey={1}>
       <div>
-        <Nav bsClass="nav nav-tabs" onSelect={() => {}}>
+        <Nav bsClass="nav nav-tabs">
           <NavItem eventKey={1}>
             <FormattedMessage id="app.pages" />
           </NavItem>
