@@ -1,10 +1,9 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-// insert when available
-// import { gotoRoute } from 'frontend-common-components';
-
 import { setRoles, fetchRoles, sendPostRole } from 'state/roles/actions';
 import { config } from 'api/apiManager';
+// insert when available
+// import { gotoRoute } from 'frontend-common-components';
 import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 import { SET_ROLES } from 'state/roles/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -45,7 +44,7 @@ describe('state/roles/actions', () => {
         expect(actions[0].type).toEqual(SET_ROLES);
         expect(actions[1].type).toEqual(SET_PAGE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('role is defined and properly valued', (done) => {
@@ -56,7 +55,7 @@ describe('state/roles/actions', () => {
         expect(role).toHaveProperty('code', 'contentEditing');
         expect(role).toHaveProperty('name');
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('roles page two is retrieved correctly and properly valued', (done) => {
@@ -66,7 +65,7 @@ describe('state/roles/actions', () => {
         expect(actionPayload.roles[0]).toHaveProperty('code', 'ratingEditing');
         expect(actionPayload.roles[1]).toHaveProperty('code', 'manageWebDynamicForms');
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('page is defined and properly valued', (done) => {
@@ -77,7 +76,7 @@ describe('state/roles/actions', () => {
         expect(actionPayload).toHaveProperty('lastPage', 1);
         expect(actionPayload).toHaveProperty('totalItems', 10);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('page 2 is defined and properly valued', (done) => {
@@ -88,7 +87,7 @@ describe('state/roles/actions', () => {
         expect(actionPayload).toHaveProperty('lastPage', 5);
         expect(actionPayload).toHaveProperty('totalItems', 10);
         done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -101,7 +100,7 @@ describe('state/roles/actions', () => {
         // insert when available
         // expect(gotoRoute).toHaveBeenCalled();
         done();
-      });
+      }).catch(done.fail);
     });
   });
 });

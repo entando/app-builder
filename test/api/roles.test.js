@@ -28,7 +28,7 @@ describe('api/roles', () => {
     });
 
     it('get role page 1 by default', () => {
-      getRoles({ page: 1, pageSize: 10 });
+      getRoles();
       expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
