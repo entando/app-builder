@@ -12,18 +12,18 @@ export const MODAL_ID = 'DeleteGroupModal';
 const DeleteGroupModal = ({
   onConfirmDelete, info,
 }) => {
-  const buttons = (
-    <Button bsStyle="danger" onClick={() => { onConfirmDelete(info.code); }}>
+  const buttons = [
+    <Button bsStyle="danger" id="DeleteGroupModal__button-delete" onClick={() => { onConfirmDelete(info.code); }}>
       <FormattedMessage id="app.delete" />
-    </Button>
-  );
+    </Button>,
+  ];
 
   const modalTitle = (
     <Modal.Title><FormattedMessage id="app.delete" /></Modal.Title>
   );
 
   return (
-    <GenericModalContainer modalId={MODAL_ID} buttons={buttons} modalTitle={modalTitle}>
+    <GenericModalContainer modalId={MODAL_ID} buttons={buttons} modalTitle={modalTitle} className="DeleteGroupModal">
       <EmptyState>
         <EmptyStateIcon name="exclamation" type="fa" className="DeleteGroupModal__icon" />
         <EmptyStateTitle>

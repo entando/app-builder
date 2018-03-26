@@ -29,7 +29,7 @@ const GenericModal = ({
       >
         <FormattedMessage id="app.cancel" />
       </Button>
-      {buttons}
+      {buttons.map(button => (<Button {...button.props} key={button.props.id} />))}
     </Modal.Footer>
   </Modal>
 );
@@ -40,13 +40,13 @@ GenericModal.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   modalTitle: PropTypes.node,
   children: PropTypes.node.isRequired,
-  buttons: PropTypes.node,
+  buttons: PropTypes.arrayOf(PropTypes.node),
 };
 
 GenericModal.defaultProps = {
   visibleModal: '',
   modalTitle: '',
-  buttons: '',
+  buttons: [],
 };
 
 export default GenericModal;

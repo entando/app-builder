@@ -19,29 +19,31 @@ export const setGroups = groups => ({
 export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getGroups(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(setGroups(data.payload));
           dispatch(setPage(data.metaData));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
     });
   });
 
 export const fetchGroup = groupCode => dispatch =>
   new Promise((resolve) => {
     getGroup(groupCode).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(initialize('group', data.payload));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
     });
   });
 
