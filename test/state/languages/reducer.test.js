@@ -43,13 +43,25 @@ describe('state/languages/reducer', () => {
     it('should set language isActive === true', () => {
       const newState = reducer(STATE_WITH_LIST, setLanguageActiveSync('it', true));
       expect(STATE_WITH_LIST.map).not.toBe(newState.map);
-      expect(newState.map.it.isActive).toBe(true);
+      expect(newState.map).toEqual({
+        ...STATE_WITH_LIST.map,
+        it: {
+          ...STATE_WITH_LIST.map.it,
+          isActive: true,
+        },
+      });
     });
 
     it('should set language isActive === false', () => {
       const newState = reducer(STATE_WITH_LIST, setLanguageActiveSync('it', false));
       expect(STATE_WITH_LIST.map).not.toBe(newState.map);
-      expect(newState.map.it.isActive).toBe(false);
+      expect(newState.map).toEqual({
+        ...STATE_WITH_LIST.map,
+        it: {
+          ...STATE_WITH_LIST.map.it,
+          isActive: false,
+        },
+      });
     });
 
     it('should do nothing if the language is not mapped', () => {
