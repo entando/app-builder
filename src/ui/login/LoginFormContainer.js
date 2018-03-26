@@ -11,6 +11,7 @@ import { getLoginErrorMessage } from 'state/login-form/selectors';
 
 export const mapStateToProps = state => ({
   loginErrorMessage: getLoginErrorMessage(state),
+  currentLanguage: state.locale,
 });
 
 // map the props
