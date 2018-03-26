@@ -1,0 +1,9 @@
+
+
+// Bootstrap overrides
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.LabelsAndLanguagesPage .nav-tabs > li.LabelsAndLanguagesPage__header-tab > a {
+  height: 57px;
+  line-height: 43px;
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

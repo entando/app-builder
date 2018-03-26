@@ -1,8 +1,9 @@
 
 import React from 'react';
-
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
+import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
@@ -22,7 +23,13 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
-import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
+import EditUserPage from 'ui/users/edit/EditUserPage';
+import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import ListGroupPage from 'ui/groups/list/ListGroupPage';
+import AddGroupPage from 'ui/groups/add/AddGroupPage';
+import EditGroupPage from 'ui/groups/edit/EditGroupPage';
+import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 
 import {
   ROUTE_HOME,
@@ -43,7 +50,14 @@ import {
   ROUTE_DATA_MODEL_LIST,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
+  ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
+  ROUTE_USER_EDIT,
+  ROUTE_USER_DETAIL,
+  ROUTE_GROUP_LIST,
+  ROUTE_GROUP_ADD,
+  ROUTE_GROUP_EDIT,
+  ROUTE_LABELS_AND_LANGUAGES,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -147,9 +161,44 @@ describe('App', () => {
     expect(component.contains(<UserListPage />)).toEqual(true);
   });
 
+  it('route to user authority page', () => {
+    const component = shallow(<App route={ROUTE_USER_AUTHORITY} username="admin" />);
+    expect(component.contains(<UserAuthorityPageContainer />)).toEqual(true);
+  });
+
   it('route to user add page', () => {
     const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />);
     expect(component.contains(<AddUserPage />)).toEqual(true);
+  });
+
+  it('route to user edit page', () => {
+    const component = shallow(<App route={ROUTE_USER_EDIT} username="admin" />);
+    expect(component.contains(<EditUserPage />)).toEqual(true);
+  });
+
+  it('route to user detail page', () => {
+    const component = shallow(<App route={ROUTE_USER_DETAIL} username="admin" />);
+    expect(component.contains(<DetailUserPage />)).toEqual(true);
+  });
+
+  it('route to group list page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />);
+    expect(component.contains(<ListGroupPage />)).toEqual(true);
+  });
+
+  it('route to group add page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_ADD} username="admin" />);
+    expect(component.contains(<AddGroupPage />)).toEqual(true);
+  });
+
+  it('route to group edit page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />);
+    expect(component.contains(<EditGroupPage />)).toEqual(true);
+  });
+
+  it('route to labels and languages page', () => {
+    const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
+    expect(component.contains(<LabelsAndLanguagesPage />)).toEqual(true);
   });
 
   it('default route', () => {

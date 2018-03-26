@@ -8,6 +8,7 @@ import {
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
+  ROUTE_LABELS_AND_LANGUAGES,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -97,6 +98,11 @@ const InternalPage = ({ className, children }) => (
         label={formattedText('menu.configuration', 'Configuration')}
         pullRight
       >
+        <LinkMenuItem
+          id="menu-labels-languages"
+          label={formattedText('menu.labelsAndLanguages')}
+          route={ROUTE_LABELS_AND_LANGUAGES}
+        />
         <LinkMenuItem
           id="menu-groups"
           label={formattedText('menu.groups')}

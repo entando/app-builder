@@ -42,6 +42,8 @@ export default {
     'app.api': 'API',
     'app.preview': 'Preview',
     'app.restore': 'Restore',
+    'app.languages': 'Languages',
+    'app.systemLabels': 'System labels',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -64,6 +66,7 @@ export default {
     'menu.users.authority': 'Authorizations',
     'menu.details': 'Details',
     'menu.groups': 'Groups',
+    'menu.labelsAndLanguages': 'Labels and Languages',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -219,5 +222,6 @@ export default {
     'group.code': 'Code',
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
     'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'labelsAndLanguages.help': 'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
   },
 };
