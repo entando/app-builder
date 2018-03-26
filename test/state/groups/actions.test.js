@@ -3,11 +3,43 @@ import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from 'frontend-common-components';
 
-import { setGroups, fetchGroups, sendPostGroup, fetchGroup, sendPutGroup, fetchCurrentPageGroupDetail, fetchCurrentReferencePages } from 'state/groups/actions';
-import { putGroup, getGroup, getGroups, postGroup, getPageReferences } from 'api/groups';
+import {
+  setGroups,
+  fetchGroups,
+  sendPostGroup,
+  fetchGroup,
+  sendPutGroup,
+  fetchCurrentPageGroupDetail,
+  fetchCurrentReferencePages,
+  fetchCurrentReferenceUsers,
+  fetchCurrentReferenceWidgetTypes,
+  fetchCurrentReferenceContents,
+  fetchCurrentReferenceResources,
+
+} from 'state/groups/actions';
+import {
+  putGroup,
+  getGroup,
+  getGroups,
+  postGroup,
+  getPageReferences,
+  getUserReferences,
+  getWidgetTypeReferences,
+  getContentReferences,
+  getResourceReferences,
+} from 'api/groups';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
-import { SET_GROUPS, SET_SELECTED_GROUP, SET_SELECTED_GROUP_PAGE_REFERENCES } from 'state/groups/types';
+import {
+  SET_GROUPS,
+  SET_SELECTED_GROUP,
+  SET_SELECTED_GROUP_PAGE_REFERENCES,
+  SET_SELECTED_GROUP_USER_REFERENCES,
+  SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
+  SET_SELECTED_GROUP_CONTENT_REFERENCES,
+  SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+} from 'state/groups/types';
+
 import { SET_PAGE } from 'state/pagination/types';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -28,6 +60,10 @@ jest.mock('api/groups', () => ({
   postGroup: jest.fn(),
   putGroup: jest.fn(),
   getPageReferences: jest.fn(),
+  getUserReferences: jest.fn(),
+  getWidgetTypeReferences: jest.fn(),
+  getContentReferences: jest.fn(),
+  getResourceReferences: jest.fn(),
 }));
 
 getParams.mockReturnValue({ groupname: 'test' });
@@ -52,7 +88,7 @@ const PUT_GROUP_PROMISE = {
   json: () => new Promise(res => res({ payload: UPDATED_GROUP })),
 };
 
-const GET_PAGE_REFERENCES_PROMISE = {
+const GET_REFERENCES_PROMISE = {
   ok: true,
   json: () => new Promise(resolve => resolve({ payload: [] })),
 };
@@ -69,16 +105,18 @@ const MOCK_RETURN_PROMISE_ERROR =
 
 getGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
 getGroup.mockReturnValue(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
-getPageReferences.mockReturnValue(new Promise(resolve => resolve(GET_PAGE_REFERENCES_PROMISE)));
+getPageReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
+getUserReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
+getWidgetTypeReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
+getContentReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
+getResourceReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
 
 const INITIAL_STATE = {
   form: {},
   groups: {
     list: [],
     map: {},
-    selected: {
-
-    },
+    selected: {},
   },
 };
 
@@ -194,6 +232,52 @@ describe('state/groups/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
         expect(actions[0].type).toEqual(SET_SELECTED_GROUP_PAGE_REFERENCES);
+        expect(actions[1].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCurrentReferenceUsers', () => {
+    it('fetchCurrentReferenceUsers call getUserReferences', (done) => {
+      store.dispatch(fetchCurrentReferenceUsers()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_USER_REFERENCES);
+        expect(actions[1].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCurrentReferenceWidgetTypes', () => {
+    it('fetchCurrentReferenceWidgetTypes call getWidgetTypeReferences', (done) => {
+      store.dispatch(fetchCurrentReferenceWidgetTypes()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES);
+        expect(actions[1].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+  describe('fetchCurrentReferenceContents', () => {
+    it('fetchCurrentReferenceContents call getContentReferences', (done) => {
+      store.dispatch(fetchCurrentReferenceContents()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_CONTENT_REFERENCES);
+        expect(actions[1].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+  describe('fetchCurrentReferenceResources', () => {
+    it('fetchCurrentReferenceResources call getResourceReferences', (done) => {
+      store.dispatch(fetchCurrentReferenceResources()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_RESOURCE_REFERENCES);
         expect(actions[1].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);

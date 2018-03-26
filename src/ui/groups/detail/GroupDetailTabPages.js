@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator } from 'patternfly-react';
-import { Table, Col, Alert } from 'react-bootstrap';
+import { Table, Row, Col, Alert } from 'react-bootstrap';
 
 import { formattedText, LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -70,11 +70,13 @@ class GroupDetailTabPages extends React.Component {
       );
     }
     return (
-      <Col xs={12}>
-        <Alert type="warning">
-          <strong><FormattedMessage id="group.page.references.empty" /></strong>
-        </Alert>
-      </Col>
+      <Row>
+        <Col xs={12}>
+          <Alert type="warning">
+            <strong><FormattedMessage id="group.page.references.empty" /></strong>
+          </Alert>
+        </Col>
+      </Row>
     );
   }
 

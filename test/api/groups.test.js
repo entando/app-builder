@@ -1,7 +1,25 @@
 import 'test/enzyme-init';
-import { getGroups, postGroup, putGroup, getGroup, getPageReferences } from 'api/groups';
+import {
+  getGroups,
+  postGroup,
+  putGroup,
+  getGroup,
+  getPageReferences,
+  getUserReferences,
+  getWidgetTypeReferences,
+  getContentReferences,
+  getResourceReferences,
+} from 'api/groups';
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { PAGE_REFERENCES, LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+import {
+  PAGE_REFERENCES,
+  USER_REFERENCES,
+  WIDGETTYPE_REFERENCES,
+  GROUP_CONTENT_REFERENCES,
+  RESOURCE_REFERENCES,
+  LIST_GROUPS_OK,
+  BODY_OK,
+} from 'test/mocks/groups';
 
 
 const correctRequest = {
@@ -142,11 +160,101 @@ describe('api/groups', () => {
         mockResponse: PAGE_REFERENCES.administrators.list,
         errors: expect.any(Function),
       };
-
-
       getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
       expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequestPageReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getUserReferences', () => {
+    it('returns a promise', () => {
+      expect(getUserReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestUserReferences = {
+        uri: '/groups/administrators/references/UserManager',
+        method: METHODS.GET,
+        mockResponse: USER_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getUserReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestUserReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getWidgetTypeReferences', () => {
+    it('returns a promise', () => {
+      expect(getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestWidgetTypeReferences = {
+        uri: '/groups/administrators/references/WidgetTypeManager',
+        method: METHODS.GET,
+        mockResponse: WIDGETTYPE_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestWidgetTypeReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getContentReferences', () => {
+    it('returns a promise', () => {
+      expect(getContentReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestContentReferences = {
+        uri: '/groups/administrators/references/ContentManager',
+        method: METHODS.GET,
+        mockResponse: GROUP_CONTENT_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getContentReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestContentReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getResourceReferences', () => {
+    it('returns a promise', () => {
+      expect(getResourceReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestResourceReferences = {
+        uri: '/groups/administrators/references/ResourceManager',
+        method: METHODS.GET,
+        mockResponse: RESOURCE_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getResourceReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestResourceReferences,
         {
           page: 1,
           pageSize: 10,
