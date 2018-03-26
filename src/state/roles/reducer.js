@@ -1,12 +1,32 @@
-import { ADD_ROLES } from 'state/roles/types';
+import { combineReducers } from 'redux';
+import { SET_ROLES } from 'state/roles/types';
 
-const reducer = (state = [], action = {}) => {
+export const toMap = array => array.reduce((acc, role) => {
+  acc[role.code] = role;
+  return acc;
+}, {});
+
+export const toIdListRoles = array => array.map(role => role.code);
+
+export const list = (state = [], action = {}) => {
   switch (action.type) {
-    case ADD_ROLES: {
-      return action.payload.roles;
+    case SET_ROLES: {
+      return toIdListRoles(action.payload.roles);
     }
     default: return state;
   }
 };
 
-export default reducer;
+export const roleMap = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_ROLES: {
+      return toMap(action.payload.roles);
+    }
+    default: return state;
+  }
+};
+
+export default combineReducers({
+  list,
+  map: roleMap,
+});
