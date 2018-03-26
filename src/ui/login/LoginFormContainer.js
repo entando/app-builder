@@ -7,11 +7,12 @@ import { LoginForm } from 'frontend-common-components';
 import { performLogin } from 'state/login-form/actions';
 import { setCurrentLanguage } from 'state/locale/actions';
 import { getLoginErrorMessage } from 'state/login-form/selectors';
+import { getLocale } from 'state/locale/selectors';
 
 
 export const mapStateToProps = state => ({
   loginErrorMessage: getLoginErrorMessage(state),
-  currentLanguage: state.locale,
+  currentLanguage: getLocale(state),
 });
 
 // map the props
