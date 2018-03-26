@@ -29,14 +29,11 @@ const GroupDetailTabs = () => (
           <TabPane eventKey={1} >
             <GroupDetailTabPagesContainer />
           </TabPane>
-          <TabPane eventKey={2}>Tab 2 content</TabPane>
-          <TabPane eventKey={3}>Tab 3 content</TabPane>
         </TabContent>
       </div>
     </TabContainer>
   </div>
 
 );
-
 
 export default GroupDetailTabs;

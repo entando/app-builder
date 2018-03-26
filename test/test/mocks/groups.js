@@ -124,6 +124,23 @@ export const BODY_ERROR =
 };
 
 export const PAGE_REFERENCES = {
-  administrators: ['Pages1', 'Pages2'],
-  free: ['free1', 'free2'],
+  administrators: {
+    list: [
+      {
+        code: 'homepage',
+        name: 'Home page',
+      },
+      {
+        code: 'dashboard',
+        name: 'Dashboard',
+      },
+
+    ],
+    pagination: {
+      page: 1,
+      pageSize: 5,
+      lastPage: 1,
+      totalItems: 3,
+    },
+  },
 };

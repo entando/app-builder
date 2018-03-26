@@ -16,7 +16,7 @@ const getGroupErrors = groupname => (
 );
 
 const getErrorsPageReferences = groupname => (
-  PAGE_REFERENCES[groupname] ? [] :
+  PAGE_REFERENCES[groupname].list ? [] :
     [{ code: 1, message: 'invalid group name' }]
 );
 
@@ -68,12 +68,17 @@ export const postGroup = groupObject => (
 );
 
 
-export const getPageReferences = groupname => makeMockRequest({
-  uri: `/groups/${groupname}/references/PageManager`,
-  method: METHODS.GET,
-  mockResponse: PAGE_REFERENCES[groupname],
-  errors: () => getErrorsPageReferences(groupname),
-});
+export const getPageReferences = (page = { page: 1, pageSize: 10 }, groupname) => (
+  makeMockRequest(
+    {
+      uri: `/groups/${groupname}/references/PageManager`,
+      method: METHODS.GET,
+      mockResponse: PAGE_REFERENCES[groupname].list,
+      errors: () => getErrorsPageReferences(groupname),
+    },
+    page,
+  )
+);
 
 
 export default getGroups;

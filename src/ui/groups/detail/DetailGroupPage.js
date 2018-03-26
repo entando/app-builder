@@ -26,7 +26,7 @@ const ListGroupPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="app.details"
             helpId="group.help"
@@ -34,7 +34,9 @@ const ListGroupPage = () => (
         </Col>
       </Row>
       <Row>
-        <GroupDetailTableContainer />
+        <Col xs={12}>
+          <GroupDetailTableContainer />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>

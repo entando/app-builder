@@ -132,14 +132,14 @@ describe('api/groups', () => {
 
   describe('getPageReferences', () => {
     it('returns a promise', () => {
-      expect(getPageReferences()).toBeInstanceOf(Promise);
+      expect(getPageReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
     });
 
     it('makes the request with additional params', () => {
       const correctRequestPageReferences = {
-        uri: '/groups/administrators/references/Pages',
+        uri: '/groups/administrators/references/PageManager',
         method: METHODS.GET,
-        mockResponse: PAGE_REFERENCES.administrators,
+        mockResponse: PAGE_REFERENCES.administrators.list,
         errors: expect.any(Function),
       };
 

@@ -218,5 +218,8 @@ export default {
     'group.detail.title.widgetTypes': 'Widget Types',
     'group.detail.title.contents': 'Contenuti',
     'group.detail.title.resources': 'Risorse',
+    'group.page.references.empty': 'Non ci sono pagine referenziate',
+    'group.action.goto': 'Vai a',
+    'group.action.pageConfiguration': 'Configurazione pagina',
   },
 };

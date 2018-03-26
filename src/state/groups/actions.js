@@ -110,18 +110,19 @@ export const sendPostGroup = groupData => dispatch =>
     });
   });
 
-export const fetchCurrentReferencePages = () => (dispatch, getState) =>
-  new Promise((resolve) => {
-    const { groupname } = getParams(getState());
-    getPageReferences(groupname).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
-          dispatch(setSelectedGroupPageReferences(json.payload));
-          // dispatch(setPage(json.metaData));
+export const fetchCurrentReferencePages =
+  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
+    new Promise((resolve) => {
+      const { groupname } = getParams(getState());
+      getPageReferences(page, groupname).then((response) => {
+        if (response.ok) {
+          response.json().then((json) => {
+            dispatch(setSelectedGroupPageReferences(json.payload));
+            dispatch(setPage(json.metaData));
+            resolve();
+          });
+        } else {
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        }
+      });
     });
-  });

@@ -33,7 +33,7 @@ export const groupMap = (state = {}, action = {}) => {
 export const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_GROUP: {
-      return action.payload.group;
+      return { ...state, ...action.payload.group };
     }
     case SET_SELECTED_GROUP_PAGE_REFERENCES: {
       return { ...state, pageReferences: action.payload.references };
