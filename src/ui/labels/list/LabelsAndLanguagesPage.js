@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import LabelsTabsContainer from 'ui/labels/list/LabelsTabsContainer';
 
 
 const TAB_LANGUAGES = 'languages';
@@ -36,9 +37,7 @@ class LabelsAndLanguagesPage extends Component {
         <h1>LANGUAGES LIST</h1>
       );
     } else {
-      pageContent = (
-        <h1>LABELS LIST</h1>
-      );
+      pageContent = <LabelsTabsContainer />;
     }
     return (
       <InternalPage className="LabelsAndLanguagesPage">

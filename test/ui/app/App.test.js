@@ -29,7 +29,7 @@ import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
-import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
+import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 
 import {
   ROUTE_HOME,
@@ -198,7 +198,7 @@ describe('App', () => {
 
   it('route to labels and languages page', () => {
     const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
-    expect(component.contains(<LabelsAndLanguagesPage />)).toEqual(true);
+    expect(component.contains(<LabelsAndLanguagesPageContainer />)).toEqual(true);
   });
 
   it('default route', () => {

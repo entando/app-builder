@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getLabels, putLabel, postLabel } from 'api/labels';
+import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { makeRequest, METHODS } from 'api/apiManager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
@@ -11,8 +11,9 @@ const correctRequest = {
   useAuthentication: true,
 };
 
+const LABEL_KEY = 'HELLO';
 const LABEL_OBJ = {
-  key: 'HELLO',
+  key: LABEL_KEY,
   titles: {
     it: 'Ciao',
     en: 'Hello',
@@ -22,7 +23,7 @@ const LABEL_OBJ = {
 jest.unmock('api/labels');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', PUT: 'PUT', POST: 'POST' },
+  METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
 describe('api/labels', () => {
@@ -110,6 +111,21 @@ describe('api/labels', () => {
         method: METHODS.POST,
         uri: '/labels',
         body: LABEL_OBJ,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('deleteLabel', () => {
+    it('returns a promise', () => {
+      expect(deleteLabel(LABEL_KEY)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deleteLabel(LABEL_KEY);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.DELETE,
+        uri: `/labels/${LABEL_KEY}`,
         useAuthentication: true,
       }));
     });
