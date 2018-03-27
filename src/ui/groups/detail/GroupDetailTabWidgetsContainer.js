@@ -18,6 +18,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const GroupDetailTabUsersContainer =
+const GroupDetailTabWidgetTypesContainer =
   connect(mapStateToProps, mapDispatchToProps)(GroupDetailTabWidgetTypes);
-export default GroupDetailTabUsersContainer;
+export default GroupDetailTabWidgetTypesContainer;
