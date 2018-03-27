@@ -4,8 +4,14 @@
   }
 }
 
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
 .DeleteGroupModal__icon {
-  span {
+  .fa {
+    font-size: 2em;
+  }
+
+  .pf {
     font-size: 2em;
   }
 }
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

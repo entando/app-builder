@@ -55,7 +55,7 @@ export const deleteGroup = groupCode => (
   makeMockRequest({
     uri: `/api/groups/${groupCode}`,
     method: METHODS.DELETE,
-    mockResponse: { payload: { code: 'groupCode' } },
+    mockResponse: { code: 'groupCode' },
     useAuthentication: true,
   })
 );
