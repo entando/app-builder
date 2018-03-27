@@ -23,6 +23,7 @@ import profileTypes from 'state/profile-types/reducer';
 import currentUser from 'state/current-user/reducer';
 import dataModels from 'state/data-models/reducer';
 import languages from 'state/languages/reducer';
+import labels from 'state/labels/reducer';
 
 const reducerDef = {
   api,
@@ -46,6 +47,7 @@ const reducerDef = {
   users,
   profileTypes,
   languages,
+  labels,
 };
 
 if (pluginArray.length) {
