@@ -47,6 +47,7 @@ export const CELL_MAP = {
     parentKey: 'row:0-0/11-0',
     framePos: 0,
     frameDescr: 'Content',
+    frameIsMainFrame: false,
   },
   'row:0-0/11-0': {
     x1: 0,

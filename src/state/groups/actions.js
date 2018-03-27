@@ -5,6 +5,7 @@ import {
   postGroup,
   getGroup,
   putGroup,
+  deleteGroup,
   getPageReferences,
   getUserReferences,
   getWidgetTypeReferences,
@@ -78,47 +79,35 @@ export const setSelectedGroupResourceReferences = references => ({
 
 
 // thunk
+
 export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getGroups(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(setGroups(data.payload));
           dispatch(setPage(data.metaData));
           resolve();
-        });
-      } else {
-        resolve();
-      }
-    });
-  });
-
-export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
-  new Promise((resolve) => {
-    const { groupname } = getParams(getState());
-    getGroup(groupname).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
-          dispatch(setSelectedGroup(json.payload));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        }
+      });
     });
   });
 
 export const fetchGroup = groupCode => dispatch =>
   new Promise((resolve) => {
     getGroup(groupCode).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(initialize('group', data.payload));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
     });
   });
 
@@ -152,87 +141,64 @@ export const sendPostGroup = groupData => dispatch =>
     });
   });
 
-export const fetchCurrentReferencePages =
-  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
-    new Promise((resolve) => {
-      const { groupname } = getParams(getState());
-      getPageReferences(page, groupname).then((response) => {
+export const sendDeleteGroup = groupCode => dispatch =>
+  new Promise((resolve) => {
+    deleteGroup(groupCode).then((response) => {
+      response.json().then((data) => {
         if (response.ok) {
-          response.json().then((json) => {
-            dispatch(setSelectedGroupPageReferences(json.payload));
-            dispatch(setPage(json.metaData));
-            resolve();
-          });
+          resolve();
         } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
       });
     });
+  });
+
+export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const { groupname } = getParams(getState());
+    getGroup(groupname).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(setSelectedGroup(json.payload));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
+  });
+
+const fetchCurrentReference = (getApiCall, setActionCreator) =>
+  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
+    new Promise((resolve) => {
+      const { groupname } = getParams(getState());
+      getApiCall(page, groupname).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setActionCreator(json.payload));
+            dispatch(setPage(json.metaData));
+            resolve();
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+            resolve();
+          }
+        });
+      });
+    });
+
+export const fetchCurrentReferencePages =
+  fetchCurrentReference(getPageReferences, setSelectedGroupPageReferences);
 
 export const fetchCurrentReferenceUsers =
-      (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
-        new Promise((resolve) => {
-          const { groupname } = getParams(getState());
-          getUserReferences(page, groupname).then((response) => {
-            if (response.ok) {
-              response.json().then((json) => {
-                dispatch(setSelectedGroupUserReferences(json.payload));
-                dispatch(setPage(json.metaData));
-                resolve();
-              });
-            } else {
-              resolve();
-            }
-          });
-        });
+    fetchCurrentReference(getUserReferences, setSelectedGroupUserReferences);
 
 export const fetchCurrentReferenceWidgetTypes =
-      (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
-        new Promise((resolve) => {
-          const { groupname } = getParams(getState());
-          getWidgetTypeReferences(page, groupname).then((response) => {
-            if (response.ok) {
-              response.json().then((json) => {
-                dispatch(setSelectedGroupWidgetTypeReferences(json.payload));
-                dispatch(setPage(json.metaData));
-                resolve();
-              });
-            } else {
-              resolve();
-            }
-          });
-        });
+        fetchCurrentReference(getWidgetTypeReferences, setSelectedGroupWidgetTypeReferences);
 
 export const fetchCurrentReferenceContents =
-      (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
-        new Promise((resolve) => {
-          const { groupname } = getParams(getState());
-          getContentReferences(page, groupname).then((response) => {
-            if (response.ok) {
-              response.json().then((json) => {
-                dispatch(setSelectedGroupContentReferences(json.payload));
-                dispatch(setPage(json.metaData));
-                resolve();
-              });
-            } else {
-              resolve();
-            }
-          });
-        });
+        fetchCurrentReference(getContentReferences, setSelectedGroupContentReferences);
 
 export const fetchCurrentReferenceResources =
-      (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
-        new Promise((resolve) => {
-          const { groupname } = getParams(getState());
-          getResourceReferences(page, groupname).then((response) => {
-            if (response.ok) {
-              response.json().then((json) => {
-                dispatch(setSelectedGroupResourceReferences(json.payload));
-                dispatch(setPage(json.metaData));
-                resolve();
-              });
-            } else {
-              resolve();
-            }
-          });
-        });
+        fetchCurrentReference(getResourceReferences, setSelectedGroupResourceReferences);

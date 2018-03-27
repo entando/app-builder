@@ -1,3 +1,4 @@
+import { makeRequest, METHODS } from 'api/apiManager';
 import {
   ERROR, HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -8,6 +9,8 @@ import {
   HOMEPAGE_RESPONSE, LOGIN_RESPONSE, SERVICE_RESPONSE, CONTACTS_RESPONSE,
   NOTFOUND_RESPONSE, ERROR_RESPONSE, DASHBOARD_RESPONSE,
 } from 'test/mocks/pageConfig';
+
+import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
 import throttle from 'util/throttle';
 import { errorResponse } from 'test/testUtils';
@@ -92,19 +95,30 @@ export const postPage = pageObject => new Promise((resolve) => {
   }
 });
 
-export const putPage = pageObject => new Promise((resolve) => {
-  // eslint-disable-next-line no-console
-  console.info(`calling PUT /pages\n\t${JSON.stringify(pageObject, 2)}`);
-  if (pageObject.titles.en !== 'error') {
-    throttle(() => resolve({ payload: pageObject }));
-  } else {
-    resolve({
-      errors: [
-        { code: 1, message: 'Page en title cannot be error!' },
-        { code: 2, message: 'This is a mock error!' },
-      ],
-    });
-  }
+export const putPage = pageObject => makeRequest({
+  uri: `/pages/${pageObject.code}`,
+  body: pageObject,
+  method: METHODS.PUT,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
+  ),
+});
+
+export const putPageStatus = (pageCode, status) => makeRequest({
+  uri: `/pages/${pageCode}/status`,
+  body: { status },
+  method: METHODS.PUT,
+  mockResponse: { ...fetchPageResponseMap[pageCode], status },
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
 });
 
 export const getFreePages = () => (
@@ -140,11 +154,13 @@ const PAGE_CONFIG_PUBLISHED_MAP = {
 };
 
 // call GET /pages/<pageCode>/widget/
-export const getPageConfig = (pageCode, status = 'draft') =>
+export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) =>
   new Promise((resolve) => {
     // eslint-disable-next-line no-console
     console.info(`calling GET /pages/${pageCode}/widget`);
-    const responseMap = status === 'draft' ? PAGE_CONFIG_DRAFT_MAP : PAGE_CONFIG_PUBLISHED_MAP;
+    const responseMap = status === PAGE_STATUS_DRAFT ?
+      PAGE_CONFIG_DRAFT_MAP :
+      PAGE_CONFIG_PUBLISHED_MAP;
     throttle(() => {
       if (responseMap[pageCode]) {
         resolve(responseMap[pageCode]);
@@ -187,3 +203,19 @@ export const putPageWidget = (pageCode, frameId, widget) =>
       }
     });
   });
+
+export const restorePageConfig = pageCode => makeRequest({
+  uri: `/pages/${pageCode}/widgets/restore`,
+  method: METHODS.PUT,
+  body: {},
+  mockResponse: {},
+  useAuthentication: true,
+});
+
+export const applyDefaultPageConfig = pageCode => makeRequest({
+  uri: `/pages/${pageCode}/widgets/applyDefault`,
+  method: METHODS.PUT,
+  body: {},
+  mockResponse: {},
+  useAuthentication: true,
+});

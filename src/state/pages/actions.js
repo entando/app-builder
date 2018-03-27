@@ -3,16 +3,18 @@ import { gotoRoute } from 'frontend-common-components';
 
 import {
   fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages,
-  getPageSettingsList, putPage,
+  getPageSettingsList, putPage, putPageStatus,
 } from 'api/pages';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE, SET_FREE_PAGES,
+  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE,
 } from 'state/pages/types';
-
-import { getStatusMap, getPagesMap, getChildrenMap } from 'state/pages/selectors';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
+import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
+import { setPublishedPageConfig } from 'state/page-config/actions';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 
 const HOMEPAGE_CODE = 'homepage';
@@ -22,6 +24,13 @@ export const addPages = pages => ({
   type: ADD_PAGES,
   payload: {
     pages,
+  },
+});
+
+export const setSelectedPage = page => ({
+  type: SET_SELECTED_PAGE,
+  payload: {
+    page,
   },
 });
 
@@ -190,3 +199,31 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)
       dispatch(initialize('page', response.payload));
     }
   });
+
+
+const putSelectedPageStatus = status => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const page = getSelectedPage(getState());
+    if (!page) {
+      resolve();
+    }
+    const newPage = { ...page, status };
+    putPageStatus(page.code, status).then((response) => {
+      if (response.ok) {
+        dispatch(setSelectedPage(newPage));
+        if (status === PAGE_STATUS_PUBLISHED) {
+          const draftConfig = getSelectedPageConfig(getState());
+          dispatch(setPublishedPageConfig(newPage.code, draftConfig));
+        } else {
+          dispatch(setPublishedPageConfig(newPage.code, null));
+        }
+      }
+      resolve();
+    });
+  });
+
+export const publishSelectedPage = () => (dispatch, getState) =>
+  putSelectedPageStatus(PAGE_STATUS_PUBLISHED)(dispatch, getState);
+
+export const unpublishSelectedPage = () => (dispatch, getState) =>
+  putSelectedPageStatus(PAGE_STATUS_DRAFT)(dispatch, getState);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Dropdown, MenuItem } from 'patternfly-react';
 import PageTreeActionMenuButton from 'ui/pages/common/PageTreeActionMenuButton';
-
+import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class PageTreeActionMenu extends Component {
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
     } = this.props;
 
-    const changePublishStatus = page.status === 'published' ?
+    const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
           className="PageTreeActionMenuButton__menu-item-unpublish"

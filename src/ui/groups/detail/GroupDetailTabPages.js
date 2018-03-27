@@ -52,8 +52,8 @@ class GroupDetailTabPages extends React.Component {
           <Table className="GroupDetailTabPages__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th> <FormattedMessage id="app.pages" /></th>
-                <th width={30}> <FormattedMessage id="app.actions" /></th>
+                <th><FormattedMessage id="app.pages" /></th>
+                <th width={30}><FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>
             <tbody>

@@ -9,18 +9,23 @@ describe('PageStatusIcon', () => {
   it('renders without crashing', () => {
     const component = shallow(<PageStatusIcon status="draft" />);
     expect(component.exists()).toEqual(true);
+    expect(component.hasClass('PageStatusIcon')).toBe(true);
   });
 
   it('if status = draft, has class PageStatusIcon--draft', () => {
-    const draftComponent = shallow(<PageStatusIcon status="draft" />);
-    expect(draftComponent.hasClass('PageStatusIcon--draft')).toBe(true);
+    const component = shallow(<PageStatusIcon status="draft" />);
+    expect(component.hasClass('PageStatusIcon--draft')).toBe(true);
+    expect(component.hasClass('PageStatusIcon--diff')).toBe(false);
   });
+
   it('if status = published, has class PageStatusIcon--published', () => {
-    const draftComponent = shallow(<PageStatusIcon status="published" />);
-    expect(draftComponent.hasClass('PageStatusIcon--published')).toBe(true);
+    const component = shallow(<PageStatusIcon status="published" />);
+    expect(component.hasClass('PageStatusIcon--published')).toBe(true);
+    expect(component.hasClass('PageStatusIcon--diff')).toBe(false);
   });
-  it('if status = unpublished, has class PageStatusIcon--unpublished', () => {
-    const draftComponent = shallow(<PageStatusIcon status="unpublished" />);
-    expect(draftComponent.hasClass('PageStatusIcon--unpublished')).toBe(true);
+
+  it('if differsFromPublished = true, has class PageStatusIcon--diff', () => {
+    const component = shallow(<PageStatusIcon status="published" differsFromPublished />);
+    expect(component.hasClass('PageStatusIcon--diff')).toBe(true);
   });
 });

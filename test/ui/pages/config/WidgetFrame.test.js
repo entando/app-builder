@@ -23,6 +23,7 @@ describe('WidgetFrame (basic rendering)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
       />
     ));
@@ -49,6 +50,7 @@ describe('WidgetFrame (droppable)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         connectDropTarget={connectDropTargetMock}
       />
@@ -76,6 +78,7 @@ describe('WidgetFrame (draggable)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         connectDragSource={connectDragSourceMock}
       />
@@ -103,6 +106,7 @@ describe('WidgetFrame (hovered)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         isOver
       />
@@ -130,6 +134,7 @@ describe('WidgetFrame (with onClickDelete handler)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         onClickDelete={onClickDeleteMock}
       />
@@ -150,6 +155,7 @@ describe('WidgetFrame (with widget that has config)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         widgetHasConfig
       />
@@ -177,6 +183,7 @@ describe('WidgetFrame (with widget status = WIDGET_STATUS_DIFF)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         widgetStatus={WIDGET_STATUS_DIFF}
       />
@@ -200,6 +207,7 @@ describe('WidgetFrame (with widget status = WIDGET_STATUS_MATCH)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         widgetHasConfig
         widgetStatus={WIDGET_STATUS_MATCH}
@@ -224,6 +232,7 @@ describe('WidgetFrame (with widget status = WIDGET_STATUS_REMOVED)', () => {
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}
+        frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         widgetHasConfig
         widgetStatus={WIDGET_STATUS_REMOVED}
@@ -237,5 +246,24 @@ describe('WidgetFrame (with widget status = WIDGET_STATUS_REMOVED)', () => {
 
   it('does not render the actions menu', () => {
     expect(component.find('.WidgetFrame__menu-button').exists()).toBe(false);
+  });
+});
+
+describe('WidgetFrame (with main frame)', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow((
+      <WidgetFrame
+        frameId={FRAME_ID}
+        widgetId={WIDGET_ID}
+        frameName={FRAME_NAME}
+        frameIsMainFrame
+        widgetName={WIDGET_NAME}
+      />
+    ));
+  });
+
+  it('has the WidgetFrame--main-frame class', () => {
+    expect(component.hasClass('WidgetFrame--main-frame')).toBe(true);
   });
 });

@@ -31,8 +31,8 @@ class GroupDetailTabWidgetTypes extends React.Component {
           <Table className="GroupDetailTabWidgetTypes__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th> <FormattedMessage id="app.title" /></th>
-                <th> <FormattedMessage id="app.code" /></th>
+                <th><FormattedMessage id="app.title" /></th>
+                <th><FormattedMessage id="app.code" /></th>
               </tr>
             </thead>
             <tbody>

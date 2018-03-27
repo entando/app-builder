@@ -15,18 +15,14 @@ class GroupDetailTabUsers extends React.Component {
   renderRows() {
     const editUser = formattedText('app.edit');
     const authority = formattedText('group.action.manageAuthorization');
-    const statusIcon = status => (
-      status === 'active' ?
-        <i className={`fa fa-check GroupDetailTabUsers__status-icon--${status}`} /> :
-        <i className="fa fa-times GroupDetailTabUsers__status-icon--disabled" />
-    );
+    const statusIconClass = status => (status === 'active' ? 'GroupDetailTabUsers__status-icon--active' : 'GroupDetailTabUsers__status-icon--disabled');
 
     return this.props.pageReferences.map(item => (
       <tr key={item.username}>
         <td>{item.fullName}</td>
         <td>{item.lastLogin}</td>
         <td>
-          {statusIcon(item.status)}
+          <i className={`${statusIconClass(item.status)}`} />
         </td>
         <td >
           <DropdownKebab id={`kebab-${item.username}`}>
@@ -62,9 +58,9 @@ class GroupDetailTabUsers extends React.Component {
           <Table className="GroupDetailTabUsers__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th> <FormattedMessage id="user.table.username" /></th>
-                <th> <FormattedMessage id="user.lastLogin" /></th>
-                <th> <FormattedMessage id="user.table.status" /></th>
+                <th><FormattedMessage id="user.table.username" /></th>
+                <th><FormattedMessage id="user.lastLogin" /></th>
+                <th><FormattedMessage id="user.table.status" /></th>
                 <th width={30}> <FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>

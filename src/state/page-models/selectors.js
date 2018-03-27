@@ -209,6 +209,7 @@ const getCellMap = (pageModel) => {
     const colKey = getCellKey({ type: CELL_TYPE.COL, ...frame.sketch });
     cellsMap[colKey].framePos = frame.pos;
     cellsMap[colKey].frameDescr = frame.descr;
+    cellsMap[colKey].frameIsMainFrame = (frame.pos === pageModel.mainFrame);
   });
 
   return cellsMap;
@@ -218,4 +219,33 @@ const getCellMap = (pageModel) => {
 export const getSelectedPageModelCellMap = createSelector(
   [getSelectedPageModel],
   getCellMap,
+);
+
+export const getSelectedPageModelCanBeOnTheFly = createSelector(
+  [getSelectedPageModel],
+  (pageModel) => {
+    if (pageModel) {
+      return !!pageModel.configuration.frames.find(frame => frame.mainFrame === true);
+    }
+    return false;
+  },
+);
+
+export const getSelectedPageModelMainFrame = createSelector(
+  [getSelectedPageModel],
+  (pageModel) => {
+    const mainFrame = pageModel &&
+      pageModel.configuration.frames.find(frame => frame.mainFrame === true);
+    return mainFrame || null;
+  },
+);
+
+export const getSelectedPageModelDefaultConfig = createSelector(
+  [getSelectedPageModel],
+  (pageModel) => {
+    if (!pageModel) {
+      return null;
+    }
+    return pageModel.configuration.frames.map(frame => frame.defaultWidget || null);
+  },
 );

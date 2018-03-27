@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { getLocale } from 'state/locale/selectors';
+import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 
 export const getPages = state => state.pages;
@@ -9,6 +10,7 @@ export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
 export const getFreePages = state => state.pages.freePages;
+export const getSelectedPage = state => state.pages.selected;
 
 
 // relies on the children map order
@@ -100,3 +102,8 @@ export const getContentTypes = () => ([
   'text/html',
   'text/xml',
 ]);
+
+export const getSelectedPageIsPublished = createSelector(
+  [getSelectedPage],
+  selectedPage => !!(selectedPage && selectedPage.status === PAGE_STATUS_PUBLISHED),
+);

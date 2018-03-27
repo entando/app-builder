@@ -32,10 +32,10 @@ class GroupDetailTabContents extends React.Component {
           <Table className="GroupDetailTabContents__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th> <FormattedMessage id="app.title" /></th>
-                <th> <FormattedMessage id="app.code" /></th>
-                <th> <FormattedMessage id="app.type" /></th>
-                <th> <FormattedMessage id="group.content.lastEdit" /></th>
+                <th><FormattedMessage id="app.title" /></th>
+                <th><FormattedMessage id="app.code" /></th>
+                <th><FormattedMessage id="app.type" /></th>
+                <th><FormattedMessage id="group.content.lastEdit" /></th>
               </tr>
             </thead>
             <tbody>

@@ -10,8 +10,8 @@ const PAGES_MOCK = [{
   name: 'Home page',
 },
 {
-  code: 'homepage/pippo',
-  name: 'pippo',
+  code: 'pippo',
+  name: 'Home page / Pippo',
 },
 {
   code: 'dashboard',

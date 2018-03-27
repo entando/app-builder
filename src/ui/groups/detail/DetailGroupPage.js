@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import GroupDetailTableContainer from 'ui/groups/detail/GroupDetailTableContainer';
 
-const ListGroupPage = () => (
+const DetailGroupPage = () => (
   <InternalPage className="DetailGroupPage">
     <Grid fluid>
       <Row>
@@ -42,4 +42,4 @@ const ListGroupPage = () => (
   </InternalPage>
 );
 
-export default ListGroupPage;
+export default DetailGroupPage;

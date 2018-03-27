@@ -131,8 +131,8 @@ export const PAGE_REFERENCES = {
         name: 'Home page',
       },
       {
-        code: 'homepage/pippo',
-        name: 'pippo',
+        code: 'pippo',
+        name: 'Home page / Pippo',
       },
       {
         code: 'dashboard',

@@ -30,8 +30,8 @@ class GroupDetailTabResources extends React.Component {
           <Table className="GroupDetailTabResources__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th> <FormattedMessage id="app.name" /></th>
-                <th> <FormattedMessage id="app.type" /></th>
+                <th><FormattedMessage id="app.name" /></th>
+                <th><FormattedMessage id="app.type" /></th>
               </tr>
             </thead>
             <tbody>

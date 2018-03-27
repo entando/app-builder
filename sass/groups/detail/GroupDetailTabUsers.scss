@@ -5,11 +5,15 @@
     margin: 2em 0 0 0;
   }
 
-  &__status-icon--active {
+  &__status-icon--active:before {
     color: $color-pf-light-green-500;
+    font-family: FontAwesome;
+    content: $fa-check;
   }
 
-  &__status-icon--disabled {
+  &__status-icon--disabled:before {
     color: $color-pf-red-300;
+    font-family: FontAwesome;
+    content: $fa-times;
   }
 }

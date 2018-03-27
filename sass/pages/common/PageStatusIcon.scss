@@ -7,5 +7,9 @@
 }
 
 .PageStatusIcon--unpublished {
-  color: $color-pf-red-200;
+  color: $color-pf-red-100;
+}
+
+.PageStatusIcon--diff {
+  color: $color-pf-gold-400;
 }

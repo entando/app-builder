@@ -9,6 +9,7 @@ import {
   sendPostGroup,
   fetchGroup,
   sendPutGroup,
+  sendDeleteGroup,
   fetchCurrentPageGroupDetail,
   fetchCurrentReferencePages,
   fetchCurrentReferenceUsers,
@@ -22,6 +23,7 @@ import {
   getGroup,
   getGroups,
   postGroup,
+  deleteGroup,
   getPageReferences,
   getUserReferences,
   getWidgetTypeReferences,
@@ -59,6 +61,7 @@ jest.mock('api/groups', () => ({
   getGroup: jest.fn(),
   postGroup: jest.fn(),
   putGroup: jest.fn(),
+  deleteGroup: jest.fn(),
   getPageReferences: jest.fn(),
   getUserReferences: jest.fn(),
   getWidgetTypeReferences: jest.fn(),
@@ -88,10 +91,16 @@ const PUT_GROUP_PROMISE = {
   json: () => new Promise(res => res({ payload: UPDATED_GROUP })),
 };
 
+const DELETE_GROUP_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: 'group_code' })),
+};
+
 const GET_REFERENCES_PROMISE = {
   ok: true,
   json: () => new Promise(resolve => resolve({ payload: [] })),
 };
+
 
 const MOCK_RETURN_PROMISE_ERROR =
   {
@@ -155,6 +164,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when getGroups get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('sendPostGroup()', () => {
@@ -181,6 +201,7 @@ describe('state/groups/actions', () => {
 
   describe('fetchGroup()', () => {
     it('when getGroup succeeds, should dispatch inizialize', (done) => {
+      getGroup.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
       store.dispatch(fetchGroup(GROUP_CODE)).then(() => {
         expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
@@ -188,6 +209,17 @@ describe('state/groups/actions', () => {
         expect(actions[0]).toHaveProperty('type', INITIALIZE_TYPE);
         expect(actions[0]).toHaveProperty('payload', LIST_GROUPS_OK[0]);
         expect(initialize).toHaveBeenCalled();
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when getGroup get error, should dispatch addErrors', (done) => {
+      getGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroup()).then(() => {
+        expect(getGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -203,10 +235,30 @@ describe('state/groups/actions', () => {
       }).catch(done.fail);
     });
 
-    it('when putGroup get error, should dispatch gotoRoute group list', (done) => {
+    it('when putGroup get error, should dispatch should dispatch addErrors', (done) => {
       putGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
       store.dispatch(sendPutGroup()).then(() => {
         expect(putGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendDeleteGroup()', () => {
+    it('when deleteGroup succeeds, should dispatch', (done) => {
+      deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(DELETE_GROUP_PROMISE)));
+      store.dispatch(sendDeleteGroup('group_code')).then(() => {
+        expect(deleteGroup).toHaveBeenCalled();
+        done();
+      }).catch(done.fail);
+    });
+    it('when deleteGroup get error, should dispatch addErrors', (done) => {
+      deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(sendDeleteGroup()).then(() => {
+        expect(deleteGroup).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
