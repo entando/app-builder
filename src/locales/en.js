@@ -222,6 +222,7 @@ export default {
     'group.user.references.empty': 'There are no referenced users',
     'group.widget.references.empty': 'There are no referenced widgets',
     'group.content.references.empty': 'There are no referenced contents',
+    'group.resource.references.empty': 'There are no referenced resources',
     'group.action.goto': 'Go to',
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',

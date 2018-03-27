@@ -6,6 +6,7 @@ import GroupDetailTabPagesContainer from 'ui/groups/detail/GroupDetailTabPagesCo
 import GroupDetailTabUsersContainer from 'ui/groups/detail/GroupDetailTabUsersContainer';
 import GroupDetailTabWidgetTypesContainer from 'ui/groups/detail/GroupDetailTabWidgetsContainer';
 import GroupDetailTabContentsContainer from 'ui/groups/detail/GroupDetailTabContentsContainer';
+import GroupDetailTabResourcesContainer from 'ui/groups/detail/GroupDetailTabResourcesContainer';
 
 const GroupDetailTabs = () => (
   <div>
@@ -40,6 +41,9 @@ const GroupDetailTabs = () => (
           </TabPane>
           <TabPane eventKey={4} >
             <GroupDetailTabContentsContainer />
+          </TabPane>
+          <TabPane eventKey={5} >
+            <GroupDetailTabResourcesContainer />
           </TabPane>
         </TabContent>
       </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -75,8 +74,10 @@ class GroupDetailTabContents extends React.Component {
 GroupDetailTabContents.propTypes = {
   onWillMount: PropTypes.func,
   pageReferences: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
     code: PropTypes.string,
-    title: PropTypes.string,
+    type: PropTypes.string,
+    lastEdit: PropTypes.string,
   })),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,

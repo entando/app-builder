@@ -31,9 +31,9 @@ describe('GroupDetailTabs', () => {
     it('has a Component TabContent', () => {
       expect(component.find('TabContent').exists()).toBe(true);
     });
-    it('has a 4 TabPane', () => {
+    it('has a 5 TabPane', () => {
       expect(component.find('TabPane').exists()).toBe(true);
-      expect(component.find('TabPane')).toHaveLength(4);
+      expect(component.find('TabPane')).toHaveLength(5);
     });
   });
 });

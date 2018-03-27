@@ -218,7 +218,7 @@ export const RESOURCE_REFERENCES = {
       page: 1,
       pageSize: 5,
       lastPage: 1,
-      totalItems: 3,
+      totalItems: 1,
     },
   },
 };
