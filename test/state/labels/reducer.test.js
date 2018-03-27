@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import reducer from 'state/labels/reducer';
-import { setLabels, updateLabelSync } from 'state/labels/actions';
+import { setLabels, updateLabelSync, removeLabelSync } from 'state/labels/actions';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
@@ -66,6 +66,25 @@ describe('state/languages/reducer', () => {
         ...STATE_WITH_LIST.map,
         [NEW_LABEL.key]: NEW_LABEL,
       });
+    });
+  });
+
+  describe('after action REMOVE_LABEL', () => {
+    const LABEL_KEY = LABELS_LIST[0].key;
+    const STATE_WITH_LIST = reducer(INITIAL_STATE, setLabels(LABELS_LIST));
+
+    it('should remove the label from the map', () => {
+      const newState = reducer(STATE_WITH_LIST, removeLabelSync(LABEL_KEY));
+      expect(STATE_WITH_LIST.map).not.toBe(newState.map);
+      expect(STATE_WITH_LIST.map[LABEL_KEY]).toEqual(LABELS_LIST[0]);
+      expect(newState.map[LABEL_KEY]).toBeUndefined();
+    });
+
+    it('should remove the label from the list', () => {
+      const newState = reducer(STATE_WITH_LIST, removeLabelSync(LABEL_KEY));
+      expect(STATE_WITH_LIST.list).not.toBe(newState.list);
+      expect(STATE_WITH_LIST.list.includes(LABEL_KEY)).toBe(true);
+      expect(newState.list.includes(LABEL_KEY)).toBe(false);
     });
   });
 });

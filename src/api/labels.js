@@ -33,3 +33,12 @@ export const putLabel = labelObj => (
     useAuthentication: true,
   })
 );
+
+export const deleteLabel = labelKey => (
+  makeRequest({
+    uri: `/labels/${labelKey}`,
+    method: METHODS.DELETE,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);

@@ -51,4 +51,13 @@ export const postGroup = groupObject => (
   })
 );
 
+export const deleteGroup = groupCode => (
+  makeMockRequest({
+    uri: `/api/groups/${groupCode}`,
+    method: METHODS.DELETE,
+    mockResponse: { code: 'groupCode' },
+    useAuthentication: true,
+  })
+);
+
 export default getGroups;

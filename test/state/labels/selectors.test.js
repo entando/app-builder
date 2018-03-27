@@ -1,5 +1,5 @@
 
-import { getLabels, getLabelsList, getLabelsMap } from 'state/labels/selectors';
+import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap } from 'state/labels/selectors';
 
 
 const LABELS_MAP = {
@@ -35,11 +35,18 @@ describe('state/labels/selectors', () => {
     expect(getLabels(STATE)).toEqual(STATE.labels);
   });
 
-  it('getLabelsList returns the labels list', () => {
-    expect(getLabelsList(STATE)).toEqual(STATE.labels.list);
+  it('getLabelsIdList returns the labels id list', () => {
+    expect(getLabelsIdList(STATE)).toEqual(STATE.labels.list);
   });
 
   it('getLabelsMap returns the labels map', () => {
     expect(getLabelsMap(STATE)).toEqual(STATE.labels.map);
+  });
+
+  it('getLabelsList returns the labels list', () => {
+    expect(getLabelsList(STATE)).toEqual([
+      LABELS_MAP.HELLO,
+      LABELS_MAP.GOODBYE,
+    ]);
   });
 });

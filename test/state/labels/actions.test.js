@@ -2,11 +2,14 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel } from 'state/labels/actions';
-import { SET_LABELS, UPDATE_LABEL } from 'state/labels/types';
+import {
+  setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
+  removeLabelSync, removeLabel,
+} from 'state/labels/actions';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
-import { getLabels, putLabel, postLabel } from 'api/labels';
+import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 
 import { LABELS_LIST } from 'test/mocks/labels';
 
@@ -51,6 +54,7 @@ jest.mock('api/labels', () => ({
   getLabels: jest.fn(),
   putLabel: jest.fn(),
   postLabel: jest.fn(),
+  deleteLabel: jest.fn(),
 }));
 
 jest.mock('state/labels/selectors', () => ({
@@ -95,6 +99,25 @@ describe('state/labels/actions', () => {
 
     it('defines the "label" payload property', () => {
       expect(action.payload.label).toBe(HELLO_LABEL);
+    });
+  });
+
+  describe('removeLabelSync', () => {
+    let action;
+    beforeEach(() => {
+      action = removeLabelSync(HELLO_LABEL.key);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('is of type UPDATE_LABEL', () => {
+      expect(action.type).toBe(REMOVE_LABEL);
+    });
+
+    it('defines the "labelKey" payload property', () => {
+      expect(action.payload.labelKey).toBe(HELLO_LABEL.key);
     });
   });
 
@@ -210,6 +233,36 @@ describe('state/labels/actions', () => {
         const actions = store.getActions();
         expect(actions[0].type).toBe(UPDATE_LABEL);
         expect(actions[0].payload.label).toBe(HELLO_LABEL);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('removeLabel', () => {
+    const LABEL_KEY = HELLO_LABEL.key;
+    let store;
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+      deleteLabel.mockImplementation(mockApi({
+        ok: true,
+      }));
+    });
+
+    it('if API response is ok, dispatch REMOVE_LABEL', (done) => {
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(REMOVE_LABEL);
+        expect(actions[0].payload.labelKey).toBe(LABEL_KEY);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, dispatch nothing', (done) => {
+      deleteLabel.mockImplementation(mockApi({
+        ok: false,
+      }));
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        expect(store.getActions()).toHaveLength(0);
         done();
       }).catch(done.fail);
     });

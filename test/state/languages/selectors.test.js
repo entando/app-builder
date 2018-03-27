@@ -1,5 +1,5 @@
 
-import { getLanguages, getLanguagesList, getLanguagesMap } from 'state/languages/selectors';
+import { getLanguages, getLanguagesIdList, getLanguagesList, getLanguagesMap } from 'state/languages/selectors';
 
 
 const LANGUAGES_MAP = {
@@ -23,11 +23,18 @@ describe('state/languages/selectors', () => {
     expect(getLanguages(STATE)).toEqual(STATE.languages);
   });
 
-  it('getLanguagesList returns the languages list', () => {
-    expect(getLanguagesList(STATE)).toEqual(STATE.languages.list);
+  it('getLanguagesIdList returns the languages id list', () => {
+    expect(getLanguagesIdList(STATE)).toEqual(STATE.languages.list);
   });
 
   it('getLanguagesMap returns the languages map', () => {
     expect(getLanguagesMap(STATE)).toEqual(STATE.languages.map);
+  });
+
+  it('getLanguagesList returns the languages list', () => {
+    expect(getLanguagesList(STATE)).toEqual([
+      { code: 'it' },
+      { code: 'en' },
+    ]);
   });
 });

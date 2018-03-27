@@ -44,6 +44,7 @@ export default {
     'app.restore': 'Restore',
     'app.languages': 'Languages',
     'app.systemLabels': 'System labels',
+    'app.cancel': 'Cancel',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -225,5 +226,6 @@ export default {
     'labelsAndLanguages.help': 'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
     'language.selectLanguage': 'Select Language',
     'language.active.listEmpty': 'There are no ACTIVE LANGUAGES available',
+    'modal.confirm.delete': 'Do you really want to delete {code}?',
   },
 };

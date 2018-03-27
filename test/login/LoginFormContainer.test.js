@@ -7,6 +7,7 @@ jest.unmock('ui/login/LoginFormContainer');
 
 const TEST_STATE = {
   loginForm: { loginErrorMessage: 'test' },
+  locale: 'en',
 };
 
 // declare a mock empty function
@@ -14,7 +15,9 @@ const dispatchMock = jest.fn();
 
 
 it('maps login error message property with state.form.loginErrorMessage', () => {
-  expect(mapStateToProps(TEST_STATE)).toEqual({ loginErrorMessage: 'test' });
+  const mappedProps = mapStateToProps(TEST_STATE);
+  expect(mappedProps).toHaveProperty('loginErrorMessage', 'test');
+  expect(mappedProps).toHaveProperty('currentLanguage', 'en');
 });
 
 
