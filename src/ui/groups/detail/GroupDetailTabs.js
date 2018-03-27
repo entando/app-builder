@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { TabContainer, Nav, NavItem, TabContent, TabPane } from 'patternfly-react';
 
 import GroupDetailTabPagesContainer from 'ui/groups/detail/GroupDetailTabPagesContainer';
+import GroupDetailTabUsersContainer from 'ui/groups/detail/GroupDetailTabUsersContainer';
 
 const GroupDetailTabs = () => (
   <div>
@@ -28,6 +29,9 @@ const GroupDetailTabs = () => (
         <TabContent>
           <TabPane eventKey={1} >
             <GroupDetailTabPagesContainer />
+          </TabPane>
+          <TabPane eventKey={2} >
+            <GroupDetailTabUsersContainer />
           </TabPane>
         </TabContent>
       </div>

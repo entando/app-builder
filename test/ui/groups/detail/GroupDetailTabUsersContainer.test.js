@@ -1,30 +1,24 @@
 import 'test/enzyme-init';
 
-import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabPagesContainer';
-import { getSelectedGroupPageReferences } from 'state/groups/selectors';
-import { PAGE_REFERENCES } from 'test/mocks/groups';
+import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabUsersContainer';
+import { getSelectedGroupUserReferences } from 'state/groups/selectors';
+import { USER_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
-const PAGES_MOCK = [{
-  code: 'homepage',
-  name: 'Home page',
-},
-{
-  code: 'homepage/pippo',
-  name: 'pippo',
-},
-{
-  code: 'dashboard',
-  name: 'Dashboard',
+const USERS_MOCK = [{
+  username: 'admin',
+  fullName: 'Administrators',
+  lastLogin: '2018-01-08 00:00:00',
+  status: 'active',
 }];
 
 jest.mock('state/groups/selectors', () => ({
-  getSelectedGroupPageReferences: jest.fn(),
+  getSelectedGroupUserReferences: jest.fn(),
 }));
 
-getSelectedGroupPageReferences.mockReturnValue(PAGE_REFERENCES.administrators.list);
+getSelectedGroupUserReferences.mockReturnValue(USER_REFERENCES.administrators.list);
 
-describe('GroupDetailTabPagesContainer', () => {
+describe('GroupDetailTabUsersContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
@@ -44,7 +38,7 @@ describe('GroupDetailTabPagesContainer', () => {
   describe('mapStateToProps', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      props = mapStateToProps(PAGE_REFERENCES.administrators);
+      props = mapStateToProps(USER_REFERENCES.administrators);
     });
 
     it('verify props are defined and properly valued', () => {
@@ -52,9 +46,9 @@ describe('GroupDetailTabPagesContainer', () => {
       expect(props).toBeInstanceOf(Object);
       expect(props).toHaveProperty('pageReferences');
       expect(props).toMatchObject({
-        pageReferences: PAGES_MOCK,
+        pageReferences: USERS_MOCK,
         page: 1,
-        totalItems: 3,
+        totalItems: 1,
         pageSize: 5,
       });
     });

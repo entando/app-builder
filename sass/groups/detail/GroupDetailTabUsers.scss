@@ -1,0 +1,15 @@
+.GroupDetailTabUsers {
+  margin-top: 30px;
+
+  &__table {
+    margin: 2em 0 0 0;
+  }
+
+  &__status-icon--active {
+    color: $color-pf-light-green-500;
+  }
+
+  &__status-icon--disabled {
+    color: $color-pf-red-300;
+  }
+}

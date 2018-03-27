@@ -219,7 +219,9 @@ export default {
     'group.detail.title.contents': 'Contenuti',
     'group.detail.title.resources': 'Risorse',
     'group.page.references.empty': 'Non ci sono pagine referenziate',
+    'group.user.references.empty': 'Non ci sono utenti referenziati',
     'group.action.goto': 'Vai a',
     'group.action.pageConfiguration': 'Configurazione pagina',
+    'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
   },
 };

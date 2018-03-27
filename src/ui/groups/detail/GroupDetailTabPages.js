@@ -21,17 +21,17 @@ class GroupDetailTabPages extends React.Component {
         <td >
           <DropdownKebab id={`kebab-${item.code}`}>
             <LinkMenuItem
-              id={`goto-${item}`}
+              id={`goto-${item.code}`}
               route={ROUTE_PAGE}
               params={{ page: item.code }}
-              label={`${goTo}${item.name}`}
+              label={`${goTo} ${item.name}`}
               className="GroupDetailTabPages__menu-item-edit"
             />
             <LinkMenuItem
-              id={`goto-${item}`}
+              id={`page-configuration-${item.code}`}
               route={ROUTE_PAGE_CONFIG}
               params={{ pageCode: item.code }}
-              label={`${pageConfiguration}${item.name}`}
+              label={`${pageConfiguration} ${item.name}`}
               className="GroupDetailTabPages__menu-item-edit"
             />
           </DropdownKebab>
