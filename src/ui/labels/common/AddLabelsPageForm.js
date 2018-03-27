@@ -8,12 +8,9 @@ import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
-const EDIT_MODE = 'edit';
-const NEW_MODE = 'new';
-
 export const AddLabelsPageFormBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, mode,
+    handleSubmit, invalid, submitting, languages,
   } = props;
 
   const onSubmit = (ev) => {
@@ -21,6 +18,23 @@ export const AddLabelsPageFormBody = (props) => {
     handleSubmit();
   };
 
+  // componente per renderizzare i fields
+  const renderField = languages.map((language, i) => (
+    <Field
+      name="titles.it"
+      component={RenderTextAreaInput}
+      label={
+        <span>
+          <span className="label label-info"><FormattedMessage id="app.it" /></span>
+          &nbsp;<FormattedMessage id="app.name" />
+        </span>
+      }
+      cols="50"
+      rows="2"
+      className="form-control"
+      validate={[required]}
+    />
+  ));
 
   return (
     <form onSubmit={onSubmit} className="form-horizontal">
@@ -33,7 +47,7 @@ export const AddLabelsPageFormBody = (props) => {
 
             <Field
               component={RenderTextInput}
-              name="code"
+              name="key"
               label={
                 <span>
                   <FormattedMessage id="app.code" />
@@ -41,9 +55,7 @@ export const AddLabelsPageFormBody = (props) => {
               }
               placeholder={formattedText('labels.code.placeholder')}
               validate={[required]}
-              disabled={mode === EDIT_MODE}
             />
-
           </fieldset>
         </Col>
       </Row>
@@ -53,8 +65,9 @@ export const AddLabelsPageFormBody = (props) => {
           <fieldset className="no-padding">
             <div className="tab-content margin-large-bottom ">
               <div>
+                {renderField}
                 <Field
-                  name="enCode"
+                  name="titles.en"
                   component={RenderTextAreaInput}
                   label={
                     <span>
@@ -79,7 +92,7 @@ export const AddLabelsPageFormBody = (props) => {
             <div className="tab-content margin-large-bottom ">
               <div>
                 <Field
-                  name="itCode"
+                  name="titles.it"
                   component={RenderTextAreaInput}
                   label={
                     <span>
@@ -118,17 +131,16 @@ AddLabelsPageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  mode: PropTypes.string,
+  // locale: PropTypes.string.isRequired,
 };
 
 AddLabelsPageFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  mode: NEW_MODE,
 };
 
 const AddLabelsPageForm = reduxForm({
-  form: 'labels',
+  form: 'label',
 })(AddLabelsPageFormBody);
 
 export default AddLabelsPageForm;

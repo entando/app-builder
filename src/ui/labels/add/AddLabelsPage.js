@@ -5,8 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-// import AddLabelsPageFormContainer from 'ui/labels/add/AddLabelsPageFormContainer';
-import AddLabelsPageForm from 'ui/labels/common/AddLabelsPageForm';
+import AddLabelsPageContainer from 'ui/labels/add/AddLabelsPageContainer';
 
 const AddLabelsPage = () => (
 
@@ -33,9 +32,7 @@ const AddLabelsPage = () => (
       />
       <Row>
         <Col xs={12}>
-          {/* <AddLabelsPageFormContainer /> */}
-          <AddLabelsPageForm />
-
+          <AddLabelsPageContainer />
         </Col>
       </Row>
     </Grid>
