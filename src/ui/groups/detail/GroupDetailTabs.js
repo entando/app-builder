@@ -4,6 +4,7 @@ import { TabContainer, Nav, NavItem, TabContent, TabPane } from 'patternfly-reac
 
 import GroupDetailTabPagesContainer from 'ui/groups/detail/GroupDetailTabPagesContainer';
 import GroupDetailTabUsersContainer from 'ui/groups/detail/GroupDetailTabUsersContainer';
+import GroupDetailTabWidgetTypesContainer from 'ui/groups/detail/GroupDetailTabWidgetsContainer';
 
 const GroupDetailTabs = () => (
   <div>
@@ -32,6 +33,9 @@ const GroupDetailTabs = () => (
           </TabPane>
           <TabPane eventKey={2} >
             <GroupDetailTabUsersContainer />
+          </TabPane>
+          <TabPane eventKey={3} >
+            <GroupDetailTabWidgetTypesContainer />
           </TabPane>
         </TabContent>
       </div>

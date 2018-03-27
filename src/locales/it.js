@@ -220,6 +220,7 @@ export default {
     'group.detail.title.resources': 'Risorse',
     'group.page.references.empty': 'Non ci sono pagine referenziate',
     'group.user.references.empty': 'Non ci sono utenti referenziati',
+    'group.widget.references.empty': 'Non ci sono widgets referenziati',
     'group.action.goto': 'Vai a',
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
