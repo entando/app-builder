@@ -29,6 +29,7 @@ export default {
     'app.used': 'usato',
     'app.actions': 'Azioni',
     'app.errors': 'Errori',
+    'app.cancel': 'Cancella',
     'app.search.returned': 'La ricerca ha restituito {value} risultati',
     'app.enTitle': 'Titolo inglese',
     'app.itTitle': 'Titolo italiano',
@@ -219,5 +220,6 @@ export default {
     'group.code': 'Codice',
     'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
+    'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
   },
 };
