@@ -64,6 +64,7 @@ export default {
     'menu.users.authority': 'Autorizzazioni',
     'menu.details': 'Dettagli',
     'menu.groups': 'Gruppi',
+    'menu.uxPattern.addLabels': 'etichette di sistema',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -219,5 +220,9 @@ export default {
     'group.code': 'Codice',
     'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
+    'label.detail.title': 'Etichette',
+    'labels.code.placeholder': 'codice',
+    'labels.default.language': 'Lingua Predefinita',
+
   },
 };

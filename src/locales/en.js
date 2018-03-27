@@ -64,6 +64,7 @@ export default {
     'menu.users.authority': 'Authorizations',
     'menu.details': 'Details',
     'menu.groups': 'Groups',
+    'menu.uxPattern.addLabels': 'System labels',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -219,5 +220,9 @@ export default {
     'group.code': 'Code',
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
     'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'label.detail.title': 'Labels',
+    'labels.code.placeholder': 'code',
+    'labels.default.language': 'Default language',
   },
+
 };
