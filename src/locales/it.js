@@ -29,6 +29,7 @@ export default {
     'app.used': 'usato',
     'app.actions': 'Azioni',
     'app.errors': 'Errori',
+    'app.cancel': 'Cancella',
     'app.search.returned': 'La ricerca ha restituito {value} risultati',
     'app.enTitle': 'Titolo inglese',
     'app.itTitle': 'Titolo italiano',
@@ -223,5 +224,6 @@ export default {
     'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
     'labelsAndLanguages.help': 'Dalla sezione ETICHETTE E LINGUE è possibile gestire le lingue e le etichette di sistema. Entando supporta il multilingua, l\'amministratore può aggiungere una nuova lingua. La prima lingua configurata nel sistema è la lingua predefinita. Le etichette sono accessori di Entando, usate principalmente per gestire semplici informazioni testuali semi-statiche, non associate ad oggetti particolari.',
+    'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
   },
 };

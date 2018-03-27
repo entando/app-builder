@@ -3,8 +3,11 @@ import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
-import { setGroups, fetchGroups, sendPostGroup, fetchGroup, sendPutGroup } from 'state/groups/actions';
-import { putGroup, getGroup, getGroups, postGroup } from 'api/groups';
+import {
+  setGroups, fetchGroups, sendPostGroup, fetchGroup, sendPutGroup,
+  sendDeleteGroup,
+} from 'state/groups/actions';
+import { putGroup, getGroup, getGroups, postGroup, deleteGroup } from 'api/groups';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import { SET_GROUPS } from 'state/groups/types';
@@ -27,6 +30,7 @@ jest.mock('api/groups', () => ({
   getGroup: jest.fn(),
   postGroup: jest.fn(),
   putGroup: jest.fn(),
+  deleteGroup: jest.fn(),
 }));
 
 const GET_GROUPS_PROMISE = {
@@ -49,6 +53,11 @@ const PUT_GROUP_PROMISE = {
   json: () => new Promise(res => res({ payload: UPDATED_GROUP })),
 };
 
+const DELETE_GROUP_PROMISE = {
+  ok: true,
+  json: () => new Promise(res => res({ payload: 'group_code' })),
+};
+
 const MOCK_RETURN_PROMISE_ERROR =
   {
     ok: false,
@@ -60,7 +69,6 @@ const MOCK_RETURN_PROMISE_ERROR =
   };
 
 getGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
-getGroup.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
 
 const INITIAL_STATE = {
   form: {},
@@ -105,6 +113,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when getGroups get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('sendPostGroup()', () => {
@@ -142,6 +161,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when getGroup get error, should dispatch addErrors', (done) => {
+      getGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroup()).then(() => {
+        expect(getGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('sendPutGroup()', () => {
@@ -154,10 +184,31 @@ describe('state/groups/actions', () => {
       }).catch(done.fail);
     });
 
-    it('when putGroup get error, should dispatch gotoRoute group list', (done) => {
+    it('when putGroup get error, should dispatch should dispatch addErrors', (done) => {
       putGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
       store.dispatch(sendPutGroup()).then(() => {
         expect(putGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendDeleteGroup()', () => {
+    it('when deleteGroup succeeds, should dispatch', (done) => {
+      deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(DELETE_GROUP_PROMISE)));
+      store.dispatch(sendDeleteGroup('group_code')).then(() => {
+        expect(deleteGroup).toHaveBeenCalled();
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when deleteGroup get error, should dispatch addErrors', (done) => {
+      deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(sendDeleteGroup()).then(() => {
+        expect(deleteGroup).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
