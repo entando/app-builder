@@ -9,6 +9,7 @@ import {
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
+import { ADD_ERRORS } from 'state/errors/types';
 import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 
 import { LABELS_LIST } from 'test/mocks/labels';
@@ -40,13 +41,17 @@ const INITIAL_STATE = {
   },
 };
 const PAGE = { page: 1, pageSize: 10 };
+const ERRORS = [{ code: 1, message: 'Error message' }];
 
-const mockApi = ({ ok, payload, metaData }) =>
+const mockApi = ({
+  ok, payload, metaData, errors,
+}) =>
   () => new Promise(resolve => resolve({
     ok,
     json: () => new Promise(resolveJson => resolveJson({
       payload,
       metaData,
+      errors,
     })),
   }));
 
@@ -152,6 +157,19 @@ describe('state/labels/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      getLabels.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(fetchLabels()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('updateLabel', () => {
@@ -181,6 +199,19 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(updateLabel(HELLO_LABEL)).then(() => {
         expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      putLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(updateLabel(HELLO_LABEL)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });
@@ -227,6 +258,19 @@ describe('state/labels/actions', () => {
       }).catch(done.fail);
     });
 
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      postLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(createLabel(HELLO_LABEL)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
+        done();
+      }).catch(done.fail);
+    });
+
     it('if there is no mapped label, dispatch UPDATE_LABEL to add it', (done) => {
       getLabelsMap.mockReturnValue({});
       store.dispatch(createLabel(HELLO_LABEL)).then(() => {
@@ -263,6 +307,19 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(removeLabel(LABEL_KEY)).then(() => {
         expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      deleteLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });
