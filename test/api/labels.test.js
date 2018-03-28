@@ -5,7 +5,7 @@ import { LABELS_LIST } from 'test/mocks/labels';
 
 
 const correctRequest = {
-  uri: '/labels',
+  uri: '/api/labels',
   method: METHODS.GET,
   mockResponse: LABELS_LIST,
   useAuthentication: true,
@@ -74,7 +74,7 @@ describe('api/labels', () => {
       expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
-          uri: '/labels?param=true',
+          uri: '/api/labels?param=true',
         },
         {
           page: 1,
@@ -93,7 +93,7 @@ describe('api/labels', () => {
       putLabel(LABEL_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
-        uri: `/labels/${LABEL_OBJ.key}`,
+        uri: `/api/labels/${LABEL_OBJ.key}`,
         body: LABEL_OBJ,
         useAuthentication: true,
       }));
@@ -109,7 +109,7 @@ describe('api/labels', () => {
       postLabel(LABEL_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.POST,
-        uri: '/labels',
+        uri: '/api/labels',
         body: LABEL_OBJ,
         useAuthentication: true,
       }));
@@ -125,7 +125,7 @@ describe('api/labels', () => {
       deleteLabel(LABEL_KEY);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.DELETE,
-        uri: `/labels/${LABEL_KEY}`,
+        uri: `/api/labels/${LABEL_KEY}`,
         useAuthentication: true,
       }));
     });
