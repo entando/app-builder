@@ -30,7 +30,7 @@ const getErrorsReferences = (ref, groupname) => (
 );
 
 const getGenericError = obj => (
-  obj && obj.length > 0 ? [] : [{ code: 1, message: 'object is invalid' }]
+  obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]
 );
 
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (

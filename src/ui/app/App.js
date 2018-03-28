@@ -30,7 +30,6 @@ import {
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
-
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
