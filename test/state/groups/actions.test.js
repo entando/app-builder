@@ -256,6 +256,7 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
     it('when deleteGroup get error, should dispatch addErrors', (done) => {
       deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
       store.dispatch(sendDeleteGroup()).then(() => {
@@ -277,6 +278,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when fetchCurrentPageGroupDetail get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('fetchCurrentReferencePages', () => {
@@ -288,6 +300,17 @@ describe('state/groups/actions', () => {
         expect(actions[1].type).toEqual(SET_SELECTED_GROUP_PAGE_REFERENCES);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
         expect(actions[3].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when fetchCurrentReferencePages get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -305,6 +328,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when fetchCurrentReferenceUsers get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('fetchCurrentReferenceWidgetTypes', () => {
@@ -316,6 +350,17 @@ describe('state/groups/actions', () => {
         expect(actions[1].type).toEqual(SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
         expect(actions[3].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when fetchCurrentReferenceWidgetTypes get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -332,6 +377,17 @@ describe('state/groups/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('when fetchCurrentReferenceContents get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
   describe('fetchCurrentReferenceResources', () => {
     it('fetchCurrentReferenceResources call getResourceReferences', (done) => {
@@ -342,6 +398,17 @@ describe('state/groups/actions', () => {
         expect(actions[1].type).toEqual(SET_SELECTED_GROUP_RESOURCE_REFERENCES);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
         expect(actions[3].type).toEqual(SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when fetchCurrentReferenceResources get error, should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroups()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
