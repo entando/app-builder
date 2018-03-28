@@ -280,9 +280,9 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentPageGroupDetail get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getGroup.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentPageGroupDetail()).then(() => {
+        expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -305,12 +305,15 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentReferencePages get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getPageReferences
+        .mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentReferencePages()).then(() => {
+        expect(getPageReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -330,12 +333,15 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentReferenceUsers get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getUserReferences
+        .mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentReferenceUsers()).then(() => {
+        expect(getUserReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -355,12 +361,15 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentReferenceWidgetTypes get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getWidgetTypeReferences
+        .mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentReferenceWidgetTypes()).then(() => {
+        expect(getWidgetTypeReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -379,12 +388,15 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentReferenceContents get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getContentReferences
+        .mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentReferenceContents()).then(() => {
+        expect(getContentReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -403,12 +415,15 @@ describe('state/groups/actions', () => {
     });
 
     it('when fetchCurrentReferenceResources get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getResourceReferences
+        .mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentReferenceResources()).then(() => {
+        expect(getResourceReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

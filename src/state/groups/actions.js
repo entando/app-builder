@@ -193,6 +193,7 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
             resolve();
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            dispatch(toggleLoading('references'));
             resolve();
           }
         });
