@@ -48,7 +48,7 @@ class LabelsAndLanguagesPage extends Component {
               </Col>
             </Row>
             <Row>
-              <Col md={12}>
+              <Col xs={12}>
                 <Link route={ROUTE_LABEL_ADD}>
                   <Button
                     type="button"
