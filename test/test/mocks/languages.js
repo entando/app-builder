@@ -19,3 +19,27 @@ export const LANGUAGES_LIST = [
     isDefault: false,
   },
 ];
+
+export const LANGUAGES_NORMALIZED = {
+  list: ['it', 'en', 'nl'],
+  map: {
+    it: {
+      code: 'it',
+      description: 'Italiano',
+      isActive: true,
+      isDefault: false,
+    },
+    en: {
+      code: 'en',
+      description: 'English',
+      isActive: true,
+      isDefault: true,
+    },
+    nl: {
+      code: 'nl',
+      description: 'Dutch',
+      isActive: false,
+      isDefault: false,
+    },
+  },
+};
