@@ -8,14 +8,16 @@ export const getGroupsMap = state => state.groups.map;
 
 export const getSelectedGroup = state => state.groups.selected;
 
-export const getSelectedGroupPageReferences =
+export const getReferencesLoading = state => !!state.groups.loading.references;
 
+export const getSelectedGroupPageReferences =
   createSelector(getSelectedGroup, s => s.pageReferences);
+
 export const getSelectedGroupUserReferences = state => state.groups.selected.userReferences;
 
 export const getSelectedGroupWidgetTypeReferences = state =>
-
   state.groups.selected.widgetTypeReferences;
+
 export const getSelectedGroupContentReferences = state => state.groups.selected.contentReferences;
 
 export const getSelectedGroupResourceReferences = state =>

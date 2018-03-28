@@ -19,6 +19,7 @@ import { getParams, gotoRoute } from 'frontend-common-components';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
+  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
@@ -27,6 +28,13 @@ import {
 } from 'state/groups/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
+
+export const toggleLoading = id => ({
+  type: TOGGLE_LOADING,
+  payload: {
+    id,
+  },
+});
 
 export const setGroups = groups => ({
   type: SET_GROUPS,
@@ -159,14 +167,15 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
   new Promise((resolve) => {
     const { groupname } = getParams(getState());
     getGroup(groupname).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
+      response.json().then((json) => {
+        if (response.ok) {
           dispatch(setSelectedGroup(json.payload));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          resolve();
+        }
+      });
     });
   });
 
@@ -174,10 +183,12 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
   (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
     new Promise((resolve) => {
       const { groupname } = getParams(getState());
+      dispatch(toggleLoading('references'));
       getApiCall(page, groupname).then((response) => {
         response.json().then((json) => {
           if (response.ok) {
             dispatch(setActionCreator(json.payload));
+            dispatch(toggleLoading('references'));
             dispatch(setPage(json.metaData));
             resolve();
           } else {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DropdownKebab, Paginator } from 'patternfly-react';
+import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 
 import { formattedText, LinkMenuItem } from 'frontend-common-components';
@@ -83,7 +83,9 @@ class GroupDetailTabPages extends React.Component {
   render() {
     return (
       <div className="GroupDetailTabPages">
-        {this.renderTable()}
+        <Spinner loading={this.props.loading} >
+          {this.renderTable()}
+        </Spinner>
       </div>
     );
   }
@@ -91,6 +93,7 @@ class GroupDetailTabPages extends React.Component {
 
 GroupDetailTabPages.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   pageReferences: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -102,6 +105,7 @@ GroupDetailTabPages.propTypes = {
 
 GroupDetailTabPages.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   pageReferences: [],
 };
 

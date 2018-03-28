@@ -8,6 +8,7 @@ import {
   setSelectedGroupWidgetTypeReferences,
   setSelectedGroupContentReferences,
   setSelectedGroupResourceReferences,
+  toggleLoading,
 } from 'state/groups/actions';
 
 import {
@@ -18,6 +19,7 @@ import {
   getSelectedGroupWidgetTypeReferences,
   getSelectedGroupContentReferences,
   getSelectedGroupResourceReferences,
+  getReferencesLoading,
 } from 'state/groups/selectors';
 
 import {
@@ -32,7 +34,6 @@ import {
 
 describe('state/groups/reducer', () => {
   const state = reducer();
-
   describe('default state', () => {
     it('should be an array', () => {
       expect(state).toBeDefined();
@@ -135,6 +136,27 @@ describe('state/groups/reducer', () => {
     it('should define the userReferenced payload', () => {
       expect(getSelectedGroupResourceReferences({ groups: newState }))
         .toMatchObject(RESOURCE_REFERENCES.administrators.list);
+    });
+  });
+
+  describe('after action TOGGLE_LOADING', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(
+        state,
+        toggleLoading('references'),
+      );
+    });
+
+    it('should be false in the first state', () => {
+      expect(getReferencesLoading({ groups: state })).toBe(false);
+    });
+    it('should be true after call', () => {
+      newState = reducer(
+        state,
+        toggleLoading('references'),
+      );
+      expect(getReferencesLoading({ groups: newState })).toBe(true);
     });
   });
 });

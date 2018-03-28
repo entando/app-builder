@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
+  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
@@ -58,8 +59,18 @@ export const selected = (state = {}, action = {}) => {
   }
 };
 
+export const loading = (state = {}, action = {}) => {
+  switch (action.type) {
+    case TOGGLE_LOADING: {
+      return { ...state, [action.payload.id]: !state[action.payload.id] };
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: groupMap,
   selected,
+  loading,
 });

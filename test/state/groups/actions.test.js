@@ -35,6 +35,7 @@ import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
+  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
@@ -282,9 +283,11 @@ describe('state/groups/actions', () => {
     it('fetchCurrentReferencePages call getPageReferences', (done) => {
       store.dispatch(fetchCurrentReferencePages()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_PAGE_REFERENCES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_SELECTED_GROUP_PAGE_REFERENCES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -294,9 +297,11 @@ describe('state/groups/actions', () => {
     it('fetchCurrentReferenceUsers call getUserReferences', (done) => {
       store.dispatch(fetchCurrentReferenceUsers()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_USER_REFERENCES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_SELECTED_GROUP_USER_REFERENCES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -306,9 +311,11 @@ describe('state/groups/actions', () => {
     it('fetchCurrentReferenceWidgetTypes call getWidgetTypeReferences', (done) => {
       store.dispatch(fetchCurrentReferenceWidgetTypes()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -317,9 +324,11 @@ describe('state/groups/actions', () => {
     it('fetchCurrentReferenceContents call getContentReferences', (done) => {
       store.dispatch(fetchCurrentReferenceContents()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_CONTENT_REFERENCES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_SELECTED_GROUP_CONTENT_REFERENCES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -328,9 +337,11 @@ describe('state/groups/actions', () => {
     it('fetchCurrentReferenceResources call getResourceReferences', (done) => {
       store.dispatch(fetchCurrentReferenceResources()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_SELECTED_GROUP_RESOURCE_REFERENCES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_SELECTED_GROUP_RESOURCE_REFERENCES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });

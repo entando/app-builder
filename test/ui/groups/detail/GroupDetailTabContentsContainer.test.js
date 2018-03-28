@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabContentsContainer';
-import { getSelectedGroupContentReferences } from 'state/groups/selectors';
+import { getSelectedGroupContentReferences, getReferencesLoading } from 'state/groups/selectors';
 import { GROUP_CONTENT_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
@@ -14,9 +14,11 @@ const CONTENTS_MOCK = [{
 
 jest.mock('state/groups/selectors', () => ({
   getSelectedGroupContentReferences: jest.fn(),
+  getReferencesLoading: jest.fn(),
 }));
 
 getSelectedGroupContentReferences.mockReturnValue(GROUP_CONTENT_REFERENCES.administrators.list);
+getReferencesLoading.mockReturnValue(false);
 
 describe('GroupDetailTabContentsContainer', () => {
   let props;
@@ -42,9 +44,10 @@ describe('GroupDetailTabContentsContainer', () => {
     });
 
     it('verify props are defined and properly valued', () => {
-      expect.assertions(3);
+      expect.assertions(4);
       expect(props).toBeInstanceOf(Object);
       expect(props).toHaveProperty('pageReferences');
+      expect(props).toHaveProperty('loading');
       expect(props).toMatchObject({
         pageReferences: CONTENTS_MOCK,
         page: 1,

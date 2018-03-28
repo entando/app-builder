@@ -10,7 +10,7 @@ import GroupDetailTabResourcesContainer from 'ui/groups/detail/GroupDetailTabRes
 
 const GroupDetailTabs = () => (
 
-  <TabContainer className="GroupDetailTabs__container" id="group-detail-tabs" defaultActiveKey={1}>
+  <TabContainer className="GroupDetailTabs__container" id="group-detail-tabs" defaultActiveKey={1} >
     <div>
       <Nav bsClass="nav nav-tabs">
         <NavItem eventKey={1}>
@@ -30,19 +30,19 @@ const GroupDetailTabs = () => (
         </NavItem>
       </Nav>
       <TabContent>
-        <TabPane eventKey={1} >
+        <TabPane eventKey={1} mountOnEnter unmountOnExit>
           <GroupDetailTabPagesContainer />
         </TabPane>
-        <TabPane eventKey={2} >
+        <TabPane eventKey={2} mountOnEnter unmountOnExit>
           <GroupDetailTabUsersContainer />
         </TabPane>
-        <TabPane eventKey={3} >
+        <TabPane eventKey={3} mountOnEnter unmountOnExit>
           <GroupDetailTabWidgetTypesContainer />
         </TabPane>
-        <TabPane eventKey={4} >
+        <TabPane eventKey={4} mountOnEnter unmountOnExit>
           <GroupDetailTabContentsContainer />
         </TabPane>
-        <TabPane eventKey={5} >
+        <TabPane eventKey={5} mountOnEnter unmountOnExit>
           <GroupDetailTabResourcesContainer />
         </TabPane>
       </TabContent>
