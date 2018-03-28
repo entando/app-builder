@@ -1,12 +1,12 @@
 import { USERS_OK, USER_PROFILE_MOCK } from 'test/mocks/users';
-import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 
 const getGenericError = obj => (
   obj || obj === '' ? [] : [{ code: 1, message: 'object is invalid' }]
 );
 
 export const getUsers = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/api/users${params}`,
       method: METHODS.GET,

@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 import { getUsers } from 'api/users';
 import { USERS_OK } from 'test/mocks/users';
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 
 const correctRequest = {
   uri: '/api/users',
@@ -12,7 +12,7 @@ const correctRequest = {
   errors: expect.any(Function),
 };
 jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
 
@@ -30,7 +30,7 @@ describe('api/users', () => {
 
     it('get user page 1 as first page', () => {
       getUsers({ page: 1, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
