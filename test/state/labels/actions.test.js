@@ -2,11 +2,15 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel } from 'state/labels/actions';
-import { SET_LABELS, UPDATE_LABEL } from 'state/labels/types';
+import {
+  setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
+  removeLabelSync, removeLabel,
+} from 'state/labels/actions';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
-import { getLabels, putLabel, postLabel } from 'api/labels';
+import { ADD_ERRORS } from 'state/errors/types';
+import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 
 import { LABELS_LIST } from 'test/mocks/labels';
 
@@ -37,13 +41,17 @@ const INITIAL_STATE = {
   },
 };
 const PAGE = { page: 1, pageSize: 10 };
+const ERRORS = [{ code: 1, message: 'Error message' }];
 
-const mockApi = ({ ok, payload, metaData }) =>
+const mockApi = ({
+  ok, payload, metaData, errors,
+}) =>
   () => new Promise(resolve => resolve({
     ok,
     json: () => new Promise(resolveJson => resolveJson({
       payload,
       metaData,
+      errors,
     })),
   }));
 
@@ -51,6 +59,7 @@ jest.mock('api/labels', () => ({
   getLabels: jest.fn(),
   putLabel: jest.fn(),
   postLabel: jest.fn(),
+  deleteLabel: jest.fn(),
 }));
 
 jest.mock('state/labels/selectors', () => ({
@@ -98,6 +107,25 @@ describe('state/labels/actions', () => {
     });
   });
 
+  describe('removeLabelSync', () => {
+    let action;
+    beforeEach(() => {
+      action = removeLabelSync(HELLO_LABEL.key);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('is of type UPDATE_LABEL', () => {
+      expect(action.type).toBe(REMOVE_LABEL);
+    });
+
+    it('defines the "labelKey" payload property', () => {
+      expect(action.payload.labelKey).toBe(HELLO_LABEL.key);
+    });
+  });
+
   describe('fetchLabels', () => {
     let store;
     beforeEach(() => {
@@ -126,6 +154,19 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(fetchLabels()).then(() => {
         expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      getLabels.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(fetchLabels()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });
@@ -158,6 +199,19 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(updateLabel(HELLO_LABEL)).then(() => {
         expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      putLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(updateLabel(HELLO_LABEL)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });
@@ -204,12 +258,68 @@ describe('state/labels/actions', () => {
       }).catch(done.fail);
     });
 
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      postLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(createLabel(HELLO_LABEL)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
+        done();
+      }).catch(done.fail);
+    });
+
     it('if there is no mapped label, dispatch UPDATE_LABEL to add it', (done) => {
       getLabelsMap.mockReturnValue({});
       store.dispatch(createLabel(HELLO_LABEL)).then(() => {
         const actions = store.getActions();
         expect(actions[0].type).toBe(UPDATE_LABEL);
         expect(actions[0].payload.label).toBe(HELLO_LABEL);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('removeLabel', () => {
+    const LABEL_KEY = HELLO_LABEL.key;
+    let store;
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+      deleteLabel.mockImplementation(mockApi({
+        ok: true,
+      }));
+    });
+
+    it('if API response is ok, dispatch REMOVE_LABEL', (done) => {
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(REMOVE_LABEL);
+        expect(actions[0].payload.labelKey).toBe(LABEL_KEY);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, dispatch nothing', (done) => {
+      deleteLabel.mockImplementation(mockApi({
+        ok: false,
+      }));
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      deleteLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(removeLabel(LABEL_KEY)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });

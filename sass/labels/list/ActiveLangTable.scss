@@ -1,0 +1,22 @@
+.ActiveLangTable {
+  &__table {
+    margin: 2em 0 0 0;
+  }
+
+  &__th-lg {
+    width: 45%;
+  }
+
+  &__th-sm {
+    width: 10%;
+  }
+
+  &__td--capitalized {
+    text-transform: capitalize;
+  }
+
+  &__delete-tag-btn {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

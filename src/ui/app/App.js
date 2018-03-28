@@ -28,6 +28,8 @@ import {
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
+  ROUTE_LABELS_AND_LANGUAGES,
+  ROUTE_GROUP_DETAIL,
 
 } from 'app-init/router';
 
@@ -56,6 +58,8 @@ import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
+import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
+import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -93,6 +97,8 @@ const App = ({ route, username }) => {
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
+    case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
+    case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
     default: return <NotFoundPage />;
   }
 };

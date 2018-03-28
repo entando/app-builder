@@ -1,5 +1,8 @@
 
-import { LIST_GROUPS_OK, GROUPS_NORMALIZED } from 'test/mocks/groups';
+import {
+  LIST_GROUPS_OK,
+  GROUPS_NORMALIZED,
+} from 'test/mocks/groups';
 
 import {
   getGroups,
@@ -22,7 +25,7 @@ describe('state/groups/selectors', () => {
     expect(getGroupsMap(GROUPS_NORMALIZED)).toEqual(GROUPS_NORMALIZED.groups.map);
   });
 
-  it('verify getUserList selector', () => {
+  it('verify getGroupsList selector', () => {
     expect(getGroupsList(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
   });
 });
