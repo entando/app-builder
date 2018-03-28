@@ -3,6 +3,7 @@ import { createLabel } from 'state/labels/actions';
 import AddLabelsPageForm from 'ui/labels/common/AddLabelsPageForm';
 import { getLocale } from 'state/locale/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
+import { fetchLanguages } from 'state/languages/actions';
 
 
 export const mapStateToProps = state => ({
@@ -11,6 +12,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => {
+    dispatch(fetchLanguages());
+  },
   onSubmit: (label) => {
     dispatch(createLabel(label));
   },
