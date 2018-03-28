@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Paginator, Alert } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import GroupListMenuActions from 'ui/groups/list/GroupListMenuActions';
+import DeleteGroupModalContainer from 'ui/groups/common/DeleteGroupModalContainer';
 
 class GroupListTable extends Component {
   constructor(props) {
@@ -25,7 +26,10 @@ class GroupListTable extends Component {
         <td className="GroupListRow__td">{group.name}</td>
         <td className="GroupListRow__td">{group.code}</td>
         <td className="GroupListRow__td text-center">
-          <GroupListMenuActions code={group.code} />
+          <GroupListMenuActions
+            code={group.code}
+            onClickDelete={this.props.onClickDelete}
+          />
         </td>
       </tr>
     ));
@@ -77,6 +81,7 @@ class GroupListTable extends Component {
     return (
       <div className="GroupListTable">
         {this.renderTable()}
+        <DeleteGroupModalContainer />
       </div>
     );
   }
@@ -91,11 +96,13 @@ GroupListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  onClickDelete: PropTypes.func,
 };
 
 GroupListTable.defaultProps = {
   onWillMount: () => {},
   groups: [],
+  onClickDelete: () => {},
 };
 
 export default GroupListTable;

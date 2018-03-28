@@ -42,6 +42,7 @@ export default {
     'app.api': 'API',
     'app.preview': 'Preview',
     'app.restore': 'Restore',
+    'app.cancel': 'Cancel',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -223,6 +224,6 @@ export default {
     'label.detail.title': 'Labels',
     'labels.code.placeholder': 'code',
     'labels.default.language': 'Default language',
+    'modal.confirm.delete': 'Do you really want to delete {code}?',
   },
-
 };

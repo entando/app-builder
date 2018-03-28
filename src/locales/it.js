@@ -29,6 +29,7 @@ export default {
     'app.used': 'usato',
     'app.actions': 'Azioni',
     'app.errors': 'Errori',
+    'app.cancel': 'Cancella',
     'app.search.returned': 'La ricerca ha restituito {value} risultati',
     'app.enTitle': 'Titolo inglese',
     'app.itTitle': 'Titolo italiano',
@@ -224,5 +225,6 @@ export default {
     'labels.code.placeholder': 'codice',
     'labels.default.language': 'Lingua Predefinita',
 
+    'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
   },
 };
