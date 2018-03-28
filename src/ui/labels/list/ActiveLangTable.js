@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Alert } from 'patternfly-react';
 
-const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map((item, index) => (
-  // eslint-disable-next-line
-  <tr key={`activeLang-${index}`}>
+const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map(item => (
+  <tr key={`activeLang-${item.code}`} className="ActiveLangTable__tr">
     <td className="ActiveLangTable__td">
       <span className="ActiveLangTable__td--capitalized">
         {item.code === defaultLanguage ? `${item.code}*` : item.code}

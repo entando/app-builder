@@ -46,7 +46,7 @@ export class LanguageFormBody extends Component {
                   component="select"
                   name="language"
                   label={<FormLabel labelId="label.selectLabel" />}
-                  className="form-control"
+                  className="form-control LanguageForm__language-field"
                 >
                   <option>{formattedText('form.select.chooseOne')}</option>
                   {renderSelectOptions(languages)}

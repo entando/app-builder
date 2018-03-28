@@ -30,7 +30,7 @@ export const getActiveLanguages = createSelector(
 export const getDefaultLanguage = createSelector(
   [getLanguagesMap, getLanguagesIdList],
   (languagesMap, languageIdList) => (
-    languageIdList.filter(value => languagesMap[value].isDefault) ?
+    languageIdList.filter(value => languagesMap[value].isDefault).length > 0 ?
       languageIdList.filter(value => languagesMap[value].isDefault)[0] : ''
   ),
 );
