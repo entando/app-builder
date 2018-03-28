@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
@@ -19,7 +19,7 @@ class UserListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
   }
 
   renderTableRows() {
@@ -91,7 +91,9 @@ class UserListTable extends Component {
   render() {
     return (
       <div className="UserListTable">
-        {this.renderTable()}
+        <Spinner loading={this.props.loading} >
+          {this.renderTable()}
+        </Spinner>
       </div>
     );
   }
@@ -99,6 +101,7 @@ class UserListTable extends Component {
 
 UserListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
@@ -110,6 +113,7 @@ UserListTable.propTypes = {
 
 UserListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   users: [],
 };
 
