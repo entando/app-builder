@@ -1,5 +1,14 @@
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+import {
+  GROUPS_NORMALIZED,
+  PAGE_REFERENCES,
+  USER_REFERENCES,
+  WIDGETTYPE_REFERENCES,
+  GROUP_CONTENT_REFERENCES,
+  RESOURCE_REFERENCES,
+  LIST_GROUPS_OK,
+  BODY_OK,
+} from 'test/mocks/groups';
 
 const filterMockList = (groupCode) => {
   const selected = LIST_GROUPS_OK.filter(group => (group.code === groupCode));
@@ -10,6 +19,20 @@ const filterMockList = (groupCode) => {
   return {};
 };
 
+const getGroupErrors = groupname => (
+  GROUPS_NORMALIZED.groups.map[groupname] ? [] :
+    [{ code: 1, message: 'invalid group name' }]
+);
+
+const getErrorsReferences = (ref, groupname) => (
+  ref[groupname].list ? [] :
+    [{ code: 1, message: 'invalid group name' }]
+);
+
+const getGenericError = obj => (
+  obj && obj.length > 0 ? [] : [{ code: 1, message: 'object is invalid' }]
+);
+
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeMockRequest(
     {
@@ -17,6 +40,7 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
       method: METHODS.GET,
       mockResponse: LIST_GROUPS_OK,
       useAuthentication: true,
+      errors: () => getGenericError(params),
     },
     page,
   )
@@ -28,6 +52,7 @@ export const getGroup = groupCode => (
     method: METHODS.GET,
     mockResponse: filterMockList(groupCode),
     useAuthentication: true,
+    errors: () => getGroupErrors(groupCode),
   })
 );
 
@@ -38,6 +63,7 @@ export const putGroup = groupObject => (
     mockResponse: BODY_OK,
     body: groupObject,
     useAuthentication: true,
+    errors: () => getGenericError(groupObject),
   })
 );
 
@@ -48,6 +74,7 @@ export const postGroup = groupObject => (
     mockResponse: BODY_OK,
     body: groupObject,
     useAuthentication: true,
+    errors: () => getGenericError(groupObject),
   })
 );
 
@@ -59,5 +86,24 @@ export const deleteGroup = groupCode => (
     useAuthentication: true,
   })
 );
+
+export const getReferences = (entityName, mockRefs) =>
+  (page = { page: 1, pageSize: 10 }, groupname) => (
+    makeMockRequest(
+      {
+        uri: `/groups/${groupname}/references/${entityName}`,
+        method: METHODS.GET,
+        mockResponse: mockRefs[groupname].list,
+        errors: () => getErrorsReferences(mockRefs, groupname),
+      },
+      page,
+    )
+  );
+
+export const getPageReferences = getReferences('PageManager', PAGE_REFERENCES);
+export const getUserReferences = getReferences('UserManager', USER_REFERENCES);
+export const getWidgetTypeReferences = getReferences('WidgetTypeManager', WIDGETTYPE_REFERENCES);
+export const getContentReferences = getReferences('ContentManager', GROUP_CONTENT_REFERENCES);
+export const getResourceReferences = getReferences('ResourceManager', RESOURCE_REFERENCES);
 
 export default getGroups;
