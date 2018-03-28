@@ -1,5 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
 import {
   GROUPS_NORMALIZED,
   PAGE_REFERENCES,
