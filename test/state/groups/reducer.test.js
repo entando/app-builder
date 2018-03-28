@@ -19,7 +19,6 @@ import {
   getSelectedGroupWidgetTypeReferences,
   getSelectedGroupContentReferences,
   getSelectedGroupResourceReferences,
-  getReferencesLoading,
 } from 'state/groups/selectors';
 
 import {
@@ -140,23 +139,22 @@ describe('state/groups/reducer', () => {
   });
 
   describe('after action TOGGLE_LOADING', () => {
-    let newState;
     beforeEach(() => {
-      newState = reducer(
+      reducer(
         state,
         toggleLoading('references'),
       );
     });
 
     it('should be false in the first state', () => {
-      expect(getReferencesLoading({ groups: state })).toBe(false);
+      expect(state.loading.references).toBeUndefined();
     });
     it('should be true after call', () => {
-      newState = reducer(
+      const newState = reducer(
         state,
         toggleLoading('references'),
       );
-      expect(getReferencesLoading({ groups: newState })).toBe(true);
+      expect(newState.loading.references).toBe(true);
     });
   });
 });
