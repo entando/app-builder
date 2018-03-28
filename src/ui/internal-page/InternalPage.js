@@ -83,16 +83,11 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_DATA_TYPE_LIST}
         />
       </FirstLevelMenuItem>
-      <FirstLevelMenuItem
+      <LinkMenuItem
         id="menu-user-settings"
         label={formattedText('menu.userSettings')}
-      >
-        <LinkMenuItem
-          id="menu-users"
-          label={formattedText('menu.users')}
-          route={ROUTE_USER_LIST}
-        />
-      </FirstLevelMenuItem>
+        route={ROUTE_USER_LIST}
+      />
       <FirstLevelMenuItem
         id="menu-configuration"
         label={formattedText('menu.configuration', 'Configuration')}
