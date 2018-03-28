@@ -9,6 +9,7 @@ import {
   setSelectedGroupContentReferences,
   setSelectedGroupResourceReferences,
   toggleLoading,
+  removeGroupSync,
 } from 'state/groups/actions';
 
 import {
@@ -30,6 +31,9 @@ import {
   GROUP_CONTENT_REFERENCES,
   RESOURCE_REFERENCES,
 } from 'test/mocks/groups';
+
+const GROUP_CODE = LIST_GROUPS_OK[0].code;
+const LIST_GROUPS_AFTER_REMOVE = LIST_GROUPS_OK.splice(0, 1);
 
 describe('state/groups/reducer', () => {
   const state = reducer();
@@ -155,6 +159,19 @@ describe('state/groups/reducer', () => {
         toggleLoading('references'),
       );
       expect(newState.loading.references).toBe(true);
+    });
+  });
+
+  describe('after action REMOVE_GROUP', () => {
+    const newState = reducer(state, setGroups(LIST_GROUPS_OK));
+
+    it('should remove the group from map and list', () => {
+      const stateAfterRemove = reducer(newState, removeGroupSync(GROUP_CODE));
+      expect(newState.map).not.toBe(stateAfterRemove.map);
+      expect(newState.map[GROUP_CODE]).toBeUndefined();
+
+      expect(newState.list).not.toBe(stateAfterRemove.list);
+      expect(stateAfterRemove.list.includes(GROUP_CODE)).toBe(false);
     });
   });
 });
