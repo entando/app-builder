@@ -1,4 +1,4 @@
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
 import {
   GROUPS_NORMALIZED,
   PAGE_REFERENCES,
@@ -34,7 +34,7 @@ const getGenericError = obj => (
 );
 
 export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeMockRequest(
+  makeRequest(
     {
       uri: `/api/groups${params}`,
       method: METHODS.GET,
@@ -47,7 +47,7 @@ export const getGroups = (page = { page: 1, pageSize: 10 }, params = '') => (
 );
 
 export const getGroup = groupCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/groups/${groupCode}`,
     method: METHODS.GET,
     mockResponse: filterMockList(groupCode),
@@ -57,7 +57,7 @@ export const getGroup = groupCode => (
 );
 
 export const putGroup = groupObject => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/groups/${groupObject.code}`,
     method: METHODS.PUT,
     mockResponse: BODY_OK,
@@ -68,7 +68,7 @@ export const putGroup = groupObject => (
 );
 
 export const postGroup = groupObject => (
-  makeMockRequest({
+  makeRequest({
     uri: '/api/groups',
     method: METHODS.POST,
     mockResponse: BODY_OK,
@@ -79,7 +79,7 @@ export const postGroup = groupObject => (
 );
 
 export const deleteGroup = groupCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/groups/${groupCode}`,
     method: METHODS.DELETE,
     mockResponse: { code: 'groupCode' },

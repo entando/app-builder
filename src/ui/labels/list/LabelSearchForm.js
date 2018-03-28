@@ -16,10 +16,10 @@ export const LabelSearchFormBody = ({ handleSubmit }) => {
       <h3><FormattedMessage id="label.searchForm.title" /></h3>
       <FormGroup>
         <Row>
-          <label className="control-label col-sm-2" htmlFor="username">
+          <label className="control-label col-xs-2" htmlFor="username">
             <FormattedMessage id="label.searchForm.text" />
           </label>
-          <Col sm={9}>
+          <Col xs={9}>
             <Field
               id="text"
               component="input"

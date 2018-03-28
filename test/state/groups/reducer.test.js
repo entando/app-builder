@@ -33,7 +33,6 @@ import {
 } from 'test/mocks/groups';
 
 const GROUP_CODE = LIST_GROUPS_OK[0].code;
-const LIST_GROUPS_AFTER_REMOVE = LIST_GROUPS_OK.splice(0, 1);
 
 describe('state/groups/reducer', () => {
   const state = reducer();
@@ -167,8 +166,8 @@ describe('state/groups/reducer', () => {
 
     it('should remove the group from map and list', () => {
       const stateAfterRemove = reducer(newState, removeGroupSync(GROUP_CODE));
-      expect(newState.map).not.toBe(stateAfterRemove.map);
-      expect(newState.map[GROUP_CODE]).toBeUndefined();
+      expect(newState.map).not.toEqual(stateAfterRemove.map);
+      expect(stateAfterRemove.map[GROUP_CODE]).toBeUndefined();
 
       expect(newState.list).not.toBe(stateAfterRemove.list);
       expect(stateAfterRemove.list.includes(GROUP_CODE)).toBe(false);
