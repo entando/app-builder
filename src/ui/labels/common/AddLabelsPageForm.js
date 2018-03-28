@@ -10,10 +10,6 @@ import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
 
 class AddLabelsPageFormBody extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   // this.handleSubmit = this.handleSubmit.bind(this);
-  // }
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -23,15 +19,9 @@ class AddLabelsPageFormBody extends Component {
    this.props.handleSubmit();
  };
 
- renderField() {
+ renderField(defaultLanguage) {
    return this.props.languages.map((language) => {
-     const label = `app.${language.code}`;
      const titles = `titles.${language.code}`;
-     // const EDIT_MODE = 'edit';
-     // const NEW_MODE = 'new';
-     const isDefaultlanguage =
-   language.isDefault ? '*' : 'PIPI';
-     console.log(language);
 
      return (
        <div key={language.code}>
@@ -41,9 +31,9 @@ class AddLabelsPageFormBody extends Component {
            label={
              <span>
                <span className="label label-info">
-                 <FormattedMessage id={label} />
+                 {language.code === defaultLanguage ? `${language.code} *` : language.code}
                </span>
-               <FormattedMessage id="app.name" />
+               &nbsp;<FormattedMessage id="app.name" />
              </span>
            }
            cols="50"
@@ -51,7 +41,6 @@ class AddLabelsPageFormBody extends Component {
            className="form-control"
            validate={[required]}
          />
-         {isDefaultlanguage}
        </div>
      );
    });
@@ -65,7 +54,6 @@ class AddLabelsPageFormBody extends Component {
              <div className="text-right">
                * <FormattedMessage id="labels.default.language" />
              </div>
-
              <Field
                component={RenderTextInput}
                name="key"
@@ -86,7 +74,7 @@ class AddLabelsPageFormBody extends Component {
            <fieldset className="no-padding">
              <div className="tab-content margin-large-bottom ">
                <div>
-                 {this.renderField()}
+                 {this.renderField(this.props.defaultLanguage)}
                </div>
              </div>
            </fieldset>
@@ -120,6 +108,7 @@ AddLabelsPageFormBody.propTypes = {
     isActive: PropTypes.string,
     isDefault: PropTypes.string,
   })),
+  defaultLanguage: PropTypes.string,
 };
 
 AddLabelsPageFormBody.defaultProps = {
@@ -131,6 +120,7 @@ AddLabelsPageFormBody.defaultProps = {
     isActive: '',
     isDefault: '',
   })),
+  defaultLanguage: '',
 };
 
 const AddLabelsPageForm = reduxForm({
