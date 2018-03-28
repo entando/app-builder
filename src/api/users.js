@@ -25,7 +25,7 @@ const getErrors = username => (
 );
 
 export const getUserDetail = username => makeMockRequest({
-  uri: `/users/detail/${username}`,
+  uri: `/api/users/${username}`,
   method: METHODS.GET,
   mockResponse: USER_PROFILE_MOCK[username],
   errors: () => getErrors(username),

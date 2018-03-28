@@ -96,7 +96,7 @@ export const postPage = pageObject => new Promise((resolve) => {
 });
 
 export const putPage = pageObject => makeRequest({
-  uri: `/pages/${pageObject.code}`,
+  uri: `/api/pages/${pageObject.code}`,
   body: pageObject,
   method: METHODS.PUT,
   mockResponse: { ...pageObject },
@@ -109,7 +109,7 @@ export const putPage = pageObject => makeRequest({
 });
 
 export const putPageStatus = (pageCode, status) => makeRequest({
-  uri: `/pages/${pageCode}/status`,
+  uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
   mockResponse: { ...fetchPageResponseMap[pageCode], status },
@@ -205,7 +205,7 @@ export const putPageWidget = (pageCode, frameId, widget) =>
   });
 
 export const restorePageConfig = pageCode => makeRequest({
-  uri: `/pages/${pageCode}/widgets/restore`,
+  uri: `/api/pages/${pageCode}/widgets/restore`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
@@ -213,7 +213,7 @@ export const restorePageConfig = pageCode => makeRequest({
 });
 
 export const applyDefaultPageConfig = pageCode => makeRequest({
-  uri: `/pages/${pageCode}/widgets/applyDefault`,
+  uri: `/api/pages/${pageCode}/widgets/applyDefault`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
