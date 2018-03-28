@@ -10,7 +10,7 @@ import {
   getContentReferences,
   getResourceReferences,
 } from 'api/groups';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
 import {
   PAGE_REFERENCES,
   USER_REFERENCES,
@@ -39,6 +39,7 @@ const EDITED_GROUP = {
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
 
