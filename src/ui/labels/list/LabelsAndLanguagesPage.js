@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import LanguageFormContainer from 'ui/labels/list/LanguageFormContainer';
 import LabelsTabsContainer from 'ui/labels/list/LabelsTabsContainer';
 
 
@@ -34,7 +35,7 @@ class LabelsAndLanguagesPage extends Component {
     let pageContent;
     if (this.state.activeTab === TAB_LANGUAGES) {
       pageContent = (
-        <h1>LANGUAGES LIST</h1>
+        <LanguageFormContainer />
       );
     } else {
       pageContent = <LabelsTabsContainer />;
