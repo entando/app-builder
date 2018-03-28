@@ -95,7 +95,7 @@ const getParsedBody = (contentType, body) => {
   if (contentType === 'application/x-www-form-urlencoded') {
     return Object.keys(body).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(body[key])}`).join('&');
   }
-  return body;
+  return JSON.stringify(body);
 };
 
 const getRequestParams = (request) => {
