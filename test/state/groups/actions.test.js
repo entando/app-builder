@@ -16,7 +16,7 @@ import {
   fetchCurrentReferenceWidgetTypes,
   fetchCurrentReferenceContents,
   fetchCurrentReferenceResources,
-
+  removeGroupSync,
 } from 'state/groups/actions';
 import {
   putGroup,
@@ -41,6 +41,7 @@ import {
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+  REMOVE_GROUP,
 } from 'state/groups/types';
 
 import { SET_PAGE } from 'state/pagination/types';
@@ -140,7 +141,14 @@ describe('state/groups/actions', () => {
   describe('setGroups', () => {
     it('test setGroups action sets the correct type', () => {
       const action = setGroups(LIST_GROUPS_OK);
-      expect(action.type).toEqual(SET_GROUPS);
+      expect(action).toHaveProperty('type', SET_GROUPS);
+    });
+  });
+
+  describe('removeGroupSync', () => {
+    it('test removeGroupSync action sets the correct type', () => {
+      const action = removeGroupSync(GROUP_CODE);
+      expect(action).toHaveProperty('type', REMOVE_GROUP);
     });
   });
 
@@ -249,10 +257,14 @@ describe('state/groups/actions', () => {
   });
 
   describe('sendDeleteGroup()', () => {
-    it('when deleteGroup succeeds, should dispatch', (done) => {
+    it('when deleteGroup succeeds, should dispatch removeGroupSync', (done) => {
       deleteGroup.mockReturnValueOnce(new Promise(resolve => resolve(DELETE_GROUP_PROMISE)));
-      store.dispatch(sendDeleteGroup('group_code')).then(() => {
+      store.dispatch(sendDeleteGroup(GROUP_CODE)).then(() => {
         expect(deleteGroup).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', REMOVE_GROUP);
+        expect(actions[0].payload).toHaveProperty('groupCode', LIST_GROUPS_OK[0].code);
         done();
       }).catch(done.fail);
     });
