@@ -10,11 +10,11 @@ describe('AddUserPage', () => {
     component = shallow(<AddLabelsPage />);
   });
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('verify if exist InternalPage with class AddUserPage', () => {
-    expect(component.find('InternalPage').hasClass('AddLabelsPage')).toEqual(true);
+    expect(component.find('InternalPage').hasClass('AddLabelsPage')).toBe(true);
   });
 
   it('verify if has a breadcrumb', () => {
