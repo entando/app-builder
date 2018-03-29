@@ -10,7 +10,7 @@ import {
   getContentReferences,
   getResourceReferences,
 } from 'api/groups';
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
 import {
   PAGE_REFERENCES,
   USER_REFERENCES,
@@ -38,6 +38,7 @@ const EDITED_GROUP = {
 
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
@@ -54,7 +55,7 @@ describe('api/groups', () => {
 
     it('get group page 1 by default', () => {
       getGroups({ page: 1, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -65,7 +66,7 @@ describe('api/groups', () => {
 
     it('request page 2', () => {
       getGroups({ page: 2, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -76,7 +77,7 @@ describe('api/groups', () => {
 
     it('request different page size', () => {
       getGroups({ page: 1, pageSize: 5 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -87,7 +88,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       getGroups({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/groups?param=true',
@@ -107,7 +108,7 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       getGroup(GROUP_CODE);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: `/api/groups/${GROUP_CODE}`,
         mockResponse: {},
@@ -122,7 +123,7 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       postGroup(BODY_OK);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         method: 'POST',
         mockResponse: BODY_OK,
@@ -138,7 +139,7 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       putGroup(EDITED_GROUP);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: `/api/groups/${EDITED_GROUP.code}`,
         method: 'PUT',

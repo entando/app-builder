@@ -16,7 +16,7 @@ const AddUserPage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.userSettings" />
             </BreadcrumbItem>
             <BreadcrumbItem route={ROUTE_USER_LIST}>
               <FormattedMessage id="menu.users" />

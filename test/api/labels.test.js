@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
@@ -22,7 +22,7 @@ const LABEL_OBJ = {
 
 jest.unmock('api/labels');
 jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
@@ -38,7 +38,7 @@ describe('api/labels', () => {
 
     it('get fragment page 1 by default', () => {
       getLabels({ page: 1, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -49,7 +49,7 @@ describe('api/labels', () => {
 
     it('request page 2', () => {
       getLabels({ page: 2, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -60,7 +60,7 @@ describe('api/labels', () => {
 
     it('request different page size', () => {
       getLabels({ page: 1, pageSize: 5 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -71,7 +71,7 @@ describe('api/labels', () => {
 
     it('makes the request with additional params', () => {
       getLabels({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/labels?param=true',
@@ -91,7 +91,7 @@ describe('api/labels', () => {
 
     it('makes the correct request with label body', () => {
       putLabel(LABEL_OBJ);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
         uri: `/api/labels/${LABEL_OBJ.key}`,
         body: LABEL_OBJ,
@@ -107,7 +107,7 @@ describe('api/labels', () => {
 
     it('makes the correct request with label body', () => {
       postLabel(LABEL_OBJ);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.POST,
         uri: '/api/labels',
         body: LABEL_OBJ,
@@ -123,7 +123,7 @@ describe('api/labels', () => {
 
     it('makes the correct request', () => {
       deleteLabel(LABEL_KEY);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.DELETE,
         uri: `/api/labels/${LABEL_KEY}`,
         useAuthentication: true,

@@ -31,7 +31,6 @@ import {
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
   ROUTE_LABELS_ADD,
-
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';

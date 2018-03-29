@@ -1,9 +1,9 @@
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 export const getLabels = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/api/labels${params}`,
       method: METHODS.GET,
