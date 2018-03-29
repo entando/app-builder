@@ -57,7 +57,7 @@ export class AddLabelsPageFormBody extends Component {
          <span>
            <FormattedMessage id="app.code" />
          </span>
-         }
+       }
        placeholder={formattedText('labels.code.placeholder')}
        validate={[required]}
        disabled={this.props.mode === EDIT_MODE}
