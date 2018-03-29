@@ -8,7 +8,7 @@ import {
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
-  ROUTE_LABELS_AND_LANGUAGES,
+  ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -81,6 +81,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-data-types"
           label={formattedText('menu.dataType')}
           route={ROUTE_DATA_TYPE_LIST}
+        />
+        <LinkMenuItem
+          id="menu-data-models"
+          label={formattedText('menu.dataModel')}
+          route={ROUTE_DATA_MODEL_LIST}
         />
       </FirstLevelMenuItem>
       <LinkMenuItem
