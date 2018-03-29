@@ -156,7 +156,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestPageReferences = {
-        uri: '/groups/administrators/references/PageManager',
+        uri: '/api/groups/administrators/references/PageManager',
         method: METHODS.GET,
         mockResponse: PAGE_REFERENCES.administrators.list,
         errors: expect.any(Function),
@@ -179,7 +179,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestUserReferences = {
-        uri: '/groups/administrators/references/UserManager',
+        uri: '/api/groups/administrators/references/UserManager',
         method: METHODS.GET,
         mockResponse: USER_REFERENCES.administrators.list,
         errors: expect.any(Function),
@@ -202,7 +202,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestWidgetTypeReferences = {
-        uri: '/groups/administrators/references/WidgetTypeManager',
+        uri: '/api/groups/administrators/references/WidgetTypeManager',
         method: METHODS.GET,
         mockResponse: WIDGETTYPE_REFERENCES.administrators.list,
         errors: expect.any(Function),
@@ -225,7 +225,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestContentReferences = {
-        uri: '/groups/administrators/references/ContentManager',
+        uri: '/api/groups/administrators/references/ContentManager',
         method: METHODS.GET,
         mockResponse: GROUP_CONTENT_REFERENCES.administrators.list,
         errors: expect.any(Function),
@@ -248,7 +248,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestResourceReferences = {
-        uri: '/groups/administrators/references/ResourceManager',
+        uri: '/api/groups/administrators/references/ResourceManager',
         method: METHODS.GET,
         mockResponse: RESOURCE_REFERENCES.administrators.list,
         errors: expect.any(Function),
