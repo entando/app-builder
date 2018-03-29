@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import GroupListMenuActions from 'ui/groups/list/GroupListMenuActions';
 import DeleteGroupModalContainer from 'ui/groups/common/DeleteGroupModalContainer';
@@ -80,8 +80,10 @@ class GroupListTable extends Component {
   render() {
     return (
       <div className="GroupListTable">
-        {this.renderTable()}
-        <DeleteGroupModalContainer />
+        <Spinner loading={this.props.loading}>
+          {this.renderTable()}
+          <DeleteGroupModalContainer />
+        </Spinner>
       </div>
     );
   }
@@ -89,6 +91,7 @@ class GroupListTable extends Component {
 
 GroupListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -101,6 +104,7 @@ GroupListTable.propTypes = {
 
 GroupListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   groups: [],
   onClickDelete: () => {},
 };

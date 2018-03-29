@@ -2,6 +2,7 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentListTableContainer';
 import { LIST_FRAGMENTS_OK } from 'test/mocks/fragments';
+import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   fragments: { list: LIST_FRAGMENTS_OK },
@@ -12,6 +13,12 @@ const TEST_STATE = {
     totalItems: 20,
   },
 };
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+
+getLoading.mockReturnValue(false);
 
 const dispatchMock = jest.fn();
 
