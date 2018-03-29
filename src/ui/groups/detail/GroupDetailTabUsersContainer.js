@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { fetchCurrentReferenceUsers } from 'state/groups/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
-import { getSelectedGroupUserReferences, getReferencesLoading } from 'state/groups/selectors';
+import { getSelectedGroupUserReferences } from 'state/groups/selectors';
+import { getLoading } from 'state/loading/selectors';
 
 import GroupDetailTabUsers from 'ui/groups/detail/GroupDetailTabUsers';
 
@@ -10,7 +11,7 @@ export const mapStateToProps = state => ({
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
-  loading: getReferencesLoading(state),
+  loading: getLoading(state).references,
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -1,36 +1,42 @@
 import 'test/enzyme-init';
 import { getUsers } from 'api/users';
-import {
-  USERS_OK_PAGE_1,
-  USERS_OK_PAGE_2,
-} from 'test/mocks/users';
+import { USERS_OK } from 'test/mocks/users';
 
+import { makeMockRequest, METHODS } from 'api/apiManager';
+
+const correctRequest = {
+  uri: '/api/users',
+  method: METHODS.GET,
+  mockResponse: USERS_OK.payload,
+  useAuthentication: true,
+  errors: expect.any(Function),
+};
+jest.mock('api/apiManager', () => ({
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+}));
 
 jest.unmock('api/users');
 
 describe('api/users', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getUsers', () => {
     it('returns a promise', () => {
-      const filledInput = getUsers();
-      expect(typeof filledInput.then === 'function').toBeDefined();
+      expect(getUsers()).toBeInstanceOf(Promise);
     });
 
     it('get user page 1 as first page', () => {
-      getUsers().then((response) => {
-        expect(response).toEqual(USERS_OK_PAGE_1);
-      });
-    });
-
-    it('get user page 2', () => {
-      getUsers(2).then((response) => {
-        expect(response).toEqual(USERS_OK_PAGE_2);
-      });
-    });
-
-    it('get user page 1 by default', () => {
-      getUsers('nopage').then((response) => {
-        expect(response).toEqual(USERS_OK_PAGE_1);
-      });
+      getUsers({ page: 1, pageSize: 10 });
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });

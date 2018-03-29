@@ -1,12 +1,12 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { USERS_OK } from 'test/mocks/users';
 
 
 import UserListTable from 'ui/users/list/UserListTable';
 
-const users = USERS_OK_PAGE_1.payload;
+const users = USERS_OK.payload;
 
 jest.mock('state/users/selectors', () => ({
   getUserList: jest.fn(),
@@ -64,11 +64,11 @@ describe('UserListTable', () => {
         component.setProps({ users });
       });
 
-      it('has two rows if there are two users', () => {
+      it('has four rows if there are two users', () => {
         const tbody = component.find('tbody');
         expect(tbody).toHaveLength(1);
-        expect(tbody.find('tr')).toHaveLength(2);
-        expect(tbody.find('UserListMenuActions')).toHaveLength(2);
+        expect(tbody.find('tr')).toHaveLength(4);
+        expect(tbody.find('UserListMenuActions')).toHaveLength(4);
       });
 
       it('has a menu in the action column of each row', () => {

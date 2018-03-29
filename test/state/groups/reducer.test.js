@@ -141,26 +141,6 @@ describe('state/groups/reducer', () => {
     });
   });
 
-  describe('after action TOGGLE_LOADING', () => {
-    beforeEach(() => {
-      reducer(
-        state,
-        toggleLoading('references'),
-      );
-    });
-
-    it('should be false in the first state', () => {
-      expect(state.loading.references).toBeUndefined();
-    });
-    it('should be true after call', () => {
-      const newState = reducer(
-        state,
-        toggleLoading('references'),
-      );
-      expect(newState.loading.references).toBe(true);
-    });
-  });
-
   describe('after action REMOVE_GROUP', () => {
     const newState = reducer(state, setGroups(LIST_GROUPS_OK));
 

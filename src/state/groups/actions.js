@@ -14,12 +14,12 @@ import {
 } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 import { getParams, gotoRoute } from 'frontend-common-components';
 
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
-  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
@@ -30,12 +30,6 @@ import {
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 
-export const toggleLoading = id => ({
-  type: TOGGLE_LOADING,
-  payload: {
-    id,
-  },
-});
 
 export const setGroups = groups => ({
   type: SET_GROUPS,

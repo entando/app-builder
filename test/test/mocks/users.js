@@ -14,7 +14,7 @@ export const ERROR = {
   },
 };
 
-export const USERS_OK_PAGE_1 =
+export const USERS_OK =
 {
   payload: [
     {
@@ -33,19 +33,6 @@ export const USERS_OK_PAGE_1 =
       status: 'disabled',
       passwordChangeRequired: true,
     },
-  ],
-  errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 2,
-    lastPage: 2,
-    totalItems: 4,
-  },
-};
-
-export const USERS_OK_PAGE_2 =
-{
-  payload: [
     {
       username: 'user2',
       registration: '2018-01-08 00:00:00',
@@ -65,10 +52,49 @@ export const USERS_OK_PAGE_2 =
   ],
   errors: [],
   metaData: {
-    page: 2,
-    pageSize: 2,
+    page: 1,
+    pageSize: 10,
     lastPage: 2,
     totalItems: 4,
+  },
+};
+
+export const USERS_NORMALIZED = {
+  list: ['admin', 'user1', 'user2', 'user3'],
+  map: {
+    admin: {
+      username: 'admin',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'active',
+      passwordChangeRequired: true,
+    },
+    user1: {
+      username: 'user1',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'disabled',
+      passwordChangeRequired: true,
+    },
+
+    user2: {
+      username: 'user2',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'active',
+      passwordChangeRequired: true,
+    },
+    user3: {
+      username: 'user3',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'active',
+      passwordChangeRequired: true,
+    },
   },
 };
 
