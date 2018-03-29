@@ -14,7 +14,7 @@ const ListDataTypePage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.data" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="menu.dataType" />
