@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export const TOGGLE_LOADING = 'loading/set-references-loading';
+export const TOGGLE_LOADING = 'loading/toggle-loading';
