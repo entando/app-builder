@@ -5,7 +5,7 @@ import { LABELS_LIST } from 'test/mocks/labels';
 export const getLabels = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeMockRequest(
     {
-      uri: `/labels${params}`,
+      uri: `/api/labels${params}`,
       method: METHODS.GET,
       mockResponse: LABELS_LIST,
       useAuthentication: true,
@@ -16,7 +16,7 @@ export const getLabels = (page = { page: 1, pageSize: 10 }, params = '') => (
 
 export const postLabel = labelObj => (
   makeMockRequest({
-    uri: '/labels',
+    uri: '/api/labels',
     method: METHODS.POST,
     body: labelObj,
     mockResponse: { ...labelObj },
@@ -26,7 +26,7 @@ export const postLabel = labelObj => (
 
 export const putLabel = labelObj => (
   makeMockRequest({
-    uri: `/labels/${labelObj.key}`,
+    uri: `/api/labels/${labelObj.key}`,
     method: METHODS.PUT,
     body: labelObj,
     mockResponse: { ...labelObj },
@@ -36,7 +36,7 @@ export const putLabel = labelObj => (
 
 export const deleteLabel = labelKey => (
   makeMockRequest({
-    uri: `/labels/${labelKey}`,
+    uri: `/api/labels/${labelKey}`,
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,
