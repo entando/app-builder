@@ -1,15 +1,8 @@
 import reducer from 'state/users/reducer';
-import { setUsers, toggleLoading } from 'state/users/actions';
-import { getUserList } from 'state/users/selectors';
+import { setUsers, setSelectedUserDetail } from 'state/users/actions';
 import { USERS_OK } from 'test/mocks/users';
 
 const users = USERS_OK.payload;
-
-jest.mock('state/users/selectors', () => ({
-  getUserList: jest.fn(),
-}));
-
-getUserList.mockReturnValue(users);
 
 describe('state/users/reducer', () => {
   const state = reducer();
@@ -21,31 +14,24 @@ describe('state/users/reducer', () => {
   describe('after action SET_USERS', () => {
     let newState;
     beforeEach(() => {
-      newState = reducer(state, setUsers(USERS_OK.payload));
+      newState = reducer(state, setUsers(users));
     });
 
     it('should define the dataType payload', () => {
-      expect(getUserList(newState)).toEqual(USERS_OK.payload);
+      users.forEach((user, i) => {
+        expect(newState.list[i]).toBe(user.username);
+      });
     });
   });
 
-  describe('after action TOGGLE_LOADING', () => {
+  describe('after action SET_SELECTED_USERS', () => {
+    let newState;
     beforeEach(() => {
-      reducer(
-        state,
-        toggleLoading('users'),
-      );
+      newState = reducer(state, setSelectedUserDetail(users[0].username));
     });
 
-    it('should be false in the first state', () => {
-      expect(state.loading.users).toBeUndefined();
-    });
-    it('should be true after call', () => {
-      const newState = reducer(
-        state,
-        toggleLoading('users'),
-      );
-      expect(newState.loading.users).toBe(true);
+    it('should define the dataType payload', () => {
+      expect(newState.selected).toEqual(users[0].username);
     });
   });
 });

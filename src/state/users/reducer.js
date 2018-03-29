@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_USERS, SET_SELECTED_USER, TOGGLE_LOADING } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 
 const toMap = array => array.reduce((acc, user) => {
   acc[user.username] = user;
@@ -35,17 +35,8 @@ export const selected = (state = {}, action = {}) => {
   }
 };
 
-export const loading = (state = {}, action = {}) => {
-  switch (action.type) {
-    case TOGGLE_LOADING: {
-      return { ...state, [action.payload.id]: !state[action.payload.id] };
-    }
-    default: return state;
-  }
-};
 export default combineReducers({
   list,
   map: userMap,
   selected,
-  loading,
 });

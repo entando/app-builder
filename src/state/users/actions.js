@@ -1,19 +1,13 @@
 import { initialize } from 'redux-form';
-import { SET_USERS, SET_SELECTED_USER, TOGGLE_LOADING } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { getUsers, getUserDetail } from 'api/users';
 import { getUser, putUser } from 'api/user';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { getParams, gotoRoute } from 'frontend-common-components';
-
-export const toggleLoading = id => ({
-  type: TOGGLE_LOADING,
-  payload: {
-    id,
-  },
-});
 
 
 export const setUsers = users => ({

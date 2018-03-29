@@ -2,7 +2,8 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/list/UserListTableContainer';
 import { USERS_OK } from 'test/mocks/users';
-import { getUserList, getUsersLoading } from 'state/users/selectors';
+import { getUserList } from 'state/users/selectors';
+import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   users: {
@@ -16,13 +17,16 @@ const dispatchMock = jest.fn();
 
 jest.mock('state/users/selectors', () => ({
   getUserList: jest.fn(),
-  getUsersLoading: jest.fn(),
+}));
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
 }));
 
 const users = USERS_OK.payload;
 
 getUserList.mockReturnValue(users);
-getUsersLoading.mockReturnValue(false);
+getLoading.mockReturnValue(false);
 
 describe('UserListTableContainer', () => {
   it('maps users list property state in UsersListTable', () => {

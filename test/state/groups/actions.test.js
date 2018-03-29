@@ -32,20 +32,21 @@ import {
 } from 'api/groups';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
-  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
 } from 'state/groups/types';
-
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ROUTE_GROUP_LIST } from 'app-init/router';
 import { ADD_ERRORS } from 'state/errors/types';
+
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

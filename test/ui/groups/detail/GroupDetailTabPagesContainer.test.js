@@ -1,7 +1,8 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabPagesContainer';
-import { getSelectedGroupPageReferences, getReferencesLoading } from 'state/groups/selectors';
+import { getSelectedGroupPageReferences } from 'state/groups/selectors';
+import { getLoading } from 'state/loading/selectors';
 import { PAGE_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
@@ -20,11 +21,14 @@ const PAGES_MOCK = [{
 
 jest.mock('state/groups/selectors', () => ({
   getSelectedGroupPageReferences: jest.fn(),
-  getReferencesLoading: jest.fn(),
 }));
 
 getSelectedGroupPageReferences.mockReturnValue(PAGE_REFERENCES.administrators.list);
-getReferencesLoading.mockReturnValue(false);
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+getLoading.mockReturnValue(false);
 
 describe('GroupDetailTabPagesContainer', () => {
   let props;

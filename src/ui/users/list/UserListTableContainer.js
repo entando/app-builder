@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 
 import { fetchUsers } from 'state/users/actions';
-import { getUserList, getUsersLoading } from 'state/users/selectors';
+import { getUserList } from 'state/users/selectors';
+import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import UserListTable from 'ui/users/list/UserListTable';
 
@@ -11,7 +12,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
-    loading: getUsersLoading(state),
+    loading: getLoading(state).users,
   }
 );
 

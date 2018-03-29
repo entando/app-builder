@@ -8,7 +8,6 @@ import {
   setSelectedGroupWidgetTypeReferences,
   setSelectedGroupContentReferences,
   setSelectedGroupResourceReferences,
-  toggleLoading,
 } from 'state/groups/actions';
 
 import {
@@ -135,26 +134,6 @@ describe('state/groups/reducer', () => {
     it('should define the userReferenced payload', () => {
       expect(getSelectedGroupResourceReferences({ groups: newState }))
         .toMatchObject(RESOURCE_REFERENCES.administrators.list);
-    });
-  });
-
-  describe('after action TOGGLE_LOADING', () => {
-    beforeEach(() => {
-      reducer(
-        state,
-        toggleLoading('references'),
-      );
-    });
-
-    it('should be false in the first state', () => {
-      expect(state.loading.references).toBeUndefined();
-    });
-    it('should be true after call', () => {
-      const newState = reducer(
-        state,
-        toggleLoading('references'),
-      );
-      expect(newState.loading.references).toBe(true);
     });
   });
 });
