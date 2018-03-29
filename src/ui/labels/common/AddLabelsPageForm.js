@@ -9,7 +9,10 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
 
-class AddLabelsPageFormBody extends Component {
+const EDIT_MODE = 'edit';
+const NEW_MODE = 'new';
+
+export class AddLabelsPageFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -45,26 +48,34 @@ class AddLabelsPageFormBody extends Component {
      );
    });
  }
+ renderFieldKey = () => (
+   <div>
+     <Field
+       component={RenderTextInput}
+       name="key"
+       label={
+         <span>
+           <FormattedMessage id="app.code" />
+         </span>
+         }
+       placeholder={formattedText('labels.code.placeholder')}
+       validate={[required]}
+       disabled={this.props.mode === EDIT_MODE}
+     />
+   </div>
+ )
+
+
  render() {
    return (
-     <form onSubmit={this.onSubmit} className="form-horizontal">
+     <form onSubmit={this.onSubmit} className="form-horizontal AddLabelsPageForm">
        <Row>
          <Col xs={12}>
            <fieldset className="no-padding">
              <div className="text-right">
                * <FormattedMessage id="labels.default.language" />
              </div>
-             <Field
-               component={RenderTextInput}
-               name="key"
-               label={
-                 <span>
-                   <FormattedMessage id="app.code" />
-                 </span>
-               }
-               placeholder={formattedText('labels.code.placeholder')}
-               validate={[required]}
-             />
+             {this.renderFieldKey()}
            </fieldset>
          </Col>
        </Row>
@@ -84,7 +95,7 @@ class AddLabelsPageFormBody extends Component {
        <Row>
          <Col xs={12}>
            <Button
-             className="pull-right"
+             className="pull-right AddLabelsPageForm__save-btn"
              type="submit"
              bsStyle="primary"
              disabled={this.props.invalid || this.props.submitting}
@@ -105,10 +116,11 @@ AddLabelsPageFormBody.propTypes = {
   submitting: PropTypes.bool,
   languages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
-    isActive: PropTypes.string,
-    isDefault: PropTypes.string,
+    isActive: PropTypes.bool,
+    isDefault: PropTypes.bool,
   })),
   defaultLanguage: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 AddLabelsPageFormBody.defaultProps = {
@@ -121,6 +133,7 @@ AddLabelsPageFormBody.defaultProps = {
     isDefault: '',
   })),
   defaultLanguage: '',
+  mode: NEW_MODE,
 };
 
 const AddLabelsPageForm = reduxForm({
