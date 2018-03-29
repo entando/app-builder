@@ -25,6 +25,7 @@ import {
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+  REMOVE_GROUP,
 } from 'state/groups/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
@@ -79,6 +80,12 @@ export const setSelectedGroupResourceReferences = references => ({
   },
 });
 
+export const removeGroupSync = groupCode => ({
+  type: REMOVE_GROUP,
+  payload: {
+    groupCode,
+  },
+});
 
 // thunk
 
@@ -148,6 +155,7 @@ export const sendDeleteGroup = groupCode => dispatch =>
     deleteGroup(groupCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(removeGroupSync(groupCode));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
