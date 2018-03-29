@@ -77,7 +77,7 @@ describe('api/pages', () => {
     it('get fragment page 1 by default', () => {
       putPage(CONTACTS_PAYLOAD);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/pages/${CONTACTS_PAYLOAD.code}`,
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
         body: CONTACTS_PAYLOAD,
         method: METHODS.PUT,
         errors: expect.any(Function),

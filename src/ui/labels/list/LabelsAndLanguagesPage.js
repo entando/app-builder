@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, MenuItem } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
+import { Grid, Row, Col, Breadcrumb, MenuItem, Button } from 'patternfly-react';
+import { BreadcrumbItem, Link } from 'frontend-common-components';
+import LabelSearchFormContainer from 'ui/labels/list/LabelSearchFormContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import LanguageFormContainer from 'ui/labels/list/LanguageFormContainer';
 import LabelsTabsContainer from 'ui/labels/list/LabelsTabsContainer';
-
+import { ROUTE_LABEL_ADD } from 'app-init/router';
 
 const TAB_LANGUAGES = 'languages';
 const TAB_LABELS = 'labels';
@@ -38,7 +39,37 @@ class LabelsAndLanguagesPage extends Component {
         <LanguageFormContainer />
       );
     } else {
-      pageContent = <LabelsTabsContainer />;
+      pageContent = (
+        <Row>
+          <Col xs={12}>
+            <Row>
+              <Col xs={6} xsOffset={3}>
+                <LabelSearchFormContainer />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Link route={ROUTE_LABEL_ADD}>
+                  <Button
+                    type="button"
+                    className="pull-right LabelsAndLanguagesPage__add-label"
+                    bsStyle="primary"
+                  >
+                    <FormattedMessage
+                      id="app.add"
+                    />
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <LabelsTabsContainer />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      );
     }
     return (
       <InternalPage className="LabelsAndLanguagesPage">
@@ -78,11 +109,7 @@ class LabelsAndLanguagesPage extends Component {
               </ul>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              { pageContent }
-            </Col>
-          </Row>
+          { pageContent }
         </Grid>
       </InternalPage>
     );

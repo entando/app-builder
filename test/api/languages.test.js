@@ -1,11 +1,11 @@
 import 'test/enzyme-init';
 import { getLanguages, putLanguage } from 'api/languages';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 
 const correctRequest = {
-  uri: '/languages',
+  uri: '/api/languages',
   method: METHODS.GET,
   mockResponse: LANGUAGES_LIST,
   useAuthentication: true,
@@ -20,7 +20,7 @@ const LANGUAGE_OBJ = {
 
 jest.unmock('api/languages');
 jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', PUT: 'PUT' },
 }));
 
@@ -36,7 +36,7 @@ describe('api/languages', () => {
 
     it('get fragment page 1 by default', () => {
       getLanguages({ page: 1, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -47,7 +47,7 @@ describe('api/languages', () => {
 
     it('request page 2', () => {
       getLanguages({ page: 2, pageSize: 10 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -58,7 +58,7 @@ describe('api/languages', () => {
 
     it('request different page size', () => {
       getLanguages({ page: 1, pageSize: 5 });
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -69,10 +69,10 @@ describe('api/languages', () => {
 
     it('makes the request with additional params', () => {
       getLanguages({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeRequest).toHaveBeenCalledWith(
+      expect(makeMockRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
-          uri: '/languages?param=true',
+          uri: '/api/languages?param=true',
         },
         {
           page: 1,
@@ -89,9 +89,9 @@ describe('api/languages', () => {
 
     it('makes the correct request with language body', () => {
       putLanguage(LANGUAGE_OBJ);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
-        uri: `/languages/${LANGUAGE_OBJ.code}`,
+        uri: `/api/languages/${LANGUAGE_OBJ.code}`,
         body: LANGUAGE_OBJ,
         useAuthentication: true,
       }));

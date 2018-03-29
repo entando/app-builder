@@ -116,7 +116,7 @@ describe('apiManager', () => {
       }).then((json) => {
         expect(json).toMatchObject({ payload: MOCKED_GOOD_RESPONSE });
         done();
-      });
+      }).catch(done.fail);
     });
 
     describe('errors handling', () => {
@@ -136,7 +136,7 @@ describe('apiManager', () => {
           expect(json).toHaveProperty('payload', {});
           expect(json).toHaveProperty('errors', ['test']);
           done();
-        });
+        }).catch(done.fail);
       });
 
       it('does not return an error if the errors callback is not a function', (done) => {
@@ -150,7 +150,7 @@ describe('apiManager', () => {
           expect(data).toBeInstanceOf(Response);
           expect(data).toHaveProperty('ok', true);
           done();
-        });
+        }).catch(done.fail);
       });
 
       it('does not return an error if the errors callback is not returning an array', (done) => {
@@ -164,7 +164,7 @@ describe('apiManager', () => {
           expect(data).toBeInstanceOf(Response);
           expect(data).toHaveProperty('ok', true);
           done();
-        });
+        }).catch(done.fail);
       });
 
       it('does not return an error if the errors callback is returning an empty array', (done) => {
@@ -178,7 +178,7 @@ describe('apiManager', () => {
           expect(data).toBeInstanceOf(Response);
           expect(data).toHaveProperty('ok', true);
           done();
-        });
+        }).catch(done.fail);
       });
     });
 
@@ -201,7 +201,7 @@ describe('apiManager', () => {
             expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
             done();
           });
-        });
+        }).catch(done.fail);
       });
     });
   });
@@ -226,7 +226,7 @@ describe('apiManager', () => {
       result.then((data) => {
         expect(data).toMatchObject(REAL_GOOD_RESPONSE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('appends the page to the uri when there is no query string', () => {
@@ -275,17 +275,17 @@ describe('apiManager', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: {
+          body: JSON.stringify({
             username: 'test',
             password: 'test',
-          },
+          }),
         },
       );
       expect(result).toBeInstanceOf(Promise);
       result.then((data) => {
         expect(data).toMatchObject(REAL_GOOD_RESPONSE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('sends the body as x-www-form-urlencoded', (done) => {
@@ -313,7 +313,7 @@ describe('apiManager', () => {
       result.then((data) => {
         expect(data).toMatchObject(REAL_GOOD_RESPONSE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     describe('authentication', () => {
@@ -329,7 +329,7 @@ describe('apiManager', () => {
           expect(data).toHaveProperty('status', 401);
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
           done();
-        });
+        }).catch(done.fail);
       });
 
       it('sends the bearer token if the authentication is necessary and the token is found', (done) => {
@@ -355,7 +355,7 @@ describe('apiManager', () => {
         result.then((data) => {
           expect(data).toMatchObject(REAL_GOOD_RESPONSE);
           done();
-        });
+        }).catch(done.fail);
       });
 
       it('redirects and unset the user if fetch returns a 401', (done) => {
@@ -381,7 +381,7 @@ describe('apiManager', () => {
         result.then(() => {
           expect(logoutUser).toHaveBeenCalled();
           done();
-        });
+        }).catch(done.fail);
 
         customFetch.mockReset();
         customFetch.mockRestore();
