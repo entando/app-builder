@@ -46,7 +46,7 @@ export const DATA_TYPES_OK_PAGE_1 =
     page: 1,
     pageSize: 10,
     lastPage: 2,
-    totalItems: 4,
+    totalItems: 20,
   },
 };
 
