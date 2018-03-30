@@ -91,7 +91,7 @@ class UserListTable extends Component {
   render() {
     return (
       <div className="UserListTable">
-        <Spinner loading={this.props.loading} >
+        <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
       </div>

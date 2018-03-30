@@ -2,7 +2,6 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from 'frontend-common-components';
-
 import {
   setGroups,
   fetchGroups,
@@ -157,16 +156,18 @@ describe('state/groups/actions', () => {
     it('fetchGroups calls setGroups and setPage actions', (done) => {
       store.dispatch(fetchGroups()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_GROUPS);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_GROUPS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
 
     it('group is defined and properly valued', (done) => {
       store.dispatch(fetchGroups()).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.groups).toHaveLength(10);
         const group = actionPayload.groups[0];
         expect(group).toHaveProperty('code', 'account_executive');
@@ -180,8 +181,10 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchGroups()).then(() => {
         expect(getGroups).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

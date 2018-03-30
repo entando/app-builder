@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { setDataTypes, fetchDataTypes } from 'state/data-types/actions';
 import { SET_DATA_TYPES } from 'state/data-types/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 const middlewares = [thunk];
@@ -33,16 +34,18 @@ describe('data types actions ', () => {
     it('fetchDataTypes calls fetchDataTypes and setPage actions', (done) => {
       store.dispatch(fetchDataTypes()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_DATA_TYPES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_DATA_TYPES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       });
     });
 
     it('dataTypes is defined and properly valued', (done) => {
       store.dispatch(fetchDataTypes()).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.dataTypes).toHaveLength(2);
         const dataType = actionPayload.dataTypes[0];
         expect(dataType).toHaveProperty('name', 'dataType1');

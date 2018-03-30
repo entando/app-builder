@@ -3,6 +3,7 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-types/list/DataTypeListTableContainer';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 import { getDataTypeList } from 'state/data-types/selectors';
+import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   dataTypes: {
@@ -29,6 +30,10 @@ jest.mock('state/data-types/selectors', () => ({
   getDataTypeList: jest.fn(),
 }));
 
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+
 const dataTypes = [
   {
     name: 'dataType1',
@@ -43,6 +48,7 @@ const dataTypes = [
 ];
 
 getDataTypeList.mockReturnValue(dataTypes);
+getLoading.mockReturnValue(false);
 
 describe('DataTypeListTableContainer', () => {
   it('maps datatype list property state in DataTypesListTable', () => {

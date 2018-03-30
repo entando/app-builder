@@ -16,7 +16,7 @@ import {
   SET_SELECTED, SET_WIDGET_TYPES,
   SET_PLUGINS, SET_FRAGMENTS,
 } from 'state/fragments/types';
-
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 
 const middlewares = [thunk];
@@ -76,16 +76,18 @@ describe('fragment actions', () => {
     it('fetchFragments calls setFragments and setPage actions', (done) => {
       store.dispatch(fetchFragments()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_FRAGMENTS);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_FRAGMENTS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       });
     });
 
     it('fragments is defined and properly valued', (done) => {
       store.dispatch(fetchFragments()).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.fragments).toHaveLength(7);
         const fragment = actionPayload.fragments[0];
         expect(fragment).toHaveProperty('code', 'myCode');
@@ -98,7 +100,7 @@ describe('fragment actions', () => {
 
     it('fragments page two is retrieved correctly and properly valued', (done) => {
       store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.fragments).toHaveLength(2);
         expect(actionPayload.fragments[0]).toHaveProperty('code', 'myCode3');
         expect(actionPayload.fragments[1]).toHaveProperty('code', 'myCode4');
@@ -108,7 +110,7 @@ describe('fragment actions', () => {
 
     it('page is defined and properly valued', (done) => {
       store.dispatch(fetchFragments()).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
+        const actionPayload = store.getActions()[3].payload.page;
         expect(actionPayload).toHaveProperty('page', 1);
         expect(actionPayload).toHaveProperty('pageSize', 10);
         expect(actionPayload).toHaveProperty('lastPage', 1);
@@ -119,7 +121,7 @@ describe('fragment actions', () => {
 
     it('page 2 is defined and properly valued', (done) => {
       store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
+        const actionPayload = store.getActions()[3].payload.page;
         expect(actionPayload).toHaveProperty('page', 2);
         expect(actionPayload).toHaveProperty('pageSize', 2);
         expect(actionPayload).toHaveProperty('lastPage', 4);

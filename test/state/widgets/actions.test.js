@@ -1,6 +1,7 @@
 import thunk from 'redux-thunk';
 
 import { SET_WIDGET_LIST } from 'state/widgets/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { getWidgetList, fetchWidgetList, fetchWidget } from 'state/widgets/actions';
 import configureMockStore from 'redux-mock-store';
 import { BODY_OK } from 'test/mocks/widget';
@@ -53,16 +54,19 @@ describe('state/widgets/actions', () => {
     const store = mockStore(STATE_MOCKED);
     store.dispatch(fetchWidgetList()).then(() => {
       const actions = store.getActions();
-      expect(actions[0].type).toEqual(SET_WIDGET_LIST);
+      expect(actions).toHaveLength(3);
+      expect(actions[0].type).toEqual(TOGGLE_LOADING);
+      expect(actions[1].type).toEqual(SET_WIDGET_LIST);
+      expect(actions[2].type).toEqual(TOGGLE_LOADING);
       done();
     });
   });
 
-  it('fetchWidgetLis is defined and properly valued', (done) => {
+  it('fetchWidgetList is defined and properly valued', (done) => {
     const store = mockStore(STATE_MOCKED);
     store.dispatch(fetchWidgetList()).then(() => {
       const actions = store.getActions();
-      expect(actions[0].payload.widgetList).toBeDefined();
+      expect(actions[1].payload.widgetList).toBeDefined();
       done();
     });
   });

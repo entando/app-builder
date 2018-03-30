@@ -10,6 +10,7 @@ import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 
 import { LABELS_LIST } from 'test/mocks/labels';
@@ -140,10 +141,12 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(fetchLabels()).then(() => {
         const actions = store.getActions();
-        expect(actions[0].type).toBe(SET_LABELS);
-        expect(actions[0].payload.labels).toEqual(LABELS_LIST);
-        expect(actions[1].type).toBe(SET_PAGE);
-        expect(actions[1].payload.page).toEqual(PAGE);
+        expect(actions[0].type).toBe(TOGGLE_LOADING);
+        expect(actions[1].payload.labels).toEqual(LABELS_LIST);
+        expect(actions[1].type).toBe(SET_LABELS);
+        expect(actions[2].type).toBe(TOGGLE_LOADING);
+        expect(actions[3].payload.page).toEqual(PAGE);
+        expect(actions[3].type).toBe(SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -153,7 +156,7 @@ describe('state/labels/actions', () => {
         ok: false,
       }));
       store.dispatch(fetchLabels()).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions()).toHaveLength(1);
         done();
       }).catch(done.fail);
     });
@@ -165,8 +168,9 @@ describe('state/labels/actions', () => {
       }));
       store.dispatch(fetchLabels()).then(() => {
         const actions = store.getActions();
-        expect(actions[0].type).toBe(ADD_ERRORS);
-        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
+        expect(actions[0].type).toBe(TOGGLE_LOADING);
+        expect(actions[1].type).toBe(ADD_ERRORS);
+        expect(actions[1].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });

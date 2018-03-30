@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from 'frontend-common-components';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
@@ -48,7 +48,7 @@ class DataTypeListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -89,7 +89,9 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        {this.renderTable()}
+        <Spinner loading={!!this.props.loading} >
+          {this.renderTable()}
+        </Spinner>
       </div>
     );
   }
@@ -97,6 +99,7 @@ class DataTypeListTable extends Component {
 
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -109,6 +112,7 @@ DataTypeListTable.propTypes = {
 
 DataTypeListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   datatypes: [],
 };
 

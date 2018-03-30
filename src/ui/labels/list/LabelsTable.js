@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DropdownKebab, MenuItem } from 'patternfly-react';
+import { DropdownKebab, MenuItem, Spinner } from 'patternfly-react';
 
 
 const LabelsTable = ({
-  langName, labels, onClickEditLabel, onClickDeleteLabel,
+  langName, labels, onClickEditLabel, onClickDeleteLabel, loading,
 }) => {
   const renderActionMenu = labelKey => (
     <DropdownKebab id="labels-action-menu" pullRight>
@@ -26,25 +26,27 @@ const LabelsTable = ({
 
   return (
     <table className="LabelsTable table table-striped table-bordered table-hover no-mb">
-      <thead>
-        <tr>
-          <th width="47%"><FormattedMessage id="app.code" /></th>
-          <th width="47%">{ langName }</th>
-          <th width="6%" className="text-center"><FormattedMessage id="app.actions" /></th>
-        </tr>
-      </thead>
-      <tbody>
-        {labels.map(label => (
-          <tr
-            key={`label-row-${label.key}`}
-            className="LabelsTable__label-row"
-          >
-            <td>{label.key}</td>
-            <td>{label.value}</td>
-            <td className="text-center">{renderActionMenu(label.key)}</td>
+      <Spinner loading={!!loading}>
+        <thead>
+          <tr>
+            <th width="47%"><FormattedMessage id="app.code" /></th>
+            <th width="47%">{ langName }</th>
+            <th width="6%" className="text-center"><FormattedMessage id="app.actions" /></th>
           </tr>
-        ))}
-      </tbody>
+        </thead>
+        <tbody>
+          {labels.map(label => (
+            <tr
+              key={`label-row-${label.key}`}
+              className="LabelsTable__label-row"
+            >
+              <td>{label.key}</td>
+              <td>{label.value}</td>
+              <td className="text-center">{renderActionMenu(label.key)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Spinner>
     </table>
   );
 };
@@ -57,11 +59,13 @@ LabelsTable.propTypes = {
   langName: PropTypes.string.isRequired,
   onClickEditLabel: PropTypes.func,
   onClickDeleteLabel: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 LabelsTable.defaultProps = {
   onClickEditLabel: null,
   onClickDeleteLabel: null,
+  loading: false,
 };
 
 export default LabelsTable;
