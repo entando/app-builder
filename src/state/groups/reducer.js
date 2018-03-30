@@ -2,12 +2,12 @@ import { combineReducers } from 'redux';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
-  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+  REMOVE_GROUP,
 } from 'state/groups/types';
 
 export const toMap = array => array.reduce((acc, group) => {
@@ -22,6 +22,10 @@ export const list = (state = [], action = {}) => {
     case SET_GROUPS: {
       return toIdList(action.payload.groups);
     }
+    case REMOVE_GROUP: {
+      const { groupCode } = action.payload;
+      return state.filter(group => group !== groupCode);
+    }
     default: return state;
   }
 };
@@ -30,6 +34,12 @@ export const groupMap = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_GROUPS: {
       return toMap(action.payload.groups);
+    }
+    case REMOVE_GROUP: {
+      const { groupCode } = action.payload;
+      const newState = { ...state };
+      delete newState[groupCode];
+      return newState;
     }
     default: return state;
   }
@@ -59,18 +69,8 @@ export const selected = (state = {}, action = {}) => {
   }
 };
 
-export const loading = (state = {}, action = {}) => {
-  switch (action.type) {
-    case TOGGLE_LOADING: {
-      return { ...state, [action.payload.id]: !state[action.payload.id] };
-    }
-    default: return state;
-  }
-};
-
 export default combineReducers({
   list,
   map: groupMap,
   selected,
-  loading,
 });

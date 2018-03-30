@@ -2,7 +2,8 @@
 import { makeRequest, METHODS } from 'api/apiManager';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
-export const getLanguages = (page = { page: 1, pageSize: 10 }, params = '') => (
+export const getLanguages =
+(page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
       uri: `/api/languages${params}`,

@@ -9,6 +9,7 @@ import {
   setSelectedGroupContentReferences,
   setSelectedGroupResourceReferences,
   toggleLoading,
+  removeGroupSync,
 } from 'state/groups/actions';
 
 import {
@@ -30,6 +31,8 @@ import {
   GROUP_CONTENT_REFERENCES,
   RESOURCE_REFERENCES,
 } from 'test/mocks/groups';
+
+const GROUP_CODE = LIST_GROUPS_OK[0].code;
 
 describe('state/groups/reducer', () => {
   const state = reducer();
@@ -138,23 +141,16 @@ describe('state/groups/reducer', () => {
     });
   });
 
-  describe('after action TOGGLE_LOADING', () => {
-    beforeEach(() => {
-      reducer(
-        state,
-        toggleLoading('references'),
-      );
-    });
+  describe('after action REMOVE_GROUP', () => {
+    const newState = reducer(state, setGroups(LIST_GROUPS_OK));
 
-    it('should be false in the first state', () => {
-      expect(state.loading.references).toBeUndefined();
-    });
-    it('should be true after call', () => {
-      const newState = reducer(
-        state,
-        toggleLoading('references'),
-      );
-      expect(newState.loading.references).toBe(true);
+    it('should remove the group from map and list', () => {
+      const stateAfterRemove = reducer(newState, removeGroupSync(GROUP_CODE));
+      expect(newState.map).not.toEqual(stateAfterRemove.map);
+      expect(stateAfterRemove.map[GROUP_CODE]).toBeUndefined();
+
+      expect(newState.list).not.toBe(stateAfterRemove.list);
+      expect(stateAfterRemove.list.includes(GROUP_CODE)).toBe(false);
     });
   });
 });
