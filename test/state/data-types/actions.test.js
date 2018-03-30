@@ -9,7 +9,6 @@ import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-
 const INITIAL_STATE = {
   dataTypes: {
     list: [],

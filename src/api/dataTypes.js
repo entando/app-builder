@@ -1,21 +1,22 @@
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_OK_PAGE_2 } from 'test/mocks/dataTypes';
-import throttle from 'util/throttle';
+import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
+import { makeRequest, METHODS } from 'api/apiManager';
 
-export const getDataTypes = (page, params) => new Promise((resolve) => {
-  if (params) {
-    // eslint-disable-next-line no-console
-    console.info(`calling API /datatypes${params}`);
-  }
-  switch (page) {
-    case 1:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
-      break;
-    case 2:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_2));
-      break;
-    default:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
-  }
-});
+const getGenericError = obj => (
+  obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]
+);
+
+export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/datatypes${params}`,
+      method: METHODS.GET,
+      mockResponse: DATA_TYPES_OK_PAGE_1,
+      useAuthentication: true,
+      errors: () => getGenericError(params),
+    },
+    page,
+  )
+);
+
 
 export default getDataTypes;

@@ -44,7 +44,7 @@ export const DATA_TYPES_OK_PAGE_1 =
   errors: [],
   metaData: {
     page: 1,
-    pageSize: 2,
+    pageSize: 10,
     lastPage: 2,
     totalItems: 4,
   },
