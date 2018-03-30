@@ -80,7 +80,7 @@ class GroupListTable extends Component {
   render() {
     return (
       <div className="GroupListTable">
-        <Spinner loading={this.props.loading}>
+        <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
           <DeleteGroupModalContainer />
         </Spinner>

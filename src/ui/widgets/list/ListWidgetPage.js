@@ -56,7 +56,7 @@ class ListWidgetPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <WidgetListTable >
+              <WidgetListTable loading={this.props.loading}>
                 <RowListContainer />
               </WidgetListTable>
             </Col>
@@ -70,11 +70,13 @@ class ListWidgetPage extends Component {
 ListWidgetPage.propTypes = {
   onClickCreate: PropTypes.func,
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 ListWidgetPage.defaultProps = {
   onClickCreate: () => {},
   onWillMount: () => {},
+  loading: false,
 };
 
 

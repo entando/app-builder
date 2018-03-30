@@ -41,7 +41,7 @@ class DataModelListTable extends Component {
 
     return (
       <div className="DataModelListTable">
-        <Spinner loading={this.props.loading}>
+        <Spinner loading={!!this.props.loading}>
           <table className="DataModelListTable__wrap table table-striped table-bordered">
             <thead>
               <tr>

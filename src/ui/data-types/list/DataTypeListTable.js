@@ -89,7 +89,7 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        <Spinner loading={this.props.loading} >
+        <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
       </div>
