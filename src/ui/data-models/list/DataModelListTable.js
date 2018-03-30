@@ -87,7 +87,7 @@ DataModelListTable.propTypes = {
 
 DataModelListTable.defaultProps = {
   onWillMount: () => {},
-  loading: true,
+  loading: false,
   dataModels: [],
 };
 
