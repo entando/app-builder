@@ -18,7 +18,7 @@ class DataModelListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
   }
 
   render() {

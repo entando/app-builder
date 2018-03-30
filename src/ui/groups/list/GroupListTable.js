@@ -17,7 +17,7 @@ class GroupListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
   }
 
   renderTableRows() {
@@ -44,7 +44,7 @@ class GroupListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="GroupListTable__table table table-striped table-bordered">
             <thead>
               <tr>
