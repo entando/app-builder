@@ -16,16 +16,16 @@ export const setDataTypes = dataTypes => ({
 
 export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
-    dispatch(toggleLoading('systemLabels'));
+    dispatch(toggleLoading('dataTypes'));
     getDataTypes(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setDataTypes(json.payload));
-          dispatch(toggleLoading('systemLabels'));
+          dispatch(toggleLoading('dataTypes'));
           dispatch(setPage(json.metaData));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('systemLabels'));
+          dispatch(toggleLoading('dataTypes'));
         }
         resolve();
       });
