@@ -6,7 +6,7 @@ import LabelsTable from 'ui/labels/list/LabelsTable';
 
 
 const LabelsTabs = ({
-  languages, labels, onClickEditLabel, onClickDeleteLabel,
+  languages, labels, onClickEditLabel, onClickDeleteLabel, loading,
 }) => {
   const tabs = languages
     .sort(a => (a.isDefault ? -1 : 1))
@@ -21,6 +21,7 @@ const LabelsTabs = ({
           labels={labels.map(label => ({ key: label.key, value: label.titles[lang.code] }))}
           onClickEditLabel={onClickEditLabel}
           onClickDeleteLabel={onClickDeleteLabel}
+          loading={loading}
         />
       </Tab>
     ));
@@ -36,6 +37,7 @@ LabelsTabs.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})),
   onClickEditLabel: PropTypes.func,
   onClickDeleteLabel: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 LabelsTabs.defaultProps = {
@@ -43,6 +45,7 @@ LabelsTabs.defaultProps = {
   languages: [],
   onClickEditLabel: null,
   onClickDeleteLabel: null,
+  loading: false,
 };
 
 export default LabelsTabs;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Paginator } from 'patternfly-react';
+import { Paginator, Spinner } from 'patternfly-react';
 import DataModelListActionsMenu from 'ui/data-models/common/DataModelListActionsMenu';
 
 
@@ -18,7 +18,7 @@ class DataModelListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
   }
 
   render() {
@@ -41,37 +41,40 @@ class DataModelListTable extends Component {
 
     return (
       <div className="DataModelListTable">
-        <table className="DataModelListTable__wrap table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th width="30%"><FormattedMessage id="app.name" /></th>
-              <th>
-                <FormattedMessage id="app.type" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="app.id" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="app.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {tr}
-          </tbody>
-        </table>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={this.props.totalItems}
-          onPageSet={this.changePage}
-        />
+        <Spinner loading={!!this.props.loading}>
+          <table className="DataModelListTable__wrap table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th width="30%"><FormattedMessage id="app.name" /></th>
+                <th>
+                  <FormattedMessage id="app.type" />
+                </th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="app.id" />
+                </th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="app.actions" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tr}
+            </tbody>
+          </table>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={this.props.totalItems}
+            onPageSet={this.changePage}
+          />
+        </Spinner>
       </div>
     );
   }
 }
 DataModelListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
@@ -84,6 +87,7 @@ DataModelListTable.propTypes = {
 
 DataModelListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   dataModels: [],
 };
 

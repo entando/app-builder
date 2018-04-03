@@ -14,27 +14,22 @@ import {
 } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 import { getParams, gotoRoute } from 'frontend-common-components';
 
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
-  TOGGLE_LOADING,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
   SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+  REMOVE_GROUP,
 } from 'state/groups/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 
-export const toggleLoading = id => ({
-  type: TOGGLE_LOADING,
-  payload: {
-    id,
-  },
-});
 
 export const setGroups = groups => ({
   type: SET_GROUPS,
@@ -85,19 +80,28 @@ export const setSelectedGroupResourceReferences = references => ({
   },
 });
 
+export const removeGroupSync = groupCode => ({
+  type: REMOVE_GROUP,
+  payload: {
+    groupCode,
+  },
+});
 
 // thunk
 
 export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
+    dispatch(toggleLoading('groups'));
     getGroups(page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setGroups(data.payload));
+          dispatch(toggleLoading('groups'));
           dispatch(setPage(data.metaData));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(toggleLoading('groups'));
           resolve();
         }
       });
@@ -154,6 +158,7 @@ export const sendDeleteGroup = groupCode => dispatch =>
     deleteGroup(groupCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(removeGroupSync(groupCode));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

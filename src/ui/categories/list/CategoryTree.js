@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DropdownKebab, MenuItem, Col } from 'patternfly-react';
+import { Col, Spinner } from 'patternfly-react';
 import CategoryFolderIcon from 'ui/categories/common/CategoryFolderIcon';
 import CategoryExpandedIcon from 'ui/categories/common/CategoryExpandedIcon';
+import CategoryListMenuActions from 'ui/categories/list/CategoryListMenuActions';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
 class CategoryTree extends Component {
@@ -43,21 +44,9 @@ class CategoryTree extends Component {
               <RowSpinner loading={!!category.loading} />
             </span>
           </td>
+          {/* to move into CategoryListMenuActions */}
           <td className="text-center">
-            <DropdownKebab className="CategoryTree__kebab-button" key={category.code} id={category.code} pullRight>
-              <MenuItem>
-                <FormattedMessage id="app.details" />
-              </MenuItem>
-              <MenuItem>
-                <FormattedMessage id="app.add" />
-              </MenuItem>
-              <MenuItem>
-                <FormattedMessage id="app.edit" />
-              </MenuItem>
-              <MenuItem>
-                <FormattedMessage id="app.delete" />
-              </MenuItem>
-            </DropdownKebab>
+            <CategoryListMenuActions code={category.code} />
           </td>
         </tr>
       );
@@ -67,21 +56,23 @@ class CategoryTree extends Component {
   render() {
     return (
       <Col xs={12}>
-        <table className="CategoryTree CategoryTree__table table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>
-                <FormattedMessage id="category.tree" />
-              </th>
-              <th className="GroupListTable__th-xs text-center">
-                <FormattedMessage id="app.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.renderRows() }
-          </tbody>
-        </table>
+        <Spinner loading={!!this.props.loading}>
+          <table className="CategoryTree CategoryTree__table table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>
+                  <FormattedMessage id="category.tree" />
+                </th>
+                <th className="GroupListTable__th-xs text-center">
+                  <FormattedMessage id="app.actions" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.renderRows() }
+            </tbody>
+          </table>
+        </Spinner>
       </Col>
     );
   }
@@ -97,12 +88,14 @@ CategoryTree.propTypes = {
   })),
   onWillMount: PropTypes.func,
   onExpandCategory: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 CategoryTree.defaultProps = {
   categories: [],
   onWillMount: null,
   onExpandCategory: null,
+  loading: true,
 };
 
 export default CategoryTree;

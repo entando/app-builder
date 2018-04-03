@@ -1,7 +1,8 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabResourcesContainer';
-import { getSelectedGroupResourceReferences, getReferencesLoading } from 'state/groups/selectors';
+import { getSelectedGroupResourceReferences } from 'state/groups/selectors';
+import { getLoading } from 'state/loading/selectors';
 import { RESOURCE_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
@@ -13,11 +14,14 @@ const RESOURCES_MOCK = [{
 
 jest.mock('state/groups/selectors', () => ({
   getSelectedGroupResourceReferences: jest.fn(),
-  getReferencesLoading: jest.fn(),
 }));
 
 getSelectedGroupResourceReferences.mockReturnValue(RESOURCE_REFERENCES.administrators.list);
-getReferencesLoading.mockReturnValue(false);
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+getLoading.mockReturnValue(false);
 
 describe('GroupDetailTabWidgetsContainer', () => {
   let props;

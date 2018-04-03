@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
-import { ROUTE_GROUP_EDIT } from 'app-init/router';
+import { ROUTE_GROUP_EDIT, ROUTE_GROUP_DETAIL } from 'app-init/router';
 
 class GroupListMenuActions extends Component {
   constructor(props) {
@@ -22,11 +22,16 @@ class GroupListMenuActions extends Component {
     const { onClickDelete } = this.props;
 
     const editLabel = <FormattedMessage id="app.edit" />;
+    const editDetails = <FormattedMessage id="app.details" />;
     return (
       <DropdownKebab pullRight id={`${this.props.code}-actions`}>
-        <MenuItem className="GroupListMenuAction__menu-item-detail">
-          <FormattedMessage id="app.details" />
-        </MenuItem>
+        <LinkMenuItem
+          id={`detail-${this.props.code}`}
+          route={ROUTE_GROUP_DETAIL}
+          params={{ groupname: this.props.code }}
+          label={editDetails}
+          className="GroupListMenuAction__menu-item-detail"
+        />
         <LinkMenuItem
           id={`edit-${this.props.code}`}
           route={ROUTE_GROUP_EDIT}

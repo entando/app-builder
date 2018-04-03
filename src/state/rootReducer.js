@@ -26,6 +26,7 @@ import modal from 'state/modal/reducer';
 import languages from 'state/languages/reducer';
 import labels from 'state/labels/reducer';
 import categories from 'state/categories/reducer';
+import loading from 'state/loading/reducer';
 
 const reducerDef = {
   api,
@@ -52,6 +53,7 @@ const reducerDef = {
   languages,
   labels,
   categories,
+  loading,
 };
 
 if (pluginArray.length) {

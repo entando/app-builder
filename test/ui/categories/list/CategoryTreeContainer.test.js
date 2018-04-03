@@ -19,10 +19,11 @@ jest.mock('state/categories/selectors', () => ({
 
 getCategoryTree.mockReturnValue(CATEGORY_TREE_HOME);
 
-describe('GroupListTableContainer', () => {
-  it('maps categories list property state in GroupsListTable', () => {
+describe('CategoryTreeContainer', () => {
+  it('maps categories list property state in CategoryTreeContainer', () => {
     expect(mapStateToProps(STATE_NORMALIZED)).toEqual({
       categories: CATEGORY_TREE_HOME,
+      loading: false,
     });
   });
 

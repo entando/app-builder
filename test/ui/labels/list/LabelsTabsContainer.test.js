@@ -3,6 +3,7 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/labels/list/LabelsTabsCo
 
 import { getLanguagesList } from 'state/languages/selectors';
 import { getLabelsList } from 'state/labels/selectors';
+import { getLoading } from 'state/loading/selectors';
 
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 import { LABELS_LIST } from 'test/mocks/labels';
@@ -13,6 +14,10 @@ jest.mock('state/languages/selectors', () => ({
 
 jest.mock('state/labels/selectors', () => ({
   getLabelsList: jest.fn(),
+}));
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
 }));
 
 const dispatchMock = jest.fn();
@@ -26,6 +31,7 @@ describe('LabelsTabsContainer', () => {
     beforeEach(() => {
       getLanguagesList.mockReturnValue(LANGUAGES_LIST);
       getLabelsList.mockReturnValue(LABELS_LIST);
+      getLoading.mockReturnValue(false);
       props = mapStateToProps({});
     });
 

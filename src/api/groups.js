@@ -24,10 +24,8 @@ const getGroupErrors = groupname => (
     [{ code: 1, message: 'invalid group name' }]
 );
 
-const getErrorsReferences = (ref, groupname) => (
-  ref[groupname].list ? [] :
-    [{ code: 1, message: 'invalid group name' }]
-);
+const getErrorsReferences = (ref, groupname) =>
+  (ref[groupname] ? [] : [{ code: 1, message: 'invalid group name' }]);
 
 const getGenericError = obj => (
   obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]
@@ -88,16 +86,14 @@ export const deleteGroup = groupCode => (
 );
 
 export const getReferences = (entityName, mockRefs) =>
-  (page = { page: 1, pageSize: 10 }, groupname) => (
-    makeMockRequest(
-      {
-        uri: `/groups/${groupname}/references/${entityName}`,
-        method: METHODS.GET,
-        mockResponse: mockRefs[groupname].list,
-        errors: () => getErrorsReferences(mockRefs, groupname),
-      },
-      page,
-    )
+  (page = { page: 1, pageSize: 10 }, groupname) => makeMockRequest(
+    {
+      uri: `/api/groups/${groupname}/references/${entityName}`,
+      method: METHODS.GET,
+      mockResponse: mockRefs[groupname] ? mockRefs[groupname].list : [],
+      errors: () => getErrorsReferences(mockRefs, groupname),
+    },
+    page,
   );
 
 export const getPageReferences = getReferences('PageManager', PAGE_REFERENCES);

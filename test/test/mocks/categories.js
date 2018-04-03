@@ -73,6 +73,7 @@ export const CATEGORY_TREE = {
 
 export const STATE_NORMALIZED = {
   categories: {
+    list: ['home', 'mycategory1', 'mycategory2', 'mycategory3'],
     map: {
       home: HOME_PAYLOAD,
       mycategory1: MYCATEGORY1_PAYLOAD,
@@ -98,6 +99,7 @@ export const STATE_NORMALIZED = {
       mycategory3: {},
     },
   },
+  loading: { categories: false },
 };
 
 

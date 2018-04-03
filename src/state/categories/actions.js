@@ -1,4 +1,5 @@
 import { getCategoryTree } from 'api/categories';
+import { toggleLoading } from 'state/loading/actions';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -42,9 +43,11 @@ export const fetchCategoryTree = (params = '') => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setCategories(data.payload));
+          dispatch(toggleLoading('categories'));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(toggleLoading('categories'));
           resolve();
         }
       });

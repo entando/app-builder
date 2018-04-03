@@ -1,6 +1,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
+import { getCategoryTree } from 'api/categories';
+import rootReducer from 'state/rootReducer';
 import {
   setCategories,
   toggleCategoryExpanded,
@@ -16,16 +17,9 @@ import {
 } from 'state/categories/types';
 
 import { ADD_ERRORS } from 'state/errors/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 
-import {
-  HOME_PAYLOAD,
-  MYCATEGORY1_PAYLOAD,
-  MYCATEGORY2_PAYLOAD,
-  MYCATEGORY3_PAYLOAD,
-} from 'test/mocks/categories';
-
-import { getCategoryTree } from 'api/categories';
-import rootReducer from 'state/rootReducer';
+import { STATE_NORMALIZED } from 'test/mocks/categories';
 
 jest.mock('api/categories', () => ({
   getCategoryTree: jest.fn(),
@@ -56,34 +50,6 @@ const CATEGORY_CODE = 'category_code';
 
 const mockStore = configureStore([thunk]);
 const INITIAL_STATE = rootReducer();
-const INITIALIZED_STATE = {
-  categories: {
-    map: {
-      home: HOME_PAYLOAD,
-      mycategory1: MYCATEGORY1_PAYLOAD,
-      mycategory2: MYCATEGORY2_PAYLOAD,
-      mycategory3: MYCATEGORY3_PAYLOAD,
-    },
-    childrenMap: {
-      home: HOME_PAYLOAD.children,
-      mycategory1: MYCATEGORY1_PAYLOAD.children,
-      mycategory2: MYCATEGORY2_PAYLOAD.children,
-      mycategory3: MYCATEGORY3_PAYLOAD.children,
-    },
-    titlesMap: {
-      home: HOME_PAYLOAD.titles,
-      mycategory1: MYCATEGORY1_PAYLOAD.titles,
-      mycategory2: MYCATEGORY2_PAYLOAD.titles,
-      mycategory3: MYCATEGORY3_PAYLOAD.titles,
-    },
-    statusMap: {
-      home: { expanded: true, loading: false, loaded: true },
-      mycategory1: {},
-      mycategory2: {},
-      mycategory3: {},
-    },
-  },
-};
 
 describe('state/categories/actions', () => {
   beforeEach(jest.clearAllMocks);
@@ -116,7 +82,7 @@ describe('state/categories/actions', () => {
 
   describe('handleExpandCategory()', () => {
     it('when loading an already expanded category (home) set category expanded to false', (done) => {
-      const store = mockStore(INITIALIZED_STATE);
+      const store = mockStore(STATE_NORMALIZED);
       store.dispatch(handleExpandCategory()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
@@ -129,7 +95,8 @@ describe('state/categories/actions', () => {
       const store = mockStore(INITIAL_STATE);
       store.dispatch(handleExpandCategory()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toHaveLength(4);
+        expect(actionTypes).toHaveLength(5);
+        expect(actionTypes.includes(TOGGLE_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_CATEGORY_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_CATEGORY_LOADED)).toBe(true);
         expect(actionTypes.includes(TOGGLE_CATEGORY_EXPANDED)).toBe(true);
@@ -139,7 +106,7 @@ describe('state/categories/actions', () => {
     });
 
     it('when loading an not expanded category (mycategory1) set category expanded to true', (done) => {
-      const store = mockStore(INITIALIZED_STATE);
+      const store = mockStore(STATE_NORMALIZED);
       store.dispatch(handleExpandCategory('mycategory1')).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.includes(SET_CATEGORY_LOADING)).toBe(true);
@@ -152,13 +119,14 @@ describe('state/categories/actions', () => {
   });
 
   describe('fetchCategoryTree', () => {
-    const store = mockStore(INITIALIZED_STATE);
+    const store = mockStore(STATE_NORMALIZED);
 
     it('fetchCategoryTree call setCategories', (done) => {
       store.dispatch(fetchCategoryTree()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', SET_CATEGORIES);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -169,9 +137,10 @@ describe('state/categories/actions', () => {
       store.dispatch(fetchCategoryTree()).then(() => {
         expect(getCategoryTree).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', SET_CATEGORIES);
-        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
