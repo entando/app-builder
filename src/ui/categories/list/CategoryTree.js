@@ -45,16 +45,16 @@ class CategoryTree extends Component {
           </td>
           <td className="text-center">
             <DropdownKebab className="CategoryTree__kebab-button" key={category.code} id={category.code} pullRight>
-              <MenuItem onClick={() => console.info(`clicked DETAIL on category ${category.code}`)} >
+              <MenuItem>
                 <FormattedMessage id="app.details" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked ADD on category ${category.code}`)} >
+              <MenuItem>
                 <FormattedMessage id="app.add" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked EDIT on category ${category.code}`)} >
+              <MenuItem>
                 <FormattedMessage id="app.edit" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked DELETE on category ${category.code}`)} >
+              <MenuItem>
                 <FormattedMessage id="app.delete" />
               </MenuItem>
             </DropdownKebab>
@@ -102,7 +102,7 @@ CategoryTree.propTypes = {
 CategoryTree.defaultProps = {
   categories: [],
   onWillMount: null,
-  onExpandCategory: () => {},
+  onExpandCategory: null,
 };
 
 export default CategoryTree;

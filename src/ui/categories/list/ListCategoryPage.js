@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 
 import { ROUTE_CATEGORY_ADD } from 'app-init/router';
 
-export const ListCategoryPage = () => (
+const ListCategoryPage = () => (
   <InternalPage className="ListCategoryPage">
     <Grid fluid>
       <Row>

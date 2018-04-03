@@ -71,6 +71,35 @@ export const CATEGORY_TREE = {
   mycategory1: CATEGORY_TREE_MYCATEGORY1,
 };
 
+export const STATE_NORMALIZED = {
+  categories: {
+    map: {
+      home: HOME_PAYLOAD,
+      mycategory1: MYCATEGORY1_PAYLOAD,
+      mycategory2: MYCATEGORY2_PAYLOAD,
+      mycategory3: MYCATEGORY3_PAYLOAD,
+    },
+    childrenMap: {
+      home: HOME_PAYLOAD.children,
+      mycategory1: MYCATEGORY1_PAYLOAD.children,
+      mycategory2: MYCATEGORY2_PAYLOAD.children,
+      mycategory3: MYCATEGORY3_PAYLOAD.children,
+    },
+    titlesMap: {
+      home: HOME_PAYLOAD.titles,
+      mycategory1: MYCATEGORY1_PAYLOAD.titles,
+      mycategory2: MYCATEGORY2_PAYLOAD.titles,
+      mycategory3: MYCATEGORY3_PAYLOAD.titles,
+    },
+    statusMap: {
+      home: { expanded: true, loading: false, loaded: true },
+      mycategory1: {},
+      mycategory2: {},
+      mycategory3: {},
+    },
+  },
+};
+
 
 export const BODY_ERROR = {
   payload: [],
