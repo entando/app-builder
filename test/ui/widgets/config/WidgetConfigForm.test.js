@@ -4,6 +4,10 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { WidgetConfigFormBody } from 'ui/widgets/config/WidgetConfigForm';
 
+const PROPS = {
+  handleSubmit: () => {},
+  onSubmit: () => {},
+};
 
 describe('WidgetConfigForm', () => {
   let component;
@@ -12,13 +16,23 @@ describe('WidgetConfigForm', () => {
   });
 
   it('if widgetId = "formAction", wraps an InternalServletConfigForm', () => {
-    component = shallow(<WidgetConfigFormBody widgetId="formAction" />);
+    component = shallow((
+      <WidgetConfigFormBody
+        {...PROPS}
+        widgetId="formAction"
+      />
+    ));
     expect(component.is('InternalServletConfigForm')).toBe(true);
-    expect(component.props()).toEqual({ widgetId: 'formAction' });
+    expect(component.props()).toEqual({ ...PROPS, widgetId: 'formAction' });
   });
 
   it('if widgetId is unsupported, renders an error span', () => {
-    component = shallow(<WidgetConfigFormBody widgetId="something wrong" />);
+    component = shallow((
+      <WidgetConfigFormBody
+        {...PROPS}
+        widgetId="something wrong"
+      />
+    ));
     expect(component.is('span')).toBe(true);
   });
 });

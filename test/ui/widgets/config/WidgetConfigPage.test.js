@@ -5,11 +5,25 @@ import { shallow } from 'enzyme';
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
 
+const WIDGET_CODE = 'widget_code';
+const PAGE_CODE = 'page_code';
+const FRAME_POS = 0;
+const FRAME_NAME = 'Top Bar 1';
+
+
 describe('WidgetConfigPage', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
-    component = shallow(<WidgetConfigPage />);
+    component = shallow((
+      <WidgetConfigPage
+        widgetId={WIDGET_CODE}
+        pageCode={PAGE_CODE}
+        framePos={FRAME_POS}
+        frameName={FRAME_NAME}
+        onSubmit={() => {}}
+      />
+    ));
   });
 
   it('renders without crashing', () => {
@@ -30,7 +44,16 @@ describe('WidgetConfigPage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallow(<WidgetConfigPage onWillMount={onWillMount} />);
+    component = shallow((
+      <WidgetConfigPage
+        widgetId={WIDGET_CODE}
+        pageCode={PAGE_CODE}
+        framePos={FRAME_POS}
+        frameName={FRAME_NAME}
+        onSubmit={() => {}}
+        onWillMount={onWillMount}
+      />
+    ));
     expect(onWillMount).toHaveBeenCalled();
     component.unmount();
     onWillMount.mockClear();
@@ -39,14 +62,31 @@ describe('WidgetConfigPage', () => {
 
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
-    component = shallow(<WidgetConfigPage onWillUnmount={onWillUnmount} />);
+    component = shallow((
+      <WidgetConfigPage
+        widgetId={WIDGET_CODE}
+        pageCode={PAGE_CODE}
+        framePos={FRAME_POS}
+        frameName={FRAME_NAME}
+        onSubmit={() => {}}
+        onWillUnmount={onWillUnmount}
+      />
+    ));
     expect(onWillUnmount).not.toHaveBeenCalled();
     component.unmount();
     expect(onWillUnmount).toHaveBeenCalled();
   });
 
   it('will toggle info table on click info button', () => {
-    component = shallow(<WidgetConfigPage />);
+    component = shallow((
+      <WidgetConfigPage
+        widgetId={WIDGET_CODE}
+        pageCode={PAGE_CODE}
+        framePos={FRAME_POS}
+        frameName={FRAME_NAME}
+        onSubmit={() => {}}
+      />
+    ));
     expect(component.state('infoTableOpen')).toBe(false);
     component.find('.WidgetConfigPage__info-btn').simulate('click');
     expect(component.state('infoTableOpen')).toBe(true);
