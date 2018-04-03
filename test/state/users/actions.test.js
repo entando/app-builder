@@ -7,8 +7,7 @@ import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USERS_OK, USER_PROFILE_MOCK } from 'test/mocks/users';
-import { getUser, putUser } from 'api/user';
-import { getUsers, getUserDetail } from 'api/users';
+import { getUsers, getUserDetail, getUser, putUser } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -16,14 +15,11 @@ import { ADD_ERRORS } from 'state/errors/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-jest.mock('api/user', () => ({
-  putUser: jest.fn(),
-  getUser: jest.fn(),
-}));
-
 jest.mock('api/users', () => ({
   getUserDetail: jest.fn(),
   getUsers: jest.fn(),
+  putUser: jest.fn(),
+  getUser: jest.fn(),
 }));
 
 const MOCK_RETURN_PROMISE = {
