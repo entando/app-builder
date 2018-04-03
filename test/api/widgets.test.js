@@ -1,25 +1,99 @@
 import 'test/enzyme-init';
-import getWidget from 'api/widget';
-import { BODY_OK, BODY_ERROR } from 'test/mocks/widget';
+import { getWidget, getWidgets } from 'api/widgets';
+import { makeMockRequest, METHODS } from 'api/apiManager';
+import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
 
-const WIDGET_CODE = 'test_widget';
+const correctRequest = {
+  uri: '/api/widgets',
+  method: METHODS.GET,
+  mockResponse: WIDGET_LIST.payload,
+  useAuthentication: true,
+  errors: expect.any(Function),
+};
 
-jest.unmock('api/widget');
+const correctRequestWidget = {
+  uri: '/api/widgets',
+  method: METHODS.GET,
+  mockResponse: BODY_OK.payload,
+  useAuthentication: true,
+  errors: expect.any(Function),
+};
 
-it('returns a promise', () => {
-  const filledInput = getWidget(WIDGET_CODE);
-  expect(typeof filledInput.then === 'function').toBeDefined();
-});
 
+jest.unmock('api/widgets');
+jest.mock('api/apiManager', () => ({
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+}));
 
-it('get success response', () => {
-  getWidget(WIDGET_CODE).then((response) => {
-    expect(response).toEqual(BODY_OK);
+describe('api/widgets', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
-});
 
-it('get error response', () => {
-  getWidget('').then(() => {}, (error) => {
-    expect(error).toEqual(BODY_ERROR);
+  describe('getWidget', () => {
+    it('returns a promise', () => {
+      expect(getWidget()).toBeInstanceOf(Promise);
+    });
+    it('returns a widget', () => {
+      expect(getWidget('test'));
+      expect(makeMockRequest).toHaveBeenCalledWith({
+        ...correctRequestWidget,
+        uri: '/api/widgets/test',
+      });
+    });
+  });
+
+  describe('getWidgets', () => {
+    it('returns a promise', () => {
+      expect(getWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('get getWidgetList page 1 by default', () => {
+      getWidgets({ page: 1, pageSize: 10 });
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+
+    it('request page 2', () => {
+      getWidgets({ page: 2, pageSize: 10 });
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 2,
+          pageSize: 10,
+        },
+      );
+    });
+
+    it('request different page size', () => {
+      getWidgets({ page: 1, pageSize: 5 });
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 5,
+        },
+      );
+    });
+
+    it('makes the request with additional params', () => {
+      getWidgets({ page: 1, pageSize: 10 }, '?param=true');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        {
+          ...correctRequest,
+          uri: '/api/widgets?param=true',
+        },
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
   });
 });

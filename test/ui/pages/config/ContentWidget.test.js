@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import ContentWidget from 'ui/pages/config/ContentWidget';
-import { WIDGET_ONE_LIST } from 'test/mocks/widgetList';
+import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
 
 const WIDGET_LIST_MOCK_EMPTY = {};
