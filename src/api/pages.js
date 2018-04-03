@@ -1,4 +1,4 @@
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -37,7 +37,7 @@ const fetchPageResponseMap = {
 };
 
 
-export const getPage = pageCode => makeMockRequest({
+export const getPage = pageCode => makeRequest({
   uri: `/api/pages/${pageCode}`,
   method: METHODS.GET,
   mockResponse: fetchPageResponseMap[pageCode] || {},
@@ -59,7 +59,7 @@ const fetchPageChildrenResponseMap = {
   contacts: [],
 };
 
-export const getPageChildren = pageCode => makeMockRequest({
+export const getPageChildren = pageCode => makeRequest({
   uri: `/api/pages?parentCode=${pageCode}`,
   method: METHODS.GET,
   mockResponse: fetchPageChildrenResponseMap[pageCode] || {},
@@ -85,7 +85,7 @@ export const setPagePosition = (pageCode, position, parentCode) => new Promise((
   throttle(() => resolve(response));
 });
 
-export const postPage = pageObject => makeMockRequest({
+export const postPage = pageObject => makeRequest({
   uri: '/api/pages',
   body: pageObject,
   method: METHODS.POST,
@@ -93,7 +93,7 @@ export const postPage = pageObject => makeMockRequest({
   useAuthentication: true,
 });
 
-export const putPage = pageObject => makeMockRequest({
+export const putPage = pageObject => makeRequest({
   uri: `/api/pages/${pageObject.code}`,
   body: pageObject,
   method: METHODS.PUT,
@@ -106,7 +106,7 @@ export const putPage = pageObject => makeMockRequest({
   ),
 });
 
-export const putPageStatus = (pageCode, status) => makeMockRequest({
+export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
@@ -151,7 +151,7 @@ const PAGE_CONFIG_PUBLISHED_MAP = {
   contacts: CONTACTS_CONFIG,
 };
 
-export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeMockRequest({
+export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
   uri: `/api/pages/${pageCode}/widget?status=${status}`,
   method: METHODS.GET,
   body: {},
@@ -180,7 +180,7 @@ export const deletePageWidget = (pageCode, frameId) =>
   });
 
 
-export const putPageWidget = (pageCode, frameId, configItem) => makeMockRequest({
+export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
   uri: `/api/pages/${pageCode}/widget/${frameId}`,
   method: METHODS.PUT,
   body: configItem,
@@ -188,7 +188,7 @@ export const putPageWidget = (pageCode, frameId, configItem) => makeMockRequest(
   useAuthentication: true,
 });
 
-export const restorePageConfig = pageCode => makeMockRequest({
+export const restorePageConfig = pageCode => makeRequest({
   uri: `/api/pages/${pageCode}/widget/restore`,
   method: METHODS.PUT,
   body: {},
@@ -196,8 +196,8 @@ export const restorePageConfig = pageCode => makeMockRequest({
   useAuthentication: true,
 });
 
-export const applyDefaultPageConfig = pageCode => makeMockRequest({
-  uri: `/api/pages/${pageCode}/widget/applyDefault`,
+export const applyDefaultPageConfig = pageCode => makeRequest({
+  uri: `/api/pages/${pageCode}/widgets/applyDefault`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},

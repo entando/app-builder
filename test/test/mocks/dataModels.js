@@ -1,4 +1,4 @@
-export const DATA_MODELS_P1 = {
+export const DATA_MODELS = {
   payload: [
     {
       modelId: 'ID',
@@ -14,16 +14,6 @@ export const DATA_MODELS_P1 = {
       model: '<html></html>',
       stylesheet: 'style.css',
     },
-  ],
-  errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 2,
-    lastPage: 3,
-  },
-};
-export const DATA_MODELS_P2 = {
-  payload: [
     {
       modelId: 'ID2',
       descr: 'data model sample',
@@ -38,16 +28,6 @@ export const DATA_MODELS_P2 = {
       model: '<html></html>',
       stylesheet: 'style.css',
     },
-  ],
-  errors: [],
-  metaData: {
-    page: 2,
-    pageSize: 2,
-    lastPage: 3,
-  },
-};
-export const DATA_MODELS_P3 = {
-  payload: [
     {
       modelId: 'ID4',
       descr: 'data model sample',
@@ -65,9 +45,10 @@ export const DATA_MODELS_P3 = {
   ],
   errors: [],
   metaData: {
-    page: 3,
+    page: 1,
     pageSize: 2,
     lastPage: 3,
+    totalItems: 6,
   },
 };
 

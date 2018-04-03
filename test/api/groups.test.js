@@ -1,7 +1,25 @@
 import 'test/enzyme-init';
-import { getGroups, postGroup, putGroup, getGroup } from 'api/groups';
-import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+import {
+  getGroups,
+  postGroup,
+  putGroup,
+  getGroup,
+  getPageReferences,
+  getUserReferences,
+  getWidgetTypeReferences,
+  getContentReferences,
+  getResourceReferences,
+} from 'api/groups';
+import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
+import {
+  PAGE_REFERENCES,
+  USER_REFERENCES,
+  WIDGETTYPE_REFERENCES,
+  GROUP_CONTENT_REFERENCES,
+  RESOURCE_REFERENCES,
+  LIST_GROUPS_OK,
+  BODY_OK,
+} from 'test/mocks/groups';
 
 
 const correctRequest = {
@@ -9,6 +27,7 @@ const correctRequest = {
   method: METHODS.GET,
   mockResponse: LIST_GROUPS_OK,
   useAuthentication: true,
+  errors: expect.any(Function),
 };
 
 const GROUP_CODE = 'group_code';
@@ -19,6 +38,7 @@ const EDITED_GROUP = {
 
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
@@ -35,7 +55,7 @@ describe('api/groups', () => {
 
     it('get group page 1 by default', () => {
       getGroups({ page: 1, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -46,7 +66,7 @@ describe('api/groups', () => {
 
     it('request page 2', () => {
       getGroups({ page: 2, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -57,7 +77,7 @@ describe('api/groups', () => {
 
     it('request different page size', () => {
       getGroups({ page: 1, pageSize: 5 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -68,7 +88,7 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       getGroups({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/groups?param=true',
@@ -88,7 +108,7 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       getGroup(GROUP_CODE);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: `/api/groups/${GROUP_CODE}`,
         mockResponse: {},
@@ -103,7 +123,7 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       postGroup(BODY_OK);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         method: 'POST',
         mockResponse: BODY_OK,
@@ -119,13 +139,128 @@ describe('api/groups', () => {
 
     it('if successful, returns a mock ok response', () => {
       putGroup(EDITED_GROUP);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: `/api/groups/${EDITED_GROUP.code}`,
         method: 'PUT',
         mockResponse: BODY_OK,
         body: EDITED_GROUP,
       });
+    });
+  });
+
+  describe('getPageReferences', () => {
+    it('returns a promise', () => {
+      expect(getPageReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestPageReferences = {
+        uri: '/api/groups/administrators/references/PageManager',
+        method: METHODS.GET,
+        mockResponse: PAGE_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestPageReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getUserReferences', () => {
+    it('returns a promise', () => {
+      expect(getUserReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestUserReferences = {
+        uri: '/api/groups/administrators/references/UserManager',
+        method: METHODS.GET,
+        mockResponse: USER_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getUserReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestUserReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getWidgetTypeReferences', () => {
+    it('returns a promise', () => {
+      expect(getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestWidgetTypeReferences = {
+        uri: '/api/groups/administrators/references/WidgetTypeManager',
+        method: METHODS.GET,
+        mockResponse: WIDGETTYPE_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestWidgetTypeReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getContentReferences', () => {
+    it('returns a promise', () => {
+      expect(getContentReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestContentReferences = {
+        uri: '/api/groups/administrators/references/ContentManager',
+        method: METHODS.GET,
+        mockResponse: GROUP_CONTENT_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getContentReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestContentReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getResourceReferences', () => {
+    it('returns a promise', () => {
+      expect(getResourceReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the request with additional params', () => {
+      const correctRequestResourceReferences = {
+        uri: '/api/groups/administrators/references/ResourceManager',
+        method: METHODS.GET,
+        mockResponse: RESOURCE_REFERENCES.administrators.list,
+        errors: expect.any(Function),
+      };
+      getResourceReferences({ page: 1, pageSize: 10 }, 'administrators');
+      expect(makeMockRequest).toHaveBeenCalledWith(
+        correctRequestResourceReferences,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });

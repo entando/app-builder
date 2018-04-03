@@ -1,8 +1,9 @@
 
 import React from 'react';
-
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
+import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
@@ -29,7 +30,7 @@ import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
-import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 
 import {
   ROUTE_HOME,
@@ -58,6 +59,7 @@ import {
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
+  ROUTE_LABELS_AND_LANGUAGES,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -199,6 +201,11 @@ describe('App', () => {
   it('route to group edit page', () => {
     const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />);
     expect(component.contains(<EditGroupPage />)).toEqual(true);
+  });
+
+  it('route to labels and languages page', () => {
+    const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
+    expect(component.contains(<LabelsAndLanguagesPageContainer />)).toEqual(true);
   });
 
   it('default route', () => {

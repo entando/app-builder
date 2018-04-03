@@ -5,6 +5,7 @@ import { LIST_GROUPS_OK, GROUPS_NORMALIZED } from 'test/mocks/groups';
 import { getGroupsList } from 'state/groups/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/groups/common/DeleteGroupModal';
+import { getLoading } from 'state/loading/selectors';
 
 const dispatchMock = jest.fn();
 
@@ -18,6 +19,12 @@ jest.mock('state/modal/actions', () => ({
 }));
 
 getGroupsList.mockReturnValue(LIST_GROUPS_OK);
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+
+getLoading.mockReturnValue(false);
 
 describe('GroupListTableContainer', () => {
   it('maps groups list property state in GroupsListTable', () => {

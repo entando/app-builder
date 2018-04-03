@@ -32,7 +32,11 @@ export const ROUTE_USER_DETAIL = 'userDetail';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
+export const ROUTE_GROUP_DETAIL = 'groupDetail';
 export const ROUTE_USER_AUTHORITY = 'authorityPage';
+export const ROUTE_LABELS_ADD = 'labelsAdd';
+export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
+export const ROUTE_LABEL_ADD = 'labelAdd';
 
 
 routerConfig(
@@ -69,8 +73,12 @@ routerConfig(
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
+      { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
       { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
       { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
+      { name: ROUTE_LABELS_ADD, path: '/labels/add' },
+      { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
+      { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

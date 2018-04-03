@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DataModelFormContainer from 'ui/data-models/common/DataModelFormContainer';
+import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 const AddDataModelPage = () => (
   <InternalPage className="AddDataModelPage">
@@ -16,7 +17,7 @@ const AddDataModelPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.data" />
             </BreadcrumbItem>
-            <BreadcrumbItem>
+            <BreadcrumbItem route={ROUTE_DATA_MODEL_LIST}>
               <FormattedMessage id="menu.dataModel" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

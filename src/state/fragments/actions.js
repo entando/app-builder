@@ -3,6 +3,8 @@ import { initialize } from 'redux-form';
 import { getFragment, getFragments, getWidgetTypes, getPlugins } from 'api/fragments';
 import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS } from 'state/fragments/types';
 import { setPage } from 'state/pagination/actions';
+import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -47,16 +49,20 @@ export const fetchFragmentDetail = fragmentCode => dispatch => (
 
 export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
+    dispatch(toggleLoading('fragments'));
     getFragments(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(setFragments(data.payload));
+          dispatch(toggleLoading('fragments'));
           dispatch(setPage(data.metaData));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(toggleLoading('fragments'));
+          resolve();
+        }
+      });
     });
   })
 );

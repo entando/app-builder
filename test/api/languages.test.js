@@ -3,9 +3,8 @@ import { getLanguages, putLanguage } from 'api/languages';
 import { makeRequest, METHODS } from 'api/apiManager';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
-
-const correctRequest = {
-  uri: '/languages',
+const correctGetRequest = {
+  uri: '/api/languages',
   method: METHODS.GET,
   mockResponse: LANGUAGES_LIST,
   useAuthentication: true,
@@ -34,10 +33,10 @@ describe('api/languages', () => {
       expect(getLanguages()).toBeInstanceOf(Promise);
     });
 
-    it('get fragment page 1 by default', () => {
+    it('get language page 1 by default', () => {
       getLanguages({ page: 1, pageSize: 10 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        correctGetRequest,
         {
           page: 1,
           pageSize: 10,
@@ -48,7 +47,7 @@ describe('api/languages', () => {
     it('request page 2', () => {
       getLanguages({ page: 2, pageSize: 10 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        correctGetRequest,
         {
           page: 2,
           pageSize: 10,
@@ -59,7 +58,7 @@ describe('api/languages', () => {
     it('request different page size', () => {
       getLanguages({ page: 1, pageSize: 5 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        correctGetRequest,
         {
           page: 1,
           pageSize: 5,
@@ -71,8 +70,8 @@ describe('api/languages', () => {
       getLanguages({ page: 1, pageSize: 10 }, '?param=true');
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          ...correctRequest,
-          uri: '/languages?param=true',
+          ...correctGetRequest,
+          uri: '/api/languages?param=true',
         },
         {
           page: 1,
@@ -91,7 +90,7 @@ describe('api/languages', () => {
       putLanguage(LANGUAGE_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
-        uri: `/languages/${LANGUAGE_OBJ.code}`,
+        uri: `/api/languages/${LANGUAGE_OBJ.code}`,
         body: LANGUAGE_OBJ,
         useAuthentication: true,
       }));

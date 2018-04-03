@@ -1,18 +1,19 @@
 import 'test/enzyme-init';
-import { getLabels, putLabel, postLabel } from 'api/labels';
+import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { makeRequest, METHODS } from 'api/apiManager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
 const correctRequest = {
-  uri: '/labels',
+  uri: '/api/labels',
   method: METHODS.GET,
   mockResponse: LABELS_LIST,
   useAuthentication: true,
 };
 
+const LABEL_KEY = 'HELLO';
 const LABEL_OBJ = {
-  key: 'HELLO',
+  key: LABEL_KEY,
   titles: {
     it: 'Ciao',
     en: 'Hello',
@@ -22,7 +23,7 @@ const LABEL_OBJ = {
 jest.unmock('api/labels');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', PUT: 'PUT', POST: 'POST' },
+  METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
 describe('api/labels', () => {
@@ -73,7 +74,7 @@ describe('api/labels', () => {
       expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
-          uri: '/labels?param=true',
+          uri: '/api/labels?param=true',
         },
         {
           page: 1,
@@ -92,7 +93,7 @@ describe('api/labels', () => {
       putLabel(LABEL_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
-        uri: `/labels/${LABEL_OBJ.key}`,
+        uri: `/api/labels/${LABEL_OBJ.key}`,
         body: LABEL_OBJ,
         useAuthentication: true,
       }));
@@ -108,8 +109,23 @@ describe('api/labels', () => {
       postLabel(LABEL_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.POST,
-        uri: '/labels',
+        uri: '/api/labels',
         body: LABEL_OBJ,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('deleteLabel', () => {
+    it('returns a promise', () => {
+      expect(deleteLabel(LABEL_KEY)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deleteLabel(LABEL_KEY);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.DELETE,
+        uri: `/api/labels/${LABEL_KEY}`,
         useAuthentication: true,
       }));
     });

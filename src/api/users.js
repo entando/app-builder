@@ -1,22 +1,22 @@
-import { USERS_OK_PAGE_1, USERS_OK_PAGE_2, USER_PROFILE_MOCK } from 'test/mocks/users';
-import throttle from 'util/throttle';
+import { USERS_OK, USER_PROFILE_MOCK } from 'test/mocks/users';
 import { makeMockRequest, METHODS } from 'api/apiManager';
 
-export const getUsers = (page, params) => new Promise((resolve) => {
-  if (params) {
-    console.info(`calling API /users${params}`);
-  }
-  switch (page) {
-    case 1:
-      throttle(() => resolve(USERS_OK_PAGE_1));
-      break;
-    case 2:
-      throttle(resolve(USERS_OK_PAGE_2));
-      break;
-    default:
-      throttle(resolve(USERS_OK_PAGE_1));
-  }
-});
+const getGenericError = obj => (
+  obj || obj === '' ? [] : [{ code: 1, message: 'object is invalid' }]
+);
+
+export const getUsers = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeMockRequest(
+    {
+      uri: `/api/users${params}`,
+      method: METHODS.GET,
+      mockResponse: USERS_OK.payload,
+      useAuthentication: true,
+      errors: () => getGenericError(params),
+    },
+    page,
+  )
+);
 
 const getErrors = username => (
   USER_PROFILE_MOCK[username] ? [] : [
@@ -25,7 +25,7 @@ const getErrors = username => (
 );
 
 export const getUserDetail = username => makeMockRequest({
-  uri: `/users/detail/${username}`,
+  uri: `/api/users/${username}`,
   method: METHODS.GET,
   mockResponse: USER_PROFILE_MOCK[username],
   errors: () => getErrors(username),

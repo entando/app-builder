@@ -3,7 +3,7 @@ import { getWidget, getApiWidgetList } from 'api/widgets';
 import { SET_WIDGET_LIST, SET_SELECTED_WIDGET } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { addErrors } from 'state/errors/actions';
-
+import { toggleLoading } from 'state/loading/actions';
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -38,7 +38,9 @@ export const fetchWidget = widgetCode => dispatch =>
 
 export const fetchWidgetList = () => dispatch =>
   getApiWidgetList().then((data) => {
+    dispatch(toggleLoading('widgets'));
     dispatch(getWidgetList(data.payload));
+    dispatch(toggleLoading('widgets'));
   });
 
 export const loadSelectedWidget = widgetCode => (dispatch, getState) => {

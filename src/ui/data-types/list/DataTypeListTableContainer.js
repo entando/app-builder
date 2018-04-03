@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
+import { getLoading } from 'state/loading/selectors';
 import DataTypeListTable from 'ui/data-types/list/DataTypeListTable';
 
 export const mapStateToProps = state => (
@@ -11,6 +12,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
+    loading: getLoading(state).dataType,
   }
 );
 

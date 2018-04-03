@@ -91,7 +91,7 @@ GroupFormBody.defaultProps = {
   submitting: false,
   mode: NEW_MODE,
   onChangeName: null,
-  onWillMount: null,
+  onWillMount: () => {},
 };
 
 const GroupForm = reduxForm({
