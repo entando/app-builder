@@ -2,6 +2,7 @@ import { SET_DATA_TYPES } from 'state/data-types/types';
 import { getDataTypes } from 'api/dataTypes';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
+import { addErrors } from 'state/errors/actions';
 
 
 export const setDataTypes = dataTypes => ({
@@ -12,11 +13,22 @@ export const setDataTypes = dataTypes => ({
 });
 
 // thunk
-export const fetchDataTypes = (page = 1, params) => (dispatch) => {
-  dispatch(toggleLoading('dataType'));
-  return getDataTypes(page, params).then((data) => {
-    dispatch(setDataTypes(data.payload));
-    dispatch(toggleLoading('dataType'));
-    dispatch(setPage(data.metaData));
-  });
-};
+
+export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+  new Promise((resolve) => {
+    dispatch(toggleLoading('dataTypes'));
+    getDataTypes(page, params).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setDataTypes(json.payload));
+          dispatch(toggleLoading('dataTypes'));
+          dispatch(setPage(json.metaData));
+        } else if (json && json.errors) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(toggleLoading('dataTypes'));
+        }
+        resolve();
+      });
+    });
+  })
+);

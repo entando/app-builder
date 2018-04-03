@@ -1,33 +1,78 @@
 import 'test/enzyme-init';
 import { getDataTypes } from 'api/dataTypes';
-import {
-  DATA_TYPES_OK_PAGE_1,
-  DATA_TYPES_OK_PAGE_2,
-} from 'test/mocks/dataTypes';
+import { makeRequest, METHODS } from 'api/apiManager';
+
+import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
+
+const correctRequest = {
+  uri: '/api/datatypes',
+  method: METHODS.GET,
+  mockResponse: DATA_TYPES_OK_PAGE_1,
+  useAuthentication: true,
+  errors: expect.any(Function),
+};
+
 
 jest.unmock('api/dataTypes');
-jest.useFakeTimers();
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET' },
+}));
 
-describe('api/dataTypes', () => {
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
+describe('api/getDataTypes', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
+
   describe('getDataTypes', () => {
     it('returns a promise', () => {
-      const filledInput = getDataTypes();
-      expect(typeof filledInput.then === 'function').toBeDefined();
+      expect(getDataTypes()).toBeInstanceOf(Promise);
     });
 
-    it('get data type page 1 as first page', () => {
-      expect(getDataTypes()).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
+    it('get fragment page 1 by default', () => {
+      getDataTypes({ page: 1, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
 
-    it('get data type page 2', () => {
-      expect(getDataTypes(2)).resolves.toEqual(DATA_TYPES_OK_PAGE_2);
+    it('request page 2', () => {
+      getDataTypes({ page: 2, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 2,
+          pageSize: 10,
+        },
+      );
     });
 
-    it('get data type page 1 by default', () => {
-      expect(getDataTypes('nopage')).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
+    it('request different page size', () => {
+      getDataTypes({ page: 1, pageSize: 5 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 5,
+        },
+      );
+    });
+    it('makes the request with additional params', () => {
+      getDataTypes({ page: 1, pageSize: 10 }, '?param=true');
+      expect(makeRequest).toHaveBeenCalledWith(
+        {
+          ...correctRequest,
+          uri: '/api/datatypes?param=true',
+        },
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });

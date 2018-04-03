@@ -34,7 +34,7 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
 }));
 
-const dataTypes = [
+const DATA_TYPES = [
   {
     name: 'dataType1',
     code: 'ABC',
@@ -47,7 +47,7 @@ const dataTypes = [
   },
 ];
 
-getDataTypeList.mockReturnValue(dataTypes);
+getDataTypeList.mockReturnValue(DATA_TYPES);
 getLoading.mockReturnValue(false);
 
 describe('DataTypeListTableContainer', () => {
