@@ -1,25 +1,34 @@
 import 'test/enzyme-init';
-import getWidget from 'api/widget';
-import { BODY_OK, BODY_ERROR } from 'test/mocks/widget';
+import { getWidget } from 'api/widgets';
+import { makeRequest, METHODS } from 'api/apiManager';
+
 
 const WIDGET_CODE = 'test_widget';
 
-jest.unmock('api/widget');
+jest.unmock('api/widgets');
 
-it('returns a promise', () => {
-  const filledInput = getWidget(WIDGET_CODE);
-  expect(typeof filledInput.then === 'function').toBeDefined();
+jest.mock('api/apiManager', () => {
+  const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
+  return {
+    makeRequest: makeMockRequest,
+    makeMockRequest,
+    METHODS: require.requireActual('api/apiManager').METHODS,
+  };
 });
 
+beforeEach(jest.clearAllMocks);
 
-it('get success response', () => {
-  getWidget(WIDGET_CODE).then((response) => {
-    expect(response).toEqual(BODY_OK);
+describe('getWidget()', () => {
+  it('returns a promise', () => {
+    expect(getWidget(WIDGET_CODE)).toBeInstanceOf(Promise);
   });
-});
 
-it('get error response', () => {
-  getWidget('').then(() => {}, (error) => {
-    expect(error).toEqual(BODY_ERROR);
+  it('makes the correct request', () => {
+    getWidget(WIDGET_CODE);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/widgets/${WIDGET_CODE}`,
+      method: METHODS.GET,
+      useAuthentication: true,
+    }));
   });
 });

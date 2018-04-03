@@ -16,6 +16,7 @@ export const ROUTE_WIDGET = 'widget';
 export const ROUTE_WIDGET_LIST = 'widgetList';
 export const ROUTE_WIDGET_ADD = 'widgetForm';
 export const ROUTE_WIDGET_EDIT = 'widgetEdit';
+export const ROUTE_WIDGET_CONFIG = 'widgetConfig';
 export const ROUTE_FRAGMENT_LIST = 'fragmentList';
 export const ROUTE_FRAGMENT_ADD = 'fragmentAdd';
 export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
@@ -52,6 +53,7 @@ routerConfig(
       { name: ROUTE_WIDGET_ADD, path: '/widget/add' },
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },
       { name: ROUTE_WIDGET, path: '/widget/view/:widget' },
+      { name: ROUTE_WIDGET_CONFIG, path: '/widget/config/:widgetCode/page/:pageCode/frame/:framePos' },
       { name: ROUTE_FRAGMENT_LIST, path: '/fragment' },
       { name: ROUTE_FRAGMENT_ADD, path: '/fragment/add' },
       { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },

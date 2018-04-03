@@ -65,6 +65,7 @@ export default {
     'menu.users.authority': 'Authorizations',
     'menu.details': 'Details',
     'menu.groups': 'Groups',
+    'menu.widget': 'Widget',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -221,5 +222,10 @@ export default {
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
     'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
     'modal.confirm.delete': 'Do you really want to delete {code}?',
+    'widgetConfig.help': 'The WIDGET CONFIGURATION section lets you configure a widget in a specific frame of a page, through a GUI interface.',
+    'widgetConfig.internalServlet.widgetName': 'Internal Servlet',
+    'widgetConfig.internalServlet.parameters': 'Parameters',
+    'widgetConfig.internalServlet.actionPath': 'actionPath',
+    'widgetConfig.internalServlet.actionPath.help': 'Path to an action or to a JSP. You must prepend \'/ExtStr2\' to any Struts2 action path',
   },
 };

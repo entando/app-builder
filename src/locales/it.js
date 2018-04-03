@@ -65,6 +65,7 @@ export default {
     'menu.users.authority': 'Autorizzazioni',
     'menu.details': 'Dettagli',
     'menu.groups': 'Gruppi',
+    'menu.widget': 'Widget',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -221,5 +222,10 @@ export default {
     'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
     'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
+    'widgetConfig.help': 'Dalla sezione CONFIGURA WIDGET puoi configurare il Widget, in una posizione precisa della pagina, attraverso un interfaccia guidata.',
+    'widgetConfig.internalServlet.widgetName': 'Invocazione di una Servlet Interna',
+    'widgetConfig.internalServlet.parameters': 'Parametri di Configurazione',
+    'widgetConfig.internalServlet.actionPath': 'actionPath',
+    'widgetConfig.internalServlet.actionPath.help': 'Path to an action or to a JSP. You must prepend \'/ExtStr2\' to any Struts2 action path',
   },
 };

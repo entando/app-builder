@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_WIDGET_LIST } from 'state/widgets/types';
+import { SET_WIDGET_LIST, SET_SELECTED_WIDGET } from 'state/widgets/types';
 
 const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -22,8 +22,17 @@ const map = (state = [], action = {}) => {
   }
 };
 
+const selected = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_WIDGET: {
+      return action.payload.widget;
+    }
+    default: return state;
+  }
+};
 
 export default combineReducers({
   list,
   map,
+  selected,
 });

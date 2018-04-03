@@ -9,6 +9,7 @@ import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
+import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
@@ -20,7 +21,13 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
+import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 import AddUserPage from 'ui/users/add/AddUserPage';
+import EditUserPage from 'ui/users/edit/EditUserPage';
+import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import ListGroupPage from 'ui/groups/list/ListGroupPage';
+import AddGroupPage from 'ui/groups/add/AddGroupPage';
+import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import { NotFoundPage, gotoRoute } from 'frontend-common-components';
 
@@ -31,6 +38,7 @@ import {
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
+  ROUTE_WIDGET_CONFIG,
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
@@ -43,7 +51,13 @@ import {
   ROUTE_DATA_MODEL_LIST,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
+  ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
+  ROUTE_USER_EDIT,
+  ROUTE_USER_DETAIL,
+  ROUTE_GROUP_LIST,
+  ROUTE_GROUP_ADD,
+  ROUTE_GROUP_EDIT,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -85,6 +99,11 @@ describe('App', () => {
   it('route to widget edit page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_EDIT} username="admin" />);
     expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
+  });
+
+  it('route to widget edit page', () => {
+    const component = shallow(<App route={ROUTE_WIDGET_CONFIG} username="admin" />);
+    expect(component.contains(<WidgetConfigPageContainer />)).toEqual(true);
   });
 
   it('route to add fragment page', () => {
@@ -147,9 +166,39 @@ describe('App', () => {
     expect(component.contains(<UserListPage />)).toEqual(true);
   });
 
+  it('route to user authority page', () => {
+    const component = shallow(<App route={ROUTE_USER_AUTHORITY} username="admin" />);
+    expect(component.contains(<UserAuthorityPageContainer />)).toEqual(true);
+  });
+
   it('route to user add page', () => {
     const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />);
     expect(component.contains(<AddUserPage />)).toEqual(true);
+  });
+
+  it('route to user edit page', () => {
+    const component = shallow(<App route={ROUTE_USER_EDIT} username="admin" />);
+    expect(component.contains(<EditUserPage />)).toEqual(true);
+  });
+
+  it('route to user detail page', () => {
+    const component = shallow(<App route={ROUTE_USER_DETAIL} username="admin" />);
+    expect(component.contains(<DetailUserPage />)).toEqual(true);
+  });
+
+  it('route to group list page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />);
+    expect(component.contains(<ListGroupPage />)).toEqual(true);
+  });
+
+  it('route to group add page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_ADD} username="admin" />);
+    expect(component.contains(<AddGroupPage />)).toEqual(true);
+  });
+
+  it('route to group edit page', () => {
+    const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />);
+    expect(component.contains(<EditGroupPage />)).toEqual(true);
   });
 
   it('default route', () => {

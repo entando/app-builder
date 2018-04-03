@@ -1,13 +1,13 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, METHODS } from 'api/apiManager';
 import {
-  ERROR, HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
+  HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
   PAGE_SETTINGS_PAYLOAD,
 } from 'test/mocks/pages';
 
 import {
-  HOMEPAGE_RESPONSE, LOGIN_RESPONSE, SERVICE_RESPONSE, CONTACTS_RESPONSE,
-  NOTFOUND_RESPONSE, ERROR_RESPONSE, DASHBOARD_RESPONSE,
+  HOMEPAGE_CONFIG, LOGIN_CONFIG, SERVICE_CONFIG, CONTACTS_CONFIG,
+  NOTFOUND_CONFIG, ERROR_CONFIG, DASHBOARD_CONFIG,
 } from 'test/mocks/pageConfig';
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
@@ -37,12 +37,16 @@ const fetchPageResponseMap = {
 };
 
 
-export const fetchPage = pageCode => new Promise((resolve, reject) => {
-  if (fetchPageResponseMap[pageCode]) {
-    throttle(() => resolve({ payload: fetchPageResponseMap[pageCode] }));
-  } else {
-    reject(ERROR);
-  }
+export const getPage = pageCode => makeMockRequest({
+  uri: `/api/pages/${pageCode}`,
+  method: METHODS.GET,
+  mockResponse: fetchPageResponseMap[pageCode] || {},
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
 });
 
 
@@ -55,14 +59,16 @@ const fetchPageChildrenResponseMap = {
   contacts: [],
 };
 
-// will call http://confluence.entando.org/display/E5/Page+Tree
-// e.g. /pages?parentCode=homepage
-export const fetchPageChildren = pageCode => new Promise((resolve, reject) => {
-  if (fetchPageChildrenResponseMap[pageCode]) {
-    throttle(() => resolve({ payload: fetchPageChildrenResponseMap[pageCode] }));
-  } else {
-    reject(ERROR);
-  }
+export const getPageChildren = pageCode => makeMockRequest({
+  uri: `/api/pages?parentCode=${pageCode}`,
+  method: METHODS.GET,
+  mockResponse: fetchPageChildrenResponseMap[pageCode] || {},
+  useAuthentication: true,
+  errors: () => (
+    fetchPageChildrenResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
 });
 
 
@@ -79,24 +85,16 @@ export const setPagePosition = (pageCode, position, parentCode) => new Promise((
   throttle(() => resolve(response));
 });
 
-
-export const postPage = pageObject => new Promise((resolve) => {
-  // eslint-disable-next-line no-console
-  console.info(`calling POST /pages\n\t${JSON.stringify(pageObject, 2)}`);
-  if (pageObject.code !== 'error') {
-    throttle(() => resolve({ payload: pageObject }));
-  } else {
-    resolve({
-      errors: [
-        { code: 1, message: 'Page code cannot be error!' },
-        { code: 2, message: 'This is a mock error!' },
-      ],
-    });
-  }
+export const postPage = pageObject => makeMockRequest({
+  uri: '/api/pages',
+  body: pageObject,
+  method: METHODS.POST,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
 });
 
-export const putPage = pageObject => makeRequest({
-  uri: `/pages/${pageObject.code}`,
+export const putPage = pageObject => makeMockRequest({
+  uri: `/api/pages/${pageObject.code}`,
   body: pageObject,
   method: METHODS.PUT,
   mockResponse: { ...pageObject },
@@ -108,8 +106,8 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
-export const putPageStatus = (pageCode, status) => makeRequest({
-  uri: `/pages/${pageCode}/status`,
+export const putPageStatus = (pageCode, status) => makeMockRequest({
+  uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
   mockResponse: { ...fetchPageResponseMap[pageCode], status },
@@ -134,41 +132,34 @@ export const getPageSettingsList = () => (
 );
 
 const PAGE_CONFIG_DRAFT_MAP = {
-  homepage: HOMEPAGE_RESPONSE,
-  dashboard: DASHBOARD_RESPONSE,
-  login: LOGIN_RESPONSE,
-  service: SERVICE_RESPONSE,
-  notfound: NOTFOUND_RESPONSE,
-  error: ERROR_RESPONSE,
-  contacts: CONTACTS_RESPONSE,
+  homepage: HOMEPAGE_CONFIG,
+  dashboard: DASHBOARD_CONFIG,
+  login: LOGIN_CONFIG,
+  service: SERVICE_CONFIG,
+  notfound: NOTFOUND_CONFIG,
+  error: ERROR_CONFIG,
+  contacts: CONTACTS_CONFIG,
 };
 
 const PAGE_CONFIG_PUBLISHED_MAP = {
-  homepage: HOMEPAGE_RESPONSE,
-  dashboard: DASHBOARD_RESPONSE,
-  login: LOGIN_RESPONSE,
-  service: SERVICE_RESPONSE,
-  notfound: NOTFOUND_RESPONSE,
-  error: ERROR_RESPONSE,
-  contacts: CONTACTS_RESPONSE,
+  homepage: HOMEPAGE_CONFIG,
+  dashboard: DASHBOARD_CONFIG,
+  login: LOGIN_CONFIG,
+  service: SERVICE_CONFIG,
+  notfound: NOTFOUND_CONFIG,
+  error: ERROR_CONFIG,
+  contacts: CONTACTS_CONFIG,
 };
 
-// call GET /pages/<pageCode>/widget/
-export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) =>
-  new Promise((resolve) => {
-    // eslint-disable-next-line no-console
-    console.info(`calling GET /pages/${pageCode}/widget`);
-    const responseMap = status === PAGE_STATUS_DRAFT ?
-      PAGE_CONFIG_DRAFT_MAP :
-      PAGE_CONFIG_PUBLISHED_MAP;
-    throttle(() => {
-      if (responseMap[pageCode]) {
-        resolve(responseMap[pageCode]);
-      } else {
-        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
-      }
-    });
-  });
+export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeMockRequest({
+  uri: `/api/pages/${pageCode}/widget?status=${status}`,
+  method: METHODS.GET,
+  body: {},
+  mockResponse: (status === PAGE_STATUS_DRAFT) ?
+    PAGE_CONFIG_DRAFT_MAP[pageCode] :
+    PAGE_CONFIG_PUBLISHED_MAP[pageCode],
+  useAuthentication: true,
+});
 
 // call DELETE /pages/<pageCode>/widget/<frameId>
 export const deletePageWidget = (pageCode, frameId) =>
@@ -188,32 +179,25 @@ export const deletePageWidget = (pageCode, frameId) =>
     });
   });
 
-// call PUT /pages/<pageCode>/widget/<frameId>
-export const putPageWidget = (pageCode, frameId, widget) =>
-  new Promise((resolve) => {
-    // eslint-disable-next-line no-console
-    console.info(`calling PUT /pages/${pageCode}/widget/${frameId}\n\t${JSON.stringify(widget)}`);
-    throttle(() => {
-      if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
-        resolve({
-          payload: widget,
-        });
-      } else {
-        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
-      }
-    });
-  });
 
-export const restorePageConfig = pageCode => makeRequest({
-  uri: `/pages/${pageCode}/widgets/restore`,
+export const putPageWidget = (pageCode, frameId, configItem) => makeMockRequest({
+  uri: `/api/pages/${pageCode}/widget/${frameId}`,
+  method: METHODS.PUT,
+  body: configItem,
+  mockResponse: configItem,
+  useAuthentication: true,
+});
+
+export const restorePageConfig = pageCode => makeMockRequest({
+  uri: `/api/pages/${pageCode}/widget/restore`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
   useAuthentication: true,
 });
 
-export const applyDefaultPageConfig = pageCode => makeRequest({
-  uri: `/pages/${pageCode}/widgets/applyDefault`,
+export const applyDefaultPageConfig = pageCode => makeMockRequest({
+  uri: `/api/pages/${pageCode}/widget/applyDefault`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
