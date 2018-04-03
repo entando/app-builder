@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getWidget, getWidgets } from 'api/widgets';
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
 
 const correctRequest = {
@@ -22,7 +22,7 @@ const correctRequestWidget = {
 
 jest.unmock('api/widgets');
 jest.mock('api/apiManager', () => ({
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
 
@@ -37,7 +37,7 @@ describe('api/widgets', () => {
     });
     it('returns a widget', () => {
       expect(getWidget('test'));
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequestWidget,
         uri: '/api/widgets/test',
       });
@@ -51,7 +51,7 @@ describe('api/widgets', () => {
 
     it('get getWidgetList page 1 by default', () => {
       getWidgets({ page: 1, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -62,7 +62,7 @@ describe('api/widgets', () => {
 
     it('request page 2', () => {
       getWidgets({ page: 2, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -73,7 +73,7 @@ describe('api/widgets', () => {
 
     it('request different page size', () => {
       getWidgets({ page: 1, pageSize: 5 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -84,7 +84,7 @@ describe('api/widgets', () => {
 
     it('makes the request with additional params', () => {
       getWidgets({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/widgets?param=true',
