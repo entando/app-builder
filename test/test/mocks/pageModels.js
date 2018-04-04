@@ -92,6 +92,14 @@ export const GET_LIST_RESPONSE = {
   },
 };
 
+export const PAGE_MODELS_LIST = [
+  COMPLEX_PAYLOAD,
+  SINGLE_CELL_PAYLOAD,
+  SIDEBAR_HOLES_PAYLOAD,
+  OVERLAPPING_FRAMES_PAYLOAD,
+  MISSING_SKETCH_PAYLOAD,
+];
+
 export const PAGE_MODEL = {
   payload: GET_LIST_RESPONSE.payload[0],
 };

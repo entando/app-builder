@@ -1,14 +1,15 @@
-import { cloneDeep, set } from 'lodash';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from 'frontend-common-components';
 import { initialize } from 'redux-form';
 
+import { mockApi } from 'test/testUtils';
+
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
-  unpublishSelectedPage,
+  unpublishSelectedPage, loadSelectedPage,
 } from 'state/pages/actions';
 
 import {
@@ -25,15 +26,14 @@ import {
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition, postPage, putPage, fetchPage, getPageSettingsList, putPageStatus } from 'api/pages';
-import rootReducer from 'state/rootReducer';
+import { setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList, putPageStatus } from 'api/pages';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
-
+import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors'; 
 
 jest.mock('api/pages', () => ({
-  fetchPage: jest.fn().mockReturnValue(new Promise(resolve => resolve({}))),
-  fetchPageChildren: () => new Promise(resolve => resolve([])),
+  getPage: jest.fn(),
+  getPageChildren: jest.fn(),
   setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
   postPage: jest.fn(),
   putPage: jest.fn(),
@@ -47,12 +47,19 @@ jest.mock('state/page-config/selectors', () => ({
   getSelectedPageConfig: jest.fn(),
 }));
 
+jest.mock('state/pages/selectors', () => ({
+  getStatusMap: jest.fn(),
+  getPagesMap: jest.fn(),
+  getChildrenMap: jest.fn(),
+  getSelectedPage: jest.fn(),
+}));
+
 const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
 const mockPostPageFailure = () =>
   new Promise(resolve => resolve({ payload: {}, errors: [{ code: 1, message: 'Wrong!' }] }));
 
 const mockStore = configureStore([thunk]);
-const INITIAL_STATE = rootReducer();
+
 const INITIALIZED_STATE = {
   pages: {
     map: {
@@ -101,9 +108,9 @@ const NEW_PARENT_CODE = 'newParent';
 const NEW_POSITION = 2;
 
 
-describe('state/pages/actions', () => {
-  beforeEach(jest.clearAllMocks);
+beforeEach(jest.clearAllMocks);
 
+describe('state/pages/actions', () => {
   it('addPages() should return a well formed action', () => {
     const PAGES = [];
     const action = addPages(PAGES);
@@ -151,8 +158,14 @@ describe('state/pages/actions', () => {
   });
 
   describe('handleExpandPage()', () => {
+    beforeEach(() => {
+      getStatusMap.mockReturnValue(INITIALIZED_STATE.pages.statusMap);
+      getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+      getPageChildren.mockImplementation(mockApi({ payload: [CONTACTS_PAYLOAD] }));
+    });
+
     it('when loading an already expanded page (homepage) set page expanded to false', (done) => {
-      const store = mockStore(INITIALIZED_STATE);
+      const store = mockStore();
       store.dispatch(handleExpandPage()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.includes(SET_PAGE_LOADING)).toBe(false);
@@ -162,9 +175,11 @@ describe('state/pages/actions', () => {
         done();
       }).catch(done.fail);
     });
+
     it('when loading homepage, should download homepage and its children', (done) => {
-      const store = mockStore(INITIAL_STATE);
-      store.dispatch(handleExpandPage()).then(() => {
+      const store = mockStore();
+      getStatusMap.mockReturnValue({});
+      store.dispatch(handleExpandPage('homepage')).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.includes(SET_PAGE_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_PAGE_LOADED)).toBe(true);
@@ -175,7 +190,7 @@ describe('state/pages/actions', () => {
     });
 
     it('when loading an not expanded page (contacts) set page expanded to true', (done) => {
-      const store = mockStore(INITIALIZED_STATE);
+      const store = mockStore();
       store.dispatch(handleExpandPage('contacts')).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.includes(SET_PAGE_LOADING)).toBe(true);
@@ -188,6 +203,11 @@ describe('state/pages/actions', () => {
   });
 
   describe('setPageParent()', () => {
+    beforeEach(() => {
+      getPagesMap.mockReturnValue(INITIALIZED_STATE.pages.map);
+      getChildrenMap.mockReturnValue(INITIALIZED_STATE.pages.childrenMap);
+    });
+
     it('when setting a new parent name, should call API and then dispatch action', (done) => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(setPageParent('contacts', 'service')).then(() => {
@@ -210,6 +230,11 @@ describe('state/pages/actions', () => {
   });
 
   describe('movePageBelow()', () => {
+    beforeEach(() => {
+      getPagesMap.mockReturnValue(INITIALIZED_STATE.pages.map);
+      getChildrenMap.mockReturnValue(INITIALIZED_STATE.pages.childrenMap);
+    });
+
     it('moving a page below another, under the same parent', (done) => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageBelow('dashboard', 'contacts')).then(() => {
@@ -252,6 +277,11 @@ describe('state/pages/actions', () => {
   });
 
   describe('movePageAbove()', () => {
+    beforeEach(() => {
+      getPagesMap.mockReturnValue(INITIALIZED_STATE.pages.map);
+      getChildrenMap.mockReturnValue(INITIALIZED_STATE.pages.childrenMap);
+    });
+
     it('moving a page above another, under the same parent', (done) => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageAbove('dashboard', 'contacts')).then(() => {
@@ -300,7 +330,7 @@ describe('state/pages/actions', () => {
     });
 
     it('when postPage succeeds, should dispatch ADD_PAGES', (done) => {
-      postPage.mockImplementation(mockPostPageSuccess);
+      postPage.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addPagesAction = store.getActions().find(action => action.type === ADD_PAGES);
         expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
@@ -310,7 +340,7 @@ describe('state/pages/actions', () => {
     });
 
     it('when postPage fails, should dispatch ADD_ERRORS', (done) => {
-      postPage.mockImplementation(mockPostPageFailure);
+      postPage.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
         expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
@@ -352,20 +382,20 @@ describe('state/pages/actions', () => {
       store = mockStore(INITIALIZED_STATE);
     });
 
-    it('when fetchPage succeeds, should dispatch redux-form initialize', (done) => {
-      fetchPage.mockImplementation(mockPostPageSuccess);
+    it('when getPage succeeds, should dispatch redux-form initialize', (done) => {
+      getPage.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
-        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
-        expect(initialize).toHaveBeenCalledWith('page', 'contacts');
+        expect(getPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(initialize).toHaveBeenCalledWith('page', CONTACTS_PAYLOAD);
         done();
       }).catch(done.fail);
     });
 
     it('when putPage fails, should dispatch ADD_ERRORS', (done) => {
-      fetchPage.mockImplementation(mockPostPageFailure);
+      getPage.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(getPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
         expect(addErrorsAction).toBeDefined();
         done();
       }).catch(done.fail);
@@ -382,16 +412,6 @@ describe('state/pages/actions', () => {
       store.dispatch(fetchPageSettings()).then(() => {
         expect(getPageSettingsList).toHaveBeenCalled();
         expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
-        done();
-      }).catch(done.fail);
-    });
-
-    it('when putPage fails, should dispatch ADD_ERRORS', (done) => {
-      fetchPage.mockImplementation(mockPostPageFailure);
-      store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
-        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(fetchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
-        expect(addErrorsAction).toBeDefined();
         done();
       }).catch(done.fail);
     });
@@ -432,83 +452,126 @@ describe('state/pages/actions', () => {
   });
 });
 
-describe('publishSelectedPage()', () => {
+describe('publish/unpublish', () => {
   let store;
   beforeEach(() => {
+    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
     getSelectedPageConfig.mockReturnValue([null, null]);
-    const state = cloneDeep(INITIALIZED_STATE);
-    set(state, 'pages.selected', HOMEPAGE_PAYLOAD);
-    store = mockStore(state);
+    putPageStatus.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+    store = mockStore();
   });
 
-  it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: true })));
-    store.dispatch(publishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
-      const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
-      done();
-    }).catch(done.fail);
+  describe('publishSelectedPage()', () => {
+    it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
+      store.dispatch(publishSelectedPage()).then(() => {
+        expect(putPageStatus).toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when putPageStatus fails, should not dispatch anything', (done) => {
+      putPageStatus.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(publishSelectedPage()).then(() => {
+        expect(putPageStatus).toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when there is no selected page, should not dispatch anything', (done) => {
+      getSelectedPage.mockReturnValue(null);
+      store.dispatch(publishSelectedPage()).then(() => {
+        expect(putPageStatus).not.toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([]);
+        done();
+      }).catch(done.fail);
+    });
   });
 
-  it('when putPageStatus fails, should not dispatch anything', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: false })));
-    store.dispatch(publishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
-      const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([]);
-      done();
-    }).catch(done.fail);
-  });
+  describe('unpublishSelectedPage()', () => {
+    it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
+      store.dispatch(unpublishSelectedPage()).then(() => {
+        expect(putPageStatus).toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
+        done();
+      }).catch(done.fail);
+    });
 
-  it('when there is no selected page, should not dispatch anything', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: true })));
-    store = mockStore(INITIALIZED_STATE);
-    store.dispatch(publishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
-      const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([]);
-      done();
-    }).catch(done.fail);
+    it('when putPageStatus fails, should not dispatch anything', (done) => {
+      putPageStatus.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(unpublishSelectedPage()).then(() => {
+        expect(putPageStatus).toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([]);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when there is no selected page, should not dispatch anything', (done) => {
+      getSelectedPage.mockReturnValue(null);
+      store.dispatch(unpublishSelectedPage()).then(() => {
+        expect(putPageStatus).not.toHaveBeenCalled();
+        const actionsTypes = store.getActions().map(action => action.type);
+        expect(actionsTypes).toEqual([]);
+        done();
+      }).catch(done.fail);
+    });
   });
 });
 
-describe('unpublishSelectedPage()', () => {
+describe('loadSelectedPage', () => {
   let store;
   beforeEach(() => {
-    getSelectedPageConfig.mockReturnValue([null, null]);
-    const state = cloneDeep(INITIALIZED_STATE);
-    set(state, 'pages.selected', HOMEPAGE_PAYLOAD);
-    store = mockStore(state);
+    store = mockStore();
   });
 
-  it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: true })));
-    store.dispatch(unpublishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
+  it('if there is no selected page, load the page (error)', (done) => {
+    getSelectedPage.mockReturnValue(null);
+    getPage.mockImplementation(mockApi({ errors: true }));
+
+    store.dispatch(loadSelectedPage(PAGE_CODE)).then(() => {
+      expect(getPage).toHaveBeenCalled();
       const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
+      expect(actionsTypes).toEqual([ADD_ERRORS]);
       done();
     }).catch(done.fail);
   });
 
-  it('when putPageStatus fails, should not dispatch anything', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: false })));
-    store.dispatch(unpublishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
+  it('if there is no selected page, load the page (ok)', (done) => {
+    getSelectedPage.mockReturnValue(null);
+    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+
+    store.dispatch(loadSelectedPage(PAGE_CODE)).then(() => {
+      expect(getPage).toHaveBeenCalled();
       const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([]);
+      expect(actionsTypes).toEqual([SET_SELECTED_PAGE]);
       done();
     }).catch(done.fail);
   });
 
-  it('when there is no selected page, should not dispatch anything', (done) => {
-    putPageStatus.mockImplementation(() => new Promise(r => r({ ok: true })));
-    store = mockStore(INITIALIZED_STATE);
-    store.dispatch(unpublishSelectedPage()).then(() => {
-      expect(putPageStatus).toHaveBeenCalled();
+  it('if there is a selected page but is not the one we need, load the page', (done) => {
+    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
+    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+
+    store.dispatch(loadSelectedPage('RANDOM_CODE')).then(() => {
+      expect(getPage).toHaveBeenCalled();
       const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([]);
+      expect(actionsTypes).toEqual([SET_SELECTED_PAGE]);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('if there is a selected page and it is the one we need, do not load the page', (done) => {
+    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
+    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+    store.dispatch(loadSelectedPage(HOMEPAGE_PAYLOAD.code)).then(() => {
+      expect(getPage).not.toHaveBeenCalled();
+      expect(store.getActions()).toHaveLength(0);
       done();
     }).catch(done.fail);
   });

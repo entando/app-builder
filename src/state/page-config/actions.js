@@ -1,25 +1,27 @@
-import { getParams, formattedText } from 'frontend-common-components';
+import { initialize } from 'redux-form';
+import { getParams, gotoRoute, formattedText } from 'frontend-common-components';
+
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 
 import { addErrors } from 'state/errors/actions';
-import { setSelectedPageModel } from 'state/page-models/actions';
+import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
-import { setSelectedPage } from 'state/pages/actions';
+import { loadSelectedPage } from 'state/pages/actions';
 import { validatePageModel } from 'state/page-models/helpers';
 import {
-  fetchPage,
   getPageConfig,
   deletePageWidget,
   putPageWidget,
   restorePageConfig,
   applyDefaultPageConfig,
 } from 'api/pages';
-import { getPageModel } from 'api/pageModels';
-import { getPublishedConfigMap } from 'state/page-config/selectors';
+import { getPublishedConfigMap, getSelectedPageConfig } from 'state/page-config/selectors';
+import { getWidgetsMap } from 'state/widgets/selectors';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { ROUTE_WIDGET_CONFIG } from 'app-init/router';
 
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
@@ -38,13 +40,14 @@ export const setPublishedPageConfig = (pageCode, pageConfig) => ({
   },
 });
 
-export const setPageWidget = (pageCode, widgetId, sourceFrameId, targetFrameId) => ({
+export const setPageWidget = (pageCode, widgetId, sourceFrameId, targetFrameId, widgetConfig) => ({
   type: SET_PAGE_WIDGET,
   payload: {
     pageCode,
     widgetId,
     sourceFrameId,
     targetFrameId,
+    widgetConfig,
   },
 });
 
@@ -79,59 +82,53 @@ export const changeViewList = view => ({
 });
 
 
-// dispatch an action to populate errors
-const handleResponseErrors = dispatch => (payload) => {
-  if (payload.errors && payload.errors.length) {
-    const action = addErrors(payload.errors.map(err => err.message));
-    dispatch(action);
-    throw action;
+export const fetchPageConfig = (pageCode, status) =>
+  dispatch => getPageConfig(pageCode, status)
+    .then(response => response.json()
+      .then((json) => {
+        if (response.ok) {
+          if (status === PAGE_STATUS_DRAFT) {
+            dispatch(setPageConfig(pageCode, json.payload));
+          } else {
+            dispatch(setPublishedPageConfig(pageCode, json.payload));
+          }
+          return json.payload;
+        }
+        dispatch(addErrors(json.errors.map(e => e.message)));
+        return null;
+      }));
+
+
+export const initConfigPage = () => async (dispatch, getState) => {
+  try {
+    const { pageCode } = getParams(getState());
+
+    const selectedPage = await dispatch(loadSelectedPage(pageCode));
+    if (!selectedPage) {
+      return;
+    }
+
+    const pageModel = await dispatch(loadSelectedPageModel(selectedPage.pageModel));
+    if (!pageModel) {
+      return;
+    }
+
+    const errors = validatePageModel(pageModel);
+    if (errors && errors.length) {
+      const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
+      dispatch(addErrors(translatedErrors));
+      return;
+    }
+
+    dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
+    if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
+      dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
+    } else {
+      dispatch(setPublishedPageConfig(pageCode, null));
+    }
+  } catch (e) {
+    console.log('initConfigPage failed:', e);
   }
-  return payload;
-};
-
-export const initConfigPage = () => (dispatch, getState) => {
-  const { pageCode } = getParams(getState());
-  let pageIsPublished = false;
-  return fetchPage(pageCode)
-    .then(handleResponseErrors(dispatch))
-    .then((response) => {
-      const pageObject = response.payload;
-      dispatch(setSelectedPage(pageObject));
-
-      pageIsPublished = pageObject.status === PAGE_STATUS_PUBLISHED;
-      const requests = [
-        getPageModel(pageObject.pageModel),
-        getPageConfig(pageCode, PAGE_STATUS_DRAFT),
-        pageIsPublished && getPageConfig(pageCode, PAGE_STATUS_PUBLISHED),
-      ];
-      return Promise.all(requests);
-    })
-    .then((responses) => {
-      // check if there are errors in any of the responses
-      responses.forEach(handleResponseErrors(dispatch));
-
-      // validate the page model
-      const pageModel = responses[0].payload;
-      const errors = validatePageModel(pageModel);
-      if (errors && errors.length) {
-        const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
-        dispatch(addErrors(translatedErrors));
-        throw new Error('Page model is invalid', errors);
-      } else {
-        dispatch(setSelectedPageModel(pageModel));
-      }
-
-      // set draft config
-      dispatch(setPageConfig(pageCode, responses[1].payload));
-
-      // set published config
-      if (pageIsPublished) {
-        dispatch(setPublishedPageConfig(pageCode, responses[2].payload));
-      } else {
-        dispatch(setPublishedPageConfig(pageCode, null));
-      }
-    })
-    .catch(() => {});
 };
 
 
@@ -146,8 +143,13 @@ export const removePageWidget = frameId => (dispatch, getState) => {
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
   (dispatch, getState) => {
     const { pageCode } = getParams(getState());
+    const pageConfig = getSelectedPageConfig(getState());
+
     // build payload
-    return putPageWidget(pageCode, targetFrameId, widgetId)
+    const config = (pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
+    const requestBody = config ? { type: widgetId, config } : { type: widgetId };
+
+    return putPageWidget(pageCode, targetFrameId, requestBody)
       .then(() => {
         dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
       });
@@ -207,3 +209,33 @@ export const applyDefaultConfig = () => (dispatch, getState) =>
       resolve();
     });
   });
+
+export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId) =>
+  (dispatch, getState) => new Promise((resolve) => {
+    const widget = getWidgetsMap(getState())[sourceWidgetId];
+    const pageConfig = getSelectedPageConfig(getState());
+
+    const isAlreadyConfigured =
+      !!(pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
+
+    if (widget.hasConfig && !isAlreadyConfigured) {
+      const { pageCode } = getParams(getState());
+      gotoRoute(
+        ROUTE_WIDGET_CONFIG,
+        { pageCode, widgetCode: sourceWidgetId, framePos: targetFrameId },
+      );
+      resolve();
+    } else {
+      updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId)(dispatch, getState)
+        .then(resolve);
+    }
+  });
+
+export const editWidgetConfig = frameId =>
+  (dispatch, getState) => {
+    const pageConfig = getSelectedPageConfig(getState());
+    const pageConfigItem = (pageConfig && pageConfig[frameId]);
+    if (pageConfigItem && pageConfigItem.config) {
+      dispatch(initialize('widgetConfigForm', pageConfigItem.config));
+    }
+  };
