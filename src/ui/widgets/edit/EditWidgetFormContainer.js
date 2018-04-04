@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
+import { fetchWidget } from 'state/widgets/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 
@@ -18,6 +19,7 @@ export const mapStateToProps = state => (
 // map the props
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
+    dispatch(fetchWidget());
     dispatch(fetchGroups());
   },
   onSubmit: () => {},

@@ -32,7 +32,7 @@ export const renderDefaultUIField = (field) => {
 
 export class WidgetFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
   render() {
@@ -55,7 +55,7 @@ export class WidgetFormBody extends Component {
 
     const defaultUIField = (
       <Field
-        name="defaultUi"
+        name="guiFragments[0].defaultUi"
         component={renderDefaultUIField}
       />
     );
@@ -125,7 +125,7 @@ export class WidgetFormBody extends Component {
                     <Tabs id="basic-tabs" defaultActiveKey={1}>
                       <Tab eventKey={1} title={formattedText('widget.page.tab.customUi')} >
                         <Field
-                          name="customUi"
+                          name="guiFragments[0].customUi"
                           component="textarea"
                           cols="50"
                           rows="8"
@@ -172,7 +172,7 @@ WidgetFormBody.propTypes = {
 };
 
 WidgetFormBody.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: null,
   invalid: false,
   submitting: false,
   groups: [{

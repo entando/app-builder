@@ -4,6 +4,7 @@ import { getWidget, getWidgets } from 'api/widgets';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { setPage } from 'state/pagination/actions';
+import { getParams } from 'frontend-common-components';
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -14,7 +15,8 @@ export const getWidgetList = widgetList => ({
 
 // thunk
 
-export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
+export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) => {
+  const { widgetCode } = getParams(getState());
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {

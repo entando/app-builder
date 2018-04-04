@@ -13,7 +13,7 @@ const correctRequest = {
 const correctRequestWidget = {
   uri: '/api/widgets',
   method: METHODS.GET,
-  mockResponse: BODY_OK.payload,
+  mockResponse: BODY_OK,
   useAuthentication: true,
   errors: expect.any(Function),
 };
@@ -36,10 +36,10 @@ describe('api/widgets', () => {
     });
     it('returns a widget', () => {
       expect(getWidget('test'));
-      expect(makeRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         ...correctRequestWidget,
         uri: '/api/widgets/test',
-      });
+      }));
     });
   });
 

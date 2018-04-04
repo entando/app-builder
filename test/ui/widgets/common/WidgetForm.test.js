@@ -34,69 +34,69 @@ describe('WidgetForm', () => {
 
   it('root component renders without crashing', () => {
     widgetForm = buildWidgetForm();
-    expect(widgetForm.exists()).toEqual(true);
+    expect(widgetForm.exists()).toBe(true);
   });
 
   it('root component renders code field', () => {
     widgetForm = buildWidgetForm();
     const code = widgetForm.find('[name="code"]');
-    expect(code.exists()).toEqual(true);
+    expect(code.exists()).toBe(true);
   });
 
   it('root component does not render code Field on edit mode', () => {
     widgetForm = buildWidgetForm('edit');
     const defaultUi = widgetForm.find('[name="code"]');
-    expect(defaultUi.exists()).toEqual(false);
+    expect(defaultUi.exists()).toBe(false);
   });
 
   it('root component renders titles.it field', () => {
     widgetForm = buildWidgetForm();
     const titlesIt = widgetForm.find('[name="titles.it"]');
-    expect(titlesIt.exists()).toEqual(true);
+    expect(titlesIt.exists()).toBe(true);
   });
 
   it('root component renders titles.en field', () => {
     widgetForm = buildWidgetForm();
     const titlesEn = widgetForm.find('[name="titles.en"]');
-    expect(titlesEn.exists()).toEqual(true);
+    expect(titlesEn.exists()).toBe(true);
   });
 
   it('root component renders group field', () => {
     widgetForm = buildWidgetForm();
     const group = widgetForm.find('[name="group"]');
-    expect(group.exists()).toEqual(true);
+    expect(group.exists()).toBe(true);
   });
 
   it('root component renders customUi field', () => {
     widgetForm = buildWidgetForm();
-    const customUi = widgetForm.find('[name="customUi"]');
-    expect(customUi.exists()).toEqual(true);
+    const customUi = widgetForm.find('[name="guiFragments[0].customUi"]');
+    expect(customUi.exists()).toBe(true);
   });
 
   it('root component does not renders defaultUi Tab on new mode', () => {
     widgetForm = buildWidgetForm();
-    const defaultUi = widgetForm.find('[name="defaultUi"]');
-    expect(defaultUi.exists()).toEqual(false);
+    const defaultUi = widgetForm.find('[name="guiFragments[0].defaultUi"]');
+    expect(defaultUi.exists()).toBe(false);
   });
 
   it('root component renders defaultUi Field on edit mode', () => {
     widgetForm = buildWidgetForm('edit');
-    const defaultUi = widgetForm.find('[name="defaultUi"]');
-    expect(defaultUi.exists()).toEqual(true);
+    const defaultUi = widgetForm.find('[name="guiFragments[0].defaultUi"]');
+    expect(defaultUi.exists()).toBe(true);
   });
 
   it('root component renders a Panel if defaultUi is defined on edit mode', () => {
     const input = { name: 'defaultUi', value: '<p>Default UI</p>' };
     const element = renderDefaultUIField({ input });
     const defaultUi = shallow(element);
-    expect(defaultUi.find('Panel PanelBody pre').exists()).toEqual(true);
+    expect(defaultUi.find('Panel PanelBody pre').exists()).toBe(true);
   });
 
   it('root component renders an Alert if defaultUi is undefined on edit mode', () => {
     const input = { name: 'defaultUi', value: '' };
     const element = renderDefaultUIField({ input });
     const defaultUi = shallow(element);
-    expect(defaultUi.find('.alert.alert-info').exists()).toEqual(true);
+    expect(defaultUi.find('.alert.alert-info').exists()).toBe(true);
   });
 
 
@@ -104,14 +104,14 @@ describe('WidgetForm', () => {
     submitting = true;
     widgetForm = buildWidgetForm();
     const submitButton = widgetForm.find('Button');
-    expect(submitButton.prop('disabled')).toEqual(true);
+    expect(submitButton.prop('disabled')).toBe(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     widgetForm = buildWidgetForm();
     const submitButton = widgetForm.find('Button');
-    expect(submitButton.prop('disabled')).toEqual(true);
+    expect(submitButton.prop('disabled')).toBe(true);
   });
 
   it('on form submit calls handleSubmit', () => {
