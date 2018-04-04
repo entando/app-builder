@@ -1,7 +1,6 @@
 import { initialize } from 'redux-form';
 import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
-import { getUsers, getUserDetail } from 'api/users';
-import { getUser, putUser } from 'api/user';
+import { getUsers, getUserDetail, getUser, putUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';

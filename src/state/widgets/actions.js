@@ -1,9 +1,10 @@
 import { initialize } from 'redux-form';
-import { getWidget, getApiWidgetList } from 'api/widgets';
 import { SET_WIDGET_LIST, SET_SELECTED_WIDGET } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { addErrors } from 'state/errors/actions';
+import { getWidget, getWidgets } from 'api/widgets';
 import { toggleLoading } from 'state/loading/actions';
+import { setPage } from 'state/pagination/actions';
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -36,13 +37,6 @@ export const fetchWidget = widgetCode => dispatch =>
   });
 
 
-export const fetchWidgetList = () => dispatch =>
-  getApiWidgetList().then((data) => {
-    dispatch(toggleLoading('widgets'));
-    dispatch(getWidgetList(data.payload));
-    dispatch(toggleLoading('widgets'));
-  });
-
 export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
   const selectedWidget = getSelectedWidget(getState());
   if (selectedWidget && selectedWidget.code === widgetCode) {
@@ -59,3 +53,22 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
         return null;
       }));
 };
+
+
+export const fetchWidgetList = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+  dispatch(toggleLoading('widgets'));
+  getWidgets(page, params).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(getWidgetList(json.payload));
+        dispatch(toggleLoading('widgets'));
+        dispatch(setPage(json.metaData));
+        resolve();
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+        dispatch(toggleLoading('widgets'));
+        resolve();
+      }
+    });
+  });
+});

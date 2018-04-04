@@ -1,21 +1,29 @@
-import { makeMockRequest, METHODS } from 'api/apiManager';
-import { WIDGET_LIST, WIDGETS_MAP } from 'test/mocks/widgetList';
+import { makeRequest, METHODS } from 'api/apiManager';
+import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
+
+const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
 
-export const getApiWidgetList = () => (
-  new Promise((resolve) => {
-    resolve(WIDGET_LIST);
+export const getWidget = widgetCode => (
+  makeRequest({
+    uri: `/api/widgets/${widgetCode}`,
+    method: METHODS.GET,
+    mockResponse: BODY_OK,
+    useAuthentication: true,
+    errors: () => getGenericError(widgetCode),
   })
 );
 
-export const getWidget = widgetCode => (
-  makeMockRequest({
-    uri: `/api/widgets/${widgetCode}`,
-    method: METHODS.GET,
-    mockResponse: WIDGETS_MAP[widgetCode] || {},
-    errors: () => (WIDGETS_MAP[widgetCode] ?
-      [] :
-      [{ code: 1, message: `Widget '${widgetCode}' not found` }]),
-    useAuthentication: true,
-  })
+
+export const getWidgets = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/widgets${params}`,
+      method: METHODS.GET,
+      mockResponse: WIDGET_LIST.payload,
+      useAuthentication: true,
+      errors: () => getGenericError(params),
+    },
+    page,
+  )
 );

@@ -1,34 +1,94 @@
 import 'test/enzyme-init';
-import { getWidget } from 'api/widgets';
+import { getWidget, getWidgets } from 'api/widgets';
 import { makeRequest, METHODS } from 'api/apiManager';
 
+const correctRequest = {
+  uri: '/api/widgets',
+  method: METHODS.GET,
+  useAuthentication: true,
+};
 
-const WIDGET_CODE = 'test_widget';
+const correctRequestWidget = {
+  uri: '/api/widgets',
+  method: METHODS.GET,
+  useAuthentication: true,
+};
+
 
 jest.unmock('api/widgets');
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+}));
 
-jest.mock('api/apiManager', () => {
-  const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
-  return {
-    makeRequest: makeMockRequest,
-    makeMockRequest,
-    METHODS: require.requireActual('api/apiManager').METHODS,
-  };
-});
-
-beforeEach(jest.clearAllMocks);
-
-describe('getWidget()', () => {
-  it('returns a promise', () => {
-    expect(getWidget(WIDGET_CODE)).toBeInstanceOf(Promise);
+describe('api/widgets', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('makes the correct request', () => {
-    getWidget(WIDGET_CODE);
-    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-      uri: `/api/widgets/${WIDGET_CODE}`,
-      method: METHODS.GET,
-      useAuthentication: true,
-    }));
+  describe('getWidget', () => {
+    it('returns a promise', () => {
+      expect(getWidget()).toBeInstanceOf(Promise);
+    });
+    it('returns a widget', () => {
+      expect(getWidget('test'));
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        ...correctRequestWidget,
+        uri: '/api/widgets/test',
+      }));
+    });
+  });
+
+  describe('getWidgets', () => {
+    it('returns a promise', () => {
+      expect(getWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('get getWidgetList page 1 by default', () => {
+      getWidgets({ page: 1, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining(correctRequest),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+
+    it('request page 2', () => {
+      getWidgets({ page: 2, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining(correctRequest),
+        {
+          page: 2,
+          pageSize: 10,
+        },
+      );
+    });
+
+    it('request different page size', () => {
+      getWidgets({ page: 1, pageSize: 5 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining(correctRequest),
+        {
+          page: 1,
+          pageSize: 5,
+        },
+      );
+    });
+
+    it('makes the request with additional params', () => {
+      getWidgets({ page: 1, pageSize: 10 }, '?param=true');
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...correctRequest,
+          uri: '/api/widgets?param=true',
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
   });
 });

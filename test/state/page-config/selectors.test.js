@@ -7,7 +7,7 @@ import {
   getSelectedPagePublishedConfig, getPageIsOnTheFly, getSelectedPageDiffersFromPublished,
   getSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { WIDGET_LIST, WIDGET_ONE_ELEMENT, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgetList';
+import { WIDGET_LIST, WIDGET_ONE_ELEMENT, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgets';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
 import {
