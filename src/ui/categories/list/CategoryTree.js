@@ -27,7 +27,7 @@ class CategoryTree extends Component {
 
       return (
         <tr key={category.code} className="CategoryTree__row">
-          <td className={className}>
+          <td className={className.join(' ')}>
             <span
               role="button"
               tabIndex={i}
