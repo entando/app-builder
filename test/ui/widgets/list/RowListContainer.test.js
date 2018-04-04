@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { WIDGET_LIST } from 'test/mocks/widgetList';
+import { WIDGET_LIST } from 'test/mocks/widgets';
 import { mapStateToProps } from 'ui/widgets/list/RowListContainer';
 import { getListWidget } from 'state/widgets/selectors';
 

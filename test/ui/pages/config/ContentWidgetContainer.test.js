@@ -1,6 +1,6 @@
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentWidgetContainer';
-import { WIDGET_LIST, WIDGET_ONE_LIST } from 'test/mocks/widgetList';
+import { WIDGET_LIST, WIDGET_ONE_LIST } from 'test/mocks/widgets';
 import { getGroupedWidgetList, getViewList } from 'state/page-config/selectors';
 
 const TEST_STATE = {

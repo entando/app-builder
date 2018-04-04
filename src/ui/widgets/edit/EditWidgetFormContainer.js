@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchGroups } from 'state/groups/actions';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 
 const EDIT_MODE = 'edit';
 
 export const mapStateToProps = state => (
   {
     mode: EDIT_MODE,
-    groups: getGroups(state),
+    groups: getGroupsList(state),
   });
 
 // map the props

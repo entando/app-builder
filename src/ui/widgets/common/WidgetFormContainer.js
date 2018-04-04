@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { fetchGroups } from 'state/groups/actions';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 export const mapStateToProps = state => ({
-  groups: getGroups(state),
+  groups: getGroupsList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
