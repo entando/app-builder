@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Col, Spinner } from 'patternfly-react';
-import CategoryFolderIcon from 'ui/categories/common/CategoryFolderIcon';
-import CategoryExpandedIcon from 'ui/categories/common/CategoryExpandedIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
+import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import CategoryListMenuActions from 'ui/categories/list/CategoryListMenuActions';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
@@ -27,7 +27,7 @@ class CategoryTree extends Component {
 
       return (
         <tr key={category.code} className="CategoryTree__row">
-          <td className={className.join(' ').trim()}>
+          <td className={className}>
             <span
               role="button"
               tabIndex={i}
@@ -36,15 +36,14 @@ class CategoryTree extends Component {
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >
-              <CategoryExpandedIcon expanded={category.expanded} />
-              <CategoryFolderIcon empty={category.isEmpty} />
+              <TreeNodeExpandedIcon expanded={category.expanded} />
+              <TreeNodeFolderIcon empty={category.isEmpty} />
               <span className="CategoryTree__category-name">
                 { category.title }
               </span>
               <RowSpinner loading={!!category.loading} />
             </span>
           </td>
-          {/* to move into CategoryListMenuActions */}
           <td className="text-center">
             <CategoryListMenuActions code={category.code} />
           </td>

@@ -42,6 +42,7 @@ export const fetchCategoryTree = (params = '') => dispatch =>
     getCategoryTree(params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(toggleLoading('categories'));
           dispatch(setCategories(data.payload));
           dispatch(toggleLoading('categories'));
           resolve();

@@ -1,33 +1,3 @@
-
-
-// Bootstrap overrides
-// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-// .LabelsAndLanguagesPage .nav-tabs > li.LabelsAndLanguagesPage__header-tab > a {
-//   height: 57px;
-//   line-height: 43px;
-// }
-//
-// .LabelsAndLanguagesPage .nav-tabs.nav-justified > .active > a {
-//   border-bottom-color: $color-pf-black-300;
-// }
-//
-// .LabelsAndLanguagesPage .nav-tabs.nav-justified > :not(.active) > a {
-//   background-color: $color-pf-black-200;
-// }
-//
-// .LabelsAndLanguagesPage .nav-tabs.nav-justified > :not(.active):hover > a {
-//   background-color: $color-pf-black-700;
-//   color: $color-pf-white;
-//   font-weight: 600;
-// }
-//
-// .LabelsAndLanguagesPage .nav-tabs.nav-justified {
-//   border: 1px solid $color-pf-black-300;
-//   border-top: 0;
-// }
-// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
-
-
 .LabelsAndLanguagesPage {
   &__header-container {
     margin-bottom: 30px;

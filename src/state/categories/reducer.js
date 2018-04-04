@@ -93,7 +93,6 @@ const statusMap = (state = {}, action = {}) => {
 export default combineReducers({
   list,
   map: categoryMap,
-  // loading,
   childrenMap,
   titlesMap,
   statusMap,

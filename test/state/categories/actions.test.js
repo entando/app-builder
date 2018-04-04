@@ -95,7 +95,7 @@ describe('state/categories/actions', () => {
       const store = mockStore(INITIAL_STATE);
       store.dispatch(handleExpandCategory()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toHaveLength(5);
+        expect(actionTypes).toHaveLength(6);
         expect(actionTypes.includes(TOGGLE_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_CATEGORY_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_CATEGORY_LOADED)).toBe(true);
@@ -124,9 +124,10 @@ describe('state/categories/actions', () => {
     it('fetchCategoryTree call setCategories', (done) => {
       store.dispatch(fetchCategoryTree()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', SET_CATEGORIES);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_CATEGORIES);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -137,10 +138,11 @@ describe('state/categories/actions', () => {
       store.dispatch(fetchCategoryTree()).then(() => {
         expect(getCategoryTree).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(4);
-        expect(actions[0]).toHaveProperty('type', SET_CATEGORIES);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[2]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(5);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_CATEGORIES);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

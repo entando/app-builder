@@ -5,13 +5,13 @@
   }
 
   &__category-name,
-  .CategoryExpandedIcon,
-  .CategoryFolderIcon,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
   .RowSpinner {
     margin-left: 10px;
   }
 
-  .CategoryFolderIcon {
+  .TreeNodeFolderIcon {
     color: $color-pf-light-blue-400;
   }
 
@@ -21,7 +21,7 @@
   }
 
   &__tree-column-td--empty {
-    .CategoryExpandedIcon {
+    .TreeNodeExpandedIcon {
       opacity: 0;
       visibility: hidden;
     }

@@ -70,7 +70,7 @@ export default {
     'menu.groups': 'Gruppi',
     'menu.labelsAndLanguages': 'Etichette e Lingue',
     'menu.categories': 'Categorie',
-    'menu.uxPattern.addLabels': 'etichette di sistema',
+    'menu.uxPattern.addLabels': 'Etichette di sistema',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
