@@ -52,7 +52,6 @@ describe('state/widgets/actions', () => {
   it('checks action type', () => {
     const action = getWidgetList();
     expect(action.type).toBe(SET_WIDGET_LIST);
-    expect(action.type).toBe(SET_WIDGET_LIST);
   });
 
   it('search for the payload to be defined', () => {
@@ -89,6 +88,7 @@ describe('state/widgets/actions', () => {
       store.dispatch(fetchWidgetList()).then(() => {
         expect(getWidgets).toHaveBeenCalled();
         const actions = store.getActions();
+        expect(actions).toHaveLength(4);
         const actionPayload = actions[1].payload;
         expect(actionPayload.widgetList).toBeDefined();
         expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST.payload);

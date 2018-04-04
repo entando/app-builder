@@ -8,7 +8,6 @@ const correctRequest = {
   method: METHODS.GET,
   mockResponse: WIDGET_LIST.payload,
   useAuthentication: true,
-  errors: expect.any(Function),
 };
 
 const correctRequestWidget = {
@@ -52,7 +51,7 @@ describe('api/widgets', () => {
     it('get getWidgetList page 1 by default', () => {
       getWidgets({ page: 1, pageSize: 10 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        expect.objectContaining(correctRequest),
         {
           page: 1,
           pageSize: 10,
@@ -63,7 +62,7 @@ describe('api/widgets', () => {
     it('request page 2', () => {
       getWidgets({ page: 2, pageSize: 10 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        expect.objectContaining(correctRequest),
         {
           page: 2,
           pageSize: 10,
@@ -74,7 +73,7 @@ describe('api/widgets', () => {
     it('request different page size', () => {
       getWidgets({ page: 1, pageSize: 5 });
       expect(makeRequest).toHaveBeenCalledWith(
-        correctRequest,
+        expect.objectContaining(correctRequest),
         {
           page: 1,
           pageSize: 5,
@@ -85,10 +84,10 @@ describe('api/widgets', () => {
     it('makes the request with additional params', () => {
       getWidgets({ page: 1, pageSize: 10 }, '?param=true');
       expect(makeRequest).toHaveBeenCalledWith(
-        {
+        expect.objectContaining({
           ...correctRequest,
           uri: '/api/widgets?param=true',
-        },
+        }),
         {
           page: 1,
           pageSize: 10,
