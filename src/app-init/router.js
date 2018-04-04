@@ -36,6 +36,7 @@ export const ROUTE_USER_AUTHORITY = 'authorityPage';
 export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
+export const ROUTE_ROLE_LIST = 'roleList';
 
 
 routerConfig(
@@ -63,7 +64,6 @@ routerConfig(
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
-      // use when edit route when component will be available
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
@@ -77,6 +77,7 @@ routerConfig(
       { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
+      { name: ROUTE_ROLE_LIST, path: '/role' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

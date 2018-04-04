@@ -70,6 +70,7 @@ export default {
     'menu.groups': 'Groups',
     'menu.labelsAndLanguages': 'Labels and Languages',
     'menu.uxPattern.addLabels': 'System labels',
+    'menu.roles': 'Roles',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',

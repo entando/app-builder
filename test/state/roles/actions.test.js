@@ -6,6 +6,7 @@ import { config } from 'api/apiManager';
 // import { gotoRoute } from 'frontend-common-components';
 import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 import { SET_ROLES } from 'state/roles/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 
 const middlewares = [thunk];
@@ -40,9 +41,10 @@ describe('state/roles/actions', () => {
     it('fetchRoles calls setRoles and setPage actions', (done) => {
       store.dispatch(fetchRoles()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0].type).toEqual(SET_ROLES);
-        expect(actions[1].type).toEqual(SET_PAGE);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_ROLES);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -60,17 +62,18 @@ describe('state/roles/actions', () => {
 
     it('roles page two is retrieved correctly and properly valued', (done) => {
       store.dispatch(fetchRoles({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[0].payload;
-        expect(actionPayload.roles).toHaveLength(2);
-        expect(actionPayload.roles[0]).toHaveProperty('code', 'ratingEditing');
-        expect(actionPayload.roles[1]).toHaveProperty('code', 'manageWebDynamicForms');
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        const rolesPayload = actions[0].payload;
+        expect(rolesPayload).toHaveProperty('roles');
+        expect(rolesPayload.roles).toHaveLength(2);
         done();
       }).catch(done.fail);
     });
 
     it('page is defined and properly valued', (done) => {
       store.dispatch(fetchRoles()).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
+        const actionPayload = store.getActions()[2].payload.page;
         expect(actionPayload).toHaveProperty('page', 1);
         expect(actionPayload).toHaveProperty('pageSize', 10);
         expect(actionPayload).toHaveProperty('lastPage', 1);
@@ -81,7 +84,7 @@ describe('state/roles/actions', () => {
 
     it('page 2 is defined and properly valued', (done) => {
       store.dispatch(fetchRoles({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[1].payload.page;
+        const actionPayload = store.getActions()[2].payload.page;
         expect(actionPayload).toHaveProperty('page', 2);
         expect(actionPayload).toHaveProperty('pageSize', 2);
         expect(actionPayload).toHaveProperty('lastPage', 5);
