@@ -1,17 +1,21 @@
-import throttle from 'util/throttle';
+import { makeRequest, METHODS } from 'api/apiManager';
 
 import {
-  GET_LIST_RESPONSE, COMPLEX_RESPONSE, SINGLE_CELL_RESPONSE, SIDEBAR_HOLES_RESPONSE,
+  PAGE_MODELS_LIST, COMPLEX_RESPONSE, SINGLE_CELL_RESPONSE, SIDEBAR_HOLES_RESPONSE,
   OVERLAPPING_FRAMES_RESPONSE, MISSING_SKETCH_RESPONSE,
 } from 'test/mocks/pageModels';
 
 
-export const getPageModels = () => (
-  new Promise((resolve) => {
-    throttle(() => {
-      resolve(GET_LIST_RESPONSE.payload);
-    });
-  })
+export const getPageModels = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/pageModels${params}`,
+      method: METHODS.GET,
+      mockResponse: PAGE_MODELS_LIST,
+      useAuthentication: true,
+    },
+    page,
+  )
 );
 
 const pageModelMap = {
@@ -22,21 +26,16 @@ const pageModelMap = {
   [MISSING_SKETCH_RESPONSE.payload.code]: MISSING_SKETCH_RESPONSE,
 };
 
-export const getPageModel = code => (
-  // call GET /pagemodels/<code>
-  new Promise((resolve) => {
-    const response = pageModelMap[code];
-    throttle(() => {
-      if (response) {
-        resolve(response);
-      } else {
-        resolve({
-          errors: [{
-            code: 1,
-            message: `Page model "${code}" not found`,
-          }],
-        });
-      }
-    });
+
+export const getPageModel = pageModelCode => (
+  makeRequest({
+    uri: `/api/pageModels/${pageModelCode}`,
+    method: METHODS.GET,
+    mockResponse: pageModelMap[pageModelCode] || {},
+    useAuthentication: true,
+    errors: () => (pageModelMap[pageModelCode] ?
+      [] :
+      [{ code: 1, message: `Page model with code "${pageModelCode}" not found.` }]
+    ),
   })
 );
