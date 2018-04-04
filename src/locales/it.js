@@ -248,5 +248,6 @@ export default {
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
     'group.content.lastEdit': 'Ultima modifica',
+    'role.listEmpty': 'Non ci sono RUOLI disponibili',
   },
 };

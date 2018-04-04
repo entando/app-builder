@@ -248,5 +248,6 @@ export default {
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',
     'group.content.lastEdit': 'Last edit',
+    'role.listEmpty': 'There are no ROLES available',
   },
 };
