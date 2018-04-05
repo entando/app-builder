@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FragmentListTableContainer from 'ui/fragments/list/FragmentListTableContainer';
 import FragmentSearchFormContainer from 'ui/fragments/list/FragmentSearchFormContainer';
-import SettingsFragmentForm from 'ui/fragments/list/SettingsFragmentForm';
+import SettingsFragmentFormContainer from 'ui/fragments/list/SettingsFragmentFormContainer';
 import { ROUTE_FRAGMENT_ADD } from 'app-init/router';
 
 const TAB_LIST = 'list';
@@ -58,7 +58,7 @@ class ListFragmentPage extends React.Component {
         </div>
       );
     } else {
-      renderContent = <SettingsFragmentForm />;
+      renderContent = <SettingsFragmentFormContainer />;
     }
     return (
       <InternalPage className="ListFragmentPage">

@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 
-import { getFragment, getFragments, getWidgetTypes, getPlugins } from 'api/fragments';
+import { getFragment, getFragments, getWidgetTypes, getPlugins, putFragmentSettings } from 'api/fragments';
 import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS } from 'state/fragments/types';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
@@ -78,3 +78,17 @@ export const fetchPlugins = () => dispatch => (
     dispatch(setPlugins(response.payload));
   })
 );
+
+export const updateFragmentSettings = settings => dispatch =>
+  new Promise((resolve) => {
+    putFragmentSettings(settings).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(initialize('fragmentSettings', response.payload));
+        } else if (json && json.errors) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });

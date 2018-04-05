@@ -127,6 +127,7 @@ export default {
     'fragment.table.details': 'Dettagli di: {code}',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.form.edit.widgetType': 'Widget Type',
+    'fragment.settings': 'Abilita la creazione di fragment con default GUI vuota',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',

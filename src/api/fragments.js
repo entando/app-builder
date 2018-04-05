@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -35,3 +35,13 @@ export const getWidgetTypes = () => new Promise((resolve) => {
 export const getPlugins = () => new Promise((resolve) => {
   throttle(resolve(PLUGINS_OK));
 });
+
+export const putFragmentSettings = setting => (
+  makeMockRequest({
+    uri: '/api/fragmentsSettings/',
+    method: METHODS.PUT,
+    body: setting,
+    mockResponse: { ...setting },
+    useAuthentication: true,
+  })
+);
