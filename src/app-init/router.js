@@ -38,6 +38,8 @@ export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_ROLE_LIST = 'roleList';
+export const ROUTE_ROLE_ADD = 'roleAdd';
+export const ROUTE_ROLE_EDIT = 'roleEdit';
 
 
 routerConfig(
@@ -80,6 +82,8 @@ routerConfig(
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_ROLE_LIST, path: '/role' },
+      { name: ROUTE_ROLE_ADD, path: '/role/add' },
+      { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

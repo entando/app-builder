@@ -1,6 +1,15 @@
 import { makeMockRequest, METHODS } from 'api/apiManager';
 import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 
+const filterMockList = (roleCode) => {
+  const selected = LIST_ROLES_OK.filter(role => (role.code === roleCode));
+  if (selected.length) {
+    return selected[0];
+  }
+
+  return {};
+};
+
 export const getRoles = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeMockRequest(
     {
@@ -13,12 +22,40 @@ export const getRoles = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
+export const getRole = roleCode => (
+  makeMockRequest({
+    uri: `/api/roles/${roleCode}`,
+    method: METHODS.GET,
+    mockResponse: filterMockList(roleCode),
+    useAuthentication: true,
+  })
+);
+
 export const postRoles = rolesObject => (
   makeMockRequest({
     uri: '/api/roles',
     method: METHODS.POST,
     mockResponse: BODY_OK,
     body: rolesObject,
+    useAuthentication: true,
+  })
+);
+
+export const putRole = roleObject => (
+  makeMockRequest({
+    uri: `/api/roles${roleObject.code}`,
+    method: METHODS.PUT,
+    mockResponse: BODY_OK,
+    body: roleObject,
+    useAuthentication: true,
+  })
+);
+
+export const deleteRole = roleCode => (
+  makeMockRequest({
+    uri: `/api/roles${roleCode}`,
+    method: METHODS.DELETE,
+    mockResponse: { code: roleCode },
     useAuthentication: true,
   })
 );

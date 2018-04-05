@@ -46,6 +46,7 @@ export default {
     'app.languages': 'Languages',
     'app.systemLabels': 'System labels',
     'app.cancel': 'Cancel',
+    'app.permissions': 'Permissions',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
@@ -254,6 +255,10 @@ export default {
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',
     'group.content.lastEdit': 'Last edit',
+    'role.help': 'The ROLES section let the administrator create and manage the user\'s roles. The roles grant groupings of permissions to various functions within applications.',
     'role.listEmpty': 'There are no ROLES available',
+    'role.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters. ',
+    'role.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and ',
+    'permission.listEmpty': 'There are no PERMISSION available',
   },
 };

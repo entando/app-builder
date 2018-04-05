@@ -46,6 +46,7 @@ export default {
     'app.restore': 'Ripristina',
     'app.languages': 'Lingue',
     'app.systemLabels': 'Etichette di sistema',
+    'app.permissions': 'Permissions',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',
@@ -254,6 +255,10 @@ export default {
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
     'group.content.lastEdit': 'Ultima modifica',
+    'role.help': 'Dalla sezione RUOLI l\'amministratore crea e gestisce i ruoli degli utenti. I ruoli sono un insieme configurabile di permessi che definiscono le azioni che l\'utente può compiere all\'interno del portale.',
     'role.listEmpty': 'Non ci sono RUOLI disponibili',
+    'role.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali. ',
+    'role.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  ',
+    'permission.listEmpty': 'Non ci sono PERMISSION disponibili',
   },
 };
