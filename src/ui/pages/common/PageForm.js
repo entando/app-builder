@@ -31,7 +31,7 @@ export class PageFormBody extends Component {
     const isEditMode = mode === 'edit';
 
     const pageModelsWithEmpty =
-      [{ code: '', description: formattedText('app.chooseAnOption') }].concat(pageModels);
+      [{ code: '', descr: formattedText('app.chooseAnOption') }].concat(pageModels);
 
     const groupsWithEmpty =
       [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
@@ -153,7 +153,7 @@ export class PageFormBody extends Component {
                   validate={[required]}
                 >
                   {pageModelsWithEmpty.map(gr =>
-                    <option key={gr.code} value={gr.code}>{gr.description}</option>)}
+                    <option key={gr.code} value={gr.code}>{gr.descr}</option>)}
                 </Field>
               </Col>
             </FormGroup>
@@ -278,7 +278,7 @@ PageFormBody.propTypes = {
   })).isRequired,
   pageModels: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    descr: PropTypes.string.isRequired,
   })).isRequired,
   mode: PropTypes.string,
   onWillMount: PropTypes.func,

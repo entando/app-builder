@@ -2,8 +2,6 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { setRoles, fetchRoles, sendPostRole } from 'state/roles/actions';
 import { getRoles, postRoles } from 'api/roles';
-// insert when available
-// import { gotoRoute } from 'frontend-common-components';
 import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 import { SET_ROLES } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -12,9 +10,6 @@ import { ADD_ERRORS } from 'state/errors/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-// config(mockStore({ api: { useMocks: true }, currentUser: { token: 'test_token' } }));
-// jest.unmock('api/roles');
 
 jest.mock('api/roles', () => ({
   getRoles: jest.fn(),
@@ -106,7 +101,6 @@ describe('state/roles/actions', () => {
       postRoles.mockReturnValueOnce(new Promise(resolve => resolve(POST_ROLE_PROMISE)));
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
         expect(postRoles).toHaveBeenCalled();
-        // expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ROLE_LIST);
         done();
       }).catch(done.fail);
     });

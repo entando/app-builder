@@ -5,7 +5,7 @@
 */
 export const PAYLOAD = {
   code: 'overlapping_frames',
-  description: 'Overlapping Frames',
+  descr: 'Overlapping Frames',
   template: '<html></html>',
   configuration: {
     frames: [

@@ -1,28 +1,34 @@
 import { isFSA } from 'flux-standard-action';
+
+import { mockApi } from 'test/testUtils';
+import { setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel } from 'state/page-models/actions';
+import { getSelectedPageModel } from 'state/page-models/selectors';
+import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
+import { SET_PAGE } from 'state/pagination/types';
+import { ADD_ERRORS } from 'state/errors/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
+import { PAGE_MODELS_LIST } from 'test/mocks/pageModels';
+import { getPageModels, getPageModel, deletePageModel } from 'api/pageModels';
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { setPageModels, setSelectedPageModel, fetchPageModels, loadSelectedPageModel } from 'state/page-models/actions';
-import { getSelectedPageModel } from 'state/page-models/selectors';
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL } from 'state/page-models/types';
-import { ADD_ERRORS } from 'state/errors/types';
-import { getPageModels, getPageModel } from 'api/pageModels';
-import { mockApi } from 'test/testUtils';
-import { PAGE_MODELS_LIST } from 'test/mocks/pageModels';
 
-
-const PAGE_MODEL = PAGE_MODELS_LIST[0];
+const PAGE_MODELS = PAGE_MODELS_LIST;
+const PAGE_MODEL = PAGE_MODELS[0];
 const mockStore = configureMockStore([thunk]);
+const store = mockStore({});
 
-
-jest.mock('api/pageModels', () => ({
-  getPageModels: jest.fn(),
-  getPageModel: jest.fn(),
-}));
 
 jest.mock('state/page-models/selectors', () => ({
   getSelectedPageModel: jest.fn(),
 }));
+
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  store.clearActions();
+});
 
 describe('state/page-models/actions', () => {
   beforeEach(() => {
@@ -69,17 +75,40 @@ describe('state/page-models/actions', () => {
   });
 
   describe('fetchPageModels', () => {
-    let store;
-    beforeEach(() => {
-      store = mockStore({});
+    it('if API response is ok, calls the right action sequence', (done) => {
+      store.dispatch(fetchPageModels()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_PAGE_MODELS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', SET_PAGE);
+        done();
+      }).catch(done.fail);
     });
 
     it('if getPageModels API returns ok, set page models', (done) => {
       getPageModels.mockImplementation(mockApi({ payload: PAGE_MODELS_LIST }));
       store.dispatch(fetchPageModels()).then(() => {
         expect(getPageModels).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(1);
-        expect(store.getActions()[0].type).toBe(SET_PAGE_MODELS);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_PAGE_MODELS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, calls ADD_ERRORS', (done) => {
+      getPageModels.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchPageModels()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -88,18 +117,24 @@ describe('state/page-models/actions', () => {
       getPageModels.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchPageModels()).then(() => {
         expect(getPageModels).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions().find(act => act.type === SET_PAGE_MODELS)).toBeFalsy();
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('removePageModel', () => {
+    it('if API response is ok, calls the right action sequence', (done) => {
+      store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', REMOVE_PAGE_MODEL);
         done();
       }).catch(done.fail);
     });
   });
 
   describe('loadSelectedPageModel', () => {
-    let store;
-    beforeEach(() => {
-      store = mockStore({});
-    });
-
     it('if there is the same page model selected, does nothing', (done) => {
       getSelectedPageModel.mockReturnValue(PAGE_MODEL);
       store.dispatch(loadSelectedPageModel(PAGE_MODEL.code)).then(() => {
@@ -131,13 +166,12 @@ describe('state/page-models/actions', () => {
       }).catch(done.fail);
     });
 
-    it('if the API returns error, dispatch ADD_ERRORS', (done) => {
-      getSelectedPageModel.mockReturnValue(null);
-      getPageModel.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(loadSelectedPageModel('some_random_code')).then(() => {
-        expect(getPageModel).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(1);
-        expect(store.getActions()[0].type).toBe(ADD_ERRORS);
+    it('if API response is not ok, calls ADD_ERRORS', (done) => {
+      deletePageModel.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

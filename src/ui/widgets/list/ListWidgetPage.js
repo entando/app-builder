@@ -22,7 +22,6 @@ class ListWidgetPage extends Component {
   onClickAdd(ev) {
     ev.preventDefault();
     this.props.onClickCreate();
-    // alert('connect to create a new widget function');
   }
 
   render() {

@@ -48,17 +48,4 @@ describe('RoleListMenuActions', () => {
     deleteButton.simulate('click', EVENT);
     expect(onClickDelete).toHaveBeenCalled();
   });
-
-  it('should call handler function and preventDefault', () => {
-    const result = component.instance().handleClick(handler);
-    result(EVENT);
-    expect(handler).toHaveBeenCalled();
-    expect(EVENT.preventDefault).toHaveBeenCalled();
-  });
-
-  it('should call ev.preventDefault only', () => {
-    const result = component.instance().handleClick();
-    result(EVENT);
-    expect(EVENT.preventDefault).toHaveBeenCalled();
-  });
 });

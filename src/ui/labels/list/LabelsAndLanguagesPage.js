@@ -91,7 +91,7 @@ class LabelsAndLanguagesPage extends Component {
               <PageTitle titleId="menu.labelsAndLanguages" helpId="labelsAndLanguages.help" />
             </Col>
             <Col xs={6}>
-              <ul className="nav nav-tabs nav-justified nav-tabs-pattern">
+              <ul className="LabelsAndLanguagesPage__header-container nav nav-tabs nav-justified nav-tabs-pattern">
                 <MenuItem
                   className="LabelsAndLanguagesPage__header-tab"
                   active={this.state.activeTab === TAB_LANGUAGES}

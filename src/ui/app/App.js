@@ -19,6 +19,7 @@ import {
   ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
+  ROUTE_PAGE_MODEL_LIST,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
@@ -31,6 +32,8 @@ import {
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
+  ROUTE_CATEGORY_LIST,
+  ROUTE_CATEGORY_ADD,
   ROUTE_LABELS_ADD,
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
@@ -51,6 +54,7 @@ import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
+import PageModelListPage from 'ui/page-models/list/PageModelListPage';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
@@ -65,6 +69,8 @@ import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
+import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
+import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 
@@ -94,6 +100,7 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
+    case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
@@ -107,6 +114,8 @@ const App = ({ route, username }) => {
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
     case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
     case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
+    case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
+    case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;

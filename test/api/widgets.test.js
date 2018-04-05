@@ -1,17 +1,21 @@
 import 'test/enzyme-init';
 import { getWidget, getWidgets } from 'api/widgets';
 import { makeRequest, METHODS } from 'api/apiManager';
+import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
   method: METHODS.GET,
+  mockResponse: WIDGET_LIST.payload,
   useAuthentication: true,
 };
 
 const correctRequestWidget = {
   uri: '/api/widgets',
   method: METHODS.GET,
+  mockResponse: BODY_OK,
   useAuthentication: true,
+  errors: expect.any(Function),
 };
 
 

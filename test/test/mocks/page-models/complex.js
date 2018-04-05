@@ -12,7 +12,7 @@
 
 export const PAYLOAD = {
   code: 'complex_model',
-  description: 'Complex Page Model',
+  descr: 'Complex Page Model',
   template: '<html></html>',
   configuration: {
     frames: [
