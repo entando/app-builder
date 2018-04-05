@@ -71,6 +71,7 @@ export default {
     'menu.widget': 'Widget',
     'menu.uxPattern.addLabels': 'etichette di sistema',
     'menu.labelsAndLanguages': 'Etichette e Lingue',
+    'menu.roles': 'Roles',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -253,5 +254,6 @@ export default {
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
     'group.content.lastEdit': 'Ultima modifica',
+    'role.listEmpty': 'Non ci sono RUOLI disponibili',
   },
 };

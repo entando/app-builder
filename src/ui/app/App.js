@@ -32,6 +32,7 @@ import {
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
   ROUTE_LABELS_ADD,
+  ROUTE_ROLE_LIST,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -63,6 +64,7 @@ import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
+import ListRolePage from 'ui/roles/list/ListRolePage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -104,6 +106,7 @@ const App = ({ route, username }) => {
     case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
     case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
+    case ROUTE_ROLE_LIST: return <ListRolePage />;
     default: return <NotFoundPage />;
   }
 };
