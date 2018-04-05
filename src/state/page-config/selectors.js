@@ -22,9 +22,7 @@ const widgetGroupByCategory = widgetList =>
 export const getPageConfig = state => state.pageConfig;
 export const getConfigMap = state => state.pageConfig.configMap;
 export const getPublishedConfigMap = state => state.pageConfig.publishedConfigMap;
-
 export const getContent = state => state.pageConfig.content;
-
 export const getToolbarExpanded = state => state.pageConfig.toolbarExpanded;
 
 export const getSearchFilter = createSelector(getPageConfig, pageConfig => pageConfig.searchFilter);

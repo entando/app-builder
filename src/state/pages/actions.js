@@ -2,7 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 
 import {
-  fetchPage, fetchPageChildren, setPagePosition, postPage, getFreePages,
+  getPage, getPageChildren, setPagePosition, postPage, getFreePages,
   getPageSettingsList, putPage, putPageStatus,
 } from 'api/pages';
 
@@ -82,17 +82,32 @@ export const setFreePages = freePages => ({
   },
 });
 
-
-const fetchPageTree = (pageCode) => {
-  if (pageCode === HOMEPAGE_CODE) {
-    return Promise.all([
-      fetchPage(pageCode),
-      fetchPageChildren(pageCode),
-    ])
-      .then(responses => [responses[0].payload].concat(responses[1].payload));
+// TODO: generalize and centralize this function to cleanup API calls
+const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
+  const response = await apiFunc(...args);
+  const json = await response.json();
+  if (response.ok) {
+    return json;
   }
-  return fetchPageChildren(pageCode)
-    .then(response => response.payload);
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
+
+
+export const fetchPage = wrapApiCall(getPage);
+export const fetchPageChildren = wrapApiCall(getPageChildren);
+
+
+const fetchPageTree = pageCode => async (dispatch) => {
+  if (pageCode === HOMEPAGE_CODE) {
+    const responses = await Promise.all([
+      fetchPage(pageCode)(dispatch),
+      fetchPageChildren(pageCode)(dispatch),
+    ]);
+    return [responses[0].payload].concat(responses[1].payload);
+  }
+  const response = await fetchPageChildren(pageCode)(dispatch);
+  return response.payload;
 };
 
 
@@ -107,7 +122,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
   const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
   if (toLoad) {
     dispatch(setPageLoading(pageCode));
-    return fetchPageTree(pageCode)
+    return fetchPageTree(pageCode)(dispatch)
       .then((pages) => {
         dispatch(addPages(pages));
         dispatch(togglePageExpanded(pageCode, true));
@@ -156,15 +171,15 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
 
-export const sendPostPage = pageData => dispatch => postPage(pageData)
-  .then((data) => {
-    if (data.errors && data.errors.length) {
-      dispatch(addErrors(data.errors.map(err => err.message)));
-    } else {
-      dispatch(addPages([data]));
-      gotoRoute(ROUTE_PAGE_TREE);
-    }
-  });
+
+export const createPage = wrapApiCall(postPage);
+
+export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatch)
+  .then((json) => {
+    dispatch(addPages([json.payload]));
+    gotoRoute(ROUTE_PAGE_TREE);
+  })
+  .catch(() => {});
 
 export const fetchFreePages = () => dispatch => (
   getFreePages().then((freePages) => {
@@ -191,14 +206,24 @@ export const sendPutPage = pageData => dispatch => putPage(pageData)
     }
   });
 
-export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)
+export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
   .then((response) => {
-    if (response.errors && response.errors.length) {
-      dispatch(addErrors(response.errors.map(err => err.message)));
-    } else {
-      dispatch(initialize('page', response.payload));
-    }
-  });
+    dispatch(initialize('page', response.payload));
+  })
+  .catch(() => {});
+
+export const loadSelectedPage = pageCode => (dispatch, getState) => {
+  const selectedPage = getSelectedPage(getState());
+  if (selectedPage && selectedPage.code === pageCode) {
+    return new Promise(r => r(selectedPage));
+  }
+  return fetchPage(pageCode)(dispatch)
+    .then((response) => {
+      dispatch(setSelectedPage(response.payload));
+      return response.payload;
+    })
+    .catch(() => {});
+};
 
 
 const putSelectedPageStatus = status => (dispatch, getState) =>

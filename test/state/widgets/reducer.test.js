@@ -1,13 +1,13 @@
 import reducer from 'state/widgets/reducer';
 import { getWidgetList } from 'state/widgets/actions';
-import { WIDGET_LIST } from 'test/mocks/widgetList';
+import { WIDGET_LIST } from 'test/mocks/widgets';
 
 const WIDGET_LIST_PAYLOAD = WIDGET_LIST.payload;
 
 describe('state/widget-list/reducer', () => {
   it('should return an object', () => {
     const state = reducer();
-    expect(typeof state).toBe('object');
+    expect(state).toBeInstanceOf(Object);
   });
 
   describe('after action SET_WIDGET_LIST', () => {
