@@ -1,10 +1,13 @@
 import { initialize } from 'redux-form';
+import { get } from 'lodash';
 import { SET_WIDGET_LIST, SET_SELECTED_WIDGET } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { addErrors } from 'state/errors/actions';
 import { getWidget, getWidgets } from 'api/widgets';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
+import { getParams } from 'frontend-common-components';
+
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -22,20 +25,6 @@ export const setSelectedWidget = widget => ({
 });
 
 // thunk
-export const fetchWidget = widgetCode => dispatch =>
-  new Promise((resolve) => {
-    getWidget(widgetCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(initialize('widget', json.payload));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
-        }
-        resolve();
-      });
-    });
-  });
-
 
 export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
   const selectedWidget = getSelectedWidget(getState());
@@ -53,6 +42,24 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
         return null;
       }));
 };
+
+export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) => {
+  const { widgetCode } = getParams(getState());
+  getWidget(widgetCode).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        const newPayload = json.payload;
+        newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
+        dispatch(initialize('widget', newPayload));
+        dispatch(setSelectedWidget(json.payload));
+        resolve();
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+        resolve();
+      }
+    });
+  });
+});
 
 
 export const fetchWidgetList = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {

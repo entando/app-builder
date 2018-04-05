@@ -32,7 +32,7 @@ export const renderDefaultUIField = (field) => {
 
 export class WidgetFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
   render() {
@@ -53,16 +53,14 @@ export class WidgetFormBody extends Component {
       />
     );
 
-    const defaultUIField = (
-      <Field
-        name="defaultUi"
-        component={renderDefaultUIField}
-      />
-    );
-
     let defaultUITab = (
       <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
-        {defaultUIField}
+        {
+          this.props.defaultUIField ? this.props.defaultUIField :
+          <Alert type="info">
+            <FormattedMessage id="widget.page.alert.notAvaible" />
+          </Alert>
+        }
       </Tab>
     );
 
@@ -169,10 +167,11 @@ WidgetFormBody.propTypes = {
     code: PropTypes.string,
   })),
   mode: PropTypes.string,
+  defaultUIField: PropTypes.string,
 };
 
 WidgetFormBody.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: null,
   invalid: false,
   submitting: false,
   groups: [{
@@ -180,6 +179,7 @@ WidgetFormBody.defaultProps = {
     code: '',
   }],
   mode: MODE_NEW,
+  defaultUIField: '',
 };
 
 const WidgetForm = reduxForm({
