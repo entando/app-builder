@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
-import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
+import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
 class PageTreeSelector extends Component {
@@ -39,7 +39,7 @@ class PageTreeSelector extends Component {
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >
-              <PageExpandedIcon expanded={page.expanded} />
+              <TreeNodeExpandedIcon expanded={page.expanded} />
             </span>
             <span
               className="PageTreeSelector__select-area"
@@ -48,7 +48,7 @@ class PageTreeSelector extends Component {
               onClick={onClickSelect}
               onKeyDown={onClickSelect}
             >
-              <PageFolderIcon empty={page.isEmpty} />
+              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeSelector__page-name">
                 { page.title }
               </span>

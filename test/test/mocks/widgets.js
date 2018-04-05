@@ -35,6 +35,7 @@ export const WIDGET_LIST = {
         it: 'Form di accesso',
         en: 'Login form',
       },
+      hasConfig: false,
     },
     {
       widgetCategory: 'User Widget',
@@ -45,6 +46,7 @@ export const WIDGET_LIST = {
         it: 'Form di ricerca',
         en: 'Search form',
       },
+      hasConfig: false,
     },
     {
       widgetCategory: 'User Widget',
@@ -55,6 +57,7 @@ export const WIDGET_LIST = {
         it: 'Singolo contenuto',
         en: 'Single content',
       },
+      hasConfig: false,
     },
     {
       widgetCategory: 'User Widget',
@@ -65,6 +68,18 @@ export const WIDGET_LIST = {
         it: 'Contenuti - Pubblica un contenuto',
         en: 'Contents - Publish a content',
       },
+      hasConfig: false,
+    },
+    {
+      widgetCategory: 'User Widget',
+      code: 'formAction',
+      name: 'InternalServlet',
+      used: 1,
+      titles: {
+        it: 'Internal Servlet',
+        en: 'Invocazione di una Servlet interna',
+      },
+      hasConfig: true,
     },
   ],
   errors: [],

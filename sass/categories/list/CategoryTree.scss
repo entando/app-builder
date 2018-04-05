@@ -1,0 +1,45 @@
+.CategoryTree {
+
+  &__table {
+    margin-top: 20px;
+  }
+
+  &__category-name,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
+  .RowSpinner {
+    margin-left: 10px;
+  }
+
+  .TreeNodeFolderIcon {
+    color: $color-pf-light-blue-400;
+  }
+
+  &__icons-label {
+    outline: 0;
+    cursor: pointer;
+  }
+
+  &__tree-column-td--empty {
+    .TreeNodeExpandedIcon {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .CategoryTreeActionMenuButton,
+  .CategoryTreeActionMenuButton:focus {
+    height: 18px;
+    margin: 0;
+    padding: 0 10px;
+    outline: 0;
+  }
+}
+
+
+// Bootstrap overrides
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.table-bordered > tbody > tr > td.CategoryTree__tree-column-td {
+  padding: 0;
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

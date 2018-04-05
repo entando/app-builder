@@ -7,6 +7,7 @@ import WidgetForm from 'ui/widgets/common/WidgetForm';
 import { fetchWidget } from 'state/widgets/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
+import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 
 const EDIT_MODE = 'edit';
 
@@ -14,6 +15,7 @@ export const mapStateToProps = state => (
   {
     mode: EDIT_MODE,
     groups: getGroupsList(state),
+    defaultUIField: getSelectedWidgetDefaultUi(state),
   });
 
 // map the props

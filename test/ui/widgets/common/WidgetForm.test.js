@@ -69,20 +69,14 @@ describe('WidgetForm', () => {
 
   it('root component renders customUi field', () => {
     widgetForm = buildWidgetForm();
-    const customUi = widgetForm.find('[name="guiFragments[0].customUi"]');
+    const customUi = widgetForm.find('[name="customUi"]');
     expect(customUi.exists()).toBe(true);
   });
 
   it('root component does not renders defaultUi Tab on new mode', () => {
     widgetForm = buildWidgetForm();
-    const defaultUi = widgetForm.find('[name="guiFragments[0].defaultUi"]');
+    const defaultUi = widgetForm.find('[name="defaultUi"]');
     expect(defaultUi.exists()).toBe(false);
-  });
-
-  it('root component renders defaultUi Field on edit mode', () => {
-    widgetForm = buildWidgetForm('edit');
-    const defaultUi = widgetForm.find('[name="guiFragments[0].defaultUi"]');
-    expect(defaultUi.exists()).toBe(true);
   });
 
   it('root component renders a Panel if defaultUi is defined on edit mode', () => {

@@ -10,6 +10,7 @@ import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
+import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
@@ -21,14 +22,14 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
-import AddUserPage from 'ui/users/add/AddUserPage';
-import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
+import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
+import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 
 import {
@@ -38,6 +39,7 @@ import {
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
+  ROUTE_WIDGET_CONFIG,
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
@@ -99,6 +101,11 @@ describe('App', () => {
   it('route to widget edit page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_EDIT} username="admin" />);
     expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
+  });
+
+  it('route to widget edit page', () => {
+    const component = shallow(<App route={ROUTE_WIDGET_CONFIG} username="admin" />);
+    expect(component.contains(<WidgetConfigPageContainer />)).toEqual(true);
   });
 
   it('route to add fragment page', () => {
