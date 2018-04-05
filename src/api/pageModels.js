@@ -39,3 +39,12 @@ export const getPageModel = pageModelCode => (
     ),
   })
 );
+
+export const deletePageModel = pageModelCode => (
+  makeRequest({
+    uri: `/api/pageModels/${pageModelCode}`,
+    method: METHODS.DELETE,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);

@@ -1,13 +1,13 @@
 import { isFSA } from 'flux-standard-action';
 
 import { mockApi } from 'test/testUtils';
-import { setPageModels, setSelectedPageModel, fetchPageModels } from 'state/page-models/actions';
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL } from 'state/page-models/types';
+import { setPageModels, setSelectedPageModel, fetchPageModels, removePageModel } from 'state/page-models/actions';
+import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { PAGE_MODELS_LIST } from 'test/mocks/pageModels';
-import { getPageModels } from 'api/pageModels';
+import { getPageModels, deletePageModel } from 'api/pageModels';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -82,6 +82,27 @@ describe('state/page-models/actions', () => {
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
         expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('removePageModel', () => {
+    it('if API response is ok, calls the right action sequence', (done) => {
+      store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', REMOVE_PAGE_MODEL);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, calls ADD_ERRORS', (done) => {
+      deletePageModel.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

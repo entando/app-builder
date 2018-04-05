@@ -11,7 +11,8 @@ const CELL_TYPE = {
 };
 
 export const getPageModels = state => state.pageModels;
-export const getPageModelsList = state => state.pageModels.list;
+export const getPageModelsIdList = state => state.pageModels.idList;
+export const getPageModelsMap = state => state.pageModels.map;
 export const getSelectedPageModel = state => state.pageModels.selected;
 
 // useful debug functions, please do not remove
@@ -215,6 +216,11 @@ const getCellMap = (pageModel) => {
   return cellsMap;
 };
 
+
+export const getPageModelsList = createSelector(
+  [getPageModelsIdList, getPageModelsMap],
+  (pageModelsIdList, pageModelsMap) => pageModelsIdList.map(code => pageModelsMap[code]),
+);
 
 export const getSelectedPageModelCellMap = createSelector(
   [getSelectedPageModel],

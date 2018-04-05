@@ -57,6 +57,7 @@ export default {
     'menu.widgets': 'Widgets',
     'menu.widgetEdit': 'Widget Edit',
     'menu.fragments': 'Fragments',
+    'menu.pageModels': 'Page Models',
     'menu.uxPattern.widget': 'Widgets',
     'menu.uxPattern.fragment': 'Fragments',
     'menu.pageDesigner': 'Page Designer',
@@ -247,5 +248,6 @@ export default {
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',
     'group.content.lastEdit': 'Last edit',
+    'pageModels.help': 'The PAGE MODELS section lets you manage existing page models or add new. The Page Model defines the page structure. A page model is characterized by two elements: scheme (the division of the page in smaller area called frames) and decoration (the look and feel of the page). Within an Entando application you can configure multiple page models.',
   },
 };

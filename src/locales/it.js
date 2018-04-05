@@ -57,6 +57,7 @@ export default {
     'menu.widgets': 'Widgets',
     'menu.widgetEdit': 'Modifica Widget',
     'menu.fragments': 'Frammenti',
+    'menu.pageModels': 'Modelli di Pagina',
     'menu.uxPattern.widget': 'Widgets',
     'menu.uxPattern.fragment': 'Frammenti',
     'menu.pageDesigner': 'Page Designer',
@@ -247,5 +248,6 @@ export default {
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
     'group.content.lastEdit': 'Ultima modifica',
+    'pageModels.help': 'Dalla sezione MODELLI DI PAGINA puoi gestire i modelli di pagina esistenti o crearne di nuovi. Il modello di pagina definisce la struttura della pagina. All\' interno di un portale Entando si possono configurare piú modelli di pagina. Il Modello di Pagina determina due aspetti: schema (suddivisione della pagina in zone) e decorazione (aspetto grafico della pagina).',
   },
 };

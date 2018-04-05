@@ -10,7 +10,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const PAYLOAD = {
   code: 'missing_sketch',
-  description: 'Missing Sketch',
+  descr: 'Missing Sketch',
   template: '<html></html>',
   configuration: {
     frames: [
