@@ -20,7 +20,12 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        dispatch(initialize('widget', json.payload));
+        let newPayload = json.payload;
+        newPayload = {
+          ...newPayload,
+          customUi: newPayload.guiFragments[0].customUi,
+        };
+        dispatch(initialize('widget', newPayload));
         resolve();
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));

@@ -55,7 +55,7 @@ export class WidgetFormBody extends Component {
 
     const defaultUIField = (
       <Field
-        name="guiFragments[0].defaultUi"
+        name="defaultUi"
         component={renderDefaultUIField}
       />
     );
@@ -125,7 +125,7 @@ export class WidgetFormBody extends Component {
                     <Tabs id="basic-tabs" defaultActiveKey={1}>
                       <Tab eventKey={1} title={formattedText('widget.page.tab.customUi')} >
                         <Field
-                          name="guiFragments[0].customUi"
+                          name="customUi"
                           component="textarea"
                           cols="50"
                           rows="8"
