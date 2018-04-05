@@ -1,35 +1,44 @@
 import 'test/enzyme-init';
 import { getPageModels, getPageModel } from 'api/pageModels';
-import { GET_LIST_RESPONSE, COMPLEX_RESPONSE } from 'test/mocks/pageModels';
+import { makeRequest, METHODS } from 'api/apiManager';
 
 jest.unmock('api/pageModels');
-jest.unmock('util/throttle');
-jest.useFakeTimers();
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: require.requireActual('api/apiManager').METHODS,
+}));
 
-const COMPLEX_PAGE_MODEL_CODE = COMPLEX_RESPONSE.payload.code;
+const PAGE_MODEL_CODE = 'some_code';
 
 
 describe('api/pageModels', () => {
-  afterEach(jest.runOnlyPendingTimers);
-
   describe('getPageModels()', () => {
-    it('resolves with a mock page models list', () => {
-      expect(getPageModels()).resolves.toEqual(GET_LIST_RESPONSE.payload);
+    it('returns a promise', () => {
+      expect(getPageModels()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getPageModels();
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pagemodels',
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 
   describe('getPageModel()', () => {
-    it('resolves with a mock page model if present', () => {
-      getPageModel(COMPLEX_PAGE_MODEL_CODE).then((response) => {
-        expect(response).toEqual(COMPLEX_RESPONSE);
-      });
+    it('returns a promise', () => {
+      expect(getPageModel()).toBeInstanceOf(Promise);
     });
 
-    it('returns errors if the page model is not present', () => {
-      getPageModel('bla bla').then((response) => {
-        expect(response.errors).toBeDefined();
-        expect(response.errors.length).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      getPageModel(PAGE_MODEL_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pagemodels/${PAGE_MODEL_CODE}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 });

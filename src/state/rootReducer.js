@@ -25,6 +25,7 @@ import dataModels from 'state/data-models/reducer';
 import modal from 'state/modal/reducer';
 import languages from 'state/languages/reducer';
 import labels from 'state/labels/reducer';
+import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
 
 const reducerDef = {
@@ -51,6 +52,7 @@ const reducerDef = {
   modal,
   languages,
   labels,
+  categories,
   loading,
 };
 

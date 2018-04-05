@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { DDTable, gotoRoute } from 'frontend-common-components';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
-import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
+import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
@@ -63,8 +63,8 @@ class PageTree extends Component {
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >
-              <PageExpandedIcon expanded={page.expanded} />
-              <PageFolderIcon empty={page.isEmpty} />
+              <TreeNodeExpandedIcon expanded={page.expanded} />
+              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTree__page-name">
                 { page.title }
               </span>
