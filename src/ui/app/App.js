@@ -31,6 +31,8 @@ import {
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
+  ROUTE_CATEGORY_LIST,
+  ROUTE_CATEGORY_ADD,
   ROUTE_LABELS_ADD,
 } from 'app-init/router';
 
@@ -63,6 +65,8 @@ import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
+import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
+import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -103,6 +107,8 @@ const App = ({ route, username }) => {
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
     case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
     case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
+    case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
+    case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     default: return <NotFoundPage />;
   }

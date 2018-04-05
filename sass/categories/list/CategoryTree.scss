@@ -1,18 +1,10 @@
-.PageTree {
-  &__drag-handle {
-    width: 25px;
-    height: 25px;
-    border: 0;
-    visibility: hidden;
+.CategoryTree {
+
+  &__table {
+    margin-top: 20px;
   }
 
-  &__row:not(:first-child):hover {
-    .PageTree__drag-handle {
-      visibility: visible;
-    }
-  }
-
-  &__page-name,
+  &__category-name,
   .TreeNodeExpandedIcon,
   .TreeNodeFolderIcon,
   .RowSpinner {
@@ -35,8 +27,8 @@
     }
   }
 
-  .PageTreeActionMenuButton,
-  .PageTreeActionMenuButton:focus {
+  .CategoryTreeActionMenuButton,
+  .CategoryTreeActionMenuButton:focus {
     height: 18px;
     margin: 0;
     padding: 0 10px;
@@ -47,7 +39,7 @@
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-.table-bordered > tbody > tr > td.PageTree__tree-column-td {
+.table-bordered > tbody > tr > td.CategoryTree__tree-column-td {
   padding: 0;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
