@@ -20,6 +20,7 @@ export const ROUTE_WIDGET = 'widget';
 export const ROUTE_WIDGET_LIST = 'widgetList';
 export const ROUTE_WIDGET_ADD = 'widgetForm';
 export const ROUTE_WIDGET_EDIT = 'widgetEdit';
+export const ROUTE_WIDGET_CONFIG = 'widgetConfig';
 export const ROUTE_FRAGMENT_LIST = 'fragmentList';
 export const ROUTE_FRAGMENT_ADD = 'fragmentAdd';
 export const ROUTE_FRAGMENT_EDIT = 'fragmentEdit';
@@ -40,6 +41,8 @@ export const ROUTE_USER_AUTHORITY = 'authorityPage';
 export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
+export const ROUTE_CATEGORY_LIST = 'categoryList';
+export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 
 
 routerConfig(
@@ -64,6 +67,7 @@ routerConfig(
       { name: ROUTE_WIDGET_ADD, path: '/widget/add' },
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },
       { name: ROUTE_WIDGET, path: '/widget/view/:widget' },
+      { name: ROUTE_WIDGET_CONFIG, path: '/widget/config/:widgetCode/page/:pageCode/frame/:framePos' },
       { name: ROUTE_FRAGMENT_LIST, path: '/fragment' },
       { name: ROUTE_FRAGMENT_ADD, path: '/fragment/add' },
       { name: ROUTE_FRAGMENT_EDIT, path: '/fragment/edit/:fragmentCode' },
@@ -84,6 +88,8 @@ routerConfig(
       { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
+      { name: ROUTE_CATEGORY_LIST, path: '/category' },
+      { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

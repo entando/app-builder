@@ -45,7 +45,7 @@ const configMap = (state = {}, action = {}) => {
 
     case SET_PAGE_WIDGET: {
       const {
-        pageCode, widgetId, sourceFrameId, targetFrameId,
+        pageCode, widgetId, sourceFrameId, targetFrameId, widgetConfig,
       } = action.payload;
 
       // verify we're not setting the widget on the same frame (do nothing)
@@ -55,7 +55,9 @@ const configMap = (state = {}, action = {}) => {
       }
 
       const newConfig = [...state[pageCode]];
-      const newWidget = isChangingFrame ? { ...newConfig[sourceFrameId] } : { type: widgetId };
+      const newWidget = isChangingFrame ?
+        { ...newConfig[sourceFrameId] } :
+        { type: widgetId, config: widgetConfig };
 
       // find if there was another widget in the target frame
       const replacedWidget = newConfig[targetFrameId] ? { ...newConfig[targetFrameId] } : null;

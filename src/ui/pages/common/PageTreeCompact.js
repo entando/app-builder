@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { gotoRoute } from 'frontend-common-components';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
-import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
+import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
@@ -34,8 +34,8 @@ class PageTreeCompact extends Component {
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >
-              <PageExpandedIcon expanded={page.expanded} />
-              <PageFolderIcon empty={page.isEmpty} />
+              <TreeNodeExpandedIcon expanded={page.expanded} />
+              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>

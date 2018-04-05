@@ -2,19 +2,24 @@ import 'test/enzyme-init';
 import { makeRequest, METHODS } from 'api/apiManager';
 import { getPageModels, getPageModel } from 'api/pageModels';
 
-jest.unmock('api/pageModels');
-jest.useFakeTimers();
 
-const PAGE_MODEL_CODE = 'page_model_code';
+const PAGE_MODEL_CODE = 'some_code';
+
+
+jest.unmock('api/pageModels');
 
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
-describe('api/pageModels', () => {
-  afterEach(jest.runOnlyPendingTimers);
+jest.mock('api/apiManager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: require.requireActual('api/apiManager').METHODS,
+}));
 
+beforeEach(jest.clearAllMocks);
+describe('api/pageModels', () => {
   describe('getPageModels()', () => {
     it('returns a promise', () => {
       expect(getPageModels()).toBeInstanceOf(Promise);
@@ -53,10 +58,10 @@ describe('api/pageModels', () => {
 
   describe('getPageModel()', () => {
     it('returns a promise', () => {
-      expect(getPageModels()).toBeInstanceOf(Promise);
+      expect(getPageModel()).toBeInstanceOf(Promise);
     });
 
-    it('calls the correct request', () => {
+    it('makes the correct request', () => {
       getPageModel(PAGE_MODEL_CODE);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pageModels/${PAGE_MODEL_CODE}`,

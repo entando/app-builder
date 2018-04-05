@@ -4,20 +4,24 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
+import { fetchWidget } from 'state/widgets/actions';
 import { fetchGroups } from 'state/groups/actions';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
+import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 
 const EDIT_MODE = 'edit';
 
 export const mapStateToProps = state => (
   {
     mode: EDIT_MODE,
-    groups: getGroups(state),
+    groups: getGroupsList(state),
+    defaultUIField: getSelectedWidgetDefaultUi(state),
   });
 
 // map the props
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
+    dispatch(fetchWidget());
     dispatch(fetchGroups());
   },
   onSubmit: () => {},

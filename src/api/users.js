@@ -33,7 +33,7 @@ export const getUserDetail = username => makeRequest({
 });
 
 export const getUser = params => makeRequest({
-  uri: `api/users/${params}`,
+  uri: `/api/users/${params}`,
   method: METHODS.GET,
   mockResponse: USERS_OK,
   useAuthentication: true,

@@ -2,26 +2,32 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import RowList, { renderRow } from 'ui/widgets/list/RowList';
+import RowList from 'ui/widgets/list/RowList';
 
 
 const rows = [
   {
     code: 'code1',
     name: 'name1',
+    titles: {
+      en: 'name1',
+      it: 'name1',
+    },
     used: 5,
   },
   {
     code: 'code2',
     name: 'name2',
+    titles: {
+      en: 'name2',
+      it: 'name2',
+    },
     used: 1,
   },
 ];
 
 const TABLEROWMOCK = (
-  <RowList
-    tableRow={rows}
-  />
+  <RowList tableRow={rows} locale="en" />
 );
 
 let component;
@@ -31,11 +37,6 @@ describe('RowList', () => {
   });
 
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
-  });
-
-  it('renderRow method renders a WidgetListRow class element', () => {
-    component = shallow(renderRow(rows[0]));
-    expect(component.find('.WidgetListRow').exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 });
