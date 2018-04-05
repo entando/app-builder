@@ -1,0 +1,9 @@
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.RenderRadioInput {
+  &__toggle-btn.active {
+    border-color: $color-pf-black-700;
+    background-color: $color-pf-black-700;
+    color: $color-pf-white;
+  }
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

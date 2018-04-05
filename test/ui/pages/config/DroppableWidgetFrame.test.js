@@ -1,11 +1,11 @@
 import { mapDispatchToProps } from 'ui/pages/config/DroppableWidgetFrame';
 
-import { updatePageWidget } from 'state/page-config/actions';
+import { configOrUpdatePageWidget } from 'state/page-config/actions';
 
 jest.mock('ui/pages/config/frameDropTarget', () => jest.fn().mockImplementation(arg => arg));
 jest.mock('ui/pages/config/WidgetFrame', () => () => 'span');
 jest.mock('state/page-config/actions', () => ({
-  updatePageWidget: jest.fn().mockReturnValue('updatePageWidget__result'),
+  configOrUpdatePageWidget: jest.fn().mockReturnValue('configOrUpdatePageWidget__result'),
 }));
 
 const SOURCE_WIDGET_ID = 'widget_code';
@@ -22,15 +22,15 @@ describe('ui/pages/config/DroppableWidgetFrame', () => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    it('onDrop will dispatch "updatePageWidget" action', () => {
+    it('onDrop will dispatch "configOrUpdatePageWidget" action', () => {
       props.onDrop({
         sourceWidgetId: SOURCE_WIDGET_ID,
         sourceFrameId: SOURCE_FRAME_ID,
         targetFrameId: TARGET_FRAME_ID,
       });
-      expect(updatePageWidget)
+      expect(configOrUpdatePageWidget)
         .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID);
-      expect(dispatchMock).toHaveBeenCalledWith('updatePageWidget__result');
+      expect(dispatchMock).toHaveBeenCalledWith('configOrUpdatePageWidget__result');
     });
   });
 });

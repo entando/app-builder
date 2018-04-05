@@ -8,7 +8,7 @@ export const getWidget = widgetCode => (
   makeRequest({
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.GET,
-    mockResponse: BODY_OK.payload,
+    mockResponse: BODY_OK,
     useAuthentication: true,
     errors: () => getGenericError(widgetCode),
   })

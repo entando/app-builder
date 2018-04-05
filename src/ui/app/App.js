@@ -9,6 +9,7 @@ import {
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
+  ROUTE_WIDGET_CONFIG,
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
@@ -18,6 +19,7 @@ import {
   ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
+  ROUTE_PAGE_MODEL_LIST,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
@@ -30,6 +32,8 @@ import {
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_GROUP_DETAIL,
+  ROUTE_CATEGORY_LIST,
+  ROUTE_CATEGORY_ADD,
   ROUTE_LABELS_ADD,
   ROUTE_ROLE_LIST,
 } from 'app-init/router';
@@ -40,6 +44,7 @@ import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
+import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
@@ -48,6 +53,7 @@ import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
+import PageModelListPage from 'ui/page-models/list/PageModelListPage';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
@@ -63,6 +69,8 @@ import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
+import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
+import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -81,6 +89,7 @@ const App = ({ route, username }) => {
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
     case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
+    case ROUTE_WIDGET_CONFIG: return <WidgetConfigPageContainer />;
     case ROUTE_FRAGMENT_LIST: return <ListFragmentPage />;
     case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
     case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
@@ -89,6 +98,7 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
+    case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
@@ -102,6 +112,8 @@ const App = ({ route, username }) => {
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
     case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
     case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
+    case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
+    case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     default: return <NotFoundPage />;

@@ -2,9 +2,10 @@
 import {
   getPageModels, getPageModelsList, getSelectedPageModel, getSelectedPageModelDefaultConfig,
   getSelectedPageModelCellMap, getSelectedPageModelCanBeOnTheFly, getSelectedPageModelMainFrame,
+  getPageModelsIdList, getPageModelsMap,
 } from 'state/page-models/selectors';
 
-import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
+import { PAGE_MODELS_LIST, PAGE_MODELS_MAP, PAGE_MODELS_ID_LIST } from 'test/mocks/pageModels';
 import { PAYLOAD as COMPLEX_PAYLOAD, CELL_MAP as COMPLEX_CELL_MAP } from 'test/mocks/page-models/complex';
 import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, CELL_MAP as SIDEBAR_HOLES_CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
 import { PAYLOAD as SINGLE_CELL_PAYLOAD, CELL_MAP as SINGLE_CELL_CELL_MAP } from 'test/mocks/page-models/singleCell';
@@ -12,18 +13,19 @@ import { PAYLOAD as MISSING_SKETCH_PAYLOAD, CELL_MAP as MISSING_SKETCH_CELL_MAP 
 import { PAYLOAD as WRONG_POS_PAYLOAD, CELL_MAP as WRONG_POS_CELL_MAP } from 'test/mocks/page-models/wrongPos';
 import { PAYLOAD as OVERLAPPING_FRAMES_PAYLOAD, CELL_MAP as OVERLAPPING_FRAMES_CELL_MAP } from 'test/mocks/page-models/overlappingFrames';
 
-const PAGE_MODELS = GET_LIST_RESPONSE.payload;
 
 const STATE = {
   pageModels: {
-    list: PAGE_MODELS,
+    idList: PAGE_MODELS_ID_LIST,
+    map: PAGE_MODELS_MAP,
     selected: COMPLEX_PAYLOAD,
   },
 };
 
 const buildStateWithSelectedPageModel = pageModel => ({
   pageModels: {
-    list: PAGE_MODELS,
+    idList: PAGE_MODELS_ID_LIST,
+    map: PAGE_MODELS_MAP,
     selected: pageModel,
   },
 });
@@ -34,8 +36,16 @@ describe('state/page-models/selectors', () => {
     expect(getPageModels(STATE)).toEqual(STATE.pageModels);
   });
 
+  it('getPageModelsIdList returns the page models list', () => {
+    expect(getPageModelsIdList(STATE)).toEqual(PAGE_MODELS_ID_LIST);
+  });
+
+  it('getPageModelsMap returns the page models list', () => {
+    expect(getPageModelsMap(STATE)).toEqual(PAGE_MODELS_MAP);
+  });
+
   it('getPageModelsList returns the page models list', () => {
-    expect(getPageModelsList(STATE)).toEqual(PAGE_MODELS);
+    expect(getPageModelsList(STATE)).toEqual(PAGE_MODELS_LIST);
   });
 
   it('getSelectedPageModel returns the selected page models', () => {

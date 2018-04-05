@@ -2,6 +2,7 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
+import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 
 const GROUP = {
   code: '1',
@@ -22,6 +23,12 @@ jest.mock('state/groups/selectors', () => ({
 
 getGroupsList.mockReturnValue([GROUP]);
 
+jest.mock('state/widgets/selectors', () => ({
+  getSelectedWidgetDefaultUi: jest.fn(),
+}));
+
+getSelectedWidgetDefaultUi.mockReturnValue('');
+
 describe('EditWidgetFormContainer', () => {
   let props;
   describe('mapStateToProps', () => {
@@ -32,6 +39,7 @@ describe('EditWidgetFormContainer', () => {
     it('maps groups and mode property state in WidgetForm', () => {
       expect(props).toHaveProperty('mode', 'edit');
       expect(props).toHaveProperty('groups', [GROUP]);
+      expect(props).toHaveProperty('defaultUIField');
     });
   });
 
