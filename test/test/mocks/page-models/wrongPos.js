@@ -6,7 +6,7 @@
 
 export const PAYLOAD = {
   code: 'wrong_pos',
-  description: 'Wrong Pos',
+  descr: 'Wrong Pos',
   template: '<html></html>',
   configuration: {
     frames: [

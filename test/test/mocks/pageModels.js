@@ -23,11 +23,26 @@ export const ERROR = {
   },
 };
 
+export const PAGE_MODELS_LIST = [
+  COMPLEX_PAYLOAD,
+  SINGLE_CELL_PAYLOAD,
+  SIDEBAR_HOLES_PAYLOAD,
+  MISSING_SKETCH_PAYLOAD,
+];
+
+export const PAGE_MODELS_ID_LIST = PAGE_MODELS_LIST.map(item => item.code);
+
+export const PAGE_MODELS_MAP = PAGE_MODELS_LIST.reduce((acc, item) => {
+  acc[item.code] = item;
+  return acc;
+}, {});
+
+
 export const GET_LIST_RESPONSE = {
   payload: [
     {
       code: 'home',
-      description: 'Home Page',
+      descr: 'Home Page',
       configuration: {
         frames: [
           {
@@ -56,7 +71,7 @@ export const GET_LIST_RESPONSE = {
     },
     {
       code: 'service',
-      description: 'Service Page',
+      descr: 'Service Page',
       configuration: {
         frames: [
           {
@@ -91,14 +106,6 @@ export const GET_LIST_RESPONSE = {
     lastPage: 1,
   },
 };
-
-export const PAGE_MODELS_LIST = [
-  COMPLEX_PAYLOAD,
-  SINGLE_CELL_PAYLOAD,
-  SIDEBAR_HOLES_PAYLOAD,
-  OVERLAPPING_FRAMES_PAYLOAD,
-  MISSING_SKETCH_PAYLOAD,
-];
 
 export const PAGE_MODEL = {
   payload: GET_LIST_RESPONSE.payload[0],

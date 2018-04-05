@@ -20,7 +20,7 @@
 
 export const PAYLOAD = {
   code: 'sidebar_holes_model',
-  description: 'Sidebar Holes Model',
+  descr: 'Sidebar Holes Model',
   template: '<html></html>',
   configuration: {
     frames: [

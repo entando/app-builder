@@ -11,6 +11,10 @@ export const ROUTE_PAGE_EDIT = 'pageEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
+export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
+export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
+export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
+export const ROUTE_PAGE_MODEL_DETAIL = 'pageModelDetail';
 export const ROUTE_CONTENT = 'content';
 export const ROUTE_WIDGET = 'widget';
 export const ROUTE_WIDGET_LIST = 'widgetList';
@@ -55,6 +59,10 @@ routerConfig(
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
+      { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
+      { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
+      { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },
+      { name: ROUTE_PAGE_MODEL_DETAIL, path: '/page-model/view/:pageModelCode' },
       { name: ROUTE_WIDGET_LIST, path: '/widget' },
       { name: ROUTE_WIDGET_ADD, path: '/widget/add' },
       { name: ROUTE_WIDGET_EDIT, path: '/widget/edit/:widgetCode' },
@@ -67,7 +75,6 @@ routerConfig(
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
-      // use when edit route when component will be available
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },

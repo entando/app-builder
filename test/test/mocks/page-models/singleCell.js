@@ -6,7 +6,7 @@
 
 export const PAYLOAD = {
   code: 'single_cell_model',
-  description: 'Single Cell Model',
+  descr: 'Single Cell Model',
   template: '<html></html>',
   configuration: {
     frames: [
