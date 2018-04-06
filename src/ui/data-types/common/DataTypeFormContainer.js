@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { fetchDataTypes } from 'state/data-types/actions';
+// inset getAttributes
 import { getDataTypeList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 
 export const mapStateToProps = state => ({
+// insert getAttributes
   dataTypes: getDataTypeList(state),
 });
 

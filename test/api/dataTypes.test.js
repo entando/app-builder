@@ -5,7 +5,7 @@ import { makeRequest, METHODS } from 'api/apiManager';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 const correctRequest = {
-  uri: '/api/datatypes',
+  uri: '/api/dataTypes',
   method: METHODS.GET,
   mockResponse: DATA_TYPES_OK_PAGE_1,
   useAuthentication: true,
@@ -66,7 +66,7 @@ describe('api/getDataTypes', () => {
       expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
-          uri: '/api/datatypes?param=true',
+          uri: '/api/dataTypes?param=true',
         },
         {
           page: 1,
