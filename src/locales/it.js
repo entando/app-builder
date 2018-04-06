@@ -41,6 +41,7 @@ export default {
     'app.pages': 'Pagine',
     'app.set': 'Imposta',
     'app.settings': 'Impostazioni',
+    'app.list': 'Lista',
     'app.api': 'API',
     'app.preview': 'Anteprima',
     'app.restore': 'Ripristina',

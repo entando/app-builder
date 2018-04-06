@@ -40,6 +40,7 @@ export default {
     'app.pages': 'Pages',
     'app.set': 'Set',
     'app.settings': 'Settings',
+    'app.list': 'List',
     'app.api': 'API',
     'app.preview': 'Preview',
     'app.restore': 'Restore',
