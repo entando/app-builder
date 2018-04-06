@@ -9,6 +9,7 @@ export default {
     'app.new': 'New',
     'app.type': 'Type',
     'app.id': 'Id',
+    'app.attributes': 'Attributes',
     'app.configure': 'Configure',
     'app.details': 'Details',
     'app.clone': 'Clone',
@@ -35,6 +36,7 @@ export default {
     'app.itTitle': 'Italian title',
     'app.chooseAnOption': 'Choose an option',
     'app.help.code': 'You can insert characters uppercase and lowercase letters, numbers and special characters _',
+    'app.help.name': 'You can insert max 50 characters uppercase and lowercase letters, including numbers and special characters',
     'app.all': 'All',
     'app.reload': 'Reload',
     'app.pages': 'Pages',
@@ -262,5 +264,6 @@ export default {
     'category.treeStyle': 'Choose the style of the Category tree',
     'category.treeType.classic': 'Classic',
     'category.treeType.request': 'Load nodes on demand',
+    'DataType.type': 'Type',
   },
 };

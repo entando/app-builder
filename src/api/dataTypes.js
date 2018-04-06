@@ -8,7 +8,7 @@ const getGenericError = obj => (
 export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/api/datatypes${params}`,
+      uri: `/api/dataTypes${params}`,
       method: METHODS.GET,
       mockResponse: DATA_TYPES_OK_PAGE_1,
       useAuthentication: true,

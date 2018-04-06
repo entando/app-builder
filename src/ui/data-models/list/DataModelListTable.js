@@ -23,7 +23,7 @@ class DataModelListTable extends Component {
 
   render() {
     const tr = this.props.dataModels.map(item => (
-      <tr key={item.type}>
+      <tr key={item.modelId}>
         <td className="DataModelListRow__td">{item.type}</td>
         <td className="DataModelListRow__td">{item.descr}</td>
         <td className="DataModelListRow__td text-center">{item.modelId}</td>

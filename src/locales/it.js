@@ -10,6 +10,7 @@ export default {
     'app.type': 'Aggiungi',
     'app.id': 'Id',
     'app.configure': 'Configura',
+    'app.attributes': 'Attributi',
     'app.details': 'Dettagli',
     'app.clone': 'Clona',
     'app.delete': 'Elimina',
@@ -36,6 +37,7 @@ export default {
     'app.itTitle': 'Titolo italiano',
     'app.chooseAnOption': 'Seleziona un\'opzione',
     'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
+    'app.help.name': 'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
     'app.all': 'Tutti',
     'app.reload': 'Ricarica',
     'app.pages': 'Pagine',
@@ -262,5 +264,6 @@ export default {
     'category.treeStyle': 'Scegli lo stile dell\'albero delle categorie',
     'category.treeType.classic': 'Classico',
     'category.treeType.request': 'Carica i nodi a richiesta',
+    'DataType.type': 'Type',
   },
 };

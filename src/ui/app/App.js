@@ -22,6 +22,7 @@ import {
   ROUTE_PAGE_MODEL_LIST,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
+  ROUTE_DATA_TYPE_ADD,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -55,6 +56,7 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageModelListPage from 'ui/page-models/list/PageModelListPage';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
+import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
@@ -99,6 +101,7 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
+    case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     case ROUTE_USER_LIST: return <UserListPage />;
     case ROUTE_USER_AUTHORITY: return <UserAuthorityPageContainer />;

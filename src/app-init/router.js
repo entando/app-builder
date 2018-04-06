@@ -29,6 +29,7 @@ export const ROUTE_DATA_MODEL_ADD = 'dataModelAdd';
 export const ROUTE_DATA_MODEL_LIST = 'dataModelList';
 export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
+export const ROUTE_DATA_TYPE_ADD = 'dataTypeAdd';
 export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
@@ -76,6 +77,7 @@ routerConfig(
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
+      { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
