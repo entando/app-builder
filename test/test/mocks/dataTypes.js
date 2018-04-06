@@ -72,3 +72,8 @@ export const DATA_TYPES_OK_PAGE_2 =
     totalItems: 4,
   },
 };
+export const DATA_TYPES_ATTRIBUTES = [
+  'Enumeraror',
+  'Monotext',
+  'Text',
+];

@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
-import { getDataTypes } from 'api/dataTypes';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { getDataTypes, getDataTypeAttributes } from 'api/dataTypes';
+import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
-import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES } from 'test/mocks/dataTypes';
 
 const correctRequest = {
   uri: '/api/dataTypes',
@@ -16,6 +16,7 @@ const correctRequest = {
 jest.unmock('api/dataTypes');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));
 
@@ -73,6 +74,30 @@ describe('api/getDataTypes', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('api/getDataTypeAttributes', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    describe('getDataTypeAttributes', () => {
+      it('returns a promise', () => {
+        expect(getDataTypes()).toBeInstanceOf(Promise);
+      });
+
+      it('if successful, returns a attributes response', () => {
+        getDataTypeAttributes();
+        expect(makeMockRequest)
+          .toHaveBeenCalledWith(expect
+            .objectContaining({
+              uri: '/api/dataTypeAttributes',
+              method: METHODS.GET,
+              mockResponse: DATA_TYPES_ATTRIBUTES,
+              useAuthentication: true,
+            }));
+      });
     });
   });
 });
