@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { getParams } from 'frontend-common-components';
 import { sendPutRole, fetchRole } from 'state/roles/actions';
 import { fetchPermissions } from 'state/permissions/actions';
 import { getPermissionsList } from 'state/permissions/selectors';
@@ -9,6 +10,7 @@ export const EDIT_MODE = 'edit';
 export const mapStateToProps = state => ({
   mode: EDIT_MODE,
   permissions: getPermissionsList(state),
+  roleCode: getParams(state).roleCode,
 });
 
 export const mapDispatchToProps = dispatch => ({

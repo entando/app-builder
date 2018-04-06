@@ -1,5 +1,5 @@
 import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
+import { LIST_ROLES_OK, BODY_OK, GET_ROLE_PAYLOAD } from 'test/mocks/roles';
 
 const filterMockList = (roleCode) => {
   const selected = LIST_ROLES_OK.filter(role => (role.code === roleCode));
@@ -26,7 +26,7 @@ export const getRole = roleCode => (
   makeMockRequest({
     uri: `/api/roles/${roleCode}`,
     method: METHODS.GET,
-    mockResponse: filterMockList(roleCode),
+    mockResponse: { ...GET_ROLE_PAYLOAD, ...filterMockList(roleCode) },
     useAuthentication: true,
   })
 );

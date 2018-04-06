@@ -40,6 +40,29 @@ export const LIST_ROLES_OK = [
     code: 'operationsOnResources1',
   },
 ];
+
+export const GET_ROLE_PAYLOAD = {
+  name: 'roleName',
+  code: 'code',
+  permissions: {
+    contentEditing: true,
+    accessToAdmin: false,
+    ratingEditing: true,
+    manageWebDynamicForms: true,
+    operationsOnResources: true,
+    viewUsersAndProfiles: false,
+    userProfileEditing: true,
+    commentEditing: true,
+    newsletterConfig: false,
+    operationsONCategories: false,
+    userEditing: true,
+    moderateComments: true,
+    newsletterManagement: true,
+    operationsOnPages: true,
+    supervisionOfContent: true,
+  },
+};
+
 export const BODY_OK = {
   name: 'New role',
   code: 'new_role',
