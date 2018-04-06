@@ -1,25 +1,22 @@
 export const GET_FRAGMENT_OK =
 {
-  payload: {
-    code: 'myCode',
-    isLocked: false,
-    widgetType: null,
-    plugin: {
-      code: 'pluginCode',
-      title: 'pluginTitlte',
-    },
-    fragments: [{
-      code: 'fragmentCode',
-    }],
-    pageModels: [{
-      code: 'pageModelCode',
-      name: 'My Page Model',
-    }],
-    defaultGuiCode: '<div></div>',
-    guiCode: '<div></div>',
+  code: 'myCode',
+  isLocked: false,
+  widgetType: null,
+  plugin: {
+    code: 'pluginCode',
+    title: 'pluginTitlte',
   },
-  errors: [],
-  metaData: {},
+  fragments: [{
+    code: 'fragmentCode',
+  }],
+  pageModels: [{
+    code: 'pageModelCode',
+    name: 'My Page Model',
+  }],
+  defaultGuiCode: '<div></div>',
+  guiCode: '<div></div>',
+
 };
 
 export const LIST_FRAGMENTS_OK = [
@@ -205,4 +202,8 @@ export const BODY_ERROR =
     },
   ],
   metaData: {},
+};
+
+export const FRAGMENT_SETTING = {
+  enableEditingWhenEmptyDefaultGui: false,
 };

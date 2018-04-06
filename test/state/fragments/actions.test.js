@@ -1,10 +1,14 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { initialize } from 'redux-form';
+
+import { mockApi } from 'test/testUtils';
 
 import { config } from 'api/apiManager';
 import {
   fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
-  fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment,
+  fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment, fetchFragmentSettings,
+  updateFragmentSettings,
 } from 'state/fragments/actions';
 import {
   WIDGET_TYPES_OK,
@@ -12,10 +16,21 @@ import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
 } from 'test/mocks/fragments';
+
+import {
+  getFragmentSettings,
+  putFragmentSettings,
+  getFragment,
+  getFragments,
+  getWidgetTypes,
+  getPlugins,
+} from 'api/fragments';
+
 import {
   SET_SELECTED, SET_WIDGET_TYPES,
   SET_PLUGINS, SET_FRAGMENTS,
 } from 'state/fragments/types';
+import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 
@@ -23,13 +38,13 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
-jest.unmock('api/fragments');
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
-const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
+const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK;
+const PLUGINS_PAYLOAD = PLUGINS_OK;
 
 const FRAGMENT_CODE = 'myCode';
+const FRAGMENT_SETTINGS = { enableEditingWhenEmptyDefaultGui: true };
 
 const INITIAL_STATE = {
   form: {},
@@ -40,29 +55,14 @@ const INITIAL_STATE = {
   },
 };
 
-describe('fragment actions', () => {
+
+describe('state/fragments/actions', () => {
   let store;
 
   beforeEach(() => {
     store = mockStore(INITIAL_STATE);
-  });
-
-  describe('fetchFragment', () => {
-    it('action payload contains fragment information', (done) => {
-      store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].payload).toEqual(GET_FRAGMENT_PAYLOAD);
-        done();
-      });
-    });
-
-    it('action payload contains fragment information', (done) => {
-      store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
-        const actions = store.getActions();
-        expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
-        done();
-      });
-    });
+    jest.clearAllMocks();
+    store.clearActions();
   });
 
   describe('setFragments', () => {
@@ -73,6 +73,9 @@ describe('fragment actions', () => {
   });
 
   describe('fetchFragments', () => {
+    beforeEach(() => {
+      getFragments.mockImplementation(mockApi({ payload: LIST_FRAGMENTS_OK }));
+    });
     it('fetchFragments calls setFragments and setPage actions', (done) => {
       store.dispatch(fetchFragments()).then(() => {
         const actions = store.getActions();
@@ -82,7 +85,20 @@ describe('fragment actions', () => {
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
         expect(actions[3].type).toEqual(SET_PAGE);
         done();
-      });
+      }).catch(done.fail);
+    });
+
+    it('fetchFragments as error and dispatch ADD_ERRORS ', (done) => {
+      getFragments.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchFragments()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(ADD_ERRORS);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+
+        done();
+      }).catch(done.fail);
     });
 
     it('fragments is defined and properly valued', (done) => {
@@ -95,39 +111,7 @@ describe('fragment actions', () => {
         expect(fragment).toHaveProperty('widgetType');
         expect(fragment).toHaveProperty('pluginCode');
         done();
-      });
-    });
-
-    it('fragments page two is retrieved correctly and properly valued', (done) => {
-      store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[1].payload;
-        expect(actionPayload.fragments).toHaveLength(2);
-        expect(actionPayload.fragments[0]).toHaveProperty('code', 'myCode3');
-        expect(actionPayload.fragments[1]).toHaveProperty('code', 'myCode4');
-        done();
-      });
-    });
-
-    it('page is defined and properly valued', (done) => {
-      store.dispatch(fetchFragments()).then(() => {
-        const actionPayload = store.getActions()[3].payload.page;
-        expect(actionPayload).toHaveProperty('page', 1);
-        expect(actionPayload).toHaveProperty('pageSize', 10);
-        expect(actionPayload).toHaveProperty('lastPage', 1);
-        expect(actionPayload).toHaveProperty('totalItems', 7);
-        done();
-      });
-    });
-
-    it('page 2 is defined and properly valued', (done) => {
-      store.dispatch(fetchFragments({ page: 2, pageSize: 2 })).then(() => {
-        const actionPayload = store.getActions()[3].payload.page;
-        expect(actionPayload).toHaveProperty('page', 2);
-        expect(actionPayload).toHaveProperty('pageSize', 2);
-        expect(actionPayload).toHaveProperty('lastPage', 4);
-        expect(actionPayload).toHaveProperty('totalItems', 7);
-        done();
-      });
+      }).catch(done.fail);
     });
   });
 
@@ -157,11 +141,34 @@ describe('fragment actions', () => {
 
   describe('test thunks', () => {
     describe('test fetchFragment', () => {
-      it('action payload contains fragment information', () => {
+      beforeEach(() => {
+        getFragment.mockImplementation(mockApi({ payload: GET_FRAGMENT_OK }));
+      });
+
+      it('if API response ok, initializes fragment information', (done) => {
         store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
+          expect(initialize).toHaveBeenCalledWith('fragment', GET_FRAGMENT_OK);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getFragment.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('test fetchFragmentDetail', () => {
+      it('action payload contains fragment information', (done) => {
+        store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
-          expect(actions[0].payload).toEqual(GET_FRAGMENT_PAYLOAD);
-        });
+          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+          done();
+        }).catch(done.fail);
       });
 
       it('action payload contains fragment information', () => {
@@ -174,21 +181,71 @@ describe('fragment actions', () => {
 
     describe('test fetchWidgetTypes', () => {
       it('action payload contains widgetTypes list', () => {
+        getWidgetTypes.mockReturnValue(new Promise(resolve => resolve(WIDGET_TYPES_PAYLOAD)));
         store.dispatch(fetchWidgetTypes()).then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
-          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
+          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD.payload);
         });
       });
     });
 
     describe('test fetchPlugins', () => {
       it('action payload contains plugins list', () => {
+        getPlugins.mockReturnValue(new Promise(resolve => resolve(PLUGINS_PAYLOAD)));
         store.dispatch(fetchPlugins()).then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_PLUGINS);
-          expect(actions[0].payload.plugins).toEqual(PLUGINS_PAYLOAD);
+          expect(actions[0].payload.plugins).toEqual(PLUGINS_PAYLOAD.payload);
         });
+      });
+    });
+    describe('fetchFragmentSettings', () => {
+      it('if API response is ok, initializes the form with fragmentSettings information', (done) => {
+        store.dispatch(fetchFragmentSettings()).then(() => {
+          expect(initialize).toHaveBeenCalled();
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getFragmentSettings.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(fetchFragmentSettings()).then(() => {
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('updateFragmentSettings', () => {
+      beforeEach(() => {
+        putFragmentSettings.mockImplementation(mockApi({ payload: FRAGMENT_SETTINGS }));
+      });
+
+      it('action payload contains fragment settings information', (done) => {
+        store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response ok, initializes the form with reponse data information', (done) => {
+        store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
+          expect(initialize).toHaveBeenCalledWith('fragmentSettings', FRAGMENT_SETTINGS);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        putFragmentSettings.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(updateFragmentSettings()).then(() => {
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
       });
     });
   });
