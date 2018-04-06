@@ -9,7 +9,6 @@ const correctRequest = {
   method: METHODS.GET,
   mockResponse: DATA_TYPES_OK_PAGE_1,
   useAuthentication: true,
-  errors: expect.any(Function),
 };
 
 
@@ -89,14 +88,32 @@ describe('api/getDataTypes', () => {
 
       it('if successful, returns a attributes response', () => {
         getDataTypeAttributes();
-        expect(makeMockRequest)
-          .toHaveBeenCalledWith(expect
-            .objectContaining({
-              uri: '/api/dataTypeAttributes',
-              method: METHODS.GET,
-              mockResponse: DATA_TYPES_ATTRIBUTES,
-              useAuthentication: true,
-            }));
+        expect(makeMockRequest).toHaveBeenCalledWith(
+          expect.objectContaining({
+            ...correctRequest,
+            uri: '/api/dataTypeAttributes',
+            mockResponse: DATA_TYPES_ATTRIBUTES,
+          }),
+          {
+            page: 1,
+            pageSize: 10,
+          },
+        );
+      });
+
+      it('makes the request with additional params', () => {
+        getDataTypeAttributes({ page: 1, pageSize: 10 }, '?param=true');
+        expect(makeMockRequest).toHaveBeenCalledWith(
+          expect.objectContaining({
+            ...correctRequest,
+            uri: '/api/dataTypeAttributes?param=true',
+            mockResponse: DATA_TYPES_ATTRIBUTES,
+          }),
+          {
+            page: 1,
+            pageSize: 10,
+          },
+        );
       });
     });
   });
