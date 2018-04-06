@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Breadcrumb, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { BreadcrumbItem, Link } from 'frontend-common-components';
@@ -13,7 +13,7 @@ import { ROUTE_FRAGMENT_ADD } from 'app-init/router';
 const TAB_LIST = 'list';
 const TAB_SETTINGS = 'settings';
 
-class ListFragmentPage extends React.Component {
+class ListFragmentPage extends Component {
   constructor(props) {
     super(props);
     this.setActiveTab = this.setActiveTab.bind(this);
@@ -27,39 +27,37 @@ class ListFragmentPage extends React.Component {
     this.setState({ activeTab });
   }
 
+  renderContent() {
+    return this.state.activeTab === TAB_LIST ?
+      <div>
+        <Row>
+          <Col xs={6} xsOffset={3}>
+            <FragmentSearchFormContainer />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Link route={ROUTE_FRAGMENT_ADD}>
+              <Button
+                type="button"
+                className="pull-right ListFragmentPage__add"
+                bsStyle="primary"
+              >
+                <FormattedMessage
+                  id="app.new"
+                />
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row>
+          <FragmentListTableContainer />
+        </Row>
+      </div>
+      : <SettingsFragmentFormContainer />;
+  }
+
   render() {
-    let renderContent;
-    if (this.state.activeTab === TAB_LIST) {
-      renderContent = (
-        <div>
-          <Row>
-            <Col xs={6} xsOffset={3}>
-              <FragmentSearchFormContainer />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Link route={ROUTE_FRAGMENT_ADD}>
-                <Button
-                  type="button"
-                  className="pull-right ListFragmentPage__add"
-                  bsStyle="primary"
-                >
-                  <FormattedMessage
-                    id="app.new"
-                  />
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-          <Row>
-            <FragmentListTableContainer />
-          </Row>
-        </div>
-      );
-    } else {
-      renderContent = <SettingsFragmentFormContainer />;
-    }
     return (
       <InternalPage className="ListFragmentPage">
         <Grid fluid>
@@ -101,7 +99,7 @@ class ListFragmentPage extends React.Component {
               </ul>
             </Col>
           </Row>
-          {renderContent}
+          {this.renderContent()}
         </Grid>
       </InternalPage>
     );
