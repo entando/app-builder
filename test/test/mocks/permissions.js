@@ -1,31 +1,31 @@
 export const LIST_PERMISSIONS_OK = [
   {
     code: 'editContents',
-    descr: 'Redazione di Contenuti',
+    descr: 'content Editing',
   },
   {
     code: 'enterBackend',
-    descr: "Accesso all'Area di Amministrazione",
+    descr: 'access To Admin',
   },
   {
     code: 'manageCategories',
-    descr: 'Operazioni su Categorie',
+    descr: 'manage Categories',
   },
   {
     code: 'managePages',
-    descr: 'Operazioni su Pagine',
+    descr: 'manage Pages',
   },
   {
     code: 'manageResources',
-    descr: 'Operazioni su Risorse',
+    descr: 'operations On Resources',
   },
   {
     code: 'superuser',
-    descr: 'Tutte le funzioni',
+    descr: 'All permissions',
   },
   {
     code: 'validateContents',
-    descr: 'Supervisione di Contenuti',
+    descr: 'validate Contents',
   },
 ];
 
@@ -42,31 +42,31 @@ export const PERMISSIONS_NORMALIZED = {
     ],
     map: {
       editContents: {
-        name: 'content Editing',
+        descr: 'content Editing',
         code: 'editContents',
       },
       enterBackend: {
-        name: 'access To Admin',
+        descr: 'access To Admin',
         code: 'enterBackend',
       },
       manageCategories: {
-        name: 'rating Editing',
+        descr: 'manage Categories',
         code: 'manageCategories',
       },
       managePages: {
-        name: 'manage Web Dynamic Forms',
+        descr: 'manage Pages',
         code: 'managePages',
       },
       manageResources: {
-        name: 'operations On Resources',
+        descr: 'operations On Resources',
         code: 'manageResources',
       },
       superuser: {
-        name: 'content Editing1',
+        descr: 'All permissions',
         code: 'superuser',
       },
       validateContents: {
-        name: 'access To Admin1',
+        descr: 'validate Contents',
         code: 'validateContents',
       },
     },

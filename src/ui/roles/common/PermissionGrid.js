@@ -18,7 +18,7 @@ const PermissionGrid = ({ permissions }) => {
               <Col xs={1}>
                 <Field
                   component={SwitchRenderer}
-                  name={permission.code}
+                  name={`permissions.${permission.code}`}
                 />
               </Col>
             </Col>
