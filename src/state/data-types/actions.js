@@ -1,8 +1,16 @@
+import { gotoRoute } from 'frontend-common-components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 
-import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
+
+import {
+  postDataType,
+  getDataTypes,
+  getDataTypeAttributes,
+  getDataTypeAttribute,
+} from 'api/dataTypes';
 import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 
@@ -30,6 +38,20 @@ export const setDataTypeAttributes = attributes => ({
 
 // thunk
 
+export const sendDataType = dataTypeObject => dispatch =>
+  new Promise((resolve) => {
+    postDataType(dataTypeObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
 export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('dataTypes'));
@@ -54,10 +76,11 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params
     getDataTypeAttributes(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          if (!getDataTypeAttributesIdList(getState())) {
+          const list = getDataTypeAttributesIdList(getState());
+          if (!list || list.lenth === 0) {
             dispatch(setDataTypeAttributes(json.payload));
           }
-        } else {
+        } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         resolve();

@@ -5,6 +5,7 @@ import {
   getDataTypesIdList,
   getDataTypesMap,
   getDataTypeList,
+  getDataTypeAttributesIdList,
 } from 'state/data-types/selectors';
 
 const TEST_STATE = {
@@ -21,6 +22,9 @@ const TEST_STATE = {
         code: 'DEF',
         status: 'ok',
       },
+    },
+    attributes: {
+
     },
   },
   pagination: DATA_TYPES_OK_PAGE_1.metaData,
@@ -43,5 +47,8 @@ describe('state/users/selectors', () => {
 
   it('verify getUserList selector', () => {
     expect(getDataTypeList(TEST_STATE)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
+  });
+  it('verify getDataTypeAttributesIdList selector is undefined', () => {
+    expect(getDataTypeAttributesIdList(TEST_STATE)).toBeUndefined();
   });
 });

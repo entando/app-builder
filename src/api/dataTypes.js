@@ -1,5 +1,14 @@
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
+import { DATA_TYPES, DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+
+export const postDataType = dataTypeObject => makeMockRequest({
+  uri: '/api/dataTypes',
+  body: dataTypeObject,
+  method: METHODS.POST,
+  mockResponse: DATA_TYPES,
+  useAuthentication: true,
+});
+
 
 export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(

@@ -1,6 +1,8 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { gotoRoute } from 'frontend-common-components';
+import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -9,6 +11,7 @@ import { ADD_ERRORS } from 'state/errors/types';
 import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import {
+  sendDataType,
   setDataTypes,
   setDataTypeAttributes,
   setSelectedAttribute,
@@ -16,8 +19,18 @@ import {
   fetchDataTypeAttributes,
   fetchDataTypeAttribute,
 } from 'state/data-types/actions';
-import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
+import {
+  postDataType,
+  getDataTypes,
+  getDataTypeAttributes,
+  getDataTypeAttribute,
+} from 'api/dataTypes';
+import {
+  DATA_TYPES,
+  DATA_TYPES_OK_PAGE_1,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
+} from 'test/mocks/dataTypes';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -73,7 +86,29 @@ describe('state/data-types/actions ', () => {
   });
 
   describe('thunk', () => {
-    describe('test fetchDataTypes', () => {
+    describe('sendDataType', () => {
+      it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
+        postDataType.mockImplementation(mockApi({ payload: DATA_TYPES.payload }));
+        store.dispatch(sendDataType(DATA_TYPES.payload)).then(() => {
+          expect(postDataType).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when postDataType get error, should dispatch addError', (done) => {
+        postDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendDataType(DATA_TYPES.payload)).then(() => {
+          expect(postDataType).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('fetchDataTypes', () => {
       it('fetchDataTypes calls fetchDataTypes and setPage actions', (done) => {
         store.dispatch(fetchDataTypes()).then(() => {
           const actions = store.getActions();
