@@ -72,8 +72,9 @@ export default {
     'menu.groups': 'Gruppi',
     'menu.widget': 'Widget',
     'menu.labelsAndLanguages': 'Etichette e Lingue',
-    'menu.categories': 'Categorie',
     'menu.uxPattern.addLabels': 'Etichette di sistema',
+    'menu.categories': 'Categorie',
+    'menu.roles': 'Roles',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
@@ -264,5 +265,6 @@ export default {
     'category.treeStyle': 'Scegli lo stile dell\'albero delle categorie',
     'category.treeType.classic': 'Classico',
     'category.treeType.request': 'Carica i nodi a richiesta',
+    'role.listEmpty': 'Non ci sono RUOLI disponibili',
   },
 };

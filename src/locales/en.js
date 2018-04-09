@@ -72,8 +72,9 @@ export default {
     'menu.groups': 'Groups',
     'menu.widget': 'Widget',
     'menu.labelsAndLanguages': 'Labels and Languages',
-    'menu.categories': 'Categories',
     'menu.uxPattern.addLabels': 'System labels',
+    'menu.categories': 'Categories',
+    'menu.roles': 'Roles',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
@@ -264,5 +265,6 @@ export default {
     'category.treeStyle': 'Choose the style of the Category tree',
     'category.treeType.classic': 'Classic',
     'category.treeType.request': 'Load nodes on demand',
+    'role.listEmpty': 'There are no ROLES available',
   },
 };
