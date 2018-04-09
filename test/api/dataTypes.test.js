@@ -1,8 +1,15 @@
 import 'test/enzyme-init';
-import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import {
+  postDataType,
+  getDataTypes,
+  getDataTypeAttributes,
+  getDataTypeAttribute,
+} from 'api/dataTypes';
+
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
 import {
+  DATA_TYPES,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
@@ -20,8 +27,28 @@ jest.unmock('api/dataTypes');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET' },
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
+
+describe('api/postDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postDataType()).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    postDataType(DATA_TYPES.payload);
+    expect(makeMockRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      method: 'POST',
+      mockResponse: DATA_TYPES,
+      body: DATA_TYPES.payload,
+    });
+  });
+});
+
 
 describe('api/getDataTypes', () => {
   beforeEach(() => {
