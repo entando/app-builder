@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { Col, Alert } from 'patternfly-react';
+import { Col, Alert, Spinner } from 'patternfly-react';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-const PermissionGrid = ({ permissions }) => {
+const PermissionGrid = ({ permissions, loading }) => {
   const renderGrid = () => {
     if (permissions.length > 0) {
       return (
@@ -37,17 +37,21 @@ const PermissionGrid = ({ permissions }) => {
 
   return (
     <div className="PermissionGrid">
-      {renderGrid()}
+      <Spinner loading={!!loading}>
+        {renderGrid()}
+      </Spinner>
     </div>
   );
 };
 
 PermissionGrid.propTypes = {
   permissions: PropTypes.arrayOf(PropTypes.shape({})),
+  loading: PropTypes.bool,
 };
 
 PermissionGrid.defaultProps = {
   permissions: [],
+  loading: false,
 };
 
 export default PermissionGrid;

@@ -77,6 +77,7 @@ export const PERMISSIONS_NORMALIZED = {
       totalItems: 7,
     },
   },
+  loading: { permissions: false },
 };
 
 export const BODY_ERROR =

@@ -27,7 +27,7 @@ export class RoleFormBody extends Component {
 
   render() {
     const {
-      invalid, submitting, mode, onChangeName,
+      invalid, submitting, mode, onChangeName, permissions, loading,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
@@ -69,7 +69,7 @@ export class RoleFormBody extends Component {
                   <FormattedMessage id="app.permissions" />
                 </div>
               </legend>
-              <PermissionGrid permissions={this.props.permissions} />
+              <PermissionGrid permissions={permissions} loading={loading} />
             </fieldset>
           </Col>
         </Row>
@@ -101,6 +101,7 @@ RoleFormBody.propTypes = {
     descr: PropTypes.string,
     code: PropTypes.code,
   })),
+  loading: PropTypes.bool,
 };
 
 RoleFormBody.defaultProps = {
@@ -108,8 +109,9 @@ RoleFormBody.defaultProps = {
   submitting: false,
   mode: NEW_MODE,
   onChangeName: null,
-  onWillMount: () => {},
+  onWillMount: null,
   permissions: [],
+  loading: false,
 };
 
 const RoleForm = reduxForm({
