@@ -41,7 +41,6 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('dataTypes'));
         }
         resolve();
       });
@@ -57,8 +56,9 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params
           if (!getDataTypeAttributesIdList(getState())) {
             dispatch(setDataTypeAttributes(json.payload));
           }
-        } else {
+        } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(toggleLoading('dataTypes'));
         }
         resolve();
       });

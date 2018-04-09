@@ -1,16 +1,18 @@
 import { connect } from 'react-redux';
-import { fetchDataTypes } from 'state/data-types/actions';
+import { fetchDataTypeAttributes } from 'state/data-types/actions';
 // inset getAttributes
-import { getDataTypeList } from 'state/data-types/selectors';
+import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 
 export const mapStateToProps = state => ({
 // insert getAttributes
-  dataTypes: getDataTypeList(state),
+  attributes: getDataTypeAttributesIdList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => { dispatch(fetchDataTypes()); },
+  onWillMount: () => {
+    dispatch(fetchDataTypeAttributes());
+  },
   handleSubmit: values => (values),
 
 });

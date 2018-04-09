@@ -25,7 +25,7 @@ export class DataTypeFormBody extends Component {
 
    render() {
      // da cambiare con lista attributi
-     const selectOptions = this.props.dataTypes.map(item => ({
+     const selectOptions = this.props.attributes.map(item => ({
        value: item.code,
        text: item.name,
      }));
@@ -91,10 +91,10 @@ export class DataTypeFormBody extends Component {
 DataTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  dataTypes: PropTypes.arrayOf(PropTypes.shape({
+  attributes: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
-  })),
+  })).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
@@ -103,7 +103,6 @@ DataTypeFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
-  dataTypes: [],
 };
 
 const DataTypeForm = reduxForm({
