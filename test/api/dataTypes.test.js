@@ -1,8 +1,12 @@
 import 'test/enzyme-init';
-import { getDataTypes, getDataTypeAttributes } from 'api/dataTypes';
+import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES } from 'test/mocks/dataTypes';
+import {
+  DATA_TYPES_OK_PAGE_1,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
+} from 'test/mocks/dataTypes';
 
 const correctRequest = {
   uri: '/api/dataTypes',
@@ -83,7 +87,7 @@ describe('api/getDataTypes', () => {
 
     describe('getDataTypeAttributes', () => {
       it('returns a promise', () => {
-        expect(getDataTypes()).toBeInstanceOf(Promise);
+        expect(getDataTypeAttributes()).toBeInstanceOf(Promise);
       });
 
       it('if successful, returns a attributes response', () => {
@@ -114,6 +118,25 @@ describe('api/getDataTypes', () => {
             pageSize: 10,
           },
         );
+      });
+    });
+  });
+  describe('api/dataTypeAttributes', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    describe('getDataTypeAttributes', () => {
+      it('returns a promise', () => {
+        expect(getDataTypeAttribute()).toBeInstanceOf(Promise);
+      });
+
+      it('if successful, returns a attributes response', () => {
+        getDataTypeAttribute('code');
+        expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+          ...correctRequest,
+          uri: '/api/dataTypeAttributes/code',
+          mockResponse: DATA_TYPE_ATTRIBUTE,
+        }));
       });
     });
   });

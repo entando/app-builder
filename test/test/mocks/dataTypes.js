@@ -77,3 +77,24 @@ export const DATA_TYPES_ATTRIBUTES = [
   'Monotext',
   'Text',
 ];
+
+export const DATA_TYPE_ATTRIBUTE = {
+  code: 'myCode',
+  multilingual: false,
+  textAttribute: false,
+  simple: false,
+  allowedRoles: [{
+    code: 'roleCode1',
+    descr: 'Role Descr 1',
+  }, {
+    code: 'roleCode2',
+    descr: 'Role Descr 2',
+  }],
+  allowedDisablingCodes: [{
+    code: 'Code1',
+    descr: 'Description 1',
+  }, {
+    code: 'Code2',
+    descr: 'Description 2',
+  }],
+};

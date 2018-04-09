@@ -1,4 +1,4 @@
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES } from 'test/mocks/dataTypes';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
 export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
@@ -23,6 +23,15 @@ export const getDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params =
     },
     page,
   )
+);
+
+export const getDataTypeAttribute = attributeTypeCode => (
+  makeMockRequest({
+    uri: `/api/dataTypeAttributes/${attributeTypeCode}`,
+    method: METHODS.GET,
+    mockResponse: DATA_TYPE_ATTRIBUTE,
+    useAuthentication: true,
+  })
 );
 
 
