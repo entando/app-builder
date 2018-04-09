@@ -1,4 +1,10 @@
-import { DATA_TYPES, DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
+import {
+  DATA_TYPES,
+  DATA_TYPES_DELETE_OK,
+  DATA_TYPES_OK_PAGE_1,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
+} from 'test/mocks/dataTypes';
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
 export const postDataType = dataTypeObject => makeMockRequest({
@@ -6,6 +12,22 @@ export const postDataType = dataTypeObject => makeMockRequest({
   body: dataTypeObject,
   method: METHODS.POST,
   mockResponse: DATA_TYPES,
+  useAuthentication: true,
+});
+
+export const putDataType = dataTypeObject => makeMockRequest({
+  uri: `/api/dataTypes/${dataTypeObject.code}`,
+  body: dataTypeObject,
+  method: METHODS.PUT,
+  mockResponse: DATA_TYPES,
+  useAuthentication: true,
+});
+
+export const deleteDataType = dataTypeCode => makeMockRequest({
+  uri: `/api/dataTypes/${dataTypeCode}`,
+  body: dataTypeCode,
+  method: METHODS.DELETE,
+  mockResponse: DATA_TYPES_DELETE_OK,
   useAuthentication: true,
 });
 

@@ -77,7 +77,7 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params
       response.json().then((json) => {
         if (response.ok) {
           const list = getDataTypeAttributesIdList(getState());
-          if (!list || list.lenth === 0) {
+          if (!list || list.length === 0) {
             dispatch(setDataTypeAttributes(json.payload));
           }
         } else if (json && json.errors) {

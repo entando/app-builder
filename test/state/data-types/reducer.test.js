@@ -9,7 +9,6 @@ describe('state/data-types/reducer', () => {
   let newState;
 
   it('should return an object', () => {
-    console.log(state);
     expect(typeof state).toBe('object');
   });
 
