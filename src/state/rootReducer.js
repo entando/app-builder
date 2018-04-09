@@ -28,6 +28,7 @@ import labels from 'state/labels/reducer';
 import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
 import permissions from 'state/permissions/reducer';
+import alerts from 'state/alerts/reducer';
 
 const reducerDef = {
   api,
@@ -56,6 +57,7 @@ const reducerDef = {
   categories,
   loading,
   permissions,
+  alerts,
 };
 
 if (pluginArray.length) {

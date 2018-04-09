@@ -116,17 +116,17 @@ describe('state/roles/actions', () => {
         done();
       }).catch(done.fail);
     });
+  });
 
-    it('when getRole get error, should dispatch addError', (done) => {
-      getRole.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchRole(BODY_OK)).then(() => {
-        expect(getRole).toHaveBeenCalled();
-        const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        done();
-      }).catch(done.fail);
-    });
+  it('when getRole get error, should dispatch addError', (done) => {
+    getRole.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+    store.dispatch(fetchRole(BODY_OK)).then(() => {
+      expect(getRole).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(1);
+      expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+      done();
+    }).catch(done.fail);
   });
 
   describe('sendPostRole()', () => {
