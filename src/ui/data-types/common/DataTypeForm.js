@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
+import { Link } from 'frontend-common-components';
 
 import { required, maxLength } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
 
 export class DataTypeFormBody extends Component {
   constructor(props) {
@@ -24,10 +26,9 @@ export class DataTypeFormBody extends Component {
    };
 
    render() {
-     // da cambiare con lista attributi
      const selectOptions = this.props.attributes.map(item => ({
-       value: item.code,
-       text: item.name,
+       value: item,
+       text: item,
      }));
 
      return (
@@ -66,6 +67,17 @@ export class DataTypeFormBody extends Component {
                  fieldName="type"
                  mandatory
                />
+               <Link route={ROUTE_ATTRIBUTE_ADD}>
+                 <Button
+                   type="button"
+                   className="pull-right ListFragmentPage__add"
+                   bsStyle="primary"
+                 >
+                   <FormattedMessage
+                     id="app.add"
+                   />
+                 </Button>
+               </Link>
              </fieldset>
            </Col>
          </Row>

@@ -22,7 +22,7 @@ const AttributeInfo = {
               name="type"
               label={
                 <FormLabel labelId="app.type" />
-                }
+              }
             />
             <Field
               component={RenderTextInput}
@@ -73,7 +73,7 @@ const AttributeInfo = {
 
 AttributeInfo.propTypes = {
   onWillMount: PropTypes.func,
-  // dataTypes: PropTypes.arrayOf(PropTypes.shape({
+  // attributes: PropTypes.arrayOf(PropTypes.shape({
   //   code: PropTypes.string,
   //   name: PropTypes.string,
   // })),
@@ -81,7 +81,7 @@ AttributeInfo.propTypes = {
 
 AttributeInfo.defaultProps = {
   onWillMount: () => {},
-  // dataTypes: [],
+  // attributes: [],
 };
 
 

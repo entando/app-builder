@@ -60,6 +60,7 @@ export default {
     'app.error.message': 'Messaggio d\'errore',
     'app.error.message.key': 'Chiave per il messaggio di errore',
     'app.indexable': 'Ricercabile',
+    'app.attribute': 'Aggiungi attributo',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

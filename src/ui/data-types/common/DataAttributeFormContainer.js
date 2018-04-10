@@ -5,7 +5,7 @@ import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 
 export const mapStateToProps = state => ({
-// get selected attribute on select
+// insert getAttributes
   attributes: getDataTypeAttributesIdList(state),
 });
 
