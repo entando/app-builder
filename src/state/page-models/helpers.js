@@ -4,6 +4,12 @@ import { GRID_WIDTH } from 'state/page-models/const';
 
 const validateFrames = (frames) => {
   const errors = [];
+
+  if (!Array.isArray(frames)) {
+    errors.push({ id: 'pageModel.error.framesArray' });
+    return errors;
+  }
+
   const matrix = [];
   for (let x = 0; x < GRID_WIDTH; x += 1) {
     matrix.push([]);
@@ -69,5 +75,12 @@ const validateFrames = (frames) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const validatePageModel = pageModel =>
-  validateFrames(pageModel.configuration.frames);
+export const validatePageModel = (pageModel) => {
+  if (!pageModel) {
+    return null;
+  }
+  if (!pageModel.configuration || !(pageModel.configuration instanceof Object)) {
+    return [{ id: 'pageModel.error.configuration' }];
+  }
+  return validateFrames(pageModel.configuration.frames);
+};

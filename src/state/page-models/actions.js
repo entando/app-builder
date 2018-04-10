@@ -1,9 +1,12 @@
-import { getPageModels, getPageModel, deletePageModel } from 'api/pageModels';
+import { initialize } from 'redux-form';
+import { getParams } from 'frontend-common-components';
+
+import { getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel } from 'api/pageModels';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
-import { getSelectedPageModel } from 'state/page-models/selectors';
+import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
 
 
 export const setPageModels = pageModels => ({
@@ -80,4 +83,68 @@ export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
         dispatch(addErrors(json.errors.map(e => e.message)));
         return null;
       }));
+};
+
+export const fetchPageModel = pageModelCode => dispatch => (
+  new Promise((resolve, reject) => {
+    getPageModel(pageModelCode).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          resolve(data);
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          reject(data);
+        }
+      });
+    });
+  })
+);
+
+export const initPageModelForm = () => (dispatch, getState) => {
+  const { pageModelCode } = getParams(getState());
+  return fetchPageModel(pageModelCode)(dispatch).then((json) => {
+    const pageModel = json.payload;
+    pageModel.configuration = JSON.stringify(pageModel.configuration, null, 2);
+    dispatch(initialize('pageModel', pageModel));
+  });
+};
+
+export const updatePageModel = pageModel => (dispatch, getState) => {
+  const toSend = pageModel || getFormPageModel(getState());
+  return new Promise((resolve) => {
+    if (toSend) {
+      putPageModel(toSend).then((response) => {
+        if (!response.ok) {
+          response.json().then((data) => {
+            dispatch(addErrors(data.errors.map(err => err.message)));
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });
+    } else {
+      resolve();
+    }
+  });
+};
+
+export const createPageModel = pageModel => (dispatch, getState) => {
+  const toSend = pageModel || getFormPageModel(getState());
+  return new Promise((resolve) => {
+    if (toSend) {
+      postPageModel(toSend).then((response) => {
+        if (!response.ok) {
+          response.json().then((data) => {
+            dispatch(addErrors(data.errors.map(err => err.message)));
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });
+    } else {
+      resolve();
+    }
+  });
 };
