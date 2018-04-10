@@ -1,8 +1,9 @@
+import { initialize } from 'redux-form';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 
-import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import { getDataTypes, getDataType, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
 import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 
@@ -29,7 +30,6 @@ export const setDataTypeAttributes = attributes => ({
 
 
 // thunk
-
 export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('dataTypes'));
@@ -39,6 +39,24 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setDataTypes(json.payload));
           dispatch(toggleLoading('dataTypes'));
           dispatch(setPage(json.metaData));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(toggleLoading('dataTypes'));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchDataType = dataTypeCode => dispatch => (
+  new Promise((resolve) => {
+    dispatch(toggleLoading('dataTypes'));
+    getDataType(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setDataTypes([json.payload]));
+          dispatch(initialize('dataType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           dispatch(toggleLoading('dataTypes'));

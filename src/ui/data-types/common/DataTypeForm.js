@@ -8,14 +8,16 @@ import { required, maxLength } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 
 export class DataTypeFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props);
   }
 
    onSubmit = (ev) => {
@@ -29,6 +31,22 @@ export class DataTypeFormBody extends Component {
        value: item.code,
        text: item.name,
      }));
+
+     const renderAttributes = (attributes) => {
+       if (attributes.length) {
+         return (
+           <Row>
+             <label htmlFor="attributes" className="col-xs-2 control-label text-right">
+               <FormLabel labelId="app.attributes" />
+             </label>
+             <Col xs={10}>
+               <AttributeListTable attributes={attributes} />
+             </Col>
+           </Row>
+         );
+       }
+       return '';
+     };
 
      return (
        <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -69,6 +87,7 @@ export class DataTypeFormBody extends Component {
              </fieldset>
            </Col>
          </Row>
+         {this.props.dataType.attributes ? renderAttributes(this.props.dataType.attributes) : ''}
          <br />
          <Row>
            <Col xs={12}>
@@ -97,6 +116,9 @@ DataTypeFormBody.propTypes = {
   })),
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  dataType: PropTypes.shape({
+    attributes: PropTypes.arrayOf(PropTypes.shape({})),
+  }),
 };
 
 DataTypeFormBody.defaultProps = {
@@ -104,10 +126,11 @@ DataTypeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypes: [],
+  dataType: {},
 };
 
 const DataTypeForm = reduxForm({
-  form: 'DataType',
+  form: 'dataType',
 })(DataTypeFormBody);
 
 export default DataTypeForm;
