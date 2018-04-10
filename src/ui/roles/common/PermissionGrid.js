@@ -37,7 +37,7 @@ const PermissionGrid = ({ permissions, loading }) => {
 
   return (
     <div className="PermissionGrid">
-      <Spinner loading={!!loading}>
+      <Spinner loading={loading}>
         {renderGrid()}
       </Spinner>
     </div>
@@ -45,7 +45,10 @@ const PermissionGrid = ({ permissions, loading }) => {
 };
 
 PermissionGrid.propTypes = {
-  permissions: PropTypes.arrayOf(PropTypes.shape({})),
+  permissions: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    descr: PropTypes.string.isRequired,
+  })),
   loading: PropTypes.bool,
 };
 

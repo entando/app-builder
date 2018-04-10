@@ -7,48 +7,10 @@ import { SET_ROLES } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-jest.mock('api/roles', () => ({
-  getRoles: jest.fn(),
-  getRole: jest.fn(),
-  postRoles: jest.fn(),
-  putRole: jest.fn(),
-}));
-
-const GET_ROLES_PROMISE = {
-  ok: true,
-  json: () => new Promise(res => res({ payload: LIST_ROLES_OK })),
-};
-
-const GET_ROLE_PROMISE = {
-  ok: true,
-  json: () => new Promise(res => res({ payload: GET_ROLE_PAYLOAD })),
-};
-
-const POST_ROLE_PROMISE = {
-  ok: true,
-  json: () => new Promise(res => res({ payload: BODY_OK })),
-};
-
-const PUT_ROLE_PROMISE = {
-  ok: true,
-  json: () => new Promise(res => res({ payload: LIST_ROLES_OK[0] })),
-};
-
-const MOCK_RETURN_PROMISE_ERROR =
-  {
-    ok: false,
-    json: () => new Promise(err => err({
-      errors: [
-        { message: 'what went wrong' },
-      ],
-    })),
-  };
-
-getRoles.mockReturnValue(new Promise(resolve => resolve(GET_ROLES_PROMISE)));
 
 const INITIAL_STATE = {
   form: {},
@@ -73,6 +35,9 @@ describe('state/roles/actions', () => {
   });
 
   describe('fetchRoles', () => {
+    beforeEach(() => {
+      getRoles.mockImplementation(mockApi({ payload: LIST_ROLES_OK }));
+    });
     it('fetchRoles calls setRoles and setPage actions', (done) => {
       store.dispatch(fetchRoles()).then(() => {
         const actions = store.getActions();
@@ -96,7 +61,7 @@ describe('state/roles/actions', () => {
     });
 
     it('when getRoles get error, should dispatch addErrors', (done) => {
-      getRoles.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      getRoles.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchRoles()).then(() => {
         expect(getRoles).toHaveBeenCalled();
         const actions = store.getActions();
@@ -110,28 +75,28 @@ describe('state/roles/actions', () => {
 
   describe('fetchRole()', () => {
     it('when fetchRole succeeds should call put action', (done) => {
-      getRole.mockReturnValueOnce(new Promise(resolve => resolve(GET_ROLE_PROMISE)));
+      getRole.mockImplementation(mockApi({ payload: GET_ROLE_PAYLOAD }));
       store.dispatch(fetchRole(GET_ROLE_PAYLOAD.code)).then(() => {
         expect(getRole).toHaveBeenCalled();
         done();
       }).catch(done.fail);
     });
-  });
 
-  it('when getRole get error, should dispatch addError', (done) => {
-    getRole.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-    store.dispatch(fetchRole(BODY_OK)).then(() => {
-      expect(getRole).toHaveBeenCalled();
-      const actions = store.getActions();
-      expect(actions).toHaveLength(1);
-      expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-      done();
-    }).catch(done.fail);
+    it('when getRole get error, should dispatch addError', (done) => {
+      getRole.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchRole(BODY_OK)).then(() => {
+        expect(getRole).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('sendPostRole()', () => {
     it('when postRoles succeeds should call post action', (done) => {
-      postRoles.mockReturnValueOnce(new Promise(resolve => resolve(POST_ROLE_PROMISE)));
+      postRoles.mockImplementation(mockApi({ payload: BODY_OK }));
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
         expect(postRoles).toHaveBeenCalled();
         done();
@@ -139,7 +104,7 @@ describe('state/roles/actions', () => {
     });
 
     it('when postRoles get error, should dispatch addError', (done) => {
-      postRoles.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      postRoles.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
         expect(postRoles).toHaveBeenCalled();
         const actions = store.getActions();
@@ -152,7 +117,7 @@ describe('state/roles/actions', () => {
 
   describe('sendPutRole()', () => {
     it('when putRole succeeds should call put action', (done) => {
-      putRole.mockReturnValueOnce(new Promise(resolve => resolve(PUT_ROLE_PROMISE)));
+      putRole.mockImplementation(mockApi({ payload: LIST_ROLES_OK[0] }));
       store.dispatch(sendPutRole(BODY_OK)).then(() => {
         expect(putRole).toHaveBeenCalled();
         done();
@@ -160,7 +125,7 @@ describe('state/roles/actions', () => {
     });
 
     it('when putRole get error, should dispatch addError', (done) => {
-      putRole.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      putRole.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPutRole(BODY_OK)).then(() => {
         expect(putRole).toHaveBeenCalled();
         const actions = store.getActions();

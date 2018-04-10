@@ -7,30 +7,10 @@ import { SET_PERMISSIONS } from 'state/permissions/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-jest.mock('api/permissions', () => ({
-  getPermissions: jest.fn(),
-}));
-
-const GET_PERMISSIONS_PROMISE = {
-  ok: true,
-  json: () => new Promise(res => res({ payload: LIST_PERMISSIONS_OK })),
-};
-
-const MOCK_RETURN_PROMISE_ERROR =
-  {
-    ok: false,
-    json: () => new Promise(err => err({
-      errors: [
-        { message: 'what went wrong' },
-      ],
-    })),
-  };
-
-getPermissions.mockReturnValue(new Promise(resolve => resolve(GET_PERMISSIONS_PROMISE)));
 
 const INITIAL_STATE = {
   permissions: {
@@ -54,6 +34,10 @@ describe('state/permissions/actions', () => {
   });
 
   describe('fetchPermissions', () => {
+    beforeEach(() => {
+      getPermissions.mockImplementation(mockApi({ payload: LIST_PERMISSIONS_OK }));
+    });
+
     it('fetchPermissions calls setPermissions and setPage actions', (done) => {
       store.dispatch(fetchPermissions()).then(() => {
         const actions = store.getActions();
@@ -77,8 +61,7 @@ describe('state/permissions/actions', () => {
     });
 
     it('when getPermissions get error, should dispatch addErrors', (done) => {
-      getPermissions.mockReturnValueOnce(new Promise(resolve =>
-        resolve(MOCK_RETURN_PROMISE_ERROR)));
+      getPermissions.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchPermissions()).then(() => {
         expect(getPermissions).toHaveBeenCalled();
         const actions = store.getActions();

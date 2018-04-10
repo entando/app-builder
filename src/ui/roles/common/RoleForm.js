@@ -98,8 +98,8 @@ RoleFormBody.propTypes = {
   onChangeName: PropTypes.func,
   onWillMount: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.shape({
-    descr: PropTypes.string,
-    code: PropTypes.code,
+    descr: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
   })),
   loading: PropTypes.bool,
 };

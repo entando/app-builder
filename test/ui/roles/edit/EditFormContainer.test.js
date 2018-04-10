@@ -1,31 +1,14 @@
-import React from 'react';
 import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/edit/EditFormContainer';
 import { fetchRole } from 'state/roles/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
+import { getParams } from 'frontend-common-components';
 
-jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ roleCode: 'role_code' }),
-  BreadcrumbItem: () => (<span />),
-  Link: () => (<span />),
-  LoginPage: () => (<span />),
-  LoginForm: () => (<span />),
-  BrandMenu: () => (<span />),
-  ProjectLink: () => (<span />),
-  UserDropdown: () => (<span />),
-  HelpMenu: () => (<span />),
-  AdminAppSwitch: () => (<span />),
-  LinkMenuItem: () => (<span />),
-  FirstLevelMenuItem: () => (<span />),
-  DropdownMenuItem: () => (<span />),
-  ActivityStreamMenu: () => (<span />),
-  ActivityStream: () => (<span />),
-  Notification: () => (<span />),
-  routerConfig: jest.fn(),
-  gotoRoute: jest.fn(),
-  routerReducer: state => state || {},
-}));
+
+const TEST_STATE = { roleCode: 'role_code' };
+
+getParams.mockReturnValue(TEST_STATE);
 
 jest.mock('state/roles/actions', () => ({
   sendPutRole: jest.fn().mockReturnValue('sendPutRole_result'),
