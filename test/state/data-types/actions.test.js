@@ -8,11 +8,19 @@ import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { ADD_ERRORS } from 'state/errors/types';
 
-import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
+import {
+  SET_DATA_TYPES,
+  REMOVE_DATA_TYPE,
+  SET_ATTRIBUTES,
+  SET_SELECTED,
+} from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import {
   sendPostDataType,
+  sendPutDataType,
+  sendDeleteDataType,
   setDataTypes,
+  removeDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
   fetchDataTypes,
@@ -21,6 +29,8 @@ import {
 } from 'state/data-types/actions';
 import {
   postDataType,
+  putDataType,
+  deleteDataType,
   getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
@@ -62,6 +72,20 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_DATA_TYPES);
     });
   });
+
+  describe('removeDataType', () => {
+    beforeEach(() => {
+      action = removeDataType('AAA');
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test removeDataType action sets the correct type', () => {
+      expect(action.type).toBe(REMOVE_DATA_TYPE);
+    });
+  });
+
+
   describe('setDataTypeAttributes', () => {
     beforeEach(() => {
       action = setDataTypeAttributes(DATA_TYPES_ATTRIBUTES);
@@ -86,7 +110,7 @@ describe('state/data-types/actions ', () => {
   });
 
   describe('thunk', () => {
-    describe('sendDataType', () => {
+    describe('sendPostDataType', () => {
       it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
         postDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
         store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
@@ -102,6 +126,51 @@ describe('state/data-types/actions ', () => {
           expect(postDataType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPutDataType', () => {
+      it('when putDataType succeeds, should dispatch gotoRoute', (done) => {
+        putDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
+        store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
+          expect(putDataType).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when putDataType get error, should dispatch addError', (done) => {
+        putDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
+          expect(putDataType).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendDeleteDataType', () => {
+      it('when deleteDataType succeeds, should dispatch gotoRoute', (done) => {
+        deleteDataType.mockImplementation(mockApi({ payload: 'AAA' }));
+        store.dispatch(sendDeleteDataType('AAA')).then(() => {
+          expect(deleteDataType).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('type', REMOVE_DATA_TYPE);
+          expect(actions[0]).toHaveProperty('payload', { dataTypeCode: 'AAA' });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when deleteDataType get error, should dispatch addError', (done) => {
+        deleteDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendDeleteDataType('AAA')).then(() => {
+          expect(deleteDataType).toHaveBeenCalled();
+          const actions = store.getActions();
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);

@@ -7,24 +7,41 @@ import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 import {
   postDataType,
+  putDataType,
+  deleteDataType,
   getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
 } from 'api/dataTypes';
-import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
+import {
+  SET_DATA_TYPES,
+  REMOVE_DATA_TYPE,
+  SET_ATTRIBUTES,
+  SET_SELECTED,
+}
+  from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 
-export const setSelectedAttribute = dataTypeAttributeCode => ({
-  type: SET_SELECTED,
-  payload: {
-    dataTypeAttributeCode,
-  },
-});
-
+// Data type
 export const setDataTypes = dataTypes => ({
   type: SET_DATA_TYPES,
   payload: {
     dataTypes,
+  },
+});
+
+export const removeDataType = dataTypeCode => ({
+  type: REMOVE_DATA_TYPE,
+  payload: {
+    dataTypeCode,
+  },
+});
+
+// Data type attributes
+export const setSelectedAttribute = dataTypeAttributeCode => ({
+  type: SET_SELECTED,
+  payload: {
+    dataTypeAttributeCode,
   },
 });
 
@@ -44,6 +61,34 @@ export const sendPostDataType = dataTypeObject => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendPutDataType = dataTypeObject => dispatch =>
+  new Promise((resolve) => {
+    putDataType(dataTypeObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendDeleteDataType = dataTypeCode => dispatch =>
+  new Promise((resolve) => {
+    deleteDataType(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeDataType(dataTypeCode));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

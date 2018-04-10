@@ -5,7 +5,9 @@ import {
   getDataTypesIdList,
   getDataTypesMap,
   getDataTypeList,
+  getDataTypeAttributes,
   getDataTypeAttributesIdList,
+  getSelectedDataTypeAttributeIdList,
 } from 'state/data-types/selectors';
 
 const TEST_STATE = {
@@ -24,12 +26,19 @@ const TEST_STATE = {
       },
     },
     attributes: {
-
     },
   },
   pagination: DATA_TYPES_OK_PAGE_1.metaData,
 };
 
+const STATE_ATTRIBUTES = {
+  dataTypes: {
+    attributes: {
+      list: [],
+      selected: {},
+    },
+  },
+};
 
 describe('state/users/selectors', () => {
   it('getDataTypes(state) returns the users object', () => {
@@ -48,7 +57,19 @@ describe('state/users/selectors', () => {
   it('verify getUserList selector', () => {
     expect(getDataTypeList(TEST_STATE)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
   });
+  it('verify getDataTypeAttributes selector is undefined', () => {
+    expect(getDataTypeAttributes(TEST_STATE)).toBeDefined();
+  });
   it('verify getDataTypeAttributesIdList selector is undefined', () => {
     expect(getDataTypeAttributesIdList(TEST_STATE)).toBeUndefined();
+  });
+  it('verify getDataTypeAttributesIdList selector is defined', () => {
+    expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getSelectedDataTypeAttributeIdList selector is undefined', () => {
+    expect(getSelectedDataTypeAttributeIdList(TEST_STATE)).toBeUndefined();
+  });
+  it('verify getSelectedDataTypeAttributeIdList selector is defined', () => {
+    expect(getSelectedDataTypeAttributeIdList(STATE_ATTRIBUTES)).toBeDefined();
   });
 });
