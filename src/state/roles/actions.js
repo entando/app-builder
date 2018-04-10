@@ -1,10 +1,11 @@
-import { SET_ROLES } from 'state/roles/types';
-import { getRoles, postRoles } from 'api/roles';
+import { initialize } from 'redux-form';
+import { gotoRoute } from 'frontend-common-components';
+import { getRoles, getRole, postRoles, putRole } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
-// Insert when ROLES LIST section is available
-// import { gotoRoute } from 'frontend-common-components';
-// import { ROUTE_ROLES_LIST } from 'app-init/router';
+import { toggleLoading } from 'state/loading/actions';
+import { SET_ROLES } from 'state/roles/types';
+import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 export const setRoles = roles => ({
   type: SET_ROLES,
@@ -17,18 +18,35 @@ export const setRoles = roles => ({
 export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getRoles(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(setRoles(data.payload));
+          dispatch(toggleLoading('roles'));
           dispatch(setPage(data.metaData));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(toggleLoading('roles'));
+          resolve();
+        }
+      });
     });
   });
 
+export const fetchRole = roleCode => dispatch =>
+  new Promise((resolve) => {
+    getRole(roleCode).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(initialize('role', data.payload));
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
 
 export const sendPostRole = rolesData => dispatch =>
   new Promise((resolve) => {
@@ -36,7 +54,22 @@ export const sendPostRole = rolesData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setRoles([data]));
-          // gotoRoute(ROUTE_ROLES_LIST);
+          gotoRoute(ROUTE_ROLE_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
+
+export const sendPutRole = rolesData => dispatch =>
+  new Promise((resolve) => {
+    putRole(rolesData).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_ROLE_LIST);
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

@@ -26,7 +26,12 @@ describe('ListFragmentPage', () => {
     expect(component.find('PageTitle')).toHaveLength(1);
   });
 
-  it('has the add button', () => {
-    expect(component.find('Button.ListFragmentPage__add')).toHaveLength(1);
+  it('has a FragmentListContent has default', () => {
+    expect(component.find('FragmentListContent').exists()).toBe(true);
+  });
+
+  it('has a SettingsFragmentForm if settings tab is active', () => {
+    component.setState({ activeTab: 'settings' });
+    expect(component.find('FragmentListContent').exists()).toBe(false);
   });
 });
