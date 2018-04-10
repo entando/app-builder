@@ -2,6 +2,7 @@ import { SET_ROLES } from 'state/roles/types';
 import { getRoles, postRoles } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 // Insert when ROLES LIST section is available
 // import { gotoRoute } from 'frontend-common-components';
 // import { ROUTE_ROLES_LIST } from 'app-init/router';
@@ -17,15 +18,18 @@ export const setRoles = roles => ({
 export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getRoles(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+      response.json().then((data) => {
+        if (response.ok) {
           dispatch(setRoles(data.payload));
+          dispatch(toggleLoading('roles'));
           dispatch(setPage(data.metaData));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(toggleLoading('roles'));
+          resolve();
+        }
+      });
     });
   });
 

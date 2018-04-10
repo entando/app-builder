@@ -44,7 +44,10 @@ export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
-
+export const ROUTE_ROLE_LIST = 'roleList';
+export const ROUTE_ROLE_ADD = 'roleAdd';
+export const ROUTE_ROLE_EDIT = 'roleEdit';
+export const ROUTE_ROLE_DETAIL = 'roleDetail';
 
 routerConfig(
   store,
@@ -92,6 +95,10 @@ routerConfig(
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
+      { name: ROUTE_ROLE_LIST, path: '/role' },
+      { name: ROUTE_ROLE_ADD, path: '/role/add/' },
+      { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
+      { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

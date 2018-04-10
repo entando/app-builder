@@ -24,11 +24,11 @@ describe('fragments/reducer', () => {
   describe('after action SET_SELECTED', () => {
     let newState;
     beforeEach(() => {
-      newState = reducer(state, setSelectedFragment(GET_FRAGMENT_OK.payload));
+      newState = reducer(state, setSelectedFragment(GET_FRAGMENT_OK));
     });
 
     it('should define the fragment payload', () => {
-      expect(newState.selected).toEqual(GET_FRAGMENT_OK.payload);
+      expect(newState.selected).toEqual(GET_FRAGMENT_OK);
     });
   });
 
