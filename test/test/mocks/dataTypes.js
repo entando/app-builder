@@ -65,6 +65,10 @@ export const DATA_TYPES = {
 };
 
 export const DATA_TYPES_DELETE_OK = { code: '<dataTypeCode>' };
+export const ATTRIBUTE_DATA_TYPES_DELETE_OK = {
+  dataTypeCode: 'dataTypeCode',
+  attributeCode: 'attributeCode',
+};
 
 export const ERROR = {
   payload: [],

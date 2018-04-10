@@ -1,6 +1,7 @@
 import {
   DATA_TYPES,
   DATA_TYPES_DELETE_OK,
+  ATTRIBUTE_DATA_TYPES_DELETE_OK,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
@@ -44,6 +45,45 @@ export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
+// attributes
+
+export const deleteAttributeFromDataType = (dataTypeCode, attributeCode) => (
+  makeMockRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}`,
+    method: METHODS.DELETE,
+    mockResponse: ATTRIBUTE_DATA_TYPES_DELETE_OK,
+    useAuthentication: true,
+  })
+);
+
+export const getAttributeFromDataType = (dataTypeCode, attributeCode) => (
+  makeMockRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}`,
+    method: METHODS.GET,
+    mockResponse: DATA_TYPES.attributes[0],
+    useAuthentication: true,
+  })
+);
+
+export const postAttributeFromDataType = (dataTypeCode, attributeObject) => (
+  makeMockRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute`,
+    method: METHODS.POST,
+    body: attributeObject,
+    mockResponse: DATA_TYPES.attributes[0],
+    useAuthentication: true,
+  })
+);
+
+export const putAttributeFromDataType = (dataTypeCode, attributeObject) => (
+  makeMockRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeObject.code}`,
+    method: METHODS.PUT,
+    body: attributeObject,
+    mockResponse: DATA_TYPES.attributes[0],
+    useAuthentication: true,
+  })
+);
 export const getDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeMockRequest(
     {
