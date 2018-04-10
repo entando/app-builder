@@ -2,10 +2,15 @@ import reducer from 'state/data-types/reducer';
 import {
   setDataTypes,
   removeDataType,
+  setSelectedDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
 } from 'state/data-types/actions';
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
+import {
+  DATA_TYPES_OK_PAGE_1,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
+} from 'test/mocks/dataTypes';
 
 const dataTypesList = ['ABC', 'DEF'];
 
@@ -35,6 +40,17 @@ describe('state/data-types/reducer', () => {
     });
   });
 
+  describe('after action SET_SELECTED_DATA_TYPE', () => {
+    beforeEach(() => {
+      newState = reducer(state, setSelectedDataType('AAA'));
+    });
+
+    it('should define the selected payload', () => {
+      expect(newState).toHaveProperty('selected');
+      expect(newState.selected).toBe('AAA');
+    });
+  });
+
   describe('after action SET_ATTRIBUTES', () => {
     beforeEach(() => {
       newState = reducer(state, setDataTypeAttributes(DATA_TYPES_ATTRIBUTES));
@@ -47,7 +63,7 @@ describe('state/data-types/reducer', () => {
     });
   });
 
-  describe('after action SET_SELECTED', () => {
+  describe('after action SET_SELECTED_ATTRIBUTE', () => {
     beforeEach(() => {
       newState = reducer(state, setSelectedAttribute(DATA_TYPE_ATTRIBUTE));
     });

@@ -12,7 +12,8 @@ import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
   SET_ATTRIBUTES,
-  SET_SELECTED,
+  SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE,
 } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import {
@@ -21,6 +22,7 @@ import {
   sendDeleteDataType,
   setDataTypes,
   removeDataType,
+  setSelectedDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
   fetchDataTypes,
@@ -97,6 +99,17 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_ATTRIBUTES);
     });
   });
+  describe('setSelectedDataType', () => {
+    beforeEach(() => {
+      action = setSelectedDataType('AAA');
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setSelectedDataType action sets the correct type', () => {
+      expect(action.type).toBe(SET_SELECTED_DATA_TYPE);
+    });
+  });
   describe('setSelectedAttribute', () => {
     beforeEach(() => {
       action = setSelectedAttribute(DATA_TYPE_ATTRIBUTE);
@@ -105,7 +118,7 @@ describe('state/data-types/actions ', () => {
       expect(isFSA(action)).toBe(true);
     });
     it('test setSelectedAttribute action sets the correct type', () => {
-      expect(action.type).toBe(SET_SELECTED);
+      expect(action.type).toBe(SET_SELECTED_ATTRIBUTE);
     });
   });
 
@@ -255,7 +268,7 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
           expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode');
           expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode', DATA_TYPE_ATTRIBUTE);
 

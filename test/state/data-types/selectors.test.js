@@ -5,6 +5,7 @@ import {
   getDataTypesIdList,
   getDataTypesMap,
   getDataTypeList,
+  getSelectedDataType,
   getDataTypeAttributes,
   getDataTypeAttributesIdList,
   getSelectedDataTypeAttributeIdList,
@@ -54,10 +55,19 @@ describe('state/users/selectors', () => {
     expect(getDataTypesMap(TEST_STATE)).toEqual(TEST_STATE.dataTypes.map);
   });
 
-  it('verify getUserList selector', () => {
+  it('verify getDataTypeList selector', () => {
     expect(getDataTypeList(TEST_STATE)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
   });
-  it('verify getDataTypeAttributes selector is undefined', () => {
+
+  it('verify getSelectedDataType selector is undefined', () => {
+    expect(getSelectedDataType(TEST_STATE)).toBeUndefined();
+  });
+
+  it('verify getSelectedDataType selector is defined', () => {
+    expect(getSelectedDataType({ dataTypes: { selected: {} } })).toBeDefined();
+  });
+
+  it('verify getDataTypeAttributes selector is defined', () => {
     expect(getDataTypeAttributes(TEST_STATE)).toBeDefined();
   });
   it('verify getDataTypeAttributesIdList selector is undefined', () => {

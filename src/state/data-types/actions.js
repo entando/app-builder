@@ -17,7 +17,8 @@ import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
   SET_ATTRIBUTES,
-  SET_SELECTED,
+  SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE,
 }
   from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
@@ -37,9 +38,16 @@ export const removeDataType = dataTypeCode => ({
   },
 });
 
+export const setSelectedDataType = dataTypeCode => ({
+  type: SET_SELECTED_DATA_TYPE,
+  payload: {
+    dataTypeCode,
+  },
+});
+
 // Data type attributes
 export const setSelectedAttribute = dataTypeAttributeCode => ({
-  type: SET_SELECTED,
+  type: SET_SELECTED_ATTRIBUTE,
   payload: {
     dataTypeAttributeCode,
   },
@@ -115,6 +123,7 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
     });
   })
 );
+
 
 export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (dispatch, getState) => (
   new Promise((resolve) => {

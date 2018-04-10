@@ -3,7 +3,8 @@ import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
   SET_ATTRIBUTES,
-  SET_SELECTED,
+  SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE,
 } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
@@ -41,6 +42,16 @@ const dataTypeMap = (state = {}, action = {}) => {
   }
 };
 
+export const code = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_DATA_TYPE: {
+      const { dataTypeCode } = action.payload;
+      return { ...state, dataTypeCode };
+    }
+    default: return state;
+  }
+};
+
 export const attributeList = (state = [], action = {}) => {
   switch (action.type) {
     case SET_ATTRIBUTES: {
@@ -52,7 +63,10 @@ export const attributeList = (state = [], action = {}) => {
 
 export const selected = (state = {}, action = {}) => {
   switch (action.type) {
-    case SET_SELECTED: {
+    case SET_SELECTED_DATA_TYPE: {
+      return action.payload.dataTypeCode;
+    }
+    case SET_SELECTED_ATTRIBUTE: {
       return action.payload.dataTypeAttributeCode;
     }
     default: return state;
@@ -63,10 +77,9 @@ export const selected = (state = {}, action = {}) => {
 export default combineReducers({
   list,
   map: dataTypeMap,
+  selected,
   attributes: combineReducers({
     list: attributeList,
     selected,
   }),
-
-
 });
