@@ -2,6 +2,7 @@ import reducer from 'state/data-types/reducer';
 import {
   setDataTypes,
   removeDataType,
+  removeAttribute,
   setSelectedDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
@@ -13,6 +14,11 @@ import {
 } from 'test/mocks/dataTypes';
 
 const dataTypesList = ['ABC', 'DEF'];
+
+const STATE_REMOVE_ATTRIBUTE = {
+  AAA: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
+  BBB: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
+};
 
 describe('state/data-types/reducer', () => {
   let state = reducer();
@@ -33,10 +39,20 @@ describe('state/data-types/reducer', () => {
   });
 
   describe('afert action REMOVE_DATA_TYPE', () => {
-    it('should define the dataType payload', () => {
+    it('should define the new state', () => {
       state = { list: ['AAA'] };
       newState = reducer(state, removeDataType('AAA'));
       expect(newState.list).toMatchObject([]);
+    });
+  });
+
+  describe('afert action REMOVE_ATTRIBUTE', () => {
+    it('should define the new state', () => {
+      newState = reducer({ map: STATE_REMOVE_ATTRIBUTE }, removeAttribute('AAA', 'attrCode'));
+      expect(newState.map).toMatchObject({
+        AAA: { attributes: [{ type: 'text', code: 'attrCode1' }] },
+        BBB: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
+      });
     });
   });
 

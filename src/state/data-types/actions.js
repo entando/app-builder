@@ -9,6 +9,10 @@ import {
   postDataType,
   putDataType,
   deleteDataType,
+  deleteAttributeFromDataType,
+  getAttributeFromDataType,
+  postAttributeFromDataType,
+  putAttributeFromDataType,
   getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
@@ -16,6 +20,7 @@ import {
 import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
+  REMOVE_ATTRIBUTE,
   SET_ATTRIBUTES,
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE,
@@ -42,6 +47,14 @@ export const setSelectedDataType = dataTypeCode => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
     dataTypeCode,
+  },
+});
+
+export const removeAttribute = (dataTypeCode, attributeCode) => ({
+  type: REMOVE_ATTRIBUTE,
+  payload: {
+    dataTypeCode,
+    attributeCode,
   },
 });
 
@@ -97,6 +110,7 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeDataType(dataTypeCode));
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -117,6 +131,68 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           dispatch(toggleLoading('dataTypes'));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+  new Promise((resolve) => {
+    getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedDataType(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+
+export const sendPostAttributeFromDataType = (dataTypeCode, attributeObject) => dispatch => (
+  new Promise((resolve) => {
+    postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendPutAttributeFromDataType = (dataTypeCode, attributeObject) => dispatch => (
+  new Promise((resolve) => {
+    putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendDeleteAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+  new Promise((resolve) => {
+    deleteAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeAttribute(dataTypeCode, attributeCode));
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
         resolve();
       });

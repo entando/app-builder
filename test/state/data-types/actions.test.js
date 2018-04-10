@@ -172,6 +172,7 @@ describe('state/data-types/actions ', () => {
         deleteDataType.mockImplementation(mockApi({ payload: 'AAA' }));
         store.dispatch(sendDeleteDataType('AAA')).then(() => {
           expect(deleteDataType).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions[0]).toHaveProperty('type', REMOVE_DATA_TYPE);
           expect(actions[0]).toHaveProperty('payload', { dataTypeCode: 'AAA' });
