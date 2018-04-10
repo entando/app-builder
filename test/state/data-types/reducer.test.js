@@ -1,15 +1,24 @@
 import reducer from 'state/data-types/reducer';
-import { setDataTypes, setDataTypeAttributes, setSelectedAttribute } from 'state/data-types/actions';
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
+import {
+  setDataTypes,
+  removeDataType,
+  setSelectedDataType,
+  setDataTypeAttributes,
+  setSelectedAttribute,
+} from 'state/data-types/actions';
+import {
+  DATA_TYPES_OK_PAGE_1,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
+} from 'test/mocks/dataTypes';
 
 const dataTypesList = ['ABC', 'DEF'];
 
 describe('state/data-types/reducer', () => {
-  const state = reducer();
+  let state = reducer();
   let newState;
 
   it('should return an object', () => {
-    console.log(state);
     expect(typeof state).toBe('object');
   });
 
@@ -20,6 +29,25 @@ describe('state/data-types/reducer', () => {
 
     it('should define the dataType payload', () => {
       expect(newState.list).toMatchObject(dataTypesList);
+    });
+  });
+
+  describe('afert action REMOVE_DATA_TYPE', () => {
+    it('should define the dataType payload', () => {
+      state = { list: ['AAA'] };
+      newState = reducer(state, removeDataType('AAA'));
+      expect(newState.list).toMatchObject([]);
+    });
+  });
+
+  describe('after action SET_SELECTED_DATA_TYPE', () => {
+    beforeEach(() => {
+      newState = reducer(state, setSelectedDataType('AAA'));
+    });
+
+    it('should define the selected payload', () => {
+      expect(newState).toHaveProperty('selected');
+      expect(newState.selected).toBe('AAA');
     });
   });
 
@@ -35,7 +63,7 @@ describe('state/data-types/reducer', () => {
     });
   });
 
-  describe('after action SET_SELECTED', () => {
+  describe('after action SET_SELECTED_ATTRIBUTE', () => {
     beforeEach(() => {
       newState = reducer(state, setSelectedAttribute(DATA_TYPE_ATTRIBUTE));
     });

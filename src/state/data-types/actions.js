@@ -7,24 +7,49 @@ import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 import {
   postDataType,
+  putDataType,
+  deleteDataType,
   getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
 } from 'api/dataTypes';
-import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
+import {
+  SET_DATA_TYPES,
+  REMOVE_DATA_TYPE,
+  SET_ATTRIBUTES,
+  SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE,
+}
+  from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 
-export const setSelectedAttribute = dataTypeAttributeCode => ({
-  type: SET_SELECTED,
-  payload: {
-    dataTypeAttributeCode,
-  },
-});
-
+// Data type
 export const setDataTypes = dataTypes => ({
   type: SET_DATA_TYPES,
   payload: {
     dataTypes,
+  },
+});
+
+export const removeDataType = dataTypeCode => ({
+  type: REMOVE_DATA_TYPE,
+  payload: {
+    dataTypeCode,
+  },
+});
+
+export const setSelectedDataType = dataTypeCode => ({
+  type: SET_SELECTED_DATA_TYPE,
+  payload: {
+    dataTypeCode,
+  },
+});
+
+// Data type attributes
+export const setSelectedAttribute = dataTypeAttributeCode => ({
+  type: SET_SELECTED_ATTRIBUTE,
+  payload: {
+    dataTypeAttributeCode,
   },
 });
 
@@ -38,12 +63,40 @@ export const setDataTypeAttributes = attributes => ({
 
 // thunk
 
-export const sendDataType = dataTypeObject => dispatch =>
+export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendPutDataType = dataTypeObject => dispatch =>
+  new Promise((resolve) => {
+    putDataType(dataTypeObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_MODEL_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendDeleteDataType = dataTypeCode => dispatch =>
+  new Promise((resolve) => {
+    deleteDataType(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeDataType(dataTypeCode));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -69,6 +122,7 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
     });
   })
 );
+
 
 export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (dispatch, getState) => (
   new Promise((resolve) => {
