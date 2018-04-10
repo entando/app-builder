@@ -9,7 +9,6 @@ export const getDataTypeAttributes = state => state.dataTypes.attributes;
 export const getDataTypeAttributesIdList = state => (state.dataTypes.attributes.list);
 export const getSelectedDataTypeAttributeIdList = state => state.dataTypes.attributes.selected;
 
-
 export const getDataTypeList = createSelector(
   [getDataTypesMap, getDataTypesIdList],
   (dataTypesMap, idList) => idList.map(id => (dataTypesMap[id])),
