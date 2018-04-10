@@ -12,6 +12,10 @@ jest.mock('state/roles/selectors', () => ({
 
 const onWillMount = jest.fn();
 
+const TOTAL_ITEMS = 100;
+const PAGE_SIZE = 10;
+const PAGE = 1;
+
 describe('RoleListTable', () => {
   let component;
   beforeEach(() => {
@@ -54,9 +58,9 @@ describe('RoleListTable', () => {
   describe('test table component', () => {
     beforeEach(() => {
       component = shallow(<RoleListTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
+        page={PAGE}
+        pageSize={PAGE_SIZE}
+        totalItems={TOTAL_ITEMS}
         onWillMount={onWillMount}
       />);
     });
@@ -86,6 +90,24 @@ describe('RoleListTable', () => {
       it('has a paginator', () => {
         const paginator = component.find('Paginator');
         expect(paginator).toHaveLength(1);
+      });
+
+      it('on change page, it calls onWillMount with new page data', () => {
+        onWillMount.mockClear();
+        component.instance().changePage(3);
+        expect(onWillMount).toHaveBeenCalledWith({
+          page: 3,
+          pageSize: PAGE_SIZE,
+        });
+      });
+
+      it('on change page size, it calls onWillMount with new page data', () => {
+        onWillMount.mockClear();
+        component.instance().changePageSize(20);
+        expect(onWillMount).toHaveBeenCalledWith({
+          page: PAGE,
+          pageSize: 20,
+        });
       });
     });
   });
