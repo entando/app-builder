@@ -38,7 +38,7 @@ export const setDataTypeAttributes = attributes => ({
 
 // thunk
 
-export const sendDataType = dataTypeObject => dispatch =>
+export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {

@@ -11,7 +11,7 @@ import { ADD_ERRORS } from 'state/errors/types';
 import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import {
-  sendDataType,
+  sendPostDataType,
   setDataTypes,
   setDataTypeAttributes,
   setSelectedAttribute,
@@ -89,7 +89,7 @@ describe('state/data-types/actions ', () => {
     describe('sendDataType', () => {
       it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
         postDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
-        store.dispatch(sendDataType(DATA_TYPES)).then(() => {
+        store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
           done();
@@ -98,7 +98,7 @@ describe('state/data-types/actions ', () => {
 
       it('when postDataType get error, should dispatch addError', (done) => {
         postDataType.mockImplementation(mockApi({ errors: true }));
-        store.dispatch(sendDataType(DATA_TYPES)).then(() => {
+        store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
