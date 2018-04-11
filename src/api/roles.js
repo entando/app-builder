@@ -1,4 +1,4 @@
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { LIST_ROLES_OK, BODY_OK, GET_ROLE_PAYLOAD } from 'test/mocks/roles';
 
 const filterMockList = (roleCode) => {
@@ -11,7 +11,7 @@ const filterMockList = (roleCode) => {
 };
 
 export const getRoles = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeMockRequest(
+  makeRequest(
     {
       uri: `/api/roles${params}`,
       method: METHODS.GET,
@@ -23,7 +23,7 @@ export const getRoles = (page = { page: 1, pageSize: 10 }, params = '') => (
 );
 
 export const getRole = roleCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/roles/${roleCode}`,
     method: METHODS.GET,
     mockResponse: { ...GET_ROLE_PAYLOAD, ...filterMockList(roleCode) },
@@ -32,7 +32,7 @@ export const getRole = roleCode => (
 );
 
 export const postRoles = rolesObject => (
-  makeMockRequest({
+  makeRequest({
     uri: '/api/roles',
     method: METHODS.POST,
     mockResponse: BODY_OK,
@@ -42,7 +42,7 @@ export const postRoles = rolesObject => (
 );
 
 export const putRole = roleObject => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/roles${roleObject.code}`,
     method: METHODS.PUT,
     mockResponse: BODY_OK,
@@ -52,7 +52,7 @@ export const putRole = roleObject => (
 );
 
 export const deleteRole = roleCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/roles${roleCode}`,
     method: METHODS.DELETE,
     mockResponse: { code: roleCode },

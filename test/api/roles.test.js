@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getRoles, postRoles } from 'api/roles';
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { LIST_ROLES_OK, GROUP_PAYLOAD } from 'test/mocks/roles';
 
 
@@ -13,7 +13,7 @@ const correctRequest = {
 
 jest.unmock('api/roles');
 jest.mock('api/apiManager', () => ({
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST' },
 }));
 
@@ -29,7 +29,7 @@ describe('api/roles', () => {
 
     it('get role page 1 by default', () => {
       getRoles();
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -40,7 +40,7 @@ describe('api/roles', () => {
 
     it('request page 2', () => {
       getRoles({ page: 2, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 2,
@@ -51,7 +51,7 @@ describe('api/roles', () => {
 
     it('request different page size', () => {
       getRoles({ page: 1, pageSize: 5 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequest,
         {
           page: 1,
@@ -62,7 +62,7 @@ describe('api/roles', () => {
 
     it('makes the request with additional params', () => {
       getRoles({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         {
           ...correctRequest,
           uri: '/api/roles?param=true',
