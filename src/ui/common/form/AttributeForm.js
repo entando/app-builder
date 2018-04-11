@@ -39,7 +39,7 @@ export class AttributeFormBody extends Component {
                  <AttributeInfo />
                </FormSection>
                <FormSection>
-                 <AttributeRole />
+                 <AttributeRole {...this.props} />
                </FormSection>
                <FormSection >
                  <AttributeOgnlValidation />

@@ -12,9 +12,11 @@ class AttributeRole extends Component {
     this.props.onWillMount();
   }
   render() {
-    const { selectedJoinAllowedOtions } = this.props;
+    const { selectedJoinAllowedOtions, allowedRoles } = this.props;
 
-    const selectAllowedOptions = this.props.allowedRoles.map(item => (
+    console.log('the real allowedRoles', allowedRoles);
+
+    const selectAllowedOptions = allowedRoles.map(item => (
       {
         value: item.code,
         text: item.descr,
@@ -39,8 +41,8 @@ class AttributeRole extends Component {
               name="allowedRoles"
               options={selectAllowedOptions}
               selectedValues={selectedJoinAllowedOtions}
-              labelKey="code"
-              valueKey="descr"
+              labelKey="text"
+              valueKey="value"
               emptyOptionTextId="app.chooseARole"
             />
             {/* <FormGroup>

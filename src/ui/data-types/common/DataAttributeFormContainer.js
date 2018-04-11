@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttribute } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import { getSelectedDataTypeAttributeIdList } from 'state/data-types/selectors';
+import { getDataTypeSelectedAttributeAllowedRoles } from 'state/data-types/selectors';
 import AttributeForm from 'ui/common/form/AttributeForm';
 
 export const mapStateToProps = (state) => {
-  console.log('STATE', getSelectedDataTypeAttributeIdList(state).allowedRoles || []);
-  console.log('attribute', formValueSelector('Attribute')(state, 'allowedRoles'));
+  console.log('attribute', getDataTypeSelectedAttributeAllowedRoles(state));
 
   return {
     dataTypeAttributeCode: formValueSelector('DataType')(state, 'type'),
-    allowedRoles: formValueSelector('Attribute')(state, 'allowedRoles'),
+    // allowedRoles: formValueSelector('Attribute')(state, 'allowedRoles'),
+    allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
     selectJoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles'),
   };
 };
