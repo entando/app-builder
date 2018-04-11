@@ -85,7 +85,7 @@ export const putAttributeFromDataType = (dataTypeCode, attributeObject) => (
   })
 );
 export const getDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/api/dataTypeAttributes${params}`,
       method: METHODS.GET,
@@ -97,7 +97,7 @@ export const getDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params =
 );
 
 export const getDataTypeAttribute = attributeTypeCode => (
-  makeRequest({
+  makeMockRequest({
     uri: `/api/dataTypeAttributes/${attributeTypeCode}`,
     method: METHODS.GET,
     mockResponse: DATA_TYPE_ATTRIBUTE,

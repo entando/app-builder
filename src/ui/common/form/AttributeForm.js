@@ -41,7 +41,7 @@ export class AttributeFormBody extends Component {
                <FormSection >
                  <AttributeOgnlValidation />
                </FormSection>
-               <FormSection name="test">
+               <FormSection>
                  <AttributeRole />
                </FormSection>
              </fieldset>
@@ -70,7 +70,6 @@ AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string.isRequired,
-  // attribute: PropTypes.shape({}).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };

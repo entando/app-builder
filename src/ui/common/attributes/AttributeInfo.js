@@ -69,13 +69,9 @@ const AttributeInfo = () => (
 );
 
 AttributeInfo.propTypes = {
-  // onWillMount: PropTypes.func,
-  // attribute: PropTypes.shape({}).isRequired,
 };
 
 AttributeInfo.defaultProps = {
-  // onWillMount: () => {},
-  // attributes: [],
 };
 
 

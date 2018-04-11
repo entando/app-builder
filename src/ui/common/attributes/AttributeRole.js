@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
-// import FormLabel from 'ui/common/form/FormLabel';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+// import { FieldArray } from 'redux-form';
+// import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 
-const AttributeRole = {
+class AttributeRole extends Component {
+  componentWillMount() {
+    this.props.onWillMount();
+  }
   render() {
-    const selectAllowedOptions = this.props.attributes.map(item => ({
-      value: item.code,
-      text: item.descr,
-    }));
+    const selectAllowedOptions = this.props.allowedRoles.map(item => (
+      {
+        value: item.code,
+        text: item.descr,
+      }
+    ));
     return (
       <Row>
         <Col xs={12}>
@@ -21,20 +26,29 @@ const AttributeRole = {
             </legend>
             <RenderSelectInput
               options={selectAllowedOptions}
-              labelId="DataType.type"
+              name="allowedRoles"
+              labelId="DataType.attributeRoleName"
               fieldName="attributeRoleName"
-              mandatory
             />
+            {/* <FieldArray
+              component={MultiSelectRenderer}
+              name="allowedRoles"
+              options={selectAllowedOptions}
+              selectedValues={selectedJoinAllowedOtions}
+              labelKey="name"
+              valueKey="code"
+              emptyOptionTextId="app.chooseAnOption"
+            /> */}
           </fieldset>
         </Col>
       </Row>
     );
-  },
-};
+  }
+}
 
 AttributeRole.propTypes = {
   onWillMount: PropTypes.func,
-  attributes: PropTypes.arrayOf(PropTypes.shape({
+  allowedRoles: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     descr: PropTypes.string,
   })).isRequired,
