@@ -12,7 +12,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (dataTypeAttributeCode) => {
-    // console.log(dataTypeAttributeCode);
+    console.log(dataTypeAttributeCode);
     dispatch(fetchDataTypeAttribute(dataTypeAttributeCode));
   },
   handleSubmit: values => (values),

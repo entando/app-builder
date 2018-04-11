@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
-// import AttributeRole from 'ui/common/attributes/AttributeRole';
+import AttributeRole from 'ui/common/attributes/AttributeRole';
 
 
 export class AttributeFormBody extends Component {
@@ -41,9 +41,9 @@ export class AttributeFormBody extends Component {
                <FormSection >
                  <AttributeOgnlValidation />
                </FormSection>
-               {/* <FormSection name="test">
+               <FormSection name="test">
                  <AttributeRole />
-               </FormSection> */}
+               </FormSection>
              </fieldset>
            </Col>
          </Row>
