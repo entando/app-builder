@@ -1,15 +1,21 @@
 import 'test/enzyme-init';
-
-import { mapStateToProps, mapDispatchToProps } from 'ui/roles/list/RoleListTableContainer';
-import { LIST_ROLES_OK, ROLES_NORMALIZED } from 'test/mocks/roles';
 import { getRolesList } from 'state/roles/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { toggleLoading } from 'state/loading/actions';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { mapStateToProps, mapDispatchToProps } from 'ui/roles/list/RoleListTableContainer';
+import { LIST_ROLES_OK, ROLES_NORMALIZED } from 'test/mocks/roles';
+import { MODAL_ID } from 'ui/roles/common/DeleteRoleModal';
 
 const dispatchMock = jest.fn();
 
 jest.mock('state/roles/selectors', () => ({
   getRolesList: jest.fn(),
+}));
+
+jest.mock('state/modal/actions', () => ({
+  setVisibleModal: jest.fn(),
+  setInfo: jest.fn(),
 }));
 
 jest.mock('state/loading/actions', () => ({
@@ -48,6 +54,14 @@ describe('RoleListTableContainer', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(toggleLoading).toHaveBeenCalledWith('roles');
+    });
+
+    it('should dispatch an action if onClickDelete is called', () => {
+      expect(props.onClickDelete).toBeDefined();
+      props.onClickDelete('role_code');
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'role', code: 'role_code' });
     });
   });
 });

@@ -27,7 +27,7 @@ const RoleListMenuActions = ({ onClickDelete, code }) => {
       />
       <MenuItem
         className="RoleListMenuAction__menu-item-delete"
-        onClick={onClickDelete}
+        onClick={() => onClickDelete(code)}
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>

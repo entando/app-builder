@@ -1,9 +1,12 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { setRoles, fetchRoles, fetchRole, sendPostRole, sendPutRole } from 'state/roles/actions';
-import { getRoles, getRole, postRoles, putRole } from 'api/roles';
+import {
+  setRoles, fetchRoles, fetchRole, sendPostRole, sendPutRole,
+  sendDeleteRole,
+} from 'state/roles/actions';
+import { getRoles, getRole, postRoles, putRole, deleteRole } from 'api/roles';
 import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, BODY_OK } from 'test/mocks/roles';
-import { SET_ROLES } from 'state/roles/types';
+import { SET_ROLES, REMOVE_ROLE } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -11,6 +14,8 @@ import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+const ROLE_CODE = LIST_ROLES_OK[0].code;
 
 const INITIAL_STATE = {
   form: {},
@@ -128,6 +133,31 @@ describe('state/roles/actions', () => {
       putRole.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPutRole(BODY_OK)).then(() => {
         expect(putRole).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendDeleteRole()', () => {
+    it('when deleteRole succeeds, should dispatch removeRole', (done) => {
+      deleteRole.mockImplementation(mockApi({ payload: ROLE_CODE }));
+      store.dispatch(sendDeleteRole(ROLE_CODE)).then(() => {
+        expect(deleteRole).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', REMOVE_ROLE);
+        expect(actions[0].payload).toHaveProperty('roleCode', ROLE_CODE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when deleteRole get error, should dispatch addError', (done) => {
+      deleteRole.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(sendDeleteRole(ROLE_CODE)).then(() => {
+        expect(deleteRole).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
