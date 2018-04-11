@@ -34,14 +34,14 @@ export class AttributeFormBody extends Component {
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
-               <FormSection>
+               <FormSection name="attributeInfo">
                  {/* si porta le props del tipo di attributo */}
                  <AttributeInfo />
                </FormSection>
-               <FormSection>
+               <FormSection name="attributeRole">
                  <AttributeRole />
                </FormSection>
-               <FormSection >
+               <FormSection name="attributeOgnlValidation">
                  <AttributeOgnlValidation />
                </FormSection>
              </fieldset>
