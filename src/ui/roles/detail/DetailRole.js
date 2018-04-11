@@ -26,11 +26,11 @@ class DetailRole extends Component {
       <div className="DetailRole">
         <dl className="DetailRole__detail-list">
           <dt className="col-xs-2 text-right"><FormattedMessage id="app.code" /></dt>
-          <dd className="col-xs-10">{role.code}</dd>
+          <dd className="col-xs-10 DetailRole__detail-item">{role.code}</dd>
           <dt className="col-xs-2 text-right"><FormattedMessage id="app.name" /></dt>
-          <dd className="col-xs-10">{role.name}</dd>
+          <dd className="col-xs-10 DetailRole__detail-item">{role.name}</dd>
           <dt className="col-xs-2 text-right"><FormattedMessage id="app.permissions" /></dt>
-          <dd className="col-xs-10">
+          <dd className="col-xs-10 DetailRole__detail-item">
             {permissionList}
           </dd>
         </dl>
