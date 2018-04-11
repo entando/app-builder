@@ -26,6 +26,7 @@ export class DataTypeFormBody extends Component {
    };
 
    render() {
+     console.log('this.props.attributes', this.props.attributes);
      const selectOptions = this.props.attributes.map(item => ({
        value: item,
        text: item,
@@ -103,10 +104,7 @@ export class DataTypeFormBody extends Component {
 DataTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  attributes: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
+  attributes: PropTypes.arrayOf(PropTypes.string).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
