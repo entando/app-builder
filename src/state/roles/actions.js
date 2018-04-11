@@ -1,16 +1,23 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
-import { getRoles, getRole, postRoles, putRole } from 'api/roles';
+import { getRoles, getRole, postRoles, putRole, deleteRole } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_ROLES } from 'state/roles/types';
+import { SET_ROLES, REMOVE_ROLE } from 'state/roles/types';
 import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 export const setRoles = roles => ({
   type: SET_ROLES,
   payload: {
     roles,
+  },
+});
+
+export const removeRole = roleCode => ({
+  type: REMOVE_ROLE,
+  payload: {
+    roleCode,
   },
 });
 
@@ -70,6 +77,21 @@ export const sendPutRole = rolesData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           gotoRoute(ROUTE_ROLE_LIST);
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
+
+export const sendDeleteRole = roleCode => dispatch =>
+  new Promise((resolve) => {
+    deleteRole(roleCode).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(removeRole(roleCode));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
