@@ -251,7 +251,6 @@ export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
           dispatch(initialize('Attribute', json.payload));
-          console.log('PAYLOAD', json.payload);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
