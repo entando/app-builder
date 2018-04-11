@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
-import AttributeRole from 'ui/common/attributes/AttributeRole';
+// import AttributeRole from 'ui/common/attributes/AttributeRole';
 
 
 export class AttributeFormBody extends Component {
@@ -14,7 +14,7 @@ export class AttributeFormBody extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.dataTypeAttributeCode);
   }
 
    onSubmit = (ev) => {
@@ -34,16 +34,16 @@ export class AttributeFormBody extends Component {
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
-               <FormSection name="test">
+               <FormSection>
                  {/* si porta le props del tipo di attributo */}
                  <AttributeInfo />
                </FormSection>
-               <FormSection name="test">
+               <FormSection >
                  <AttributeOgnlValidation />
                </FormSection>
-               <FormSection name="test">
+               {/* <FormSection name="test">
                  <AttributeRole />
-               </FormSection>
+               </FormSection> */}
              </fieldset>
            </Col>
          </Row>
@@ -69,10 +69,8 @@ export class AttributeFormBody extends Component {
 AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  // attributes: PropTypes.arrayOf(PropTypes.shape({
-  //   code: PropTypes.string,
-  //   name: PropTypes.string,
-  // })).isRequired,
+  dataTypeAttributeCode: PropTypes.string.isRequired,
+  // attribute: PropTypes.shape({}).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };

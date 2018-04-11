@@ -2,6 +2,7 @@ import { gotoRoute } from 'frontend-common-components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
+import { initialize } from 'redux-form';
 
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
@@ -149,6 +150,7 @@ export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
+          dispatch(initialize('Attribute', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

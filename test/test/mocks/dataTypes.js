@@ -131,13 +131,13 @@ export const DATA_TYPES_OK_PAGE_2 =
   },
 };
 export const DATA_TYPES_ATTRIBUTES = [
-  'Enumeraror',
+  'Enumerator',
   'Monotext',
   'Text',
 ];
 
 export const DATA_TYPE_ATTRIBUTE = {
-  code: 'myCode',
+  code: 'Monotext',
   multilingual: false,
   textAttribute: false,
   simple: false,

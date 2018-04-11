@@ -1,20 +1,22 @@
 import { connect } from 'react-redux';
-import { fetchDataTypeAttributes } from 'state/data-types/actions';
+import { fetchDataTypeAttribute } from 'state/data-types/actions';
+import { formValueSelector } from 'redux-form';
 // inset getAttributes
-import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
-import DataTypeForm from 'ui/data-types/common/DataTypeForm';
+import { getSelectedDataTypeAttributeIdList } from 'state/data-types/selectors';
+import AttributeForm from 'ui/common/form/AttributeForm';
 
 export const mapStateToProps = state => ({
-// insert getAttributes
-  attributes: getDataTypeAttributesIdList(state),
+  attribute: getSelectedDataTypeAttributeIdList(state),
+  dataTypeAttributeCode: formValueSelector('DataType')(state, 'type'),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
-    dispatch(fetchDataTypeAttributes());
+  onWillMount: (dataTypeAttributeCode) => {
+    // console.log(dataTypeAttributeCode);
+    dispatch(fetchDataTypeAttribute(dataTypeAttributeCode));
   },
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeForm);
+const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(AttributeForm);
 export default DataTypeFormContainer;

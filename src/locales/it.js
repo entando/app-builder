@@ -61,6 +61,8 @@ export default {
     'app.error.message.key': 'Chiave per il messaggio di errore',
     'app.indexable': 'Ricercabile',
     'app.attribute': 'Aggiungi attributo',
+    'app.continue': 'continue',
+    'app.help.message': 'Help Message',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',
