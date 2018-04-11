@@ -6,6 +6,8 @@ import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import RoleListTable from 'ui/roles/list/RoleListTable';
 import { toggleLoading } from 'state/loading/actions';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/roles/common/DeleteRoleModal';
 
 export const mapStateToProps = state => (
   {
@@ -21,6 +23,10 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page) => {
     dispatch(toggleLoading('roles'));
     dispatch(fetchRoles(page));
+  },
+  onClickDelete: (code) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'role', code }));
   },
 });
 

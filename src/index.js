@@ -21,6 +21,8 @@ import AppContainer from 'ui/app/AppContainer';
 import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';
 
+import 'codemirror/lib/codemirror.css';
+
 import 'frontend-common-components/index.css';
 import 'index.scss';
 

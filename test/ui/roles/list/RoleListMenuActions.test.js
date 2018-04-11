@@ -5,12 +5,7 @@ import { shallow } from 'enzyme';
 
 import RoleListMenuActions from 'ui/roles/list/RoleListMenuActions';
 
-const EVENT = {
-  preventDefault: jest.fn(),
-};
-
 const onClickDelete = jest.fn();
-const handler = jest.fn();
 
 const props = {
   onClickDelete,
@@ -45,7 +40,7 @@ describe('RoleListMenuActions', () => {
 
   it('clicking on delete MenuItem component calls onClickDelete', () => {
     const deleteButton = component.find('.RoleListMenuAction__menu-item-delete');
-    deleteButton.simulate('click', EVENT);
+    deleteButton.simulate('click');
     expect(onClickDelete).toHaveBeenCalled();
   });
 });

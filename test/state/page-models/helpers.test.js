@@ -28,6 +28,38 @@ describe('state/page-config/helpers', () => {
       expect(errors).toEqual([]);
     });
 
+    it('returns an error if the page model has no configuration', () => {
+      const PAGE_MODEL = buildSingleCellPageModel();
+      delete PAGE_MODEL.configuration;
+      const errors = validatePageModel(PAGE_MODEL);
+      expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.configuration');
+    });
+
+    it('returns an error if the page model configuration is not an object', () => {
+      const PAGE_MODEL = buildSingleCellPageModel();
+      PAGE_MODEL.configuration = 66;
+      const errors = validatePageModel(PAGE_MODEL);
+      expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.configuration');
+    });
+
+    it('returns an error if the page model has no configuration.frames', () => {
+      const PAGE_MODEL = buildSingleCellPageModel();
+      delete PAGE_MODEL.configuration.frames;
+      const errors = validatePageModel(PAGE_MODEL);
+      expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.framesArray');
+    });
+
+    it('returns an error if configuration.frames is not an array', () => {
+      const PAGE_MODEL = buildSingleCellPageModel();
+      PAGE_MODEL.configuration.frames = {};
+      const errors = validatePageModel(PAGE_MODEL);
+      expect(errors.length).toBe(1);
+      expect(errors[0].id).toBe('pageModel.error.framesArray');
+    });
+
     it('returns errors when validating a page model with overlapping frames', () => {
       const errors = validatePageModel(OVERLAPPING_FRAMES_PAYLOAD);
       expect(errors.length).toBe(1);

@@ -42,3 +42,19 @@ export const deletePageModel = pageModelCode => (
     useAuthentication: true,
   })
 );
+
+export const postPageModel = pageModel => makeRequest({
+  uri: '/api/pageModels',
+  body: pageModel,
+  method: METHODS.POST,
+  mockResponse: { ...pageModel },
+  useAuthentication: true,
+});
+
+export const putPageModel = pageModel => makeRequest({
+  uri: `/api/pageModels/${pageModel.code}`,
+  body: pageModel,
+  method: METHODS.PUT,
+  mockResponse: { ...pageModel },
+  useAuthentication: true,
+});

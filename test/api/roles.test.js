@@ -1,36 +1,38 @@
 import 'test/enzyme-init';
-import { getRoles, postRoles } from 'api/roles';
-import { makeMockRequest, METHODS } from 'api/apiManager';
-import { LIST_ROLES_OK, GROUP_PAYLOAD } from 'test/mocks/roles';
-
-
-const correctRequest = {
-  uri: '/api/roles',
-  method: METHODS.GET,
-  mockResponse: LIST_ROLES_OK,
-  useAuthentication: true,
-};
+import { getRoles, postRoles, getRole, putRole, deleteRole, filterMockList } from 'api/roles';
+import { makeRequest, METHODS } from 'api/apiManager';
+import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 
 jest.unmock('api/roles');
+
 jest.mock('api/apiManager', () => ({
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST' },
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
-describe('api/roles', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+const EDITED_ROLE = {
+  code: LIST_ROLES_OK[0].code,
+  name: 'new_role_name',
+};
 
+const ROLE_CODE = LIST_ROLES_OK[0].code;
+
+beforeEach(jest.clearAllMocks);
+describe('api/roles', () => {
   describe('getRoles', () => {
     it('returns a promise', () => {
       expect(getRoles()).toBeInstanceOf(Promise);
     });
 
-    it('get role page 1 by default', () => {
+    it('has default paging', () => {
       getRoles();
-      expect(makeMockRequest).toHaveBeenCalledWith(
-        correctRequest,
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/roles',
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
         {
           page: 1,
           pageSize: 10,
@@ -38,46 +40,85 @@ describe('api/roles', () => {
       );
     });
 
-    it('request page 2', () => {
-      getRoles({ page: 2, pageSize: 10 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
-        correctRequest,
+    it('resolves with a paged page models list', () => {
+      getRoles({ page: 2, pageSize: 20 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/roles',
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
         {
           page: 2,
-          pageSize: 10,
-        },
-      );
-    });
-
-    it('request different page size', () => {
-      getRoles({ page: 1, pageSize: 5 });
-      expect(makeMockRequest).toHaveBeenCalledWith(
-        correctRequest,
-        {
-          page: 1,
-          pageSize: 5,
-        },
-      );
-    });
-
-    it('makes the request with additional params', () => {
-      getRoles({ page: 1, pageSize: 10 }, '?param=true');
-      expect(makeMockRequest).toHaveBeenCalledWith(
-        {
-          ...correctRequest,
-          uri: '/api/roles?param=true',
-        },
-        {
-          page: 1,
-          pageSize: 10,
+          pageSize: 20,
         },
       );
     });
   });
 
+  describe('getRole()', () => {
+    it('returns a promise', () => {
+      expect(getRole(ROLE_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getRole(ROLE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/roles/${ROLE_CODE}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+  });
+
   describe('postRoles()', () => {
     it('if successful, returns a mock ok response', () => {
-      expect(postRoles(GROUP_PAYLOAD)).resolves.toEqual({ payload: GROUP_PAYLOAD });
+      expect(postRoles(BODY_OK)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      postRoles(BODY_OK);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/roles',
+        method: METHODS.POST,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putRole()', () => {
+    it('returns a promise', () => {
+      expect(putRole(EDITED_ROLE)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      putRole(EDITED_ROLE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/roles/${EDITED_ROLE.code}`,
+        method: METHODS.PUT,
+        body: EDITED_ROLE,
+      }));
+    });
+  });
+
+  describe('deleteRole()', () => {
+    it('returns a promise', () => {
+      expect(deleteRole(ROLE_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      deleteRole(ROLE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/roles/${ROLE_CODE}`,
+        method: METHODS.DELETE,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('util filterMockList', () => {
+    it('if role is not into roles list, return void object', () => {
+      expect(filterMockList('xxx')).toEqual({});
     });
   });
 });

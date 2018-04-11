@@ -27,6 +27,7 @@ import languages from 'state/languages/reducer';
 import labels from 'state/labels/reducer';
 import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
+import permissions from 'state/permissions/reducer';
 import alerts from 'state/alerts/reducer';
 
 const reducerDef = {
@@ -55,6 +56,7 @@ const reducerDef = {
   labels,
   categories,
   loading,
+  permissions,
   alerts,
 };
 

@@ -31,6 +31,8 @@ import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
+import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
+import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 
 import {
   ROUTE_HOME,
@@ -60,6 +62,8 @@ import {
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
+  ROUTE_PAGE_MODEL_ADD,
+  ROUTE_PAGE_MODEL_EDIT,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -206,6 +210,16 @@ describe('App', () => {
   it('route to labels and languages page', () => {
     const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
     expect(component.contains(<LabelsAndLanguagesPageContainer />)).toEqual(true);
+  });
+
+  it('route to add page model page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_ADD} username="admin" />);
+    expect(component.contains(<PageModelAddPage />)).toEqual(true);
+  });
+
+  it('route to edit page model page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_EDIT} username="admin" />);
+    expect(component.contains(<PageModelEditPage />)).toEqual(true);
   });
 
   it('default route', () => {

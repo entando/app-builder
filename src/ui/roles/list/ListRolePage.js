@@ -1,11 +1,12 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { BreadcrumbItem } from 'frontend-common-components';
+import { BreadcrumbItem, Link } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';
+import { ROUTE_ROLE_ADD } from 'app-init/router';
 
 const ListRolePage = () => (
   <InternalPage className="ListRolePage">
@@ -26,13 +27,13 @@ const ListRolePage = () => (
         <Col md={12}>
           <PageTitle
             titleId="menu.roles"
-            helpId="group.help"
+            helpId="role.help"
           />
         </Col>
       </Row>
       <Row>
         <Col md={12}>
-          {/* <Link route={ROUTE_GROUP_ADD}>
+          <Link route={ROUTE_ROLE_ADD}>
             <Button
               type="button"
               className="pull-right ListRolePage__add"
@@ -42,7 +43,7 @@ const ListRolePage = () => (
                 id="app.add"
               />
             </Button>
-          </Link> */}
+          </Link>
         </Col>
       </Row>
       <Row>

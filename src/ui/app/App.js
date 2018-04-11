@@ -20,6 +20,8 @@ import {
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
   ROUTE_PAGE_MODEL_LIST,
+  ROUTE_PAGE_MODEL_ADD,
+  ROUTE_PAGE_MODEL_EDIT,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
@@ -38,6 +40,8 @@ import {
   ROUTE_CATEGORY_ADD,
   ROUTE_LABELS_ADD,
   ROUTE_ROLE_LIST,
+  ROUTE_ROLE_ADD,
+  ROUTE_ROLE_EDIT,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -56,6 +60,8 @@ import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageModelListPage from 'ui/page-models/list/PageModelListPage';
+import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
+import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
@@ -72,9 +78,11 @@ import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ListRolePage from 'ui/roles/list/ListRolePage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
+import ListRolePage from 'ui/roles/list/ListRolePage';
+import AddRolePage from 'ui/roles/add/AddRolePage';
+import EditRolePage from 'ui/roles/edit/EditRolePage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -103,6 +111,8 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
+    case ROUTE_PAGE_MODEL_ADD: return <PageModelAddPage />;
+    case ROUTE_PAGE_MODEL_EDIT: return <PageModelEditPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
@@ -122,6 +132,8 @@ const App = ({ route, username }) => {
     case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
+    case ROUTE_ROLE_ADD: return <AddRolePage />;
+    case ROUTE_ROLE_EDIT: return <EditRolePage />;
     default: return <NotFoundPage />;
   }
 };

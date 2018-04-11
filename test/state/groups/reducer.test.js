@@ -8,7 +8,6 @@ import {
   setSelectedGroupWidgetTypeReferences,
   setSelectedGroupContentReferences,
   setSelectedGroupResourceReferences,
-  toggleLoading,
   removeGroupSync,
 } from 'state/groups/actions';
 

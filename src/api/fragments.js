@@ -1,4 +1,4 @@
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -10,7 +10,7 @@ import {
 import { throttle } from 'util';
 
 export const getFragment = fragmentCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/fragments/${fragmentCode}`,
     method: METHODS.GET,
     mockResponse: GET_FRAGMENT_OK,
@@ -40,7 +40,7 @@ export const getPlugins = () => new Promise((resolve) => {
 });
 
 export const getFragmentSettings = () => (
-  makeMockRequest({
+  makeRequest({
     uri: '/api/fragmentsSettings/',
     method: METHODS.GET,
     mockResponse: FRAGMENT_SETTING,
@@ -48,7 +48,7 @@ export const getFragmentSettings = () => (
   })
 );
 export const putFragmentSettings = setting => (
-  makeMockRequest({
+  makeRequest({
     uri: '/api/fragmentsSettings/',
     method: METHODS.PUT,
     body: setting,
