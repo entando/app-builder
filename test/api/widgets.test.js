@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getWidget, getWidgets } from 'api/widgets';
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
 import { makeRequest, METHODS } from 'api/apiManager';
-import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
+import { BODY_OK, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -22,7 +22,9 @@ const correctRequestWidget = {
 jest.unmock('api/widgets');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+  METHODS: {
+    GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
+  },
 }));
 
 describe('api/widgets', () => {
@@ -93,6 +95,65 @@ describe('api/widgets', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('postWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(postWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      postWidgets(WIDGET_POST_PUT);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/widgets',
+        method: 'POST',
+        body: WIDGET_POST_PUT,
+        mockResponse: WIDGET_POST_PUT,
+      });
+    });
+  });
+
+  describe('putWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(putWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      putWidgets('AAA', WIDGET_POST_PUT);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/widgets/AAA',
+        method: 'PUT',
+        body: WIDGET_POST_PUT,
+        mockResponse: WIDGET_POST_PUT,
+      });
+    });
+  });
+
+  describe('deleteWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(deleteWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      deleteWidgets('AAA');
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/widgets/AAA',
+        method: 'DELETE',
+        mockResponse: { code: 'AAA' },
+      });
     });
   });
 });
