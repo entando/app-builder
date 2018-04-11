@@ -24,10 +24,4 @@ describe('PageModelEditPage', () => {
   it('has the PageModelEditPage class', () => {
     expect(component.hasClass('PageModelEditPage')).toBe(true);
   });
-
-  it('will call onWillMount on componentWillMount', () => {
-    const onWillMount = jest.fn();
-    shallow(<PageModelEditPage onWillMount={onWillMount} />);
-    expect(onWillMount).toHaveBeenCalled();
-  });
 });

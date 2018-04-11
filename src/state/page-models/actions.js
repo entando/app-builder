@@ -67,24 +67,6 @@ export const removePageModel = pageModelCode => dispatch => (
   })
 );
 
-export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
-  const selectedPage = getSelectedPageModel(getState());
-  if (selectedPage && selectedPage.code === pageCode) {
-    return new Promise(r => r(selectedPage));
-  }
-  return getPageModel(pageCode)
-    .then(response => response.json()
-      .then((json) => {
-        if (response.ok) {
-          const pageObject = json.payload;
-          dispatch(setSelectedPageModel(pageObject));
-          return pageObject;
-        }
-        dispatch(addErrors(json.errors.map(e => e.message)));
-        return null;
-      }));
-};
-
 export const fetchPageModel = pageModelCode => dispatch => (
   new Promise((resolve, reject) => {
     getPageModel(pageModelCode).then((response) => {
@@ -99,6 +81,19 @@ export const fetchPageModel = pageModelCode => dispatch => (
     });
   })
 );
+
+export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
+  const selectedPage = getSelectedPageModel(getState());
+  if (selectedPage && selectedPage.code === pageCode) {
+    return new Promise(r => r(selectedPage));
+  }
+  return fetchPageModel(pageCode)(dispatch)
+    .then((json) => {
+      const pageObject = json.payload;
+      dispatch(setSelectedPageModel(pageObject));
+      return pageObject;
+    }).catch(() => {});
+};
 
 export const initPageModelForm = () => (dispatch, getState) => {
   const { pageModelCode } = getParams(getState());
