@@ -26,10 +26,14 @@ const AddDataTypesPage = () => (
           </Breadcrumb>
         </Col>
       </Row>
-      <PageTitle
-        titleId="app.add"
-        helpId="dataType.help"
-      />
+      <Row>
+        <Col xs={12}>
+          <PageTitle
+            titleId="app.add"
+            helpId="dataType.help"
+          />
+        </Col>
+      </Row>
       <Row>
         <Col xs={12} >
           <DataTypeFormContainer />

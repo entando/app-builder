@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 
 import {
   DATA_TYPES_OK_PAGE_1,
@@ -19,7 +19,6 @@ const correctRequest = {
 jest.unmock('api/dataTypes');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));
 
@@ -92,7 +91,7 @@ describe('api/getDataTypes', () => {
 
       it('if successful, returns a attributes response', () => {
         getDataTypeAttributes();
-        expect(makeMockRequest).toHaveBeenCalledWith(
+        expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
             ...correctRequest,
             uri: '/api/dataTypeAttributes',
@@ -107,7 +106,7 @@ describe('api/getDataTypes', () => {
 
       it('makes the request with additional params', () => {
         getDataTypeAttributes({ page: 1, pageSize: 10 }, '?param=true');
-        expect(makeMockRequest).toHaveBeenCalledWith(
+        expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
             ...correctRequest,
             uri: '/api/dataTypeAttributes?param=true',
@@ -132,7 +131,7 @@ describe('api/getDataTypes', () => {
 
       it('if successful, returns a attributes response', () => {
         getDataTypeAttribute('code');
-        expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+        expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
           ...correctRequest,
           uri: '/api/dataTypeAttributes/code',
           mockResponse: DATA_TYPE_ATTRIBUTE,

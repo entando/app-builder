@@ -42,9 +42,11 @@ describe('state/data-types/actions ', () => {
     beforeEach(() => {
       action = setDataTypes(DATA_TYPES_MOCK);
     });
+
     it('is FSA compliant', () => {
       expect(isFSA(action)).toBe(true);
     });
+
     it('test setDataTypes action sets the correct type', () => {
       expect(action.type).toBe(SET_DATA_TYPES);
     });
@@ -53,9 +55,11 @@ describe('state/data-types/actions ', () => {
     beforeEach(() => {
       action = setDataTypeAttributes(DATA_TYPES_ATTRIBUTES);
     });
+
     it('is FSA compliant', () => {
       expect(isFSA(action)).toBe(true);
     });
+
     it('test setDataTypeAttributes action sets the correct type', () => {
       expect(action.type).toBe(SET_ATTRIBUTES);
     });
@@ -64,9 +68,11 @@ describe('state/data-types/actions ', () => {
     beforeEach(() => {
       action = setSelectedAttribute(DATA_TYPE_ATTRIBUTE);
     });
+
     it('is FSA compliant', () => {
       expect(isFSA(action)).toBe(true);
     });
+
     it('test setSelectedAttribute action sets the correct type', () => {
       expect(action.type).toBe(SET_SELECTED);
     });
@@ -80,8 +86,8 @@ describe('state/data-types/actions ', () => {
           expect(actions).toHaveLength(4);
           expect(actions[0].type).toEqual(TOGGLE_LOADING);
           expect(actions[1].type).toEqual(SET_DATA_TYPES);
-          expect(actions[2].type).toEqual(TOGGLE_LOADING);
-          expect(actions[3].type).toEqual(SET_PAGE);
+          expect(actions[2].type).toEqual(SET_PAGE);
+          expect(actions[3].type).toEqual(TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -111,6 +117,7 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
+
     describe('fetchDataTypeAttributes', () => {
       it('fetchDataTypeAttributes call setAttributes actions', (done) => {
         getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
@@ -145,6 +152,7 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
+
     describe('fetchDataTypeAttribute', () => {
       it('fetchDataTypeAttribute calls setSelectedAttribute actions', (done) => {
         getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
@@ -152,7 +160,6 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED);
-          expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode');
           expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode', DATA_TYPE_ATTRIBUTE);
 
           done();

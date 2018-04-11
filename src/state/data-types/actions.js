@@ -37,12 +37,11 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setDataTypes(json.payload));
-          dispatch(toggleLoading('dataTypes'));
           dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('dataTypes'));
         }
+        dispatch(toggleLoading('dataTypes'));
         resolve();
       });
     });
@@ -59,8 +58,8 @@ export const fetchDataType = dataTypeCode => dispatch => (
           dispatch(initialize('dataType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('dataTypes'));
         }
+        dispatch(toggleLoading('dataTypes'));
         resolve();
       });
     });

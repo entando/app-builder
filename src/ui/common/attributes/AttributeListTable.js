@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-// import { formattedText } from 'frontend-common-components';
 import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 

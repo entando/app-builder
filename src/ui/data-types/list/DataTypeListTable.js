@@ -29,7 +29,6 @@ class DataTypeListTable extends Component {
         <td className="DataTypeListRow__td text-center">
           <DataTypeStatusIcon
             status={datatype.status}
-            // title={formattedText(`dataType.table.status.${datatype.status}`)}
             title={formattedText('dataType.table.status')}
 
           />

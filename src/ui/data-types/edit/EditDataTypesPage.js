@@ -26,10 +26,14 @@ const EditDataTypesPage = () => (
           </Breadcrumb>
         </Col>
       </Row>
-      <PageTitle
-        titleId="app.edit"
-        helpId="dataType.help"
-      />
+      <Row>
+        <Col xs={12}>
+          <PageTitle
+            titleId="app.edit"
+            helpId="dataType.help"
+          />
+        </Col>
+      </Row>
       <Row>
         <Col xs={12} >
           <EditFormContainer />
