@@ -22,10 +22,11 @@ import {
   sendDeleteDataType,
   setDataTypes,
   removeDataType,
+  fetchDataType,
+  fetchDataTypes,
   setSelectedDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
-  fetchDataTypes,
   fetchDataTypeAttributes,
   fetchDataTypeAttribute,
 } from 'state/data-types/actions';
@@ -33,6 +34,7 @@ import {
   postDataType,
   putDataType,
   deleteDataType,
+  getDataType,
   getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
@@ -191,6 +193,30 @@ describe('state/data-types/actions ', () => {
       });
     });
 
+    describe('fetchDataType', () => {
+      it('fetchDataType calls setSelectedDataType', (done) => {
+        getDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
+        store.dispatch(fetchDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_DATA_TYPE);
+          expect(actions[0]).toHaveProperty('payload');
+          expect(actions[0].payload).toMatchObject({ dataType: DATA_TYPES });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchDataType get error, should dispatch addError', (done) => {
+        getDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(fetchDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
     describe('fetchDataTypes', () => {
       it('fetchDataTypes calls fetchDataTypes and setPage actions', (done) => {
         store.dispatch(fetchDataTypes()).then(() => {
@@ -229,6 +255,8 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
+
+
     describe('fetchDataTypeAttributes', () => {
       it('fetchDataTypeAttributes call setAttributes actions', (done) => {
         getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
@@ -263,6 +291,7 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
+
     describe('fetchDataTypeAttribute', () => {
       it('fetchDataTypeAttribute calls setSelectedAttribute actions', (done) => {
         getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
@@ -270,9 +299,8 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode');
-          expect(actions[0]).toHaveProperty('payload.dataTypeAttributeCode', DATA_TYPE_ATTRIBUTE);
-
+          expect(actions[0]).toHaveProperty('payload.attribute');
+          expect(actions[0].payload.attribute).toMatchObject(DATA_TYPE_ATTRIBUTE);
           done();
         }).catch(done.fail);
       });

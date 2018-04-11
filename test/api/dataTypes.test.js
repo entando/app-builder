@@ -3,6 +3,7 @@ import {
   postDataType,
   putDataType,
   deleteDataType,
+  getDataType,
   getDataTypes,
   getAttributeFromDataType,
   deleteAttributeFromDataType,
@@ -78,6 +79,26 @@ describe('api/putDataType', () => {
     });
   });
 });
+
+describe('api/getDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(getDataType('AAA')).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    getDataType('AAA');
+    expect(makeRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      uri: '/api/dataTypes/AAA',
+      method: 'GET',
+      mockResponse: DATA_TYPES,
+    });
+  });
+});
+
 
 describe('api/deleteDataType', () => {
   beforeEach(() => {
