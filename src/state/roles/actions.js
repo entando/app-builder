@@ -4,13 +4,20 @@ import { getRoles, getRole, postRoles, putRole, deleteRole } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_ROLES, REMOVE_ROLE } from 'state/roles/types';
+import { SET_ROLES, SET_SELECTED, REMOVE_ROLE } from 'state/roles/types';
 import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 export const setRoles = roles => ({
   type: SET_ROLES,
   payload: {
     roles,
+  },
+});
+
+export const setSelected = role => ({
+  type: SET_SELECTED,
+  payload: {
+    role,
   },
 });
 
@@ -46,6 +53,21 @@ export const fetchRole = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(initialize('role', data.payload));
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    });
+  });
+
+export const fetchRoleDetail = roleCode => dispatch =>
+  new Promise((resolve) => {
+    getRole(roleCode).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setSelected(data.payload));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

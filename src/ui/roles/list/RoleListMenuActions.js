@@ -7,7 +7,7 @@ import { ROUTE_ROLE_EDIT, ROUTE_ROLE_DETAIL } from 'app-init/router';
 
 const RoleListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = <FormattedMessage id="app.edit" />;
-  const editDetails = <FormattedMessage id="app.details" />;
+  const detailsLabel = <FormattedMessage id="app.details" />;
 
   return (
     <DropdownKebab pullRight id={`${code}-actions`}>
@@ -15,7 +15,7 @@ const RoleListMenuActions = ({ onClickDelete, code }) => {
         id={`detail-${code}`}
         route={ROUTE_ROLE_DETAIL}
         params={{ roleCode: code }}
-        label={editDetails}
+        label={detailsLabel}
         className="RoleListMenuAction__menu-item-detail"
       />
       <LinkMenuItem
