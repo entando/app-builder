@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getCategoryTree } from 'api/categories';
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { CATEGORY_TREE } from 'test/mocks/categories';
 
 const correctGetRequest = {
@@ -12,7 +12,7 @@ const correctGetRequest = {
 
 jest.unmock('api/categories');
 jest.mock('api/apiManager', () => ({
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));
 
@@ -28,12 +28,12 @@ describe('api/categories', () => {
 
     it('get category tree', () => {
       getCategoryTree();
-      expect(makeMockRequest).toHaveBeenCalledWith(correctGetRequest);
+      expect(makeRequest).toHaveBeenCalledWith(correctGetRequest);
     });
 
     it('makes the request with additional params', () => {
       getCategoryTree('?parentNode=home');
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctGetRequest,
         uri: '/api/categories?parentNode=home',
       });

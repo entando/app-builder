@@ -1,13 +1,13 @@
 import 'test/enzyme-init';
 import { getRoles, postRoles, getRole, putRole, deleteRole, filterMockList } from 'api/roles';
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
 
 jest.unmock('api/roles');
 
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('api/apiManager').METHODS,
 }));
 
@@ -78,7 +78,7 @@ describe('api/roles', () => {
 
     it('if successful, returns a mock ok response', () => {
       postRoles(BODY_OK);
-      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/roles',
         method: METHODS.POST,
         useAuthentication: true,

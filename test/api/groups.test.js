@@ -10,7 +10,7 @@ import {
   getContentReferences,
   getResourceReferences,
 } from 'api/groups';
-import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import {
   PAGE_REFERENCES,
   USER_REFERENCES,
@@ -39,7 +39,6 @@ const EDITED_GROUP = {
 jest.unmock('api/groups');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));
 
@@ -162,7 +161,7 @@ describe('api/groups', () => {
         errors: expect.any(Function),
       };
       getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequestPageReferences,
         {
           page: 1,
@@ -185,7 +184,7 @@ describe('api/groups', () => {
         errors: expect.any(Function),
       };
       getUserReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequestUserReferences,
         {
           page: 1,
@@ -208,7 +207,7 @@ describe('api/groups', () => {
         errors: expect.any(Function),
       };
       getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequestWidgetTypeReferences,
         {
           page: 1,
@@ -231,7 +230,7 @@ describe('api/groups', () => {
         errors: expect.any(Function),
       };
       getContentReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequestContentReferences,
         {
           page: 1,
@@ -254,7 +253,7 @@ describe('api/groups', () => {
         errors: expect.any(Function),
       };
       getResourceReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeMockRequest).toHaveBeenCalledWith(
+      expect(makeRequest).toHaveBeenCalledWith(
         correctRequestResourceReferences,
         {
           page: 1,
