@@ -35,4 +35,16 @@ $fa-times: "\f00d";
 .btn-entando-apply:focus {
   background: $color-pf-black-100;
 }
+
+.CodeMirror {
+  border: 1px solid $color-pf-black-400;
+}
+
+.has-error {
+  .CodeMirror,
+  &.CodeMirror {
+    border: 1px solid $color-pf-red;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $color-pf-red-100;
+  }
+}
 // sass-lint:enable class-name-format
