@@ -247,7 +247,7 @@ describe('api/getDataTypes', () => {
 
       it('if successful, returns a attributes response', () => {
         getDataTypeAttributes();
-        expect(makeMockRequest).toHaveBeenCalledWith(
+        expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
             ...correctRequest,
             uri: '/api/dataTypeAttributes',
@@ -262,7 +262,7 @@ describe('api/getDataTypes', () => {
 
       it('makes the request with additional params', () => {
         getDataTypeAttributes({ page: 1, pageSize: 10 }, '?param=true');
-        expect(makeMockRequest).toHaveBeenCalledWith(
+        expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
             ...correctRequest,
             uri: '/api/dataTypeAttributes?param=true',
@@ -287,7 +287,7 @@ describe('api/getDataTypes', () => {
 
       it('if successful, returns a attributes response', () => {
         getDataTypeAttribute('code');
-        expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+        expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
           ...correctRequest,
           uri: '/api/dataTypeAttributes/code',
           mockResponse: DATA_TYPE_ATTRIBUTE,

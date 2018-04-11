@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
+  REMOVE_ATTRIBUTE,
   SET_ATTRIBUTES,
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE,
@@ -36,7 +37,14 @@ const dataTypeMap = (state = {}, action = {}) => {
       const { dataTypeCode } = action.payload;
       const newState = { ...state };
       delete newState[dataTypeCode];
-      return state;
+      return newState;
+    }
+    case REMOVE_ATTRIBUTE: {
+      const { dataTypeCode, attributeCode } = action.payload;
+      const attributes =
+        state[dataTypeCode]
+          .attributes.filter(f => f.code !== attributeCode);
+      return { ...state, [dataTypeCode]: { ...state[dataTypeCode], attributes } };
     }
     default: return state;
   }
