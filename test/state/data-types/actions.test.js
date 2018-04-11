@@ -13,7 +13,9 @@ import {
   REMOVE_DATA_TYPE,
   SET_ATTRIBUTES,
   SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  REMOVE_ATTRIBUTE,
 } from 'state/data-types/types';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import {
@@ -24,6 +26,10 @@ import {
   removeDataType,
   fetchDataType,
   fetchDataTypes,
+  fetchAttributeFromDataType,
+  sendPostAttributeFromDataType,
+  sendPutAttributeFromDataType,
+  sendDeleteAttributeFromDataType,
   setSelectedDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
@@ -36,6 +42,10 @@ import {
   deleteDataType,
   getDataType,
   getDataTypes,
+  getAttributeFromDataType,
+  postAttributeFromDataType,
+  putAttributeFromDataType,
+  deleteAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
 } from 'api/dataTypes';
@@ -251,6 +261,87 @@ describe('state/data-types/actions ', () => {
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('fetchAttributeFromDataType', () => {
+      it('fetchAttributeFromDataType calls setSelectedAttributeDataType', (done) => {
+        store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchAttributeFromDataType calls ADD_ERROR actions', (done) => {
+        getAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostAttributeFromDataType', () => {
+      it('sendPostAttributeFromDataType calls goToRoute', (done) => {
+        store.dispatch(sendPostAttributeFromDataType('AAA', {})).then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('sendPostAttributeFromDataType calls ADD_ERROR actions', (done) => {
+        postAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendPostAttributeFromDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPutAttributeFromDataType', () => {
+      it('sendPutAttributeFromDataType calls goToRoute', (done) => {
+        store.dispatch(sendPutAttributeFromDataType('AAA', {})).then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('sendPutAttributeFromDataType calls ADD_ERROR actions', (done) => {
+        putAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendPutAttributeFromDataType('AAA')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendDeleteAttributeFromDataType', () => {
+      it('sendDeleteAttributeFromDataType calls setSelectedAttributeDataType', (done) => {
+        store.dispatch(sendDeleteAttributeFromDataType('AAA', 'attr')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('sendDeleteAttributeFromDataType calls ADD_ERROR actions', (done) => {
+        deleteAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendDeleteAttributeFromDataType('AAA', 'attr')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });

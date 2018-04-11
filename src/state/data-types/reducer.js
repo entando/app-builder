@@ -51,16 +51,6 @@ const dataTypeMap = (state = {}, action = {}) => {
   }
 };
 
-export const code = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_SELECTED_DATA_TYPE: {
-      const { dataTypeCode } = action.payload;
-      return { ...state, dataTypeCode };
-    }
-    default: return state;
-  }
-};
-
 export const attributeList = (state = [], action = {}) => {
   switch (action.type) {
     case SET_ATTRIBUTES: {
