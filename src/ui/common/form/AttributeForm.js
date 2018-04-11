@@ -38,11 +38,11 @@ export class AttributeFormBody extends Component {
                  {/* si porta le props del tipo di attributo */}
                  <AttributeInfo />
                </FormSection>
-               <FormSection >
-                 <AttributeOgnlValidation />
-               </FormSection>
                <FormSection>
                  <AttributeRole />
+               </FormSection>
+               <FormSection >
+                 <AttributeOgnlValidation />
                </FormSection>
              </fieldset>
            </Col>

@@ -5,20 +5,18 @@ import { getSelectedDataTypeAttributeIdList } from 'state/data-types/selectors';
 import AttributeForm from 'ui/common/form/AttributeForm';
 
 export const mapStateToProps = (state) => {
-  console.log('TEST', formValueSelector('DataType')(state, 'type'));
-  // console.log('TEST', formValueSelector('Attribute')(state, 'allowedRoles'));
+  console.log('STATE', getSelectedDataTypeAttributeIdList(state).allowedRoles || []);
+  console.log('attribute', formValueSelector('Attribute')(state, 'allowedRoles'));
 
   return {
-    attribute: getSelectedDataTypeAttributeIdList(state),
     dataTypeAttributeCode: formValueSelector('DataType')(state, 'type'),
-    allowedRoles: getSelectedDataTypeAttributeIdList(state),
-    // selectedJoinAllowedOtions: formValueSelector('Attribute')(state, 'allowedRoles'),
+    allowedRoles: formValueSelector('Attribute')(state, 'allowedRoles'),
+    selectJoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles'),
   };
 };
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (dataTypeAttributeCode) => {
-    // console.log(attribute);
     dispatch(fetchDataTypeAttribute(dataTypeAttributeCode));
   },
   handleSubmit: values => (values),
