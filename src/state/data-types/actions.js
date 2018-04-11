@@ -10,11 +10,12 @@ import {
   postDataType,
   putDataType,
   deleteDataType,
+  getDataType,
+  getDataTypes,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
   putAttributeFromDataType,
-  getDataTypes,
   getDataTypeAttributes,
   getDataTypeAttribute,
 } from 'api/dataTypes';
@@ -24,6 +25,7 @@ import {
   REMOVE_ATTRIBUTE,
   SET_ATTRIBUTES,
   SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
 }
   from 'state/data-types/types';
@@ -44,10 +46,17 @@ export const removeDataType = dataTypeCode => ({
   },
 });
 
-export const setSelectedDataType = dataTypeCode => ({
+export const setSelectedDataType = dataType => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
-    dataTypeCode,
+    dataType,
+  },
+});
+
+export const setSelectedAttributeDataType = attribute => ({
+  type: SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
+  payload: {
+    attribute,
   },
 });
 
@@ -60,10 +69,10 @@ export const removeAttribute = (dataTypeCode, attributeCode) => ({
 });
 
 // Data type attributes
-export const setSelectedAttribute = dataTypeAttributeCode => ({
+export const setSelectedAttribute = attribute => ({
   type: SET_SELECTED_ATTRIBUTE,
   payload: {
-    dataTypeAttributeCode,
+    attribute,
   },
 });
 
@@ -120,6 +129,21 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
     });
   });
 
+export const fetchDataType = dataTypeCode => dispatch => (
+  new Promise((resolve) => {
+    getDataType(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedDataType(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
 export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('dataTypes'));
@@ -143,7 +167,7 @@ export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispa
     getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(setSelectedDataType(json.payload));
+          dispatch(setSelectedAttributeDataType(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

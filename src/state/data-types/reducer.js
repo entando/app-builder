@@ -5,6 +5,7 @@ import {
   REMOVE_ATTRIBUTE,
   SET_ATTRIBUTES,
   SET_SELECTED_DATA_TYPE,
+  SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
 } from 'state/data-types/types';
 
@@ -69,13 +70,21 @@ export const attributeList = (state = [], action = {}) => {
   }
 };
 
-export const selected = (state = {}, action = {}) => {
+export const selectedDataType = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_DATA_TYPE: {
-      return action.payload.dataTypeCode;
+      return action.payload.dataType;
     }
+    case SET_SELECTED_ATTRIBUTE_FOR_DATATYPE: {
+      return { ...state, attributeSelected: action.payload.attribute };
+    }
+    default: return state;
+  }
+};
+export const selectedAttribute = (state = {}, action = {}) => {
+  switch (action.type) {
     case SET_SELECTED_ATTRIBUTE: {
-      return action.payload.dataTypeAttributeCode;
+      return action.payload.attribute;
     }
     default: return state;
   }
@@ -85,9 +94,9 @@ export const selected = (state = {}, action = {}) => {
 export default combineReducers({
   list,
   map: dataTypeMap,
-  selected,
+  selected: selectedDataType,
   attributes: combineReducers({
     list: attributeList,
-    selected,
+    selected: selectedAttribute,
   }),
 });

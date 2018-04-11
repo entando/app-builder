@@ -4,10 +4,12 @@ import {
   removeDataType,
   removeAttribute,
   setSelectedDataType,
+  setSelectedAttributeDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
 } from 'state/data-types/actions';
 import {
+  DATA_TYPES,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
@@ -46,7 +48,7 @@ describe('state/data-types/reducer', () => {
     });
   });
 
-  describe('afert action REMOVE_ATTRIBUTE', () => {
+  describe('after action REMOVE_ATTRIBUTE', () => {
     it('should define the new state', () => {
       newState = reducer({ map: STATE_REMOVE_ATTRIBUTE }, removeAttribute('AAA', 'attrCode'));
       expect(newState.map).toMatchObject({
@@ -58,12 +60,24 @@ describe('state/data-types/reducer', () => {
 
   describe('after action SET_SELECTED_DATA_TYPE', () => {
     beforeEach(() => {
-      newState = reducer(state, setSelectedDataType('AAA'));
+      newState = reducer(state, setSelectedDataType(DATA_TYPES));
     });
 
     it('should define the selected payload', () => {
       expect(newState).toHaveProperty('selected');
-      expect(newState.selected).toBe('AAA');
+      expect(newState.selected).toBe(DATA_TYPES);
+    });
+  });
+
+  describe('after action SET_SELECTED_ATTRIBUTE_FOR_DATATYPE', () => {
+    beforeEach(() => {
+      newState = reducer(state, setSelectedDataType(DATA_TYPES));
+    });
+
+    it('should define the attributeSelected payload', () => {
+      expect(newState).toHaveProperty('selected');
+      newState = reducer(newState, setSelectedAttributeDataType(DATA_TYPES.attributes[0]));
+      expect(newState).toHaveProperty('selected.attributeSelected', DATA_TYPES.attributes[0]);
     });
   });
 

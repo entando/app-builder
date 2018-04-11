@@ -32,6 +32,13 @@ export const deleteDataType = dataTypeCode => makeMockRequest({
   useAuthentication: true,
 });
 
+export const getDataType = dataTypeCode => makeRequest({
+  uri: `/api/dataTypes/${dataTypeCode}`,
+  method: METHODS.GET,
+  mockResponse: DATA_TYPES,
+  useAuthentication: true,
+});
+
 
 export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
