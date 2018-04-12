@@ -113,7 +113,9 @@ describe('state/widgets/actions', () => {
       it('if there is another widget selected, fetch and select the new widget', (done) => {
         store.dispatch(loadSelectedWidget('some_other_widget')).then(() => {
           expect(getWidget).toHaveBeenCalled();
-          expect(store.getActions()).toHaveLength(1);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_WIDGET);
           done();
         }).catch(done.fail);
       });
@@ -122,7 +124,10 @@ describe('state/widgets/actions', () => {
         getSelectedWidget.mockReturnValue(null);
         store.dispatch(loadSelectedWidget(WIDGET.code)).then(() => {
           expect(getWidget).toHaveBeenCalled();
-          expect(store.getActions()).toHaveLength(1);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_WIDGET);
+
           done();
         }).catch(done.fail);
       });
@@ -172,8 +177,8 @@ describe('state/widgets/actions', () => {
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', SET_WIDGET_LIST);
           expect(actions[1]).toHaveProperty('payload');
-          expect(actions[2].type).toEqual(SET_PAGE);
-          expect(actions[3].type).toEqual(TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', SET_PAGE);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           const actionPayload = actions[1].payload;
           expect(actionPayload).toHaveProperty('widgetList');
           expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);

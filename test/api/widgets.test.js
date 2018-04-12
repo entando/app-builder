@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
 import { makeRequest, METHODS } from 'api/apiManager';
-import { WIDGET, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -107,13 +107,13 @@ describe('api/widgets', () => {
     });
 
     it('if successful, returns a mock ok response', () => {
-      postWidgets(WIDGET_POST_PUT);
+      postWidgets({ ...WIDGET, customUi: '<div></div>' });
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/widgets',
         method: 'POST',
-        body: WIDGET_POST_PUT,
-        mockResponse: WIDGET_POST_PUT,
+        body: { ...WIDGET, customUi: '<div></div>' },
+        mockResponse: { ...WIDGET, customUi: '<div></div>' },
+        useAuthentication: true,
       });
     });
   });
@@ -127,13 +127,13 @@ describe('api/widgets', () => {
     });
 
     it('if successful, returns a mock ok response', () => {
-      putWidgets('AAA', WIDGET_POST_PUT);
+      putWidgets('AAA', { ...WIDGET, customUi: '<div></div>' });
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/widgets/AAA',
         method: 'PUT',
-        body: WIDGET_POST_PUT,
-        mockResponse: WIDGET_POST_PUT,
+        body: { ...WIDGET, customUi: '<div></div>' },
+        mockResponse: { ...WIDGET, customUi: '<div></div>' },
+        useAuthentication: true,
       });
     });
   });
@@ -149,10 +149,10 @@ describe('api/widgets', () => {
     it('if successful, returns a mock ok response', () => {
       deleteWidgets('AAA');
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/widgets/AAA',
         method: 'DELETE',
         mockResponse: { code: 'AAA' },
+        useAuthentication: true,
       });
     });
   });

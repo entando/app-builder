@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from 'api/apiManager';
-import { WIDGET, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
@@ -33,7 +33,7 @@ export const postWidgets = widgetObject => (
     uri: '/api/widgets',
     method: METHODS.POST,
     body: widgetObject,
-    mockResponse: WIDGET_POST_PUT,
+    mockResponse: { ...WIDGET, customUi: '<div></div>' },
     useAuthentication: true,
   })
 );
@@ -43,7 +43,7 @@ export const putWidgets = (widgetCode, widgetObject) => (
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.PUT,
     body: widgetObject,
-    mockResponse: WIDGET_POST_PUT,
+    mockResponse: { ...WIDGET, customUi: '<div></div>' },
     useAuthentication: true,
   })
 );

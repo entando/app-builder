@@ -18,7 +18,6 @@ export const WIDGET = {
   hasConfig: true,
 };
 
-
 export const WIDGET_LIST = {
   payload: [
     WIDGET,
@@ -59,14 +58,4 @@ export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
 
 export const WIDGET_ONE_LIST = {
   'User Widget': [WIDGET],
-};
-
-export const WIDGET_POST_PUT = {
-  code: 'WDG',
-  titles: {
-    it: 'Mio Titolo',
-    en: 'My Title',
-  },
-  group: 'group',
-  customUi: '<div></div>',
 };
