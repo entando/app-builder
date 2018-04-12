@@ -5,10 +5,12 @@ import { shallow } from 'enzyme';
 import { DropdownKebab } from 'patternfly-react';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
+const onDelete = jest.fn();
+
 describe('WidgetListRow', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<WidgetListRow name="test" code="WTF" used={2} />);
+    component = shallow(<WidgetListRow name="test" code="WTF" used={2} onDelete={onDelete} />);
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toBe(true);
@@ -25,5 +27,10 @@ describe('WidgetListRow', () => {
   it('has last column is a DropdownKebab Component', () => {
     const last = component.find('td').last();
     expect(last.find(DropdownKebab).exists()).toBe(true);
+  });
+
+  it('call onClickDelete', () => {
+    component.find('.WidgetListRow__menu-item-delete').simulate('click');
+    expect(onDelete).toHaveBeenCalled();
   });
 });
