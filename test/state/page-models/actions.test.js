@@ -4,15 +4,16 @@ import { getParams } from 'frontend-common-components';
 import { mockApi } from 'test/testUtils';
 import {
   setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel,
-  fetchPageModel, initPageModelForm, updatePageModel, createPageModel,
+  fetchPageModel, initPageModelForm, updatePageModel, createPageModel, setSelectedPageModelPageRefs,
+  fetchCurrentReferencePages,
 } from 'state/page-models/actions';
 import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
+import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL, SET_SELECTED_PAGE_MODEL_PAGE_REFS } from 'state/page-models/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { PAGE_MODELS_LIST } from 'test/mocks/pageModels';
-import { getPageModels, getPageModel, deletePageModel, putPageModel, postPageModel } from 'api/pageModels';
+import { PAGE_MODELS_LIST, PAGE_REFS } from 'test/mocks/pageModels';
+import { getPageModels, getPageModel, deletePageModel, putPageModel, postPageModel, getPageReferences } from 'api/pageModels';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -77,6 +78,25 @@ describe('state/page-models/actions', () => {
 
     it('defines the "pageModel" property', () => {
       expect(action.payload.pageModel).toEqual(PAGE_MODEL);
+    });
+  });
+
+  describe('setSelectedPageModelPageRefs', () => {
+    let action;
+    beforeEach(() => {
+      action = setSelectedPageModelPageRefs(PAGE_REFS);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('is of type SET_SELECTED_PAGE_MODEL_PAGE_REFS', () => {
+      expect(action.type).toBe(SET_SELECTED_PAGE_MODEL_PAGE_REFS);
+    });
+
+    it('defines the "references" property', () => {
+      expect(action.payload.references).toEqual(PAGE_REFS);
     });
   });
 
@@ -165,8 +185,11 @@ describe('state/page-models/actions', () => {
       getPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(loadSelectedPageModel('some_random_code')).then(() => {
         expect(getPageModel).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(1);
-        expect(store.getActions()[0].type).toBe(SET_SELECTED_PAGE_MODEL);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', SET_SELECTED_PAGE_MODEL);
         done();
       }).catch(done.fail);
     });
@@ -176,8 +199,11 @@ describe('state/page-models/actions', () => {
       getPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(loadSelectedPageModel('some_random_code')).then(() => {
         expect(getPageModel).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(1);
-        expect(store.getActions()[0].type).toBe(SET_SELECTED_PAGE_MODEL);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', SET_SELECTED_PAGE_MODEL);
         done();
       }).catch(done.fail);
     });
@@ -186,8 +212,10 @@ describe('state/page-models/actions', () => {
       getPageModel.mockImplementation(mockApi({ errors: true }));
       store.dispatch(loadSelectedPageModel(PAGE_MODEL.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -212,8 +240,10 @@ describe('state/page-models/actions', () => {
       }).catch(() => {
         expect(getPageModel).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       });
     });
@@ -226,7 +256,11 @@ describe('state/page-models/actions', () => {
       store.dispatch(initPageModelForm(PAGE_MODEL_CODE)).then(() => {
         expect(getPageModel).toHaveBeenCalled();
         expect(initialize).toHaveBeenCalled();
-        expect(store.getActions()).toHaveLength(1);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
         done();
       }).catch(done.fail);
     });
@@ -238,8 +272,10 @@ describe('state/page-models/actions', () => {
       }).catch(() => {
         expect(getPageModel).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       });
     });
@@ -328,6 +364,46 @@ describe('state/page-models/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCurrentReferencePages', () => {
+    beforeEach(() => {
+      getParams.mockReturnValue({ pageModelCode: PAGE_MODEL_CODE });
+    });
+
+    it('calls getPageReferences with the pageModelCode route parameter', (done) => {
+      store.dispatch(fetchCurrentReferencePages()).then(() => {
+        expect(getPageReferences).toHaveBeenCalledWith(
+          PAGE_MODEL_CODE,
+          { page: 1, pageSize: 10 },
+        );
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API returns ok, dispatch the right action sequence', (done) => {
+      store.dispatch(fetchCurrentReferencePages()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE_MODEL_PAGE_REFS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', SET_PAGE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API returns error, dispatch the right action sequence', (done) => {
+      getPageReferences.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchCurrentReferencePages()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

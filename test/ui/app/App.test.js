@@ -33,6 +33,7 @@ import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
 import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
+import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 
 import {
   ROUTE_HOME,
@@ -64,6 +65,7 @@ import {
   ROUTE_LABELS_AND_LANGUAGES,
   ROUTE_PAGE_MODEL_ADD,
   ROUTE_PAGE_MODEL_EDIT,
+  ROUTE_PAGE_MODEL_DETAIL,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -220,6 +222,11 @@ describe('App', () => {
   it('route to edit page model page', () => {
     const component = shallow(<App route={ROUTE_PAGE_MODEL_EDIT} username="admin" />);
     expect(component.contains(<PageModelEditPage />)).toEqual(true);
+  });
+
+  it('route to page model detail page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />);
+    expect(component.contains(<PageModelDetailPageContainer />)).toEqual(true);
   });
 
   it('default route', () => {
