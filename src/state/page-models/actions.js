@@ -1,11 +1,17 @@
 import { initialize } from 'redux-form';
 import { getParams } from 'frontend-common-components';
 
-import { getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel } from 'api/pageModels';
+import {
+  getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel,
+  getPageReferences,
+} from 'api/pageModels';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
+import {
+  SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL,
+  SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+} from 'state/page-models/types';
 import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
 
 
@@ -27,6 +33,13 @@ export const removePageModelSync = pageModelCode => ({
   type: REMOVE_PAGE_MODEL,
   payload: {
     pageModelCode,
+  },
+});
+
+export const setSelectedPageModelPageRefs = references => ({
+  type: SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+  payload: {
+    references,
   },
 });
 
@@ -69,6 +82,7 @@ export const removePageModel = pageModelCode => dispatch => (
 
 export const fetchPageModel = pageModelCode => dispatch => (
   new Promise((resolve, reject) => {
+    dispatch(toggleLoading('pageModel'));
     getPageModel(pageModelCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -77,6 +91,7 @@ export const fetchPageModel = pageModelCode => dispatch => (
           dispatch(addErrors(data.errors.map(err => err.message)));
           reject(data);
         }
+        dispatch(toggleLoading('pageModel'));
       });
     });
   })
@@ -84,10 +99,11 @@ export const fetchPageModel = pageModelCode => dispatch => (
 
 export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
   const selectedPage = getSelectedPageModel(getState());
-  if (selectedPage && selectedPage.code === pageCode) {
+  const pageModelCode = pageCode || getParams(getState()).pageModelCode;
+  if (selectedPage && selectedPage.code === pageModelCode) {
     return new Promise(r => r(selectedPage));
   }
-  return fetchPageModel(pageCode)(dispatch)
+  return fetchPageModel(pageModelCode)(dispatch)
     .then((json) => {
       const pageObject = json.payload;
       dispatch(setSelectedPageModel(pageObject));
@@ -143,3 +159,25 @@ export const createPageModel = pageModel => (dispatch, getState) => {
     }
   });
 };
+
+const fetchCurrentReference = (getApiCall, setActionCreator) =>
+  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
+    new Promise((resolve) => {
+      const { pageModelCode } = getParams(getState());
+      dispatch(toggleLoading('references'));
+      getApiCall(pageModelCode, page).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setActionCreator(json.payload));
+            dispatch(setPage(json.metaData));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          dispatch(toggleLoading('references'));
+          resolve();
+        });
+      });
+    });
+
+export const fetchCurrentReferencePages =
+  fetchCurrentReference(getPageReferences, setSelectedPageModelPageRefs);

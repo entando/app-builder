@@ -37,6 +37,10 @@ export const HOMEPAGE_PAYLOAD = {
     it: 'Pagina iniziale',
     en: 'Home page',
   },
+  fullTitles: {
+    en: 'Home Page',
+    it: 'Pagina iniziale',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -62,6 +66,10 @@ export const DASHBOARD_PAYLOAD = {
     it: 'Pannello',
     en: 'Dashboard',
   },
+  fullTitles: {
+    en: 'Home Page / Dashboard',
+    it: 'Pagina iniziale / Pannello',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -82,6 +90,10 @@ export const SERVICE_PAYLOAD = {
   titles: {
     it: 'Pagina di servizio',
     en: 'Service page',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page',
+    it: 'Pagina iniziale / Pagina di servizio',
   },
   ownerGroup: 'administrators',
   joinGroups: [
@@ -108,6 +120,10 @@ export const NOTFOUND_PAYLOAD = {
     it: 'Non trovato',
     en: 'Not Found',
   },
+  fullTitles: {
+    en: 'Home Page / Service page / Not Found',
+    it: 'Pagina iniziale / Pagina di servizio / Non trovato',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -129,6 +145,10 @@ export const ERROR_PAYLOAD = {
     it: 'Errore',
     en: 'Error',
   },
+  fullTitles: {
+    en: 'Home Page / Service page / Error',
+    it: 'Pagina iniziale / Pagina di servizio / Errore',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -149,6 +169,10 @@ export const LOGIN_PAYLOAD = {
   titles: {
     it: 'Accesso',
     en: 'Log In',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page / Log In',
+    it: 'Pagina iniziale / Pagina di servizio / Accesso',
   },
   ownerGroup: 'administrators',
   joinGroups: [
@@ -172,6 +196,10 @@ export const CONTACTS_PAYLOAD = {
   titles: {
     it: 'Contatti',
     en: 'Contacts',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page / Contacts',
+    it: 'Pagina iniziale / Contatti',
   },
   ownerGroup: 'customers',
   joinGroups: [

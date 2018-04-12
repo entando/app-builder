@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { makeRequest, METHODS } from 'api/apiManager';
-import { getPageModels, getPageModel, postPageModel, putPageModel } from 'api/pageModels';
+import { getPageModels, getPageModel, postPageModel, putPageModel, getPageReferences } from 'api/pageModels';
 
 
 const PAGE_MODEL_CODE = 'some_code';
@@ -103,6 +103,27 @@ describe('api/pageModels', () => {
         useAuthentication: true,
         body: PAGE_MODEL,
       }));
+    });
+  });
+
+  describe('getPageReferences()', () => {
+    it('returns a promise', () => {
+      expect(getPageReferences(PAGE_MODEL)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getPageReferences(PAGE_MODEL_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: `/api/pageModels/${PAGE_MODEL_CODE}/references/PageManager`,
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });
