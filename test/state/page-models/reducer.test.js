@@ -1,6 +1,6 @@
 
-import { setPageModels, setSelectedPageModel, removePageModelSync } from 'state/page-models/actions';
-import { PAGE_MODELS_LIST, PAGE_MODELS_ID_LIST, PAGE_MODELS_MAP } from 'test/mocks/pageModels';
+import { setPageModels, setSelectedPageModel, removePageModelSync, setSelectedPageModelPageRefs } from 'state/page-models/actions';
+import { PAGE_MODELS_LIST, PAGE_MODELS_ID_LIST, PAGE_MODELS_MAP, PAGE_REFS_MAP } from 'test/mocks/pageModels';
 import reducer from 'state/page-models/reducer';
 
 
@@ -97,6 +97,48 @@ describe('state/page-models/reducer', () => {
 
     it('state.map should be unchanged', () => {
       expect(newState.map).toBe(state.map);
+    });
+  });
+
+  describe('after action SET_SELECTED_PAGE_MODEL_PAGE_REFS (non present item)', () => {
+    let newState;
+    beforeEach(() => {
+      state = reducer();
+      newState = reducer(state, setSelectedPageModelPageRefs(PAGE_REFS_MAP.homepage));
+    });
+
+    it('should return a new state', () => {
+      expect(newState).not.toBe(state);
+    });
+
+    it('state.selected should be changed', () => {
+      expect(newState.selected).not.toBe(state.selected);
+    });
+
+    it('state.selected should contain pageReferences', () => {
+      expect(newState.selected.pageReferences).toBe(PAGE_REFS_MAP.homepage);
+    });
+  });
+
+  describe('after action SET_SELECTED_PAGE_MODEL_PAGE_REFS (present item)', () => {
+    let newState;
+    beforeEach(() => {
+      state = reducer({
+        selected: PAGE_MODEL,
+      });
+      newState = reducer(state, setSelectedPageModelPageRefs(PAGE_REFS_MAP.homepage));
+    });
+
+    it('should return a new state', () => {
+      expect(newState).not.toBe(state);
+    });
+
+    it('state.selected should be changed', () => {
+      expect(newState.selected).not.toBe(state.selected);
+    });
+
+    it('state.selected should contain pageReferences', () => {
+      expect(newState.selected.pageReferences).toBe(PAGE_REFS_MAP.homepage);
     });
   });
 });

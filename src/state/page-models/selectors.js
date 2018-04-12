@@ -3,6 +3,7 @@ import { cloneDeep } from 'lodash';
 
 import { validatePageModel } from 'state/page-models/helpers';
 import { getPageModelForm } from 'state/forms/selectors';
+import { getLocale } from 'state/locale/selectors';
 
 const GRID_WIDTH = 12;
 
@@ -288,4 +289,18 @@ export const getPageModelFormErrors = createSelector(
     }
     return [];
   },
+);
+
+export const getSelectedPageModelPageRefs = createSelector(
+  [getSelectedPageModel],
+  pageModel => pageModel && pageModel.pageReferences,
+);
+
+export const getLocalizedPageModelPageRefs = createSelector(
+  [getSelectedPageModelPageRefs, getLocale],
+  (refs, locale) => refs && refs.map(ref => ({
+    ...ref,
+    title: ref.titles[locale],
+    fullTitle: ref.fullTitles[locale],
+  })),
 );

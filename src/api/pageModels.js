@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from 'api/apiManager';
 
 import {
   PAGE_MODELS_LIST, COMPLEX_PAYLOAD, SINGLE_CELL_PAYLOAD, SIDEBAR_HOLES_PAYLOAD,
-  OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD,
+  OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD, PAGE_REFS_MAP,
 } from 'test/mocks/pageModels';
 
 
@@ -58,3 +58,16 @@ export const putPageModel = pageModel => makeRequest({
   mockResponse: { ...pageModel },
   useAuthentication: true,
 });
+
+export const getReferences = (entityName, mockRefs) =>
+  (pageModelCode, page = { page: 1, pageSize: 10 }) => makeRequest(
+    {
+      uri: `/api/pageModels/${pageModelCode}/references/${entityName}`,
+      method: METHODS.GET,
+      mockResponse: mockRefs[pageModelCode] ? mockRefs[pageModelCode] : [],
+      useAuthentication: true,
+    },
+    page,
+  );
+
+export const getPageReferences = getReferences('PageManager', PAGE_REFS_MAP);
