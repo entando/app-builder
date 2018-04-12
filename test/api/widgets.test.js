@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
 import { makeRequest, METHODS } from 'api/apiManager';
-import { BODY_OK, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -13,7 +13,7 @@ const correctRequest = {
 const correctRequestWidget = {
   uri: '/api/widgets',
   method: METHODS.GET,
-  mockResponse: BODY_OK,
+  mockResponse: WIDGET,
   useAuthentication: true,
   errors: expect.any(Function),
 };

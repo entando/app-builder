@@ -1,36 +1,11 @@
-export const BODY_OK =
-{
-  code: 'test_widget',
-  name: 'Test Widget',
-  used: 0,
-  titles: {
-    it: 'Widget di Test',
-    en: 'Test Widget',
-  },
-  group: 'administrator',
-  customUi: '<p>Custom UI</p>',
-  defaultUi: '<p>Default UI</p>',
-  createdAt: '2018/02/22',
-  updatedAt: '2018/02/22',
-};
-export const WIDGET_ONE_ELEMENT = {
-  widgetCategory: 'User Widget',
-  code: 'WTF',
-  name: 'My first  Widget',
-  used: 0,
-  titles: {
-    it: 'Mio Widget',
-    en: 'My Widget',
-  },
-};
 export const WIDGET = {
-  code: 'WDG',
-  used: 0,
+  code: 'login_form',
+  used: 2,
   titles: {
     it: 'Mio Titolo',
     en: 'My Title',
   },
-  typology: 'typologyCode',
+  typology: 'User Widget',
   guiFragments: [
     {
       code: 'fragCode',
@@ -45,7 +20,21 @@ export const WIDGET = {
 
 
 export const WIDGET_LIST = {
-  payload: [WIDGET],
+  payload: [
+    WIDGET,
+    {
+      ...WIDGET, code: 'search_form', titles: { it: 'Form di ricerca', en: 'Search Form' }, used: 3,
+    },
+    {
+      ...WIDGET, code: 'single_content', titles: { it: 'Singolo Contenuto', en: 'Single Content' }, used: 4,
+    },
+    {
+      ...WIDGET, code: 'content_viewer', titles: { it: 'Contenuti', en: 'Contents' }, used: 2,
+    },
+    {
+      ...WIDGET, code: 'formAction', titles: { it: 'InternalServlet', en: 'InternalServlet' }, used: 1,
+    },
+  ],
   errors: [],
   metaData: {
     page: 1,
@@ -62,10 +51,15 @@ export const WIDGET_LIST = {
     ],
   },
 };
+
 export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
   acc[widget.code] = widget;
   return acc;
 }, {});
+
+export const WIDGET_ONE_LIST = {
+  'User Widget': [WIDGET],
+};
 
 export const WIDGET_POST_PUT = {
   code: 'WDG',

@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from 'api/apiManager';
-import { BODY_OK, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_POST_PUT } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
@@ -8,7 +8,7 @@ export const getWidget = widgetCode => (
   makeRequest({
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.GET,
-    mockResponse: BODY_OK,
+    mockResponse: WIDGET,
     useAuthentication: true,
     errors: () => getGenericError(widgetCode),
   })

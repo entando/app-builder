@@ -21,27 +21,12 @@ import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { SET_PAGE } from 'state/pagination/types';
 import { getWidget, getWidgets } from 'api/widgets';
-import { WIDGET, WIDGET_LIST, BODY_OK } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-const WIDGET_MOCK = BODY_OK;
-
-const WIDGET_CODE = 'test_widget';
-// const PROMISE_WIDGET = {
-//   ok: true,
-//   json: () => new Promise(res => res({ payload: BODY_OK })),
-// };
-// const PROMISE_WIDGET_LIST = {
-//   ok: true,
-//   json: () => new Promise(res => res({ payload: WIDGET_LIST })),
-// };
-
-
-// getWidget.mockReturnValue(new Promise(resolve => resolve(PROMISE_WIDGET)));
-// getWidgets.mockReturnValue(new Promise(resolve => resolve(PROMISE_WIDGET_LIST)));
-
+const WIDGET_CODE = 'WDG';
 
 jest.mock('state/widgets/selectors', () => ({
   getSelectedWidget: jest.fn(),
@@ -105,8 +90,8 @@ describe('state/widgets/actions', () => {
   describe('thunk', () => {
     describe('loadSelectedWidget', () => {
       it('if the widget is already selected, do nothing', (done) => {
-        getSelectedWidget.mockReturnValue(WIDGET_MOCK);
-        store.dispatch(loadSelectedWidget(WIDGET_MOCK.code)).then(() => {
+        getSelectedWidget.mockReturnValue(WIDGET);
+        store.dispatch(loadSelectedWidget(WIDGET.code)).then(() => {
           expect(getWidget).not.toHaveBeenCalled();
           expect(store.getActions()).toHaveLength(0);
           done();
@@ -123,7 +108,7 @@ describe('state/widgets/actions', () => {
 
       it('if there is no widget selected, fetch and select the new widget', (done) => {
         getSelectedWidget.mockReturnValue(null);
-        store.dispatch(loadSelectedWidget(WIDGET_MOCK.code)).then(() => {
+        store.dispatch(loadSelectedWidget(WIDGET.code)).then(() => {
           expect(getWidget).toHaveBeenCalled();
           expect(store.getActions()).toHaveLength(1);
           done();
@@ -143,8 +128,14 @@ describe('state/widgets/actions', () => {
 
     describe('fetchWidget', () => {
       it('if API response is ok, initializes the form with widget information', (done) => {
-        store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
-          expect(initialize).toHaveBeenCalledWith('widget', WIDGET_MOCK);
+        getWidget.mockImplementation(mockApi({ payload: WIDGET }));
+        store.dispatch(fetchWidget()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(initialize).toHaveBeenCalled();
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_WIDGET);
+          expect(actions[1]).toHaveProperty('payload');
+          expect(actions[1].payload).toMatchObject({ widget: WIDGET });
           done();
         }).catch(done.fail);
       });
@@ -181,7 +172,9 @@ describe('state/widgets/actions', () => {
       });
 
       it('fetchWidgetList calls setWidgetList and setPage action', (done) => {
+        getWidgets.mockImplementation(mockApi({ payload: WIDGET_LIST }));
         store.dispatch(fetchWidgetList()).then(() => {
+          expect(getWidgets).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -189,17 +182,8 @@ describe('state/widgets/actions', () => {
           expect(actions[1]).toHaveProperty('payload');
           expect(actions[2].type).toEqual(TOGGLE_LOADING);
           expect(actions[3].type).toEqual(SET_PAGE);
-          done();
-        }).catch(done.fail);
-      });
-
-      it('fetchWidgetList is defined and properly valued', (done) => {
-        store.dispatch(fetchWidgetList()).then(() => {
-          expect(getWidgets).toHaveBeenCalled();
-          const actions = store.getActions();
-          expect(actions).toHaveLength(4);
           const actionPayload = actions[1].payload;
-          expect(actionPayload.widgetList).toBeDefined();
+          expect(actionPayload).toHaveProperty('widgetList');
           expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);
           done();
         }).catch(done.fail);
