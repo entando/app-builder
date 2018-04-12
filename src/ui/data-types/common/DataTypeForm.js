@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
-import { Link } from 'frontend-common-components';
 
 import { required, maxLength } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
 
 export class DataTypeFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
     this.props.onWillMount();
@@ -25,8 +24,12 @@ export class DataTypeFormBody extends Component {
      this.props.handleSubmit();
    };
 
+   handleClick = () => {
+     this.props.onAddAttribute(this.props.attributeCode);
+   };
+
    render() {
-     console.log('this.props.attributes', this.props.attributes);
+     // console.log('this.props.attributes', this.props.attributes);
      const selectOptions = this.props.attributes.map(item => ({
        value: item,
        text: item,
@@ -64,21 +67,21 @@ export class DataTypeFormBody extends Component {
                </legend>
                <RenderSelectInput
                  options={selectOptions}
+                 defaultOptionId="app.chooseAnOption"
                  labelId="DataType.type"
                  fieldName="type"
                  mandatory
                />
-               <Link route={ROUTE_ATTRIBUTE_ADD}>
-                 <Button
-                   type="button"
-                   className="pull-right ListFragmentPage__add"
-                   bsStyle="primary"
-                 >
-                   <FormattedMessage
-                     id="app.add"
-                   />
-                 </Button>
-               </Link>
+               <Button
+                 type="button"
+                 className="pull-right ListFragmentPage__add"
+                 bsStyle="primary"
+                 onClick={this.handleClick}
+               >
+                 <FormattedMessage
+                   id="app.add"
+                 />
+               </Button>
              </fieldset>
            </Col>
          </Row>
@@ -103,16 +106,20 @@ export class DataTypeFormBody extends Component {
 
 DataTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
+  onAddAttribute: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   attributes: PropTypes.arrayOf(PropTypes.string).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  attributeCode: PropTypes.string,
 };
 
 DataTypeFormBody.defaultProps = {
   onWillMount: () => {},
+  onAddAttribute: null,
   invalid: false,
   submitting: false,
+  attributeCode: '',
 };
 
 const DataTypeForm = reduxForm({

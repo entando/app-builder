@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Row, Col } from 'patternfly-react';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import { formattedText } from 'frontend-common-components';
+import { Row, Col, FormGroup } from 'patternfly-react';
+// import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+// import { formattedText } from 'frontend-common-components';
 import { FieldArray } from 'redux-form';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 
@@ -30,37 +30,28 @@ class AttributeRole extends Component {
             <legend>
               <FormattedMessage id="app.roles" />
             </legend>
-            <RenderSelectInput
+            {/* <RenderSelectInput
               options={selectAllowedOptions}
               name="allowedRoles"
               labelId={formattedText('app.role')}
               fieldName="allowedRoles"
-            />
-            <FieldArray
-              component={MultiSelectRenderer}
-              name="allowedRoles"
-              options={selectAllowedOptions}
-              selectedValues={selectedJoinAllowedOtions}
-              labelKey="text"
-              valueKey="value"
-              emptyOptionTextId="app.chooseARole"
-            />
-            {/* <FormGroup>
+            /> */}
+            <FormGroup>
               <label htmlFor="attrRole" className="col-xs-2 control-label">
-                <FormLabel labelId="app.role" />
+                <FormattedMessage id="app.role" />
               </label>
               <Col xs={10}>
                 <FieldArray
-              component={MultiSelectRenderer}
-              name="allowedRoles"
-              options={selectAllowedOptions}
-              selectedValues={selectJoinAllowedOptions}
-              labelKey="name"
-              valueKey="code"
-              emptyOptionTextId="app.chooseARole"
+                  component={MultiSelectRenderer}
+                  name="allowedRoles"
+                  options={selectAllowedOptions}
+                  selectedValues={selectedJoinAllowedOtions}
+                  labelKey="text"
+                  valueKey="value"
+                  emptyOptionTextId="app.chooseARole"
                 />
               </Col>
-            </FormGroup> */}
+            </FormGroup>
           </fieldset>
         </Col>
       </Row>

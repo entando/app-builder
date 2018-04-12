@@ -1,24 +1,22 @@
 import { connect } from 'react-redux';
-import { fetchDataTypeAttribute } from 'state/data-types/actions';
+// import { fetchDataTypeAttribute } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import { getDataTypeSelectedAttributeAllowedRoles } from 'state/data-types/selectors';
+import { getDataTypeSelectedAttributeAllowedRoles, getDataTypeSelectedAttribute } from 'state/data-types/selectors';
 import AttributeForm from 'ui/common/form/AttributeForm';
 
 export const mapStateToProps = (state) => {
-  console.log('attribute', getDataTypeSelectedAttributeAllowedRoles(state));
-
-  return {
-    dataTypeAttributeCode: formValueSelector('DataType')(state, 'type'),
-    // allowedRoles: formValueSelector('Attribute')(state, 'allowedRoles'),
+  console.log('attributecode', formValueSelector('Attribute')(state, 'code'));
+  return ({
+    test: getDataTypeSelectedAttribute(state),
+    dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
     allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-    selectJoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles'),
-  };
+    JoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles'),
+  });
 };
-
-export const mapDispatchToProps = dispatch => ({
-  onWillMount: (dataTypeAttributeCode) => {
-    dispatch(fetchDataTypeAttribute(dataTypeAttributeCode));
-  },
+export const mapDispatchToProps = () => ({
+  // onWillMount: (dataTypeAttributeCode) => {
+  //   dispatch(fetchDataTypeAttribute(dataTypeAttributeCode));
+  // },
   handleSubmit: values => (values),
 
 });

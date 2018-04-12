@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, FormSection } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
@@ -34,16 +34,9 @@ export class AttributeFormBody extends Component {
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
-               <FormSection name="attributeInfo">
-                 {/* si porta le props del tipo di attributo */}
-                 <AttributeInfo />
-               </FormSection>
-               <FormSection name="attributeRole">
-                 <AttributeRole {...this.props} />
-               </FormSection>
-               <FormSection name="attributeOgnlValidation">
-                 <AttributeOgnlValidation />
-               </FormSection>
+               <AttributeInfo />
+               <AttributeRole {...this.props} />
+               <AttributeOgnlValidation />
              </fieldset>
            </Col>
          </Row>
