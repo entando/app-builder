@@ -96,7 +96,7 @@ describe('state/page-models/actions', () => {
     });
 
     it('defines the "references" property', () => {
-      expect(action.payload.references).toEqual(PAGE_REFS);
+      expect(action.payload).toHaveProperty('references', PAGE_REFS);
     });
   });
 
@@ -390,8 +390,8 @@ describe('state/page-models/actions', () => {
         expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE_MODEL_PAGE_REFS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[3]).toHaveProperty('type', SET_PAGE);
+        expect(actions[2]).toHaveProperty('type', SET_PAGE);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
