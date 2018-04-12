@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 
-const RowList = ({ tableRow, locale }) =>
+const RowList = ({ tableRow, locale, onDelete }) =>
   (
     tableRow.map(item => (
       <WidgetListRow
@@ -11,6 +11,7 @@ const RowList = ({ tableRow, locale }) =>
         name={item.titles[locale]}
         code={item.code}
         used={item.used}
+        onDelete={onDelete}
       />
     )));
 
@@ -24,6 +25,7 @@ RowList.propTypes = {
     }),
   })).isRequired,
   locale: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 export default RowList;

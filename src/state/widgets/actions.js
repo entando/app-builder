@@ -62,11 +62,10 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
-        resolve();
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
-        resolve();
       }
+      resolve();
     });
   });
 });
@@ -78,14 +77,12 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 10 }, params = '') =
     response.json().then((json) => {
       if (response.ok) {
         dispatch(getWidgetList(json.payload));
-        dispatch(toggleLoading('widgets'));
         dispatch(setPage(json.metaData));
-        resolve();
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
-        dispatch(toggleLoading('widgets'));
-        resolve();
       }
+      dispatch(toggleLoading('widgets'));
+      resolve();
     });
   });
 });

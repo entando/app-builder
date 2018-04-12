@@ -2,6 +2,8 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
+import { gotoRoute } from 'frontend-common-components';
+
 
 import { mockApi } from 'test/testUtils';
 
@@ -11,6 +13,9 @@ import {
   getWidgetList,
   fetchWidgetList,
   fetchWidget,
+  sendPostWidgets,
+  sendPutWidgets,
+  sendDeleteWidgets,
   loadSelectedWidget,
   setSelectedWidget,
   removeWidget,
@@ -18,9 +23,16 @@ import {
   from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 import { SET_PAGE } from 'state/pagination/types';
-import { getWidget, getWidgets } from 'api/widgets';
+import {
+  getWidget,
+  getWidgets,
+  postWidgets,
+  putWidgets,
+  deleteWidgets,
+} from 'api/widgets';
 import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const middlewares = [thunk];
@@ -151,27 +163,7 @@ describe('state/widgets/actions', () => {
     });
 
     describe('fetchWidgetList', () => {
-      it('fetchWidgetList calls setWidget action', (done) => {
-        store.dispatch(fetchWidgetList()).then(() => {
-          const actions = store.getActions();
-          expect(actions).toHaveLength(4);
-          expect(actions[0].type).toEqual(TOGGLE_LOADING);
-          expect(actions[1].type).toEqual(SET_WIDGET_LIST);
-          expect(actions[2].type).toEqual(TOGGLE_LOADING);
-          expect(actions[3].type).toEqual(SET_PAGE);
-          done();
-        }).catch(done.fail);
-      });
-
-      it('fetchWidgetList is defined and properly valued', (done) => {
-        store.dispatch(fetchWidgetList()).then(() => {
-          const actions = store.getActions();
-          expect(actions[1].payload.widgetList).toBeDefined();
-          done();
-        }).catch(done.fail);
-      });
-
-      it('fetchWidgetList calls setWidgetList and setPage action', (done) => {
+      it('calls setWidgetList and setPage action', (done) => {
         getWidgets.mockImplementation(mockApi({ payload: WIDGET_LIST }));
         store.dispatch(fetchWidgetList()).then(() => {
           expect(getWidgets).toHaveBeenCalled();
@@ -180,11 +172,89 @@ describe('state/widgets/actions', () => {
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', SET_WIDGET_LIST);
           expect(actions[1]).toHaveProperty('payload');
-          expect(actions[2].type).toEqual(TOGGLE_LOADING);
-          expect(actions[3].type).toEqual(SET_PAGE);
+          expect(actions[2].type).toEqual(SET_PAGE);
+          expect(actions[3].type).toEqual(TOGGLE_LOADING);
           const actionPayload = actions[1].payload;
           expect(actionPayload).toHaveProperty('widgetList');
           expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getWidgets.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(fetchWidgetList()).then(() => {
+          expect(getWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostWidgets', () => {
+      it('calls gotoRoute', (done) => {
+        store.dispatch(sendPostWidgets()).then(() => {
+          expect(postWidgets).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        postWidgets.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendPostWidgets()).then(() => {
+          expect(postWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPutWidgets', () => {
+      it('calls gotoRoute', (done) => {
+        store.dispatch(sendPutWidgets('WDG', WIDGET)).then(() => {
+          expect(putWidgets).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        putWidgets.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendPutWidgets()).then(() => {
+          expect(putWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+    describe('sendDeleteWidgets', () => {
+      it('calls removeWidgets and gotoRoute', (done) => {
+        store.dispatch(sendDeleteWidgets('WDG')).then(() => {
+          expect(deleteWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', REMOVE_WIDGET);
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        deleteWidgets.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendDeleteWidgets()).then(() => {
+          expect(deleteWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });
