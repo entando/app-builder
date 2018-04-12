@@ -11,10 +11,10 @@ import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from '
 const widgetGroupByCategory = widgetList =>
 
   widgetList.reduce((acc, widget) => {
-    if (acc[widget.widgetCategory]) {
-      acc[widget.widgetCategory].push(widget);
+    if (acc[widget.typology]) {
+      acc[widget.typology].push(widget);
     } else {
-      acc[widget.widgetCategory] = [widget];
+      acc[widget.typology] = [widget];
     }
     return acc;
   }, {});
@@ -31,9 +31,10 @@ export const getViewList = createSelector(getPageConfig, pageConfig => pageConfi
 
 
 export const filterWidgetList = createSelector(
-  [getListWidget, getSearchFilter],
-  (widgetList, searchFilter) => (searchFilter === null ? widgetList :
-    widgetList.filter(f => f.name.includes(searchFilter))),
+  [getListWidget, getSearchFilter, getLocale],
+  (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :
+    widgetList.filter(f => f.titles[locale].includes(searchFilter)))
+  ,
 );
 
 export const getGroupedWidgetList = createSelector(
