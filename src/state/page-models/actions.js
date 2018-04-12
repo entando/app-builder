@@ -170,12 +170,11 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
           if (response.ok) {
             dispatch(setActionCreator(json.payload));
             dispatch(setPage(json.metaData));
-            resolve();
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
-            resolve();
           }
           dispatch(toggleLoading('references'));
+          resolve();
         });
       });
     });
