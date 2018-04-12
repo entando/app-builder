@@ -1,4 +1,4 @@
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { LIST_ROLES_OK, BODY_OK, GET_ROLE_PAYLOAD, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 
 export const filterMockList = (roleCode) => {
@@ -32,7 +32,7 @@ export const getRole = roleCode => (
 );
 
 export const postRoles = rolesObject => (
-  makeMockRequest({
+  makeRequest({
     uri: '/api/roles',
     method: METHODS.POST,
     mockResponse: BODY_OK,

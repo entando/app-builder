@@ -1,4 +1,4 @@
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import { CATEGORY_TREE } from 'test/mocks/categories';
 
 const getCategoryTreeMockResponse = (queryString) => {
@@ -10,7 +10,7 @@ const getCategoryTreeMockResponse = (queryString) => {
 };
 
 export const getCategoryTree = (params = '') => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/categories${params}`,
     method: METHODS.GET,
     mockResponse: getCategoryTreeMockResponse(params),
@@ -19,7 +19,7 @@ export const getCategoryTree = (params = '') => (
 );
 
 export const getCategory = categoryCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/categories/${categoryCode}`,
     method: METHODS.GET,
     mockResponse: CATEGORY_TREE[0],

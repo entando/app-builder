@@ -5,6 +5,8 @@ import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, ROLE_USER_REFERENCES_PAYLOAD } from 't
 
 const ROLE_CODE = LIST_ROLES_OK[0].code;
 
+const ROLE_CODE = LIST_ROLES_OK[0].code;
+
 describe('state/roles/reducer', () => {
   const state = reducer();
 

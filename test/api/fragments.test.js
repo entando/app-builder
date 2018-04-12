@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getFragment, getFragments, getFragmentSettings, putFragmentSettings } from 'api/fragments';
-import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from 'api/apiManager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -20,7 +20,7 @@ const correctRequest = {
 jest.unmock('api/fragments');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));
 
@@ -38,7 +38,7 @@ describe('api/fragments', () => {
 
     it('make the request', () => {
       getFragment(FRAGMENT_CODE);
-      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/fragments/myCode',
         method: 'GET',
         mockResponse: GET_FRAGMENT_OK,
@@ -106,7 +106,7 @@ describe('api/fragments', () => {
 
     it('make the request', () => {
       getFragmentSettings();
-      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/fragmentsSettings/',
         method: 'GET',
         mockResponse: FRAGMENT_SETTING,
@@ -122,7 +122,7 @@ describe('api/fragments', () => {
 
     it('makes the correct request with settings body', () => {
       putFragmentSettings(FRAGMENT_SETTING_OBJ);
-      expect(makeMockRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
         uri: '/api/fragmentsSettings/',
         body: FRAGMENT_SETTING_OBJ,
