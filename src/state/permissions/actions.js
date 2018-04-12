@@ -15,17 +15,17 @@ export const setPermissions = permissions => ({
 export const fetchPermissions = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getPermissions(page, params).then((response) => {
+      dispatch(toggleLoading('permissions'));
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setPermissions(data.payload));
-          dispatch(toggleLoading('permissions'));
           dispatch(setPage(data.metaData));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          dispatch(toggleLoading('permissions'));
           resolve();
         }
+        dispatch(toggleLoading('permissions'));
       });
     });
   });

@@ -5,7 +5,8 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DetailRoleContainer from 'ui/roles/detail/DetailRoleContainer';
+import DetailRoleTableContainer from 'ui/roles/detail/DetailRoleTableContainer';
+import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 const DetailRolePage = () => (
   <InternalPage className="DetailRolePage">
@@ -16,7 +17,7 @@ const DetailRolePage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem >
+            <BreadcrumbItem route={ROUTE_ROLE_LIST}>
               <FormattedMessage id="menu.roles" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
@@ -35,7 +36,7 @@ const DetailRolePage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <DetailRoleContainer />
+          <DetailRoleTableContainer />
         </Col>
       </Row>
     </Grid>

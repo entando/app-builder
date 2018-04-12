@@ -41,17 +41,18 @@ describe('state/permissions/actions', () => {
     it('fetchPermissions calls setPermissions and setPage actions', (done) => {
       store.dispatch(fetchPermissions()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', SET_PERMISSIONS);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_PERMISSIONS);
         expect(actions[2]).toHaveProperty('type', SET_PAGE);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
 
     it('permissions is defined and properly valued', (done) => {
       store.dispatch(fetchPermissions()).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.permissions).toHaveLength(LIST_PERMISSIONS_OK.length);
         const permission = actionPayload.permissions[0];
         expect(permission).toHaveProperty('code', 'editContents');
@@ -65,9 +66,10 @@ describe('state/permissions/actions', () => {
       store.dispatch(fetchPermissions()).then(() => {
         expect(getPermissions).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

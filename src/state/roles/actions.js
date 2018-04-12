@@ -1,10 +1,16 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
-import { getRoles, getRole, postRoles, putRole, deleteRole } from 'api/roles';
+import {
+  getRoles, getRole, postRoles, putRole, deleteRole,
+  getUserReferences,
+} from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_ROLES, SET_SELECTED, REMOVE_ROLE } from 'state/roles/types';
+import {
+  SET_ROLES, SET_SELECTED, REMOVE_ROLE,
+  SET_USER_REFS,
+} from 'state/roles/types';
 import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 export const setRoles = roles => ({
@@ -25,6 +31,13 @@ export const removeRole = roleCode => ({
   type: REMOVE_ROLE,
   payload: {
     roleCode,
+  },
+});
+
+export const setUserRefs = userRefs => ({
+  type: SET_USER_REFS,
+  payload: {
+    userRefs,
   },
 });
 
@@ -119,6 +132,24 @@ export const sendDeleteRole = roleCode => dispatch =>
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
+      });
+    });
+  });
+
+export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
+  new Promise((resolve) => {
+    dispatch(toggleLoading('references'));
+    getUserReferences(roleCode, page, params).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setUserRefs(data.payload));
+          dispatch(setPage(data.metaData));
+          resolve();
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+        dispatch(toggleLoading('references'));
       });
     });
   });

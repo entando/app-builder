@@ -1,5 +1,5 @@
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
-import { LIST_ROLES_OK, BODY_OK, GET_ROLE_PAYLOAD } from 'test/mocks/roles';
+import { LIST_ROLES_OK, BODY_OK, GET_ROLE_PAYLOAD, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 
 export const filterMockList = (roleCode) => {
   const selected = LIST_ROLES_OK.filter(role => (role.code === roleCode));
@@ -58,6 +58,18 @@ export const deleteRole = roleCode => (
     mockResponse: { code: roleCode },
     useAuthentication: true,
   })
+);
+
+export const getUserReferences = (roleCode, page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/roles/${roleCode}/userreferences${params}`,
+      method: METHODS.GET,
+      mockResponse: ROLE_USER_REFERENCES_PAYLOAD,
+      useAuthentication: true,
+    },
+    page,
+  )
 );
 
 export default getRoles;

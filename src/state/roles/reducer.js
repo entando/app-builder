@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_ROLES, SET_SELECTED, REMOVE_ROLE } from 'state/roles/types';
+import { SET_ROLES, SET_SELECTED, REMOVE_ROLE, SET_USER_REFS } from 'state/roles/types';
 
 export const toMap = array => array.reduce((acc, role) => {
   acc[role.code] = role;
@@ -25,6 +25,9 @@ export const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED: {
       return action.payload.role;
+    }
+    case SET_USER_REFS: {
+      return { ...state, userReferences: action.payload.userRefs };
     }
     default: return state;
   }
