@@ -61,7 +61,6 @@ describe('UserRefsTable', () => {
         };
 
         component.setProps({ userReferences: [statusDisabled] });
-        console.log(component.find('UserStatus').debug());
         expect(component.find('UserStatus').prop('status')).toEqual('disabled');
       });
     });
