@@ -8,7 +8,6 @@ import {
   getSelectedDataType,
   getDataTypeAttributes,
   getDataTypeAttributesIdList,
-  getSelectedDataTypeAttributeIdList,
 } from 'state/data-types/selectors';
 
 const TEST_STATE = {
@@ -75,11 +74,5 @@ describe('state/users/selectors', () => {
   });
   it('verify getDataTypeAttributesIdList selector is defined', () => {
     expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
-  });
-  it('verify getSelectedDataTypeAttributeIdList selector is undefined', () => {
-    expect(getSelectedDataTypeAttributeIdList(TEST_STATE)).toBeUndefined();
-  });
-  it('verify getSelectedDataTypeAttributeIdList selector is defined', () => {
-    expect(getSelectedDataTypeAttributeIdList(STATE_ATTRIBUTES)).toBeDefined();
   });
 });

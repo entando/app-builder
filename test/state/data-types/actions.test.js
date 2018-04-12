@@ -1,6 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
@@ -234,8 +235,8 @@ describe('state/data-types/actions ', () => {
           expect(actions).toHaveLength(4);
           expect(actions[0].type).toEqual(TOGGLE_LOADING);
           expect(actions[1].type).toEqual(SET_DATA_TYPES);
-          expect(actions[2].type).toEqual(TOGGLE_LOADING);
-          expect(actions[3].type).toEqual(SET_PAGE);
+          expect(actions[2].type).toEqual(SET_PAGE);
+          expect(actions[3].type).toEqual(TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -353,11 +354,13 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_ATTRIBUTES);
-          expect(actions[0]).toHaveProperty('payload');
-          expect(actions[0]).toHaveProperty('payload.attributes');
-          expect(actions[0]).toHaveProperty('payload.attributes', DATA_TYPES_ATTRIBUTES);
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', SET_ATTRIBUTES);
+          expect(actions[1]).toHaveProperty('payload');
+          expect(actions[1]).toHaveProperty('payload.attributes');
+          expect(actions[1]).toHaveProperty('payload.attributes', DATA_TYPES_ATTRIBUTES);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -367,7 +370,9 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(0);
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -376,8 +381,10 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttributes.mockImplementation(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -388,10 +395,11 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
           expect(actions[0]).toHaveProperty('payload.attribute');
           expect(actions[0].payload.attribute).toMatchObject(DATA_TYPE_ATTRIBUTE);
+          expect(initialize).toHaveBeenCalled();
           done();
         }).catch(done.fail);
       });
