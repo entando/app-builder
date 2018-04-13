@@ -25,13 +25,13 @@ export const WIDGET_LIST = {
       ...WIDGET, code: 'search_form', titles: { it: 'Form di ricerca', en: 'Search Form' }, used: 3,
     },
     {
-      ...WIDGET, code: 'single_content', titles: { it: 'Singolo Contenuto', en: 'Single Content' }, used: 4,
+      ...WIDGET, code: 'single_content', typology: 'Custom Widget', titles: { it: 'Singolo Contenuto', en: 'Single Content' }, used: 4,
     },
     {
       ...WIDGET, code: 'content_viewer', titles: { it: 'Contenuti', en: 'Contents' }, used: 2,
     },
     {
-      ...WIDGET, code: 'formAction', titles: { it: 'InternalServlet', en: 'InternalServlet' }, used: 1,
+      ...WIDGET, code: 'formAction', typology: 'Custom Widget', titles: { it: 'InternalServlet', en: 'InternalServlet' }, used: 1,
     },
   ],
   errors: [],
@@ -50,7 +50,7 @@ export const WIDGET_LIST = {
     ],
   },
 };
-
+export const LIST = WIDGET_LIST.payload.map(item => item.code);
 export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
   acc[widget.code] = widget;
   return acc;
