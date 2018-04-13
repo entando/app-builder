@@ -31,7 +31,7 @@ export const getRole = roleCode => (
   })
 );
 
-export const postRoles = rolesObject => (
+export const postRole = rolesObject => (
   makeRequest({
     uri: '/api/roles',
     method: METHODS.POST,

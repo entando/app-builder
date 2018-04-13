@@ -1,12 +1,13 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from 'frontend-common-components';
 import {
-  getRoles, getRole, postRoles, putRole, deleteRole,
+  getRoles, getRole, postRole, putRole, deleteRole,
   getUserReferences,
 } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
+// import { fetchPermissions } from 'state/permissions/actions';
 import {
   SET_ROLES, SET_SELECTED, REMOVE_ROLE,
   SET_USER_REFS,
@@ -92,10 +93,9 @@ export const fetchRoleDetail = roleCode => dispatch =>
 
 export const sendPostRole = rolesData => dispatch =>
   new Promise((resolve) => {
-    postRoles(rolesData).then((response) => {
+    postRole(rolesData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setRoles([data]));
           gotoRoute(ROUTE_ROLE_LIST);
           resolve();
         } else {

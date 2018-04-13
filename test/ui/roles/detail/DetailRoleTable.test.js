@@ -7,13 +7,23 @@ const onWillMount = jest.fn();
 const role = {
   name: 'content Editing',
   code: 'contentEditing',
-  permissions: [
-    'content Editing',
-    'access To Admin',
-    'manage Categories',
-    'manage Pages',
-  ],
+  permissions: {
+    editContents: true,
+    enterBackend: false,
+    manageCategories: true,
+    managePages: true,
+    manageResources: true,
+    superuser: false,
+    validateContents: true,
+  },
 };
+
+const rolePermissions = [
+  'content Editing',
+  'access To Admin',
+  'manage Categories',
+  'manage Pages',
+];
 
 describe('DetailRoleTable', () => {
   let component;
@@ -36,6 +46,7 @@ describe('DetailRoleTable', () => {
     beforeEach(() => {
       component = shallow(<DetailRoleTable
         role={role}
+        rolePermissions={rolePermissions}
         onWillMount={onWillMount}
       />);
     });
@@ -48,12 +59,12 @@ describe('DetailRoleTable', () => {
     it('has permission list element', () => {
       const permissionList = component.find('.DetailRole__permission-list');
       expect(permissionList).toHaveLength(1);
-      expect(permissionList.find('li')).toHaveLength(role.permissions.length);
+      expect(permissionList.find('li')).toHaveLength(rolePermissions.length);
     });
 
-    it('if role has no permissions, renders a message', () => {
+    it('if role has no permissions, does not render the list', () => {
       component = shallow(<DetailRoleTable
-        role={{ ...role, permissions: [] }}
+        role={{ ...role, rolePermissions: [] }}
         onWillMount={onWillMount}
       />);
       const permissionList = component.find('.DetailRole__permission-list');
