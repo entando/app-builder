@@ -5,7 +5,7 @@ import { Row, Col } from 'patternfly-react';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
-const AttributeHypeLongeMonoTextSettings = () => (
+const AttributeHypeLongMonoTextSettings = () => (
   <Row>
     <Col xs={12}>
       <fieldset className="no-padding">
@@ -38,11 +38,11 @@ const AttributeHypeLongeMonoTextSettings = () => (
   </Row>
 );
 
-AttributeHypeLongeMonoTextSettings.propTypes = {
+AttributeHypeLongMonoTextSettings.propTypes = {
 };
 
-AttributeHypeLongeMonoTextSettings.defaultProps = {
+AttributeHypeLongMonoTextSettings.defaultProps = {
 };
 
 
-export default AttributeHypeLongeMonoTextSettings;
+export default AttributeHypeLongMonoTextSettings;

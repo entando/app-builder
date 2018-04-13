@@ -1,20 +1,29 @@
 import { connect } from 'react-redux';
-// import { fetchDataTypeAttribute } from 'state/data-types/actions';
+import { fetchDataTypeAttributes } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import { getDataTypeSelectedAttributeAllowedRoles, getDataTypeSelectedAttribute } from 'state/data-types/selectors';
 import AttributeForm from 'ui/common/form/AttributeForm';
+import {
+  getDataTypeSelectedAttribute,
+  getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeAllowedRoles,
+} from 'state/data-types/selectors';
 
 export const mapStateToProps = (state) => {
-  console.log('valore selezionato ', formValueSelector('Attribute')(state, 'allowedRoles'));
+  console.log('TEST ', getDataTypeSelectedAttributeAllowedRoles(state));
+
   return ({
-    test: getDataTypeSelectedAttribute(state),
     dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
+    attributesList: getDataTypeAttributesIdList(state),
+    attributeCode: formValueSelector('DataType')(state, 'type'),
     allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
     allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-    JoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles'),
+    JoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles') || [],
   });
 };
-export const mapDispatchToProps = () => ({
+export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => {
+    dispatch(fetchDataTypeAttributes());
+  },
   handleSubmit: values => (values),
 
 });

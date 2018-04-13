@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
-// import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-// import { formattedText } from 'frontend-common-components';
 import { FieldArray } from 'redux-form';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 
@@ -12,10 +10,7 @@ class AttributeRole extends Component {
     this.props.onWillMount();
   }
   render() {
-    const { JoinAllowedOptions, allowedRoles } = this.props;
-
-    console.log('the real allowedRoles', allowedRoles);
-    console.log('join', JoinAllowedOptions);
+    const { JoinAllowedOptions2, allowedRoles } = this.props;
 
     const selectAllowedOptions = allowedRoles.map(item => (
       {
@@ -23,6 +18,7 @@ class AttributeRole extends Component {
         text: item.descr,
       }
     ));
+    console.log('join', selectAllowedOptions);
 
     return (
       <Row>
@@ -40,7 +36,7 @@ class AttributeRole extends Component {
                   component={MultiSelectRenderer}
                   name="allowedRoles"
                   options={selectAllowedOptions}
-                  selectedValues={JoinAllowedOptions}
+                  selectedValues={JoinAllowedOptions2}
                   labelKey="text"
                   valueKey="value"
                   emptyOptionTextId="app.chooseARole"
@@ -60,7 +56,7 @@ AttributeRole.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
-  JoinAllowedOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  JoinAllowedOptions2: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 AttributeRole.defaultProps = {

@@ -4,10 +4,11 @@ import { reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
-import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
-import AttributeHypeLongeMonoTextSettings from 'ui/common/attributes/AttributeHypeLongeMonoTextSettings';
-// import AttributeEnumEnumMap from 'ui/common/attributes/AttributeEnumEnumMap';
+import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
+import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+import AttributeEnumEnumMapSettings from 'ui/common/attributes/AttributeEnumEnumMapSettings';
+import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 
 
 export class AttributeFormBody extends Component {
@@ -38,8 +39,9 @@ export class AttributeFormBody extends Component {
                </legend>
                <AttributeInfo />
                <AttributeRole {...this.props} />
-               <AttributeHypeLongeMonoTextSettings />
-               {/* <AttributeEnumEnumMap {...this.props} /> */}
+               <AttributeMonoListMonoSettings {...this.props} />
+               <AttributeHypeLongMonoTextSettings />
+               <AttributeEnumEnumMapSettings {...this.props} />
                <AttributeOgnlValidation />
              </fieldset>
            </Col>

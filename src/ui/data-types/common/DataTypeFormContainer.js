@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttributes, fetchDataTypeAttribute } from 'state/data-types/actions';
-// inset getAttributes
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
