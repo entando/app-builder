@@ -6,6 +6,8 @@ import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
+import AttributeHypeLongeMonoTextSettings from 'ui/common/attributes/AttributeHypeLongeMonoTextSettings';
+// import AttributeEnumEnumMap from 'ui/common/attributes/AttributeEnumEnumMap';
 
 
 export class AttributeFormBody extends Component {
@@ -36,6 +38,8 @@ export class AttributeFormBody extends Component {
                </legend>
                <AttributeInfo />
                <AttributeRole {...this.props} />
+               <AttributeHypeLongeMonoTextSettings />
+               {/* <AttributeEnumEnumMap {...this.props} /> */}
                <AttributeOgnlValidation />
              </fieldset>
            </Col>

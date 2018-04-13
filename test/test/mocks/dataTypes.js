@@ -141,6 +141,9 @@ export const DATA_TYPE_ATTRIBUTE = {
   multilingual: false,
   textAttribute: false,
   simple: false,
+  enumeratorStaticItems: null,
+  enumeratorStaticItemsSeparator: null,
+  enumeratorExtractorBean: null,
   allowedRoles: [{
     code: 'roleCode1',
     descr: 'Role Descr 1',
