@@ -50,7 +50,7 @@ export default {
     'app.cancel': 'Cancel',
     'app.mandatory': 'Mandatory',
     'app.filterList': 'Can be used as a filter in lists',
-    'app.ognl.validation': 'Validazion - OGNL',
+    'app.ognl.validation': 'OGNL - Validation',
     'app.ognl.validation.help': 'In this section you can insert the attribute validation.<br>The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access to the methods of the attribute without specifying it or using the prefix #attribute.<br>You can use the map of the system languages (#langs) and the associated entity (#entity).<br>Also for the elements of list or composite attributes you can access to the parent attribute (#parent) and for the elements of list attibutes you have the index (#index) at your disposal.',
     'app.ognl.expression': 'OGNL Expression ',
     'app.apply.expression': 'Apply this expression only to filled attribute',
