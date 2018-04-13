@@ -56,3 +56,13 @@ export const putFragmentSettings = setting => (
     useAuthentication: true,
   })
 );
+
+export const deleteFragment = fragmentCode => (
+  makeRequest({
+    uri: `/api/fragments/${fragmentCode}`,
+    method: METHODS.DELETE,
+    body: fragmentCode,
+    mockResponse: fragmentCode,
+    useAuthentication: true,
+  })
+);

@@ -1,7 +1,7 @@
 import { initialize } from 'redux-form';
 
-import { getFragment, getFragments, getWidgetTypes, getPlugins, getFragmentSettings, putFragmentSettings } from 'api/fragments';
-import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS } from 'state/fragments/types';
+import { getFragment, getFragments, getWidgetTypes, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment } from 'api/fragments';
+import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -31,6 +31,13 @@ export const setPlugins = plugins => ({
   type: SET_PLUGINS,
   payload: {
     plugins,
+  },
+});
+
+export const removeFragment = fragmentCode => ({
+  type: REMOVE_FRAGMENT,
+  payload: {
+    fragmentCode,
   },
 });
 
@@ -109,6 +116,20 @@ export const updateFragmentSettings = settings => dispatch =>
         if (response.ok) {
           dispatch(initialize('fragmentSettings', json.payload));
         } else if (json && json.errors) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendDeleteFragment = fragmentCode => dispatch =>
+  new Promise((resolve) => {
+    deleteFragment(fragmentCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeFragment(fragmentCode));
+        } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         resolve();
