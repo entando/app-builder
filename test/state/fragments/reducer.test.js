@@ -1,7 +1,10 @@
 import reducer from 'state/fragments/reducer';
 import {
-  setSelectedFragment, setFragments,
-  setWidgetTypes, setPlugins,
+  setSelectedFragment,
+  setFragments,
+  setWidgetTypes,
+  setPlugins,
+  removeFragment,
 } from 'state/fragments/actions';
 import {
   GET_FRAGMENT_OK,
@@ -63,6 +66,23 @@ describe('fragments/reducer', () => {
     });
     it('should define the plugins payload', () => {
       expect(newState.plugins).toEqual(PLUGINS_PAYLOAD);
+    });
+  });
+
+  describe('after action REMOVE_FRAGMENT', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer({ list: ['AAA', 'BBB'] });
+    });
+    it('should define new state if fragmentCode is present', () => {
+      newState = reducer(newState, removeFragment('AAA'));
+      expect(newState.list).not.toEqual(expect.arrayContaining(['AAA']));
+    });
+    it('should no changes if fragmentCode is not present', () => {
+      const elementsBefore = newState.list.length;
+      newState = reducer(newState, removeFragment('CCC'));
+      expect(elementsBefore).toBe(newState.list.length);
+      expect(newState.list).toEqual(expect.arrayContaining(['AAA', 'BBB']));
     });
   });
 });

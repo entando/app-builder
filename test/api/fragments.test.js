@@ -1,10 +1,15 @@
 import 'test/enzyme-init';
-import { getFragment, getFragments, getFragmentSettings, putFragmentSettings } from 'api/fragments';
+import {
+  getFragment,
+  getFragments,
+  getFragmentSettings,
+  putFragmentSettings,
+  deleteFragment,
+} from 'api/fragments';
 import { makeRequest, METHODS } from 'api/apiManager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
-  BODY_ERROR,
   FRAGMENT_SETTING,
 } from 'test/mocks/fragments';
 
@@ -20,8 +25,7 @@ const correctRequest = {
 jest.unmock('api/fragments');
 jest.mock('api/apiManager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET' },
+  METHODS: { GET: 'GET', DELETE: 'DELETE' },
 }));
 
 describe('api/fragments', () => {
@@ -126,6 +130,23 @@ describe('api/fragments', () => {
         method: METHODS.PUT,
         uri: '/api/fragmentsSettings/',
         body: FRAGMENT_SETTING_OBJ,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('deleteFragment', () => {
+    it('return a Promise', () => {
+      expect(deleteFragment('code')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request with settings body', () => {
+      deleteFragment('code');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.DELETE,
+        uri: '/api/fragments/code',
+        body: 'code',
+        mockResponse: 'code',
         useAuthentication: true,
       }));
     });

@@ -6,3 +6,4 @@ export const getWidgetTypes = jest.fn();
 export const getPlugins = jest.fn();
 export const getFragmentSettings = jest.fn(mockApi({ payload: [] }));
 export const putFragmentSettings = jest.fn(mockApi({ payload: {} }));
+export const deleteFragment = jest.fn(mockApi({ payload: {} }));
