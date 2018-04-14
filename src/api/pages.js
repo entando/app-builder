@@ -152,7 +152,7 @@ const PAGE_CONFIG_PUBLISHED_MAP = {
 };
 
 export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
-  uri: `/api/pages/${pageCode}/widget?status=${status}`,
+  uri: `/api/pages/${pageCode}/widgets?status=${status}`,
   method: METHODS.GET,
   body: {},
   mockResponse: (status === PAGE_STATUS_DRAFT) ?
@@ -165,7 +165,7 @@ export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeReque
 export const deletePageWidget = (pageCode, frameId) =>
   new Promise((resolve) => {
     // eslint-disable-next-line no-console
-    console.info(`calling DELETE /pages/${pageCode}/widget/${frameId}`);
+    console.info(`calling DELETE /pages/${pageCode}/widgets/${frameId}`);
     throttle(() => {
       if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
         resolve({
@@ -181,7 +181,7 @@ export const deletePageWidget = (pageCode, frameId) =>
 
 
 export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
-  uri: `/api/pages/${pageCode}/widget/${frameId}`,
+  uri: `/api/pages/${pageCode}/widgets/${frameId}`,
   method: METHODS.PUT,
   body: configItem,
   mockResponse: configItem,
@@ -189,7 +189,7 @@ export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
 });
 
 export const restorePageConfig = pageCode => makeRequest({
-  uri: `/api/pages/${pageCode}/widget/restore`,
+  uri: `/api/pages/${pageCode}/widgets/restore`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
