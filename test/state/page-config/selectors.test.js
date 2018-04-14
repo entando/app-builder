@@ -94,7 +94,7 @@ describe('state/page-config/selectors', () => {
   });
 
   it('verify getGroupedWidgetList selector', () => {
-    expect(getGroupedWidgetList(MOCK_STATE)).toEqual(WIDGET_ONE_LIST);
+    expect(getGroupedWidgetList(MOCK_STATE)).toMatchObject(WIDGET_ONE_LIST);
   });
 
   it('verify getConfigMap selector', () => {

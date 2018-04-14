@@ -8,13 +8,13 @@ import { getSelectedPageModelCellMap, getSelectedPageModelMainFrame, getSelected
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
-const widgetGroupByCategory = widgetList =>
+const widgetGroupByCategory = (widgetList, locale) =>
 
   widgetList.reduce((acc, widget) => {
     if (acc[widget.typology]) {
-      acc[widget.typology].push(widget);
+      acc[widget.typology].push({ ...widget, name: widget.titles[locale] });
     } else {
-      acc[widget.typology] = [widget];
+      acc[widget.typology] = [{ ...widget, name: widget.titles[locale] }];
     }
     return acc;
   }, {});
@@ -38,8 +38,8 @@ export const filterWidgetList = createSelector(
 );
 
 export const getGroupedWidgetList = createSelector(
-  [filterWidgetList],
-  widget => widgetGroupByCategory(widget),
+  [filterWidgetList, getLocale],
+  (widget, locale) => widgetGroupByCategory(widget, locale),
 );
 
 export const getSelectedPageConfig = createSelector(

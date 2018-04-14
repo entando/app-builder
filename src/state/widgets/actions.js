@@ -71,7 +71,7 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
 });
 
 
-export const fetchWidgetList = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('widgets'));
   getWidgets(page, params).then((response) => {
     response.json().then((json) => {
