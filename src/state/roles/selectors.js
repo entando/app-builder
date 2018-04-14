@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 import { getPermissionsList } from 'state/permissions/selectors';
 
 export const getRoles = state => state.roles;
 export const getRolesIdList = state => state.roles.list;
 export const getRolesMap = state => state.roles.map;
-export const getSelectedRolePermissions = state => state.roles.selected.permissions;
+export const getSelectedRolePermissions = state => get(state.roles, 'selected.permissions', []);
 export const getUserRefs = state => state.roles.selected.userReferences;
 
 export const getRolesList = createSelector(

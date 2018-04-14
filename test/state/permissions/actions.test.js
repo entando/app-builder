@@ -52,6 +52,7 @@ describe('state/permissions/actions', () => {
 
     it('permissions is defined and properly valued', (done) => {
       store.dispatch(fetchPermissions()).then(() => {
+        expect(store.getActions()).toHaveLength(4);
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.permissions).toHaveLength(LIST_PERMISSIONS_OK.length);
         const permission = actionPayload.permissions[0];

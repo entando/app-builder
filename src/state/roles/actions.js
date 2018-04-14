@@ -50,12 +50,11 @@ export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dis
           dispatch(setRoles(data.payload));
           dispatch(toggleLoading('roles'));
           dispatch(setPage(data.metaData));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(toggleLoading('roles'));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -66,11 +65,10 @@ export const fetchRole = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(initialize('role', data.payload));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -81,11 +79,10 @@ export const fetchRoleDetail = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setSelected(data.payload));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -97,11 +94,10 @@ export const sendPostRole = rolesData => dispatch =>
         if (response.ok) {
           dispatch(setRoles([data]));
           gotoRoute(ROUTE_ROLE_LIST);
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -112,11 +108,10 @@ export const sendPutRole = rolesData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           gotoRoute(ROUTE_ROLE_LIST);
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -127,11 +122,10 @@ export const sendDeleteRole = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removeRole(roleCode));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   });
@@ -144,12 +138,11 @@ export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params
         if (response.ok) {
           dispatch(setUserRefs(data.payload));
           dispatch(setPage(data.metaData));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          resolve();
         }
         dispatch(toggleLoading('references'));
+        resolve();
       });
     });
   });
