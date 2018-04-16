@@ -25,6 +25,8 @@ import {
   ROUTE_PAGE_MODEL_DETAIL,
   ROUTE_DATA_MODEL_ADD,
   ROUTE_DATA_TYPE_LIST,
+  ROUTE_DATA_TYPE_ADD,
+  ROUTE_DATA_TYPE_EDIT,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -64,6 +66,8 @@ import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
+import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
+import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
@@ -114,6 +118,8 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_MODEL_DETAIL: return <PageModelDetailPageContainer />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
+    case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
+    case ROUTE_DATA_TYPE_EDIT: return <EditDataTypesPage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     case ROUTE_USER_LIST: return <UserListPage />;
     case ROUTE_USER_AUTHORITY: return <UserAuthorityPageContainer />;

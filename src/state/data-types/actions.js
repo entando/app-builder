@@ -1,9 +1,18 @@
-import { SET_DATA_TYPES } from 'state/data-types/types';
-import { getDataTypes } from 'api/dataTypes';
+import { initialize } from 'redux-form';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 
+import { getDataTypes, getDataType, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
+import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
+
+export const setSelectedAttribute = dataTypeAttributeCode => ({
+  type: SET_SELECTED,
+  payload: {
+    dataTypeAttributeCode,
+  },
+});
 
 export const setDataTypes = dataTypes => ({
   type: SET_DATA_TYPES,
@@ -12,8 +21,15 @@ export const setDataTypes = dataTypes => ({
   },
 });
 
-// thunk
+export const setDataTypeAttributes = attributes => ({
+  type: SET_ATTRIBUTES,
+  payload: {
+    attributes,
+  },
+});
 
+
+// thunk
 export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('dataTypes'));
@@ -21,11 +37,60 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setDataTypes(json.payload));
-          dispatch(toggleLoading('dataTypes'));
           dispatch(setPage(json.metaData));
-        } else if (json && json.errors) {
+        } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('dataTypes'));
+        }
+        dispatch(toggleLoading('dataTypes'));
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchDataType = dataTypeCode => dispatch => (
+  new Promise((resolve) => {
+    dispatch(toggleLoading('dataTypes'));
+    getDataType(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setDataTypes([json.payload]));
+          dispatch(initialize('dataType', json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        dispatch(toggleLoading('dataTypes'));
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (dispatch, getState) => (
+  new Promise((resolve) => {
+    getDataTypeAttributes(page, params).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          if (!getDataTypeAttributesIdList(getState())) {
+            dispatch(setDataTypeAttributes(json.payload));
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
+  new Promise((resolve) => {
+    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttribute(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
         resolve();
       });
