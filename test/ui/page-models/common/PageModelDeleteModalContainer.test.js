@@ -1,21 +1,24 @@
 import 'test/enzyme-init';
+
+import { getInfo } from 'state/modal/selectors';
 import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelDeleteModalContainer';
-
-import { MODAL_VISIBILITY, MODAL_INFO } from 'test/mocks/modal';
-
-const TEST_STATE = {
-  modal: {
-    visibleModal: MODAL_VISIBILITY.visibleModal,
-    info: MODAL_INFO,
-  },
-};
+import { MODAL_INFO } from 'test/mocks/modal';
 
 const dispatchMock = jest.fn();
 
+jest.mock('state/modal/selectors', () => ({
+  getInfo: jest.fn(),
+}));
+
+
 describe('PageModelDeleteModalContainer', () => {
   describe('mapStateToProps', () => {
+    beforeEach(() => {
+      getInfo.mockReturnValue(MODAL_INFO);
+    });
+
     it('maps info property from state', () => {
-      expect(mapStateToProps(TEST_STATE))
+      expect(mapStateToProps())
         .toHaveProperty('info', MODAL_INFO);
     });
   });

@@ -23,7 +23,7 @@ describe('PageModelDeleteModal', () => {
 
   describe('component with required props only', () => {
     it('renders without crashing', () => {
-      expect(component.exists()).toEqual(true);
+      expect(component.exists()).toBe(true);
     });
 
     it('has an EmptyState main container', () => {
