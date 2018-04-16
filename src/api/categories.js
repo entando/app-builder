@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { CATEGORY_TREE } from 'test/mocks/categories';
 
 const getCategoryTreeMockResponse = (queryString) => {

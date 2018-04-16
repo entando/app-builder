@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/detail/DetailRoleTableContainer';
 import { getLoading } from 'state/loading/selectors';
 

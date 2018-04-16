@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import GroupForm from 'ui/groups/common/GroupForm';
 import { sendPutGroup, fetchGroup } from 'state/groups/actions';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 export const EDIT_MODE = 'edit';
 

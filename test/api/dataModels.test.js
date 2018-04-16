@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 
 import { getDataModels } from 'api/dataModels';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
 
 const correctRequest = {
@@ -15,7 +15,7 @@ const correctRequest = {
 const PAGE_KEY_BAD = 'Gianni';
 
 jest.unmock('api/dataModels');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL } from 'app-init/router';
 
 class UserListMenuActions extends Component {

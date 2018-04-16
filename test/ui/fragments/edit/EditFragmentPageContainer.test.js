@@ -1,5 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
+import { getParams } from '@entando/router';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/edit/EditFragmentPageContainer';
 import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
@@ -14,11 +15,12 @@ const TEST_STATE = {
   fragmentForm: GET_FRAGMENT_OK.payload,
 };
 
+getParams.mockReturnValue({ fragmentCode: 'code' });
+
 const dispatchMock = jest.fn();
+
 jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ fragmentCode: 'code' }),
   BreadcrumbItem: () => (<span />),
-  Link: () => (<span />),
   LoginPage: () => (<span />),
   LoginForm: () => (<span />),
   BrandMenu: () => (<span />),
@@ -32,9 +34,6 @@ jest.mock('frontend-common-components', () => ({
   ActivityStreamMenu: () => (<span />),
   ActivityStream: () => (<span />),
   Notification: () => (<span />),
-  routerConfig: jest.fn(),
-  gotoRoute: jest.fn(),
-  routerReducer: state => state || {},
 }));
 
 describe('EditFragmentPageContainer', () => {

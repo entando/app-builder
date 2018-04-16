@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { getPageModels, getPageModel, postPageModel, putPageModel, getPageReferences } from 'api/pageModels';
 
 
@@ -11,14 +11,9 @@ const PAGE_MODEL = {
 
 jest.unmock('api/pageModels');
 
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
-}));
-
-jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
 beforeEach(jest.clearAllMocks);

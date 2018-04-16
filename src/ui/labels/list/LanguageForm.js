@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Col, FormGroup, InputGroup } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import FormLabel from 'ui/common/form/FormLabel';
 import ActiveLangTable from 'ui/labels/list/ActiveLangTable';
 

@@ -3,6 +3,7 @@ import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditForm
 
 // mocked
 import { formValueSelector, valueSelector } from 'redux-form';
+import { getParams } from '@entando/router';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
@@ -19,9 +20,7 @@ jest.mock('state/pages/actions', () => ({
   sendPutPage: jest.fn().mockReturnValue('sendPutPage_result'),
 }));
 
-jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ pageCode: 'page_code' }),
-}));
+getParams.mockReturnValue({ pageCode: 'page_code' });
 
 jest.mock('state/groups/selectors', () => ({
   getGroups: jest.fn().mockReturnValue('getGroups_result'),

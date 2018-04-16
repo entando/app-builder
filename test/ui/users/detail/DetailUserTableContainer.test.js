@@ -1,6 +1,6 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/detail/DetailUserTableContainer';
 import { getSelectedUser } from 'state/users/selectors';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { USER_PROFILE_MOCK } from 'test/mocks/users';
 
 jest.mock('state/users/selectors', () => ({

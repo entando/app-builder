@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import DetailRoleTable from 'ui/roles/detail/DetailRoleTable';
 import { fetchRoleDetail } from 'state/roles/actions';
 import { getSelectedRole, getSelectedRolePermissionsList } from 'state/roles/selectors';

@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 import {
   PAGE_MODELS_LIST, COMPLEX_PAYLOAD, SINGLE_CELL_PAYLOAD, SIDEBAR_HOLES_PAYLOAD,

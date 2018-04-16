@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { FieldLevelHelp } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 
 const FormLabel = ({
   labelId, langLabelId, helpId, required,

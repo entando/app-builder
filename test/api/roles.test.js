@@ -1,13 +1,13 @@
 import 'test/enzyme-init';
 import { getRoles, postRole, getRole, putRole, deleteRole, getUserReferences, filterMockList } from 'api/roles';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LIST_ROLES_OK, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 
 jest.unmock('api/roles');
 
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
 const EDITED_ROLE = {

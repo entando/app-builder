@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 

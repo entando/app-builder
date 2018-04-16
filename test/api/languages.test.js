@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getLanguages, putLanguage } from 'api/languages';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 const correctGetRequest = {
@@ -18,7 +18,7 @@ const LANGUAGE_OBJ = {
 };
 
 jest.unmock('api/languages');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', PUT: 'PUT' },
 }));

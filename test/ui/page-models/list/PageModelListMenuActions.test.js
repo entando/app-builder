@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 import { ROUTE_PAGE_MODEL_EDIT, ROUTE_PAGE_MODEL_DETAIL } from 'app-init/router';
 
 

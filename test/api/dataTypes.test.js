@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 import {
   DATA_TYPES_OK_PAGE_1,
@@ -17,7 +17,7 @@ const correctRequest = {
 
 
 jest.unmock('api/dataTypes');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));

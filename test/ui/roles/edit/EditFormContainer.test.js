@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/edit/EditFormContainer';
 import { fetchRole } from 'state/roles/actions';
 import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 
 const TEST_STATE = { roleCode: 'role_code' };

@@ -15,7 +15,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { getParams, gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from '@entando/router';
 
 import {
   SET_GROUPS,

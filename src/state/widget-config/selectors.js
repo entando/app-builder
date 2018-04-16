@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 
 import { getSelectedPageModel } from 'state/page-models/selectors';

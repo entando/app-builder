@@ -12,7 +12,7 @@ import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-st
 import { getHidden } from 'state/activity-stream/selectors';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

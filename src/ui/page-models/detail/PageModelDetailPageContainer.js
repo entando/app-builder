@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import PageModelDetailPage from 'ui/page-models/detail/PageModelDetailPage';
 

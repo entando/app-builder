@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);

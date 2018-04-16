@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DDTable, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { DDTable } from 'frontend-common-components';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
