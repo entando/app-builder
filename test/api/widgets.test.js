@@ -123,16 +123,16 @@ describe('api/widgets', () => {
       jest.clearAllMocks();
     });
     it('returns a promise', () => {
-      expect(putWidgets()).toBeInstanceOf(Promise);
+      expect(putWidgets({ ...WIDGET, code: 'AAA', customUi: '<div></div>' })).toBeInstanceOf(Promise);
     });
 
     it('if successful, returns a mock ok response', () => {
-      putWidgets('AAA', { ...WIDGET, customUi: '<div></div>' });
+      putWidgets({ ...WIDGET, code: 'AAA', customUi: '<div></div>' });
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/widgets/AAA',
         method: 'PUT',
-        body: { ...WIDGET, customUi: '<div></div>' },
-        mockResponse: { ...WIDGET, customUi: '<div></div>' },
+        body: { ...WIDGET, code: 'AAA', customUi: '<div></div>' },
+        mockResponse: { ...WIDGET, code: 'AAA', customUi: '<div></div>' },
         useAuthentication: true,
       });
     });
