@@ -43,6 +43,7 @@ import {
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
   ROUTE_ROLE_EDIT,
+  ROUTE_ROLE_DETAIL,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -85,6 +86,7 @@ import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 import EditRolePage from 'ui/roles/edit/EditRolePage';
+import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -137,6 +139,7 @@ const App = ({ route, username }) => {
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;
     case ROUTE_ROLE_EDIT: return <EditRolePage />;
+    case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
     default: return <NotFoundPage />;
   }
 };

@@ -288,7 +288,12 @@ export default {
     'role.listEmpty': 'There are no ROLES available',
     'role.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters. ',
     'role.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and ',
+    'role.detail.referencedUsers': 'Referenced users',
+    'role.detail.noPermissions': 'There are no permissions',
     'permission.listEmpty': 'There are no PERMISSION available',
+    'reference.noReferencedUsers': 'There are no referenced users',
+    'reference.edit': 'Edit {code}',
+    'reference.manageAuthorization': 'Manage authorization for {code}',
     'references.referencedPages': 'Referenced pages',
   },
 };

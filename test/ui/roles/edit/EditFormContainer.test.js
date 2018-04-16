@@ -1,7 +1,6 @@
 import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/edit/EditFormContainer';
 import { fetchRole } from 'state/roles/actions';
-import { toggleLoading } from 'state/loading/actions';
 import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
 import { getParams } from 'frontend-common-components';
 
@@ -49,7 +48,6 @@ describe('EditFormContainer', () => {
     it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {
       expect(props.onWillMount).toBeDefined();
       props.onWillMount('role_code');
-      expect(toggleLoading).toHaveBeenCalledWith('permissions');
       expect(dispatchMock).toHaveBeenCalledWith('fetchPermissions_result');
       expect(fetchRole).toHaveBeenCalled();
     });

@@ -2,11 +2,12 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {
   setRoles, fetchRoles, fetchRole, sendPostRole, sendPutRole,
-  sendDeleteRole,
+  sendDeleteRole, setSelected, removeRole, setUserRefs, fetchRoleDetail,
+  fetchUserRefs,
 } from 'state/roles/actions';
-import { getRoles, getRole, postRoles, putRole, deleteRole } from 'api/roles';
-import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, BODY_OK } from 'test/mocks/roles';
-import { SET_ROLES, REMOVE_ROLE } from 'state/roles/types';
+import { getRoles, getRole, postRoles, putRole, deleteRole, getUserReferences } from 'api/roles';
+import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
+import { SET_ROLES, REMOVE_ROLE, SET_SELECTED, SET_USER_REFS } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -36,6 +37,27 @@ describe('state/roles/actions', () => {
     it('test setRoles action sets the correct type', () => {
       const action = setRoles(LIST_ROLES_OK);
       expect(action.type).toEqual(SET_ROLES);
+    });
+  });
+
+  describe('setSelected', () => {
+    it('test setSelected action sets the correct type', () => {
+      const action = setSelected(GET_ROLE_PAYLOAD);
+      expect(action.type).toEqual(SET_SELECTED);
+    });
+  });
+
+  describe('removeRole', () => {
+    it('test removeRole action sets the correct type', () => {
+      const action = removeRole(ROLE_CODE);
+      expect(action.type).toEqual(REMOVE_ROLE);
+    });
+  });
+
+  describe('setUserRefs', () => {
+    it('test setUserRefs action sets the correct type', () => {
+      const action = setUserRefs(ROLE_USER_REFERENCES_PAYLOAD);
+      expect(action.type).toEqual(SET_USER_REFS);
     });
   });
 
@@ -161,6 +183,48 @@ describe('state/roles/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchRoleDetail()', () => {
+    it('when fetchRoleDetail succeeds should call get action', (done) => {
+      getRole.mockImplementation(mockApi({ payload: GET_ROLE_PAYLOAD }));
+      store.dispatch(fetchRoleDetail(GET_ROLE_PAYLOAD.code)).then(() => {
+        expect(getRole).toHaveBeenCalled();
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when getRole get error, should dispatch addError', (done) => {
+      getRole.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchRoleDetail(GET_ROLE_PAYLOAD.code)).then(() => {
+        expect(getRole).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchUserRefs()', () => {
+    it('when fetchUserRefs succeeds should call get action', (done) => {
+      getUserReferences.mockImplementation(mockApi({ payload: ROLE_USER_REFERENCES_PAYLOAD }));
+      store.dispatch(fetchUserRefs(GET_ROLE_PAYLOAD.code)).then(() => {
+        expect(getUserReferences).toHaveBeenCalled();
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when getRole get error, should dispatch addError', (done) => {
+      getUserReferences.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchUserRefs(GET_ROLE_PAYLOAD.code)).then(() => {
+        expect(getUserReferences).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
