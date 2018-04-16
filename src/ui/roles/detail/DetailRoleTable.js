@@ -51,7 +51,7 @@ class DetailRoleTable extends Component {
 }
 
 DetailRoleTable.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   role: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -61,7 +61,6 @@ DetailRoleTable.propTypes = {
 };
 
 DetailRoleTable.defaultProps = {
-  onWillMount: null,
   loading: false,
 };
 
