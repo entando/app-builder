@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_DATA_TYPES } from 'state/data-types/types';
+import { SET_DATA_TYPES, SET_ATTRIBUTES, SET_SELECTED } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
   acc[dataType.code] = dataType;
@@ -26,8 +26,32 @@ const dataTypeMap = (state = {}, action = {}) => {
   }
 };
 
+export const attributeList = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_ATTRIBUTES: {
+      return action.payload.attributes;
+    }
+    default: return state;
+  }
+};
+
+export const selected = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED: {
+      return action.payload.dataTypeAttributeCode;
+    }
+    default: return state;
+  }
+};
+
 
 export default combineReducers({
   list,
   map: dataTypeMap,
+  attributes: combineReducers({
+    list: attributeList,
+    selected,
+  }),
+
+
 });

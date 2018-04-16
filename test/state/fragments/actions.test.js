@@ -1,3 +1,4 @@
+import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
@@ -8,7 +9,7 @@ import { config } from 'api/apiManager';
 import {
   fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
   fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment, fetchFragmentSettings,
-  updateFragmentSettings,
+  updateFragmentSettings, removeFragment, sendDeleteFragment,
 } from 'state/fragments/actions';
 import {
   WIDGET_TYPES_OK,
@@ -24,11 +25,12 @@ import {
   getFragments,
   getWidgetTypes,
   getPlugins,
+  deleteFragment,
 } from 'api/fragments';
 
 import {
   SET_SELECTED, SET_WIDGET_TYPES,
-  SET_PLUGINS, SET_FRAGMENTS,
+  SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT,
 } from 'state/fragments/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -58,6 +60,7 @@ const INITIAL_STATE = {
 
 describe('state/fragments/actions', () => {
   let store;
+  let action;
 
   beforeEach(() => {
     store = mockStore(INITIAL_STATE);
@@ -67,7 +70,7 @@ describe('state/fragments/actions', () => {
 
   describe('setFragments', () => {
     it('test setFragments action sets the correct type', () => {
-      const action = setFragments(LIST_FRAGMENTS_OK.payload);
+      action = setFragments(LIST_FRAGMENTS_OK.payload);
       expect(action.type).toEqual(SET_FRAGMENTS);
     });
   });
@@ -118,23 +121,38 @@ describe('state/fragments/actions', () => {
   describe('test sync actions', () => {
     describe('test setWidgetTypes', () => {
       it('action payload contains widgetTypes list', () => {
-        const action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
+        action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
         expect(action.type).toBe(SET_WIDGET_TYPES);
         expect(action.payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
       });
     });
     describe('test setPlugins', () => {
       it('action payload contains plugins list', () => {
-        const action = setPlugins(PLUGINS_PAYLOAD);
+        action = setPlugins(PLUGINS_PAYLOAD);
         expect(action.type).toBe(SET_PLUGINS);
         expect(action.payload.plugins).toEqual(PLUGINS_PAYLOAD);
       });
     });
     describe('test setSelectedFragment', () => {
       it('action payload contains selected fragment', () => {
-        const action = setSelectedFragment(GET_FRAGMENT_PAYLOAD);
+        action = setSelectedFragment(GET_FRAGMENT_PAYLOAD);
         expect(action.type).toBe(SET_SELECTED);
         expect(action.payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+      });
+    });
+
+    describe('removeFragment', () => {
+      beforeEach(() => {
+        action = removeFragment('CODE');
+      });
+
+      it('is FSA compliant', () => {
+        expect(isFSA(action)).toBe(true);
+      });
+
+      it('actions is correct setup ', () => {
+        expect(action).toHaveProperty('type', REMOVE_FRAGMENT);
+        expect(action).toHaveProperty('payload.fragmentCode', 'CODE');
       });
     });
   });
@@ -244,6 +262,28 @@ describe('state/fragments/actions', () => {
         store.dispatch(updateFragmentSettings()).then(() => {
           expect(store.getActions()).toHaveLength(1);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+    describe('sendDeleteFragment', () => {
+      it('calls deleteFragment and dispatch action REMOVE_FRAGMENT', (done) => {
+        store.dispatch(sendDeleteFragment('CODE')).then(() => {
+          expect(deleteFragment).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', REMOVE_FRAGMENT);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        deleteFragment.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendDeleteFragment()).then(() => {
+          expect(deleteFragment).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });

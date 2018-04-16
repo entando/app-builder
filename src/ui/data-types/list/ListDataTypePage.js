@@ -1,11 +1,12 @@
 import React from 'react';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { BreadcrumbItem } from 'frontend-common-components';
+import { BreadcrumbItem, Link } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DataTypeListTableContainer from 'ui/data-types/list/DataTypeListTableContainer';
+import { ROUTE_DATA_TYPE_ADD } from 'app-init/router';
 
 const ListDataTypePage = () => (
   <InternalPage className="ListDataTypePage">
@@ -32,17 +33,11 @@ const ListDataTypePage = () => (
       </Row>
       <Row>
         <Col md={12}>
-          {/* <Link route={}> */}
-          <Button
-            type="button"
-            className="pull-right ListDataTypePage__add"
-            bsStyle="primary"
-          >
-            <FormattedMessage
-              id="app.add"
-            />
-          </Button>
-          {/* </Link> */}
+          <Link route={ROUTE_DATA_TYPE_ADD} className="pull-right">
+            <Button className="DataType__add" bsStyle="primary" >
+              <FormattedMessage id="app.new" />
+            </Button>
+          </Link>
         </Col>
       </Row>
       <Row>

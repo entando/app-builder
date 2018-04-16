@@ -32,6 +32,7 @@
 @import "fragment/PageModelReferenceTable";
 @import "fragment/WidgetTypeReferenceTable";
 @import "data-types/common/DataTypeStatusIcon";
+@import "data-types/common/DataTypeForm";
 @import "data-types/list/DataTypeListTable";
 @import "pages/config/PageConfigPage";
 @import "pages/config/PageConfigGrid";
@@ -55,6 +56,8 @@
 @import "groups/detail/GroupDetailTabResources";
 @import "categories/list/CategoryTree";
 @import "common/form/RenderRadioInput";
+@import "common/attributes/AttributeListTable";
+@import "common/attributes/AttributeCheckIcon";
 @import "roles/list/RoleListTable";
 @import "roles/detail/DetailRole";
 @import "common/references/UserRefsTable";

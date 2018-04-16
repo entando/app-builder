@@ -1,42 +1,48 @@
 import reducer from 'state/data-types/reducer';
-import { setDataTypes } from 'state/data-types/actions';
-import { getDataTypeList } from 'state/data-types/selectors';
-import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
+import { setDataTypes, setDataTypeAttributes, setSelectedAttribute } from 'state/data-types/actions';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE } from 'test/mocks/dataTypes';
 
-jest.mock('state/data-types/selectors', () => ({
-  getDataTypeList: jest.fn(),
-}));
-
-const dataTypes = [
-  {
-    name: 'dataType1',
-    code: 'ABC',
-    status: 'ok',
-  },
-  {
-    name: 'dataType2',
-    code: 'DEF',
-    status: 'ok',
-  },
-];
-
-getDataTypeList.mockReturnValue(dataTypes);
+const dataTypesList = ['ABC', 'DEF'];
 
 describe('state/data-types/reducer', () => {
   const state = reducer();
+  let newState;
 
   it('should return an object', () => {
     expect(typeof state).toBe('object');
   });
 
   describe('after action SET_DATA_TYPES', () => {
-    let newState;
     beforeEach(() => {
       newState = reducer(state, setDataTypes(DATA_TYPES_OK_PAGE_1.payload));
     });
 
     it('should define the dataType payload', () => {
-      expect(getDataTypeList(newState)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
+      expect(newState.list).toMatchObject(dataTypesList);
+    });
+  });
+
+  describe('after action SET_ATTRIBUTES', () => {
+    beforeEach(() => {
+      newState = reducer(state, setDataTypeAttributes(DATA_TYPES_ATTRIBUTES));
+    });
+
+    it('should define the attributes payload', () => {
+      expect(newState).toHaveProperty('attributes');
+      expect(newState).toHaveProperty('attributes.list');
+      expect(newState.attributes.list).toMatchObject(DATA_TYPES_ATTRIBUTES);
+    });
+  });
+
+  describe('after action SET_SELECTED', () => {
+    beforeEach(() => {
+      newState = reducer(state, setSelectedAttribute(DATA_TYPE_ATTRIBUTE));
+    });
+
+    it('should define the selected payload', () => {
+      expect(newState).toHaveProperty('attributes');
+      expect(newState).toHaveProperty('attributes.selected');
+      expect(newState.attributes.selected).toMatchObject(DATA_TYPE_ATTRIBUTE);
     });
   });
 });

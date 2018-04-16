@@ -10,18 +10,18 @@ describe('DetailRolePage', () => {
     component = shallow(<DetailRolePage />);
   });
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('verify if exist InternalPage with class DetailRolePage', () => {
-    expect(component.find('InternalPage').hasClass('DetailRolePage')).toEqual(true);
+    expect(component.find('InternalPage').hasClass('DetailRolePage')).toBe(true);
   });
 
   it('verify if has a breadcrumb', () => {
-    expect(component.find('Breadcrumb').exists());
+    expect(component.find('Breadcrumb').exists()).toBe(true);
   });
 
   it('verify if has a page title', () => {
-    expect(component.find('PageTitle').exists());
+    expect(component.find('PageTitle').exists()).toBe(true);
   });
 });

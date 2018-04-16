@@ -1,0 +1,11 @@
+.AttributeCheckIcon {
+  font-family: FontAwesome;
+}
+
+.AttributeCheckIcon--checked:before {
+  content: $fa-check-square-o;
+}
+
+.AttributeCheckIcon--unchecked:before {
+  content: $fa-square-o;
+}

@@ -29,7 +29,7 @@ const renderComponent = widgetList =>
     widgetList[widget].map((el, index) => {
       const element = [];
       if (index === 0) {
-        element.push(renderWidgetCategory(el.widgetCategory));
+        element.push(renderWidgetCategory(el.typology));
       }
       element.push(renderWidgetElement(el));
       return element;
@@ -42,7 +42,6 @@ const ContentWidget = ({
   const onChange = (event) => {
     filterWidget(event.target.value);
   };
-
   return (
 
     <div className="ContentWidget">

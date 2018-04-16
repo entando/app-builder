@@ -38,12 +38,12 @@ export const postWidgets = widgetObject => (
   })
 );
 
-export const putWidgets = (widgetCode, widgetObject) => (
+export const putWidgets = widgetObject => (
   makeRequest({
-    uri: `/api/widgets/${widgetCode}`,
+    uri: `/api/widgets/${widgetObject.code}`,
     method: METHODS.PUT,
     body: widgetObject,
-    mockResponse: { ...WIDGET, customUi: '<div></div>' },
+    mockResponse: { ...WIDGET, code: `${widgetObject.code}`, customUi: '<div></div>' },
     useAuthentication: true,
   })
 );

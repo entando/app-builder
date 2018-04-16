@@ -1,12 +1,73 @@
 import 'test/enzyme-init';
-import { mapDispatchToProps } from 'ui/widgets/list/ListWidgetPageContainer';
+import { getLoading } from 'state/loading/selectors';
 
-describe('ListWidgetPageContainer', () => {
-  const dispatchMock = jest.fn();
-  it('verify that onWillMount is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onWillMount).toBeDefined();
-    result.onWillMount();
-    expect(dispatchMock).toHaveBeenCalled();
+import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/list/ListWidgetPageContainer';
+import { fetchWidgetList, sendDeleteWidgets } from 'state/widgets/actions';
+import { getTypologyWidgetList } from 'state/widgets/selectors';
+
+import { WIDGET, LIST, WIDGETS_MAP, WIDGET_ONE_LIST } from 'test/mocks/widgets';
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+getLoading.mockReturnValue(false);
+
+jest.mock('state/widgets/selectors', () => ({
+  getTypologyWidgetList: jest.fn(),
+}));
+
+getTypologyWidgetList.mockReturnValue(WIDGET_ONE_LIST);
+
+jest.mock('state/widgets/actions', () => ({
+  fetchWidgetList: jest.fn(),
+  sendDeleteWidgets: jest.fn(),
+
+}));
+
+
+const dispatchMock = jest.fn();
+
+const STATE_MOCK = {
+  widgets: {
+    list: LIST,
+    map: WIDGETS_MAP,
+    selected: WIDGET,
+  },
+};
+
+describe('ui/widgets/list/ListWidgetPageContainer', () => {
+  let props;
+  describe('mapDispatchToProps', () => {
+    beforeEach(() => {
+      props = mapDispatchToProps(dispatchMock);
+    });
+
+    it('verify that onWillMount and onDelete are defined', () => {
+      expect(props.onWillMount).toBeDefined();
+      expect(props.onDelete).toBeDefined();
+    });
+
+    it('should dispatch an action if onWillMount is called', () => {
+      props.onWillMount();
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchWidgetList).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onDelete is called', () => {
+      expect(props.onDelete).toBeDefined();
+      props.onDelete(WIDGET);
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(sendDeleteWidgets).toHaveBeenCalledWith(WIDGET);
+    });
+  });
+  describe('mapStateToProps', () => {
+    beforeEach(() => {
+      props = mapStateToProps(STATE_MOCK);
+    });
+
+    it('maps widgetList property from state', () => {
+      props = mapStateToProps(STATE_MOCK);
+      expect(props).toHaveProperty('widgetList', WIDGET_ONE_LIST);
+    });
   });
 });

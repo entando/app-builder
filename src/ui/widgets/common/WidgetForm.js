@@ -35,6 +35,16 @@ export class WidgetFormBody extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+  renderSelectOptions() {
+    const { groups } = this.props;
+    return groups.map(gr => (
+      <option
+        key={gr.code}
+        value={gr.code}
+      > {gr.name}
+      </option>));
+  }
+
   render() {
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -101,12 +111,8 @@ export class WidgetFormBody extends Component {
                 </label>
                 <Col xs={10}>
                   <Field name="group" component="select" className="form-control">
-                    {this.props.groups.map(gr => (
-                      <option
-                        key={gr.code}
-                        value={gr.code}
-                      > {gr.name}
-                      </option>))}
+                    <option>{formattedText('form.select.chooseOne')}</option>
+                    {this.renderSelectOptions()}
                   </Field>
                 </Col>
               </div>
