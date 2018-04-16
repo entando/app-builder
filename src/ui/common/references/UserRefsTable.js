@@ -80,7 +80,7 @@ class UserRefsTable extends React.Component {
 }
 
 UserRefsTable.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   userReferences: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string,
@@ -91,7 +91,6 @@ UserRefsTable.propTypes = {
 };
 
 UserRefsTable.defaultProps = {
-  onWillMount: null,
   loading: false,
   userReferences: [],
 };
