@@ -54,7 +54,6 @@ DetailRoleTable.propTypes = {
   role: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
-    permissions: PropTypes.shape({}),
   }).isRequired,
   loading: PropTypes.bool,
   rolePermissions: PropTypes.arrayOf(PropTypes.string),
