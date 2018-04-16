@@ -8,6 +8,7 @@ export const getCategoriesMap = state => state.categories.map;
 export const getChildrenMap = state => state.categories.childrenMap;
 export const getStatusMap = state => state.categories.statusMap;
 export const getTitlesMap = state => state.categories.titlesMap;
+export const getSelected = state => state.categories.selected;
 
 const CATEGORY_STATUS_DEFAULTS = {
   expanded: false,

@@ -94,7 +94,7 @@ CategoryTree.defaultProps = {
   categories: [],
   onWillMount: null,
   onExpandCategory: null,
-  loading: true,
+  loading: false,
 };
 
 export default CategoryTree;
