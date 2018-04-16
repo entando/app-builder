@@ -9,7 +9,7 @@ import {
 } from 'state/data-types/selectors';
 
 export const mapStateToProps = (state) => {
-  console.log('TEST ', getDataTypeSelectedAttributeAllowedRoles(state));
+  console.log('joinRoles ', formValueSelector('Attribute')(state, 'joinRoles'));
 
   return ({
     dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
@@ -17,7 +17,7 @@ export const mapStateToProps = (state) => {
     attributeCode: formValueSelector('DataType')(state, 'type'),
     allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
     allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-    JoinAllowedOptions: formValueSelector('Attribute')(state, 'allowedRoles') || [],
+    JoinAllowedOptions: formValueSelector('Attribute')(state, 'joinRoles') || [],
   });
 };
 export const mapDispatchToProps = dispatch => ({

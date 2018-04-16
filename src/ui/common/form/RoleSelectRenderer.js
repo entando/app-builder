@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formattedText } from 'frontend-common-components';
-import { InputGroup, Button, Label } from 'patternfly-react';
+import { InputGroup, Button, Col } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
 
-
-class MultiSelectRenderer extends Component {
+class RoleSelectRenderer extends Component {
   constructor(props) {
     super(props);
     this.pushField = this.pushField.bind(this);
     this.renderTags = this.renderTags.bind(this);
     this.select = null;
-    console.log('PROPS', this.props);
   }
 
   pushField() {
@@ -31,16 +30,24 @@ class MultiSelectRenderer extends Component {
       selectedValues, fields, labelKey, valueKey, options,
     } = this.props;
     return selectedValues.map((value, i) => (
-      <Label key={value} bsStyle="primary" className="MultiSelectRenderer__tag">
-        {options.find(opt => opt[valueKey] === value)[labelKey]}
-        <Button
-          bsStyle="link"
-          className="MultiSelectRenderer__remove-tag-btn"
-          onClick={() => fields.remove(i)}
-        >
-          <i className="fa fa-times" />
-        </Button>
-      </Label>
+      <div>
+        <h3><FormattedMessage id="app.assigned.roles" /></h3>
+        <hr />
+        <Col xs={4}>
+          <p key={value}>
+            {options.find(opt => opt[valueKey] === value)[labelKey]}
+          </p>
+        </Col>
+        <Col xs={8}>
+          <Button
+            bsStyle="danger"
+            className="btn btn-danger RoleSelectRenderer__remove--btn"
+            onClick={() => fields.remove(i)}
+          >
+            <FormattedMessage id="app.delete" />
+          </Button>
+        </Col>
+      </div>
     ));
   }
 
@@ -67,21 +74,18 @@ class MultiSelectRenderer extends Component {
     }
 
     return (
-      <div className="MultiSelectRenderer">
+      <div className="RoleSelectRenderer">
         <InputGroup>
-          <select
-            className="form-control"
-            ref={(select) => { this.select = select; }}
-          >
+          <select className="form-control" ref={(select) => { this.select = select; }} >
             {filteredOptions}
           </select>
           <span className="input-group-btn">
             <Button
-              className="MultiSelectRenderer__add-btn"
+              className="RoleSelectRenderer__add-btn"
               bsStyle="primary"
               onClick={this.pushField}
             >
-              <i className="fa fa-plus" />
+              <FormattedMessage id="app.add" />
             </Button>
           </span>
         </InputGroup>
@@ -93,7 +97,7 @@ class MultiSelectRenderer extends Component {
 }
 
 
-MultiSelectRenderer.propTypes = {
+RoleSelectRenderer.propTypes = {
   fields: PropTypes.shape({}).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedValues: PropTypes.arrayOf(PropTypes.string),
@@ -102,11 +106,11 @@ MultiSelectRenderer.propTypes = {
   emptyOptionTextId: PropTypes.string,
 };
 
-MultiSelectRenderer.defaultProps = {
+RoleSelectRenderer.defaultProps = {
   selectedValues: [],
   valueKey: 'value',
   labelKey: 'label',
   emptyOptionTextId: '',
 };
 
-export default MultiSelectRenderer;
+export default RoleSelectRenderer;

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { FieldArray } from 'redux-form';
-import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
+import RoleSelectRenderer from 'ui/common/form/RoleSelectRenderer';
 
 class AttributeRole extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
   render() {
-    const { JoinAllowedOptions2, allowedRoles } = this.props;
+    const { JoinAllowedOptions, allowedRoles } = this.props;
 
     const selectAllowedOptions = allowedRoles.map(item => (
       {
@@ -18,7 +18,28 @@ class AttributeRole extends Component {
         text: item.descr,
       }
     ));
-    console.log('join', selectAllowedOptions);
+    const roleWrapper = (
+      selectAllowedOptions.lenght > 0 ?
+        (
+          <FormGroup>
+            <label htmlFor="attrRole" className="col-xs-2 control-label">
+              <FormattedMessage id="app.role" />
+            </label>
+            <Col xs={10}>
+              <FieldArray
+                component={RoleSelectRenderer}
+                name="joinRoles"
+                options={selectAllowedOptions}
+                selectedValues={JoinAllowedOptions}
+                labelKey="text"
+                valueKey="value"
+                emptyOptionTextId="app.chooseARole"
+              />
+            </Col>
+          </FormGroup>
+        )
+        : <div><FormattedMessage id="app.no.roles" /><br /><br /></div>
+    );
 
     return (
       <Row>
@@ -27,22 +48,7 @@ class AttributeRole extends Component {
             <legend>
               <FormattedMessage id="app.roles" />
             </legend>
-            <FormGroup>
-              <label htmlFor="attrRole" className="col-xs-2 control-label">
-                <FormattedMessage id="app.role" />
-              </label>
-              <Col xs={10}>
-                <FieldArray
-                  component={MultiSelectRenderer}
-                  name="allowedRoles"
-                  options={selectAllowedOptions}
-                  selectedValues={JoinAllowedOptions2}
-                  labelKey="text"
-                  valueKey="value"
-                  emptyOptionTextId="app.chooseARole"
-                />
-              </Col>
-            </FormGroup>
+            {roleWrapper}
           </fieldset>
         </Col>
       </Row>
@@ -56,12 +62,13 @@ AttributeRole.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
-  JoinAllowedOptions2: PropTypes.arrayOf(PropTypes.string).isRequired,
+  JoinAllowedOptions: PropTypes.arrayOf(PropTypes.string),
 };
 
 AttributeRole.defaultProps = {
   onWillMount: () => {},
   allowedRoles: [],
+  JoinAllowedOptions: [],
 };
 
 

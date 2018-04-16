@@ -74,6 +74,8 @@ export default {
     'app.enumeratorStaticItems.help': 'Inserisci una configuration tipo \'lable1,lable2,lable3\'',
     'app.enumeratorStaticItemsMap.help': 'Inserisci una configuration tipo \'key1=value1,key2=value2,key3=value3\'',
     'app.chooseARole': 'Scegli un ruolo',
+    'app.assigned.roles': 'Assigned role',
+    'app.no.roles': 'Ruoli non disponibili o potrebbero già essere stati assegnati.',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

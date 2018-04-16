@@ -7,7 +7,7 @@ import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
-import AttributeEnumEnumMapSettings from 'ui/common/attributes/AttributeEnumEnumMapSettings';
+import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 
 
@@ -41,7 +41,7 @@ export class AttributeFormBody extends Component {
                <AttributeRole {...this.props} />
                <AttributeMonoListMonoSettings {...this.props} />
                <AttributeHypeLongMonoTextSettings />
-               <AttributeEnumEnumMapSettings {...this.props} />
+               <AttributeEnumMapSettings {...this.props} />
                <AttributeOgnlValidation />
              </fieldset>
            </Col>
@@ -68,7 +68,7 @@ export class AttributeFormBody extends Component {
 AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  dataTypeAttributeCode: PropTypes.string.isRequired,
+  dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
@@ -77,6 +77,7 @@ AttributeFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
+  dataTypeAttributeCode: '',
 };
 
 const AttributeForm = reduxForm({

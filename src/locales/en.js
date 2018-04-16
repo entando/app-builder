@@ -74,6 +74,8 @@ export default {
     'app.enumeratorStaticItemsSeparator': 'Separator',
     'app.enumeratorExtractorBean': 'Extractor bean name',
     'app.chooseARole': 'Choose a role',
+    'app.assigned.roles': 'Assigned role',
+    'app.no.roles': 'No roles available: they might have been all assigned, yet.',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Page Creator',
     'menu.pageTree': 'Page Tree',
