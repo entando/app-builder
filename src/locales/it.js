@@ -288,7 +288,12 @@ export default {
     'role.listEmpty': 'Non ci sono RUOLI disponibili',
     'role.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali. ',
     'role.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  ',
+    'role.detail.referencedUsers': 'Utenti referenziati',
+    'role.detail.noPermissions': 'Non ci sono permessi',
     'permission.listEmpty': 'Non ci sono PERMISSION disponibili',
+    'reference.noReferencedUsers': 'Non ci sono utenti referenziati',
+    'reference.edit': 'Modifica {code}',
+    'reference.manageAuthorization': 'Gestisci autorizzazioni per {code}',
     'references.referencedPages': 'Pagine referenziate',
   },
 };

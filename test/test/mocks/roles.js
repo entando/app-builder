@@ -60,6 +60,26 @@ export const BODY_OK = {
   code: 'new_role',
 };
 
+export const ROLE_USER_REFERENCES_PAYLOAD = [{
+  username: 'editorCoach',
+  registration: '2008-09-25',
+  lastLogin: '2009-07-02',
+  lastPasswordChange: '2018-04-12',
+  status: 'active',
+  accountNotExpired: true,
+  credentialsNotExpired: true,
+  profileAttributes: {
+    birthdate: '1945-03-01 00:00:00',
+    boolean2: false,
+    language: 'it',
+    fullname: 'Rick Bobonsky',
+    boolean1: false,
+    email: 'rick.bobonsky@mailinator.com',
+  },
+  maxMonthsSinceLastAccess: -1,
+  maxMonthsSinceLastPasswordChange: -1,
+}];
+
 export const ROLES_NORMALIZED = {
   roles: {
     list: [
@@ -116,6 +136,10 @@ export const ROLES_NORMALIZED = {
         name: 'operations On Resources1',
         code: 'operationsOnResources1',
       },
+    },
+    selected: {
+      ...GET_ROLE_PAYLOAD,
+      userReferences: ROLE_USER_REFERENCES_PAYLOAD,
     },
   },
   pagination: {
