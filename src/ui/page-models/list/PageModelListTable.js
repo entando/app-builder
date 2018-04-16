@@ -4,6 +4,7 @@ import { Paginator, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 import PageModelListMenuActions from 'ui/page-models/list/PageModelListMenuActions';
+import PageModelDeleteModalContainer from 'ui/page-models/common/PageModelDeleteModalContainer';
 
 class PageModelListTable extends Component {
   constructor(props) {
@@ -85,6 +86,7 @@ class PageModelListTable extends Component {
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
           {this.renderPaginator()}
+          <PageModelDeleteModalContainer />
         </Spinner>
       </div>
     );
