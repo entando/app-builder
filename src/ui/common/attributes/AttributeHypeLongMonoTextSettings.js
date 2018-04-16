@@ -38,11 +38,4 @@ const AttributeHypeLongMonoTextSettings = () => (
   </Row>
 );
 
-AttributeHypeLongMonoTextSettings.propTypes = {
-};
-
-AttributeHypeLongMonoTextSettings.defaultProps = {
-};
-
-
 export default AttributeHypeLongMonoTextSettings;

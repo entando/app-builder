@@ -29,7 +29,6 @@ export class DataTypeFormBody extends Component {
    };
 
    render() {
-     // console.log('this.props.attributes', this.props.attributes);
      const selectOptions = this.props.attributes.map(item => ({
        value: item,
        text: item,
