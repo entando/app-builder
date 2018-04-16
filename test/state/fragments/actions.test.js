@@ -35,6 +35,7 @@ import {
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { ADD_ALERT } from 'state/alerts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -244,8 +245,10 @@ describe('state/fragments/actions', () => {
       it('action payload contains fragment settings information', (done) => {
         store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(initialize).toHaveBeenCalled();
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
+          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
           done();
         }).catch(done.fail);
       });
@@ -260,8 +263,10 @@ describe('state/fragments/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         putFragmentSettings.mockImplementation(mockApi({ errors: true }));
         store.dispatch(updateFragmentSettings()).then(() => {
-          expect(store.getActions()).toHaveLength(1);
-          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
           done();
         }).catch(done.fail);
       });

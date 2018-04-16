@@ -143,6 +143,8 @@ export default {
     'fragment.table.details': 'Details for: {code}',
     'fragment.form.edit.widgetType': 'Widget Type',
     'fragment.settings': 'Enable Editing of fragment with empty default gui',
+    'fragment.settings.alert.success': 'The settings have been updated',
+    'fragment.settings.alert.error': 'The settings have not been updated',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',

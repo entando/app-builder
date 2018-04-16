@@ -17,10 +17,27 @@ export class SettingsFragmentFormBody extends React.Component {
   }
 
   renderBody() {
-    return !this.props.error ?
+    const { alert } = this.props;
+    let alertMessage;
+    if (alert && alert === 'success') {
+      alertMessage = (
+        <Alert type="success">
+          <FormattedMessage id="fragment.settings.alert.success" />
+        </Alert>
+      );
+    } else if (alert && alert === 'error') {
+      alertMessage = (
+        <Alert type="error">
+          <FormattedMessage id="fragment.settings.alert.error" />
+        </Alert>
+      );
+    }
+
+    return (
       <form onSubmit={this.onSubmit} className="SettingsFragmentForm">
         <Row>
           <Col xs={12}>
+            {alertMessage}
             <fieldset>
               <FormGroup>
                 <Row>
@@ -55,10 +72,7 @@ export class SettingsFragmentFormBody extends React.Component {
             </fieldset>
           </Col>
         </Row>
-      </form> :
-      <Alert type="error">
-        <FormattedMessage id="pageSettings.input.500" />
-      </Alert>;
+      </form>);
   }
 
   render() {
@@ -74,13 +88,13 @@ export class SettingsFragmentFormBody extends React.Component {
 SettingsFragmentFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func,
-  error: PropTypes.string,
+  alert: PropTypes.string,
 };
 
 SettingsFragmentFormBody.defaultProps = {
   onWillMount: () => {},
   handleSubmit: () => {},
-  error: null,
+  alert: null,
 };
 const SettingsFragmentForm = reduxForm({
   form: 'fragmentSettings',
