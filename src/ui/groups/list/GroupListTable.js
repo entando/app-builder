@@ -10,6 +10,7 @@ class GroupListTable extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -18,6 +19,10 @@ class GroupListTable extends Component {
 
   changePage(page) {
     this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
@@ -64,6 +69,7 @@ class GroupListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
