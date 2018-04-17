@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from 'api/apiManager';
-import { CATEGORY_TREE } from 'test/mocks/categories';
+import { CATEGORY_TREE, BODY_OK } from 'test/mocks/categories';
 
 const getCategoryTreeMockResponse = (categoryCode) => {
   switch (categoryCode) {
@@ -23,6 +23,35 @@ export const getCategory = categoryCode => (
     uri: `/api/categories/${categoryCode}`,
     method: METHODS.GET,
     mockResponse: CATEGORY_TREE.home,
+    useAuthentication: true,
+  })
+);
+
+export const postCategorys = categoriesObject => (
+  makeRequest({
+    uri: '/api/categories',
+    method: METHODS.POST,
+    mockResponse: BODY_OK,
+    body: categoriesObject,
+    useAuthentication: true,
+  })
+);
+
+export const putCategory = categoryObject => (
+  makeRequest({
+    uri: `/api/categories/${categoryObject.code}`,
+    method: METHODS.PUT,
+    mockResponse: BODY_OK,
+    body: categoryObject,
+    useAuthentication: true,
+  })
+);
+
+export const deleteCategory = categoryCode => (
+  makeRequest({
+    uri: `/api/categories/${categoryCode}`,
+    method: METHODS.DELETE,
+    mockResponse: { code: categoryCode },
     useAuthentication: true,
   })
 );
