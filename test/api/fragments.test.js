@@ -6,7 +6,7 @@ import {
   putFragmentSettings,
   deleteFragment,
 } from 'api/fragments';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -23,7 +23,7 @@ const correctRequest = {
 };
 
 jest.unmock('api/fragments');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', DELETE: 'DELETE' },
 }));

@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 import { getUsers, getUser, putUser } from 'api/users';
 import { USERS_OK, ERROR } from 'test/mocks/users';
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 const correctRequest = {
   uri: '/api/users',
@@ -11,7 +11,7 @@ const correctRequest = {
   useAuthentication: true,
   errors: expect.any(Function),
 };
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
 }));

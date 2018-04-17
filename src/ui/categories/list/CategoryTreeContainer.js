@@ -12,7 +12,6 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchCategoryTree());
-    dispatch(handleExpandCategory());
   },
   onExpandCategory: categoryCode =>
     dispatch(handleExpandCategory(categoryCode)),

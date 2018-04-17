@@ -54,7 +54,7 @@ describe('state/roles/selectors', () => {
   });
 
   it('verify getSelectedRole selector', () => {
-    expect(getSelectedRole({ ...ROLES_NORMALIZED, ...PERMISSIONS_NORMALIZED }))
-      .toEqual({ ...ROLES_NORMALIZED.roles.selected, permissions: rolePermissionsList });
+    expect(getSelectedRole(ROLES_NORMALIZED))
+      .toEqual(ROLES_NORMALIZED.roles.selected);
   });
 });

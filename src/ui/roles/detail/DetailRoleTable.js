@@ -10,15 +10,14 @@ class DetailRoleTable extends Component {
   }
 
   render() {
-    const { role } = this.props;
+    const { role, rolePermissions } = this.props;
 
-    const permissionList = (permissions) => {
-      if (permissions.length > 0) {
+    const permissionList = () => {
+      if (rolePermissions.length > 0) {
         return (
           <ul className="DetailRole__permission-list">
-            {permissions.map(permission => (
-              <li key={permission}>{permission}</li>
-              ))}
+            { rolePermissions.map(permission => (
+              <li key={permission}>{permission}</li>))}
           </ul>
         );
       }
@@ -35,7 +34,7 @@ class DetailRoleTable extends Component {
           <dt className="col-xs-2 text-right"><FormattedMessage id="app.permissions" /></dt>
           <dd className="col-xs-10 DetailRole__detail-item">
             <Spinner loading={this.props.loading} >
-              {permissionList(role.permissions)}
+              {permissionList()}
             </Spinner>
           </dd>
           <dt className="col-xs-2 text-right">
@@ -55,13 +54,14 @@ DetailRoleTable.propTypes = {
   role: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
-    permissions: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   loading: PropTypes.bool,
+  rolePermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 DetailRoleTable.defaultProps = {
   loading: false,
+  rolePermissions: [],
 };
 
 export default DetailRoleTable;

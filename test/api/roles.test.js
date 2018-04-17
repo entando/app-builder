@@ -1,13 +1,13 @@
 import 'test/enzyme-init';
-import { getRoles, postRoles, getRole, putRole, deleteRole, getUserReferences, filterMockList } from 'api/roles';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { getRoles, postRole, getRole, putRole, deleteRole, getUserReferences, filterMockList } from 'api/roles';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LIST_ROLES_OK, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 
 jest.unmock('api/roles');
 
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
 const EDITED_ROLE = {
@@ -70,13 +70,13 @@ describe('api/roles', () => {
     });
   });
 
-  describe('postRoles()', () => {
+  describe('postRole()', () => {
     it('if successful, returns a mock ok response', () => {
-      expect(postRoles(BODY_OK)).toBeInstanceOf(Promise);
+      expect(postRole(BODY_OK)).toBeInstanceOf(Promise);
     });
 
     it('if successful, returns a mock ok response', () => {
-      postRoles(BODY_OK);
+      postRole(BODY_OK);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/roles',
         method: METHODS.POST,

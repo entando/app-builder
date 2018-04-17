@@ -4,8 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Spinner } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
 import UserStatus from 'ui/users/common/UserStatus';
+import { formattedText } from '@entando/utils';
 
-import { formattedText, LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
 
 class UserRefsTable extends React.Component {
@@ -80,7 +81,7 @@ class UserRefsTable extends React.Component {
 }
 
 UserRefsTable.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   userReferences: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string,
@@ -91,7 +92,6 @@ UserRefsTable.propTypes = {
 };
 
 UserRefsTable.defaultProps = {
-  onWillMount: null,
   loading: false,
   userReferences: [],
 };

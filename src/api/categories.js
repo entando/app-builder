@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { CATEGORY_TREE, BODY_OK } from 'test/mocks/categories';
 
 const getCategoryTreeMockResponse = (categoryCode) => {
@@ -11,7 +11,7 @@ const getCategoryTreeMockResponse = (categoryCode) => {
 
 export const getCategoryTree = categoryCode => (
   makeRequest({
-    uri: `/api/categories?parentNode=${categoryCode}`,
+    uri: `/api/categories?parentCode=${categoryCode}`,
     method: METHODS.GET,
     mockResponse: getCategoryTreeMockResponse(categoryCode),
     useAuthentication: true,
@@ -27,7 +27,7 @@ export const getCategory = categoryCode => (
   })
 );
 
-export const postCategorys = categoriesObject => (
+export const postCategory = categoriesObject => (
   makeRequest({
     uri: '/api/categories',
     method: METHODS.POST,

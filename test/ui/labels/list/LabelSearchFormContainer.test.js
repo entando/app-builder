@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { mapDispatchToProps } from 'ui/labels/list/LabelSearchFormContainer';
 import { fetchLabels } from 'state/labels/actions';
-import { convertToQueryString, FILTER_OPERATORS } from 'util/queryStringManager';
 
 const dispatchMock = jest.fn();
 

@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import {
+  formattedText,
+  required,
+  maxLength,
+  minLength,
+  matchPassword,
+  userFormText,
+} from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
-import { required, maxLength, minLength, matchPassword, userFormText } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';

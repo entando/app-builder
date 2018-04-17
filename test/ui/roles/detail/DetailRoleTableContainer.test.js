@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/detail/DetailRoleTableContainer';
 import { getLoading } from 'state/loading/selectors';
 
@@ -24,6 +24,7 @@ getParams.mockReturnValue({ roleCode: 'role_code' });
 
 jest.mock('state/roles/selectors', () => ({
   getSelectedRole: jest.fn().mockReturnValue('getSelectedRole_result'),
+  getSelectedRolePermissionsList: jest.fn().mockReturnValue('getSelectedRolePermissionsList_result'),
 }));
 
 describe('DetailRoleTableContainer', () => {
@@ -38,6 +39,7 @@ describe('DetailRoleTableContainer', () => {
     it('maps the properties', () => {
       expect(props).toHaveProperty('role', 'getSelectedRole_result');
       expect(props).toHaveProperty('roleCode', 'role_code');
+      expect(props).toHaveProperty('rolePermissions', 'getSelectedRolePermissionsList_result');
     });
   });
 
@@ -50,7 +52,6 @@ describe('DetailRoleTableContainer', () => {
     it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {
       expect(props.onWillMount).toBeDefined();
       props.onWillMount('role_code');
-      expect(dispatchMock).toHaveBeenCalledWith('fetchPermissions_result');
       expect(dispatchMock).toHaveBeenCalledWith('fetchRoleDetail_result');
     });
   });

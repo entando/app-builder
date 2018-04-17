@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import DetailRoleTable from 'ui/roles/detail/DetailRoleTable';
 import { fetchRoleDetail } from 'state/roles/actions';
-import { getSelectedRole } from 'state/roles/selectors';
+import { getSelectedRole, getSelectedRolePermissionsList } from 'state/roles/selectors';
 import { fetchPermissions } from 'state/permissions/actions';
 import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = state => ({
   role: getSelectedRole(state),
+  rolePermissions: getSelectedRolePermissionsList(state),
   roleCode: getParams(state).roleCode,
   loading: getLoading(state).permissions,
 });

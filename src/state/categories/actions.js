@@ -1,6 +1,8 @@
 // import { initialize } from 'redux-form';
-import { getCategoryTree, getCategory } from 'api/categories';
+import { getCategoryTree, getCategory, postCategory } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
+import { gotoRoute } from '@entando/router';
+import { ROUTE_CATEGORY_LIST } from 'app-init/router';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -62,18 +64,20 @@ export const fetchCategoryChildren = wrapApiCall(getCategoryTree);
 
 export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch) => {
   let categoryTree;
-  dispatch(toggleLoading('categories'));
   if (categoryCode === ROOT_CODE) {
+    dispatch(toggleLoading('categories'));
     const responses = await Promise.all([
       fetchCategory(categoryCode)(dispatch),
       fetchCategoryChildren(categoryCode)(dispatch),
     ]);
+    dispatch(toggleLoading('categories'));
     categoryTree = [responses[0].payload].concat(responses[1].payload);
   } else {
-    categoryTree = await fetchCategoryChildren(categoryCode)(dispatch);
+    const response = await fetchCategoryChildren(categoryCode)(dispatch);
+    categoryTree = response.payload;
   }
+
   dispatch(setCategories(categoryTree));
-  dispatch(toggleLoading('categories'));
 };
 
 export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, getState) =>
@@ -91,4 +95,19 @@ export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, get
       dispatch(toggleCategoryExpanded(categoryCode, toExpand));
     }
     resolve();
+  });
+
+export const sendPostCategory = categoryData => dispatch =>
+  new Promise((resolve) => {
+    postCategory(categoryData).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setCategories([data.payload]));
+          gotoRoute(ROUTE_CATEGORY_LIST);
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
   });

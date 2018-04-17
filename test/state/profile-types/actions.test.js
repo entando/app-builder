@@ -37,7 +37,7 @@ describe('data types actions ', () => {
         expect(actions[0].type).toEqual(SET_PROFILE_TYPES);
         expect(actions[1].type).toEqual(SET_PAGE);
         done();
-      });
+      }).catch(done.fail);
     });
 
     it('profileTypes is defined and properly valued', (done) => {
@@ -49,7 +49,7 @@ describe('data types actions ', () => {
         expect(profileType).toHaveProperty('code', 'PFL');
         expect(profileType).toHaveProperty('status', 'ok');
         done();
-      });
+      }).catch(done.fail);
     });
   });
 });

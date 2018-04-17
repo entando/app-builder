@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getUserRefs } from 'state/roles/selectors';
 import { fetchUserRefs } from 'state/roles/actions';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { getLoading } from 'state/loading/selectors';
 
 import UserRefsTable from 'ui/common/references/UserRefsTable';

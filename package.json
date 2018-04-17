@@ -1,9 +1,12 @@
 {
   "name": "designtime-admin-app",
   "version": "0.1.0",
-  "repository": "https://github.com/entando/designtime-admin-app",
+  "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
+    "@entando/apimanager": "^1.0.1",
+    "@entando/router": "^1.0.1",
+    "@entando/utils": "^1.0.1",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",

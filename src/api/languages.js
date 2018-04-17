@@ -1,5 +1,5 @@
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 export const getLanguages =

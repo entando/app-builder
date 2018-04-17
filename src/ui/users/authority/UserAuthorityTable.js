@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 
 
 class UserAuthorityTable extends Component {

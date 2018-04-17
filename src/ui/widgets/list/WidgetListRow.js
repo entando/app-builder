@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 const WidgetListRow = (props) => {

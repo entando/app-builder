@@ -9,7 +9,7 @@ const toMap = (array, propKey) => array.reduce((acc, category) => {
   return acc;
 }, {});
 
-export const toIdList = array => array.map(group => group.code);
+export const toIdList = array => array.map(category => category.code);
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {

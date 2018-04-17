@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { BreadcrumbItem, Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
+import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';

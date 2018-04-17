@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
-import { getParams, gotoRoute, formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
+import { getParams, gotoRoute } from '@entando/router';
 
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,

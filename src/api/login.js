@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { BODY_OK } from 'test/mocks/login';
 
 export const getErrors = (username, password) => (

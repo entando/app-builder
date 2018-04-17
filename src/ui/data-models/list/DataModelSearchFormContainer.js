@@ -3,7 +3,7 @@ import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { fetchDataModelListPaged } from 'state/data-models/actions';
 import DataModelSearchForm from 'ui/data-models/list/DataModelSearchForm';
-import { convertToQueryString } from 'util/queryStringManager';
+import { convertToQueryString } from '@entando/utils';
 
 export const mapStateToProps = state => ({
   dataTypes: getDataTypeList(state),

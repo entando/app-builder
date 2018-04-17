@@ -1,7 +1,7 @@
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
+import { loginUser } from '@entando/apimanager';
 
 import login from 'api/login';
-import { loginUser } from 'state/current-user/actions';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 

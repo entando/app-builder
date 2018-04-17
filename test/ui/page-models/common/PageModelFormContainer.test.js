@@ -1,6 +1,6 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelFormContainer';
 import { initialize } from 'redux-form';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';

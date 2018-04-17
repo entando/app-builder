@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { cloneDeep, isEqual } from 'lodash';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';

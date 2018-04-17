@@ -5,7 +5,7 @@ import {
   sendDeleteRole, setSelected, removeRole, setUserRefs, fetchRoleDetail,
   fetchUserRefs,
 } from 'state/roles/actions';
-import { getRoles, getRole, postRoles, putRole, deleteRole, getUserReferences } from 'api/roles';
+import { getRoles, getRole, postRole, putRole, deleteRole, getUserReferences } from 'api/roles';
 import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 import { SET_ROLES, REMOVE_ROLE, SET_SELECTED, SET_USER_REFS } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -122,18 +122,18 @@ describe('state/roles/actions', () => {
   });
 
   describe('sendPostRole()', () => {
-    it('when postRoles succeeds should call post action', (done) => {
-      postRoles.mockImplementation(mockApi({ payload: BODY_OK }));
+    it('when postRole succeeds should call post action', (done) => {
+      postRole.mockImplementation(mockApi({ payload: BODY_OK }));
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
-        expect(postRoles).toHaveBeenCalled();
+        expect(postRole).toHaveBeenCalled();
         done();
       }).catch(done.fail);
     });
 
-    it('when postRoles get error, should dispatch addError', (done) => {
-      postRoles.mockImplementation(mockApi({ errors: true }));
+    it('when postRole get error, should dispatch addError', (done) => {
+      postRole.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
-        expect(postRoles).toHaveBeenCalled();
+        expect(postRole).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
