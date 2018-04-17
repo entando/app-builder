@@ -1,22 +1,8 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentSearchFormContainer';
-import {
-  GET_FRAGMENT_OK, WIDGET_TYPES_OK, PLUGINS_OK, WIDGET_TYPES_OPTIONS,
-  PLUGINS_OPTIONS,
-} from 'test/mocks/fragments';
-
-const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
-const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
-
-const TEST_STATE = {
-  fragments: {
-    selected: GET_FRAGMENT_PAYLOAD,
-    widgetTypes: WIDGET_TYPES_PAYLOAD,
-    plugins: PLUGINS_PAYLOAD,
-  },
-};
+import { fetchWidgetList } from 'state/widgets/actions';
+import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 
 const page = 1;
 const SEARCH_FORM_VALUES = {
@@ -28,24 +14,48 @@ const SEARCH_FORM_VALUES = {
 const dispatchMock = jest.fn();
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
+jest.mock('state/fragments/selectors', () => ({
+  getWidgetTypesOptions: jest.fn(),
+  getPluginsOptions: jest.fn(),
+}));
+
+jest.mock('state/widgets/actions', () => ({
+  fetchWidgetList: jest.fn(),
+}));
+
+jest.mock('state/fragments/actions', () => ({
+  fetchPlugins: jest.fn(),
+  fetchFragments: jest.fn(),
+}));
+
 describe('FragmentSearchFormContainer', () => {
-  it('maps widgetTypes and plugins property state in FragmentSearchFormContainer', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({
-      widgetTypes: WIDGET_TYPES_OPTIONS,
-      plugins: PLUGINS_OPTIONS,
+  let props;
+  describe('mapStateToProps', () => {
+    beforeEach(() => {
+      props = mapStateToProps({});
+    });
+    it('maps widgetTypes and plugins property state in FragmentSearchFormContainer', () => {
+      expect(props).toHaveProperty('widgetTypes');
+      expect(props).toHaveProperty('plugins');
     });
   });
+  describe('mapDispatchToProps', () => {
+    beforeEach(() => {
+      props = mapDispatchToProps(dispatchMock);
+    });
+    it('verify that onWillMount is defined and when called dispatch fetchWidgetList and fetchPlugins', () => {
+      expect(props.onWillMount).toBeDefined();
+      props.onWillMount();
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchWidgetList).toHaveBeenCalled();
+      expect(fetchPlugins).toHaveBeenCalled();
+    });
 
-  it('verify that onWillMount is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onWillMount).toBeDefined();
-    result.onWillMount();
-    expect(dispatchMock).toHaveBeenCalled();
-  });
-  it('verify that onSubmit is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onSubmit).toBeDefined();
-    result.onSubmit(page, SEARCH_FORM_VALUES);
-    expect(dispatchMock).toHaveBeenCalled();
+    it('verify that onSubmit is defined by mapDispatchToProps', () => {
+      expect(props.onSubmit).toBeDefined();
+      props.onSubmit(page, SEARCH_FORM_VALUES);
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchFragments).toHaveBeenCalled();
+    });
   });
 });

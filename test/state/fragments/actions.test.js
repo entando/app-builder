@@ -23,7 +23,6 @@ import {
   putFragmentSettings,
   getFragment,
   getFragments,
-  getWidgetTypes,
   getPlugins,
   deleteFragment,
 } from 'api/fragments';
@@ -119,13 +118,6 @@ describe('state/fragments/actions', () => {
   });
 
   describe('test sync actions', () => {
-    describe('test setWidgetTypes', () => {
-      it('action payload contains widgetTypes list', () => {
-        action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
-        expect(action.type).toBe(SET_WIDGET_TYPES);
-        expect(action.payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
-      });
-    });
     describe('test setPlugins', () => {
       it('action payload contains plugins list', () => {
         action = setPlugins(PLUGINS_PAYLOAD);
@@ -181,30 +173,25 @@ describe('state/fragments/actions', () => {
     });
 
     describe('test fetchFragmentDetail', () => {
-      it('action payload contains fragment information', (done) => {
+      beforeEach(() => {
+        getFragment.mockImplementation(mockApi({ payload: GET_FRAGMENT_OK }));
+      });
+      it('if API response ok, dispatch SET_SELECTED_FRAGMENT', (done) => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
-          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED);
+          expect(actions[0].payload).toHaveProperty('fragment', GET_FRAGMENT_OK);
           done();
         }).catch(done.fail);
       });
 
-      it('action payload contains fragment information', () => {
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getFragment.mockImplementation(mockApi({ errors: true }));
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
-          const actions = store.getActions();
-          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
-        });
-      });
-    });
-
-    describe('test fetchWidgetTypes', () => {
-      it('action payload contains widgetTypes list', () => {
-        getWidgetTypes.mockReturnValue(new Promise(resolve => resolve(WIDGET_TYPES_PAYLOAD)));
-        store.dispatch(fetchWidgetTypes()).then(() => {
-          const actions = store.getActions();
-          expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
-          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD.payload);
-        });
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
       });
     });
 
@@ -244,7 +231,7 @@ describe('state/fragments/actions', () => {
       it('action payload contains fragment settings information', (done) => {
         store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
           done();
         }).catch(done.fail);
@@ -260,7 +247,7 @@ describe('state/fragments/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         putFragmentSettings.mockImplementation(mockApi({ errors: true }));
         store.dispatch(updateFragmentSettings()).then(() => {
-          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()).toHaveLength(2);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);

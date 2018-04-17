@@ -2,20 +2,16 @@ import reducer from 'state/fragments/reducer';
 import {
   setSelectedFragment,
   setFragments,
-  setWidgetTypes,
   setPlugins,
   removeFragment,
 } from 'state/fragments/actions';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK as FRAGMENT_PAYLOAD,
-  WIDGET_TYPES_OK,
   PLUGINS_OK,
 } from 'test/mocks/fragments';
 
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK.payload;
 const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
-
 
 describe('fragments/reducer', () => {
   const state = reducer();
@@ -46,16 +42,6 @@ describe('fragments/reducer', () => {
         const newState = reducer({}, setFragments(FRAGMENT_PAYLOAD));
         expect(newState.list).toHaveLength(7);
       });
-    });
-  });
-
-  describe('after action SET_WIDGET_TYPES', () => {
-    let newState;
-    beforeEach(() => {
-      newState = reducer(state, setWidgetTypes(WIDGET_TYPES_PAYLOAD));
-    });
-    it('should define the widgetTypes payload', () => {
-      expect(newState.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
     });
   });
 

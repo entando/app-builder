@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { fetchWidgetTypes, fetchPlugins, fetchFragments } from 'state/fragments/actions';
+import { fetchWidgetList } from 'state/widgets/actions';
+import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
 
@@ -18,7 +19,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(fetchWidgetTypes());
+    dispatch(fetchWidgetList());
     dispatch(fetchPlugins());
   },
   // calls search API when available

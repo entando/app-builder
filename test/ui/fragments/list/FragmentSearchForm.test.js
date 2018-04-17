@@ -2,14 +2,24 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { FragmentSearchFormBody, renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
-import { WIDGET_TYPES_OPTIONS } from 'test/mocks/fragments';
 
 const handleSubmit = jest.fn();
+
+const WIDGET_TYPES_OPTIONS = [
+  {
+    optgroup: 'User Widget',
+    options: [
+      { code: 'code1', title: 'title1' },
+    ],
+  },
+];
+
 
 describe('FragmentSearchForm', () => {
   let fragmentSearchForm;
   let submitting;
   let invalid;
+
 
   beforeEach(() => {
     submitting = false;
@@ -49,7 +59,7 @@ describe('FragmentSearchForm', () => {
 
     it('root component renders options for select input', () => {
       const optgroups = renderSelectOptgroup(WIDGET_TYPES_OPTIONS);
-      expect(optgroups.length).toBe(2);
+      expect(optgroups).toHaveLength(1);
     });
   });
 
