@@ -56,8 +56,7 @@ export const deleteFragment = fragmentCode => (
   makeRequest({
     uri: `/api/fragments/${fragmentCode}`,
     method: METHODS.DELETE,
-    body: fragmentCode,
-    mockResponse: fragmentCode,
+    mockResponse: { code: fragmentCode },
     useAuthentication: true,
   })
 );

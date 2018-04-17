@@ -145,8 +145,7 @@ describe('api/fragments', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.DELETE,
         uri: '/api/fragments/code',
-        body: 'code',
-        mockResponse: 'code',
+        mockResponse: { code: 'code' },
         useAuthentication: true,
       }));
     });

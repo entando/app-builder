@@ -7,12 +7,11 @@ import { mockApi } from 'test/testUtils';
 
 import { config } from '@entando/apimanager';
 import {
-  fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
-  fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment, fetchFragmentSettings,
+  fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
+  fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
   updateFragmentSettings, removeFragment, sendDeleteFragment,
 } from 'state/fragments/actions';
 import {
-  WIDGET_TYPES_OK,
   PLUGINS_OK,
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -27,13 +26,11 @@ import {
   deleteFragment,
 } from 'api/fragments';
 
-import {
-  SET_SELECTED, SET_WIDGET_TYPES,
-  SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT,
-} from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { ADD_ALERT } from 'state/alerts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -41,7 +38,6 @@ const mockStore = configureMockStore(middlewares);
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK;
 const PLUGINS_PAYLOAD = PLUGINS_OK;
 
 const FRAGMENT_CODE = 'myCode';
@@ -173,25 +169,19 @@ describe('state/fragments/actions', () => {
     });
 
     describe('test fetchFragmentDetail', () => {
-      beforeEach(() => {
-        getFragment.mockImplementation(mockApi({ payload: GET_FRAGMENT_OK }));
-      });
-      it('if API response ok, dispatch SET_SELECTED_FRAGMENT', (done) => {
+      it('action payload contains fragment information', (done) => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED);
-          expect(actions[0].payload).toHaveProperty('fragment', GET_FRAGMENT_OK);
+          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
           done();
         }).catch(done.fail);
       });
 
-      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
-        getFragment.mockImplementation(mockApi({ errors: true }));
+      it('action payload contains fragment information', () => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
-          expect(store.getActions()).toHaveLength(1);
-          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
-          done();
-        }).catch(done.fail);
+          const actions = store.getActions();
+          expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
+        });
       });
     });
 
@@ -231,8 +221,10 @@ describe('state/fragments/actions', () => {
       it('action payload contains fragment settings information', (done) => {
         store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
           const actions = store.getActions();
+          expect(initialize).toHaveBeenCalled();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
+          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
           done();
         }).catch(done.fail);
       });
@@ -247,8 +239,10 @@ describe('state/fragments/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         putFragmentSettings.mockImplementation(mockApi({ errors: true }));
         store.dispatch(updateFragmentSettings()).then(() => {
-          expect(store.getActions()).toHaveLength(2);
-          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
           done();
         }).catch(done.fail);
       });

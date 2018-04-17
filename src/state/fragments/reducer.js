@@ -18,7 +18,7 @@ const list = (state = [], action = {}) => {
     }
     case REMOVE_FRAGMENT: {
       const { fragmentCode } = action.payload;
-      return state.filter(f => f !== fragmentCode);
+      return state.filter(f => f.code !== fragmentCode);
     }
     default: return state;
   }
