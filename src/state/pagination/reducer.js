@@ -1,5 +1,5 @@
 import { SET_PAGE } from 'state/pagination/types';
-import { isInteger } from 'util/numeric';
+import { isInteger } from '@entando/utils';
 
 const initialState = {
   page: 1,

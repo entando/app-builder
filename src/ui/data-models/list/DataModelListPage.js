@@ -5,7 +5,8 @@ import DataModelListTableContainer from 'ui/data-models/list/DataModelListTableC
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { BreadcrumbItem, Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
+import { BreadcrumbItem } from 'frontend-common-components';
 import { ROUTE_DATA_MODEL_ADD } from 'app-init/router';
 
 const DataModelListPage = () => (

@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import {
   getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig,

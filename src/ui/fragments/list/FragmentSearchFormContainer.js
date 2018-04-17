@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { fetchWidgetTypes, fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
-import { convertToQueryString, FILTER_OPERATORS } from 'util/queryStringManager';
 
 const FIELD_OPERATORS = {
   code: FILTER_OPERATORS.EQUAL,

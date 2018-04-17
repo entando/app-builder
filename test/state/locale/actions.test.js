@@ -1,7 +1,7 @@
 
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { setCurrentLocale } from 'frontend-common-components';
+import { setCurrentLocale } from '@entando/utils';
 import { setLanguage, setCurrentLanguage } from 'state/locale/actions';
 import { SET_LANGUAGE } from 'state/locale/types';
 
@@ -14,6 +14,8 @@ const DEFAULT_LANG = {
     locale: 'en',
   },
 };
+
+setCurrentLocale.mockImplementation(() => jest.fn());
 
 it('test setLanguage action', () => {
   expect(setLanguage('en')).toEqual(DEFAULT_LANG);

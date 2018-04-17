@@ -1,14 +1,13 @@
 import 'test/enzyme-init';
-import { getRoles, postRoles, getRole, putRole, deleteRole, filterMockList } from 'api/roles';
-import { makeRequest, METHODS } from 'api/apiManager';
-import { LIST_ROLES_OK, BODY_OK } from 'test/mocks/roles';
+import { getRoles, postRole, getRole, putRole, deleteRole, getUserReferences, filterMockList } from 'api/roles';
+import { makeRequest, METHODS } from '@entando/apimanager';
+import { LIST_ROLES_OK, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
 
 jest.unmock('api/roles');
 
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
 const EDITED_ROLE = {
@@ -71,13 +70,13 @@ describe('api/roles', () => {
     });
   });
 
-  describe('postRoles()', () => {
+  describe('postRole()', () => {
     it('if successful, returns a mock ok response', () => {
-      expect(postRoles(BODY_OK)).toBeInstanceOf(Promise);
+      expect(postRole(BODY_OK)).toBeInstanceOf(Promise);
     });
 
     it('if successful, returns a mock ok response', () => {
-      postRoles(BODY_OK);
+      postRole(BODY_OK);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/roles',
         method: METHODS.POST,
@@ -113,6 +112,28 @@ describe('api/roles', () => {
         method: METHODS.DELETE,
         useAuthentication: true,
       }));
+    });
+  });
+
+  describe('getUserReferences()', () => {
+    it('returns a promise', () => {
+      expect(getUserReferences(ROLE_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getUserReferences(ROLE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: `/api/roles/${ROLE_CODE}/userreferences`,
+          method: METHODS.GET,
+          mockResponse: ROLE_USER_REFERENCES_PAYLOAD,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 

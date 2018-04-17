@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
+import { Link } from '@entando/router';
 
-import { Link } from 'frontend-common-components';
 
 const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (

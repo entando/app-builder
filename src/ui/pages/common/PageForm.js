@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
-import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';

@@ -6,14 +6,14 @@ import {
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD } from 'test/mocks/pages';
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-jest.mock('api/apiManager', () => {
+jest.mock('@entando/apimanager', () => {
   const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
   return {
     makeRequest: makeMockRequest,
     makeMockRequest,
-    METHODS: require.requireActual('api/apiManager').METHODS,
+    METHODS: require.requireActual('@entando/apimanager').METHODS,
   };
 });
 jest.unmock('api/pages');

@@ -5,9 +5,7 @@ import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_USER_LIST } from 'app-init/router';
-
-import { getParams, gotoRoute } from 'frontend-common-components';
-
+import { getParams, gotoRoute } from '@entando/router';
 
 export const setUsers = users => ({
   type: SET_USERS,

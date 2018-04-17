@@ -5,7 +5,7 @@ import { initialize } from 'redux-form';
 
 import { mockApi } from 'test/testUtils';
 
-import { config } from 'api/apiManager';
+import { config } from '@entando/apimanager';
 import {
   fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
   fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment, fetchFragmentSettings,

@@ -4,7 +4,8 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
-import { DDTable, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { DDTable } from 'frontend-common-components';
 import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 const PAGES = [

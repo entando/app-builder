@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import FormLabel from 'ui/common/form/FormLabel';
 

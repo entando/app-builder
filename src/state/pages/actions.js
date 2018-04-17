@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 
 import {
   getPage, getPageChildren, setPagePosition, postPage, getFreePages,

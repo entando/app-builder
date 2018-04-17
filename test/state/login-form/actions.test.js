@@ -2,18 +2,13 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
 import { setLoginErrorMessage, performLogin } from 'state/login-form/actions';
-import { loginUser } from 'state/current-user/actions';
-import { config } from 'api/apiManager';
+import { config, loginUser } from '@entando/apimanager';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 jest.unmock('api/login');
-
-jest.mock('state/current-user/actions', () => ({
-  loginUser: jest.fn(() => ({ type: '' })),
-}));
 
 config(mockStore({ api: { useMocks: true } }));
 
@@ -44,7 +39,7 @@ describe('api-form actions', () => {
       expect(actions[0]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
       expect(actions[0]).toHaveProperty('payload.message', 'fcc.login.errorMessage');
       done();
-    });
+    }).catch(done.fail);
   });
 
   it('cannot login with bad user and password', (done) => {
@@ -58,7 +53,7 @@ describe('api-form actions', () => {
       expect(actions[1]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
       expect(actions[1]).toHaveProperty('payload.message', 'fcc.login.errorMessage');
       done();
-    });
+    }).catch(done.fail);
   });
 
   it('can login with the correct credentials', (done) => {
@@ -71,6 +66,6 @@ describe('api-form actions', () => {
       expect(actions[0]).toHaveProperty('payload.message', '');
       expect(loginUser).toHaveBeenCalledWith('admin', expect.any(String));
       done();
-    });
+    }).catch(done.fail);
   });
 });

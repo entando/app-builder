@@ -1,4 +1,4 @@
-import { routerConfig } from 'frontend-common-components';
+import { routerConfig } from '@entando/router';
 
 import store from 'state/store';
 

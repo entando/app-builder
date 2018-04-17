@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,

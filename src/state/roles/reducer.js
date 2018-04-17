@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_ROLES, REMOVE_ROLE } from 'state/roles/types';
+import { SET_ROLES, SET_SELECTED, REMOVE_ROLE, SET_USER_REFS } from 'state/roles/types';
 
 export const toMap = array => array.reduce((acc, role) => {
   acc[role.code] = role;
@@ -16,6 +16,18 @@ export const list = (state = [], action = {}) => {
     case REMOVE_ROLE: {
       const { roleCode } = action.payload;
       return state.filter(role => role !== roleCode);
+    }
+    default: return state;
+  }
+};
+
+export const selected = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED: {
+      return action.payload.role;
+    }
+    case SET_USER_REFS: {
+      return { ...state, userReferences: action.payload.userRefs };
     }
     default: return state;
   }
@@ -39,4 +51,5 @@ export const roleMap = (state = {}, action = {}) => {
 export default combineReducers({
   list,
   map: roleMap,
+  selected,
 });

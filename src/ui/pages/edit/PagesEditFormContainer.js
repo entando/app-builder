@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getGroups } from 'state/groups/selectors';

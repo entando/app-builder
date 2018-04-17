@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
@@ -21,9 +21,9 @@ const LABEL_OBJ = {
 };
 
 jest.unmock('api/labels');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
 describe('api/labels', () => {

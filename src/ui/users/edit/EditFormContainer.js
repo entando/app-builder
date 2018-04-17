@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import { fetchUserForm, sendPutUser } from 'state/users/actions';
 import UserForm from 'ui/users/common/UserForm';

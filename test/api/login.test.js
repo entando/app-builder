@@ -2,11 +2,11 @@
 import 'test/enzyme-init';
 
 import login from 'api/login';
-import { makeRequest } from 'api/apiManager';
+import { makeRequest } from '@entando/apimanager';
 import { BODY_OK } from 'test/mocks/login';
 
 jest.unmock('api/login');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { POST: 'POST' },
 }));

@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getCategoryTree } from 'api/categories';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { CATEGORY_TREE } from 'test/mocks/categories';
 
 const correctGetRequest = {
@@ -11,7 +11,7 @@ const correctGetRequest = {
 };
 
 jest.unmock('api/categories');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: { GET: 'GET' },
 }));

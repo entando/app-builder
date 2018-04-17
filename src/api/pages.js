@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -12,7 +12,7 @@ import {
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
-import throttle from 'util/throttle';
+import { throttle } from '@entando/utils';
 import { errorResponse } from 'test/testUtils';
 
 

@@ -1,7 +1,6 @@
 import 'test/enzyme-init';
 import { change } from 'redux-form';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/add/AddFormContainer';
-import { toggleLoading } from 'state/loading/actions';
 import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
 
 jest.mock('state/roles/actions', () => ({
@@ -41,7 +40,6 @@ describe('AddFormContainer', () => {
     it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {
       expect(props.onWillMount).toBeDefined();
       props.onWillMount();
-      expect(toggleLoading).toHaveBeenCalledWith('permissions');
       expect(dispatchMock).toHaveBeenCalledWith('fetchPermissions_result');
     });
 

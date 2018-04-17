@@ -1,5 +1,5 @@
 import { PROFILE_TYPES_OK_PAGE_1, PROFILE_TYPES_OK_PAGE_2 } from 'test/mocks/profileTypes';
-import throttle from 'util/throttle';
+import { throttle } from '@entando/utils';
 
 export const getProfileTypes = (page, params) => new Promise((resolve) => {
   if (params) {

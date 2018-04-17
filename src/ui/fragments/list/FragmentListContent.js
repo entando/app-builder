@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
 
 import FragmentListTableContainer from 'ui/fragments/list/FragmentListTableContainer';
 import FragmentSearchFormContainer from 'ui/fragments/list/FragmentSearchFormContainer';
