@@ -19,13 +19,13 @@ export class SettingsFragmentFormBody extends React.Component {
   renderBody() {
     const { alert } = this.props;
     let alertMessage;
-    if (alert && alert === 'success') {
+    if (alert === 'success') {
       alertMessage = (
         <Alert type="success">
           <FormattedMessage id="fragment.settings.alert.success" />
         </Alert>
       );
-    } else if (alert && alert === 'error') {
+    } else if (alert === 'error') {
       alertMessage = (
         <Alert type="error">
           <FormattedMessage id="fragment.settings.alert.error" />
