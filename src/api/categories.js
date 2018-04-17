@@ -11,7 +11,7 @@ const getCategoryTreeMockResponse = (categoryCode) => {
 
 export const getCategoryTree = categoryCode => (
   makeRequest({
-    uri: `/api/categories?parentCode=${categoryCode}`,
+    uri: `/api/categories${categoryCode ? `?parentCode=${categoryCode}` : ''}`,
     method: METHODS.GET,
     mockResponse: getCategoryTreeMockResponse(categoryCode),
     useAuthentication: true,

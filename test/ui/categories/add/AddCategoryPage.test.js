@@ -1,0 +1,27 @@
+import React from 'react';
+
+import 'test/enzyme-init';
+import { shallow } from 'enzyme';
+import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
+
+describe('AddCategoryPage', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow(<AddCategoryPage />);
+  });
+  it('renders without crashing', () => {
+    expect(component.exists()).toEqual(true);
+  });
+
+  it('verify if exist InternalPage with class AddCategoryPage', () => {
+    expect(component.find('InternalPage').hasClass('AddCategoryPage')).toEqual(true);
+  });
+
+  it('verify if has a breadcrumb', () => {
+    expect(component.find('Breadcrumb').exists()).toBe(true);
+  });
+
+  it('verify if has a page title', () => {
+    expect(component.find('PageTitle').exists()).toBe(true);
+  });
+});

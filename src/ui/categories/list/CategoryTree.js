@@ -9,7 +9,7 @@ import RowSpinner from 'ui/pages/common/RowSpinner';
 
 class CategoryTree extends Component {
   componentWillMount() {
-    if (this.props.onWillMount) this.props.onWillMount(this.props);
+    this.props.onWillMount(this.props);
   }
 
   renderRows() {
@@ -85,14 +85,13 @@ CategoryTree.propTypes = {
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
   })),
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   onExpandCategory: PropTypes.func,
   loading: PropTypes.bool,
 };
 
 CategoryTree.defaultProps = {
   categories: [],
-  onWillMount: null,
   onExpandCategory: null,
   loading: false,
 };

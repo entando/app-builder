@@ -49,7 +49,7 @@ export const setSelectedCategory = category => ({
   },
 });
 
-const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
+export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const json = await response.json();
   if (response.ok) {
@@ -62,7 +62,7 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 export const fetchCategory = wrapApiCall(getCategory);
 export const fetchCategoryChildren = wrapApiCall(getCategoryTree);
 
-export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch) => {
+export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, getState) => {
   let categoryTree;
   if (categoryCode === ROOT_CODE) {
     dispatch(toggleLoading('categories'));
@@ -70,6 +70,12 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch) 
       fetchCategory(categoryCode)(dispatch),
       fetchCategoryChildren(categoryCode)(dispatch),
     ]);
+    dispatch(setCategoryLoaded(categoryCode));
+    const categoryStatus = getStatusMap(getState())[categoryCode];
+    const toExpand = (!categoryStatus || !categoryStatus.expanded);
+    if (toExpand) {
+      dispatch(toggleCategoryExpanded(categoryCode, true));
+    }
     dispatch(toggleLoading('categories'));
     categoryTree = [responses[0].payload].concat(responses[1].payload);
   } else {

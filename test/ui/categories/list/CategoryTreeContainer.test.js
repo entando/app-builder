@@ -42,7 +42,6 @@ describe('CategoryTreeContainer', () => {
       props.onWillMount();
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchCategoryTree).toHaveBeenCalled();
-      expect(handleExpandCategory).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onExpandCategory is called', () => {

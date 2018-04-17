@@ -13,9 +13,7 @@ import ActiveLanguagesFields from 'ui/common/form/ActiveLanguagesFields';
 
 export class CategoryFormBody extends Component {
   componentWillMount() {
-    if (this.props.onWillMount) {
-      this.props.onWillMount(this.props);
-    }
+    this.props.onWillMount(this.props);
   }
 
   render() {
@@ -78,14 +76,13 @@ CategoryFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
 };
 
 CategoryFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: 'add',
-  onWillMount: null,
 };
 
 const CategoryForm = reduxForm({

@@ -9,17 +9,17 @@ const CategoryListMenuActions = ({ onClickDelete, code }) => (
     <MenuItem
       className="CategoryListMenuAction__menu-item-detail"
     >
-      <FormattedMessage id="app.edit" values={{ code }} />
+      <FormattedMessage id="app.detail" values={{ code }} />
     </MenuItem>
     <MenuItem
       className="CategoryListMenuAction__menu-item-add"
     >
-      <FormattedMessage id="app.reload" />
+      <FormattedMessage id="app.add" />
     </MenuItem>
     <MenuItem
       className="CategoryListMenuAction__menu-item-edit"
     >
-      <FormattedMessage id="app.reload" />
+      <FormattedMessage id="app.edit" />
     </MenuItem>
     <MenuItem
       className="CategoryListMenuAction__menu-item-delete"
