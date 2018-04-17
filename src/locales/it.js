@@ -143,6 +143,8 @@ export default {
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.form.edit.widgetType': 'Widget Type',
     'fragment.settings': 'Abilita la creazione di fragment con default GUI vuota',
+    'fragment.settings.alert.success': 'Le impostazioni sono state aggiornate',
+    'fragment.settings.alert.error': 'Le impostazioni non sono state aggiornate',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',
