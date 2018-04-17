@@ -5,6 +5,7 @@ import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAG
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
+import { addAlert } from 'state/alerts/actions';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -115,8 +116,10 @@ export const updateFragmentSettings = settings => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(initialize('fragmentSettings', json.payload));
+          dispatch(addAlert('fragmentSettings', 'success'));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(addAlert('fragmentSettings', 'error'));
         }
         resolve();
       });

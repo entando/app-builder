@@ -43,7 +43,7 @@ describe('ui/fragments/list/SettingsFragmentForm', () => {
   });
 
   it('if there is a error show Alter message', () => {
-    component = shallow(<SettingsFragmentFormBody error="error" handleSubmit={handleSubmit} />);
-    expect(component.find('Alert').exists()).toBe(true);
+    component = shallow(<SettingsFragmentFormBody alert="error" handleSubmit={handleSubmit} />);
+    expect(component.find('Alert').prop('type')).toBe('error');
   });
 });
