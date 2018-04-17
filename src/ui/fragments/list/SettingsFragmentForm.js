@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { FormGroup, Button, Row, Col, Alert } from 'patternfly-react';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-
 export class SettingsFragmentFormBody extends React.Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount();
