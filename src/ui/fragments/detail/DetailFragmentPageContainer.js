@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
 import { fetchFragmentDetail } from 'state/fragments/actions';
 import { getFragmentSelected } from 'state/fragments/selectors';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 
 export const mapStateToProps = state => ({

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 export const mapStateToProps = state =>
   ({

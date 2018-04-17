@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
+import { formattedText } from '@entando/utils';
 
-import { formattedText, LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class GroupDetailTabPages extends React.Component {

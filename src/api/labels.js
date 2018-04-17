@@ -1,5 +1,5 @@
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 export const getLabels = (page = { page: 1, pageSize: 10 }, params = '') => (

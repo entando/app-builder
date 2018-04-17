@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginPage, NotFoundPage, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { LoginPage, NotFoundPage } from 'frontend-common-components';
 
 import {
   ROUTE_HOME,

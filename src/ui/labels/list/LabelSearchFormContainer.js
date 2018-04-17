@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchLabels } from 'state/labels/actions';
 import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
-import { convertToQueryString, FILTER_OPERATORS } from 'util/queryStringManager';
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 const FIELD_OPERATORS = {
   text: FILTER_OPERATORS.LIKE,

@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formattedText } from '@entando/utils';
 import {
-  BrandMenu, ProjectLink, UserDropdown, HelpMenu, AdminAppSwitch, LinkMenuItem, FirstLevelMenuItem,
-  formattedText,
+  BrandMenu,
+  ProjectLink,
+  UserDropdown,
+  HelpMenu,
+  AdminAppSwitch,
+  LinkMenuItem,
+  FirstLevelMenuItem,
 } from 'frontend-common-components';
 
 import {

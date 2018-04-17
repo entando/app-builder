@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const correctRequest = {
@@ -20,7 +20,7 @@ const correctRequestWidget = {
 
 
 jest.unmock('api/widgets');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: {
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',

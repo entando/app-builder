@@ -2,7 +2,8 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { NotFoundPage } from 'frontend-common-components';
 
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard/DashboardPage';

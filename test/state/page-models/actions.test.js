@@ -1,6 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import { initialize } from 'redux-form';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { mockApi } from 'test/testUtils';
 import {
   setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel,

@@ -1,5 +1,5 @@
 import { mapDispatchToProps, mapStateToProps } from 'ui/users/edit/EditFormContainer';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 const TEST_STATE = {
   mode: 'edit',

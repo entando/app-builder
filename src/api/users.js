@@ -1,5 +1,5 @@
 import { USERS_OK, USER_PROFILE_MOCK } from 'test/mocks/users';
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 const getGenericError = obj => (
   obj || obj === '' ? [] : [{ code: 1, message: 'object is invalid' }]

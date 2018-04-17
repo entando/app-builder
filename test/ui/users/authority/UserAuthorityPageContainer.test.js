@@ -1,5 +1,6 @@
-
+import React from 'react';
 import 'test/enzyme-init';
+import { getParams } from '@entando/router';
 
 import { mapStateToProps } from 'ui/users/authority/UserAuthorityPageContainer';
 
@@ -11,10 +12,10 @@ const TEST_STATE = {
   },
 };
 
+getParams.mockReturnValue({ username: 'username' });
+
 jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ username: 'username' }),
   BreadcrumbItem: () => (<span />),
-  Link: () => (<span />),
   LoginPage: () => (<span />),
   LoginForm: () => (<span />),
   BrandMenu: () => (<span />),
@@ -28,9 +29,6 @@ jest.mock('frontend-common-components', () => ({
   ActivityStreamMenu: () => (<span />),
   ActivityStream: () => (<span />),
   Notification: () => (<span />),
-  routerConfig: jest.fn(),
-  gotoRoute: jest.fn(),
-  routerReducer: state => state || {},
 }));
 
 describe('UserAuthorityPageFormContainer', () => {

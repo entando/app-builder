@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { fetchDataType } from 'state/data-types/actions';
 import { getDataTypeList, getDataTypesMap } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';

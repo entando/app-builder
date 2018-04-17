@@ -5,7 +5,7 @@ import WidgetListTable from 'ui/widgets/list/WidgetListTable';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
 
 

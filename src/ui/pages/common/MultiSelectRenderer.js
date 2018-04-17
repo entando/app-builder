@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import { InputGroup, Button, Label } from 'patternfly-react';
 
 

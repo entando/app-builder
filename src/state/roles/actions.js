@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 import {
   getRoles, getRole, postRole, putRole, deleteRole,
   getUserReferences,

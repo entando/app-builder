@@ -1,4 +1,4 @@
-import { setCurrentLocale } from 'frontend-common-components';
+import { setCurrentLocale } from '@entando/utils';
 import { itLocale, enLocale } from 'app-init/locale';
 
 

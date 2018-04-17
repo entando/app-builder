@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import {
   getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel,

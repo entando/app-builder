@@ -2,7 +2,7 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute, getParams } from '@entando/router';
 
 
 import { mockApi } from 'test/testUtils';
@@ -19,8 +19,7 @@ import {
   loadSelectedWidget,
   setSelectedWidget,
   removeWidget,
-}
-  from 'state/widgets/actions';
+} from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
@@ -39,6 +38,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 const WIDGET_CODE = 'WDG';
+
+getParams.mockImplementation(() => ({ widgetCode: 'WDG' }));
 
 jest.mock('state/widgets/selectors', () => ({
   getSelectedWidget: jest.fn(),

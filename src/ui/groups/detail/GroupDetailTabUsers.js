@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
+import { formattedText } from '@entando/utils';
 
-import { formattedText, LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
 
 class GroupDetailTabUsers extends React.Component {

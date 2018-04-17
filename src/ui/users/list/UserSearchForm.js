@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import { Row, Col, FormGroup, Button, InputGroup } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 

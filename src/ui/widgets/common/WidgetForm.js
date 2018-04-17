@@ -4,8 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, widgetCode, maxLength } from 'util/validateForm';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required, widgetCode, maxLength } from '@entando/utils';
 
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';

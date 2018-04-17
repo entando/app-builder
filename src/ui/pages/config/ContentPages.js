@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { Icon } from 'patternfly-react';
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
+import { Link } from '@entando/router';
 
-import { Link } from 'frontend-common-components';
 
 class ContentPages extends Component {
   componentWillMount() {

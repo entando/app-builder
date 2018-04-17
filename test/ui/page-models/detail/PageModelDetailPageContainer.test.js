@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import
 PageModelDetailPageContainer, { mapStateToProps } from 'ui/page-models/detail/PageModelDetailPageContainer';
 
