@@ -8,6 +8,7 @@ import {
   fetchCategoryTree,
   handleExpandCategory,
   sendPostCategory,
+  wrapApiCall,
 } from 'state/categories/actions';
 
 import {
@@ -137,17 +138,6 @@ describe('state/categories/actions', () => {
       postCategory.mockImplementation(mockApi({ payload: BODY_OK }));
       store.dispatch(sendPostCategory(BODY_OK)).then(() => {
         expect(postCategory).toHaveBeenCalled();
-        done();
-      }).catch(done.fail);
-    });
-
-    it('when postCategory get error, should dispatch addError', (done) => {
-      postCategory.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(sendPostCategory(BODY_OK)).then(() => {
-        expect(postCategory).toHaveBeenCalled();
-        const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

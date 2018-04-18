@@ -1,12 +1,16 @@
 import 'test/enzyme-init';
 import { change } from 'redux-form';
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/add/AddFormContainer';
-import { STATE_NORMALIZED } from 'test/mocks/categories';
-import { LANGUAGES_NORMALIZED } from 'test/mocks/languages';
 
-jest.mock('state/categories/actions', () => ({
-  sendPostRole: jest.fn().mockReturnValue('sendPostRole_result'),
-}));
+const INITIAL_STATE = {
+  categories: {
+    list: [],
+    map: {},
+    childrenMap: {},
+    titlesMap: {},
+    statusMap: {},
+  },
+};
 
 jest.mock('state/categories/actions', () => ({
   fetchCategoryTree: jest.fn().mockReturnValue('fetchCategoryTree_result'),
@@ -18,9 +22,19 @@ jest.mock('state/languages/actions', () => ({
   fetchLanguages: jest.fn().mockReturnValue('fetchLanguages_result'),
 }));
 
-jest.mock('state/loading/actions', () => ({
-  toggleLoading: jest.fn(),
+jest.mock('state/categories/selectors', () => ({
+  getCategoryTree: jest.fn().mockReturnValue('getCategoryTree_result'),
 }));
+
+jest.mock('state/languages/selectors', () => ({
+  getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
+  getDefaultLanguage: jest.fn().mockReturnValue('defaultLanguage_result'),
+}));
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue('loading_result'),
+}));
+
 
 describe('AddFormContainer', () => {
   const dispatchMock = jest.fn();
@@ -28,19 +42,14 @@ describe('AddFormContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({
-        ...STATE_NORMALIZED,
-        languages: { ...LANGUAGES_NORMALIZED },
-      });
+      props = mapStateToProps(INITIAL_STATE);
     });
 
     it('maps categories, languages and loading property', () => {
       expect(props).toHaveProperty('mode', 'add');
-      expect(props).toHaveProperty('categories');
-      expect(props.categories).toHaveLength(STATE_NORMALIZED.categories.list.length);
-      expect(props).toHaveProperty('activeLanguages');
-      expect(props).toHaveProperty('defaultLanguage');
-      expect(props).toHaveProperty('loading', false);
+      expect(props).toHaveProperty('categories', 'getCategoryTree_result');
+      expect(props).toHaveProperty('activeLanguages', 'getActiveLanguages_result');
+      expect(props).toHaveProperty('defaultLanguage', 'defaultLanguage_result');
     });
   });
 

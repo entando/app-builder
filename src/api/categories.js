@@ -1,10 +1,13 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { CATEGORY_TREE, BODY_OK } from 'test/mocks/categories';
 
+const HOME_CODE = 'home';
+const MYCATEGORY1_CODE = 'mycategory1';
+
 const getCategoryTreeMockResponse = (categoryCode) => {
   switch (categoryCode) {
-    case 'home': { return CATEGORY_TREE.home; }
-    case 'mycategory1': { return CATEGORY_TREE.mycategory1; }
+    case HOME_CODE: { return CATEGORY_TREE.home; }
+    case MYCATEGORY1_CODE: { return CATEGORY_TREE.mycategory1; }
     default: { return CATEGORY_TREE.home; }
   }
 };

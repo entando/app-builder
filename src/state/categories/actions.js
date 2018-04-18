@@ -1,4 +1,3 @@
-// import { initialize } from 'redux-form';
 import { getCategoryTree, getCategory, postCategory } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
 import { gotoRoute } from '@entando/router';
@@ -49,14 +48,28 @@ export const setSelectedCategory = category => ({
   },
 });
 
+// export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
+//   const response = await apiFunc(...args);
+//   const json = await response.json();
+//   if (response.ok) {
+//     return json;
+//   }
+//   dispatch(addErrors(json.errors.map(e => e.message)));
+//   throw json;
+// };
+
 export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
-  const json = await response.json();
-  if (response.ok) {
-    return json;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const fetchCategory = wrapApiCall(getCategory);
@@ -105,15 +118,9 @@ export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, get
 
 export const sendPostCategory = categoryData => dispatch =>
   new Promise((resolve) => {
-    postCategory(categoryData).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          dispatch(setCategories([data.payload]));
-          gotoRoute(ROUTE_CATEGORY_LIST);
-        } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-        }
-        resolve();
-      });
+    dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
+      dispatch(setCategories([data.payload]));
+      gotoRoute(ROUTE_CATEGORY_LIST);
     });
+    resolve();
   });

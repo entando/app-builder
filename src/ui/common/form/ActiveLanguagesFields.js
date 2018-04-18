@@ -64,12 +64,7 @@ ActiveLanguagesFields.propTypes = {
 };
 
 ActiveLanguagesFields.defaultProps = {
-  activeLanguages: PropTypes.arrayOf(PropTypes.shape({
-    code: '',
-    name: '',
-    isActive: '',
-    isDefault: '',
-  })),
+  activeLanguages: [],
   defaultLanguage: '',
   onChangeDefaultTitle: null,
 };

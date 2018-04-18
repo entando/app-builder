@@ -1,29 +1,46 @@
 import 'test/enzyme-init';
-
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/list/CategoryTreeContainer';
-import { CATEGORY_TREE_HOME, STATE_NORMALIZED } from 'test/mocks/categories';
-import { getCategoryTree } from 'state/categories/selectors';
-import { handleExpandCategory, fetchCategoryTree } from 'state/categories/actions';
 
-const dispatchMock = jest.fn();
 const CATEGORY_CODE = 'category_code';
 
+const INITIAL_STATE = {
+  categories: {
+    list: [],
+    map: {},
+    childrenMap: {},
+    titlesMap: {},
+    statusMap: {},
+  },
+};
+
 jest.mock('state/categories/actions', () => ({
-  fetchCategoryTree: jest.fn(),
-  handleExpandCategory: jest.fn(),
+  fetchCategoryTree: jest.fn().mockReturnValue('fetchCategoryTree_result'),
+  handleExpandCategory: jest.fn().mockReturnValue('handleExpandCategory_result'),
+}));
+
+jest.mock('state/loading/actions', () => ({
+  toggleLoading: jest.fn(),
 }));
 
 jest.mock('state/categories/selectors', () => ({
-  getCategoryTree: jest.fn(),
+  getCategoryTree: jest.fn().mockReturnValue('getCategoryTree_result'),
 }));
 
-getCategoryTree.mockReturnValue(CATEGORY_TREE_HOME);
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue('loading_result'),
+}));
 
 describe('CategoryTreeContainer', () => {
-  it('maps categories list property state in CategoryTreeContainer', () => {
-    expect(mapStateToProps(STATE_NORMALIZED)).toEqual({
-      categories: CATEGORY_TREE_HOME,
-      loading: false,
+  const dispatchMock = jest.fn();
+
+  describe('mapStateToProps', () => {
+    let props;
+    beforeEach(() => {
+      props = mapStateToProps(INITIAL_STATE);
+    });
+
+    it('maps categories property', () => {
+      expect(props).toHaveProperty('categories', 'getCategoryTree_result');
     });
   });
 
@@ -40,14 +57,12 @@ describe('CategoryTreeContainer', () => {
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount();
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchCategoryTree).toHaveBeenCalled();
+      expect(dispatchMock).toHaveBeenCalledWith('fetchCategoryTree_result');
     });
 
     it('should dispatch an action if onExpandCategory is called', () => {
       props.onExpandCategory(CATEGORY_CODE);
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(handleExpandCategory).toHaveBeenCalledWith(CATEGORY_CODE);
+      expect(dispatchMock).toHaveBeenCalledWith('handleExpandCategory_result');
     });
   });
 });

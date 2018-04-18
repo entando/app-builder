@@ -44,7 +44,7 @@ describe('CategoryTreeSelector', () => {
     });
 
     it('renders without crashing', () => {
-      expect(component.exists()).toEqual(true);
+      expect(component).toExist();
     });
     it('renders one "CategoryTreeSelector__column-td" per category', () => {
       expect(component.find('.CategoryTreeSelector__column-td')).toHaveLength(CATEGORIES.length);

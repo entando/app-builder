@@ -27,6 +27,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handleExpandCategory(categoryCode)),
 });
 
-const PagesAddFormContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryForm);
+const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryForm);
 
-export default PagesAddFormContainer;
+export default AddFormContainer;

@@ -42,13 +42,13 @@ describe('CategoryForm', () => {
     it('root component renders code field', () => {
       categoryForm = buildCategoryForm();
       const name = categoryForm.find('[name="code"]');
-      expect(name.exists()).toBe(true);
+      expect(name).toExist();
     });
 
     it('root component renders parentCode field', () => {
       categoryForm = buildCategoryForm();
       const code = categoryForm.find('[name="parentCode"]');
-      expect(code.exists()).toBe(true);
+      expect(code).toExist();
     });
   });
 
@@ -65,14 +65,14 @@ describe('CategoryForm', () => {
       submitting = true;
       categoryForm = buildCategoryForm();
       const submitButton = categoryForm.find('Button');
-      expect(submitButton.prop('disabled')).toEqual(true);
+      expect(submitButton.prop('disabled')).toBe(true);
     });
 
     it('disables submit button if form is invalid', () => {
       invalid = true;
       categoryForm = buildCategoryForm();
       const submitButton = categoryForm.find('Button');
-      expect(submitButton.prop('disabled')).toEqual(true);
+      expect(submitButton.prop('disabled')).toBe(true);
     });
 
     it('on form submit calls handleSubmit', () => {

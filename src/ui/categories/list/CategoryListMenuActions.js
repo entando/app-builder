@@ -9,7 +9,7 @@ const CategoryListMenuActions = ({ onClickDelete, code }) => (
     <MenuItem
       className="CategoryListMenuAction__menu-item-detail"
     >
-      <FormattedMessage id="app.detail" values={{ code }} />
+      <FormattedMessage id="app.details" values={{ code }} />
     </MenuItem>
     <MenuItem
       className="CategoryListMenuAction__menu-item-add"

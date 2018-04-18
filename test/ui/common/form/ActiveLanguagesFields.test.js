@@ -19,10 +19,10 @@ describe('ActiveLanguagesFields', () => {
     />);
   });
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component).toExist();
   });
 
   it('verify if has class ActiveLanguagesFields', () => {
-    expect(component.hasClass('ActiveLanguagesFields')).toEqual(true);
+    expect(component.hasClass('ActiveLanguagesFields')).toBe(true);
   });
 });
