@@ -28,7 +28,7 @@ class DataTypeListTable extends Component {
 
   renderTableRows() {
     return this.props.datatypes.map(datatype => (
-      <tr key={datatype.name}>
+      <tr key={datatype.code}>
         <td className="DataTypeListRow__td">{datatype.name}</td>
         <td className="DataTypeListRow__td text-center">{datatype.code}</td>
         <td className="DataTypeListRow__td text-center">
