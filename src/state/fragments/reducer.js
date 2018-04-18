@@ -1,6 +1,6 @@
 
 import { combineReducers } from 'redux';
-import { SET_SELECTED, SET_FRAGMENTS, SET_WIDGET_TYPES, SET_PLUGINS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { SET_SELECTED, SET_FRAGMENTS, SET_PLUGINS, REMOVE_FRAGMENT } from 'state/fragments/types';
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -24,15 +24,6 @@ const list = (state = [], action = {}) => {
   }
 };
 
-const widgetTypes = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_WIDGET_TYPES: {
-      return action.payload.widgetTypes;
-    }
-    default: return state;
-  }
-};
-
 const plugins = (state = [], action = {}) => {
   switch (action.type) {
     case SET_PLUGINS: {
@@ -42,10 +33,8 @@ const plugins = (state = [], action = {}) => {
   }
 };
 
-
 export default combineReducers({
   selected,
   list,
-  widgetTypes,
   plugins,
 });

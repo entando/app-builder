@@ -1,7 +1,7 @@
 import { initialize } from 'redux-form';
 
-import { getFragment, getFragments, getWidgetTypes, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment } from 'api/fragments';
-import { SET_SELECTED, SET_WIDGET_TYPES, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { getFragment, getFragments, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment } from 'api/fragments';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -18,13 +18,6 @@ export const setFragments = fragments => ({
   type: SET_FRAGMENTS,
   payload: {
     fragments,
-  },
-});
-
-export const setWidgetTypes = widgetTypes => ({
-  type: SET_WIDGET_TYPES,
-  payload: {
-    widgetTypes,
   },
 });
 
@@ -59,8 +52,17 @@ export const fetchFragment = fragmentCode => dispatch =>
 
 
 export const fetchFragmentDetail = fragmentCode => dispatch => (
-  getFragment(fragmentCode).then((response) => {
-    dispatch(setSelectedFragment(response.payload));
+  new Promise((resolve) => {
+    getFragment(fragmentCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedFragment(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
   })
 );
 
@@ -73,20 +75,13 @@ export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setFragments(data.payload));
           dispatch(toggleLoading('fragments'));
           dispatch(setPage(data.metaData));
-          resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(toggleLoading('fragments'));
-          resolve();
         }
+        resolve();
       });
     });
-  })
-);
-
-export const fetchWidgetTypes = () => dispatch => (
-  getWidgetTypes().then((response) => {
-    dispatch(setWidgetTypes(response.payload));
   })
 );
 

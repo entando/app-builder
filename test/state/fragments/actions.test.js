@@ -7,12 +7,11 @@ import { mockApi } from 'test/testUtils';
 
 import { config } from '@entando/apimanager';
 import {
-  fetchFragment, fetchFragmentDetail, fetchWidgetTypes, setFragments, fetchFragments,
-  fetchPlugins, setWidgetTypes, setPlugins, setSelectedFragment, fetchFragmentSettings,
+  fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
+  fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
   updateFragmentSettings, removeFragment, sendDeleteFragment,
 } from 'state/fragments/actions';
 import {
-  WIDGET_TYPES_OK,
   PLUGINS_OK,
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
@@ -23,15 +22,11 @@ import {
   putFragmentSettings,
   getFragment,
   getFragments,
-  getWidgetTypes,
   getPlugins,
   deleteFragment,
 } from 'api/fragments';
 
-import {
-  SET_SELECTED, SET_WIDGET_TYPES,
-  SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT,
-} from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -43,7 +38,6 @@ const mockStore = configureMockStore(middlewares);
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
-const WIDGET_TYPES_PAYLOAD = WIDGET_TYPES_OK;
 const PLUGINS_PAYLOAD = PLUGINS_OK;
 
 const FRAGMENT_CODE = 'myCode';
@@ -120,13 +114,6 @@ describe('state/fragments/actions', () => {
   });
 
   describe('test sync actions', () => {
-    describe('test setWidgetTypes', () => {
-      it('action payload contains widgetTypes list', () => {
-        action = setWidgetTypes(WIDGET_TYPES_PAYLOAD);
-        expect(action.type).toBe(SET_WIDGET_TYPES);
-        expect(action.payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD);
-      });
-    });
     describe('test setPlugins', () => {
       it('action payload contains plugins list', () => {
         action = setPlugins(PLUGINS_PAYLOAD);
@@ -194,17 +181,6 @@ describe('state/fragments/actions', () => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
           expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
-        });
-      });
-    });
-
-    describe('test fetchWidgetTypes', () => {
-      it('action payload contains widgetTypes list', () => {
-        getWidgetTypes.mockReturnValue(new Promise(resolve => resolve(WIDGET_TYPES_PAYLOAD)));
-        store.dispatch(fetchWidgetTypes()).then(() => {
-          const actions = store.getActions();
-          expect(actions[0].type).toEqual(SET_WIDGET_TYPES);
-          expect(actions[0].payload.widgetTypes).toEqual(WIDGET_TYPES_PAYLOAD.payload);
         });
       });
     });

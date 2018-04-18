@@ -2,7 +2,6 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
-  WIDGET_TYPES_OK,
   PLUGINS_OK,
   FRAGMENT_SETTING,
 } from 'test/mocks/fragments';
@@ -30,10 +29,6 @@ export const getFragments = (page = { page: 1, pageSize: 10 }, params = '') => (
     page,
   )
 );
-
-export const getWidgetTypes = () => new Promise((resolve) => {
-  throttle(resolve(WIDGET_TYPES_OK));
-});
 
 export const getPlugins = () => new Promise((resolve) => {
   throttle(resolve(PLUGINS_OK));

@@ -91,7 +91,7 @@ FragmentListTable.propTypes = {
   loading: PropTypes.bool,
   fragments: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
-    isLocked: PropTypes.bool.isRequired,
+    isLocked: PropTypes.bool,
     widgetType: PropTypes.shape({
       code: PropTypes.string,
       title: PropTypes.string,
