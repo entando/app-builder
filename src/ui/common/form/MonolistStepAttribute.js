@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { Button, Row, Col } from 'patternfly-react';
-import AttributeInfo from 'ui/common/attributes/AttributeInfo';
-import AttributeRole from 'ui/common/attributes/AttributeRole';
-import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
+import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
+import RenderTextInput from 'ui/common/form/RenderTextInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
+import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-export class DataAttributeHypertextFormBody extends Component {
+export class MonolistStepAttributeFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -31,12 +32,26 @@ export class DataAttributeHypertextFormBody extends Component {
              <fieldset className="no-padding">
                <legend>
                  <FormattedMessage id="app.attribute" />
-                 <div className="DataAttributeHypertextForm__required-fields text-right">
+                 <div className="MonolistStepAttributeForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
-               <AttributeInfo {...this.props} />
-               <AttributeRole {...this.props} />
+               <Field
+                 component={RenderTextInput}
+                 name="code"
+                 label={
+                   <FormLabel labelId="app.type" />
+                 }
+                 disabled
+               />
+               <FormGroup>
+                 <label htmlFor="filterList" className="col-xs-2 control-label">
+                   <FormLabel labelId="app.indexable" />
+                 </label>
+                 <Col xs={4}>
+                   <Field component={SwitchRenderer} name="indexable" />
+                 </Col>
+               </FormGroup>
                <AttributeHypeLongMonoTextSettings />
                <AttributeOgnlValidation />
              </fieldset>
@@ -61,7 +76,7 @@ export class DataAttributeHypertextFormBody extends Component {
    }
 }
 
-DataAttributeHypertextFormBody.propTypes = {
+MonolistStepAttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
@@ -69,15 +84,15 @@ DataAttributeHypertextFormBody.propTypes = {
   submitting: PropTypes.bool,
 };
 
-DataAttributeHypertextFormBody.defaultProps = {
+MonolistStepAttributeFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
 };
 
-const DataAttributeHypertextForm = reduxForm({
-  form: 'HyperTextAttribute',
-})(DataAttributeHypertextFormBody);
+const MonolistStepAttributeForm = reduxForm({
+  form: 'MonolistStepAttribute',
+})(MonolistStepAttributeFormBody);
 
-export default DataAttributeHypertextForm;
+export default MonolistStepAttributeForm;

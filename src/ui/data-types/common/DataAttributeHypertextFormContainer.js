@@ -30,5 +30,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(HyperTextAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeHypertextFormContainer =
+ connect(mapStateToProps, mapDispatchToProps)(HyperTextAttributeForm);
+export default DataAttributeHypertextFormContainer;

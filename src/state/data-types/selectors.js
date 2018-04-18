@@ -13,6 +13,17 @@ export const getDataTypeSelectedAttributeAllowedRoles = state =>
 export const getDataTypeSelectedAttributeallowedDisablingCodes = state =>
   state.dataTypes.attributes.selected.allowedDisablingCodes;
 
+export const getDataTypeSelectedAttributeCode = createSelector(
+  [getDataTypeSelectedAttribute],
+  (selectedAttribute) => {
+    if (selectedAttribute.code === undefined) {
+      return '';
+    }
+    const attributeName = selectedAttribute.code;
+    return attributeName;
+  },
+);
+
 export const getDataTypeList = createSelector(
   [getDataTypesMap, getDataTypesIdList],
   (dataTypesMap, idList) => idList.map(id => (dataTypesMap[id])),

@@ -24,5 +24,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(BooleanAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeThreeStateFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(BooleanAttributeForm);
+export default DataAttributeThreeStateFormContainer;

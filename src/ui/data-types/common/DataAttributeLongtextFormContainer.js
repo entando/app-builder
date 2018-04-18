@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttributes } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import CheckboxAttributeForm from 'ui/common/form/CheckboxAttributeForm';
+import LongTextAttributeForm from 'ui/common/form/LongTextAttributeForm';
 import {
   getDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
@@ -14,9 +14,8 @@ export const mapStateToProps = state => ({
   attributeCode: formValueSelector('DataType')(state, 'type'),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-  JoinAllowedOptions: formValueSelector('CheckboxAttribute')(state, 'joinRoles') || [],
+  JoinAllowedOptions: formValueSelector('LongTextAttribute')(state, 'joinRoles') || [],
 });
-
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
@@ -24,5 +23,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(CheckboxAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeLongtextFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(LongTextAttributeForm);
+export default DataAttributeLongtextFormContainer;

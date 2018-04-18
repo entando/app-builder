@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttributes } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import LongTextAttributeForm from 'ui/common/form/LongTextAttributeForm';
+import MonoTextAttributeForm from 'ui/common/form/MonoTextAttributeForm';
 import {
   getDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
@@ -14,7 +14,7 @@ export const mapStateToProps = state => ({
   attributeCode: formValueSelector('DataType')(state, 'type'),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-  JoinAllowedOptions: formValueSelector('LongTextAttribute')(state, 'joinRoles') || [],
+  JoinAllowedOptions: formValueSelector('MonoTextAttribute')(state, 'joinRoles') || [],
 });
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
@@ -23,5 +23,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(LongTextAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeMonoTextFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(MonoTextAttributeForm);
+export default DataAttributeMonoTextFormContainer;

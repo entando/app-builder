@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttributes } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
-import MonoTextAttributeForm from 'ui/common/form/MonoTextAttributeForm';
+import CheckboxAttributeForm from 'ui/common/form/CheckboxAttributeForm';
 import {
   getDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
@@ -14,8 +14,9 @@ export const mapStateToProps = state => ({
   attributeCode: formValueSelector('DataType')(state, 'type'),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-  JoinAllowedOptions: formValueSelector('MonoTextAttribute')(state, 'joinRoles') || [],
+  JoinAllowedOptions: formValueSelector('CheckboxAttribute')(state, 'joinRoles') || [],
 });
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
@@ -23,5 +24,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(MonoTextAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeCheckBoxFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(CheckboxAttributeForm);
+export default DataAttributeCheckBoxFormContainer;

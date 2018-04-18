@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
@@ -67,12 +66,5 @@ const AttributeInfo = () => (
     </Col>
   </Row>
 );
-
-AttributeInfo.propTypes = {
-};
-
-AttributeInfo.defaultProps = {
-};
-
 
 export default AttributeInfo;

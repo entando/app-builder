@@ -23,5 +23,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(EnumeratorAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeEnumeratorFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(EnumeratorAttributeForm);
+export default DataAttributeEnumeratorFormContainer;

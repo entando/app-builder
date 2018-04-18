@@ -7,7 +7,7 @@ import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
 } from 'state/data-types/selectors';
-import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
+import { ROUTE_ATTRIBUTE_MONOLIST_ADD } from 'app-init/router';
 import { gotoRoute } from 'frontend-common-components';
 
 export const mapStateToProps = state => ({
@@ -25,10 +25,11 @@ export const mapDispatchToProps = dispatch => ({
   },
   onAddAttribute: (attributeCode) => {
     dispatch(fetchDataTypeAttribute(attributeCode));
-    gotoRoute(ROUTE_ATTRIBUTE_ADD);
+    gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD);
   },
   handleSubmit: values => (values),
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(MonoListAttributeForm);
-export default DataTypeFormContainer;
+const DataAttributeMonoListFormContainer =
+connect(mapStateToProps, mapDispatchToProps)(MonoListAttributeForm);
+export default DataAttributeMonoListFormContainer;
