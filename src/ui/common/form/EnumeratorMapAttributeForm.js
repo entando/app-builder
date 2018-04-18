@@ -6,14 +6,10 @@ import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
-import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
-import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
-import AttributesNumber from 'ui/common/attributes/AttributesNumber';
-import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 
 
-export class AttributeFormBody extends Component {
+export class EnumeratorMapAttributeFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -35,18 +31,14 @@ export class AttributeFormBody extends Component {
              <fieldset className="no-padding">
                <legend>
                  <FormattedMessage id="app.attribute" />
-                 <div className="AttributeForm__required-fields text-right">
+                 <div className="EnumeratorMapAttributeForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
                <AttributeInfo />
                <AttributeRole {...this.props} />
-               <AttributeMonoListMonoSettings {...this.props} />
-               <AttributeHypeLongMonoTextSettings />
                <AttributeEnumMapSettings {...this.props} />
                <AttributeOgnlValidation />
-               <AttributesNumber />
-               <AttributesDateSettings />
              </fieldset>
            </Col>
          </Row>
@@ -69,7 +61,7 @@ export class AttributeFormBody extends Component {
    }
 }
 
-AttributeFormBody.propTypes = {
+EnumeratorMapAttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
@@ -77,15 +69,15 @@ AttributeFormBody.propTypes = {
   submitting: PropTypes.bool,
 };
 
-AttributeFormBody.defaultProps = {
+EnumeratorMapAttributeFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
 };
 
-const AttributeForm = reduxForm({
-  form: 'Attribute',
-})(AttributeFormBody);
+const EnumeratorMapAttributeForm = reduxForm({
+  form: 'EnumeratorMapAttribute',
+})(EnumeratorMapAttributeFormBody);
 
-export default AttributeForm;
+export default EnumeratorMapAttributeForm;

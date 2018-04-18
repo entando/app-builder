@@ -5,7 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DataAttributeFormContainer from 'ui/data-types/common/DataAttributeFormContainer';
+import DataAttributeEnumeratorFormContainer from 'ui/data-types/common/DataAttributeEnumeratorFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
 const AttributePage = () => (
@@ -32,7 +32,7 @@ const AttributePage = () => (
       />
       <Row>
         <Col xs={12} >
-          <DataAttributeFormContainer />
+          <DataAttributeEnumeratorFormContainer />
         </Col>
       </Row>
     </Grid>

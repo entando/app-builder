@@ -7,6 +7,12 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { formattedText } from 'frontend-common-components';
+import { required } from 'util/validateForm';
+
+const element = value =>
+  (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)
+    ? <FormattedMessage id="validateForm.element" /> : undefined);
+
 
 const AttributeEnumEnumMapSettings = ({ allowedRoles }) => {
   const selectAllowedOptions = allowedRoles.map(item => (
@@ -26,9 +32,10 @@ const AttributeEnumEnumMapSettings = ({ allowedRoles }) => {
             component={RenderTextInput}
             name="enumeratorStaticItems"
             label={
-              <FormLabel labelId="app.enumeratorStaticItems" />
+              <FormLabel labelId="app.enumeratorStaticItems" required />
             }
             placeholder={formattedText('app.enumeratorStaticItems.help')}
+            validate={[required, element]}
           />
           <Field
             component={RenderTextInput}

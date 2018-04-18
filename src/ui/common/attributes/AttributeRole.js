@@ -18,27 +18,30 @@ class AttributeRole extends Component {
         text: item.descr,
       }
     ));
-    const roleWrapper = (
-      selectAllowedOptions.lenght > 0 ?
-        (
-          <FormGroup>
-            <label htmlFor="attrRole" className="col-xs-2 control-label">
-              <FormattedMessage id="app.role" />
-            </label>
-            <Col xs={10}>
-              <FieldArray
-                component={RoleSelectRenderer}
-                name="joinRoles"
-                options={selectAllowedOptions}
-                selectedValues={JoinAllowedOptions}
-                labelKey="text"
-                valueKey="value"
-                emptyOptionTextId="app.chooseARole"
-              />
-            </Col>
-          </FormGroup>
-        )
-        : <div><FormattedMessage id="app.no.roles" /><br /><br /></div>
+    console.log('allowed roles', allowedRoles);
+
+    console.log(selectAllowedOptions);
+
+    const roleWrapper = (allowedRoles ?
+      (
+        <FormGroup>
+          <label htmlFor="attrRole" className="col-xs-2 control-label">
+            <FormattedMessage id="app.role" />
+          </label>
+          <Col xs={10}>
+            <FieldArray
+              component={RoleSelectRenderer}
+              name="joinRoles"
+              options={selectAllowedOptions}
+              selectedValues={JoinAllowedOptions}
+              labelKey="text"
+              valueKey="value"
+              emptyOptionTextId="app.chooseARole"
+            />
+          </Col>
+        </FormGroup>
+      )
+      : <div><FormattedMessage id="app.no.roles" /><br /><br /></div>
     );
 
     return (

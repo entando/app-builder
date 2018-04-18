@@ -6,17 +6,13 @@ import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
-import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
-import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
-import AttributesNumber from 'ui/common/attributes/AttributesNumber';
-import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 
-
-export class AttributeFormBody extends Component {
+export class DataAttributeMonoListFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
     this.props.onWillMount(this.props.dataTypeAttributeCode);
@@ -27,6 +23,10 @@ export class AttributeFormBody extends Component {
      this.props.handleSubmit();
    };
 
+   handleClick = () => {
+     this.props.onAddAttribute(this.props.attributeCode);
+   };
+
    render() {
      return (
        <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -35,18 +35,14 @@ export class AttributeFormBody extends Component {
              <fieldset className="no-padding">
                <legend>
                  <FormattedMessage id="app.attribute" />
-                 <div className="AttributeForm__required-fields text-right">
+                 <div className=" DataAttributeMonoListForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
                <AttributeInfo />
                <AttributeRole {...this.props} />
                <AttributeMonoListMonoSettings {...this.props} />
-               <AttributeHypeLongMonoTextSettings />
-               <AttributeEnumMapSettings {...this.props} />
                <AttributeOgnlValidation />
-               <AttributesNumber />
-               <AttributesDateSettings />
              </fieldset>
            </Col>
          </Row>
@@ -55,8 +51,9 @@ export class AttributeFormBody extends Component {
            <Col xs={12}>
              <Button
                className="pull-right"
-               type="submit"
+               type="button"
                bsStyle="primary"
+               onClick={this.handleClick}
                disabled={this.props.invalid || this.props.submitting}
              >
                <FormattedMessage id="app.continue" />
@@ -69,23 +66,27 @@ export class AttributeFormBody extends Component {
    }
 }
 
-AttributeFormBody.propTypes = {
+DataAttributeMonoListFormBody.propTypes = {
   onWillMount: PropTypes.func,
+  onAddAttribute: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  attributeCode: PropTypes.string,
 };
 
-AttributeFormBody.defaultProps = {
+DataAttributeMonoListFormBody.defaultProps = {
   onWillMount: () => {},
+  onAddAttribute: null,
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
+  attributeCode: '',
 };
 
-const AttributeForm = reduxForm({
-  form: 'Attribute',
-})(AttributeFormBody);
+const DataAttributeMonoListForm = reduxForm({
+  form: 'MonoListAttribute',
+})(DataAttributeMonoListFormBody);
 
-export default AttributeForm;
+export default DataAttributeMonoListForm;
