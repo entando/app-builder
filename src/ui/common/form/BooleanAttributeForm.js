@@ -34,7 +34,7 @@ export class BooleanAttributeFormBody extends Component {
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
-               <AttributeInfo {...this.props} />
+               <AttributeInfo />
                <AttributeRole {...this.props} />
                <AttributeOgnlValidation />
              </fieldset>

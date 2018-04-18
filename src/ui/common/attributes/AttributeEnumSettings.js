@@ -14,8 +14,8 @@ const element = value =>
     ? <FormattedMessage id="validateForm.element" /> : undefined);
 
 
-const AttributeEnumEnumMapSettings = ({ allowedRoles }) => {
-  const selectAllowedOptions = allowedRoles.map(item => (
+const AttributeEnumEnumMapSettings = ({ enumeratorExtractorBeans }) => {
+  const selectAllowedOptions = enumeratorExtractorBeans.map(item => (
     {
       value: item.code,
       text: item.descr,
@@ -57,14 +57,14 @@ const AttributeEnumEnumMapSettings = ({ allowedRoles }) => {
 };
 
 AttributeEnumEnumMapSettings.propTypes = {
-  allowedRoles: PropTypes.arrayOf(PropTypes.shape({
+  enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
 };
 
 AttributeEnumEnumMapSettings.defaultProps = {
-  allowedRoles: [],
+  enumeratorExtractorBeans: [],
 };
 
 

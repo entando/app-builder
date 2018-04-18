@@ -15,6 +15,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('LongTextAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'LongText',
+  },
 });
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {

@@ -15,7 +15,11 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('CheckboxAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'Checkbox',
+  },
 });
+
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {

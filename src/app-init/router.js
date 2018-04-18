@@ -45,6 +45,7 @@ export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 export const ROUTE_ATTRIBUTE_ADD = 'attributeAdd';
+export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
 
 
 routerConfig(
@@ -94,6 +95,7 @@ routerConfig(
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_ATTRIBUTE_ADD, path: '/attribute/add' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/MonolistAdd' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

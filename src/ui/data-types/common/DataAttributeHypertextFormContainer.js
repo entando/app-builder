@@ -17,6 +17,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('HyperTextAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'HyperText',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({

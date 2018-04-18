@@ -28,6 +28,7 @@ export class DataAttributeMonoListFormBody extends Component {
    };
 
    render() {
+     console.log(this.props.dataTypeAttributeCode);
      return (
        <form onSubmit={this.onSubmit} className="form-horizontal">
          <Row>

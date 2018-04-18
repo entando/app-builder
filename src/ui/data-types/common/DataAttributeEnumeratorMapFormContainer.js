@@ -15,6 +15,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('EnumeratorMapAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'EnumeratorMap',
+  },
 });
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {

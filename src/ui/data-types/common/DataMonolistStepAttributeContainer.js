@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchDataTypeAttributes } from 'state/data-types/actions';
-import MonolistStepAttribute from 'ui/common/form/MonolistStepAttribute';
+import MonoListStepAttributeForm from 'ui/common/form/MonolistStepAttributeForm';
 import { getDataTypeSelectedAttributeCode } from 'state/data-types/selectors';
 
 export const mapStateToProps = state => ({
@@ -15,5 +15,5 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 const DataMonolistStepAttributeContainer =
-connect(mapStateToProps, mapDispatchToProps)(MonolistStepAttribute);
+connect(mapStateToProps, mapDispatchToProps)(MonoListStepAttributeForm);
 export default DataMonolistStepAttributeContainer;

@@ -6,9 +6,10 @@ import {
   getDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
+  // getDataTypeSelectedAttributeCode,
 } from 'state/data-types/selectors';
-import { ROUTE_ATTRIBUTE_MONOLIST_ADD } from 'app-init/router';
 import { gotoRoute } from 'frontend-common-components';
+import { ROUTE_ATTRIBUTE_MONOLIST_ADD } from 'app-init/router';
 
 export const mapStateToProps = state => ({
   dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
@@ -17,6 +18,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('MonoListAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'getDataTypeSelectedAttributeCode(state)',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
