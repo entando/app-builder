@@ -23,6 +23,27 @@ export class CategoryFormBody extends Component {
 
     const isEditMode = mode === 'edit';
 
+    const renderCategoryTree = () => {
+      if (!isEditMode) {
+        return (
+          <FormGroup>
+            <label htmlFor="parentCode" className="col-xs-2 control-label">
+              <FormLabel labelId="category.categoryForm.categoryPlacement" required />
+            </label>
+            <Col xs={10}>
+              <Field
+                component={CategoryTreeSelectorContainer}
+                name="parentCode"
+                validate={[required]}
+              />
+            </Col>
+          </FormGroup>
+        );
+      }
+
+      return '';
+    };
+
     return (
       <form onSubmit={handleSubmit(onSubmit.bind(this))} className="CategoryForm form-horizontal">
         <Row>
@@ -39,18 +60,7 @@ export class CategoryFormBody extends Component {
               validate={[required]}
               disabled={isEditMode}
             />
-            <FormGroup>
-              <label htmlFor="parentCode" className="col-xs-2 control-label">
-                <FormLabel labelId="category.categoryForm.categoryPlacement" required />
-              </label>
-              <Col xs={10}>
-                <Field
-                  component={CategoryTreeSelectorContainer}
-                  name="parentCode"
-                  validate={[required]}
-                />
-              </Col>
-            </FormGroup>
+            {renderCategoryTree()}
           </Col>
         </Row>
         <Row>
