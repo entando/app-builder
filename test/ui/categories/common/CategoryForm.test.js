@@ -35,7 +35,7 @@ describe('CategoryForm', () => {
 
   it('root component renders without crashing', () => {
     categoryForm = buildCategoryForm();
-    expect(categoryForm.exists()).toEqual(true);
+    expect(categoryForm).toExist();
   });
 
   describe('test with mode = add', () => {

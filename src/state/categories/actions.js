@@ -48,16 +48,6 @@ export const setSelectedCategory = category => ({
   },
 });
 
-// export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
-//   const response = await apiFunc(...args);
-//   const json = await response.json();
-//   if (response.ok) {
-//     return json;
-//   }
-//   dispatch(addErrors(json.errors.map(e => e.message)));
-//   throw json;
-// };
-
 export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const contentType = response.headers.get('content-type');
