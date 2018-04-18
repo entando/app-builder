@@ -26,6 +26,16 @@ describe('WidgetConfigForm', () => {
     expect(component.props()).toEqual({ ...PROPS, widgetId: 'formAction' });
   });
 
+  it('if widgetId is coming from a plugin', () => {
+    component = shallow((
+      <WidgetConfigFormBody
+        {...PROPS}
+        widgetId="plugin-widget"
+      />
+    ));
+    expect(component.find('[widgetId="plugin-widget"]')).toExist();
+  });
+
   it('if widgetId is unsupported, renders an error span', () => {
     component = shallow((
       <WidgetConfigFormBody
