@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
-import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
-import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-export class MonolistStepAttributeFormBody extends Component {
+import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
+import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+
+export class StepLongtextFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentWillMount() {
-    this.props.onWillMount(this.props.dataTypeAttributeCode);
+    this.props.onWillMount(this.props.attributeCode);
   }
 
    onSubmit = (ev) => {
@@ -32,13 +32,13 @@ export class MonolistStepAttributeFormBody extends Component {
              <fieldset className="no-padding">
                <legend>
                  <FormattedMessage id="app.attribute" />
-                 <div className="MonolistStepAttributeForm__required-fields text-right">
+                 <div className="StepLongtextForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
                  </div>
                </legend>
                <Field
                  component={RenderTextInput}
-                 name="code"
+                 name="attributeTypeCode"
                  label={
                    <FormLabel labelId="app.type" />
                  }
@@ -61,7 +61,7 @@ export class MonolistStepAttributeFormBody extends Component {
          <Row>
            <Col xs={12}>
              <Button
-               className="pull-right"
+               className="pull-right StepLongtextForm__add--btn"
                type="submit"
                bsStyle="primary"
                disabled={this.props.invalid || this.props.submitting}
@@ -76,23 +76,23 @@ export class MonolistStepAttributeFormBody extends Component {
    }
 }
 
-MonolistStepAttributeFormBody.propTypes = {
+StepLongtextFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  dataTypeAttributeCode: PropTypes.string,
+  attributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
 
-MonolistStepAttributeFormBody.defaultProps = {
+StepLongtextFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
-  dataTypeAttributeCode: '',
+  attributeCode: '',
 };
 
-const MonolistStepAttributeForm = reduxForm({
-  form: 'MonolistStepAttribute',
-})(MonolistStepAttributeFormBody);
+const StepLongtextForm = reduxForm({
+  form: 'StepLongtext',
+})(StepLongtextFormBody);
 
-export default MonolistStepAttributeForm;
+export default StepLongtextForm;

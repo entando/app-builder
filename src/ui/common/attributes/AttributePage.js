@@ -55,7 +55,7 @@ const AttributePage = ({ container }) => {
       case 'Timestamp':
         return <DataAttributeTimestampFormContainer />;
 
-      default: return <DataAttributeBooleanFormContainer />;
+      default: return null;
     }
   };
 

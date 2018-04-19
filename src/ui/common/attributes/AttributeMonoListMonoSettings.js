@@ -20,7 +20,7 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
           <RenderSelectInput
             options={selectAttribute}
             defaultOptionId="app.chooseAnOption"
-            labelId="DataType.type"
+            labelId="app.list"
             fieldName="listNestedType"
           />
         </fieldset>

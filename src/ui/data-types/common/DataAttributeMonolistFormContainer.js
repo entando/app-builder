@@ -3,32 +3,35 @@ import { fetchDataTypeAttributes, fetchDataTypeAttribute } from 'state/data-type
 import { formValueSelector } from 'redux-form';
 import MonoListAttributeForm from 'ui/common/form/MonoListAttributeForm';
 import {
-  getDataTypeSelectedAttribute,
+  getDataTypeSelectedAttributeCode,
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
-  // getDataTypeSelectedAttributeCode,
+  getDataTypeSelectedAttribute,
 } from 'state/data-types/selectors';
 import { gotoRoute } from 'frontend-common-components';
 import { ROUTE_ATTRIBUTE_MONOLIST_ADD } from 'app-init/router';
 
-export const mapStateToProps = state => ({
-  dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
-  attributesList: getDataTypeAttributesIdList(state),
-  attributeCode: formValueSelector('DataType')(state, 'type'),
-  allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-  allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
-  JoinAllowedOptions: formValueSelector('MonoListAttribute')(state, 'joinRoles') || [],
-  initialValues: {
-    code: 'getDataTypeSelectedAttributeCode(state)',
-  },
-});
-
+export const mapStateToProps = (state) => {
+  console.log('TEST', getDataTypeSelectedAttribute(state));
+  return {
+    dataTypeAttributeCode: getDataTypeSelectedAttributeCode(state),
+    attributesList: getDataTypeAttributesIdList(state),
+    attributeCode: formValueSelector('MonoListAttribute')(state, 'listNestedType'),
+    attributeName: formValueSelector('MonoListAttribute')(state, 'attributeName'),
+    allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
+    JoinAllowedOptions: formValueSelector('MonoListAttribute')(state, 'joinRoles') || [],
+    allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
+    initialValues: {
+      code: 'Monolist',
+    },
+  };
+};
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
-  onAddAttribute: (attributeCode) => {
-    dispatch(fetchDataTypeAttribute(attributeCode));
+  onAddAttribute: (attributeCode, attributeName) => {
+    dispatch(fetchDataTypeAttribute(attributeCode, attributeName));
     gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD);
   },
   handleSubmit: values => (values),

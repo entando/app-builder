@@ -13,6 +13,9 @@ const AttributeInfo = () => (
       <fieldset className="no-padding">
         <legend>
           <FormattedMessage id="app.info" />
+          <div className="DataTypeForm__required-fields text-right">
+            * <FormattedMessage id="app.fieldsRequired" />
+          </div>
         </legend>
         <Field
           component={RenderTextInput}
@@ -34,9 +37,9 @@ const AttributeInfo = () => (
           component={RenderTextInput}
           name="attributeDescription"
           label={
-            <FormLabel labelId="app.name" helpId="app.help.name" required />
+            <FormLabel labelId="app.name" helpId="app.help.name" />
           }
-          validate={[required, maxLength(50)]}
+          validate={[maxLength(50)]}
         />
         <FormGroup>
           <label htmlFor="mandatory" className="col-xs-2 control-label">

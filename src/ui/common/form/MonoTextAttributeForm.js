@@ -29,12 +29,6 @@ export class DataAttributeMonoTextFormBody extends Component {
          <Row>
            <Col xs={12}>
              <fieldset className="no-padding">
-               <legend>
-                 <FormattedMessage id="app.attribute" />
-                 <div className="DataAttributeMonoTextForm__required-fields text-right">
-                   * <FormattedMessage id="app.fieldsRequired" />
-                 </div>
-               </legend>
                <AttributeInfo />
                <AttributeRole {...this.props} />
                <AttributeHypeLongMonoTextSettings />

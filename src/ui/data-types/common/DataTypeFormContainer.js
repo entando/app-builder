@@ -7,7 +7,6 @@ import { gotoRoute } from 'frontend-common-components';
 import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
-  // get selected attribute on select
   attributes: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
 });

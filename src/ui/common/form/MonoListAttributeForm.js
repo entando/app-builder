@@ -15,7 +15,7 @@ export class DataAttributeMonoListFormBody extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
-    this.props.onWillMount(this.props.dataTypeAttributeCode);
+    this.props.onWillMount(this.props.dataTypeAttributeCode, this.props.attributeName);
   }
 
    onSubmit = (ev) => {
@@ -24,11 +24,13 @@ export class DataAttributeMonoListFormBody extends Component {
    };
 
    handleClick = () => {
-     this.props.onAddAttribute(this.props.attributeCode);
+     this.props.onAddAttribute(this.props.attributeCode, this.props.attributeName);
    };
 
    render() {
-     console.log(this.props.dataTypeAttributeCode);
+     console.log('mando il name', this.props.attributeName);
+     console.log('mando la lista', this.props.attributeCode);
+     console.log('mando il tipo', this.props.dataTypeAttributeCode);
      return (
        <form onSubmit={this.onSubmit} className="form-horizontal">
          <Row>
@@ -52,7 +54,7 @@ export class DataAttributeMonoListFormBody extends Component {
            <Col xs={12}>
              <Button
                className="pull-right"
-               type="button"
+               type="submit"
                bsStyle="primary"
                onClick={this.handleClick}
                disabled={this.props.invalid || this.props.submitting}
@@ -75,6 +77,7 @@ DataAttributeMonoListFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   attributeCode: PropTypes.string,
+  attributeName: PropTypes.string,
 };
 
 DataAttributeMonoListFormBody.defaultProps = {
@@ -84,6 +87,7 @@ DataAttributeMonoListFormBody.defaultProps = {
   submitting: false,
   dataTypeAttributeCode: '',
   attributeCode: '',
+  attributeName: '',
 };
 
 const DataAttributeMonoListForm = reduxForm({

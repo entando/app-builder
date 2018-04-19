@@ -1,10 +1,14 @@
 import { connect } from 'react-redux';
+import StepLongtextForm from 'ui/common/form/StepLongtextForm';
 import { fetchDataTypeAttributes } from 'state/data-types/actions';
-import MonoListStepAttributeForm from 'ui/common/form/MonolistStepAttributeForm';
 import { getDataTypeSelectedAttributeCode } from 'state/data-types/selectors';
 
 export const mapStateToProps = state => ({
+  attributeCode: getDataTypeSelectedAttributeCode(state),
   dataTypeAttributeCode: getDataTypeSelectedAttributeCode(state),
+  initialValues: {
+    attributeTypeCode: 'Longtext',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -14,6 +18,6 @@ export const mapDispatchToProps = dispatch => ({
   handleSubmit: values => (values),
 
 });
-const DataMonolistStepAttributeContainer =
-connect(mapStateToProps, mapDispatchToProps)(MonoListStepAttributeForm);
-export default DataMonolistStepAttributeContainer;
+const StepDataLongtextAttributeContainer =
+connect(mapStateToProps, mapDispatchToProps)(StepLongtextForm);
+export default StepDataLongtextAttributeContainer;
