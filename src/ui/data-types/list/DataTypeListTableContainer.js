@@ -17,7 +17,7 @@ export const mapStateToProps = state => (
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page) => {
+  onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchDataTypes(page));
   },
 });

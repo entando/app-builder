@@ -15,7 +15,7 @@ export const WIDGET = {
   ],
   pluginCode: 'plugin_code',
   group: 'group',
-  hasConfig: true,
+  hasConfig: false,
 };
 
 export const WIDGET_LIST = {
@@ -31,7 +31,20 @@ export const WIDGET_LIST = {
       ...WIDGET, code: 'content_viewer', titles: { it: 'Contenuti', en: 'Contents' }, used: 2,
     },
     {
-      ...WIDGET, code: 'formAction', typology: 'Custom Widget', titles: { it: 'InternalServlet', en: 'InternalServlet' }, used: 1,
+      ...WIDGET,
+      code: 'formAction',
+      typology: 'Custom Widget',
+      titles: { it: 'InternalServlet', en: 'InternalServlet' },
+      used: 1,
+      hasConfig: true,
+    },
+    {
+      ...WIDGET,
+      code: 'bpm-case-comments',
+      typology: 'Entando Redhat BPM connector',
+      titles: { it: 'BPM-Case comments', en: 'BPM-Case comments' },
+      used: 1,
+      hasConfig: true,
     },
   ],
   errors: [],

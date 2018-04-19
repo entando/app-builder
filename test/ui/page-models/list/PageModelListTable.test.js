@@ -75,6 +75,10 @@ describe('PageModelListTable', () => {
     expect(component.find('Paginator')).toHaveLength(1);
   });
 
+  it('has a delete page-model modal', () => {
+    expect(component.find('PageModelDeleteModalContainer')).toHaveLength(1);
+  });
+
   it('on change page, it calls onWillMount with new page data', () => {
     onWillMount.mockClear();
     component.instance().changePage(3);

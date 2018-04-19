@@ -2,7 +2,6 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
-  WIDGET_TYPES_OK,
   PLUGINS_OK,
   FRAGMENT_SETTING,
 } from 'test/mocks/fragments';
@@ -31,10 +30,6 @@ export const getFragments = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
-export const getWidgetTypes = () => new Promise((resolve) => {
-  throttle(resolve(WIDGET_TYPES_OK));
-});
-
 export const getPlugins = () => new Promise((resolve) => {
   throttle(resolve(PLUGINS_OK));
 });
@@ -61,8 +56,7 @@ export const deleteFragment = fragmentCode => (
   makeRequest({
     uri: `/api/fragments/${fragmentCode}`,
     method: METHODS.DELETE,
-    body: fragmentCode,
-    mockResponse: fragmentCode,
+    mockResponse: { code: fragmentCode },
     useAuthentication: true,
   })
 );

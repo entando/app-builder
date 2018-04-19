@@ -1,8 +1,6 @@
 const fs = require('fs-extra'),
     chalk = require('chalk'),
-
     Log = require('./Log.js');
-
 
 
 // -----------------------------------------------------------------------------
@@ -24,7 +22,7 @@ function validatePlugin(plugin) {
   const PATH_JS = plugin.path.root + '/pluginBuild/static/js/main.js';
   const PATH_CSS = plugin.path.root + '/pluginBuild/static/css/main.css';
 
-  const rejectIfNotExists = (path) => (exists) => {
+  const rejectIfNotExists = path => (exists) => {
     if (!exists) {
       throw 'path ' + chalk.grey(path) + ' does not exist';
     }
@@ -48,7 +46,7 @@ function validatePlugin(plugin) {
       return false;
     }
     let isValid = true;
-    locales.forEach(locale => {
+    locales.forEach((locale) => {
       if (typeof locale.locale !== 'string' ||
           typeof locale.messages !== 'object') {
         isValid = false;
@@ -71,29 +69,14 @@ function validatePlugin(plugin) {
     return isValid;
   };
 
-  let cssFilePromise = fs.pathExists(PATH_CSS)
+  const cssFilePromise = fs.pathExists(PATH_CSS)
     .then(rejectIfNotExists(PATH_CSS));
 
-  let assetsDirPromise = fs.pathExists(plugin.path.assets)
+  const assetsDirPromise = fs.pathExists(plugin.path.assets)
     .then(rejectIfNotExists(plugin.path.assets));
 
-
-  let jsFilePromise = fs.pathExists(PATH_JS)
-    .then(rejectIfNotExists(PATH_JS))
-    .then(() => {
-      const pluginJs = require(PATH_JS);
-      let valid = true;
-      valid &= checkExported(pluginJs, 'id', 'string');
-      valid &= checkExported(pluginJs, 'reducer', 'function');
-      valid &= checkExported(pluginJs, 'locales', 'object');
-      valid &= checkExported(pluginJs, 'uiComponent', 'function');
-
-      valid &= isLocalesValid(pluginJs.locales);
-
-      if (!valid) {
-        throw 'validation error';
-      }
-    });
+  const jsFilePromise = fs.pathExists(PATH_JS)
+    .then(rejectIfNotExists(PATH_JS));
 
   return Promise.all([jsFilePromise, cssFilePromise, assetsDirPromise])
     .then(() => {
@@ -106,13 +89,13 @@ function validateAllPlugins(pluginDefs) {
 
   Log.section('Validating plugins');
 
-  var validatePromises = pluginDefs.map(plugin => validatePlugin(plugin));
+  const validatePromises = pluginDefs.map(plugin => validatePlugin(plugin));
 
   return Promise.all(validatePromises)
     .then(
       Log.resolved('Plugins validation completed'),
-      Log.rejected('Plugins validation failed')
-    );
+      Log.rejected('Plugins validation failed'),
+    ).catch(arg => console.log(arg));
 }
 
 module.exports = validateAllPlugins;

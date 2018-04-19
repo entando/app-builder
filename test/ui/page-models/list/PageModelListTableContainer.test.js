@@ -1,12 +1,13 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/list/PageModelListTableContainer';
-import { fetchPageModels, removePageModel } from 'state/page-models/actions';
+import { fetchPageModels } from 'state/page-models/actions';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { PAGE_MODELS_LIST } from 'test/mocks/pageModels';
-
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/page-models/common/PageModelDeleteModal';
 
 const CURRENT_PAGE = 1;
 const TOTAL_ITEMS = 100;
@@ -14,7 +15,6 @@ const PAGE_SIZE = 10;
 
 jest.mock('state/page-models/actions', () => ({
   fetchPageModels: jest.fn(() => 'fetchPageModels'),
-  removePageModel: jest.fn(() => 'removePageModel'),
 }));
 
 jest.mock('state/page-models/selectors', () => ({
@@ -30,6 +30,8 @@ jest.mock('state/pagination/selectors', () => ({
   getTotalItems: jest.fn(),
   getPageSize: jest.fn(),
 }));
+
+jest.mock('state/modal/actions', () => jest.genMockFromModule('state/modal/actions'));
 
 const dispatchMock = jest.fn();
 const PAGE_MODEL_CODE = 'PAGE_MODEL_CODE';
@@ -86,9 +88,11 @@ describe('PageModelListTableContainer mapDispatchToProps', () => {
     expect(fetchPageModels).toHaveBeenCalled();
   });
 
-  it('should dispatch removePageModel if removePageModel is called', () => {
+  it('should dispatch an action if removePageModel is called', () => {
+    expect(props.removePageModel).toBeDefined();
     props.removePageModel(PAGE_MODEL_CODE);
-    expect(dispatchMock).toHaveBeenCalledWith('removePageModel');
-    expect(removePageModel).toHaveBeenCalledWith(PAGE_MODEL_CODE);
+    expect(dispatchMock).toHaveBeenCalled();
+    expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
+    expect(setInfo).toHaveBeenCalledWith({ type: 'page model', code: PAGE_MODEL_CODE });
   });
 });
