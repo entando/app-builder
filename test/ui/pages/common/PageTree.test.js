@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
 import { gotoRoute } from '@entando/router';
 import { DDTable } from 'frontend-common-components';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 const PAGES = [
   {
@@ -29,13 +29,18 @@ const PAGES = [
   },
 ];
 
+const props = {
+  onClickAdd: jest.fn(),
+  onClickDelete: jest.fn(),
+};
+
 describe('PageTree', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('basic rendering', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageTree pages={PAGES} locale="en" />);
+      component = shallow(<PageTree pages={PAGES} locale="en" {...props} />);
     });
     it('renders without crashing', () => {
       expect(component.exists()).toBe(true);
@@ -57,6 +62,7 @@ describe('PageTree', () => {
           onDropIntoPage={handleDropIntoPage}
           onDropAbovePage={handleDropAbovePage}
           onDropBelowPage={handleDropBelowPage}
+          {...props}
         />));
     });
     it('calls onDropIntoPage if a row is dropped with drop type "medium"', () => {
@@ -87,6 +93,7 @@ describe('PageTree', () => {
         <PageTree
           pages={PAGES}
           onExpandPage={handleExpandPage}
+          {...props}
         />));
     });
     it('does not call onExpandPage if the page is empty', () => {
@@ -108,14 +115,14 @@ describe('PageTree', () => {
   describe('on menu action', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageTree pages={PAGES} />);
+      component = shallow(<PageTree pages={PAGES} {...props} />);
     });
 
     describe('add', () => {
       it('redirects to the "add page" route', () => {
         const pageIndex = 1;
         component.find('PageTreeActionMenu').at(pageIndex).prop('onClickAdd')();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
+        expect(props.onClickAdd).toHaveBeenCalled();
       });
     });
 

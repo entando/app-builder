@@ -1,3 +1,4 @@
+import { isFSA } from 'flux-standard-action';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
@@ -9,12 +10,12 @@ import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
-  unpublishSelectedPage, loadSelectedPage,
+  unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
-  SET_FREE_PAGES, SET_SELECTED_PAGE,
+  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -26,22 +27,10 @@ import {
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList, putPageStatus } from 'api/pages';
+import { setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList, putPageStatus, deletePage } from 'api/pages';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
-
-jest.mock('api/pages', () => ({
-  getPage: jest.fn(),
-  getPageChildren: jest.fn(),
-  setPagePosition: jest.fn().mockReturnValue(new Promise(resolve => resolve())),
-  postPage: jest.fn(),
-  putPage: jest.fn(),
-  putPageStatus: jest.fn(),
-  getFreePages: () => new Promise(resolve => resolve([])),
-  getPageSettingsList: jest.fn(() =>
-    new Promise(resolve => resolve({ param: [{ name: 'a', value: 'b' }] }))),
-}));
 
 jest.mock('state/page-config/selectors', () => ({
   getSelectedPageConfig: jest.fn(),
@@ -117,6 +106,23 @@ describe('state/pages/actions', () => {
     expect(action.type).toBe(ADD_PAGES);
     expect(action.payload).toEqual({ pages: PAGES });
   });
+
+  describe('removePage', () => {
+    let action;
+    beforeEach(() => {
+      action = removePage({ code: PAGE_CODE });
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', REMOVE_PAGE);
+      expect(action).toHaveProperty('payload.page', { code: PAGE_CODE });
+    });
+  });
+
 
   it('setPageLoading() should return a well formed action', () => {
     const action = setPageLoading(PAGE_CODE);
@@ -376,6 +382,24 @@ describe('state/pages/actions', () => {
     });
   });
 
+  describe('sendDeletePage', () => {
+    let store;
+    beforeEach(() => {
+      store = mockStore(INITIALIZED_STATE);
+    });
+
+    it('calls removePage and gotoRoute', (done) => {
+      store.dispatch(sendDeletePage(DASHBOARD_PAYLOAD)).then(() => {
+        expect(deletePage).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', REMOVE_PAGE);
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
   describe('fetchPageForm()', () => {
     let store;
     beforeEach(() => {
@@ -409,6 +433,7 @@ describe('state/pages/actions', () => {
     });
 
     it('when getPageSettingsList succeeds, should dispatch redux-form initialize', (done) => {
+      getPageSettingsList.mockImplementation(mockApi({ payload: { param: [{ name: 'a', value: 'b' }] } }));
       store.dispatch(fetchPageSettings()).then(() => {
         expect(getPageSettingsList).toHaveBeenCalled();
         expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });

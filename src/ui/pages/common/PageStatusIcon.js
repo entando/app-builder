@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 
 const PageStatusIcon = ({ status, differsFromPublished }) => {
   const classNameAr = ['fa fa-circle PageStatusIcon', `PageStatusIcon--${status}`];
@@ -12,7 +12,10 @@ const PageStatusIcon = ({ status, differsFromPublished }) => {
 };
 
 PageStatusIcon.propTypes = {
-  status: PropTypes.oneOf([PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED]).isRequired,
+  status: PropTypes.oneOf([
+    PAGE_STATUS_DRAFT,
+    PAGE_STATUS_PUBLISHED,
+    PAGE_STATUS_UNPUBLISHED]).isRequired,
   differsFromPublished: PropTypes.bool,
 };
 

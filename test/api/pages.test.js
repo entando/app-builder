@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import {
-  getPage, getPageChildren, setPagePosition, postPage, putPage,
+  getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage,
   getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
 } from 'api/pages';
 
@@ -103,6 +103,22 @@ describe('api/pages', () => {
     });
   });
 
+  describe('deletePage()', () => {
+    it('returns a promise', () => {
+      expect(deletePage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deletePage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
+        method: METHODS.DELETE,
+        mockResponse: { code: `${CONTACTS_PAYLOAD.code}` },
+        useAuthentication: true,
+      }));
+    });
+  });
+
 
   describe('test pageSettings API', () => {
     it('returns a promise', () => {
@@ -110,9 +126,13 @@ describe('api/pages', () => {
       expect(typeof filledInput.then === 'function').toBeDefined();
     });
     it('verify success page settings', () => {
-      getPageSettingsList().then((response) => {
-        expect(response).toEqual(PAGE_SETTINGS_PAYLOAD);
-      });
+      getPageSettingsList();
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pageSettings',
+        method: METHODS.GET,
+        mockResponse: PAGE_SETTINGS_PAYLOAD,
+        useAuthentication: true,
+      }));
     });
   });
 

@@ -1,7 +1,9 @@
-
 import { connect } from 'react-redux';
-
+import { gotoRoute } from '@entando/router';
+import { ROUTE_PAGE_ADD } from 'app-init/router';
 import PageTree from 'ui/pages/common/PageTree';
+import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 import {
   handleExpandPage,
@@ -9,6 +11,7 @@ import {
   movePageAbove,
   movePageBelow,
 } from 'state/pages/actions';
+
 
 import { getPageTreePages } from 'state/pages/selectors';
 
@@ -18,6 +21,11 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  onClickAdd: () => { gotoRoute(ROUTE_PAGE_ADD); },
+  onClickDelete: (page) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'page', code: page.code }));
+  },
   onDropIntoPage: (sourcePageCode, targetPageCode) =>
     dispatch(setPageParent(sourcePageCode, targetPageCode)),
   onDropAbovePage: (sourcePageCode, targetPageCode) =>

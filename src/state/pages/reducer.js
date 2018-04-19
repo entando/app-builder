@@ -1,7 +1,7 @@
-
 import { combineReducers } from 'redux';
 import {
   ADD_PAGES,
+  REMOVE_PAGE,
   TOGGLE_PAGE_EXPANDED,
   SET_PAGE_LOADING,
   SET_PAGE_LOADED,
@@ -10,7 +10,6 @@ import {
   SET_FREE_PAGES,
   SET_SELECTED_PAGE,
 } from 'state/pages/types';
-
 
 // creates a map from an array
 const toMap = (array, propKey) => array.reduce((acc, page) => {
@@ -53,6 +52,12 @@ const reducer = (state = {}, action = {}) => {
         },
       };
     }
+    case REMOVE_PAGE: {
+      const { code } = action.payload.page;
+      const newState = { ...state };
+      delete newState[code];
+      return newState;
+    }
     default: return state;
   }
 };
@@ -90,6 +95,15 @@ const childrenMap = (state = {}, action = {}) => {
         [newParentCode]: newParentChildren,
       };
     }
+    case REMOVE_PAGE: {
+      const { parentCode, code } = action.payload.page;
+      const newState = { ...state };
+      if (parentCode) {
+        newState[parentCode] = newState[parentCode].filter(f => f !== code);
+      }
+      delete newState[code];
+      return newState;
+    }
     default: return state;
   }
 };
@@ -101,6 +115,12 @@ const titlesMap = (state = {}, action = {}) => {
         ...state,
         ...toMap(action.payload.pages, 'titles'),
       };
+    }
+    case REMOVE_PAGE: {
+      const { code } = action.payload.page;
+      const newState = { ...state };
+      delete newState[code];
+      return newState;
     }
     default: return state;
   }
@@ -147,6 +167,10 @@ const selected = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE: {
       return action.payload.page;
+    }
+    case REMOVE_PAGE: {
+      const { code } = action.payload.page;
+      return state && state.code === code ? null : state;
     }
     default: return state;
   }

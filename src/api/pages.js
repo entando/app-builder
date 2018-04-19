@@ -106,6 +106,14 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
+export const deletePage = page => makeRequest({
+  uri: `/api/pages/${page.code}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: `${page.code}` },
+  useAuthentication: true,
+
+});
+
 export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
@@ -125,11 +133,13 @@ export const getFreePages = () => (
   })
 );
 
-export const getPageSettingsList = () => (
-  new Promise((resolve) => {
-    resolve(PAGE_SETTINGS_PAYLOAD);
-  })
-);
+export const getPageSettingsList = () => makeRequest({
+  uri: '/api/pageSettings',
+  method: METHODS.GET,
+  mockResponse: PAGE_SETTINGS_PAYLOAD,
+  useAuthentication: true,
+});
+
 
 const PAGE_CONFIG_DRAFT_MAP = {
   homepage: HOMEPAGE_CONFIG,

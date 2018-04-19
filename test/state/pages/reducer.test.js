@@ -7,15 +7,13 @@ import {
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
-  setFreePages,
+  setFreePages, setSelectedPage, removePage,
 } from 'state/pages/actions';
-
 
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 ];
-
 
 describe('state/pages/reducer', () => {
   it('should return an object', () => {
@@ -145,6 +143,63 @@ describe('state/pages/reducer', () => {
     });
     it('state should be valued with an array of options', () => {
       expect(state.freePages[0]).toEqual(FREE_PAGES_PAYLOAD[0]);
+    });
+  });
+
+  describe('after action SET_SELECTED_PAGE', () => {
+    it('state should be valued with an object information from selected page', () => {
+      const state = reducer({}, setSelectedPage(HOMEPAGE_PAYLOAD));
+      expect(state).toHaveProperty('selected', HOMEPAGE_PAYLOAD);
+    });
+  });
+
+  describe('after action REMOVE_PAGE', () => {
+    let state = {
+      selected: DASHBOARD_PAYLOAD,
+    };
+    beforeEach(() => {
+      state = reducer(state, addPages(PAGES));
+    });
+
+    it('state map should be changed', () => {
+      const keys = Object.keys(state.map);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('map');
+      const newKeys = Object.keys(newState.map);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.map).not.toEqual(expect.objectContaining(DASHBOARD_PAYLOAD));
+    });
+
+    it('state childrenMap should be changed', () => {
+      const keys = Object.keys(state.childrenMap);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('childrenMap');
+      const newKeys = Object.keys(newState.childrenMap);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.childrenMap)
+        .not.toEqual(expect.objectContaining({ dashboard: expect.any(Object) }));
+    });
+
+    it('state titlesMap should be changed', () => {
+      const keys = Object.keys(state.titlesMap);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('titlesMap');
+      const newKeys = Object.keys(newState.titlesMap);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.titlesMap)
+        .not.toEqual(expect.objectContaining({ dashboard: expect.any(Object) }));
+    });
+
+
+    it('state selected should be changed', () => {
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('selected', null);
+    });
+
+
+    it('state selected should be unchanged ', () => {
+      const newState = reducer(state, removePage(HOMEPAGE_PAYLOAD));
+      expect(newState).toHaveProperty('selected', DASHBOARD_PAYLOAD);
     });
   });
 });

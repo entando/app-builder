@@ -2,13 +2,13 @@ import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
 
 import {
-  getPage, getPageChildren, setPagePosition, postPage, getFreePages,
+  getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettingsList, putPage, putPageStatus,
 } from 'api/pages';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
@@ -24,6 +24,13 @@ export const addPages = pages => ({
   type: ADD_PAGES,
   payload: {
     pages,
+  },
+});
+
+export const removePage = page => ({
+  type: REMOVE_PAGE,
+  payload: {
+    page,
   },
 });
 
@@ -97,6 +104,17 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 export const fetchPage = wrapApiCall(getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
+export const sendDeletePage = page => async (dispatch) => {
+  const response = await deletePage(page);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(removePage(page));
+    gotoRoute(ROUTE_PAGE_TREE);
+    return json;
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
 
 const fetchPageTree = pageCode => async (dispatch) => {
   if (pageCode === HOMEPAGE_CODE) {
@@ -191,11 +209,17 @@ export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
 );
   // thunks
-export const fetchPageSettings = () => dispatch => (
-  getPageSettingsList().then((response) => {
-    dispatch(initialize('settings', mapItem(response.param)));
-  })
-);
+export const fetchPageSettings = () => async (dispatch) => {
+  const response = await getPageSettingsList();
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(initialize('settings', mapItem(json.payload.param)));
+    return json;
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
+
 
 export const sendPutPage = pageData => dispatch => putPage(pageData)
   .then((data) => {
