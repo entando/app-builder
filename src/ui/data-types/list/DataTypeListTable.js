@@ -11,6 +11,7 @@ class DataTypeListTable extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -18,12 +19,16 @@ class DataTypeListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
     return this.props.datatypes.map(datatype => (
-      <tr key={datatype.name}>
+      <tr key={datatype.code}>
         <td className="DataTypeListRow__td">{datatype.name}</td>
         <td className="DataTypeListRow__td text-center">{datatype.code}</td>
         <td className="DataTypeListRow__td text-center">
@@ -74,6 +79,7 @@ class DataTypeListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
