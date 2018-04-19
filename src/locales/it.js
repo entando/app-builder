@@ -285,6 +285,7 @@ export default {
     'category.treeStyle': 'Scegli lo stile dell\'albero delle categorie',
     'category.treeType.classic': 'Classico',
     'category.treeType.request': 'Carica i nodi a richiesta',
+    'category.categoryForm.categoryPlacement': 'Posizione della categoria',
     'DataType.type': 'Type',
     'role.help': 'Dalla sezione RUOLI l\'amministratore crea e gestisce i ruoli degli utenti. I ruoli sono un insieme configurabile di permessi che definiscono le azioni che l\'utente può compiere all\'interno del portale.',
     'role.listEmpty': 'Non ci sono RUOLI disponibili',

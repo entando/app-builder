@@ -1,0 +1,32 @@
+.CategoryTreeSelector {
+
+  &__expand-area {
+    display: table-cell;
+    outline: 0;
+  }
+
+  &__select-area {
+    display: table-cell;
+    width: 100%;
+    outline: 0;
+  }
+
+  &__column-td--empty {
+    .TreeNodeExpandedIcon {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &__category-name,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
+  .RowSpinner {
+    margin-left: 10px;
+  }
+
+  .TreeNodeFolderIcon {
+    color: $color-pf-light-blue-400;
+  }
+
+}

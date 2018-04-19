@@ -102,6 +102,14 @@ export const STATE_NORMALIZED = {
   loading: { categories: false },
 };
 
+export const BODY_OK = {
+  code: 'code',
+  parentCode: 'parentCode',
+  titles: {
+    it: 'Mio Titolo',
+    en: 'My title',
+  },
+};
 
 export const BODY_ERROR = {
   payload: [],

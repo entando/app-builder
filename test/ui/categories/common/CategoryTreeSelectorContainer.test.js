@@ -1,7 +1,5 @@
 import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps } from 'ui/categories/list/CategoryTreeContainer';
-
-const CATEGORY_CODE = 'category_code';
+import { mapStateToProps, mapDispatchToProps } from 'ui/categories/common/CategoryTreeSelectorContainer';
 
 const INITIAL_STATE = {
   categories: {
@@ -18,19 +16,11 @@ jest.mock('state/categories/actions', () => ({
   handleExpandCategory: jest.fn().mockReturnValue('handleExpandCategory_result'),
 }));
 
-jest.mock('state/loading/actions', () => ({
-  toggleLoading: jest.fn(),
-}));
-
 jest.mock('state/categories/selectors', () => ({
   getCategoryTree: jest.fn().mockReturnValue('getCategoryTree_result'),
 }));
 
-jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn().mockReturnValue('loading_result'),
-}));
-
-describe('CategoryTreeContainer', () => {
+describe('CategoryTreeSelectorContainer', () => {
   const dispatchMock = jest.fn();
 
   describe('mapStateToProps', () => {
@@ -50,18 +40,9 @@ describe('CategoryTreeContainer', () => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+    it('verify that "onExpandCategory" is defined by mapDispatchToProps', () => {
       expect(props.onExpandCategory).toBeDefined();
-    });
-
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount();
-      expect(dispatchMock).toHaveBeenCalledWith('fetchCategoryTree_result');
-    });
-
-    it('should dispatch an action if onExpandCategory is called', () => {
-      props.onExpandCategory(CATEGORY_CODE);
+      props.onExpandCategory('category_code');
       expect(dispatchMock).toHaveBeenCalledWith('handleExpandCategory_result');
     });
   });

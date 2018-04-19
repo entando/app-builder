@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
-  SET_CATEGORY_LOADED,
+  SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY,
 } from 'state/categories/types';
 
 const toMap = (array, propKey) => array.reduce((acc, category) => {
@@ -9,7 +9,7 @@ const toMap = (array, propKey) => array.reduce((acc, category) => {
   return acc;
 }, {});
 
-export const toIdList = array => array.map(group => group.code);
+export const toIdList = array => array.map(category => category.code);
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -90,10 +90,20 @@ const statusMap = (state = {}, action = {}) => {
   }
 };
 
+const selected = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_CATEGORY: {
+      return action.payload.category;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: categoryMap,
   childrenMap,
   titlesMap,
   statusMap,
+  selected,
 });
