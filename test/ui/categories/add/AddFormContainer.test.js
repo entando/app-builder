@@ -32,9 +32,8 @@ jest.mock('state/languages/selectors', () => ({
 }));
 
 jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn().mockReturnValue('loading_result'),
+  getLoading: jest.fn().mockReturnValue({ categories: false }),
 }));
-
 
 describe('AddFormContainer', () => {
   const dispatchMock = jest.fn();
@@ -50,6 +49,7 @@ describe('AddFormContainer', () => {
       expect(props).toHaveProperty('categories', 'getCategoryTree_result');
       expect(props).toHaveProperty('activeLanguages', 'getActiveLanguages_result');
       expect(props).toHaveProperty('defaultLanguage', 'defaultLanguage_result');
+      expect(props).toHaveProperty('loading', false);
     });
   });
 

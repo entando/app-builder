@@ -58,6 +58,11 @@ describe('CategoryForm', () => {
       const code = categoryForm.find('[name="code"]');
       expect(code.prop('disabled')).toBe(true);
     });
+    it('no parentCode field rendered', () => {
+      categoryForm = buildCategoryForm('edit');
+      const code = categoryForm.find('[name="parentCode"]');
+      expect(code).not.toExist();
+    });
   });
 
   describe('test buttons and handlers', () => {

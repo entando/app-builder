@@ -1,6 +1,7 @@
-import { getCategoryTree, getCategory, postCategory } from 'api/categories';
-import { toggleLoading } from 'state/loading/actions';
+import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
+import { getCategoryTree, getCategory, postCategory, putCategory } from 'api/categories';
+import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';
 
 import {
@@ -62,7 +63,7 @@ export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   throw new TypeError('No JSON content-type in response headers');
 };
 
-export const fetchCategory = wrapApiCall(getCategory);
+export const fetchCategoryNode = wrapApiCall(getCategory);
 export const fetchCategoryChildren = wrapApiCall(getCategoryTree);
 
 export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, getState) => {
@@ -70,7 +71,7 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
   if (categoryCode === ROOT_CODE) {
     dispatch(toggleLoading('categories'));
     const responses = await Promise.all([
-      fetchCategory(categoryCode)(dispatch),
+      fetchCategoryNode(categoryCode)(dispatch),
       fetchCategoryChildren(categoryCode)(dispatch),
     ]);
     dispatch(setCategoryLoaded(categoryCode));
@@ -106,9 +107,28 @@ export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, get
     resolve();
   });
 
+export const fetchCategory = categoryCode => dispatch =>
+  dispatch(fetchCategoryNode(categoryCode)).then((data) => {
+    dispatch(initialize('category', data.payload));
+  });
+
+export const fetchCategoryDetail = categoryCode => dispatch =>
+  dispatch(fetchCategoryNode(categoryCode)).then((data) => {
+    dispatch(setSelectedCategory(data.payload));
+  });
+
 export const sendPostCategory = categoryData => dispatch =>
   new Promise((resolve) => {
     dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
+      dispatch(setCategories([data.payload]));
+      gotoRoute(ROUTE_CATEGORY_LIST);
+    });
+    resolve();
+  });
+
+export const sendPutCategory = categoryData => dispatch =>
+  new Promise((resolve) => {
+    dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
       gotoRoute(ROUTE_CATEGORY_LIST);
     });
