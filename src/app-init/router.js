@@ -94,7 +94,7 @@ routerConfig(
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
-      { name: ROUTE_ATTRIBUTE_ADD, path: '/attribute/add' },
+      { name: ROUTE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/MonolistAdd' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },

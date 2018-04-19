@@ -10,115 +10,118 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
 export class DataTypeFormBody extends Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props);
   }
 
-   onSubmit = (ev) => {
-     ev.preventDefault();
-     this.props.handleSubmit();
-   };
+  render() {
+    const {
+      attributes, mode, handleSubmit, onSubmit, onAddAttribute,
+    } = this.props;
+    const isEdit = mode === 'edit';
+    const selectOptions = attributes.map(item => ({
+      value: item,
+      text: item,
+    }));
 
-   handleClick = () => {
-     this.props.onAddAttribute(this.props.attributeCode);
-   };
+    const renderSelectOption = () => {
+      if (isEdit) {
+        return (
+          <div>
+            <legend>
+              <FormattedMessage id="app.attributes" />
+            </legend>
+            <RenderSelectInput
+              options={selectOptions}
+              defaultOptionId="app.chooseAnOption"
+              labelId="DataType.type"
+              fieldName="type"
+              mandatory
+            />
+            <Button
+              type="button"
+              className="pull-right DataTypeForm__add"
+              bsStyle="primary"
+              onClick={() => onAddAttribute(this.props)}
+            >
+              <FormattedMessage
+                id="app.add"
+              />
+            </Button>
+          </div>
+        );
+      }
+      return '';
+    };
 
-   render() {
-     const selectOptions = this.props.attributes.map(item => ({
-       value: item,
-       text: item,
-     }));
-
-     return (
-       <form onSubmit={this.onSubmit} className="form-horizontal">
-         <Row>
-           <Col xs={12}>
-             <fieldset className="no-padding">
-               <legend>
-                 <FormattedMessage id="app.info" />
-                 <div className="DataTypeForm__required-fields text-right">
+    return (
+      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal">
+        <Row>
+          <Col xs={12}>
+            <fieldset className="no-padding">
+              <legend>
+                <FormattedMessage id="app.info" />
+                <div className="DataTypeForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
-                 </div>
-               </legend>
-               <Field
-                 component={RenderTextInput}
-                 name="code"
-                 label={
-                   <FormLabel labelId="app.code" helpId="app.help.code" required />
+                </div>
+              </legend>
+              <Field
+                component={RenderTextInput}
+                name="code"
+                label={
+                  <FormLabel labelId="app.code" helpId="app.help.code" required />
                  }
-                 validate={[required, maxLength(255)]}
-               />
-               <Field
-                 component={RenderTextInput}
-                 name="name"
-                 label={
-                   <FormLabel labelId="app.name" helpId="app.help.name" required />
+                validate={[required, maxLength(255)]}
+                disabled={isEdit}
+              />
+              <Field
+                component={RenderTextInput}
+                name="name"
+                label={
+                  <FormLabel labelId="app.name" helpId="app.help.name" required />
                  }
-                 validate={[required, maxLength(50)]}
-               />
-               <legend>
-                 <FormattedMessage id="app.attributes" />
-               </legend>
-               <RenderSelectInput
-                 options={selectOptions}
-                 defaultOptionId="app.chooseAnOption"
-                 labelId="DataType.type"
-                 fieldName="type"
-                 mandatory
-               />
-               <Button
-                 type="button"
-                 className="pull-right ListFragmentPage__add"
-                 bsStyle="primary"
-                 onClick={this.handleClick}
-               >
-                 <FormattedMessage
-                   id="app.add"
-                 />
-               </Button>
-             </fieldset>
-           </Col>
-         </Row>
-         <br />
-         <Row>
-           <Col xs={12}>
-             <Button
-               className="pull-right"
-               type="submit"
-               bsStyle="primary"
-               disabled={this.props.invalid || this.props.submitting}
-             >
-               <FormattedMessage id="app.save" />
-             </Button>
-           </Col>
-         </Row>
-       </form>
+                validate={[required, maxLength(50)]}
+              />
 
-     );
-   }
+              {renderSelectOption()}
+            </fieldset>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col xs={12}>
+            <Button
+              className="pull-right"
+              type="submit"
+              bsStyle="primary"
+              disabled={this.props.invalid || this.props.submitting}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+          </Col>
+        </Row>
+      </form>
+
+    );
+  }
 }
 
 DataTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
-  onAddAttribute: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  onAddAttribute: PropTypes.func.isRequired,
   attributes: PropTypes.arrayOf(PropTypes.string).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  attributeCode: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 DataTypeFormBody.defaultProps = {
   onWillMount: () => {},
-  onAddAttribute: null,
   invalid: false,
   submitting: false,
-  attributeCode: '',
+  mode: 'add',
 };
 
 const DataTypeForm = reduxForm({

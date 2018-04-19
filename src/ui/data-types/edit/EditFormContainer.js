@@ -1,24 +1,32 @@
 import { connect } from 'react-redux';
-import { fetchDataTypeAttributes, sendPostDataType } from 'state/data-types/actions';
+import {
+  fetchDataTypeAttributes, sendPutDataType, fetchDataType,
+  fetchDataTypeAttribute,
+} from 'state/data-types/actions';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
-import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
-import { gotoRoute } from 'frontend-common-components';
 import { formValueSelector } from 'redux-form';
+import { getParams, gotoRoute } from 'frontend-common-components';
+import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
 
 export const mapStateToProps = state => ({
-  mode: 'add',
+  mode: 'edit',
+  datatypeCode: getParams(state).datatypeCode,
   attributes: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
+  onWillMount: ({ datatypeCode }) => {
+    dispatch(fetchDataType(datatypeCode));
     dispatch(fetchDataTypeAttributes());
   },
+  onAddAttribute: ({ attributeCode, datatypeCode }) => {
+    dispatch(fetchDataTypeAttribute(attributeCode));
+    gotoRoute(ROUTE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
+  },
   onSubmit: (values) => {
-    dispatch(sendPostDataType(values));
-    gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
+    dispatch(sendPutDataType(values));
   },
 
 });

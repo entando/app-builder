@@ -1,18 +1,19 @@
 import { connect } from 'react-redux';
-import { fetchDataTypeAttributes } from 'state/data-types/actions';
+import { fetchDataTypeAttributes, postAttributeFromDataType } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
 import BooleanAttributeForm from 'ui/common/form/BooleanAttributeForm';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
   getDataTypeSelectedAttributeCode,
-  getDataTypeSelectedAttribute,
 } from 'state/data-types/selectors';
+
+import { getParams } from 'frontend-common-components';
 
 export const mapStateToProps = (state) => {
   console.log('test', getDataTypeSelectedAttributeCode(state));
   return {
-    dataTypeAttributeCode: getDataTypeSelectedAttribute(state).type,
+    dataTypeAttributeCode: getParams(state).entityCode,
     attributesList: getDataTypeAttributesIdList(state),
     attributeCode: formValueSelector('DataType')(state, 'type'),
     allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
@@ -28,7 +29,9 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
-  handleSubmit: values => (values),
+  handleSubmit: (values) => {
+    dispatch(postAttributeFromDataType(values));
+  },
 
 });
 const DataAttributeBooleanFormContainer =

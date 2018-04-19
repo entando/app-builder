@@ -8,7 +8,7 @@ import {
 } from 'test/mocks/dataTypes';
 import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
 
-export const postDataType = dataTypeObject => makeMockRequest({
+export const postDataType = dataTypeObject => makeRequest({
   uri: '/api/dataTypes',
   body: dataTypeObject,
   method: METHODS.POST,
