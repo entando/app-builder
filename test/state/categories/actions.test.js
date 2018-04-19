@@ -5,21 +5,27 @@ import {
   toggleCategoryExpanded,
   setCategoryLoading,
   setCategoryLoaded,
+  setSelectedCategory,
   fetchCategoryTree,
   handleExpandCategory,
+  fetchCategory,
   sendPostCategory,
+  sendPutCategory,
+  fetchCategoryDetail,
   wrapApiCall,
 } from 'state/categories/actions';
 
 import {
   getCategoryTree,
   postCategory,
+  getCategory,
+  putCategory,
 } from 'api/categories';
 import { mockApi } from 'test/testUtils';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
-  SET_CATEGORY_LOADED, CATEGORY_TREE_HOME,
+  SET_CATEGORY_LOADED, CATEGORY_TREE_HOME, SET_SELECTED_CATEGORY,
 } from 'state/categories/types';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -74,6 +80,12 @@ describe('state/categories/actions', () => {
     const action = setCategoryLoaded(CATEGORY_CODE);
     expect(action).toHaveProperty('type', SET_CATEGORY_LOADED);
     expect(action.payload).toHaveProperty('categoryCode', CATEGORY_CODE);
+  });
+
+  it('setSelectedCategory() should return a well formed action', () => {
+    const action = setSelectedCategory(BODY_OK);
+    expect(action).toHaveProperty('type', SET_SELECTED_CATEGORY);
+    expect(action.payload.category).toHaveProperty('code', BODY_OK.code);
   });
 
   describe('handleExpandCategory()', () => {
@@ -140,6 +152,68 @@ describe('state/categories/actions', () => {
         expect(postCategory).toHaveBeenCalled();
         done();
       }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCategory()', () => {
+    it('when getCategory succeeds should call post action', (done) => {
+      getCategory.mockImplementation(mockApi({ payload: BODY_OK }));
+      store.dispatch(fetchCategory(CATEGORY_CODE)).then(() => {
+        expect(getCategory).toHaveBeenCalledWith(CATEGORY_CODE);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendPutCategory()', () => {
+    it('when putCategory succeeds should call post action', (done) => {
+      putCategory.mockImplementation(mockApi({ payload: BODY_OK }));
+      store.dispatch(sendPutCategory(BODY_OK)).then(() => {
+        expect(putCategory).toHaveBeenCalledWith(BODY_OK);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCategoryDetail()', () => {
+    it('when getCategory succeeds should call post action', (done) => {
+      getCategory.mockImplementation(mockApi({ payload: BODY_OK }));
+      store.dispatch(fetchCategoryDetail(CATEGORY_CODE)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_CATEGORY);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('wrapApiCall()', () => {
+    it('when wrapApiCall succeeds should call api function, the returns a json', (done) => {
+      const genericApi = jest.fn().mockImplementation(mockApi({ payload: BODY_OK }));
+      store.dispatch(wrapApiCall(genericApi)(BODY_OK)).then(() => {
+        expect(genericApi).toHaveBeenCalledWith(BODY_OK);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when wrapApiCall fails should dispatch addErros function', async () => {
+      const genericApi = jest.fn().mockImplementation(mockApi({ errors: true }));
+      return store.dispatch(wrapApiCall(genericApi)(BODY_OK)).catch((e) => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
+    });
+
+    it('when api does not return json, wrapApiCall throws a TypeError', async () => {
+      const genericApi = jest.fn().mockReturnValue('error_result, error_result');
+      return store.dispatch(wrapApiCall(genericApi)(BODY_OK)).catch((e) => {
+        expect(e instanceof TypeError).toBe(true);
+      });
     });
   });
 });
