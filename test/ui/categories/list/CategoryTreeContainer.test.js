@@ -16,6 +16,7 @@ const INITIAL_STATE = {
 jest.mock('state/categories/actions', () => ({
   fetchCategoryTree: jest.fn().mockReturnValue('fetchCategoryTree_result'),
   handleExpandCategory: jest.fn().mockReturnValue('handleExpandCategory_result'),
+
 }));
 
 jest.mock('state/loading/actions', () => ({
@@ -28,6 +29,11 @@ jest.mock('state/categories/selectors', () => ({
 
 jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn().mockReturnValue('loading_result'),
+}));
+
+jest.mock('state/modal/actions', () => ({
+  setVisibleModal: jest.fn().mockReturnValue('setVisibleModal_result'),
+  setInfo: jest.fn().mockReturnValue('setInfo_result'),
 }));
 
 describe('CategoryTreeContainer', () => {
@@ -63,6 +69,13 @@ describe('CategoryTreeContainer', () => {
     it('should dispatch an action if onExpandCategory is called', () => {
       props.onExpandCategory(CATEGORY_CODE);
       expect(dispatchMock).toHaveBeenCalledWith('handleExpandCategory_result');
+    });
+
+    it('should dispatch an action if onClickDelete is called', () => {
+      expect(props.onClickDelete).toBeDefined();
+      props.onClickDelete(CATEGORY_CODE);
+      expect(dispatchMock).toHaveBeenCalledWith('setVisibleModal_result');
+      expect(dispatchMock).toHaveBeenCalledWith('setInfo_result');
     });
   });
 });
