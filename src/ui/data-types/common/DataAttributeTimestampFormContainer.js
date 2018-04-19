@@ -15,6 +15,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('TimestampAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'Timestamp',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({

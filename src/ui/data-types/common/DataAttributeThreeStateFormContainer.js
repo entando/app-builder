@@ -15,6 +15,9 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   allowedDisablingCodes: getDataTypeSelectedAttributeAllowedRoles(state),
   JoinAllowedOptions: formValueSelector('BooleanAttribute')(state, 'joinRoles') || [],
+  initialValues: {
+    code: 'ThreeState',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
