@@ -23,7 +23,7 @@ jest.mock('state/pages/actions', () => ({
 getParams.mockReturnValue({ pageCode: 'page_code' });
 
 jest.mock('state/groups/selectors', () => ({
-  getGroups: jest.fn().mockReturnValue('getGroups_result'),
+  getGroupsIdList: jest.fn().mockReturnValue(['getGroups_result']),
 }));
 
 jest.mock('state/page-models/selectors', () => ({
@@ -61,28 +61,13 @@ describe('PagesEditFormContainer', () => {
       props = mapStateToProps(STATE);
     });
 
-    it('defines "mode" prop = "edit"', () => {
-      expect(props.mode).toBe('edit');
-    });
-
-    it('defines "pageCode" prop = the "pageCode" route param', () => {
-      expect(props.pageCode).toBe(PAGE_CODE);
-    });
-
-    it('defines "groups" prop = the groups array from the state', () => {
-      expect(props.groups).toBe('getGroups_result');
-    });
-
-    it('defines "pageModels" prop = the page models array from the state', () => {
-      expect(props.pageModels).toBe('getPageModels_result');
-    });
-
-    it('defines "charsets" prop = the charsets array from the state', () => {
-      expect(props.charsets).toBe('getCharsets_result');
-    });
-
-    it('defines "contentTypes" prop = the content types array from the state', () => {
-      expect(props.contentTypes).toBe('getContentTypes_result');
+    it('props are correctly defined', () => {
+      expect(props).toHaveProperty('mode', 'edit');
+      expect(props).toHaveProperty('pageCode', PAGE_CODE);
+      expect(props).toHaveProperty('groups', expect.arrayContaining(['getGroups_result']));
+      expect(props).toHaveProperty('pageModels', 'getPageModels_result');
+      expect(props).toHaveProperty('charsets', 'getCharsets_result');
+      expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
     });
 
     it('defines "selecedJoinGroups" prop = the joinGroups value from the page form', () => {

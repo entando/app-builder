@@ -2,14 +2,14 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-import AddFormContainer from 'ui/categories/add/AddFormContainer';
+import EditFormContainer from 'ui/categories/edit/EditFormContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';
 
-const AddCategoryPage = () => (
-  <InternalPage className="AddCategoryPage">
+const EditCategoryPage = () => (
+  <InternalPage className="EditCategoryPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -21,23 +21,23 @@ const AddCategoryPage = () => (
               <FormattedMessage id="menu.categories" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.edit" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <PageTitle titleId="app.add" helpId="category.help" />
+          <PageTitle titleId="app.edit" helpId="category.help" />
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <AddFormContainer />
+          <EditFormContainer />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default AddCategoryPage;
+export default EditCategoryPage;

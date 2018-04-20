@@ -26,13 +26,15 @@ const categories = [{
   isEmpty: true,
 }];
 
+const onWillMount = jest.fn();
+
 describe('CategoryTree', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('basic rendering', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<CategoryTree categories={categories} locale="en" />);
+      component = shallow(<CategoryTree categories={categories} onWillMount={onWillMount} locale="en" />);
     });
 
     it('renders without crashing', () => {
@@ -52,6 +54,7 @@ describe('CategoryTree', () => {
       component = shallow(<CategoryTree
         categories={categories}
         onExpandCategory={onExpandCategory}
+        onWillMount={onWillMount}
       />);
     });
 

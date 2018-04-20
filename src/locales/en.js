@@ -285,6 +285,7 @@ export default {
     'category.treeStyle': 'Choose the style of the Category tree',
     'category.treeType.classic': 'Classic',
     'category.treeType.request': 'Load nodes on demand',
+    'category.categoryForm.categoryPlacement': 'Tree position',
     'DataType.type': 'Type',
     'role.help': 'The ROLES section let the administrator create and manage the user\'s roles. The roles grant groupings of permissions to various functions within applications.',
     'role.listEmpty': 'There are no ROLES available',
