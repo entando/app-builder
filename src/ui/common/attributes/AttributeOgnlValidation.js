@@ -17,7 +17,7 @@ const AttributeOgnlValidation = () => (
         <p><FormattedMessage id="app.ognl.validation.help" /></p>
         <Field
           component={RenderTextInput}
-          name="ognlValidationRule.expression"
+          name="ognlValidation.ognlExpression"
           label={
             <FormLabel labelId="app.ognl.expression" />
           }
@@ -27,7 +27,7 @@ const AttributeOgnlValidation = () => (
             <FormLabel labelId="app.apply.expression" />
           </label>
           <Col xs={4}>
-            <Field component={SwitchRenderer} name="ognlValidationRule.evalExpressionOnValuedAttribute" />
+            <Field component={SwitchRenderer} name="ognlValidation.applyOnlyToFilledAttr" />
           </Col>
         </FormGroup>
 
@@ -35,28 +35,28 @@ const AttributeOgnlValidation = () => (
 
         <Field
           component={RenderTextInput}
-          name="ognlValidationRule.helpMessage"
+          name="ognlValidation.helpMessage"
           label={
             <FormLabel labelId="app.help.message" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidationRule.helpMessage.key"
+          name="ognlValidation.keyForHelpMessage"
           label={
             <FormLabel labelId="app.help.message.key" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidationRule.errorMessage"
+          name="ognlValidation.errorMessage"
           label={
             <FormLabel labelId="app.error.message" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidationRule.errorMessage.key"
+          name="ognlValidation.keyForErrorMessage"
           label={
             <FormLabel labelId="app.error.message.key" />
                 }

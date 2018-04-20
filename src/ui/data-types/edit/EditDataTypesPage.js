@@ -21,13 +21,13 @@ const EditDataTypesPage = () => (
               <FormattedMessage id="menu.dataType" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.edit" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <PageTitle
-        titleId="app.add"
+        titleId="app.edit"
         helpId="dataType.help"
       />
       <Row>

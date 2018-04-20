@@ -64,7 +64,7 @@ export const deleteAttributeFromDataType = (dataTypeCode, attributeCode) => (
 );
 
 export const getAttributeFromDataType = (dataTypeCode, attributeCode) => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}`,
     method: METHODS.GET,
     mockResponse: DATA_TYPES.attributes[0],
@@ -72,15 +72,19 @@ export const getAttributeFromDataType = (dataTypeCode, attributeCode) => (
   })
 );
 
-export const postAttributeFromDataType = (dataTypeCode, attributeObject) => (
-  makeMockRequest({
-    uri: `/api/dataTypes/${dataTypeCode}/attribute`,
-    method: METHODS.POST,
-    body: attributeObject,
-    mockResponse: DATA_TYPES.attributes[0],
-    useAuthentication: true,
-  })
-);
+export const postAttributeFromDataType = (dataTypeCode, attributeObject) => {
+  console.log('typecode', dataTypeCode);
+  console.log('attributeObject', attributeObject);
+  return (
+    makeRequest({
+      uri: `/api/dataTypes/${dataTypeCode}/attribute`,
+      method: METHODS.POST,
+      body: attributeObject,
+      mockResponse: DATA_TYPES.attributes[0],
+      useAuthentication: true,
+    })
+  );
+};
 
 export const putAttributeFromDataType = (dataTypeCode, attributeObject) => (
   makeMockRequest({

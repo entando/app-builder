@@ -1,10 +1,10 @@
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute, getParams } from 'frontend-common-components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
 
-import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
+import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
 import {
   postDataType,
@@ -91,8 +91,7 @@ export const sendPostDataType = dataTypeObject => dispatch =>
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          // gotoRoute(ROUTE_DATA_MODEL_LIST);
-          console.log(json);
+          // gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -106,7 +105,7 @@ export const sendPutDataType = dataTypeObject => dispatch =>
     putDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_MODEL_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -121,7 +120,7 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeDataType(dataTypeCode));
-          gotoRoute(ROUTE_DATA_MODEL_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -180,12 +179,13 @@ export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispa
 );
 
 
-export const sendPostAttributeFromDataType = (dataTypeCode, attributeObject) => dispatch => (
+export const sendPostAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
+    const dataTypeCode = getParams(getState()).entityCode;
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_MODEL_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -200,7 +200,7 @@ export const sendPutAttributeFromDataType = (dataTypeCode, attributeObject) => d
     putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_MODEL_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -216,7 +216,7 @@ export const sendDeleteAttributeFromDataType = (dataTypeCode, attributeCode) => 
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeAttribute(dataTypeCode, attributeCode));
-          gotoRoute(ROUTE_DATA_MODEL_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -253,7 +253,6 @@ export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
-          dispatch(initialize('Attribute', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

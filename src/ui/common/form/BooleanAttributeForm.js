@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
@@ -28,9 +28,11 @@ export class BooleanAttributeFormBody extends Component {
          <Row>
            <Col xs={12}>
              <fieldset className="no-padding">
-               <AttributeInfo />
+               <AttributeInfo {...this.props} />
                <AttributeRole {...this.props} />
-               <AttributeOgnlValidation />
+               <FormSection name="validationRules">
+                 <AttributeOgnlValidation {...this.props} />
+               </FormSection>
              </fieldset>
            </Col>
          </Row>

@@ -8,6 +8,10 @@ export const getSelectedDataType = state => state.dataTypes.selected;
 export const getDataTypeAttributes = state => state.dataTypes.attributes;
 export const getDataTypeAttributesIdList = state => get(state.dataTypes.attributes, 'list');
 export const getDataTypeSelectedAttribute = state => state.dataTypes.attributes.selected;
+export const getDataTypeSelectedAttributeSearchable = state =>
+  state.dataTypes.attributes.selected.searchableOptionSupported;
+export const getDataTypeSelectedAttributeIndexable = state =>
+  state.dataTypes.attributes.selected.indexableOptionSupported;
 export const getDataTypeSelectedAttributeAllowedRoles = state =>
   state.dataTypes.attributes.selected.allowedRoles;
 export const getDataTypeSelectedAttributeallowedDisablingCodes = state =>
