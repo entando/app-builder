@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute, getParams } from '@entando/router';
 import { setUsers, fetchUsers, fetchUserForm, sendPutUser, setSelectedUserDetail, fetchCurrentPageUserDetail } from 'state/users/actions';
 import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -14,6 +14,8 @@ import { ADD_ERRORS } from 'state/errors/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+getParams.mockReturnValue({});
 
 jest.mock('api/users', () => ({
   getUserDetail: jest.fn(),

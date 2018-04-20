@@ -2,7 +2,8 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { NotFoundPage, gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
+import { NotFoundPage } from 'frontend-common-components';
 
 import App from 'ui/app/App';
 import DashboardPage from 'ui/dashboard/DashboardPage';
@@ -31,6 +32,9 @@ import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
+import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
+import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
+import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 
 import {
   ROUTE_HOME,
@@ -60,12 +64,15 @@ import {
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
+  ROUTE_PAGE_MODEL_ADD,
+  ROUTE_PAGE_MODEL_EDIT,
+  ROUTE_PAGE_MODEL_DETAIL,
 } from 'app-init/router';
 
 describe('App', () => {
   it('renders without crashing', () => {
     const component = shallow(<App route={ROUTE_HOME} />);
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('redirects to login page if the user is not logged in', () => {
@@ -73,54 +80,54 @@ describe('App', () => {
       gotoRoute: jest.fn(),
     }));
     const component = shallow(<App route={ROUTE_DASHBOARD} />);
-    expect(component.contains(<DashboardPage />)).toEqual(false);
-    expect(component.contains(<h1>401</h1>)).toEqual(true);
+    expect(component.contains(<DashboardPage />)).toBe(false);
+    expect(component.contains(<h1>401</h1>)).toBe(true);
     expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
   });
 
   it('route to dashboard', () => {
     const component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />);
-    expect(component.contains(<DashboardPage />)).toEqual(true);
+    expect(component.contains(<DashboardPage />)).toBe(true);
   });
 
   it('route to page tree page', () => {
     const component = shallow(<App route={ROUTE_PAGE_TREE} username="admin" />);
-    expect(component.contains(<PageTreePageContainer />)).toEqual(true);
+    expect(component.contains(<PageTreePageContainer />)).toBe(true);
   });
 
   it('route to widget list page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_LIST} username="admin" />);
-    expect(component.contains(<ListWidgetPageContainer />)).toEqual(true);
+    expect(component.contains(<ListWidgetPageContainer />)).toBe(true);
   });
 
   it('route to widget entry page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_ADD} username="admin" />);
-    expect(component.contains(<AddWidgetPage />)).toEqual(true);
+    expect(component.contains(<AddWidgetPage />)).toBe(true);
   });
 
   it('route to widget edit page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_EDIT} username="admin" />);
-    expect(component.contains(<EditWidgetPageContainer />)).toEqual(true);
+    expect(component.contains(<EditWidgetPageContainer />)).toBe(true);
   });
 
   it('route to widget edit page', () => {
     const component = shallow(<App route={ROUTE_WIDGET_CONFIG} username="admin" />);
-    expect(component.contains(<WidgetConfigPageContainer />)).toEqual(true);
+    expect(component.contains(<WidgetConfigPageContainer />)).toBe(true);
   });
 
   it('route to add fragment page', () => {
     const component = shallow(<App route={ROUTE_FRAGMENT_ADD} username="admin" />);
-    expect(component.contains(<AddFragmentPage />)).toEqual(true);
+    expect(component.contains(<AddFragmentPage />)).toBe(true);
   });
 
   it('route to edit fragment page', () => {
     const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} username="admin" />);
-    expect(component.contains(<EditFragmentPageContainer />)).toEqual(true);
+    expect(component.contains(<EditFragmentPageContainer />)).toBe(true);
   });
 
   it('route to detail fragment page', () => {
     const component = shallow(<App route={ROUTE_FRAGMENT_DETAIL} username="admin" />);
-    expect(component.contains(<DetailFragmentPageContainer />)).toEqual(true);
+    expect(component.contains(<DetailFragmentPageContainer />)).toBe(true);
   });
 
   it('route to add page page', () => {
@@ -140,81 +147,96 @@ describe('App', () => {
 
   it('route to list fragment page', () => {
     const component = shallow(<App route={ROUTE_FRAGMENT_LIST} username="admin" />);
-    expect(component.contains(<ListFragmentPage />)).toEqual(true);
+    expect(component.contains(<ListFragmentPage />)).toBe(true);
   });
 
   it('route to page config page', () => {
     const component = shallow(<App route={ROUTE_PAGE_CONFIG} username="admin" />);
-    expect(component.contains(<PageConfigPageContainer />)).toEqual(true);
+    expect(component.contains(<PageConfigPageContainer />)).toBe(true);
   });
 
   it('route to add data model page', () => {
     const component = shallow(<App route={ROUTE_DATA_MODEL_ADD} username="admin" />);
-    expect(component.contains(<AddDataModelPage />)).toEqual(true);
+    expect(component.contains(<AddDataModelPage />)).toBe(true);
   });
 
   it('route to data model list page', () => {
     const component = shallow(<App route={ROUTE_DATA_MODEL_LIST} username="admin" />);
-    expect(component.contains(<DataModelListPage />)).toEqual(true);
+    expect(component.contains(<DataModelListPage />)).toBe(true);
   });
 
   it('route to data type list page', () => {
     const component = shallow(<App route={ROUTE_DATA_TYPE_LIST} username="admin" />);
-    expect(component.contains(<ListDataTypePage />)).toEqual(true);
+    expect(component.contains(<ListDataTypePage />)).toBe(true);
   });
 
   it('route to user list page', () => {
     const component = shallow(<App route={ROUTE_USER_LIST} username="admin" />);
-    expect(component.contains(<UserListPage />)).toEqual(true);
+    expect(component.contains(<UserListPage />)).toBe(true);
   });
 
   it('route to user authority page', () => {
     const component = shallow(<App route={ROUTE_USER_AUTHORITY} username="admin" />);
-    expect(component.contains(<UserAuthorityPageContainer />)).toEqual(true);
+    expect(component.contains(<UserAuthorityPageContainer />)).toBe(true);
   });
 
   it('route to user add page', () => {
     const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />);
-    expect(component.contains(<AddUserPage />)).toEqual(true);
+    expect(component.contains(<AddUserPage />)).toBe(true);
   });
 
   it('route to user edit page', () => {
     const component = shallow(<App route={ROUTE_USER_EDIT} username="admin" />);
-    expect(component.contains(<EditUserPage />)).toEqual(true);
+    expect(component.contains(<EditUserPage />)).toBe(true);
   });
 
   it('route to user detail page', () => {
     const component = shallow(<App route={ROUTE_USER_DETAIL} username="admin" />);
-    expect(component.contains(<DetailUserPage />)).toEqual(true);
+    expect(component.contains(<DetailUserPage />)).toBe(true);
   });
 
   it('route to group list page', () => {
     const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />);
-    expect(component.contains(<ListGroupPage />)).toEqual(true);
+    expect(component.contains(<ListGroupPage />)).toBe(true);
   });
 
   it('route to group add page', () => {
     const component = shallow(<App route={ROUTE_GROUP_ADD} username="admin" />);
-    expect(component.contains(<AddGroupPage />)).toEqual(true);
+    expect(component.contains(<AddGroupPage />)).toBe(true);
   });
 
   it('route to group edit page', () => {
     const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />);
-    expect(component.contains(<EditGroupPage />)).toEqual(true);
+    expect(component.contains(<EditGroupPage />)).toBe(true);
   });
 
   it('route to labels and languages page', () => {
     const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
-    expect(component.contains(<LabelsAndLanguagesPageContainer />)).toEqual(true);
+    expect(component.contains(<LabelsAndLanguagesPageContainer />)).toBe(true);
+  });
+
+  it('route to add page model page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_ADD} username="admin" />);
+    expect(component.contains(<PageModelAddPage />)).toBe(true);
+  });
+
+  it('route to edit page model page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_EDIT} username="admin" />);
+    expect(component.contains(<PageModelEditPage />)).toBe(true);
+  });
+
+  it('route to page model detail page', () => {
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />);
+    expect(component.contains(<PageModelDetailPageContainer />)).toBe(true);
   });
 
   it('default route', () => {
     const component = shallow(<App route="test" username="admin" />);
-    expect(component.contains(<NotFoundPage />)).toEqual(true);
+    expect(component.contains(<NotFoundPage />)).toBe(true);
   });
 
   it('default route if the user is not logged in and the route is falsy', () => {
     const component = shallow(<App route="" />);
-    expect(component.contains(<NotFoundPage />)).toEqual(true);
+    expect(component.contains(<NotFoundPage />)).toBe(true);
   });
 });

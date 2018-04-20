@@ -6,7 +6,7 @@ import {
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
 } from 'test/mocks/dataTypes';
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
 
 export const postDataType = dataTypeObject => makeRequest({
   uri: '/api/dataTypes',

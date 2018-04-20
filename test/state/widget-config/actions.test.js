@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { getParams, gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from '@entando/router';
 
 import { mockApi, mockThunk } from 'test/testUtils';
 

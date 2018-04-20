@@ -1,25 +1,22 @@
 export const GET_FRAGMENT_OK =
 {
-  payload: {
-    code: 'myCode',
-    isLocked: false,
-    widgetType: null,
-    plugin: {
-      code: 'pluginCode',
-      title: 'pluginTitlte',
-    },
-    fragments: [{
-      code: 'fragmentCode',
-    }],
-    pageModels: [{
-      code: 'pageModelCode',
-      name: 'My Page Model',
-    }],
-    defaultGuiCode: '<div></div>',
-    guiCode: '<div></div>',
+  code: 'myCode',
+  isLocked: false,
+  widgetType: null,
+  plugin: {
+    code: 'pluginCode',
+    title: 'pluginTitlte',
   },
-  errors: [],
-  metaData: {},
+  fragments: [{
+    code: 'fragmentCode',
+  }],
+  pageModels: [{
+    code: 'pageModelCode',
+    name: 'My Page Model',
+  }],
+  defaultGuiCode: '<div></div>',
+  guiCode: '<div></div>',
+
 };
 
 export const LIST_FRAGMENTS_OK = [
@@ -88,64 +85,6 @@ export const LIST_FRAGMENTS_OK = [
   },
 ];
 
-export const WIDGET_TYPES_OK = {
-  payload: [
-    {
-      widgetType: {
-        en: 'CMS',
-        it: 'CMS',
-      },
-      widgetList: [
-        {
-          code: 'row_content_viewer_list',
-          titles: {
-            en: 'Contents - Publish Contents',
-            it: 'Contenuti - Pubblica contenuti',
-          },
-        },
-        {
-          code: 'content_viewer',
-          titles: {
-            en: 'Contents - Publish a Content',
-            it: 'Contenuti - Pubblica un contenuto',
-          },
-        },
-        {
-          code: 'content_viewer_list',
-          titles: {
-            en: 'Contents - Publish a List of Contents',
-            it: 'Contenuti - Pubblica una lista di contenuti',
-          },
-        },
-        {
-          code: 'search_result',
-          titles: {
-            en: 'Search - Search Result',
-            it: 'Ricerca - risultati della ricerca',
-          },
-        },
-      ],
-    },
-    {
-      widgetType: {
-        en: 'User widgets',
-        it: 'User widgets',
-      },
-      widgetList: [
-        {
-          code: 'user_widget_test',
-          titles: {
-            en: 'Test Widget',
-            it: 'Widget di test',
-          },
-        },
-      ],
-    },
-  ],
-  errors: [],
-  metaData: {},
-};
-
 export const PLUGINS_OK = {
   payload: [
     {
@@ -160,39 +99,6 @@ export const PLUGINS_OK = {
   metaData: {},
 };
 
-export const WIDGET_TYPES_OPTIONS = [
-  {
-    optgroup: 'CMS',
-    options: [
-      {
-        code: 'row_content_viewer_list',
-        title: 'Contents - Publish Contents',
-      },
-      {
-        code: 'content_viewer',
-        title: 'Contents - Publish a Content',
-      },
-      {
-        code: 'content_viewer_list',
-        title: 'Contents - Publish a List of Contents',
-      },
-      {
-        code: 'search_result',
-        title: 'Search - Search Result',
-      },
-    ],
-  },
-  {
-    optgroup: 'User widgets',
-    options: [
-      {
-        code: 'user_widget_test',
-        title: 'Test Widget',
-      },
-    ],
-  },
-];
-
 export const PLUGINS_OPTIONS = [{ code: 'jacms', title: 'CMS' }];
 
 export const BODY_ERROR =
@@ -205,4 +111,8 @@ export const BODY_ERROR =
     },
   ],
   metaData: {},
+};
+
+export const FRAGMENT_SETTING = {
+  enableEditingWhenEmptyDefaultGui: false,
 };

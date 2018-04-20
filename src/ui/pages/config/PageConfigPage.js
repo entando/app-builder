@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
-import { BreadcrumbItem, formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
+import { BreadcrumbItem } from 'frontend-common-components';
 
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 

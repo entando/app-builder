@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import PageForm from 'ui/pages/common/PageForm';
-import { getGroups } from 'state/groups/selectors';
+import { getGroupsIdList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { handleExpandPage, sendPutPage, fetchPageForm } from 'state/pages/actions';
@@ -11,7 +11,7 @@ import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
 
 export const mapStateToProps = state => ({
-  groups: getGroups(state),
+  groups: getGroupsIdList(state),
   pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),

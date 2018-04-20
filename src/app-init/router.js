@@ -1,4 +1,4 @@
-import { routerConfig } from 'frontend-common-components';
+import { routerConfig } from '@entando/router';
 
 import store from 'state/store';
 
@@ -46,6 +46,11 @@ export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 export const ROUTE_ATTRIBUTE_ADD = 'attributeAdd';
 export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
+export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
+export const ROUTE_ROLE_LIST = 'roleList';
+export const ROUTE_ROLE_ADD = 'roleAdd';
+export const ROUTE_ROLE_EDIT = 'roleEdit';
+export const ROUTE_ROLE_DETAIL = 'roleDetail';
 
 
 routerConfig(
@@ -96,6 +101,11 @@ routerConfig(
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/MonolistAdd' },
+      { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
+      { name: ROUTE_ROLE_LIST, path: '/role' },
+      { name: ROUTE_ROLE_ADD, path: '/role/add/' },
+      { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
+      { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

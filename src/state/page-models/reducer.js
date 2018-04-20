@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL } from 'state/page-models/types';
+import {
+  SET_PAGE_MODELS,
+  SET_SELECTED_PAGE_MODEL,
+  REMOVE_PAGE_MODEL,
+  SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+} from 'state/page-models/types';
 
 
 const idList = (state = [], action = {}) => {
@@ -43,7 +48,10 @@ const map = (state = {}, action = {}) => {
 const selected = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE_MODEL: {
-      return action.payload.pageModel;
+      return { ...state, ...action.payload.pageModel };
+    }
+    case SET_SELECTED_PAGE_MODEL_PAGE_REFS: {
+      return { ...state, pageReferences: action.payload.references };
     }
     default: return state;
   }

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { cloneDeep, isEqual } from 'lodash';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
@@ -8,13 +8,13 @@ import { getSelectedPageModelCellMap, getSelectedPageModelMainFrame, getSelected
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
-const widgetGroupByCategory = widgetList =>
+const widgetGroupByCategory = (widgetList, locale) =>
 
   widgetList.reduce((acc, widget) => {
-    if (acc[widget.widgetCategory]) {
-      acc[widget.widgetCategory].push(widget);
+    if (acc[widget.typology]) {
+      acc[widget.typology].push({ ...widget, name: widget.titles[locale] });
     } else {
-      acc[widget.widgetCategory] = [widget];
+      acc[widget.typology] = [{ ...widget, name: widget.titles[locale] }];
     }
     return acc;
   }, {});
@@ -31,14 +31,15 @@ export const getViewList = createSelector(getPageConfig, pageConfig => pageConfi
 
 
 export const filterWidgetList = createSelector(
-  [getListWidget, getSearchFilter],
-  (widgetList, searchFilter) => (searchFilter === null ? widgetList :
-    widgetList.filter(f => f.name.includes(searchFilter))),
+  [getListWidget, getSearchFilter, getLocale],
+  (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :
+    widgetList.filter(f => f.titles[locale].includes(searchFilter)))
+  ,
 );
 
 export const getGroupedWidgetList = createSelector(
-  [filterWidgetList],
-  widget => widgetGroupByCategory(widget),
+  [filterWidgetList, getLocale],
+  (widget, locale) => widgetGroupByCategory(widget, locale),
 );
 
 export const getSelectedPageConfig = createSelector(

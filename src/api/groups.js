@@ -1,4 +1,4 @@
-import { makeRequest, makeMockRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GROUPS_NORMALIZED,
   PAGE_REFERENCES,
@@ -86,7 +86,7 @@ export const deleteGroup = groupCode => (
 );
 
 export const getReferences = (entityName, mockRefs) =>
-  (page = { page: 1, pageSize: 10 }, groupname) => makeMockRequest(
+  (page = { page: 1, pageSize: 10 }, groupname) => makeRequest(
     {
       uri: `/api/groups/${groupname}/references/${entityName}`,
       method: METHODS.GET,

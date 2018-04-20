@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 
 import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
@@ -29,7 +29,7 @@ const renderComponent = widgetList =>
     widgetList[widget].map((el, index) => {
       const element = [];
       if (index === 0) {
-        element.push(renderWidgetCategory(el.widgetCategory));
+        element.push(renderWidgetCategory(el.typology));
       }
       element.push(renderWidgetElement(el));
       return element;
@@ -42,7 +42,6 @@ const ContentWidget = ({
   const onChange = (event) => {
     filterWidget(event.target.value);
   };
-
   return (
 
     <div className="ContentWidget">

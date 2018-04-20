@@ -6,7 +6,9 @@ import itLocale from 'locales/it';
 /* ('en' is included by default) */
 import itLocaleData from 'react-intl/locale-data/it';
 
-import { locales, setCurrentLocale } from 'frontend-common-components';
+import { setCurrentLocale } from '@entando/utils';
+
+import { locales } from 'frontend-common-components';
 
 addLocaleData(itLocaleData);
 

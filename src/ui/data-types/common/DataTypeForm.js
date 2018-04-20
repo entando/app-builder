@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { InputGroup, Button, Row, Col } from 'patternfly-react';
 
-import { required, maxLength } from 'util/validateForm';
+import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';

@@ -1,12 +1,14 @@
 import { initialize } from 'redux-form';
 import { get } from 'lodash';
-import { SET_WIDGET_LIST, SET_SELECTED_WIDGET } from 'state/widgets/types';
-import { getSelectedWidget } from 'state/widgets/selectors';
+import { getParams, gotoRoute } from '@entando/router';
 import { addErrors } from 'state/errors/actions';
-import { getWidget, getWidgets } from 'api/widgets';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
-import { getParams } from 'frontend-common-components';
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
+
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
+import { SET_WIDGET_LIST, SET_SELECTED_WIDGET, REMOVE_WIDGET } from 'state/widgets/types';
+import { getSelectedWidget } from 'state/widgets/selectors';
 
 
 export const getWidgetList = widgetList => ({
@@ -23,6 +25,14 @@ export const setSelectedWidget = widget => ({
     widget,
   },
 });
+
+export const removeWidget = widgetCode => ({
+  type: REMOVE_WIDGET,
+  payload: {
+    widgetCode,
+  },
+});
+
 
 // thunk
 
@@ -52,30 +62,70 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
-        resolve();
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
-        resolve();
       }
+      resolve();
     });
   });
 });
 
 
-export const fetchWidgetList = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('widgets'));
   getWidgets(page, params).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(getWidgetList(json.payload));
-        dispatch(toggleLoading('widgets'));
         dispatch(setPage(json.metaData));
-        resolve();
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
-        dispatch(toggleLoading('widgets'));
-        resolve();
       }
+      dispatch(toggleLoading('widgets'));
+      resolve();
     });
   });
 });
+
+export const sendPostWidgets = widgetObject => dispatch =>
+  new Promise((resolve) => {
+    postWidgets(widgetObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_WIDGET_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendPutWidgets = (widgetCode, widgetObject) => dispatch =>
+  new Promise((resolve) => {
+    putWidgets(widgetCode, widgetObject).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_WIDGET_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });
+
+export const sendDeleteWidgets = widgetCode => dispatch =>
+  new Promise((resolve) => {
+    deleteWidgets(widgetCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeWidget(widgetCode));
+          gotoRoute(ROUTE_WIDGET_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  });

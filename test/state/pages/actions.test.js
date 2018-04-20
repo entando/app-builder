@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 import { initialize } from 'redux-form';
 
 import { mockApi } from 'test/testUtils';
@@ -29,7 +29,7 @@ import {
 import { setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList, putPageStatus } from 'api/pages';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
-import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors'; 
+import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
 
 jest.mock('api/pages', () => ({
   getPage: jest.fn(),

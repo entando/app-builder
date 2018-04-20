@@ -2,7 +2,7 @@
 import { mapDispatchToProps, mapStateToProps } from 'ui/widgets/config/WidgetConfigPageContainer';
 
 // mocked
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-config/actions';

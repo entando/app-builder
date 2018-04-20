@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getWidget, getWidgets } from 'api/widgets';
-import { makeRequest, METHODS } from 'api/apiManager';
-import { BODY_OK, WIDGET_LIST } from 'test/mocks/widgets';
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
+import { makeRequest, METHODS } from '@entando/apimanager';
+import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -13,16 +13,18 @@ const correctRequest = {
 const correctRequestWidget = {
   uri: '/api/widgets',
   method: METHODS.GET,
-  mockResponse: BODY_OK,
+  mockResponse: WIDGET,
   useAuthentication: true,
   errors: expect.any(Function),
 };
 
 
 jest.unmock('api/widgets');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+  METHODS: {
+    GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
+  },
 }));
 
 describe('api/widgets', () => {
@@ -93,6 +95,65 @@ describe('api/widgets', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('postWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(postWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      postWidgets({ ...WIDGET, customUi: '<div></div>' });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widgets',
+        method: 'POST',
+        body: { ...WIDGET, customUi: '<div></div>' },
+        mockResponse: { ...WIDGET, customUi: '<div></div>' },
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('putWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(putWidgets({ ...WIDGET, code: 'AAA', customUi: '<div></div>' })).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      putWidgets({ ...WIDGET, code: 'AAA', customUi: '<div></div>' });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widgets/AAA',
+        method: 'PUT',
+        body: { ...WIDGET, code: 'AAA', customUi: '<div></div>' },
+        mockResponse: { ...WIDGET, code: 'AAA', customUi: '<div></div>' },
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('deleteWidgets', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(deleteWidgets()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      deleteWidgets('AAA');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widgets/AAA',
+        method: 'DELETE',
+        mockResponse: { code: 'AAA' },
+        useAuthentication: true,
+      });
     });
   });
 });

@@ -20,7 +20,7 @@ import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD } from 'test/mocks/pages';
 import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
 
 // mocked
-import { getParams, gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from '@entando/router';
 import { deletePageWidget, putPageWidget, restorePageConfig, applyDefaultPageConfig, getPageConfig } from 'api/pages';
 import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';

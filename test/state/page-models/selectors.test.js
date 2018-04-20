@@ -1,11 +1,15 @@
+import { cloneDeep } from 'lodash';
 
+import { getLocale } from 'state/locale/selectors';
+import { getPageModelForm } from 'state/forms/selectors';
 import {
   getPageModels, getPageModelsList, getSelectedPageModel, getSelectedPageModelDefaultConfig,
   getSelectedPageModelCellMap, getSelectedPageModelCanBeOnTheFly, getSelectedPageModelMainFrame,
-  getPageModelsIdList, getPageModelsMap,
+  getPageModelsIdList, getPageModelsMap, getFormPageModel, getPageModelFormCellMap,
+  getPageModelFormErrors, getSelectedPageModelPageRefs, getLocalizedPageModelPageRefs,
 } from 'state/page-models/selectors';
 
-import { PAGE_MODELS_LIST, PAGE_MODELS_MAP, PAGE_MODELS_ID_LIST } from 'test/mocks/pageModels';
+import { PAGE_MODELS_LIST, PAGE_MODELS_MAP, PAGE_MODELS_ID_LIST, PAGE_REFS } from 'test/mocks/pageModels';
 import { PAYLOAD as COMPLEX_PAYLOAD, CELL_MAP as COMPLEX_CELL_MAP } from 'test/mocks/page-models/complex';
 import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, CELL_MAP as SIDEBAR_HOLES_CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
 import { PAYLOAD as SINGLE_CELL_PAYLOAD, CELL_MAP as SINGLE_CELL_CELL_MAP } from 'test/mocks/page-models/singleCell';
@@ -30,6 +34,15 @@ const buildStateWithSelectedPageModel = pageModel => ({
   },
 });
 
+const toFormData = (pageModel) => {
+  const formData = cloneDeep(pageModel);
+  formData.configuration = JSON.stringify(formData.configuration);
+  return formData;
+};
+
+jest.mock('state/locale/selectors', () => ({
+  getLocale: jest.fn(),
+}));
 
 describe('state/page-models/selectors', () => {
   it('getPageModels returns the page models state', () => {
@@ -148,6 +161,87 @@ describe('state/page-models/selectors', () => {
         null,
         { type: 'login_form' },
       ]));
+    });
+  });
+
+  describe('getFormPageModel', () => {
+    it('if there is no page model form data, returns null', () => {
+      getPageModelForm.mockReturnValue(null);
+      expect(getFormPageModel({})).toEqual(null);
+    });
+
+    it('if configuration is not a valid json, returns a default configuration', () => {
+      getPageModelForm.mockReturnValue({
+        code: 'page_model',
+        configuration: 'definitely not a valid json',
+      });
+      expect(getFormPageModel({})).toEqual({
+        code: 'page_model',
+        configuration: { frames: [] },
+      });
+    });
+
+    it('if configuration is a valid json, returns the parsed configuration', () => {
+      getPageModelForm.mockReturnValue({
+        code: 'page_model',
+        configuration: '{ "frames": [{ "pos": 0 }] }',
+      });
+      expect(getFormPageModel({})).toEqual({
+        code: 'page_model',
+        configuration: { frames: [{ pos: 0 }] },
+      });
+    });
+  });
+
+  describe('getPageModelFormCellMap', () => {
+    it('returns a cell map from the form page model', () => {
+      getPageModelForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
+      expect(getPageModelFormCellMap({})).toEqual(SINGLE_CELL_CELL_MAP);
+    });
+  });
+
+  describe('getPageModelFormErrors', () => {
+    it('if there are no errors, returns an empty array', () => {
+      getPageModelForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
+      expect(getPageModelFormErrors({})).toEqual([]);
+    });
+
+    it('if there are errors, returns the page model errors', () => {
+      getPageModelForm.mockReturnValue(toFormData(OVERLAPPING_FRAMES_PAYLOAD));
+      expect(getPageModelFormErrors({})).toHaveLength(1);
+    });
+  });
+
+  describe('getPageModelFormCellMap', () => {
+    it('returns a cell map from the form page model', () => {
+      getPageModelForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
+      expect(getPageModelFormCellMap({})).toEqual(SINGLE_CELL_CELL_MAP);
+    });
+  });
+
+  describe('getSelectedPageModelPageRefs', () => {
+    it('returns the selected page model pageReferences', () => {
+      const state = buildStateWithSelectedPageModel({
+        ...COMPLEX_PAYLOAD,
+        pageReferences: PAGE_REFS,
+      });
+      expect(getSelectedPageModelPageRefs(state)).toEqual(PAGE_REFS);
+    });
+  });
+
+  describe('getLocalizedPageModelPageRefs', () => {
+    it('returns the selected page model pageReferences', () => {
+      const state = buildStateWithSelectedPageModel({
+        ...COMPLEX_PAYLOAD,
+        pageReferences: PAGE_REFS,
+      });
+      getLocale.mockReturnValue('en');
+      const localizedRefs = getLocalizedPageModelPageRefs(state);
+      expect(localizedRefs).toHaveLength(PAGE_REFS.length);
+      localizedRefs.forEach((ref, i) => {
+        expect(ref.title).toBe(PAGE_REFS[i].titles.en);
+        expect(ref.fullTitle).toBe(PAGE_REFS[i].fullTitles.en);
+      });
     });
   });
 });

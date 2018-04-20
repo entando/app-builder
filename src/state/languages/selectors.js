@@ -24,7 +24,7 @@ export const getActiveLanguages = createSelector(
     .filter(value => languagesMap[value].isActive)
     .map(languageId => (
       { code: languageId, name: languagesMap[languageId].description }
-    )),
+    )).sort(a => (a.isDefault ? -1 : 1)),
 );
 
 export const getDefaultLanguage = createSelector(

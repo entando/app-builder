@@ -13,7 +13,7 @@ import {
   getDataTypeAttribute,
 } from 'api/dataTypes';
 
-import { makeMockRequest, makeRequest, METHODS } from 'api/apiManager';
+import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
 
 import {
   DATA_TYPES,
@@ -33,7 +33,7 @@ const correctRequest = {
 
 
 jest.unmock('api/dataTypes');
-jest.mock('api/apiManager', () => ({
+jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: {

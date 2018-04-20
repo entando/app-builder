@@ -1,4 +1,4 @@
-import { gotoRoute, getParams } from 'frontend-common-components';
+import { gotoRoute, getParams } from '@entando/router';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';

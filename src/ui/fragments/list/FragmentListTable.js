@@ -68,7 +68,7 @@ class FragmentListTable extends Component {
           <td className="FragmentListRow__td">{fragment.widgetType ? fragment.widgetType.title : ''}</td>
           <td className="FragmentListRow__td text-center">{fragment.pluginCode}</td>
           <td className="FragmentListRow__td text-center">
-            <FragmentListMenuActions code={fragment.code} />
+            <FragmentListMenuActions code={fragment.code} {...this.props} />
           </td>
         </tr>
       ))
@@ -91,7 +91,7 @@ FragmentListTable.propTypes = {
   loading: PropTypes.bool,
   fragments: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
-    isLocked: PropTypes.bool.isRequired,
+    isLocked: PropTypes.bool,
     widgetType: PropTypes.shape({
       code: PropTypes.string,
       title: PropTypes.string,

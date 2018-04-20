@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect';
+import { cloneDeep } from 'lodash';
 
 import { validatePageModel } from 'state/page-models/helpers';
+import { getPageModelForm } from 'state/forms/selectors';
+import { getLocale } from 'state/locale/selectors';
 
 const GRID_WIDTH = 12;
 
@@ -153,7 +156,7 @@ const fixMissingSketch = (frames) => {
 };
 
 const getCellMap = (pageModel) => {
-  if (!pageModel) {
+  if (!pageModel || !pageModel.configuration || !pageModel.configuration.frames) {
     return null;
   }
   const errors = validatePageModel(pageModel);
@@ -254,4 +257,50 @@ export const getSelectedPageModelDefaultConfig = createSelector(
     }
     return pageModel.configuration.frames.map(frame => frame.defaultWidget || null);
   },
+);
+
+export const getFormPageModel = createSelector(
+  [getPageModelForm],
+  (pageModelForm) => {
+    if (!pageModelForm) {
+      return null;
+    }
+    const pageModel = cloneDeep(pageModelForm);
+    try {
+      pageModel.configuration = JSON.parse(pageModel.configuration);
+    } catch (e) {
+      pageModel.configuration = { frames: [] };
+    }
+    return pageModel;
+  },
+);
+
+export const getPageModelFormCellMap = createSelector(
+  [getFormPageModel],
+  getCellMap,
+);
+
+export const getPageModelFormErrors = createSelector(
+  [getFormPageModel],
+  (formPageModel) => {
+    const errors = validatePageModel(formPageModel);
+    if (errors && errors.length) {
+      return errors;
+    }
+    return [];
+  },
+);
+
+export const getSelectedPageModelPageRefs = createSelector(
+  [getSelectedPageModel],
+  pageModel => pageModel && pageModel.pageReferences,
+);
+
+export const getLocalizedPageModelPageRefs = createSelector(
+  [getSelectedPageModelPageRefs, getLocale],
+  (refs, locale) => refs && refs.map(ref => ({
+    ...ref,
+    title: ref.titles[locale],
+    fullTitle: ref.fullTitles[locale],
+  })),
 );

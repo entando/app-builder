@@ -1,84 +1,49 @@
-export const BODY_OK =
-{
-  code: 'test_widget',
-  name: 'Test Widget',
-  used: 0,
+export const WIDGET = {
+  code: 'login_form',
+  used: 2,
   titles: {
-    it: 'Widget di Test',
-    en: 'Test Widget',
+    it: 'Mio Titolo',
+    en: 'My Title',
   },
-  group: 'administrator',
-  customUi: '<p>Custom UI</p>',
-  defaultUi: '<p>Default UI</p>',
-  createdAt: '2018/02/22',
-  updatedAt: '2018/02/22',
+  typology: 'User Widget',
+  guiFragments: [
+    {
+      code: 'fragCode',
+      customUi: '<div></div>',
+      defaultUi: '<div></div>',
+    },
+  ],
+  pluginCode: 'plugin_code',
+  group: 'group',
+  hasConfig: false,
 };
-export const WIDGET_ONE_ELEMENT = {
-  widgetCategory: 'User Widget',
-  code: 'WTF',
-  name: 'My first  Widget',
-  used: 0,
-  titles: {
-    it: 'Mio Widget',
-    en: 'My Widget',
-  },
-};
+
 export const WIDGET_LIST = {
   payload: [
-    WIDGET_ONE_ELEMENT,
+    WIDGET,
     {
-      widgetCategory: 'User Widget',
-      code: 'login_form',
-      name: 'LoginForm',
-      used: 2,
-      titles: {
-        it: 'Form di accesso',
-        en: 'Login form',
-      },
-      hasConfig: false,
+      ...WIDGET, code: 'search_form', titles: { it: 'Form di ricerca', en: 'Search Form' }, used: 3,
     },
     {
-      widgetCategory: 'User Widget',
-      code: 'search_form',
-      name: 'SearchForm',
-      used: 3,
-      titles: {
-        it: 'Form di ricerca',
-        en: 'Search form',
-      },
-      hasConfig: false,
+      ...WIDGET, code: 'single_content', typology: 'Custom Widget', titles: { it: 'Singolo Contenuto', en: 'Single Content' }, used: 4,
     },
     {
-      widgetCategory: 'User Widget',
-      code: 'single_content',
-      name: 'SingleContent',
-      used: 4,
-      titles: {
-        it: 'Singolo contenuto',
-        en: 'Single content',
-      },
-      hasConfig: false,
+      ...WIDGET, code: 'content_viewer', titles: { it: 'Contenuti', en: 'Contents' }, used: 2,
     },
     {
-      widgetCategory: 'User Widget',
-      code: 'content_viewer',
-      name: 'ContentViewer',
-      used: 2,
-      titles: {
-        it: 'Contenuti - Pubblica un contenuto',
-        en: 'Contents - Publish a content',
-      },
-      hasConfig: false,
-    },
-    {
-      widgetCategory: 'User Widget',
+      ...WIDGET,
       code: 'formAction',
-      name: 'InternalServlet',
+      typology: 'Custom Widget',
+      titles: { it: 'InternalServlet', en: 'InternalServlet' },
       used: 1,
-      titles: {
-        it: 'Internal Servlet',
-        en: 'Invocazione di una Servlet interna',
-      },
+      hasConfig: true,
+    },
+    {
+      ...WIDGET,
+      code: 'bpm-case-comments',
+      typology: 'Entando Redhat BPM connector',
+      titles: { it: 'BPM-Case comments', en: 'BPM-Case comments' },
+      used: 1,
       hasConfig: true,
     },
   ],
@@ -98,21 +63,12 @@ export const WIDGET_LIST = {
     ],
   },
 };
+export const LIST = WIDGET_LIST.payload.map(item => item.code);
 export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
   acc[widget.code] = widget;
   return acc;
 }, {});
+
 export const WIDGET_ONE_LIST = {
-  'User Widget': [
-    {
-      widgetCategory: 'User Widget',
-      code: 'WTF',
-      name: 'My first  Widget',
-      used: 0,
-      titles: {
-        it: 'Mio Widget',
-        en: 'My Widget',
-      },
-    },
-  ],
+  'User Widget': [WIDGET],
 };

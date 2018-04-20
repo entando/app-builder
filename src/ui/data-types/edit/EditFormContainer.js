@@ -6,7 +6,7 @@ import {
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 import { formValueSelector } from 'redux-form';
-import { getParams, gotoRoute } from 'frontend-common-components';
+import { getParams, gotoRoute } from '@entando/router';
 import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
 
 export const mapStateToProps = state => ({

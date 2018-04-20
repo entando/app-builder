@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
 import { Field } from 'redux-form';
+import { formattedText } from '@entando/utils';
 import FormLabel from 'ui/common/form/FormLabel';
-import { formattedText } from 'frontend-common-components';
 
 const RenderSelectInput = ({
   defaultOptionId, options, labelId, fieldName, mandatory,

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
-import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 

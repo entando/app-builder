@@ -7,6 +7,7 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  SET_SELECTED,
 } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
@@ -75,6 +76,15 @@ export const selectedAttribute = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_ATTRIBUTE: {
       return action.payload.attribute;
+    }
+    default: return state;
+  }
+};
+
+export const selected = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED: {
+      return action.payload.dataTypeAttributeCode;
     }
     default: return state;
   }

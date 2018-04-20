@@ -6,14 +6,14 @@ import {
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD } from 'test/mocks/pages';
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-jest.mock('api/apiManager', () => {
+jest.mock('@entando/apimanager', () => {
   const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
   return {
     makeRequest: makeMockRequest,
     makeMockRequest,
-    METHODS: require.requireActual('api/apiManager').METHODS,
+    METHODS: require.requireActual('@entando/apimanager').METHODS,
   };
 });
 jest.unmock('api/pages');
@@ -137,7 +137,7 @@ describe('api/pages', () => {
       const CONFIG_STATUS = 'draft';
       getPageConfig(PAGE_CODE, CONFIG_STATUS);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/api/pages/${PAGE_CODE}/widget?status=${CONFIG_STATUS}`,
+        uri: `/api/pages/${PAGE_CODE}/widgets?status=${CONFIG_STATUS}`,
         method: METHODS.GET,
         useAuthentication: true,
       }));
@@ -171,7 +171,7 @@ describe('api/pages', () => {
     it('makes the correct request', () => {
       putPageWidget(PAGE_CODE, FRAME_POS, PAGE_CONFIG_ITEM);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/api/pages/${PAGE_CODE}/widget/${FRAME_POS}`,
+        uri: `/api/pages/${PAGE_CODE}/widgets/${FRAME_POS}`,
         method: METHODS.PUT,
         body: PAGE_CONFIG_ITEM,
         useAuthentication: true,

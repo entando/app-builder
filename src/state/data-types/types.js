@@ -5,3 +5,4 @@ export const SET_ATTRIBUTES = 'data-types/set-attributes';
 export const SET_SELECTED_DATA_TYPE = 'data-types/set-selected-data-type';
 export const SET_SELECTED_ATTRIBUTE_FOR_DATATYPE = 'data-types/set-selected-attribute-for-data-type';
 export const SET_SELECTED_ATTRIBUTE = 'data-types/set-selected-attribute';
+export const SET_SELECTED = 'data-types/set-selected';

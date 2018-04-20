@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
+import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
 
 class DataTypeListMenuActions extends Component {

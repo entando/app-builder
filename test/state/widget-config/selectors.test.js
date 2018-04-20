@@ -1,6 +1,6 @@
 import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
 
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 import { getSelectedPageModel } from 'state/page-models/selectors';
 import { PAYLOAD as PAGE_MODEL } from 'test/mocks/page-models/complex';
 
