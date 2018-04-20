@@ -6,8 +6,7 @@ import { Field } from 'redux-form';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { formattedText } from 'frontend-common-components';
-import { required } from 'util/validateForm';
+import { required, formattedText } from '@entando/utils';
 
 const element = value =>
   (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)

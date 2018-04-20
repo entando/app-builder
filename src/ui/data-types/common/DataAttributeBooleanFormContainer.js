@@ -8,7 +8,7 @@ import {
   getDataTypeSelectedAttributeSearchable,
 } from 'state/data-types/selectors';
 
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 export const mapStateToProps = state => ({
   dataTypeAttributeCode: getParams(state).entityCode,
