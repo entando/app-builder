@@ -15,7 +15,7 @@ import {
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
-  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_STATUS_PAGE,
+  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -46,7 +46,7 @@ jest.mock('state/pages/selectors', () => ({
   getSelectedPage: jest.fn(),
 }));
 
-const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
+// const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
 const mockPostPageFailure = () =>
   new Promise(resolve => resolve({ payload: {}, errors: [{ code: 1, message: 'Wrong!' }] }));
 
@@ -366,22 +366,27 @@ describe('state/pages/actions', () => {
     });
 
     it('when putPage succeeds, should dispatch ADD_PAGES', (done) => {
-      putPage.mockImplementation(mockPostPageSuccess);
       store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', UPDATE_PAGE);
         expect(putPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);
     });
 
-    it('when putPage fails, should dispatch ADD_ERRORS', (done) => {
-      putPage.mockImplementation(mockPostPageFailure);
-      store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
-        const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(putPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
-        expect(addErrorsAction).toBeDefined();
-        done();
-      }).catch(done.fail);
+    it('if the response is not ok, dispatch add errors', async () => {
+      putPage.mockImplementation(mockApi({ errors: true }));
+      return store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).catch((e) => {
+        expect(putPage).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
     });
   });
 
@@ -537,7 +542,7 @@ describe('publish/unpublish', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
-        expect(actions[1]).toHaveProperty('type', UPDATE_STATUS_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
         expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
         done();
       }).catch(done.fail);
@@ -571,7 +576,7 @@ describe('publish/unpublish', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
-        expect(actions[1]).toHaveProperty('type', UPDATE_STATUS_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
         expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
         done();
       }).catch(done.fail);

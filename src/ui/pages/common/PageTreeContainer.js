@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import PageTree from 'ui/pages/common/PageTree';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
@@ -25,6 +25,14 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onClickAdd: () => { gotoRoute(ROUTE_PAGE_ADD); },
+  onClickEdit: (page) => {
+    dispatch(setSelectedPage(page));
+    gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code });
+  },
+  onClickConfigure: (page) => {
+    dispatch(setSelectedPage(page));
+    gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code });
+  },
   onClickDelete: (page) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'page', code: page.code }));
@@ -36,6 +44,12 @@ export const mapDispatchToProps = dispatch => ({
   onClickUnPublish: (page) => {
     dispatch(setSelectedPage(page));
     dispatch(unpublishSelectedPage());
+  },
+  onClickDetails: (page) => {
+    dispatch(setSelectedPage(page));
+  },
+  onClickClone: (page) => {
+    dispatch(setSelectedPage(page));
   },
 
   onDropIntoPage: (sourcePageCode, targetPageCode) =>

@@ -3,7 +3,7 @@ import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditForm
 import { getGroupsList } from 'state/groups/selectors';
 
 // mocked
-import { formValueSelector, valueSelector } from 'redux-form';
+import { reduxForm, formValueSelector, valueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 
 // mock actions
@@ -44,7 +44,7 @@ jest.mock('redux-form', () => {
   return {
     valueSelector: valueSelectorMock,
     formValueSelector: jest.fn().mockReturnValue(valueSelectorMock),
-    reduxForm: () => () => () => ({}),
+    reduxForm: () => () => 'span',
   };
 });
 
@@ -111,8 +111,9 @@ describe('PagesEditFormContainer', () => {
 
     describe('prop onSubmit', () => {
       beforeEach(() => {
-        props.onSubmit({ pageCode: PAGE_CODE });
+        props.onSubmit({ pageCode: PAGE_CODE, action: 'save' });
       });
+
       it('dispatch sendPutPage', () => {
         expect(dispatchMock).toHaveBeenCalledWith('sendPutPage_result');
       });

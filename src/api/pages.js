@@ -167,8 +167,8 @@ export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeReque
   method: METHODS.GET,
   body: {},
   mockResponse: (status === PAGE_STATUS_DRAFT) ?
-    PAGE_CONFIG_DRAFT_MAP[pageCode] :
-    PAGE_CONFIG_PUBLISHED_MAP[pageCode],
+    PAGE_CONFIG_DRAFT_MAP.homepage :
+    PAGE_CONFIG_PUBLISHED_MAP.homepage,
   useAuthentication: true,
 });
 

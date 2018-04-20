@@ -18,7 +18,7 @@ const renderWidgetCategory = title => (
 
 const renderWidgetElement = el => (
   <DraggableContentWidgetElement
-    key={el.code}
+    key={el.name}
     widgetName={el.name}
     widgetId={el.code}
   />

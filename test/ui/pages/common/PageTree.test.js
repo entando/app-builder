@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
 import { gotoRoute } from '@entando/router';
 import { DDTable } from 'frontend-common-components';
-import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+
 
 const PAGES = [
   {
@@ -31,7 +31,11 @@ const PAGES = [
 
 const props = {
   onClickAdd: jest.fn(),
+  onClickEdit: jest.fn(),
+  onClickConfigure: jest.fn(),
   onClickDelete: jest.fn(),
+  onClickDetails: jest.fn(),
+  onClickClone: jest.fn(),
   onClickPublish: jest.fn(),
   onClickUnPublish: jest.fn(),
 };
@@ -132,8 +136,7 @@ describe('PageTree', () => {
       it('redirects to the "edit page" route with pageCode = the page code', () => {
         const pageIndex = 1;
         component.find('PageTreeActionMenu').at(pageIndex).prop('onClickEdit')();
-        expect(gotoRoute)
-          .toHaveBeenCalledWith(ROUTE_PAGE_EDIT, { pageCode: PAGES[pageIndex].code });
+        expect(props.onClickEdit).toHaveBeenCalled();
       });
     });
 
@@ -141,8 +144,47 @@ describe('PageTree', () => {
       it('redirects to the "config page" route with pageCode = the page code', () => {
         const pageIndex = 1;
         component.find('PageTreeActionMenu').at(pageIndex).prop('onClickConfigure')();
-        expect(gotoRoute)
-          .toHaveBeenCalledWith(ROUTE_PAGE_CONFIG, { pageCode: PAGES[pageIndex].code });
+        expect(props.onClickConfigure).toHaveBeenCalled();
+      });
+    });
+
+    describe('detail', () => {
+      it('redirects to the "config page" route with pageCode = the page code', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDetails')();
+        expect(props.onClickDetails).toHaveBeenCalled();
+      });
+    });
+
+    describe('clone', () => {
+      it('redirects to the clone Page', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickClone')();
+        expect(props.onClickClone).toHaveBeenCalled();
+      });
+    });
+
+    describe('delete', () => {
+      it('open delete Page modal', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDelete')();
+        expect(props.onClickDelete).toHaveBeenCalled();
+      });
+    });
+
+    describe('publish', () => {
+      it('call publish action', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickPublish')();
+        expect(props.onClickPublish).toHaveBeenCalled();
+      });
+    });
+
+    describe('unpublish', () => {
+      it('call unpublish action', () => {
+        const pageIndex = 1;
+        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickUnpublish')();
+        expect(props.onClickUnPublish).toHaveBeenCalled();
       });
     });
   });

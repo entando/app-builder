@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { gotoRoute } from '@entando/router';
 import { DDTable } from 'frontend-common-components';
-import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
@@ -37,7 +35,6 @@ class PageTree extends Component {
   renderRows() {
     const { pages } = this.props;
 
-
     return pages.map((page, i) => {
       const onClickExpand = () => {
         if (!page.isEmpty) {
@@ -68,7 +65,7 @@ class PageTree extends Component {
               <TreeNodeExpandedIcon expanded={page.expanded} />
               <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTree__page-name">
-                { page.title }
+                { page.titles }
               </span>
               <RowSpinner loading={!!page.loading} />
             </span>
@@ -83,10 +80,10 @@ class PageTree extends Component {
             <PageTreeActionMenu
               page={page}
               onClickAdd={this.props.onClickAdd}
-              onClickEdit={() => gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code })}
-              onClickConfigure={() => gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code })}
-              onClickDetails={() => console.info(`clicked DETAILS on page ${page.code}`)}
-              onClickClone={() => console.info(`clicked CLONE on page ${page.code}`)}
+              onClickEdit={this.props.onClickEdit}
+              onClickConfigure={this.props.onClickConfigure}
+              onClickDetails={this.props.onClickDetails}
+              onClickClone={this.props.onClickClone}
               onClickDelete={this.props.onClickDelete}
               onClickPublish={this.props.onClickPublish}
               onClickUnpublish={this.props.onClickUnPublish}
@@ -141,7 +138,11 @@ PageTree.propTypes = {
     isEmpty: PropTypes.bool.isRequired,
   })),
   onClickAdd: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickConfigure: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
+  onClickDetails: PropTypes.func.isRequired,
+  onClickClone: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
   onDropIntoPage: PropTypes.func,

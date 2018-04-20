@@ -7,7 +7,7 @@ import {
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
-  setFreePages, setSelectedPage, removePage, updateStatusPage,
+  setFreePages, setSelectedPage, removePage, updatePage,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -200,7 +200,7 @@ describe('state/pages/reducer', () => {
       expect(newState).toHaveProperty('selected', DASHBOARD_PAYLOAD);
     });
   });
-  describe('after UPDATE_STATUS_PAGE', () => {
+  describe('after UPDATE_PAGE', () => {
     let state = {
       selected: DASHBOARD_PAYLOAD,
     };
@@ -209,7 +209,7 @@ describe('state/pages/reducer', () => {
     });
 
     it('status will be update', () => {
-      const newState = reducer(state, updateStatusPage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
+      const newState = reducer(state, updatePage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
       expect(newState.map[DASHBOARD_PAYLOAD.code]).toHaveProperty('status', 'unpublished');
     });
   });

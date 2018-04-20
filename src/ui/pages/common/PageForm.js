@@ -12,7 +12,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 
 export class PageFormBody extends Component {
   componentWillMount() {
@@ -23,7 +23,7 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, onSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
+      handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
       contentTypes, charsets, mode, onChangeEnTitle,
     } = this.props;
 
@@ -36,7 +36,7 @@ export class PageFormBody extends Component {
       [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="PageForm form-horizontal">
+      <form className="PageForm form-horizontal">
         <Row>
           <Col xs={12}>
             <FormSectionTitle titleId="pages.pageForm.info" />
@@ -239,21 +239,35 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
             <div className="btn-toolbar pull-right">
+
               <Button
                 className="PageForm__save-and-configure-btn"
                 type="submit"
                 bsStyle="success"
                 disabled={invalid || submitting}
+
+                onClick={handleSubmit(values =>
+                  this.props.onSubmit({
+                    ...values,
+                    action: ACTION_SAVE_AND_CONFIGURE,
+                  }))}
               >
                 <FormattedMessage id="pages.pageForm.saveAndConfigure" />
+
               </Button>
               <Button
                 className="PageForm__save-btn"
                 type="submit"
                 bsStyle="primary"
                 disabled={invalid || submitting}
+                onClick={handleSubmit(values =>
+                  this.props.onSubmit({
+                    ...values,
+                    action: ACTION_SAVE,
+                  }))}
               >
                 <FormattedMessage id="app.save" />
+
               </Button>
             </div>
           </Col>

@@ -8,7 +8,7 @@ import {
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_STATUS_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
@@ -89,8 +89,8 @@ export const setFreePages = freePages => ({
   },
 });
 
-export const updateStatusPage = page => ({
-  type: UPDATE_STATUS_PAGE,
+export const updatePage = page => ({
+  type: UPDATE_PAGE,
   payload: {
     page,
   },
@@ -233,14 +233,16 @@ export const fetchPageSettings = () => async (dispatch) => {
 };
 
 
-export const sendPutPage = pageData => dispatch => putPage(pageData)
-  .then((data) => {
-    if (data.errors && data.errors.length) {
-      dispatch(addErrors(data.errors.map(err => err.message)));
-    } else {
-      gotoRoute(ROUTE_PAGE_TREE);
-    }
-  });
+export const sendPutPage = pageData => async (dispatch) => {
+  const response = await putPage(pageData);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(updatePage(json.payload));
+    return json.payload;
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
 
 export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
   .then((response) => {
@@ -272,7 +274,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
-        dispatch(updateStatusPage(newPage));
+        dispatch(updatePage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
           const draftConfig = getSelectedPageConfig(getState());
           dispatch(setPublishedPageConfig(newPage.code, draftConfig));
