@@ -9,6 +9,7 @@ import {
   MOVE_PAGE,
   SET_FREE_PAGES,
   SET_SELECTED_PAGE,
+  UPDATE_STATUS_PAGE,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -56,6 +57,12 @@ const reducer = (state = {}, action = {}) => {
       const { code } = action.payload.page;
       const newState = { ...state };
       delete newState[code];
+      return newState;
+    }
+    case UPDATE_STATUS_PAGE: {
+      const { code, status } = action.payload.page;
+      const newState = { ...state };
+      newState[code].status = status;
       return newState;
     }
     default: return state;

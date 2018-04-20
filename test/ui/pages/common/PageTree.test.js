@@ -32,6 +32,8 @@ const PAGES = [
 const props = {
   onClickAdd: jest.fn(),
   onClickDelete: jest.fn(),
+  onClickPublish: jest.fn(),
+  onClickUnPublish: jest.fn(),
 };
 
 describe('PageTree', () => {

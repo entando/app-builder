@@ -1,5 +1,6 @@
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
+import { getGroupsList } from 'state/groups/selectors';
 
 // mocked
 import { formValueSelector, valueSelector } from 'redux-form';
@@ -22,9 +23,12 @@ jest.mock('state/pages/actions', () => ({
 
 getParams.mockReturnValue({ pageCode: 'page_code' });
 
+const GROUPS = [{ code: 'group', name: 'groupName' }];
 jest.mock('state/groups/selectors', () => ({
-  getGroupsIdList: jest.fn().mockReturnValue(['getGroups_result']),
+  getGroupsList: jest.fn(),
 }));
+
+getGroupsList.mockReturnValue(GROUPS);
 
 jest.mock('state/page-models/selectors', () => ({
   getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
@@ -64,7 +68,7 @@ describe('PagesEditFormContainer', () => {
     it('props are correctly defined', () => {
       expect(props).toHaveProperty('mode', 'edit');
       expect(props).toHaveProperty('pageCode', PAGE_CODE);
-      expect(props).toHaveProperty('groups', expect.arrayContaining(['getGroups_result']));
+      expect(props).toHaveProperty('groups', GROUPS);
       expect(props).toHaveProperty('pageModels', 'getPageModels_result');
       expect(props).toHaveProperty('charsets', 'getCharsets_result');
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');

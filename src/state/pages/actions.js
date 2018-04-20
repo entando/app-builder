@@ -8,7 +8,7 @@ import {
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_STATUS_PAGE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
@@ -86,6 +86,13 @@ export const setFreePages = freePages => ({
   type: SET_FREE_PAGES,
   payload: {
     freePages,
+  },
+});
+
+export const updateStatusPage = page => ({
+  type: UPDATE_STATUS_PAGE,
+  payload: {
+    page,
   },
 });
 
@@ -260,6 +267,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
+        dispatch(updateStatusPage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
           const draftConfig = getSelectedPageConfig(getState());
           dispatch(setPublishedPageConfig(newPage.code, draftConfig));

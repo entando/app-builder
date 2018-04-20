@@ -3,7 +3,7 @@ import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 
 import PageForm from 'ui/pages/common/PageForm';
-import { getGroupsIdList } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { handleExpandPage, sendPutPage, fetchPageForm } from 'state/pages/actions';
@@ -11,7 +11,7 @@ import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
 
 export const mapStateToProps = state => ({
-  groups: getGroupsIdList(state),
+  groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),

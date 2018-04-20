@@ -2,6 +2,20 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeCon
 import { gotoRoute } from '@entando/router';
 import { getPageTreePages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
+import {
+  setSelectedPage, publishSelectedPage, unpublishSelectedPage, handleExpandPage,
+  setPageParent, movePageAbove, movePageBelow,
+} from 'state/pages/actions';
+
+jest.mock('state/pages/actions', () => ({
+  setSelectedPage: jest.fn(),
+  publishSelectedPage: jest.fn(),
+  unpublishSelectedPage: jest.fn(),
+  handleExpandPage: jest.fn(),
+  setPageParent: jest.fn(),
+  movePageAbove: jest.fn(),
+  movePageBelow: jest.fn(),
+}));
 
 jest.mock('state/modal/actions', () => ({
   setVisibleModal: jest.fn(),
@@ -35,6 +49,8 @@ describe('PageTreeContainer', () => {
     it('should map the correct function properties', () => {
       expect(props).toHaveProperty('onClickAdd');
       expect(props).toHaveProperty('onClickDelete');
+      expect(props).toHaveProperty('onClickPublish');
+      expect(props).toHaveProperty('onClickUnPublish');
       expect(props).toHaveProperty('onDropIntoPage');
       expect(props).toHaveProperty('onDropAbovePage');
       expect(props).toHaveProperty('onDropBelowPage');
@@ -52,24 +68,36 @@ describe('PageTreeContainer', () => {
       expect(setInfo).toHaveBeenCalled();
     });
 
+    it('should dispatch an action if onClickPublish is called', () => {
+      props.onClickPublish({ code: 'code', status: 'publish' });
+      expect(setSelectedPage).toHaveBeenCalled();
+      expect(publishSelectedPage).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickUnPublish is called', () => {
+      props.onClickUnPublish({ code: 'code', status: 'unpublish' });
+      expect(setSelectedPage).toHaveBeenCalled();
+      expect(unpublishSelectedPage).toHaveBeenCalled();
+    });
+
     it('should dispatch an action if onExpandPage is called', () => {
       props.onExpandPage('pagecode');
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(handleExpandPage).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onDropIntoPage is called', () => {
       props.onDropIntoPage('a', 'b');
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(setPageParent).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onDropAbovePage is called', () => {
       props.onDropAbovePage('a', 'b');
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(movePageAbove).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onDropBelowPage is called', () => {
       props.onDropBelowPage('a', 'b');
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(movePageBelow).toHaveBeenCalled();
     });
   });
 });

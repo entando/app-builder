@@ -88,8 +88,8 @@ class PageTree extends Component {
               onClickDetails={() => console.info(`clicked DETAILS on page ${page.code}`)}
               onClickClone={() => console.info(`clicked CLONE on page ${page.code}`)}
               onClickDelete={this.props.onClickDelete}
-              onClickPublish={() => console.info(`clicked PUBLISH on page ${page.code}`)}
-              onClickUnpublish={() => console.info(`clicked UNPUBLISH on page ${page.code}`)}
+              onClickPublish={this.props.onClickPublish}
+              onClickUnpublish={this.props.onClickUnPublish}
             />
           </td>
         </DDTable.Tr>
@@ -142,6 +142,8 @@ PageTree.propTypes = {
   })),
   onClickAdd: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
+  onClickPublish: PropTypes.func.isRequired,
+  onClickUnPublish: PropTypes.func.isRequired,
   onDropIntoPage: PropTypes.func,
   onDropAbovePage: PropTypes.func,
   onDropBelowPage: PropTypes.func,

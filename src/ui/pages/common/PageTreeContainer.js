@@ -6,10 +6,13 @@ import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 import {
+  setSelectedPage,
   handleExpandPage,
   setPageParent,
   movePageAbove,
   movePageBelow,
+  publishSelectedPage,
+  unpublishSelectedPage,
 } from 'state/pages/actions';
 
 
@@ -26,6 +29,15 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'page', code: page.code }));
   },
+  onClickPublish: (page) => {
+    dispatch(setSelectedPage(page));
+    dispatch(publishSelectedPage());
+  },
+  onClickUnPublish: (page) => {
+    dispatch(setSelectedPage(page));
+    dispatch(unpublishSelectedPage());
+  },
+
   onDropIntoPage: (sourcePageCode, targetPageCode) =>
     dispatch(setPageParent(sourcePageCode, targetPageCode)),
   onDropAbovePage: (sourcePageCode, targetPageCode) =>

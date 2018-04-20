@@ -15,7 +15,7 @@ import {
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
-  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE,
+  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_STATUS_PAGE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -398,6 +398,20 @@ describe('state/pages/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('if the response is not ok, dispatch add errors', async () => {
+      deletePage.mockImplementation(mockApi({ errors: true }));
+      return store.dispatch(sendDeletePage(DASHBOARD_PAYLOAD)).catch((e) => {
+        expect(deletePage).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
+    });
   });
 
   describe('fetchPageForm()', () => {
@@ -439,6 +453,20 @@ describe('state/pages/actions', () => {
         expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
         done();
       }).catch(done.fail);
+    });
+
+    it('if the response is not ok, dispatch add errors', async () => {
+      getPageSettingsList.mockImplementation(mockApi({ errors: true }));
+      return store.dispatch(fetchPageSettings()).catch((e) => {
+        expect(getPageSettingsList).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
     });
   });
 
@@ -490,8 +518,11 @@ describe('publish/unpublish', () => {
     it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
       store.dispatch(publishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
-        const actionsTypes = store.getActions().map(action => action.type);
-        expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_STATUS_PAGE);
+        expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
         done();
       }).catch(done.fail);
     });
@@ -521,8 +552,11 @@ describe('publish/unpublish', () => {
     it('when putPageStatus succeeds, should dispatch setSelectedPage', (done) => {
       store.dispatch(unpublishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
-        const actionsTypes = store.getActions().map(action => action.type);
-        expect(actionsTypes).toEqual([SET_SELECTED_PAGE, SET_PUBLISHED_PAGE_CONFIG]);
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_STATUS_PAGE);
+        expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
         done();
       }).catch(done.fail);
     });

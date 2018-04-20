@@ -7,7 +7,7 @@ import {
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
-  setFreePages, setSelectedPage, removePage,
+  setFreePages, setSelectedPage, removePage, updateStatusPage,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -190,16 +190,27 @@ describe('state/pages/reducer', () => {
         .not.toEqual(expect.objectContaining({ dashboard: expect.any(Object) }));
     });
 
-
     it('state selected should be changed', () => {
       const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
       expect(newState).toHaveProperty('selected', null);
     });
 
-
     it('state selected should be unchanged ', () => {
       const newState = reducer(state, removePage(HOMEPAGE_PAYLOAD));
       expect(newState).toHaveProperty('selected', DASHBOARD_PAYLOAD);
+    });
+  });
+  describe('after UPDATE_STATUS_PAGE', () => {
+    let state = {
+      selected: DASHBOARD_PAYLOAD,
+    };
+    beforeEach(() => {
+      state = reducer(state, addPages(PAGES));
+    });
+
+    it('status will be update', () => {
+      const newState = reducer(state, updateStatusPage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
+      expect(newState.map[DASHBOARD_PAYLOAD.code]).toHaveProperty('status', 'unpublished');
     });
   });
 });
