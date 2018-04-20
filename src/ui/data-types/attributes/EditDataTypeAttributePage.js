@@ -21,7 +21,7 @@ const EditDataTypeAttributePage = () => (
               <FormattedMessage id="menu.dataType" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.edit" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>

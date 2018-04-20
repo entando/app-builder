@@ -20,7 +20,7 @@ export class AttributeFormBody extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentWillMount() {
-    this.props.onWillMount(this.props.dataTypeAttributeCode);
+    this.props.onWillMount(this.props);
   }
 
    onSubmit = (ev) => {

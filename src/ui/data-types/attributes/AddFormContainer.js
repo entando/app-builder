@@ -20,16 +20,16 @@ export const mapStateToProps = state => ({
   },
 });
 
-export const mapDispatchToProps = (dispatch, getState) => ({
+export const mapDispatchToProps = (dispatch, state) => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values) => {
     dispatch(sendPostAttributeFromDataType(values));
-    if (getDataTypeSelectedAttributeIsList(getState())) {
-      gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: getParams(getState()).entityCode });
+    if (getDataTypeSelectedAttributeIsList(state)) {
+      gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: getParams(state).entityCode });
     } else {
-      gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: getParams(getState()).entityCode });
+      gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: getParams(state).entityCode });
     }
   },
 });

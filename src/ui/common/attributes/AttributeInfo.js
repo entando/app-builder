@@ -8,7 +8,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-const AttributeInfo = ({ isSearchable, isIndexable, type }) => {
+const AttributeInfo = ({ isSearchable, isIndexable }) => {
   const renderSearchable = () => {
     if (isSearchable) {
       return (
@@ -57,7 +57,6 @@ const AttributeInfo = ({ isSearchable, isIndexable, type }) => {
             label={
               <FormLabel labelId="app.type" />
             }
-            value={type}
             disabled
           />
           <Field
@@ -97,7 +96,6 @@ export default AttributeInfo;
 AttributeInfo.propTypes = {
   isSearchable: PropTypes.bool,
   isIndexable: PropTypes.bool,
-  type: PropTypes.string.isRequired,
 };
 
 AttributeInfo.defaultProps = {

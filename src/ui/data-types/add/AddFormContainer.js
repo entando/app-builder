@@ -8,7 +8,7 @@ import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   mode: 'add',
-  attributes: getDataTypeAttributesIdList(state),
+  attributesType: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
 });
 

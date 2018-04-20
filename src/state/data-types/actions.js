@@ -169,6 +169,7 @@ export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispa
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttributeDataType(json.payload));
+          dispatch(initialize('attribute', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -193,12 +194,13 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
   })
 );
 
-export const sendPutAttributeFromDataType = (dataTypeCode, attributeObject) => dispatch => (
+export const sendPutAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
+    const dataTypeCode = getParams(getState()).entityCode;
     putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

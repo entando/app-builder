@@ -6,7 +6,7 @@ import {
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
 } from 'test/mocks/dataTypes';
-import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const postDataType = dataTypeObject => makeRequest({
   uri: '/api/dataTypes',
@@ -16,7 +16,7 @@ export const postDataType = dataTypeObject => makeRequest({
   useAuthentication: true,
 });
 
-export const putDataType = dataTypeObject => makeMockRequest({
+export const putDataType = dataTypeObject => makeRequest({
   uri: `/api/dataTypes/${dataTypeObject.code}`,
   body: dataTypeObject,
   method: METHODS.PUT,
@@ -24,7 +24,7 @@ export const putDataType = dataTypeObject => makeMockRequest({
   useAuthentication: true,
 });
 
-export const deleteDataType = dataTypeCode => makeMockRequest({
+export const deleteDataType = dataTypeCode => makeRequest({
   uri: `/api/dataTypes/${dataTypeCode}`,
   body: dataTypeCode,
   method: METHODS.DELETE,
@@ -55,7 +55,7 @@ export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
 // attributes
 
 export const deleteAttributeFromDataType = (dataTypeCode, attributeCode) => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}`,
     method: METHODS.DELETE,
     mockResponse: ATTRIBUTE_DATA_TYPES_DELETE_OK,
@@ -72,22 +72,18 @@ export const getAttributeFromDataType = (dataTypeCode, attributeCode) => (
   })
 );
 
-export const postAttributeFromDataType = (dataTypeCode, attributeObject) => {
-  console.log('typecode', dataTypeCode);
-  console.log('attributeObject', attributeObject);
-  return (
-    makeRequest({
-      uri: `/api/dataTypes/${dataTypeCode}/attribute`,
-      method: METHODS.POST,
-      body: attributeObject,
-      mockResponse: DATA_TYPES.attributes[0],
-      useAuthentication: true,
-    })
-  );
-};
+export const postAttributeFromDataType = (dataTypeCode, attributeObject) => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute`,
+    method: METHODS.POST,
+    body: attributeObject,
+    mockResponse: DATA_TYPES.attributes[0],
+    useAuthentication: true,
+  })
+);
 
 export const putAttributeFromDataType = (dataTypeCode, attributeObject) => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeObject.code}`,
     method: METHODS.PUT,
     body: attributeObject,

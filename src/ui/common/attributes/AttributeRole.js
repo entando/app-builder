@@ -7,7 +7,7 @@ import RoleSelectRenderer from 'ui/common/form/RoleSelectRenderer';
 
 class AttributeRole extends Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props);
   }
   render() {
     const { JoinAllowedOptions, allowedRoles } = this.props;
