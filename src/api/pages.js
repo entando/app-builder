@@ -127,11 +127,12 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   ),
 });
 
-export const getFreePages = () => (
-  new Promise((resolve) => {
-    resolve(FREE_PAGES_PAYLOAD);
-  })
-);
+export const getFreePages = () => makeRequest({
+  uri: '/pages/search/group/free',
+  method: METHODS.GET,
+  mockResponse: FREE_PAGES_PAYLOAD,
+  useAuthentication: true,
+});
 
 export const getPageSettingsList = () => makeRequest({
   uri: '/api/pageSettings',

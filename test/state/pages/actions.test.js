@@ -27,7 +27,10 @@ import {
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
-import { setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList, putPageStatus, deletePage } from 'api/pages';
+import {
+  setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList,
+  putPageStatus, deletePage, getFreePages,
+} from 'api/pages';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
@@ -486,20 +489,33 @@ describe('state/pages/actions', () => {
       expect(action.type).toBe(SET_FREE_PAGES);
     });
 
-    it('search for the payload to be defined', () => {
-      const action = setFreePages();
-      expect(action.payload).toBeDefined();
-    });
+    describe('fetchFreePages', () => {
+      let store;
+      beforeEach(() => {
+        store = mockStore(INITIALIZED_STATE);
+      });
 
-    describe('test fetchFreePages', () => {
-      it('fetchFreePages calls setFreePages action', (done) => {
-        const store = mockStore(INITIALIZED_STATE);
+      it('when getPageSettingsList succeeds, should dispatch redux-form initialize', (done) => {
         store.dispatch(fetchFreePages()).then(() => {
+          expect(getFreePages).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions[0].type).toEqual(SET_FREE_PAGES);
-          expect(actions[0].payload.freePages).toBeDefined();
           done();
         }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        getFreePages.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(fetchFreePages()).catch((e) => {
+          expect(getFreePages).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
       });
     });
   });

@@ -138,12 +138,15 @@ describe('api/pages', () => {
 
   describe('test getFreePages API', () => {
     it('returns a promise', () => {
-      const filledInput = getFreePages();
-      expect(typeof filledInput.then === 'function').toBe(true);
+      expect(getFreePages()).toBeInstanceOf(Promise);
     });
     it('verify success groups', () => {
-      getFreePages().then((response) => {
-        expect(response).toEqual(FREE_PAGES_PAYLOAD);
+      getFreePages();
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/pages/search/group/free',
+        method: METHODS.GET,
+        mockResponse: FREE_PAGES_PAYLOAD,
+        useAuthentication: true,
       });
     });
   });

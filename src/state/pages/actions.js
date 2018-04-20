@@ -206,11 +206,16 @@ export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatc
   })
   .catch(() => {});
 
-export const fetchFreePages = () => dispatch => (
-  getFreePages().then((freePages) => {
-    dispatch(setFreePages(freePages));
-  })
-);
+export const fetchFreePages = () => async (dispatch) => {
+  const response = await getFreePages();
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(setFreePages(json.payload));
+    return json;
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
 
 export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
