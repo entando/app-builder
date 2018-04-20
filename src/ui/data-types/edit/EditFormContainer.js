@@ -3,7 +3,7 @@ import {
   fetchDataTypeAttributes, sendPutDataType, fetchDataType,
   fetchDataTypeAttribute,
 } from 'state/data-types/actions';
-import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
+import { getSelectedDataTypeAttributes, getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 import { formValueSelector } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
@@ -12,7 +12,8 @@ import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
 export const mapStateToProps = state => ({
   mode: 'edit',
   datatypeCode: getParams(state).datatypeCode,
-  attributes: getDataTypeAttributesIdList(state),
+  attributes: getSelectedDataTypeAttributes(state),
+  attributesType: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
 });
 

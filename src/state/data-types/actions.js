@@ -4,7 +4,7 @@ import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
 
-import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
+import { ROUTE_DATA_TYPE_LIST, ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
 
 import {
   postDataType,
@@ -185,7 +185,7 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

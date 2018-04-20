@@ -17,6 +17,8 @@ export const getDataTypeSelectedAttributeAllowedRoles = state =>
 export const getDataTypeSelectedAttributeallowedDisablingCodes = state =>
   state.dataTypes.attributes.selected.allowedDisablingCodes;
 
+export const getSelectedDataTypeAttributes = state => get(state.dataTypes.selected, 'attributes');
+
 export const getDataTypeSelectedAttributeCode = createSelector(
   [getDataTypeSelectedAttribute],
   (selectedAttribute) => {

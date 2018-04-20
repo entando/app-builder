@@ -8,6 +8,7 @@ import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 
 export class DataTypeFormBody extends Component {
   componentWillMount() {
@@ -16,13 +17,24 @@ export class DataTypeFormBody extends Component {
 
   render() {
     const {
-      attributes, mode, handleSubmit, onSubmit, onAddAttribute,
+      attributesType, mode, handleSubmit, onSubmit, onAddAttribute,
     } = this.props;
     const isEdit = mode === 'edit';
-    const selectOptions = attributes.map(item => ({
+    const selectOptions = attributesType.map(item => ({
       value: item,
       text: item,
     }));
+
+    const renderAttributeTable = () => {
+      if (isEdit) {
+        return (
+          <Col xs={12}>
+            <AttributeListTable {...this.props} />
+          </Col>
+        );
+      }
+      return '';
+    };
 
     const renderSelectOption = () => {
       if (isEdit) {
@@ -88,6 +100,7 @@ export class DataTypeFormBody extends Component {
               />
 
               {renderSelectOption()}
+              {renderAttributeTable()}
             </fieldset>
           </Col>
         </Row>
@@ -115,7 +128,7 @@ DataTypeFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onAddAttribute: PropTypes.func.isRequired,
-  attributes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  attributesType: PropTypes.arrayOf(PropTypes.string).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
