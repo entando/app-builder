@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { Button, Row, Col } from 'patternfly-react';
+import { InputGroup, Button, Row, Col } from 'patternfly-react';
 
 import { required, maxLength } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -31,23 +31,27 @@ export class DataTypeFormBody extends Component {
             <legend>
               <FormattedMessage id="app.attributes" />
             </legend>
-            <RenderSelectInput
-              options={selectOptions}
-              defaultOptionId="app.chooseAnOption"
-              labelId="DataType.type"
-              fieldName="type"
-              mandatory
-            />
-            <Button
-              type="button"
-              className="pull-right DataTypeForm__add"
-              bsStyle="primary"
-              onClick={() => onAddAttribute(this.props)}
-            >
-              <FormattedMessage
-                id="app.add"
+            <InputGroup>
+              <RenderSelectInput
+                options={selectOptions}
+                defaultOptionId="app.chooseAnOption"
+                labelId="DataType.type"
+                fieldName="type"
+                mandatory
               />
-            </Button>
+              <span className="input-group-btn">
+                <Button
+                  type="button"
+                  className="pull-right DataTypeForm__add"
+                  bsStyle="primary"
+                  onClick={() => onAddAttribute(this.props)}
+                >
+                  <FormattedMessage
+                    id="app.add"
+                  />
+                </Button>
+              </span>
+            </InputGroup>
           </div>
         );
       }

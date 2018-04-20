@@ -17,6 +17,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values) => {
+    console.log(values);
     dispatch(sendPostDataType(values));
     gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
   },
