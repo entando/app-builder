@@ -44,7 +44,8 @@ export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
-export const ROUTE_ATTRIBUTE_ADD = 'attributeAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
 export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
 export const ROUTE_ROLE_LIST = 'roleList';
@@ -99,7 +100,8 @@ routerConfig(
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
-      { name: ROUTE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/MonolistAdd' },
       { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
       { name: ROUTE_ROLE_LIST, path: '/role' },

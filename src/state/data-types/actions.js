@@ -184,9 +184,7 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
     const dataTypeCode = getParams(getState()).entityCode;
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
-        if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
-        } else {
+        if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         resolve();

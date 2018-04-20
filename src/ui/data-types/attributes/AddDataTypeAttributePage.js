@@ -2,14 +2,14 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
-
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import AddFormContainer from 'ui/data-types/add/AddFormContainer';
+import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
-const AddDataTypesPage = () => (
-  <InternalPage className="AddDataTypesPage">
+const AddDataTypeAttributePage = () => (
+
+  <InternalPage className="AttributePage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -27,7 +27,7 @@ const AddDataTypesPage = () => (
         </Col>
       </Row>
       <PageTitle
-        titleId="app.add"
+        titleId="app.attribute"
         helpId="dataType.help"
       />
       <Row>
@@ -39,4 +39,4 @@ const AddDataTypesPage = () => (
   </InternalPage>
 );
 
-export default AddDataTypesPage;
+export default AddDataTypeAttributePage;

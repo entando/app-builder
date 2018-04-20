@@ -7,7 +7,7 @@ import { getSelectedDataTypeAttributes, getDataTypeAttributesIdList } from 'stat
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 import { formValueSelector } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
-import { ROUTE_ATTRIBUTE_ADD } from 'app-init/router';
+import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
 
 export const mapStateToProps = state => ({
   mode: 'edit',
@@ -15,6 +15,7 @@ export const mapStateToProps = state => ({
   attributes: getSelectedDataTypeAttributes(state),
   attributesType: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
+  routeToEdit: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -23,8 +24,9 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypeAttributes());
   },
   onAddAttribute: ({ attributeCode, datatypeCode }) => {
-    dispatch(fetchDataTypeAttribute(attributeCode));
-    gotoRoute(ROUTE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
+    dispatch(fetchDataTypeAttribute(attributeCode)).then(() => {
+      gotoRoute(ROUTE_DATA_TYPE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
+    });
   },
   onSubmit: (values) => {
     dispatch(sendPutDataType(values));

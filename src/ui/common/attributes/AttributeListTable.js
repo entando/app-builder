@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 
-const AttributeListTable = ({ attributes }) => {
+const AttributeListTable = (props) => {
+  const { attributes } = props;
   const renderRoles = (roles) => {
     if (roles.length > 0) {
       return (
@@ -33,7 +34,7 @@ const AttributeListTable = ({ attributes }) => {
         <AttributeCheckIcon isChecked={attribute.listFilter} />
       </td>
       <td className="AttributeListRow__td text-center">
-        <AttributeListMenuActions code={attribute.code} />
+        <AttributeListMenuActions {...props} code={attribute.code} />
       </td>
     </tr>
   ));
