@@ -12,6 +12,7 @@ class UserListTable extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -20,6 +21,10 @@ class UserListTable extends Component {
 
   changePage(page) {
     this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
@@ -51,7 +56,7 @@ class UserListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="UserListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -75,6 +80,7 @@ class UserListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
