@@ -13,6 +13,7 @@ import {
   movePageBelow,
   publishSelectedPage,
   unpublishSelectedPage,
+  clonePage,
 } from 'state/pages/actions';
 
 
@@ -49,7 +50,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setSelectedPage(page));
   },
   onClickClone: (page) => {
-    dispatch(setSelectedPage(page));
+    dispatch(clonePage(page));
   },
 
   onDropIntoPage: (sourcePageCode, targetPageCode) =>

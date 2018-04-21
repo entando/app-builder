@@ -72,17 +72,12 @@ export const getPageChildren = pageCode => makeRequest({
 });
 
 
-// will call http://confluence.entando.org/display/E5/Page+Position+Change
-// e.g. /pages/<pageCode>/position  (code, position, parent)
-export const setPagePosition = (pageCode, position, parentCode) => new Promise((resolve) => {
-  const response = {
-    code: pageCode,
-    position,
-    parent: parentCode,
-  };
-  // eslint-disable-next-line no-console
-  console.info(`calling API /pages/${pageCode}/position\n\t${JSON.stringify(response, 2)}`);
-  throttle(() => resolve(response));
+export const setPagePosition = (pageCode, position, parentCode) => makeRequest({
+  uri: `/api/pages/${pageCode}/position`,
+  method: METHODS.PUT,
+  useAuthentication: true,
+  body: { code: pageCode, position, parentCode },
+  mockResponse: { code: pageCode, position, parentCode },
 });
 
 export const postPage = pageObject => makeRequest({

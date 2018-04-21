@@ -15,7 +15,7 @@ import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'stat
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
 import { setPublishedPageConfig } from 'state/page-config/actions';
-import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { ROUTE_PAGE_TREE, ROUTE_PAGE_ADD } from 'app-init/router';
 
 const HOMEPAGE_CODE = 'homepage';
 const noopPromise = arg => new Promise(resolve => resolve(arg));
@@ -215,6 +215,14 @@ export const fetchFreePages = () => async (dispatch) => {
   dispatch(addErrors(json.errors.map(e => e.message)));
   throw json;
 };
+
+export const clonePage = page => async (dispatch) => {
+  const json = await fetchPage(page.code)(dispatch);
+  dispatch(setSelectedPage(json.payload));
+  gotoRoute(ROUTE_PAGE_ADD);
+  dispatch(initialize('page', { ...json.payload, code: '' }));
+};
+
 
 export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})

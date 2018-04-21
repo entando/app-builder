@@ -61,12 +61,19 @@ describe('api/pages', () => {
   describe('setPagePosition()', () => {
     const POSITION = 2;
     const PARENT_CODE = 'service';
-    it('resolves with a mock response', () => {
-      expect(setPagePosition(PAGE_CODE, POSITION, PARENT_CODE)).resolves.toEqual({
-        code: PAGE_CODE,
-        position: POSITION,
-        parent: PARENT_CODE,
-      });
+    it('returns a promise', () => {
+      expect(setPagePosition(PAGE_CODE, POSITION, PARENT_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      setPagePosition(PAGE_CODE, POSITION, PARENT_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/position`,
+        method: METHODS.PUT,
+        useAuthentication: true,
+        body: { code: PAGE_CODE, position: POSITION, parentCode: PARENT_CODE },
+        mockResponse: { code: PAGE_CODE, position: POSITION, parentCode: PARENT_CODE },
+      }));
     });
   });
 
