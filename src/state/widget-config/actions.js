@@ -15,7 +15,7 @@ export const updateConfiguredPageWidget = widgetConfig =>
     const framePosNum = parseInt(framePos, 10);
     // build payload
     const requestBody = {
-      type: widgetCode,
+      code: widgetCode,
       config: widgetConfig,
     };
     return putPageWidget(pageCode, framePosNum, requestBody)

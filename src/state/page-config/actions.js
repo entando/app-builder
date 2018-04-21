@@ -148,7 +148,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
 
     // build payload
     const config = (pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
-    const requestBody = config ? { type: widgetId, config } : { type: widgetId };
+    const requestBody = config ? { code: widgetId, config } : { code: widgetId };
 
     return putPageWidget(pageCode, targetFrameId, requestBody)
       .then(() => {

@@ -148,8 +148,8 @@ describe('state/page-config/selectors', () => {
         const publishedItem = HOMEPAGE_PUBLISHED_CONFIG[cell.framePos];
         if (draftItem || publishedItem) {
           const item = draftItem || publishedItem;
-          expect(cell.widgetCode).toBe(item.type);
-          expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.type].titles[CURRENT_LOCALE]);
+          expect(cell.widgetCode).toBe(item.code);
+          expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.code].titles[CURRENT_LOCALE]);
           expect(cell.widgetHasConfig).toBe(!!item.config);
         }
 
@@ -183,20 +183,20 @@ describe('state/page-config/selectors', () => {
 
     it('returns true if the config has a "content_viewer" with no config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer' };
+        { code: 'content_viewer' };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(true);
     });
 
     it('returns false if the config has a "content_viewer" with config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer', config: {} };
+        { code: 'content_viewer', config: {} };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if there is no main frame on the selected page model', () => {
       getSelectedPageModelMainFrame.mockReturnValue(null);
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer', config: {} };
+        { code: 'content_viewer', config: {} };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
     });
 
