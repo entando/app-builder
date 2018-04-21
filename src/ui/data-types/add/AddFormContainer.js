@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { fetchDataTypeAttributes, sendPostDataType } from 'state/data-types/actions';
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
-import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
-import { gotoRoute } from 'frontend-common-components';
+// import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
+// import { gotoRoute } from 'frontend-common-components';
 import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
@@ -18,7 +18,8 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     dispatch(sendPostDataType(values));
-    gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
+    console.log(values);
+    // gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
   },
 
 });

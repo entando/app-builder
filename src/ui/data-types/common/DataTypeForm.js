@@ -98,7 +98,6 @@ export class DataTypeFormBody extends Component {
                  }
                 validate={[required, maxLength(50)]}
               />
-
               {renderSelectOption()}
               {renderAttributeTable()}
             </fieldset>

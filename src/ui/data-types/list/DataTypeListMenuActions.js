@@ -25,13 +25,6 @@ class DataTypeListMenuActions extends Component {
     );
     return (
       <DropdownKebab pullRight id={`${this.props.code}-actions`}>
-
-        {/* <MenuItem
-          className="DataTypeListMenuAction__menu-item-edit"
-          onClick={this.handleClick()}
-        >
-          {editLabel}
-        </MenuItem> */}
         <LinkMenuItem
           id={`dataType-${this.props.code}`}
           route={ROUTE_DATA_TYPE_EDIT}

@@ -187,6 +187,13 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          dispatch(initialize('attribute', json.payload));
+          if (json.payload.listFilter) {
+            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          } else {
+            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          }
         }
         resolve();
       });
