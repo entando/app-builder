@@ -165,7 +165,7 @@ describe('state/page-config/reducer', () => {
 
       it('the widget should be inserted to its new place', () => {
         expect(state.configMap[PAGE_CODE][FULL_FRAME_INDEX]).toEqual({
-          type: WIDGET_ID,
+          code: WIDGET_ID,
           config: undefined,
         });
       });
@@ -181,7 +181,7 @@ describe('state/page-config/reducer', () => {
 
       it('the widget should be inserted to its new place', () => {
         expect(state.configMap[PAGE_CODE][EMPTY_FRAME_INDEX]).toEqual({
-          type: WIDGET_ID,
+          code: WIDGET_ID,
         });
       });
     });

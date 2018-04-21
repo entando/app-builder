@@ -13,7 +13,6 @@ import {
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
 import { throttle } from '@entando/utils';
-import { errorResponse } from 'test/testUtils';
 
 
 /*
@@ -156,28 +155,18 @@ export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeReque
   method: METHODS.GET,
   body: {},
   mockResponse: (status === PAGE_STATUS_DRAFT) ?
-    PAGE_CONFIG_DRAFT_MAP[pageCode] :
-    PAGE_CONFIG_PUBLISHED_MAP[pageCode],
+    PAGE_CONFIG_DRAFT_MAP[pageCode] || [] :
+    PAGE_CONFIG_PUBLISHED_MAP[pageCode] || [],
   useAuthentication: true,
 });
 
-// call DELETE /pages/<pageCode>/widget/<frameId>
-export const deletePageWidget = (pageCode, frameId) =>
-  new Promise((resolve) => {
-    // eslint-disable-next-line no-console
-    console.info(`calling DELETE /pages/${pageCode}/widgets/${frameId}`);
-    throttle(() => {
-      if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
-        resolve({
-          payload: {
-            code: frameId,
-          },
-        });
-      } else {
-        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
-      }
-    });
-  });
+
+export const deletePageWidget = (pageCode, frameId) => makeRequest({
+  uri: `/api/pages/${pageCode}/widgets/${frameId}`,
+  method: METHODS.DELETE,
+  mockResponse: {},
+  useAuthentication: true,
+});
 
 
 export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({

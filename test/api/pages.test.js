@@ -144,20 +144,18 @@ describe('api/pages', () => {
     });
   });
 
-  describe('deletePageWidget', () => {
-    it('returns a promise resolved with errors if called with a not found pageCode', () => {
-      deletePageWidget('blabla', 1).then((response) => {
-        expect(Array.isArray(response.errors)).toBe(true);
-        expect(response.errors.length).toBe(1);
-      });
+  describe('deletePageWidget()', () => {
+    it('returns a promise', () => {
+      expect(deletePageWidget(PAGE_CODE, 1)).toBeInstanceOf(Promise);
     });
 
-    it('returns a promise resolved with payload if called with a valid pageCode', () => {
-      deletePageWidget('homepage', 1).then((response) => {
-        const isErrorResponse = !!(response.errors && response.errors.length);
-        expect(isErrorResponse).toBe(false);
-        expect(response.payload).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      deletePageWidget(PAGE_CODE, 1);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/widgets/1`,
+        method: METHODS.DELETE,
+        useAuthentication: true,
+      }));
     });
   });
 
