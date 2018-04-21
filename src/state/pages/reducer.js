@@ -72,9 +72,17 @@ const reducer = (state = {}, action = {}) => {
 const childrenMap = (state = {}, action = {}) => {
   switch (action.type) {
     case ADD_PAGES: {
+      const newValues = {};
+      action.payload.pages.forEach((page) => {
+        if (state[page.parentCode] && !state[page.parentCode].includes(page.code)) {
+          newValues[page.parentCode] = [...state[page.parentCode]];
+          newValues[page.parentCode].push(page.code);
+        }
+      });
       return {
         ...state,
         ...toMap(action.payload.pages, 'children'),
+        ...newValues,
       };
     }
     case SET_PAGE_PARENT: {

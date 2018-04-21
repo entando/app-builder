@@ -35,12 +35,12 @@ const isVisible = (pageCode, pages, pagesStatus) => {
     while (curPageCode !== 'homepage') {
       curPageCode = pages[curPageCode].parentCode;
       if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
-        return false;
+        return false; // false
       }
     }
     return true;
   }
-  return false;
+  return false; // false
 };
 
 const getDepth = (pages, pageCode) => {
@@ -76,7 +76,7 @@ const PAGE_STATUS_DEFAULTS = {
 
 export const getPageTreePages = createSelector(
   [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale],
-  (pages, pageChildren, pagesStatus, pagesTitles, locale) =>
+  (pages, pageChildren, pagesStatus, pagesTitles, locale) => (
     getPagesOrder(pageChildren)
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
       .map(pageCode => ({
@@ -86,7 +86,7 @@ export const getPageTreePages = createSelector(
         depth: getDepth(pages, pageCode),
         isEmpty: !(pageChildren[pageCode] && pageChildren[pageCode].length),
         title: pagesTitles[pageCode][locale],
-      })),
+      }))),
 );
 
 

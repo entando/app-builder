@@ -245,7 +245,6 @@ export class PageFormBody extends Component {
                 type="submit"
                 bsStyle="success"
                 disabled={invalid || submitting}
-
                 onClick={handleSubmit(values =>
                   this.props.onSubmit({
                     ...values,

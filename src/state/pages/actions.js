@@ -202,9 +202,8 @@ export const createPage = wrapApiCall(postPage);
 export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatch)
   .then((json) => {
     dispatch(addPages([json.payload]));
-    gotoRoute(ROUTE_PAGE_TREE);
   })
-  .catch(() => {});
+  .catch(() => { });
 
 export const fetchFreePages = () => async (dispatch) => {
   const response = await getFreePages();

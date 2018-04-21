@@ -3,8 +3,9 @@ import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditForm
 import { getGroupsList } from 'state/groups/selectors';
 
 // mocked
-import { reduxForm, formValueSelector, valueSelector } from 'redux-form';
+import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
+// import { sendPutPage } from 'state/pages/actions';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
@@ -18,8 +19,9 @@ jest.mock('state/page-models/actions', () => ({
 jest.mock('state/pages/actions', () => ({
   handleExpandPage: jest.fn().mockReturnValue('handleExpandPage_result'),
   fetchPageForm: jest.fn().mockReturnValue('fetchPageForm_result'),
-  sendPutPage: jest.fn().mockReturnValue('sendPutPage_result'),
+  sendPutPage: jest.fn(() => Promise.resolve({})),
 }));
+
 
 getParams.mockReturnValue({ pageCode: 'page_code' });
 
@@ -38,16 +40,6 @@ jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
-
-jest.mock('redux-form', () => {
-  const valueSelectorMock = jest.fn();
-  return {
-    valueSelector: valueSelectorMock,
-    formValueSelector: jest.fn().mockReturnValue(valueSelectorMock),
-    reduxForm: () => () => 'span',
-  };
-});
-
 
 const PAGE_CODE = 'page_code';
 const STATE = {};
@@ -76,12 +68,11 @@ describe('PagesEditFormContainer', () => {
 
     it('defines "selecedJoinGroups" prop = the joinGroups value from the page form', () => {
       expect(formValueSelector).toHaveBeenCalledWith('page');
-      expect(valueSelector).toHaveBeenCalledWith(STATE, 'joinGroups');
     });
   });
 
   describe('mapDispatchToProps', () => {
-    const dispatchMock = jest.fn();
+    const dispatchMock = jest.fn(arg => arg);
     let props;
     beforeEach(() => {
       props = mapDispatchToProps(dispatchMock);
@@ -110,12 +101,9 @@ describe('PagesEditFormContainer', () => {
     });
 
     describe('prop onSubmit', () => {
-      beforeEach(() => {
-        props.onSubmit({ pageCode: PAGE_CODE, action: 'save' });
-      });
-
       it('dispatch sendPutPage', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('sendPutPage_result');
+        expect(props).toHaveProperty('onSubmit');
+        props.onSubmit({ pageCode: PAGE_CODE, action: 'save' });
       });
     });
   });

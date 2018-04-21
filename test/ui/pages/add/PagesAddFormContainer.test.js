@@ -1,12 +1,20 @@
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/add/PagesAddFormContainer';
 
+import { gotoRoute } from '@entando/router';
+import { ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
-import { formValueSelector, change, mockSelector } from 'redux-form';
+import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
+import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
+import { sendPostPage } from 'state/pages/actions';
+import { ACTION_SAVE } from 'state/pages/const';
 
+jest.mock('state/pages/actions', () => ({
+  sendPostPage: jest.fn(() => Promise.resolve({})),
+}));
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
@@ -18,20 +26,6 @@ jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
-jest.mock('state/pages/actions', () => ({
-  sendPostPage: jest.fn().mockReturnValue('sendPostPage_result'),
-}));
-
-jest.mock('redux-form', () => {
-  const mockSelectorFunc = jest.fn().mockReturnValue('joinGroups_result');
-  return {
-    mockSelector: mockSelectorFunc,
-    formValueSelector: jest.fn().mockReturnValue(mockSelectorFunc),
-    change: jest.fn().mockReturnValue('change_result'),
-    reduxForm: () => () => 'span',
-  };
-});
-
 
 const STATE = {
   pages: {},
@@ -68,8 +62,6 @@ describe('PagesAddFormContainer', () => {
 
     it('maps the "selectedJoinGroups" prop with the correct values from redux-form', () => {
       expect(formValueSelector).toHaveBeenCalledWith('page');
-      expect(mockSelector).toHaveBeenCalledWith(STATE, 'joinGroups');
-      expect(props.selectedJoinGroups).toBe('joinGroups_result');
     });
 
     it('maps the "initialValues" prop with the correct initial values for a page', () => {
@@ -83,22 +75,24 @@ describe('PagesAddFormContainer', () => {
   });
 
   describe('mapDispatchToProps', () => {
-    const dispatchMock = jest.fn();
+    const dispatchMock = jest.fn(args => args);
     let props;
     beforeEach(() => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    it('maps the "onSubmit" prop a sendPostPage dispatch', () => {
-      expect(props.onSubmit).toBeDefined();
-      props.onSubmit();
-      expect(dispatchMock).toHaveBeenCalledWith('sendPostPage_result');
+    it('maps the "onSubmit" prop a sendPostPage dispatch', (done) => {
+      expect(props).toHaveProperty('onSubmit');
+      props.onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE }).then(() => {
+        expect(sendPostPage).toHaveBeenCalled();
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+        done();
+      }).catch(done.fail);
     });
 
     it('maps the "onChangeEnTitle" prop a redux-form change dispatch', () => {
-      expect(props.onChangeEnTitle).toBeDefined();
+      expect(props).toHaveProperty('onChangeEnTitle');
       props.onChangeEnTitle('En Title');
-      expect(dispatchMock).toHaveBeenCalledWith('change_result');
       expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
     });
   });

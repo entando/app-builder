@@ -65,7 +65,7 @@ class PageTree extends Component {
               <TreeNodeExpandedIcon expanded={page.expanded} />
               <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTree__page-name">
-                { page.titles }
+                { page.title }
               </span>
               <RowSpinner loading={!!page.loading} />
             </span>

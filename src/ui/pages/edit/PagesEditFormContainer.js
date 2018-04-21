@@ -25,18 +25,19 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => {
-    dispatch(sendPutPage(data));
-    switch (data.action) {
-      case ACTION_SAVE: {
-        gotoRoute(ROUTE_PAGE_TREE);
-        break;
+    dispatch(sendPutPage(data)).then(() => {
+      switch (data.action) {
+        case ACTION_SAVE: {
+          gotoRoute(ROUTE_PAGE_TREE);
+          break;
+        }
+        case ACTION_SAVE_AND_CONFIGURE: {
+          gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: data.code });
+          break;
+        }
+        default: gotoRoute(ROUTE_PAGE_TREE);
       }
-      case ACTION_SAVE_AND_CONFIGURE: {
-        gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: data.code });
-        break;
-      }
-      default: gotoRoute(ROUTE_PAGE_TREE);
-    }
+    });
   },
   onWillMount: ({ pageCode }) => {
     dispatch(fetchGroups());
