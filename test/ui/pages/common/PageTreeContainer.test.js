@@ -4,11 +4,12 @@ import { getPageTreePages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
   setSelectedPage, publishSelectedPage, unpublishSelectedPage, handleExpandPage,
-  setPageParent, movePageAbove, movePageBelow,
+  setPageParent, movePageAbove, movePageBelow, clonePage,
 } from 'state/pages/actions';
 
 jest.mock('state/pages/actions', () => ({
   setSelectedPage: jest.fn(),
+  clonePage: jest.fn(),
   publishSelectedPage: jest.fn(),
   unpublishSelectedPage: jest.fn(),
   handleExpandPage: jest.fn(),
@@ -51,6 +52,7 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onClickDelete');
       expect(props).toHaveProperty('onClickPublish');
       expect(props).toHaveProperty('onClickUnPublish');
+      expect(props).toHaveProperty('onClickClone');
       expect(props).toHaveProperty('onDropIntoPage');
       expect(props).toHaveProperty('onDropAbovePage');
       expect(props).toHaveProperty('onDropBelowPage');
@@ -66,6 +68,11 @@ describe('PageTreeContainer', () => {
       props.onClickDelete('pagecode');
       expect(setVisibleModal).toHaveBeenCalled();
       expect(setInfo).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickClone is called', () => {
+      props.onClickClone('pagecode');
+      expect(clonePage).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onClickPublish is called', () => {
