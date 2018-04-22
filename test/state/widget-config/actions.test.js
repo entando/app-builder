@@ -18,7 +18,7 @@ import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-c
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const WIDGET_CONFIG = {
-  type: 'widget_code',
+  code: 'widget_code',
 };
 const WIDGET = { code: 'widget_code' };
 const PAGE = { code: 'page_code', pageModel: 'page_model_code' };
@@ -64,7 +64,7 @@ describe('state/widget-config/actions', () => {
         expect(putPageWidget).toHaveBeenCalledWith(
           pageCode,
           parseInt(framePos, 10),
-          { type: widgetCode, config: WIDGET_CONFIG },
+          { code: widgetCode, config: WIDGET_CONFIG },
         );
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_CONFIG, { pageCode });
         done();

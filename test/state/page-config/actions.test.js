@@ -279,7 +279,7 @@ describe('state/page-config/actions', () => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
         expect(putPageWidget)
-          .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { type: WIDGET_CODE });
+          .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
         done();
       }).catch(done.fail);
     });

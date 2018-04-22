@@ -12,17 +12,17 @@
 
 export const HOMEPAGE_CONFIG = [
   null,
-  { type: 'login_form' },
+  { code: 'login_form' },
   null,
-  { type: 'search_form' },
-  null,
-  null,
+  { code: 'search_form' },
   null,
   null,
   null,
   null,
   null,
-  { type: 'single_content', config: {} },
+  null,
+  null,
+  { code: 'single_content', config: {} },
 ];
 export const DASHBOARD_CONFIG = [];
 export const SERVICE_CONFIG = [];
