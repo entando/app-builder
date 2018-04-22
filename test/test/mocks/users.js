@@ -14,60 +14,70 @@ export const ERROR = {
   },
 };
 
-export const USER_OK = {
+export const USER = {
   username: 'login',
   registration: '2018-01-08 00:00:00',
   lastLogin: '2018-01-08 00:00:00',
   lastPasswordChange: '2018-01-08 00:00:00',
   status: 'active',
   passwordChangeRequired: true,
-
-};
-
-export const USERS_OK =
-{
-  payload: [
-    {
-      username: 'admin',
-      registration: '2018-01-08 00:00:00',
-      lastLogin: '2018-01-08 00:00:00',
-      lastPasswordChange: '2018-01-08 00:00:00',
-      status: 'active',
-      passwordChangeRequired: true,
-    },
-    {
-      username: 'user1',
-      registration: '2018-01-08 00:00:00',
-      lastLogin: '2018-01-08 00:00:00',
-      lastPasswordChange: '2018-01-08 00:00:00',
-      status: 'disabled',
-      passwordChangeRequired: true,
-    },
-    {
-      username: 'user2',
-      registration: '2018-01-08 00:00:00',
-      lastLogin: '2018-01-08 00:00:00',
-      lastPasswordChange: '2018-01-08 00:00:00',
-      status: 'active',
-      passwordChangeRequired: true,
-    },
-    {
-      username: 'user3',
-      registration: '2018-01-08 00:00:00',
-      lastLogin: '2018-01-08 00:00:00',
-      lastPasswordChange: '2018-01-08 00:00:00',
-      status: 'active',
-      passwordChangeRequired: true,
-    },
-  ],
-  errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 10,
-    lastPage: 2,
-    totalItems: 4,
+  profileAttributes: {
+    fullName: '',
+    email: '',
   },
+
 };
+
+export const USERS = [
+  {
+    username: 'admin',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'active',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'admin',
+      email: 'admin@entando.com',
+    },
+  },
+  {
+    username: 'user1',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'disabled',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'User Name',
+      email: 'user1@entando.com',
+    },
+  },
+  {
+    username: 'user2',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'active',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'User Name2',
+      email: 'user2@entando.com',
+    },
+  },
+  {
+    username: 'user3',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'active',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'User Name3',
+      email: 'user3@entando.com',
+    },
+  },
+];
 
 export const USERS_NORMALIZED = {
   list: ['admin', 'user1', 'user2', 'user3'],
@@ -79,6 +89,10 @@ export const USERS_NORMALIZED = {
       lastPasswordChange: '2018-01-08 00:00:00',
       status: 'active',
       passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'admin',
+        email: 'admin@entando.com',
+      },
     },
     user1: {
       username: 'user1',
@@ -87,6 +101,10 @@ export const USERS_NORMALIZED = {
       lastPasswordChange: '2018-01-08 00:00:00',
       status: 'disabled',
       passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'User Name',
+        email: 'user1@entando.com',
+      },
     },
 
     user2: {
@@ -96,6 +114,10 @@ export const USERS_NORMALIZED = {
       lastPasswordChange: '2018-01-08 00:00:00',
       status: 'active',
       passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'User Name2',
+        email: 'user2@entando.com',
+      },
     },
     user3: {
       username: 'user3',
@@ -104,13 +126,10 @@ export const USERS_NORMALIZED = {
       lastPasswordChange: '2018-01-08 00:00:00',
       status: 'active',
       passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'User Name3',
+        email: 'user3@entando.com',
+      },
     },
   },
-};
-
-export const USER_PROFILE_MOCK = {
-  admin: { username: 'admin', fullName: 'Admin', email: 'admin@test.it' },
-  user1: { username: 'user1', fullName: 'User 1', email: 'user1@test.it' },
-  user2: { username: 'user2', fullName: 'User 2', email: 'user2@test.it' },
-  user3: { username: 'user3', fullName: 'User 3', email: 'user3@test.it' },
 };
