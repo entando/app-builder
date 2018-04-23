@@ -107,7 +107,7 @@ export class DataTypeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <Button
-              className="pull-right"
+              className="pull-right DataTypeFormBody__save--btn"
               type="submit"
               bsStyle="primary"
               disabled={this.props.invalid || this.props.submitting}
@@ -126,7 +126,7 @@ DataTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onAddAttribute: PropTypes.func.isRequired,
+  onAddAttribute: PropTypes.func,
   attributesType: PropTypes.arrayOf(PropTypes.string).isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -138,6 +138,7 @@ DataTypeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: 'add',
+  onAddAttribute: () => {},
 };
 
 const DataTypeForm = reduxForm({

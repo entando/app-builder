@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Col } from 'patternfly-react';
 import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 
@@ -40,33 +41,35 @@ const AttributeListTable = (props) => {
   ));
 
   const renderTable = () => (
-    <table className="AttributeListTable__table table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th className="AttributeListTable__th-md">
-            <FormattedMessage id="app.code" />
-          </th>
-          <th className="AttributeListTable__th-sm">
-            <FormattedMessage id="app.type" />
-          </th>
-          <th className="AttributeListTable__th-md">
-            <FormattedMessage id="app.roles" />
-          </th>
-          <th className="AttributeListTable__th-xs text-center">
-            <FormattedMessage id="app.mandatory" />
-          </th>
-          <th className="AttributeListTable__th-xs text-center">
-            <FormattedMessage id="app.filter" />
-          </th>
-          <th className="AttributeListTable__th-xs text-center">
-            <FormattedMessage id="app.actions" />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {renderTableRows()}
-      </tbody>
-    </table>
+    <Col xs={10} xsOffset={2}>
+      <table className="AttributeListTable__table table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th className="AttributeListTable__th-md">
+              <FormattedMessage id="app.code" />
+            </th>
+            <th className="AttributeListTable__th-sm">
+              <FormattedMessage id="app.type" />
+            </th>
+            <th className="AttributeListTable__th-md">
+              <FormattedMessage id="app.roles" />
+            </th>
+            <th className="AttributeListTable__th-xs text-center">
+              <FormattedMessage id="app.mandatory" />
+            </th>
+            <th className="AttributeListTable__th-xs text-center">
+              <FormattedMessage id="app.filter" />
+            </th>
+            <th className="AttributeListTable__th-xs text-center">
+              <FormattedMessage id="app.actions" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {renderTableRows()}
+        </tbody>
+      </table>
+    </Col>
   );
 
   return (

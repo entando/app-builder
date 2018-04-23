@@ -3,7 +3,7 @@ import { fetchDataTypeAttributes, sendPostDataType } from 'state/data-types/acti
 import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 // import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
-// import { gotoRoute } from 'frontend-common-components';
+// import { gotoRoute } from '@entando/router';
 import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
@@ -18,7 +18,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     dispatch(sendPostDataType(values));
-    console.log(values);
+    console.log('datatype code', values);
     // gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
   },
 
