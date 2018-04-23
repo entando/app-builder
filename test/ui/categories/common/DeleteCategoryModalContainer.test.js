@@ -23,7 +23,7 @@ describe('DeleteCategoryModalContainer', () => {
   describe('mapDispatchToProps', () => {
     it('should map the correct function properties', () => {
       const props = mapDispatchToProps(dispatchMock);
-      expect(props.onConfirmDelete).toBeDefined();
+      expect(props).toHaveProperty('onConfirmDelete');
       props.onConfirmDelete();
       expect(dispatchMock).toHaveBeenCalled();
     });

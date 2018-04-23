@@ -23,7 +23,7 @@ describe('DeleteCategoryModal', () => {
 
   describe('component with required props only', () => {
     it('renders without crashing', () => {
-      expect(component.exists()).toEqual(true);
+      expect(component).toExist();
     });
 
     it('has an EmptyState main container', () => {
