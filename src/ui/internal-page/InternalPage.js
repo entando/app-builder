@@ -47,7 +47,7 @@ const InternalPage = ({ className, children }) => (
       />
       <FirstLevelMenuItem
         id="menu-page-creator"
-        label={formattedText('menu.pageCreator', 'Page Creator')}
+        label={formattedText('menu.pageDesigner', 'Page Designer')}
       >
         <LinkMenuItem
           id="menu-page-tree"
@@ -104,7 +104,7 @@ const InternalPage = ({ className, children }) => (
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-user-settings"
-        label={formattedText('menu.userSettings')}
+        label={formattedText('menu.userManagement')}
       >
         <LinkMenuItem
           id="menu-users"
@@ -115,6 +115,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-roles"
           label={formattedText('menu.roles')}
           route={ROUTE_ROLE_LIST}
+        />
+        <LinkMenuItem
+          id="menu-groups"
+          label={formattedText('menu.groups')}
+          route={ROUTE_GROUP_LIST}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
@@ -131,11 +136,6 @@ const InternalPage = ({ className, children }) => (
           id="menu-labels-languages"
           label={formattedText('menu.labelsAndLanguages')}
           route={ROUTE_LABELS_AND_LANGUAGES}
-        />
-        <LinkMenuItem
-          id="menu-groups"
-          label={formattedText('menu.groups')}
-          route={ROUTE_GROUP_LIST}
         />
       </FirstLevelMenuItem>
     </BrandMenu>

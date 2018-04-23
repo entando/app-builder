@@ -64,7 +64,7 @@ export const getReferences = (entityName, mockRefs) =>
     {
       uri: `/api/pageModels/${pageModelCode}/references/${entityName}`,
       method: METHODS.GET,
-      mockResponse: mockRefs[pageModelCode] ? mockRefs[pageModelCode] : [],
+      mockResponse: mockRefs[pageModelCode] ? mockRefs[pageModelCode] || [] : [],
       useAuthentication: true,
     },
     page,
