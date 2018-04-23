@@ -13,17 +13,10 @@ export const getUsers = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
-export const getUserDetail = username => makeRequest({
-  uri: `/api/users/${username}`,
-  method: METHODS.GET,
-  mockResponse: USER,
-  useAuthentication: true,
-});
-
 export const getUser = params => makeRequest({
   uri: `/api/users/${params}`,
   method: METHODS.GET,
-  mockResponse: USERS,
+  mockResponse: USER,
   useAuthentication: true,
 });
 

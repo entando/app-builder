@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
-import { getUsers, getUserDetail, getUser, postUser, putUser } from 'api/users';
+import { getUsers, getUser, postUser, putUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -22,7 +22,6 @@ export const setSelectedUserDetail = user => ({
 });
 
 // thunk
-
 
 export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
@@ -46,7 +45,7 @@ export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
   new Promise((resolve) => {
     const { username } = getParams(getState());
     dispatch(toggleLoading('user'));
-    getUserDetail(username).then((response) => {
+    getUser(username).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
           dispatch(setSelectedUserDetail(json.payload));

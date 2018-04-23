@@ -12,7 +12,7 @@ import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USER, USERS } from 'test/mocks/users';
-import { getUsers, getUserDetail, getUser, putUser, postUser } from 'api/users';
+import { getUsers, getUser, putUser, postUser } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -81,7 +81,7 @@ describe('state/users/actions', () => {
         it('when fetchUserDetail succeeds, should dispatch setSelectedUserDetail', (done) => {
           store.dispatch(fetchCurrentPageUserDetail(USER.username)).then(() => {
             const actions = store.getActions();
-            expect(getUserDetail).toHaveBeenCalled();
+            expect(getUser).toHaveBeenCalled();
             expect(actions).toHaveLength(3);
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
             expect(actions[1].type).toEqual(SET_SELECTED_USER);
@@ -92,9 +92,9 @@ describe('state/users/actions', () => {
         });
 
         it('when fetchUserDetail get error, should dispatch addErrors', (done) => {
-          getUserDetail.mockImplementation(mockApi({ errors: true }));
+          getUser.mockImplementation(mockApi({ errors: true }));
           store.dispatch(fetchCurrentPageUserDetail(USER.username)).then(() => {
-            expect(getUserDetail).toHaveBeenCalled();
+            expect(getUser).toHaveBeenCalled();
             const actions = store.getActions();
             expect(actions).toHaveLength(3);
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
