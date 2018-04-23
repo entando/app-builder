@@ -41,6 +41,7 @@ import {
   ROUTE_CATEGORY_LIST,
   ROUTE_CATEGORY_ADD,
   ROUTE_CATEGORY_EDIT,
+  ROUTE_CATEGORY_DETAIL,
   ROUTE_LABELS_ADD,
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
@@ -86,6 +87,7 @@ import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 import EditCategoryPage from 'ui/categories/edit/EditCategoryPage';
+import DetailCategoryPage from 'ui/categories/detail/DetailCategoryPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 import EditRolePage from 'ui/roles/edit/EditRolePage';
@@ -139,6 +141,7 @@ const App = ({ route, username }) => {
     case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
     case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_CATEGORY_EDIT: return <EditCategoryPage />;
+    case ROUTE_CATEGORY_DETAIL: return <DetailCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;

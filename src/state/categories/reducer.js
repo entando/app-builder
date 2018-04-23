@@ -116,7 +116,7 @@ const statusMap = (state = {}, action = {}) => {
   }
 };
 
-const selected = (state = null, action = {}) => {
+const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_CATEGORY: {
       return action.payload.category;

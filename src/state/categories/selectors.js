@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-
+import { get } from 'lodash';
 import { getLocale } from 'state/locale/selectors';
 
 export const getCategories = state => state.categories;
@@ -8,7 +8,7 @@ export const getCategoriesMap = state => state.categories.map;
 export const getChildrenMap = state => state.categories.childrenMap;
 export const getStatusMap = state => state.categories.statusMap;
 export const getTitlesMap = state => state.categories.titlesMap;
-export const getSelected = state => state.categories.selected;
+export const getSelected = state => get(state.categories, 'selected', {});
 
 const CATEGORY_STATUS_DEFAULTS = {
   expanded: false,

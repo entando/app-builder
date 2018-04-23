@@ -123,7 +123,7 @@ export const fetchCategory = categoryCode => dispatch =>
   });
 
 export const fetchCategoryDetail = categoryCode => dispatch =>
-  dispatch(fetchCategoryNode(categoryCode)).then((data) => {
+  dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
     dispatch(setSelectedCategory(data.payload));
   });
 

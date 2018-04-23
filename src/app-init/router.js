@@ -45,6 +45,7 @@ export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
+export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
 export const ROUTE_ROLE_ADD = 'roleAdd';
 export const ROUTE_ROLE_EDIT = 'roleEdit';
@@ -97,6 +98,7 @@ routerConfig(
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
+      { name: ROUTE_CATEGORY_DETAIL, path: '/category/detail/:categoryCode' },
       { name: ROUTE_ROLE_LIST, path: '/role' },
       { name: ROUTE_ROLE_ADD, path: '/role/add/' },
       { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
