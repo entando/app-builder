@@ -1,0 +1,32 @@
+.DetailCategory {
+  &__detail-list {
+    margin: 10px 0 20px;
+  }
+
+  &__detail-row {
+    padding: 3px 0;
+    border-top: 1px solid $color-pf-black-300;
+  }
+
+  &__detail-label {
+    color: $color-pf-black-800;
+    font-weight: bold;
+  }
+
+  &__detail-titles {
+    margin: 0 5px 0 0;
+  }
+
+  &__detail-titles-key {
+    margin: 0 5px 0 0;
+    padding: 4px;
+    background-color: $color-pf-blue-300;
+    color: $color-pf-white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__collapse-trigger {
+    margin: 0 0 20px 0;
+  }
+}

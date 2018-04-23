@@ -5,11 +5,13 @@ import {
   postCategory,
   putCategory,
   deleteCategory,
+  getReferences,
 } from 'api/categories';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { MYCATEGORY1_PAYLOAD, BODY_OK } from 'test/mocks/categories';
 
 const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
+const REFERENCE_KEY = 'jacmsContentManager';
 const EDITED_CATEGORY = {
   code: MYCATEGORY1_PAYLOAD.code,
   title: { it: 'nuova categoria' },
@@ -105,6 +107,21 @@ describe('api/categories', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/categories/${CATEGORY_CODE}`,
         method: METHODS.DELETE,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('getReferences()', () => {
+    it('returns a promise', () => {
+      expect(getReferences(CATEGORY_CODE, REFERENCE_KEY)).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getReferences(CATEGORY_CODE, REFERENCE_KEY);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/categories/${CATEGORY_CODE}/references/${REFERENCE_KEY}`,
+        method: METHODS.GET,
         useAuthentication: true,
       }));
     });

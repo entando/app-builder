@@ -2,7 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
 import {
   getCategoryTree, getCategory, postCategory,
-  putCategory, deleteCategory,
+  putCategory, deleteCategory, getReferences,
 } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';
@@ -10,9 +10,10 @@ import { ROUTE_CATEGORY_LIST } from 'app-init/router';
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
+  SET_REFERENCES,
 } from 'state/categories/types';
 import { addErrors } from 'state/errors/actions';
-import { getStatusMap } from 'state/categories/selectors';
+import { getStatusMap, getReferenceKeyList, getSelectedRefs } from 'state/categories/selectors';
 
 const ROOT_CODE = 'home';
 
@@ -56,6 +57,13 @@ export const removeCategory = categoryCode => ({
   type: REMOVE_CATEGORY,
   payload: {
     categoryCode,
+  },
+});
+
+export const setReferences = references => ({
+  type: SET_REFERENCES,
+  payload: {
+    references,
   },
 });
 
@@ -122,11 +130,6 @@ export const fetchCategory = categoryCode => dispatch =>
     dispatch(initialize('category', data.payload));
   });
 
-export const fetchCategoryDetail = categoryCode => dispatch =>
-  dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
-    dispatch(setSelectedCategory(data.payload));
-  });
-
 export const sendPostCategory = categoryData => dispatch =>
   dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
     dispatch(setCategories([data.payload]));
@@ -142,4 +145,22 @@ export const sendPutCategory = categoryData => dispatch =>
 export const sendDeleteCategory = categoryCode => dispatch =>
   dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
     dispatch(removeCategory(categoryCode));
+  });
+
+export const fetchReferences = (categoryCode, referenceKey) => dispatch =>
+  dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
+    dispatch(setReferences({ [referenceKey]: data.payload }));
+  });
+
+export const fetchCategoryDetail = categoryCode => (dispatch, getState) =>
+  dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
+    dispatch(setSelectedCategory(data.payload));
+    const references = getReferenceKeyList(getState());
+    references.forEach((referenceKey) => {
+      if (getSelectedRefs(getState())[referenceKey]) {
+        dispatch(fetchReferences(categoryCode, referenceKey));
+      } else {
+        setReferences({ [referenceKey]: [] });
+      }
+    });
   });

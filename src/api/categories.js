@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { CATEGORY_TREE, BODY_OK } from 'test/mocks/categories';
+import { CATEGORY_TREE, BODY_OK, MOCK_REFERENCES } from 'test/mocks/categories';
 
 const HOME_CODE = 'home';
 const MYCATEGORY1_CODE = 'mycategory1';
@@ -58,3 +58,10 @@ export const deleteCategory = categoryCode => (
     useAuthentication: true,
   })
 );
+
+export const getReferences = (categoryCode, referenceKey) => makeRequest({
+  uri: `/api/categories/${categoryCode}/references/${referenceKey}`,
+  method: METHODS.GET,
+  mockResponse: MOCK_REFERENCES[referenceKey] ? MOCK_REFERENCES[referenceKey] : [],
+  useAuthentication: true,
+});

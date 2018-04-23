@@ -9,6 +9,9 @@ export const getChildrenMap = state => state.categories.childrenMap;
 export const getStatusMap = state => state.categories.statusMap;
 export const getTitlesMap = state => state.categories.titlesMap;
 export const getSelected = state => get(state.categories, 'selected', {});
+export const getSelectedRefs = state => get(state.categories, 'selected.references', {});
+export const getReferenceKeyList = state => get(state.categories, 'selected.referenceKeyList', []);
+export const getReferenceMap = state => get(state.categories, 'selected.referenceMap', {});
 
 const CATEGORY_STATUS_DEFAULTS = {
   expanded: false,
