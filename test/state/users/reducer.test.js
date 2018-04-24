@@ -1,5 +1,5 @@
 import reducer from 'state/users/reducer';
-import { setUsers, setSelectedUserDetail } from 'state/users/actions';
+import { setUsers, setSelectedUserDetail, setUserTotal } from 'state/users/actions';
 import { USERS } from 'test/mocks/users';
 
 const users = USERS;
@@ -9,6 +9,10 @@ describe('state/users/reducer', () => {
 
   it('should return an object', () => {
     expect(typeof state).toBe('object');
+    expect(state).toHaveProperty('total', 0);
+    expect(state).toHaveProperty('selected', {});
+    expect(state).toHaveProperty('list', []);
+    expect(state).toHaveProperty('map', {});
   });
 
   describe('after action SET_USERS', () => {
@@ -32,6 +36,13 @@ describe('state/users/reducer', () => {
 
     it('should define the dataType payload', () => {
       expect(newState.selected).toEqual(users[0].username);
+    });
+  });
+
+  describe('after action SET_USER_TOTAL', () => {
+    it('should update the user total', () => {
+      const newState = reducer(state, setUserTotal(12));
+      expect(newState.total).toEqual(12);
     });
   });
 });

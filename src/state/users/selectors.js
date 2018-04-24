@@ -4,6 +4,7 @@ export const getUsers = state => state.users;
 export const getUsersIdList = state => state.users.list;
 export const getUsersMap = state => state.users.map;
 export const getSelectedUser = state => state.users.selected;
+export const getTotalUsers = state => state.users.total;
 
 export const getUserList = createSelector(
   [getUsersMap, getUsersIdList],

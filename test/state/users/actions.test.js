@@ -6,9 +6,10 @@ import { mockApi } from 'test/testUtils';
 import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
-  setSelectedUserDetail, fetchCurrentPageUserDetail,
+  setSelectedUserDetail, fetchCurrentPageUserDetail, setUserTotal,
+  fetchUsersTotal,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_USER_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USER, USERS } from 'test/mocks/users';
@@ -46,6 +47,14 @@ describe('state/users/actions', () => {
           expect(action).toHaveProperty('payload.user', USER);
         });
       });
+
+      describe('setUserTotal', () => {
+        it('test setUserTotal action sets the correct type', () => {
+          const action = setUserTotal(12);
+          expect(action).toHaveProperty('type', SET_USER_TOTAL);
+          expect(action).toHaveProperty('payload.userTotal', 12);
+        });
+      });
     });
 
     describe('thunk', () => {
@@ -64,7 +73,7 @@ describe('state/users/actions', () => {
         });
 
         it('when fetchUsers get error, should dispatch addErrors', (done) => {
-          getUsers.mockImplementation(mockApi({ errors: true }));
+          getUsers.mockImplementationOnce(mockApi({ errors: true }));
           store.dispatch(fetchUsers()).then(() => {
             expect(getUsers).toHaveBeenCalled();
             const actions = store.getActions();
@@ -72,6 +81,29 @@ describe('state/users/actions', () => {
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
             expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
             expect(actions[2].type).toEqual(TOGGLE_LOADING);
+            done();
+          }).catch(done.fail);
+        });
+      });
+
+      describe('fetchUsersTotal', () => {
+        it('fetchUsersTotal calls setUserTotal', (done) => {
+          store.dispatch(fetchUsersTotal()).then(() => {
+            const actions = store.getActions();
+            expect(getUsers).toHaveBeenCalled();
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', SET_USER_TOTAL);
+            done();
+          }).catch(done.fail);
+        });
+
+        it('when fetchUsersTotal gets errors it should dispatch addErrors', (done) => {
+          getUsers.mockImplementationOnce(mockApi({ errors: true }));
+          store.dispatch(fetchUsersTotal()).then(() => {
+            expect(getUsers).toHaveBeenCalled();
+            const actions = store.getActions();
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
             done();
           }).catch(done.fail);
         });
@@ -92,7 +124,7 @@ describe('state/users/actions', () => {
         });
 
         it('when fetchUserDetail get error, should dispatch addErrors', (done) => {
-          getUser.mockImplementation(mockApi({ errors: true }));
+          getUser.mockImplementationOnce(mockApi({ errors: true }));
           store.dispatch(fetchCurrentPageUserDetail(USER.username)).then(() => {
             expect(getUser).toHaveBeenCalled();
             const actions = store.getActions();
@@ -115,7 +147,7 @@ describe('state/users/actions', () => {
         });
 
         it('when fetchUserForm get error, should dispatch addErrors', (done) => {
-          getUser.mockImplementation(mockApi({ errors: true }));
+          getUser.mockImplementationOnce(mockApi({ errors: true }));
           store.dispatch(fetchUserForm(USER.username)).then(() => {
             expect(getUser).toHaveBeenCalled();
             const actions = store.getActions();
@@ -141,7 +173,7 @@ describe('state/users/actions', () => {
         });
 
         it('when postUser get error, should dispatch ADD_ERRORS', async () => {
-          postUser.mockImplementation(mockApi({ errors: true }));
+          postUser.mockImplementationOnce(mockApi({ errors: true }));
           return store.dispatch(sendPostUser(USER)).catch((e) => {
             expect(postUser).toHaveBeenCalled();
             const actions = store.getActions();
@@ -165,7 +197,7 @@ describe('state/users/actions', () => {
         });
 
         it('when putUser get error, should dispatch gotoRoute user list', (done) => {
-          putUser.mockImplementation(mockApi({ errors: true }));
+          putUser.mockImplementationOnce(mockApi({ errors: true }));
           store.dispatch(sendPutUser(USER)).then(() => {
             expect(putUser).toHaveBeenCalled();
             const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);

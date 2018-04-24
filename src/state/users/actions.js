@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_USER_TOTAL } from 'state/users/types';
 import { getUsers, getUser, postUser, putUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
@@ -21,9 +21,16 @@ export const setSelectedUserDetail = user => ({
   },
 });
 
+export const setUserTotal = userTotal => ({
+  type: SET_USER_TOTAL,
+  payload: {
+    userTotal,
+  },
+});
+
 // thunk
 
-export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
+export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('users'));
     getUsers(page, params).then((response) => {
@@ -38,10 +45,26 @@ export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dis
         resolve();
       });
     });
-  });
+  })
+);
+
+export const fetchUsersTotal = () => dispatch => (
+  new Promise((resolve) => {
+    getUsers({ page: 1, pageSize: 1 }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setUserTotal(json.metaData.totalItems));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
 
 
-export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
+export const fetchCurrentPageUserDetail = () => (dispatch, getState) => (
   new Promise((resolve) => {
     const { username } = getParams(getState());
     dispatch(toggleLoading('user'));
@@ -60,10 +83,11 @@ export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
         });
       }
     });
-  });
+  })
+);
 
 
-export const fetchUserForm = username => dispatch =>
+export const fetchUserForm = username => dispatch => (
   new Promise((resolve) => {
     getUser(username).then((response) => {
       dispatch(toggleLoading('form'));
@@ -81,7 +105,8 @@ export const fetchUserForm = username => dispatch =>
         });
       }
     });
-  });
+  })
+);
 
 export const sendPostUser = user => async (dispatch) => {
   const response = await postUser(user);

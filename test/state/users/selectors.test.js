@@ -5,12 +5,16 @@ import {
   getUsersIdList,
   getUsersMap,
   getUserList,
+  getTotalUsers,
 } from 'state/users/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
 const TEST_STATE = {
-  users: USERS_NORMALIZED,
+  users: {
+    ...USERS_NORMALIZED,
+    total: 2,
+  },
 };
 
 
@@ -30,5 +34,9 @@ describe('state/users/selectors', () => {
 
   it('verify getUserList selector', () => {
     expect(getUserList(TEST_STATE)).toEqual(USERS);
+  });
+
+  it('verify getTotalUsers selector', () => {
+    expect(getTotalUsers(TEST_STATE)).toEqual(2);
   });
 });
