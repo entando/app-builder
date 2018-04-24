@@ -1,10 +1,10 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeContainer';
 import { gotoRoute } from '@entando/router';
-import { getPageTreePages } from 'state/pages/selectors';
+import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
   setSelectedPage, publishSelectedPage, unpublishSelectedPage, handleExpandPage,
-  setPageParent, movePageAbove, movePageBelow, clonePage,
+  setPageParent, movePageAbove, movePageBelow, clonePage, fetchSearchPages,
 } from 'state/pages/actions';
 
 jest.mock('state/pages/actions', () => ({
@@ -16,6 +16,14 @@ jest.mock('state/pages/actions', () => ({
   setPageParent: jest.fn(),
   movePageAbove: jest.fn(),
   movePageBelow: jest.fn(),
+  clearSearchPage: jest.fn(),
+  fetchSearchPages: jest.fn(),
+}));
+
+jest.mock('state/pagination/selectors', () => ({
+  getCurrentPage: jest.fn(),
+  getTotalItems: jest.fn(),
+  getPageSize: jest.fn(),
 }));
 
 jest.mock('state/modal/actions', () => ({
@@ -25,9 +33,11 @@ jest.mock('state/modal/actions', () => ({
 
 jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
+  getSearchPages: jest.fn(),
 }));
 
 getPageTreePages.mockReturnValue('pages');
+getSearchPages.mockReturnValue([]);
 
 const dispatchMock = jest.fn();
 
@@ -38,6 +48,7 @@ describe('PageTreeContainer', () => {
     it('should map the correct properties', () => {
       const props = mapStateToProps({});
       expect(props).toHaveProperty('pages');
+      expect(props).toHaveProperty('searchPages');
     });
   });
 
@@ -48,6 +59,7 @@ describe('PageTreeContainer', () => {
     });
 
     it('should map the correct function properties', () => {
+      expect(props).toHaveProperty('onWillMount');
       expect(props).toHaveProperty('onClickAdd');
       expect(props).toHaveProperty('onClickDelete');
       expect(props).toHaveProperty('onClickPublish');
@@ -57,6 +69,11 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onDropAbovePage');
       expect(props).toHaveProperty('onDropBelowPage');
       expect(props).toHaveProperty('onExpandPage');
+    });
+
+    it('should dispatch an action if onWillMount is called', () => {
+      props.onWillMount();
+      expect(fetchSearchPages).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onClickAdd is called', () => {

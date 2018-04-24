@@ -1,10 +1,10 @@
 import 'test/enzyme-init';
 import {
-  getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage,
+  getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
   getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
 } from 'api/pages';
 
-import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD } from 'test/mocks/pages';
+import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -28,7 +28,7 @@ describe('api/pages', () => {
     jest.runOnlyPendingTimers();
   });
 
-  describe('getPage()', () => {
+  describe('getPage', () => {
     it('returns a promise', () => {
       expect(getPage(PAGE_CODE)).toBeInstanceOf(Promise);
     });
@@ -43,7 +43,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('getPageChildren()', () => {
+  describe('getPageChildren', () => {
     it('returns a promise', () => {
       expect(getPageChildren(PAGE_CODE)).toBeInstanceOf(Promise);
     });
@@ -58,7 +58,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('setPagePosition()', () => {
+  describe('setPagePosition', () => {
     const POSITION = 2;
     const PARENT_CODE = 'service';
     it('returns a promise', () => {
@@ -77,7 +77,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('postPage()', () => {
+  describe('postPage', () => {
     it('returns a promise', () => {
       expect(postPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
@@ -93,7 +93,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('putPage()', () => {
+  describe('putPage', () => {
     it('returns a promise', () => {
       expect(putPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
@@ -110,7 +110,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('deletePage()', () => {
+  describe('deletePage', () => {
     it('returns a promise', () => {
       expect(deletePage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
@@ -126,8 +126,7 @@ describe('api/pages', () => {
     });
   });
 
-
-  describe('test pageSettings API', () => {
+  describe('getPageSettingsList', () => {
     it('returns a promise', () => {
       const filledInput = getPageSettingsList();
       expect(typeof filledInput.then === 'function').toBeDefined();
@@ -143,14 +142,35 @@ describe('api/pages', () => {
     });
   });
 
-  describe('test getFreePages API', () => {
+  describe('getSearchPages', () => {
+    it('returns a promise', () => {
+      expect(getSearchPages()).toBeInstanceOf(Promise);
+    });
+    it('verify success searchPages', () => {
+      getSearchPages();
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/pages/search',
+          method: METHODS.GET,
+          mockResponse: SEARCH_PAGES,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getFreePages', () => {
     it('returns a promise', () => {
       expect(getFreePages()).toBeInstanceOf(Promise);
     });
     it('verify success groups', () => {
       getFreePages();
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/pages/search/group/free',
+        uri: '/api/pages/search/group/free',
         method: METHODS.GET,
         mockResponse: FREE_PAGES_PAYLOAD,
         useAuthentication: true,
@@ -158,7 +178,7 @@ describe('api/pages', () => {
     });
   });
 
-  describe('getPageConfig()', () => {
+  describe('getPageConfig', () => {
     it('returns a promise', () => {
       expect(getPageConfig(PAGE_CODE, 'draft')).toBeInstanceOf(Promise);
     });
@@ -174,24 +194,22 @@ describe('api/pages', () => {
     });
   });
 
-  describe('deletePageWidget', () => {
-    it('returns a promise resolved with errors if called with a not found pageCode', () => {
-      deletePageWidget('blabla', 1).then((response) => {
-        expect(Array.isArray(response.errors)).toBe(true);
-        expect(response.errors.length).toBe(1);
-      });
+  describe('deletePageWidget()', () => {
+    it('returns a promise', () => {
+      expect(deletePageWidget(PAGE_CODE, 1)).toBeInstanceOf(Promise);
     });
 
-    it('returns a promise resolved with payload if called with a valid pageCode', () => {
-      deletePageWidget('homepage', 1).then((response) => {
-        const isErrorResponse = !!(response.errors && response.errors.length);
-        expect(isErrorResponse).toBe(false);
-        expect(response.payload).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      deletePageWidget(PAGE_CODE, 1);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/widgets/1`,
+        method: METHODS.DELETE,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('putPageWidget()', () => {
+  describe('putPageWidget', () => {
     const PAGE_CONFIG_ITEM = { code: 'some_code' };
     const FRAME_POS = 1;
     it('returns a promise', () => {

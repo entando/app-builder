@@ -10,6 +10,8 @@ import {
   SET_FREE_PAGES,
   SET_SELECTED_PAGE,
   UPDATE_PAGE,
+  SEARCH_PAGES,
+  CLEAR_SEARCH,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -178,7 +180,7 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
-const selected = (state = null, action = {}) => {
+const selected = (state = [], action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE: {
       return action.payload.page;
@@ -191,6 +193,17 @@ const selected = (state = null, action = {}) => {
   }
 };
 
+export const search = (state = [], action = {}) => {
+  switch (action.type) {
+    case SEARCH_PAGES: {
+      return action.payload.pages;
+    }
+    case CLEAR_SEARCH: {
+      return [];
+    }
+    default: return state;
+  }
+};
 
 export default combineReducers({
   map: reducer,
@@ -199,4 +212,5 @@ export default combineReducers({
   statusMap,
   freePages,
   selected,
+  search,
 });

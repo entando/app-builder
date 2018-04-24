@@ -17,6 +17,7 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
+  ROUTE_PAGE_DETAIL,
   ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
@@ -61,6 +62,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PagesDetailPage from 'ui/pages/detail/PagesDetailPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageModelListPage from 'ui/page-models/list/PageModelListPage';
@@ -115,6 +117,7 @@ const App = ({ route, username }) => {
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_DETAIL: return <PagesDetailPage />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;

@@ -57,7 +57,7 @@ const configMap = (state = {}, action = {}) => {
       const newConfig = [...state[pageCode]];
       const newWidget = isChangingFrame ?
         { ...newConfig[sourceFrameId] } :
-        { type: widgetId, config: widgetConfig };
+        { code: widgetId, config: widgetConfig };
 
       // find if there was another widget in the target frame
       const replacedWidget = newConfig[targetFrameId] ? { ...newConfig[targetFrameId] } : null;

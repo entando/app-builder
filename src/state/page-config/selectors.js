@@ -73,7 +73,7 @@ export const getPageConfigCellMap = createSelector(
       const item = draftItem || publishedItem;
       if (relatedCell) {
         if (item) {
-          const widget = widgetsMap[item.type];
+          const widget = widgetsMap[item.code];
           if (widget && relatedCell) {
             relatedCell.widgetCode = widget.code;
             relatedCell.widgetTitle = widget.titles[locale] || widget.name;
@@ -102,7 +102,7 @@ export const getPageIsOnTheFly = createSelector(
       return false;
     }
     const mainConfigItem = draftConfig[mainFrame.pos];
-    return (mainConfigItem && mainConfigItem.type === 'content_viewer' && !mainConfigItem.config);
+    return (mainConfigItem && mainConfigItem.code === 'content_viewer' && !mainConfigItem.config);
   },
 );
 

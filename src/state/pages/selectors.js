@@ -11,6 +11,7 @@ export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
 export const getFreePages = state => state.pages.freePages;
 export const getSelectedPage = state => state.pages.selected;
+export const getSearchPages = state => state.pages.search;
 
 
 // relies on the children map order
@@ -33,9 +34,11 @@ const isVisible = (pageCode, pages, pagesStatus) => {
   let curPageCode = pageCode;
   if (pages[curPageCode]) {
     while (curPageCode !== 'homepage') {
-      curPageCode = pages[curPageCode].parentCode;
-      if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
-        return false; // false
+      if (pages[curPageCode].parentCode) {
+        curPageCode = pages[curPageCode].parentCode;
+        if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
+          return false; // false
+        }
       }
     }
     return true;
@@ -88,7 +91,6 @@ export const getPageTreePages = createSelector(
         title: pagesTitles[pageCode][locale],
       }))),
 );
-
 
 export const getCharsets = () => ([
   'iso-8859-1',

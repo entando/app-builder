@@ -284,3 +284,21 @@ export const HOMEPAGE_RESPONSE = {
 export const CONTACTS_RESPONSE = {
   payload: CONTACTS_PAYLOAD,
 };
+
+export const SEARCH_PAGES = [
+  {
+    code: 'page',
+    status: 'draft',
+    displayedInMenu: true,
+    parentCode: 'service',
+    position: 1,
+    titles: {
+      it: 'Mio Titolo',
+      en: 'My title',
+    },
+    children: [
+      'pageCode1',
+      'pageCode2',
+    ],
+  },
+];

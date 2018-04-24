@@ -15,6 +15,24 @@ class PageTreePage extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+
+  renderButton() {
+    if (this.props.search.length > 0) {
+      return (
+        <Button bsStyle="default" className="pull-right PageTreePage__clear" onClick={this.props.onClear}>
+          <FormattedMessage id="pageTree.action.clear" />
+        </Button>
+      );
+    }
+    return (
+      <Link route={ROUTE_PAGE_ADD} className="pull-right PageTreePage__save">
+        <Button bsStyle="primary">
+          <FormattedMessage id="app.add" />
+        </Button>
+      </Link>
+    );
+  }
+
   render() {
     return (
       <InternalPage className="PageTreePage">
@@ -23,7 +41,7 @@ class PageTreePage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem active>
-                  <FormattedMessage id="menu.pageCreator" />
+                  <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   <FormattedMessage id="menu.pageTree" />
@@ -40,17 +58,13 @@ class PageTreePage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={6} mdOffset={3}>
-              <PageSearchForm />
+            <Col xs={6} xsOffset={3}>
+              <PageSearchForm {...this.props} />
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <Link route={ROUTE_PAGE_ADD} className="pull-right">
-                <Button bsStyle="primary">
-                  <FormattedMessage id="app.add" />
-                </Button>
-              </Link>
+              {this.renderButton()}
             </Col>
           </Row>
           <br />
@@ -66,11 +80,9 @@ class PageTreePage extends Component {
 }
 
 PageTreePage.propTypes = {
-  onWillMount: PropTypes.func,
-};
-
-PageTreePage.defaultProps = {
-  onWillMount: null,
+  onWillMount: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
+  search: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default PageTreePage;

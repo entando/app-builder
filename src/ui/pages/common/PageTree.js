@@ -10,6 +10,7 @@ import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 
 class PageTree extends Component {
   constructor(props) {
@@ -95,6 +96,9 @@ class PageTree extends Component {
   }
 
   render() {
+    if (this.props.searchPages.length > 0) {
+      return <PageListSearchTable {...this.props} />;
+    }
     return (
       <div>
         <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
@@ -137,6 +141,9 @@ PageTree.propTypes = {
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
   })),
+  searchPages: PropTypes.arrayOf(PropTypes.shape({
+
+  })),
   onClickAdd: PropTypes.func.isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickConfigure: PropTypes.func.isRequired,
@@ -153,6 +160,7 @@ PageTree.propTypes = {
 
 PageTree.defaultProps = {
   pages: [],
+  searchPages: [],
   onDropIntoPage: () => {},
   onDropAbovePage: () => {},
   onDropBelowPage: () => {},

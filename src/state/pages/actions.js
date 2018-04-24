@@ -1,14 +1,15 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-
+import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettingsList, putPage, putPageStatus,
+  getPageSettingsList, putPage, putPageStatus, getSearchPages,
 } from 'api/pages';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
-  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE,
+  MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
+  CLEAR_SEARCH,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
@@ -25,6 +26,17 @@ export const addPages = pages => ({
   payload: {
     pages,
   },
+});
+
+export const setSearchPages = pages => ({
+  type: SEARCH_PAGES,
+  payload: {
+    pages,
+  },
+});
+
+export const clearSearch = () => ({
+  type: CLEAR_SEARCH,
 });
 
 export const removePage = page => ({
@@ -135,7 +147,6 @@ const fetchPageTree = pageCode => async (dispatch) => {
   return response.payload;
 };
 
-
 /**
  * will call:
  * http://confluence.entando.org/display/E5/Page+Tree
@@ -157,7 +168,6 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
   dispatch(togglePageExpanded(pageCode, toExpand));
   return noopPromise();
 };
-
 
 export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) => {
   const state = getState();
@@ -222,7 +232,6 @@ export const clonePage = page => async (dispatch) => {
   gotoRoute(ROUTE_PAGE_ADD);
   dispatch(initialize('page', { ...json.payload, code: '' }));
 };
-
 
 export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
@@ -298,3 +307,23 @@ export const publishSelectedPage = () => (dispatch, getState) =>
 
 export const unpublishSelectedPage = () => (dispatch, getState) =>
   putSelectedPageStatus(PAGE_STATUS_DRAFT)(dispatch, getState);
+
+export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
+  const response = await getSearchPages(page, params);
+  const json = await response.json();
+  if (response.ok) {
+    if (json.payload) {
+      dispatch(setSearchPages(json.payload));
+      dispatch(setPage(json.metaData));
+      return json.payload;
+    }
+    return 'homepage';
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
+
+export const clearSearchPage = () => (dispatch) => {
+  dispatch(clearSearch());
+  dispatch(initialize('pageSearch', {}));
+};

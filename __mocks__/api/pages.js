@@ -9,3 +9,4 @@ export const putPageStatus = jest.fn(mockApi({ payload: {} }));
 export const getFreePages = jest.fn(mockApi({ payload: [] }));
 export const getPageSettingsList = jest.fn(mockApi({ payload: {} }));
 export const deletePage = jest.fn(mockApi({ payload: {} }));
+export const getSearchPages = jest.fn(mockApi({ payload: [] }));

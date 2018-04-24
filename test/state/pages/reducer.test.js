@@ -7,7 +7,7 @@ import {
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
-  setFreePages, setSelectedPage, removePage, updatePage,
+  setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -211,6 +211,28 @@ describe('state/pages/reducer', () => {
     it('status will be update', () => {
       const newState = reducer(state, updatePage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
       expect(newState.map[DASHBOARD_PAYLOAD.code]).toHaveProperty('status', 'unpublished');
+    });
+  });
+
+  describe('SEARCH_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, setSearchPages(PAGES));
+      expect(newState).toHaveProperty('search', PAGES);
+    });
+  });
+
+  describe('CLEAR_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, clearSearch());
+      expect(newState).toHaveProperty('search', []);
     });
   });
 });

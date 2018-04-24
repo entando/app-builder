@@ -6,16 +6,18 @@ import { initialize } from 'redux-form';
 
 import { mockApi } from 'test/testUtils';
 
+import { SET_PAGE } from 'state/pagination/types';
+
 import {
   addPages, setPageLoading, setPageLoaded, togglePageExpanded, movePageSync, setPageParentSync,
-  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage,
+  handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, fetchSearchPages,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
-  unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage,
+  unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
-  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE,
+  SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -29,7 +31,7 @@ import {
 
 import {
   setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList,
-  putPageStatus, deletePage, getFreePages,
+  putPageStatus, deletePage, getFreePages, getSearchPages,
 } from 'api/pages';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
@@ -45,10 +47,6 @@ jest.mock('state/pages/selectors', () => ({
   getChildrenMap: jest.fn(),
   getSelectedPage: jest.fn(),
 }));
-
-// const mockPostPageSuccess = page => new Promise(resolve => resolve({ payload: page }));
-const mockPostPageFailure = () =>
-  new Promise(resolve => resolve({ payload: {}, errors: [{ code: 1, message: 'Wrong!' }] }));
 
 const mockStore = configureStore([thunk]);
 
@@ -91,6 +89,7 @@ const INITIALIZED_STATE = {
       notfound: {},
     },
     freePages: FREE_PAGES_PAYLOAD,
+    search: [],
   },
 };
 
@@ -108,6 +107,21 @@ describe('state/pages/actions', () => {
     const action = addPages(PAGES);
     expect(action.type).toBe(ADD_PAGES);
     expect(action.payload).toEqual({ pages: PAGES });
+  });
+
+  describe('clearSearch', () => {
+    let action;
+    beforeEach(() => {
+      action = clearSearch();
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', CLEAR_SEARCH);
+    });
   });
 
   describe('removePage', () => {
@@ -654,5 +668,53 @@ describe('loadSelectedPage', () => {
       expect(store.getActions()).toHaveLength(0);
       done();
     }).catch(done.fail);
+  });
+});
+
+describe('clearSearchPage', () => {
+  let store;
+  beforeEach(() => {
+    jest.clearAllMocks();
+    store = mockStore({});
+  });
+
+  it('calls action clearSearch and initialize form search ', () => {
+    store.dispatch(clearSearchPage());
+    const actions = store.getActions();
+    expect(actions).toHaveLength(2);
+    expect(actions[0]).toHaveProperty('type', CLEAR_SEARCH);
+    expect(initialize).toHaveBeenCalled();
+  });
+});
+
+describe('fetchSearchPages', () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(INITIALIZED_STATE);
+  });
+
+  it('when fetchSearchPages succeeds, should dispatch SEARCH_PAGE and SET_PAGE', (done) => {
+    store.dispatch(fetchSearchPages('page')).then(() => {
+      expect(getSearchPages).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(2);
+      expect(actions[0]).toHaveProperty('type', SEARCH_PAGES);
+      expect(actions[1]).toHaveProperty('type', SET_PAGE);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('if the response is not ok, dispatch add errors', async () => {
+    getSearchPages.mockImplementation(mockApi({ errors: true }));
+    return store.dispatch(fetchSearchPages('page')).catch((e) => {
+      expect(getSearchPages).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(1);
+      expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+      expect(e).toHaveProperty('errors');
+      e.errors.forEach((error, index) => {
+        expect(error.message).toEqual(actions[0].payload.errors[index]);
+      });
+    });
   });
 });

@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
-  PAGE_SETTINGS_PAYLOAD,
+  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES,
 } from 'test/mocks/pages';
 
 import {
@@ -11,10 +11,6 @@ import {
 } from 'test/mocks/pageConfig';
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
-
-import { throttle } from '@entando/utils';
-import { errorResponse } from 'test/testUtils';
-
 
 /*
  * - homepage
@@ -123,7 +119,7 @@ export const putPageStatus = (pageCode, status) => makeRequest({
 });
 
 export const getFreePages = () => makeRequest({
-  uri: '/pages/search/group/free',
+  uri: '/api/pages/search/group/free',
   method: METHODS.GET,
   mockResponse: FREE_PAGES_PAYLOAD,
   useAuthentication: true,
@@ -135,6 +131,17 @@ export const getPageSettingsList = () => makeRequest({
   mockResponse: PAGE_SETTINGS_PAYLOAD,
   useAuthentication: true,
 });
+
+export const getSearchPages = (page = { page: 1, pageSize: 10 }, params = '') =>
+  makeRequest(
+    {
+      uri: `/api/pages/search${params}`,
+      method: METHODS.GET,
+      useAuthentication: true,
+      mockResponse: SEARCH_PAGES,
+    },
+    page,
+  );
 
 
 const PAGE_CONFIG_DRAFT_MAP = {
@@ -162,29 +169,17 @@ export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeReque
   method: METHODS.GET,
   body: {},
   mockResponse: (status === PAGE_STATUS_DRAFT) ?
-    PAGE_CONFIG_DRAFT_MAP.homepage :
-    PAGE_CONFIG_PUBLISHED_MAP.homepage,
+    PAGE_CONFIG_DRAFT_MAP[pageCode] || [] :
+    PAGE_CONFIG_PUBLISHED_MAP[pageCode] || [],
   useAuthentication: true,
 });
 
-// call DELETE /pages/<pageCode>/widget/<frameId>
-export const deletePageWidget = (pageCode, frameId) =>
-  new Promise((resolve) => {
-    // eslint-disable-next-line no-console
-    console.info(`calling DELETE /pages/${pageCode}/widgets/${frameId}`);
-    throttle(() => {
-      if (PAGE_CONFIG_DRAFT_MAP[pageCode]) {
-        resolve({
-          payload: {
-            code: frameId,
-          },
-        });
-      } else {
-        resolve(errorResponse(`No page with the code ${pageCode} could be found.`));
-      }
-    });
-  });
-
+export const deletePageWidget = (pageCode, frameId) => makeRequest({
+  uri: `/api/pages/${pageCode}/widgets/${frameId}`,
+  method: METHODS.DELETE,
+  mockResponse: {},
+  useAuthentication: true,
+});
 
 export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
   uri: `/api/pages/${pageCode}/widgets/${frameId}`,
