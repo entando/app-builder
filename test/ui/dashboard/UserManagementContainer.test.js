@@ -33,7 +33,7 @@ describe('UserManagementContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+      expect(props).toHaveProperty('onWillMount');
     });
 
     it('should dispatch an action if onWillMount is called', () => {

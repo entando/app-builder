@@ -9,13 +9,13 @@ import InternalPage from 'ui/internal-page/InternalPage';
 describe('DashboardPage', () => {
   it('renders without crashing', () => {
     const component = shallow(<DashboardPage />);
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('verify if exist InternalPage', () => {
     const component = shallow(<DashboardPage />);
     expect(component.type()).toBe(InternalPage);
-    expect(component.hasClass('DashboardPage')).toEqual(true);
+    expect(component.hasClass('DashboardPage')).toBe(true);
   });
 
   it('verify if exist UserManagement', () => {

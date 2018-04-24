@@ -11,7 +11,7 @@ const component = shallow(<UserManagement onWillMount={() => {}} users={2} group
 
 describe('UserManagement', () => {
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('verify it is a Card', () => {
