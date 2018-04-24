@@ -97,12 +97,6 @@ export class AttributeFormBody extends Component {
          <Row>
            <Col xs={12}>
              <fieldset className="no-padding">
-               <legend>
-                 <FormattedMessage id="app.attribute" />
-                 <div className="AttributeForm__required-fields text-right">
-                   * <FormattedMessage id="app.fieldsRequired" />
-                 </div>
-               </legend>
                <AttributeInfo {...this.props} />
                <AttributeRole {...this.props} />
                {renderMonolistConf()}
