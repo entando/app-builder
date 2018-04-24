@@ -6,3 +6,4 @@ export const SET_SELECTED_GROUP_USER_REFERENCES = 'groups/set-selected-group-use
 export const SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES = 'groups/set-selected-group-widgettype-references';
 export const SET_SELECTED_GROUP_CONTENT_REFERENCES = 'groups/set-selected-group-content-references';
 export const SET_SELECTED_GROUP_RESOURCE_REFERENCES = 'groups/set-selected-group-resource-references';
+export const SET_GROUPS_TOTAL = 'groups/set-groups-total';

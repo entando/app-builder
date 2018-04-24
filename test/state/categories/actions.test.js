@@ -11,6 +11,7 @@ import {
   fetchCategory,
   sendPostCategory,
   sendPutCategory,
+  sendDeleteCategory,
   fetchCategoryDetail,
   wrapApiCall,
 } from 'state/categories/actions';
@@ -20,6 +21,7 @@ import {
   postCategory,
   getCategory,
   putCategory,
+  deleteCategory,
 } from 'api/categories';
 import { mockApi } from 'test/testUtils';
 
@@ -182,6 +184,16 @@ describe('state/categories/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_CATEGORY);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendDeleteCategory()', () => {
+    it('when deleteCategory succeeds should call post action', (done) => {
+      deleteCategory.mockImplementation(mockApi({ payload: CATEGORY_CODE }));
+      store.dispatch(sendDeleteCategory(CATEGORY_CODE)).then(() => {
+        expect(deleteCategory).toHaveBeenCalledWith(CATEGORY_CODE);
         done();
       }).catch(done.fail);
     });

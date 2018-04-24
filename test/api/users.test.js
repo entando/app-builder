@@ -1,15 +1,14 @@
 import 'test/enzyme-init';
-import { getUsers, getUser, putUser } from 'api/users';
-import { USERS_OK, ERROR } from 'test/mocks/users';
+import { getUsers, getUser, postUser, putUser } from 'api/users';
+import { USER, USERS, ERROR } from 'test/mocks/users';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 const correctRequest = {
   uri: '/api/users',
   method: METHODS.GET,
-  mockResponse: USERS_OK.payload,
+  mockResponse: USERS,
   useAuthentication: true,
-  errors: expect.any(Function),
 };
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
@@ -17,14 +16,6 @@ jest.mock('@entando/apimanager', () => ({
 }));
 
 jest.unmock('api/users');
-
-const USER = {
-  username: 'login',
-  registration: '2018-01-08 00:00:00',
-  lastLogin: '2018-01-08 00:00:00',
-  lastPasswordChange: '2018-01-08 00:00:00',
-  status: 'active',
-};
 
 const USERS_BAD = {
   payload: [],
@@ -78,6 +69,27 @@ describe('api/users', () => {
     });
   });
 });
+describe('postUser', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postUser(USER)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    postUser(USER);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      method: METHODS.POST,
+      uri: '/api/users/',
+      body: USER,
+      mockResponse: USER,
+      useAuthentication: true,
+
+    }));
+  });
+});
+
 describe('putUser', () => {
   beforeEach(() => {
     jest.clearAllMocks();

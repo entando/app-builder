@@ -1,17 +1,20 @@
-import { USERS_OK, USERS_NORMALIZED } from 'test/mocks/users';
+import { USERS, USERS_NORMALIZED } from 'test/mocks/users';
 
 import {
   getUsers,
   getUsersIdList,
   getUsersMap,
   getUserList,
+  getUsersTotal,
 } from 'state/users/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
 const TEST_STATE = {
-  users: USERS_NORMALIZED,
-  pagination: USERS_OK.metaData,
+  users: {
+    ...USERS_NORMALIZED,
+    total: 2,
+  },
 };
 
 
@@ -30,6 +33,10 @@ describe('state/users/selectors', () => {
   });
 
   it('verify getUserList selector', () => {
-    expect(getUserList(TEST_STATE)).toEqual(USERS_OK.payload);
+    expect(getUserList(TEST_STATE)).toEqual(USERS);
+  });
+
+  it('verify getTotalUsers selector', () => {
+    expect(getUsersTotal(TEST_STATE)).toEqual(2);
   });
 });

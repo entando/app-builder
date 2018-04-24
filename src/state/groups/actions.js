@@ -26,6 +26,7 @@ import {
   SET_SELECTED_GROUP_CONTENT_REFERENCES,
   SET_SELECTED_GROUP_RESOURCE_REFERENCES,
   REMOVE_GROUP,
+  SET_GROUPS_TOTAL,
 } from 'state/groups/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
@@ -35,6 +36,13 @@ export const setGroups = groups => ({
   type: SET_GROUPS,
   payload: {
     groups,
+  },
+});
+
+export const setGroupsTotal = groupsTotal => ({
+  type: SET_GROUPS_TOTAL,
+  payload: {
+    groupsTotal,
   },
 });
 
@@ -89,7 +97,7 @@ export const removeGroupSync = groupCode => ({
 
 // thunk
 
-export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
+export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('groups'));
     getGroups(page, params).then((response) => {
@@ -106,9 +114,25 @@ export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => di
         }
       });
     });
-  });
+  })
+);
 
-export const fetchGroup = groupCode => dispatch =>
+export const fetchGroupsTotal = () => dispatch => (
+  new Promise((resolve) => {
+    getGroups({ page: 1, pageSize: 1 }).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setGroupsTotal(data.metaData.totalItems));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchGroup = groupCode => dispatch => (
   new Promise((resolve) => {
     getGroup(groupCode).then((response) => {
       response.json().then((data) => {
@@ -121,9 +145,10 @@ export const fetchGroup = groupCode => dispatch =>
         }
       });
     });
-  });
+  })
+);
 
-export const sendPutGroup = groupData => dispatch =>
+export const sendPutGroup = groupData => dispatch => (
   new Promise((resolve) => {
     putGroup(groupData).then((response) => {
       response.json().then((data) => {
@@ -136,9 +161,10 @@ export const sendPutGroup = groupData => dispatch =>
         }
       });
     });
-  });
+  })
+);
 
-export const sendPostGroup = groupData => dispatch =>
+export const sendPostGroup = groupData => dispatch => (
   new Promise((resolve) => {
     postGroup(groupData).then((response) => {
       response.json().then((data) => {
@@ -151,9 +177,10 @@ export const sendPostGroup = groupData => dispatch =>
         }
       });
     });
-  });
+  })
+);
 
-export const sendDeleteGroup = groupCode => dispatch =>
+export const sendDeleteGroup = groupCode => dispatch => (
   new Promise((resolve) => {
     deleteGroup(groupCode).then((response) => {
       response.json().then((data) => {
@@ -166,9 +193,10 @@ export const sendDeleteGroup = groupCode => dispatch =>
         }
       });
     });
-  });
+  })
+);
 
-export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
+export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
   new Promise((resolve) => {
     const { groupname } = getParams(getState());
     getGroup(groupname).then((response) => {
@@ -182,10 +210,11 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) =>
         }
       });
     });
-  });
+  })
+);
 
 const fetchCurrentReference = (getApiCall, setActionCreator) =>
-  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
+  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) => (
     new Promise((resolve) => {
       const { groupname } = getParams(getState());
       dispatch(toggleLoading('references'));
@@ -203,7 +232,8 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
           }
         });
       });
-    });
+    })
+  );
 
 export const fetchCurrentReferencePages =
   fetchCurrentReference(getPageReferences, setSelectedGroupPageReferences);

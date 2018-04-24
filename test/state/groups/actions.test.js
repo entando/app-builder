@@ -5,6 +5,8 @@ import { getParams, gotoRoute } from '@entando/router';
 import {
   setGroups,
   fetchGroups,
+  setGroupsTotal,
+  fetchGroupsTotal,
   sendPostGroup,
   fetchGroup,
   sendPutGroup,
@@ -34,6 +36,7 @@ import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 
 import {
   SET_GROUPS,
+  SET_GROUPS_TOTAL,
   SET_SELECTED_GROUP,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
@@ -75,7 +78,7 @@ getParams.mockReturnValue({ groupname: 'test' });
 
 const GET_GROUPS_PROMISE = {
   ok: true,
-  json: () => new Promise(res => res({ payload: LIST_GROUPS_OK })),
+  json: () => new Promise(res => res({ payload: LIST_GROUPS_OK, metaData: { totalItems: 2 } })),
 };
 
 const GET_GROUP_PROMISE = {
@@ -128,6 +131,7 @@ const INITIAL_STATE = {
     list: [],
     map: {},
     selected: {},
+    total: 0,
   },
 };
 
@@ -142,6 +146,14 @@ describe('state/groups/actions', () => {
     it('test setGroups action sets the correct type', () => {
       const action = setGroups(LIST_GROUPS_OK);
       expect(action).toHaveProperty('type', SET_GROUPS);
+    });
+  });
+
+  describe('setGroupsTotal', () => {
+    it('test setGroupsTotal action sets the correct type', () => {
+      const action = setGroupsTotal(12);
+      expect(action).toHaveProperty('type', SET_GROUPS_TOTAL);
+      expect(action).toHaveProperty('payload.groupsTotal', 12);
     });
   });
 
@@ -185,6 +197,28 @@ describe('state/groups/actions', () => {
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchGroupsTotal', () => {
+    it('fetchGroups calls setGroupsTotal', (done) => {
+      store.dispatch(fetchGroupsTotal()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_GROUPS_TOTAL);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when getGroups errors it should dispatch addErrors', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchGroupsTotal()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

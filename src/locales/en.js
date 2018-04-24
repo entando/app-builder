@@ -84,6 +84,7 @@ export default {
     'menu.uxPattern.addLabels': 'System labels',
     'menu.categories': 'Categories',
     'menu.roles': 'Roles',
+    'dashboard.newUser': 'New User',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
