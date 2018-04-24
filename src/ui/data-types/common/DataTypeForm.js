@@ -69,9 +69,12 @@ export class DataTypeFormBody extends Component {
       }
       return '';
     };
+    const uppercaseThreeLetters = value =>
+      (value && !/^[A-Z]{1,3}$/i.test(value)
+        ? <FormattedMessage id="validateForm.element" /> : undefined);
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal">
+      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal DataTypeForm">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
@@ -86,9 +89,9 @@ export class DataTypeFormBody extends Component {
                 className="DataTypeForm__input-code"
                 name="code"
                 label={
-                  <FormLabel labelId="app.code" helpId="app.help.code" required />
+                  <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
                  }
-                validate={[required, maxLength(3)]}
+                validate={[required, uppercaseThreeLetters]}
                 disabled={isEdit}
               />
               <Field

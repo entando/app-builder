@@ -35,6 +35,7 @@ export default {
     'app.enTitle': 'English title',
     'app.itTitle': 'Italian title',
     'app.chooseAnOption': 'Choose an option',
+    'app.add.attribute.code': 'You must insert 3 uppercase characters',
     'app.help.code': 'You can insert characters uppercase and lowercase letters, numbers and special characters _',
     'app.help.name': 'You can insert max 50 characters uppercase and lowercase letters, including numbers and special characters',
     'app.all': 'All',

@@ -36,6 +36,7 @@ export default {
     'app.enTitle': 'Titolo inglese',
     'app.itTitle': 'Titolo italiano',
     'app.chooseAnOption': 'Seleziona un\'opzione',
+    'app.add.attribute.code': 'Il codice è valido solo se composto da 3 lettere maiuscole',
     'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
     'app.help.name': 'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
     'app.all': 'Tutti',
