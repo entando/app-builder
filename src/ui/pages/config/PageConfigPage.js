@@ -76,7 +76,7 @@ class PageConfigPage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.pageCreator" />
+                  <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   <FormattedMessage id="menu.pageConfig" />
