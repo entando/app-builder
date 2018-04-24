@@ -1,5 +1,5 @@
 import reducer from 'state/users/reducer';
-import { setUsers, setSelectedUserDetail, setUserTotal } from 'state/users/actions';
+import { setUsers, setSelectedUserDetail, setUsersTotal } from 'state/users/actions';
 import { USERS } from 'test/mocks/users';
 
 const users = USERS;
@@ -39,9 +39,9 @@ describe('state/users/reducer', () => {
     });
   });
 
-  describe('after action SET_USER_TOTAL', () => {
+  describe('after action SET_USERS_TOTAL', () => {
     it('should update the user total', () => {
-      const newState = reducer(state, setUserTotal(12));
+      const newState = reducer(state, setUsersTotal(12));
       expect(newState.total).toEqual(12);
     });
   });

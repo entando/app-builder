@@ -6,10 +6,10 @@ import { mockApi } from 'test/testUtils';
 import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
-  setSelectedUserDetail, fetchCurrentPageUserDetail, setUserTotal,
+  setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER, SET_USER_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USER, USERS } from 'test/mocks/users';
@@ -48,11 +48,11 @@ describe('state/users/actions', () => {
         });
       });
 
-      describe('setUserTotal', () => {
-        it('test setUserTotal action sets the correct type', () => {
-          const action = setUserTotal(12);
-          expect(action).toHaveProperty('type', SET_USER_TOTAL);
-          expect(action).toHaveProperty('payload.userTotal', 12);
+      describe('setUsersTotal', () => {
+        it('test setUsersTotal action sets the correct type', () => {
+          const action = setUsersTotal(12);
+          expect(action).toHaveProperty('type', SET_USERS_TOTAL);
+          expect(action).toHaveProperty('payload.usersTotal', 12);
         });
       });
     });
@@ -87,12 +87,12 @@ describe('state/users/actions', () => {
       });
 
       describe('fetchUsersTotal', () => {
-        it('fetchUsersTotal calls setUserTotal', (done) => {
+        it('fetchUsersTotal calls setUsersTotal', (done) => {
           store.dispatch(fetchUsersTotal()).then(() => {
             const actions = store.getActions();
             expect(getUsers).toHaveBeenCalled();
             expect(actions).toHaveLength(1);
-            expect(actions[0]).toHaveProperty('type', SET_USER_TOTAL);
+            expect(actions[0]).toHaveProperty('type', SET_USERS_TOTAL);
             done();
           }).catch(done.fail);
         });

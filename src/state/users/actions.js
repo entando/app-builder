@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { SET_USERS, SET_SELECTED_USER, SET_USER_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
 import { getUsers, getUser, postUser, putUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
@@ -21,10 +21,10 @@ export const setSelectedUserDetail = user => ({
   },
 });
 
-export const setUserTotal = userTotal => ({
-  type: SET_USER_TOTAL,
+export const setUsersTotal = usersTotal => ({
+  type: SET_USERS_TOTAL,
   payload: {
-    userTotal,
+    usersTotal,
   },
 });
 
@@ -53,7 +53,7 @@ export const fetchUsersTotal = () => dispatch => (
     getUsers({ page: 1, pageSize: 1 }).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(setUserTotal(json.metaData.totalItems));
+          dispatch(setUsersTotal(json.metaData.totalItems));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
