@@ -87,7 +87,7 @@ import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
-import AttributePageMonolistContainer from 'ui/data-types/common/AttributePageMonolistContainer';
+import MonolistPage from 'ui/data-types/attributes/monolist/MonolistPage';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
@@ -152,7 +152,7 @@ const App = ({ route, username }) => {
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
-    case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <AttributePageMonolistContainer />;
+    case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPage />;
     default: return <NotFoundPage />;
   }
 };

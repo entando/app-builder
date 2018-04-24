@@ -89,6 +89,7 @@ export default {
     'app.moveDown': 'Muovi Giù',
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
+    'app.monolist': 'Monolist',
     'menu.dashboard': 'Dashboard',
     'menu.pageCreator': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

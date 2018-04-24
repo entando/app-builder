@@ -10,18 +10,15 @@ import {
 } from 'state/data-types/selectors';
 
 
-export const mapStateToProps = (state) => {
-  console.log('test', state.dataTypes.selected.attributes);
-  return {
-    dataTypeAttributeCode: getParams(state).entityCode,
-    JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
-    selectedAttributeType: getDataTypeSelectedAttribute(state),
-    attributesList: getDataTypeAttributesIdList(state),
-    initialValues: {
-      type: getDataTypeSelectedAttributeCode(state),
-    },
-  };
-};
+export const mapStateToProps = state => ({
+  dataTypeAttributeCode: getParams(state).entityCode,
+  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+  selectedAttributeType: getDataTypeSelectedAttribute(state),
+  attributesList: getDataTypeAttributesIdList(state),
+  initialValues: {
+    type: getDataTypeSelectedAttributeCode(state),
+  },
+});
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
@@ -29,6 +26,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     const payload = {
+      ...values,
       code: values.code,
       type: values.type,
       nestedAttribute: {

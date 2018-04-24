@@ -190,7 +190,6 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
     const list = getDataTypeSelectedAttributeType(getState());
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
-        console.log('LIST', list);
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {

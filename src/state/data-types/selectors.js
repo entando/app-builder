@@ -22,6 +22,7 @@ export const getDataTypeSelectedAttributeallowedDisablingCodes = state =>
 export const getDataTypeSelectedAttributeIsList = state => get(state.dataTypes.attributes.selected, 'listAttribute');
 
 export const getSelectedDataTypeAttributes = state => get(state.dataTypes.selected, 'attributes');
+export const getSelectedAttributeType = state => get(state.dataTypes.selected, 'attributeSelected.type');
 export const getDataTypeSelectedAttributeCode = state => get(state.dataTypes.attributes.selected, 'code');
 
 export const getDataTypeList = createSelector(
