@@ -9,7 +9,7 @@ import {
 } from 'state/data-types/selectors';
 
 export const mapStateToProps = (state) => {
-  console.log(state.dataTypes.selected.attributeSelected);
+  console.log('test', state.dataTypes.selected.attributeSelected);
   return {
     attributeCode: getParams(state).attributeCode,
     dataTypeAttributeCode: getParams(state).entityCode,
