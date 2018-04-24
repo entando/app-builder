@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { SET_USERS, SET_SELECTED_USER } from 'state/users/types';
-import { getUsers, getUserDetail, getUser, putUser } from 'api/users';
+import { getUsers, getUser, postUser, putUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -27,28 +27,25 @@ export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dis
   new Promise((resolve) => {
     dispatch(toggleLoading('users'));
     getUsers(page, params).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
+      response.json().then((json) => {
+        if (response.ok) {
           dispatch(setUsers(json.payload));
-          dispatch(toggleLoading('users'));
           dispatch(setPage(json.metaData));
-          resolve();
-        });
-      } else {
-        response.json().then((json) => {
+        } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(toggleLoading('users'));
-          resolve();
-        });
-      }
+        }
+        dispatch(toggleLoading('users'));
+        resolve();
+      });
     });
   });
+
 
 export const fetchCurrentPageUserDetail = () => (dispatch, getState) =>
   new Promise((resolve) => {
     const { username } = getParams(getState());
     dispatch(toggleLoading('user'));
-    getUserDetail(username).then((response) => {
+    getUser(username).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
           dispatch(setSelectedUserDetail(json.payload));
@@ -86,6 +83,18 @@ export const fetchUserForm = username => dispatch =>
     });
   });
 
+export const sendPostUser = user => async (dispatch) => {
+  const response = await postUser(user);
+  const json = await response.json();
+  if (response.ok) {
+    dispatch(setSelectedUserDetail(json.payload));
+    dispatch(fetchUsers());
+    gotoRoute(ROUTE_USER_LIST);
+    return json;
+  }
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
+};
 
 export const sendPutUser = user => dispatch => (
   new Promise((resolve) => {

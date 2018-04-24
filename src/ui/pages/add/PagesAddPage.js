@@ -24,7 +24,7 @@ class PagesAddPage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem active>
-                  <FormattedMessage id="menu.pageCreator" />
+                  <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
                 <BreadcrumbItem route={ROUTE_PAGE_TREE}>
                   <FormattedMessage id="menu.pageTree" />

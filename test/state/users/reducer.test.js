@@ -1,8 +1,8 @@
 import reducer from 'state/users/reducer';
 import { setUsers, setSelectedUserDetail } from 'state/users/actions';
-import { USERS_OK } from 'test/mocks/users';
+import { USERS } from 'test/mocks/users';
 
-const users = USERS_OK.payload;
+const users = USERS;
 
 describe('state/users/reducer', () => {
   const state = reducer();
