@@ -7,7 +7,10 @@ import {
   MYCATEGORY3_PAYLOAD,
 } from 'test/mocks/categories';
 
-import { setCategories, toggleCategoryExpanded, setCategoryLoading, setCategoryLoaded } from 'state/categories/actions';
+import {
+  setCategories, toggleCategoryExpanded,
+  setCategoryLoading, setCategoryLoaded, removeCategory,
+} from 'state/categories/actions';
 
 
 const CATEGORIES = [
@@ -16,7 +19,6 @@ const CATEGORIES = [
   MYCATEGORY2_PAYLOAD,
   MYCATEGORY3_PAYLOAD,
 ];
-
 
 describe('state/categories/reducer', () => {
   it('should return an object', () => {
@@ -82,6 +84,20 @@ describe('state/categories/reducer', () => {
       it('sets the category loading flag to false', () => {
         newState = reducer(state, setCategoryLoaded(CATEGORY_CODE));
         expect(newState.statusMap[CATEGORY_CODE].loading).toBe(false);
+      });
+    });
+
+    describe('after action REMOVE_CATEGORY', () => {
+      const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
+      const newState = reducer(state, setCategories(CATEGORIES));
+
+      it('should remove the group from map and list', () => {
+        const stateAfterRemove = reducer(newState, removeCategory(CATEGORY_CODE));
+        expect(newState.map).not.toEqual(stateAfterRemove.map);
+        expect(stateAfterRemove.map[CATEGORY_CODE]).toBeUndefined();
+
+        expect(newState.list).not.toBe(stateAfterRemove.list);
+        expect(stateAfterRemove.list.includes(CATEGORY_CODE)).toBe(false);
       });
     });
   });

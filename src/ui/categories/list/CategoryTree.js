@@ -6,6 +6,7 @@ import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import CategoryListMenuActions from 'ui/categories/list/CategoryListMenuActions';
 import RowSpinner from 'ui/pages/common/RowSpinner';
+import DeleteCategoryModalContainer from 'ui/categories/common/DeleteCategoryModalContainer';
 
 class CategoryTree extends Component {
   componentWillMount() {
@@ -13,7 +14,7 @@ class CategoryTree extends Component {
   }
 
   renderRows() {
-    const { categories } = this.props;
+    const { categories, onClickDelete } = this.props;
     return categories.map((category, i) => {
       const onClickExpand = () => {
         if (!category.isEmpty) {
@@ -45,7 +46,10 @@ class CategoryTree extends Component {
             </span>
           </td>
           <td className="text-center">
-            <CategoryListMenuActions code={category.code} />
+            <CategoryListMenuActions
+              code={category.code}
+              onClickDelete={onClickDelete}
+            />
           </td>
         </tr>
       );
@@ -71,6 +75,7 @@ class CategoryTree extends Component {
               { this.renderRows() }
             </tbody>
           </table>
+          <DeleteCategoryModalContainer />
         </Spinner>
       </Col>
     );
@@ -87,12 +92,14 @@ CategoryTree.propTypes = {
   })),
   onWillMount: PropTypes.func.isRequired,
   onExpandCategory: PropTypes.func,
+  onClickDelete: PropTypes.func,
   loading: PropTypes.bool,
 };
 
 CategoryTree.defaultProps = {
   categories: [],
   onExpandCategory: null,
+  onClickDelete: null,
   loading: false,
 };
 

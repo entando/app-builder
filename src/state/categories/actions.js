@@ -1,12 +1,15 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-import { getCategoryTree, getCategory, postCategory, putCategory } from 'api/categories';
+import {
+  getCategoryTree, getCategory, postCategory,
+  putCategory, deleteCategory,
+} from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
-  SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY,
+  SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
 } from 'state/categories/types';
 import { addErrors } from 'state/errors/actions';
 import { getStatusMap } from 'state/categories/selectors';
@@ -46,6 +49,13 @@ export const setSelectedCategory = category => ({
   type: SET_SELECTED_CATEGORY,
   payload: {
     category,
+  },
+});
+
+export const removeCategory = categoryCode => ({
+  type: REMOVE_CATEGORY,
+  payload: {
+    categoryCode,
   },
 });
 
@@ -118,19 +128,18 @@ export const fetchCategoryDetail = categoryCode => dispatch =>
   });
 
 export const sendPostCategory = categoryData => dispatch =>
-  new Promise((resolve) => {
-    dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
-      dispatch(setCategories([data.payload]));
-      gotoRoute(ROUTE_CATEGORY_LIST);
-    });
-    resolve();
+  dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
+    dispatch(setCategories([data.payload]));
+    gotoRoute(ROUTE_CATEGORY_LIST);
   });
 
 export const sendPutCategory = categoryData => dispatch =>
-  new Promise((resolve) => {
-    dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
-      dispatch(setCategories([data.payload]));
-      gotoRoute(ROUTE_CATEGORY_LIST);
-    });
-    resolve();
+  dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
+    dispatch(setCategories([data.payload]));
+    gotoRoute(ROUTE_CATEGORY_LIST);
+  });
+
+export const sendDeleteCategory = categoryCode => dispatch =>
+  dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
+    dispatch(removeCategory(categoryCode));
   });
