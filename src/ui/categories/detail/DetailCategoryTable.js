@@ -34,7 +34,7 @@ class DetailCategoryTable extends Component {
 
     const renderReferences = () => (
       referenceList.map(referenceKey => (
-        <Row key={`${referenceKey}`}>
+        <Row key={`${referenceKey}`} className="DetailCategory_reference">
           <Col xs={12}>
             <fieldset className="no-padding">
               <legend><FormattedMessage id={`reference.${referenceKey}`} /></legend>
