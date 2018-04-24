@@ -8,6 +8,9 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
+const maxLength10 = maxLength(10);
+const maxLength50 = maxLength(50);
+
 const AttributeInfo = ({ isSearchable, isIndexable }) => {
   const renderSearchable = () => {
     if (isSearchable) {
@@ -65,7 +68,7 @@ const AttributeInfo = ({ isSearchable, isIndexable }) => {
             label={
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
-            validate={[required, maxLength(10)]}
+            validate={[required, maxLength10]}
           />
           <Field
             component={RenderTextInput}
@@ -73,7 +76,7 @@ const AttributeInfo = ({ isSearchable, isIndexable }) => {
             label={
               <FormLabel labelId="app.name" helpId="app.help.name" />
           }
-            validate={[maxLength(50)]}
+            validate={[maxLength50]}
           />
           <FormGroup>
             <label htmlFor="mandatory" className="col-xs-2 control-label">

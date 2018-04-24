@@ -4,8 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-// import { DatePicker } from 'react-16-bootstrap-date-picker';
-// import createReactClass from 'create-react-class';
 
 const AttributesDateSettings = () => (
   <Row>

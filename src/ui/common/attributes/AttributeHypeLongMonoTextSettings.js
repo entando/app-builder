@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import { isNumber } from '@entando/utils';
 
 const AttributeHypeLongMonoTextSettings = () => (
   <Row>
@@ -18,6 +19,7 @@ const AttributeHypeLongMonoTextSettings = () => (
           label={
             <FormLabel labelId="app.minLength" />
           }
+          validate={[isNumber]}
         />
         <Field
           component={RenderTextInput}
@@ -25,6 +27,7 @@ const AttributeHypeLongMonoTextSettings = () => (
           label={
             <FormLabel labelId="app.maxLength" />
           }
+          validate={[isNumber]}
         />
         <Field
           component={RenderTextInput}

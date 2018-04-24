@@ -10,6 +10,14 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 
+
+const uppercaseThreeLetters = value =>
+  (value && !/^[A-Z]{1,3}$/i.test(value)
+    ? <FormattedMessage id="validateForm.element.code" /> : undefined);
+
+const maxLength50 = maxLength(50);
+
+
 export class DataTypeFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -69,9 +77,6 @@ export class DataTypeFormBody extends Component {
       }
       return '';
     };
-    const uppercaseThreeLetters = value =>
-      (value && !/^[A-Z]{1,3}$/i.test(value)
-        ? <FormattedMessage id="validateForm.element" /> : undefined);
 
     return (
       <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal DataTypeForm">
@@ -100,7 +105,7 @@ export class DataTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.name" helpId="app.help.name" required />
                  }
-                validate={[required, maxLength(50)]}
+                validate={[required, maxLength50]}
               />
               {renderSelectOption()}
               {renderAttributeTable()}

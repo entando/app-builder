@@ -129,6 +129,7 @@ export default {
     'pageTreePage.help': 'The TREE PAGES section lets you manage an existing page, expande all tree at the same time or collapse and display all main node. You can add or move a page. Perform some actions like: the mobile or desktop preview, configure, edit, see details, clone a page or delete. In addition you can display the state draft or online and if the page is in the menu list',
     'validateForm.elements': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
     'validateForm.element': 'Insert a configuration like \'lable1,lable2,lable3\'',
+    'validateForm.element.code': 'Code must be 3 uppercase letters',
     'validateForm.required': 'Field required',
     'validateForm.maxLength': 'Must be {max} characters or less',
     'validateForm.minLength': 'Must be {min} characters or more',

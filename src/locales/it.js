@@ -129,6 +129,7 @@ export default {
     'pageTreePage.help': 'Dalla sezione ALBERO DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l\'albero contemporaneamente, oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni:scegliere la preview se da desktop o mobile, configurare, modificare, vsualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menú',
     'validateForm.elements': 'inserire un valore tipo \'key1=value1,key2=value2,key3=value3\'',
     'validateForm.element': 'inserire un valore tipo \'lable1,lable2,lable3\'',
+    'validateForm.element.code': 'Il Codice deve essere  3 lettere maiuscole',
     'validateForm.required': 'campo obbligatorio',
     'validateForm.maxLength': 'deve essere al massimo {max} caratteri',
     'validateForm.minLength': 'deve essre almeno {min} caratteri',
