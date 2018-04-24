@@ -302,3 +302,36 @@ export const SEARCH_PAGES = [
     ],
   },
 ];
+
+export const DATA_OBJECT_REFERENCES = [
+  {
+    code: 'AAA1',
+    name: 'dataType AAA 1',
+    type: 'Test data type',
+  },
+];
+
+export const CONTENT_REFERENCES = [
+  {
+    code: 'CNG2',
+    name: 'Banner content left',
+    type: 'Generic Content',
+    lastEdit: '2017-01-08 00:00:00',
+  },
+];
+
+export const RESOURCE_REFERENCES =
+[
+  {
+    code: 'sample-image-1',
+    name: 'Sample image 1',
+    type: 'Image',
+  },
+];
+
+export const MOCK_REFERENCES = {
+  jacmsContentManager: CONTENT_REFERENCES,
+  jacmsResourceManager: RESOURCE_REFERENCES,
+  DataObjectManager: DATA_OBJECT_REFERENCES,
+
+};

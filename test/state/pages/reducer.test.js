@@ -2,12 +2,13 @@ import reducer from 'state/pages/reducer';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
-  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
+  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD, CONTENT_REFERENCES,
 } from 'test/mocks/pages';
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
+  setReferenceSelectedPage,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -233,6 +234,16 @@ describe('state/pages/reducer', () => {
     it('status will be update', () => {
       const newState = reducer(state, clearSearch());
       expect(newState).toHaveProperty('search', []);
+    });
+  });
+  describe('SET_REFERENCES_SELECTED_PAGE', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, setReferenceSelectedPage(CONTENT_REFERENCES));
+      expect(newState).toHaveProperty('selected.ref', CONTENT_REFERENCES);
     });
   });
 });

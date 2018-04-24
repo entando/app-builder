@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
-  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES,
+  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES,
 } from 'test/mocks/pages';
 
 import {
@@ -202,5 +202,12 @@ export const applyDefaultPageConfig = pageCode => makeRequest({
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
+  useAuthentication: true,
+});
+
+export const getReferencesPage = (pageCode, referenceKey) => makeRequest({
+  uri: `/api/pages/${pageCode}/references/${referenceKey}`,
+  method: METHODS.GET,
+  mockResponse: MOCK_REFERENCES[referenceKey],
   useAuthentication: true,
 });

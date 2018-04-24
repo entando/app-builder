@@ -13,11 +13,13 @@ import {
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, fetchSearchPages,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
+  fetchReferencesPage, setReferenceSelectedPage, clonePage,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
+  SET_REFERENCES_SELECTED_PAGE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -31,11 +33,11 @@ import {
 
 import {
   setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList,
-  putPageStatus, deletePage, getFreePages, getSearchPages,
+  putPageStatus, deletePage, getFreePages, getSearchPages, getReferencesPage,
 } from 'api/pages';
-import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { ROUTE_PAGE_TREE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
-import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
+import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap, getReferencesFromSelectedPage } from 'state/pages/selectors';
 
 jest.mock('state/page-config/selectors', () => ({
   getSelectedPageConfig: jest.fn(),
@@ -46,6 +48,7 @@ jest.mock('state/pages/selectors', () => ({
   getPagesMap: jest.fn(),
   getChildrenMap: jest.fn(),
   getSelectedPage: jest.fn(),
+  getReferencesFromSelectedPage: jest.fn(() => []),
 }));
 
 const mockStore = configureStore([thunk]);
@@ -121,6 +124,22 @@ describe('state/pages/actions', () => {
 
     it('actions is correct setup ', () => {
       expect(action).toHaveProperty('type', CLEAR_SEARCH);
+    });
+  });
+
+  describe('setReferenceSelectedPage', () => {
+    let action;
+    beforeEach(() => {
+      action = setReferenceSelectedPage(['references']);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', SET_REFERENCES_SELECTED_PAGE);
+      expect(action).toHaveProperty('payload', { references: ['references'] });
     });
   });
 
@@ -687,6 +706,7 @@ describe('clearSearchPage', () => {
   });
 });
 
+
 describe('fetchSearchPages', () => {
   let store;
   beforeEach(() => {
@@ -708,6 +728,67 @@ describe('fetchSearchPages', () => {
     getSearchPages.mockImplementation(mockApi({ errors: true }));
     return store.dispatch(fetchSearchPages('page')).catch((e) => {
       expect(getSearchPages).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(1);
+      expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+      expect(e).toHaveProperty('errors');
+      e.errors.forEach((error, index) => {
+        expect(error.message).toEqual(actions[0].payload.errors[index]);
+      });
+    });
+  });
+});
+
+describe('clonePage', () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(INITIALIZED_STATE);
+  });
+
+  it('when clonePage succeeds, should dispatch gotoRoute PAGE_ADD and initialize FORM', (done) => {
+    store.dispatch(clonePage('page')).then(() => {
+      const actions = store.getActions();
+      expect(actions).toHaveLength(2);
+      expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
+      expect(initialize).toHaveBeenCalled();
+
+      done();
+    }).catch(done.fail);
+  });
+});
+
+describe('fetchReferencesPage', () => {
+  let store;
+  beforeEach(() => {
+    store = mockStore(INITIALIZED_STATE);
+  });
+
+  it('when fetchReferencesPage succeeds, should dispatch SET_REFERENCES_SELECTED_PAGE with empty data', (done) => {
+    store.dispatch(fetchReferencesPage(store.getState)).then(() => {
+      const actions = store.getActions();
+      expect(actions).toHaveLength(1);
+      expect(actions[0]).toHaveProperty('type', SET_REFERENCES_SELECTED_PAGE);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('when fetchSearchPages succeeds, should get a references array and dispatch SET_REFERENCES_SELECTED_PAGE', (done) => {
+    getReferencesFromSelectedPage.mockReturnValue(['jacmsContentManager']);
+    store.dispatch(fetchReferencesPage(store.getState)).then(() => {
+      expect(getReferencesPage).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(1);
+      expect(actions[0]).toHaveProperty('type', SET_REFERENCES_SELECTED_PAGE);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('if the response is not ok, dispatch add errors', async () => {
+    getReferencesFromSelectedPage.mockReturnValue(['jacmsContentManager']);
+    getReferencesPage.mockImplementation(mockApi({ errors: true }));
+    return store.dispatch(fetchReferencesPage(store.getState)).catch((e) => {
+      expect(getReferencesPage).toHaveBeenCalled();
       const actions = store.getActions();
       expect(actions).toHaveLength(1);
       expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

@@ -109,3 +109,10 @@ export const getSelectedPageIsPublished = createSelector(
   [getSelectedPage],
   selectedPage => !!(selectedPage && selectedPage.status === PAGE_STATUS_PUBLISHED),
 );
+
+export const getReferencesFromSelectedPage = createSelector([getSelectedPage], (selectedPage) => {
+  if (selectedPage.references) {
+    return Object.keys(selectedPage.references).filter(key => selectedPage.references[key]);
+  }
+  return [];
+});

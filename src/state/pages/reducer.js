@@ -9,6 +9,7 @@ import {
   MOVE_PAGE,
   SET_FREE_PAGES,
   SET_SELECTED_PAGE,
+  SET_REFERENCES_SELECTED_PAGE,
   UPDATE_PAGE,
   SEARCH_PAGES,
   CLEAR_SEARCH,
@@ -180,10 +181,14 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
-const selected = (state = [], action = {}) => {
+const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE: {
       return action.payload.page;
+    }
+    case SET_REFERENCES_SELECTED_PAGE: {
+      const { references } = action.payload;
+      return { ...state, ref: references || [] };
     }
     case REMOVE_PAGE: {
       const { code } = action.payload.page;

@@ -2,9 +2,10 @@ import 'test/enzyme-init';
 import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
   getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
+  getReferencesPage,
 } from 'api/pages';
 
-import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
+import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES } from 'test/mocks/pages';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -222,6 +223,24 @@ describe('api/pages', () => {
         uri: `/api/pages/${PAGE_CODE}/widgets/${FRAME_POS}`,
         method: METHODS.PUT,
         body: PAGE_CONFIG_ITEM,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('getReferencesPage', () => {
+    const pageCode = 'CNG2';
+    const referenceKey = 'jacmsContentManager';
+    it('returns a promise', () => {
+      expect(getReferencesPage(pageCode, referenceKey)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getReferencesPage(pageCode, referenceKey);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${pageCode}/references/${referenceKey}`,
+        method: METHODS.GET,
+        mockResponse: MOCK_REFERENCES[referenceKey],
         useAuthentication: true,
       }));
     });

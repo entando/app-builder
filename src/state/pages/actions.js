@@ -3,16 +3,16 @@ import { gotoRoute } from '@entando/router';
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettingsList, putPage, putPageStatus, getSearchPages,
+  getPageSettingsList, putPage, putPageStatus, getSearchPages, getReferencesPage,
 } from 'api/pages';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
-  CLEAR_SEARCH,
+  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
+import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
 import { setPublishedPageConfig } from 'state/page-config/actions';
@@ -50,6 +50,13 @@ export const setSelectedPage = page => ({
   type: SET_SELECTED_PAGE,
   payload: {
     page,
+  },
+});
+
+export const setReferenceSelectedPage = references => ({
+  type: SET_REFERENCES_SELECTED_PAGE,
+  payload: {
+    references,
   },
 });
 
@@ -326,4 +333,19 @@ export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') 
 export const clearSearchPage = () => (dispatch) => {
   dispatch(clearSearch());
   dispatch(initialize('pageSearch', {}));
+};
+
+export const fetchReferencesPage = getState => async (dispatch) => {
+  const pageCode = getSelectedPage(getState());
+  const references = getReferencesFromSelectedPage(getState());
+  const data = await Promise.all(references.map(async (ref) => {
+    const response = await getReferencesPage(pageCode, ref);
+    const json = await response.json();
+    if (response.ok) {
+      return json.payload;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }));
+  dispatch(setReferenceSelectedPage(data));
 };

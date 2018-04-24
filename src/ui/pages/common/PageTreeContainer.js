@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG, ROUTE_PAGE_DETAIL } from 'app-init/router';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
@@ -65,6 +65,7 @@ export const mapDispatchToProps = dispatch => ({
   onClickDetails: (page) => {
     dispatch(setSelectedPage(page));
     dispatch(clearSearchPage());
+    gotoRoute(ROUTE_PAGE_DETAIL, { pageCode: page.code });
   },
   onClickClone: (page) => {
     dispatch(clonePage(page));
