@@ -8,7 +8,6 @@ import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
 const AddDataTypeAttributePage = () => (
-
   <InternalPage className="AttributePage">
     <Grid fluid>
       <Row>

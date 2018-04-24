@@ -43,7 +43,9 @@ export class AttributeFormBody extends Component {
      const renderNumberConf = () => {
        if (selectedAttributeType.numberFilterSupported) {
          return (
-           <AttributesNumber {...this.props} />
+           <FormSection name="validationRules">
+             <AttributesNumber {...this.props} />
+           </FormSection>
          );
        }
        return '';
@@ -52,16 +54,21 @@ export class AttributeFormBody extends Component {
      const renderDateConf = () => {
        if (selectedAttributeType.dateFilterSupported) {
          return (
-           <AttributesDateSettings {...this.props} />
+           <FormSection name="validationRules">
+             <AttributesDateSettings {...this.props} />
+           </FormSection>
          );
        }
        return '';
      };
 
      const renderTextConf = () => {
+       console.log('test', selectedAttributeType.textFilterSupported);
        if (selectedAttributeType.textFilterSupported) {
          return (
-           <AttributeHypeLongMonoTextSettings {...this.props} />
+           <FormSection name="validationRules">
+             <AttributeHypeLongMonoTextSettings {...this.props} />
+           </FormSection>
          );
        }
        return '';
@@ -114,7 +121,7 @@ export class AttributeFormBody extends Component {
          <Row>
            <Col xs={12}>
              <Button
-               className="pull-right"
+               className="pull-right AttributeForm__continue--btn"
                type="submit"
                bsStyle="primary"
                disabled={this.props.invalid || this.props.submitting}
@@ -124,7 +131,6 @@ export class AttributeFormBody extends Component {
            </Col>
          </Row>
        </form>
-
      );
    }
 }
@@ -151,6 +157,11 @@ AttributeFormBody.propTypes = {
     enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
     enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
   }),
+  validation: PropTypes.shape({
+    minLength: PropTypes.string,
+    maxLength: PropTypes.string,
+    regex: PropTypes.string,
+  }),
 };
 
 AttributeFormBody.defaultProps = {
@@ -163,6 +174,11 @@ AttributeFormBody.defaultProps = {
     enumeratorExtractorBean: [],
     enumeratorMapExtractorBeans: [],
   },
+  validation: ({
+    minLength: '',
+    maxLength: '',
+    regex: '',
+  }),
 };
 
 const AttributeForm = reduxForm({

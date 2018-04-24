@@ -3,14 +3,22 @@ import { fetchAttributeFromDataType, sendPutAttributeFromDataType } from 'state/
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import AttributeForm from 'ui/common/form/AttributeForm';
-import { getDataTypeSelectedAttribute } from 'state/data-types/selectors';
+import {
+  getDataTypeSelectedAttribute,
+  getDataTypeAttributesIdList,
+} from 'state/data-types/selectors';
 
-export const mapStateToProps = state => ({
-  attributeCode: getParams(state).attributeCode,
-  dataTypeAttributeCode: getParams(state).entityCode,
-  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
-  selectedAttributeType: getDataTypeSelectedAttribute(state),
-});
+export const mapStateToProps = (state) => {
+  console.log(state.dataTypes.selected.attributeSelected);
+  return {
+    attributeCode: getParams(state).attributeCode,
+    dataTypeAttributeCode: getParams(state).entityCode,
+    JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+    selectedAttributeType: getDataTypeSelectedAttribute(state),
+    attributesList: getDataTypeAttributesIdList(state),
+    validation: state.dataTypes.selected.attributeSelected,
+  };
+};
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {

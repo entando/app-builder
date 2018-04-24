@@ -4,7 +4,11 @@ import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
 
-import { ROUTE_DATA_TYPE_LIST, ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
+import {
+  ROUTE_DATA_TYPE_LIST,
+  ROUTE_DATA_TYPE_EDIT,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
+} from 'app-init/router';
 
 import {
   postDataType,
@@ -29,7 +33,7 @@ import {
   SET_SELECTED_ATTRIBUTE,
 }
   from 'state/data-types/types';
-import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
+import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
 
 // Data type
 export const setDataTypes = dataTypes => ({
@@ -183,14 +187,18 @@ export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispa
 export const sendPostAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
     const dataTypeCode = getParams(getState()).entityCode;
+    const list = getDataTypeSelectedAttributeType(getState());
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
+          dispatch(initialize('attribute', json.payload));
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else {
           dispatch(initialize('attribute', json.payload));
-          if (json.payload.listFilter) {
-            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          // console.log('action boolean', json.payload.listFilter);
+          // console.log('dataTypeCode', list);
+          if (list) {
+            gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, { datatypeCode: dataTypeCode });
           } else {
             gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
           }

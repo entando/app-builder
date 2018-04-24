@@ -17,7 +17,6 @@ import StepDataMonotextAttributeContainer from 'ui/data-types/common/StepDataMon
 import StepDataLongtextAttributeContainer from 'ui/data-types/common/StepDataLongtextAttributeContainer';
 import StepDataNumberAttributeContainer from 'ui/data-types/common/StepDataNumberAttributeContainer';
 
-
 const AttributePage = ({ composite }) => {
   const LoadContainerMono = () => {
     console.log('STEP', composite);
@@ -43,7 +42,7 @@ const AttributePage = ({ composite }) => {
       case 'Number':
         return <StepDataNumberAttributeContainer />;
 
-      default: return 'Not found';
+      default: return <StepDataBooleanAttributeContainer />;
     }
   };
   return (

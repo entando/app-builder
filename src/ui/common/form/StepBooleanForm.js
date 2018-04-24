@@ -21,8 +21,8 @@ export class StepBooleanFormBody extends Component {
    };
 
    render() {
-     console.log('BOOLEAN', this.props.attributeCode);
-     console.log('NAME', this.props.attributeName);
+     console.log('STEP BOOLEAN', this.props.attributeCode);
+     console.log('STEP NAME', this.props.attributeName);
 
      return (
        <form onSubmit={this.onSubmit} className="form-horizontal">

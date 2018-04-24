@@ -31,7 +31,9 @@ const AttributeOgnlValidation = () => (
           </Col>
         </FormGroup>
 
-        <p><FormattedMessage id="app.ognl.validation.add.message.help" /></p>
+        <p>
+          <FormattedMessage id="app.ognl.validation.add.message.help" />
+        </p>
 
         <Field
           component={RenderTextInput}
@@ -65,14 +67,6 @@ const AttributeOgnlValidation = () => (
     </Col>
   </Row>
 );
-
-AttributeOgnlValidation.propTypes = {
-
-};
-
-AttributeOgnlValidation.defaultProps = {
-
-};
 
 
 export default AttributeOgnlValidation;

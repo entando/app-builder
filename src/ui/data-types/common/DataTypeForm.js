@@ -17,7 +17,7 @@ export class DataTypeFormBody extends Component {
 
   render() {
     const {
-      attributesType, mode, handleSubmit, onSubmit, onAddAttribute,
+      attributesType, mode, handleSubmit, onSubmit, onAddAttribute, invalid, submitting,
     } = this.props;
     const isEdit = mode === 'edit';
     const selectOptions = attributesType.map(item => ({
@@ -83,11 +83,12 @@ export class DataTypeFormBody extends Component {
               </legend>
               <Field
                 component={RenderTextInput}
+                className="DataTypeForm__input-code"
                 name="code"
                 label={
                   <FormLabel labelId="app.code" helpId="app.help.code" required />
                  }
-                validate={[required, maxLength(255)]}
+                validate={[required, maxLength(3)]}
                 disabled={isEdit}
               />
               <Field
@@ -110,7 +111,7 @@ export class DataTypeFormBody extends Component {
               className="pull-right DataTypeFormBody__save--btn"
               type="submit"
               bsStyle="primary"
-              disabled={this.props.invalid || this.props.submitting}
+              disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -135,10 +136,10 @@ DataTypeFormBody.propTypes = {
 
 DataTypeFormBody.defaultProps = {
   onWillMount: () => {},
+  onAddAttribute: () => {},
   invalid: false,
   submitting: false,
   mode: 'add',
-  onAddAttribute: () => {},
 };
 
 const DataTypeForm = reduxForm({

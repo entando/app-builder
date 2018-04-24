@@ -28,7 +28,7 @@ const AttributeHypeLongMonoTextSettings = () => (
         />
         <Field
           component={RenderTextInput}
-          name="regexp"
+          name="regex"
           label={
             <FormLabel labelId="app.regexp" />
           }

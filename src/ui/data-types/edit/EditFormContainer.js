@@ -9,21 +9,18 @@ import { formValueSelector } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
 
-export const mapStateToProps = (state) => {
-  console.log('datatypeCode map', getParams(state).datatypeCode);
-  return {
+export const mapStateToProps = state =>
+  // console.log('datatypeCode', getParams(state).datatypeCode);
+  ({
     mode: 'edit',
     datatypeCode: getParams(state).datatypeCode,
     attributes: getSelectedDataTypeAttributes(state),
     attributesType: getDataTypeAttributesIdList(state),
     attributeCode: formValueSelector('DataType')(state, 'type'),
     routeToEdit: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
-  };
-};
-
+  });
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ datatypeCode }) => {
-    console.log('datatypeCode dispatch', datatypeCode);
     dispatch(fetchDataType(datatypeCode));
     dispatch(fetchDataTypeAttributes());
   },

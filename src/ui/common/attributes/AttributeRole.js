@@ -19,7 +19,7 @@ class AttributeRole extends Component {
       }
     ));
 
-    const roleWrapper = (allowedRoles.lenght > 0 ?
+    const roleWrapper = (allowedRoles ?
       (
         <FormGroup>
           <label htmlFor="attrRole" className="col-xs-2 control-label">
