@@ -7,7 +7,12 @@ import { setPage } from 'state/pagination/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
-import { SET_WIDGET_LIST, SET_SELECTED_WIDGET, REMOVE_WIDGET } from 'state/widgets/types';
+import {
+  SET_WIDGET_LIST,
+  SET_SELECTED_WIDGET,
+  REMOVE_WIDGET,
+  SET_WIDGETS_TOTAL,
+} from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 
 
@@ -15,6 +20,13 @@ export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
   payload: {
     widgetList,
+  },
+});
+
+export const setWidgetsTotal = widgetsTotal => ({
+  type: SET_WIDGETS_TOTAL,
+  payload: {
+    widgetsTotal,
   },
 });
 
@@ -70,7 +82,6 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
   });
 });
 
-
 export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('widgets'));
   getWidgets(page, params).then((response) => {
@@ -82,6 +93,19 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') =>
         dispatch(addErrors(json.errors.map(err => err.message)));
       }
       dispatch(toggleLoading('widgets'));
+      resolve();
+    });
+  });
+});
+
+export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
+  getWidgets({ page: 1, pageSize: 1 }).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setWidgetsTotal(json.metaData.totalItems));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
       resolve();
     });
   });

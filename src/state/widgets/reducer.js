@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { SET_WIDGET_LIST, SET_SELECTED_WIDGET, REMOVE_WIDGET } from 'state/widgets/types';
+import {
+  SET_WIDGET_LIST,
+  SET_SELECTED_WIDGET,
+  REMOVE_WIDGET,
+  SET_WIDGETS_TOTAL,
+} from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 
 const list = (state = [], action = {}) => {
@@ -47,8 +52,18 @@ const selected = (state = null, action = {}) => {
   }
 };
 
+const total = (state = 0, action = {}) => {
+  switch (action.type) {
+    case SET_WIDGETS_TOTAL:
+      return action.payload.widgetsTotal;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   list,
   map,
   selected,
+  total,
 });

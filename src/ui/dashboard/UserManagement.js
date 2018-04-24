@@ -15,7 +15,7 @@ import { FormattedMessage } from 'react-intl';
 import { ROUTE_USER_ADD } from 'app-init/router';
 
 class UserManagement extends Component {
-  onWillMount() {
+  componentWillMount() {
     this.props.onWillMount();
   }
 
