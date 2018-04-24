@@ -190,18 +190,16 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
     const list = getDataTypeSelectedAttributeType(getState());
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
+        console.log('LIST', list);
         if (!response.ok) {
-          dispatch(initialize('attribute', json.payload));
           dispatch(addErrors(json.errors.map(err => err.message)));
+        } else if (list) {
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+            entityCode: dataTypeCode,
+            attributeCode: attributeObject.code,
+          });
         } else {
-          dispatch(initialize('attribute', json.payload));
-          // console.log('action boolean', json.payload.listFilter);
-          // console.log('dataTypeCode', list);
-          if (list) {
-            gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, { datatypeCode: dataTypeCode });
-          } else {
-            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
-          }
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
         }
         resolve();
       });

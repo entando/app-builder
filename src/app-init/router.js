@@ -88,7 +88,7 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
-      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/MonolistAdd' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
