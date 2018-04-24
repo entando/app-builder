@@ -1,4 +1,3 @@
-
 import { connect } from 'react-redux';
 import { getUsername } from '@entando/apimanager';
 import { getRoute } from '@entando/router';

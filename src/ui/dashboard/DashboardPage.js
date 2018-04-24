@@ -1,6 +1,6 @@
 import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
-import UserManagement from 'ui/dashboard/UserManagement';
+import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import { Row, Col, CardGrid } from 'patternfly-react';
 
 const DashboardPage = () => (
@@ -8,7 +8,7 @@ const DashboardPage = () => (
     <CardGrid>
       <Row>
         <Col md={4}>
-          <UserManagement />
+          <UserManagementContainer />
         </Col>
       </Row>
     </CardGrid>
