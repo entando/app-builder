@@ -1,0 +1,18 @@
+.DashboardPage {
+  .card-pf { // sass-lint:disable-line class-name-format
+    .fa { // sass-lint:disable-line class-name-format nesting-depth
+      margin-right: 5px;
+      color: $color-icon-gray;
+
+      &:not(:first-child) { // sass-lint:disable-line nesting-depth
+        margin-left: 15px;
+      }
+    }
+
+    .btn { // sass-lint:disable-line class-name-format nesting-depth
+      &.pull-right { // sass-lint:disable-line class-name-format nesting-depth
+        margin-top: -5px;
+      }
+    }
+  }
+}
