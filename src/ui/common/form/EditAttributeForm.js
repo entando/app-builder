@@ -14,7 +14,7 @@ import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings'
 import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 
 
-export class AttributeFormBody extends Component {
+export class EditAttributeFormBody extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -32,7 +32,7 @@ export class AttributeFormBody extends Component {
      const { selectedAttributeType } = this.props;
 
      const renderMonolistConf = () => {
-       if (selectedAttributeType.listAttribute) {
+       if (selectedAttributeType === 'Monolist') {
          return (
            <AttributeMonoListMonoSettings {...this.props} />
          );
@@ -41,7 +41,7 @@ export class AttributeFormBody extends Component {
      };
 
      const renderNumberConf = () => {
-       if (selectedAttributeType.numberFilterSupported) {
+       if (selectedAttributeType === 'Number') {
          return (
            <FormSection name="validationRules">
              <AttributesNumber {...this.props} />
@@ -52,7 +52,7 @@ export class AttributeFormBody extends Component {
      };
 
      const renderDateConf = () => {
-       if (selectedAttributeType.dateFilterSupported) {
+       if (selectedAttributeType === 'Date') {
          return (
            <FormSection name="validationRules">
              <AttributesDateSettings {...this.props} />
@@ -63,7 +63,10 @@ export class AttributeFormBody extends Component {
      };
 
      const renderTextConf = () => {
-       if (selectedAttributeType.textFilterSupported) {
+       if (selectedAttributeType === 'Hypertext' ||
+       selectedAttributeType === 'Monotext' ||
+       selectedAttributeType === 'Longtext' ||
+       selectedAttributeType === 'Text') {
          return (
            <FormSection name="validationRules">
              <AttributeHypeLongMonoTextSettings {...this.props} />
@@ -74,7 +77,7 @@ export class AttributeFormBody extends Component {
      };
 
      const renderEnumConf = () => {
-       if (selectedAttributeType.enumeratorOptionsSupported) {
+       if (selectedAttributeType === 'Enumerator') {
          return (
            <AttributeEnumSettings {...this.props} />
          );
@@ -83,7 +86,7 @@ export class AttributeFormBody extends Component {
      };
 
      const renderEnumMapConf = () => {
-       if (selectedAttributeType.enumeratorMapOptionsSupported) {
+       if (selectedAttributeType === 'EnumeratorMap') {
          return (
            <AttributeEnumMapSettings {...this.props} />
          );
@@ -114,7 +117,7 @@ export class AttributeFormBody extends Component {
          <Row>
            <Col xs={12}>
              <Button
-               className="pull-right AttributeForm__continue--btn"
+               className="pull-right EditAttributeForm__continue--btn"
                type="submit"
                bsStyle="primary"
                disabled={this.props.invalid || this.props.submitting}
@@ -128,7 +131,7 @@ export class AttributeFormBody extends Component {
    }
 }
 
-AttributeFormBody.propTypes = {
+EditAttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
@@ -157,7 +160,7 @@ AttributeFormBody.propTypes = {
   }),
 };
 
-AttributeFormBody.defaultProps = {
+EditAttributeFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
@@ -174,8 +177,8 @@ AttributeFormBody.defaultProps = {
   }),
 };
 
-const AttributeForm = reduxForm({
+const EditAttributeForm = reduxForm({
   form: 'attribute',
-})(AttributeFormBody);
+})(EditAttributeFormBody);
 
-export default AttributeForm;
+export default EditAttributeForm;

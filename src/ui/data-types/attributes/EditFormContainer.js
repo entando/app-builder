@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import { fetchAttributeFromDataType, sendPutAttributeFromDataType } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
-import AttributeForm from 'ui/common/form/AttributeForm';
+import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
   getSelectedAttributeType,
   getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeCode,
 } from 'state/data-types/selectors';
 
 export const mapStateToProps = state => ({
@@ -15,6 +16,9 @@ export const mapStateToProps = state => ({
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getDataTypeAttributesIdList(state),
   validation: state.dataTypes.selected.attributeSelected,
+  initialValues: {
+    type: getDataTypeSelectedAttributeCode(state),
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -27,5 +31,5 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 const EditFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(AttributeForm);
+connect(mapStateToProps, mapDispatchToProps)(EditAttributeForm);
 export default EditFormContainer;
