@@ -86,6 +86,7 @@ export default {
     'menu.categories': 'Categories',
     'menu.roles': 'Roles',
     'dashboard.newUser': 'New User',
+    'dashboard.newWidget': 'New Widget',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',

@@ -12,9 +12,9 @@ import { Clearfix } from 'react-bootstrap';
 import { Link } from '@entando/router';
 import { FormattedMessage } from 'react-intl';
 
-import { ROUTE_USER_ADD } from 'app-init/router';
+import { ROUTE_WIDGET_ADD } from 'app-init/router';
 
-class UserManagement extends Component {
+class UxPatterns extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -24,20 +24,20 @@ class UserManagement extends Component {
       <Card accented>
         <CardTitle>
           <Icon size="lg" name="user" />
-          <FormattedMessage id="menu.userManagement" />
-          <Button className="pull-right" componentClass={Link} route={ROUTE_USER_ADD} >
-            <FormattedMessage id="dashboard.newUser" />
+          <FormattedMessage id="menu.uxPattern" />
+          <Button className="pull-right" componentClass={Link} route={ROUTE_WIDGET_ADD} >
+            <FormattedMessage id="dashboard.newWidget" />
           </Button>
           <Clearfix />
         </CardTitle>
         <CardBody>
           <Icon size="lg" name="user" />
           <AggregateStatusCount>
-            <b>{this.props.users}</b> <FormattedMessage id="menu.users" />
+            <b>{this.props.widgets}</b> <FormattedMessage id="menu.widgets" />
           </AggregateStatusCount>
           <Icon size="lg" name="user" />
           <AggregateStatusCount>
-            <b>{this.props.groups}</b> <FormattedMessage id="menu.groups" />
+            <b>{this.props.pageModels}</b> <FormattedMessage id="menu.pageModels" />
           </AggregateStatusCount>
         </CardBody>
       </Card>
@@ -45,10 +45,10 @@ class UserManagement extends Component {
   }
 }
 
-UserManagement.propTypes = {
+UxPatterns.propTypes = {
   onWillMount: PropTypes.func.isRequired,
-  users: PropTypes.number.isRequired,
-  groups: PropTypes.number.isRequired,
+  widgets: PropTypes.number.isRequired,
+  pageModels: PropTypes.number.isRequired,
 };
 
-export default UserManagement;
+export default UxPatterns;

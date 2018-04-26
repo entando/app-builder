@@ -7,11 +7,18 @@ import { gotoRoute, getParams } from '@entando/router';
 
 import { mockApi } from 'test/testUtils';
 
-import { SET_WIDGET_LIST, SET_SELECTED_WIDGET, REMOVE_WIDGET } from 'state/widgets/types';
+import {
+  SET_WIDGET_LIST,
+  SET_SELECTED_WIDGET,
+  REMOVE_WIDGET,
+  SET_WIDGETS_TOTAL,
+} from 'state/widgets/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import {
   getWidgetList,
   fetchWidgetList,
+  setWidgetsTotal,
+  fetchWidgetsTotal,
   fetchWidget,
   sendPostWidgets,
   sendPutWidgets,
@@ -66,6 +73,21 @@ describe('state/widgets/actions', () => {
     it('actions is correct setup ', () => {
       expect(action).toHaveProperty('type', SET_WIDGET_LIST);
       expect(action).toHaveProperty('payload.widgetList', WIDGET_LIST);
+    });
+  });
+
+  describe('setWidgetsTotal', () => {
+    beforeEach(() => {
+      action = setWidgetsTotal(12);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correctly setup', () => {
+      expect(action).toHaveProperty('type', SET_WIDGETS_TOTAL);
+      expect(action).toHaveProperty('payload.widgetsTotal', 12);
     });
   });
 
@@ -146,7 +168,7 @@ describe('state/widgets/actions', () => {
 
     describe('fetchWidget', () => {
       it('if API response is ok, initializes the form with widget information', (done) => {
-        getWidget.mockImplementation(mockApi({ payload: WIDGET }));
+        getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
@@ -159,8 +181,28 @@ describe('state/widgets/actions', () => {
       });
 
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
-        getWidget.mockImplementation(mockApi({ errors: true }));
+        getWidget.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('fetchWidgetsTotal', () => {
+      it('checks that the widgets total is set', (done) => {
+        store.dispatch(fetchWidgetsTotal()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_WIDGETS_TOTAL);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getWidgets.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchWidgetsTotal()).then(() => {
           expect(store.getActions()).toHaveLength(1);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
           done();
