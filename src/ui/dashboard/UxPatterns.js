@@ -23,7 +23,7 @@ class UxPatterns extends Component {
     return (
       <Card accented>
         <CardTitle>
-          <Icon size="lg" name="user" />
+          <Icon size="lg" name="object-ungroup" />
           <FormattedMessage id="menu.uxPattern" />
           <Button className="pull-right" componentClass={Link} route={ROUTE_WIDGET_ADD} >
             <FormattedMessage id="dashboard.newWidget" />
@@ -31,11 +31,11 @@ class UxPatterns extends Component {
           <Clearfix />
         </CardTitle>
         <CardBody>
-          <Icon size="lg" name="user" />
+          <Icon size="lg" name="cube" />
           <AggregateStatusCount>
             <b>{this.props.widgets}</b> <FormattedMessage id="menu.widgets" />
           </AggregateStatusCount>
-          <Icon size="lg" name="user" />
+          <span className="separator" />
           <AggregateStatusCount>
             <b>{this.props.pageModels}</b> <FormattedMessage id="menu.pageModels" />
           </AggregateStatusCount>
