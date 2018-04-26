@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
-  SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY,
+  SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
 } from 'state/categories/types';
 
 const toMap = (array, propKey) => array.reduce((acc, category) => {
@@ -15,6 +15,10 @@ export const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_CATEGORIES: {
       return toIdList(action.payload.categories);
+    }
+    case REMOVE_CATEGORY: {
+      const { categoryCode } = action.payload;
+      return state.filter(category => category !== categoryCode);
     }
     default: return state;
   }
@@ -32,7 +36,12 @@ const categoryMap = (state = {}, action = {}) => {
         ...toMap(categories),
       };
     }
-
+    case REMOVE_CATEGORY: {
+      const { categoryCode } = action.payload;
+      const newState = { ...state };
+      delete newState[categoryCode];
+      return newState;
+    }
     default: return state;
   }
 };
@@ -45,7 +54,12 @@ const childrenMap = (state = {}, action = {}) => {
         ...toMap(action.payload.categories, 'children'),
       };
     }
-
+    case REMOVE_CATEGORY: {
+      const { categoryCode } = action.payload;
+      const newState = { ...state };
+      delete newState[categoryCode];
+      return newState;
+    }
     default: return state;
   }
 };
@@ -57,6 +71,12 @@ const titlesMap = (state = {}, action = {}) => {
         ...state,
         ...toMap(action.payload.categories, 'titles'),
       };
+    }
+    case REMOVE_CATEGORY: {
+      const { categoryCode } = action.payload;
+      const newState = { ...state };
+      delete newState[categoryCode];
+      return newState;
     }
     default: return state;
   }
@@ -85,6 +105,12 @@ const statusMap = (state = {}, action = {}) => {
         ...state,
         [categoryCode]: { ...state[categoryCode], loaded: true, loading: false },
       };
+    }
+    case REMOVE_CATEGORY: {
+      const { categoryCode } = action.payload;
+      const newState = { ...state };
+      delete newState[categoryCode];
+      return newState;
     }
     default: return state;
   }

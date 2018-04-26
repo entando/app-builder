@@ -6,6 +6,7 @@ import {
 
 import {
   getGroups,
+  getGroupsTotal,
   getGroupsIdList,
   getGroupsMap,
   getGroupsList,
@@ -15,6 +16,15 @@ describe('state/groups/selectors', () => {
   it('getGroups(state) returns the groups object', () => {
     const selected = getGroups(GROUPS_NORMALIZED);
     expect(selected).toBe(GROUPS_NORMALIZED.groups);
+  });
+
+  it('getGroupsTotal returns the current total', () => {
+    const total = getGroupsTotal({
+      groups: {
+        total: 3,
+      },
+    });
+    expect(total).toBe(3);
   });
 
   it('verify getGroupsIdList selector', () => {
