@@ -1,0 +1,19 @@
+// sass-lint:disable class-name-format nesting-depth
+.DashboardPage {
+  .card-pf {
+    .fa {
+      margin-right: 5px;
+      color: $color-icon-gray;
+
+      &:not(:first-child) {
+        margin-left: 15px;
+      }
+    }
+
+    .btn {
+      &.pull-right {
+        margin-top: -5px;
+      }
+    }
+  }
+}

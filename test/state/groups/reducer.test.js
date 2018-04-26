@@ -2,6 +2,7 @@ import reducer from 'state/groups/reducer';
 
 import {
   setGroups,
+  setGroupsTotal,
   setSelectedGroup,
   setSelectedGroupPageReferences,
   setSelectedGroupUserReferences,
@@ -43,6 +44,10 @@ describe('state/groups/reducer', () => {
 
   it('should return an object', () => {
     expect(state).toBeInstanceOf(Object);
+    expect(state).toHaveProperty('total', 0);
+    expect(state).toHaveProperty('list', []);
+    expect(state).toHaveProperty('map', {});
+    expect(state).toHaveProperty('selected', {});
   });
 
   describe('after action SET_GROUPS', () => {
@@ -55,6 +60,14 @@ describe('state/groups/reducer', () => {
       expect(getGroupsList({ groups: newState })).toMatchObject(LIST_GROUPS_OK);
     });
   });
+
+  describe('after action SET_GROUPS_TOTAL', () => {
+    it('should define the groups payload', () => {
+      const newState = reducer(state, setGroupsTotal(12));
+      expect(newState).toHaveProperty('total', 12);
+    });
+  });
+
   describe('after action SET_SELECTED_GROUP', () => {
     let newState;
     beforeEach(() => {
@@ -65,6 +78,7 @@ describe('state/groups/reducer', () => {
       expect(getSelectedGroup({ groups: newState })).toMatchObject(BODY_OK);
     });
   });
+
   describe('after action SET_SELECTED_GROUP_PAGE_REFERENCES', () => {
     let newState;
     beforeEach(() => {

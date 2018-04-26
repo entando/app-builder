@@ -1,12 +1,12 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { USERS_OK } from 'test/mocks/users';
+import { USERS } from 'test/mocks/users';
 
 
 import UserListTable from 'ui/users/list/UserListTable';
 
-const users = USERS_OK.payload;
+const users = USERS;
 
 jest.mock('state/users/selectors', () => ({
   getUserList: jest.fn(),

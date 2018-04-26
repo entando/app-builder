@@ -27,7 +27,7 @@ const CategoryListMenuActions = ({ onClickDelete, code }) => (
     />
     <MenuItem
       className="CategoryListMenuAction__menu-item-delete"
-      onClick={onClickDelete}
+      onClick={() => onClickDelete(code)}
     >
       <FormattedMessage id="app.delete" />
     </MenuItem>

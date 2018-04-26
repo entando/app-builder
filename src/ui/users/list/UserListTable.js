@@ -5,13 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
-import { USER_PROFILE_MOCK } from 'test/mocks/users';
 
 class UserListTable extends Component {
   constructor(props) {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -22,13 +22,16 @@ class UserListTable extends Component {
     this.props.onWillMount({ page, pageSize: this.props.pageSize });
   }
 
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
+  }
+
   renderTableRows() {
     return this.props.users.map(user => (
       <tr key={user.username}>
         <td className="UserListRow__td">{user.username}</td>
-        {/* FIXME: user profiles info */}
-        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].fullName}</td>
-        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].email}</td>
+        <td className="UserListRow__td">{user.profileAttributes.fullName}</td>
+        <td className="UserListRow__td">{user.profileAttributes.email}</td>
         <td className="UserListRow__td text-center">
           <UserStatus
             status={user.status}
@@ -51,7 +54,7 @@ class UserListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="UserListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -75,6 +78,7 @@ class UserListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );

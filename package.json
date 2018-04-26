@@ -4,7 +4,7 @@
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
-    "@entando/apimanager": "^1.0.1",
+    "@entando/apimanager": "^1.0.2",
     "@entando/router": "^1.0.1",
     "@entando/utils": "^1.0.1",
     "autoprefixer": "7.1.6",
@@ -45,7 +45,7 @@
     "npm-run": "^4.1.2",
     "object-assign": "4.1.1",
     "patternfly": "^3.38.1",
-    "patternfly-react": "^1.8.0",
+    "patternfly-react": "^1.19.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
