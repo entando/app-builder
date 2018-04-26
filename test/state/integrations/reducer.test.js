@@ -2,7 +2,7 @@ import reducer from 'state/integrations/reducer';
 import { setApis, setPlugins } from 'state/integrations/actions';
 
 
-describe('state/alerts/reducer', () => {
+describe('state/integrations/reducer', () => {
   const INITIAL_STATE = reducer();
 
   it('should return an object', () => {

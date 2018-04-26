@@ -28,6 +28,7 @@ import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
 import permissions from 'state/permissions/reducer';
 import alerts from 'state/alerts/reducer';
+import integrations from 'state/integrations/reducer';
 
 const reducerDef = {
   activityStream,
@@ -57,6 +58,7 @@ const reducerDef = {
   router,
   users,
   widgets,
+  integrations,
 };
 
 if (pluginArray.length) {
