@@ -246,10 +246,7 @@ export class PageFormBody extends Component {
                 bsStyle="success"
                 disabled={invalid || submitting}
                 onClick={handleSubmit(values =>
-                  this.props.onSubmit({
-                    ...values,
-                    action: ACTION_SAVE_AND_CONFIGURE,
-                  }))}
+                  this.props.onSubmit(values, ACTION_SAVE_AND_CONFIGURE))}
               >
                 <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
@@ -260,10 +257,7 @@ export class PageFormBody extends Component {
                 bsStyle="primary"
                 disabled={invalid || submitting}
                 onClick={handleSubmit(values =>
-                  this.props.onSubmit({
-                    ...values,
-                    action: ACTION_SAVE,
-                  }))}
+                  this.props.onSubmit(values, ACTION_SAVE))}
               >
                 <FormattedMessage id="app.save" />
 

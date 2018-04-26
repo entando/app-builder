@@ -27,9 +27,9 @@ export const mapStateToProps = state => ({
 
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: data =>
+  onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then(() => {
-      switch (data.action) {
+      switch (action) {
         case ACTION_SAVE: {
           gotoRoute(ROUTE_PAGE_TREE);
           break;
