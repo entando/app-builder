@@ -211,7 +211,6 @@ describe('state/users/actions', () => {
         it('when sendDeleteUser succeeds, should dispatch gotoRoute user list', (done) => {
           store.dispatch(sendDeleteUser(USER)).then(() => {
             expect(deleteUser).toHaveBeenCalled();
-            expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
             done();
           }).catch(done.fail);
         });

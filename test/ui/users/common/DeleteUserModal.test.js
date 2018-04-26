@@ -18,7 +18,7 @@ const props = {
 describe('DeleteUserModal', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DeleteUserModal />);
+    component = shallow(<DeleteUserModal {...props} />);
   });
 
   describe('component with required props only', () => {
