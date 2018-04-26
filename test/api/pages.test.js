@@ -240,7 +240,6 @@ describe('api/pages', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${pageCode}/references/${referenceKey}`,
         method: METHODS.GET,
-        mockResponse: MOCK_REFERENCES[referenceKey],
         useAuthentication: true,
       }));
     });
