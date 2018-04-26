@@ -85,6 +85,7 @@ export default {
     'menu.categories': 'Categorie',
     'menu.roles': 'Roles',
     'dashboard.newUser': 'Nuovo Utente',
+    'dashboard.newWidget': 'Nuovo Widget',
     'pageTree.pageTree': 'Albero delle Pagine',
     'pageTree.expand': 'Espandi',
     'pageTree.collapse': 'Collassa',
