@@ -32,7 +32,7 @@ export class EditAttributeFormBody extends Component {
      const { selectedAttributeType } = this.props;
 
      const renderMonolistConf = () => {
-       if (selectedAttributeType === 'Monolist') {
+       if (selectedAttributeType === 'Monolist' || selectedAttributeType === 'List') {
          return (
            <AttributeMonoListMonoSettings {...this.props} />
          );

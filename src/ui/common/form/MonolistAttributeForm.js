@@ -41,9 +41,10 @@ export class MonolistAttributeFormBody extends Component {
        type,
        invalid,
        submitting,
+       selectedAttribute,
      } = this.props;
 
-     console.log('selectedAttributeType MONOLIST', type);
+     console.log(' MONOLIST', selectedAttribute);
      const renderNumberConf = () => {
        if (type === 'Number') {
          return (
@@ -139,10 +140,10 @@ export class MonolistAttributeFormBody extends Component {
        <div className="MonoListAttributeForm">
          <Alert type="info">
            <FormattedMessage id="app.working" />
-           {type}&nbsp;
+           &nbsp;{type},&nbsp;
            <FormattedMessage id="app.element.of" />&nbsp;
            {attributeCode}&nbsp;
-           <FormattedMessage id="app.monolist" />
+           ({selectedAttribute}).
          </Alert>
          <form onSubmit={this.onSubmit} className="form-horizontal">
            <Row>
@@ -186,6 +187,7 @@ MonolistAttributeFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   type: PropTypes.string,
   attributeCode: PropTypes.string,
+  selectedAttribute: PropTypes.string,
   isIndexable: PropTypes.bool,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -210,6 +212,7 @@ MonolistAttributeFormBody.defaultProps = {
   isIndexable: false,
   type: '',
   attributeCode: '',
+  selectedAttribute: '',
   selectedAttributeType: {
     enumeratorExtractorBean: [],
     enumeratorMapExtractorBeans: [],

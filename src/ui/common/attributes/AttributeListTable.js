@@ -7,6 +7,7 @@ import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 
 const AttributeListTable = (props) => {
   const { attributes } = props;
+
   const renderRoles = (roles) => {
     if (roles.length > 0) {
       return (

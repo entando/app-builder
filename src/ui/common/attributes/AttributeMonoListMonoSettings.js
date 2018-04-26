@@ -5,16 +5,12 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { Row, Col } from 'patternfly-react';
 import { required } from '@entando/utils';
 
-const AttributeMonoListMonoSettings = ({ attributesList }) => {
+const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
   const selectAttribute = attributesList.map(item => ({
     value: item,
     text: item,
   }));
 
-  // const optionValue = (
-  //   listNestedType === undefined ?
-  //     <FormattedMessage id="app.chooseAnOption" /> : listNestedType
-  // );
   return (
     <Row>
       <Col xs={12}>
@@ -28,7 +24,7 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
             labelId="app.list"
             fieldName="listNestedType"
             validate={[required]}
-
+            selectedValue={defaultValue}
           />
         </fieldset>
       </Col>
@@ -38,12 +34,12 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
 
 AttributeMonoListMonoSettings.propTypes = {
   attributesList: PropTypes.arrayOf(PropTypes.string),
-  // listNestedType: PropTypes.string,
+  defaultValue: PropTypes.string,
 };
 
 AttributeMonoListMonoSettings.defaultProps = {
   attributesList: [],
-  // listNestedType: '',
+  defaultValue: '',
 };
 
 

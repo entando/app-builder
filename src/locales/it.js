@@ -90,6 +90,7 @@ export default {
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
     'app.monolist': 'Monolist',
+    'app.edit.attribute': 'Modifica : attributo - ',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

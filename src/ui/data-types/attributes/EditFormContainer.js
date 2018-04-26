@@ -12,6 +12,7 @@ import {
 
 export const mapStateToProps = (state) => {
   console.log('TIPO ATTRIBUTO', getSelectedAttributeNestedType(state));
+  console.log(' selectedAttributeType', getSelectedAttributeType(state));
   return {
     attributeCode: getParams(state).attributeCode,
     dataTypeAttributeCode: getParams(state).entityCode,
@@ -20,7 +21,7 @@ export const mapStateToProps = (state) => {
     attributesList: getDataTypeAttributesIdList(state),
     initialValues: {
       type: getDataTypeSelectedAttributeCode(state),
-      attributesList: getSelectedAttributeNestedType(state),
+      defaultValue: getSelectedAttributeNestedType(state),
     },
   };
 };

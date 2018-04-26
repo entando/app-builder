@@ -89,7 +89,7 @@ export default {
     'app.moveDown': 'Move Down',
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
-    'app.monolist': 'Monolist',
+    'app.edit.attribute': 'Edit : attribute - ',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',

@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { fetchAttributeFromDataType, sendPutAttributeFromDataTypeMonolist } from 'state/data-types/actions';
-import MonolistAttributeForm from 'ui/common/form/MonolistAttributeForm';
+import { fetchAttributeFromDataType } from 'state/data-types/actions';
+import MonolistPage from 'ui/data-types/attributes/monolist/MonolistPage';
 import { getParams } from '@entando/router';
 import { formValueSelector } from 'redux-form';
+
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
@@ -16,11 +17,8 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ attributeCode, dataTypeCode }) => {
     dispatch(fetchAttributeFromDataType(dataTypeCode, attributeCode));
   },
-  onSubmit: (values) => {
-    dispatch(sendPutAttributeFromDataTypeMonolist(values));
-  },
 });
 
-const AddFormContainer =
-  connect(mapStateToProps, mapDispatchToProps)(MonolistAttributeForm);
-export default AddFormContainer;
+const MonolistPageContainer =
+  connect(mapStateToProps, mapDispatchToProps)(MonolistPage);
+export default MonolistPageContainer;

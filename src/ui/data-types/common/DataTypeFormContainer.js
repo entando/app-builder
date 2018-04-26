@@ -6,21 +6,17 @@ import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
 import { gotoRoute } from 'frontend-common-components';
 import { formValueSelector } from 'redux-form';
 
-export const mapStateToProps = (state) => {
-  console.log(getDataTypeAttributesIdList(state));
-  return {
-    mode: 'add',
-    attributes: getDataTypeAttributesIdList(state),
-    attributeCode: formValueSelector('DataType')(state, 'type'),
-  };
-};
+export const mapStateToProps = state => ({
+  mode: 'add',
+  attributes: getDataTypeAttributesIdList(state),
+  attributeCode: formValueSelector('DataType')(state, 'type'),
+});
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values) => {
-    console.log(values);
     dispatch(sendPostDataType(values));
     gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: values.code });
   },

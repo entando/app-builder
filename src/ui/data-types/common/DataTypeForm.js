@@ -36,9 +36,9 @@ export class DataTypeFormBody extends Component {
     const renderAttributeTable = () => {
       if (isEdit) {
         return (
-          <Col xs={12}>
+          <Row>
             <AttributeListTable {...this.props} />
-          </Col>
+          </Row>
         );
       }
       return '';
