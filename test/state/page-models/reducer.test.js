@@ -1,5 +1,11 @@
 
-import { setPageModels, setSelectedPageModel, removePageModelSync, setSelectedPageModelPageRefs } from 'state/page-models/actions';
+import {
+  setPageModels,
+  setSelectedPageModel,
+  removePageModelSync,
+  setSelectedPageModelPageRefs,
+  setPageModelsTotal,
+} from 'state/page-models/actions';
 import { PAGE_MODELS_LIST, PAGE_MODELS_ID_LIST, PAGE_MODELS_MAP, PAGE_REFS_MAP } from 'test/mocks/pageModels';
 import reducer from 'state/page-models/reducer';
 
@@ -21,17 +27,19 @@ describe('state/page-models/reducer', () => {
 
   describe('default state', () => {
     it('should define a "idList" array', () => {
-      expect(state.idList).toBeDefined();
-      expect(Array.isArray(state.idList)).toBe(true);
+      expect(state).toHaveProperty('idList', []);
     });
 
     it('should define a "map" array', () => {
-      expect(state.map).toBeInstanceOf(Object);
+      expect(state).toHaveProperty('map', {});
     });
 
     it('should define a "selected" object', () => {
-      expect(state.selected).toBeDefined();
-      expect(typeof state.selected).toBe('object');
+      expect(state).toHaveProperty('selected', null);
+    });
+
+    it('should define a "total" integer', () => {
+      expect(state).toHaveProperty('total', 0);
     });
   });
 
@@ -43,6 +51,13 @@ describe('state/page-models/reducer', () => {
 
     it('state.idList should be equal to the added page models', () => {
       expect(newState.idList).toEqual(PAGE_MODELS_ID_LIST);
+    });
+  });
+
+  describe('on action SET_PAGE_MODELS_TOTAL', () => {
+    it('state.idList should be equal to the added page models', () => {
+      const newState = reducer(state, setPageModelsTotal(12));
+      expect(newState).toHaveProperty('total', 12);
     });
   });
 

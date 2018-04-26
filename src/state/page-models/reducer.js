@@ -5,6 +5,7 @@ import {
   SET_SELECTED_PAGE_MODEL,
   REMOVE_PAGE_MODEL,
   SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+  SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
 
 
@@ -57,8 +58,18 @@ const selected = (state = null, action = {}) => {
   }
 };
 
+const total = (state = 0, action = {}) => {
+  switch (action.type) {
+    case SET_PAGE_MODELS_TOTAL:
+      return action.payload.pageModelsTotal;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   idList,
   map,
   selected,
+  total,
 });

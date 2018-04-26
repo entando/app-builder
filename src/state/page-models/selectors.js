@@ -17,6 +17,7 @@ export const getPageModels = state => state.pageModels;
 export const getPageModelsIdList = state => state.pageModels.idList;
 export const getPageModelsMap = state => state.pageModels.map;
 export const getSelectedPageModel = state => state.pageModels.selected;
+export const getPageModelsTotal = state => state.pageModels.total;
 
 // useful debug functions, please do not remove
 /*
