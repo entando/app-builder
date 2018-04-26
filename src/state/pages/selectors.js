@@ -37,13 +37,13 @@ const isVisible = (pageCode, pages, pagesStatus) => {
       if (pages[curPageCode].parentCode) {
         curPageCode = pages[curPageCode].parentCode;
         if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
-          return false; // false
+          return false;
         }
       }
     }
     return true;
   }
-  return false; // false
+  return false;
 };
 
 const getDepth = (pages, pageCode) => {
@@ -111,7 +111,7 @@ export const getSelectedPageIsPublished = createSelector(
 );
 
 export const getReferencesFromSelectedPage = createSelector([getSelectedPage], (selectedPage) => {
-  if (selectedPage.references) {
+  if (selectedPage && selectedPage.references) {
     return Object.keys(selectedPage.references).filter(key => selectedPage.references[key]);
   }
   return [];

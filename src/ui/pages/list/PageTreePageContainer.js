@@ -22,12 +22,15 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearSearchPage());
   },
   onSubmit: (params) => {
-    const queryString = `${convertToQueryString({
+    let queryString = convertToQueryString({
       sorting: {
         attribute: 'code',
       },
-    })}&pageCodeToken=${params.pageCodeToken}`;
-    dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
+    });
+    if (params.pageCodeToken) {
+      queryString = `${queryString}&pageCodeToken=${params.pageCodeToken}`;
+      dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
+    }
   },
 });
 

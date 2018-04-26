@@ -64,9 +64,7 @@ const reducer = (state = {}, action = {}) => {
     }
     case UPDATE_PAGE: {
       const { page } = action.payload;
-      const newState = { ...state };
-      newState[page.code] = page;
-      return newState;
+      return { ...state, [page.code]: page };
     }
     default: return state;
   }
@@ -181,7 +179,7 @@ const freePages = (state = [], action = {}) => {
   }
 };
 
-const selected = (state = {}, action = {}) => {
+const selected = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE: {
       return action.payload.page;

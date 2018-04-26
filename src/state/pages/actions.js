@@ -118,12 +118,16 @@ export const updatePage = page => ({
 // TODO: generalize and centralize this function to cleanup API calls
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
-  const json = await response.json();
-  if (response.ok) {
-    return json;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 
@@ -132,14 +136,18 @@ export const fetchPageChildren = wrapApiCall(getPageChildren);
 
 export const sendDeletePage = page => async (dispatch) => {
   const response = await deletePage(page);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(removePage(page));
-    gotoRoute(ROUTE_PAGE_TREE);
-    return json;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(removePage(page));
+      gotoRoute(ROUTE_PAGE_TREE);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 const fetchPageTree = pageCode => async (dispatch) => {
@@ -225,17 +233,20 @@ export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatc
 export const fetchFreePages = () => async (dispatch) => {
   const response = await getFreePages();
   const json = await response.json();
-  if (response.ok) {
-    dispatch(setFreePages(json.payload));
-    return json;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    if (response.ok) {
+      dispatch(setFreePages(json.payload));
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const clonePage = page => async (dispatch) => {
   const json = await fetchPage(page.code)(dispatch);
-  dispatch(setSelectedPage(json.payload));
   gotoRoute(ROUTE_PAGE_ADD);
   dispatch(initialize('page', { ...json.payload, code: '' }));
 };
@@ -243,28 +254,36 @@ export const clonePage = page => async (dispatch) => {
 export const mapItem = param => (
   param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
 );
-  // thunks
+
 export const fetchPageSettings = () => async (dispatch) => {
   const response = await getPageSettingsList();
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(initialize('settings', mapItem(json.payload.param)));
-    return json;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(initialize('settings', mapItem(json.payload.param)));
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 
 export const sendPutPage = pageData => async (dispatch) => {
   const response = await putPage(pageData);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(updatePage(json.payload));
-    return json.payload;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(updatePage(json.payload));
+      return json.payload;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
@@ -317,17 +336,21 @@ export const unpublishSelectedPage = () => (dispatch, getState) =>
 
 export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
   const response = await getSearchPages(page, params);
-  const json = await response.json();
-  if (response.ok) {
-    if (json.payload) {
-      dispatch(setSearchPages(json.payload));
-      dispatch(setPage(json.metaData));
-      return json.payload;
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      if (json.payload) {
+        dispatch(setSearchPages(json.payload));
+        dispatch(setPage(json.metaData));
+        return json.payload;
+      }
+      return 'homepage';
     }
-    return 'homepage';
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
+  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const clearSearchPage = () => (dispatch) => {
@@ -340,12 +363,16 @@ export const fetchReferencesPage = getState => async (dispatch) => {
   const references = getReferencesFromSelectedPage(getState());
   const data = await Promise.all(references.map(async (ref) => {
     const response = await getReferencesPage(pageCode, ref);
-    const json = await response.json();
-    if (response.ok) {
-      return json.payload;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const json = await response.json();
+      if (response.ok) {
+        return json.payload;
+      }
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      throw json;
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+    throw new TypeError('No JSON content-type in response headers');
   }));
   dispatch(setReferenceSelectedPage(data));
 };

@@ -748,8 +748,7 @@ describe('clonePage', () => {
   it('when clonePage succeeds, should dispatch gotoRoute PAGE_ADD and initialize FORM', (done) => {
     store.dispatch(clonePage('page')).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(2);
-      expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+      expect(actions).toHaveLength(1);
       expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
       expect(initialize).toHaveBeenCalled();
 

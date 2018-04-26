@@ -121,7 +121,7 @@ describe('api/pages', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
         method: METHODS.DELETE,
-        mockResponse: { code: `${CONTACTS_PAYLOAD.code}` },
+        mockResponse: { code: CONTACTS_PAYLOAD.code },
         useAuthentication: true,
       }));
     });
