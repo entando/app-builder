@@ -211,6 +211,7 @@ export default {
     'user.help': 'Dalla sezione UTENTI l\'amministratore può accedere alla lista degli utenti, gestirne i profili, le autorizzazioni - assegnando ruoli e gruppi - e aggiungere nuovi utenti.',
     'user.table.status.active': 'Attivo',
     'user.table.status.disabled': 'Non attivo',
+    'user.table.status.inactive': 'Non attivo',
     'user.table.username': 'Username',
     'user.table.fullName': 'Nome completo',
     'user.table.email': 'Email',
