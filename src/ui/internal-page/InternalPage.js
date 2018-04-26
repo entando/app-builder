@@ -21,6 +21,7 @@ import {
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
+import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
@@ -80,11 +81,12 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_PAGE_MODEL_LIST}
         />
       </FirstLevelMenuItem>
-      <LinkMenuItem
+      <FirstLevelMenuItem
         id="menu-integration"
         label={formattedText('menu.integration', 'Integration')}
-        route={ROUTE_DASHBOARD}
-      />
+      >
+        <IntegrationMenu />
+      </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-data"
         label={formattedText('menu.data')}

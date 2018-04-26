@@ -1,7 +1,7 @@
-const fs = require('fs-extra'),
-    chalk = require('chalk'),
-
-    Log = require('./Log.js');
+const fs = require('fs-extra');
+const chalk = require('chalk');
+const npmRun = require('npm-run');
+const Log = require('./Log.js');
 // -----------------------------------------------------------------------------
 // ----------------------- Symbolic links creation -----------------------------
 // -----------------------------------------------------------------------------
@@ -9,17 +9,24 @@ const fs = require('fs-extra'),
 
 function createPluginSymlink(plugin) {
   return new Promise((resolve, reject) => {
-
-    Log.info('Creating symlink for plugin ' + chalk.magenta(plugin.name) + ' at ' + chalk.grey(plugin.path.symlink));
-
-    fs.symlink(plugin.path.root, plugin.path.symlink, 'dir', (err) => {
+    Log.info(`Creating symlink for plugin ${chalk.magenta(plugin.name)} at ${chalk.grey(plugin.path.symlink)}`);
+    npmRun('npm link', { cwd: plugin.path.root }, (err) => {
       if (err) {
-        Log.info('Error creating symlink for plugin ' + chalk.magenta(plugin.name));
+        Log.info(`Error running "npm link" for plugin ${chalk.magenta(plugin.name)}`);
+        console.log(err);
         reject(err);
-      } else {
-        Log.info('Created symlink for plugin ' + chalk.magenta(plugin.name));
-        resolve();
+        return;
       }
+      npmRun(`npm link ${plugin.name}`, { cwd: process.cwd() }, (err2) => {
+        if (err2) {
+          Log.info(`Error running "npm link ${chalk.magenta(plugin.name)}"`);
+          console.log(err2);
+          reject(err2);
+          return;
+        }
+        Log.info(`Created symlink for plugin ${chalk.magenta(plugin.name)}`);
+        resolve();
+      });
     });
   });
 }
@@ -27,18 +34,17 @@ function createPluginSymlink(plugin) {
 
 // create symlinks to plugins node modules
 function createAllSymlinks(pluginDefs) {
-
   Log.section('Creating symlinks in node_modules');
 
-  var symlinkPromises = [];
+  const symlinkPromises = [];
   pluginDefs.forEach((plugin) => {
-    var symlinkPromise = fs.pathExists(plugin.path.symlink)
+    const symlinkPromise = fs.pathExists(plugin.path.symlink)
       .then((exists) => {
-        if (exists) {
-          Log.info('Symlink for plugin ' + chalk.magenta(plugin.name) + ' already exists');
-        } else {
+        if (!exists) {
           return createPluginSymlink(plugin);
         }
+        Log.info(`Symlink for plugin ${chalk.magenta(plugin.name)} already exists`);
+        return Promise.resolve();
       });
     symlinkPromises.push(symlinkPromise);
   });

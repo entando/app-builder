@@ -50,6 +50,8 @@ export const ROUTE_ROLE_ADD = 'roleAdd';
 export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
 
+export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
+
 routerConfig(
   store,
   {
@@ -101,6 +103,8 @@ routerConfig(
       { name: ROUTE_ROLE_ADD, path: '/role/add/' },
       { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
+
+      { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
