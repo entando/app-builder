@@ -1,20 +1,16 @@
-const fs = require('fs-extra'),
-  path = require('path'),
-  chalk = require('chalk'),
+const fs = require('fs-extra');
+const path = require('path');
 
-  Log = require('./Log.js');
+const Log = require('./Log.js');
 
 
 const IMPORTS_JS_FILE_PATH = path.resolve('./src/entando-plugins.js');
-
-
 
 // -----------------------------------------------------------------------------
 // ----------------------- Import JS file creation -----------------------------
 // -----------------------------------------------------------------------------
 
 function createPluginsImportFile(pluginDefs) {
-
   Log.section('Creating plugin import file');
 
   let fileText = '';
@@ -26,44 +22,42 @@ function createPluginsImportFile(pluginDefs) {
 
   if (pluginDefs.length) {
     pluginDefs.forEach((plugin, i) => {
-      fileText += "import plugin" + i + " from '" + plugin.name + "/pluginBuild/static/js/main';\n";
+      fileText += `import plugin${i} from '${plugin.name}/dist';\n`;
     });
 
-    fileText += "\n\n";
+    fileText += '\n\n';
+
+    pluginDefs.forEach((plugin) => {
+      fileText += `import '${plugin.name}/dist/index.css';\n`;
+    });
+
+    fileText += '\n\n';
+    fileText += 'const plugins = [];';
+    fileText += '\n\n';
 
     pluginDefs.forEach((plugin, i) => {
-      fileText += "import '" + plugin.name + "/pluginBuild/static/css/main.css';\n";
+      fileText += `plugins.push(plugin${i});\n`;
     });
 
-    fileText += "\n\n";
-    fileText += "const plugins = [];";
-    fileText += "\n\n";
-
-    pluginDefs.forEach((plugin, i) => {
-      fileText += "plugins.push(plugin" + i + ");\n";
-    });
-
-    fileText += "\n\n";
-    fileText += "export default plugins;\n";
-
+    fileText += '\n\n';
+    fileText += 'export default plugins;\n';
   } else {
-    fileText += "const plugins = [];\n";
-    fileText += "export default plugins;\n";
+    fileText += 'const plugins = [];\n';
+    fileText += 'export default plugins;\n';
   }
 
 
   return new Promise((resolve, reject) => {
     fs.writeFile(IMPORTS_JS_FILE_PATH, fileText, 'utf8', (err) => {
       if (err) {
-        Log.error('Error writing file: ' + IMPORTS_JS_FILE_PATH, err);
+        Log.error(`Error writing file: ${IMPORTS_JS_FILE_PATH}`, err);
         reject(err);
       } else {
-        Log.success('Imports file created: ' + IMPORTS_JS_FILE_PATH);
+        Log.success(`Imports file created: ${IMPORTS_JS_FILE_PATH}`);
         resolve();
       }
     });
   });
-
 }
 
 module.exports = createPluginsImportFile;

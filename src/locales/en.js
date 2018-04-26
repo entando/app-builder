@@ -63,6 +63,7 @@ export default {
     'menu.integration': 'Integrations',
     'menu.data': 'Data',
     'menu.dataModel': 'Data Model',
+    'menu.components': 'Components',
     'menu.configuration': 'Configuration',
     'menu.widgets': 'Widgets',
     'menu.widgetEdit': 'Widget Edit',
