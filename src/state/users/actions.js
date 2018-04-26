@@ -147,7 +147,6 @@ export const sendDeleteUser = username => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(fetchUsers());
-          gotoRoute(ROUTE_USER_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

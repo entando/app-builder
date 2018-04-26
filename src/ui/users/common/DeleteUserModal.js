@@ -38,7 +38,7 @@ const DeleteUserModal = ({
 };
 
 DeleteUserModal.propTypes = {
-  onConfirmDelete: PropTypes.func,
+  onConfirmDelete: PropTypes.func.isRequired,
   info: PropTypes.shape({
     code: PropTypes.string,
     type: PropTypes.string,
@@ -46,7 +46,6 @@ DeleteUserModal.propTypes = {
 };
 
 DeleteUserModal.defaultProps = {
-  onConfirmDelete: null,
   info: {
     code: '',
     type: '',
