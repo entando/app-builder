@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { fetchAttributeFromDataType, sendPutAttributeFromDataType } from 'state/data-types/actions';
+import { fetchAttributeFromDataType, sendPutAttributeFromDataTypeMonolist } from 'state/data-types/actions';
 import MonolistAttributeForm from 'ui/common/form/MonolistAttributeForm';
 import { getParams } from '@entando/router';
 import { formValueSelector } from 'redux-form';
+
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
@@ -16,7 +17,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchAttributeFromDataType(dataTypeCode, attributeCode));
   },
   onSubmit: (values) => {
-    dispatch(sendPutAttributeFromDataType(values));
+    dispatch(sendPutAttributeFromDataTypeMonolist(values));
   },
 });
 

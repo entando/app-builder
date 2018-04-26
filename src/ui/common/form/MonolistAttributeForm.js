@@ -43,8 +43,9 @@ export class MonolistAttributeFormBody extends Component {
        submitting,
      } = this.props;
 
+     console.log('selectedAttributeType MONOLIST', type);
      const renderNumberConf = () => {
-       if (selectedAttributeType.numberFilterSupported) {
+       if (type === 'Number') {
          return (
            <FormSection name="validationRules">
              <AttributesNumber {...this.props} />
@@ -55,7 +56,7 @@ export class MonolistAttributeFormBody extends Component {
      };
 
      const renderDateConf = () => {
-       if (selectedAttributeType.dateFilterSupported) {
+       if (type === 'Date') {
          return (
            <FormSection name="validationRules">
              <AttributesDateSettings {...this.props} />
@@ -77,7 +78,7 @@ export class MonolistAttributeFormBody extends Component {
      };
 
      const renderEnumConf = () => {
-       if (selectedAttributeType.enumeratorOptionsSupported) {
+       if (type === 'Enumerator') {
          return (
            <AttributeEnumSettings {...this.props} />
          );
@@ -86,7 +87,7 @@ export class MonolistAttributeFormBody extends Component {
      };
 
      const renderEnumMapConf = () => {
-       if (selectedAttributeType.enumeratorMapOptionsSupported) {
+       if (type === 'EnumeratorMap') {
          return (
            <AttributeEnumMapSettings {...this.props} />
          );
@@ -99,7 +100,7 @@ export class MonolistAttributeFormBody extends Component {
          return (
            <FormGroup>
              <label htmlFor="filterList" className="col-xs-2 control-label">
-               <FormLabel labelId="app.filterList" />
+               <FormLabel labelId="app.indexable" />
              </label>
              <Col xs={4}>
                <Field component={SwitchRenderer} name="indexable" />

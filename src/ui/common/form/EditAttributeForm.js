@@ -102,12 +102,12 @@ export class EditAttributeFormBody extends Component {
                <AttributeInfo {...this.props} />
                <AttributeRole {...this.props} />
                {renderMonolistConf()}
-               {renderNumberConf()}
-               {renderDateConf()}
                {renderTextConf()}
                {renderEnumConf()}
                {renderEnumMapConf()}
                <FormSection name="validationRules">
+                 {renderNumberConf()}
+                 {renderDateConf()}
                  <AttributeOgnlValidation />
                </FormSection>
              </fieldset>
@@ -137,27 +137,7 @@ EditAttributeFormBody.propTypes = {
   dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  initialValues: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  }),
-  selectedAttributeType: PropTypes.shape({
-    simple: PropTypes.bool,
-    searchableOptionSupported: PropTypes.bool,
-    indexableOptionSupported: PropTypes.bool,
-    textFilterSupported: PropTypes.bool,
-    dateFilterSupported: PropTypes.bool,
-    numberFilterSupported: PropTypes.bool,
-    enumeratorOptionsSupported: PropTypes.bool,
-    enumeratorMapOptionsSupported: PropTypes.bool,
-    listAttribute: PropTypes.bool,
-    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
-    enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
-  validation: PropTypes.shape({
-    minLength: PropTypes.string,
-    maxLength: PropTypes.string,
-    regex: PropTypes.string,
-  }),
+  selectedAttributeType: PropTypes.string.isRequired,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -165,16 +145,6 @@ EditAttributeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
-  initialValues: {},
-  selectedAttributeType: {
-    enumeratorExtractorBean: [],
-    enumeratorMapExtractorBeans: [],
-  },
-  validation: ({
-    minLength: '',
-    maxLength: '',
-    regex: '',
-  }),
 };
 
 const EditAttributeForm = reduxForm({

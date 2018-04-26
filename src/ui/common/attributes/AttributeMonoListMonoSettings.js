@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { Row, Col } from 'patternfly-react';
+import { required } from '@entando/utils';
 
 const AttributeMonoListMonoSettings = ({ attributesList }) => {
   const selectAttribute = attributesList.map(item => ({
@@ -10,6 +11,10 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
     text: item,
   }));
 
+  // const optionValue = (
+  //   listNestedType === undefined ?
+  //     <FormattedMessage id="app.chooseAnOption" /> : listNestedType
+  // );
   return (
     <Row>
       <Col xs={12}>
@@ -22,6 +27,8 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
             defaultOptionId="app.chooseAnOption"
             labelId="app.list"
             fieldName="listNestedType"
+            validate={[required]}
+
           />
         </fieldset>
       </Col>
@@ -31,10 +38,12 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
 
 AttributeMonoListMonoSettings.propTypes = {
   attributesList: PropTypes.arrayOf(PropTypes.string),
+  // listNestedType: PropTypes.string,
 };
 
 AttributeMonoListMonoSettings.defaultProps = {
   attributesList: [],
+  // listNestedType: '',
 };
 
 

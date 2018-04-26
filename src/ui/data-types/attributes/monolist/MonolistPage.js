@@ -8,7 +8,6 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FormContainer from 'ui/data-types/attributes/monolist/FormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
-
 const MonolistPage = () => (
   <InternalPage className="MonolistPage">
     <Grid fluid>

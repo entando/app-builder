@@ -209,14 +209,33 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
 export const sendPutAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
     const dataTypeCode = getParams(getState()).entityCode;
-    const list = getDataTypeSelectedAttributeType(getState());
     putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
-        console.log(list);
-        if (response.ok) {
-          // gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
-        } else {
+        if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+        } else if (json.payload.type === 'Monolist') {
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+            entityCode: dataTypeCode,
+            attributeCode: attributeObject.code,
+          });
+        } else {
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const dataTypeCode = getParams(getState()).entityCode;
+    putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
         }
         resolve();
       });

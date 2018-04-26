@@ -23,6 +23,7 @@ export const getDataTypeSelectedAttributeIsList = state => get(state.dataTypes.a
 
 export const getSelectedDataTypeAttributes = state => get(state.dataTypes.selected, 'attributes');
 export const getSelectedAttributeType = state => get(state.dataTypes.selected, 'attributeSelected.type');
+export const getSelectedAttributeNestedType = state => get(state.dataTypes.selected, 'attributeSelected.nestedAttribute.type');
 export const getDataTypeSelectedAttributeCode = state => get(state.dataTypes.attributes.selected, 'code');
 
 export const getDataTypeList = createSelector(

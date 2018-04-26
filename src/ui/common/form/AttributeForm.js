@@ -30,7 +30,6 @@ export class AttributeFormBody extends Component {
 
    render() {
      const { selectedAttributeType } = this.props;
-
      const renderMonolistConf = () => {
        if (selectedAttributeType.listAttribute) {
          return (
@@ -63,7 +62,7 @@ export class AttributeFormBody extends Component {
      };
 
      const renderTextConf = () => {
-       if (selectedAttributeType.textFilterSupported) {
+       if (selectedAttributeType.multilingual) {
          return (
            <FormSection name="validationRules">
              <AttributeHypeLongMonoTextSettings {...this.props} />
@@ -99,12 +98,12 @@ export class AttributeFormBody extends Component {
                <AttributeInfo {...this.props} />
                <AttributeRole {...this.props} />
                {renderMonolistConf()}
-               {renderNumberConf()}
-               {renderDateConf()}
                {renderTextConf()}
                {renderEnumConf()}
                {renderEnumMapConf()}
                <FormSection name="validationRules">
+                 {renderNumberConf()}
+                 {renderDateConf()}
                  <AttributeOgnlValidation />
                </FormSection>
              </fieldset>

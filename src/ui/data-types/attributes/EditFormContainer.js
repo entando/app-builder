@@ -7,26 +7,39 @@ import {
   getSelectedAttributeType,
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeCode,
+  getSelectedAttributeNestedType,
 } from 'state/data-types/selectors';
 
-export const mapStateToProps = state => ({
-  attributeCode: getParams(state).attributeCode,
-  dataTypeAttributeCode: getParams(state).entityCode,
-  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
-  selectedAttributeType: getSelectedAttributeType(state),
-  attributesList: getDataTypeAttributesIdList(state),
-  validation: state.dataTypes.selected.attributeSelected,
-  initialValues: {
-    type: getDataTypeSelectedAttributeCode(state),
-  },
-});
-
+export const mapStateToProps = (state) => {
+  console.log('TIPO ATTRIBUTO', getSelectedAttributeNestedType(state));
+  return {
+    attributeCode: getParams(state).attributeCode,
+    dataTypeAttributeCode: getParams(state).entityCode,
+    JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+    selectedAttributeType: getSelectedAttributeType(state),
+    attributesList: getDataTypeAttributesIdList(state),
+    initialValues: {
+      type: getDataTypeSelectedAttributeCode(state),
+      attributesList: getSelectedAttributeNestedType(state),
+    },
+  };
+};
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromDataType(dataTypeAttributeCode, attributeCode));
   },
   onSubmit: (values) => {
-    dispatch(sendPutAttributeFromDataType(values));
+    console.log('EDIT PUT', values);
+    const payload = {
+      ...values,
+      code: values.code,
+      type: values.type,
+      nestedAttribute: {
+        code: values.code,
+        type: values.listNestedType,
+      },
+    };
+    dispatch(sendPutAttributeFromDataType(payload));
   },
 });
 

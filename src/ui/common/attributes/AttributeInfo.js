@@ -20,7 +20,7 @@ const AttributeInfo = ({ isSearchable, isIndexable }) => {
             <FormLabel labelId="app.indexable" />
           </label>
           <Col xs={4}>
-            <Field component={SwitchRenderer} name="listFilter" />
+            <Field component={SwitchRenderer} name="indexable" />
           </Col>
         </FormGroup>
       );
@@ -36,7 +36,7 @@ const AttributeInfo = ({ isSearchable, isIndexable }) => {
             <FormLabel labelId="app.filterList" />
           </label>
           <Col xs={4}>
-            <Field component={SwitchRenderer} name="indexable" />
+            <Field component={SwitchRenderer} name="filterList" />
           </Col>
         </FormGroup>
       );
