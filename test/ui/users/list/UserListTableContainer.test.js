@@ -41,11 +41,22 @@ describe('UserListTableContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+      expect(props).toHaveProperty('onWillMount');
+      expect(props).toHaveProperty('onClickDelete');
     });
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onWillMount is called', () => {
+      props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickDelete is called', () => {
+      props.onClickDelete({ username: 'admin' });
       expect(dispatchMock).toHaveBeenCalled();
     });
   });

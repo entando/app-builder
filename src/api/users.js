@@ -36,4 +36,11 @@ export const putUser = user => makeRequest({
   useAuthentication: true,
 });
 
+export const deleteUser = username => makeRequest({
+  uri: `/api/users/${username}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: username },
+  useAuthentication: true,
+});
+
 export default getUsers;
