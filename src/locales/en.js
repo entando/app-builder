@@ -212,6 +212,7 @@ export default {
     'user.help': 'The USERS section let the administrator manage users list, their profiles, authorizations - assigning roles and groups - and add users.',
     'user.table.status.active': 'Active',
     'user.table.status.disabled': 'Not active',
+    'user.table.status.inactive': 'Not active',
     'user.table.username': 'Username',
     'user.table.fullName': 'Full Name',
     'user.table.email': 'Email',
