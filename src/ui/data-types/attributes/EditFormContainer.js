@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { fetchAttributeFromDataType, sendPutAttributeFromDataType } from 'state/data-types/actions';
+import {
+  fetchAttributeFromDataType,
+  sendPutAttributeFromDataType,
+  fetchDataTypeAttributes,
+} from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
@@ -12,7 +16,7 @@ import {
 
 
 export const mapStateToProps = (state) => {
-  console.log('1', getDataTypeAttributesIdList(state));
+  console.log('1', getSelectedAttributeNestedType(state));
   return {
     attributeCode: getParams(state).attributeCode,
     dataTypeAttributeCode: getParams(state).entityCode,
@@ -21,7 +25,7 @@ export const mapStateToProps = (state) => {
     attributesList: getDataTypeAttributesIdList(state),
     initialValues: {
       type: getDataTypeSelectedAttributeCode(state),
-      defaultValue: getSelectedAttributeNestedType(state),
+      listNestedType: getSelectedAttributeNestedType(state),
     },
   };
 };
@@ -29,6 +33,7 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromDataType(dataTypeAttributeCode, attributeCode));
+    dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values) => {
     const payload = {

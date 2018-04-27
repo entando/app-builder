@@ -41,7 +41,6 @@ export class EditAttributeFormBody extends Component {
      };
 
      const renderNumberConf = () => {
-       console.log('test', selectedAttributeType);
        if (selectedAttributeType === 'Number') {
          return (
            <FormSection name="validationRules">

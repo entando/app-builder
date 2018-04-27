@@ -6,14 +6,19 @@ import { formattedText } from '@entando/utils';
 import FormLabel from 'ui/common/form/FormLabel';
 
 const RenderSelectInput = ({
-  defaultOptionId, options, labelId, fieldName, mandatory, defaultValue,
+  defaultOptionId, options, labelId, fieldName, mandatory, selectedValue,
 }) => (
   <div className="form-group">
     <label htmlFor={fieldName} className="col-xs-2 control-label text-right">
       <FormLabel labelId={labelId} required={mandatory} />
     </label>
     <Col xs={10}>
-      <Field component="select" name={fieldName} className="form-control" >
+      <Field
+        component="select"
+        name={fieldName}
+        className="form-control"
+        defaultValue={selectedValue}
+      >
         {defaultOptionId &&
           <option value="">
             {formattedText(defaultOptionId)}
@@ -22,7 +27,7 @@ const RenderSelectInput = ({
           <option
             key={item.value}
             value={item.value}
-            defaultValue={item.value === defaultValue}
+            // defaultValue={item.value === defaultValue}
           >{item.text}
           </option>))}
       </Field>
@@ -42,13 +47,13 @@ RenderSelectInput.propTypes = {
   labelId: PropTypes.string.isRequired,
   mandatory: PropTypes.bool,
   fieldName: PropTypes.string.isRequired,
-  defaultValue: PropTypes.string,
+  selectedValue: PropTypes.string,
 };
 
 RenderSelectInput.defaultProps = {
   defaultOptionId: '',
   options: [],
   mandatory: false,
-  defaultValue: '',
+  selectedValue: '',
 };
 export default RenderSelectInput;
