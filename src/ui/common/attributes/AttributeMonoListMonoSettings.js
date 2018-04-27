@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { Row, Col } from 'patternfly-react';
 import { required } from '@entando/utils';
+import { FormSection } from 'redux-form';
 
 const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
   const selectAttribute = attributesList.map(item => ({
@@ -18,14 +19,16 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
           <legend>
             <FormattedMessage id="app.settings" />
           </legend>
-          <RenderSelectInput
-            options={selectAttribute}
-            defaultOptionId="app.chooseAnOption"
-            labelId="app.list"
-            fieldName="listNestedType"
-            validate={[required]}
-            selectedValue={defaultValue}
-          />
+          <FormSection name="nestedAttribute">
+            <RenderSelectInput
+              options={selectAttribute}
+              defaultOptionId="app.chooseAnOption"
+              labelId="app.list"
+              fieldName="type"
+              validate={[required]}
+              selectedValue={defaultValue}
+            />
+          </FormSection>
         </fieldset>
       </Col>
     </Row>
