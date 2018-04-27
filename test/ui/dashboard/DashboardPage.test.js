@@ -6,6 +6,7 @@ import DashboardPage from 'ui/dashboard/DashboardPage';
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
+import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
 
 describe('DashboardPage', () => {
   it('renders without crashing', () => {
@@ -27,5 +28,10 @@ describe('DashboardPage', () => {
   it('verify if UxPatterns exists', () => {
     const component = shallow(<DashboardPage />);
     expect(component.find(UxPatternsContainer)).toHaveLength(1);
+  });
+
+  it('verify if Integrations exists', () => {
+    const component = shallow(<DashboardPage />);
+    expect(component.find(IntegrationsContainer)).toHaveLength(1);
   });
 });

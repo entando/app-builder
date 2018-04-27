@@ -2,6 +2,7 @@ import React from 'react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
+import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
 import { Row, Col, CardGrid } from 'patternfly-react';
 
 const DashboardPage = () => (
@@ -13,6 +14,9 @@ const DashboardPage = () => (
         </Col>
         <Col md={4}>
           <UxPatternsContainer />
+        </Col>
+        <Col md={4}>
+          <IntegrationsContainer />
         </Col>
       </Row>
     </CardGrid>
