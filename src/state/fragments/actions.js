@@ -1,6 +1,8 @@
 import { initialize } from 'redux-form';
+import { gotoRoute } from '@entando/router';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
-import { getFragment, getFragments, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment } from 'api/fragments';
+import { getFragment, getFragments, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment, postFragment, putFragment } from 'api/fragments';
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
@@ -134,3 +136,33 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
       });
     });
   });
+
+export const sendPostFragment = fragment => async (dispatch) => {
+  const response = await postFragment(fragment);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      gotoRoute(ROUTE_FRAGMENT_LIST);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};
+
+export const sendPutFragment = fragment => async (dispatch) => {
+  const response = await putFragment(fragment);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      gotoRoute(ROUTE_FRAGMENT_LIST);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};

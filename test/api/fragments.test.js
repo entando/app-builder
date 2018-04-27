@@ -5,6 +5,8 @@ import {
   getFragmentSettings,
   putFragmentSettings,
   deleteFragment,
+  postFragment,
+  putFragment,
 } from 'api/fragments';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
@@ -25,7 +27,7 @@ const correctRequest = {
 jest.unmock('api/fragments');
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', DELETE: 'DELETE' },
+  METHODS: { GET: 'GET', DELETE: 'DELETE', POST: 'POST' },
 }));
 
 describe('api/fragments', () => {
@@ -130,6 +132,38 @@ describe('api/fragments', () => {
         method: METHODS.PUT,
         uri: '/api/fragmentsSettings/',
         body: FRAGMENT_SETTING_OBJ,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('postFragment', () => {
+    it('return a Promise', () => {
+      expect(postFragment(GET_FRAGMENT_OK)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request with settings body', () => {
+      postFragment(GET_FRAGMENT_OK);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.POST,
+        uri: '/api/fragments',
+        body: { code: `${GET_FRAGMENT_OK.code}`, guiCode: `${GET_FRAGMENT_OK.guiCode}` },
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putFragment', () => {
+    it('return a Promise', () => {
+      expect(putFragment(GET_FRAGMENT_OK)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request with settings body', () => {
+      putFragment(GET_FRAGMENT_OK);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.PUT,
+        uri: `/api/fragments/${GET_FRAGMENT_OK.code}`,
+        body: { code: `${GET_FRAGMENT_OK.code}`, guiCode: `${GET_FRAGMENT_OK.guiCode}` },
         useAuthentication: true,
       }));
     });

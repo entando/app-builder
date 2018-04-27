@@ -34,6 +34,36 @@ export const getPlugins = () => new Promise((resolve) => {
   throttle(resolve(PLUGINS_OK));
 });
 
+export const postFragment = fragment => (
+  makeRequest({
+    uri: '/api/fragments',
+    method: METHODS.POST,
+    body: { code: `${fragment.code}`, guiCode: `${fragment.guiCode}` },
+    mockResponse: fragment,
+    useAuthentication: true,
+  })
+);
+
+export const putFragment = fragment => (
+  makeRequest({
+    uri: `/api/fragments/${fragment.code}`,
+    method: METHODS.PUT,
+    body: { code: `${fragment.code}`, guiCode: `${fragment.guiCode}` },
+    mockResponse: fragment,
+    useAuthentication: true,
+  })
+);
+
+
+export const deleteFragment = fragmentCode => (
+  makeRequest({
+    uri: `/api/fragments/${fragmentCode}`,
+    method: METHODS.DELETE,
+    mockResponse: { code: fragmentCode },
+    useAuthentication: true,
+  })
+);
+
 export const getFragmentSettings = () => (
   makeRequest({
     uri: '/api/fragmentsSettings/',
@@ -48,15 +78,6 @@ export const putFragmentSettings = setting => (
     method: METHODS.PUT,
     body: setting,
     mockResponse: { ...setting },
-    useAuthentication: true,
-  })
-);
-
-export const deleteFragment = fragmentCode => (
-  makeRequest({
-    uri: `/api/fragments/${fragmentCode}`,
-    method: METHODS.DELETE,
-    mockResponse: { code: fragmentCode },
     useAuthentication: true,
   })
 );
