@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SET_GROUPS,
+  SET_GROUPS_TOTAL,
   SET_SELECTED_GROUP,
   SET_SELECTED_GROUP_PAGE_REFERENCES,
   SET_SELECTED_GROUP_USER_REFERENCES,
@@ -69,8 +70,18 @@ export const selected = (state = {}, action = {}) => {
   }
 };
 
+export const total = (state = 0, action = {}) => {
+  switch (action.type) {
+    case SET_GROUPS_TOTAL:
+      return action.payload.groupsTotal;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: groupMap,
   selected,
+  total,
 });

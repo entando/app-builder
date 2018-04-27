@@ -5,10 +5,16 @@ import { mockApi } from 'test/testUtils';
 import {
   setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel,
   fetchPageModel, initPageModelForm, updatePageModel, createPageModel, setSelectedPageModelPageRefs,
-  fetchCurrentReferencePages,
+  fetchCurrentReferencePages, setPageModelsTotal, fetchPageModelsTotal,
 } from 'state/page-models/actions';
 import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
-import { SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL, SET_SELECTED_PAGE_MODEL_PAGE_REFS } from 'state/page-models/types';
+import {
+  SET_PAGE_MODELS,
+  SET_SELECTED_PAGE_MODEL,
+  REMOVE_PAGE_MODEL,
+  SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+  SET_PAGE_MODELS_TOTAL,
+} from 'state/page-models/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -59,6 +65,25 @@ describe('state/page-models/actions', () => {
 
     it('defines the "pageModels" property', () => {
       expect(action.payload.pageModels).toEqual(PAGE_MODELS_LIST);
+    });
+  });
+
+  describe('setPageModelsTotal', () => {
+    let action;
+    beforeEach(() => {
+      action = setPageModelsTotal(12);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('is of type SET_PAGE_MODELS', () => {
+      expect(action).toHaveProperty('type', SET_PAGE_MODELS_TOTAL);
+    });
+
+    it('defines the "pageModelsTotal" property', () => {
+      expect(action).toHaveProperty('payload.pageModelsTotal', 12);
     });
   });
 
@@ -114,7 +139,7 @@ describe('state/page-models/actions', () => {
     });
 
     it('if getPageModels API returns ok, set page models', (done) => {
-      getPageModels.mockImplementation(mockApi({ payload: PAGE_MODELS_LIST }));
+      getPageModels.mockImplementationOnce(mockApi({ payload: PAGE_MODELS_LIST }));
       store.dispatch(fetchPageModels()).then(() => {
         expect(getPageModels).toHaveBeenCalled();
         const actions = store.getActions();
@@ -128,7 +153,7 @@ describe('state/page-models/actions', () => {
     });
 
     it('if API response is not ok, calls ADD_ERRORS', (done) => {
-      getPageModels.mockImplementation(mockApi({ errors: true }));
+      getPageModels.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(fetchPageModels()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
@@ -140,10 +165,31 @@ describe('state/page-models/actions', () => {
     });
 
     it('if getPageModels API returns error, do not set page models', (done) => {
-      getPageModels.mockImplementation(mockApi({ errors: true }));
+      getPageModels.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(fetchPageModels()).then(() => {
         expect(getPageModels).toHaveBeenCalled();
         expect(store.getActions().find(act => act.type === SET_PAGE_MODELS)).toBeFalsy();
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchPageModelsTotal', () => {
+    it('if API response is ok, calls the right action sequence', (done) => {
+      store.dispatch(fetchPageModelsTotal()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_MODELS_TOTAL);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, calls ADD_ERRORS', (done) => {
+      getPageModels.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(fetchPageModelsTotal()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });

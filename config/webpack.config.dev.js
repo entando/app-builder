@@ -9,6 +9,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
@@ -21,6 +22,14 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const mapToFolder = (dependencies, folder) =>
+  dependencies.reduce((acc, dependency) => {
+    return {
+      [dependency]: path.resolve(`${folder}/${dependency}`),
+      ...acc
+    }
+  }, {});
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -93,10 +102,30 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+
+      // Entando plugins: deduplicate packages (use main app packages)
+      ...mapToFolder(
+        [
+          'react',
+          'redux',
+          'inherits',
+          'symbol-observable',
+          'reactabular-table',
+          'react-transition-group',
+          'lodash-es',
+          'hoist-non-react-statics',
+          'invariant',
+          'keycode',
+          'prop-types',
+          '@entando/router',
+          '@entando/utils',
+          '@entando/apimanager',
+        ],
+        './node_modules',
+      ),
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -124,7 +153,6 @@ module.exports = {
             options: {
               formatter: eslintFormatter,
               eslintPath: require.resolve('eslint'),
-              
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -258,6 +286,9 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+
+    new DuplicatePackageCheckerPlugin(),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

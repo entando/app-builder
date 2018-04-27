@@ -1,4 +1,9 @@
-import { getListWidget, getWidgets, getTypologyWidgetList } from 'state/widgets/selectors';
+import {
+  getListWidget,
+  getWidgets,
+  getTypologyWidgetList,
+  getWidgetsTotal,
+} from 'state/widgets/selectors';
 import { WIDGET_LIST, LIST, WIDGETS_MAP } from 'test/mocks/widgets';
 
 
@@ -6,6 +11,7 @@ const MOCK_STATE = {
   widgets: {
     list: LIST,
     map: WIDGETS_MAP,
+    total: 2,
   },
 };
 
@@ -28,5 +34,9 @@ describe('state/widgest/selectors', () => {
     expect(result['User Widget']).toHaveLength(3);
     expect(result).toHaveProperty('Custom Widget');
     expect(result['Custom Widget']).toHaveLength(2);
+  });
+
+  it('getWidgetsTotal returns the total number of widgets', () => {
+    expect(getWidgetsTotal(MOCK_STATE)).toBe(2);
   });
 });

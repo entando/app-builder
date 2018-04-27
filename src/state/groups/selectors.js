@@ -8,6 +8,8 @@ export const getGroupsMap = state => state.groups.map;
 
 export const getSelectedGroup = state => state.groups.selected;
 
+export const getGroupsTotal = state => state.groups.total;
+
 export const getSelectedGroupPageReferences =
   createSelector(getSelectedGroup, s => s.pageReferences);
 

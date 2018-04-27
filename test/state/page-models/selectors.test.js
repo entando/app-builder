@@ -7,6 +7,7 @@ import {
   getSelectedPageModelCellMap, getSelectedPageModelCanBeOnTheFly, getSelectedPageModelMainFrame,
   getPageModelsIdList, getPageModelsMap, getFormPageModel, getPageModelFormCellMap,
   getPageModelFormErrors, getSelectedPageModelPageRefs, getLocalizedPageModelPageRefs,
+  getPageModelsTotal,
 } from 'state/page-models/selectors';
 
 import { PAGE_MODELS_LIST, PAGE_MODELS_MAP, PAGE_MODELS_ID_LIST, PAGE_REFS } from 'test/mocks/pageModels';
@@ -23,6 +24,7 @@ const STATE = {
     idList: PAGE_MODELS_ID_LIST,
     map: PAGE_MODELS_MAP,
     selected: COMPLEX_PAYLOAD,
+    total: 0,
   },
 };
 
@@ -47,6 +49,10 @@ jest.mock('state/locale/selectors', () => ({
 describe('state/page-models/selectors', () => {
   it('getPageModels returns the page models state', () => {
     expect(getPageModels(STATE)).toEqual(STATE.pageModels);
+  });
+
+  it('getPageModelsTotal returns the page models total state', () => {
+    expect(getPageModelsTotal(STATE)).toEqual(STATE.pageModels.total);
   });
 
   it('getPageModelsIdList returns the page models list', () => {
