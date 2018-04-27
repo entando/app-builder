@@ -149,7 +149,9 @@ export const sendDeleteCategory = categoryCode => dispatch =>
 
 export const fetchReferences = (categoryCode, referenceKey) => dispatch =>
   dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
-    dispatch(setReferences({ [referenceKey]: data.payload }));
+    dispatch(setReferences({
+      [referenceKey]: data.payload,
+    }));
   });
 
 export const fetchCategoryDetail = categoryCode => (dispatch, getState) =>
@@ -160,7 +162,9 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) =>
       if (getSelectedRefs(getState())[referenceKey]) {
         dispatch(fetchReferences(categoryCode, referenceKey));
       } else {
-        setReferences({ [referenceKey]: [] });
+        setReferences({
+          [referenceKey]: [],
+        });
       }
     });
   });

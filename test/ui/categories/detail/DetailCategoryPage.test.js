@@ -2,6 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
+import InternalPage from 'ui/internal-page/InternalPage';
 import DetailCategoryPage from 'ui/categories/detail/DetailCategoryPage';
 
 describe('DetailCategoryPage', () => {
@@ -13,8 +14,8 @@ describe('DetailCategoryPage', () => {
     expect(component).toExist();
   });
 
-  it('verify if exist InternalPage with class DetailCategoryPage', () => {
-    expect(component.find('InternalPage').hasClass('DetailCategoryPage')).toBe(true);
+  it('verify if exist InternalPage node', () => {
+    expect(component.type()).toBe(InternalPage);
   });
 
   it('verify if has a breadcrumb', () => {

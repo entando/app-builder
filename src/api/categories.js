@@ -62,6 +62,6 @@ export const deleteCategory = categoryCode => (
 export const getReferences = (categoryCode, referenceKey) => makeRequest({
   uri: `/api/categories/${categoryCode}/references/${referenceKey}`,
   method: METHODS.GET,
-  mockResponse: MOCK_REFERENCES[referenceKey] ? MOCK_REFERENCES[referenceKey] : [],
+  mockResponse: MOCK_REFERENCES[referenceKey] || [],
   useAuthentication: true,
 });
