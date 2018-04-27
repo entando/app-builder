@@ -17,7 +17,7 @@ const ListUserPage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.userSettings" />
+              <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="menu.users" />
