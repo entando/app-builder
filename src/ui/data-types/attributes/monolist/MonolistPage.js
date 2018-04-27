@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FormContainer from 'ui/data-types/attributes/monolist/FormContainer';
 import {
   ROUTE_DATA_TYPE_LIST,
-  // ROUTE_DATA_TYPE_EDIT,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
 class MonolistPage extends Component {
@@ -17,8 +17,11 @@ class MonolistPage extends Component {
     this.props.onWillMount(this.props);
   }
 
-
   render() {
+    const {
+      attributeCode, dataTypeCode, selectedAttribute, entityCode,
+    } = this.props;
+
     return (
       <InternalPage className="MonolistPage">
         <Grid fluid>
@@ -33,20 +36,24 @@ class MonolistPage extends Component {
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="app.edit" /> :
-                  &nbsp;{this.props.dataTypeCode}
+                  &nbsp;{dataTypeCode}
                 </BreadcrumbItem>
-                <BreadcrumbItem>
+
+                <BreadcrumbItem
+                  route={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
+                  params={{ entityCode, attributeCode }}
+                >
                   <FormattedMessage id="app.edit.attribute" />
-                  {this.props.attributeCode}
+                  {attributeCode}
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
-                  {this.props.selectedAttribute}
+                  {selectedAttribute}
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
           </Row>
           <PageTitle
-            titleId={`app.edit.${this.props.selectedAttribute}`}
+            titleId={`app.edit.${selectedAttribute}`}
             helpId="dataType.help"
           />
           <Row>
@@ -60,12 +67,12 @@ class MonolistPage extends Component {
   }
 }
 
-
 MonolistPage.propTypes = {
   onWillMount: PropTypes.func,
   dataTypeCode: PropTypes.string,
   attributeCode: PropTypes.string,
   selectedAttribute: PropTypes.string,
+  entityCode: PropTypes.string,
 };
 
 MonolistPage.defaultProps = {
@@ -73,6 +80,7 @@ MonolistPage.defaultProps = {
   dataTypeCode: '',
   attributeCode: '',
   selectedAttribute: '',
+  entityCode: '',
 };
 
 

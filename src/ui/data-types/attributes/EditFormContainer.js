@@ -11,10 +11,9 @@ import {
 } from 'state/data-types/selectors';
 
 
-export const mapStateToProps = state =>
-  // console.log('TIPO ATTRIBUTO', getSelectedAttributeNestedType(state));
-  // console.log(' selectedAttributeType', getSelectedAttributeType(state));
-  ({
+export const mapStateToProps = (state) => {
+  console.log('1', getDataTypeAttributesIdList(state));
+  return {
     attributeCode: getParams(state).attributeCode,
     dataTypeAttributeCode: getParams(state).entityCode,
     JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
@@ -24,7 +23,9 @@ export const mapStateToProps = state =>
       type: getDataTypeSelectedAttributeCode(state),
       defaultValue: getSelectedAttributeNestedType(state),
     },
-  });
+  };
+};
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromDataType(dataTypeAttributeCode, attributeCode));
@@ -41,7 +42,6 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    console.log('PUT', payload);
     dispatch(sendPutAttributeFromDataType(payload));
   },
 });

@@ -260,7 +260,7 @@ export const sendDeleteAttributeFromDataType = (dataTypeCode, attributeCode) => 
 );
 
 
-export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (dispatch, getState) => (
+export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params = '') => (dispatch, getState) => (
   new Promise((resolve) => {
     dispatch(toggleLoading('dataTypes'));
     getDataTypeAttributes(page, params).then((response) => {

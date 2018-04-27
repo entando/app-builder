@@ -7,6 +7,7 @@ import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
+  entityCode: getParams(state).entityCode,
   dataTypeCode: getParams(state).entityCode,
   isIndexable: formValueSelector('attribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('attribute')(state, 'nestedAttribute.type'),
