@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
+import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 
 class UserListTable extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class UserListTable extends Component {
           />
         </td>
         <td className="UserListRow__td text-center">
-          <UserListMenuActions username={user.username} />
+          <UserListMenuActions username={user.username} {...this.props} />
         </td>
       </tr>
     ));
@@ -98,6 +99,7 @@ class UserListTable extends Component {
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
+        <DeleteUserModalContainer />
       </div>
     );
   }

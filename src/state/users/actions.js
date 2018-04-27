@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
-import { getUsers, getUser, postUser, putUser } from 'api/users';
+import { getUsers, getUser, postUser, putUser, deleteUser } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -138,5 +138,20 @@ export const sendPutUser = user => dispatch => (
     } else {
       resolve();
     }
+  })
+);
+
+export const sendDeleteUser = username => dispatch => (
+  new Promise((resolve) => {
+    deleteUser(username).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(fetchUsers());
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
   })
 );
