@@ -59,6 +59,7 @@ const reducerDef = {
   router,
   users,
   widgets,
+  integrations,
 };
 
 if (pluginArray.length) {

@@ -9,7 +9,7 @@ import { HOMEPAGE_PAYLOAD } from 'test/mocks/pages';
 describe('PageInfoTable', () => {
   it('when there is no page, renders nothing', () => {
     const component = shallow(<PageInfoTable />);
-    expect(component.children()).toHaveLength(0);
+    expect(component.children()).toHaveLength(1);
   });
 
   describe('basic rendering', () => {
