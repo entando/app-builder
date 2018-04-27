@@ -1,6 +1,15 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 import { isFSA } from 'flux-standard-action';
-import { setApis, setPlugins } from 'state/integrations/actions';
+import { setApis, setPlugins, fetchIntegration } from 'state/integrations/actions';
+import { mockApi } from 'test/testUtils';
+import { getIntegration } from 'api/dashboard';
 import { SET_APIS, SET_PLUGINS } from 'state/integrations/types';
+import { ADD_ERRORS } from 'state/errors/types';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 describe('state/plugins/actions', () => {
   let action;
@@ -40,6 +49,38 @@ describe('state/plugins/actions', () => {
     it('defines payload property', () => {
       expect(action).toHaveProperty('payload');
       expect(action).toHaveProperty('payload.plugins', 3);
+    });
+  });
+
+  describe('thunks', () => {
+    let store;
+    beforeEach(() => {
+      jest.clearAllMocks();
+      store = mockStore({});
+    });
+
+    describe('fetchIntegration', () => {
+      it('fetchUsers calls setUsers and setPage actions', (done) => {
+        store.dispatch(fetchIntegration()).then(() => {
+          const actions = store.getActions();
+          expect(getIntegration).toHaveBeenCalled();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_APIS);
+          expect(actions[1]).toHaveProperty('type', SET_PLUGINS);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when fetchUsers get error, should dispatch addErrors', (done) => {
+        getIntegration.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchIntegration()).then(() => {
+          expect(getIntegration).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
     });
   });
 });

@@ -42,6 +42,7 @@ const reducerDef = {
   form,
   fragments,
   groups,
+  integrations,
   labels,
   languages,
   loading,
@@ -58,7 +59,6 @@ const reducerDef = {
   router,
   users,
   widgets,
-  integrations,
 };
 
 if (pluginArray.length) {
