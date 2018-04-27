@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 
 import { getApis, getPlugins } from 'state/integrations/selectors';
+import { fetchIntegration } from 'state/integrations/actions';
 import Integrations from 'ui/dashboard/Integrations';
 
-export const mapDispatchToProps = () => ({
-  onWillMount: () => {},
+export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => dispatch(fetchIntegration()),
 });
 
 export const mapStateToProps = state => (
