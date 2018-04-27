@@ -10,6 +10,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
@@ -45,6 +46,14 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
     { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
+
+const mapToFolder = (dependencies, folder) =>
+  dependencies.reduce((acc, dependency) => {
+    return {
+      [dependency]: path.resolve(`${folder}/${dependency}`),
+      ...acc
+    }
+  }, {});
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -103,6 +112,27 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+
+      // Entando plugins: deduplicate packages (use main app packages)
+      ...mapToFolder(
+        [
+          'react',
+          'redux',
+          'inherits',
+          'symbol-observable',
+          'reactabular-table',
+          'react-transition-group',
+          'lodash-es',
+          'hoist-non-react-statics',
+          'invariant',
+          'keycode',
+          'prop-types',
+          '@entando/router',
+          '@entando/utils',
+          '@entando/apimanager',
+        ],
+        './node_modules',
+      ),
     },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -344,6 +374,9 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+
+    new DuplicatePackageCheckerPlugin(),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

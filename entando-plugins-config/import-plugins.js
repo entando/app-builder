@@ -1,35 +1,31 @@
-const fs = require('fs-extra'),
-    path = require('path'),
-    npmRun = require('npm-run'),
-    chalk = require('chalk'),
+const path = require('path');
 
-    Log = require('./scripts/Log.js'),
-    compilePlugins = require('./scripts/compilePlugins.js'),
-    importPluginsAssets = require('./scripts/importPluginsAssets.js'),
-    validateAllPlugins = require('./scripts/validatePlugins.js'),
-    createSymlinks = require('./scripts/createSymlinks.js'),
-    createPluginsImportFile = require('./scripts/createImportsFile.js');
+const Log = require('./scripts/Log.js');
+const importPluginsAssets = require('./scripts/importPluginsAssets.js');
+const validateAllPlugins = require('./scripts/validatePlugins.js');
+const createSymlinks = require('./scripts/createSymlinks.js');
+const createPluginsImportFile = require('./scripts/createImportsFile.js');
+const buildPlugins = require('./scripts/buildPlugins.js');
 
 
-const PROJECT_ROOT = path.resolve('.'),
-    PLUGIN_DEFINITIONS_PATH = path.resolve('./entando-plugins-config/plugins.json');
+const PROJECT_ROOT = path.resolve('.');
+const PLUGIN_DEFINITIONS_PATH = path.resolve('./entando-plugins-config/plugins.json');
 
 
-var pluginDefs = require(PLUGIN_DEFINITIONS_PATH) || [];
+const pluginDefs = require(PLUGIN_DEFINITIONS_PATH) || [];
 
 
 // enhance pluginDefs object to add paths
-pluginDefs = pluginDefs.map( (plugin) => {
-    let rootPath = path.resolve(plugin.path);
-    plugin.path = {
-        root: rootPath,
-        assets: [ rootPath, 'public/plugin-assets', plugin.name ].join('/'),
-        symlink: [ PROJECT_ROOT, 'node_modules', plugin.name ].join('/'),
-    };
-    return plugin;
+const pluginDefsEnhanced = pluginDefs.map((plugin) => {
+  const rootPath = path.resolve(plugin.path);
+  const res = { ...plugin };
+  res.path = {
+    root: rootPath,
+    assets: [rootPath, 'public/plugin-assets', plugin.name].join('/'),
+    symlink: [PROJECT_ROOT, 'node_modules', plugin.name].join('/'),
+  };
+  return res;
 });
-
-
 
 
 // -----------------------------------------------------------------------------
@@ -37,16 +33,15 @@ pluginDefs = pluginDefs.map( (plugin) => {
 // -----------------------------------------------------------------------------
 
 Log.title('Import Entando plugins - start');
-
-compilePlugins(pluginDefs)
-    .then(() => validateAllPlugins(pluginDefs))
-    .then(() => importPluginsAssets(pluginDefs))
-    .then(() => createSymlinks(pluginDefs))
-    .then(() => createPluginsImportFile(pluginDefs))
-    .then(
-        () => Log.title('Import Entando plugins - SUCCESS'),
-        (err) => {
-            Log.info('Error:', err);
-            Log.title('Import Entando plugins - FAILED');
-        }
-    );
+buildPlugins(pluginDefsEnhanced)
+  .then(() => validateAllPlugins(pluginDefsEnhanced))
+  .then(() => importPluginsAssets(pluginDefsEnhanced))
+  .then(() => createSymlinks(pluginDefsEnhanced))
+  .then(() => createPluginsImportFile(pluginDefsEnhanced))
+  .then(
+    () => Log.title('Import Entando plugins - SUCCESS'),
+    (err) => {
+      Log.info('Error:', err);
+      Log.title('Import Entando plugins - FAILED');
+    },
+  );

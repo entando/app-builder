@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { get } from 'lodash';
 
 export const getWidgets = state => state.widgets;
+export const getWidgetsTotal = state => state.widgets.total;
 export const getWidgetsIdList = state => state.widgets.list;
 export const getWidgetsMap = state => state.widgets.map;
 export const getSelectedWidget = state => state.widgets.selected;

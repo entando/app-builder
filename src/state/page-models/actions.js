@@ -10,7 +10,7 @@ import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import {
   SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL,
-  SET_SELECTED_PAGE_MODEL_PAGE_REFS,
+  SET_SELECTED_PAGE_MODEL_PAGE_REFS, SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
 import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
 
@@ -19,6 +19,13 @@ export const setPageModels = pageModels => ({
   type: SET_PAGE_MODELS,
   payload: {
     pageModels,
+  },
+});
+
+export const setPageModelsTotal = pageModelsTotal => ({
+  type: SET_PAGE_MODELS_TOTAL,
+  payload: {
+    pageModelsTotal,
   },
 });
 
@@ -59,6 +66,21 @@ export const fetchPageModels = (page = { page: 1, pageSize: 10 }, params = '') =
           dispatch(toggleLoading('pageModels'));
           resolve();
         }
+      });
+    });
+  })
+);
+
+export const fetchPageModelsTotal = () => dispatch => (
+  new Promise((resolve) => {
+    getPageModels({ page: 1, pageSize: 1 }).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setPageModelsTotal(data.metaData.totalItems));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+        }
+        resolve();
       });
     });
   })

@@ -1,5 +1,10 @@
 import reducer from 'state/widgets/reducer';
-import { getWidgetList, setSelectedWidget, removeWidget } from 'state/widgets/actions';
+import {
+  getWidgetList,
+  setSelectedWidget,
+  removeWidget,
+  setWidgetsTotal,
+} from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
 
@@ -19,6 +24,17 @@ describe('state/widget-list/reducer', () => {
   it('should return an object', () => {
     state = reducer();
     expect(state).toBeInstanceOf(Object);
+    expect(state).toHaveProperty('list', []);
+    expect(state).toHaveProperty('map', {});
+    expect(state).toHaveProperty('selected', null);
+    expect(state).toHaveProperty('total', 0);
+  });
+
+  describe('after action SET_WIDGETS_TOTAL', () => {
+    it('should have the new total', () => {
+      const newState = reducer({}, setWidgetsTotal(10));
+      expect(newState).toHaveProperty('total', 10);
+    });
   });
 
   describe('after action SET_WIDGET_LIST', () => {
@@ -29,12 +45,14 @@ describe('state/widget-list/reducer', () => {
       expect(state.list).toBeDefined();
     });
   });
+
   describe('after action SET_SELECTED_WIDGET', () => {
     it('should define the new state', () => {
       state = reducer(state, setSelectedWidget('WDG'));
       expect(state.selected).toBe('WDG');
     });
   });
+
   describe('after action REMOVE_WIDGET', () => {
     it('should define the new state', () => {
       state = reducer(state);
