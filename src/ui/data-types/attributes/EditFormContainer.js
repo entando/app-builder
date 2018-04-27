@@ -10,6 +10,7 @@ import {
   getSelectedAttributeNestedType,
 } from 'state/data-types/selectors';
 
+
 export const mapStateToProps = state =>
   // console.log('TIPO ATTRIBUTO', getSelectedAttributeNestedType(state));
   // console.log(' selectedAttributeType', getSelectedAttributeType(state));
@@ -36,8 +37,11 @@ export const mapDispatchToProps = dispatch => ({
       nestedAttribute: {
         code: values.code,
         type: values.listNestedType,
+        enumeratorStaticItems: 'default',
+        enumeratorStaticItemsSeparator: ',',
       },
     };
+    console.log('PUT', payload);
     dispatch(sendPutAttributeFromDataType(payload));
   },
 });

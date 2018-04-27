@@ -14,7 +14,10 @@ const AttributeOgnlValidation = () => (
         <legend>
           <FormattedMessage id="app.ognl.validation" />
         </legend>
-        <p><FormattedMessage id="app.ognl.validation.help" /></p>
+        <p><FormattedMessage id="app.ognl.validation.help1" /></p>
+        <p><FormattedMessage id="app.ognl.validation.help2" /></p>
+        <p><FormattedMessage id="app.ognl.validation.help3" /></p>
+        <p><FormattedMessage id="app.ognl.validation.help4" /></p>
         <Field
           component={RenderTextInput}
           name="ognlValidation.ognlExpression"

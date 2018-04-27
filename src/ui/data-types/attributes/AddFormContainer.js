@@ -32,8 +32,11 @@ export const mapDispatchToProps = dispatch => ({
       nestedAttribute: {
         code: values.code,
         type: values.listNestedType,
+        enumeratorStaticItems: 'default',
+        enumeratorStaticItemsSeparator: ',',
       },
     };
+    console.log('test payload', payload);
     dispatch(sendPostAttributeFromDataType(payload));
   },
 });
