@@ -17,15 +17,15 @@ export const PageSearchFormBody = (props) => {
       <h3><FormattedMessage id="app.search" /></h3>
       <FormGroup>
         <Row>
-          <label className="control-label col-sm-2" htmlFor="pagecode">
+          <label className="control-label col-xs-2" htmlFor="pagecode">
             <FormattedMessage id="pageTree.searchForm.code" />
           </label>
-          <Col sm={9}>
+          <Col xs={9}>
             <Field
               id="pagecode"
               component="input"
               className="form-control"
-              name="code"
+              name="pageCodeToken"
               placeholder={formattedText('pageTree.searchForm.code')}
             />
           </Col>
@@ -37,7 +37,7 @@ export const PageSearchFormBody = (props) => {
             <Button
               type="submit"
               bsStyle="primary"
-              className="pull-right"
+              className="pull-right PageSearchForm__save"
             >
               <FormattedMessage id="app.search" />
             </Button>

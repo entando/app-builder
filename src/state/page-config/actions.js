@@ -1,5 +1,5 @@
-import { initialize } from 'redux-form';
 import { formattedText } from '@entando/utils';
+import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 
 import {

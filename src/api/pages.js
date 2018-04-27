@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
-  PAGE_SETTINGS_PAYLOAD,
+  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES,
 } from 'test/mocks/pages';
 
 import {
@@ -11,9 +11,6 @@ import {
 } from 'test/mocks/pageConfig';
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
-
-import { throttle } from '@entando/utils';
-
 
 /*
  * - homepage
@@ -71,17 +68,12 @@ export const getPageChildren = pageCode => makeRequest({
 });
 
 
-// will call http://confluence.entando.org/display/E5/Page+Position+Change
-// e.g. /pages/<pageCode>/position  (code, position, parent)
-export const setPagePosition = (pageCode, position, parentCode) => new Promise((resolve) => {
-  const response = {
-    code: pageCode,
-    position,
-    parent: parentCode,
-  };
-  // eslint-disable-next-line no-console
-  console.info(`calling API /pages/${pageCode}/position\n\t${JSON.stringify(response, 2)}`);
-  throttle(() => resolve(response));
+export const setPagePosition = (pageCode, position, parentCode) => makeRequest({
+  uri: `/api/pages/${pageCode}/position`,
+  method: METHODS.PUT,
+  useAuthentication: true,
+  body: { code: pageCode, position, parentCode },
+  mockResponse: { code: pageCode, position, parentCode },
 });
 
 export const postPage = pageObject => makeRequest({
@@ -105,6 +97,14 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
+export const deletePage = page => makeRequest({
+  uri: `/api/pages/${page.code}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: `${page.code}` },
+  useAuthentication: true,
+
+});
+
 export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
@@ -118,17 +118,31 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   ),
 });
 
-export const getFreePages = () => (
-  new Promise((resolve) => {
-    resolve(FREE_PAGES_PAYLOAD);
-  })
-);
+export const getFreePages = () => makeRequest({
+  uri: '/api/pages/search/group/free',
+  method: METHODS.GET,
+  mockResponse: FREE_PAGES_PAYLOAD,
+  useAuthentication: true,
+});
 
-export const getPageSettingsList = () => (
-  new Promise((resolve) => {
-    resolve(PAGE_SETTINGS_PAYLOAD);
-  })
-);
+export const getPageSettingsList = () => makeRequest({
+  uri: '/api/pageSettings',
+  method: METHODS.GET,
+  mockResponse: PAGE_SETTINGS_PAYLOAD,
+  useAuthentication: true,
+});
+
+export const getSearchPages = (page = { page: 1, pageSize: 10 }, params = '') =>
+  makeRequest(
+    {
+      uri: `/api/pages/search${params}`,
+      method: METHODS.GET,
+      useAuthentication: true,
+      mockResponse: SEARCH_PAGES,
+    },
+    page,
+  );
+
 
 const PAGE_CONFIG_DRAFT_MAP = {
   homepage: HOMEPAGE_CONFIG,
@@ -190,5 +204,12 @@ export const applyDefaultPageConfig = pageCode => makeRequest({
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
+  useAuthentication: true,
+});
+
+export const getReferencesPage = (pageCode, referenceKey) => makeRequest({
+  uri: `/api/pages/${pageCode}/references/${referenceKey}`,
+  method: METHODS.GET,
+  mockResponse: MOCK_REFERENCES[referenceKey],
   useAuthentication: true,
 });
