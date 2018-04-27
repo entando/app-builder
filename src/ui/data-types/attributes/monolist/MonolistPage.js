@@ -33,7 +33,7 @@ class MonolistPage extends Component {
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="app.edit" /> :
-                  {this.props.dataTypeCode} -
+                  &nbsp;{this.props.dataTypeCode}
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="app.edit.attribute" />
@@ -46,7 +46,7 @@ class MonolistPage extends Component {
             </Col>
           </Row>
           <PageTitle
-            titleId={`app.edit ${this.props.selectedAttribute}`}
+            titleId={`app.edit.${this.props.selectedAttribute}`}
             helpId="dataType.help"
           />
           <Row>

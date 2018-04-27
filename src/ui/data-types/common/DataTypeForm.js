@@ -25,9 +25,12 @@ export class DataTypeFormBody extends Component {
 
   render() {
     const {
-      attributesType, mode, handleSubmit, onSubmit, onAddAttribute, invalid, submitting,
+      attributesType, mode, handleSubmit, onSubmit,
+      onAddAttribute, invalid, submitting,
     } = this.props;
+
     const isEdit = mode === 'edit';
+
     const selectOptions = attributesType.map(item => ({
       value: item,
       text: item,
@@ -65,6 +68,7 @@ export class DataTypeFormBody extends Component {
                   className="pull-right DataTypeForm__add"
                   bsStyle="primary"
                   onClick={() => onAddAttribute(this.props)}
+                  disabled={invalid || submitting}
                 >
                   <FormattedMessage
                     id="app.add"
@@ -148,6 +152,7 @@ DataTypeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: 'add',
+
 };
 
 const DataTypeForm = reduxForm({

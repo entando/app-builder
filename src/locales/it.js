@@ -91,6 +91,8 @@ export default {
     'app.tag': 'Tag',
     'app.monolist': 'Monolist',
     'app.edit.attribute': 'Modifica : attributo - ',
+    'app.edit.Monolist': 'Edit : Monolist',
+    'app.edit.List': 'Edit : List',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

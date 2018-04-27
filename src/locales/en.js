@@ -90,6 +90,8 @@ export default {
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
     'app.edit.attribute': 'Edit : attribute - ',
+    'app.edit.Monolist': 'Edit : Monolist',
+    'app.edit.List': 'Edit : List',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',

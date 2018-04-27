@@ -137,7 +137,7 @@ EditAttributeFormBody.propTypes = {
   dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  selectedAttributeType: PropTypes.string.isRequired,
+  selectedAttributeType: PropTypes.string,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -145,6 +145,7 @@ EditAttributeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
+  selectedAttributeType: '',
 };
 
 const EditAttributeForm = reduxForm({
