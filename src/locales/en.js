@@ -85,6 +85,7 @@ export default {
     'menu.uxPattern.addLabels': 'System labels',
     'menu.categories': 'Categories',
     'menu.roles': 'Roles',
+    'menu.reloadConfiguration': 'Reload Configuration',
     'dashboard.newUser': 'New User',
     'dashboard.newWidget': 'New Widget',
     'pageTree.pageTree': 'Page tree',
@@ -301,5 +302,9 @@ export default {
     'reference.edit': 'Edit {code}',
     'reference.manageAuthorization': 'Manage authorization for {code}',
     'references.referencedPages': 'Referenced pages',
+    'reloadConfiguration.title': 'Reload Configuration',
+    'reloadConfiguration.help': 'The RELOAD CONFIGURATION section lets you to reload the system configuration. This operation is necessary after modifying some parameters.',
+    'reloadConfiguration.reload.title': 'Reload the configuration',
+    'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
   },
 };

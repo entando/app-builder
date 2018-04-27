@@ -49,6 +49,7 @@ export const ROUTE_ROLE_LIST = 'roleList';
 export const ROUTE_ROLE_ADD = 'roleAdd';
 export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
+export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 
@@ -103,6 +104,7 @@ routerConfig(
       { name: ROUTE_ROLE_ADD, path: '/role/add/' },
       { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
+      { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
 
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
     ],
