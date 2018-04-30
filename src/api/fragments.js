@@ -48,7 +48,7 @@ export const putFragment = fragment => (
   makeRequest({
     uri: `/api/fragments/${fragment.code}`,
     method: METHODS.PUT,
-    body: { code: `${fragment.code}`, guiCode: `${fragment.guiCode}` },
+    body: { code: fragment.code, guiCode: fragment.guiCode },
     mockResponse: fragment,
     useAuthentication: true,
   })
