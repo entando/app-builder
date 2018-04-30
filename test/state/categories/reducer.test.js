@@ -5,11 +5,13 @@ import {
   MYCATEGORY1_PAYLOAD,
   MYCATEGORY2_PAYLOAD,
   MYCATEGORY3_PAYLOAD,
+  MOCK_REFERENCES,
 } from 'test/mocks/categories';
 
 import {
   setCategories, toggleCategoryExpanded,
   setCategoryLoading, setCategoryLoaded, removeCategory,
+  setSelectedCategory, setReferences,
 } from 'state/categories/actions';
 
 
@@ -98,6 +100,32 @@ describe('state/categories/reducer', () => {
 
         expect(newState.list).not.toBe(stateAfterRemove.list);
         expect(stateAfterRemove.list.includes(CATEGORY_CODE)).toBe(false);
+      });
+    });
+
+    describe('after action SET_SELECTED_CATEGORY', () => {
+      const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
+      const newState = reducer(state, setSelectedCategory(MYCATEGORY1_PAYLOAD));
+
+      it('should define the categories.selected payload', () => {
+        expect(newState).toHaveProperty('selected');
+        expect(newState.selected).toHaveProperty('code', CATEGORY_CODE);
+      });
+
+      it('should define the categories.selected.referenceKeyList payload', () => {
+        expect(newState).toHaveProperty('selected.referenceKeyList');
+        expect(newState.selected.referenceKeyList).toHaveLength(2);
+      });
+    });
+
+    describe('after action SET_REFERENCES', () => {
+      const newState = reducer(state, setReferences({
+        jacmsContentManager: MOCK_REFERENCES.jacmsContentManager,
+      }));
+
+      it('should define the categories.selected.referenceMap', () => {
+        expect(newState).toHaveProperty('selected.referenceMap');
+        expect(newState.selected.referenceMap).toHaveProperty('jacmsContentManager');
       });
     });
   });
