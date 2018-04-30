@@ -17,15 +17,21 @@ export class UserAuthorityPageFormBody extends Component {
     this.props.onWillMount();
   }
 
+  onSubmit = (ev) => {
+    ev.preventDefault();
+    this.props.handleSubmit();
+  };
 
   render() {
-    const { handleSubmit, onSubmit } = this.props;
+    const { invalid, submitting } = this.props;
+    console.log(invalid || submitting);
+
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserAuthorityPageForm form-horizontal">
-        <Col sm={12}>
+      <form onSubmit={this.onSubmit} className="UserAuthorityPageForm form-horizontal">
+        <Col xs={12}>
           <Grid fluid>
             <Row>
-              <Col sm={12}>
+              <Col xs={12}>
                 <FieldArray
                   name="groupRolesCombo"
                   component={UserAuthorityTable}
@@ -37,11 +43,12 @@ export class UserAuthorityPageFormBody extends Component {
               </Col>
             </Row>
           </Grid>
-          <Col sm={12}>
+          <Col xs={12}>
             <Button
               type="submit"
               bsStyle="primary"
               className="pull-right"
+              disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -54,8 +61,9 @@ export class UserAuthorityPageFormBody extends Component {
 
 UserAuthorityPageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
+  invalid: PropTypes.bool,
+  submitting: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -75,7 +83,8 @@ UserAuthorityPageFormBody.propTypes = {
 };
 
 UserAuthorityPageFormBody.defaultProps = {
-  onWillMount: () => {},
+  invalid: false,
+  submitting: false,
   groups: [],
   roles: [],
   groupRolesCombo: [],

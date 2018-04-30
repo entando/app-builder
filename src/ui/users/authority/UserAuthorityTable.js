@@ -91,7 +91,7 @@ class UserAuthorityTable extends Component {
       <div className="UserAuthorityTable" >
         {this.renderTable(renderRow)}
         <Row>
-          <Col sm={12}>
+          <Col xs={12}>
             <h1><FormattedMessage id="user.authority.new" /></h1>
           </Col>
         </Row>
@@ -100,7 +100,7 @@ class UserAuthorityTable extends Component {
             <label className="control-label col-sm-2" htmlFor="widgetType">
               <FormattedMessage id="user.authority.groups" />
             </label>
-            <Col sm={9}>
+            <Col xs={9}>
               <select
                 className="form-control"
                 name="roles"
@@ -116,7 +116,7 @@ class UserAuthorityTable extends Component {
             <label className="control-label col-sm-2" htmlFor="plugin">
               <FormattedMessage id="user.authority.roles" />
             </label>
-            <Col sm={9}>
+            <Col xs={9}>
               <select
                 className="form-control"
                 name="roles"
