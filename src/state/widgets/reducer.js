@@ -45,6 +45,7 @@ const selected = (state = null, action = {}) => {
     }
     case REMOVE_WIDGET: {
       const { widgetCode } = action.payload;
+      if (!state) return state;
       const widget = getSelectedWidget(state);
       return widget.code === widgetCode ? null : state;
     }
