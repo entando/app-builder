@@ -26,7 +26,6 @@ const RenderSelectInput = ({
           <option
             key={item.value}
             value={item.value}
-            // defaultValue={item.value === defaultValue}
           >{item.text}
           </option>))}
       </Field>

@@ -1,0 +1,20 @@
+.react-date-picker__calendar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 350px;
+  max-width: 100vw;
+  z-index: 999;
+}
+
+.react-date-picker__button__input__input:invalid {
+  background: rgba(179, 171, 183, .1);
+}
+
+.react-date-picker__button__input {
+  min-width: calc(4px + (4px * 3) + 9.32em + .434em);
+}
+
+.react-calendar {
+  font-family: Helvetica,Arial,sans-serif;
+}
