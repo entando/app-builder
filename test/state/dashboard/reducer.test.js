@@ -5,7 +5,7 @@ describe('state/dashboard/reducer', () => {
 
   it('should return an object', () => {
     expect(INITIAL_STATE).toBeInstanceOf(Object);
-    expect(INITIAL_STATE).toHaveProperty('integration');
+    expect(INITIAL_STATE).toHaveProperty('integrations');
     expect(INITIAL_STATE).toHaveProperty('pageStatus');
   });
 });
