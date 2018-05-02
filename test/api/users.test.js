@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
-import { getUsers, getUser, postUser, putUser, deleteUser } from 'api/users';
-import { USER, USERS, ERROR } from 'test/mocks/users';
+import { getUsers, getUser, postUser, putUser, deleteUser, postUserAuthorities, putUserAuthorities } from 'api/users';
+import { USER, USERS, ERROR, AUTHORITIES } from 'test/mocks/users';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -10,10 +10,9 @@ const correctRequest = {
   mockResponse: USERS,
   useAuthentication: true,
 };
-jest.mock('@entando/apimanager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
-}));
+
+
+makeRequest.mockImplementation(() => Promise.resolve({}));
 
 jest.unmock('api/users');
 
@@ -105,7 +104,6 @@ describe('putUser', () => {
       uri: `/api/users/${USER.username}`,
       body: USER,
       useAuthentication: true,
-
     }));
   });
 });
@@ -125,7 +123,44 @@ describe('deleteUser', () => {
       method: METHODS.DELETE,
       mockResponse: { code: `${USER.username}` },
       useAuthentication: true,
+    }));
+  });
+});
 
+describe('postUserAuthorities', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postUserAuthorities(USER.username, AUTHORITIES)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    postUserAuthorities(USER.username, AUTHORITIES);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}/authorities`,
+      method: METHODS.POST,
+      mockResponse: AUTHORITIES,
+      useAuthentication: true,
+    }));
+  });
+});
+
+describe('putUserAuthorities', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(putUserAuthorities(USER.username, AUTHORITIES)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    putUserAuthorities(USER.username, AUTHORITIES);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}/authorities`,
+      method: METHODS.PUT,
+      mockResponse: AUTHORITIES,
+      useAuthentication: true,
     }));
   });
 });

@@ -43,4 +43,20 @@ export const deleteUser = username => makeRequest({
   useAuthentication: true,
 });
 
+export const postUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.POST,
+  body: authorities,
+  mockResponse: authorities,
+  useAuthentication: true,
+});
+
+export const putUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.PUT,
+  body: authorities,
+  mockResponse: authorities,
+  useAuthentication: true,
+});
+
 export default getUsers;

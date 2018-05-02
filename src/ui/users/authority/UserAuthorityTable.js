@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Row, Col, FormGroup, Button } from 'patternfly-react';
+import { Row, Col, FormGroup, Button, Alert } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
 
 
@@ -30,9 +30,9 @@ class UserAuthorityTable extends Component {
     if (this.props.groupRolesCombo.length === 0) {
       return (
         <div>
-          <p>
+          <Alert type="info">
             <FormattedMessage id="user.authority.noAuthYet" />
-          </p>
+          </Alert>
           <hr />
         </div>
       );

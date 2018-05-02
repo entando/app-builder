@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
+import { getParams } from '@entando/router';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
@@ -11,6 +12,7 @@ export const mapStateToProps = state =>
     groups: getGroupsList(state),
     roles: getRolesList(state),
     groupRolesCombo: formValueSelector('autorityForm')(state, 'groupRolesCombo'),
+    username: getParams(state).username,
   });
 
 export const mapDispatchToProps = dispatch => ({

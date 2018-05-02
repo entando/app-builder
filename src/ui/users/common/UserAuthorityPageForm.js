@@ -24,7 +24,7 @@ export class UserAuthorityPageFormBody extends Component {
 
   render() {
     const { invalid, submitting } = this.props;
-    console.log(invalid || submitting);
+    const validate = values => (!values || values.length === 0);
 
     return (
       <form onSubmit={this.onSubmit} className="UserAuthorityPageForm form-horizontal">
@@ -39,6 +39,7 @@ export class UserAuthorityPageFormBody extends Component {
                   roles={this.props.roles}
                   groupRolesCombo={this.props.groupRolesCombo}
                   selectedJoinValues={this.props.selectedJoinValues}
+                  validate={validate}
                 />
               </Col>
             </Row>
