@@ -1,18 +1,16 @@
 import { connect } from 'react-redux';
 
 import PageStatus from 'ui/dashboard/PageStatus';
+import { fetchPageStatus } from 'state/dashboard/actions';
+import { getPageStatus } from 'state/dashboard/selectors';
 
-export const mapDispatchToProps = () => ({
-  onWillMount: () => {},
+export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => dispatch(fetchPageStatus()),
 });
 
-export const mapStateToProps = () => (
+export const mapStateToProps = state => (
   {
-    pageStatus: {
-      published: 6,
-      unpublished: 3,
-      draft: 2,
-    },
+    pageStatus: getPageStatus(state),
   }
 );
 
