@@ -1,5 +1,5 @@
-import { SET_APIS, SET_PLUGINS } from 'state/dashboard/types';
-import { getIntegration } from 'api/dashboard';
+import { SET_APIS, SET_PLUGINS, SET_PAGE_STATUS } from 'state/dashboard/types';
+import { getIntegration, getPageStatus } from 'api/dashboard';
 import { addErrors } from 'state/errors/actions';
 
 export const setApis = apis => ({
@@ -16,6 +16,13 @@ export const setPlugins = plugins => ({
   },
 });
 
+export const setPageStatus = pageStatus => ({
+  type: SET_PAGE_STATUS,
+  payload: {
+    pageStatus,
+  },
+});
+
 // thunks
 
 export const fetchIntegration = () => dispatch => new Promise((resolve) => {
@@ -24,6 +31,19 @@ export const fetchIntegration = () => dispatch => new Promise((resolve) => {
       if (response.ok) {
         dispatch(setApis(json.payload.apis));
         dispatch(setPlugins(json.payload.components));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
+export const fetchPageStatus = () => dispatch => new Promise((resolve) => {
+  getPageStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setPageStatus(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }

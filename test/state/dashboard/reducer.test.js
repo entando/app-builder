@@ -1,6 +1,4 @@
 import reducer from 'state/dashboard/reducer';
-import { setApis, setPlugins } from 'state/dashboard/actions';
-
 
 describe('state/dashboard/reducer', () => {
   const INITIAL_STATE = reducer();
@@ -8,5 +6,6 @@ describe('state/dashboard/reducer', () => {
   it('should return an object', () => {
     expect(INITIAL_STATE).toBeInstanceOf(Object);
     expect(INITIAL_STATE).toHaveProperty('integration');
+    expect(INITIAL_STATE).toHaveProperty('pageStatus');
   });
 });

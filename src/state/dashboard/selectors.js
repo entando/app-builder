@@ -16,3 +16,8 @@ export const getPlugins = createSelector(
   getIntegrations,
   integrations => integrations.plugins,
 );
+
+export const getPageStatus = createSelector(
+  getDashboard,
+  dashboard => dashboard.pageStatus,
+);
