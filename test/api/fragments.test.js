@@ -113,7 +113,7 @@ describe('api/fragments', () => {
     it('make the request', () => {
       getFragmentSettings();
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: '/api/fragmentsSettings/',
+        uri: '/api/fragmentsSettings',
         method: 'GET',
         mockResponse: FRAGMENT_SETTING,
 
@@ -130,7 +130,7 @@ describe('api/fragments', () => {
       putFragmentSettings(FRAGMENT_SETTING_OBJ);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
-        uri: '/api/fragmentsSettings/',
+        uri: '/api/fragmentsSettings',
         body: FRAGMENT_SETTING_OBJ,
         useAuthentication: true,
       }));
@@ -147,7 +147,7 @@ describe('api/fragments', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.POST,
         uri: '/api/fragments',
-        body: { code: `${GET_FRAGMENT_OK.code}`, guiCode: `${GET_FRAGMENT_OK.guiCode}` },
+        body: { code: GET_FRAGMENT_OK.code, guiCode: GET_FRAGMENT_OK.guiCode },
         useAuthentication: true,
       }));
     });
@@ -163,7 +163,7 @@ describe('api/fragments', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         method: METHODS.PUT,
         uri: `/api/fragments/${GET_FRAGMENT_OK.code}`,
-        body: { code: `${GET_FRAGMENT_OK.code}`, guiCode: `${GET_FRAGMENT_OK.guiCode}` },
+        body: { code: GET_FRAGMENT_OK.code, guiCode: GET_FRAGMENT_OK.guiCode },
         useAuthentication: true,
       }));
     });

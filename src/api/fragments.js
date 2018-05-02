@@ -38,7 +38,7 @@ export const postFragment = fragment => (
   makeRequest({
     uri: '/api/fragments',
     method: METHODS.POST,
-    body: { code: `${fragment.code}`, guiCode: `${fragment.guiCode}` },
+    body: { code: fragment.code, guiCode: fragment.guiCode },
     mockResponse: fragment,
     useAuthentication: true,
   })
@@ -66,7 +66,7 @@ export const deleteFragment = fragmentCode => (
 
 export const getFragmentSettings = () => (
   makeRequest({
-    uri: '/api/fragmentsSettings/',
+    uri: '/api/fragmentsSettings',
     method: METHODS.GET,
     mockResponse: FRAGMENT_SETTING,
     useAuthentication: true,
@@ -74,7 +74,7 @@ export const getFragmentSettings = () => (
 );
 export const putFragmentSettings = setting => (
   makeRequest({
-    uri: '/api/fragmentsSettings/',
+    uri: '/api/fragmentsSettings',
     method: METHODS.PUT,
     body: setting,
     mockResponse: { ...setting },
