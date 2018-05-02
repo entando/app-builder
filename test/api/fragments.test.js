@@ -25,10 +25,7 @@ const correctRequest = {
 };
 
 jest.unmock('api/fragments');
-jest.mock('@entando/apimanager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', DELETE: 'DELETE', POST: 'POST' },
-}));
+makeRequest.mockImplementation(() => Promise.resolve({}));
 
 describe('api/fragments', () => {
   beforeEach(() => {
