@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
-import { ROUTE_CATEGORY_EDIT } from 'app-init/router';
+import { ROUTE_CATEGORY_EDIT, ROUTE_CATEGORY_DETAIL } from 'app-init/router';
 
 const CategoryListMenuActions = ({ onClickDelete, code }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>
-
-    <MenuItem
-      className="CategoryListMenuAction__menu-item-detail"
-    >
-      <FormattedMessage id="app.details" values={{ code }} />
-    </MenuItem>
+    <LinkMenuItem
+      id={`detail-${code}`}
+      route={ROUTE_CATEGORY_DETAIL}
+      params={{ categoryCode: code }}
+      label={<FormattedMessage id="app.details" />}
+      className="CategoryListMenuAction__menu-item-details"
+    />
     <MenuItem
       className="CategoryListMenuAction__menu-item-add"
     >

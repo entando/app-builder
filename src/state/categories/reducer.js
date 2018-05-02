@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
+  SET_REFERENCES,
 } from 'state/categories/types';
 
 const toMap = (array, propKey) => array.reduce((acc, category) => {
@@ -116,10 +117,30 @@ const statusMap = (state = {}, action = {}) => {
   }
 };
 
-const selected = (state = null, action = {}) => {
+const getRefKeyList = (category) => {
+  const refKeyList = [];
+  if (category.references) {
+    const references = Object.keys(category.references);
+    references.forEach((referenceKey) => {
+      refKeyList.push(referenceKey);
+    });
+  }
+  return refKeyList;
+};
+
+const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_CATEGORY: {
-      return action.payload.category;
+      return {
+        ...action.payload.category,
+        referenceKeyList: getRefKeyList(action.payload.category),
+      };
+    }
+    case SET_REFERENCES: {
+      return {
+        ...state,
+        referenceMap: { ...state.referenceMap, ...action.payload.references },
+      };
     }
     default: return state;
   }
