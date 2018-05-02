@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
-import { getUsers, getUser, postUser, putUser, deleteUser } from 'api/users';
+import { getUsers, getUser, postUser, putUser, deleteUser, postUserAuthorities } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -155,3 +155,19 @@ export const sendDeleteUser = username => dispatch => (
     });
   })
 );
+
+export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
+  const username = getParams(getState());
+  const response = await postUserAuthorities(username, authorities);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      gotoRoute(ROUTE_USER_LIST);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};

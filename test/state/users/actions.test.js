@@ -7,13 +7,18 @@ import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
-  fetchUsersTotal, sendDeleteUser,
+  fetchUsersTotal, sendDeleteUser, sendPostUserAuthorities,
+  sendPutUserAuthorities,
 } from 'state/users/actions';
 import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { USER, USERS } from 'test/mocks/users';
-import { getUsers, getUser, putUser, postUser, deleteUser } from 'api/users';
+import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
+import {
+  getUsers, getUser, putUser, postUser, deleteUser,
+  postUserAuthorities, putUserAuthorities,
+}
+  from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -227,5 +232,53 @@ describe('state/users/actions', () => {
         });
       });
     });
+
+    describe('sendPostUserAuthorities', () => {
+      it('when sendPostUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+        store.dispatch(sendPostUserAuthorities(AUTHORITIES)).then(() => {
+          expect(postUserAuthorities).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        postUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
+          expect(postUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+
+    // describe('sendPutUserAuthorities', () => {
+    //   it('when sendPutUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+    //     store.dispatch(sendPutUserAuthorities(AUTHORITIES)).then(() => {
+    //       expect(putUserAuthorities).toHaveBeenCalled();
+    //       expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+    //       done();
+    //     }).catch(done.fail);
+    //   });
+    //
+    //   it('if the response is not ok, dispatch add errors', async () => {
+    //     postUserAuthorities.mockImplementation(mockApi({ errors: true }));
+    //     return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
+    //       expect(postUserAuthorities).toHaveBeenCalled();
+    //       const actions = store.getActions();
+    //       expect(actions).toHaveLength(1);
+    //       expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+    //       expect(e).toHaveProperty('errors');
+    //       e.errors.forEach((error, index) => {
+    //         expect(error.message).toEqual(actions[0].payload.errors[index]);
+    //       });
+    //     });
+    //   });
+    // });
   });
 });
