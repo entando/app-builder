@@ -2,10 +2,10 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { isFSA } from 'flux-standard-action';
-import { setApis, setPlugins, fetchIntegration } from 'state/integrations/actions';
+import { setApis, setPlugins, fetchIntegration } from 'state/dashboard/actions';
 import { mockApi } from 'test/testUtils';
 import { getIntegration } from 'api/dashboard';
-import { SET_APIS, SET_PLUGINS } from 'state/integrations/types';
+import { SET_APIS, SET_PLUGINS } from 'state/dashboard/types';
 import { ADD_ERRORS } from 'state/errors/types';
 
 const middlewares = [thunk];

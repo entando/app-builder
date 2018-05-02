@@ -1,8 +1,8 @@
-import reducer from 'state/integrations/reducer';
-import { setApis, setPlugins } from 'state/integrations/actions';
+import reducer from 'state/dashboard/integrations/reducer';
+import { setApis, setPlugins } from 'state/dashboard/actions';
 
 
-describe('state/integrations/reducer', () => {
+describe('state/dashboard/integrations/reducer', () => {
   const INITIAL_STATE = reducer();
 
   it('should return an object', () => {

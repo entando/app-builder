@@ -1,6 +1,11 @@
 import { createSelector } from 'reselect';
 
-export const getIntegrations = state => state.integrations;
+export const getDashboard = state => state.dashboard;
+
+export const getIntegrations = createSelector(
+  getDashboard,
+  dashboard => dashboard.integrations,
+);
 
 export const getApis = createSelector(
   getIntegrations,
