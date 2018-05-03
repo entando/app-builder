@@ -15,6 +15,7 @@ export const mapDispatchToProps = dispatch => ({
   changeContent: (content) => {
     if (content === WIDGET_LIST) {
       dispatch(toggleContent());
+      dispatch(toggleContentToolbarExpanded(false));
     }
   },
   toggleContentToolbar: (content) => {

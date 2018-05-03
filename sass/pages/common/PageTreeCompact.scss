@@ -32,6 +32,11 @@
     }
   }
 
+  &__actions-col,
+  &__status-col {
+    width: 40px;
+  }
+
   .PageTreeActionMenuButton,
   .PageTreeActionMenuButton:focus {
     height: 18px;

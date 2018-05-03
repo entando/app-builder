@@ -64,8 +64,11 @@ export const toggleContent = () => ({
   type: TOGGLE_CONTENT,
 });
 
-export const toggleContentToolbarExpanded = () => ({
+export const toggleContentToolbarExpanded = expand => ({
   type: TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  payload: {
+    expand,
+  },
 });
 
 export const setSearchFilter = filter => ({

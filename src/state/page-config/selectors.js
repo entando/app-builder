@@ -33,7 +33,7 @@ export const getViewList = createSelector(getPageConfig, pageConfig => pageConfi
 export const filterWidgetList = createSelector(
   [getListWidget, getSearchFilter, getLocale],
   (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :
-    widgetList.filter(f => f.titles[locale].includes(searchFilter)))
+    widgetList.filter(f => f.titles[locale].toLowerCase().includes(searchFilter.toLowerCase())))
   ,
 );
 
