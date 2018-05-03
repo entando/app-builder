@@ -87,13 +87,25 @@ describe('state/page-config/reducer', () => {
     });
   });
 
-  describe('after action SET_TOOLBAR_EXPANDED', () => {
-    beforeEach(() => {
+  describe('after action TOGGLE_TOOLBAR_EXPANDED', () => {
+    it('with no argument, should toggle the toolbar expanded value', () => {
       state = reducer({}, toggleContentToolbarExpanded());
-    });
-    it('should toggle the toolbar expanded value', () => {
       expect(state.toolbarExpanded).toBe(true);
       state = reducer(state, toggleContentToolbarExpanded());
+      expect(state.toolbarExpanded).toBe(false);
+    });
+
+    it('with true argument, should expand the toolbar', () => {
+      state = reducer({}, toggleContentToolbarExpanded(true));
+      expect(state.toolbarExpanded).toBe(true);
+      state = reducer(state, toggleContentToolbarExpanded(true));
+      expect(state.toolbarExpanded).toBe(true);
+    });
+
+    it('with false argument, should collapse the toolbar', () => {
+      state = reducer({}, toggleContentToolbarExpanded(false));
+      expect(state.toolbarExpanded).toBe(false);
+      state = reducer(state, toggleContentToolbarExpanded(false));
       expect(state.toolbarExpanded).toBe(false);
     });
   });

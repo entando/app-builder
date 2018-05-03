@@ -3,19 +3,16 @@
 .ToolbarPageConfig {
 
   &__drawer-pf-sidebar-right {
-    position: fixed;
-    top: 73px;
-    right: 0;
-    width: 320px;
     height: calc(100vh - 46px);
     border: 1px solid $color-pf-black-300 ;
     background-color: $color-pf-black-100 ;
     box-shadow: 0 6px 12px rgba(3,3,3,.175);
     z-index: 10;
-    overflow-y: auto;
   }
 
   &__drawer-pf-sidebar-right-expanded {
+    position: fixed;
+    right: 0;
     width: calc(100% - 200px);
   }
 
@@ -25,7 +22,8 @@
   }
 
   &__drawer-pf-title {
-    position: absolute;
+    display: block;
+    position: relative;
     width: 100% ;
     padding: 1.2em 0 1.2em 0;
     background: $color-pf-black-700;
@@ -57,8 +55,9 @@
   }
 
   &__drawer-pf-container {
-    margin-top: 50px;
+    height: calc(100vh - 46px);
     border-top: 1px solid $color-pf-black-200;
+    overflow-y: auto;
   }
 }
 

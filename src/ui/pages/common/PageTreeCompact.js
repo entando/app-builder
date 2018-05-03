@@ -25,7 +25,7 @@ class PageTreeCompact extends Component {
 
       return (
         <tr key={page.code} className="PageTreeCompact__row">
-          <td className={className.join(' ').trim()} width="70%">
+          <td className={className.join(' ').trim()}>
             <span
               role="button"
               tabIndex={i}
@@ -42,10 +42,10 @@ class PageTreeCompact extends Component {
               <RowSpinner loading={!!page.loading} />
             </span>
           </td>
-          <td className="text-center">
+          <td className="text-center PageTreeCompact__status-col">
             <PageStatusIcon status={page.status} />
           </td>
-          <td className="text-center">
+          <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
               <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_ADD)} >
                 <FormattedMessage id="app.add" />
