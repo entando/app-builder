@@ -73,7 +73,7 @@ class PageConfigPage extends Component {
       <InternalPage className="PageConfigPage">
         <Grid fluid>
           <Row>
-            <Col xs={8} lg={9} xl={10}>
+            <Col xs={8} lg={9}>
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
@@ -182,7 +182,7 @@ class PageConfigPage extends Component {
 
               <PageConfigGridContainer />
             </Col>
-            <Col xs={4} lg={3} xl={2} className="PageConfigPage__side-widget">
+            <Col xs={4} lg={3} className="PageConfigPage__side-widget">
               <ToolbarPageConfigContainer />
             </Col>
           </Row>
