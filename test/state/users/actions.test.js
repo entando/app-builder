@@ -257,28 +257,28 @@ describe('state/users/actions', () => {
       });
     });
 
-    // describe('sendPutUserAuthorities', () => {
-    //   it('when sendPutUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
-    //     store.dispatch(sendPutUserAuthorities(AUTHORITIES)).then(() => {
-    //       expect(putUserAuthorities).toHaveBeenCalled();
-    //       expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
-    //       done();
-    //     }).catch(done.fail);
-    //   });
-    //
-    //   it('if the response is not ok, dispatch add errors', async () => {
-    //     postUserAuthorities.mockImplementation(mockApi({ errors: true }));
-    //     return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
-    //       expect(postUserAuthorities).toHaveBeenCalled();
-    //       const actions = store.getActions();
-    //       expect(actions).toHaveLength(1);
-    //       expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-    //       expect(e).toHaveProperty('errors');
-    //       e.errors.forEach((error, index) => {
-    //         expect(error.message).toEqual(actions[0].payload.errors[index]);
-    //       });
-    //     });
-    //   });
-    // });
+    describe('sendPutUserAuthorities', () => {
+      it('when sendPutUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+        store.dispatch(sendPutUserAuthorities(AUTHORITIES)).then(() => {
+          expect(putUserAuthorities).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        postUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
+          expect(postUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
   });
 });
