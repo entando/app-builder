@@ -1,21 +1,21 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/dashboard/IntegrationsContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/dashboard/PageStatusContainer';
 
 const TEST_STATE = {
   dashboard: {
-    integrations: {
-      plugins: 2,
-      apis: 5,
+    pageStatus: {
+      draft: 2,
+      published: 5,
+      unpublished: 1,
     },
   },
 };
 
-describe('IntegrationsContainer', () => {
-  it('maps apis and plugins properties', () => {
+describe('PageStatusContainer', () => {
+  it('maps the pageStatus property', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
-      plugins: 2,
-      apis: 5,
+      pageStatus: TEST_STATE.dashboard.pageStatus,
     });
   });
 

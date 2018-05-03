@@ -1,4 +1,4 @@
-import { SET_APIS, SET_PLUGINS } from 'state/integrations/types';
+import { SET_APIS, SET_PLUGINS } from 'state/dashboard/types';
 
 const defaultState = {
   apis: 0,
