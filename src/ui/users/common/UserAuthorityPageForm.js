@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col, Button } from 'patternfly-react';
-import { reduxForm, FieldArray } from 'redux-form';
+import { reduxForm, FieldArray, Form } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-
+import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 
 export class UserAuthorityPageFormBody extends Component {
@@ -17,17 +17,24 @@ export class UserAuthorityPageFormBody extends Component {
     this.props.onWillMount();
   }
 
-  onSubmit = (ev) => {
-    ev.preventDefault();
-    this.props.handleSubmit();
-  };
+
+  // onSubmit = (ev) => {
+  //   ev.preventDefault();
+  //   console.log('On Submit');
+  //   console.log(this.props);
+  //   const { handleSubmit } = this.props;
+  //   handleSubmit((values) => { this.props.onSubmit(values, this.props.actionOnSave); });
+  // };
 
   render() {
-    const { invalid, submitting } = this.props;
+    const { invalid, submitting, handleSubmit } = this.props;
     const validate = values => (!values || values.length === 0);
 
     return (
-      <form onSubmit={this.onSubmit} className="UserAuthorityPageForm form-horizontal">
+      <Form
+        onSubmit={handleSubmit(values => this.props.onSubmit(values, this.props.actionOnSave))}
+        className="UserAuthorityPageForm form-horizontal"
+      >
         <Col xs={12}>
           <Grid fluid>
             <Row>
@@ -38,7 +45,6 @@ export class UserAuthorityPageFormBody extends Component {
                   groups={this.props.groups}
                   roles={this.props.roles}
                   groupRolesCombo={this.props.groupRolesCombo}
-                  selectedJoinValues={this.props.selectedJoinValues}
                   validate={validate}
                 />
               </Col>
@@ -55,14 +61,16 @@ export class UserAuthorityPageFormBody extends Component {
             </Button>
           </Col>
         </Col>
-      </form>
+      </Form>
     );
   }
 }
 
 UserAuthorityPageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
+  actionOnSave: PropTypes.oneOf([ACTION_SAVE, ACTION_UPDATE]),
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
@@ -74,13 +82,10 @@ UserAuthorityPageFormBody.propTypes = {
     code: PropTypes.string,
   })),
   groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
-    group: PropTypes.string,
-    role: PropTypes.string,
+    group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
+    role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
   })),
-  selectedJoinValues: PropTypes.shape({
-    groups: PropTypes.string,
-    roles: PropTypes.string,
-  }),
+
 };
 
 UserAuthorityPageFormBody.defaultProps = {
@@ -89,10 +94,7 @@ UserAuthorityPageFormBody.defaultProps = {
   groups: [],
   roles: [],
   groupRolesCombo: [],
-  selectedJoinValues: {
-    groups: null,
-    roles: null,
-  },
+  actionOnSave: ACTION_SAVE,
 };
 
 const UserAuthorityPageForm = reduxForm({

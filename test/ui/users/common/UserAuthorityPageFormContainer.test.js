@@ -9,10 +9,13 @@ import { LIST_ROLES_OK } from 'test/mocks/roles';
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
-  getRolesList: jest.fn(),
 }));
 jest.mock('state/roles/selectors', () => ({
   getRolesList: jest.fn(),
+}));
+
+jest.mock('state/users/selectors', () => ({
+  getGroupRolesCombo: jest.fn(),
 }));
 
 getGroupsList.mockReturnValue(LIST_GROUPS_OK);

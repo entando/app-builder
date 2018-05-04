@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getUsers, getUser, postUser, putUser, deleteUser, postUserAuthorities, putUserAuthorities } from 'api/users';
+import { getUsers, getUser, postUser, putUser, deleteUser, getUserAuthorities, postUserAuthorities, putUserAuthorities } from 'api/users';
 import { USER, USERS, ERROR, AUTHORITIES } from 'test/mocks/users';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -127,6 +127,25 @@ describe('deleteUser', () => {
   });
 });
 
+describe('getUserAuthorities', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(getUserAuthorities(USER.username)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    getUserAuthorities(USER.username);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}/authorities`,
+      method: METHODS.GET,
+      mockResponse: AUTHORITIES,
+      useAuthentication: true,
+    }));
+  });
+});
+
 describe('postUserAuthorities', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -140,7 +159,7 @@ describe('postUserAuthorities', () => {
     expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
       uri: `/api/users/${USER.username}/authorities`,
       method: METHODS.POST,
-      mockResponse: AUTHORITIES,
+      mockResponse: { ...AUTHORITIES },
       useAuthentication: true,
     }));
   });
@@ -159,7 +178,7 @@ describe('putUserAuthorities', () => {
     expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
       uri: `/api/users/${USER.username}/authorities`,
       method: METHODS.PUT,
-      mockResponse: AUTHORITIES,
+      mockResponse: { ...AUTHORITIES },
       useAuthentication: true,
     }));
   });

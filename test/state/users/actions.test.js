@@ -7,16 +7,16 @@ import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
-  fetchUsersTotal, sendDeleteUser, sendPostUserAuthorities,
+  fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
   sendPutUserAuthorities,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import {
   getUsers, getUser, putUser, postUser, deleteUser,
-  postUserAuthorities, putUserAuthorities,
+  getUserAuthorities, postUserAuthorities, putUserAuthorities,
 }
   from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
@@ -229,6 +229,31 @@ describe('state/users/actions', () => {
             expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
             done();
           }).catch(done.fail);
+        });
+      });
+    });
+
+    describe('fetchPostUserAuthorities', () => {
+      it('when fecthPostUserAuthorities succeeds, should dispatch SET_SELECTED_USER_AUTHORITIES', (done) => {
+        store.dispatch(fetchUserAuthorities(USER.username)).then(() => {
+          expect(getUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_USER_AUTHORITIES);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        getUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(fetchUserAuthorities(USER.username)).catch((e) => {
+          expect(getUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
         });
       });
     });
