@@ -1,6 +1,8 @@
 import { reloadConf } from 'api/reloadConfiguration';
 import { addErrors } from 'state/errors/actions';
+import { gotoRoute } from '@entando/router';
 import { SET_STATUS } from 'state/reload-configuration/types';
+import { ROUTE_RELOAD_CONFIRM } from 'app-init/router';
 
 export const setStatus = status => ({
   type: SET_STATUS,
@@ -15,8 +17,8 @@ export const sendReloadConf = () => dispatch =>
     reloadConf().then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          console.log(data.payload);
-          setStatus(data.payload);
+          dispatch(setStatus(data.payload));
+          gotoRoute(ROUTE_RELOAD_CONFIRM);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
         }

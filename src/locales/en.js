@@ -86,6 +86,7 @@ export default {
     'menu.categories': 'Categories',
     'menu.roles': 'Roles',
     'menu.reloadConfiguration': 'Reload Configuration',
+    'menu.reloadConfirm': 'Reload the Configuration',
     'dashboard.newUser': 'New User',
     'dashboard.newWidget': 'New Widget',
     'dashboard.apis': 'APIs',
@@ -320,5 +321,7 @@ export default {
     'reloadConfiguration.help': 'The RELOAD CONFIGURATION section lets you to reload the system configuration. This operation is necessary after modifying some parameters.',
     'reloadConfiguration.reload.title': 'Reload the configuration',
     'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
+    'reloadConfiguration.confirm.success': 'The configuration has been reloaded.',
+    'reloadConfiguration.confirm.error': 'Something went wrong while reloading the configuration. Try again in a minute.',
   },
 };

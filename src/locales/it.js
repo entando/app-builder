@@ -86,6 +86,7 @@ export default {
     'menu.categories': 'Categorie',
     'menu.roles': 'Roles',
     'menu.reloadConfiguration': 'Ricarca la configurazione',
+    'menu.reloadConfirm': 'Reload the Configuration',
     'dashboard.newUser': 'Nuovo Utente',
     'dashboard.newWidget': 'Nuovo Widget',
     'dashboard.apis': 'APIs',
@@ -320,5 +321,7 @@ export default {
     'reloadConfiguration.help': 'The RELOAD CONFIGURATION section lets you to reload the system configuration. This operation is necessary after modifying some parameters.',
     'reloadConfiguration.reload.title': 'Ricarca la configurazione',
     'reloadConfiguration.reload.confirm': 'Sei sicuro di voler ricaricare la configurazione?',
+    'reloadConfiguration.confirm.success': 'La configurazione di sistema è stata ricaricata.',
+    'reloadConfiguration.confirm.error': 'Non è stato possibile ricaricare la configurazione di sistema',
   },
 };

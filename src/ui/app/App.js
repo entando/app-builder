@@ -49,6 +49,7 @@ import {
   ROUTE_ROLE_EDIT,
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
+  ROUTE_RELOAD_CONFIRM,
 
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
@@ -97,7 +98,8 @@ import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
-import ReloadConfPage from 'ui/reload-configuration/ReloadConfPage';
+import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
+import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 
@@ -156,7 +158,8 @@ const App = ({ route, username }) => {
     case ROUTE_ROLE_ADD: return <AddRolePage />;
     case ROUTE_ROLE_EDIT: return <EditRolePage />;
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
-    case ROUTE_RELOAD_CONFIG: return <ReloadConfPage />;
+    case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
+    case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
 
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
     default: return <NotFoundPage />;

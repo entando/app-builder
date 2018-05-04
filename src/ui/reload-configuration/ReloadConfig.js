@@ -10,25 +10,25 @@ import {
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-const ReloadAction = ({ onReload }) => (
-  <EmptyState>
-    <EmptyStateIcon name="exclamation" type="fa" className="ReloadAction__icon" />
-    <EmptyStateTitle>
+const ReloadConfig = ({ onReload }) => (
+  <EmptyState className="ReloadConfig">
+    <EmptyStateIcon name="exclamation" type="fa" className="ReloadConfig__icon" />
+    <EmptyStateTitle className="ReloadConfig__title">
       <FormattedMessage id="reloadConfiguration.reload.title" />
     </EmptyStateTitle>
-    <EmptyStateInfo>
+    <EmptyStateInfo className="ReloadConfig__info">
       <FormattedMessage id="reloadConfiguration.reload.confirm" />
     </EmptyStateInfo>
     <EmptyStateAction>
-      <Button bsStyle="danger" bsSize="large" onClick={() => (onReload())}>
+      <Button className="ReloadConfig__reload-button" bsStyle="danger" onClick={() => (onReload())}>
         <FormattedMessage id="app.reload" />
       </Button>
     </EmptyStateAction>
   </EmptyState>
 );
 
-ReloadAction.propTypes = {
+ReloadConfig.propTypes = {
   onReload: PropTypes.func.isRequired,
 };
 
-export default ReloadAction;
+export default ReloadConfig;
