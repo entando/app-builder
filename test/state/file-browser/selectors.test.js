@@ -1,26 +1,21 @@
 import {
-  getIntegrations,
-  getApis,
-  getPlugins,
-} from 'state/integrations/selectors';
+  getFileBrowser,
+  getFileList,
+} from 'state/file-browser/selectors';
+import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 
 const STATE = {
-  integrations: {
-    apis: 1,
-    plugins: 2,
+  fileBrowser: {
+    list: FILE_BROWSER,
   },
 };
 
-describe('state/integrations/selectors', () => {
-  it('getIntegrations returns the full state', () => {
-    expect(getIntegrations(STATE)).toEqual(STATE.integrations);
+describe('state/file-browser/selectors', () => {
+  it('getFileBrowser returns the full state', () => {
+    expect(getFileBrowser(STATE)).toEqual(STATE.fileBrowser);
   });
 
-  it('getApis returns the apis', () => {
-    expect(getApis(STATE)).toEqual(STATE.integrations.apis);
-  });
-
-  it('getPlugins returns the plugins', () => {
-    expect(getPlugins(STATE)).toEqual(STATE.integrations.plugins);
+  it('getFileList returns the file list', () => {
+    expect(getFileList(STATE)).toEqual(FILE_BROWSER);
   });
 });

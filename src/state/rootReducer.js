@@ -29,6 +29,7 @@ import loading from 'state/loading/reducer';
 import permissions from 'state/permissions/reducer';
 import alerts from 'state/alerts/reducer';
 import integrations from 'state/integrations/reducer';
+import fileBrowser from 'state/file-browser/reducer';
 
 const reducerDef = {
   activityStream,
@@ -39,6 +40,7 @@ const reducerDef = {
   dataModels,
   dataTypes,
   errors,
+  fileBrowser,
   form,
   fragments,
   groups,
