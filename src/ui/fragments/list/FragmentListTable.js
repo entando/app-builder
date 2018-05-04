@@ -29,7 +29,7 @@ class FragmentListTable extends Component {
     const pagination = {
       page: this.props.page,
       perPage: this.props.pageSize,
-      perPageOptions: [5, 10, 15, 25, 50],
+      perPageOptions: [5, 10, 15, 25, 50, 100, 150],
     };
     return (
       <Col xs={12}>

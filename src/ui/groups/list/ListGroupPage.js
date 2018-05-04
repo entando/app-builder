@@ -16,7 +16,7 @@ const ListGroupPage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.configuration" />
+              <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="menu.groups" />

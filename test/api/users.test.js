@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getUsers, getUser, postUser, putUser } from 'api/users';
+import { getUsers, getUser, postUser, putUser, deleteUser } from 'api/users';
 import { USER, USERS, ERROR } from 'test/mocks/users';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -104,6 +104,26 @@ describe('putUser', () => {
       method: METHODS.PUT,
       uri: `/api/users/${USER.username}`,
       body: USER,
+      useAuthentication: true,
+
+    }));
+  });
+});
+
+describe('deleteUser', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(deleteUser(USER.username)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    deleteUser(USER.username);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}`,
+      method: METHODS.DELETE,
+      mockResponse: { code: `${USER.username}` },
       useAuthentication: true,
 
     }));

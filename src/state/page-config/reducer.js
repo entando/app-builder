@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { isBoolean } from 'lodash';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
@@ -104,6 +105,9 @@ const publishedConfigMap = (state = {}, action = {}) => {
 export const toolbarExpanded = (state = false, action = {}) => {
   switch (action.type) {
     case TOGGLE_CONTENT_TOOLBAR_EXPANDED: {
+      if (isBoolean(action.payload.expand)) {
+        return action.payload.expand;
+      }
       return !state;
     }
     default: return state;
