@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col, Button } from 'patternfly-react';
-import { reduxForm, FieldArray, Form } from 'redux-form';
+import { reduxForm, FieldArray } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
@@ -17,21 +17,12 @@ export class UserAuthorityPageFormBody extends Component {
     this.props.onWillMount();
   }
 
-
-  // onSubmit = (ev) => {
-  //   ev.preventDefault();
-  //   console.log('On Submit');
-  //   console.log(this.props);
-  //   const { handleSubmit } = this.props;
-  //   handleSubmit((values) => { this.props.onSubmit(values, this.props.actionOnSave); });
-  // };
-
   render() {
     const { invalid, submitting, handleSubmit } = this.props;
     const validate = values => (!values || values.length === 0);
 
     return (
-      <Form
+      <form
         onSubmit={handleSubmit(values => this.props.onSubmit(values, this.props.actionOnSave))}
         className="UserAuthorityPageForm form-horizontal"
       >
@@ -61,7 +52,7 @@ export class UserAuthorityPageFormBody extends Component {
             </Button>
           </Col>
         </Col>
-      </Form>
+      </form>
     );
   }
 }

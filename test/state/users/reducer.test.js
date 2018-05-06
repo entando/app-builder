@@ -49,7 +49,6 @@ describe('state/users/reducer', () => {
     it('should define the dataType payload', () => {
       expect(newState.authorities).toMatchObject({
         username: users[0].username,
-        list: AUTHORITIES,
       });
     });
   });

@@ -16,28 +16,19 @@ jest.mock('state/roles/selectors', () => ({
 
 jest.mock('state/users/selectors', () => ({
   getGroupRolesCombo: jest.fn(),
+  getSelectedUserActionAuthorities: jest.fn(),
 }));
 
 getGroupsList.mockReturnValue(LIST_GROUPS_OK);
 getRolesList.mockReturnValue(LIST_ROLES_OK);
 
-const GROUP_ROLES_COMBO = {
-  group: LIST_GROUPS_OK,
-  role: LIST_ROLES_OK,
-};
-
-const TEST_STATE = {
-  groups: LIST_GROUPS_OK,
-  roles: LIST_ROLES_OK,
-  groupRolesCombo: GROUP_ROLES_COMBO,
-};
-
 describe('UserAuthorityPageFormContainer', () => {
   it('maps groups & roles property state in UserAuthorityPageFormContainer', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({
-      groups: LIST_GROUPS_OK,
-      roles: LIST_ROLES_OK,
-    });
+    const props = mapStateToProps({});
+    expect(props).toHaveProperty('groups');
+    expect(props).toHaveProperty('roles');
+    expect(props).toHaveProperty('groupRolesCombo');
+    expect(props).toHaveProperty('actionOnSave');
   });
 
   it('verify that onWillMount and onSubmit are defined in mapDispatchToProps', () => {

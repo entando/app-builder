@@ -19,8 +19,8 @@ const ROLES_MOCKS = [
 
 const GROUP_ROLES_COMBO = [
   {
-    group: GROUPS_MOCKS[0].name,
-    role: ROLES_MOCKS[0].name,
+    group: GROUPS_MOCKS[0],
+    role: ROLES_MOCKS[0],
   },
 ];
 

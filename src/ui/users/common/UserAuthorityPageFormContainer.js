@@ -4,8 +4,10 @@ import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
 import { fetchRoles } from 'state/roles/actions';
 import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
-import { fetchUserAuthorities } from 'state/users/actions';
+import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
+import { fetchUserAuthorities, sendPostUserAuthorities, sendPutUserAuthorities } from 'state/users/actions';
 import { getGroupRolesCombo, getSelectedUserActionAuthorities } from 'state/users/selectors';
+
 
 export const mapStateToProps = state =>
   ({
@@ -17,16 +19,22 @@ export const mapStateToProps = state =>
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(fetchGroups()).then(() => {
-      dispatch(fetchRoles()).then(() => {
-        dispatch(fetchUserAuthorities());
-      });
-    });
+    dispatch(fetchGroups());
+    dispatch(fetchRoles());
+    dispatch(fetchUserAuthorities());
   },
   onSubmit: (authorities, action) => {
-    console.log('action', action);
-    console.log(authorities);
-    // dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+    switch (action) {
+      case ACTION_SAVE: {
+        dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+        break;
+      }
+      case ACTION_UPDATE: {
+        dispatch(sendPutUserAuthorities(authorities.groupRolesCombo));
+        break;
+      }
+      default: dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+    }
   },
 
 });
