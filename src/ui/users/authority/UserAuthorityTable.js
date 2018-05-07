@@ -102,13 +102,13 @@ class UserAuthorityTable extends Component {
         </Row>
         <FormGroup>
           <Row>
-            <label className="control-label col-sm-2" htmlFor="widgetType">
+            <label className="control-label col-xs-2" htmlFor="group">
               <FormattedMessage id="user.authority.groups" />
             </label>
             <Col xs={9}>
               <select
                 className="form-control"
-                name="roles"
+                name="group"
                 ref={(group) => { this.group = group; }}
               >
                 {groupOptions}
@@ -118,7 +118,7 @@ class UserAuthorityTable extends Component {
         </FormGroup>
         <FormGroup>
           <Row>
-            <label className="control-label col-sm-2" htmlFor="plugin">
+            <label className="control-label col-xs-2" htmlFor="roles">
               <FormattedMessage id="user.authority.roles" />
             </label>
             <Col xs={9}>
