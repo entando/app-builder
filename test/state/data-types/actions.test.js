@@ -2,8 +2,12 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
-import { gotoRoute } from 'frontend-common-components';
-import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
+import { gotoRoute, getParams } from '@entando/router';
+import {
+  ROUTE_DATA_TYPE_LIST,
+  ROUTE_DATA_TYPE_EDIT,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
+} from 'app-init/router';
 import { mockApi } from 'test/testUtils';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -18,7 +22,10 @@ import {
   SET_SELECTED_ATTRIBUTE,
   REMOVE_ATTRIBUTE,
 } from 'state/data-types/types';
-import { getDataTypeAttributesIdList } from 'state/data-types/selectors';
+import {
+  getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeType,
+} from 'state/data-types/selectors';
 import {
   sendPostDataType,
   sendPutDataType,
@@ -66,7 +73,12 @@ const INITIAL_STATE = {};
 
 jest.mock('state/data-types/selectors', () => ({
   getDataTypeAttributesIdList: jest.fn(),
+  getDataTypeSelectedAttributeType: jest.fn(),
 }));
+
+getParams.mockReturnValue({ list: 'Monolist' });
+getParams.mockReturnValue({ datatypeCode: 'Monolist' });
+getParams.mockReturnValue({ entityCode: 'Monolist' });
 
 describe('state/data-types/actions ', () => {
   let store;
@@ -141,7 +153,6 @@ describe('state/data-types/actions ', () => {
         postDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
         store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
           done();
         }).catch(done.fail);
       });
@@ -163,7 +174,8 @@ describe('state/data-types/actions ', () => {
         putDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
         store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
           expect(putDataType).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
+          expect(gotoRoute).toHaveBeenCalled();
           done();
         }).catch(done.fail);
       });
@@ -209,7 +221,7 @@ describe('state/data-types/actions ', () => {
         getDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
         store.dispatch(fetchDataType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_DATA_TYPE);
           expect(actions[0]).toHaveProperty('payload');
           expect(actions[0].payload).toMatchObject({ dataType: DATA_TYPES });
@@ -271,7 +283,7 @@ describe('state/data-types/actions ', () => {
       it('fetchAttributeFromDataType calls setSelectedAttributeDataType', (done) => {
         store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
           done();
         }).catch(done.fail);
@@ -289,9 +301,14 @@ describe('state/data-types/actions ', () => {
     });
 
     describe('sendPostAttributeFromDataType', () => {
+      // getParams.mockReturnValue({ entityCode: 'Boolean' });
+      // getParams.mockReturnValue({ list: 'Monolist' });
       it('sendPostAttributeFromDataType calls goToRoute', (done) => {
         store.dispatch(sendPostAttributeFromDataType('AAA', {})).then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          // expect(gotoRoute).toHaveBeenCalled;
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+            dataTypeCode: 'test',
+          });
           done();
         }).catch(done.fail);
       });
@@ -310,7 +327,8 @@ describe('state/data-types/actions ', () => {
     describe('sendPutAttributeFromDataType', () => {
       it('sendPutAttributeFromDataType calls goToRoute', (done) => {
         store.dispatch(sendPutAttributeFromDataType('AAA', {})).then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          // expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
+          expect(gotoRoute).toHaveBeenCalled;
           done();
         }).catch(done.fail);
       });
@@ -332,7 +350,7 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
           done();
         }).catch(done.fail);
       });
@@ -395,7 +413,7 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
           expect(actions[0]).toHaveProperty('payload.attribute');
           expect(actions[0].payload.attribute).toMatchObject(DATA_TYPE_ATTRIBUTE);

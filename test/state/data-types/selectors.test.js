@@ -8,6 +8,11 @@ import {
   getSelectedDataType,
   getDataTypeAttributes,
   getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeType,
+  getDataTypeSelectedAttributeSearchable,
+  getDataTypeSelectedAttributeIndexable,
+  getDataTypeSelectedAttributeAllowedRoles,
+  getDataTypeSelectedAttributeallowedDisablingCodes,
 } from 'state/data-types/selectors';
 
 const TEST_STATE = {
@@ -35,7 +40,14 @@ const STATE_ATTRIBUTES = {
   dataTypes: {
     attributes: {
       list: [],
-      selected: {},
+      selected: {
+        listAttribute: [],
+        searchableOptionSupported: [],
+        indexableOptionSupported: [],
+        allowedRoles: [],
+        allowedDisablingCodes: [],
+
+      },
     },
   },
 };
@@ -76,6 +88,18 @@ describe('state/users/selectors', () => {
     expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
   });
   it('verify getDataTypeSelectedAttributeType selector is defined', () => {
-    expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
+    expect(getDataTypeSelectedAttributeType(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getDataTypeSelectedAttributeSearchable selector is defined', () => {
+    expect(getDataTypeSelectedAttributeSearchable(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getDataTypeSelectedAttributeIndexable selector is defined', () => {
+    expect(getDataTypeSelectedAttributeIndexable(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getDataTypeSelectedAttributeAllowedRoles selector is defined', () => {
+    expect(getDataTypeSelectedAttributeAllowedRoles(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getDataTypeSelectedAttributeallowedDisablingCodes selector is defined', () => {
+    expect(getDataTypeSelectedAttributeallowedDisablingCodes(STATE_ATTRIBUTES)).toBeDefined();
   });
 });
