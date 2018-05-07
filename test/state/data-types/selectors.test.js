@@ -75,4 +75,7 @@ describe('state/users/selectors', () => {
   it('verify getDataTypeAttributesIdList selector is defined', () => {
     expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
   });
+  it('verify getDataTypeSelectedAttributeType selector is defined', () => {
+    expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
+  });
 });

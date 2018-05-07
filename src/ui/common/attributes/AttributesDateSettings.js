@@ -1,9 +1,10 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import RenderDatePickerInput from 'ui/common/form/RenderDatePickerInput';
 
 const AttributesDateSettings = () => (
   <Row>
@@ -13,7 +14,7 @@ const AttributesDateSettings = () => (
           <FormattedMessage id="app.settings" />
         </legend>
         <Field
-          component={RenderTextInput}
+          component={RenderDatePickerInput}
           name="rangeStartDate"
           label={
             <FormLabel labelId="app.from" />
@@ -25,7 +26,7 @@ const AttributesDateSettings = () => (
           </div>
         </Col>
         <Field
-          component={RenderTextInput}
+          component={RenderDatePickerInput}
           name="rangeEndDate"
           label={
             <FormLabel labelId="app.to" />
@@ -37,7 +38,7 @@ const AttributesDateSettings = () => (
           </div>
         </Col>
         <Field
-          component={RenderTextInput}
+          component={RenderDatePickerInput}
           name="equalDate"
           label={
             <FormLabel labelId="app.equal" />
@@ -52,5 +53,13 @@ const AttributesDateSettings = () => (
     </Col>
   </Row>
 );
+
+AttributesDateSettings.propTypes = {
+  // selectedValidationDate: PropTypes.string,
+};
+
+AttributesDateSettings.defaultProps = {
+  // selectedValidationDate: '',
+};
 
 export default AttributesDateSettings;

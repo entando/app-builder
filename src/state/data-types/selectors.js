@@ -10,7 +10,6 @@ export const getDataTypeAttributesIdList = state => get(state.dataTypes.attribut
 export const getDataTypeSelectedAttribute = state => state.dataTypes.attributes.selected;
 export const getDataTypeSelectedAttributeType = state =>
   state.dataTypes.attributes.selected.listAttribute;
-
 export const getDataTypeSelectedAttributeSearchable = state =>
   state.dataTypes.attributes.selected.searchableOptionSupported;
 export const getDataTypeSelectedAttributeIndexable = state =>
@@ -20,10 +19,10 @@ export const getDataTypeSelectedAttributeAllowedRoles = state =>
 export const getDataTypeSelectedAttributeallowedDisablingCodes = state =>
   state.dataTypes.attributes.selected.allowedDisablingCodes;
 export const getDataTypeSelectedAttributeIsList = state => get(state.dataTypes.attributes.selected, 'listAttribute');
-
 export const getSelectedDataTypeAttributes = state => get(state.dataTypes.selected, 'attributes');
 export const getSelectedAttributeType = state => get(state.dataTypes.selected, 'attributeSelected.type');
 export const getSelectedAttributeNestedType = state => get(state.dataTypes.selected, 'attributeSelected.nestedAttribute.type');
+export const getSelectedValidationRules = state => get(state.dataTypes.selected, 'attributeSelected.validationRules');
 export const getDataTypeSelectedAttributeCode = state => get(state.dataTypes.attributes.selected, 'code');
 
 export const getDataTypeList = createSelector(

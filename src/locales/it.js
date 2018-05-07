@@ -84,7 +84,7 @@ export default {
     'app.from': 'Da',
     'app.to': 'A',
     'app.equal': 'Uguale a',
-    'app.date.placeholder': 'dd/mm/yyyy',
+    'app.date.placeholder': 'gg/mm/anno',
     'app.working': 'Stai lavorando sull\'attributo:',
     'app.element.of': 'elemento di',
     'app.filter': 'Filtro',
