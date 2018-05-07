@@ -292,9 +292,9 @@ describe('state/users/actions', () => {
       });
 
       it('if the response is not ok, dispatch add errors', async () => {
-        postUserAuthorities.mockImplementation(mockApi({ errors: true }));
-        return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
-          expect(postUserAuthorities).toHaveBeenCalled();
+        putUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendPutUserAuthorities(AUTHORITIES)).catch((e) => {
+          expect(putUserAuthorities).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
