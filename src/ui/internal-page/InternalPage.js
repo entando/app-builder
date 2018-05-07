@@ -26,8 +26,8 @@ import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
 const USERNAME = 'Admin';
+const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
-const TITLE = 'Title';
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
@@ -39,7 +39,7 @@ const menuHeader = [
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
-    <BrandMenu title={TITLE} header={menuHeader} >
+    <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
       <LinkMenuItem
         id="menu-dashboard"
         label={formattedText('menu.dashboard', 'Dashboard')}
