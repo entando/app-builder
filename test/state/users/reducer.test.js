@@ -1,6 +1,6 @@
 import reducer from 'state/users/reducer';
-import { setUsers, setSelectedUserDetail, setUsersTotal } from 'state/users/actions';
-import { USERS } from 'test/mocks/users';
+import { setUsers, setSelectedUserDetail, setSelectedUserAuthorities, setUsersTotal } from 'state/users/actions';
+import { USERS, AUTHORITIES } from 'test/mocks/users';
 
 const users = USERS;
 
@@ -11,6 +11,7 @@ describe('state/users/reducer', () => {
     expect(typeof state).toBe('object');
     expect(state).toHaveProperty('total', 0);
     expect(state).toHaveProperty('selected', {});
+    expect(state).toHaveProperty('authorities', []);
     expect(state).toHaveProperty('list', []);
     expect(state).toHaveProperty('map', {});
   });
@@ -36,6 +37,19 @@ describe('state/users/reducer', () => {
 
     it('should define the dataType payload', () => {
       expect(newState.selected).toEqual(users[0].username);
+    });
+  });
+
+  describe('after action SET_SELECTED_USERS_AUTHORITIES', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setSelectedUserAuthorities(users[0].username, AUTHORITIES));
+    });
+
+    it('should define the dataType payload', () => {
+      expect(newState.authorities).toMatchObject({
+        username: users[0].username,
+      });
     });
   });
 

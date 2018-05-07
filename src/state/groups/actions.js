@@ -97,25 +97,23 @@ export const removeGroupSync = groupCode => ({
 
 // thunk
 
-export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
-  new Promise((resolve) => {
-    dispatch(toggleLoading('groups'));
-    getGroups(page, params).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          dispatch(setGroups(data.payload));
-          dispatch(toggleLoading('groups'));
-          dispatch(setPage(data.metaData));
-          resolve();
-        } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          dispatch(toggleLoading('groups'));
-          resolve();
-        }
-      });
+export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+  dispatch(toggleLoading('groups'));
+  getGroups(page, params).then((response) => {
+    response.json().then((data) => {
+      if (response.ok) {
+        dispatch(setGroups(data.payload));
+        dispatch(toggleLoading('groups'));
+        dispatch(setPage(data.metaData));
+        resolve();
+      } else {
+        dispatch(addErrors(data.errors.map(err => err.message)));
+        dispatch(toggleLoading('groups'));
+        resolve();
+      }
     });
-  })
-);
+  });
+});
 
 export const fetchGroupsTotal = () => dispatch => (
   new Promise((resolve) => {
