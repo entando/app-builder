@@ -89,6 +89,7 @@ export default {
     'menu.reloadConfirm': 'Reload the Configuration',
     'dashboard.newUser': 'New User',
     'dashboard.newWidget': 'New Widget',
+    'dashboard.newPage': 'Add Page',
     'dashboard.apis': 'APIs',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
