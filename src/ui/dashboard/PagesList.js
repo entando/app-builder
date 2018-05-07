@@ -20,7 +20,7 @@ class PagesList extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    this.props.onWillMount(page);
   }
 
   renderRows() {
