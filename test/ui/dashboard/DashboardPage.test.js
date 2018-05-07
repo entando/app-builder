@@ -8,6 +8,7 @@ import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
 import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
+import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
 describe('DashboardPage', () => {
   it('renders without crashing', () => {
@@ -39,5 +40,10 @@ describe('DashboardPage', () => {
   it('verify if PageStatus exists', () => {
     const component = shallow(<DashboardPage />);
     expect(component.find(PageStatusContainer)).toHaveLength(1);
+  });
+
+  it('verify if PageStatus exists', () => {
+    const component = shallow(<DashboardPage />);
+    expect(component.find(PagesListContainer)).toHaveLength(1);
   });
 });
