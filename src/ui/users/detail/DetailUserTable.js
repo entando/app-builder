@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'react-bootstrap';
+import { gotoRoute } from '@entando/router';
 
-import { gotoRoute } from 'frontend-common-components';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 class DetailUserTable extends React.Component {

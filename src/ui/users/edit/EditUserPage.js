@@ -14,7 +14,7 @@ const EditUserPage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
             <BreadcrumbItem>
               <FormattedMessage id="menu.users" />

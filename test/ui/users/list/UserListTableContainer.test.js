@@ -1,33 +1,9 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/list/UserListTableContainer';
-import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { USERS } from 'test/mocks/users';
 import { getUserList } from 'state/users/selectors';
-
-const TEST_STATE = {
-  users: {
-    list: ['admin', 'user1'],
-    map: {
-      admin: {
-        username: 'admin',
-        registration: '2018-01-08 00:00:00 ',
-        lastLogin: '2018-01-08 00:00:00',
-        lastPasswordChange: '2018-01-08 00:00:00',
-        status: 'active',
-        passwordChangeRequired: true,
-      },
-      user1: {
-        username: 'user1',
-        registration: '2018 - 01 - 08 00: 00: 00 ',
-        lastLogin: '2018-01-08 00:00:00',
-        lastPasswordChange: '2018-01-08 00:00:00',
-        status: 'disabled',
-        passwordChangeRequired: true,
-      },
-    },
-  },
-  pagination: USERS_OK_PAGE_1.metaData,
-};
+import { getLoading } from 'state/loading/selectors';
 
 const dispatchMock = jest.fn();
 
@@ -35,18 +11,27 @@ jest.mock('state/users/selectors', () => ({
   getUserList: jest.fn(),
 }));
 
-const users = USERS_OK_PAGE_1.payload;
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+
+jest.mock('state/pagination/selectors', () => ({
+  getCurrentPage: jest.fn(),
+  getTotalItems: jest.fn(),
+  getPageSize: jest.fn(),
+}));
+const users = USERS;
 
 getUserList.mockReturnValue(users);
+getLoading.mockReturnValue(false);
 
 describe('UserListTableContainer', () => {
   it('maps users list property state in UsersListTable', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({
-      users: USERS_OK_PAGE_1.payload,
-      page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
-      pageSize: TEST_STATE.pagination.pageSize,
-    });
+    const props = mapStateToProps({});
+    expect.assertions(3);
+    expect(props).toBeInstanceOf(Object);
+    expect(props).toHaveProperty('users');
+    expect(props).toHaveProperty('loading');
   });
 
   describe('mapDispatchToProps', () => {
@@ -56,11 +41,22 @@ describe('UserListTableContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+      expect(props).toHaveProperty('onWillMount');
+      expect(props).toHaveProperty('onClickDelete');
     });
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onWillMount is called', () => {
+      props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickDelete is called', () => {
+      props.onClickDelete({ username: 'admin' });
       expect(dispatchMock).toHaveBeenCalled();
     });
   });

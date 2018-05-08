@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InternalPage from 'ui/internal-page/InternalPage';
 import WidgetListTable from 'ui/widgets/list/WidgetListTable';
-import RowListContainer from 'ui/widgets/list/RowListContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
-import { Grid, Row, Col, Button } from 'patternfly-react';
+import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'frontend-common-components';
+import { Link } from '@entando/router';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
+
 
 class ListWidgetPage extends Component {
   constructor(props, context) {
@@ -22,7 +22,30 @@ class ListWidgetPage extends Component {
   onClickAdd(ev) {
     ev.preventDefault();
     this.props.onClickCreate();
-    // alert('connect to create a new widget function');
+  }
+  renderTable() {
+    const {
+      widgetList,
+      onDelete,
+      locale,
+    } = this.props;
+
+    return (
+      <Spinner loading={!!this.props.loading}>
+        {
+          Object.keys(widgetList).map(typology => (
+
+            <WidgetListTable
+              key={typology}
+              title={typology}
+              widgetList={widgetList[typology]}
+              locale={locale}
+              onDelete={onDelete}
+            />
+          ))
+        }
+      </Spinner>
+    );
   }
 
   render() {
@@ -46,19 +69,15 @@ class ListWidgetPage extends Component {
                   bsStyle="primary"
                   onClick={this.onClickAdd}
                 >
-                  <FormattedMessage
-                    id="widget.list.new"
-                  />
+                  <FormattedMessage id="widget.list.new" />
                 </Button>
               </Link>
             </Col>
 
           </Row>
           <Row>
-            <Col xs={12}>
-              <WidgetListTable >
-                <RowListContainer />
-              </WidgetListTable>
+            <Col xs={12} >
+              {this.renderTable()}
             </Col>
           </Row>
         </Grid>
@@ -70,11 +89,19 @@ class ListWidgetPage extends Component {
 ListWidgetPage.propTypes = {
   onClickCreate: PropTypes.func,
   onWillMount: PropTypes.func,
+  widgetList: PropTypes.shape({}),
+  onDelete: PropTypes.func,
+  locale: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 ListWidgetPage.defaultProps = {
   onClickCreate: () => {},
   onWillMount: () => {},
+  onDelete: () => {},
+  locale: 'en',
+  widgetList: {},
+  loading: false,
 };
 
 

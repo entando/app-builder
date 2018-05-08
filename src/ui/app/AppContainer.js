@@ -1,8 +1,7 @@
-
 import { connect } from 'react-redux';
+import { getUsername } from '@entando/apimanager';
+import { getRoute } from '@entando/router';
 
-import { getRoute } from 'frontend-common-components';
-import { getUsername } from 'state/current-user/selectors';
 import App from 'ui/app/App';
 
 // map the props

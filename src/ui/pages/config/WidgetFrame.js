@@ -10,7 +10,7 @@ class WidgetFrame extends Component {
   render() {
     const {
       widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
-      onClickDelete, connectDragSource, connectDropTarget, isOver,
+      onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings,
     } = this.props;
 
     let actionsMenu = null;
@@ -18,7 +18,11 @@ class WidgetFrame extends Component {
       const configMenuItems = widgetHasConfig ?
         [
           (
-            <MenuItem key="menu-settings" className="WidgetFrame__settings-btn">
+            <MenuItem
+              key="menu-settings"
+              className="WidgetFrame__settings-btn"
+              onClick={() => onClickSettings && onClickSettings(frameId)}
+            >
               <FormattedMessage id="app.settings" />
             </MenuItem>
           ),
@@ -109,6 +113,7 @@ WidgetFrame.propTypes = {
   /* eslint-enable react/no-unused-prop-types */
 
   onClickDelete: PropTypes.func,
+  onClickSettings: PropTypes.func,
 
   // react-dnd
   connectDragSource: PropTypes.func,
@@ -118,6 +123,7 @@ WidgetFrame.propTypes = {
 
 WidgetFrame.defaultProps = {
   onClickDelete: null,
+  onClickSettings: null,
   widgetHasConfig: false,
   widgetStatus: WIDGET_STATUS_MATCH,
   frameId: null,

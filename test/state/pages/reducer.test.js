@@ -2,20 +2,19 @@ import reducer from 'state/pages/reducer';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
-  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD,
+  LOGIN_PAYLOAD, NOTFOUND_PAYLOAD, FREE_PAGES_PAYLOAD, CONTENT_REFERENCES,
 } from 'test/mocks/pages';
 
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
-  setFreePages,
+  setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
+  setReferenceSelectedPage,
 } from 'state/pages/actions';
-
 
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
 ];
-
 
 describe('state/pages/reducer', () => {
   it('should return an object', () => {
@@ -145,6 +144,106 @@ describe('state/pages/reducer', () => {
     });
     it('state should be valued with an array of options', () => {
       expect(state.freePages[0]).toEqual(FREE_PAGES_PAYLOAD[0]);
+    });
+  });
+
+  describe('after action SET_SELECTED_PAGE', () => {
+    it('state should be valued with an object information from selected page', () => {
+      const state = reducer({}, setSelectedPage(HOMEPAGE_PAYLOAD));
+      expect(state).toHaveProperty('selected', HOMEPAGE_PAYLOAD);
+    });
+  });
+
+  describe('after action REMOVE_PAGE', () => {
+    let state = {
+      selected: DASHBOARD_PAYLOAD,
+    };
+    beforeEach(() => {
+      state = reducer(state, addPages(PAGES));
+    });
+
+    it('state map should be changed', () => {
+      const keys = Object.keys(state.map);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('map');
+      const newKeys = Object.keys(newState.map);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.map).not.toEqual(expect.objectContaining(DASHBOARD_PAYLOAD));
+    });
+
+    it('state childrenMap should be changed', () => {
+      const keys = Object.keys(state.childrenMap);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('childrenMap');
+      const newKeys = Object.keys(newState.childrenMap);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.childrenMap)
+        .not.toEqual(expect.objectContaining({ dashboard: expect.any(Object) }));
+    });
+
+    it('state titlesMap should be changed', () => {
+      const keys = Object.keys(state.titlesMap);
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('titlesMap');
+      const newKeys = Object.keys(newState.titlesMap);
+      expect(keys.length).toBeGreaterThan(newKeys.length);
+      expect(newState.titlesMap)
+        .not.toEqual(expect.objectContaining({ dashboard: expect.any(Object) }));
+    });
+
+    it('state selected should be changed', () => {
+      const newState = reducer(state, removePage(DASHBOARD_PAYLOAD));
+      expect(newState).toHaveProperty('selected', null);
+    });
+
+    it('state selected should be unchanged ', () => {
+      const newState = reducer(state, removePage(HOMEPAGE_PAYLOAD));
+      expect(newState).toHaveProperty('selected', DASHBOARD_PAYLOAD);
+    });
+  });
+  describe('after UPDATE_PAGE', () => {
+    let state = {
+      selected: DASHBOARD_PAYLOAD,
+    };
+    beforeEach(() => {
+      state = reducer(state, addPages(PAGES));
+    });
+
+    it('status will be update', () => {
+      const newState = reducer(state, updatePage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
+      expect(newState.map[DASHBOARD_PAYLOAD.code]).toHaveProperty('status', 'unpublished');
+    });
+  });
+
+  describe('SEARCH_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, setSearchPages(PAGES));
+      expect(newState).toHaveProperty('search', PAGES);
+    });
+  });
+
+  describe('CLEAR_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, clearSearch());
+      expect(newState).toHaveProperty('search', []);
+    });
+  });
+  describe('SET_REFERENCES_SELECTED_PAGE', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('status will be update', () => {
+      const newState = reducer(state, setReferenceSelectedPage(CONTENT_REFERENCES));
+      expect(newState).toHaveProperty('selected.ref', CONTENT_REFERENCES);
     });
   });
 });

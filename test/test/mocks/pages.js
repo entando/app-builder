@@ -37,6 +37,10 @@ export const HOMEPAGE_PAYLOAD = {
     it: 'Pagina iniziale',
     en: 'Home page',
   },
+  fullTitles: {
+    en: 'Home Page',
+    it: 'Pagina iniziale',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -62,6 +66,10 @@ export const DASHBOARD_PAYLOAD = {
     it: 'Pannello',
     en: 'Dashboard',
   },
+  fullTitles: {
+    en: 'Home Page / Dashboard',
+    it: 'Pagina iniziale / Pannello',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -82,6 +90,10 @@ export const SERVICE_PAYLOAD = {
   titles: {
     it: 'Pagina di servizio',
     en: 'Service page',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page',
+    it: 'Pagina iniziale / Pagina di servizio',
   },
   ownerGroup: 'administrators',
   joinGroups: [
@@ -108,6 +120,10 @@ export const NOTFOUND_PAYLOAD = {
     it: 'Non trovato',
     en: 'Not Found',
   },
+  fullTitles: {
+    en: 'Home Page / Service page / Not Found',
+    it: 'Pagina iniziale / Pagina di servizio / Non trovato',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -129,6 +145,10 @@ export const ERROR_PAYLOAD = {
     it: 'Errore',
     en: 'Error',
   },
+  fullTitles: {
+    en: 'Home Page / Service page / Error',
+    it: 'Pagina iniziale / Pagina di servizio / Errore',
+  },
   ownerGroup: 'administrators',
   joinGroups: [
     'administrators',
@@ -149,6 +169,10 @@ export const LOGIN_PAYLOAD = {
   titles: {
     it: 'Accesso',
     en: 'Log In',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page / Log In',
+    it: 'Pagina iniziale / Pagina di servizio / Accesso',
   },
   ownerGroup: 'administrators',
   joinGroups: [
@@ -172,6 +196,10 @@ export const CONTACTS_PAYLOAD = {
   titles: {
     it: 'Contatti',
     en: 'Contacts',
+  },
+  fullTitles: {
+    en: 'Home Page / Service page / Contacts',
+    it: 'Pagina iniziale / Contatti',
   },
   ownerGroup: 'customers',
   joinGroups: [
@@ -255,4 +283,62 @@ export const HOMEPAGE_RESPONSE = {
 
 export const CONTACTS_RESPONSE = {
   payload: CONTACTS_PAYLOAD,
+};
+
+export const SEARCH_PAGES = [
+  {
+    code: 'page',
+    status: 'draft',
+    displayedInMenu: true,
+    pageModel: 'pageModel',
+    parentCode: 'service',
+    position: 1,
+    titles: {
+      it: 'Mio Titolo',
+      en: 'My title',
+    },
+    fullTitles: {
+      en: 'Home / Services / My Title new 22',
+      it: 'Home / Pagine di Servizio / Mio Titolo nuovo 22',
+    },
+    children: [
+      'pageCode1',
+      'pageCode2',
+    ],
+    numWidget: 0,
+    lastModified: '01/01/2018 h12:12',
+  },
+];
+
+export const DATA_OBJECT_REFERENCES = [
+  {
+    code: 'AAA1',
+    name: 'dataType AAA 1',
+    type: 'Test data type',
+  },
+];
+
+export const CONTENT_REFERENCES = [
+  {
+    code: 'CNG2',
+    name: 'Banner content left',
+    type: 'Generic Content',
+    lastEdit: '2017-01-08 00:00:00',
+  },
+];
+
+export const RESOURCE_REFERENCES =
+[
+  {
+    code: 'sample-image-1',
+    name: 'Sample image 1',
+    type: 'Image',
+  },
+];
+
+export const MOCK_REFERENCES = {
+  jacmsContentManager: CONTENT_REFERENCES,
+  jacmsResourceManager: RESOURCE_REFERENCES,
+  DataObjectManager: DATA_OBJECT_REFERENCES,
+
 };

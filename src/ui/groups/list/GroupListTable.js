@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import GroupListMenuActions from 'ui/groups/list/GroupListMenuActions';
+import DeleteGroupModalContainer from 'ui/groups/common/DeleteGroupModalContainer';
 
 class GroupListTable extends Component {
   constructor(props) {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -16,7 +18,11 @@ class GroupListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
@@ -25,7 +31,10 @@ class GroupListTable extends Component {
         <td className="GroupListRow__td">{group.name}</td>
         <td className="GroupListRow__td">{group.code}</td>
         <td className="GroupListRow__td text-center">
-          <GroupListMenuActions code={group.code} />
+          <GroupListMenuActions
+            code={group.code}
+            onClickDelete={this.props.onClickDelete}
+          />
         </td>
       </tr>
     ));
@@ -40,7 +49,7 @@ class GroupListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="GroupListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -60,6 +69,7 @@ class GroupListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
@@ -76,7 +86,10 @@ class GroupListTable extends Component {
   render() {
     return (
       <div className="GroupListTable">
-        {this.renderTable()}
+        <Spinner loading={!!this.props.loading}>
+          {this.renderTable()}
+          <DeleteGroupModalContainer />
+        </Spinner>
       </div>
     );
   }
@@ -84,6 +97,7 @@ class GroupListTable extends Component {
 
 GroupListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -91,11 +105,14 @@ GroupListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  onClickDelete: PropTypes.func,
 };
 
 GroupListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   groups: [],
+  onClickDelete: () => {},
 };
 
 export default GroupListTable;

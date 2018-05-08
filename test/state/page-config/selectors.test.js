@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { getParams } from 'frontend-common-components';
+import { getParams } from '@entando/router';
 
 import {
   getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig,
@@ -7,7 +7,7 @@ import {
   getSelectedPagePublishedConfig, getPageIsOnTheFly, getSelectedPageDiffersFromPublished,
   getSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { WIDGET_LIST, WIDGET_ONE_ELEMENT, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgetList';
+import { WIDGET_LIST, WIDGET, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgets';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
 import {
@@ -52,7 +52,7 @@ const HOMEPAGE_DRAFT_CONFIG = buildModifiedConfig(HOMEPAGE_CONFIG);
 
 const MOCK_DATA = {
   content: 'WIDGET_LIST',
-  searchFilter: 'first',
+  searchFilter: 'My',
   viewList: 'list',
   toolbarExpanded: true,
   configMap: {
@@ -90,11 +90,11 @@ describe('state/page-config/selectors', () => {
   });
 
   it('verify filterWidgetList selector', () => {
-    expect(filterWidgetList(MOCK_STATE)).toEqual([WIDGET_ONE_ELEMENT]);
+    expect(filterWidgetList(MOCK_STATE)).toEqual([WIDGET]);
   });
 
   it('verify getGroupedWidgetList selector', () => {
-    expect(getGroupedWidgetList(MOCK_STATE)).toEqual(WIDGET_ONE_LIST);
+    expect(getGroupedWidgetList(MOCK_STATE)).toMatchObject(WIDGET_ONE_LIST);
   });
 
   it('verify getConfigMap selector', () => {
@@ -146,11 +146,10 @@ describe('state/page-config/selectors', () => {
         const cell = configCellMap[cellKey];
         const draftItem = HOMEPAGE_DRAFT_CONFIG[cell.framePos];
         const publishedItem = HOMEPAGE_PUBLISHED_CONFIG[cell.framePos];
-
         if (draftItem || publishedItem) {
           const item = draftItem || publishedItem;
-          expect(cell.widgetCode).toBe(item.type);
-          expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.type].titles[CURRENT_LOCALE]);
+          expect(cell.widgetCode).toBe(item.code);
+          expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.code].titles[CURRENT_LOCALE]);
           expect(cell.widgetHasConfig).toBe(!!item.config);
         }
 
@@ -184,20 +183,20 @@ describe('state/page-config/selectors', () => {
 
     it('returns true if the config has a "content_viewer" with no config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer' };
+        { code: 'content_viewer' };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(true);
     });
 
     it('returns false if the config has a "content_viewer" with config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer', config: {} };
+        { code: 'content_viewer', config: {} };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if there is no main frame on the selected page model', () => {
       getSelectedPageModelMainFrame.mockReturnValue(null);
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
-        { type: 'content_viewer', config: {} };
+        { code: 'content_viewer', config: {} };
       expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
     });
 

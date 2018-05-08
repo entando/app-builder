@@ -28,3 +28,7 @@ export const initialize = jest.fn().mockImplementation((form, data) => ({
   payload: data,
   meta: { form },
 }));
+
+// selectors
+export const getFormValues = jest.fn(form => () => ({ form }));
+export const valueSelector = jest.fn();

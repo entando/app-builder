@@ -4,6 +4,8 @@ import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, STRUCT as SIDEBAR_HOLES_STRUCT } from
 import { PAYLOAD as OVERLAPPING_FRAMES_PAYLOAD } from 'test/mocks/page-models/overlappingFrames';
 import { PAYLOAD as MISSING_SKETCH_PAYLOAD } from 'test/mocks/page-models/missingSketch';
 
+import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD, LOGIN_PAYLOAD, DASHBOARD_PAYLOAD } from 'test/mocks/pages';
+
 export {
   COMPLEX_PAYLOAD, COMPLEX_STRUCT, SINGLE_CELL_PAYLOAD, SINGLE_CELL_STRUCT,
   SIDEBAR_HOLES_PAYLOAD, SIDEBAR_HOLES_STRUCT, OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD,
@@ -23,11 +25,26 @@ export const ERROR = {
   },
 };
 
+export const PAGE_MODELS_LIST = [
+  COMPLEX_PAYLOAD,
+  SINGLE_CELL_PAYLOAD,
+  SIDEBAR_HOLES_PAYLOAD,
+  MISSING_SKETCH_PAYLOAD,
+];
+
+export const PAGE_MODELS_ID_LIST = PAGE_MODELS_LIST.map(item => item.code);
+
+export const PAGE_MODELS_MAP = PAGE_MODELS_LIST.reduce((acc, item) => {
+  acc[item.code] = item;
+  return acc;
+}, {});
+
+
 export const GET_LIST_RESPONSE = {
   payload: [
     {
       code: 'home',
-      description: 'Home Page',
+      descr: 'Home Page',
       configuration: {
         frames: [
           {
@@ -56,7 +73,7 @@ export const GET_LIST_RESPONSE = {
     },
     {
       code: 'service',
-      description: 'Service Page',
+      descr: 'Service Page',
       configuration: {
         frames: [
           {
@@ -114,4 +131,16 @@ export const OVERLAPPING_FRAMES_RESPONSE = {
 
 export const MISSING_SKETCH_RESPONSE = {
   payload: MISSING_SKETCH_PAYLOAD,
+};
+
+export const PAGE_REFS = [
+  HOMEPAGE_PAYLOAD,
+  CONTACTS_PAYLOAD,
+  LOGIN_PAYLOAD,
+  DASHBOARD_PAYLOAD,
+];
+
+export const PAGE_REFS_MAP = {
+  single_cell_model: PAGE_REFS,
+  complex: PAGE_REFS,
 };

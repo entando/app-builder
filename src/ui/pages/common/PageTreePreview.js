@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 
 const PageTreePreview = ({ rowData }) => (
   <div className="PageTreePreview">
     <button className="btn btn-primary">
       <i className="fa fa-arrows" />
     </button>
-    <PageFolderIcon empty={rowData.isEmpty} />
+    <TreeNodeFolderIcon empty={rowData.isEmpty} />
     <span className="PageTree__page-name">
       { rowData.title }
     </span>

@@ -29,4 +29,11 @@
   &__info-panel {
     border: 0;
   }
+
+  &__side-widget {
+    // overriding bootstrap column padding
+    // sass-lint:disable no-important
+    padding: 0!important;
+    // sass-lint:enable no-important
+  }
 }

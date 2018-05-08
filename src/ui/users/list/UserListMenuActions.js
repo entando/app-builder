@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem, gotoRoute } from 'frontend-common-components';
-import { ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL } from 'app-init/router';
+import { gotoRoute } from '@entando/router';
+import { LinkMenuItem } from 'frontend-common-components';
+import { ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL, ROUTE_USER_EDIT } from 'app-init/router';
 
 class UserListMenuActions extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleClickView = this.handleClickView.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
+  }
+
+  onClickEdit() {
+    gotoRoute(ROUTE_USER_EDIT, { username: this.props.username });
   }
 
   handleClick(handler) {
@@ -24,6 +30,7 @@ class UserListMenuActions extends Component {
     this.props.onClickView(this.props.username);
   }
 
+
   render() {
     const { onClickDelete } = this.props;
     const manageAuthLabel = (
@@ -34,6 +41,7 @@ class UserListMenuActions extends Component {
 
         <MenuItem
           className="UserListMenuAction__menu-item-edit"
+          onClick={this.onClickEdit}
         >
           <FormattedMessage id="app.edit" />
         </MenuItem>

@@ -1,9 +1,12 @@
 {
-  "name": "designtime-admin-app",
+  "name": "app-builder",
   "version": "0.1.0",
-  "repository": "https://github.com/entando/designtime-admin-app",
+  "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
+    "@entando/apimanager": "^1.0.3",
+    "@entando/router": "^1.0.1",
+    "@entando/utils": "^1.0.2",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
@@ -13,6 +16,7 @@
     "babel-runtime": "6.26.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "^2.3.0",
+    "codemirror": "^5.36.0",
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
@@ -37,27 +41,28 @@
     "jest": "20.0.4",
     "jest-webpack-resolver": "^0.3.0",
     "node-sass": "^4.7.2",
-    "npm-run": "^4.1.2",
     "object-assign": "4.1.1",
-    "patternfly": "^3.38.1",
-    "patternfly-react": "^1.8.0",
+    "patternfly": "^3.45.0",
+    "patternfly-react": "^1.19.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "raf": "3.4.0",
-    "react": "^16.2.0",
+    "react": "16.3.1",
     "react-bootstrap": "^0.32.1",
+    "react-codemirror2": "^4.2.1",
     "react-dev-utils": "^5.0.0",
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
+    "react-ellipsis-with-tooltip": "^1.0.7",
     "react-intl": "^2.4.0",
     "react-patternfly": "^1.0.0",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
-    "redux-form": "^7.2.3",
+    "redux-form": "^7.3.0",
     "redux-mock-store": "^1.4.0",
     "redux-test-utils": "^0.2.2",
     "redux-thunk": "^2.2.0",
@@ -128,7 +133,8 @@
         "statements": 20
       }
     },
-    "resolver": "jest-webpack-resolver"
+    "resolver": "jest-webpack-resolver",
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js"
   },
   "jestWebpackResolver": {
     "webpackConfig": "./config/webpack.config.dev.js"
@@ -142,6 +148,9 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "jest-localstorage-mock": "^2.2.0"
+    "duplicate-package-checker-webpack-plugin": "^2.1.0",
+    "jest-enzyme": "^6.0.0",
+    "jest-localstorage-mock": "^2.2.0",
+    "npm-run": "^4.1.2"
   }
 }

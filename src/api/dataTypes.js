@@ -1,21 +1,47 @@
-import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_OK_PAGE_2 } from 'test/mocks/dataTypes';
-import throttle from 'util/throttle';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPES_ATTRIBUTES, DATA_TYPE_ATTRIBUTE, DATA_TYPE_GET_PAYLOAD } from 'test/mocks/dataTypes';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getDataTypes = (page, params) => new Promise((resolve) => {
-  if (params) {
-    // eslint-disable-next-line no-console
-    console.info(`calling API /datatypes${params}`);
-  }
-  switch (page) {
-    case 1:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
-      break;
-    case 2:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_2));
-      break;
-    default:
-      throttle(() => resolve(DATA_TYPES_OK_PAGE_1));
-  }
-});
+export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/dataTypes${params}`,
+      method: METHODS.GET,
+      mockResponse: DATA_TYPES_OK_PAGE_1,
+      useAuthentication: true,
+    },
+    page,
+  )
+);
+
+export const getDataType = dataTypeCode => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}`,
+    method: METHODS.GET,
+    mockResponse: DATA_TYPE_GET_PAYLOAD,
+    useAuthentication: true,
+  })
+);
+
+export const getDataTypeAttributes = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/dataTypeAttributes${params}`,
+      method: METHODS.GET,
+      mockResponse: DATA_TYPES_ATTRIBUTES,
+      useAuthentication: true,
+    },
+    page,
+  )
+);
+
+export const getDataTypeAttribute = attributeTypeCode => (
+  makeRequest({
+    uri: `/api/dataTypeAttributes/${attributeTypeCode}`,
+    method: METHODS.GET,
+    mockResponse: DATA_TYPE_ATTRIBUTE,
+    useAuthentication: true,
+  })
+);
+
 
 export default getDataTypes;

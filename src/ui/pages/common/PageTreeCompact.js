@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import PageFolderIcon from 'ui/pages/common/PageFolderIcon';
-import PageExpandedIcon from 'ui/pages/common/PageExpandedIcon';
+import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
+import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
@@ -25,7 +25,7 @@ class PageTreeCompact extends Component {
 
       return (
         <tr key={page.code} className="PageTreeCompact__row">
-          <td className={className.join(' ').trim()} width="70%">
+          <td className={className.join(' ').trim()}>
             <span
               role="button"
               tabIndex={i}
@@ -34,18 +34,18 @@ class PageTreeCompact extends Component {
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >
-              <PageExpandedIcon expanded={page.expanded} />
-              <PageFolderIcon empty={page.isEmpty} />
+              <TreeNodeExpandedIcon expanded={page.expanded} />
+              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>
               <RowSpinner loading={!!page.loading} />
             </span>
           </td>
-          <td className="text-center">
+          <td className="text-center PageTreeCompact__status-col">
             <PageStatusIcon status={page.status} />
           </td>
-          <td className="text-center">
+          <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
               <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_ADD)} >
                 <FormattedMessage id="app.add" />

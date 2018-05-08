@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
-import { USER_PROFILE_MOCK } from 'test/mocks/users';
+import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 
 class UserListTable extends Component {
   constructor(props) {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -19,16 +20,19 @@ class UserListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
     return this.props.users.map(user => (
       <tr key={user.username}>
         <td className="UserListRow__td">{user.username}</td>
-        {/* FIXME: user profiles info */}
-        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].fullName}</td>
-        <td className="UserListRow__td">{USER_PROFILE_MOCK[user.username].email}</td>
+        <td className="UserListRow__td">{user.profileAttributes.fullName}</td>
+        <td className="UserListRow__td">{user.profileAttributes.email}</td>
         <td className="UserListRow__td text-center">
           <UserStatus
             status={user.status}
@@ -36,7 +40,7 @@ class UserListTable extends Component {
           />
         </td>
         <td className="UserListRow__td text-center">
-          <UserListMenuActions username={user.username} />
+          <UserListMenuActions username={user.username} {...this.props} />
         </td>
       </tr>
     ));
@@ -51,7 +55,7 @@ class UserListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="UserListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -75,6 +79,7 @@ class UserListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
@@ -91,7 +96,10 @@ class UserListTable extends Component {
   render() {
     return (
       <div className="UserListTable">
-        {this.renderTable()}
+        <Spinner loading={!!this.props.loading} >
+          {this.renderTable()}
+        </Spinner>
+        <DeleteUserModalContainer />
       </div>
     );
   }
@@ -99,6 +107,7 @@ class UserListTable extends Component {
 
 UserListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
@@ -110,6 +119,7 @@ UserListTable.propTypes = {
 
 UserListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   users: [],
 };
 

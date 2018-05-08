@@ -1,5 +1,5 @@
 import { getApiNotifications } from 'api/notification';
-import { gotoRoute } from 'frontend-common-components';
+import { gotoRoute } from '@entando/router';
 import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-stream/types';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
 // declare action for close notification drawer

@@ -2,8 +2,8 @@
   width: 100%;
 
   &__page-name,
-  .PageExpandedIcon,
-  .PageFolderIcon,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
   .RowSpinner {
     margin-left: 10px;
   }
@@ -16,7 +16,7 @@
     visibility: visible;
    }
 
-  .PageFolderIcon {
+  .TreeNodeFolderIcon {
     color: $color-pf-light-blue-400;
   }
 
@@ -26,10 +26,15 @@
   }
 
   &__tree-column-td--empty {
-    .PageExpandedIcon {
+    .TreeNodeExpandedIcon {
       opacity: 0;
       visibility: hidden;
     }
+  }
+
+  &__actions-col,
+  &__status-col {
+    width: 40px;
   }
 
   .PageTreeActionMenuButton,

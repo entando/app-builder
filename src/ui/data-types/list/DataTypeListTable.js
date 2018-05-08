@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert } from 'patternfly-react';
+import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from 'frontend-common-components';
+import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 
@@ -11,6 +11,7 @@ class DataTypeListTable extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentWillMount() {
@@ -18,7 +19,11 @@ class DataTypeListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderTableRows() {
@@ -29,7 +34,8 @@ class DataTypeListTable extends Component {
         <td className="DataTypeListRow__td text-center">
           <DataTypeStatusIcon
             status={datatype.status}
-            title={formattedText(`dataType.table.status.${datatype.status}`)}
+            title={formattedText('dataType.table.status')}
+
           />
         </td>
         <td className="DataTypeListRow__td text-center">
@@ -48,7 +54,7 @@ class DataTypeListTable extends Component {
       };
 
       return (
-        <Col md={12}>
+        <Col xs={12}>
           <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -73,6 +79,7 @@ class DataTypeListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Col>
       );
@@ -89,7 +96,9 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        {this.renderTable()}
+        <Spinner loading={!!this.props.loading} >
+          {this.renderTable()}
+        </Spinner>
       </div>
     );
   }
@@ -97,6 +106,7 @@ class DataTypeListTable extends Component {
 
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
+  loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -109,6 +119,7 @@ DataTypeListTable.propTypes = {
 
 DataTypeListTable.defaultProps = {
   onWillMount: () => {},
+  loading: false,
   datatypes: [],
 };
 

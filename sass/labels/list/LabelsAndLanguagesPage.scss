@@ -1,0 +1,20 @@
+.LabelsAndLanguagesPage {
+  &__header-container {
+    margin-bottom: 30px;
+    border-bottom: 1px solid $color-pf-black-200;
+  }
+
+  &__header-tab {
+    display: table-cell;
+    padding: 0;
+  }
+
+  &__tabs > li > a {
+    border-color: $color-pf-black-200;
+    line-height: 55px;
+  }
+
+  .PageTitle__header {
+    border-bottom: 0;
+  }
+}

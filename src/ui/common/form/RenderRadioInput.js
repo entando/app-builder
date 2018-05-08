@@ -4,7 +4,7 @@ import { ToggleButtonGroup, ToggleButton, ButtonToolbar } from 'react-bootstrap'
 
 const RenderRadioInput = ({ input, toggleElement, defaultValue }) =>
   (
-    <ButtonToolbar>
+    <ButtonToolbar className="RenderRadioInput">
       <ToggleButtonGroup
         type="radio"
         {...input}
@@ -14,6 +14,7 @@ const RenderRadioInput = ({ input, toggleElement, defaultValue }) =>
           <ToggleButton
             key={item.id}
             value={item.id}
+            className="RenderRadioInput__toggle-btn"
           >
             {item.label}
           </ToggleButton>

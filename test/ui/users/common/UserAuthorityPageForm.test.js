@@ -2,41 +2,33 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
+import { UserAuthorityPageFormBody } from 'ui/users/common/UserAuthorityPageForm';
 
-import UserAuthorityPageForm, { UserAuthorityPageFormBody } from 'ui/users/common/UserAuthorityPageForm';
+const props = {
+  handleSubmit: jest.fn(),
+  onSubmit: jest.fn(),
+  onWillMount: jest.fn(),
+};
 
-const ON_WILL_MOUNT = jest.fn();
-const ON_SUBMIT = jest.fn();
-const HANDLE_SUBMIT = jest.fn();
-
-
-describe('UserListPage', () => {
+describe('UserAuthorityPageForm', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserAuthorityPageForm />);
+    component = shallow(<UserAuthorityPageFormBody {...props} />);
   });
 
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);
-  });
-
-  it('verify if has a page title', () => {
-    expect(component.find('PageTitle').exists());
   });
 });
 
 describe('with onWillMount callback', () => {
   beforeEach(() => {
     shallow((
-      <UserAuthorityPageFormBody
-        onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
-        onWillMount={ON_WILL_MOUNT}
-      />
+      <UserAuthorityPageFormBody {...props} />
     ));
   });
 
   it('calls onWillMount', () => {
-    expect(ON_WILL_MOUNT).toHaveBeenCalled();
+    expect(props.onWillMount).toHaveBeenCalled();
   });
 });

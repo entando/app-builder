@@ -1,17 +1,19 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/groups/edit/EditFormContainer';
+import { getParams } from '@entando/router';
 
 jest.mock('state/groups/actions', () => ({
   sendPutGroup: jest.fn().mockReturnValue('sendPutGroup_result'),
   fetchGroup: jest.fn().mockReturnValue('fetchGroup_result'),
 }));
 
+getParams.mockReturnValue({ groupCode: 'group_code' });
+
 const dispatchMock = jest.fn();
+
 jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ groupCode: 'group_code' }),
   BreadcrumbItem: () => (<span />),
-  Link: () => (<span />),
   LoginPage: () => (<span />),
   LoginForm: () => (<span />),
   BrandMenu: () => (<span />),
@@ -25,9 +27,6 @@ jest.mock('frontend-common-components', () => ({
   ActivityStreamMenu: () => (<span />),
   ActivityStream: () => (<span />),
   Notification: () => (<span />),
-  routerConfig: jest.fn(),
-  gotoRoute: jest.fn(),
-  routerReducer: state => state || {},
 }));
 
 const TEST_STATE = {

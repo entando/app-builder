@@ -1,83 +1,108 @@
 import 'test/enzyme-init';
 import {
-  fetchPage, fetchPageChildren, setPagePosition, postPage, putPage,
+  getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
   getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
+  getReferencesPage,
 } from 'api/pages';
 
-import {
-  ERROR, HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
-  FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD,
-} from 'test/mocks/pages';
+import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES } from 'test/mocks/pages';
 
-import { makeRequest, METHODS } from 'api/apiManager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-jest.mock('api/apiManager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: require.requireActual('api/apiManager').METHODS,
-}));
+jest.mock('@entando/apimanager', () => {
+  const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
+  return {
+    makeRequest: makeMockRequest,
+    makeMockRequest,
+    METHODS: require.requireActual('@entando/apimanager').METHODS,
+  };
+});
 jest.unmock('api/pages');
 jest.useFakeTimers();
 
-global.console.info = () => {}; // avoid spamming the test report
+const PAGE_CODE = 'page_code';
+
+global.console.info = jest.fn(); // FIXME remove when all the console.info are gone
 
 describe('api/pages', () => {
   afterEach(() => {
     jest.runOnlyPendingTimers();
   });
-  describe('fetchPage()', () => {
-    it('resolves with a mock page if present', () => {
-      expect(fetchPage('homepage')).resolves.toEqual({ payload: HOMEPAGE_PAYLOAD });
+
+  describe('getPage', () => {
+    it('returns a promise', () => {
+      expect(getPage(PAGE_CODE)).toBeInstanceOf(Promise);
     });
-    it('rejects if a mock page is not present', () => {
-      expect(fetchPage('pippo')).rejects.toEqual(ERROR);
+
+    it('makes the correct request', () => {
+      getPage(PAGE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('fetchPageChildren()', () => {
-    it('resolves with a mock page children if present', () => {
-      expect(fetchPageChildren('homepage')).resolves.toEqual({
-        payload: [DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD],
-      });
+  describe('getPageChildren', () => {
+    it('returns a promise', () => {
+      expect(getPageChildren(PAGE_CODE)).toBeInstanceOf(Promise);
     });
-    it('rejects if a mock page is not present', () => {
-      expect(fetchPageChildren('pippo')).rejects.toEqual(ERROR);
+
+    it('makes the correct request', () => {
+      getPageChildren(PAGE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages?parentCode=${PAGE_CODE}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('setPagePosition()', () => {
-    const PAGE_CODE = 'dashboard';
+  describe('setPagePosition', () => {
     const POSITION = 2;
     const PARENT_CODE = 'service';
-    it('resolves with a mock response', () => {
-      expect(setPagePosition(PAGE_CODE, POSITION, PARENT_CODE)).resolves.toEqual({
-        code: PAGE_CODE,
-        position: POSITION,
-        parent: PARENT_CODE,
-      });
+    it('returns a promise', () => {
+      expect(setPagePosition(PAGE_CODE, POSITION, PARENT_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      setPagePosition(PAGE_CODE, POSITION, PARENT_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/position`,
+        method: METHODS.PUT,
+        useAuthentication: true,
+        body: { code: PAGE_CODE, position: POSITION, parentCode: PARENT_CODE },
+        mockResponse: { code: PAGE_CODE, position: POSITION, parentCode: PARENT_CODE },
+      }));
     });
   });
 
-  describe('postPage()', () => {
-    it('if successful, returns a mock ok response', () => {
-      expect(postPage(CONTACTS_PAYLOAD)).resolves.toEqual({ payload: CONTACTS_PAYLOAD });
+  describe('postPage', () => {
+    it('returns a promise', () => {
+      expect(postPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
 
-    it('if given a page with code "error", returns an error response', () => {
-      const errorPayload = { ...CONTACTS_PAYLOAD, code: 'error' };
-      expect(postPage(errorPayload)).resolves
-        .toEqual(expect.objectContaining({ errors: expect.any(Array) }));
+    it('makes the correct request', () => {
+      postPage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages',
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.POST,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('putPage()', () => {
+  describe('putPage', () => {
     it('returns a promise', () => {
       expect(putPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
     });
 
-    it('get fragment page 1 by default', () => {
+    it('makes the correct request', () => {
       putPage(CONTACTS_PAYLOAD);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/pages/${CONTACTS_PAYLOAD.code}`,
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
         body: CONTACTS_PAYLOAD,
         method: METHODS.PUT,
         errors: expect.any(Function),
@@ -86,81 +111,137 @@ describe('api/pages', () => {
     });
   });
 
+  describe('deletePage', () => {
+    it('returns a promise', () => {
+      expect(deletePage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
 
-  describe('test pageSettings API', () => {
+    it('makes the correct request', () => {
+      deletePage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
+        method: METHODS.DELETE,
+        mockResponse: { code: CONTACTS_PAYLOAD.code },
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('getPageSettingsList', () => {
     it('returns a promise', () => {
       const filledInput = getPageSettingsList();
       expect(typeof filledInput.then === 'function').toBeDefined();
     });
     it('verify success page settings', () => {
-      getPageSettingsList().then((response) => {
-        expect(response).toEqual(PAGE_SETTINGS_PAYLOAD);
-      });
+      getPageSettingsList();
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pageSettings',
+        method: METHODS.GET,
+        mockResponse: PAGE_SETTINGS_PAYLOAD,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('test getFreePages API', () => {
+  describe('getSearchPages', () => {
     it('returns a promise', () => {
-      const filledInput = getFreePages();
-      expect(typeof filledInput.then === 'function').toBe(true);
+      expect(getSearchPages()).toBeInstanceOf(Promise);
+    });
+    it('verify success searchPages', () => {
+      getSearchPages();
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/pages/search',
+          method: METHODS.GET,
+          mockResponse: SEARCH_PAGES,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('getFreePages', () => {
+    it('returns a promise', () => {
+      expect(getFreePages()).toBeInstanceOf(Promise);
     });
     it('verify success groups', () => {
-      getFreePages().then((response) => {
-        expect(response).toEqual(FREE_PAGES_PAYLOAD);
+      getFreePages();
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/pages/search/group/free',
+        method: METHODS.GET,
+        mockResponse: FREE_PAGES_PAYLOAD,
+        useAuthentication: true,
       });
     });
   });
 
   describe('getPageConfig', () => {
-    it('returns a promise resolved with errors if called with a not found pageCode', () => {
-      getPageConfig('blabla').then((response) => {
-        expect(Array.isArray(response.errors)).toBe(true);
-        expect(response.errors.length).toBe(1);
-      });
+    it('returns a promise', () => {
+      expect(getPageConfig(PAGE_CODE, 'draft')).toBeInstanceOf(Promise);
     });
 
-    it('returns a promise resolved with payload if called with a valid pageCode', () => {
-      getPageConfig('homepage').then((response) => {
-        const isErrorResponse = !!(response.errors && response.errors.length);
-        expect(isErrorResponse).toBe(false);
-        expect(response.payload).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      const CONFIG_STATUS = 'draft';
+      getPageConfig(PAGE_CODE, CONFIG_STATUS);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/widgets?status=${CONFIG_STATUS}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 
-  describe('deletePageWidget', () => {
-    it('returns a promise resolved with errors if called with a not found pageCode', () => {
-      deletePageWidget('blabla', 1).then((response) => {
-        expect(Array.isArray(response.errors)).toBe(true);
-        expect(response.errors.length).toBe(1);
-      });
+  describe('deletePageWidget()', () => {
+    it('returns a promise', () => {
+      expect(deletePageWidget(PAGE_CODE, 1)).toBeInstanceOf(Promise);
     });
 
-    it('returns a promise resolved with payload if called with a valid pageCode', () => {
-      deletePageWidget('homepage', 1).then((response) => {
-        const isErrorResponse = !!(response.errors && response.errors.length);
-        expect(isErrorResponse).toBe(false);
-        expect(response.payload).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      deletePageWidget(PAGE_CODE, 1);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/widgets/1`,
+        method: METHODS.DELETE,
+        useAuthentication: true,
+      }));
     });
   });
 
   describe('putPageWidget', () => {
-    const WIDGET = { code: 'some_code' };
-
-    it('returns a promise resolved with errors if called with a not found pageCode', () => {
-      putPageWidget('blabla', 1, WIDGET).then((response) => {
-        expect(Array.isArray(response.errors)).toBe(true);
-        expect(response.errors.length).toBe(1);
-      });
+    const PAGE_CONFIG_ITEM = { code: 'some_code' };
+    const FRAME_POS = 1;
+    it('returns a promise', () => {
+      expect(putPageWidget(PAGE_CODE, FRAME_POS, PAGE_CONFIG_ITEM)).toBeInstanceOf(Promise);
     });
 
-    it('returns a promise resolved with payload if called with a valid pageCode', () => {
-      putPageWidget('homepage', 1, WIDGET).then((response) => {
-        const isErrorResponse = !!(response.errors && response.errors.length);
-        expect(isErrorResponse).toBe(false);
-        expect(response.payload).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      putPageWidget(PAGE_CODE, FRAME_POS, PAGE_CONFIG_ITEM);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/widgets/${FRAME_POS}`,
+        method: METHODS.PUT,
+        body: PAGE_CONFIG_ITEM,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('getReferencesPage', () => {
+    const pageCode = 'CNG2';
+    const referenceKey = 'jacmsContentManager';
+    it('returns a promise', () => {
+      expect(getReferencesPage(pageCode, referenceKey)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getReferencesPage(pageCode, referenceKey);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${pageCode}/references/${referenceKey}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
     });
   });
 });

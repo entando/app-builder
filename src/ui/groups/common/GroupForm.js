@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required, maxLength, code } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
-import { required, maxLength, code } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
@@ -91,7 +90,7 @@ GroupFormBody.defaultProps = {
   submitting: false,
   mode: NEW_MODE,
   onChangeName: null,
-  onWillMount: null,
+  onWillMount: () => {},
 };
 
 const GroupForm = reduxForm({

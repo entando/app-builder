@@ -1,8 +1,12 @@
 
-import { LIST_GROUPS_OK, GROUPS_NORMALIZED } from 'test/mocks/groups';
+import {
+  LIST_GROUPS_OK,
+  GROUPS_NORMALIZED,
+} from 'test/mocks/groups';
 
 import {
   getGroups,
+  getGroupsTotal,
   getGroupsIdList,
   getGroupsMap,
   getGroupsList,
@@ -14,6 +18,15 @@ describe('state/groups/selectors', () => {
     expect(selected).toBe(GROUPS_NORMALIZED.groups);
   });
 
+  it('getGroupsTotal returns the current total', () => {
+    const total = getGroupsTotal({
+      groups: {
+        total: 3,
+      },
+    });
+    expect(total).toBe(3);
+  });
+
   it('verify getGroupsIdList selector', () => {
     expect(getGroupsIdList(GROUPS_NORMALIZED)).toEqual(GROUPS_NORMALIZED.groups.list);
   });
@@ -22,7 +35,7 @@ describe('state/groups/selectors', () => {
     expect(getGroupsMap(GROUPS_NORMALIZED)).toEqual(GROUPS_NORMALIZED.groups.map);
   });
 
-  it('verify getUserList selector', () => {
+  it('verify getGroupsList selector', () => {
     expect(getGroupsList(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
   });
 });

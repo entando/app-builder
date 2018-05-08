@@ -1,42 +1,73 @@
-import throttle from 'util/throttle';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 import {
-  GET_LIST_RESPONSE, COMPLEX_RESPONSE, SINGLE_CELL_RESPONSE, SIDEBAR_HOLES_RESPONSE,
-  OVERLAPPING_FRAMES_RESPONSE, MISSING_SKETCH_RESPONSE,
+  PAGE_MODELS_LIST, COMPLEX_PAYLOAD, SINGLE_CELL_PAYLOAD, SIDEBAR_HOLES_PAYLOAD,
+  OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD, PAGE_REFS_MAP,
 } from 'test/mocks/pageModels';
 
 
-export const getPageModels = () => (
-  new Promise((resolve) => {
-    throttle(() => {
-      resolve(GET_LIST_RESPONSE.payload);
-    });
-  })
-);
-
 const pageModelMap = {
-  [COMPLEX_RESPONSE.payload.code]: COMPLEX_RESPONSE,
-  [SINGLE_CELL_RESPONSE.payload.code]: SINGLE_CELL_RESPONSE,
-  [SIDEBAR_HOLES_RESPONSE.payload.code]: SIDEBAR_HOLES_RESPONSE,
-  [OVERLAPPING_FRAMES_RESPONSE.payload.code]: OVERLAPPING_FRAMES_RESPONSE,
-  [MISSING_SKETCH_RESPONSE.payload.code]: MISSING_SKETCH_RESPONSE,
+  [COMPLEX_PAYLOAD.code]: COMPLEX_PAYLOAD,
+  [SINGLE_CELL_PAYLOAD.code]: SINGLE_CELL_PAYLOAD,
+  [SIDEBAR_HOLES_PAYLOAD.code]: SIDEBAR_HOLES_PAYLOAD,
+  [OVERLAPPING_FRAMES_PAYLOAD.code]: OVERLAPPING_FRAMES_PAYLOAD,
+  [MISSING_SKETCH_PAYLOAD.code]: MISSING_SKETCH_PAYLOAD,
 };
 
-export const getPageModel = code => (
-  // call GET /pagemodels/<code>
-  new Promise((resolve) => {
-    const response = pageModelMap[code];
-    throttle(() => {
-      if (response) {
-        resolve(response);
-      } else {
-        resolve({
-          errors: [{
-            code: 1,
-            message: `Page model "${code}" not found`,
-          }],
-        });
-      }
-    });
+export const getPageModels = (page = { page: 1, pageSize: 10 }, params = '') => makeRequest({
+  uri: `/api/pageModels${params}`,
+  method: METHODS.GET,
+  mockResponse: PAGE_MODELS_LIST,
+  useAuthentication: true,
+}, page);
+
+
+export const getPageModel = pageModelCode => makeRequest({
+  uri: `/api/pageModels/${pageModelCode}`,
+  method: METHODS.GET,
+  mockResponse: pageModelMap[pageModelCode] || {},
+  useAuthentication: true,
+  errors: () => (
+    pageModelMap[pageModelCode] ?
+      [] :
+      [{ code: 1, message: `no page model with the code ${pageModelCode} could be found.` }]
+  ),
+});
+
+export const deletePageModel = pageModelCode => (
+  makeRequest({
+    uri: `/api/pageModels/${pageModelCode}`,
+    method: METHODS.DELETE,
+    mockResponse: {},
+    useAuthentication: true,
   })
 );
+
+export const postPageModel = pageModel => makeRequest({
+  uri: '/api/pageModels',
+  body: pageModel,
+  method: METHODS.POST,
+  mockResponse: { ...pageModel },
+  useAuthentication: true,
+});
+
+export const putPageModel = pageModel => makeRequest({
+  uri: `/api/pageModels/${pageModel.code}`,
+  body: pageModel,
+  method: METHODS.PUT,
+  mockResponse: { ...pageModel },
+  useAuthentication: true,
+});
+
+export const getReferences = (entityName, mockRefs) =>
+  (pageModelCode, page = { page: 1, pageSize: 10 }) => makeRequest(
+    {
+      uri: `/api/pageModels/${pageModelCode}/references/${entityName}`,
+      method: METHODS.GET,
+      mockResponse: mockRefs[pageModelCode] ? mockRefs[pageModelCode] || [] : [],
+      useAuthentication: true,
+    },
+    page,
+  );
+
+export const getPageReferences = getReferences('PageManager', PAGE_REFS_MAP);

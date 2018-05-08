@@ -7,7 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UserAuthorityPageFormContainer from 'ui/users/common/UserAuthorityPageFormContainer';
-
+import { ROUTE_USER_LIST } from 'app-init/router';
 
 const UserAuthorityPage = ({ username }) => (
   <InternalPage className="authorityPage">
@@ -16,9 +16,9 @@ const UserAuthorityPage = ({ username }) => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
-            <BreadcrumbItem active>
+            <BreadcrumbItem route={ROUTE_USER_LIST}>
               <FormattedMessage id="menu.users" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
@@ -28,7 +28,7 @@ const UserAuthorityPage = ({ username }) => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="user.authority.title"
             helpId="user.help"

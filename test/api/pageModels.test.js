@@ -1,35 +1,124 @@
 import 'test/enzyme-init';
-import { getPageModels, getPageModel } from 'api/pageModels';
-import { GET_LIST_RESPONSE, COMPLEX_RESPONSE } from 'test/mocks/pageModels';
+import { makeRequest, METHODS } from '@entando/apimanager';
+import { getPageModels, getPageModel, postPageModel, putPageModel, getPageReferences } from 'api/pageModels';
+
+
+const PAGE_MODEL_CODE = 'some_code';
+const PAGE_MODEL = {
+  code: PAGE_MODEL_CODE,
+};
+
 
 jest.unmock('api/pageModels');
-jest.unmock('util/throttle');
-jest.useFakeTimers();
 
-const COMPLEX_PAGE_MODEL_CODE = COMPLEX_RESPONSE.payload.code;
+jest.mock('@entando/apimanager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: require.requireActual('@entando/apimanager').METHODS,
+}));
 
-
+beforeEach(jest.clearAllMocks);
 describe('api/pageModels', () => {
-  afterEach(jest.runOnlyPendingTimers);
-
   describe('getPageModels()', () => {
-    it('resolves with a mock page models list', () => {
-      expect(getPageModels()).resolves.toEqual(GET_LIST_RESPONSE.payload);
+    it('returns a promise', () => {
+      expect(getPageModels()).toBeInstanceOf(Promise);
+    });
+
+    it('has default paging', () => {
+      getPageModels();
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/pageModels',
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+
+    it('resolves with a paged page models list', () => {
+      getPageModels({ page: 2, pageSize: 20 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: '/api/pageModels',
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
+        {
+          page: 2,
+          pageSize: 20,
+        },
+      );
     });
   });
 
   describe('getPageModel()', () => {
-    it('resolves with a mock page model if present', () => {
-      getPageModel(COMPLEX_PAGE_MODEL_CODE).then((response) => {
-        expect(response).toEqual(COMPLEX_RESPONSE);
-      });
+    it('returns a promise', () => {
+      expect(getPageModel()).toBeInstanceOf(Promise);
     });
 
-    it('returns errors if the page model is not present', () => {
-      getPageModel('bla bla').then((response) => {
-        expect(response.errors).toBeDefined();
-        expect(response.errors.length).toBeTruthy();
-      });
+    it('makes the correct request', () => {
+      getPageModel(PAGE_MODEL_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pageModels/${PAGE_MODEL_CODE}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('postPageModel()', () => {
+    it('returns a promise', () => {
+      expect(postPageModel(PAGE_MODEL)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      postPageModel(PAGE_MODEL);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pageModels',
+        method: METHODS.POST,
+        useAuthentication: true,
+        body: PAGE_MODEL,
+      }));
+    });
+  });
+
+  describe('putPageModel()', () => {
+    it('returns a promise', () => {
+      expect(putPageModel(PAGE_MODEL)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      putPageModel(PAGE_MODEL);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pageModels/${PAGE_MODEL_CODE}`,
+        method: METHODS.PUT,
+        useAuthentication: true,
+        body: PAGE_MODEL,
+      }));
+    });
+  });
+
+  describe('getPageReferences()', () => {
+    it('returns a promise', () => {
+      expect(getPageReferences(PAGE_MODEL)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getPageReferences(PAGE_MODEL_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          uri: `/api/pageModels/${PAGE_MODEL_CODE}/references/PageManager`,
+          method: METHODS.GET,
+          useAuthentication: true,
+        }),
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });

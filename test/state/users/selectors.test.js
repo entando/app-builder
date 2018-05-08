@@ -1,37 +1,20 @@
-import { USERS_OK_PAGE_1 } from 'test/mocks/users';
+import { USERS, USERS_NORMALIZED } from 'test/mocks/users';
 
 import {
   getUsers,
   getUsersIdList,
   getUsersMap,
   getUserList,
+  getUsersTotal,
 } from 'state/users/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
 const TEST_STATE = {
   users: {
-    list: ['admin', 'user1'],
-    map: {
-      admin: {
-        username: 'admin',
-        registration: '2018-01-08 00:00:00',
-        lastLogin: '2018-01-08 00:00:00',
-        lastPasswordChange: '2018-01-08 00:00:00',
-        status: 'active',
-        passwordChangeRequired: true,
-      },
-      user1: {
-        username: 'user1',
-        registration: '2018-01-08 00:00:00',
-        lastLogin: '2018-01-08 00:00:00',
-        lastPasswordChange: '2018-01-08 00:00:00',
-        status: 'disabled',
-        passwordChangeRequired: true,
-      },
-    },
+    ...USERS_NORMALIZED,
+    total: 2,
   },
-  pagination: USERS_OK_PAGE_1.metaData,
 };
 
 
@@ -50,6 +33,10 @@ describe('state/users/selectors', () => {
   });
 
   it('verify getUserList selector', () => {
-    expect(getUserList(TEST_STATE)).toEqual(USERS_OK_PAGE_1.payload);
+    expect(getUserList(TEST_STATE)).toEqual(USERS);
+  });
+
+  it('verify getTotalUsers selector', () => {
+    expect(getUsersTotal(TEST_STATE)).toEqual(2);
   });
 });

@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
-import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 
 export class PageFormBody extends Component {
   componentWillMount() {
@@ -24,20 +23,20 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, onSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
+      handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
       contentTypes, charsets, mode, onChangeEnTitle,
     } = this.props;
 
     const isEditMode = mode === 'edit';
 
     const pageModelsWithEmpty =
-      [{ code: '', description: formattedText('app.chooseAnOption') }].concat(pageModels);
+      [{ code: '', descr: formattedText('app.chooseAnOption') }].concat(pageModels);
 
     const groupsWithEmpty =
       [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="PageForm form-horizontal">
+      <form className="PageForm form-horizontal">
         <Row>
           <Col xs={12}>
             <FormSectionTitle titleId="pages.pageForm.info" />
@@ -153,7 +152,7 @@ export class PageFormBody extends Component {
                   validate={[required]}
                 >
                   {pageModelsWithEmpty.map(gr =>
-                    <option key={gr.code} value={gr.code}>{gr.description}</option>)}
+                    <option key={gr.code} value={gr.code}>{gr.descr}</option>)}
                 </Field>
               </Col>
             </FormGroup>
@@ -240,21 +239,28 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
             <div className="btn-toolbar pull-right">
+
               <Button
                 className="PageForm__save-and-configure-btn"
                 type="submit"
                 bsStyle="success"
                 disabled={invalid || submitting}
+                onClick={handleSubmit(values =>
+                  this.props.onSubmit(values, ACTION_SAVE_AND_CONFIGURE))}
               >
                 <FormattedMessage id="pages.pageForm.saveAndConfigure" />
+
               </Button>
               <Button
                 className="PageForm__save-btn"
                 type="submit"
                 bsStyle="primary"
                 disabled={invalid || submitting}
+                onClick={handleSubmit(values =>
+                  this.props.onSubmit(values, ACTION_SAVE))}
               >
                 <FormattedMessage id="app.save" />
+
               </Button>
             </div>
           </Col>
@@ -278,7 +284,7 @@ PageFormBody.propTypes = {
   })).isRequired,
   pageModels: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    descr: PropTypes.string.isRequired,
   })).isRequired,
   mode: PropTypes.string,
   onWillMount: PropTypes.func,

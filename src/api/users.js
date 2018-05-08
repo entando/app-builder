@@ -1,34 +1,69 @@
-import { USERS_OK_PAGE_1, USERS_OK_PAGE_2, USER_PROFILE_MOCK } from 'test/mocks/users';
-import throttle from 'util/throttle';
-import { makeMockRequest, METHODS } from 'api/apiManager';
+import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getUsers = (page, params) => new Promise((resolve) => {
-  if (params) {
-    console.info(`calling API /users${params}`);
-  }
-  switch (page) {
-    case 1:
-      throttle(() => resolve(USERS_OK_PAGE_1));
-      break;
-    case 2:
-      throttle(resolve(USERS_OK_PAGE_2));
-      break;
-    default:
-      throttle(resolve(USERS_OK_PAGE_1));
-  }
-});
-
-const getErrors = username => (
-  USER_PROFILE_MOCK[username] ? [] : [
-    { code: 1, message: 'user not found' },
-  ]
+export const getUsers = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/users${params}`,
+      method: METHODS.GET,
+      mockResponse: USERS,
+      useAuthentication: true,
+    },
+    page,
+  )
 );
 
-export const getUserDetail = username => makeMockRequest({
-  uri: `/users/detail/${username}`,
+export const getUser = params => makeRequest({
+  uri: `/api/users/${params}`,
   method: METHODS.GET,
-  mockResponse: USER_PROFILE_MOCK[username],
-  errors: () => getErrors(username),
+  mockResponse: USER,
+  useAuthentication: true,
+});
+
+export const postUser = user => makeRequest({
+  uri: '/api/users/',
+  method: METHODS.POST,
+  body: user,
+  mockResponse: user,
+  useAuthentication: true,
+});
+
+export const putUser = user => makeRequest({
+  uri: `/api/users/${user.username}`,
+  method: METHODS.PUT,
+  body: user,
+  mockResponse: [],
+  useAuthentication: true,
+});
+
+export const deleteUser = username => makeRequest({
+  uri: `/api/users/${username}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: username },
+  useAuthentication: true,
+});
+
+export const getUserAuthorities = username => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.GET,
+  mockResponse: AUTHORITIES,
+  useAuthentication: true,
+});
+
+export const postUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.POST,
+  body: authorities,
+  mockResponse: { ...authorities },
+  useAuthentication: true,
+});
+
+export const putUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.PUT,
+  body: authorities,
+  mockResponse: { ...authorities },
+  useAuthentication: true,
 });
 
 export default getUsers;

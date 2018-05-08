@@ -87,13 +87,25 @@ describe('state/page-config/reducer', () => {
     });
   });
 
-  describe('after action SET_TOOLBAR_EXPANDED', () => {
-    beforeEach(() => {
+  describe('after action TOGGLE_TOOLBAR_EXPANDED', () => {
+    it('with no argument, should toggle the toolbar expanded value', () => {
       state = reducer({}, toggleContentToolbarExpanded());
-    });
-    it('should toggle the toolbar expanded value', () => {
       expect(state.toolbarExpanded).toBe(true);
       state = reducer(state, toggleContentToolbarExpanded());
+      expect(state.toolbarExpanded).toBe(false);
+    });
+
+    it('with true argument, should expand the toolbar', () => {
+      state = reducer({}, toggleContentToolbarExpanded(true));
+      expect(state.toolbarExpanded).toBe(true);
+      state = reducer(state, toggleContentToolbarExpanded(true));
+      expect(state.toolbarExpanded).toBe(true);
+    });
+
+    it('with false argument, should collapse the toolbar', () => {
+      state = reducer({}, toggleContentToolbarExpanded(false));
+      expect(state.toolbarExpanded).toBe(false);
+      state = reducer(state, toggleContentToolbarExpanded(false));
       expect(state.toolbarExpanded).toBe(false);
     });
   });
@@ -165,7 +177,7 @@ describe('state/page-config/reducer', () => {
 
       it('the widget should be inserted to its new place', () => {
         expect(state.configMap[PAGE_CODE][FULL_FRAME_INDEX]).toEqual({
-          type: WIDGET_ID,
+          code: WIDGET_ID,
           config: undefined,
         });
       });
@@ -181,7 +193,7 @@ describe('state/page-config/reducer', () => {
 
       it('the widget should be inserted to its new place', () => {
         expect(state.configMap[PAGE_CODE][EMPTY_FRAME_INDEX]).toEqual({
-          type: WIDGET_ID,
+          code: WIDGET_ID,
         });
       });
     });

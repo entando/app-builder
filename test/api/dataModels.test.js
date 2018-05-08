@@ -1,22 +1,28 @@
 import 'test/enzyme-init';
 
 import { getDataModels } from 'api/dataModels';
-import {
-  DATA_MODELS_P1,
-  DATA_MODELS_P2,
-  DATA_MODELS_P3,
-  ERROR,
-} from 'test/mocks/dataModels';
+import { makeRequest, METHODS } from '@entando/apimanager';
+import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
 
-jest.unmock('api/dataModels');
+const correctRequest = {
+  uri: '/api/dataModels',
+  method: METHODS.GET,
+  mockResponse: DATA_MODELS.payload,
+  useAuthentication: true,
+  errors: expect.any(Function),
+};
 
-const PAGE_MODEL_ID = 'modelId';
 const PAGE_KEY_BAD = 'Gianni';
 
-describe('getDataModels', () => {
-  it('returns a promise', () => {
-    const promise = getDataModels();
-    expect(typeof promise.then === 'function').toBeDefined();
+jest.unmock('api/dataModels');
+jest.mock('@entando/apimanager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+}));
+
+describe('api/dataModel', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
   it('get an error response with a not existing KEY', () => {
@@ -24,43 +30,57 @@ describe('getDataModels', () => {
       expect(error).toEqual(ERROR);
     });
   });
-});
 
-describe('getDataModels', () => {
-  it('get success response', () => {
-    getDataModels(PAGE_MODEL_ID).then((response) => {
-      expect(response).toEqual(DATA_MODELS_P1);
+  describe('getDataModels', () => {
+    it('returns a promise', () => {
+      expect(getDataModels()).toBeInstanceOf(Promise);
     });
-  });
 
-  it('returns a promise', () => {
-    const filledInput = getDataModels(PAGE_MODEL_ID);
-    expect(typeof filledInput.then === 'function').toBeDefined();
-  });
+    it('get dataMmodels page 1 by default', () => {
+      getDataModels({ page: 1, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
 
-  it('verifies success on loading PageModels', () => {
-    getDataModels().then((response) => {
-      expect(response).toEqual(DATA_MODELS_P1);
+    it('request page 2', () => {
+      getDataModels({ page: 2, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 2,
+          pageSize: 10,
+        },
+      );
     });
-  });
-  it('get error response', () => {
-    getDataModels().then(() => {}, (error) => {
-      expect(error).toEqual(ERROR);
+
+    it('request different page size', () => {
+      getDataModels({ page: 1, pageSize: 5 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 5,
+        },
+      );
     });
-  });
-  it('get PageModels page 1 by default', () => {
-    getDataModels().then((response) => {
-      expect(response).toEqual(DATA_MODELS_P1);
-    });
-  });
-  it('get PageModels page 2 by default', () => {
-    getDataModels(2).then((response) => {
-      expect(response).toEqual(DATA_MODELS_P2);
-    });
-  });
-  it('get PageModels page 3 by default', () => {
-    getDataModels(3).then((response) => {
-      expect(response).toEqual(DATA_MODELS_P3);
+
+    it('makes the request with additional params', () => {
+      getDataModels({ page: 1, pageSize: 10 }, '?param=true');
+      expect(makeRequest).toHaveBeenCalledWith(
+        {
+          ...correctRequest,
+          uri: '/api/dataModels?param=true',
+        },
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
   });
 });

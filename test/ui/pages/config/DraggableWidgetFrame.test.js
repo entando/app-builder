@@ -8,6 +8,7 @@ jest.mock('ui/pages/config/WidgetFrame', () => () => 'span');
 jest.mock('state/page-config/actions', () => ({
   updatePageWidget: jest.fn().mockReturnValue('updatePageWidget__result'),
   removePageWidget: jest.fn().mockReturnValue('removePageWidget__result'),
+  configOrUpdatePageWidget: jest.fn().mockReturnValue('configOrUpdatePageWidget__result'),
 }));
 
 const SOURCE_WIDGET_ID = 'sample_widget_code';

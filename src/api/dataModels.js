@@ -1,28 +1,19 @@
-import {
-  DATA_MODELS_P1,
-  DATA_MODELS_P2,
-  DATA_MODELS_P3,
+import { makeRequest, METHODS } from '@entando/apimanager';
+import { DATA_MODELS } from 'test/mocks/dataModels';
 
-} from 'test/mocks/dataModels';
+const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
-export const getDataModels = (page = 1, params) =>
-  new Promise((resolve) => {
-    if (params) {
-      console.info(`calling API /dataModels${params}`);
-    }
-    switch (page) {
-      case 1:
-        resolve(DATA_MODELS_P1);
-        break;
-      case 2:
-        resolve(DATA_MODELS_P2);
-        break;
-      case 3:
-        resolve(DATA_MODELS_P3);
-        break;
-      default:
-        resolve(DATA_MODELS_P1);
-    }
-  });
+export const getDataModels = (page = { page: 1, pageSize: 10 }, params = '') => (
+  makeRequest(
+    {
+      uri: `/api/dataModels${params}`,
+      method: METHODS.GET,
+      mockResponse: DATA_MODELS.payload,
+      useAuthentication: true,
+      errors: () => getGenericError(params),
+    },
+    page,
+  )
+);
 
 export default getDataModels;

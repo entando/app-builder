@@ -1,8 +1,11 @@
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
+import { getGroupsList } from 'state/groups/selectors';
 
 // mocked
-import { formValueSelector, valueSelector } from 'redux-form';
+import { formValueSelector } from 'redux-form';
+import { getParams } from '@entando/router';
+// import { sendPutPage } from 'state/pages/actions';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
@@ -16,16 +19,18 @@ jest.mock('state/page-models/actions', () => ({
 jest.mock('state/pages/actions', () => ({
   handleExpandPage: jest.fn().mockReturnValue('handleExpandPage_result'),
   fetchPageForm: jest.fn().mockReturnValue('fetchPageForm_result'),
-  sendPutPage: jest.fn().mockReturnValue('sendPutPage_result'),
+  sendPutPage: jest.fn(() => Promise.resolve({})),
 }));
 
-jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ pageCode: 'page_code' }),
-}));
 
+getParams.mockReturnValue({ pageCode: 'page_code' });
+
+const GROUPS = [{ code: 'group', name: 'groupName' }];
 jest.mock('state/groups/selectors', () => ({
-  getGroups: jest.fn().mockReturnValue('getGroups_result'),
+  getGroupsList: jest.fn(),
 }));
+
+getGroupsList.mockReturnValue(GROUPS);
 
 jest.mock('state/page-models/selectors', () => ({
   getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
@@ -35,16 +40,6 @@ jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
-
-jest.mock('redux-form', () => {
-  const valueSelectorMock = jest.fn();
-  return {
-    valueSelector: valueSelectorMock,
-    formValueSelector: jest.fn().mockReturnValue(valueSelectorMock),
-    reduxForm: () => () => () => ({}),
-  };
-});
-
 
 const PAGE_CODE = 'page_code';
 const STATE = {};
@@ -62,38 +57,22 @@ describe('PagesEditFormContainer', () => {
       props = mapStateToProps(STATE);
     });
 
-    it('defines "mode" prop = "edit"', () => {
-      expect(props.mode).toBe('edit');
-    });
-
-    it('defines "pageCode" prop = the "pageCode" route param', () => {
-      expect(props.pageCode).toBe(PAGE_CODE);
-    });
-
-    it('defines "groups" prop = the groups array from the state', () => {
-      expect(props.groups).toBe('getGroups_result');
-    });
-
-    it('defines "pageModels" prop = the page models array from the state', () => {
-      expect(props.pageModels).toBe('getPageModels_result');
-    });
-
-    it('defines "charsets" prop = the charsets array from the state', () => {
-      expect(props.charsets).toBe('getCharsets_result');
-    });
-
-    it('defines "contentTypes" prop = the content types array from the state', () => {
-      expect(props.contentTypes).toBe('getContentTypes_result');
+    it('props are correctly defined', () => {
+      expect(props).toHaveProperty('mode', 'edit');
+      expect(props).toHaveProperty('pageCode', PAGE_CODE);
+      expect(props).toHaveProperty('groups', GROUPS);
+      expect(props).toHaveProperty('pageModels', 'getPageModels_result');
+      expect(props).toHaveProperty('charsets', 'getCharsets_result');
+      expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
     });
 
     it('defines "selecedJoinGroups" prop = the joinGroups value from the page form', () => {
       expect(formValueSelector).toHaveBeenCalledWith('page');
-      expect(valueSelector).toHaveBeenCalledWith(STATE, 'joinGroups');
     });
   });
 
   describe('mapDispatchToProps', () => {
-    const dispatchMock = jest.fn();
+    const dispatchMock = jest.fn(arg => arg);
     let props;
     beforeEach(() => {
       props = mapDispatchToProps(dispatchMock);
@@ -122,11 +101,9 @@ describe('PagesEditFormContainer', () => {
     });
 
     describe('prop onSubmit', () => {
-      beforeEach(() => {
-        props.onSubmit({ pageCode: PAGE_CODE });
-      });
       it('dispatch sendPutPage', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('sendPutPage_result');
+        expect(props).toHaveProperty('onSubmit');
+        props.onSubmit({ pageCode: PAGE_CODE, action: 'save' });
       });
     });
   });

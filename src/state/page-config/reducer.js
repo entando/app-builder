@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { isBoolean } from 'lodash';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
@@ -45,7 +46,7 @@ const configMap = (state = {}, action = {}) => {
 
     case SET_PAGE_WIDGET: {
       const {
-        pageCode, widgetId, sourceFrameId, targetFrameId,
+        pageCode, widgetId, sourceFrameId, targetFrameId, widgetConfig,
       } = action.payload;
 
       // verify we're not setting the widget on the same frame (do nothing)
@@ -55,7 +56,9 @@ const configMap = (state = {}, action = {}) => {
       }
 
       const newConfig = [...state[pageCode]];
-      const newWidget = isChangingFrame ? { ...newConfig[sourceFrameId] } : { type: widgetId };
+      const newWidget = isChangingFrame ?
+        { ...newConfig[sourceFrameId] } :
+        { code: widgetId, config: widgetConfig };
 
       // find if there was another widget in the target frame
       const replacedWidget = newConfig[targetFrameId] ? { ...newConfig[targetFrameId] } : null;
@@ -102,6 +105,9 @@ const publishedConfigMap = (state = {}, action = {}) => {
 export const toolbarExpanded = (state = false, action = {}) => {
   switch (action.type) {
     case TOGGLE_CONTENT_TOOLBAR_EXPANDED: {
+      if (isBoolean(action.payload.expand)) {
+        return action.payload.expand;
+      }
       return !state;
     }
     default: return state;

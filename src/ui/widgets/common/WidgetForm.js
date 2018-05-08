@@ -4,8 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, widgetCode, maxLength } from 'util/validateForm';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required, widgetCode, maxLength } from '@entando/utils';
 
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -32,7 +31,17 @@ export const renderDefaultUIField = (field) => {
 
 export class WidgetFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    if (this.props.onWillMount) this.props.onWillMount(this.props);
+  }
+
+  renderSelectOptions() {
+    const { groups } = this.props;
+    return groups.map(gr => (
+      <option
+        key={gr.code}
+        value={gr.code}
+      > {gr.name}
+      </option>));
   }
 
   render() {
@@ -53,16 +62,14 @@ export class WidgetFormBody extends Component {
       />
     );
 
-    const defaultUIField = (
-      <Field
-        name="defaultUi"
-        component={renderDefaultUIField}
-      />
-    );
-
     let defaultUITab = (
       <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
-        {defaultUIField}
+        {
+          this.props.defaultUIField ? this.props.defaultUIField :
+          <Alert type="info">
+            <FormattedMessage id="widget.page.alert.notAvaible" />
+          </Alert>
+        }
       </Tab>
     );
 
@@ -103,12 +110,8 @@ export class WidgetFormBody extends Component {
                 </label>
                 <Col xs={10}>
                   <Field name="group" component="select" className="form-control">
-                    {this.props.groups.map(gr => (
-                      <option
-                        key={gr.code}
-                        value={gr.code}
-                      > {gr.name}
-                      </option>))}
+                    <option>{formattedText('form.select.chooseOne')}</option>
+                    {this.renderSelectOptions()}
                   </Field>
                 </Col>
               </div>
@@ -169,10 +172,11 @@ WidgetFormBody.propTypes = {
     code: PropTypes.string,
   })),
   mode: PropTypes.string,
+  defaultUIField: PropTypes.string,
 };
 
 WidgetFormBody.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: null,
   invalid: false,
   submitting: false,
   groups: [{
@@ -180,6 +184,7 @@ WidgetFormBody.defaultProps = {
     code: '',
   }],
   mode: MODE_NEW,
+  defaultUIField: '',
 };
 
 const WidgetForm = reduxForm({

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-
+import { isEmpty } from 'lodash';
 
 const PageInfoTable = ({ page }) => {
-  if (!page) {
+  if (isEmpty(page)) {
     return null;
   }
   const renderBool = value => (
@@ -46,20 +46,27 @@ const PageInfoTable = ({ page }) => {
 
 PageInfoTable.propTypes = {
   page: PropTypes.shape({
-    code: PropTypes.string.isRequired,
+    code: PropTypes.string,
     titles: PropTypes.shape({
       en: PropTypes.string.isRequired,
       it: PropTypes.string.isRequired,
-    }).isRequired,
-    ownerGroup: PropTypes.string.isRequired,
-    pageModel: PropTypes.string.isRequired,
-    displayedInMenu: PropTypes.bool.isRequired,
-    seo: PropTypes.bool.isRequired,
+    }),
+    ownerGroup: PropTypes.string,
+    pageModel: PropTypes.string,
+    displayedInMenu: PropTypes.bool,
+    seo: PropTypes.bool,
   }),
 };
 
 PageInfoTable.defaultProps = {
-  page: null,
+  page: {
+    code: '',
+    titles: { en: '', it: '' },
+    ownerGroup: '',
+    pageModel: '',
+    displayedInMenu: false,
+    seo: false,
+  },
 };
 
 

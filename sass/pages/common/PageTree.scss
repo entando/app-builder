@@ -13,13 +13,13 @@
   }
 
   &__page-name,
-  .PageExpandedIcon,
-  .PageFolderIcon,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
   .RowSpinner {
     margin-left: 10px;
   }
 
-  .PageFolderIcon {
+  .TreeNodeFolderIcon {
     color: $color-pf-light-blue-400;
   }
 
@@ -29,7 +29,7 @@
   }
 
   &__tree-column-td--empty {
-    .PageExpandedIcon {
+    .TreeNodeExpandedIcon {
       opacity: 0;
       visibility: hidden;
     }

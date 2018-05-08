@@ -1,7 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
+import { getParams } from '@entando/router';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
+import { mapStateToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
 
 // mocked
 import { returnedFuncMock } from 'redux-form';
@@ -34,10 +35,11 @@ const TEST_STATE = {
 };
 
 const dispatchMock = jest.fn();
+
+getParams.mockReturnValue({ widgetCode: 'code' });
+
 jest.mock('frontend-common-components', () => ({
-  getParams: jest.fn().mockReturnValue({ widgetCode: 'code' }),
   BreadcrumbItem: () => (<span />),
-  Link: () => (<span />),
   LoginPage: () => (<span />),
   LoginForm: () => (<span />),
   BrandMenu: () => (<span />),
@@ -51,21 +53,13 @@ jest.mock('frontend-common-components', () => ({
   ActivityStreamMenu: () => (<span />),
   ActivityStream: () => (<span />),
   Notification: () => (<span />),
-  routerConfig: jest.fn(),
-  gotoRoute: jest.fn(),
-  routerReducer: state => state || {},
 }));
 
 describe('EditWidgetPageContainer', () => {
-  it('maps widgetCode and widgetName property state in WidgetEditPage', () => {
-    returnedFuncMock.mockReturnValue('Test Widget');
-    expect(mapStateToProps(TEST_STATE)).toEqual({ widgetCode: 'code', widgetName: 'Test Widget' });
-  });
-
-  it('verify that onWillMount and toBeDefined is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onWillMount).toBeDefined();
-    result.onWillMount({ widgetCode: 'code' });
-    expect(dispatchMock).toHaveBeenCalled();
+  describe('mapStateToProps', () => {
+    it('map widgetName property state in WidgetEditPage', () => {
+      returnedFuncMock.mockReturnValue('Test Widget');
+      expect(mapStateToProps(TEST_STATE)).toEqual({ widgetName: 'Test Widget' });
+    });
   });
 });

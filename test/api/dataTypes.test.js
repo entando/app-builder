@@ -1,33 +1,142 @@
 import 'test/enzyme-init';
-import { getDataTypes } from 'api/dataTypes';
+import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import { makeRequest, METHODS } from '@entando/apimanager';
+
 import {
   DATA_TYPES_OK_PAGE_1,
-  DATA_TYPES_OK_PAGE_2,
+  DATA_TYPES_ATTRIBUTES,
+  DATA_TYPE_ATTRIBUTE,
 } from 'test/mocks/dataTypes';
 
-jest.unmock('api/dataTypes');
-jest.useFakeTimers();
+const correctRequest = {
+  uri: '/api/dataTypes',
+  method: METHODS.GET,
+  mockResponse: DATA_TYPES_OK_PAGE_1,
+  useAuthentication: true,
+};
 
-describe('api/dataTypes', () => {
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
+
+jest.unmock('api/dataTypes');
+jest.mock('@entando/apimanager', () => ({
+  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  METHODS: { GET: 'GET' },
+}));
+
+describe('api/getDataTypes', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
+
   describe('getDataTypes', () => {
     it('returns a promise', () => {
-      const filledInput = getDataTypes();
-      expect(typeof filledInput.then === 'function').toBeDefined();
+      expect(getDataTypes()).toBeInstanceOf(Promise);
     });
 
-    it('get data type page 1 as first page', () => {
-      expect(getDataTypes()).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
+    it('get fragment page 1 by default', () => {
+      getDataTypes({ page: 1, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
     });
 
-    it('get data type page 2', () => {
-      expect(getDataTypes(2)).resolves.toEqual(DATA_TYPES_OK_PAGE_2);
+    it('request page 2', () => {
+      getDataTypes({ page: 2, pageSize: 10 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 2,
+          pageSize: 10,
+        },
+      );
     });
 
-    it('get data type page 1 by default', () => {
-      expect(getDataTypes('nopage')).resolves.toEqual(DATA_TYPES_OK_PAGE_1);
+    it('request different page size', () => {
+      getDataTypes({ page: 1, pageSize: 5 });
+      expect(makeRequest).toHaveBeenCalledWith(
+        correctRequest,
+        {
+          page: 1,
+          pageSize: 5,
+        },
+      );
+    });
+    it('makes the request with additional params', () => {
+      getDataTypes({ page: 1, pageSize: 10 }, '?param=true');
+      expect(makeRequest).toHaveBeenCalledWith(
+        {
+          ...correctRequest,
+          uri: '/api/dataTypes?param=true',
+        },
+        {
+          page: 1,
+          pageSize: 10,
+        },
+      );
+    });
+  });
+
+  describe('api/getDataTypeAttributes', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    describe('getDataTypeAttributes', () => {
+      it('returns a promise', () => {
+        expect(getDataTypeAttributes()).toBeInstanceOf(Promise);
+      });
+
+      it('if successful, returns a attributes response', () => {
+        getDataTypeAttributes();
+        expect(makeRequest).toHaveBeenCalledWith(
+          expect.objectContaining({
+            ...correctRequest,
+            uri: '/api/dataTypeAttributes',
+            mockResponse: DATA_TYPES_ATTRIBUTES,
+          }),
+          {
+            page: 1,
+            pageSize: 10,
+          },
+        );
+      });
+
+      it('makes the request with additional params', () => {
+        getDataTypeAttributes({ page: 1, pageSize: 10 }, '?param=true');
+        expect(makeRequest).toHaveBeenCalledWith(
+          expect.objectContaining({
+            ...correctRequest,
+            uri: '/api/dataTypeAttributes?param=true',
+            mockResponse: DATA_TYPES_ATTRIBUTES,
+          }),
+          {
+            page: 1,
+            pageSize: 10,
+          },
+        );
+      });
+    });
+  });
+  describe('api/dataTypeAttributes', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    describe('getDataTypeAttributes', () => {
+      it('returns a promise', () => {
+        expect(getDataTypeAttribute()).toBeInstanceOf(Promise);
+      });
+
+      it('if successful, returns a attributes response', () => {
+        getDataTypeAttribute('code');
+        expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+          ...correctRequest,
+          uri: '/api/dataTypeAttributes/code',
+          mockResponse: DATA_TYPE_ATTRIBUTE,
+        }));
+      });
     });
   });
 });

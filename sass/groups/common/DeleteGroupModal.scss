@@ -1,0 +1,17 @@
+.DeleteGroupModal {
+  &__info {
+    font-size: 1.7em;
+  }
+}
+
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.DeleteGroupModal__icon {
+  .fa {
+    font-size: 2em;
+  }
+
+  .pf {
+    font-size: 2em;
+  }
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

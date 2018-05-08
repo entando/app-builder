@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { formattedText } from 'frontend-common-components';
+import { formattedText, required } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
-import { required } from 'util/validateForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 const EDIT_MODE = 'edit';
@@ -36,17 +35,17 @@ const defaultGuiCodeField = (
 
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
-  const fieldValue = (input.value.title) ? input.value.title : input.value;
-  if (!input.value) {
+  const fieldValue = (input.value.title) ? input.value.title : input.value.code;
+  if (!input.value || fieldValue === null) {
     return null;
   }
 
   return (
     <div className="form-group">
-      <label htmlFor={name} className="control-label col-sm-2">
+      <label htmlFor={name} className="control-label col-xs-2">
         {label}
       </label>
-      <Col sm={10}>
+      <Col xs={10}>
         {fieldValue}
       </Col>
     </div>

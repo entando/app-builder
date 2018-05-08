@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Dropdown, MenuItem } from 'patternfly-react';
-import PageTreeActionMenuButton from 'ui/pages/common/PageTreeActionMenuButton';
+import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 class PageTreeActionMenu extends Component {
@@ -44,9 +43,8 @@ class PageTreeActionMenu extends Component {
       );
 
     return (
-      <Dropdown id="PageTreeActionMenuButton">
-        <PageTreeActionMenuButton bsRole="toggle" />
-        <Dropdown.Menu className="dropdown-menu-right">
+      <div>
+        <DropdownKebab pullRight id="WidgetListRow-dropown">
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-add"
             onClick={this.handleClick(onClickAdd)}
@@ -84,8 +82,8 @@ class PageTreeActionMenu extends Component {
             <FormattedMessage id="app.delete" />
           </MenuItem>
           { changePublishStatus }
-        </Dropdown.Menu>
-      </Dropdown>
+        </DropdownKebab>
+      </div>
     );
   }
 }
