@@ -4,12 +4,13 @@ import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
   ProjectLink,
-  UserDropdown,
   HelpMenu,
   AdminAppSwitch,
   LinkMenuItem,
   FirstLevelMenuItem,
 } from 'frontend-common-components';
+
+import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
@@ -25,13 +26,12 @@ import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
-const USERNAME = 'Admin';
 const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
-  <UserDropdown key="userDropdown" userName={USERNAME} />,
+  <UserMenuContainer />,
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
 ];

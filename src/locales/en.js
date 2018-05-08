@@ -57,6 +57,8 @@ export default {
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
     'app.lastModified': 'Last Modified',
+    'app.logout': 'Sign out',
+    'app.myProfile': 'My Profile',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',

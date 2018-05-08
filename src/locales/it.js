@@ -57,6 +57,8 @@ export default {
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
     'app.lastModified': 'Ultima Modifica',
+    'app.logout': 'Esci',
+    'app.myProfile': 'Mio Profilo',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',
