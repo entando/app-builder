@@ -10,11 +10,19 @@
   }
 
   &__tabs > li > a {
+    padding: 0;
     border-color: $color-pf-black-200;
-    line-height: 55px;
   }
 
   .PageTitle__header {
     border-bottom: 0;
   }
 }
+
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.nav-tabs-pattern > li > a {
+  padding: 0;
+  border: 1px solid #eee;
+  line-height: 55px;
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
