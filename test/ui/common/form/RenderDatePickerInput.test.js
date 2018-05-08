@@ -1,16 +1,24 @@
 import 'test/enzyme-init';
+import React from 'react';
 import { shallow } from 'enzyme';
 import RenderDatePickerInput from 'ui/common/form/RenderDatePickerInput';
 
-const INPUT = { name: 'textInput', value: 'sample text' };
-const LABEL = 'Some Text';
+const INPUT = {
+  onChange: jest.fn(),
+  value: '',
+};
 
-describe('RenderTextInput', () => {
-  let textInput;
+describe('RenderDatePickerInput', () => {
+  let component;
+  beforeEach(() => {
+    component = shallow(<RenderDatePickerInput input={INPUT} />);
+  });
 
   it('render component without crash', () => {
-    const element = RenderDatePickerInput({ input: INPUT, label: LABEL });
-    textInput = shallow(element);
-    expect(textInput.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
+  });
+
+  it('has DatePicker', () => {
+    expect(component.find('DatePicker').exists()).toBe(true);
   });
 });

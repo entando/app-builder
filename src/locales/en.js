@@ -92,6 +92,7 @@ export default {
     'app.moveDown': 'Move Down',
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
+    'app.monolist': 'Monolist',
     'app.edit.attribute': 'Edit : attribute - ',
     'app.edit.Monolist': 'Edit : Monolist',
     'app.edit.List': 'Edit : List',

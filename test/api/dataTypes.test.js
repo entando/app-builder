@@ -13,7 +13,7 @@ import {
   getDataTypeAttribute,
 } from 'api/dataTypes';
 
-import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 import {
   DATA_TYPES,
@@ -35,7 +35,6 @@ const correctRequest = {
 jest.unmock('api/dataTypes');
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: {
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
   },
@@ -51,7 +50,7 @@ describe('api/postDataType', () => {
 
   it('if successful, returns a mock ok response', () => {
     postDataType(DATA_TYPES);
-    expect(makeMockRequest).toHaveBeenCalledWith({
+    expect(makeRequest).toHaveBeenCalledWith({
       ...correctRequest,
       method: 'POST',
       mockResponse: DATA_TYPES,
@@ -70,7 +69,7 @@ describe('api/putDataType', () => {
 
   it('if successful, returns a mock ok response', () => {
     putDataType(DATA_TYPES);
-    expect(makeMockRequest).toHaveBeenCalledWith({
+    expect(makeRequest).toHaveBeenCalledWith({
       ...correctRequest,
       uri: '/api/dataTypes/AAA',
       method: 'PUT',
@@ -110,7 +109,7 @@ describe('api/deleteDataType', () => {
 
   it('if successful, returns a mock ok response', () => {
     deleteDataType('AAA');
-    expect(makeMockRequest).toHaveBeenCalledWith({
+    expect(makeRequest).toHaveBeenCalledWith({
       ...correctRequest,
       uri: '/api/dataTypes/AAA',
       method: 'DELETE',
@@ -131,7 +130,7 @@ describe('/api/dataTypes/', () => {
 
     it('if successful, returns a mock ok response', () => {
       getAttributeFromDataType('AAA', 'code');
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: '/api/dataTypes/AAA/attribute/code',
         mockResponse: DATA_TYPES.attributes[0],
@@ -149,7 +148,7 @@ describe('/api/dataTypes/', () => {
 
     it('if successful, returns a mock ok response', () => {
       deleteAttributeFromDataType('AAA', 'code');
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: '/api/dataTypes/AAA/attribute/code',
         method: 'DELETE',
@@ -168,7 +167,7 @@ describe('/api/dataTypes/', () => {
 
     it('if successful, returns a mock ok response', () => {
       postAttributeFromDataType('AAA', DATA_TYPES.attributes[0]);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: '/api/dataTypes/AAA/attribute',
         method: 'POST',
@@ -188,7 +187,7 @@ describe('/api/dataTypes/', () => {
 
     it('if successful, returns a mock ok response', () => {
       putAttributeFromDataType('AAA', DATA_TYPES.attributes[0]);
-      expect(makeMockRequest).toHaveBeenCalledWith({
+      expect(makeRequest).toHaveBeenCalledWith({
         ...correctRequest,
         uri: '/api/dataTypes/AAA/attribute/attrCode',
         method: 'PUT',

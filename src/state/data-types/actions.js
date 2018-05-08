@@ -35,6 +35,8 @@ import {
   from 'state/data-types/types';
 import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
 
+const TYPE_MONOLIST = 'Monolist';
+
 // Data type
 export const setDataTypes = dataTypes => ({
   type: SET_DATA_TYPES,
@@ -213,7 +215,7 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-        } else if (json.payload.type === 'Monolist') {
+        } else if (json.payload.type === TYPE_MONOLIST) {
           gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
             entityCode: dataTypeCode,
             attributeCode: attributeObject.code,
@@ -270,7 +272,7 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
           if (!list || list.length === 0) {
             dispatch(setDataTypeAttributes(json.payload));
           }
-        } else if (json && json.errors) {
+        } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         dispatch(toggleLoading('dataTypes'));

@@ -10,7 +10,6 @@ class MultiSelectRenderer extends Component {
     this.pushField = this.pushField.bind(this);
     this.renderTags = this.renderTags.bind(this);
     this.select = null;
-    console.log('PROPS', this.props);
   }
 
   pushField() {
