@@ -7,13 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
-
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
 export class LabelsFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props);
   }
 
  onSubmit = (ev) => {
@@ -67,7 +66,7 @@ export class LabelsFormBody extends Component {
 
  render() {
    return (
-     <form onSubmit={this.onSubmit} className="form-horizontal AddLabelsPageForm">
+     <form onSubmit={this.onSubmit} className="form-horizontal LabelsForm">
        <Row>
          <Col xs={12}>
            <fieldset className="no-padding">
@@ -92,7 +91,7 @@ export class LabelsFormBody extends Component {
        <Row>
          <Col xs={12}>
            <Button
-             className="pull-right AddLabelsPageForm__save-btn"
+             className="pull-right LabelsForm__save-btn"
              type="submit"
              bsStyle="primary"
              disabled={this.props.invalid || this.props.submitting}
@@ -107,7 +106,7 @@ export class LabelsFormBody extends Component {
 }
 
 LabelsFormBody.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -121,7 +120,6 @@ LabelsFormBody.propTypes = {
 };
 
 LabelsFormBody.defaultProps = {
-  onWillMount: () => {},
   invalid: false,
   submitting: false,
   languages: PropTypes.arrayOf(PropTypes.shape({

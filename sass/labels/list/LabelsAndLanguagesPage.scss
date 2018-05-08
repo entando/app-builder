@@ -7,6 +7,18 @@
   &__header-tab {
     display: table-cell;
     padding: 0;
+    background-color: $color-pf-black-100;
+  }
+
+  &__header-tab:hover {
+    background-color: $color-pf-black-600;
+    color: $color-pf-white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__header-tab:hover > a:hover {
+    color: $color-pf-white;
   }
 
   &__tabs > li > a {
@@ -23,6 +35,6 @@
 .nav-tabs-pattern > li > a {
   padding: 0;
   border: 1px solid #eee;
-  line-height: 55px;
+  line-height: 65px;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
