@@ -4,6 +4,7 @@ import { Button, Paginator } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
 import { Link } from '@entando/router';
 import { FormattedMessage } from 'react-intl';
+import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
@@ -27,8 +28,16 @@ class PagesList extends Component {
     return (
       this.props.pages.map(page => (
         <tr key={page.code}>
-          <td className="FragmentListRow__td">{page.fullTitles[this.props.language]}</td>
-          <td className="FragmentListRow__td">{page.pageModel}</td>
+          <td className="FragmentListRow__td">
+            <EllipsisWithTooltip style={{ maxWidth: 208 }} placement="bottom">
+              {page.fullTitles[this.props.language]}
+            </EllipsisWithTooltip>
+          </td>
+          <td className="FragmentListRow__td">
+            <EllipsisWithTooltip style={{ maxWidth: 120 }} placement="bottom">
+              {page.pageModel}
+            </EllipsisWithTooltip>
+          </td>
           <td className="FragmentListRow__td">{page.numWidget} widget(s)</td>
           <td className="FragmentListRow__td text-center">
             <PageStatusIcon status={page.status} />
@@ -63,13 +72,13 @@ class PagesList extends Component {
         <table className="PagesListTable__table table table-striped table-bordered">
           <thead>
             <tr>
-              <th><FormattedMessage id="app.name" /></th>
-              <th><FormattedMessage id="pages.pageForm.pageModel" /></th>
+              <th width="32%"><FormattedMessage id="app.name" /></th>
+              <th width="20%"><FormattedMessage id="pages.pageForm.pageModel" /></th>
               <th><FormattedMessage id="dashboard.numberWidgets" /></th>
               <th className="text-center" width="10%">
                 <FormattedMessage id="pageTree.status" />
               </th>
-              <th><FormattedMessage id="app.lastModified" /></th>
+              <th width="19%"><FormattedMessage id="app.lastModified" /></th>
             </tr>
           </thead>
           <tbody>
