@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { gotoRoute } from '@entando/router';
 import { DDTable } from 'frontend-common-components';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
@@ -10,7 +9,8 @@ import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 
 class PageTree extends Component {
   constructor(props) {
@@ -35,7 +35,6 @@ class PageTree extends Component {
 
   renderRows() {
     const { pages } = this.props;
-
 
     return pages.map((page, i) => {
       const onClickExpand = () => {
@@ -81,14 +80,14 @@ class PageTree extends Component {
           <td className="text-center">
             <PageTreeActionMenu
               page={page}
-              onClickAdd={() => gotoRoute(ROUTE_PAGE_ADD)}
-              onClickEdit={() => gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code })}
-              onClickConfigure={() => gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code })}
-              onClickDetails={() => console.info(`clicked DETAILS on page ${page.code}`)}
-              onClickClone={() => console.info(`clicked CLONE on page ${page.code}`)}
-              onClickDelete={() => console.info(`clicked DELETE on page ${page.code}`)}
-              onClickPublish={() => console.info(`clicked PUBLISH on page ${page.code}`)}
-              onClickUnpublish={() => console.info(`clicked UNPUBLISH on page ${page.code}`)}
+              onClickAdd={this.props.onClickAdd}
+              onClickEdit={this.props.onClickEdit}
+              onClickConfigure={this.props.onClickConfigure}
+              onClickDetails={this.props.onClickDetails}
+              onClickClone={this.props.onClickClone}
+              onClickDelete={this.props.onClickDelete}
+              onClickPublish={this.props.onClickPublish}
+              onClickUnpublish={this.props.onClickUnPublish}
             />
           </td>
         </DDTable.Tr>
@@ -97,30 +96,36 @@ class PageTree extends Component {
   }
 
   render() {
+    if (this.props.searchPages.length > 0) {
+      return <PageListSearchTable {...this.props} />;
+    }
     return (
-      <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
-        <table className="PageTree table table-bordered table-hover table-treegrid">
-          <thead>
-            <tr>
-              <th width="70%">
-                <FormattedMessage id="pageTree.pageTree" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="pageTree.status" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="pageTree.displayedInMenu" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="pageTree.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.renderRows() }
-          </tbody>
-        </table>
-      </DDTable>
+      <div>
+        <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
+          <table className="PageTree table table-bordered table-hover table-treegrid">
+            <thead>
+              <tr>
+                <th width="70%">
+                  <FormattedMessage id="pageTree.pageTree" />
+                </th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="pageTree.status" />
+                </th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="pageTree.displayedInMenu" />
+                </th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="pageTree.actions" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.renderRows() }
+            </tbody>
+          </table>
+        </DDTable>
+        <DeletePageModalContainer />
+      </div>
     );
   }
 }
@@ -136,7 +141,17 @@ PageTree.propTypes = {
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
   })),
+  searchPages: PropTypes.arrayOf(PropTypes.shape({
 
+  })),
+  onClickAdd: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickConfigure: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
+  onClickDetails: PropTypes.func.isRequired,
+  onClickClone: PropTypes.func.isRequired,
+  onClickPublish: PropTypes.func.isRequired,
+  onClickUnPublish: PropTypes.func.isRequired,
   onDropIntoPage: PropTypes.func,
   onDropAbovePage: PropTypes.func,
   onDropBelowPage: PropTypes.func,
@@ -145,6 +160,7 @@ PageTree.propTypes = {
 
 PageTree.defaultProps = {
   pages: [],
+  searchPages: [],
   onDropIntoPage: () => {},
   onDropAbovePage: () => {},
   onDropBelowPage: () => {},

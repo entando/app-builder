@@ -1,4 +1,4 @@
-import { USER, USERS } from 'test/mocks/users';
+import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getUsers = (page = { page: 1, pageSize: 10 }, params = '') => (
@@ -33,6 +33,36 @@ export const putUser = user => makeRequest({
   method: METHODS.PUT,
   body: user,
   mockResponse: [],
+  useAuthentication: true,
+});
+
+export const deleteUser = username => makeRequest({
+  uri: `/api/users/${username}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: username },
+  useAuthentication: true,
+});
+
+export const getUserAuthorities = username => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.GET,
+  mockResponse: AUTHORITIES,
+  useAuthentication: true,
+});
+
+export const postUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.POST,
+  body: authorities,
+  mockResponse: { ...authorities },
+  useAuthentication: true,
+});
+
+export const putUserAuthorities = (username, authorities) => makeRequest({
+  uri: `/api/users/${username}/authorities`,
+  method: METHODS.PUT,
+  body: authorities,
+  mockResponse: { ...authorities },
   useAuthentication: true,
 });
 

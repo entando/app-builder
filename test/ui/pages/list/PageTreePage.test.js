@@ -4,13 +4,18 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTreePage from 'ui/pages/list/PageTreePage';
 
+const props = {
+  onWillMount: jest.fn(),
+  onClear: jest.fn(),
+  search: [],
+};
 
 describe('PageTreePage', () => {
   beforeEach(jest.clearAllMocks);
 
   let component;
   beforeEach(() => {
-    component = shallow(<PageTreePage />);
+    component = shallow(<PageTreePage {...props} />);
   });
 
   it('renders without crashing', () => {
@@ -27,7 +32,7 @@ describe('PageTreePage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallow(<PageTreePage onWillMount={onWillMount} />);
+    shallow(<PageTreePage {...props} onWillMount={onWillMount} />);
     expect(onWillMount).toHaveBeenCalled();
   });
 });

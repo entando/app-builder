@@ -1,6 +1,5 @@
-
-
 export const ADD_PAGES = 'pages/add-pages';
+export const REMOVE_PAGE = 'pages/remove-page';
 export const SET_PAGE_LOADING = 'pages/set-page-loading';
 export const SET_PAGE_LOADED = 'pages/set-page-loaded';
 export const TOGGLE_PAGE_EXPANDED = 'pages/toggle-page-expanded';
@@ -8,3 +7,7 @@ export const SET_PAGE_PARENT = 'pages/set-page-parent';
 export const MOVE_PAGE = 'pages/move-page';
 export const SET_FREE_PAGES = 'pages/set-free-pages';
 export const SET_SELECTED_PAGE = 'pages/set-selected-page';
+export const SET_REFERENCES_SELECTED_PAGE = 'pages/set-references-selected-page';
+export const UPDATE_PAGE = 'pages/update-page';
+export const SEARCH_PAGES = 'pages/search-pages';
+export const CLEAR_SEARCH = 'pages/clear-search';

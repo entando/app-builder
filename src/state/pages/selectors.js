@@ -11,6 +11,7 @@ export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
 export const getFreePages = state => state.pages.freePages;
 export const getSelectedPage = state => state.pages.selected;
+export const getSearchPages = state => state.pages.search;
 
 
 // relies on the children map order
@@ -33,9 +34,11 @@ const isVisible = (pageCode, pages, pagesStatus) => {
   let curPageCode = pageCode;
   if (pages[curPageCode]) {
     while (curPageCode !== 'homepage') {
-      curPageCode = pages[curPageCode].parentCode;
-      if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
-        return false;
+      if (pages[curPageCode].parentCode) {
+        curPageCode = pages[curPageCode].parentCode;
+        if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
+          return false;
+        }
       }
     }
     return true;
@@ -76,7 +79,7 @@ const PAGE_STATUS_DEFAULTS = {
 
 export const getPageTreePages = createSelector(
   [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale],
-  (pages, pageChildren, pagesStatus, pagesTitles, locale) =>
+  (pages, pageChildren, pagesStatus, pagesTitles, locale) => (
     getPagesOrder(pageChildren)
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
       .map(pageCode => ({
@@ -86,9 +89,8 @@ export const getPageTreePages = createSelector(
         depth: getDepth(pages, pageCode),
         isEmpty: !(pageChildren[pageCode] && pageChildren[pageCode].length),
         title: pagesTitles[pageCode][locale],
-      })),
+      }))),
 );
-
 
 export const getCharsets = () => ([
   'iso-8859-1',
@@ -107,3 +109,10 @@ export const getSelectedPageIsPublished = createSelector(
   [getSelectedPage],
   selectedPage => !!(selectedPage && selectedPage.status === PAGE_STATUS_PUBLISHED),
 );
+
+export const getReferencesFromSelectedPage = createSelector([getSelectedPage], (selectedPage) => {
+  if (selectedPage && selectedPage.references) {
+    return Object.keys(selectedPage.references).filter(key => selectedPage.references[key]);
+  }
+  return [];
+});

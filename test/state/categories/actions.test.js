@@ -6,6 +6,7 @@ import {
   setCategoryLoading,
   setCategoryLoaded,
   setSelectedCategory,
+  setReferences,
   fetchCategoryTree,
   handleExpandCategory,
   fetchCategory,
@@ -14,6 +15,7 @@ import {
   sendDeleteCategory,
   fetchCategoryDetail,
   wrapApiCall,
+  fetchReferences,
 } from 'state/categories/actions';
 
 import {
@@ -22,20 +24,23 @@ import {
   getCategory,
   putCategory,
   deleteCategory,
+  getReferences,
 } from 'api/categories';
 import { mockApi } from 'test/testUtils';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, CATEGORY_TREE_HOME, SET_SELECTED_CATEGORY,
+  SET_REFERENCES,
 } from 'state/categories/types';
 
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 
-import { STATE_NORMALIZED, BODY_OK } from 'test/mocks/categories';
+import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
 
 const CATEGORY_CODE = 'category_code';
+const REFERENCE_KEY = 'jacmsContentManager';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -88,6 +93,13 @@ describe('state/categories/actions', () => {
     const action = setSelectedCategory(BODY_OK);
     expect(action).toHaveProperty('type', SET_SELECTED_CATEGORY);
     expect(action.payload.category).toHaveProperty('code', BODY_OK.code);
+  });
+
+  it('setReferences() should return a well formed action', () => {
+    const CATEGORY_REFS = {};
+    const action = setReferences(CATEGORY_REFS);
+    expect(action).toHaveProperty('type', SET_REFERENCES);
+    expect(action.payload).toHaveProperty('references', {});
   });
 
   describe('handleExpandCategory()', () => {
@@ -198,6 +210,17 @@ describe('state/categories/actions', () => {
       }).catch(done.fail);
     });
   });
+
+  describe('fetchReferences()', () => {
+    it('when getReferences succeeds should call post action', (done) => {
+      getReferences.mockImplementation(mockApi({ payload: CONTENT_REFERENCES }));
+      store.dispatch(fetchReferences(CATEGORY_CODE, REFERENCE_KEY)).then(() => {
+        expect(getReferences).toHaveBeenCalledWith(CATEGORY_CODE, REFERENCE_KEY);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
 
   describe('wrapApiCall()', () => {
     it('when wrapApiCall succeeds should call api function, the returns a json', (done) => {

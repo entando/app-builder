@@ -16,7 +16,7 @@ const UserAuthorityPage = ({ username }) => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.userSettings" />
+              <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
             <BreadcrumbItem route={ROUTE_USER_LIST}>
               <FormattedMessage id="menu.users" />
@@ -28,7 +28,7 @@ const UserAuthorityPage = ({ username }) => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="user.authority.title"
             helpId="user.help"

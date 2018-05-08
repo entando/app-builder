@@ -15,7 +15,7 @@ import { FormattedMessage } from 'react-intl';
 import { ROUTE_USER_ADD } from 'app-init/router';
 
 class UserManagement extends Component {
-  onWillMount() {
+  componentWillMount() {
     this.props.onWillMount();
   }
 
@@ -35,7 +35,7 @@ class UserManagement extends Component {
           <AggregateStatusCount>
             <b>{this.props.users}</b> <FormattedMessage id="menu.users" />
           </AggregateStatusCount>
-          <Icon size="lg" name="user" />
+          <Icon size="lg" name="users" />
           <AggregateStatusCount>
             <b>{this.props.groups}</b> <FormattedMessage id="menu.groups" />
           </AggregateStatusCount>

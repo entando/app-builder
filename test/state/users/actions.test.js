@@ -7,13 +7,18 @@ import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
-  fetchUsersTotal,
+  fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
+  sendPutUserAuthorities,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { USER, USERS } from 'test/mocks/users';
-import { getUsers, getUser, putUser, postUser } from 'api/users';
+import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
+import {
+  getUsers, getUser, putUser, postUser, deleteUser,
+  getUserAuthorities, postUserAuthorities, putUserAuthorities,
+}
+  from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 import { ADD_ERRORS } from 'state/errors/types';
@@ -196,7 +201,7 @@ describe('state/users/actions', () => {
           }).catch(done.fail);
         });
 
-        it('when putUser get error, should dispatch gotoRoute user list', (done) => {
+        it('when putUser get error, should dispatch ADD_ERRORS', (done) => {
           putUser.mockImplementationOnce(mockApi({ errors: true }));
           store.dispatch(sendPutUser(USER)).then(() => {
             expect(putUser).toHaveBeenCalled();
@@ -204,6 +209,99 @@ describe('state/users/actions', () => {
             expect(addErrorsAction).toBeDefined();
             done();
           }).catch(done.fail);
+        });
+      });
+
+      describe('sendDeleteUser', () => {
+        it('when sendDeleteUser succeeds, should dispatch gotoRoute user list', (done) => {
+          store.dispatch(sendDeleteUser(USER)).then(() => {
+            expect(deleteUser).toHaveBeenCalled();
+            done();
+          }).catch(done.fail);
+        });
+
+        it('when sendDeleteUser get error, should dispatch ADD_ERRORS', (done) => {
+          deleteUser.mockImplementationOnce(mockApi({ errors: true }));
+          store.dispatch(sendDeleteUser(USER.username)).then(() => {
+            expect(deleteUser).toHaveBeenCalled();
+            const actions = store.getActions();
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+            done();
+          }).catch(done.fail);
+        });
+      });
+    });
+
+    describe('fetchPostUserAuthorities', () => {
+      it('when fecthPostUserAuthorities succeeds, should dispatch SET_SELECTED_USER_AUTHORITIES', (done) => {
+        store.dispatch(fetchUserAuthorities(USER.username)).then(() => {
+          expect(getUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_USER_AUTHORITIES);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        getUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(fetchUserAuthorities(USER.username)).catch((e) => {
+          expect(getUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+
+    describe('sendPostUserAuthorities', () => {
+      it('when sendPostUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+        store.dispatch(sendPostUserAuthorities(AUTHORITIES)).then(() => {
+          expect(postUserAuthorities).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        postUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
+          expect(postUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+
+    describe('sendPutUserAuthorities', () => {
+      it('when sendPutUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+        store.dispatch(sendPutUserAuthorities(AUTHORITIES)).then(() => {
+          expect(putUserAuthorities).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        putUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendPutUserAuthorities(AUTHORITIES)).catch((e) => {
+          expect(putUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
         });
       });
     });

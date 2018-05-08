@@ -17,6 +17,7 @@ import {
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
+  ROUTE_PAGE_DETAIL,
   ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
@@ -41,6 +42,7 @@ import {
   ROUTE_CATEGORY_LIST,
   ROUTE_CATEGORY_ADD,
   ROUTE_CATEGORY_EDIT,
+  ROUTE_CATEGORY_DETAIL,
   ROUTE_LABELS_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
@@ -49,6 +51,10 @@ import {
   ROUTE_ROLE_ADD,
   ROUTE_ROLE_EDIT,
   ROUTE_ROLE_DETAIL,
+  ROUTE_RELOAD_CONFIG,
+  ROUTE_RELOAD_CONFIRM,
+
+  ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -64,6 +70,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageModelListPage from 'ui/page-models/list/PageModelListPage';
@@ -92,10 +99,15 @@ import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
 import EditCategoryPage from 'ui/categories/edit/EditCategoryPage';
+import DetailCategoryPage from 'ui/categories/detail/DetailCategoryPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
+import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
+import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
+
+import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -121,6 +133,7 @@ const App = ({ route, username }) => {
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_DETAIL: return <PagesDetailPageContainer />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
     case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
@@ -145,11 +158,16 @@ const App = ({ route, username }) => {
     case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
     case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_CATEGORY_EDIT: return <EditCategoryPage />;
+    case ROUTE_CATEGORY_DETAIL: return <DetailCategoryPage />;
     case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;
     case ROUTE_ROLE_EDIT: return <EditRolePage />;
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
+    case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
+    case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
+
+    case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;

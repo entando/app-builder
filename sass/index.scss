@@ -63,5 +63,9 @@
 @import "roles/list/RoleListTable";
 @import "roles/detail/DetailRole";
 @import "common/references/UserRefsTable";
+@import "common/references/GenericRefsTable";
+@import "categories/detail/DetailCategoryTable";
 @import "dashboard/Cards";
-@import "common/form/RenderDatePickerInput";
+@import "dashboard/PageStatus";
+@import "dashboard/PagesList";
+@import "reload-configuration/ReloadConfig";

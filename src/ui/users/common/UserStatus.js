@@ -10,7 +10,7 @@ const UserStatus = ({ status, title }) => (
 );
 
 UserStatus.propTypes = {
-  status: PropTypes.oneOf(['active', 'disabled']).isRequired,
+  status: PropTypes.oneOf(['active', 'disabled', 'inactive']).isRequired,
   title: PropTypes.string,
 };
 

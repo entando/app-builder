@@ -1,0 +1,22 @@
+.ReloadConfig {
+
+  padding: 30px 0;
+  border: 0;
+  background-color: transparent;
+
+  &__reload-button {
+    width: 100px;
+  }
+
+  &__title {
+    font-weight: 400;
+  }
+
+  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+  &__icon .fa {
+    color: $color-pf-black-600;
+    font-size: 2em;
+  }
+  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
+}

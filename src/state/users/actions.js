@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
-import { SET_USERS, SET_SELECTED_USER, SET_USERS_TOTAL } from 'state/users/types';
-import { getUsers, getUser, postUser, putUser } from 'api/users';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { getUsers, getUser, postUser, putUser, deleteUser, getUserAuthorities, postUserAuthorities, putUserAuthorities } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -21,6 +21,14 @@ export const setSelectedUserDetail = user => ({
   },
 });
 
+export const setSelectedUserAuthorities = (username, authorities) => ({
+  type: SET_SELECTED_USER_AUTHORITIES,
+  payload: {
+    username,
+    authorities,
+  },
+});
+
 export const setUsersTotal = usersTotal => ({
   type: SET_USERS_TOTAL,
   payload: {
@@ -29,7 +37,6 @@ export const setUsersTotal = usersTotal => ({
 });
 
 // thunk
-
 export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading('users'));
@@ -140,3 +147,67 @@ export const sendPutUser = user => dispatch => (
     }
   })
 );
+
+export const sendDeleteUser = username => dispatch => (
+  new Promise((resolve) => {
+    deleteUser(username).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(fetchUsers());
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchUserAuthorities = () => async (dispatch, getState) => {
+  const { username } = getParams(getState());
+  const response = await getUserAuthorities(username);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setSelectedUserAuthorities(username, json.payload));
+      dispatch(initialize('autorityForm', { groupRolesCombo: json.payload }));
+      return json.payload;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};
+
+export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
+  const { username } = getParams(getState());
+  const response = await postUserAuthorities(username, authorities);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      gotoRoute(ROUTE_USER_LIST);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};
+
+export const sendPutUserAuthorities = authorities => async (dispatch, getState) => {
+  const { username } = getParams(getState());
+  const response = await putUserAuthorities(username, authorities);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      gotoRoute(ROUTE_USER_LIST);
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};

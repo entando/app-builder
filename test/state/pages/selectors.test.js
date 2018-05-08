@@ -6,7 +6,7 @@ import {
 
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
-  getPageTreePages, getCharsets, getContentTypes, getFreePages,
+  getPageTreePages, getCharsets, getContentTypes, getFreePages, getReferencesFromSelectedPage,
 } from 'state/pages/selectors';
 
 const LOCALE_MOCK = 'en';
@@ -52,6 +52,7 @@ const MOCK_STATE = {
       notfound: {},
     },
     freePages: [],
+    selected: { ...HOMEPAGE_PAYLOAD, references: { jacmsContentManager: true } },
   },
 };
 
@@ -183,6 +184,25 @@ describe('state/pages/selectors', () => {
   describe('getFreePages(state)', () => {
     it('verify getFreePages selector', () => {
       expect(getFreePages(MOCK_STATE)).toBeDefined();
+    });
+  });
+
+  describe('getReferencesFromSelectedPage', () => {
+    it('get array of reference', () => {
+      const data = getReferencesFromSelectedPage(MOCK_STATE);
+      expect(data).toBeDefined();
+      expect(data).toEqual(expect.arrayContaining(['jacmsContentManager']));
+    });
+
+    it('get empty array ', () => {
+      const STATE = {
+        pages: {
+          selected: { ...HOMEPAGE_PAYLOAD, references: { jacmsContentManager: false } },
+        },
+      };
+      const data = getReferencesFromSelectedPage(STATE);
+      expect(data).toBeDefined();
+      expect(data).toEqual(expect.arrayContaining([]));
     });
   });
 });

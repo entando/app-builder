@@ -9,6 +9,7 @@ export const ROUTE_PAGE = 'page';
 export const ROUTE_PAGE_ADD = 'pageAdd';
 export const ROUTE_PAGE_EDIT = 'pageEdit';
 export const ROUTE_PAGE_TREE = 'pageTree';
+export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
@@ -48,10 +49,15 @@ export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
 export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
+export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
 export const ROUTE_ROLE_ADD = 'roleAdd';
 export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
+export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
+export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
+
+export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 
 
 routerConfig(
@@ -64,6 +70,7 @@ routerConfig(
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
       { name: ROUTE_PAGE_TREE, path: '/page' },
       { name: ROUTE_PAGE_ADD, path: '/page/add' },
+      { name: ROUTE_PAGE_DETAIL, path: '/page/detail/:pageCode' },
       { name: ROUTE_PAGE, path: '/page/view/:page' },
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
@@ -104,10 +111,15 @@ routerConfig(
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
+      { name: ROUTE_CATEGORY_DETAIL, path: '/category/detail/:categoryCode' },
       { name: ROUTE_ROLE_LIST, path: '/role' },
       { name: ROUTE_ROLE_ADD, path: '/role/add/' },
       { name: ROUTE_ROLE_EDIT, path: '/role/edit/:roleCode' },
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
+      { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
+      { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
+
+      { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

@@ -1,27 +1,40 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
 import { fetchRoles } from 'state/roles/actions';
 import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
+import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
+import { fetchUserAuthorities, sendPostUserAuthorities, sendPutUserAuthorities } from 'state/users/actions';
+import { getGroupRolesCombo, getSelectedUserActionAuthorities } from 'state/users/selectors';
+
 
 export const mapStateToProps = state =>
   ({
     groups: getGroupsList(state),
     roles: getRolesList(state),
-    groupRolesCombo: formValueSelector('autorityForm')(state, 'groupRolesCombo'),
+    groupRolesCombo: getGroupRolesCombo(state),
+    actionOnSave: getSelectedUserActionAuthorities(state),
   });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchGroups());
     dispatch(fetchRoles());
+    dispatch(fetchUserAuthorities());
   },
-  onSubmit: (values) => {
-    // call post
-    // eslint-disable-next-line
-    console.log(values);
+  onSubmit: (authorities, action) => {
+    switch (action) {
+      case ACTION_SAVE: {
+        dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+        break;
+      }
+      case ACTION_UPDATE: {
+        dispatch(sendPutUserAuthorities(authorities.groupRolesCombo));
+        break;
+      }
+      default: dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+    }
   },
 
 });

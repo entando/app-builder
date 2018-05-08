@@ -284,3 +284,61 @@ export const HOMEPAGE_RESPONSE = {
 export const CONTACTS_RESPONSE = {
   payload: CONTACTS_PAYLOAD,
 };
+
+export const SEARCH_PAGES = [
+  {
+    code: 'page',
+    status: 'draft',
+    displayedInMenu: true,
+    pageModel: 'pageModel',
+    parentCode: 'service',
+    position: 1,
+    titles: {
+      it: 'Mio Titolo',
+      en: 'My title',
+    },
+    fullTitles: {
+      en: 'Home / Services / My Title new 22',
+      it: 'Home / Pagine di Servizio / Mio Titolo nuovo 22',
+    },
+    children: [
+      'pageCode1',
+      'pageCode2',
+    ],
+    numWidget: 0,
+    lastModified: '01/01/2018 h12:12',
+  },
+];
+
+export const DATA_OBJECT_REFERENCES = [
+  {
+    code: 'AAA1',
+    name: 'dataType AAA 1',
+    type: 'Test data type',
+  },
+];
+
+export const CONTENT_REFERENCES = [
+  {
+    code: 'CNG2',
+    name: 'Banner content left',
+    type: 'Generic Content',
+    lastEdit: '2017-01-08 00:00:00',
+  },
+];
+
+export const RESOURCE_REFERENCES =
+[
+  {
+    code: 'sample-image-1',
+    name: 'Sample image 1',
+    type: 'Image',
+  },
+];
+
+export const MOCK_REFERENCES = {
+  jacmsContentManager: CONTENT_REFERENCES,
+  jacmsResourceManager: RESOURCE_REFERENCES,
+  DataObjectManager: DATA_OBJECT_REFERENCES,
+
+};
