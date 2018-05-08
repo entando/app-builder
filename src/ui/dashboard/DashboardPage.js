@@ -6,6 +6,7 @@ import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
 import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
+import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
 const DashboardPage = () => (
   <InternalPage className="DashboardPage">
@@ -24,6 +25,9 @@ const DashboardPage = () => (
       <Row>
         <Col md={4}>
           <PageStatusContainer />
+        </Col>
+        <Col md={8}>
+          <PagesListContainer />
         </Col>
       </Row>
     </CardGrid>

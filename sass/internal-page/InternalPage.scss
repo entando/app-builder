@@ -14,3 +14,12 @@
     font-weight: bold;
   }
 }
+
+.BrandMenu__navbar-brand.navbar-brand { // sass-lint:disable-line force-element-nesting class-name-format
+  img {
+    display: inline-block;
+    height: 15px;
+    margin: 2px auto;
+    vertical-align: top;
+  }
+}
