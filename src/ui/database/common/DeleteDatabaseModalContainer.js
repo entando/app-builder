@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { setVisibleModal } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
+import { sendDeleteDatabaseBackup } from 'state/database/actions';
 import DeleteDatabaseModal from 'ui/database/common/DeleteDatabaseModal';
 
 export const mapStateToProps = state => ({
@@ -8,8 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onConfirmDelete: () => {
-    // TODO:  dispatch the action delete
+  onConfirmDelete: (code) => {
+    dispatch(sendDeleteDatabaseBackup(code));
     dispatch(setVisibleModal(''));
   },
 });

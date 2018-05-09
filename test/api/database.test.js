@@ -1,5 +1,9 @@
 import 'test/enzyme-init';
-import { getDatabaseDumpReportList, getDatabaseInitBackup } from 'api/database';
+import {
+  getDatabaseDumpReportList,
+  getDatabaseInitBackup,
+  deleteDatabaseBackup,
+} from 'api/database';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATABASE_DUMP_REPORT_LIST, DATABASE_INIT_BACKUP } from 'test/mocks/database';
 
@@ -43,6 +47,21 @@ describe('api/database', () => {
         uri: '/api/database/initBackup',
         method: METHODS.GET,
         mockResponse: DATABASE_INIT_BACKUP,
+        useAuthentication: true,
+      });
+    });
+  });
+  describe('deleteDatabaseBackup', () => {
+    it('return a promise ', () => {
+      expect(deleteDatabaseBackup('develop')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deleteDatabaseBackup('develop');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/database/report/develop',
+        method: METHODS.DELETE,
+        mockResponse: { code: 'develop' },
         useAuthentication: true,
       });
     });

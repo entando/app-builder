@@ -1,6 +1,6 @@
 import { isFSA } from 'flux-standard-action';
-import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -12,6 +12,7 @@ import {
 import {
   getDatabaseInitBackup,
   getDatabaseDumpReportList,
+  deleteDatabaseBackup,
 
 } from 'api/database';
 import {
@@ -23,6 +24,7 @@ import {
   setDatabaseInitBackup,
   fetchDatabaseDumpReport,
   fetchDatabaseInitBackup,
+  sendDeleteDatabaseBackup,
 } from 'state/database/actions';
 
 import { mockApi } from 'test/testUtils';
@@ -30,32 +32,23 @@ import { mockApi } from 'test/testUtils';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-const INITIAL_STATE = {
-  categories: {
-    list: [],
-    map: {},
-  },
-};
+let store;
 
-const wrapErrorTest = store => (actionCall, apiCall) => (...args) => {
+const wrapErrorTest = done => (actionCall, apiCall) => (...args) => {
   apiCall.mockImplementationOnce(mockApi({ errors: true }));
-  return store.dispatch(actionCall(...args)).catch((e) => {
+  store.dispatch(actionCall(...args)).then(() => {
     expect(apiCall).toHaveBeenCalled();
     const actions = store.getActions();
     expect(actions).toHaveLength(1);
     expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-    expect(e).toHaveProperty('errors');
-    e.errors.forEach((error, index) => {
-      expect(error.message).toEqual(actions[0].payload.errors[index]);
-    });
-  });
+    done();
+  }).catch(done.fail);
 };
 
 describe('state/database/actions', () => {
-  let store;
   let action;
   beforeEach(() => {
-    store = mockStore(INITIAL_STATE);
+    store = mockStore();
   });
 
   describe('actions', () => {
@@ -101,8 +94,8 @@ describe('state/database/actions', () => {
         }).catch(done.fail);
       });
 
-      it('if the response is not ok, dispatch add errors', async () => {
-        wrapErrorTest(store)(fetchDatabaseInitBackup, getDatabaseInitBackup)();
+      it('if the response is not ok, dispatch add errors', (done) => {
+        wrapErrorTest(done)(fetchDatabaseInitBackup, getDatabaseInitBackup)();
       });
     });
 
@@ -119,9 +112,26 @@ describe('state/database/actions', () => {
           done();
         }).catch(done.fail);
       });
+      it('if the response is not ok, dispatch add errors', (done) => {
+        wrapErrorTest(done)(fetchDatabaseDumpReport, getDatabaseDumpReportList)();
+      });
+    });
 
-      it('if the response is not ok, dispatch add errors', async () => {
-        wrapErrorTest(store)(fetchDatabaseDumpReport, getDatabaseDumpReportList)();
+    describe('sendDeleteDatabaseBackup', () => {
+      it('calls sendDeleteDatabaseBackup and dispatch fetchDatabaseDumpReport', (done) => {
+        store.dispatch(sendDeleteDatabaseBackup('develop')).then(() => {
+          expect(deleteDatabaseBackup).toHaveBeenCalled();
+          store.dispatch(fetchDatabaseDumpReport()).then(() => {
+            // const actions = store.getActions();
+            // console.log(actions);
+            done();
+          }).catch(done.fail);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        wrapErrorTest(done)(sendDeleteDatabaseBackup, deleteDatabaseBackup)('develop');
       });
     });
   });

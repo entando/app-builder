@@ -21,3 +21,12 @@ export const getDatabaseInitBackup = () => (
     useAuthentication: true,
   })
 );
+
+export const deleteDatabaseBackup = code => (
+  makeRequest({
+    uri: `/api/database/report/${code}`,
+    method: METHODS.DELETE,
+    mockResponse: { code },
+    useAuthentication: true,
+  })
+);

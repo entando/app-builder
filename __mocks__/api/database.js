@@ -6,3 +6,4 @@ import {
 
 export const getDatabaseDumpReportList = jest.fn(mockApi({ payload: DATABASE_DUMP_REPORT_LIST }));
 export const getDatabaseInitBackup = jest.fn(mockApi({ payload: DATABASE_INIT_BACKUP }));
+export const deleteDatabaseBackup = jest.fn(mockApi({ payload: {} }));
