@@ -5,10 +5,9 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import AddLabelsPageContainer from 'ui/labels/add/AddLabelsPageContainer';
+import AddFormContainer from 'ui/labels/add/AddFormContainer';
 
 const AddLabelsPage = () => (
-
   <InternalPage className="AddLabelsPage">
     <Grid fluid>
       <Row>
@@ -26,13 +25,17 @@ const AddLabelsPage = () => (
           </Breadcrumb>
         </Col>
       </Row>
-      <PageTitle
-        titleId="app.add"
-        helpId="label.detail.help"
-      />
       <Row>
         <Col xs={12}>
-          <AddLabelsPageContainer />
+          <PageTitle
+            titleId="app.add"
+            helpId="label.detail.help"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <AddFormContainer />
         </Col>
       </Row>
     </Grid>

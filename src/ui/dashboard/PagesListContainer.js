@@ -11,7 +11,8 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = 1) => {
     const queryString = convertToQueryString({
       sorting: {
-        attribute: 'code',
+        attribute: 'lastModified',
+        direction: 'DESC',
       },
     });
     dispatch(fetchSearchPages({ page, pageSize: 5 }, queryString));

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { AddLabelsPageFormBody } from 'ui/labels/common/AddLabelsPageForm';
+import { LabelsFormBody } from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 const ON_SUBMIT = jest.fn();
@@ -17,7 +17,7 @@ describe('LabelsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
@@ -38,7 +38,7 @@ describe('LabelsForm', () => {
   describe('with onWillMount callback', () => {
     beforeEach(() => {
       shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
@@ -55,7 +55,7 @@ describe('LabelsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
@@ -71,7 +71,7 @@ describe('LabelsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
@@ -87,7 +87,7 @@ describe('LabelsForm', () => {
     const preventDefault = jest.fn();
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}

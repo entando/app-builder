@@ -97,6 +97,8 @@ export default {
     'app.edit.Monolist': 'Edit : Monolist',
     'app.edit.List': 'Edit : List',
     'app.lastModified': 'Ultima Modifica',
+    'app.logout': 'Esci',
+    'app.myProfile': 'Mio Profilo',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Creazione Pagine',
     'menu.pageTree': 'Albero delle pagine',

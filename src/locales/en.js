@@ -93,6 +93,8 @@ export default {
     'app.permissions': 'Permissions',
     'app.tag': 'Tag',
     'app.lastModified': 'Last Modified',
+    'app.logout': 'Sign out',
+    'app.myProfile': 'My Profile',
     'app.monolist': 'Monolist',
     'app.edit.attribute': 'Edit : attribute - ',
     'app.edit.Monolist': 'Edit : Monolist',

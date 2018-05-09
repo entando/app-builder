@@ -2,7 +2,9 @@ import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
+import { gotoRoute } from '@entando/router';
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
+import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 export const setLabels = labels => ({
   type: SET_LABELS,
@@ -68,6 +70,7 @@ export const createLabel = label => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateLabelSync(label));
+          gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

@@ -464,7 +464,8 @@ describe('state/data-types/actions ', () => {
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
           expect(actions[0]).toHaveProperty('payload.attribute');
-          expect(actions[0].payload.attribute).toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
+          expect(actions[0].payload.attribute)
+            .toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
           done();
         }).catch(done.fail);
       });

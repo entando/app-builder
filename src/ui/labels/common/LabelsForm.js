@@ -11,7 +11,7 @@ import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
-export class AddLabelsPageFormBody extends Component {
+export class LabelsFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -83,9 +83,7 @@ export class AddLabelsPageFormBody extends Component {
          <Col xs={12}>
            <fieldset className="no-padding">
              <div className="tab-content margin-large-bottom ">
-               <div>
-                 {this.renderField(this.props.defaultLanguage)}
-               </div>
+               {this.renderField(this.props.defaultLanguage)}
              </div>
            </fieldset>
          </Col>
@@ -108,7 +106,7 @@ export class AddLabelsPageFormBody extends Component {
  }
 }
 
-AddLabelsPageFormBody.propTypes = {
+LabelsFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -122,7 +120,7 @@ AddLabelsPageFormBody.propTypes = {
   mode: PropTypes.string,
 };
 
-AddLabelsPageFormBody.defaultProps = {
+LabelsFormBody.defaultProps = {
   onWillMount: () => {},
   invalid: false,
   submitting: false,
@@ -135,8 +133,8 @@ AddLabelsPageFormBody.defaultProps = {
   mode: NEW_MODE,
 };
 
-const AddLabelsPageForm = reduxForm({
+const LabelsForm = reduxForm({
   form: 'label',
-})(AddLabelsPageFormBody);
+})(LabelsFormBody);
 
-export default AddLabelsPageForm;
+export default LabelsForm;

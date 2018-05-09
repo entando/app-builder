@@ -43,7 +43,7 @@ import {
   ROUTE_CATEGORY_ADD,
   ROUTE_CATEGORY_EDIT,
   ROUTE_CATEGORY_DETAIL,
-  ROUTE_LABELS_ADD,
+  ROUTE_LABEL_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
@@ -159,7 +159,7 @@ const App = ({ route, username }) => {
     case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_CATEGORY_EDIT: return <EditCategoryPage />;
     case ROUTE_CATEGORY_DETAIL: return <DetailCategoryPage />;
-    case ROUTE_LABELS_ADD: return <AddLabelsPage />;
+    case ROUTE_LABEL_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;
     case ROUTE_ROLE_EDIT: return <EditRolePage />;
