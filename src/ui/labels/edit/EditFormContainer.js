@@ -15,7 +15,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ labelCode }) => {
+  onWillMount: (labelCode) => {
     dispatch(fetchLanguages());
     dispatch(fetchLabel(labelCode));
   },
@@ -24,5 +24,5 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(LabelsForm);
-export default AddFormContainer;
+const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(LabelsForm);
+export default EditFormContainer;

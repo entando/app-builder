@@ -3,10 +3,6 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/add/AddFormContainer';
 
 const dispatchMock = jest.fn();
-const TEST_STATE = {
-  languages: {},
-  labels: {},
-};
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
@@ -26,7 +22,7 @@ jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 describe('AddFormContainer', () => {
   let props;
   beforeEach(() => {
-    props = mapStateToProps(TEST_STATE);
+    props = mapStateToProps({});
   });
 
   it('maps languages property state in LabelsForm', () => {

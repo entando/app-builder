@@ -12,7 +12,7 @@ const NEW_MODE = 'new';
 
 export class LabelsFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    this.props.onWillMount(this.props.labelCode);
   }
 
  onSubmit = (ev) => {
@@ -106,6 +106,7 @@ export class LabelsFormBody extends Component {
 }
 
 LabelsFormBody.propTypes = {
+  labelCode: PropTypes.string,
   onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -120,6 +121,7 @@ LabelsFormBody.propTypes = {
 };
 
 LabelsFormBody.defaultProps = {
+  labelCode: '',
   invalid: false,
   submitting: false,
   languages: PropTypes.arrayOf(PropTypes.shape({
