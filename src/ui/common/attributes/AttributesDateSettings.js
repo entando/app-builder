@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
@@ -53,13 +52,5 @@ const AttributesDateSettings = () => (
     </Col>
   </Row>
 );
-
-AttributesDateSettings.propTypes = {
-  // selectedValidationDate: PropTypes.string,
-};
-
-AttributesDateSettings.defaultProps = {
-  // selectedValidationDate: '',
-};
 
 export default AttributesDateSettings;

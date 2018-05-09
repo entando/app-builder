@@ -76,9 +76,7 @@ jest.mock('state/data-types/selectors', () => ({
   getDataTypeSelectedAttributeType: jest.fn(),
 }));
 
-getParams.mockReturnValue({ list: 'Monolist' });
-getParams.mockReturnValue({ datatypeCode: 'Monolist' });
-getParams.mockReturnValue({ entityCode: 'Monolist' });
+getParams.mockReturnValue({ list: 'Monolist', datatypeCode: 'Monolist', entityCode: 'Monolist' });
 
 describe('state/data-types/actions ', () => {
   let store;
@@ -150,7 +148,7 @@ describe('state/data-types/actions ', () => {
   describe('thunk', () => {
     describe('sendPostDataType', () => {
       it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
-        postDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
+        postDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));
         store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
           done();
@@ -158,7 +156,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('when postDataType get error, should dispatch addError', (done) => {
-        postDataType.mockImplementation(mockApi({ errors: true }));
+        postDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
           const actions = store.getActions();
@@ -171,17 +169,16 @@ describe('state/data-types/actions ', () => {
 
     describe('sendPutDataType', () => {
       it('when putDataType succeeds, should dispatch gotoRoute', (done) => {
-        putDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
+        putDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));
         store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
           expect(putDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
-          expect(gotoRoute).toHaveBeenCalled();
           done();
         }).catch(done.fail);
       });
 
       it('when putDataType get error, should dispatch addError', (done) => {
-        putDataType.mockImplementation(mockApi({ errors: true }));
+        putDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
           expect(putDataType).toHaveBeenCalled();
           const actions = store.getActions();
@@ -194,7 +191,7 @@ describe('state/data-types/actions ', () => {
 
     describe('sendDeleteDataType', () => {
       it('when deleteDataType succeeds, should dispatch gotoRoute', (done) => {
-        deleteDataType.mockImplementation(mockApi({ payload: 'AAA' }));
+        deleteDataType.mockImplementationOnce(mockApi({ payload: 'AAA' }));
         store.dispatch(sendDeleteDataType('AAA')).then(() => {
           expect(deleteDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalled();
@@ -206,7 +203,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('when deleteDataType get error, should dispatch addError', (done) => {
-        deleteDataType.mockImplementation(mockApi({ errors: true }));
+        deleteDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendDeleteDataType('AAA')).then(() => {
           expect(deleteDataType).toHaveBeenCalled();
           const actions = store.getActions();
@@ -218,7 +215,7 @@ describe('state/data-types/actions ', () => {
 
     describe('fetchDataType', () => {
       it('fetchDataType calls setSelectedDataType', (done) => {
-        getDataType.mockImplementation(mockApi({ payload: DATA_TYPES }));
+        getDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));
         store.dispatch(fetchDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
@@ -230,7 +227,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('fetchDataType get error, should dispatch addError', (done) => {
-        getDataType.mockImplementation(mockApi({ errors: true }));
+        getDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -254,7 +251,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('dataTypes is defined and properly valued', (done) => {
-        getDataTypes.mockImplementation(mockApi({ payload: DATA_TYPES_MOCK }));
+        getDataTypes.mockImplementationOnce(mockApi({ payload: DATA_TYPES_MOCK }));
         store.dispatch(fetchDataTypes()).then(() => {
           const actionPayload = store.getActions()[1].payload;
           expect(actionPayload.dataTypes).toHaveLength(2);
@@ -267,7 +264,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('fetchDataTypes calls ADD_ERROR actions', (done) => {
-        getDataTypes.mockImplementation(mockApi({ errors: true }));
+        getDataTypes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypes()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
@@ -290,7 +287,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('fetchAttributeFromDataType calls ADD_ERROR actions', (done) => {
-        getAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        getAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -325,7 +322,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('sendPostAttributeFromDataType calls ADD_ERROR actions', (done) => {
-        postAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        postAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPostAttributeFromDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -337,7 +334,7 @@ describe('state/data-types/actions ', () => {
 
     describe('sendPutAttributeFromDataType', () => {
       it('sendPutAttributeFromDataType calls goToRoute ROUTE_ATTRIBUTE_MONOLIST_ADD', (done) => {
-        putAttributeFromDataType.mockImplementation(mockApi({ payload: { type: 'Monolist' } }));
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
         store.dispatch(sendPutAttributeFromDataType({ code: 'AAA' })).then(() => {
           expect(putAttributeFromDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
@@ -350,7 +347,7 @@ describe('state/data-types/actions ', () => {
 
       it('sendPutAttributeFromDataType calls goToRoute ROUTE_DATA_TYPE_EDIT', (done) => {
         getParams.mockReturnValue({ entityCode: 'Monotext' });
-        putAttributeFromDataType.mockImplementation(mockApi({ payload: { type: 'Monotext' } }));
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ payload: { type: 'Monotext' } }));
         store.dispatch(sendPutAttributeFromDataType({ code: 'AAA' })).then(() => {
           expect(putAttributeFromDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_EDIT, {
@@ -361,7 +358,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('sendPutAttributeFromDataType calls ADD_ERROR actions', (done) => {
-        putAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPutAttributeFromDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -374,7 +371,7 @@ describe('state/data-types/actions ', () => {
     describe('sendPutAttributeFromDataTypeMonolist', () => {
       it('sendPutAttributeFromDataTypeMonolist calls goToRoute ROUTE_DATA_TYPE_EDIT', (done) => {
         getParams.mockReturnValue({ entityCode: 'Monolist' });
-        putAttributeFromDataType.mockImplementation(mockApi({ payload: { type: 'Monolist' } }));
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
         store.dispatch(sendPutAttributeFromDataTypeMonolist({ code: 'AAA' })).then(() => {
           expect(putAttributeFromDataType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_EDIT, {
@@ -385,7 +382,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('sendPutAttributeFromDataTypeMonolist calls ADD_ERROR actions', (done) => {
-        putAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPutAttributeFromDataTypeMonolist('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -407,7 +404,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('sendDeleteAttributeFromDataType calls ADD_ERROR actions', (done) => {
-        deleteAttributeFromDataType.mockImplementation(mockApi({ errors: true }));
+        deleteAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendDeleteAttributeFromDataType('AAA', 'attr')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
@@ -420,7 +417,7 @@ describe('state/data-types/actions ', () => {
 
     describe('fetchDataTypeAttributes', () => {
       it('fetchDataTypeAttributes call setAttributes actions', (done) => {
-        getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
+        getDataTypeAttributes.mockImplementationOnce(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
@@ -436,7 +433,7 @@ describe('state/data-types/actions ', () => {
 
       it('fetchDataTypeAttributes not call setAttributes actions', (done) => {
         getDataTypeAttributesIdList.mockReturnValue(DATA_TYPES_ATTRIBUTES);
-        getDataTypeAttributes.mockImplementation(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
+        getDataTypeAttributes.mockImplementationOnce(mockApi({ payload: DATA_TYPES_ATTRIBUTES }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
@@ -447,7 +444,7 @@ describe('state/data-types/actions ', () => {
       });
 
       it('fetchDataTypeAttributes calls ADD_ERROR actions', (done) => {
-        getDataTypeAttributes.mockImplementation(mockApi({ errors: true }));
+        getDataTypeAttributes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
@@ -461,19 +458,19 @@ describe('state/data-types/actions ', () => {
 
     describe('fetchDataTypeAttribute', () => {
       it('fetchDataTypeAttribute calls setSelectedAttribute actions', (done) => {
-        getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
           expect(actions[0]).toHaveProperty('payload.attribute');
-          expect(actions[0].payload.attribute).toMatchObject(DATA_TYPE_ATTRIBUTE);
+          expect(actions[0].payload.attribute).toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
           done();
         }).catch(done.fail);
       });
 
       it('fetchDataTypeAttribute calls ADD_ERROR actions', (done) => {
-        getDataTypeAttribute.mockImplementation(mockApi({ errors: true }));
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
