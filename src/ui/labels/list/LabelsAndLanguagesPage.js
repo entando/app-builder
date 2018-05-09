@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, MenuItem, Button } from 'patternfly-react';
+import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator } from 'patternfly-react';
 import { Link } from '@entando/router';
 import { BreadcrumbItem } from 'frontend-common-components';
 import LabelSearchFormContainer from 'ui/labels/list/LabelSearchFormContainer';
@@ -18,8 +18,11 @@ const TAB_LABELS = 'labels';
 class LabelsAndLanguagesPage extends Component {
   constructor(props) {
     super(props);
-    this.setActiveTab = this.setActiveTab.bind(this);
 
+    this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
+
+    this.setActiveTab = this.setActiveTab.bind(this);
     this.state = {
       activeTab: TAB_LANGUAGES,
     };
@@ -29,12 +32,28 @@ class LabelsAndLanguagesPage extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+
   setActiveTab(activeTab) {
     this.setState({ activeTab });
   }
 
+  changePage(page) {
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
+  }
+
   render() {
     let pageContent;
+
+    const pagination = {
+      page: this.props.page,
+      perPage: this.props.pageSize,
+      perPageOptions: [5, 10, 15, 25, 50],
+    };
+
     if (this.state.activeTab === TAB_LANGUAGES) {
       pageContent = (
         <LanguageFormContainer />
@@ -66,6 +85,13 @@ class LabelsAndLanguagesPage extends Component {
             <Row>
               <Col xs={12}>
                 <LabelsTabsContainer />
+                <Paginator
+                  pagination={pagination}
+                  viewType="table"
+                  itemCount={this.props.totalItems}
+                  onPageSet={this.changePage}
+                  onPerPageSelect={this.changePageSize}
+                />
               </Col>
             </Row>
           </Col>
@@ -125,6 +151,9 @@ class LabelsAndLanguagesPage extends Component {
 
 LabelsAndLanguagesPage.propTypes = {
   onWillMount: PropTypes.func,
+  page: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  totalItems: PropTypes.number.isRequired,
 };
 
 LabelsAndLanguagesPage.defaultProps = {

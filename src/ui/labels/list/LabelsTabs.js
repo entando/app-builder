@@ -4,7 +4,6 @@ import { Tabs, Tab } from 'patternfly-react';
 
 import LabelsTable from 'ui/labels/list/LabelsTable';
 
-
 const LabelsTabs = ({
   languages, labels, onClickDelete, loading,
 }) => {
