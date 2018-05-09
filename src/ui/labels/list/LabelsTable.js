@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+
 import LabelListMenuActions from 'ui/labels/list/LabelListMenuActions';
 import DeleteLabelModalContainer from 'ui/labels/common/DeleteLabelModalContainer';
 

@@ -46,5 +46,4 @@ const EditLabelsPage = () => (
   </InternalPage>
 );
 
-
 export default EditLabelsPage;
