@@ -31,7 +31,7 @@ const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
-  <UserMenuContainer />,
+  <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
 ];
