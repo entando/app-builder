@@ -10,9 +10,15 @@ describe('LabelsAndLanguagesPage', () => {
     jest.clearAllMocks();
   });
 
+  const props = {
+    page: 1,
+    pageSize: 10,
+    totalItems: 10,
+  };
+
   describe('basic rendering', () => {
     beforeEach(() => {
-      component = shallow(<LabelsAndLanguagesPage />);
+      component = shallow(<LabelsAndLanguagesPage {...props} />);
     });
 
     it('renders without crashing', () => {
@@ -46,7 +52,7 @@ describe('LabelsAndLanguagesPage', () => {
 
   it('it calls onWillMount at rendering', () => {
     const onWillMountMock = jest.fn();
-    shallow(<LabelsAndLanguagesPage onWillMount={onWillMountMock} />);
+    shallow(<LabelsAndLanguagesPage {...props} onWillMount={onWillMountMock} />);
     expect(onWillMountMock).toHaveBeenCalled();
   });
 });

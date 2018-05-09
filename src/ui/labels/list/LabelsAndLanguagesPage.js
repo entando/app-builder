@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator } from 'patternfly-react';
+import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator, Spinner } from 'patternfly-react';
 import { Link } from '@entando/router';
 import { BreadcrumbItem } from 'frontend-common-components';
 import LabelSearchFormContainer from 'ui/labels/list/LabelSearchFormContainer';
@@ -32,7 +32,6 @@ class LabelsAndLanguagesPage extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
-
   setActiveTab(activeTab) {
     this.setState({ activeTab });
   }
@@ -56,7 +55,9 @@ class LabelsAndLanguagesPage extends Component {
 
     if (this.state.activeTab === TAB_LANGUAGES) {
       pageContent = (
-        <LanguageFormContainer />
+        <Spinner loading={!!this.props.loadingLangs}>
+          <LanguageFormContainer />
+        </Spinner>
       );
     } else {
       pageContent = (
@@ -84,14 +85,16 @@ class LabelsAndLanguagesPage extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                <LabelsTabsContainer />
-                <Paginator
-                  pagination={pagination}
-                  viewType="table"
-                  itemCount={this.props.totalItems}
-                  onPageSet={this.changePage}
-                  onPerPageSelect={this.changePageSize}
-                />
+                <Spinner loading={!!this.props.loadingLabels}>
+                  <LabelsTabsContainer />
+                  <Paginator
+                    pagination={pagination}
+                    viewType="table"
+                    itemCount={this.props.totalItems}
+                    onPageSet={this.changePage}
+                    onPerPageSelect={this.changePageSize}
+                  />
+                </Spinner>
               </Col>
             </Row>
           </Col>
@@ -154,10 +157,14 @@ LabelsAndLanguagesPage.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  loadingLabels: PropTypes.bool,
+  loadingLangs: PropTypes.bool,
 };
 
 LabelsAndLanguagesPage.defaultProps = {
   onWillMount: null,
+  loadingLabels: false,
+  loadingLangs: false,
 };
 
 export default LabelsAndLanguagesPage;

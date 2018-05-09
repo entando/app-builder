@@ -8,10 +8,6 @@ jest.mock('state/labels/selectors', () => ({
   getLabelsList: jest.fn().mockReturnValue('getLabelsList_result'),
 }));
 
-jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn().mockReturnValue({ systemLabels: false }),
-}));
-
 jest.mock('state/labels/actions', () => ({
   removeLabel: jest.fn().mockReturnValue('removeLabel_result'),
 }));
@@ -33,7 +29,6 @@ describe('LabelsTabsContainer', () => {
     it('maps correct property state in LabelsTabsContainer', () => {
       expect(props).toHaveProperty('languages', 'getActiveLanguages_result');
       expect(props).toHaveProperty('labels', 'getLabelsList_result');
-      expect(props).toHaveProperty('loading', false);
     });
   });
 

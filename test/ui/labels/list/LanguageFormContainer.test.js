@@ -1,59 +1,54 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/list/LanguageFormContainer';
-import { LANGUAGES_NORMALIZED } from 'test/mocks/languages';
-import { getLanguagesOptions, getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
-import { fetchLanguages, activateLanguage, deactivateLanguage } from 'state/languages/actions';
 
 const dispatchMock = jest.fn();
-const TEST_STATE = {
-  languages: { ...LANGUAGES_NORMALIZED },
-};
+const TEST_LANG = { language: 'test' };
 
 jest.mock('state/languages/actions', () => ({
-  fetchLanguages: jest.fn(),
-  activateLanguage: jest.fn(),
-  deactivateLanguage: jest.fn(),
+  activateLanguage: jest.fn().mockReturnValue('activateLanguage_result'),
+  deactivateLanguage: jest.fn().mockReturnValue('deactivateLanguage_result'),
+}));
+
+jest.mock('state/languages/selectors', () => ({
+  getLanguagesOptions: jest.fn().mockReturnValue('getLanguagesOptions_result'),
+  getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
+  getDefaultLanguage: jest.fn().mockReturnValue('getDefaultLanguage_result'),
 }));
 
 describe('LanguageFormContainer', () => {
-  it('maps languages property state in LanguageForm', () => {
-    expect(mapStateToProps(TEST_STATE))
-      .toHaveProperty('languages', getLanguagesOptions(TEST_STATE));
-    expect(mapStateToProps(TEST_STATE))
-      .toHaveProperty('activeLanguages', getActiveLanguages(TEST_STATE));
-    expect(mapStateToProps(TEST_STATE))
-      .toHaveProperty('defaultLanguage', getDefaultLanguage(TEST_STATE));
-  });
-});
+  describe('mapStateToProps', () => {
+    let props;
+    beforeEach(() => {
+      props = mapStateToProps({});
+    });
 
-describe('mapDispatchToProps', () => {
-  let props;
-  beforeEach(() => {
-    props = mapDispatchToProps(dispatchMock);
+    it('maps languages property state in LanguageForm', () => {
+      expect(props).toHaveProperty('languages', 'getLanguagesOptions_result');
+      expect(props).toHaveProperty('activeLanguages', 'getActiveLanguages_result');
+      expect(props).toHaveProperty('defaultLanguage', 'getDefaultLanguage_result');
+    });
   });
 
-  it('should map the correct function properties', () => {
-    expect(props.onWillMount).toBeDefined();
-    expect(props.onSubmit).toBeDefined();
-    expect(props.onDeactivateLang).toBeDefined();
-  });
+  describe('mapDispatchToProps', () => {
+    let props;
+    beforeEach(() => {
+      props = mapDispatchToProps(dispatchMock);
+    });
 
-  it('should dispatch an action if onWillMount is called', () => {
-    props.onWillMount();
-    expect(dispatchMock).toHaveBeenCalled();
-    expect(fetchLanguages).toHaveBeenCalled();
-  });
+    it('should map the correct function properties', () => {
+      expect(props.onSubmit).toBeDefined();
+      expect(props.onDeactivateLang).toBeDefined();
+    });
 
-  it('should dispatch an action if onSubmit is called', () => {
-    props.onSubmit({ language: 'it' });
-    expect(dispatchMock).toHaveBeenCalled();
-    expect(activateLanguage).toHaveBeenCalledWith('it');
-  });
+    it('should dispatch "activateLanguage" action if "onSubmit" is called', () => {
+      props.onSubmit(TEST_LANG);
+      expect(dispatchMock).toHaveBeenCalledWith('activateLanguage_result');
+    });
 
-  it('should dispatch an action if onDeactivateLang is called', () => {
-    props.onDeactivateLang('en');
-    expect(dispatchMock).toHaveBeenCalled();
-    expect(deactivateLanguage).toHaveBeenCalledWith('en');
+    it('should dispatch "deactivateLanguage" action if "onDeactivateLang" is called', () => {
+      props.onDeactivateLang();
+      expect(dispatchMock).toHaveBeenCalledWith('deactivateLanguage_result');
+    });
   });
 });

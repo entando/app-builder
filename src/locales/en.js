@@ -262,7 +262,7 @@ export default {
     'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
     'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
     'labelsAndLanguages.help': 'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
-    'label.searchForm.text': 'Search by text',
+    'label.searchForm.code': 'Search by code',
     'label.searchForm.title': 'Search for existing label',
     'language.selectLanguage': 'Select Language',
     'language.active.listEmpty': 'There are no ACTIVE LANGUAGES available',

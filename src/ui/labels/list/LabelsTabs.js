@@ -14,6 +14,7 @@ const LabelsTabs = ({
         key={`lang-tab-${lang.code}`}
         eventKey={i}
         title={lang.isDefault ? `${lang.code}*` : lang.code}
+        animation={false}
       >
         <LabelsTable
           langName={lang.name}
