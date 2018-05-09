@@ -17,7 +17,7 @@ const LabelsTabs = ({
         title={lang.isDefault ? `${lang.code}*` : lang.code}
       >
         <LabelsTable
-          langName={lang.description}
+          langName={lang.name}
           labels={labels.map(label => ({ key: label.key, value: label.titles[lang.code] }))}
           onClickEditLabel={onClickEditLabel}
           onClickDeleteLabel={onClickDeleteLabel}
