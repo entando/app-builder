@@ -1,8 +1,10 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/labels/add/AddFormContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/labels/edit/EditFormContainer';
+import { getParams } from '@entando/router';
 
 const dispatchMock = jest.fn();
+getParams.mockReturnValue({ labelCode: 'getParams_result' });
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
@@ -14,21 +16,24 @@ jest.mock('state/languages/actions', () => ({
 }));
 
 jest.mock('state/labels/actions', () => ({
-  createLabel: jest.fn().mockReturnValue('createLabel_result'),
+  fetchLabel: jest.fn().mockReturnValue('fetchLabel_result'),
+  updateLabel: jest.fn().mockReturnValue('updateLabel_result'),
 }));
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
-describe('AddFormContainer', () => {
+describe('EditFormContainer', () => {
   let props;
   beforeEach(() => {
     props = mapStateToProps({});
   });
 
   it('maps languages property state in LabelsForm', () => {
+    expect(props).toHaveProperty('mode', 'edit');
     expect(props).toHaveProperty('locale', 'en');
     expect(props).toHaveProperty('languages', 'getActiveLanguages_result');
     expect(props).toHaveProperty('defaultLanguage', 'getDefaultLanguage_result');
+    expect(props).toHaveProperty('labelCode', 'getParams_result');
   });
 });
 
@@ -38,15 +43,16 @@ describe('mapDispatchToProps', () => {
     props = mapDispatchToProps(dispatchMock);
   });
 
-  it('maps the "onWillMount" prop a fetchLanguages dispatch', () => {
+  it('maps the "onWillMount" prop a "fetchLanguages" and "fetchLabel" dispatch', () => {
     expect(props.onWillMount).toBeDefined();
     props.onWillMount();
     expect(dispatchMock).toHaveBeenCalledWith('fetchLanguages_result');
+    expect(dispatchMock).toHaveBeenCalledWith('fetchLabel_result');
   });
 
-  it('should dispatch an action if onSubmit is called', () => {
+  it('should dispatch "updateLabel" action if onSubmit is called', () => {
     expect(props.onSubmit).toBeDefined();
     props.onSubmit();
-    expect(dispatchMock).toHaveBeenCalledWith('createLabel_result');
+    expect(dispatchMock).toHaveBeenCalledWith('updateLabel_result');
   });
 });

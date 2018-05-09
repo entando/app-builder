@@ -1,8 +1,9 @@
-import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
+import { initialize } from 'redux-form';
+import { gotoRoute } from '@entando/router';
+import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { gotoRoute } from '@entando/router';
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
@@ -49,12 +50,28 @@ export const fetchLabels = (page = { page: 1, pageSize: 10 }, params = '') => di
   })
 );
 
+export const fetchLabel = labelkey => dispatch => (
+  new Promise((resolve) => {
+    getLabel(labelkey).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(initialize('label', json.payload));
+        } else if (json && json.errors) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
 export const updateLabel = label => dispatch => (
   new Promise((resolve) => {
     putLabel(label).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateLabelSync(label));
+          gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

@@ -3,12 +3,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import InternalPage from 'ui/internal-page/InternalPage';
-import AddLabelPage from 'ui/labels/add/AddLabelPage';
+import EditLabelPage from 'ui/labels/edit/EditLabelPage';
 
-describe('AddLabelPage', () => {
+describe('EditLabelPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AddLabelPage />);
+    component = shallow(<EditLabelPage />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

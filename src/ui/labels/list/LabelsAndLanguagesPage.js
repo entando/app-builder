@@ -88,26 +88,32 @@ class LabelsAndLanguagesPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={6}>
-              <PageTitle titleId="menu.labelsAndLanguages" helpId="labelsAndLanguages.help" />
-            </Col>
-            <Col xs={6}>
-              <ul className="LabelsAndLanguagesPage__header-container nav nav-tabs nav-justified nav-tabs-pattern">
-                <MenuItem
-                  className="LabelsAndLanguagesPage__header-tab"
-                  active={this.state.activeTab === TAB_LANGUAGES}
-                  onClick={() => this.setActiveTab(TAB_LANGUAGES)}
-                >
-                  <FormattedMessage id="app.languages" />
-                </MenuItem>
-                <MenuItem
-                  className="LabelsAndLanguagesPage__header-tab"
-                  active={this.state.activeTab === TAB_LABELS}
-                  onClick={() => this.setActiveTab(TAB_LABELS)}
-                >
-                  <FormattedMessage id="app.systemLabels" />
-                </MenuItem>
-              </ul>
+            <Col xs={12}>
+              <div className="LabelsAndLanguagesPage__header-container">
+                <Row>
+                  <Col xs={6}>
+                    <PageTitle titleId="menu.labelsAndLanguages" helpId="labelsAndLanguages.help" />
+                  </Col>
+                  <Col xs={6}>
+                    <ul className="nav nav-tabs nav-justified nav-tabs-pattern">
+                      <MenuItem
+                        className="LabelsAndLanguagesPage__header-tab"
+                        active={this.state.activeTab === TAB_LANGUAGES}
+                        onClick={() => this.setActiveTab(TAB_LANGUAGES)}
+                      >
+                        <FormattedMessage id="app.languages" />
+                      </MenuItem>
+                      <MenuItem
+                        className="LabelsAndLanguagesPage__header-tab"
+                        active={this.state.activeTab === TAB_LABELS}
+                        onClick={() => this.setActiveTab(TAB_LABELS)}
+                      >
+                        <FormattedMessage id="app.systemLabels" />
+                      </MenuItem>
+                    </ul>
+                  </Col>
+                </Row>
+              </div>
             </Col>
           </Row>
           { pageContent }
