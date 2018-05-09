@@ -29,7 +29,7 @@ class LabelsAndLanguagesPage extends Component {
   }
 
   componentWillMount() {
-    if (this.props.onWillMount) this.props.onWillMount(this.props);
+    this.props.onWillMount(this.props.page);
   }
 
   setActiveTab(activeTab) {
