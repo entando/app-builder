@@ -6,7 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DatabaseListTable from 'ui/database/list/DatabaseListTable';
+import DatabaseListTableContainer from 'ui/database/list/DatabaseListTableContainer';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
@@ -43,7 +43,7 @@ const DatabaseListPage = () => (
         </Col>
       </Row>
       <Row>
-        <DatabaseListTable />
+        <DatabaseListTableContainer />
       </Row>
     </Grid>
   </InternalPage>

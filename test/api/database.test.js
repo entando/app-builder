@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getDatabaseDumpReportList } from 'api/database';
+import { getDatabaseDumpReportList, getDatabaseInitBackup } from 'api/database';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { DATABASE_DUMP_REPORT_LIST } from 'test/mocks/database';
+import { DATABASE_DUMP_REPORT_LIST, DATABASE_INIT_BACKUP } from 'test/mocks/database';
 
 jest.unmock('api/database');
 jest.mock('@entando/apimanager', () => ({
@@ -19,15 +19,31 @@ describe('api/database', () => {
     });
 
     it('makes the correct request', () => {
-      getDatabaseDumpReportList({ page: 1, pageSize: 10 }, '?param=true');
+      getDatabaseDumpReportList({ page: 1, pageSize: 10 });
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/api/database?param=true',
+        uri: '/api/database',
         method: METHODS.GET,
         mockResponse: DATABASE_DUMP_REPORT_LIST,
         useAuthentication: true,
       }, {
         page: 1,
         pageSize: 10,
+      });
+    });
+  });
+
+  describe('getDatabaseInitBackup', () => {
+    it('return a promise ', () => {
+      expect(getDatabaseInitBackup()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getDatabaseInitBackup();
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/database/initBackup',
+        method: METHODS.GET,
+        mockResponse: DATABASE_INIT_BACKUP,
+        useAuthentication: true,
       });
     });
   });

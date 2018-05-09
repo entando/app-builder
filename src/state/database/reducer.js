@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_DATABASE_DUMPS } from 'state/database/types';
+import { SET_DATABASE_DUMPS, SET_DATABASE_INIT_BACKUP } from 'state/database/types';
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -22,7 +22,17 @@ export const map = (state = {}, action = {}) => {
   }
 };
 
+export const init = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_DATABASE_INIT_BACKUP: {
+      return action.payload.init;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map,
+  init,
 });

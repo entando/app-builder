@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Button } from 'patternfly-react';
+import { Col, Button, Alert } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModalContainer';
 
 class DatabaseListTable extends Component {
   constructor(props) {
     super(props);
     this.databases = null;
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
 
   componentWillMount() {
     this.props.onWillMount();
   }
 
+  onClickDelete(database) {
+    this.props.onClickDelete(database);
+  }
+
   renderTableRows() {
     return this.props.databases.map((database, i) => (
-      <tr key={database.number}>
-        <td className="DatabaseListRow__td">{database.number}</td>
+      <tr key={`${database.code}-${database.date}`}>
+        <td className="DatabaseListRow__td">{database.code}</td>
         <td className="DatabaseListRow__td"><code>{database.date}</code></td>
-        <td className="DatabaseListRow__td">{database.timeRequired}</td>
+        <td className="DatabaseListRow__td">{database.requiredTime}&nbsp;<FormattedMessage id="app.milliseconds" /> </td>
         <td className="DatabaseListRow__td text-center">
           <Button
             bsStyle="link"
             className="UserAuthorityTable__delete-tag-btn"
-            onClick={() => database.remove(i)}
+            onClick={() => this.onClickDelete(database)}
           >
             <i className="fa fa-trash-o" />
           </Button>
@@ -35,10 +41,10 @@ class DatabaseListTable extends Component {
   renderTable() {
     if (this.props.databases.length === 0) {
       return (
-        <Col md={12}>
-          <p className="alert alert-info DatabaseListPage__alert">
-            <FormattedMessage id="database.noDatabaseYet" />
-          </p>
+        <Col xs={12}>
+          <Alert type="info" className="DatabaseListPage__alert">
+            <strong><FormattedMessage id="database.noDatabaseYet" /></strong>
+          </Alert>
           <hr />
         </Col>
       );
@@ -48,9 +54,9 @@ class DatabaseListTable extends Component {
         <table className="databasesListTable__table table table-striped table-bordered">
           <thead>
             <tr>
-              <th className="databasesListTable__th-lg"><FormattedMessage id="app.number" /></th>
+              <th className="databasesListTable__th-lg"><FormattedMessage id="app.code" /></th>
               <th className="databasesListTable__th-lg"><FormattedMessage id="app.date" /></th>
-              <th className="databasesListTable__th-lg"><FormattedMessage id="app.timeRequired" /></th>
+              <th className="databasesListTable__th-lg"><FormattedMessage id="app.requiredTime" /></th>
               <th className="databasesListTable__th-xs text-center">
                 <FormattedMessage id="app.actions" />
               </th>
@@ -68,22 +74,23 @@ class DatabaseListTable extends Component {
     return (
       <div className="databasesListTable">
         {this.renderTable()}
+        <DeleteDatabaseModalContainer />
       </div>
     );
   }
 }
 
 DatabaseListTable.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
   databases: PropTypes.arrayOf(PropTypes.shape({
-    number: PropTypes.number.isRequired,
+    code: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
-    timeRequired: PropTypes.string.isRequired,
+    requiredTime: PropTypes.number.isRequired,
   })),
 };
 
 DatabaseListTable.defaultProps = {
-  onWillMount: () => {},
   databases: [],
 };
 
