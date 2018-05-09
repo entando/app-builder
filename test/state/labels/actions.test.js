@@ -1,17 +1,18 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { initialize } from 'redux-form';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
-  removeLabelSync, removeLabel,
+  removeLabelSync, removeLabel, fetchLabel,
 } from 'state/labels/actions';
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
+import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 
 import { LABELS_LIST } from 'test/mocks/labels';
 
@@ -58,6 +59,7 @@ const mockApi = ({
 
 jest.mock('api/labels', () => ({
   getLabels: jest.fn(),
+  getLabel: jest.fn(),
   putLabel: jest.fn(),
   postLabel: jest.fn(),
   deleteLabel: jest.fn(),
@@ -281,6 +283,49 @@ describe('state/labels/actions', () => {
         const actions = store.getActions();
         expect(actions[0].type).toBe(UPDATE_LABEL);
         expect(actions[0].payload.label).toBe(HELLO_LABEL);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchLabel()', () => {
+    const LABEL_KEY = HELLO_LABEL.key;
+    let store;
+    beforeEach(() => {
+      store = mockStore(INITIAL_STATE);
+    });
+
+    it('when fetchLabel succeeds should call "initialize" action', (done) => {
+      getLabel.mockImplementation(mockApi({ ok: true, payload: HELLO_LABEL }));
+      store.dispatch(fetchLabel(HELLO_LABEL.key)).then(() => {
+        expect(getLabel).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+        expect(actions[0]).toHaveProperty('payload', HELLO_LABEL);
+        expect(actions[0]).toHaveProperty('meta', { form: 'label' });
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok, dispatch nothing', (done) => {
+      getLabel.mockImplementation(mockApi({
+        ok: false,
+      }));
+      store.dispatch(fetchLabel(LABEL_KEY)).then(() => {
+        expect(store.getActions()).toHaveLength(0);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
+      getLabel.mockImplementation(mockApi({
+        ok: false,
+        errors: ERRORS,
+      }));
+      store.dispatch(fetchLabel(LABEL_KEY)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(ADD_ERRORS);
+        expect(actions[0].payload.errors).toEqual(ERRORS.map(e => e.message));
         done();
       }).catch(done.fail);
     });
