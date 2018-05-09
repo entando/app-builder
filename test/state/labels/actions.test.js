@@ -122,8 +122,8 @@ describe('state/labels/actions', () => {
       expect(action.type).toBe(REMOVE_LABEL);
     });
 
-    it('defines the "labelKey" payload property', () => {
-      expect(action.payload.labelKey).toBe(HELLO_LABEL.key);
+    it('defines the "labelCode" payload property', () => {
+      expect(action.payload.labelCode).toBe(HELLO_LABEL.key);
     });
   });
 
@@ -300,7 +300,7 @@ describe('state/labels/actions', () => {
       store.dispatch(removeLabel(LABEL_KEY)).then(() => {
         const actions = store.getActions();
         expect(actions[0].type).toBe(REMOVE_LABEL);
-        expect(actions[0].payload.labelKey).toBe(LABEL_KEY);
+        expect(actions[0].payload.labelCode).toBe(LABEL_KEY);
         done();
       }).catch(done.fail);
     });

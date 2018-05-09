@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Spinner } from 'patternfly-react';
 import LabelListMenuActions from 'ui/labels/list/LabelListMenuActions';
+import DeleteLabelModalContainer from 'ui/labels/common/DeleteLabelModalContainer';
 
 const LabelsTable = ({
   langName, labels, onClickDelete, loading,
@@ -30,6 +31,7 @@ const LabelsTable = ({
           </tr>
           ))}
       </tbody>
+      <DeleteLabelModalContainer />
     </Spinner>
   </table>
 );
