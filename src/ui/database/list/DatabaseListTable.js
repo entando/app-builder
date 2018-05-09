@@ -44,7 +44,7 @@ class DatabaseListTable extends Component {
       );
     }
     return (
-      <Col md={12}>
+      <Col xs={12}>
         <table className="databasesListTable__table table table-striped table-bordered">
           <thead>
             <tr>
