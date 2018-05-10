@@ -222,6 +222,7 @@ export default {
     'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
     'pages.pageForm.saveAndConfigure': 'Salva e Configura',
     'pages.seoDescr': 'SEO: Permetti la sovrascrittura del titolo di Pagina',
+    'pages.noPageFound': 'Nessuna pagina trovata.',
     'pageSettings.title': 'Impostazione Pagine',
     'pageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
     'pageSettings.input.homepage': 'Pagina Iniziale',

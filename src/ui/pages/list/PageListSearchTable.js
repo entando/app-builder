@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paginator, Spinner } from 'patternfly-react';
+import { Paginator, Spinner, Alert } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
@@ -26,6 +26,14 @@ class PageListSearchTable extends Component {
   }
 
   renderTable() {
+    if (this.props.searchPages.length === 0) {
+      return (
+        <Alert type="warning">
+          <strong><FormattedMessage id="pages.noPageFound" /></strong>
+        </Alert>
+      );
+    }
+
     const pagination = {
       page: this.props.page,
       perPage: this.props.pageSize,
