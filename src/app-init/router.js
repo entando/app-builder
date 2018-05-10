@@ -54,6 +54,7 @@ export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 export const ROUTE_DATABASE_LIST = 'databaseList';
+export const ROUTE_DATABASE_ADD = 'databaseAdd';
 
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 
@@ -116,6 +117,7 @@ routerConfig(
 
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
       { name: ROUTE_DATABASE_LIST, path: '/database' },
+      { name: ROUTE_DATABASE_ADD, path: '/database/add' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

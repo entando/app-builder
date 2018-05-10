@@ -51,6 +51,7 @@ import {
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
   ROUTE_DATABASE_LIST,
+  ROUTE_DATABASE_ADD,
 
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
@@ -162,9 +163,9 @@ const App = ({ route, username }) => {
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
     case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
-
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
     case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
+    case ROUTE_DATABASE_ADD: return <ListDatabasePage />;
     default: return <NotFoundPage />;
   }
 };

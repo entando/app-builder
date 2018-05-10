@@ -72,7 +72,7 @@ class DatabaseListTable extends Component {
 
   render() {
     return (
-      <div className="databasesListTable">
+      <div className="DatabaseListTable">
         {this.renderTable()}
         <DeleteDatabaseModalContainer />
       </div>

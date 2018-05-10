@@ -5,7 +5,7 @@ import { getDatabaseDumpList } from 'state/database/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/database/common/DeleteDatabaseModal';
 
-export const mapstateToProps = state => ({
+export const mapStateToProps = state => ({
   databases: getDatabaseDumpList(state),
 });
 
@@ -19,6 +19,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const DatabaseListTableContainer = connect(mapstateToProps, mapDispatchToProps)(DatabaseListTable);
+const DatabaseListTableContainer = connect(mapStateToProps, mapDispatchToProps)(DatabaseListTable);
 
 export default DatabaseListTableContainer;
