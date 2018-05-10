@@ -8,7 +8,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DatabaseListTableContainer from 'ui/database/list/DatabaseListTableContainer';
 
-import { ROUTE_DATABASE_LIST } from 'app-init/router';
+import { ROUTE_DATABASE_ADD } from 'app-init/router';
 
 const DatabaseListPage = () => (
   <InternalPage className="DatabaseListPage">
@@ -35,7 +35,7 @@ const DatabaseListPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <Link route={ROUTE_DATABASE_LIST} className="pull-right" >
+          <Link route={ROUTE_DATABASE_ADD} className="pull-right" >
             <Button className="DatabaseListPage__add" bsStyle="primary">
               <FormattedMessage id="database.list.add" />
             </Button>
@@ -43,7 +43,9 @@ const DatabaseListPage = () => (
         </Col>
       </Row>
       <Row>
-        <DatabaseListTableContainer />
+        <Col xs={12}>
+          <DatabaseListTableContainer />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>

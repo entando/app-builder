@@ -30,3 +30,13 @@ export const deleteDatabaseBackup = code => (
     useAuthentication: true,
   })
 );
+
+export const postStartBackup = () => (
+  makeRequest({
+    uri: '/api/database/startBackup',
+    method: METHODS.POST,
+    body: {},
+    mockResponse: { status: 1 },
+    useAuthentication: true,
+  })
+);

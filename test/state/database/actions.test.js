@@ -1,6 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { gotoRoute } from '@entando/router';
 
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -13,7 +14,7 @@ import {
   getDatabaseInitBackup,
   getDatabaseDumpReportList,
   deleteDatabaseBackup,
-
+  postStartBackup,
 } from 'api/database';
 import {
   SET_DATABASE_DUMPS,
@@ -25,12 +26,16 @@ import {
   fetchDatabaseDumpReport,
   fetchDatabaseInitBackup,
   sendDeleteDatabaseBackup,
+  sendPostDatabaseStartBackup,
 } from 'state/database/actions';
+
+import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
 import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
 
 let store;
 
@@ -121,17 +126,26 @@ describe('state/database/actions', () => {
       it('calls sendDeleteDatabaseBackup and dispatch fetchDatabaseDumpReport', (done) => {
         store.dispatch(sendDeleteDatabaseBackup('develop')).then(() => {
           expect(deleteDatabaseBackup).toHaveBeenCalled();
-          store.dispatch(fetchDatabaseDumpReport()).then(() => {
-            // const actions = store.getActions();
-            // console.log(actions);
-            done();
-          }).catch(done.fail);
           done();
         }).catch(done.fail);
       });
 
       it('if the response is not ok, dispatch add errors', (done) => {
         wrapErrorTest(done)(sendDeleteDatabaseBackup, deleteDatabaseBackup)('develop');
+      });
+    });
+
+    describe('sendPostDatabaseStartBackup', () => {
+      it('calls sendPostDatabaseStartBackup and call gotoRoute', (done) => {
+        store.dispatch(sendPostDatabaseStartBackup()).then(() => {
+          expect(postStartBackup).toHaveBeenCalled();
+          setTimeout(() => expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATABASE_LIST), 500);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        wrapErrorTest(done)(sendPostDatabaseStartBackup, postStartBackup)();
       });
     });
   });

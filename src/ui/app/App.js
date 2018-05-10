@@ -52,7 +52,6 @@ import {
   ROUTE_RELOAD_CONFIRM,
   ROUTE_DATABASE_LIST,
   ROUTE_DATABASE_ADD,
-
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -102,9 +101,9 @@ import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
-
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
+import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -165,7 +164,7 @@ const App = ({ route, username }) => {
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
     case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
-    case ROUTE_DATABASE_ADD: return <ListDatabasePage />;
+    case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
     default: return <NotFoundPage />;
   }
 };
