@@ -45,6 +45,9 @@ import {
   ROUTE_CATEGORY_ADD,
   ROUTE_CATEGORY_EDIT,
   ROUTE_CATEGORY_DETAIL,
+  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
   ROUTE_ROLE_EDIT,
@@ -91,6 +94,9 @@ import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import AddLabelPage from 'ui/labels/add/AddLabelPage';
 import EditLabelPage from 'ui/labels/edit/EditLabelPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
+import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
+import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
+import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
@@ -165,6 +171,9 @@ const App = ({ route, username }) => {
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
 
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
+    case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
+    case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
+    case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
     default: return <NotFoundPage />;
   }
 };

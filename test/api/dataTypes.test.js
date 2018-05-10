@@ -1,8 +1,24 @@
 import 'test/enzyme-init';
-import { getDataTypes, getDataTypeAttributes, getDataTypeAttribute } from 'api/dataTypes';
+import {
+  postDataType,
+  putDataType,
+  deleteDataType,
+  getDataType,
+  getDataTypes,
+  getAttributeFromDataType,
+  deleteAttributeFromDataType,
+  postAttributeFromDataType,
+  putAttributeFromDataType,
+  getDataTypeAttributes,
+  getDataTypeAttribute,
+} from 'api/dataTypes';
+
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 import {
+  DATA_TYPES,
+  DATA_TYPES_DELETE_OK,
+  ATTRIBUTE_DATA_TYPES_DELETE_OK,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
@@ -19,8 +35,168 @@ const correctRequest = {
 jest.unmock('api/dataTypes');
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET' },
+  METHODS: {
+    GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
+  },
 }));
+
+describe('api/postDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postDataType()).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    postDataType(DATA_TYPES);
+    expect(makeRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      method: 'POST',
+      mockResponse: DATA_TYPES,
+      body: DATA_TYPES,
+    });
+  });
+});
+
+describe('api/putDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(putDataType(DATA_TYPES)).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    putDataType(DATA_TYPES);
+    expect(makeRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      uri: '/api/dataTypes/AAA',
+      method: 'PUT',
+      mockResponse: DATA_TYPES,
+      body: DATA_TYPES,
+    });
+  });
+});
+
+describe('api/getDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(getDataType('AAA')).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    getDataType('AAA');
+    expect(makeRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      uri: '/api/dataTypes/AAA',
+      method: 'GET',
+      mockResponse: DATA_TYPES,
+    });
+  });
+});
+
+
+describe('api/deleteDataType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(deleteDataType('AAA')).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    deleteDataType('AAA');
+    expect(makeRequest).toHaveBeenCalledWith({
+      ...correctRequest,
+      uri: '/api/dataTypes/AAA',
+      method: 'DELETE',
+      mockResponse: DATA_TYPES_DELETE_OK,
+      body: 'AAA',
+    });
+  });
+});
+
+describe('/api/dataTypes/', () => {
+  describe('getAttributeFromDataType', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(getAttributeFromDataType()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getAttributeFromDataType('AAA', 'code');
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/dataTypes/AAA/attribute/code',
+        mockResponse: DATA_TYPES.attributes[0],
+      });
+    });
+  });
+
+  describe('deleteAttributeFromDataType', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(deleteAttributeFromDataType()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      deleteAttributeFromDataType('AAA', 'code');
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/dataTypes/AAA/attribute/code',
+        method: 'DELETE',
+        mockResponse: ATTRIBUTE_DATA_TYPES_DELETE_OK,
+      });
+    });
+  });
+
+  describe('postAttributeFromDataType', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(postAttributeFromDataType()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      postAttributeFromDataType('AAA', DATA_TYPES.attributes[0]);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/dataTypes/AAA/attribute',
+        method: 'POST',
+        body: DATA_TYPES.attributes[0],
+        mockResponse: DATA_TYPES.attributes[0],
+      });
+    });
+  });
+
+  describe('putAttributeFromDataType', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(putAttributeFromDataType('AAA', DATA_TYPES.attributes[0])).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      putAttributeFromDataType('AAA', DATA_TYPES.attributes[0]);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+        uri: '/api/dataTypes/AAA/attribute/attrCode',
+        method: 'PUT',
+        body: DATA_TYPES.attributes[0],
+        mockResponse: DATA_TYPES.attributes[0],
+      });
+    });
+  });
+});
 
 describe('api/getDataTypes', () => {
   beforeEach(() => {

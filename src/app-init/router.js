@@ -45,6 +45,9 @@ export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_LABEL_EDIT = 'labelEdit';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
+export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
 export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
@@ -55,6 +58,7 @@ export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
+
 
 routerConfig(
   store,
@@ -87,8 +91,11 @@ routerConfig(
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
-      { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
+      { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
