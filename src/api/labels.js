@@ -43,9 +43,9 @@ export const putLabel = labelObj => (
   })
 );
 
-export const deleteLabel = labelKey => (
+export const deleteLabel = labelCode => (
   makeRequest({
-    uri: `/api/labels/${labelKey}`,
+    uri: `/api/labels/${labelCode}`,
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,

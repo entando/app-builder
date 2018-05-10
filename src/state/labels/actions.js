@@ -21,10 +21,10 @@ export const updateLabelSync = label => ({
   },
 });
 
-export const removeLabelSync = labelKey => ({
+export const removeLabelSync = labelCode => ({
   type: REMOVE_LABEL,
   payload: {
-    labelKey,
+    labelCode,
   },
 });
 
@@ -97,12 +97,12 @@ export const createLabel = label => dispatch => (
   })
 );
 
-export const removeLabel = label => dispatch => (
+export const removeLabel = labelCode => dispatch => (
   new Promise((resolve) => {
-    deleteLabel(label).then((response) => {
+    deleteLabel(labelCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(removeLabelSync(label));
+          dispatch(removeLabelSync(labelCode));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

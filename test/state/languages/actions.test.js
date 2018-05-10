@@ -10,7 +10,8 @@ import { SET_LANGUAGE_ACTIVE, SET_LANGUAGES } from 'state/languages/types';
 import { getLanguagesMap } from 'state/languages/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { getLanguages, putLanguage } from 'api/languages';
-
+import { TOGGLE_LOADING } from 'state/loading/types';
+import { ADD_ERRORS } from 'state/errors/types';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 
@@ -25,13 +26,17 @@ const INITIAL_STATE = {
   },
 };
 const PAGE = { page: 1, pageSize: 10 };
+const ERRORS = [{ code: 1, message: 'Error message' }];
 
-const mockApi = ({ ok, payload, metaData }) =>
+const mockApi = ({
+  ok, payload, metaData, errors,
+}) =>
   () => new Promise(resolve => resolve({
     ok,
     json: () => new Promise(resolveJson => resolveJson({
       payload,
       metaData,
+      errors,
     })),
   }));
 
@@ -103,20 +108,27 @@ describe('state/languages/actions', () => {
       }));
       store.dispatch(fetchLanguages()).then(() => {
         const actions = store.getActions();
-        expect(actions[0].type).toBe(SET_LANGUAGES);
-        expect(actions[0].payload.languages).toEqual(LANGUAGES_LIST);
-        expect(actions[1].type).toBe(SET_PAGE);
-        expect(actions[1].payload.page).toEqual(PAGE);
+        expect(actions[0].type).toBe(TOGGLE_LOADING);
+        expect(actions[1].type).toBe(SET_LANGUAGES);
+        expect(actions[1].payload.languages).toEqual(LANGUAGES_LIST);
+        expect(actions[2].type).toBe(SET_PAGE);
+        expect(actions[2].payload.page).toEqual(PAGE);
+        expect(actions[3].type).toBe(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
 
-    it('if API response is not ok, dispatch nothing', (done) => {
+    it('if API response is not ok and has errors, dispatch ADD_ERRORS', (done) => {
       getLanguages.mockImplementation(mockApi({
         ok: false,
+        errors: ERRORS,
       }));
       store.dispatch(fetchLanguages()).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        const actions = store.getActions();
+        expect(actions[0].type).toBe(TOGGLE_LOADING);
+        expect(actions[1].type).toBe(ADD_ERRORS);
+        expect(actions[1].payload.errors).toEqual(ERRORS.map(e => e.message));
+        expect(actions[2].type).toBe(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

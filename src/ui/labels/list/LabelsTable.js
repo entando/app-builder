@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Spinner } from 'patternfly-react';
+
 import LabelListMenuActions from 'ui/labels/list/LabelListMenuActions';
+import DeleteLabelModalContainer from 'ui/labels/common/DeleteLabelModalContainer';
 
 const LabelsTable = ({
-  langName, labels, onClickDelete, loading,
+  langName, labels, onClickDelete,
 }) => (
-  <table className="LabelsTable table table-striped table-bordered table-hover no-mb">
-    <Spinner loading={!!loading}>
+  <div className="LabelsTable">
+    <table className="LabelsTable__table table table-striped table-bordered table-hover no-mb">
       <thead>
         <tr>
           <th className="LabelsTable__th-lg"><FormattedMessage id="app.code" /></th>
@@ -30,8 +31,9 @@ const LabelsTable = ({
           </tr>
           ))}
       </tbody>
-    </Spinner>
-  </table>
+    </table>
+    <DeleteLabelModalContainer />
+  </div>
 );
 LabelsTable.propTypes = {
   labels: PropTypes.arrayOf(PropTypes.shape({
@@ -40,12 +42,10 @@ LabelsTable.propTypes = {
   })).isRequired,
   langName: PropTypes.string.isRequired,
   onClickDelete: PropTypes.func,
-  loading: PropTypes.bool,
 };
 
 LabelsTable.defaultProps = {
   onClickDelete: null,
-  loading: false,
 };
 
 export default LabelsTable;

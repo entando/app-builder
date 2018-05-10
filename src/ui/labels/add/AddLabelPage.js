@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/labels/add/AddFormContainer';
+import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 const AddLabelPage = () => (
   <InternalPage className="AddLabelPage">
@@ -15,6 +16,9 @@ const AddLabelPage = () => (
           <Breadcrumb>
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
+            </BreadcrumbItem>
+            <BreadcrumbItem route={ROUTE_LABELS_AND_LANGUAGES}>
+              <FormattedMessage id="menu.labelsAndLanguages" />
             </BreadcrumbItem>
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern.addLabels" />
