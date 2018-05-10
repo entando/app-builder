@@ -222,6 +222,7 @@ export default {
     'pages.pageForm.mimeTypeHelp': 'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
     'pages.pageForm.saveAndConfigure': 'Save and Configure',
     'pages.seoDescr': 'SEO: When available, use extra titles',
+    'pages.noPageFound': 'No pages found.',
     'pageSettings.title': 'Page Settings',
     'pageSettings.help': 'The PAGE SETTING section let the administrator specify which pages must be used for particular aims and define some general page settings.',
     'pageSettings.input.homepage': 'Home Page',

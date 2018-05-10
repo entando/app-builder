@@ -16,7 +16,7 @@ class PageTreePage extends Component {
   }
 
   renderButton() {
-    if (this.props.search.length > 0) {
+    if (this.props.search) {
       return (
         <Button bsStyle="default" className="pull-right PageTreePage__clear" onClick={this.props.onClear}>
           <FormattedMessage id="pageTree.action.clear" />
@@ -81,7 +81,11 @@ class PageTreePage extends Component {
 PageTreePage.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  search: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  search: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+PageTreePage.defaultProps = {
+  search: null,
 };
 
 export default PageTreePage;
