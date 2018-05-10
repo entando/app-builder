@@ -43,7 +43,7 @@ class PageTreeCompact extends Component {
             </span>
           </td>
           <td className="text-center PageTreeCompact__status-col">
-            <PageStatusIcon status={page.status} />
+            <PageStatusIcon status={page.status} title={page.title} />
           </td>
           <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>

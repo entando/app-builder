@@ -72,7 +72,7 @@ class PageTree extends Component {
             </span>
           </td>
           <td className="text-center">
-            <PageStatusIcon status={page.status} />
+            <PageStatusIcon status={page.status} title={page.title} />
           </td>
           <td className="text-center">
             <FormattedMessage id={page.displayedInMenu ? 'app.yes' : 'app.no'} />
