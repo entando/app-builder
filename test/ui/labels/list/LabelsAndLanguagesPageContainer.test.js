@@ -1,11 +1,37 @@
-
-import { mapDispatchToProps } from 'ui/labels/list/LabelsAndLanguagesPageContainer';
-
+import { mapStateToProps, mapDispatchToProps } from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 
 const dispatchMock = jest.fn();
 
+jest.mock('state/pagination/selectors', () => ({
+  getCurrentPage: jest.fn().mockReturnValue('getCurrentPage_result'),
+  getTotalItems: jest.fn().mockReturnValue('getTotalItems_result'),
+  getPageSize: jest.fn().mockReturnValue('pageSize_result'),
+}));
+
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue({
+    systemLabels: 'loadingLabels_result',
+    languages: 'languages_result',
+  }),
+}));
+
 describe('LabelsAndLanguagesPageContainer', () => {
   beforeEach(jest.clearAllMocks);
+
+  describe('mapStateToProps', () => {
+    let props;
+    beforeEach(() => {
+      props = mapStateToProps({});
+    });
+
+    it('maps correct property state in LabelsTabsContainer', () => {
+      expect(props).toHaveProperty('page', 'getCurrentPage_result');
+      expect(props).toHaveProperty('totalItems', 'getTotalItems_result');
+      expect(props).toHaveProperty('pageSize', 'pageSize_result');
+      expect(props).toHaveProperty('loadingLabels', 'loadingLabels_result');
+      expect(props).toHaveProperty('loadingLangs', 'languages_result');
+    });
+  });
 
   describe('mapDispatchToProps', () => {
     let props;

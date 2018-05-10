@@ -4,7 +4,6 @@ import { Tabs, Tab } from 'patternfly-react';
 
 import LabelsTable from 'ui/labels/list/LabelsTable';
 
-
 const LabelsTabs = ({
   languages, labels, onClickDelete, loading,
 }) => {
@@ -15,6 +14,7 @@ const LabelsTabs = ({
         key={`lang-tab-${lang.code}`}
         eventKey={i}
         title={lang.isDefault ? `${lang.code}*` : lang.code}
+        animation={false}
       >
         <LabelsTable
           langName={lang.name}

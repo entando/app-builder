@@ -19,10 +19,6 @@ export const renderSelectOptions = options => (
 );
 
 export class LanguageFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
-  }
-
   onSubmit = (ev) => {
     ev.preventDefault();
     this.props.handleSubmit();
@@ -75,7 +71,6 @@ LanguageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  onWillMount: PropTypes.func,
   languages: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
@@ -85,7 +80,6 @@ LanguageFormBody.propTypes = {
 LanguageFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  onWillMount: null,
   languages: [],
 };
 
