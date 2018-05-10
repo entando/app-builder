@@ -21,7 +21,7 @@ describe('LabelsForm', () => {
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
-
+          onWillMount={ON_WILL_MOUNT}
         />
       ));
     });
@@ -30,8 +30,8 @@ describe('LabelsForm', () => {
       expect(component.exists()).toBe(true);
     });
 
-    it('has class PageForm', () => {
-      expect(component.hasClass('AddLabelsPageForm')).toBe(true);
+    it('has class LabelsForm', () => {
+      expect(component.hasClass('LabelsForm')).toBe(true);
     });
   });
 
@@ -59,12 +59,13 @@ describe('LabelsForm', () => {
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
+          onWillMount={ON_WILL_MOUNT}
           invalid
         />
       ));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.AddLabelsPageForm__save-btn').prop('disabled')).toBe(true);
+      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(true);
     });
   });
   describe('save button is disabled', () => {
@@ -74,12 +75,13 @@ describe('LabelsForm', () => {
         <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          onWillMount={ON_WILL_MOUNT}
           languages={LANGUAGES}
         />
       ));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.AddLabelsPageForm__save-btn').prop('disabled')).toBe(false);
+      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(false);
     });
   });
   describe('save button is disabled', () => {
@@ -90,6 +92,7 @@ describe('LabelsForm', () => {
         <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          onWillMount={ON_WILL_MOUNT}
           languages={LANGUAGES}
         />
       ));

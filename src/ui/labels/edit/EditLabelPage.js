@@ -5,10 +5,10 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import AddFormContainer from 'ui/labels/add/AddFormContainer';
+import EditFormContainer from 'ui/labels/edit/EditFormContainer';
 
-const AddLabelsPage = () => (
-  <InternalPage className="AddLabelsPage">
+const EditLabelsPage = () => (
+  <InternalPage className="EditLabelsPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -35,7 +35,7 @@ const AddLabelsPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <AddFormContainer />
+          <EditFormContainer />
         </Col>
       </Row>
     </Grid>
@@ -43,4 +43,4 @@ const AddLabelsPage = () => (
 );
 
 
-export default AddLabelsPage;
+export default EditLabelsPage;

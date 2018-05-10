@@ -40,9 +40,9 @@ export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
 export const ROUTE_GROUP_DETAIL = 'groupDetail';
 export const ROUTE_USER_AUTHORITY = 'authorityPage';
-export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
+export const ROUTE_LABEL_EDIT = 'labelEdit';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
@@ -105,9 +105,9 @@ routerConfig(
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
       { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
       { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
-      { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
+      { name: ROUTE_LABEL_EDIT, path: '/labels-languages/edit/:labelCode' },
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
