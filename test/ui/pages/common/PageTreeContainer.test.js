@@ -59,7 +59,6 @@ describe('PageTreeContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props).toHaveProperty('onWillMount');
       expect(props).toHaveProperty('onClickAdd');
       expect(props).toHaveProperty('onClickDelete');
       expect(props).toHaveProperty('onClickPublish');
@@ -69,11 +68,6 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onDropAbovePage');
       expect(props).toHaveProperty('onDropBelowPage');
       expect(props).toHaveProperty('onExpandPage');
-    });
-
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount();
-      expect(fetchSearchPages).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onClickAdd is called', () => {
