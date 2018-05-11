@@ -4,15 +4,23 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 
+const onWillMount = jest.fn();
+
 describe('LabelsAndLanguagesPage', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
+  const props = {
+    page: 1,
+    pageSize: 10,
+    totalItems: 10,
+  };
+
   describe('basic rendering', () => {
     beforeEach(() => {
-      component = shallow(<LabelsAndLanguagesPage />);
+      component = shallow(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />);
     });
 
     it('renders without crashing', () => {
@@ -46,7 +54,25 @@ describe('LabelsAndLanguagesPage', () => {
 
   it('it calls onWillMount at rendering', () => {
     const onWillMountMock = jest.fn();
-    shallow(<LabelsAndLanguagesPage onWillMount={onWillMountMock} />);
+    shallow(<LabelsAndLanguagesPage {...props} onWillMount={onWillMountMock} />);
     expect(onWillMountMock).toHaveBeenCalled();
+  });
+
+  it('on change page, it calls onWillMount with new page data', () => {
+    onWillMount.mockClear();
+    component.instance().changePage(3);
+    expect(onWillMount).toHaveBeenCalledWith({
+      page: 3,
+      pageSize: props.pageSize,
+    });
+  });
+
+  it('on change page size, it calls onWillMount with new page data', () => {
+    onWillMount.mockClear();
+    component.instance().changePageSize(20);
+    expect(onWillMount).toHaveBeenCalledWith({
+      page: props.page,
+      pageSize: 20,
+    });
   });
 });

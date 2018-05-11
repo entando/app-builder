@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getLabels, putLabel, postLabel, deleteLabel } from 'api/labels';
+import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { LABELS_LIST } from 'test/mocks/labels';
 
@@ -81,6 +81,21 @@ describe('api/labels', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('getLabel', () => {
+    it('returns a promise', () => {
+      expect(getLabel(LABEL_KEY)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getLabel(LABEL_KEY);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        method: METHODS.GET,
+        uri: `/api/labels/${LABEL_KEY}`,
+        useAuthentication: true,
+      }));
     });
   });
 

@@ -133,3 +133,12 @@ export const USERS_NORMALIZED = {
     },
   },
 };
+export const AUTHORITIES = [{
+  group: 'free',
+  role: 'editor',
+},
+{
+  group: 'accounting',
+  role: 'supervisor',
+},
+];

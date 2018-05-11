@@ -1,0 +1,31 @@
+// sass-lint:disable class-name-format nesting-depth
+.PagesList {
+
+  height: 275px;
+  margin: 0 -10px;
+  padding: 0 20px 20px;
+  border: $color-pf-black-300 solid 1px;
+
+  @media (max-width: 1499px) {
+    height: auto;
+  }
+
+  @media (max-width: 992px) {
+    margin-top: 25px;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 400;
+
+    .btn {
+      &.pull-right {
+        margin-top: -5px;
+      }
+    }
+  }
+
+  .PagesListTable__table {
+    margin: 2em 0 0 0;
+  }
+}

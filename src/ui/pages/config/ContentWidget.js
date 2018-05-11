@@ -7,18 +7,16 @@ import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidge
 
 
 const renderWidgetCategory = title => (
-  <div key={title} className="ContentWidgetElement__widget-spacer">
-    <h2 className="
-      panel-title
-      ContentWidgetElement__widget-title"
-    >  {title}
+  <div key={`cat-${title}`} className="ContentWidgetElement__widget-spacer">
+    <h2 className="panel-title ContentWidgetElement__widget-title">
+      {title}
     </h2>
   </div>
 );
 
 const renderWidgetElement = el => (
   <DraggableContentWidgetElement
-    key={el.code}
+    key={`wdg-${el.code}`}
     widgetName={el.name}
     widgetId={el.code}
   />

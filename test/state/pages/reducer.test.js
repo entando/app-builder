@@ -233,7 +233,7 @@ describe('state/pages/reducer', () => {
     });
     it('status will be update', () => {
       const newState = reducer(state, clearSearch());
-      expect(newState).toHaveProperty('search', []);
+      expect(newState).toHaveProperty('search', null);
     });
   });
   describe('SET_REFERENCES_SELECTED_PAGE', () => {

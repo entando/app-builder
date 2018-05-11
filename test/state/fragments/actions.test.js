@@ -2,6 +2,8 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
+import { gotoRoute } from '@entando/router';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
 import { mockApi } from 'test/testUtils';
 
@@ -9,7 +11,7 @@ import { config } from '@entando/apimanager';
 import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
-  updateFragmentSettings, removeFragment, sendDeleteFragment,
+  updateFragmentSettings, removeFragment, sendDeleteFragment, sendPostFragment, sendPutFragment,
 } from 'state/fragments/actions';
 import {
   PLUGINS_OK,
@@ -24,6 +26,8 @@ import {
   getFragments,
   getPlugins,
   deleteFragment,
+  postFragment,
+  putFragment,
 } from 'api/fragments';
 
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
@@ -145,8 +149,8 @@ describe('state/fragments/actions', () => {
     });
   });
 
-  describe('test thunks', () => {
-    describe('test fetchFragment', () => {
+  describe('thunks', () => {
+    describe('fetchFragment', () => {
       beforeEach(() => {
         getFragment.mockImplementation(mockApi({ payload: GET_FRAGMENT_OK }));
       });
@@ -168,7 +172,7 @@ describe('state/fragments/actions', () => {
       });
     });
 
-    describe('test fetchFragmentDetail', () => {
+    describe('fetchFragmentDetail', () => {
       it('action payload contains fragment information', (done) => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
@@ -185,7 +189,7 @@ describe('state/fragments/actions', () => {
       });
     });
 
-    describe('test fetchPlugins', () => {
+    describe('fetchPlugins', () => {
       it('action payload contains plugins list', () => {
         getPlugins.mockReturnValue(new Promise(resolve => resolve(PLUGINS_PAYLOAD)));
         store.dispatch(fetchPlugins()).then(() => {
@@ -267,6 +271,50 @@ describe('state/fragments/actions', () => {
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
+      });
+    });
+    describe('sendPostFragment', () => {
+      it('calls postFragment and gotoRoute', () => {
+        store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
+          expect(postFragment).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+        });
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        postFragment.mockImplementationOnce(mockApi({ errors: true }));
+        return store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).catch((e) => {
+          expect(postFragment).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+    describe('sendPutFragment', () => {
+      it('calls putFragment and gotoRoute', () => {
+        store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
+          expect(putFragment).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+        });
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        putFragment.mockImplementationOnce(mockApi({ errors: true }));
+        return store.dispatch(sendPutFragment(GET_FRAGMENT_OK)).catch((e) => {
+          expect(putFragment).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
       });
     });
   });

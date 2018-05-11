@@ -20,34 +20,47 @@ const props = {
 };
 
 describe('PageListSearchTable', () => {
-  let component;
-  beforeEach(() => {
-    component = shallow(<PageListSearchTable page={1} pageSize={1} totalItems={1} {...props} />);
-  });
+  describe('without searchPages', () => {
+    let component;
+    beforeEach(() => {
+      component = shallow(<PageListSearchTable
+        page={1}
+        pageSize={1}
+        totalItems={1}
+        {...props}
+      />);
+    });
 
-  it('renders without crashing', () => {
-    expect(component.exists()).toBe(true);
-  });
+    it('renders without crashing', () => {
+      expect(component).toExist();
+    });
 
-  it('has a table', () => {
-    expect(component.find('table')).toHaveLength(1);
-  });
-
-  it('has a table header', () => {
-    const thead = component.find('thead');
-    expect(thead).toHaveLength(1);
-    expect(thead.find('th')).toHaveLength(3);
-  });
-
-  it('has no rows', () => {
-    const tbody = component.find('tbody');
-    expect(tbody).toHaveLength(1);
-    expect(tbody.find('tr')).toHaveLength(0);
+    it('renders an Alert', () => {
+      const alert = component.find('Alert');
+      expect(alert).toExist();
+    });
   });
 
   describe('with searchPages', () => {
+    let component;
     beforeEach(() => {
-      component.setProps({ searchPages });
+      component = shallow(<PageListSearchTable
+        page={1}
+        pageSize={1}
+        totalItems={1}
+        {...props}
+        searchPages={searchPages}
+      />);
+    });
+
+    it('has a table', () => {
+      expect(component.find('table')).toHaveLength(1);
+    });
+
+    it('has a table header', () => {
+      const thead = component.find('thead');
+      expect(thead).toHaveLength(1);
+      expect(thead.find('th')).toHaveLength(3);
     });
 
     it('has one row if there is one searchPage ', () => {
@@ -62,9 +75,9 @@ describe('PageListSearchTable', () => {
         expect(tr.find('PageTreeActionMenu')).toHaveLength(1);
       });
     });
-  });
 
-  it('has a paginator', () => {
-    expect(component.find('Paginator')).toHaveLength(1);
+    it('has a paginator', () => {
+      expect(component.find('Paginator')).toExist();
+    });
   });
 });

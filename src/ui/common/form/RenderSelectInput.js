@@ -13,7 +13,11 @@ const RenderSelectInput = ({
       <FormLabel labelId={labelId} required={mandatory} />
     </label>
     <Col xs={10}>
-      <Field component="select" name={fieldName} className="form-control" >
+      <Field
+        component="select"
+        name={fieldName}
+        className="form-control"
+      >
         {defaultOptionId &&
           <option value="">
             {formattedText(defaultOptionId)}

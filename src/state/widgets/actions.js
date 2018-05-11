@@ -3,7 +3,6 @@ import { get } from 'lodash';
 import { getParams, gotoRoute } from '@entando/router';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { setPage } from 'state/pagination/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
@@ -88,7 +87,6 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') =>
     response.json().then((json) => {
       if (response.ok) {
         dispatch(getWidgetList(json.payload));
-        dispatch(setPage(json.metaData));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }

@@ -3,9 +3,11 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/dashboard/IntegrationsContainer';
 
 const TEST_STATE = {
-  integrations: {
-    plugins: 2,
-    apis: 5,
+  dashboard: {
+    integrations: {
+      plugins: 2,
+      apis: 5,
+    },
   },
 };
 

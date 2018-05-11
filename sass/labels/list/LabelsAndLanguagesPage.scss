@@ -7,14 +7,34 @@
   &__header-tab {
     display: table-cell;
     padding: 0;
+    background-color: $color-pf-black-100;
+  }
+
+  &__header-tab:hover {
+    background-color: $color-pf-black-600;
+    color: $color-pf-white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__header-tab:hover > a:hover {
+    color: $color-pf-white;
   }
 
   &__tabs > li > a {
+    padding: 0;
     border-color: $color-pf-black-200;
-    line-height: 55px;
   }
 
   .PageTitle__header {
     border-bottom: 0;
   }
 }
+
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.nav-tabs-pattern > li > a {
+  padding: 0;
+  border: 1px solid #eee;
+  line-height: 65px;
+}
+// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

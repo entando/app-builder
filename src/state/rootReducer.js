@@ -28,7 +28,8 @@ import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
 import permissions from 'state/permissions/reducer';
 import alerts from 'state/alerts/reducer';
-import integrations from 'state/integrations/reducer';
+import configuration from 'state/reload-configuration/reducer';
+import dashboard from 'state/dashboard/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 
 const reducerDef = {
@@ -36,7 +37,9 @@ const reducerDef = {
   alerts,
   api,
   categories,
+  configuration,
   currentUser,
+  dashboard,
   dataModels,
   dataTypes,
   errors,
@@ -44,7 +47,6 @@ const reducerDef = {
   form,
   fragments,
   groups,
-  integrations,
   labels,
   languages,
   loading,

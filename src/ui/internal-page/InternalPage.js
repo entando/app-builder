@@ -4,18 +4,19 @@ import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
   ProjectLink,
-  UserDropdown,
   HelpMenu,
   AdminAppSwitch,
   LinkMenuItem,
   FirstLevelMenuItem,
 } from 'frontend-common-components';
 
+import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
+
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
-  ROUTE_ROLE_LIST, ROUTE_FILE_BROWSER,
+  ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_FILE_BROWSER,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -25,13 +26,12 @@ import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'ENTANDO';
-const USERNAME = 'Admin';
+const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
-const TITLE = 'Title';
 const menuHeader = [
   <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
-  <UserDropdown key="userDropdown" userName={USERNAME} />,
+  <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
   <HelpMenu key="helpMenu" />,
 ];
@@ -39,7 +39,7 @@ const menuHeader = [
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
-    <BrandMenu title={TITLE} header={menuHeader} >
+    <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
       <LinkMenuItem
         id="menu-dashboard"
         label={formattedText('menu.dashboard', 'Dashboard')}
@@ -136,6 +136,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-labels-languages"
           label={formattedText('menu.labelsAndLanguages')}
           route={ROUTE_LABELS_AND_LANGUAGES}
+        />
+        <LinkMenuItem
+          id="menu-reload-configuration"
+          label={formattedText('menu.reloadConfiguration')}
+          route={ROUTE_RELOAD_CONFIG}
         />
         <LinkMenuItem
           id="menu-labels-file-browser"

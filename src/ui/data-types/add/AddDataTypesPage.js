@@ -5,8 +5,9 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DataTypeFormContainer from 'ui/data-types/common/DataTypeFormContainer';
+import AddFormContainer from 'ui/data-types/add/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
+
 
 const AddDataTypesPage = () => (
   <InternalPage className="AddDataTypesPage">
@@ -26,17 +27,13 @@ const AddDataTypesPage = () => (
           </Breadcrumb>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <PageTitle
-            titleId="app.add"
-            helpId="dataType.help"
-          />
-        </Col>
-      </Row>
+      <PageTitle
+        titleId="app.add"
+        helpId="dataType.help"
+      />
       <Row>
         <Col xs={12} >
-          <DataTypeFormContainer />
+          <AddFormContainer />
         </Col>
       </Row>
     </Grid>

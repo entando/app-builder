@@ -2,9 +2,14 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
-import { DATA_TYPE_GET_PAYLOAD } from 'test/mocks/dataTypes';
+import { DATA_TYPES } from 'test/mocks/dataTypes';
 
-const { attributes } = DATA_TYPE_GET_PAYLOAD.payload;
+const { attributes } = DATA_TYPES;
+const props = {
+  routeToEdit: '',
+  code: 'code',
+  datatypeCode: '',
+};
 
 jest.mock('state/users/selectors', () => ({
   getAttributeList: jest.fn(),
@@ -13,11 +18,11 @@ jest.mock('state/users/selectors', () => ({
 describe('AttributeListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AttributeListTable />);
+    component = shallow(<AttributeListTable {...props} />);
   });
 
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   describe('test table component', () => {

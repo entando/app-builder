@@ -8,6 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/data-types/edit/EditFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
+
 const EditDataTypesPage = () => (
   <InternalPage className="EditDataTypesPage">
     <Grid fluid>
@@ -26,14 +27,10 @@ const EditDataTypesPage = () => (
           </Breadcrumb>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <PageTitle
-            titleId="app.edit"
-            helpId="dataType.help"
-          />
-        </Col>
-      </Row>
+      <PageTitle
+        titleId="app.edit"
+        helpId="dataType.help"
+      />
       <Row>
         <Col xs={12} >
           <EditFormContainer />

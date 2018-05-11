@@ -278,6 +278,8 @@ describe('state/page-config/actions', () => {
       store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+        expect(deletePageWidget)
+          .toHaveBeenCalledWith(CURRENT_PAGE_CODE, OLD_FRAME_ID);
         expect(putPageWidget)
           .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
         done();

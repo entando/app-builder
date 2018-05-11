@@ -1,4 +1,5 @@
 const path = require('path');
+const { isString } = require('lodash');
 
 const Log = require('./scripts/Log.js');
 const importPluginsAssets = require('./scripts/importPluginsAssets.js');
@@ -16,7 +17,15 @@ const pluginDefs = require(PLUGIN_DEFINITIONS_PATH) || [];
 
 
 // enhance pluginDefs object to add paths
-const pluginDefsEnhanced = pluginDefs.map((plugin) => {
+const pluginDefsEnhanced = pluginDefs.map((pluginItem) => {
+  let plugin;
+  if (isString(pluginItem)) {
+    plugin = { name: pluginItem, path: `../entando-components/plugins/${pluginItem}/app-builder` };
+  } else if (pluginItem.name && !pluginItem.path) {
+    plugin = { ...pluginItem, path: `../entando-components/plugins/${pluginItem.name}/app-builder` };
+  } else {
+    plugin = { ...pluginItem };
+  }
   const rootPath = path.resolve(plugin.path);
   const res = { ...plugin };
   res.path = {

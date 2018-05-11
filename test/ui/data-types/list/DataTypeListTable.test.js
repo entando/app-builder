@@ -15,7 +15,12 @@ jest.mock('state/data-types/selectors', () => ({
 describe('DataTypeListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DataTypeListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallow(<DataTypeListTable
+      datatype={dataTypes}
+      page={1}
+      pageSize={1}
+      totalItems={1}
+    />);
   });
 
   it('renders without crashing', () => {
@@ -24,7 +29,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable pageSize={1} totalItems={1} />);
+    shallow(<DataTypeListTable datatype={dataTypes} pageSize={1} totalItems={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();

@@ -38,7 +38,7 @@ export class RoleFormBody extends Component {
             <fieldset className="no-padding">
               <legend>
                 <div className="RoleForm__required-fields text-right">
-                * <FormattedMessage id="app.fieldsRequired" />
+                  * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
               <Field

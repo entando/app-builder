@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Row, Col, FormGroup, Button } from 'patternfly-react';
+import { Row, Col, FormGroup, Button, Alert } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
 
 
@@ -14,11 +14,15 @@ class UserAuthorityTable extends Component {
   }
 
   onClickAdd() {
-    const { fields } = this.props;
+    const { fields, groupRolesCombo } = this.props;
     if (this.group.value === this.role.value) {
       return;
     }
-    if (this.group.value || this.role.value) {
+
+    const isPresent = Boolean(groupRolesCombo
+      .find(item => item.group.code === this.group.value && item.role.code === this.role.value));
+
+    if (!isPresent) {
       fields.push({
         group: this.group.value,
         role: this.role.value,
@@ -30,9 +34,9 @@ class UserAuthorityTable extends Component {
     if (this.props.groupRolesCombo.length === 0) {
       return (
         <div>
-          <p>
+          <Alert type="info">
             <FormattedMessage id="user.authority.noAuthYet" />
-          </p>
+          </Alert>
           <hr />
         </div>
       );
@@ -60,50 +64,51 @@ class UserAuthorityTable extends Component {
   }
 
   render() {
-    const { groups, roles, fields } = this.props;
+    const {
+      groupRolesCombo, groups, roles, fields,
+    } = this.props;
     const groupsWithEmpty =
           [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
     const rolesWithEmpty =
           [{ code: '', name: formattedText('app.chooseAnOption') }].concat(roles);
     const groupOptions =
-        groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.name}>{gr.name}</option>));
+        groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
     const rolesOptions =
-        rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.name}>{rl.name}</option>));
+        rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.code}>{rl.name}</option>));
 
-    const renderRow = this.props.groupRolesCombo.map((item, index) => (
-      // eslint-disable-next-line
-        <tr key={`groupRole-${index}`}>
-          <td className="UserAuthorityTable__td">{item.group}</td>
-          <td className="UserAuthorityTable__td text-center">{item.role}</td>
-          <td className="UserAuthorityTable__td text-center">
-            <Button
-              bsStyle="link"
-              className="UserAuthorityTable__delete-tag-btn"
-              onClick={() => fields.remove(index)}
-            >
-              <i className="fa fa-trash-o" />
-            </Button>
-          </td>
-        </tr>
+    const renderRow = groupRolesCombo.map((item, index) => (
+      <tr key={`groupRole-${parseInt(index, 10)}`}>
+        <td className="UserAuthorityTable__td">{item.group.name}</td>
+        <td className="UserAuthorityTable__td text-center">{item.role.name}</td>
+        <td className="UserAuthorityTable__td text-center">
+          <Button
+            bsStyle="link"
+            className="UserAuthorityTable__delete-tag-btn"
+            onClick={() => fields.remove(index)}
+          >
+            <i className="fa fa-trash-o" />
+          </Button>
+        </td>
+      </tr>
     ));
 
     return (
       <div className="UserAuthorityTable" >
         {this.renderTable(renderRow)}
         <Row>
-          <Col sm={12}>
+          <Col xs={12}>
             <h1><FormattedMessage id="user.authority.new" /></h1>
           </Col>
         </Row>
         <FormGroup>
           <Row>
-            <label className="control-label col-sm-2" htmlFor="widgetType">
+            <label className="control-label col-xs-2" htmlFor="group">
               <FormattedMessage id="user.authority.groups" />
             </label>
-            <Col sm={9}>
+            <Col xs={9}>
               <select
                 className="form-control"
-                name="roles"
+                name="group"
                 ref={(group) => { this.group = group; }}
               >
                 {groupOptions}
@@ -113,10 +118,10 @@ class UserAuthorityTable extends Component {
         </FormGroup>
         <FormGroup>
           <Row>
-            <label className="control-label col-sm-2" htmlFor="plugin">
+            <label className="control-label col-xs-2" htmlFor="roles">
               <FormattedMessage id="user.authority.roles" />
             </label>
-            <Col sm={9}>
+            <Col xs={9}>
               <select
                 className="form-control"
                 name="roles"
@@ -157,15 +162,16 @@ UserAuthorityTable.propTypes = {
   })),
   fields: PropTypes.shape({}).isRequired,
   groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
-    group: PropTypes.string,
-    role: PropTypes.string,
+    group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
+    role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
   })),
+
 };
 
 UserAuthorityTable.defaultProps = {
   groups: [],
   roles: [],
-  groupRolesCombo: [],
+  groupRolesCombo: {},
 };
 
 export default UserAuthorityTable;

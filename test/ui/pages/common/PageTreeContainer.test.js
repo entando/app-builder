@@ -4,7 +4,7 @@ import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
   setSelectedPage, publishSelectedPage, unpublishSelectedPage, handleExpandPage,
-  setPageParent, movePageAbove, movePageBelow, clonePage, fetchSearchPages,
+  setPageParent, movePageAbove, movePageBelow, clonePage, clearSearchPage,
 } from 'state/pages/actions';
 
 jest.mock('state/pages/actions', () => ({
@@ -59,11 +59,13 @@ describe('PageTreeContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props).toHaveProperty('onWillMount');
       expect(props).toHaveProperty('onClickAdd');
+      expect(props).toHaveProperty('onClickEdit');
+      expect(props).toHaveProperty('onClickConfigure');
       expect(props).toHaveProperty('onClickDelete');
       expect(props).toHaveProperty('onClickPublish');
       expect(props).toHaveProperty('onClickUnPublish');
+      expect(props).toHaveProperty('onClickDetails');
       expect(props).toHaveProperty('onClickClone');
       expect(props).toHaveProperty('onDropIntoPage');
       expect(props).toHaveProperty('onDropAbovePage');
@@ -71,13 +73,22 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onExpandPage');
     });
 
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount();
-      expect(fetchSearchPages).toHaveBeenCalled();
-    });
-
     it('should dispatch an action if onClickAdd is called', () => {
       props.onClickAdd('pagecode');
+      expect(gotoRoute).toHaveBeenCalled();
+    });
+
+    it('should dispatch "setSelectedPage" then "gotoRoute" action if "onClickEdit" is called', () => {
+      props.onClickEdit('pagecode');
+      expect(setSelectedPage).toHaveBeenCalled();
+      expect(clearSearchPage).toHaveBeenCalled();
+      expect(gotoRoute).toHaveBeenCalled();
+    });
+
+    it('should dispatch "setSelectedPage" then "gotoRoute" action if "onClickConfigure" is called', () => {
+      props.onClickConfigure('pagecode');
+      expect(setSelectedPage).toHaveBeenCalled();
+      expect(clearSearchPage).toHaveBeenCalled();
       expect(gotoRoute).toHaveBeenCalled();
     });
 
@@ -102,6 +113,13 @@ describe('PageTreeContainer', () => {
       props.onClickUnPublish({ code: 'code', status: 'unpublish' });
       expect(setSelectedPage).toHaveBeenCalled();
       expect(unpublishSelectedPage).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if "onClickDetails" is called', () => {
+      props.onClickDetails('pagecode');
+      expect(setSelectedPage).toHaveBeenCalled();
+      expect(clearSearchPage).toHaveBeenCalled();
+      expect(gotoRoute).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onExpandPage is called', () => {

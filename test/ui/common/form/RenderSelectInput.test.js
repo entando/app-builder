@@ -10,7 +10,6 @@ const SELECT_OPTIONS = [
   { value: 2, text: 'option 2' },
   { value: 3, text: 'option 3' },
 ];
-// options, labelId, fieldName, mandatory,
 
 describe('RenderSelectInput', () => {
   let selectInput;

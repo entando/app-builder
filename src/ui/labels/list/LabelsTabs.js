@@ -4,9 +4,8 @@ import { Tabs, Tab } from 'patternfly-react';
 
 import LabelsTable from 'ui/labels/list/LabelsTable';
 
-
 const LabelsTabs = ({
-  languages, labels, onClickEditLabel, onClickDeleteLabel, loading,
+  languages, labels, onClickDelete, loading,
 }) => {
   const tabs = languages
     .sort(a => (a.isDefault ? -1 : 1))
@@ -15,12 +14,12 @@ const LabelsTabs = ({
         key={`lang-tab-${lang.code}`}
         eventKey={i}
         title={lang.isDefault ? `${lang.code}*` : lang.code}
+        animation={false}
       >
         <LabelsTable
-          langName={lang.description}
+          langName={lang.name}
           labels={labels.map(label => ({ key: label.key, value: label.titles[lang.code] }))}
-          onClickEditLabel={onClickEditLabel}
-          onClickDeleteLabel={onClickDeleteLabel}
+          onClickDelete={onClickDelete}
           loading={loading}
         />
       </Tab>
@@ -35,16 +34,14 @@ const LabelsTabs = ({
 LabelsTabs.propTypes = {
   labels: PropTypes.arrayOf(PropTypes.shape({})),
   languages: PropTypes.arrayOf(PropTypes.shape({})),
-  onClickEditLabel: PropTypes.func,
-  onClickDeleteLabel: PropTypes.func,
+  onClickDelete: PropTypes.func,
   loading: PropTypes.bool,
 };
 
 LabelsTabs.defaultProps = {
   labels: [],
   languages: [],
-  onClickEditLabel: null,
-  onClickDeleteLabel: null,
+  onClickDelete: null,
   loading: false,
 };
 
