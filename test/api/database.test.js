@@ -4,6 +4,7 @@ import {
   getDatabaseInitBackup,
   deleteDatabaseBackup,
   postStartBackup,
+  getStatusBackup,
 } from 'api/database';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATABASE_DUMP_REPORT_LIST, DATABASE_INIT_BACKUP } from 'test/mocks/database';
@@ -77,8 +78,23 @@ describe('api/database', () => {
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/database/startBackup',
         method: METHODS.POST,
-        bosy: {},
+        body: {},
         mockResponse: { status: 1 },
+        useAuthentication: true,
+      });
+    });
+  });
+  describe('getStatusBackup', () => {
+    it('return a promise ', () => {
+      expect(getStatusBackup()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getStatusBackup();
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/database/status',
+        method: METHODS.GET,
+        mockResponse: { status: 0 },
         useAuthentication: true,
       });
     });

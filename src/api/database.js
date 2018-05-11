@@ -40,3 +40,12 @@ export const postStartBackup = () => (
     useAuthentication: true,
   })
 );
+
+export const getStatusBackup = () => (
+  makeRequest({
+    uri: '/api/database/status',
+    method: METHODS.GET,
+    mockResponse: { status: 0 },
+    useAuthentication: true,
+  })
+);

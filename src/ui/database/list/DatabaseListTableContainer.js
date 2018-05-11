@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { getLoading } from 'state/loading/selectors';
 import DatabaseListTable from 'ui/database/list/DatabaseListTable';
 import { fetchDatabaseDumpReport } from 'state/database/actions';
 import { getDatabaseDumpList } from 'state/database/selectors';
@@ -7,6 +8,7 @@ import { MODAL_ID } from 'ui/database/common/DeleteDatabaseModal';
 
 export const mapStateToProps = state => ({
   databases: getDatabaseDumpList(state),
+  loading: getLoading(state).database,
 });
 
 export const mapDispatchToProps = dispatch => ({

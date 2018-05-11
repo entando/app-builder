@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { SET_DATABASE_DUMPS, SET_DATABASE_INIT_BACKUP } from 'state/database/types';
+import {
+  SET_DATABASE_DUMPS,
+  SET_DATABASE_INIT_BACKUP,
+  SET_DATABASE_STATUS_BACKUP,
+
+} from 'state/database/types';
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -31,8 +36,17 @@ export const init = (state = [], action = {}) => {
   }
 };
 
+export const status = (state = 0, action = {}) => {
+  switch (action.type) {
+    case SET_DATABASE_STATUS_BACKUP: {
+      return parseInt(action.payload.status, 10);
+    }
+    default: return state;
+  }
+};
 export default combineReducers({
   list,
   map,
   init,
+  status,
 });

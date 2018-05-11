@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Button, Alert } from 'patternfly-react';
+import { Col, Button, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModalContainer';
 
@@ -50,31 +50,33 @@ class DatabaseListTable extends Component {
       );
     }
     return (
-      <Col xs={12}>
-        <table className="databasesListTable__table table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th className="databasesListTable__th-lg"><FormattedMessage id="app.code" /></th>
-              <th className="databasesListTable__th-lg"><FormattedMessage id="app.date" /></th>
-              <th className="databasesListTable__th-lg"><FormattedMessage id="app.requiredTime" /></th>
-              <th className="databasesListTable__th-xs text-center">
-                <FormattedMessage id="app.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderTableRows()}
-          </tbody>
-        </table>
-      </Col>
+
+      <table className="DatabaseListTable__table table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th className="databasesListTable__th-lg"><FormattedMessage id="app.code" /></th>
+            <th className="databasesListTable__th-lg"><FormattedMessage id="app.date" /></th>
+            <th className="databasesListTable__th-lg"><FormattedMessage id="app.requiredTime" /></th>
+            <th className="databasesListTable__th-xs text-center">
+              <FormattedMessage id="app.actions" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.renderTableRows()}
+        </tbody>
+      </table>
+
     );
   }
 
   render() {
     return (
       <div className="DatabaseListTable">
-        {this.renderTable()}
-        <DeleteDatabaseModalContainer />
+        <Spinner loading={!!this.props.loading}>
+          {this.renderTable()}
+          <DeleteDatabaseModalContainer />
+        </Spinner>
       </div>
     );
   }
@@ -88,10 +90,12 @@ DatabaseListTable.propTypes = {
     date: PropTypes.string.isRequired,
     requiredTime: PropTypes.number.isRequired,
   })),
+  loading: PropTypes.bool,
 };
 
 DatabaseListTable.defaultProps = {
   databases: [],
+  loading: false,
 };
 
 export default DatabaseListTable;

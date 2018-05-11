@@ -2,6 +2,7 @@ import reducer from 'state/database/reducer';
 import {
   setDatabaseDumps,
   setDatabaseInitBackup,
+  setStatusBackup,
 } from 'state/database/actions';
 import {
   DATABASE_DUMP_REPORT_LIST,
@@ -43,6 +44,16 @@ describe('database/reducer', () => {
       expect(newState).toHaveProperty('init');
       expect(newState.init).toBeInstanceOf(Array);
       expect(newState.init).toEqual(expect.objectContaining(DATABASE_INIT_BACKUP));
+    });
+  });
+
+  describe('after action SET_DATABASE_STATUS_BACKUP', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setStatusBackup(0));
+    });
+    it('status reducer', () => {
+      expect(newState).toHaveProperty('status', 0);
     });
   });
 });

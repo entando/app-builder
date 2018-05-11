@@ -4,7 +4,8 @@ const getDatabaseList = state => state.database.list;
 const getDatabaseMap = state => state.database.map;
 
 export const getDatabaseInit = state => state.database.init;
-// eslint-disable-next-line
+export const getDatabaseStatusBackup = state => state.database.status;
+
 export const getDatabaseDumpList = createSelector(
   getDatabaseList, getDatabaseMap,
   (list, map) => list.map(id => (map[id])),
