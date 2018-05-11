@@ -272,6 +272,8 @@ export default {
     'database.gotoList': 'Vai alla lista dei backup',
     'database.backup': 'Avvia backup',
     'database.noTable': 'Non ci sono tablelle per il backup',
+    'database.componentName': 'Nome Componente',
+    'database.dumpDate': 'Data backup',
     'label.detail.title': 'Etichette',
     'labels.code.placeholder': 'codice',
     'labels.default.language': 'Lingua Predefinita',

@@ -55,7 +55,7 @@ export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 export const ROUTE_DATABASE_LIST = 'databaseList';
 export const ROUTE_DATABASE_ADD = 'databaseAdd';
-
+export const ROUTE_DATABASE_REPORT = 'databaseReport';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 
 routerConfig(
@@ -114,10 +114,10 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
-
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
       { name: ROUTE_DATABASE_LIST, path: '/database' },
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
+      { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

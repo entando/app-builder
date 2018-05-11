@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Button, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from '@entando/router';
+import { ROUTE_DATABASE_REPORT } from 'app-init/router';
 import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModalContainer';
 
 class DatabaseListTable extends Component {
@@ -23,8 +25,14 @@ class DatabaseListTable extends Component {
     return this.props.databases.map((database, i) => (
       <tr key={`${database.code}-${database.date}`}>
         <td className="DatabaseListRow__td">{database.code}</td>
-        <td className="DatabaseListRow__td"><code>{database.date}</code></td>
-        <td className="DatabaseListRow__td">{database.requiredTime}&nbsp;<FormattedMessage id="app.milliseconds" /> </td>
+        <td className="DatabaseListRow__td">
+          <Link route={ROUTE_DATABASE_REPORT} params={{ dumpCode: database.code }}>
+            <code>{database.date}</code>
+          </Link>
+        </td>
+        <td className="DatabaseListRow__td">
+          {database.requiredTime}&nbsp;<FormattedMessage id="app.milliseconds" />
+        </td>
         <td className="DatabaseListRow__td text-center">
           <Button
             bsStyle="link"

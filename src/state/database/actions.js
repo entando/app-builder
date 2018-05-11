@@ -1,4 +1,4 @@
-import { gotoRoute } from '@entando/router';
+import { gotoRoute, getParams } from '@entando/router';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -7,6 +7,7 @@ import {
   SET_DATABASE_DUMPS,
   SET_DATABASE_INIT_BACKUP,
   SET_DATABASE_STATUS_BACKUP,
+  SET_DATABASE_REPORT_BACKUP,
 } from 'state/database/types';
 import {
   getDatabaseDumpReportList,
@@ -14,6 +15,7 @@ import {
   deleteDatabaseBackup,
   postStartBackup,
   getStatusBackup,
+  getReportBackup,
 } from 'api/database';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
@@ -41,7 +43,30 @@ export const setStatusBackup = status => ({
   },
 });
 
+export const setReportBackup = report => ({
+  type: SET_DATABASE_REPORT_BACKUP,
+  payload: {
+    report,
+  },
+});
+
 // thunk
+export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const { dumpCode } = getParams(getState());
+    getReportBackup(dumpCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setReportBackup(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
 export const fetchDatabaseStatusBackup = () => dispatch => (
   new Promise((resolve) => {
     getStatusBackup().then((response) => {

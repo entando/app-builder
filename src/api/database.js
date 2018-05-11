@@ -49,3 +49,12 @@ export const getStatusBackup = () => (
     useAuthentication: true,
   })
 );
+
+export const getReportBackup = dumpCode => (
+  makeRequest({
+    uri: `/api/database/report/${dumpCode}`,
+    method: METHODS.GET,
+    mockResponse: [],
+    useAuthentication: true,
+  })
+);

@@ -3,6 +3,7 @@ import {
   SET_DATABASE_DUMPS,
   SET_DATABASE_INIT_BACKUP,
   SET_DATABASE_STATUS_BACKUP,
+  SET_DATABASE_REPORT_BACKUP,
 
 } from 'state/database/types';
 
@@ -44,9 +45,20 @@ export const status = (state = 0, action = {}) => {
     default: return state;
   }
 };
+
+export const report = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_DATABASE_REPORT_BACKUP: {
+      return action.payload.report;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map,
   init,
   status,
+  report,
 });

@@ -18,21 +18,25 @@ import {
   deleteDatabaseBackup,
   postStartBackup,
   getStatusBackup,
+  getReportBackup,
 } from 'api/database';
 import {
   SET_DATABASE_DUMPS,
   SET_DATABASE_INIT_BACKUP,
   SET_DATABASE_STATUS_BACKUP,
+  SET_DATABASE_REPORT_BACKUP,
 } from 'state/database/types';
 import {
   setStatusBackup,
   setDatabaseDumps,
   setDatabaseInitBackup,
+  setDatabaseReportBackup,
   fetchDatabaseDumpReport,
   fetchDatabaseInitBackup,
   sendDeleteDatabaseBackup,
   sendPostDatabaseStartBackup,
   fetchDatabaseStatusBackup,
+  fetchDatabaseReportBackup,
 } from 'state/database/actions';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
@@ -107,8 +111,38 @@ describe('state/database/actions', () => {
         expect(action).toHaveProperty('payload.database', DATABASE_DUMP_REPORT_LIST);
       });
     });
+
+    describe('setDatabaseReportBackup', () => {
+      beforeEach(() => {
+        action = setDatabaseReportBackup({});
+      });
+      it('is FSA compliant', () => {
+        expect(isFSA(action)).toBe(true);
+      });
+
+      it('actions is correct setup ', () => {
+        expect(action).toHaveProperty('type', SET_DATABASE_REPORT_BACKUP);
+        expect(action).toHaveProperty('payload.report', {});
+      });
+    });
   });
   describe('thunk', () => {
+    describe('fetchDatabaseReportBackup', () => {
+      it('calls fetchDatabaseReportBackup and calls SET_DATABASE_REPORT_BACKUP', (done) => {
+        store.dispatch(fetchDatabaseReportBackup('code')).then(() => {
+          expect(getReportBackup).toHaveBeenCalledWith('code');
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_DATABASE_REPORT_BACKUP);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        wrapErrorTest(done)(fetchDatabaseReportBackup, getReportBackup)();
+      });
+    });
+
     describe('fetchDatabaseStatusBackup', () => {
       it('calls fetchDatabaseStatusBackup and calls SET_DATABASE_STATUS_BACKUP', (done) => {
         store.dispatch(fetchDatabaseStatusBackup()).then(() => {
