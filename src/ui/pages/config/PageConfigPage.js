@@ -14,7 +14,8 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-
+import { gotoRoute } from '@entando/router';
+import { ROUTE_PAGE_PREVIEW } from 'app-init/router';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
@@ -46,7 +47,7 @@ class PageConfigPage extends Component {
     const {
       pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault,
+      applyDefaultConfig, pageConfigMatchesDefault, pageCode,
     } = this.props;
 
     let defaultConfigBtn;
@@ -103,7 +104,7 @@ class PageConfigPage extends Component {
                     >
                       <FormattedMessage id="app.info" />
                     </Button>
-                    <Button bsStyle="primary" onClick={this.toggleInfoTable}>
+                    <Button bsStyle="primary" onClick={() => (gotoRoute(ROUTE_PAGE_PREVIEW, { pageCode }))}>
                       <FormattedMessage id="app.preview" />
                     </Button>
                   </ButtonToolbar>
@@ -193,6 +194,7 @@ class PageConfigPage extends Component {
 }
 
 PageConfigPage.propTypes = {
+  pageCode: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   pageName: PropTypes.string,
@@ -210,6 +212,7 @@ PageConfigPage.propTypes = {
 };
 
 PageConfigPage.defaultProps = {
+  pageCode: '',
   onWillMount: null,
   onWillUnmount: null,
   pageName: '',
