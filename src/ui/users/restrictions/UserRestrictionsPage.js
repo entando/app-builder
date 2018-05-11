@@ -5,6 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
 
 const ListUserPage = () => (
   <InternalPage className="UserListPage">
@@ -27,6 +28,11 @@ const ListUserPage = () => (
             titleId="user.restrictions.title"
             helpId="user.restrictions.help"
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <RestrictionsFormContainer />
         </Col>
       </Row>
     </Grid>
