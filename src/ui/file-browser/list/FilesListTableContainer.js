@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
 
 import { fetchFileList } from 'state/file-browser/actions';
-import { getFileList } from 'state/file-browser/selectors';
+import { getFileList, getPathInfo } from 'state/file-browser/selectors';
 import { getLoading } from 'state/loading/selectors';
 import FilesListTable from 'ui/file-browser/list/FilesListTable';
 
 export const mapStateToProps = state => (
   {
     files: getFileList(state),
+    pathInfo: getPathInfo(state),
     loading: getLoading(state).files,
   }
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
-    dispatch(fetchFileList());
+  onWillMount: (protectedFolder = '', path = '') => {
+    dispatch(fetchFileList(protectedFolder, path));
   },
 });
 

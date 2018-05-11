@@ -27,5 +27,15 @@ describe('api/fileBrowser', () => {
         useAuthentication: true,
       });
     });
+
+    it('makes the correct request with query string', () => {
+      getFileBrowser('?queryString=test');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/fileBrowser?queryString=test',
+        method: METHODS.GET,
+        mockResponse: FILE_BROWSER,
+        useAuthentication: true,
+      });
+    });
   });
 });

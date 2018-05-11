@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const FILE_BROWSER = [
   {
     name: 'conf',
@@ -13,5 +12,24 @@ export const FILE_BROWSER = [
     size: 12194,
     directory: false,
     path: 'folder/subfolder1/entando_logo.jpg',
+  },
+];
+
+export const FILE_BROWSER_ROOT_FOLDER = [
+  {
+    name: 'public',
+    lastModifiedTime: null,
+    size: null,
+    directory: true,
+    path: 'public',
+    protectedFolder: false,
+  },
+  {
+    name: 'protected',
+    lastModifiedTime: null,
+    size: null,
+    directory: true,
+    path: 'protected',
+    protectedFolder: true,
   },
 ];
