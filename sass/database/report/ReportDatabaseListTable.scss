@@ -1,23 +1,2 @@
 .ReportDatabaseListTable {
-
-  &__panel-accordion-detail {
-    border: 0;
-  }
-
-  &__panel-detail {
-    border: 0;
-    background-color: $color-pf-black-100;
- }
-
-  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-  &__panel-detail.panel.panel-default > .panel-heading {
-    background: $color-pf-black-100;
- }
-
-
-
-  &__panel-title {
-    align-items: center;
-    text-align: center;
-  }
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner } from 'patternfly-react';
-import { PanelGroup, Panel } from 'react-bootstrap';
+import { Spinner, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import ReportDatabaseListDataSource from 'ui/database/report/ReportDatabaseListDataSource';
 
 class ReportDatabaseListTable extends Component {
   renderTableRows() {
@@ -17,7 +17,6 @@ class ReportDatabaseListTable extends Component {
 
   renderTable() {
     return (
-
       <table className="ReportDatabaseListTable__table table table-striped table-bordered">
         <thead>
           <tr>
@@ -28,10 +27,7 @@ class ReportDatabaseListTable extends Component {
         <tbody>
           {this.renderTableRows()}
         </tbody>
-
       </table>
-
-
     );
   }
   render() {
@@ -39,16 +35,10 @@ class ReportDatabaseListTable extends Component {
       <div className="ReportDatabaseListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
-
-          <PanelGroup accordion id="accordion-details" className="ReportDatabaseListTable__panel-accordion-detail">
-            <Panel eventKey="1" className="ReportDatabaseListTable__panel-detail">
-              <Panel.Heading>
-                <Panel.Title toggle className="ReportDatabaseListTable__panel-title"> DataSource Details</Panel.Title>
-              </Panel.Heading>
-              <Panel.Body collapsible />
-            </Panel>
-          </PanelGroup>
-
+          <ReportDatabaseListDataSource />
+          <Button className="ReportDatabaseListTable__restore pull-right" bsStyle="primary">
+            <FormattedMessage id="database.restore" />
+          </Button>
         </Spinner>
       </div>
     );
