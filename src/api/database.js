@@ -58,3 +58,12 @@ export const getReportBackup = dumpCode => (
     useAuthentication: true,
   })
 );
+
+export const getDatabaseTableDump = (dumpCode, dataSource, tableName) => (
+  makeRequest({
+    uri: `/api/database/report/${dumpCode}/${dataSource}/${tableName}`,
+    method: METHODS.GET,
+    mockResponse: { base64: '' },
+    useAuthentication: true,
+  })
+);

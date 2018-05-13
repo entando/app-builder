@@ -9,3 +9,4 @@ export const getDatabaseInitBackup = jest.fn(mockApi({ payload: DATABASE_INIT_BA
 export const deleteDatabaseBackup = jest.fn(mockApi({ payload: {} }));
 export const postStartBackup = jest.fn(mockApi({ payload: { status: 1 } }));
 export const getStatusBackup = jest.fn(mockApi({ payload: { status: 0 } }));
+export const getDatabaseTableDump = jest.fn(mockApi({ payload: { base64: '' } }));

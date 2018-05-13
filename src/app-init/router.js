@@ -56,6 +56,7 @@ export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 export const ROUTE_DATABASE_LIST = 'databaseList';
 export const ROUTE_DATABASE_ADD = 'databaseAdd';
 export const ROUTE_DATABASE_REPORT = 'databaseReport';
+export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 
 routerConfig(
@@ -118,6 +119,7 @@ routerConfig(
       { name: ROUTE_DATABASE_LIST, path: '/database' },
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
+      { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

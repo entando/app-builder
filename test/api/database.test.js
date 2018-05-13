@@ -6,6 +6,7 @@ import {
   postStartBackup,
   getStatusBackup,
   getReportBackup,
+  getDatabaseTableDump,
 } from 'api/database';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATABASE_DUMP_REPORT_LIST, DATABASE_INIT_BACKUP } from 'test/mocks/database';
@@ -112,6 +113,22 @@ describe('api/database', () => {
         uri: '/api/database/report/code',
         method: METHODS.GET,
         mockResponse: [],
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getDatabaseTableDump', () => {
+    it('return a promise ', () => {
+      expect(getDatabaseTableDump()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getDatabaseTableDump('code', 'servDataSource', 'sysconfig');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/database/report/code/servDataSource/sysconfig',
+        method: METHODS.GET,
+        mockResponse: { base64: '' },
         useAuthentication: true,
       });
     });

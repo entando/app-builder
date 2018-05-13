@@ -31,11 +31,12 @@ class ReportDatabaseListTable extends Component {
     );
   }
   render() {
+    const { dataSourcesReports } = this.props.report;
     return (
       <div className="ReportDatabaseListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
-          <ReportDatabaseListDataSource />
+          <ReportDatabaseListDataSource dataSourcesReports={dataSourcesReports} />
           <Button className="ReportDatabaseListTable__restore pull-right" bsStyle="primary">
             <FormattedMessage id="database.restore" />
           </Button>
@@ -47,15 +48,19 @@ class ReportDatabaseListTable extends Component {
 
 ReportDatabaseListTable.propTypes = {
   report: PropTypes.shape({
+    dataSourcesReports: PropTypes.shape({}),
     componentsHistory:
-      PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      PropTypes.arrayOf(PropTypes.shape({})),
   }),
   loading: PropTypes.bool,
 };
 
 ReportDatabaseListTable.defaultProps = {
   loading: false,
-  report: [],
+  report: {
+    dataSourcesReports: {},
+    componentsHistory: [],
+  },
 };
 
 export default ReportDatabaseListTable;

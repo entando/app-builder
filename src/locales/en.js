@@ -277,6 +277,7 @@ export default {
     'database.noTable': 'No table to backup',
     'database.componentName': 'Component Name',
     'database.dumpDate': 'Dump Date',
+    'database.datasource': 'Datasource',
     'labelsAndLanguages.help': 'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
     'label.searchForm.text': 'Search by text',
     'label.searchForm.title': 'Search for existing label',

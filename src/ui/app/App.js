@@ -53,6 +53,7 @@ import {
   ROUTE_DATABASE_LIST,
   ROUTE_DATABASE_ADD,
   ROUTE_DATABASE_REPORT,
+  ROUTE_DATABASE_DUMP_TABLE,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -106,6 +107,7 @@ import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
+import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -168,6 +170,7 @@ const App = ({ route, username }) => {
     case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
     case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
     case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;
+    case ROUTE_DATABASE_DUMP_TABLE: return <DatabaseDumpTablePageContainer />;
     default: return <NotFoundPage />;
   }
 };
