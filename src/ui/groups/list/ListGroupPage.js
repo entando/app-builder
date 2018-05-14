@@ -7,6 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import GroupListTableContainer from 'ui/groups/list/GroupListTableContainer';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_GROUP_ADD } from 'app-init/router';
 
 const ListGroupPage = () => (
@@ -30,6 +31,11 @@ const ListGroupPage = () => (
             titleId="menu.groups"
             helpId="group.help"
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <ErrorsAlertContainer />
         </Col>
       </Row>
       <Row>
