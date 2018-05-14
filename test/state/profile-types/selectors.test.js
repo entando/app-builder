@@ -5,7 +5,7 @@ import {
   getProfileTypesIdList,
   getProfileTypesMap,
   getProfileTypeList,
-  getSelectedDataType,
+  getSelectedProfileType,
   getProfileTypeAttributes,
   getProfileTypeAttributesIdList,
   getProfileTypeSelectedAttributeType,
@@ -70,12 +70,12 @@ describe('state/users/selectors', () => {
     expect(getProfileTypeList(TEST_STATE)).toEqual(PROFILE_TYPES_OK_PAGE_1.payload);
   });
 
-  it('verify getSelectedDataType selector is undefined', () => {
-    expect(getSelectedDataType(TEST_STATE)).toBeUndefined();
+  it('verify getSelectedProfileType selector is undefined', () => {
+    expect(getSelectedProfileType(TEST_STATE)).toBeUndefined();
   });
 
-  it('verify getSelectedDataType selector is defined', () => {
-    expect(getSelectedDataType({ profileTypes: { selected: {} } })).toBeDefined();
+  it('verify getSelectedProfileType selector is defined', () => {
+    expect(getSelectedProfileType({ profileTypes: { selected: {} } })).toBeDefined();
   });
 
   it('verify getProfileTypeAttributes selector is defined', () => {

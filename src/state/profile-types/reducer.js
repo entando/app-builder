@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-  SET_DATA_TYPES,
-  REMOVE_DATA_TYPE,
+  SET_PROFILE_TYPES,
+  REMOVE_PROFILE_TYPE,
   REMOVE_ATTRIBUTE,
   SET_ATTRIBUTES,
-  SET_SELECTED_DATA_TYPE,
-  SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
+  SET_SELECTED_PROFILE_TYPE,
+  SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
-} from 'state/data-types/types';
+} from 'state/profile-types/types';
 
 const toMap = array => array.reduce((acc, profileType) => {
   acc[profileType.code] = profileType;
@@ -18,10 +18,10 @@ const toIdList = array => array.map(profileType => profileType.code);
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
-    case SET_DATA_TYPES: {
+    case SET_PROFILE_TYPES: {
       return toIdList(action.payload.profileTypes);
     }
-    case REMOVE_DATA_TYPE: {
+    case REMOVE_PROFILE_TYPE: {
       const { profileTypeCode } = action.payload;
       return state.filter(item => item !== profileTypeCode);
     }
@@ -31,10 +31,10 @@ export const list = (state = [], action = {}) => {
 
 const profileTypeMap = (state = {}, action = {}) => {
   switch (action.type) {
-    case SET_DATA_TYPES: {
+    case SET_PROFILE_TYPES: {
       return toMap(action.payload.profileTypes);
     }
-    case REMOVE_DATA_TYPE: {
+    case REMOVE_PROFILE_TYPE: {
       const { profileTypeCode } = action.payload;
       const newState = { ...state };
       delete newState[profileTypeCode];
@@ -62,10 +62,10 @@ export const attributeList = (state = [], action = {}) => {
 
 export const selectedProfileType = (state = {}, action = {}) => {
   switch (action.type) {
-    case SET_SELECTED_DATA_TYPE: {
+    case SET_SELECTED_PROFILE_TYPE: {
       return action.payload.profileType;
     }
-    case SET_SELECTED_ATTRIBUTE_FOR_DATATYPE: {
+    case SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE: {
       return { ...state, attributeSelected: action.payload.attribute };
     }
     default: return state;

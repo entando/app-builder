@@ -29,3 +29,11 @@ export const getProfileTypeList = createSelector(
   [getProfileTypesMap, getProfileTypesIdList],
   (profileTypesMap, idList) => idList.map(id => (profileTypesMap[id])),
 );
+
+export const getProfileTypesOptions = createSelector(
+  [getProfileTypesIdList, getProfileTypesMap],
+  (idList, profileTypesMap) => idList.map(id => ({
+    value: profileTypesMap[id].code,
+    text: profileTypesMap[id].name,
+  })),
+);

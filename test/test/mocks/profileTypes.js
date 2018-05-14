@@ -1,6 +1,6 @@
 export const PROFILE_TYPES = {
 
-  name: 'firstDataType',
+  name: 'firstProfileType',
   code: 'AAA',
   attributes: [{
     type: 'type',
@@ -64,9 +64,9 @@ export const PROFILE_TYPES = {
 
 };
 
-export const PROFILE_TYPES_DELETE_OK = { code: '<dataTypeCode>' };
+export const PROFILE_TYPES_DELETE_OK = { code: '<profileTypeCode>' };
 export const ATTRIBUTE_PROFILE_TYPES_DELETE_OK = {
-  dataTypeCode: 'dataTypeCode',
+  profileTypeCode: 'profileTypeCode',
   attributeCode: 'attributeCode',
 };
 
@@ -89,12 +89,12 @@ export const PROFILE_TYPES_OK_PAGE_1 =
 {
   payload: [
     {
-      name: 'dataType1',
+      name: 'profileType1',
       code: 'ABC',
       status: 'ok',
     },
     {
-      name: 'dataType2',
+      name: 'profileType2',
       code: 'DEF',
       status: 'ok',
     },
@@ -112,12 +112,12 @@ export const PROFILE_TYPES_OK_PAGE_2 =
 {
   payload: [
     {
-      name: 'dataType3',
+      name: 'profileType3',
       code: 'GHI',
       status: 'ok',
     },
     {
-      name: 'dataType4',
+      name: 'profileType4',
       code: 'LMN',
       status: 'ok',
     },
@@ -166,3 +166,33 @@ export const PROFILE_TYPE_ATTRIBUTE = {
     descr: 'Description 2',
   }],
 };
+
+export const PROFILE_TYPES_NORMALIZED = {
+  profileTypes: {
+    list: ['PFL', 'SUP'],
+    map: {
+      PFL: {
+        name: 'Default User Profile',
+        code: 'PFL',
+        status: 'ok',
+      },
+      SUP: {
+        name: 'Supervisor User Profile',
+        code: 'SUP',
+        status: 'ko',
+      },
+    },
+  },
+  pagination: PROFILE_TYPES_OK_PAGE_1.metaData,
+};
+
+export const PROFILE_TYPES_OPTIONS = [
+  {
+    text: 'Default User Profile',
+    value: 'PFL',
+  },
+  {
+    text: 'Supervisor User Profile',
+    value: 'SUP',
+  },
+];

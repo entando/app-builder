@@ -17,7 +17,7 @@ import {
   REMOVE_PROFILE_TYPE,
   SET_ATTRIBUTES,
   SET_SELECTED_PROFILE_TYPE,
-  SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
+  SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
   REMOVE_ATTRIBUTE,
 } from 'state/profile-types/types';
@@ -76,7 +76,7 @@ jest.mock('state/profile-types/selectors', () => ({
   getProfileTypeSelectedAttributeType: jest.fn(),
 }));
 
-getParams.mockReturnValue({ list: 'Monolist', profiletypeCode: 'Monolist', entityCode: 'Monolist' });
+getParams.mockReturnValue({ list: 'Monolist', profileTypeCode: 'Monolist', entityCode: 'Monolist' });
 
 describe('state/profile-types/actions ', () => {
   let store;
@@ -281,7 +281,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(fetchAttributeFromProfileType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
           done();
         }).catch(done.fail);
       });
@@ -315,7 +315,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPostAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(postAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monolist',
+            profileTypeCode: 'Monolist',
           });
           done();
         }).catch(done.fail);
@@ -351,7 +351,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monotext',
+            profileTypeCode: 'Monotext',
           });
           done();
         }).catch(done.fail);
@@ -375,7 +375,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA' })).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monolist',
+            profileTypeCode: 'Monolist',
           });
           done();
         }).catch(done.fail);

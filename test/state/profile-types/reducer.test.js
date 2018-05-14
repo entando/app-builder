@@ -40,7 +40,7 @@ describe('state/profile-types/reducer', () => {
     });
   });
 
-  describe('afert action REMOVE_PROFILE_TYPE', () => {
+  describe('after action REMOVE_PROFILE_TYPE', () => {
     it('should define the new state', () => {
       state = { list: ['AAA'] };
       newState = reducer(state, removeProfileType('AAA'));
