@@ -65,7 +65,7 @@ describe('FilesListTable', () => {
         const upIcon = component.find('Icon');
         expect(tbody).toHaveLength(1);
         expect(tbody.find('th')).toHaveLength(4);
-        expect(tbody.find('.FilesListTable__upLink')).toHaveLength(1);
+        expect(tbody.find('.FilesListTable__up-link')).toHaveLength(1);
         expect(tbody.find('Icon')).toHaveLength(1);
         expect(upIcon.find({ name: 'share' })).toHaveLength(1);
       });
@@ -79,23 +79,23 @@ describe('FilesListTable', () => {
 
       it('has correct links for folders and files', () => {
         const tbody = component.find('tbody');
-        expect(tbody.find('.FilesListTable__linkDir')).toHaveLength(1);
-        expect(tbody.find('.FilesListTable__linkDownload')).toHaveLength(1);
+        expect(tbody.find('.FilesListTable__link-dir')).toHaveLength(1);
+        expect(tbody.find('.FilesListTable__link-download')).toHaveLength(1);
       });
 
       it('verify click on dir link', () => {
         const preventDefault = jest.fn();
-        component.find('.FilesListTable__linkDir').simulate('click', { preventDefault });
+        component.find('.FilesListTable__link-dir').simulate('click', { preventDefault });
         expect(props.onWillMount).toHaveBeenCalled();
       });
       it('verify click on download link', () => {
         const preventDefault = jest.fn();
-        component.find('.FilesListTable__linkDownload').simulate('click', { preventDefault });
+        component.find('.FilesListTable__link-download').simulate('click', { preventDefault });
         expect(props.onWillMount).toHaveBeenCalled();
       });
       it('verify click uplink', () => {
         const preventDefault = jest.fn();
-        component.find('.FilesListTable__upLink').simulate('click', { preventDefault });
+        component.find('.FilesListTable__up-link').simulate('click', { preventDefault });
         expect(props.onWillMount).toHaveBeenCalled();
       });
     });
@@ -112,9 +112,9 @@ describe('FilesListTable', () => {
       const upIcon = component.find('Icon');
       expect(tbody).toHaveLength(1);
       expect(tbody.find('th')).toHaveLength(4);
-      expect(tbody.find('.FilesListTable__upLink')).toHaveLength(0);
+      expect(tbody.find('.FilesListTable__up-link')).toHaveLength(0);
       expect(tbody.find('Icon')).toHaveLength(0);
-      expect(upIcon.find({ name: 'qqqshare' })).toHaveLength(0);
+      expect(upIcon.find({ name: 'share' })).toHaveLength(0);
     });
 
     it('has 2 rows without actions', () => {
@@ -137,7 +137,7 @@ describe('FilesListTable', () => {
       const upIcon = component.find('Icon');
       expect(tbody).toHaveLength(1);
       expect(tbody.find('th')).toHaveLength(4);
-      expect(tbody.find('.FilesListTable__upLink')).toHaveLength(1);
+      expect(tbody.find('.FilesListTable__up-link')).toHaveLength(1);
       expect(tbody.find('Icon')).toHaveLength(1);
       expect(upIcon.find({ name: 'share' })).toHaveLength(1);
     });
@@ -151,7 +151,7 @@ describe('FilesListTable', () => {
 
     it('verify click uplink', () => {
       const preventDefault = jest.fn();
-      component.find('.FilesListTable__upLink').simulate('click', { preventDefault });
+      component.find('.FilesListTable__up-link').simulate('click', { preventDefault });
       expect(props.onWillMount).toHaveBeenCalled();
     });
   });

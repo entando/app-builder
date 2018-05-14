@@ -77,13 +77,13 @@ class FilesListTable extends Component {
     const getLinkItem = (file) => {
       if (file.directory) {
         return (
-          <a className="FilesListTable__linkDir" role="presentation" onClick={() => this.props.onWillMount(getProtectedFolder(file.path), getQueryString(file.path))}>
+          <a className="FilesListTable__link-dir" role="presentation" onClick={() => this.props.onWillMount(getProtectedFolder(file.path), getQueryString(file.path))}>
             <Icon size="lg" name="folder" /> {file.name}
           </a>
         );
       }
       return (
-        <a className="FilesListTable__linkDownload" href={`download?${file.path}`}>
+        <a className="FilesListTable__link-download" href={`download?${file.path}`}>
           <Icon size="lg" name="file" /> {file.name}
         </a>
       );
@@ -108,12 +108,12 @@ class FilesListTable extends Component {
         return <div />;
       } else if (prev === '' && current === '') {
         return (
-          <a className="FilesListTable__upLink" role="presentation" onClick={() => this.props.onWillMount()}>
+          <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onWillMount()}>
             <Icon size="lg" name="share" className="fa-rotate-270" /> <FormattedMessage id="fileBrowser.list.upLink" />
           </a>);
       }
       return (
-        <a className="FilesListTable__upLink" role="presentation" onClick={() => this.props.onWillMount(pfolder, prev)}>
+        <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onWillMount(pfolder, prev)}>
           <Icon size="lg" name="share" className="fa-rotate-270" /> <FormattedMessage id="fileBrowser.list.upLink" />
         </a>);
     };
