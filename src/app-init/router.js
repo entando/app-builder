@@ -95,16 +95,16 @@ routerConfig(
       { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/view/:fragmentCode' },
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
-
+      // data types
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
-
+      // profile types
       { name: ROUTE_PROFILE_TYPE_LIST, path: '/profiletype' },
       { name: ROUTE_PROFILE_TYPE_ADD, path: '/profiletype/add' },
-      { name: ROUTE_PROFILE_TYPE_EDIT, path: '/profiletype/edit/:datatypeCode' },
+      { name: ROUTE_PROFILE_TYPE_EDIT, path: '/profiletype/edit/:profiletypeCode' },
       { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
