@@ -38,13 +38,13 @@ const ReportDatabaseDataSource = ({ datasource, tables, onClickDump }) => {
         </caption>
         <thead>
           <tr>
-            <th className="ReportDatabaseDataSource__th-lg">
+            <th className="ReportDatabaseDataSource__th">
               <FormattedMessage id="app.tableName" />
             </th>
-            <th className="ReportDatabaseDataSource__th-lg">
+            <th className="ReportDatabaseDataSource__th">
               <FormattedMessage id="app.rows" />
             </th>
-            <th className="ReportDatabaseDataSource__th-lg">
+            <th className="ReportDatabaseDataSource__th">
               <FormattedMessage id="app.requiredTime" />
             </th>
           </tr>

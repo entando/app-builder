@@ -3,6 +3,9 @@ import {
   setDatabaseDumps,
   setDatabaseInitBackup,
   setStatusBackup,
+  setReportBackup,
+  setDumpTable,
+  setDumpTableData,
 } from 'state/database/actions';
 import {
   DATABASE_DUMP_REPORT_LIST,
@@ -23,15 +26,36 @@ describe('database/reducer', () => {
     beforeEach(() => {
       newState = reducer(state, setDatabaseDumps(DATABASE_DUMP_REPORT_LIST));
     });
+
     it('list reducer', () => {
       expect(newState).toHaveProperty('list');
       expect(newState.list).toBeInstanceOf(Array);
       expect(newState.list).toEqual(expect.objectContaining(DATABASE_LIST));
     });
+
     it('map reducer', () => {
       expect(newState).toHaveProperty('map');
       expect(newState.map).toBeInstanceOf(Object);
       expect(newState.map).toEqual(expect.objectContaining(DATABASE_MAP));
+    });
+
+    it('init reducer', () => {
+      expect(newState).toHaveProperty('init');
+      expect(newState.init).toBeInstanceOf(Object);
+    });
+
+    it('status reducer', () => {
+      expect(newState).toHaveProperty('status', 0);
+    });
+
+    it('report reducer', () => {
+      expect(newState).toHaveProperty('report');
+      expect(newState.report).toBeInstanceOf(Object);
+    });
+
+    it('dump reducer', () => {
+      expect(newState).toHaveProperty('dump');
+      expect(newState.dump).toBeInstanceOf(Object);
     });
   });
 
@@ -54,6 +78,35 @@ describe('database/reducer', () => {
     });
     it('status reducer', () => {
       expect(newState).toHaveProperty('status', 0);
+    });
+  });
+
+  describe('after action SET_DATABASE_REPORT_BACKUP', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setReportBackup({}));
+    });
+    it('status reducer', () => {
+      expect(newState).toHaveProperty('report');
+    });
+  });
+
+  describe('after action SET_DATABASE_DUMP_TABLE', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setDumpTable({}));
+    });
+    it('status reducer', () => {
+      expect(newState).toHaveProperty('dump');
+    });
+  });
+  describe('after action SET_DATABASE_DUMP_TABLE_DATA', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setDumpTableData({}));
+    });
+    it('status reducer', () => {
+      expect(newState).toHaveProperty('dump.data');
     });
   });
 });

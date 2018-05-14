@@ -3,26 +3,22 @@ import Proptypes from 'prop-types';
 
 class DatabaseDumpTablePage extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    this.props.onWillMount();
   }
   render() {
     return (
       <div className="DatabaseDumpTablePage" >
-        {this.props.table}
+        {JSON.stringify(atob(this.props.dumpData))}
       </div>
     );
   }
 }
 DatabaseDumpTablePage.propTypes = {
   onWillMount: Proptypes.func.isRequired,
-  // dumpCode: Proptypes.string,
-  // datasource: Proptypes.string,
-  table: Proptypes.string,
+  dumpData: Proptypes.string,
 };
 
 DatabaseDumpTablePage.defaultProps = {
-  // dumpCode: '',
-  // datasource: '',
-  table: '',
+  dumpData: '',
 };
 export default DatabaseDumpTablePage;

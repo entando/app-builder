@@ -126,7 +126,7 @@ describe('api/database', () => {
     it('makes the correct request', () => {
       getDatabaseTableDump('code', 'servDataSource', 'sysconfig');
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/api/database/report/code/servDataSource/sysconfig',
+        uri: '/api/database/report/code/dump/servDataSource/sysconfig',
         method: METHODS.GET,
         mockResponse: { base64: '' },
         useAuthentication: true,

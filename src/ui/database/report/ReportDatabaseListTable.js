@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner, Button } from 'patternfly-react';
+import { Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import ReportDatabaseListDataSource from 'ui/database/report/ReportDatabaseListDataSource';
 
@@ -37,9 +37,6 @@ class ReportDatabaseListTable extends Component {
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
           <ReportDatabaseListDataSource dataSourcesReports={dataSourcesReports} />
-          <Button className="ReportDatabaseListTable__restore pull-right" bsStyle="primary">
-            <FormattedMessage id="database.restore" />
-          </Button>
         </Spinner>
       </div>
     );

@@ -64,7 +64,10 @@ class ReportDatabasePage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <ReportDatabaseListTable report={this.props.report} />
+              <ReportDatabaseListTable
+                loading={this.props.loading}
+                report={this.props.report}
+              />
             </Col>
           </Row>
         </Grid>
@@ -75,10 +78,15 @@ class ReportDatabasePage extends Component {
 
 ReportDatabasePage.propTypes = {
   onWillMount: Proptypes.func.isRequired,
+  loading: Proptypes.bool,
   report: Proptypes.shape({
     requiredTime: Proptypes.number,
     date: Proptypes.string,
   }).isRequired,
+};
+
+ReportDatabasePage.defaultProps = {
+  loading: false,
 };
 
 export default ReportDatabasePage;

@@ -278,6 +278,7 @@ export default {
     'database.componentName': 'Nome Componente',
     'database.dumpDate': 'Data backup',
     'database.datasource': 'Datasource',
+    'database.datasourceDetails': 'Dettagli Datasource',
     'label.detail.title': 'Etichette',
     'labels.code.placeholder': 'codice',
     'labels.default.language': 'Lingua Predefinita',

@@ -23,7 +23,7 @@ import {
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
-import { getDatabaseStatusBackup } from 'state/database/selectors';
+import { getDatabaseStatusBackup, getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
 
 export const setDatabaseDumps = database => ({
   type: SET_DATABASE_DUMPS,
@@ -69,13 +69,15 @@ export const setDumpTableData = data => ({
 
 // thunk
 
-export const fetchDatabaseDumpTable = (datasource, tableName) => (dispatch, getState) => (
+export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
   new Promise((resolve) => {
-    const { dumpCode } = getParams(getState());
+    const dumpCode = getDatabaseReportBackupCode(getState());
+    const datasource = getDataSourceDump(getState());
+    const tableName = getTableDump(getState());
     getDatabaseTableDump(dumpCode, datasource, tableName).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(setDumpTableData(json.payload));
+          dispatch(setDumpTableData(json.payload.base64));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }
@@ -88,6 +90,7 @@ export const fetchDatabaseDumpTable = (datasource, tableName) => (dispatch, getS
 export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
   new Promise((resolve) => {
     const { dumpCode } = getParams(getState());
+    dispatch(toggleLoading('database'));
     getReportBackup(dumpCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -95,6 +98,7 @@ export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }
+        dispatch(toggleLoading('database'));
         resolve();
       });
     });

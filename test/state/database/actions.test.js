@@ -1,12 +1,17 @@
 import { isFSA } from 'flux-standard-action';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { gotoRoute } from '@entando/router';
+import { gotoRoute, getParams } from '@entando/router';
 
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { getDatabaseStatusBackup } from 'state/database/selectors';
+import {
+  getDatabaseStatusBackup,
+  getDatabaseReportBackupCode,
+  getDataSourceDump,
+  getTableDump,
+} from 'state/database/selectors';
 
 import {
   DATABASE_DUMP_REPORT_LIST,
@@ -19,24 +24,30 @@ import {
   postStartBackup,
   getStatusBackup,
   getReportBackup,
+  getDatabaseTableDump,
 } from 'api/database';
 import {
   SET_DATABASE_DUMPS,
   SET_DATABASE_INIT_BACKUP,
   SET_DATABASE_STATUS_BACKUP,
   SET_DATABASE_REPORT_BACKUP,
+  SET_DATABASE_DUMP_TABLE,
+  SET_DATABASE_DUMP_TABLE_DATA,
 } from 'state/database/types';
 import {
   setStatusBackup,
   setDatabaseDumps,
   setDatabaseInitBackup,
-  setDatabaseReportBackup,
+  setReportBackup,
+  setDumpTable,
+  setDumpTableData,
   fetchDatabaseDumpReport,
   fetchDatabaseInitBackup,
   sendDeleteDatabaseBackup,
   sendPostDatabaseStartBackup,
   fetchDatabaseStatusBackup,
   fetchDatabaseReportBackup,
+  fetchDatabaseDumpTable,
 } from 'state/database/actions';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
@@ -48,6 +59,9 @@ const mockStore = configureMockStore(middlewares);
 
 jest.mock('state/database/selectors', () => ({
   getDatabaseStatusBackup: jest.fn(),
+  getDatabaseReportBackupCode: jest.fn(),
+  getDataSourceDump: jest.fn(),
+  getTableDump: jest.fn(),
 }));
 
 let store;
@@ -112,9 +126,9 @@ describe('state/database/actions', () => {
       });
     });
 
-    describe('setDatabaseReportBackup', () => {
+    describe('setReportBackup', () => {
       beforeEach(() => {
-        action = setDatabaseReportBackup({});
+        action = setReportBackup({});
       });
       it('is FSA compliant', () => {
         expect(isFSA(action)).toBe(true);
@@ -125,21 +139,81 @@ describe('state/database/actions', () => {
         expect(action).toHaveProperty('payload.report', {});
       });
     });
+
+    describe('setDumpTableData', () => {
+      beforeEach(() => {
+        action = setDumpTableData([]);
+      });
+      it('is FSA compliant', () => {
+        expect(isFSA(action)).toBe(true);
+      });
+
+      it('actions is correct setup ', () => {
+        expect(action).toHaveProperty('type', SET_DATABASE_DUMP_TABLE_DATA);
+        expect(action).toHaveProperty('payload.data');
+      });
+    });
+
+    describe('setDumpTable', () => {
+      beforeEach(() => {
+        action = setDumpTable([]);
+      });
+      it('is FSA compliant', () => {
+        expect(isFSA(action)).toBe(true);
+      });
+
+      it('actions is correct setup ', () => {
+        expect(action).toHaveProperty('type', SET_DATABASE_DUMP_TABLE);
+        expect(action).toHaveProperty('payload.dump');
+      });
+    });
   });
   describe('thunk', () => {
-    describe('fetchDatabaseReportBackup', () => {
-      it('calls fetchDatabaseReportBackup and calls SET_DATABASE_REPORT_BACKUP', (done) => {
-        store.dispatch(fetchDatabaseReportBackup('code')).then(() => {
-          expect(getReportBackup).toHaveBeenCalledWith('code');
+    describe('fetchDatabaseDumpTable', () => {
+      it('calls fetchDatabaseDumpTable and calls SET_DATABASE_DUMP_TABLE_DATA', (done) => {
+        getDatabaseReportBackupCode.mockReturnValueOnce('dumpCode');
+        getDataSourceDump.mockReturnValueOnce('datasource');
+        getTableDump.mockReturnValueOnce('tableName');
+        store.dispatch(fetchDatabaseDumpTable()).then(() => {
+          expect(getDatabaseTableDump).toHaveBeenCalledWith('dumpCode', 'datasource', 'tableName');
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_DATABASE_REPORT_BACKUP);
+          expect(actions[0]).toHaveProperty('type', SET_DATABASE_DUMP_TABLE_DATA);
           done();
         }).catch(done.fail);
       });
 
       it('if the response is not ok, dispatch add errors', (done) => {
-        wrapErrorTest(done)(fetchDatabaseReportBackup, getReportBackup)();
+        wrapErrorTest(done)(fetchDatabaseDumpTable, getDatabaseTableDump)('dumpCode', 'datasource', 'tableName');
+      });
+    });
+
+    describe('fetchDatabaseReportBackup', () => {
+      it('calls fetchDatabaseReportBackup and calls SET_DATABASE_REPORT_BACKUP', (done) => {
+        getParams.mockReturnValueOnce({ dumpCode: 'code' });
+        store.dispatch(fetchDatabaseReportBackup()).then(() => {
+          expect(getReportBackup).toHaveBeenCalledWith('code');
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', SET_DATABASE_REPORT_BACKUP);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        getParams.mockReturnValueOnce({ dumpCode: 'code' });
+        getReportBackup.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchDatabaseReportBackup()).then(() => {
+          expect(getReportBackup).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
       });
     });
 
