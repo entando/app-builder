@@ -43,8 +43,12 @@ export const ROUTE_USER_AUTHORITY = 'authorityPage';
 export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
+export const ROUTE_LABEL_EDIT = 'labelEdit';
 export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
+export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
+export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
 export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
@@ -58,6 +62,7 @@ export const ROUTE_DATABASE_ADD = 'databaseAdd';
 export const ROUTE_DATABASE_REPORT = 'databaseReport';
 export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
+
 
 routerConfig(
   store,
@@ -90,8 +95,11 @@ routerConfig(
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
-      // use when edit route when component will be available
+      { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
@@ -105,6 +113,7 @@ routerConfig(
       { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
+      { name: ROUTE_LABEL_EDIT, path: '/labels-languages/edit/:labelCode' },
       { name: ROUTE_CATEGORY_LIST, path: '/category' },
       { name: ROUTE_CATEGORY_ADD, path: '/category/add' },
       { name: ROUTE_CATEGORY_EDIT, path: '/category/edit/:categoryCode' },
@@ -115,6 +124,7 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
+
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
       { name: ROUTE_DATABASE_LIST, path: '/database' },
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },

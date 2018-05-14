@@ -14,6 +14,15 @@ export const getLabels = (page = { page: 1, pageSize: 10 }, params = '') => (
   )
 );
 
+export const getLabel = labelCode => (
+  makeRequest({
+    uri: `/api/labels/${labelCode}`,
+    method: METHODS.GET,
+    mockResponse: LABELS_LIST[0],
+    useAuthentication: true,
+  })
+);
+
 export const postLabel = labelObj => (
   makeRequest({
     uri: '/api/labels',
@@ -34,9 +43,9 @@ export const putLabel = labelObj => (
   })
 );
 
-export const deleteLabel = labelKey => (
+export const deleteLabel = labelCode => (
   makeRequest({
-    uri: `/api/labels/${labelKey}`,
+    uri: `/api/labels/${labelCode}`,
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,

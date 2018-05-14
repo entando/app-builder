@@ -4,7 +4,6 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
-import { gotoRoute } from '@entando/router';
 import { DDTable } from 'frontend-common-components';
 
 

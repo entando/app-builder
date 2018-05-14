@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createLabel } from 'state/labels/actions';
-import AddLabelsPageForm from 'ui/labels/common/AddLabelsPageForm';
+import LabelsForm from 'ui/labels/common/LabelsForm';
 import { getLocale } from 'state/locale/selectors';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
 import { fetchLanguages } from 'state/languages/actions';
@@ -21,5 +21,5 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AddLabelsPageContainer = connect(mapStateToProps, mapDispatchToProps)(AddLabelsPageForm);
-export default AddLabelsPageContainer;
+const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(LabelsForm);
+export default AddFormContainer;

@@ -38,12 +38,16 @@ import {
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
+  ROUTE_LABEL_ADD,
+  ROUTE_LABEL_EDIT,
   ROUTE_GROUP_DETAIL,
   ROUTE_CATEGORY_LIST,
   ROUTE_CATEGORY_ADD,
   ROUTE_CATEGORY_EDIT,
   ROUTE_CATEGORY_DETAIL,
-  ROUTE_LABELS_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
   ROUTE_ROLE_EDIT,
@@ -90,8 +94,12 @@ import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
-import AddLabelsPage from 'ui/labels/add/AddLabelsPage';
+import AddLabelPage from 'ui/labels/add/AddLabelPage';
+import EditLabelPage from 'ui/labels/edit/EditLabelPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
+import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
+import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
+import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
 import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
@@ -103,6 +111,7 @@ import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
+
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
@@ -154,19 +163,24 @@ const App = ({ route, username }) => {
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
     case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
+    case ROUTE_LABEL_ADD: return <AddLabelPage />;
+    case ROUTE_LABEL_EDIT: return <EditLabelPage />;
     case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
     case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
     case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
     case ROUTE_CATEGORY_EDIT: return <EditCategoryPage />;
     case ROUTE_CATEGORY_DETAIL: return <DetailCategoryPage />;
-    case ROUTE_LABELS_ADD: return <AddLabelsPage />;
     case ROUTE_ROLE_LIST: return <ListRolePage />;
     case ROUTE_ROLE_ADD: return <AddRolePage />;
     case ROUTE_ROLE_EDIT: return <EditRolePage />;
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
     case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
+
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
+    case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
+    case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
+    case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
     case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
     case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
     case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;

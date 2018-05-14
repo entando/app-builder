@@ -7,9 +7,7 @@ import LabelsTabs from 'ui/labels/list/LabelsTabs';
 import { LABELS_LIST } from 'test/mocks/labels';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
-const onClickDeleteLabelMock = jest.fn();
-const onClickEditLabelMock = jest.fn();
-
+const onClickDelete = jest.fn();
 
 describe('LabelsTabs', () => {
   let component;
@@ -19,8 +17,7 @@ describe('LabelsTabs', () => {
       <LabelsTabs
         languages={LANGUAGES_LIST}
         labels={LABELS_LIST}
-        onClickDeleteLabel={onClickDeleteLabelMock}
-        onClickEditLabel={onClickEditLabelMock}
+        onClickDelete={onClickDelete}
       />
     ));
   });
@@ -35,13 +32,7 @@ describe('LabelsTabs', () => {
 
   it('should pass onClickDeleteLabel down to LabelTables', () => {
     component.find('LabelTable').forEach((labelTable) => {
-      expect(labelTable.prop('onClickDeleteLabel')).toBe(onClickDeleteLabelMock);
-    });
-  });
-
-  it('should pass onClickEditLabel down to LabelTables', () => {
-    component.find('LabelTable').forEach((labelTable) => {
-      expect(labelTable.prop('onClickEditLabel')).toBe(onClickEditLabelMock);
+      expect(labelTable.prop('onClickDelete')).toBe(onClickDelete);
     });
   });
 });

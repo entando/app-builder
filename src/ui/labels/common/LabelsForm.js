@@ -7,13 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
-
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
-export class AddLabelsPageFormBody extends Component {
+export class LabelsFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.labelCode);
   }
 
  onSubmit = (ev) => {
@@ -67,7 +66,7 @@ export class AddLabelsPageFormBody extends Component {
 
  render() {
    return (
-     <form onSubmit={this.onSubmit} className="form-horizontal AddLabelsPageForm">
+     <form onSubmit={this.onSubmit} className="form-horizontal LabelsForm">
        <Row>
          <Col xs={12}>
            <fieldset className="no-padding">
@@ -83,9 +82,7 @@ export class AddLabelsPageFormBody extends Component {
          <Col xs={12}>
            <fieldset className="no-padding">
              <div className="tab-content margin-large-bottom ">
-               <div>
-                 {this.renderField(this.props.defaultLanguage)}
-               </div>
+               {this.renderField(this.props.defaultLanguage)}
              </div>
            </fieldset>
          </Col>
@@ -94,7 +91,7 @@ export class AddLabelsPageFormBody extends Component {
        <Row>
          <Col xs={12}>
            <Button
-             className="pull-right AddLabelsPageForm__save-btn"
+             className="pull-right LabelsForm__save-btn"
              type="submit"
              bsStyle="primary"
              disabled={this.props.invalid || this.props.submitting}
@@ -108,8 +105,9 @@ export class AddLabelsPageFormBody extends Component {
  }
 }
 
-AddLabelsPageFormBody.propTypes = {
-  onWillMount: PropTypes.func,
+LabelsFormBody.propTypes = {
+  labelCode: PropTypes.string,
+  onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -122,8 +120,8 @@ AddLabelsPageFormBody.propTypes = {
   mode: PropTypes.string,
 };
 
-AddLabelsPageFormBody.defaultProps = {
-  onWillMount: () => {},
+LabelsFormBody.defaultProps = {
+  labelCode: '',
   invalid: false,
   submitting: false,
   languages: PropTypes.arrayOf(PropTypes.shape({
@@ -135,8 +133,8 @@ AddLabelsPageFormBody.defaultProps = {
   mode: NEW_MODE,
 };
 
-const AddLabelsPageForm = reduxForm({
+const LabelsForm = reduxForm({
   form: 'label',
-})(AddLabelsPageFormBody);
+})(LabelsFormBody);
 
-export default AddLabelsPageForm;
+export default LabelsForm;

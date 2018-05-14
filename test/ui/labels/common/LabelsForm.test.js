@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { AddLabelsPageFormBody } from 'ui/labels/common/AddLabelsPageForm';
+import { LabelsFormBody } from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 const ON_SUBMIT = jest.fn();
@@ -17,11 +17,11 @@ describe('LabelsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
-
+          onWillMount={ON_WILL_MOUNT}
         />
       ));
     });
@@ -30,15 +30,15 @@ describe('LabelsForm', () => {
       expect(component.exists()).toBe(true);
     });
 
-    it('has class PageForm', () => {
-      expect(component.hasClass('AddLabelsPageForm')).toBe(true);
+    it('has class LabelsForm', () => {
+      expect(component.hasClass('LabelsForm')).toBe(true);
     });
   });
 
   describe('with onWillMount callback', () => {
     beforeEach(() => {
       shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
@@ -55,31 +55,33 @@ describe('LabelsForm', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
+          onWillMount={ON_WILL_MOUNT}
           invalid
         />
       ));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.AddLabelsPageForm__save-btn').prop('disabled')).toBe(true);
+      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(true);
     });
   });
   describe('save button is disabled', () => {
     let component;
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          onWillMount={ON_WILL_MOUNT}
           languages={LANGUAGES}
         />
       ));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.AddLabelsPageForm__save-btn').prop('disabled')).toBe(false);
+      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(false);
     });
   });
   describe('save button is disabled', () => {
@@ -87,9 +89,10 @@ describe('LabelsForm', () => {
     const preventDefault = jest.fn();
     beforeEach(() => {
       component = shallow((
-        <AddLabelsPageFormBody
+        <LabelsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          onWillMount={ON_WILL_MOUNT}
           languages={LANGUAGES}
         />
       ));

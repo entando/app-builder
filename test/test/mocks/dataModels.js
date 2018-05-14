@@ -8,7 +8,7 @@ export const DATA_MODELS = {
       stylesheet: '',
     },
     {
-      modelId: 'ID2',
+      modelId: 'ID1',
       descr: 'data model sample2',
       type: 'BASBB',
       model: '<html></html>',

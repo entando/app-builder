@@ -40,6 +40,7 @@
 @import "pages/config/PageConfigGridRow";
 @import "pages/config/WidgetFrame";
 @import "pages/config/EmptyFrame";
+@import "pages/list/PageListSearchTable";
 @import "users/common/UserStatus";
 @import "users/common/UserForm";
 @import "users/list/UserListTable";
@@ -48,6 +49,7 @@
 @import "groups/common/GroupForm";
 @import "labels/list/LabelsAndLanguagesPage";
 @import "labels/list/ActiveLangTable";
+@import "labels/list/LabelsTable";
 @import "groups/common/DeleteGroupModal";
 @import "groups/detail/GroupDetailTabPages";
 @import "groups/detail/GroupDetailTabUsers";
@@ -57,6 +59,7 @@
 @import "categories/list/CategoryTree";
 @import "categories/common/CategoryTreeSelector";
 @import "common/form/RenderRadioInput";
+@import "common/attributes/AttributesDateSettings";
 @import "common/attributes/AttributeListTable";
 @import "common/attributes/AttributeCheckIcon";
 @import "roles/list/RoleListTable";

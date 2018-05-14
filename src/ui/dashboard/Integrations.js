@@ -37,8 +37,14 @@ class Integrations extends Component {
 
 Integrations.propTypes = {
   onWillMount: PropTypes.func.isRequired,
-  plugins: PropTypes.number.isRequired,
-  apis: PropTypes.number.isRequired,
+  plugins: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
+  apis: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
 };
 
 export default Integrations;

@@ -16,7 +16,6 @@ import {
   publishSelectedPage,
   unpublishSelectedPage,
   clonePage,
-  fetchSearchPages,
   clearSearchPage,
 } from 'state/pages/actions';
 
@@ -32,11 +31,6 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-
-  onWillMount: (page = { page: 1, pageSize: 10 }) => {
-    dispatch(fetchSearchPages(page));
-  },
-
   onClickAdd: () => { gotoRoute(ROUTE_PAGE_ADD); },
   onClickEdit: (page) => {
     dispatch(setSelectedPage(page));

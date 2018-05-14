@@ -28,14 +28,13 @@ class DataTypeListTable extends Component {
 
   renderTableRows() {
     return this.props.datatypes.map(datatype => (
-      <tr key={datatype.code}>
+      <tr key={datatype.name}>
         <td className="DataTypeListRow__td">{datatype.name}</td>
         <td className="DataTypeListRow__td text-center">{datatype.code}</td>
         <td className="DataTypeListRow__td text-center">
           <DataTypeStatusIcon
             status={datatype.status}
             title={formattedText('dataType.table.status')}
-
           />
         </td>
         <td className="DataTypeListRow__td text-center">

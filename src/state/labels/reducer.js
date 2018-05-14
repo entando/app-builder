@@ -15,9 +15,9 @@ const map = (state = {}, action = {}) => {
       return { ...state, [label.key]: label };
     }
     case REMOVE_LABEL: {
-      const { labelKey } = action.payload;
+      const { labelCode } = action.payload;
       const newState = { ...state };
-      delete newState[labelKey];
+      delete newState[labelCode];
       return newState;
     }
     default: return state;
@@ -29,8 +29,8 @@ const list = (state = [], action = {}) => {
     case SET_LABELS:
       return action.payload.labels.map(label => label.key);
     case REMOVE_LABEL: {
-      const { labelKey } = action.payload;
-      return state.filter(label => label !== labelKey);
+      const { labelCode } = action.payload;
+      return state.filter(label => label !== labelCode);
     }
     default: return state;
   }

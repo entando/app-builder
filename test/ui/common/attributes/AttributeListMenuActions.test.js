@@ -16,6 +16,8 @@ describe('AttributeListMenuActions', () => {
       onMoveUp={onMoveUp}
       onMoveDown={onMoveDown}
       onClickDelete={onClickDelete}
+      routeToEdit=""
+      datatypeCode="code"
     />);
   });
 

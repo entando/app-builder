@@ -202,7 +202,7 @@ export const search = (state = [], action = {}) => {
       return action.payload.pages;
     }
     case CLEAR_SEARCH: {
-      return [];
+      return null;
     }
     default: return state;
   }

@@ -216,12 +216,11 @@ describe('state/widgets/actions', () => {
         store.dispatch(fetchWidgetList()).then(() => {
           expect(getWidgets).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(4);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', SET_WIDGET_LIST);
           expect(actions[1]).toHaveProperty('payload');
-          expect(actions[2]).toHaveProperty('type', SET_PAGE);
-          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           const actionPayload = actions[1].payload;
           expect(actionPayload).toHaveProperty('widgetList');
           expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);
