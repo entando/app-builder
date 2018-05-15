@@ -48,15 +48,12 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-  // data type
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
-  // profile type
-  ROUTE_PROFILE_TYPE_LIST,
 
 
   ROUTE_PLUGIN_CONFIG_PAGE,
@@ -106,15 +103,12 @@ import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
-// data type
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
-// attribute type
-import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 
@@ -174,16 +168,12 @@ const App = ({ route, username }) => {
     case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
-      // data type
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
     case ROUTE_DATA_TYPE_EDIT: return <EditDataTypesPage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
-    // attribute type
-    case ROUTE_PROFILE_TYPE_LIST: return <ListProfileTypePage />;
-
 
     default: return <NotFoundPage />;
   }
