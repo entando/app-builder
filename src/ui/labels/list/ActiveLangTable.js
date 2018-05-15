@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Alert } from 'patternfly-react';
+import DeleteLabelAndLanguagesModalContainer from 'ui/labels/common/DeleteLabelAndLanguagesModalContainer';
 
 const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map(item => (
   <tr key={`activeLang-${item.code}`} className="ActiveLangTable__tr">
@@ -56,6 +57,7 @@ const renderTable = (activeLanguages, onDeactivateLang, defaultLanguage) => {
 const ActiveLangTable = ({ activeLanguages, onDeactivateLang, defaultLanguage }) => (
   <div className="ActiveLangTable">
     {renderTable(activeLanguages, onDeactivateLang, defaultLanguage)}
+    <DeleteLabelAndLanguagesModalContainer />
   </div>
 );
 

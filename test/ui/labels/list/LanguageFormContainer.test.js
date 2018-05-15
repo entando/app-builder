@@ -1,9 +1,15 @@
 import 'test/enzyme-init';
 
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/list/LanguageFormContainer';
 
 const dispatchMock = jest.fn();
 const TEST_LANG = { language: 'test' };
+
+jest.mock('state/modal/actions', () => ({
+  setVisibleModal: jest.fn(),
+  setInfo: jest.fn(),
+}));
 
 jest.mock('state/languages/actions', () => ({
   activateLanguage: jest.fn().mockReturnValue('activateLanguage_result'),
@@ -15,6 +21,7 @@ jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
   getDefaultLanguage: jest.fn().mockReturnValue('getDefaultLanguage_result'),
 }));
+
 
 describe('LanguageFormContainer', () => {
   describe('mapStateToProps', () => {
@@ -48,7 +55,9 @@ describe('LanguageFormContainer', () => {
 
     it('should dispatch "deactivateLanguage" action if "onDeactivateLang" is called', () => {
       props.onDeactivateLang();
-      expect(dispatchMock).toHaveBeenCalledWith('deactivateLanguage_result');
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalled();
+      expect(setInfo).toHaveBeenCalled();
     });
   });
 });
