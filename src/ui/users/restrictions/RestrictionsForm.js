@@ -28,12 +28,12 @@ export class RestrictionsFormBody extends Component {
           <FormattedMessage id="user.restrictions.passwordSection" />
         </legend>
         <FormGroup controlId="passwordAlwaysActive">
-          <Col sm={3}>
+          <Col xs={3}>
             <ControlLabel>
               <FormattedMessage id="user.restrictions.form.active" />
             </ControlLabel>
           </Col>
-          <Col sm={9}>
+          <Col xs={9}>
             <Field
               component={SwitchRenderer}
               name="passwordAlwaysActive"
@@ -47,6 +47,7 @@ export class RestrictionsFormBody extends Component {
           name="maxMonthsPasswordValid"
           disabled={disabled}
           validate={isNumber}
+          append={<FormattedMessage id="user.restrictions.months" />}
         />
         <Field
           label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
@@ -55,17 +56,18 @@ export class RestrictionsFormBody extends Component {
           name="lastAccessPasswordExpirationMonths"
           disabled={disabled}
           validate={[isNumber, montshSinceLogin]}
+          append={<FormattedMessage id="user.restrictions.months" />}
         />
         <legend>
           <FormattedMessage id="user.restrictions.avatarSection" />
         </legend>
         <FormGroup controlId="enableGravatarIntegration" disabled={false}>
-          <Col sm={3}>
+          <Col xs={3}>
             <ControlLabel>
               <FormattedMessage id="user.restrictions.form.gravatar" />
             </ControlLabel>
           </Col>
-          <Col sm={9}>
+          <Col xs={9}>
             <Field
               component={SwitchRenderer}
               name="enableGravatarIntegration"
