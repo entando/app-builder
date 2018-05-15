@@ -1,16 +1,21 @@
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 
 import { fetchUserSettings, updateUserSettings } from 'state/user-settings/actions';
-import { getUserSettings } from 'state/user-settings/selectors';
 import RestrictionsForm from 'ui/users/restrictions/RestrictionsForm';
 
 export const mapStateToProps = state => ({
-  settings: getUserSettings(state),
+  passwordActive: formValueSelector('user-restrictions')(state, 'passwordAlwaysActive'),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => dispatch(fetchUserSettings()),
-  onSubmit: settings => dispatch(updateUserSettings(settings)),
+  onSubmit: (settings) => {
+    dispatch(updateUserSettings({
+      ...settings,
+      restrictionsActive: !settings.passwordAlwaysActive,
+    }));
+  },
 });
 
 

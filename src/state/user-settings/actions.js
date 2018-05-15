@@ -1,3 +1,5 @@
+import { initialize } from 'redux-form';
+
 import { getUserSettings, putUserSettings } from 'api/userSettings';
 import { addErrors } from 'state/errors/actions';
 import { SET_USER_SETTINGS } from 'state/user-settings/types';
@@ -14,6 +16,7 @@ export const fetchUserSettings = () => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserSettings(json.payload));
+        dispatch(initialize('user-restrictions', json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }

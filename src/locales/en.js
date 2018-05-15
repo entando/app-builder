@@ -303,7 +303,7 @@ export default {
     'user.restrictions.form.monthsSinceLastLogin': 'Number of months the password is valid for',
     'user.restrictions.form.maxMonths': 'Number of months the password is valid for, after last access',
     'user.restrictions.form.gravatar': 'Enable Gravatar Integration (Avatar of users)',
-    'user.restrictions.form.monthsSinceLastLogin.error': 'This value must be equal to or less than the previous field\'s',
+    'user.restrictions.form.monthsSinceLastLogin.error': 'This value must be equal to or less than the previous field',
     'user.restrictions.months': 'month(s)',
     'form.select.chooseOne': 'Choose one option',
     'user.profile.all': 'All',

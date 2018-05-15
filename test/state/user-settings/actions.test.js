@@ -49,8 +49,9 @@ describe('state/user-settings/actions', () => {
         store.dispatch(fetchUserSettings()).then(() => {
           const actions = store.getActions();
           expect(getUserSettings).toHaveBeenCalled();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_USER_SETTINGS);
+          expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           done();
         }).catch(done.fail);
       });

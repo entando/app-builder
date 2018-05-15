@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
 
 const ListUserPage = () => (
-  <InternalPage className="UserListPage">
+  <InternalPage className="UserRestrictionsPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
