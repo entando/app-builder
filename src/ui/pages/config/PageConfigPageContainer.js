@@ -11,7 +11,6 @@ import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selecto
 import { getLocale } from 'state/locale/selectors';
 import { clearErrors } from 'state/errors/actions';
 
-
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(clearErrors());
@@ -31,6 +30,7 @@ export const mapStateToProps = (state) => {
     return {};
   }
   return {
+    pageCode: selectedPage.code,
     pageName: selectedPage.titles[getLocale(state)],
     pageStatus: selectedPage.status,
     isOnTheFlyEnabled: getSelectedPageModelCanBeOnTheFly(state),
