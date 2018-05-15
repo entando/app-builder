@@ -40,6 +40,7 @@
 @import "pages/config/PageConfigGridRow";
 @import "pages/config/WidgetFrame";
 @import "pages/config/EmptyFrame";
+@import "pages/list/PageListSearchTable";
 @import "users/common/UserStatus";
 @import "users/common/UserForm";
 @import "users/list/UserListTable";
@@ -71,3 +72,5 @@
 @import "dashboard/PageStatus";
 @import "dashboard/PagesList";
 @import "reload-configuration/ReloadConfig";
+@import "file-browser/list/FilesListTable";
+@import "file-browser/list/FileBreadcrumb";

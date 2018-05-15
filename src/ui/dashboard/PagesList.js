@@ -25,6 +25,9 @@ class PagesList extends Component {
   }
 
   renderRows() {
+    if (!this.props.pages) {
+      return null;
+    }
     return (
       this.props.pages.map(page => (
         <tr key={page.code}>

@@ -2,12 +2,10 @@ import { connect } from 'react-redux';
 import { convertToQueryString } from '@entando/utils';
 
 import PageTreePage from 'ui/pages/list/PageTreePage';
-
 import { handleExpandPage, fetchSearchPages, clearSearchPage } from 'state/pages/actions';
-
 import { getLocale } from 'state/locale/selectors';
-
 import { getSearchPages } from 'state/pages/selectors';
+import { clearErrors } from 'state/errors/actions';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -16,6 +14,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
+    dispatch(clearErrors());
+    dispatch(clearSearchPage());
     dispatch(handleExpandPage());
   },
   onClear: () => {

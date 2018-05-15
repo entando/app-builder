@@ -67,6 +67,10 @@ describe('PageConfigPageContainer', () => {
       props = mapStateToProps({});
     });
 
+    it('defines pageCode', () => {
+      expect(props).toHaveProperty('pageCode', PAGE.code);
+    });
+
     it('defines pageName', () => {
       expect(props.pageName).toBe(PAGE.titles.en);
     });

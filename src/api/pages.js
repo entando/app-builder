@@ -192,7 +192,7 @@ export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
 });
 
 export const restorePageConfig = pageCode => makeRequest({
-  uri: `/api/pages/${pageCode}/widgets/restore`,
+  uri: `/api/pages/${pageCode}/configuration/restore`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},
@@ -200,7 +200,7 @@ export const restorePageConfig = pageCode => makeRequest({
 });
 
 export const applyDefaultPageConfig = pageCode => makeRequest({
-  uri: `/api/pages/${pageCode}/widgets/applyDefault`,
+  uri: `/api/pages/${pageCode}/configuration/defaultWidgets`,
   method: METHODS.PUT,
   body: {},
   mockResponse: {},

@@ -12,6 +12,7 @@ export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
+export const ROUTE_PAGE_PREVIEW = 'pagePreview';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
 export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
 export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
@@ -41,6 +42,7 @@ export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
 export const ROUTE_GROUP_DETAIL = 'groupDetail';
 export const ROUTE_USER_AUTHORITY = 'authorityPage';
+export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_LABEL_EDIT = 'labelEdit';
@@ -58,7 +60,7 @@ export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
-
+export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 
 routerConfig(
   store,
@@ -75,6 +77,7 @@ routerConfig(
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
+      { name: ROUTE_PAGE_PREVIEW, path: '/page/preview/:pageCode' },
       { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
       { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
       { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },
@@ -106,6 +109,7 @@ routerConfig(
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
       { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
       { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
+      { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_LABEL_EDIT, path: '/labels-languages/edit/:labelCode' },
@@ -121,6 +125,7 @@ routerConfig(
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
 
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
+      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

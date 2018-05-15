@@ -1,0 +1,21 @@
+.FileBreadcrumb {
+  // sass-lint:disable class-name-format
+  .breadcrumb {
+    border: 0;
+  }
+  // sass-lint:enable class-name-format
+}
+
+.BreadcrumbItem {
+  &__first-level-folder {
+    cursor: pointer;
+  }
+
+  &__a-item-link {
+    cursor: pointer;
+  }
+
+  &__root-link {
+    cursor: pointer;
+  }
+}

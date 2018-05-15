@@ -96,7 +96,7 @@ class PageTree extends Component {
   }
 
   render() {
-    if (this.props.searchPages.length > 0) {
+    if (this.props.searchPages) {
       return <PageListSearchTable {...this.props} />;
     }
     return (
@@ -160,7 +160,7 @@ PageTree.propTypes = {
 
 PageTree.defaultProps = {
   pages: [],
-  searchPages: [],
+  searchPages: null,
   onDropIntoPage: () => {},
   onDropAbovePage: () => {},
   onDropBelowPage: () => {},
