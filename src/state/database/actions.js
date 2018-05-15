@@ -75,14 +75,21 @@ export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
     const datasource = getDataSourceDump(getState());
     const tableName = getTableDump(getState());
     getDatabaseTableDump(dumpCode, datasource, tableName).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setDumpTableData(json.payload.base64));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(setDumpTableData(json.payload.base64));
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            resolve();
+          });
         }
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   })
 );
@@ -92,15 +99,22 @@ export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
     const { dumpCode } = getParams(getState());
     dispatch(toggleLoading('database'));
     getReportBackup(dumpCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setReportBackup(json.payload));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(setReportBackup(json.payload));
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            dispatch(toggleLoading('database'));
+            resolve();
+          });
         }
-        dispatch(toggleLoading('database'));
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   })
 );
@@ -108,14 +122,21 @@ export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
 export const fetchDatabaseStatusBackup = () => dispatch => (
   new Promise((resolve) => {
     getStatusBackup().then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setStatusBackup(json.payload.status));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(setStatusBackup(json.payload.status));
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            resolve();
+          });
         }
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   })
 );
@@ -123,15 +144,22 @@ export const fetchDatabaseStatusBackup = () => dispatch => (
 export const sendPostDatabaseStartBackup = () => dispatch => (
   new Promise((resolve) => {
     postStartBackup().then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setStatusBackup(json.payload.status));
-          gotoRoute(ROUTE_DATABASE_LIST);
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(setStatusBackup(json.payload.status));
+              gotoRoute(ROUTE_DATABASE_LIST);
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            resolve();
+          });
         }
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   })
 );
@@ -139,14 +167,21 @@ export const sendPostDatabaseStartBackup = () => dispatch => (
 export const fetchDatabaseInitBackup = () => dispatch => (
   new Promise((resolve) => {
     getDatabaseInitBackup().then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setDatabaseInitBackup(json.payload));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(setDatabaseInitBackup(json.payload));
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            resolve();
+          });
         }
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   }));
 
@@ -154,34 +189,48 @@ export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
   (dispatch, getState) => new Promise((resolve) => {
     getDatabaseDumpReportList(page).then((response) => {
       dispatch(toggleLoading('database'));
-      response.json().then((json) => {
-        if (response.ok) {
-          if (getDatabaseStatusBackup(getState()) === 0) {
-            dispatch(setDatabaseDumps(json.payload));
-            dispatch(setPage(json.metaData));
-          } else {
-            dispatch(fetchDatabaseStatusBackup());
-            dispatch(fetchDatabaseDumpReport());
-          }
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              if (getDatabaseStatusBackup(getState()) === 0) {
+                dispatch(setDatabaseDumps(json.payload));
+                dispatch(setPage(json.metaData));
+              } else {
+                dispatch(fetchDatabaseStatusBackup());
+                dispatch(fetchDatabaseDumpReport());
+              }
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            dispatch(toggleLoading('database'));
+            resolve();
+          });
         }
-        dispatch(toggleLoading('database'));
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   });
 
 export const sendDeleteDatabaseBackup = code => dispatch => (
   new Promise((resolve) => {
     deleteDatabaseBackup(code).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(fetchDatabaseDumpReport());
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          response.json().then((json) => {
+            if (response.ok) {
+              dispatch(fetchDatabaseDumpReport());
+            } else {
+              dispatch(addErrors(json.errors.map(e => e.message)));
+            }
+            resolve();
+          });
         }
-        resolve();
-      });
+      } catch (error) {
+        throw new TypeError('No JSON content-type in response headers', error);
+      }
     });
   }));
