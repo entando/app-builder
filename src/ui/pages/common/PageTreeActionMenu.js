@@ -42,6 +42,21 @@ class PageTreeActionMenu extends Component {
         </MenuItem>
       );
 
+    const renderDeleteItem = () => {
+      if (page.status === PAGE_STATUS_PUBLISHED) {
+        return null;
+      }
+
+      return (
+        <MenuItem
+          className="PageTreeActionMenuButton__menu-item-delete"
+          onClick={this.handleClick(onClickDelete)}
+        >
+          <FormattedMessage id="app.delete" />
+        </MenuItem>
+      );
+    };
+
     return (
       <div>
         <DropdownKebab pullRight id="WidgetListRow-dropown">
@@ -75,12 +90,7 @@ class PageTreeActionMenu extends Component {
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
-          <MenuItem
-            className="PageTreeActionMenuButton__menu-item-delete"
-            onClick={this.handleClick(onClickDelete)}
-          >
-            <FormattedMessage id="app.delete" />
-          </MenuItem>
+          {renderDeleteItem()}
           { changePublishStatus }
         </DropdownKebab>
       </div>
