@@ -30,29 +30,31 @@ describe('UserRestrictionsPage', () => {
   it('has a passwordAlwaysActive toggle', () => {
     const element = component.find('Field[name="passwordAlwaysActive"]');
     expect(element.exists()).toBe(true);
-    expect(element.props().component).toBe(SwitchRenderer);
+    expect(element.props()).toHaveProperty('component', SwitchRenderer);
   });
 
   it('has an enabled maxMonthsPasswordValid text field', () => {
     const element = component.find('Field[name="maxMonthsPasswordValid"]');
     expect(element.exists()).toBe(true);
-    expect(element.props().component).toBe(RenderTextInput);
-    expect(element.props().disabled).toBe(false);
-    expect(element.props().validate).toEqual(isNumber);
+    const props = element.props();
+    expect(props).toHaveProperty('component', RenderTextInput);
+    expect(props).toHaveProperty('disabled', false);
+    expect(props).toHaveProperty('validate', isNumber);
   });
 
   it('has an enabled lastAccessPasswordExpirationMonths text field', () => {
     const element = component.find('Field[name="lastAccessPasswordExpirationMonths"]');
     expect(element.exists()).toBe(true);
-    expect(element.props().component).toBe(RenderTextInput);
-    expect(element.props().disabled).toBe(false);
-    expect(element.props().validate).toEqual([isNumber, montshSinceLogin]);
+    const props = element.props();
+    expect(props).toHaveProperty('component', RenderTextInput);
+    expect(props).toHaveProperty('disabled', false);
+    expect(props).toHaveProperty('validate', [isNumber, montshSinceLogin]);
   });
 
   it('has a enableGravatarIntegration toggle', () => {
     const element = component.find('Field[name="enableGravatarIntegration"]');
     expect(element.exists()).toBe(true);
-    expect(element.props().component).toBe(SwitchRenderer);
+    expect(element.props()).toHaveProperty('component', SwitchRenderer);
   });
 
   describe('with passwordActive true', () => {
@@ -63,17 +65,19 @@ describe('UserRestrictionsPage', () => {
     it('has a disabled maxMonthsPasswordValid text field', () => {
       const element = component.find('Field[name="maxMonthsPasswordValid"]');
       expect(element.exists()).toBe(true);
-      expect(element.props().component).toBe(RenderTextInput);
-      expect(element.props().disabled).toBe(true);
-      expect(element.props().validate).toEqual(isNumber);
+      const props = element.props();
+      expect(props).toHaveProperty('component', RenderTextInput);
+      expect(props).toHaveProperty('disabled', true);
+      expect(props).toHaveProperty('validate', isNumber);
     });
 
     it('has a disabled lastAccessPasswordExpirationMonths text field', () => {
       const element = component.find('Field[name="lastAccessPasswordExpirationMonths"]');
       expect(element.exists()).toBe(true);
-      expect(element.props().component).toBe(RenderTextInput);
-      expect(element.props().disabled).toBe(true);
-      expect(element.props().validate).toEqual([isNumber, montshSinceLogin]);
+      const props = element.props();
+      expect(props).toHaveProperty('component', RenderTextInput);
+      expect(props).toHaveProperty('disabled', true);
+      expect(props).toHaveProperty('validate', [isNumber, montshSinceLogin]);
     });
   });
 });
