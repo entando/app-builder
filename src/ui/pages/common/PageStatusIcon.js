@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formattedText } from '@entando/utils';
-import { unescape } from 'lodash';
-
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 
 const PageStatusIcon = ({ status, differsFromPublished }) => {
@@ -12,7 +10,7 @@ const PageStatusIcon = ({ status, differsFromPublished }) => {
     classNameAr.push('PageStatusIcon--diff');
     iconTitle = [
       `${formattedText('pages.status.draft')}`,
-      `${unescape('\u2260')}`,
+      `${decodeURI('\u2260')}`,
       `${formattedText('pages.status.published')}`,
     ].join(' ');
   }
