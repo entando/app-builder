@@ -34,6 +34,7 @@ import {
   ROUTE_USER_ADD,
   ROUTE_USER_EDIT,
   ROUTE_USER_DETAIL,
+  ROUTE_USER_RESTRICTIONS,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -88,6 +89,7 @@ import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageCont
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -153,6 +155,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_USER_DETAIL: return <DetailUserPage />;
+    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
@@ -170,7 +173,6 @@ const App = ({ route, username }) => {
     case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
     case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
-
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;

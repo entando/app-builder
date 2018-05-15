@@ -36,6 +36,7 @@ export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
+export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
@@ -58,7 +59,6 @@ export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
-
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 
@@ -103,6 +103,7 @@ routerConfig(
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
+      { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },

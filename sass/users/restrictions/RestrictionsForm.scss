@@ -1,0 +1,17 @@
+// sass-lint:disable class-name-format nesting-depth
+.UserRestrictionsPage {
+  .form-horizontal {
+    .control-label {
+      text-align: left;
+    }
+
+    .RenderTextInput {
+      display: inline-block;
+      max-width: 69px;
+    }
+
+    .AppendedLabel {
+      margin-left: 5px;
+    }
+  }
+}
