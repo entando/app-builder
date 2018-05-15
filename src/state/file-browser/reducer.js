@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 
 const defaultState = {
@@ -9,24 +10,27 @@ const defaultState = {
   },
 };
 
-const reducer = (state = defaultState, action = {}) => {
+const list = (state = defaultState.list, action = {}) => {
   switch (action.type) {
     case SET_FILE_LIST: {
-      return { ...state, list: action.payload.fileList || defaultState.list };
-    }
-    case SET_PATH_INFO: {
-      return {
-        ...state,
-        pathInfo: {
-          protectedFolder: action.payload.pathInfo.protectedFolder,
-          prevPath: action.payload.pathInfo.prevPath || defaultState.pathInfo.prevPath,
-          currentPath: action.payload.pathInfo.currentPath || defaultState.pathInfo.currentPath,
-        },
-      };
+      return action.payload.fileList || defaultState.list;
     }
     default:
       return state;
   }
 };
 
-export default reducer;
+const pathInfo = (state = defaultState.pathInfo, action = {}) => {
+  switch (action.type) {
+    case SET_PATH_INFO: {
+      return Object.assign({}, defaultState.pathInfo, action.payload.pathInfo);
+    }
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  list,
+  pathInfo,
+});

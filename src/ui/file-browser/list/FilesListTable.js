@@ -26,14 +26,10 @@ class FilesListTable extends Component {
     };
 
     const getQueryString = (path) => {
-      switch (path) {
-        case 'public':
-          return null;
-        case 'protected':
-          return null;
-        default:
-          return path;
+      if (['protected', 'public'].includes(path)) {
+        return null;
       }
+      return path;
     };
 
     const getActionsMenuItem = (file) => {
@@ -104,9 +100,9 @@ class FilesListTable extends Component {
       const pfolder = this.props.pathInfo.protectedFolder;
       const prev = this.props.pathInfo.prevPath;
       const current = this.props.pathInfo.currentPath;
-      if (pfolder === undefined) {
+      if (pfolder === null) {
         return <div />;
-      } else if (prev === '' && current === '') {
+      } else if (prev === null && current === '') {
         return (
           <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onWillMount()}>
             <Icon size="lg" name="share" className="fa-rotate-270" /> <FormattedMessage id="fileBrowser.list.upLink" />

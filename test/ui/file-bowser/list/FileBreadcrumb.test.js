@@ -19,7 +19,7 @@ const props = {
 const propsRootFolder = {
   updateFileBrowser: jest.fn(),
   pathInfo: {
-    protectedFolder: undefined,
+    protectedFolder: null,
     prevPath: '',
     currentPath: '',
   },

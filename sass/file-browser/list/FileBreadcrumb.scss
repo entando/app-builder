@@ -3,9 +3,9 @@
   .breadcrumb {
     border: 0;
   }
+  // sass-lint:enable class-name-format
 }
 
-// sass-lint:enable class-name-format
 .BreadcrumbItem {
   &__first-level-folder {
     cursor: pointer;

@@ -21,7 +21,7 @@ const props = {
 const propsRootFolder = {
   onWillMount: jest.fn(),
   pathInfo: {
-    protectedFolder: undefined,
+    protectedFolder: null,
     prevPath: '',
     currentPath: '',
   },
