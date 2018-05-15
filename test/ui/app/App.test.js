@@ -35,6 +35,7 @@ import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPa
 import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
 import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 
 import {
   ROUTE_HOME,
@@ -67,6 +68,7 @@ import {
   ROUTE_PAGE_MODEL_ADD,
   ROUTE_PAGE_MODEL_EDIT,
   ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_FILE_BROWSER,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -228,6 +230,11 @@ describe('App', () => {
   it('route to page model detail page', () => {
     const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />);
     expect(component.contains(<PageModelDetailPageContainer />)).toBe(true);
+  });
+
+  it('route to page file browser page', () => {
+    const component = shallow(<App route={ROUTE_FILE_BROWSER} username="admin" />);
+    expect(component.contains(<FileBrowserPage />)).toBe(true);
   });
 
   it('default route', () => {

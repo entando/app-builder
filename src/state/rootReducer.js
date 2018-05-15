@@ -30,6 +30,7 @@ import permissions from 'state/permissions/reducer';
 import alerts from 'state/alerts/reducer';
 import configuration from 'state/reload-configuration/reducer';
 import dashboard from 'state/dashboard/reducer';
+import fileBrowser from 'state/file-browser/reducer';
 
 const reducerDef = {
   activityStream,
@@ -42,6 +43,7 @@ const reducerDef = {
   dataModels,
   dataTypes,
   errors,
+  fileBrowser,
   form,
   fragments,
   groups,

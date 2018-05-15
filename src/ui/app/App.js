@@ -54,7 +54,7 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-
+  ROUTE_FILE_BROWSER,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -110,6 +110,7 @@ import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
+import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -174,6 +175,7 @@ const App = ({ route, username }) => {
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
+    case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
     default: return <NotFoundPage />;
   }
 };
