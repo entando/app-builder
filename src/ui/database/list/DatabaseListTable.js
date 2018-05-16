@@ -9,7 +9,7 @@ import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModal
 class DatabaseListTable extends Component {
   constructor(props) {
     super(props);
-    this.databases = null;
+    // this.databases = null;
     this.onClickDelete = this.onClickDelete.bind(this);
   }
 
@@ -47,15 +47,18 @@ class DatabaseListTable extends Component {
   }
 
   renderTable() {
+    const alertMessage = id => (
+      <Col xs={12}>
+        <Alert type="info" className="DatabaseListPage__alert">
+          <strong><FormattedMessage id={id} /></strong>
+        </Alert>
+        <hr />
+      </Col>
+    );
     if (this.props.databases.length === 0) {
-      return (
-        <Col xs={12}>
-          <Alert type="info" className="DatabaseListPage__alert">
-            <strong><FormattedMessage id="database.noDatabaseYet" /></strong>
-          </Alert>
-          <hr />
-        </Col>
-      );
+      if (this.props.status === 0) {
+        return alertMessage('database.noDatabaseYet');
+      } return alertMessage('database.inProgress');
     }
     return (
 
@@ -99,6 +102,7 @@ DatabaseListTable.propTypes = {
     requiredTime: PropTypes.number.isRequired,
   })),
   loading: PropTypes.bool,
+  status: PropTypes.number.isRequired,
 };
 
 DatabaseListTable.defaultProps = {

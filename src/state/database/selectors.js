@@ -1,15 +1,16 @@
 import { createSelector } from 'reselect';
 
-const getDatabaseList = state => state.database.list;
-const getDatabaseMap = state => state.database.map;
+const getDatabaseRoot = state => state.database;
+const getDatabaseList = createSelector(getDatabaseRoot, db => db.list);
+const getDatabaseMap = createSelector(getDatabaseRoot, db => db.map);
 
-export const getDatabaseInit = state => state.database.init;
-export const getDatabaseStatusBackup = state => state.database.status;
-export const getDatabaseReportBackup = state => state.database.report;
-export const getDatabaseReportBackupCode = state => state.database.report.code;
-export const getDataSourceDump = state => state.database.dump.datasource;
-export const getTableDump = state => state.database.dump.tableName;
-export const getTableDumpData = state => state.database.dump.data;
+export const getDatabaseInit = createSelector(getDatabaseRoot, db => db.init);
+export const getDatabaseStatusBackup = createSelector(getDatabaseRoot, db => db.status);
+export const getDatabaseReportBackup = createSelector(getDatabaseRoot, db => db.report);
+export const getDatabaseReportBackupCode = createSelector(getDatabaseRoot, db => db.report.code);
+export const getDataSourceDump = createSelector(getDatabaseRoot, db => db.dump.datasource);
+export const getTableDump = createSelector(getDatabaseRoot, db => db.dump.tableName);
+export const getTableDumpData = createSelector(getDatabaseRoot, db => db.dump.data);
 
 export const getDatabaseDumpList = createSelector(
   getDatabaseList, getDatabaseMap,

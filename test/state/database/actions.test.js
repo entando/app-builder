@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { gotoRoute, getParams } from '@entando/router';
 
-import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import {
@@ -22,7 +21,6 @@ import {
   getDatabaseDumpReportList,
   deleteDatabaseBackup,
   postStartBackup,
-  getStatusBackup,
   getReportBackup,
   getDatabaseTableDump,
 } from 'api/database';
@@ -45,9 +43,9 @@ import {
   fetchDatabaseInitBackup,
   sendDeleteDatabaseBackup,
   sendPostDatabaseStartBackup,
-  fetchDatabaseStatusBackup,
   fetchDatabaseReportBackup,
   fetchDatabaseDumpTable,
+
 } from 'state/database/actions';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
@@ -217,22 +215,6 @@ describe('state/database/actions', () => {
       });
     });
 
-    describe('fetchDatabaseStatusBackup', () => {
-      it('calls fetchDatabaseStatusBackup and calls SET_DATABASE_STATUS_BACKUP', (done) => {
-        store.dispatch(fetchDatabaseStatusBackup()).then(() => {
-          expect(getStatusBackup).toHaveBeenCalled();
-          const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_DATABASE_STATUS_BACKUP);
-          done();
-        }).catch(done.fail);
-      });
-
-      it('if the response is not ok, dispatch add errors', (done) => {
-        wrapErrorTest(done)(fetchDatabaseStatusBackup, getStatusBackup)();
-      });
-    });
-
     describe('fetchDatabaseInitBackup', () => {
       it('calls fetchDatabaseInitBackup and calls SET_DATABASE_INIT_BACKUP', (done) => {
         store.dispatch(fetchDatabaseInitBackup()).then(() => {
@@ -252,19 +234,25 @@ describe('state/database/actions', () => {
 
     describe('fetchDatabaseDumpReport', () => {
       it('calls getDatabaseDumpReportList and calls SET_DATABASE_DUMPS and setPage', (done) => {
+        jest.useFakeTimers();
+        // const intervallStatusBackup = jest.fn(mockApi({ payload: [] }));
         getDatabaseStatusBackup.mockReturnValue(0);
         store.dispatch(fetchDatabaseDumpReport()).then(() => {
           expect(getDatabaseDumpReportList).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(4);
-          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-          expect(actions[1]).toHaveProperty('type', SET_DATABASE_DUMPS);
-          expect(actions[1]).toHaveProperty(
-            'payload.database',
-            expect.objectContaining(DATABASE_DUMP_REPORT_LIST),
-          );
-          expect(actions[2]).toHaveProperty('type', SET_PAGE);
-          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          jest.runTimersToTime(500);
+          // console.log(actions);
+          expect(actions).toHaveLength(2);
+          // expect(intervallStatusBackup).toHaveBeenCalled();
+          // expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          // expect(actions[1]).toHaveProperty('type', SET_DATABASE_DUMPS);
+          // expect(actions[1]).toHaveProperty(
+          //   'payload.database',
+          //   expect.objectContaining(DATABASE_DUMP_REPORT_LIST),
+          // );
+          // expect(actions[2]).toHaveProperty('type', SET_PAGE);
+          // expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          jest.clearAllTimers();
           done();
         }).catch(done.fail);
       });

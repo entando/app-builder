@@ -1,18 +1,21 @@
 import { connect } from 'react-redux';
 import { getLoading } from 'state/loading/selectors';
-import DatabaseListTable from 'ui/database/list/DatabaseListTable';
 import { fetchDatabaseDumpReport } from 'state/database/actions';
-import { getDatabaseDumpList } from 'state/database/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
+
 import { MODAL_ID } from 'ui/database/common/DeleteDatabaseModal';
+import DatabaseListTable from 'ui/database/list/DatabaseListTable';
+import { getDatabaseDumpList, getDatabaseStatusBackup } from 'state/database/selectors';
+
 
 export const mapStateToProps = state => ({
   databases: getDatabaseDumpList(state),
   loading: getLoading(state).database,
+  status: getDatabaseStatusBackup(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = { page: 1, pageSize: 10 }) => {
+  onWillMount: (page = { page: 1, pageSize: 0 }) => {
     dispatch(fetchDatabaseDumpReport(page));
   },
   onClickDelete: (database) => {

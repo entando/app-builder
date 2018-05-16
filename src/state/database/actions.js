@@ -23,7 +23,7 @@ import {
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
-import { getDatabaseStatusBackup, getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
+import { getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
 
 export const setDatabaseDumps = database => ({
   type: SET_DATABASE_DUMPS,
@@ -119,18 +119,52 @@ export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
   })
 );
 
-export const fetchDatabaseStatusBackup = () => dispatch => (
-  new Promise((resolve) => {
+const isJsonContentType = (headers) => {
+  const contentType = headers.get('content-type');
+  return !!(contentType && contentType.includes('application/json'));
+};
+
+const intervallStatusBackup = () => (dispatch) => {
+  const interval = setInterval(() => {
     getStatusBackup().then((response) => {
+      if (isJsonContentType(response.headers)) {
+        response.json().then((json) => {
+          const status = parseInt(json.payload.status, 10);
+          if (status === 0) {
+            clearInterval(interval);
+            dispatch(setStatusBackup(json.payload.status));
+            getDatabaseDumpReportList({ page: 1, pageSize: 0 }).then((resp) => {
+              if (isJsonContentType(resp.headers)) {
+                resp.json().then((backup) => {
+                  if (resp.ok) {
+                    dispatch(setDatabaseDumps(backup.payload));
+                    dispatch(setPage(backup.metaData));
+                  } else {
+                    dispatch(addErrors(backup.errors.map(e => e.message)));
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }, 500);
+};
+
+export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
+  dispatch => new Promise((resolve) => {
+    dispatch(toggleLoading('database'));
+    getDatabaseDumpReportList(page).then((response) => {
       try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
+        if (isJsonContentType(response.headers)) {
           response.json().then((json) => {
             if (response.ok) {
-              dispatch(setStatusBackup(json.payload.status));
+              dispatch(intervallStatusBackup());
             } else {
               dispatch(addErrors(json.errors.map(e => e.message)));
             }
+            dispatch(toggleLoading('database'));
             resolve();
           });
         }
@@ -138,8 +172,7 @@ export const fetchDatabaseStatusBackup = () => dispatch => (
         throw new TypeError('No JSON content-type in response headers', error);
       }
     });
-  })
-);
+  });
 
 export const sendPostDatabaseStartBackup = () => dispatch => (
   new Promise((resolve) => {
@@ -184,35 +217,6 @@ export const fetchDatabaseInitBackup = () => dispatch => (
       }
     });
   }));
-
-export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
-  (dispatch, getState) => new Promise((resolve) => {
-    getDatabaseDumpReportList(page).then((response) => {
-      dispatch(toggleLoading('database'));
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              if (getDatabaseStatusBackup(getState()) === 0) {
-                dispatch(setDatabaseDumps(json.payload));
-                dispatch(setPage(json.metaData));
-              } else {
-                dispatch(fetchDatabaseStatusBackup());
-                dispatch(fetchDatabaseDumpReport());
-              }
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            dispatch(toggleLoading('database'));
-            resolve();
-          });
-        }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
-  });
 
 export const sendDeleteDatabaseBackup = code => dispatch => (
   new Promise((resolve) => {

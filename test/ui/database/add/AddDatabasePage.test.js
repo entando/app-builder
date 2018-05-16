@@ -24,11 +24,11 @@ describe('AddDatabasePage', () => {
   });
 
   it('has a breadcrumb', () => {
-    expect(component.find('Breadcrumb')).toHaveLength(1);
+    expect(component.find('Breadcrumb')).toExist();
   });
 
   it('has a page title', () => {
-    expect(component.find('PageTitle')).toHaveLength(1);
+    expect(component.find('PageTitle')).toExist();
   });
 
   it('call onWillMount', () => {

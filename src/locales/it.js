@@ -315,6 +315,7 @@ export default {
     'database.list.add': 'Crea un backup',
     'database.help': 'Dalla sezione DATABASE gli amministratori di sistema possono effettuare il backup e il ripristino del database, qualora la funzionalità sia abilitata. È una funzione molto importante che se non eseguita in maniera corretta può comportare la perdita irreversibile di dati.',
     'database.noDatabaseYet': 'Non ci sono backup disponibili.',
+    'database.inProgress': 'Backup in corso',
     'database.gotoList': 'Vai alla lista dei backup',
     'database.backup': 'Avvia backup',
     'database.restore': 'Ripristina backup',

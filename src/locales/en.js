@@ -315,6 +315,7 @@ export default {
     'database.list.add': 'Create a backup',
     'database.help': 'The DATABASE section lets system administrators create backup and restore the database, if the feature is enabled. It is a very important feature that, if not performed correctly, can result in irreversible data loss.',
     'database.noDatabaseYet': 'No backups available.',
+    'database.inProgress': 'Backup in progress',
     'database.gotoList': 'Go to backup list',
     'database.backup': 'Backup now',
     'database.restore': 'Restore backup',
