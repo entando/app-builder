@@ -1,0 +1,30 @@
+.ReportDatabaseListDataSource {
+
+  &__panel-accordion-detail {
+    border: 0;
+  }
+
+  &__panel-detail {
+    border: 0;
+    background-color: $color-pf-black-100;
+ }
+
+  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+  &__panel-detail.panel.panel-default > .panel-heading {
+    background: $color-pf-black-100;
+  }
+  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
+  &__panel-title {
+    align-items: center;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+  &__panel-title.panel-title > a {
+    color: $color-pf-blue-300;
+  }
+  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
+}
