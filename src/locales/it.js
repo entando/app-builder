@@ -131,6 +131,7 @@ export default {
     'menu.reloadConfiguration': 'Ricarca la configurazione',
     'menu.reloadConfirm': 'Reload the Configuration',
     'menu.profileTypes': 'Tipi di profilo',
+    'menu.profile': 'Profilo',
     'dashboard.newUser': 'Nuovo Utente',
     'dashboard.newWidget': 'Nuovo Widget',
     'dashboard.newPage': 'Aggiungi Pagina',
@@ -264,6 +265,7 @@ export default {
     'profileType.listEmpty': 'Non ci sono TIPI di PROFILO disponibili',
     'profileType.list.title': 'Tipi di profilo',
     'profileType.help': 'Dalla sezione TIPI DI PROFILO l\'amministratore può creare nuovi tipi di profilo utenti o modificare quelli già esistenti.',
+    'ProfileType.type': 'Tipo',
 
     'pageConfig.saveAsNewWidget': 'Salva come nuovo widget',
     'pageConfig.applyDefaultWidget': 'Applica widget di default',

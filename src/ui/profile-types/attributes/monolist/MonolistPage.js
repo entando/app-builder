@@ -6,10 +6,10 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import FormContainer from 'ui/data-types/attributes/monolist/FormContainer';
+import FormContainer from 'ui/profile-types/attributes/monolist/FormContainer';
 import {
-  ROUTE_DATA_TYPE_LIST,
-  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_PROFILE_TYPE_LIST,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
 class MonolistPage extends Component {
@@ -19,7 +19,7 @@ class MonolistPage extends Component {
 
   render() {
     const {
-      attributeCode, dataTypeCode, selectedAttribute, entityCode,
+      attributeCode, profileTypeCode, selectedAttribute, entityCode,
     } = this.props;
 
     return (
@@ -29,18 +29,18 @@ class MonolistPage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.data" />
+                  <FormattedMessage id="menu.profile" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route={ROUTE_DATA_TYPE_LIST}>
-                  <FormattedMessage id="menu.dataType" />
+                <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
+                  <FormattedMessage id="menu.profileType" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="app.edit" /> :
-                  &nbsp;{dataTypeCode}
+                  &nbsp;{profileTypeCode}
                 </BreadcrumbItem>
 
                 <BreadcrumbItem
-                  route={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
+                  route={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT}
                   params={{ entityCode, attributeCode }}
                 >
                   <FormattedMessage id="app.edit.attribute" />
@@ -54,7 +54,7 @@ class MonolistPage extends Component {
           </Row>
           <PageTitle
             titleId={`app.edit.${selectedAttribute}`}
-            helpId="dataType.help"
+            helpId="profileType.help"
           />
           <Row>
             <Col xs={12} >
@@ -69,7 +69,7 @@ class MonolistPage extends Component {
 
 MonolistPage.propTypes = {
   onWillMount: PropTypes.func,
-  dataTypeCode: PropTypes.string,
+  profileTypeCode: PropTypes.string,
   attributeCode: PropTypes.string,
   selectedAttribute: PropTypes.string,
   entityCode: PropTypes.string,
@@ -77,7 +77,7 @@ MonolistPage.propTypes = {
 
 MonolistPage.defaultProps = {
   onWillMount: () => {},
-  dataTypeCode: '',
+  profileTypeCode: '',
   attributeCode: '',
   selectedAttribute: '',
   entityCode: '',

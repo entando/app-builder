@@ -4,38 +4,40 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
-import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
+// import EditFormContainer from 'ui/profile-types/attributes/EditFormContainer';
+import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 
-const AddDataTypeAttributePage = () => (
-  <InternalPage className="AttributePage">
+const EditProfileTypeAttributePage = () => (
+
+  <InternalPage className="EditProfileTypeAttributePage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.data" />
+              <FormattedMessage id="menu.profile" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_DATA_TYPE_LIST}>
-              <FormattedMessage id="menu.dataType" />
+            <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
+              <FormattedMessage id="menu.profileTypes" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.edit" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <PageTitle
         titleId="app.attribute"
-        helpId="dataType.help"
+        helpId="profileType.help"
       />
       <Row>
         <Col xs={12} >
-          <AddFormContainer />
+        lallo
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
+// <EditFormContainer />
 
-export default AddDataTypeAttributePage;
+export default EditProfileTypeAttributePage;

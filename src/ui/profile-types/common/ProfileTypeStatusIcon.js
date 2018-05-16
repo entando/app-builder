@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const ProfileTypeStatusIcon = ({ status, title }) => (
   <i className={`fa ProfileTypeStatusIcon ProfileTypeStatusIcon--${status}`} title={title} />
 );

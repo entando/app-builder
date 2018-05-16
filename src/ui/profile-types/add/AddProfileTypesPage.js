@@ -5,7 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import AddFormContainer from 'ui/data-types/add/AddFormContainer';
+import AddFormContainer from 'ui/profile-types/add/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 
 
@@ -16,10 +16,10 @@ const AddProfileTypesPage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.data" />
+              <FormattedMessage id="menu.profile" />
             </BreadcrumbItem>
             <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
-              <FormattedMessage id="menu.dataType" />
+              <FormattedMessage id="menu.profileTypes" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="app.add" />
@@ -29,7 +29,7 @@ const AddProfileTypesPage = () => (
       </Row>
       <PageTitle
         titleId="app.add"
-        helpId="dataType.help"
+        helpId="profileType.help"
       />
       <Row>
         <Col xs={12} >

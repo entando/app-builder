@@ -39,7 +39,7 @@ import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } f
 
 const TYPE_MONOLIST = 'Monolist';
 
-// Data type
+// Profile type
 export const setProfileTypes = profileTypes => ({
   type: SET_PROFILE_TYPES,
   payload: {
@@ -76,7 +76,7 @@ export const removeAttribute = (profileTypeCode, attributeCode) => ({
   },
 });
 
-// Data type attributes
+// Profile type attributes
 export const setSelectedAttribute = attribute => ({
   type: SET_SELECTED_ATTRIBUTE,
   payload: {
@@ -99,7 +99,7 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
     postProfileType(ProfileTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+          // gotoRoute(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -143,7 +143,7 @@ export const fetchProfileType = profileTypeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedProfileType(json.payload));
-          dispatch(initialize('profileType', json.payload));
+          dispatch(initialize('ProfileType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

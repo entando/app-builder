@@ -8,7 +8,7 @@ import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import AttributeListTable from 'ui/common/attributes/AttributeListTable';
+import AttributeListTableProfile from 'ui/common/attributes/AttributeListTableProfile';
 
 
 const uppercaseThreeLetters = value =>
@@ -18,12 +18,12 @@ const uppercaseThreeLetters = value =>
 const maxLength50 = maxLength(50);
 
 
-export class DataTypeFormBody extends Component {
+export class ProfileTypeFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
-
   render() {
+    console.log('props', this.props);
     const {
       attributesType, mode, handleSubmit, onSubmit,
       onAddAttribute, invalid, submitting,
@@ -40,7 +40,7 @@ export class DataTypeFormBody extends Component {
       if (isEdit) {
         return (
           <Row>
-            <AttributeListTable {...this.props} />
+            <AttributeListTableProfile {...this.props} />
           </Row>
         );
       }
@@ -58,14 +58,14 @@ export class DataTypeFormBody extends Component {
               <RenderSelectInput
                 options={selectOptions}
                 defaultOptionId="app.chooseAnOption"
-                labelId="DataType.type"
+                labelId="ProfileType.type"
                 fieldName="type"
                 mandatory
               />
               <span className="input-group-btn">
                 <Button
                   type="button"
-                  className="pull-right DataTypeForm__add"
+                  className="pull-right ProfileTypeForm__add"
                   bsStyle="primary"
                   onClick={() => onAddAttribute(this.props)}
                   disabled={invalid || submitting}
@@ -83,19 +83,19 @@ export class DataTypeFormBody extends Component {
     };
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal DataTypeForm">
+      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal ProfileTypeForm">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
               <legend>
                 <FormattedMessage id="app.info" />
-                <div className="DataTypeForm__required-fields text-right">
+                <div className="ProfileTypeForm__required-fields text-right">
                    * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
               <Field
                 component={RenderTextInput}
-                className="DataTypeForm__input-code"
+                className="ProfileTypeForm__input-code"
                 name="code"
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
@@ -120,7 +120,7 @@ export class DataTypeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <Button
-              className="pull-right DataTypeFormBody__save--btn"
+              className="pull-right ProfileTypeFormBody__save--btn"
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
@@ -135,7 +135,7 @@ export class DataTypeFormBody extends Component {
   }
 }
 
-DataTypeFormBody.propTypes = {
+ProfileTypeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -146,7 +146,7 @@ DataTypeFormBody.propTypes = {
   mode: PropTypes.string,
 };
 
-DataTypeFormBody.defaultProps = {
+ProfileTypeFormBody.defaultProps = {
   onWillMount: () => {},
   onAddAttribute: () => {},
   invalid: false,
@@ -155,8 +155,8 @@ DataTypeFormBody.defaultProps = {
 
 };
 
-const DataTypeForm = reduxForm({
-  form: 'DataType',
-})(DataTypeFormBody);
+const ProfileTypeForm = reduxForm({
+  form: 'ProfileType',
+})(ProfileTypeFormBody);
 
-export default DataTypeForm;
+export default ProfileTypeForm;

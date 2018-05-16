@@ -5,21 +5,21 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import EditFormContainer from 'ui/data-types/edit/EditFormContainer';
-import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
+import EditFormContainer from 'ui/profile-types/edit/EditFormContainer';
+import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 
 
-const EditDataTypesPage = () => (
-  <InternalPage className="EditDataTypesPage">
+const EditProfileTypesPage = () => (
+  <InternalPage className="EditProfileTypesPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.data" />
+              <FormattedMessage id="menu.profile" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_DATA_TYPE_LIST}>
-              <FormattedMessage id="menu.dataType" />
+            <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
+              <FormattedMessage id="menu.profileTypes" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="app.edit" />
@@ -29,7 +29,7 @@ const EditDataTypesPage = () => (
       </Row>
       <PageTitle
         titleId="app.edit"
-        helpId="dataType.help"
+        helpId="profileType.help"
       />
       <Row>
         <Col xs={12} >
@@ -40,4 +40,4 @@ const EditDataTypesPage = () => (
   </InternalPage>
 );
 
-export default EditDataTypesPage;
+export default EditProfileTypesPage;

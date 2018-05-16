@@ -1,24 +1,24 @@
 import { connect } from 'react-redux';
-import { fetchAttributeFromDataType, sendPutAttributeFromDataTypeMonolist } from 'state/data-types/actions';
+import { fetchAttributeFromProfileType, sendPutAttributeFromProfileTypeMonolist } from 'state/profile-types/actions';
 import MonolistAttributeForm from 'ui/common/form/MonolistAttributeForm';
 import { getParams } from '@entando/router';
 import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
-  dataTypeCode: getParams(state).entityCode,
+  profileTypeCode: getParams(state).entityCode,
   isIndexable: formValueSelector('attribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('attribute')(state, 'nestedAttribute.type'),
   selectedAttribute: formValueSelector('attribute')(state, 'type'),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ attributeCode, dataTypeCode }) => {
-    dispatch(fetchAttributeFromDataType(dataTypeCode, attributeCode));
+  onWillMount: ({ attributeCode, profileTypeCode }) => {
+    dispatch(fetchAttributeFromProfileType(profileTypeCode, attributeCode));
   },
   onSubmit: (values) => {
     console.log('test', values);
-    dispatch(sendPutAttributeFromDataTypeMonolist(values));
+    dispatch(sendPutAttributeFromProfileTypeMonolist(values));
   },
 });
 

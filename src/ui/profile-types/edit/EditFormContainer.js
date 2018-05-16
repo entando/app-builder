@@ -1,43 +1,54 @@
 import { connect } from 'react-redux';
 import {
-  fetchDataTypeAttributes, sendPutDataType, fetchDataType,
-  fetchDataTypeAttribute,
+  fetchProfileTypeAttributes, sendPutProfileType, fetchProfileType,
+  fetchProfileTypeAttribute,
 
-} from 'state/data-types/actions';
+} from 'state/profile-types/actions';
 import {
-  getSelectedDataTypeAttributes,
-  getDataTypeAttributesIdList,
+  getSelectedProfileTypeAttributes,
+  getProfileTypeAttributesIdList,
 
-} from 'state/data-types/selectors';
+} from 'state/profile-types/selectors';
 
-import DataTypeForm from 'ui/data-types/common/DataTypeForm';
+import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
 import { formValueSelector } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
-import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
+import {
+  getParams,
+  gotoRoute,
+} from '@entando/router';
+import {
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 
-export const mapStateToProps = state => ({
-  mode: 'edit',
-  datatypeCode: getParams(state).datatypeCode,
-  attributes: getSelectedDataTypeAttributes(state),
-  attributesType: getDataTypeAttributesIdList(state),
-  attributeCode: formValueSelector('DataType')(state, 'type'),
-  routeToEdit: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
-});
+} from 'app-init/router';
+
+export const mapStateToProps = state => (
+  {
+    mode: 'edit',
+    profiletypeCode: getParams(state).profiletypeCode,
+    attributes: getSelectedProfileTypeAttributes(state),
+    attributesType: getProfileTypeAttributesIdList(state),
+    attributeCode: formValueSelector('ProfileType')(state, 'type'),
+    routeToEdit: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+  }
+);
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ datatypeCode }) => {
-    dispatch(fetchDataType(datatypeCode));
-    dispatch(fetchDataTypeAttributes());
+  onWillMount: ({ profiletypeCode }) => {
+    dispatch(fetchProfileType(profiletypeCode));
+    dispatch(fetchProfileTypeAttributes());
   },
-  onAddAttribute: ({ attributeCode, datatypeCode }) => {
-    dispatch(fetchDataTypeAttribute(attributeCode)).then(() => {
-      gotoRoute(ROUTE_DATA_TYPE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
+  onAddAttribute: ({ attributeCode, profiletypeCode }) => {
+    dispatch(fetchProfileTypeAttribute(attributeCode)).then(() => {
+      console.log('dati route', attributeCode, profiletypeCode);
+      console.log('route', ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD);
+      gotoRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, { entityCode: profiletypeCode });
     });
   },
   onSubmit: (values) => {
-    dispatch(sendPutDataType(values));
+    dispatch(sendPutProfileType(values));
   },
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeForm);
-export default DataTypeFormContainer;
+const ProfileTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileTypeForm);
+export default ProfileTypeFormContainer;

@@ -54,10 +54,14 @@ import {
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
   // profile type
   ROUTE_PROFILE_TYPE_LIST,
+  ROUTE_PROFILE_TYPE_ADD,
+  ROUTE_PROFILE_TYPE_EDIT,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
 
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
@@ -115,6 +119,11 @@ import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttr
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
+import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
+import EditProfileTypesPage from 'ui/profile-types/edit/EditProfileTypesPage';
+import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
+import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
+
 
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
 
@@ -183,7 +192,10 @@ const App = ({ route, username }) => {
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
     // attribute type
     case ROUTE_PROFILE_TYPE_LIST: return <ListProfileTypePage />;
-
+    case ROUTE_PROFILE_TYPE_ADD: return <AddProfileTypesPage />;
+    case ROUTE_PROFILE_TYPE_EDIT: return <EditProfileTypesPage />;
+    case ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD: return <AddProfileTypeAttributePage />;
+    case ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT: return <EditProfileTypeAttributePage />;
 
     default: return <NotFoundPage />;
   }

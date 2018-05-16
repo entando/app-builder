@@ -1,28 +1,28 @@
 import { connect } from 'react-redux';
-import { fetchDataTypeAttributes, sendPostAttributeFromDataType } from 'state/data-types/actions';
+import { fetchProfileTypeAttributes, sendPostAttributeFromProfileType } from 'state/profile-types/actions';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import AttributeForm from 'ui/common/form/AttributeForm';
 import {
-  getDataTypeSelectedAttribute,
-  getDataTypeSelectedAttributeCode,
-  getDataTypeAttributesIdList,
-} from 'state/data-types/selectors';
+  getProfileTypeSelectedAttribute,
+  getProfileTypeSelectedAttributeCode,
+  getProfileTypeAttributesIdList,
+} from 'state/profile-types/selectors';
 
 
 export const mapStateToProps = state => ({
-  dataTypeAttributeCode: getParams(state).entityCode,
+  profileTypeAttributeCode: getParams(state).entityCode,
   JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
-  selectedAttributeType: getDataTypeSelectedAttribute(state),
-  attributesList: getDataTypeAttributesIdList(state),
+  selectedAttributeType: getProfileTypeSelectedAttribute(state),
+  attributesList: getProfileTypeAttributesIdList(state),
   initialValues: {
-    type: getDataTypeSelectedAttributeCode(state),
+    type: getProfileTypeSelectedAttributeCode(state),
   },
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(fetchDataTypeAttributes());
+    dispatch(fetchProfileTypeAttributes());
   },
   onSubmit: (values) => {
     const payload = {
@@ -37,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
       },
     };
     console.log('test payload', payload);
-    dispatch(sendPostAttributeFromDataType(payload));
+    dispatch(sendPostAttributeFromProfileType(payload));
   },
 });
 

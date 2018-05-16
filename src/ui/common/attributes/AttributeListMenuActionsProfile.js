@@ -4,14 +4,14 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
 
-const AttributeListMenuActions = ({
-  onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, datatypeCode,
+const AttributeListMenuActionsProfile = ({
+  onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, profiletypeCode,
 }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>
     <LinkMenuItem
       id={`edit-${code}`}
       route={routeToEdit}
-      params={{ entityCode: datatypeCode, attributeCode: code }}
+      params={{ entityCode: profiletypeCode, attributeCode: code }}
       label={<FormattedMessage id="app.edit" />}
       className="AttributeListMenuAction__menu-item-edit"
     />
@@ -36,20 +36,19 @@ const AttributeListMenuActions = ({
   </DropdownKebab>
 );
 
-AttributeListMenuActions.propTypes = {
+AttributeListMenuActionsProfile.propTypes = {
   onClickDelete: PropTypes.func,
   onMoveUp: PropTypes.func,
   onMoveDown: PropTypes.func,
   code: PropTypes.string.isRequired,
   routeToEdit: PropTypes.string.isRequired,
-  datatypeCode: PropTypes.string,
+  profiletypeCode: PropTypes.string.isRequired,
 };
 
-AttributeListMenuActions.defaultProps = {
+AttributeListMenuActionsProfile.defaultProps = {
   onClickDelete: null,
   onMoveUp: null,
   onMoveDown: null,
-  datatypeCode: '',
 };
 
-export default AttributeListMenuActions;
+export default AttributeListMenuActionsProfile;
