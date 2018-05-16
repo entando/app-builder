@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
@@ -58,4 +58,6 @@ InternalServletConfigForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default InternalServletConfigForm;
+export default reduxForm({
+  form: 'widgetConfigForm',
+})(InternalServletConfigForm);
