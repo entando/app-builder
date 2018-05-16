@@ -33,3 +33,10 @@ export const FILE_BROWSER_ROOT_FOLDER = [
     protectedFolder: true,
   },
 ];
+
+export const FILE_BROWSER_FILE = {
+  protectedFolder: false,
+  path: 'folder/subfolder/filename',
+  filename: 'filename',
+  base64: 'base64',
+};
