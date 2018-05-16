@@ -124,7 +124,7 @@ const isJsonContentType = (headers) => {
   return !!(contentType && contentType.includes('application/json'));
 };
 
-const intervallStatusBackup = () => (dispatch) => {
+const intervalStatusBackup = () => (dispatch) => {
   const interval = setInterval(() => {
     getStatusBackup().then((response) => {
       if (isJsonContentType(response.headers)) {
@@ -160,7 +160,7 @@ export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
         if (isJsonContentType(response.headers)) {
           response.json().then((json) => {
             if (response.ok) {
-              dispatch(intervallStatusBackup());
+              dispatch(intervalStatusBackup());
             } else {
               dispatch(addErrors(json.errors.map(e => e.message)));
             }

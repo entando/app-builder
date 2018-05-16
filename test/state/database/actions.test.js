@@ -6,7 +6,6 @@ import { gotoRoute, getParams } from '@entando/router';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import {
-  getDatabaseStatusBackup,
   getDatabaseReportBackupCode,
   getDataSourceDump,
   getTableDump,
@@ -236,7 +235,6 @@ describe('state/database/actions', () => {
       it('calls getDatabaseDumpReportList and calls SET_DATABASE_DUMPS and setPage', (done) => {
         jest.useFakeTimers();
         // const intervallStatusBackup = jest.fn(mockApi({ payload: [] }));
-        getDatabaseStatusBackup.mockReturnValue(0);
         store.dispatch(fetchDatabaseDumpReport()).then(() => {
           expect(getDatabaseDumpReportList).toHaveBeenCalled();
           const actions = store.getActions();
@@ -244,14 +242,8 @@ describe('state/database/actions', () => {
           // console.log(actions);
           expect(actions).toHaveLength(2);
           // expect(intervallStatusBackup).toHaveBeenCalled();
-          // expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-          // expect(actions[1]).toHaveProperty('type', SET_DATABASE_DUMPS);
-          // expect(actions[1]).toHaveProperty(
-          //   'payload.database',
-          //   expect.objectContaining(DATABASE_DUMP_REPORT_LIST),
-          // );
-          // expect(actions[2]).toHaveProperty('type', SET_PAGE);
-          // expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
           jest.clearAllTimers();
           done();
         }).catch(done.fail);
