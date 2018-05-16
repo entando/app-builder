@@ -17,7 +17,7 @@ import { ADD_ERRORS } from 'state/errors/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('state/plugins/actions', () => {
+describe('state/dashboard/actions', () => {
   let action;
 
   describe('setApis', () => {
@@ -102,7 +102,7 @@ describe('state/plugins/actions', () => {
         }).catch(done.fail);
       });
 
-      it('when fetchUsers get error, should dispatch addErrors', (done) => {
+      it('when getIntegration errors it should dispatch addErrors', (done) => {
         getIntegration.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchIntegration()).then(() => {
           expect(getIntegration).toHaveBeenCalled();
@@ -125,7 +125,7 @@ describe('state/plugins/actions', () => {
         }).catch(done.fail);
       });
 
-      it('when fetchUsers get error, should dispatch addErrors', (done) => {
+      it('when getPageStatus errors it should dispatch addErrors', (done) => {
         getPageStatus.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchPageStatus()).then(() => {
           expect(getPageStatus).toHaveBeenCalled();

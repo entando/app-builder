@@ -44,6 +44,7 @@
 @import "users/common/UserStatus";
 @import "users/common/UserForm";
 @import "users/list/UserListTable";
+@import "users/restrictions/RestrictionsForm";
 @import "data-models/list/DataModelListTable";
 @import "groups/list/GroupListTable";
 @import "groups/common/GroupForm";
@@ -75,3 +76,5 @@
 @import "database/list/DatabaseListTable";
 @import "database/add/AddDatabaseListTable";
 @import "database/report/ReportDatabaseListDataSource";
+@import "file-browser/list/FilesListTable";
+@import "file-browser/list/FileBreadcrumb";

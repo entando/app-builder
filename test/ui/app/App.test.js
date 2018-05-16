@@ -24,6 +24,7 @@ import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
+import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
@@ -35,6 +36,7 @@ import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPa
 import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
 import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 
 import {
   ROUTE_HOME,
@@ -60,6 +62,7 @@ import {
   ROUTE_USER_ADD,
   ROUTE_USER_EDIT,
   ROUTE_USER_DETAIL,
+  ROUTE_USER_RESTRICTIONS,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -67,6 +70,7 @@ import {
   ROUTE_PAGE_MODEL_ADD,
   ROUTE_PAGE_MODEL_EDIT,
   ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_FILE_BROWSER,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -195,6 +199,11 @@ describe('App', () => {
     expect(component.contains(<DetailUserPage />)).toBe(true);
   });
 
+  it('route to user restrictions page', () => {
+    const component = shallow(<App route={ROUTE_USER_RESTRICTIONS} username="admin" />);
+    expect(component.contains(<UserRestrictionsPage />)).toBe(true);
+  });
+
   it('route to group list page', () => {
     const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />);
     expect(component.contains(<ListGroupPage />)).toBe(true);
@@ -228,6 +237,11 @@ describe('App', () => {
   it('route to page model detail page', () => {
     const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />);
     expect(component.contains(<PageModelDetailPageContainer />)).toBe(true);
+  });
+
+  it('route to page file browser page', () => {
+    const component = shallow(<App route={ROUTE_FILE_BROWSER} username="admin" />);
+    expect(component.contains(<FileBrowserPage />)).toBe(true);
   });
 
   it('default route', () => {

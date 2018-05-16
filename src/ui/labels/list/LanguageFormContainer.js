@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import LanguageForm from 'ui/labels/list/LanguageForm';
-import { activateLanguage, deactivateLanguage } from 'state/languages/actions';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { activateLanguage } from 'state/languages/actions';
 import { getLanguagesOptions, getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
+import { MODAL_ID } from 'ui/labels/common/DeleteLabelAndLanguagesModal';
 
 export const mapStateToProps = state => ({
   languages: getLanguagesOptions(state),
@@ -11,7 +13,10 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: ({ language }) => dispatch(activateLanguage(language)),
-  onDeactivateLang: langCode => dispatch(deactivateLanguage(langCode)),
+  onDeactivateLang: (langCode) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'language', langCode }));
+  },
 });
 
 const LanguageFormContainer = connect(mapStateToProps, mapDispatchToProps)(LanguageForm);

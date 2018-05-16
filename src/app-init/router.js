@@ -12,6 +12,7 @@ export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
+export const ROUTE_PAGE_PREVIEW = 'pagePreview';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
 export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
 export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
@@ -35,6 +36,7 @@ export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
+export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
@@ -62,7 +64,7 @@ export const ROUTE_DATABASE_ADD = 'databaseAdd';
 export const ROUTE_DATABASE_REPORT = 'databaseReport';
 export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
-
+export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 
 routerConfig(
   store,
@@ -79,6 +81,7 @@ routerConfig(
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
+      { name: ROUTE_PAGE_PREVIEW, path: '/page/preview/:pageCode' },
       { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
       { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
       { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },
@@ -105,6 +108,7 @@ routerConfig(
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
+      { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
@@ -130,6 +134,7 @@ routerConfig(
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
       { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
+      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

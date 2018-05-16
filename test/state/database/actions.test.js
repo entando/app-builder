@@ -239,7 +239,6 @@ describe('state/database/actions', () => {
           expect(getDatabaseDumpReportList).toHaveBeenCalled();
           const actions = store.getActions();
           jest.runTimersToTime(500);
-          // console.log(actions);
           expect(actions).toHaveLength(2);
           // expect(intervallStatusBackup).toHaveBeenCalled();
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
