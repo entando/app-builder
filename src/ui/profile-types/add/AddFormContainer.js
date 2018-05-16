@@ -18,7 +18,6 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     dispatch(sendPostProfileType(values));
-    console.log('primo post', values);
     gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: values.code });
   },
 

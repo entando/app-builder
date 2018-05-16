@@ -6,14 +6,11 @@ import { ROUTE_PROFILE_TYPE_EDIT } from 'app-init/router';
 import { gotoRoute } from 'frontend-common-components';
 import { formValueSelector } from 'redux-form';
 
-export const mapStateToProps = (state) => {
-  console.log('lista attributi', getProfileTypeAttributesIdList(state));
-  return {
-    mode: 'add',
-    attributes: getProfileTypeAttributesIdList(state),
-    attributeCode: formValueSelector('ProfileType')(state, 'type'),
-  };
-};
+export const mapStateToProps = state => ({
+  mode: 'add',
+  attributes: getProfileTypeAttributesIdList(state),
+  attributeCode: formValueSelector('ProfileType')(state, 'type'),
+});
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
@@ -21,7 +18,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     dispatch(sendPostProfileType(values));
-    console.log('secondo post', values);
+    console.log(values);
     gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: values.code });
   },
 

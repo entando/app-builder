@@ -20,6 +20,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const MonolistPageContainer =
+const MonolistProfilePageContainer =
   connect(mapStateToProps, mapDispatchToProps)(MonolistPage);
-export default MonolistPageContainer;
+export default MonolistProfilePageContainer;

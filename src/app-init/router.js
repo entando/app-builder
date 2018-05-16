@@ -53,6 +53,7 @@ export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
 export const ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD = 'attributeProfileAdd';
 export const ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT = 'attributeProfileEdit';
 export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
+export const ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD = 'attributeProfileAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
 export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
@@ -99,16 +100,17 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
-      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
-      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/datatype/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/datatype/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/datatype/attribute/:entityCode/MonolistAdd/:attributeCode' },
       // profile types
       { name: ROUTE_PROFILE_TYPE_LIST, path: '/profiletype' },
       { name: ROUTE_PROFILE_TYPE_ADD, path: '/profiletype/add' },
       { name: ROUTE_PROFILE_TYPE_EDIT, path: '/profiletype/edit/:profiletypeCode' },
-      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
-      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, path: '/profiletype/attribute/:entityCode/add' },
+      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, path: '/profiletype/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, path: '/profiletype/attribute/:entityCode/MonolistAdd/:attributeCode' },
 
-      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
 
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },

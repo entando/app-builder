@@ -40,8 +40,6 @@ export const mapDispatchToProps = dispatch => ({
   },
   onAddAttribute: ({ attributeCode, profiletypeCode }) => {
     dispatch(fetchProfileTypeAttribute(attributeCode)).then(() => {
-      console.log('dati route', attributeCode, profiletypeCode);
-      console.log('route', ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD);
       gotoRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, { entityCode: profiletypeCode });
     });
   },

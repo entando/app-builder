@@ -17,7 +17,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchAttributeFromProfileType(profileTypeCode, attributeCode));
   },
   onSubmit: (values) => {
-    console.log('test', values);
+    console.log('dispatch', values);
     dispatch(sendPutAttributeFromProfileTypeMonolist(values));
   },
 });

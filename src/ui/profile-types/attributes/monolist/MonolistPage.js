@@ -22,6 +22,16 @@ class MonolistPage extends Component {
       attributeCode, profileTypeCode, selectedAttribute, entityCode,
     } = this.props;
 
+    const renderTitle = () => {
+      if (selectedAttribute) {
+        return (<PageTitle
+          titleId={`app.edit.${selectedAttribute}`}
+          helpId="profileTypes.help"
+        />
+        );
+      }
+      return null;
+    };
     return (
       <InternalPage className="MonolistPage">
         <Grid fluid>
@@ -32,7 +42,7 @@ class MonolistPage extends Component {
                   <FormattedMessage id="menu.profile" />
                 </BreadcrumbItem>
                 <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
-                  <FormattedMessage id="menu.profileType" />
+                  <FormattedMessage id="menu.profileTypes" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="app.edit" /> :
@@ -52,10 +62,7 @@ class MonolistPage extends Component {
               </Breadcrumb>
             </Col>
           </Row>
-          <PageTitle
-            titleId={`app.edit.${selectedAttribute}`}
-            helpId="profileType.help"
-          />
+          {renderTitle()}
           <Row>
             <Col xs={12} >
               <FormContainer />

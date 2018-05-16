@@ -4,7 +4,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-// import AddFormContainer from 'ui/profile-types/attributes/AddFormContainer';
+import AddFormContainer from 'ui/profile-types/attributes/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 
 const AddProfileTypeAttributePage = () => (
@@ -31,12 +31,11 @@ const AddProfileTypeAttributePage = () => (
       />
       <Row>
         <Col xs={12} >
-        lillo
+          <AddFormContainer />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
-// <AddFormContainer />
 
 export default AddProfileTypeAttributePage;

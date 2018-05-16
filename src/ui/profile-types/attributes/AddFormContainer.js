@@ -31,12 +31,11 @@ export const mapDispatchToProps = dispatch => ({
       type: values.type,
       nestedAttribute: {
         code: values.code,
-        type: values.listNestedType,
+        type: values.nestedAttribute.type,
         enumeratorStaticItems: 'default',
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    console.log('test payload', payload);
     dispatch(sendPostAttributeFromProfileType(payload));
   },
 });

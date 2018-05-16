@@ -23,7 +23,6 @@ export class ProfileTypeFormBody extends Component {
     this.props.onWillMount(this.props);
   }
   render() {
-    console.log('props', this.props);
     const {
       attributesType, mode, handleSubmit, onSubmit,
       onAddAttribute, invalid, submitting,

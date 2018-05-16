@@ -9,7 +9,7 @@ import { initialize } from 'redux-form';
 import {
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
 } from 'app-init/router';
 
 import {
@@ -38,6 +38,7 @@ import {
 import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
 
 const TYPE_MONOLIST = 'Monolist';
+const TYPE_LIST = 'List';
 
 // Profile type
 export const setProfileTypes = profileTypes => ({
@@ -190,19 +191,19 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
 
 export const sendPostAttributeFromProfileType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
-    const profileTypeCode = getParams(getState()).entityCode;
+    const profiletypeCode = getParams(getState()).entityCode;
     const list = getProfileTypeSelectedAttributeType(getState());
-    postAttributeFromProfileType(profileTypeCode, attributeObject).then((response) => {
+    postAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
-            entityCode: profileTypeCode,
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
+            entityCode: profiletypeCode,
             attributeCode: attributeObject.code,
           });
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profileTypeCode });
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
         resolve();
       });
@@ -212,18 +213,18 @@ export const sendPostAttributeFromProfileType = attributeObject => (dispatch, ge
 
 export const sendPutAttributeFromProfileType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
-    const profileTypeCode = getParams(getState()).entityCode;
-    putAttributeFromProfileType(profileTypeCode, attributeObject).then((response) => {
+    const profiletypeCode = getParams(getState()).entityCode;
+    putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-        } else if (json.payload.type === TYPE_MONOLIST) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
-            entityCode: profileTypeCode,
+        } else if (json.payload.type === TYPE_MONOLIST || json.payload.type === TYPE_LIST) {
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
+            entityCode: profiletypeCode,
             attributeCode: attributeObject.code,
           });
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profileTypeCode });
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
         resolve();
       });
@@ -233,13 +234,13 @@ export const sendPutAttributeFromProfileType = attributeObject => (dispatch, get
 
 export const sendPutAttributeFromProfileTypeMonolist = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
-    const profileTypeCode = getParams(getState()).entityCode;
-    putAttributeFromProfileType(profileTypeCode, attributeObject).then((response) => {
+    const profiletypeCode = getParams(getState()).entityCode;
+    putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profileTypeCode });
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
         resolve();
       });
