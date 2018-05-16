@@ -158,6 +158,7 @@ describe('api/groups', () => {
         uri: '/api/groups/administrators/references/PageManager',
         method: METHODS.GET,
         mockResponse: PAGE_REFERENCES.administrators.list,
+        useAuthentication: true,
         errors: expect.any(Function),
       };
       getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
@@ -181,6 +182,7 @@ describe('api/groups', () => {
         uri: '/api/groups/administrators/references/UserManager',
         method: METHODS.GET,
         mockResponse: USER_REFERENCES.administrators.list,
+        useAuthentication: true,
         errors: expect.any(Function),
       };
       getUserReferences({ page: 1, pageSize: 10 }, 'administrators');
@@ -204,6 +206,7 @@ describe('api/groups', () => {
         uri: '/api/groups/administrators/references/WidgetTypeManager',
         method: METHODS.GET,
         mockResponse: WIDGETTYPE_REFERENCES.administrators.list,
+        useAuthentication: true,
         errors: expect.any(Function),
       };
       getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators');
@@ -224,9 +227,10 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestContentReferences = {
-        uri: '/api/groups/administrators/references/ContentManager',
+        uri: '/api/groups/administrators/references/jacmsContentManager',
         method: METHODS.GET,
         mockResponse: GROUP_CONTENT_REFERENCES.administrators.list,
+        useAuthentication: true,
         errors: expect.any(Function),
       };
       getContentReferences({ page: 1, pageSize: 10 }, 'administrators');
@@ -247,9 +251,10 @@ describe('api/groups', () => {
 
     it('makes the request with additional params', () => {
       const correctRequestResourceReferences = {
-        uri: '/api/groups/administrators/references/ResourceManager',
+        uri: '/api/groups/administrators/references/jacmsResourceManager',
         method: METHODS.GET,
         mockResponse: RESOURCE_REFERENCES.administrators.list,
+        useAuthentication: true,
         errors: expect.any(Function),
       };
       getResourceReferences({ page: 1, pageSize: 10 }, 'administrators');

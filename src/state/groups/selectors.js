@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { getLocale } from 'state/locale/selectors';
 
 export const getGroups = state => state.groups;
 
@@ -10,8 +11,16 @@ export const getSelectedGroup = state => state.groups.selected;
 
 export const getGroupsTotal = state => state.groups.total;
 
-export const getSelectedGroupPageReferences =
-  createSelector(getSelectedGroup, s => s.pageReferences);
+export const getSelectedGroupPageReferences = state => state.groups.selected.pageReferences;
+
+export const getPageReferences =
+  createSelector(
+    getSelectedGroupPageReferences, getLocale,
+    (pages, locale) => (pages ? pages.map(page => ({
+      code: page.code,
+      name: page.fullTitles[locale],
+    })) : []),
+  );
 
 export const getSelectedGroupUserReferences = state => state.groups.selected.userReferences;
 

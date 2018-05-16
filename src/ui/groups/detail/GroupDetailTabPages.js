@@ -19,8 +19,8 @@ class GroupDetailTabPages extends React.Component {
     return this.props.pageReferences.map(item => (
       <tr key={item.code}>
         <td>{item.name}</td>
-        <td >
-          <DropdownKebab id={`kebab-${item.code}`}>
+        <td className="text-center">
+          <DropdownKebab id={`kebab-${item.code}`} pullRight>
             <LinkMenuItem
               id={`goto-${item.code}`}
               route={ROUTE_PAGE}
@@ -54,7 +54,7 @@ class GroupDetailTabPages extends React.Component {
             <thead>
               <tr>
                 <th><FormattedMessage id="app.pages" /></th>
-                <th width={30}><FormattedMessage id="app.actions" /></th>
+                <th className="text-center" width={30}><FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>
             <tbody>

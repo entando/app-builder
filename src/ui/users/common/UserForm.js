@@ -24,7 +24,7 @@ const maxLength20 = maxLength(20);
 
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
-  let fieldValue = (input.value.title) ? input.value.title : input.value;
+  let fieldValue = input.value.title || input.value;
   if (!input.value) {
     fieldValue = <i className="icon fa fa-minus" />;
   }
