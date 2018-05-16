@@ -16,15 +16,8 @@ export const mapStateToProps = state => ({
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
-  initialValues: {
-    seo: false,
-    displayedInMenu: true,
-    charset: 'utf-8',
-    contentType: 'text/html',
-  },
-  mode: 'add',
+  mode: 'clone',
 });
-
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (data, action) =>
@@ -45,8 +38,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
 });
 
+const CloneFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageForm);
 
-const PagesAddFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageForm);
-
-
-export default PagesAddFormContainer;
+export default CloneFormContainer;

@@ -16,9 +16,19 @@ import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferenc
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
 import { setPublishedPageConfig } from 'state/page-config/actions';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 
 const HOMEPAGE_CODE = 'homepage';
+const RESET_FOR_CLONE = {
+  code: '',
+  titles: '',
+  parentCode: '',
+  fullTitles: '',
+  fullPath: '',
+  status: '',
+  references: {},
+};
+
 const noopPromise = arg => new Promise(resolve => resolve(arg));
 
 export const addPages = pages => ({
@@ -247,8 +257,11 @@ export const fetchFreePages = () => async (dispatch) => {
 
 export const clonePage = page => async (dispatch) => {
   const json = await fetchPage(page.code)(dispatch);
-  gotoRoute(ROUTE_PAGE_ADD);
-  dispatch(initialize('page', { ...json.payload, code: '' }));
+  dispatch(initialize('page', {
+    ...json.payload,
+    ...RESET_FOR_CLONE,
+  }));
+  gotoRoute(ROUTE_PAGE_CLONE);
 };
 
 export const mapItem = param => (

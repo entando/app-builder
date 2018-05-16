@@ -30,14 +30,14 @@ class PagesClonePage extends Component {
                   <FormattedMessage id="menu.pageTree" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
-                  <FormattedMessage id="app.add" />
+                  <FormattedMessage id="app.clone" />
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <PageTitle titleId="app.add" helpId="pageTreePage.help" />
+              <PageTitle titleId="app.clone" helpId="pageTreePage.help" />
             </Col>
           </Row>
           <Row>

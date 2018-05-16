@@ -8,6 +8,7 @@ export const ROUTE_USER_PROFILE = 'userprofile';
 export const ROUTE_PAGE = 'page';
 export const ROUTE_PAGE_ADD = 'pageAdd';
 export const ROUTE_PAGE_EDIT = 'pageEdit';
+export const ROUTE_PAGE_CLONE = 'pageClone';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
@@ -72,6 +73,7 @@ routerConfig(
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
       { name: ROUTE_PAGE_TREE, path: '/page' },
       { name: ROUTE_PAGE_ADD, path: '/page/add' },
+      { name: ROUTE_PAGE_CLONE, path: '/page/clone' },
       { name: ROUTE_PAGE_DETAIL, path: '/page/detail/:pageCode' },
       { name: ROUTE_PAGE, path: '/page/view/:page' },
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
