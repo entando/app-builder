@@ -6,6 +6,7 @@ import { formattedText } from '@entando/utils';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
+import { isEmpty } from 'lodash';
 
 class UserListTable extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class UserListTable extends Component {
     return this.props.users.map(user => (
       <tr key={user.username}>
         <td className="UserListRow__td">{user.username}</td>
-        <td className="UserListRow__td">{user.profileAttributes.fullName}</td>
+        <td className="UserListRow__td">{user.profileAttributes.fullname}</td>
         <td className="UserListRow__td">{user.profileAttributes.email}</td>
         <td className="UserListRow__td text-center">
           <UserStatus
@@ -40,7 +41,11 @@ class UserListTable extends Component {
           />
         </td>
         <td className="UserListRow__td text-center">
-          <UserListMenuActions username={user.username} {...this.props} />
+          <UserListMenuActions
+            username={user.username}
+            hasProfile={!isEmpty(user.profileAttributes)}
+            {...this.props}
+          />
         </td>
       </tr>
     ));

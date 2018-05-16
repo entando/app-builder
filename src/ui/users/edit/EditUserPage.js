@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/users/edit/EditFormContainer';
+import { ROUTE_USER_LIST } from 'app-init/router';
 
 const EditUserPage = () => (
   <InternalPage className="EditUserPage">
@@ -16,7 +17,7 @@ const EditUserPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
-            <BreadcrumbItem>
+            <BreadcrumbItem route={ROUTE_USER_LIST}>
               <FormattedMessage id="menu.users" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

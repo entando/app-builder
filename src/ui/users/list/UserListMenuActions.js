@@ -36,6 +36,20 @@ class UserListMenuActions extends Component {
     const manageAuthLabel = (
       <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
     );
+    const renderViewProfile = () => {
+      if (this.props.hasProfile) {
+        return (
+          <MenuItem
+            className="UserListMenuAction__menu-item-view-profile"
+            onClick={() => gotoRoute(ROUTE_USER_DETAIL, { username: this.props.username })}
+          >
+            <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
+          </MenuItem>
+        );
+      }
+      return null;
+    };
+
     return (
       <DropdownKebab pullRight id={`${this.props.username}-actions`}>
 
@@ -57,12 +71,7 @@ class UserListMenuActions extends Component {
         >
           <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
         </MenuItem>
-        <MenuItem
-          className="UserListMenuAction__menu-item-view-profile"
-          onClick={() => gotoRoute(ROUTE_USER_DETAIL, { username: this.props.username })}
-        >
-          <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
-        </MenuItem>
+        {renderViewProfile()}
         <MenuItem
           className="UserListMenuAction__menu-item-delete"
           onClick={this.handleClick(onClickDelete)}
@@ -78,11 +87,13 @@ UserListMenuActions.propTypes = {
   onClickDelete: PropTypes.func,
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
+  hasProfile: PropTypes.bool,
 };
 
 UserListMenuActions.defaultProps = {
   onClickDelete: () => {},
   onClickView: () => {},
+  hasProfile: false,
 };
 
 export default UserListMenuActions;
