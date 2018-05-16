@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
+import { InternalServletConfigFormBody } from 'ui/widgets/config/forms/InternalServletConfigForm';
 
 const handleSubmit = jest.fn();
 const EVENT = { preventDefault: jest.fn() };
@@ -12,7 +12,7 @@ describe('InternalServletConfigForm', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     component = shallow((
-      <InternalServletConfigForm
+      <InternalServletConfigFormBody
         widgetId="formAction"
         handleSubmit={handleSubmit}
       />

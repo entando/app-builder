@@ -15,17 +15,6 @@ describe('WidgetConfigForm', () => {
     jest.clearAllMocks();
   });
 
-  it('if widgetId = "formAction", wraps an InternalServletConfigForm', () => {
-    component = shallow((
-      <WidgetConfigFormBody
-        {...PROPS}
-        widgetId="formAction"
-      />
-    ));
-    expect(component.is('InternalServletConfigForm')).toBe(true);
-    expect(component.props()).toEqual({ ...PROPS, widgetId: 'formAction' });
-  });
-
   it('if widgetId is coming from a plugin', () => {
     component = shallow((
       <WidgetConfigFormBody
