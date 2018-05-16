@@ -6,46 +6,49 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import DataTypeListTableContainer from 'ui/data-types/list/DataTypeListTableContainer';
-import { ROUTE_DATA_TYPE_ADD } from 'app-init/router';
+import DatabaseListTableContainer from 'ui/database/list/DatabaseListTableContainer';
 
-const ListDataTypePage = () => (
-  <InternalPage className="ListDataTypePage">
+import { ROUTE_DATABASE_ADD } from 'app-init/router';
+
+const DatabaseListPage = () => (
+  <InternalPage className="DatabaseListPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.data" />
+              <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="menu.dataType" />
+              <FormattedMessage id="menu.database" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
-            titleId="dataType.list.title"
-            helpId="dataType.help"
+            titleId="menu.database"
+            helpId="database.help"
           />
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
-          <Link route={ROUTE_DATA_TYPE_ADD} className="pull-right">
-            <Button className="DataType__add" bsStyle="primary" >
-              <FormattedMessage id="app.new" />
+        <Col xs={12}>
+          <Link route={ROUTE_DATABASE_ADD} className="pull-right" >
+            <Button className="DatabaseListPage__add" bsStyle="primary">
+              <FormattedMessage id="database.list.add" />
             </Button>
           </Link>
         </Col>
       </Row>
       <Row>
-        <DataTypeListTableContainer />
+        <Col xs={12}>
+          <DatabaseListTableContainer />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default ListDataTypePage;
+export default DatabaseListPage;

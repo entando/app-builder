@@ -72,5 +72,9 @@
 @import "dashboard/PageStatus";
 @import "dashboard/PagesList";
 @import "reload-configuration/ReloadConfig";
+@import "database/list/DatabaseListPage";
+@import "database/list/DatabaseListTable";
+@import "database/add/AddDatabaseListTable";
+@import "database/report/ReportDatabaseListDataSource";
 @import "file-browser/list/FilesListTable";
 @import "file-browser/list/FileBreadcrumb";

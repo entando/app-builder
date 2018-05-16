@@ -59,6 +59,10 @@ export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
+export const ROUTE_DATABASE_LIST = 'databaseList';
+export const ROUTE_DATABASE_ADD = 'databaseAdd';
+export const ROUTE_DATABASE_REPORT = 'databaseReport';
+export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 
@@ -99,6 +103,7 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
+      { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
@@ -125,6 +130,10 @@ routerConfig(
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
 
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
+      { name: ROUTE_DATABASE_LIST, path: '/database' },
+      { name: ROUTE_DATABASE_ADD, path: '/database/add' },
+      { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
+      { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
       { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
