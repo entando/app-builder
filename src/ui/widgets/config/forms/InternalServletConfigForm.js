@@ -7,7 +7,7 @@ import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import FormLabel from 'ui/common/form/FormLabel';
 
 
-const InternalServletConfigForm = ({ handleSubmit }) => (
+export const InternalServletConfigFormBody = ({ handleSubmit }) => (
   <form
     className="InternalServletConfigForm"
     onSubmit={(ev) => { ev.preventDefault(); handleSubmit(); }}
@@ -54,10 +54,10 @@ const InternalServletConfigForm = ({ handleSubmit }) => (
 );
 
 
-InternalServletConfigForm.propTypes = {
+InternalServletConfigFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
   form: 'widgetConfigForm',
-})(InternalServletConfigForm);
+})(InternalServletConfigFormBody);
