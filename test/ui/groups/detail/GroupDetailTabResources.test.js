@@ -48,7 +48,7 @@ describe('GroupDetailTabResources', () => {
 
     describe('with pageReferences', () => {
       beforeEach(() => {
-        component.setProps({ pageReferences: RESOURCE_REFERENCES.administrators.list });
+        component.setProps({ resourceReferences: RESOURCE_REFERENCES });
       });
 
       it('has 1 rows', () => {

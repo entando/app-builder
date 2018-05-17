@@ -1,34 +1,26 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabPagesContainer';
-import { getPageReferences } from 'state/groups/selectors';
-import { getLoading } from 'state/loading/selectors';
-import { PAGE_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
-const PAGES_MOCK = [{
-  code: 'homepage',
-  name: 'Home page',
-},
-{
-  code: 'pippo',
-  name: 'Home page / Pippo',
-},
-{
-  code: 'dashboard',
-  name: 'Dashboard',
-}];
 
 jest.mock('state/groups/selectors', () => ({
-  getPageReferences: jest.fn(),
+  getPageReferences: jest.fn().mockReturnValue('getPageReferences_result'),
 }));
 
-getPageReferences.mockReturnValue(PAGE_REFERENCES.administrators.list);
+jest.mock('state/pagination/selectors', () => ({
+  getCurrentPage: jest.fn().mockReturnValue('getCurrentPage_result'),
+  getTotalItems: jest.fn().mockReturnValue('getTotalItems_result'),
+  getPageSize: jest.fn().mockReturnValue('getPageSize_result'),
+}));
+
+jest.mock('state/groups/actions', () => ({
+  fetchReferences: jest.fn().mockReturnValue('fetchReferences_result'),
+}));
 
 jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn(),
+  getLoading: jest.fn().mockReturnValue({ references: false }),
 }));
-getLoading.mockReturnValue(false);
 
 describe('GroupDetailTabPagesContainer', () => {
   let props;
@@ -43,27 +35,21 @@ describe('GroupDetailTabPagesContainer', () => {
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount();
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(dispatchMock).toHaveBeenCalledWith('fetchReferences_result');
     });
   });
 
   describe('mapStateToProps', () => {
     beforeEach(() => {
-      jest.clearAllMocks();
-      props = mapStateToProps(PAGE_REFERENCES.administrators);
+      props = mapStateToProps({});
     });
 
     it('verify props are defined and properly valued', () => {
-      expect.assertions(4);
-      expect(props).toBeInstanceOf(Object);
-      expect(props).toHaveProperty('pageReferences');
-      expect(props).toHaveProperty('loading');
-      expect(props).toMatchObject({
-        pageReferences: PAGES_MOCK,
-        page: 1,
-        totalItems: 3,
-        pageSize: 5,
-      });
+      expect(props).toHaveProperty('pageReferences', 'getPageReferences_result');
+      expect(props).toHaveProperty('loading', false);
+      expect(props).toHaveProperty('page', 'getCurrentPage_result');
+      expect(props).toHaveProperty('totalItems', 'getTotalItems_result');
+      expect(props).toHaveProperty('pageSize', 'getPageSize_result');
     });
   });
 });

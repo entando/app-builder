@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import GroupDetailTabContents from 'ui/groups/detail/GroupDetailTabContents';
-import { GROUP_CONTENT_REFERENCES } from 'test/mocks/groups';
+import { CONTENT_REFERENCES } from 'test/mocks/groups';
 
 global.console.error = jest.fn();
 
@@ -48,7 +48,7 @@ describe('GroupDetailTabContents', () => {
 
     describe('with pageReferences', () => {
       beforeEach(() => {
-        component.setProps({ pageReferences: GROUP_CONTENT_REFERENCES.administrators.list });
+        component.setProps({ contentReferences: CONTENT_REFERENCES });
       });
 
       it('has 1 rows', () => {

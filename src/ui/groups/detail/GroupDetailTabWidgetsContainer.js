@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import { fetchCurrentReferenceWidgetTypes } from 'state/groups/actions';
+import { fetchReferences } from 'state/groups/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
-import { getSelectedGroupWidgetTypeReferences } from 'state/groups/selectors';
+import { getWidgetTypeReferences } from 'state/groups/selectors';
 import { getLoading } from 'state/loading/selectors';
-
 import GroupDetailTabWidgetTypes from 'ui/groups/detail/GroupDetailTabWidgetTypes';
+import { WIDGET_TYPE_REFERENCE_KEY } from 'ui/common/references/const';
 
 export const mapStateToProps = state => ({
-  pageReferences: getSelectedGroupWidgetTypeReferences(state),
+  widgetReferences: getWidgetTypeReferences(state),
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
@@ -15,8 +15,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
-    dispatch(fetchCurrentReferenceWidgetTypes());
+  onWillMount: (page) => {
+    dispatch(fetchReferences(WIDGET_TYPE_REFERENCE_KEY, page));
   },
 });
 

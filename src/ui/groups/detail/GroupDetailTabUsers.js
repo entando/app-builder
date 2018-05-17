@@ -9,8 +9,23 @@ import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
 
 class GroupDetailTabUsers extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
+  }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.page);
+  }
+
+  changePage(page) {
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderRows() {
@@ -18,7 +33,7 @@ class GroupDetailTabUsers extends React.Component {
     const authority = formattedText('group.action.manageAuthorization');
     const statusIconClass = status => (status === 'active' ? 'GroupDetailTabUsers__status-icon--active' : 'GroupDetailTabUsers__status-icon--disabled');
 
-    return this.props.pageReferences.map(item => (
+    return this.props.userReferences.map(item => (
       <tr key={item.username}>
         <td>{item.fullName}</td>
         <td>{item.lastLogin}</td>
@@ -48,7 +63,7 @@ class GroupDetailTabUsers extends React.Component {
   }
 
   renderTable() {
-    if (this.props.pageReferences.length > 0) {
+    if (this.props.userReferences.length > 0) {
       const pagination = {
         page: this.props.page,
         perPage: this.props.pageSize,
@@ -103,7 +118,7 @@ class GroupDetailTabUsers extends React.Component {
 GroupDetailTabUsers.propTypes = {
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
-  pageReferences: PropTypes.arrayOf(PropTypes.shape({
+  userReferences: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string,
     fullName: PropTypes.string,
     lastLogin: PropTypes.string,
@@ -117,7 +132,7 @@ GroupDetailTabUsers.propTypes = {
 GroupDetailTabUsers.defaultProps = {
   onWillMount: () => {},
   loading: false,
-  pageReferences: [],
+  userReferences: [],
 };
 
 export default GroupDetailTabUsers;

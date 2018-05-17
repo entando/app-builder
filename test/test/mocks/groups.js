@@ -123,102 +123,61 @@ export const BODY_ERROR =
   metaData: {},
 };
 
-export const PAGE_REFERENCES = {
-  administrators: {
-    list: [
-      {
-        code: 'homepage',
-        name: 'Home page',
-      },
-      {
-        code: 'pippo',
-        name: 'Home page / Pippo',
-      },
-      {
-        code: 'dashboard',
-        name: 'Dashboard',
-      },
-
-    ],
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      lastPage: 1,
-      totalItems: 3,
-    },
+export const PAGE_REFERENCES = [
+  {
+    code: 'homepage',
+    name: 'Home page',
   },
-};
-
-
-export const USER_REFERENCES = {
-  administrators: {
-    list: [
-      {
-        username: 'admin',
-        fullName: 'Administrators',
-        lastLogin: '2018-01-08 00:00:00',
-        status: 'active',
-      },
-    ],
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      lastPage: 1,
-      totalItems: 1,
-    },
+  {
+    code: 'pippo',
+    name: 'Home page / Pippo',
   },
-};
-
-export const WIDGETTYPE_REFERENCES = {
-  administrators: {
-    list: [
-      {
-        code: 'banner-content-left',
-        title: 'Banner content left',
-      },
-    ],
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      lastPage: 1,
-      totalItems: 1,
-    },
+  {
+    code: 'dashboard',
+    name: 'Dashboard',
   },
-};
 
-export const GROUP_CONTENT_REFERENCES = {
-  administrators: {
-    list: [
-      {
-        code: 'CNG2',
-        name: 'Banner content left',
-        type: 'Generic Content',
-        lastEdit: '2017-01-08 00:00:00',
-      },
-    ],
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      lastPage: 1,
-      totalItems: 1,
-    },
-  },
-};
+];
 
-export const RESOURCE_REFERENCES = {
-  administrators: {
-    list: [
-      {
-        code: 'sample-image-1',
-        name: 'Sample image 1',
-        type: 'Image',
-      },
-    ],
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      lastPage: 1,
-      totalItems: 1,
-    },
+
+export const USER_REFERENCES = [
+  {
+    username: 'admin',
+    fullName: 'Administrators',
+    lastLogin: '2018-01-08 00:00:00',
+    status: 'active',
   },
+];
+
+export const WIDGETTYPE_REFERENCES = [
+  {
+    code: 'banner-content-left',
+    title: 'Banner content left',
+  },
+];
+
+export const CONTENT_REFERENCES = [
+  {
+    code: 'CNG2',
+    name: 'Banner content left',
+    type: 'Generic Content',
+    lastEdit: '2017-01-08 00:00:00',
+  },
+];
+
+export const RESOURCE_REFERENCES =
+[
+  {
+    code: 'sample-image-1',
+    name: 'Sample image 1',
+    type: 'Image',
+  },
+];
+
+export const MOCK_REFERENCES = {
+  jacmsContentManager: CONTENT_REFERENCES,
+  jacmsResourceManager: RESOURCE_REFERENCES,
+  WidgetTypeManager: WIDGETTYPE_REFERENCES,
+  UserManager: USER_REFERENCES,
+  PageManager: PAGE_REFERENCES,
 };
