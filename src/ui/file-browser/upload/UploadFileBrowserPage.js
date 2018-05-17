@@ -6,7 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import FileBrowserForm from 'ui/file-browser/common/FileBrowserForm';
+import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/list/FileBreadcrumbContainer';
 
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
@@ -82,7 +82,9 @@ const UploadFileBrowserPage = () => (
         <br />
       </Row>
       <Row>
-        <FileBrowserForm />
+        <Col xs={12}>
+          <UploadFileBrowserFormContainer />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>

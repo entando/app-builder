@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/list/FileBreadcrumbContainer';
 
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 
 const ListFilesPage = () => (
@@ -62,7 +62,7 @@ const ListFilesPage = () => (
                 />
               </Button>
             </Link>
-            <Link route={ROUTE_FILE_BROWSER}>
+            <Link route={ROUTE_FILE_BROWSER_UPLOAD}>
               <Button
                 type="button"
                 className="pull-right ListFilesPage__uploadFile"
