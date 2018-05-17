@@ -35,7 +35,7 @@ import {
   setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList,
   putPageStatus, deletePage, getFreePages, getSearchPages, getReferencesPage,
 } from 'api/pages';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap, getReferencesFromSelectedPage } from 'state/pages/selectors';
 
@@ -749,7 +749,7 @@ describe('clonePage', () => {
     store.dispatch(clonePage('page')).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(1);
-      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_ADD);
+      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_CLONE);
       expect(initialize).toHaveBeenCalled();
 
       done();

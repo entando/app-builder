@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextInput = ({
-  input, append, label, labelSize, placeholder, meta: { touched, error }, help, disabled, type,
+  input, append, label, labelSize, alignClass, placeholder,
+  meta: { touched, error }, help, disabled, type,
 }) => (
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <Col xs={labelSize}>
+    <Col xs={labelSize} className={alignClass}>
       <ControlLabel htmlFor={input.name}>
         {label} {help}
       </ControlLabel>
@@ -37,6 +38,7 @@ RenderTextInput.propTypes = {
   type: PropTypes.string,
   labelSize: PropTypes.number,
   append: PropTypes.string,
+  alignClass: PropTypes.string,
 };
 
 RenderTextInput.defaultProps = {
@@ -49,5 +51,6 @@ RenderTextInput.defaultProps = {
   type: 'text',
   labelSize: 2,
   append: '',
+  alignClass: 'text-right',
 };
 export default RenderTextInput;
