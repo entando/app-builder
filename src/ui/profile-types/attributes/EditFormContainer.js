@@ -38,7 +38,6 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    console.log('PUT values', values);
     dispatch(sendPutAttributeFromProfileType(payload));
   },
 });

@@ -30,8 +30,8 @@ export const mapDispatchToProps = dispatch => ({
       code: values.code,
       type: values.type,
       nestedAttribute: {
+        ...values.nestedAttribute,
         code: values.code,
-        type: values.nestedAttribute.type,
         enumeratorStaticItems: 'default',
         enumeratorStaticItemsSeparator: ',',
       },
