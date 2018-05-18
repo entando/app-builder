@@ -6,14 +6,14 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContainer';
+import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/list/FileBreadcrumbContainer';
 
-import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
+import { ROUTE_FILE_BROWSER } from 'app-init/router';
 
 
-const ListFilesPage = () => (
-  <InternalPage className="ListFilesPage">
+const UploadFileBrowserPage = () => (
+  <InternalPage className="UploadFileBrowserPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -25,7 +25,7 @@ const ListFilesPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="menu.fileBrowser"
             helpId="fileBrowser.help"
@@ -33,15 +33,15 @@ const ListFilesPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={6}>
-          <FileBreadcrumbContainer className="ListFilesPage__fileBreadcrumbContainer" />
+        <Col xs={6}>
+          <FileBreadcrumbContainer className="UploadFileBrowserPage__fileBreadcrumbContainer" />
         </Col>
-        <Col md={6}>
+        <Col xs={6}>
           <ButtonGroup className="pull-right">
             <Link route={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
-                className="pull-right ListFilesPage__createTextFile"
+                className="pull-right UploadFileBrowserPage__createTextFile"
                 bsStyle="primary"
               >
                 <Icon size="lg" name="file-text" />&nbsp;
@@ -53,7 +53,7 @@ const ListFilesPage = () => (
             <Link route={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
-                className="pull-right ListFilesPage__createFolder"
+                className="pull-right UploadFileBrowserPage__createFolder"
                 bsStyle="primary"
               >
                 <Icon size="lg" name="folder" />&nbsp;
@@ -62,10 +62,10 @@ const ListFilesPage = () => (
                 />
               </Button>
             </Link>
-            <Link route={ROUTE_FILE_BROWSER_UPLOAD}>
+            <Link route={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
-                className="pull-right ListFilesPage__uploadFile"
+                className="pull-right UploadFileBrowserPage__uploadFile"
                 bsStyle="primary"
               >
                 <Icon size="lg" name="upload" />&nbsp;
@@ -82,10 +82,12 @@ const ListFilesPage = () => (
         <br />
       </Row>
       <Row>
-        <FilesListTableContainer className="ListFilesPage__fileListTableContainer" />
+        <Col xs={12}>
+          <UploadFileBrowserFormContainer />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default ListFilesPage;
+export default UploadFileBrowserPage;

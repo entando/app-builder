@@ -66,6 +66,7 @@ export const ROUTE_DATABASE_REPORT = 'databaseReport';
 export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
+export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
 
 routerConfig(
   store,
@@ -137,6 +138,7 @@ routerConfig(
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
       { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
       { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
+      { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/fileBrowser/upload' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
