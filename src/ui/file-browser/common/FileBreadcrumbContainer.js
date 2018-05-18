@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-
 import { fetchFileList } from 'state/file-browser/actions';
 import { getPathInfo } from 'state/file-browser/selectors';
-import FileBreadcrumb from 'ui/file-browser/list/FileBreadcrumb';
+import FileBreadcrumb from 'ui/file-browser/common/FileBreadcrumb';
 
 export const mapStateToProps = state => (
   {

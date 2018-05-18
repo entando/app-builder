@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/file-browser/list/FileBreadcrumbContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/file-browser/common/FileBreadcrumbContainer';
 import { fetchFileList } from 'state/file-browser/actions';
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
@@ -30,11 +30,12 @@ getPathInfo.mockReturnValue(path);
 const dispatchMock = jest.fn();
 
 describe('FileBreadcrumbsContainer', () => {
-  it('maps PathInfo property state', () => {
-    const props = mapStateToProps({});
-    expect(props).toHaveProperty('pathInfo', path);
+  describe('mapStateToProps', () => {
+    it('maps PathInfo property state', () => {
+      const props = mapStateToProps({});
+      expect(props).toHaveProperty('pathInfo', path);
+    });
   });
-
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {

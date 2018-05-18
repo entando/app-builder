@@ -212,6 +212,8 @@ export default {
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFile': 'Upload',
     'fileBrowser.downloadFile': 'Download',
+    'fileBrowser.newFolder': 'New folder',
+    'fileBrowser.newFolder.help': 'New folder help',
     'fileBrowser.help': 'The FILE BROWSER section lets system administrators can browse the File System folders.',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Page groups',

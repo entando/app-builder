@@ -61,6 +61,7 @@ export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
 
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
+export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
 
 routerConfig(
   store,
@@ -122,9 +123,9 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
-
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
-      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
+      { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
+      { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

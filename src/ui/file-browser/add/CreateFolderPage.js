@@ -5,18 +5,22 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
+import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderFormContainer';
 
-const ListFilesPage = () => (
-  <InternalPage className="ListFilesPage">
+
+const CreateFolderPage = () => (
+  <InternalPage className="CreateFolderPage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem active>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.fileBrowser" />
+            </BreadcrumbItem>
+            <BreadcrumbItem active>
+              <FormattedMessage id="fileBrowser.createFolder" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
@@ -31,20 +35,22 @@ const ListFilesPage = () => (
       </Row>
       <Row>
         <Col md={6}>
-          <FileBreadcrumbContainer className="ListFilesPage__fileBreadcrumbContainer" />
+          <FileBreadcrumbContainer className="CreateFolderPage__fileBreadcrumbContainer" />
         </Col>
         <Col md={6}>
-          <FileButtonsGroupContainer className="ListFilesPage__fileButtonsGroupContainer" />
+          <FileButtonsGroupContainer className="CreateFolderPage__fileButtonsGroupContainer" />
         </Col>
       </Row>
       <Row>
         <br />
       </Row>
       <Row>
-        <FilesListTableContainer className="ListFilesPage__fileListTableContainer" />
+        <Col xs={12}>
+          <CreateFolderFormContainer className="CreateFolderPage__createFolderFormContainer" />
+        </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default ListFilesPage;
+export default CreateFolderPage;
