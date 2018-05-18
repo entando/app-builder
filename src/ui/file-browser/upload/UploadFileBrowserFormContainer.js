@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import FileBrowserForm from 'ui/file-browser/common/FileBrowserForm';
-import { fetchFile } from 'state/file-browser/actions';
+import UploadFileBrowserForm from 'ui/file-browser/upload/UploadFileBrowserForm';
+import { saveFile } from 'state/file-browser/actions';
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (values) => { dispatch(fetchFile(values.file)); },
+  onSubmit: (values) => { dispatch(saveFile(values.file)); },
 });
 
-const UploadFileBrowserFormContainer = connect(null, mapDispatchToProps)(FileBrowserForm);
+const UploadFileBrowserFormContainer = connect(null, mapDispatchToProps)(UploadFileBrowserForm);
 
 export default UploadFileBrowserFormContainer;

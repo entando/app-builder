@@ -1,17 +1,23 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import { isFSA } from 'flux-standard-action';
-import { setFileList, setPathInfo, fetchFileList, wrapApiCall } from 'state/file-browser/actions';
-import { mockApi } from 'test/testUtils';
-import { getFileBrowser } from 'api/fileBrowser';
-import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { mockApi } from 'test/testUtils';
 import { TOGGLE_LOADING } from 'state/loading/types';
+
+
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
+import { getFileBrowser, getFile, putFile } from 'api/fileBrowser';
+import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
+import { setFileList, setPathInfo, fetchFileList, saveFile } from 'state/file-browser/actions';
+import { getPathInfo } from 'state/file-browser/selectors';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+jest.mock('state/file-browser/selectors', () => ({
+  getPathInfo: jest.fn(),
+}));
 
 describe('state/file-browser/actions', () => {
   let action;
@@ -122,34 +128,26 @@ describe('state/file-browser/actions', () => {
       });
     });
 
-
-    describe('wrapApiCall()', () => {
-      it('when wrapApiCall succeeds should call api function, the returns a json', (done) => {
-        const genericApi = jest.fn().mockImplementation(mockApi({ payload: FILE_BROWSER }));
-        store.dispatch(wrapApiCall(genericApi)(FILE_BROWSER)).then(() => {
-          expect(genericApi).toHaveBeenCalledWith(FILE_BROWSER);
+    describe('saveFile', () => {
+      const file = new File([''], 'filename.txt');
+      it('saveFile calls getFile', (done) => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
+        store.dispatch(saveFile(file)).then(() => {
+          expect(getFile).toHaveBeenCalled();
           done();
         }).catch(done.fail);
       });
 
-      it('when wrapApiCall fails should dispatch addErros function', async () => {
-        const genericApi = jest.fn().mockImplementation(mockApi({ errors: true }));
-        return store.dispatch(wrapApiCall(genericApi)(FILE_BROWSER)).catch((e) => {
+      it('if the response is not ok, dispatch add errors', (done) => {
+        getFile.mockImplementationOnce(mockApi({ errors: true }));
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
+        store.dispatch(saveFile(file)).then(() => {
+          expect(getFile).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(e).toHaveProperty('errors');
-          e.errors.forEach((error, index) => {
-            expect(error.message).toEqual(actions[0].payload.errors[index]);
-          });
-        });
-      });
-
-      it('when api does not return json, wrapApiCall throws a TypeError', async () => {
-        const genericApi = jest.fn().mockReturnValue('error_result, error_result');
-        return store.dispatch(wrapApiCall(genericApi)(FILE_BROWSER)).catch((e) => {
-          expect(e instanceof TypeError).toBe(true);
-        });
+          done();
+        }).catch(done.fail);
       });
     });
   });

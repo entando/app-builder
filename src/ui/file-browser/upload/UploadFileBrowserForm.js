@@ -1,33 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Form, Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { FormGroup, Col, Icon, Button } from 'patternfly-react';
 import { Link } from '@entando/router';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 import { required } from '@entando/utils';
 import RenderFileInput from 'ui/common/form/RenderFileInput';
 
-export const FileBrowserBody = (props) => {
+export const UploadFileBrowserBody = (props) => {
   const { handleSubmit, invalid, submitting } = props;
 
-
   return (
-    <Form onSubmit={handleSubmit} className="FileBrowserForm form-horizontal">
+    <form onSubmit={handleSubmit} className="UploadFileBrowserForm form-horizontal">
       <Field
-        className="FileBrowserForm__file"
+        className="UploadFileBrowserForm__file"
         name="file"
         component={RenderFileInput}
         validate={[required]}
-        label={<FormattedMessage id="fileBrowser.uploadFile" />}
+        label={<FormattedMessage id="UploadFileBrowser.uploadFile" />}
       />
       <FormGroup>
         <Col xs={12}>
-          <div className="FileBrowserForm__btn">
+          <div className="UploadFileBrowserForm__btn">
             <Button
               type="submit"
               disabled={invalid || submitting}
-              className="pull-right FileBrowserForm__btn-save"
+              className="pull-right UploadFileBrowserForm__btn-save"
               bsStyle="primary"
             >
               <Icon size="lg" name="save" />&nbsp;
@@ -35,7 +34,7 @@ export const FileBrowserBody = (props) => {
             </Button>
             <Link route={ROUTE_FILE_BROWSER}>
               <Button
-                className="pull-right FileBrowserForm__btn-cancel"
+                className="pull-right UploadFileBrowserForm__btn-cancel"
               >
                 <FormattedMessage id="app.cancel" />
               </Button>
@@ -44,22 +43,22 @@ export const FileBrowserBody = (props) => {
         </Col>
 
       </FormGroup>
-    </Form>
+    </form>
   );
 };
 
-FileBrowserBody.propTypes = {
+UploadFileBrowserBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
 
-FileBrowserBody.defaultProps = {
+UploadFileBrowserBody.defaultProps = {
   invalid: false,
   submitting: false,
 };
 
-const FileBrowserForm = reduxForm({
+const UploadFileBrowserForm = reduxForm({
   form: 'fileBroswer',
-})(FileBrowserBody);
-export default FileBrowserForm;
+})(UploadFileBrowserBody);
+export default UploadFileBrowserForm;
