@@ -100,7 +100,7 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
     postProfileType(ProfileTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          // gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: json.payload.code });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import FormLabel from 'ui/common/form/FormLabel';
 
 
-const InternalServletConfigForm = ({ handleSubmit }) => (
+export const InternalServletConfigFormBody = ({ handleSubmit }) => (
   <form
     className="InternalServletConfigForm"
     onSubmit={(ev) => { ev.preventDefault(); handleSubmit(); }}
@@ -54,8 +54,10 @@ const InternalServletConfigForm = ({ handleSubmit }) => (
 );
 
 
-InternalServletConfigForm.propTypes = {
+InternalServletConfigFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default InternalServletConfigForm;
+export default reduxForm({
+  form: 'widgetConfigForm',
+})(InternalServletConfigFormBody);

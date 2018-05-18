@@ -28,12 +28,173 @@ export class PageFormBody extends Component {
     } = this.props;
 
     const isEditMode = mode === 'edit';
+    const isCloneMode = mode === 'clone';
 
     const pageModelsWithEmpty =
       [{ code: '', descr: formattedText('app.chooseAnOption') }].concat(pageModels);
 
     const groupsWithEmpty =
       [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
+
+    const renderFullForm = () => {
+      if (isCloneMode) {
+        return null;
+      }
+
+      return (
+        <div>
+          <Row>
+            <Col xs={12}>
+              <FormSectionTitle titleId="pages.pageForm.pageGroups" />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <FormGroup>
+                <label htmlFor="ownerGroup" className="col-xs-2 control-label">
+                  <FormLabel labelId="pages.pageForm.ownerGroup" required />
+                </label>
+                <Col xs={10}>
+                  <Field
+                    component="select"
+                    name="ownerGroup"
+                    className="form-control"
+                    validate={[required]}
+                    disabled={isEditMode}
+                  >
+                    {groupsWithEmpty.map(gr =>
+                      <option key={gr.code} value={gr.code}>{gr.name}</option>)}
+                  </Field>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="ownerGroup" className="col-xs-2 control-label">
+                  <FormLabel labelId="pages.pageForm.joinGroup" required />
+                </label>
+                <Col xs={10}>
+                  <FieldArray
+                    component={MultiSelectRenderer}
+                    name="joinGroups"
+                    options={groups}
+                    selectedValues={selectedJoinGroups}
+                    labelKey="name"
+                    valueKey="code"
+                    emptyOptionTextId="app.chooseAnOption"
+                  />
+                </Col>
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <FormSectionTitle titleId="pages.pageForm.settings" />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <FormGroup>
+                <label htmlFor="pageModel" className="col-xs-2 control-label">
+                  <FormLabel
+                    labelId="pages.pageForm.pageModel"
+                    helpId="pages.pageForm.pageModelHelp"
+                    required
+                  />
+                </label>
+                <Col xs={10}>
+                  <Field
+                    component="select"
+                    name="pageModel"
+                    className="form-control"
+                    validate={[required]}
+                  >
+                    {pageModelsWithEmpty.map(gr =>
+                      <option key={gr.code} value={gr.code}>{gr.descr}</option>)}
+                  </Field>
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
+                  <FormLabel
+                    labelId="pages.pageForm.displayedInMenu"
+                    helpId="pages.pageForm.displayedInMenuHelp"
+                  />
+                </label>
+                <Col xs={4}>
+                  <Field
+                    component={SwitchRenderer}
+                    name="displayedInMenu"
+                  />
+                </Col>
+                <label htmlFor="seo" className="col-xs-2 control-label">
+                  <FormLabel
+                    labelId="pages.pageForm.seo"
+                    helpId="pages.pageForm.seoHelp"
+                  />
+                </label>
+                <Col xs={4}>
+                  <Field
+                    component={SwitchRenderer}
+                    name="seo"
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="charset" className="col-xs-2 control-label">
+                  <FormLabel
+                    labelId="pages.pageForm.charset"
+                    helpId="pages.pageForm.charsetHelp"
+                  />
+                </label>
+                <Col xs={2}>
+                  <Field
+                    component="select"
+                    name="charset"
+                    className="PageForm__charsets-select form-control"
+                    size="3"
+                    validate={[required]}
+                  >
+                    {charsets.map(type => (
+                      <option
+                        key={type}
+                        className="PageForm__bullet-option"
+                        value={type}
+                      >
+                        {type}
+                      </option>
+                  ))}
+                  </Field>
+                </Col>
+                <label htmlFor="seo" className="col-xs-2 col-xs-offset-2 control-label">
+                  <FormLabel
+                    labelId="pages.pageForm.mimeType"
+                    helpId="pages.pageForm.mimeTypeHelp"
+                  />
+                </label>
+                <Col xs={2}>
+                  <Field
+                    component="select"
+                    name="contentType"
+                    className="PageForm__content-types-select form-control"
+                    size="5"
+                    validate={[required]}
+                  >
+                    {contentTypes.map(type => (
+                      <option
+                        key={type}
+                        className="PageForm__bullet-option"
+                        value={type}
+                      >
+                        {type}
+                      </option>
+                  ))}
+                  </Field>
+                </Col>
+              </FormGroup>
+            </Col>
+          </Row>
+        </div>
+      );
+    };
 
     return (
       <form className="PageForm form-horizontal">
@@ -44,35 +205,29 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <fieldset>
-              <Field
-                component={RenderTextInput}
-                name="titles.en"
-                label={<FormLabel labelId="app.title" langLabelId="app.en" required />}
-                placeholder={formattedText('app.enTitle')}
-                validate={[required]}
-                onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                component={RenderTextInput}
-                name="titles.it"
-                label={<FormLabel labelId="app.title" langLabelId="app.it" required />}
-                placeholder={formattedText('app.itTitle')}
-                validate={[required]}
-              />
-            </fieldset>
-            <fieldset>
-              <Field
-                component={RenderTextInput}
-                name="code"
-                label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
-                placeholder={formattedText('app.code')}
-                validate={[required]}
-                disabled={isEditMode}
-              />
-            </fieldset>
+            <Field
+              component={RenderTextInput}
+              name="titles.en"
+              label={<FormLabel labelId="app.title" langLabelId="app.en" required />}
+              placeholder={formattedText('app.enTitle')}
+              validate={[required]}
+              onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
+            />
+            <Field
+              component={RenderTextInput}
+              name="titles.it"
+              label={<FormLabel labelId="app.title" langLabelId="app.it" required />}
+              placeholder={formattedText('app.itTitle')}
+              validate={[required]}
+            />
+            <Field
+              component={RenderTextInput}
+              name="code"
+              label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
+              placeholder={formattedText('app.code')}
+              validate={[required]}
+              disabled={isEditMode}
+            />
             <FormGroup>
               <label htmlFor="parentCode" className="col-xs-2 control-label">
                 <FormLabel labelId="pages.pageForm.pagePlacement" required />
@@ -87,155 +242,9 @@ export class PageFormBody extends Component {
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12}>
-            <FormSectionTitle titleId="pages.pageForm.pageGroups" />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <FormGroup>
-              <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                <FormLabel labelId="pages.pageForm.ownerGroup" required />
-              </label>
-              <Col xs={10}>
-                <Field
-                  component="select"
-                  name="ownerGroup"
-                  className="form-control"
-                  validate={[required]}
-                  disabled={isEditMode}
-                >
-                  {groupsWithEmpty.map(gr =>
-                    <option key={gr.code} value={gr.code}>{gr.name}</option>)}
-                </Field>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                <FormLabel labelId="pages.pageForm.joinGroup" required />
-              </label>
-              <Col xs={10}>
-                <FieldArray
-                  component={MultiSelectRenderer}
-                  name="joinGroups"
-                  options={groups}
-                  selectedValues={selectedJoinGroups}
-                  labelKey="name"
-                  valueKey="code"
-                  emptyOptionTextId="app.chooseAnOption"
-                />
-              </Col>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <FormSectionTitle titleId="pages.pageForm.settings" />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <FormGroup>
-              <label htmlFor="pageModel" className="col-xs-2 control-label">
-                <FormLabel
-                  labelId="pages.pageForm.pageModel"
-                  helpId="pages.pageForm.pageModelHelp"
-                  required
-                />
-              </label>
-              <Col xs={10}>
-                <Field
-                  component="select"
-                  name="pageModel"
-                  className="form-control"
-                  validate={[required]}
-                >
-                  {pageModelsWithEmpty.map(gr =>
-                    <option key={gr.code} value={gr.code}>{gr.descr}</option>)}
-                </Field>
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
-                <FormLabel
-                  labelId="pages.pageForm.displayedInMenu"
-                  helpId="pages.pageForm.displayedInMenuHelp"
-                />
-              </label>
-              <Col xs={4}>
-                <Field
-                  component={SwitchRenderer}
-                  name="displayedInMenu"
-                />
-              </Col>
-              <label htmlFor="seo" className="col-xs-2 control-label">
-                <FormLabel
-                  labelId="pages.pageForm.seo"
-                  helpId="pages.pageForm.seoHelp"
-                />
-              </label>
-              <Col xs={4}>
-                <Field
-                  component={SwitchRenderer}
-                  name="seo"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="charset" className="col-xs-2 control-label">
-                <FormLabel
-                  labelId="pages.pageForm.charset"
-                  helpId="pages.pageForm.charsetHelp"
-                />
-              </label>
-              <Col xs={2}>
-                <Field
-                  component="select"
-                  name="charset"
-                  className="PageForm__charsets-select form-control"
-                  size="3"
-                  validate={[required]}
-                >
-                  {charsets.map(type => (
-                    <option
-                      key={type}
-                      className="PageForm__bullet-option"
-                      value={type}
-                    >
-                      {type}
-                    </option>
-                  ))}
-                </Field>
-              </Col>
-              <label htmlFor="seo" className="col-xs-2 col-xs-offset-2 control-label">
-                <FormLabel
-                  labelId="pages.pageForm.mimeType"
-                  helpId="pages.pageForm.mimeTypeHelp"
-                />
-              </label>
-              <Col xs={2}>
-                <Field
-                  component="select"
-                  name="contentType"
-                  className="PageForm__content-types-select form-control"
-                  size="5"
-                  validate={[required]}
-                >
-                  {contentTypes.map(type => (
-                    <option
-                      key={type}
-                      className="PageForm__bullet-option"
-                      value={type}
-                    >
-                      {type}
-                    </option>
-                  ))}
-                </Field>
-              </Col>
-            </FormGroup>
-          </Col>
-        </Row>
+
+        {renderFullForm()}
+
         <Row>
           <Col xs={12}>
             <div className="btn-toolbar pull-right">

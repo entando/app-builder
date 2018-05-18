@@ -24,7 +24,7 @@ export class ProfileTypeFormBody extends Component {
   }
   render() {
     const {
-      attributesType, mode, handleSubmit, onSubmit,
+      attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
     } = this.props;
 
@@ -82,7 +82,7 @@ export class ProfileTypeFormBody extends Component {
     };
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal ProfileTypeForm">
+      <form onSubmit={handleSubmit} className="form-horizontal ProfileTypeForm">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">

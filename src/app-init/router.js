@@ -8,10 +8,12 @@ export const ROUTE_USER_PROFILE = 'userprofile';
 export const ROUTE_PAGE = 'page';
 export const ROUTE_PAGE_ADD = 'pageAdd';
 export const ROUTE_PAGE_EDIT = 'pageEdit';
+export const ROUTE_PAGE_CLONE = 'pageClone';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
+export const ROUTE_PAGE_PREVIEW = 'pagePreview';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
 export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
 export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
@@ -38,11 +40,13 @@ export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
+export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
 export const ROUTE_GROUP_DETAIL = 'groupDetail';
 export const ROUTE_USER_AUTHORITY = 'authorityPage';
+export const ROUTE_LABELS_ADD = 'labelsAdd';
 export const ROUTE_LABELS_AND_LANGUAGES = 'labelsAndLanguages';
 export const ROUTE_LABEL_ADD = 'labelAdd';
 export const ROUTE_LABEL_EDIT = 'labelEdit';
@@ -62,9 +66,12 @@ export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
-
+export const ROUTE_DATABASE_LIST = 'databaseList';
+export const ROUTE_DATABASE_ADD = 'databaseAdd';
+export const ROUTE_DATABASE_REPORT = 'databaseReport';
+export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
-
+export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 
 routerConfig(
   store,
@@ -76,11 +83,13 @@ routerConfig(
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
       { name: ROUTE_PAGE_TREE, path: '/page' },
       { name: ROUTE_PAGE_ADD, path: '/page/add' },
+      { name: ROUTE_PAGE_CLONE, path: '/page/clone' },
       { name: ROUTE_PAGE_DETAIL, path: '/page/detail/:pageCode' },
       { name: ROUTE_PAGE, path: '/page/view/:page' },
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
+      { name: ROUTE_PAGE_PREVIEW, path: '/page/preview/:pageCode' },
       { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
       { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
       { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },
@@ -96,31 +105,29 @@ routerConfig(
       { name: ROUTE_FRAGMENT_DETAIL, path: '/fragment/view/:fragmentCode' },
       { name: ROUTE_DATA_MODEL_LIST, path: '/datamodel' },
       { name: ROUTE_DATA_MODEL_ADD, path: '/datamodel/add' },
-      // data types
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/datatype/attribute/:entityCode/add' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/datatype/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/datatype/attribute/:entityCode/MonolistAdd/:attributeCode' },
-      // profile types
       { name: ROUTE_PROFILE_TYPE_LIST, path: '/profiletype' },
       { name: ROUTE_PROFILE_TYPE_ADD, path: '/profiletype/add' },
       { name: ROUTE_PROFILE_TYPE_EDIT, path: '/profiletype/edit/:profiletypeCode' },
       { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, path: '/profiletype/attribute/:entityCode/add' },
       { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, path: '/profiletype/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, path: '/profiletype/attribute/:entityCode/MonolistAdd/:attributeCode' },
-
-
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
+      { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
       { name: ROUTE_GROUP_EDIT, path: '/group/edit/:groupCode' },
       { name: ROUTE_USER_AUTHORITY, path: '/authority/:username' },
+      { name: ROUTE_LABELS_ADD, path: '/labels/add' },
       { name: ROUTE_LABELS_AND_LANGUAGES, path: '/labels-languages' },
       { name: ROUTE_LABEL_ADD, path: '/labels-languages/add' },
       { name: ROUTE_LABEL_EDIT, path: '/labels-languages/edit/:labelCode' },
@@ -134,8 +141,12 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
-
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
+      { name: ROUTE_DATABASE_LIST, path: '/database' },
+      { name: ROUTE_DATABASE_ADD, path: '/database/add' },
+      { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
+      { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
+      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

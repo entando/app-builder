@@ -91,6 +91,7 @@ export const getReferences = (entityName, mockRefs) =>
       uri: `/api/groups/${groupname}/references/${entityName}`,
       method: METHODS.GET,
       mockResponse: mockRefs[groupname] ? mockRefs[groupname].list : [],
+      useAuthentication: true,
       errors: () => getErrorsReferences(mockRefs, groupname),
     },
     page,
@@ -99,7 +100,7 @@ export const getReferences = (entityName, mockRefs) =>
 export const getPageReferences = getReferences('PageManager', PAGE_REFERENCES);
 export const getUserReferences = getReferences('UserManager', USER_REFERENCES);
 export const getWidgetTypeReferences = getReferences('WidgetTypeManager', WIDGETTYPE_REFERENCES);
-export const getContentReferences = getReferences('ContentManager', GROUP_CONTENT_REFERENCES);
-export const getResourceReferences = getReferences('ResourceManager', RESOURCE_REFERENCES);
+export const getContentReferences = getReferences('jacmsContentManager', GROUP_CONTENT_REFERENCES);
+export const getResourceReferences = getReferences('jacmsResourceManager', RESOURCE_REFERENCES);
 
 export default getGroups;

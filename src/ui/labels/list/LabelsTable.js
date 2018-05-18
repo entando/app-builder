@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import LabelListMenuActions from 'ui/labels/list/LabelListMenuActions';
-import DeleteLabelModalContainer from 'ui/labels/common/DeleteLabelModalContainer';
+import DeleteLabelAndLanguagesModalContainer from 'ui/labels/common/DeleteLabelAndLanguagesModalContainer';
 
 const LabelsTable = ({
   langName, labels, onClickDelete,
@@ -32,7 +32,7 @@ const LabelsTable = ({
           ))}
       </tbody>
     </table>
-    <DeleteLabelModalContainer />
+    <DeleteLabelAndLanguagesModalContainer />
   </div>
 );
 LabelsTable.propTypes = {

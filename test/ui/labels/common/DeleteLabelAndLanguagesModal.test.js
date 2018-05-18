@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import DeleteLabelModal from 'ui/labels/common/DeleteLabelModal';
+import DeleteLabelAndLanguagesModal from 'ui/labels/common/DeleteLabelAndLanguagesModal';
 import { Button } from 'patternfly-react';
 
 const onConfirmDelete = jest.fn();
@@ -15,10 +15,10 @@ const props = {
   },
 };
 
-describe('DeleteLabelModal', () => {
+describe('DeleteLabelAndLanguagesModal', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DeleteLabelModal />);
+    component = shallow(<DeleteLabelAndLanguagesModal />);
   });
 
   describe('component with required props only', () => {
@@ -35,7 +35,7 @@ describe('DeleteLabelModal', () => {
       expect(emptyStateIcon).toExist();
       expect(emptyStateIcon.props()).toHaveProperty('name', 'exclamation');
       expect(emptyStateIcon.props()).toHaveProperty('type', 'fa');
-      expect(emptyStateIcon.hasClass('DeleteLabelModal__icon')).toBe(true);
+      expect(emptyStateIcon.hasClass('DeleteLabelAndLanguagesModal__icon')).toBe(true);
     });
 
     it('has an EmptyStateTitle', () => {
@@ -46,19 +46,19 @@ describe('DeleteLabelModal', () => {
     it('has an EmptyStateInfo', () => {
       const emptyStateInfo = component.find('EmptyStateInfo');
       expect(emptyStateInfo).toExist();
-      expect(emptyStateInfo.hasClass('DeleteLabelModal__info')).toBe(true);
+      expect(emptyStateInfo.hasClass('DeleteLabelAndLanguagesModal__info')).toBe(true);
     });
   });
 
   describe('component with extra props', () => {
     it('renders info prop', () => {
-      component = shallow(<DeleteLabelModal {...props} />);
+      component = shallow(<DeleteLabelAndLanguagesModal {...props} />);
       const title = component.find('EmptyStateTitle');
       expect(title.render().text()).toContain('label');
     });
 
     it('clicking on delete button calls onConfirmDelete', () => {
-      component = shallow(<DeleteLabelModal {...props} />);
+      component = shallow(<DeleteLabelAndLanguagesModal {...props} />);
       const buttonsProps = component.prop('buttons')[0].props;
       const deleteButton = shallow(<Button {...buttonsProps} />);
       deleteButton.simulate('click');

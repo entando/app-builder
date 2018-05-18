@@ -2,10 +2,10 @@ import 'test/enzyme-init';
 import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
   getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
-  getReferencesPage,
+  getReferencesPage, restorePageConfig, applyDefaultPageConfig,
 } from 'api/pages';
 
-import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES } from 'test/mocks/pages';
+import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -223,6 +223,38 @@ describe('api/pages', () => {
         uri: `/api/pages/${PAGE_CODE}/widgets/${FRAME_POS}`,
         method: METHODS.PUT,
         body: PAGE_CONFIG_ITEM,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('restorePageConfig', () => {
+    it('returns a promise', () => {
+      expect(restorePageConfig(PAGE_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      restorePageConfig(PAGE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/configuration/restore`,
+        method: METHODS.PUT,
+        body: {},
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('applyDefaultPageConfig', () => {
+    it('returns a promise', () => {
+      expect(applyDefaultPageConfig(PAGE_CODE)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      applyDefaultPageConfig(PAGE_CODE);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}/configuration/defaultWidgets`,
+        method: METHODS.PUT,
+        body: {},
         useAuthentication: true,
       }));
     });

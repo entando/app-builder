@@ -44,6 +44,7 @@
 @import "users/common/UserStatus";
 @import "users/common/UserForm";
 @import "users/list/UserListTable";
+@import "users/restrictions/RestrictionsForm";
 @import "data-models/list/DataModelListTable";
 @import "groups/list/GroupListTable";
 @import "groups/common/GroupForm";
@@ -71,6 +72,12 @@
 @import "dashboard/PageStatus";
 @import "dashboard/PagesList";
 @import "reload-configuration/ReloadConfig";
+@import "database/list/DatabaseListPage";
+@import "database/list/DatabaseListTable";
+@import "database/add/AddDatabaseListTable";
+@import "database/report/ReportDatabaseListDataSource";
+@import "file-browser/list/FilesListTable";
+@import "file-browser/list/FileBreadcrumb";
 @import "profile-types/common/ProfileTypeStatusIcon";
 @import "profile-types/common/ProfileTypeForm";
 @import "profile-types/list/ProfileTypeListTable";

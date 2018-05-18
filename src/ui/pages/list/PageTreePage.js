@@ -9,6 +9,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
 import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 
 class PageTreePage extends Component {
   componentWillMount() {
@@ -54,6 +55,11 @@ class PageTreePage extends Component {
                 <FormattedMessage id="menu.pageTree" />
                 <i className="pficon pficon-help pull-right" />
               </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <ErrorsAlertContainer />
             </Col>
           </Row>
           <Row>

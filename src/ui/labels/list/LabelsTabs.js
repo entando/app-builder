@@ -33,14 +33,14 @@ const LabelsTabs = ({
 
 LabelsTabs.propTypes = {
   labels: PropTypes.arrayOf(PropTypes.shape({})),
-  languages: PropTypes.arrayOf(PropTypes.shape({})),
+  languages: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
   onClickDelete: PropTypes.func,
   loading: PropTypes.bool,
 };
 
 LabelsTabs.defaultProps = {
   labels: [],
-  languages: [],
+  languages: [{ name: '' }],
   onClickDelete: null,
   loading: false,
 };

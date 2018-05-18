@@ -37,12 +37,13 @@ describe('UserForm', () => {
     expect(userForm.exists()).toEqual(true);
   });
 
-  it('root component does not render registration Field if its value is null', () => {
+  it('root component render minus icon if staticField value is null', () => {
     const input = { name: 'registration', value: '' };
     const name = 'registration';
     const label = <label htmlFor={name}>registration</label>;
-    const element = renderStaticField({ input, label, name });
-    expect(element).toBe(null);
+    const element = shallow(renderStaticField({ input, label, name }));
+    expect(element.find('.icon')).toExist();
+    expect(element.find('.icon').hasClass('fa-minus')).toBe(true);
   });
 
   it('root component renders registration Field if its value is not null', () => {

@@ -48,5 +48,5 @@ export const mapDispatchToProps = dispatch => ({
   },
 
 });
-const ProfileTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileTypeForm);
-export default ProfileTypeFormContainer;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileTypeForm);

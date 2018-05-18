@@ -5,7 +5,7 @@ import LabelsTabs from 'ui/labels/list/LabelsTabs';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getLabelsList } from 'state/labels/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
-import { MODAL_ID } from 'ui/labels/common/DeleteLabelModal';
+import { MODAL_ID } from 'ui/labels/common/DeleteLabelAndLanguagesModal';
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),

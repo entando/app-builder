@@ -30,7 +30,9 @@ import {
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
   ROUTE_USER_EDIT,
+  ROUTE_PAGE_CLONE,
   ROUTE_USER_DETAIL,
+  ROUTE_USER_RESTRICTIONS,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -48,22 +50,23 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-  // data type
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
-
-  // profile type
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
   ROUTE_PROFILE_TYPE_EDIT,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
-
+  ROUTE_DATABASE_LIST,
+  ROUTE_DATABASE_ADD,
+  ROUTE_DATABASE_REPORT,
+  ROUTE_DATABASE_DUMP_TABLE,
+  ROUTE_FILE_BROWSER,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -80,6 +83,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PagesClonePage from 'ui/pages/clone/PagesClonePage';
 import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
@@ -94,6 +98,7 @@ import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageCont
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -111,7 +116,6 @@ import EditRolePage from 'ui/roles/edit/EditRolePage';
 import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
-// data type
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
@@ -125,9 +129,12 @@ import EditProfileTypesPage from 'ui/profile-types/edit/EditProfileTypesPage';
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-
-
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
+import ListDatabasePage from 'ui/database/list/ListDatabasePage';
+import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
+import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
+import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
+import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -153,6 +160,7 @@ const App = ({ route, username }) => {
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_CLONE: return <PagesClonePage />;
     case ROUTE_PAGE_DETAIL: return <PagesDetailPageContainer />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
@@ -167,6 +175,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_USER_DETAIL: return <DetailUserPage />;
+    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
@@ -185,21 +194,23 @@ const App = ({ route, username }) => {
     case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
     case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
     case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
-      // data type
     case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
     case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
     case ROUTE_DATA_TYPE_EDIT: return <EditDataTypesPage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
-    // attribute type
     case ROUTE_PROFILE_TYPE_LIST: return <ListProfileTypePage />;
     case ROUTE_PROFILE_TYPE_ADD: return <AddProfileTypesPage />;
     case ROUTE_PROFILE_TYPE_EDIT: return <EditProfileTypesPage />;
     case ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD: return <AddProfileTypeAttributePage />;
     case ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT: return <EditProfileTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD: return <MonolistProfilePageContainer />;
-
+    case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
+    case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
+    case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;
+    case ROUTE_DATABASE_DUMP_TABLE: return <DatabaseDumpTablePageContainer />;
+    case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
     default: return <NotFoundPage />;
   }
 };
