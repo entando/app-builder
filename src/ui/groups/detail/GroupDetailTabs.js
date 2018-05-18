@@ -9,7 +9,6 @@ import GroupDetailTabContentsContainer from 'ui/groups/detail/GroupDetailTabCont
 import GroupDetailTabResourcesContainer from 'ui/groups/detail/GroupDetailTabResourcesContainer';
 
 const GroupDetailTabs = () => (
-
   <TabContainer className="GroupDetailTabs__container" id="group-detail-tabs" defaultActiveKey={1} >
     <div>
       <Nav bsClass="nav nav-tabs">

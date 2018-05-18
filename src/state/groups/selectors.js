@@ -3,15 +3,91 @@ import { getLocale } from 'state/locale/selectors';
 
 export const getGroups = state => state.groups;
 
-export const getGroupsIdList = state => state.groups.list;
+export const getGroupsIdList =
+  createSelector(
+    getGroups,
+    groups => (groups.list || []),
+  );
 
-export const getGroupsMap = state => state.groups.map;
+export const getGroupsMap =
+  createSelector(
+    getGroups,
+    groups => (groups.map || {}),
+  );
 
-export const getSelectedGroup = state => state.groups.selected;
+export const getGroupsTotal =
+  createSelector(
+    getGroups,
+    groups => (groups.total || 0),
+  );
 
-export const getGroupsTotal = state => state.groups.total;
+export const getSelectedGroup =
+  createSelector(
+    getGroups,
+    groups => (groups.selected || {}),
+  );
 
-export const getSelectedGroupPageReferences = state => state.groups.selected.pageReferences;
+export const getGroupsList = createSelector(
+  [getGroupsMap, getGroupsIdList],
+  (groupsMap, idList) => idList.map(id => (groupsMap[id])),
+);
+
+export const getSelectedRefs =
+  createSelector(
+    getSelectedGroup,
+    selected => (selected.references || {}),
+  );
+
+export const getReferenceKeyList =
+  createSelector(
+    getSelectedGroup,
+    selected => (selected.referenceKeyList || []),
+  );
+
+export const getReferenceMap =
+  createSelector(
+    getSelectedGroup,
+    selected => (selected.referenceMap || {}),
+  );
+
+export const getSelectedGroupResourceReferences =
+  createSelector(
+    getReferenceMap,
+    refMap => (refMap.jacmsResourceManager || []),
+  );
+
+export const getSelectedGroupContentReferences =
+    createSelector(
+      getReferenceMap,
+      refMap => (refMap.jacmsContentManager || []),
+    );
+
+export const getSelectedGroupUserReferences =
+  createSelector(
+    getReferenceMap,
+    refMap => (refMap.UserManager || []),
+  );
+
+export const getSelectedGroupWidgetTypeReferences =
+  createSelector(
+    getReferenceMap,
+    refMap => (refMap.WidgetTypeManager || []),
+  );
+
+export const getWidgetTypeReferences =
+    createSelector(
+      getSelectedGroupWidgetTypeReferences, getLocale,
+      (widgets, locale) => (widgets ? widgets.map(widget => ({
+        code: widget.code,
+        title: widget.titles[locale],
+      })) : []),
+    );
+
+export const getSelectedGroupPageReferences =
+  createSelector(
+    getReferenceMap,
+    refMap => (refMap.PageManager || []),
+  );
 
 export const getPageReferences =
   createSelector(
@@ -21,18 +97,3 @@ export const getPageReferences =
       name: page.fullTitles[locale],
     })) : []),
   );
-
-export const getSelectedGroupUserReferences = state => state.groups.selected.userReferences;
-
-export const getSelectedGroupWidgetTypeReferences = state =>
-  state.groups.selected.widgetTypeReferences;
-
-export const getSelectedGroupContentReferences = state => state.groups.selected.contentReferences;
-
-export const getSelectedGroupResourceReferences = state =>
-  state.groups.selected.resourceReferences;
-
-export const getGroupsList = createSelector(
-  [getGroupsMap, getGroupsIdList],
-  (groupsMap, idList) => idList.map(id => (groupsMap[id])),
-);

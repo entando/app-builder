@@ -48,7 +48,7 @@ describe('GroupDetailTabUsers', () => {
 
     describe('with pageReferences', () => {
       beforeEach(() => {
-        component.setProps({ pageReferences: USER_REFERENCES.administrators.list });
+        component.setProps({ userReferences: USER_REFERENCES });
       });
 
       it('has 1 rows if there are 1 groups', () => {
