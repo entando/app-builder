@@ -1,0 +1,20 @@
+.AddDatabaseListTable {
+  padding: 2em;
+
+  &__list {
+    display: flex;
+  }
+
+  &__text {
+    min-width: 300px;
+    text-align: right;
+  }
+
+  &__list-item {
+    list-style-type: none;
+  }
+
+  &__goto-list {
+    margin-right: 5px;
+  }
+}

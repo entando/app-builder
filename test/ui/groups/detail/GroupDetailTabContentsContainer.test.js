@@ -1,27 +1,27 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabContentsContainer';
-import { getSelectedGroupContentReferences } from 'state/groups/selectors';
-import { getLoading } from 'state/loading/selectors';
-import { GROUP_CONTENT_REFERENCES } from 'test/mocks/groups';
 
 const dispatchMock = jest.fn();
-const CONTENTS_MOCK = [{
-  code: 'CNG2',
-  name: 'Banner content left',
-  type: 'Generic Content',
-  lastEdit: '2017-01-08 00:00:00',
-}];
 
 jest.mock('state/groups/selectors', () => ({
-  getSelectedGroupContentReferences: jest.fn(),
+  getSelectedGroupContentReferences: jest.fn()
+    .mockReturnValue('getSelectedGroupContentReferences_result'),
 }));
-getSelectedGroupContentReferences.mockReturnValue(GROUP_CONTENT_REFERENCES.administrators.list);
+
+jest.mock('state/pagination/selectors', () => ({
+  getCurrentPage: jest.fn().mockReturnValue('getCurrentPage_result'),
+  getTotalItems: jest.fn().mockReturnValue('getTotalItems_result'),
+  getPageSize: jest.fn().mockReturnValue('getPageSize_result'),
+}));
+
+jest.mock('state/groups/actions', () => ({
+  fetchReferences: jest.fn().mockReturnValue('fetchReferences_result'),
+}));
 
 jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn(),
+  getLoading: jest.fn().mockReturnValue({ references: false }),
 }));
-getLoading.mockReturnValue(false);
 
 describe('GroupDetailTabContentsContainer', () => {
   let props;
@@ -36,27 +36,21 @@ describe('GroupDetailTabContentsContainer', () => {
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount();
-      expect(dispatchMock).toHaveBeenCalled();
+      expect(dispatchMock).toHaveBeenCalledWith('fetchReferences_result');
     });
   });
 
   describe('mapStateToProps', () => {
     beforeEach(() => {
-      jest.clearAllMocks();
-      props = mapStateToProps(GROUP_CONTENT_REFERENCES.administrators);
+      props = mapStateToProps({});
     });
 
     it('verify props are defined and properly valued', () => {
-      expect.assertions(4);
-      expect(props).toBeInstanceOf(Object);
-      expect(props).toHaveProperty('pageReferences');
-      expect(props).toHaveProperty('loading');
-      expect(props).toMatchObject({
-        pageReferences: CONTENTS_MOCK,
-        page: 1,
-        totalItems: 1,
-        pageSize: 5,
-      });
+      expect(props).toHaveProperty('contentReferences', 'getSelectedGroupContentReferences_result');
+      expect(props).toHaveProperty('loading', false);
+      expect(props).toHaveProperty('page', 'getCurrentPage_result');
+      expect(props).toHaveProperty('totalItems', 'getTotalItems_result');
+      expect(props).toHaveProperty('pageSize', 'getPageSize_result');
     });
   });
 });

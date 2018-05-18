@@ -34,6 +34,13 @@ export const FILE_BROWSER_ROOT_FOLDER = [
   },
 ];
 
+export const FILE_BROWSER_FILE = {
+  protectedFolder: false,
+  path: 'folder/subfolder/filename',
+  filename: 'filename',
+  base64: 'base64',
+};
+
 export const FILE_BROWSER_CREATE_FOLDER = {
   protectedFolder: false,
   path: 'folder/subfolder',

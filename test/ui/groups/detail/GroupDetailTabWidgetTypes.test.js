@@ -48,7 +48,7 @@ describe('GroupDetailTabWidgetTypes', () => {
 
     describe('with pageReferences', () => {
       beforeEach(() => {
-        component.setProps({ pageReferences: WIDGETTYPE_REFERENCES.administrators.list });
+        component.setProps({ widgetReferences: WIDGETTYPE_REFERENCES });
       });
 
       it('has 1 rows', () => {

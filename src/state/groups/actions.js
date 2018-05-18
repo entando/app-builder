@@ -6,25 +6,18 @@ import {
   getGroup,
   putGroup,
   deleteGroup,
-  getPageReferences,
-  getUserReferences,
-  getWidgetTypeReferences,
-  getContentReferences,
-  getResourceReferences,
+  getReferences,
 } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
+import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
 import { getParams, gotoRoute } from '@entando/router';
 
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
-  SET_SELECTED_GROUP_PAGE_REFERENCES,
-  SET_SELECTED_GROUP_USER_REFERENCES,
-  SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
-  SET_SELECTED_GROUP_CONTENT_REFERENCES,
-  SET_SELECTED_GROUP_RESOURCE_REFERENCES,
+  SET_REFERENCES,
   REMOVE_GROUP,
   SET_GROUPS_TOTAL,
 } from 'state/groups/types';
@@ -50,41 +43,6 @@ export const setSelectedGroup = group => ({
   type: SET_SELECTED_GROUP,
   payload: {
     group,
-  },
-});
-
-export const setSelectedGroupPageReferences = references => ({
-  type: SET_SELECTED_GROUP_PAGE_REFERENCES,
-  payload: {
-    references,
-  },
-});
-
-export const setSelectedGroupUserReferences = references => ({
-  type: SET_SELECTED_GROUP_USER_REFERENCES,
-  payload: {
-    references,
-  },
-});
-
-export const setSelectedGroupWidgetTypeReferences = references => ({
-  type: SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES,
-  payload: {
-    references,
-  },
-});
-
-export const setSelectedGroupContentReferences = references => ({
-  type: SET_SELECTED_GROUP_CONTENT_REFERENCES,
-  payload: {
-    references,
-  },
-});
-
-export const setSelectedGroupResourceReferences = references => ({
-  type: SET_SELECTED_GROUP_RESOURCE_REFERENCES,
-  payload: {
-    references,
   },
 });
 
@@ -194,6 +152,35 @@ export const sendDeleteGroup = groupCode => dispatch => (
   })
 );
 
+export const setReferences = references => ({
+  type: SET_REFERENCES,
+  payload: {
+    references,
+  },
+});
+
+export const fetchReferences = (referenceKey, page = { page: 1, pageSize: 10 }) =>
+  (dispatch, getState) => (
+    new Promise((resolve) => {
+      const { groupname } = getParams(getState());
+      dispatch(toggleLoading('references'));
+      getReferences(page, groupname, referenceKey).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setReferences({
+              [referenceKey]: json.payload,
+            }));
+            dispatch(setPage(json.metaData));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          dispatch(toggleLoading('references'));
+          resolve();
+        });
+      });
+    })
+  );
+
 export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
   new Promise((resolve) => {
     const { groupname } = getParams(getState());
@@ -201,49 +188,21 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedGroup(json.payload));
-          resolve();
+          const references = getReferenceKeyList(getState());
+          references.forEach((referenceKey) => {
+            if (getSelectedRefs(getState())[referenceKey]) {
+              dispatch(fetchReferences(referenceKey));
+            } else {
+              setReferences({
+                [referenceKey]: [],
+              });
+            }
+          });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          resolve();
         }
+        resolve();
       });
     });
   })
 );
-
-const fetchCurrentReference = (getApiCall, setActionCreator) =>
-  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) => (
-    new Promise((resolve) => {
-      const { groupname } = getParams(getState());
-      dispatch(toggleLoading('references'));
-      getApiCall(page, groupname).then((response) => {
-        response.json().then((json) => {
-          if (response.ok) {
-            dispatch(setActionCreator(json.payload));
-            dispatch(toggleLoading('references'));
-            dispatch(setPage(json.metaData));
-            resolve();
-          } else {
-            dispatch(addErrors(json.errors.map(err => err.message)));
-            dispatch(toggleLoading('references'));
-            resolve();
-          }
-        });
-      });
-    })
-  );
-
-export const fetchCurrentReferencePages =
-  fetchCurrentReference(getPageReferences, setSelectedGroupPageReferences);
-
-export const fetchCurrentReferenceUsers =
-    fetchCurrentReference(getUserReferences, setSelectedGroupUserReferences);
-
-export const fetchCurrentReferenceWidgetTypes =
-        fetchCurrentReference(getWidgetTypeReferences, setSelectedGroupWidgetTypeReferences);
-
-export const fetchCurrentReferenceContents =
-        fetchCurrentReference(getContentReferences, setSelectedGroupContentReferences);
-
-export const fetchCurrentReferenceResources =
-        fetchCurrentReference(getResourceReferences, setSelectedGroupResourceReferences);

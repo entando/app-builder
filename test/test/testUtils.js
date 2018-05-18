@@ -4,9 +4,11 @@ export const errorResponse = (...messages) => ({
   errors: messages.map((message, code) => ({ code, message })),
 });
 
-export const mockApi = ({ errors, payload, metaData }) => {
+export const mockApi = ({
+  errors, payload, metaData, codeStatus = 500,
+}) => {
   const statusCode = (errors === true) ||
-    (Array.isArray(errors) && errors.length) ? 500 : 200;
+    (Array.isArray(errors) && errors.length) ? codeStatus : 200;
   const response = {
     errors: errors === true ? [{ code: 1, message: 'Error!' }] : errors || [],
     payload: payload || {},

@@ -8,6 +8,7 @@ export const ROUTE_USER_PROFILE = 'userprofile';
 export const ROUTE_PAGE = 'page';
 export const ROUTE_PAGE_ADD = 'pageAdd';
 export const ROUTE_PAGE_EDIT = 'pageEdit';
+export const ROUTE_PAGE_CLONE = 'pageClone';
 export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
@@ -36,6 +37,7 @@ export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
+export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
@@ -58,9 +60,13 @@ export const ROUTE_ROLE_EDIT = 'roleEdit';
 export const ROUTE_ROLE_DETAIL = 'roleDetail';
 export const ROUTE_RELOAD_CONFIG = 'reloadConfig';
 export const ROUTE_RELOAD_CONFIRM = 'reloadConfirm';
-
+export const ROUTE_DATABASE_LIST = 'databaseList';
+export const ROUTE_DATABASE_ADD = 'databaseAdd';
+export const ROUTE_DATABASE_REPORT = 'databaseReport';
+export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
+export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
 export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
 
 routerConfig(
@@ -73,6 +79,7 @@ routerConfig(
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
       { name: ROUTE_PAGE_TREE, path: '/page' },
       { name: ROUTE_PAGE_ADD, path: '/page/add' },
+      { name: ROUTE_PAGE_CLONE, path: '/page/clone' },
       { name: ROUTE_PAGE_DETAIL, path: '/page/detail/:pageCode' },
       { name: ROUTE_PAGE, path: '/page/view/:page' },
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
@@ -100,10 +107,12 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
       { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
       { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
+      { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
+      { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
@@ -124,7 +133,12 @@ routerConfig(
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
+      { name: ROUTE_DATABASE_LIST, path: '/database' },
+      { name: ROUTE_DATABASE_ADD, path: '/database/add' },
+      { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
+      { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
       { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
+      { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/file-browser/upload' },
       { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },

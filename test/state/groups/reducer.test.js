@@ -4,32 +4,19 @@ import {
   setGroups,
   setGroupsTotal,
   setSelectedGroup,
-  setSelectedGroupPageReferences,
-  setSelectedGroupUserReferences,
-  setSelectedGroupWidgetTypeReferences,
-  setSelectedGroupContentReferences,
-  setSelectedGroupResourceReferences,
+  setReferences,
   removeGroupSync,
 } from 'state/groups/actions';
 
 import {
   getGroupsList,
   getSelectedGroup,
-  getSelectedGroupPageReferences,
-  getSelectedGroupUserReferences,
-  getSelectedGroupWidgetTypeReferences,
-  getSelectedGroupContentReferences,
-  getSelectedGroupResourceReferences,
 } from 'state/groups/selectors';
 
 import {
   LIST_GROUPS_OK,
   BODY_OK,
   PAGE_REFERENCES,
-  USER_REFERENCES,
-  WIDGETTYPE_REFERENCES,
-  GROUP_CONTENT_REFERENCES,
-  RESOURCE_REFERENCES,
 } from 'test/mocks/groups';
 
 const GROUP_CODE = LIST_GROUPS_OK[0].code;
@@ -79,78 +66,18 @@ describe('state/groups/reducer', () => {
     });
   });
 
-  describe('after action SET_SELECTED_GROUP_PAGE_REFERENCES', () => {
+  describe('after action SET_REFERENCES', () => {
     let newState;
     beforeEach(() => {
       newState = reducer(
         state,
-        setSelectedGroupPageReferences(PAGE_REFERENCES.administrators.list),
+        setReferences({ PageManager: PAGE_REFERENCES }),
       );
     });
 
     it('should define the pageReferenced payload', () => {
-      expect(getSelectedGroupPageReferences({ groups: newState }))
-        .toMatchObject(PAGE_REFERENCES.administrators.list);
-    });
-  });
-
-  describe('after action SET_SELECTED_GROUP_USER_REFERENCES', () => {
-    let newState;
-    beforeEach(() => {
-      newState = reducer(
-        state,
-        setSelectedGroupUserReferences(USER_REFERENCES.administrators.list),
-      );
-    });
-
-    it('should define the userReferenced payload', () => {
-      expect(getSelectedGroupUserReferences({ groups: newState }))
-        .toMatchObject(USER_REFERENCES.administrators.list);
-    });
-  });
-
-  describe('after action SET_SELECTED_GROUP_WIDGETTYPE_REFERENCES', () => {
-    let newState;
-    beforeEach(() => {
-      newState = reducer(
-        state,
-        setSelectedGroupWidgetTypeReferences(WIDGETTYPE_REFERENCES.administrators.list),
-      );
-    });
-
-    it('should define the widgetTypeReferenced payload', () => {
-      expect(getSelectedGroupWidgetTypeReferences({ groups: newState }))
-        .toMatchObject(WIDGETTYPE_REFERENCES.administrators.list);
-    });
-  });
-
-  describe('after action SET_SELECTED_GROUP_CONTENT_REFERENCES', () => {
-    let newState;
-    beforeEach(() => {
-      newState = reducer(
-        state,
-        setSelectedGroupContentReferences(GROUP_CONTENT_REFERENCES.administrators.list),
-      );
-    });
-
-    it('should define the contentReferenced payload', () => {
-      expect(getSelectedGroupContentReferences({ groups: newState }))
-        .toMatchObject(GROUP_CONTENT_REFERENCES.administrators.list);
-    });
-  });
-
-  describe('after action SET_SELECTED_GROUP_RESOURCE_REFERENCES', () => {
-    let newState;
-    beforeEach(() => {
-      newState = reducer(
-        state,
-        setSelectedGroupResourceReferences(RESOURCE_REFERENCES.administrators.list),
-      );
-    });
-
-    it('should define the userReferenced payload', () => {
-      expect(getSelectedGroupResourceReferences({ groups: newState }))
-        .toMatchObject(RESOURCE_REFERENCES.administrators.list);
+      expect(newState.selected.referenceMap.PageManager)
+        .toMatchObject(PAGE_REFERENCES);
     });
   });
 

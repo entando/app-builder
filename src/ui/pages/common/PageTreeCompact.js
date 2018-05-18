@@ -56,16 +56,16 @@ class PageTreeCompact extends Component {
               <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code })} >
                 <FormattedMessage id="app.configure" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked DETAILS on page ${page.code}`)} >
+              <MenuItem onClick={() => page.code} >
                 <FormattedMessage id="app.details" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked CLONE on page ${page.code}`)} >
+              <MenuItem onClick={() => page.code}>
                 <FormattedMessage id="app.clone" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked DELETE on page ${page.code}`)} >
+              <MenuItem onClick={() => page.code} >
                 <FormattedMessage id="app.delete" />
               </MenuItem>
-              <MenuItem onClick={() => console.info(`clicked UNPUBLISH on page ${page.code}`)} >
+              <MenuItem onClick={() => page.code} >
                 <FormattedMessage id="app.unpublish" />
               </MenuItem>
             </DropdownKebab>

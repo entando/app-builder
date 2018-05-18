@@ -46,6 +46,22 @@ export const WIDGET_LIST = {
       used: 1,
       hasConfig: true,
     },
+    {
+      ...WIDGET,
+      code: 'bpm-case-progress-status',
+      typology: 'Entando Redhat BPM connector',
+      titles: { it: 'BPM-Case progress status', en: 'BPM-Case progress status' },
+      used: 1,
+      hasConfig: true,
+    },
+    {
+      ...WIDGET,
+      code: 'bpm-case-instance-selector',
+      typology: 'Entando Redhat BPM connector',
+      titles: { it: 'BPM-Case instance selector', en: 'BPM-Case instance selector' },
+      used: 1,
+      hasConfig: true,
+    },
   ],
   errors: [],
   metaData: {

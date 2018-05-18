@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
 import pluginArray from 'entando-plugins';
 import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
 
@@ -32,9 +31,4 @@ WidgetConfigFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const WrappedWidgetConfigForm = reduxForm({
-  form: 'widgetConfigForm',
-})(WidgetConfigFormBody);
-
-
-export default WrappedWidgetConfigForm;
+export default WidgetConfigFormBody;

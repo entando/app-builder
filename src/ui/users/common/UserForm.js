@@ -19,11 +19,14 @@ import FormLabel from 'ui/common/form/FormLabel';
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
+const minLength8 = minLength(8);
+const maxLength20 = maxLength(20);
+
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
-  const fieldValue = (input.value.title) ? input.value.title : input.value;
+  let fieldValue = input.value.title || input.value;
   if (!input.value) {
-    return null;
+    fieldValue = <i className="icon fa fa-minus" />;
   }
 
   return (
@@ -55,40 +58,45 @@ export class UserFormBody extends Component {
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
         placeholder={formattedText('user.table.username')}
         validate={mode !== EDIT_MODE ?
-          [required, minLength(8), maxLength(20), userFormText] : undefined}
+          [required, minLength8, maxLength20, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
       />
     );
-    const showEdit = (
-      <div className="UserForm__content-edit" >
-        <Field
-          name="registration"
-          component={renderStaticField}
-          label={<FormattedMessage id="user.registration" />}
-        />
-        <Field
-          name="lastLogin"
-          component={renderStaticField}
-          label={<FormattedMessage id="user.lastLogin" />}
-        />
-        <Field
-          name="lastPasswordChange"
-          component={renderStaticField}
-          label={<FormattedMessage id="user.lastPasswordChange" />}
-        />
-        <FormGroup>
-          <label htmlFor="reset" className="col-xs-2 control-label">
-            <FormattedMessage id="user.reset" />&nbsp;
-          </label>
-          <Col xs={4}>
-            <Field
-              component={SwitchRenderer}
-              name="reset"
-            />
-          </Col>
-        </FormGroup>
-      </div>
-    );
+    const showEdit = () => {
+      if (mode === NEW_MODE) {
+        return null;
+      }
+      return (
+        <div className="UserForm__content-edit" >
+          <Field
+            name="registration"
+            component={renderStaticField}
+            label={<FormattedMessage id="user.registration" />}
+          />
+          <Field
+            name="lastLogin"
+            component={renderStaticField}
+            label={<FormattedMessage id="user.lastLogin" />}
+          />
+          <Field
+            name="lastPasswordChange"
+            component={renderStaticField}
+            label={<FormattedMessage id="user.lastPasswordChange" />}
+          />
+          <FormGroup>
+            <label htmlFor="reset" className="col-xs-2 control-label">
+              <FormattedMessage id="user.reset" />&nbsp;
+            </label>
+            <Col xs={4}>
+              <Field
+                component={SwitchRenderer}
+                name="reset"
+              />
+            </Col>
+          </FormGroup>
+        </div>
+      );
+    };
 
     const showProfileType = (
       mode !== EDIT_MODE ?
@@ -116,20 +124,22 @@ export class UserFormBody extends Component {
                 component={RenderTextInput}
                 name="password"
                 type="password"
-                label={<FormLabel labelId="user.password" helpId="user.password.help" required />}
+                label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.password')}
-                validate={[required, minLength(8), maxLength(20), userFormText]}
+                validate={mode !== EDIT_MODE ?
+                [required, minLength8, maxLength20, userFormText] : undefined}
               />
               <Field
                 component={RenderTextInput}
                 name="passwordConfirm"
                 type="password"
-                label={<FormLabel labelId="user.passwordConfirm" required />}
+                label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.passwordConfirm')}
-                validate={[required, matchPassword]}
+                validate={mode !== EDIT_MODE ?
+                [required, matchPassword] : undefined}
               />
               {/* Insert user info and reset button on EDIT */}
-              {showEdit}
+              {showEdit()}
               {showProfileType}
               <FormGroup>
                 <label htmlFor="status" className="col-xs-2 control-label">

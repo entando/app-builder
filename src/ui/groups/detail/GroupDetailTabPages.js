@@ -9,8 +9,23 @@ import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class GroupDetailTabPages extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
+  }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.page);
+  }
+
+  changePage(page) {
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderRows() {
@@ -19,8 +34,8 @@ class GroupDetailTabPages extends React.Component {
     return this.props.pageReferences.map(item => (
       <tr key={item.code}>
         <td>{item.name}</td>
-        <td >
-          <DropdownKebab id={`kebab-${item.code}`}>
+        <td className="text-center">
+          <DropdownKebab id={`kebab-${item.code}`} pullRight>
             <LinkMenuItem
               id={`goto-${item.code}`}
               route={ROUTE_PAGE}
@@ -54,7 +69,7 @@ class GroupDetailTabPages extends React.Component {
             <thead>
               <tr>
                 <th><FormattedMessage id="app.pages" /></th>
-                <th width={30}><FormattedMessage id="app.actions" /></th>
+                <th className="text-center" width={30}><FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>
             <tbody>

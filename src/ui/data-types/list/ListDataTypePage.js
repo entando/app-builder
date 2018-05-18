@@ -44,7 +44,6 @@ const ListDataTypePage = () => (
       <Row>
         <DataTypeListTableContainer />
       </Row>
-      {/* Entity references placeholder */}
     </Grid>
   </InternalPage>
 );

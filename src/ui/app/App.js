@@ -33,7 +33,9 @@ import {
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
   ROUTE_USER_EDIT,
+  ROUTE_PAGE_CLONE,
   ROUTE_USER_DETAIL,
+  ROUTE_USER_RESTRICTIONS,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -54,7 +56,12 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
+  ROUTE_DATABASE_LIST,
+  ROUTE_DATABASE_ADD,
+  ROUTE_DATABASE_REPORT,
+  ROUTE_DATABASE_DUMP_TABLE,
   ROUTE_FILE_BROWSER,
+  ROUTE_FILE_BROWSER_UPLOAD,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
@@ -72,6 +79,7 @@ import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContain
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import PagesClonePage from 'ui/pages/clone/PagesClonePage';
 import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
@@ -89,6 +97,7 @@ import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageCont
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -111,7 +120,12 @@ import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 
 import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
+import ListDatabasePage from 'ui/database/list/ListDatabasePage';
+import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
+import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
+import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
 import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
+import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 
 const App = ({ route, username }) => {
@@ -138,6 +152,7 @@ const App = ({ route, username }) => {
     case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
     case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
     case ROUTE_PAGE_EDIT: return <PagesEditPage />;
+    case ROUTE_PAGE_CLONE: return <PagesClonePage />;
     case ROUTE_PAGE_DETAIL: return <PagesDetailPageContainer />;
     case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
     case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
@@ -155,6 +170,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_USER_DETAIL: return <DetailUserPage />;
+    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
@@ -177,7 +193,12 @@ const App = ({ route, username }) => {
     case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
     case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
     case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
+    case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
+    case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
+    case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;
+    case ROUTE_DATABASE_DUMP_TABLE: return <DatabaseDumpTablePageContainer />;
     case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
+    case ROUTE_FILE_BROWSER_UPLOAD: return <UploadFileBrowserPage />;
     case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
     default: return <NotFoundPage />;
   }

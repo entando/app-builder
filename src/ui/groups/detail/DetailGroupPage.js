@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import GroupDetailTableContainer from 'ui/groups/detail/GroupDetailTableContainer';
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 const DetailGroupPage = () => (
   <InternalPage className="DetailGroupPage">
@@ -16,7 +17,7 @@ const DetailGroupPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem >
+            <BreadcrumbItem route={ROUTE_GROUP_LIST}>
               <FormattedMessage id="menu.groups" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

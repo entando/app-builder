@@ -12,7 +12,8 @@
   }
 }
 
-.UserStatus--disabled {
+.UserStatus--disabled,
+.UserStatus--inactive {
   color: $color-pf-red;
 
   .UserStatus__icon:before {

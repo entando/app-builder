@@ -25,7 +25,7 @@ export class DataTypeFormBody extends Component {
 
   render() {
     const {
-      attributesType, mode, handleSubmit, onSubmit,
+      attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
     } = this.props;
 
@@ -83,7 +83,7 @@ export class DataTypeFormBody extends Component {
     };
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="form-horizontal DataTypeForm">
+      <form onSubmit={handleSubmit} className="form-horizontal DataTypeForm">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
