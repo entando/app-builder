@@ -20,9 +20,6 @@ const getGroupErrors = groupname => (
     [{ code: 1, message: 'invalid group name' }]
 );
 
-// const getErrorsReferences = (ref, groupname) =>
-//   (ref[groupname] ? [] : [{ code: 1, message: 'invalid group name' }]);
-
 const getGenericError = obj => (
   obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]
 );
