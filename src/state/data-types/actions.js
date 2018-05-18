@@ -97,7 +97,7 @@ export const sendPostDataType = dataTypeObject => dispatch =>
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: json.payload.code });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
