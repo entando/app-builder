@@ -33,8 +33,8 @@ const fetchPageResponseMap = {
 };
 
 
-export const getPage = pageCode => makeRequest({
-  uri: `/api/pages/${pageCode}`,
+export const getPage = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
+  uri: `/api/pages/${pageCode}?status=${status}`,
   method: METHODS.GET,
   mockResponse: fetchPageResponseMap[pageCode] || {},
   useAuthentication: true,

@@ -11,7 +11,7 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE,
 } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
@@ -283,7 +283,6 @@ export const fetchPageSettings = () => async (dispatch) => {
   throw new TypeError('No JSON content-type in response headers');
 };
 
-
 export const sendPutPage = pageData => async (dispatch) => {
   const response = await putPage(pageData);
   const contentType = response.headers.get('content-type');
@@ -325,7 +324,10 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
     if (!page) {
       resolve();
     }
-    const newPage = { ...page, status };
+    const newPage = {
+      ...page,
+      status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
+    };
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
