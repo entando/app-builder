@@ -2,9 +2,24 @@ import { createSelector } from 'reselect';
 import { getLocale } from 'state/locale/selectors';
 
 export const getGroups = state => state.groups;
-export const getGroupsIdList = state => state.groups.list;
-export const getGroupsMap = state => state.groups.map;
-export const getGroupsTotal = state => state.groups.total;
+
+export const getGroupsIdList =
+  createSelector(
+    getGroups,
+    groups => (groups.list || []),
+  );
+
+export const getGroupsMap =
+  createSelector(
+    getGroups,
+    groups => (groups.map || {}),
+  );
+
+export const getGroupsTotal =
+  createSelector(
+    getGroups,
+    groups => (groups.total || 0),
+  );
 
 export const getSelectedGroup =
   createSelector(
