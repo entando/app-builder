@@ -1,4 +1,4 @@
-.PageStatusIcon--draft {
+.PageStatusIcon--unpublished {
   color: $color-pf-black-600;
 }
 
@@ -6,10 +6,6 @@
   color: $color-pf-light-green-500;
 }
 
-.PageStatusIcon--unpublished {
-  color: $color-pf-red-100;
-}
-
-.PageStatusIcon--diff {
+.PageStatusIcon--draft {
   color: $color-pf-gold-400;
 }
