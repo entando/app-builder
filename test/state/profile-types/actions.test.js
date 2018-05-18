@@ -5,7 +5,7 @@ import { gotoRoute, getParams } from '@entando/router';
 import {
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
 } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
 import { SET_PAGE } from 'state/pagination/types';
@@ -298,11 +298,11 @@ describe('state/profile-types/actions ', () => {
     });
 
     describe('sendPostAttributeFromProfileType', () => {
-      it('sendPostAttributeFromProfileType calls goToRoute ROUTE_ATTRIBUTE_MONOLIST_ADD', (done) => {
+      it('sendPostAttributeFromProfileType calls goToRoute ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
         getProfileTypeSelectedAttributeType.mockReturnValue({ code: 'Monolist' });
         store.dispatch(sendPostAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(postAttributeFromProfileType).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
             entityCode: 'Monolist',
             attributeCode: 'AAA',
           });
@@ -315,7 +315,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPostAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(postAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profileTypeCode: 'Monolist',
+            profiletypeCode: 'Monolist',
           });
           done();
         }).catch(done.fail);
@@ -333,11 +333,11 @@ describe('state/profile-types/actions ', () => {
     });
 
     describe('sendPutAttributeFromProfileType', () => {
-      it('sendPutAttributeFromProfileType calls goToRoute ROUTE_ATTRIBUTE_MONOLIST_ADD', (done) => {
+      it('sendPutAttributeFromProfileType calls goToRoute ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
         store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
             entityCode: 'Monolist',
             attributeCode: 'AAA',
           });
@@ -351,7 +351,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' })).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profileTypeCode: 'Monotext',
+            profiletypeCode: 'Monotext',
           });
           done();
         }).catch(done.fail);
@@ -375,7 +375,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA' })).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profileTypeCode: 'Monolist',
+            profiletypeCode: 'Monolist',
           });
           done();
         }).catch(done.fail);
