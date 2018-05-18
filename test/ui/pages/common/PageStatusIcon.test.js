@@ -15,17 +15,15 @@ describe('PageStatusIcon', () => {
   it('if status = draft, has class PageStatusIcon--draft', () => {
     const component = shallow(<PageStatusIcon status="draft" />);
     expect(component.hasClass('PageStatusIcon--draft')).toBe(true);
-    expect(component.hasClass('PageStatusIcon--diff')).toBe(false);
   });
 
   it('if status = published, has class PageStatusIcon--published', () => {
     const component = shallow(<PageStatusIcon status="published" />);
     expect(component.hasClass('PageStatusIcon--published')).toBe(true);
-    expect(component.hasClass('PageStatusIcon--diff')).toBe(false);
   });
 
-  it('if differsFromPublished = true, has class PageStatusIcon--diff', () => {
-    const component = shallow(<PageStatusIcon status="published" differsFromPublished />);
-    expect(component.hasClass('PageStatusIcon--diff')).toBe(true);
+  it('if status = published, has class PageStatusIcon--unpublished', () => {
+    const component = shallow(<PageStatusIcon status="unpublished" />);
+    expect(component.hasClass('PageStatusIcon--unpublished')).toBe(true);
   });
 });
