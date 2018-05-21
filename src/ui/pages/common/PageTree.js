@@ -10,6 +10,8 @@ import RowSpinner from 'ui/pages/common/RowSpinner';
 import PageTreePreview from 'ui/pages/common/PageTreePreview';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
+import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 
 class PageTree extends Component {
@@ -125,6 +127,8 @@ class PageTree extends Component {
           </table>
         </DDTable>
         <DeletePageModalContainer />
+        <PublishPageModalContainer />
+        <UnpublishPageModalContainer />
       </div>
     );
   }

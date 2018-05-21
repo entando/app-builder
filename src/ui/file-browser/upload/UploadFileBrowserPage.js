@@ -7,7 +7,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
-import FileBreadcrumbContainer from 'ui/file-browser/list/FileBreadcrumbContainer';
+import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 

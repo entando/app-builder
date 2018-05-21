@@ -66,6 +66,7 @@ export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
+export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
 
 routerConfig(
   store,
@@ -129,14 +130,14 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
-
       { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
       { name: ROUTE_DATABASE_LIST, path: '/database' },
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
       { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
-      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
-      { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/fileBrowser/upload' },
+      { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
+      { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/file-browser/upload' },
+      { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },
