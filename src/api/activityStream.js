@@ -2,7 +2,6 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 
 import { NOTIFICATION } from 'test/mocks/activityStream';
 
-// eslint-disable-next-line
 export const getActivityStream = () => (
   makeRequest({
     uri: '/api/activityStream',
