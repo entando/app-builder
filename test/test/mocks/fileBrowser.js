@@ -40,3 +40,8 @@ export const FILE_BROWSER_FILE = {
   filename: 'filename',
   base64: 'base64',
 };
+
+export const FILE_BROWSER_CREATE_FOLDER = {
+  protectedFolder: false,
+  path: 'folder/subfolder',
+};

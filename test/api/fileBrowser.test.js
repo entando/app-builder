@@ -1,6 +1,6 @@
-import { getFileBrowser, getFile, postFile, putFile } from 'api/fileBrowser';
+import { getFileBrowser, getFile, postFile, putFile, postFileBrowserCreateFolder } from 'api/fileBrowser';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { FILE_BROWSER, FILE_BROWSER_FILE } from 'test/mocks/fileBrowser';
+import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_CREATE_FOLDER } from 'test/mocks/fileBrowser';
 
 jest.unmock('api/fileBrowser');
 jest.mock('@entando/apimanager', () => ({
@@ -92,6 +92,25 @@ describe('api/fileBrowser', () => {
         uri: '/api/fileBrowser/file',
         method: METHODS.PUT,
         mockResponse: FILE_BROWSER_FILE,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('postFileBrowserCreateFolder', () => {
+    it('returns a promise', () => {
+      expect(postFileBrowserCreateFolder(false, 'folder/subfolder')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const protectedFolder = false;
+      const path = 'folder/subfolder';
+      postFileBrowserCreateFolder(protectedFolder, path);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/fileBrowser/directory',
+        body: { protectedFolder, path },
+        method: METHODS.POST,
+        mockResponse: FILE_BROWSER_CREATE_FOLDER,
         useAuthentication: true,
       });
     });
