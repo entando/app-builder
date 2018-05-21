@@ -3,11 +3,12 @@ import { gotoRoute } from '@entando/router';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
-  setSelectedPage, unpublishSelectedPage, handleExpandPage,
+  setSelectedPage, handleExpandPage,
   setPageParent, movePageAbove, movePageBelow, clonePage, clearSearchPage,
 } from 'state/pages/actions';
-import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
+import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
+import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
 
 jest.mock('state/pages/actions', () => ({
   setSelectedPage: jest.fn(),
@@ -111,9 +112,9 @@ describe('PageTreeContainer', () => {
     });
 
     it('should dispatch an action if onClickUnPublish is called', () => {
-      props.onClickUnPublish({ code: 'code', status: 'unpublish' });
-      expect(setSelectedPage).toHaveBeenCalled();
-      expect(unpublishSelectedPage).toHaveBeenCalled();
+      props.onClickUnPublish({ code: 'pagecode', status: 'unpublish' });
+      expect(setVisibleModal).toHaveBeenCalledWith(UNPUBLISH_MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
     });
 
     it('should dispatch an action if "onClickDetails" is called', () => {
@@ -127,7 +128,7 @@ describe('PageTreeContainer', () => {
       props.onExpandPage('pagecode');
       expect(handleExpandPage).toHaveBeenCalled();
     });
--
+
     it('should dispatch an action if onDropIntoPage is called', () => {
       props.onDropIntoPage('a', 'b');
       expect(setPageParent).toHaveBeenCalled();

@@ -5,8 +5,9 @@ import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/sel
 import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
-import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
+import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
+import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
 
 import {
   setSelectedPage,
@@ -14,7 +15,6 @@ import {
   setPageParent,
   movePageAbove,
   movePageBelow,
-  unpublishSelectedPage,
   clonePage,
   clearSearchPage,
 } from 'state/pages/actions';
@@ -51,9 +51,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setInfo({ type: 'page', code: page.code }));
   },
   onClickUnPublish: (page) => {
-    dispatch(setSelectedPage(page));
-    dispatch(clearSearchPage());
-    dispatch(unpublishSelectedPage());
+    dispatch(setVisibleModal(UNPUBLISH_MODAL_ID));
+    dispatch(setInfo({ type: 'page', code: page.code }));
   },
   onClickDetails: (page) => {
     dispatch(setSelectedPage(page));
