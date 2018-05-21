@@ -13,7 +13,6 @@ export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
-export const ROUTE_PAGE_PREVIEW = 'pagePreview';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
 export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
 export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
@@ -84,7 +83,6 @@ routerConfig(
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
-      { name: ROUTE_PAGE_PREVIEW, path: '/page/preview/:pageCode' },
       { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
       { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
       { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },

@@ -7,7 +7,7 @@ import { setSelectedPageModel } from 'state/page-models/actions';
 import { publishSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
 import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
 import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPageConfigMatchesDefault } from 'state/page-config/selectors';
-import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
+import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { clearErrors } from 'state/errors/actions';
 
@@ -33,6 +33,7 @@ export const mapStateToProps = (state) => {
     pageCode: selectedPage.code,
     pageName: selectedPage.titles[getLocale(state)],
     pageStatus: selectedPage.status,
+    previewUri: getSelectedPagePreviewURI(state),
     isOnTheFlyEnabled: getSelectedPageModelCanBeOnTheFly(state),
     pageIsOnTheFly: getPageIsOnTheFly(state),
     pageIsPublished: getSelectedPageIsPublished(state),

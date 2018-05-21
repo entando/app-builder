@@ -305,20 +305,13 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   })
   .catch(() => {});
 
-export const loadSelectedPage = pageCode => (dispatch, getState) => {
-  const selectedPage = getSelectedPage(getState());
-  if (selectedPage && selectedPage.code === pageCode) {
-    return new Promise(r => r(selectedPage));
-  }
-  return fetchPage(pageCode)(dispatch)
+export const loadSelectedPage = pageCode => dispatch =>
+  fetchPage(pageCode)(dispatch)
     .then((response) => {
       dispatch(setSelectedPage(response.payload));
       return response.payload;
     })
     .catch(() => {});
-};
-
-
 const putSelectedPageStatus = status => (dispatch, getState) =>
   new Promise((resolve) => {
     const page = getSelectedPage(getState());
