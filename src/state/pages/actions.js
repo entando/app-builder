@@ -9,7 +9,7 @@ import {
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
-  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE,
+  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
@@ -123,6 +123,10 @@ export const updatePage = page => ({
   payload: {
     page,
   },
+});
+
+export const clearTree = () => ({
+  type: CLEAR_TREE,
 });
 
 // TODO: generalize and centralize this function to cleanup API calls

@@ -13,13 +13,13 @@ import {
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, fetchSearchPages,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
-  fetchReferencesPage, setReferenceSelectedPage, clonePage,
+  fetchReferencesPage, setReferenceSelectedPage, clonePage, clearTree,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
-  SET_REFERENCES_SELECTED_PAGE,
+  SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -124,6 +124,21 @@ describe('state/pages/actions', () => {
 
     it('actions is correct setup ', () => {
       expect(action).toHaveProperty('type', CLEAR_SEARCH);
+    });
+  });
+
+  describe('clearTree', () => {
+    let action;
+    beforeEach(() => {
+      action = clearTree();
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', CLEAR_TREE);
     });
   });
 
