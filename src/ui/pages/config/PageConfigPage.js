@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem } from 'patternfly-react';
+import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 import { BreadcrumbItem } from 'frontend-common-components';
@@ -23,18 +23,37 @@ const TRANSLATED_NO = formattedText('app.no');
 class PageConfigPage extends Component {
   constructor(props) {
     super(props);
-    this.toggleInfoTable = this.toggleInfoTable.bind(this);
     this.state = {
       infoTableOpen: false,
+      statusChange: null,
     };
+
+    this.removeStatusAlert = this.removeStatusAlert.bind(this);
+    this.toggleInfoTable = this.toggleInfoTable.bind(this);
   }
 
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pageStatus !== 'draft') {
+      this.setState({
+        statusChange: (nextProps.pageStatus !== this.props.pageStatus) ?
+          nextProps.pageStatus :
+          null,
+      });
+    }
+  }
+
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
+  }
+
+  removeStatusAlert() {
+    this.setState({
+      statusChange: null,
+    });
   }
 
   toggleInfoTable() {
@@ -70,6 +89,18 @@ class PageConfigPage extends Component {
         </Button>
       );
     }
+
+    const statusMessage = this.state.statusChange ?
+      (
+        <Alert type="info" onDismiss={this.removeStatusAlert}>
+          <FormattedMessage
+            id={`pageSettings.status.${this.state.statusChange}`}
+            values={{ page: pageName }}
+          />
+        </Alert>
+      ) :
+      null;
+
     return (
       <InternalPage className="PageConfigPage">
         <Grid fluid>
@@ -93,6 +124,12 @@ class PageConfigPage extends Component {
               </h1>
 
               <ErrorsAlertContainer />
+
+              <Row>
+                <Col xs={12}>
+                  {statusMessage}
+                </Col>
+              </Row>
 
               <Row className="PageConfigPage__toolbar-row">
                 <Col xs={12}>
