@@ -4,8 +4,9 @@ import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG, ROUTE_PAGE_DETAIL }
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
-import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
+import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 
 import {
   setSelectedPage,
@@ -13,7 +14,6 @@ import {
   setPageParent,
   movePageAbove,
   movePageBelow,
-  publishSelectedPage,
   unpublishSelectedPage,
   clonePage,
   clearSearchPage,
@@ -47,9 +47,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setInfo({ type: 'page', code: page.code }));
   },
   onClickPublish: (page) => {
-    dispatch(setSelectedPage(page));
-    dispatch(clearSearchPage());
-    dispatch(publishSelectedPage());
+    dispatch(setVisibleModal(PUBLISH_MODAL_ID));
+    dispatch(setInfo({ type: 'page', code: page.code }));
   },
   onClickUnPublish: (page) => {
     dispatch(setSelectedPage(page));

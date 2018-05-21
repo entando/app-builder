@@ -3,14 +3,15 @@ import { gotoRoute } from '@entando/router';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
-  setSelectedPage, publishSelectedPage, unpublishSelectedPage, handleExpandPage,
+  setSelectedPage, unpublishSelectedPage, handleExpandPage,
   setPageParent, movePageAbove, movePageBelow, clonePage, clearSearchPage,
 } from 'state/pages/actions';
+import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
+import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 
 jest.mock('state/pages/actions', () => ({
   setSelectedPage: jest.fn(),
   clonePage: jest.fn(),
-  publishSelectedPage: jest.fn(),
   unpublishSelectedPage: jest.fn(),
   handleExpandPage: jest.fn(),
   setPageParent: jest.fn(),
@@ -93,9 +94,9 @@ describe('PageTreeContainer', () => {
     });
 
     it('should dispatch an action if onClickDelete is called', () => {
-      props.onClickDelete('pagecode');
-      expect(setVisibleModal).toHaveBeenCalled();
-      expect(setInfo).toHaveBeenCalled();
+      props.onClickDelete({ code: 'pagecode' });
+      expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
     });
 
     it('should dispatch an action if onClickClone is called', () => {
@@ -104,9 +105,9 @@ describe('PageTreeContainer', () => {
     });
 
     it('should dispatch an action if onClickPublish is called', () => {
-      props.onClickPublish({ code: 'code', status: 'publish' });
-      expect(setSelectedPage).toHaveBeenCalled();
-      expect(publishSelectedPage).toHaveBeenCalled();
+      props.onClickPublish({ code: 'pagecode', status: 'publish' });
+      expect(setVisibleModal).toHaveBeenCalledWith(PUBLISH_MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
     });
 
     it('should dispatch an action if onClickUnPublish is called', () => {
@@ -126,7 +127,7 @@ describe('PageTreeContainer', () => {
       props.onExpandPage('pagecode');
       expect(handleExpandPage).toHaveBeenCalled();
     });
-
+-
     it('should dispatch an action if onDropIntoPage is called', () => {
       props.onDropIntoPage('a', 'b');
       expect(setPageParent).toHaveBeenCalled();
