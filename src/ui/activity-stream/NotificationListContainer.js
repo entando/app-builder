@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import NotificationList from 'ui/activity-stream/NotificationList';
 import { getNotifications } from 'state/activity-stream/selectors';
-import { getRouteUserName, getRouteTargetName } from 'state/activity-stream/actions';
-import { getLocale } from 'state/locale/selectors';
+import { getRouteUserName, getRouteTargetName, sendPostActivityStreamComment } from 'state/activity-stream/actions';
 
 export const mapStateToProps = state => ({
   notifications: getNotifications(state),
-  locale: getLocale(state),
+
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -17,6 +16,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(getRouteTargetName(id));
   },
   onClickLike: id => (id),
+
+  onSubmitComment: (comment, recordId) => {
+    dispatch(sendPostActivityStreamComment(comment, recordId));
+  },
 });
 
 const NotificationListContainer = connect(mapStateToProps, mapDispatchToProps)(NotificationList);

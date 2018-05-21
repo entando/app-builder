@@ -1,16 +1,32 @@
 
 import { createSelector } from 'reselect';
-
+import { isNull } from 'lodash';
 
 export const getActivityStream = state => state.activityStream;
+const getActivityStreamList = createSelector(getActivityStream, root => root.list);
+const getActivityStreamMap = createSelector(getActivityStream, root => root.map);
 
 export const getHidden = createSelector(
   [getActivityStream],
   activityStream => activityStream.hidden,
 );
-// created selector expects an input array.
-// activityStream is arbitrary name that identifies the array name.
+
+const getActionText = (notification) => {
+  const { actionName, parameters } = notification;
+  switch (actionName) {
+    case 'POST': {
+      return 'Publish';
+    }
+    case 'PUT': {
+      return isNull(parameters) ? 'UnPublish' : 'edit';
+    }
+    default: return '';
+  }
+};
+
 export const getNotifications = createSelector(
-  [getActivityStream],
-  activityStream => activityStream.notifications,
+  [getActivityStreamList, getActivityStreamMap],
+  (activityStreamList, activityStreamMap) =>
+    activityStreamList.map(id => (
+      { ...activityStreamMap[id], actionText: getActionText(activityStreamMap[id]) })),
 );

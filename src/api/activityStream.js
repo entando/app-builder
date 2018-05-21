@@ -2,32 +2,30 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 
 import { NOTIFICATION } from 'test/mocks/activityStream';
 
-// eslint-disable-next-line
-export const getActivityStream = () => (
+export const getActivityStream = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest({
-    uri: '/api/activityStream',
+    uri: `/api/activityStream${params}`,
     method: METHODS.GET,
     mockResponse: NOTIFICATION,
     useAuthentication: true,
-  })
+  }, page)
 );
 
-export const postActivityStreamComment = record => (
+export const postActivityStreamComment = comment => (
   makeRequest({
-    uri: `/api/activityStream/${record.id}/comments`,
+    uri: `/api/activityStream/${comment.recordId}/comments`,
     method: METHODS.POST,
-    body: record,
+    body: comment,
     mockResponse: NOTIFICATION,
     useAuthentication: true,
   })
 );
 
-export const deleteActivityStreamComment = record => (
+export const deleteActivityStreamComment = comment => (
   makeRequest({
-    uri: `/api/activityStream/${record.id}/comments/${record.commentId}`,
+    uri: `/api/activityStream/${comment.recordId}/comments/${comment.commentId}`,
     method: METHODS.DELETE,
-    body: record,
-    mockResponse: record.id,
+    mockResponse: comment.recordId,
     useAuthentication: true,
   })
 );
