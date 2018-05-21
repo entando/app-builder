@@ -36,17 +36,23 @@ describe('CreateFolderForm', () => {
     expect(createFolderForm.exists()).toEqual(true);
   });
 
+  it('has a Buttons  save and cancel', () => {
+    expect(createFolderForm.find('Button')).toHaveLength(2);
+    expect(createFolderForm.find('Button').first().hasClass('FileBrowserCreateFolderForm__btn-submit')).toBe(true);
+    expect(createFolderForm.find('Button').last().hasClass('FileBrowserCreateFolderForm__btn-cancel')).toBe(true);
+  });
+
   it('disables submit button while submitting', () => {
     submitting = true;
     createFolderForm = buildCreateFolderForm();
-    const submitButton = createFolderForm.find('Button');
+    const submitButton = createFolderForm.find('.FileBrowserCreateFolderForm__btn-submit');
     expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     createFolderForm = buildCreateFolderForm();
-    const submitButton = createFolderForm.find('Button');
+    const submitButton = createFolderForm.find('.FileBrowserCreateFolderForm__btn-submit');
     expect(submitButton.prop('disabled')).toEqual(true);
   });
 
