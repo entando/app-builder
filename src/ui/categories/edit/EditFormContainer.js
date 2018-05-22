@@ -14,7 +14,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ categoryCode }) => {
-    dispatch(fetchLanguages());
+    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchCategory(categoryCode));
   },
   onSubmit: data => (dispatch(sendPutCategory(data))),
