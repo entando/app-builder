@@ -9,6 +9,13 @@ jest.mock('state/languages/selectors', () => ({
   getDefaultLanguage: jest.fn().mockReturnValue('getDefaultLanguage_result'),
 }));
 
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue({
+    systemLabels: 'loadingLabels_result',
+    languages: 'languages_result',
+  }),
+}));
+
 jest.mock('state/languages/actions', () => ({
   fetchLanguages: jest.fn().mockReturnValue('fetchLanguages_result'),
 }));

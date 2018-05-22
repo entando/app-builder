@@ -18,22 +18,12 @@ const TAB_LABELS = 'labels';
 class LabelsAndLanguagesPage extends Component {
   constructor(props) {
     super(props);
-
     this.changePage = this.changePage.bind(this);
     this.changePageSize = this.changePageSize.bind(this);
-
-    this.setActiveTab = this.setActiveTab.bind(this);
-    this.state = {
-      activeTab: TAB_LANGUAGES,
-    };
   }
 
   componentWillMount() {
-    this.props.onWillMount(this.props.page);
-  }
-
-  setActiveTab(activeTab) {
-    this.setState({ activeTab });
+    this.props.onWillMount();
   }
 
   changePage(page) {
@@ -53,7 +43,7 @@ class LabelsAndLanguagesPage extends Component {
       perPageOptions: [5, 10, 15, 25, 50],
     };
 
-    if (this.state.activeTab === TAB_LANGUAGES) {
+    if (this.props.activeTab === TAB_LANGUAGES) {
       pageContent = (
         <Spinner loading={!!this.props.loadingLangs}>
           <LanguageFormContainer />
@@ -126,16 +116,16 @@ class LabelsAndLanguagesPage extends Component {
                   <Col xs={6}>
                     <ul className="nav nav-tabs nav-justified nav-tabs-pattern">
                       <MenuItem
-                        className="LabelsAndLanguagesPage__header-tab"
-                        active={this.state.activeTab === TAB_LANGUAGES}
-                        onClick={() => this.setActiveTab(TAB_LANGUAGES)}
+                        className="LabelsAndLanguagesPage__header-tab LabelsAndLanguagesPage__header-tab-languages"
+                        active={this.props.activeTab === TAB_LANGUAGES}
+                        onClick={() => this.props.onClickTab(TAB_LANGUAGES)}
                       >
                         <FormattedMessage id="app.languages" />
                       </MenuItem>
                       <MenuItem
-                        className="LabelsAndLanguagesPage__header-tab"
-                        active={this.state.activeTab === TAB_LABELS}
-                        onClick={() => this.setActiveTab(TAB_LABELS)}
+                        className="LabelsAndLanguagesPage__header-tab  LabelsAndLanguagesPage__header-tab-labels"
+                        active={this.props.activeTab === TAB_LABELS}
+                        onClick={() => this.props.onClickTab(TAB_LABELS)}
                       >
                         <FormattedMessage id="app.systemLabels" />
                       </MenuItem>
@@ -159,12 +149,15 @@ LabelsAndLanguagesPage.propTypes = {
   totalItems: PropTypes.number.isRequired,
   loadingLabels: PropTypes.bool,
   loadingLangs: PropTypes.bool,
+  activeTab: PropTypes.string,
+  onClickTab: PropTypes.func.isRequired,
 };
 
 LabelsAndLanguagesPage.defaultProps = {
   onWillMount: null,
   loadingLabels: false,
   loadingLangs: false,
+  activeTab: TAB_LANGUAGES,
 };
 
 export default LabelsAndLanguagesPage;

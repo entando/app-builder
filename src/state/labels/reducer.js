@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB } from 'state/labels/types';
 
 const map = (state = {}, action = {}) => {
   switch (action.type) {
@@ -36,7 +36,18 @@ const list = (state = [], action = {}) => {
   }
 };
 
+
+const activeTab = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_ACTIVE_TAB: {
+      return action.payload.activeTab;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map,
   list,
+  activeTab,
 });
