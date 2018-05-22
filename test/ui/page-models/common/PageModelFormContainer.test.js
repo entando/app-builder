@@ -46,11 +46,11 @@ describe('PageModelFormContainer', () => {
       jest.clearAllMocks();
     });
 
-    it('onSubmit dispatches createPageModel action with no parameters', () => {
+    it('onSubmit dispatches createPageModel action', () => {
       createPageModel.mockReturnValue('createPageModel_result');
-      props.onSubmit();
+      props.onSubmit({ data: true });
       expect(dispatch).toHaveBeenCalledWith('createPageModel_result');
-      expect(createPageModel).toHaveBeenCalledWith();
+      expect(createPageModel).toHaveBeenCalledWith({ data: true, configuration: {} });
     });
 
     it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
@@ -71,11 +71,11 @@ describe('PageModelFormContainer', () => {
       jest.clearAllMocks();
     });
 
-    it('onSubmit dispatches updatePageModel action with no parameters', () => {
+    it('onSubmit dispatches updatePageModel action', () => {
       updatePageModel.mockReturnValue('updatePageModel_result');
-      props.onSubmit();
+      props.onSubmit({ data: true });
       expect(dispatch).toHaveBeenCalledWith('updatePageModel_result');
-      expect(updatePageModel).toHaveBeenCalledWith();
+      expect(updatePageModel).toHaveBeenCalledWith({ data: true, configuration: {} });
     });
 
     it('onWillMount dispatches redux-form initialize action and clearErrors', () => {

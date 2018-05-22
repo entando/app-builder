@@ -339,22 +339,6 @@ describe('state/page-models/actions', () => {
       }).catch(done.fail);
     });
 
-    it('if no page model is passed, calls putPageModel with the form page model', (done) => {
-      getFormPageModel.mockReturnValue(PAGE_MODEL);
-      store.dispatch(updatePageModel()).then(() => {
-        expect(putPageModel).toHaveBeenCalledWith(PAGE_MODEL);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('if no page model is passed and there is no form page model, does nothing', (done) => {
-      getFormPageModel.mockReturnValue(null);
-      store.dispatch(updatePageModel()).then(() => {
-        expect(putPageModel).not.toHaveBeenCalled();
-        done();
-      }).catch(done.fail);
-    });
-
     it('if api response is ok, does not dispatch ADD_ERRORS', (done) => {
       putPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(updatePageModel(PAGE_MODEL)).then(() => {
@@ -381,22 +365,6 @@ describe('state/page-models/actions', () => {
     it('if a page model is passed, calls putPageModel with that page model', (done) => {
       store.dispatch(createPageModel(PAGE_MODEL)).then(() => {
         expect(postPageModel).toHaveBeenCalledWith(PAGE_MODEL);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('if no page model is passed, calls putPageModel with the form page model', (done) => {
-      getFormPageModel.mockReturnValue(PAGE_MODEL);
-      store.dispatch(createPageModel()).then(() => {
-        expect(postPageModel).toHaveBeenCalledWith(PAGE_MODEL);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('if no page model is passed and there is no form page model, does nothing', (done) => {
-      getFormPageModel.mockReturnValue(null);
-      store.dispatch(createPageModel()).then(() => {
-        expect(postPageModel).not.toHaveBeenCalled();
         done();
       }).catch(done.fail);
     });

@@ -12,11 +12,16 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSubmit: () => {
+  onSubmit: (data) => {
+    const jsonData = {
+      ...data,
+      configuration: data.configuration ? JSON.parse(data.configuration) : {},
+    };
+
     if (ownProps.mode === 'edit') {
-      dispatch(updatePageModel());
+      dispatch(updatePageModel(jsonData));
     } else {
-      dispatch(createPageModel());
+      dispatch(createPageModel(jsonData));
     }
   },
   onWillMount: () => {
