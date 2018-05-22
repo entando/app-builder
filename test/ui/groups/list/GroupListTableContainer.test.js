@@ -30,9 +30,9 @@ describe('GroupListTableContainer', () => {
   it('maps groups list property state in GroupsListTable', () => {
     expect(mapStateToProps(GROUPS_NORMALIZED)).toEqual({
       groups: LIST_GROUPS_OK,
-      page: GROUPS_NORMALIZED.pagination.page,
-      totalItems: GROUPS_NORMALIZED.pagination.totalItems,
-      pageSize: GROUPS_NORMALIZED.pagination.pageSize,
+      page: GROUPS_NORMALIZED.pagination.global.page,
+      totalItems: GROUPS_NORMALIZED.pagination.global.totalItems,
+      pageSize: GROUPS_NORMALIZED.pagination.global.pageSize,
     });
   });
 

@@ -34,9 +34,9 @@ describe('RoleListTableContainer', () => {
   it('maps roles list property state in RolesListTable', () => {
     expect(mapStateToProps(ROLES_NORMALIZED)).toEqual({
       roles: LIST_ROLES_OK,
-      page: ROLES_NORMALIZED.pagination.page,
-      totalItems: ROLES_NORMALIZED.pagination.totalItems,
-      pageSize: ROLES_NORMALIZED.pagination.pageSize,
+      page: ROLES_NORMALIZED.pagination.global.page,
+      totalItems: ROLES_NORMALIZED.pagination.global.totalItems,
+      pageSize: ROLES_NORMALIZED.pagination.global.pageSize,
     });
   });
 
