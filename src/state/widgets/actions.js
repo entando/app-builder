@@ -14,6 +14,10 @@ import {
 } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 
+import { addToast } from 'state/toasts/actions';
+
+import { TOAST_ERROR } from 'state/toasts/const';
+
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -146,6 +150,7 @@ export const sendDeleteWidgets = widgetCode => dispatch =>
           gotoRoute(ROUTE_WIDGET_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(addToast(json.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
