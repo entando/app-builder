@@ -1,11 +1,11 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelFormContainer';
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
-import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
+import { clearErrors } from 'state/errors/actions';
 
+jest.mock('state/errors/actions');
 
 jest.mock(
   'state/page-models/selectors',
@@ -53,20 +53,14 @@ describe('PageModelFormContainer', () => {
       expect(createPageModel).toHaveBeenCalledWith();
     });
 
-    it('onSubmit goes to the page models list route', (done) => {
-      props.onSubmit().then(() => {
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('onWillMount dispatches redux-form initialize action', () => {
+    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
       initialize.mockReturnValue('initialize_result');
       props.onWillMount();
       expect(dispatch).toHaveBeenCalledWith('initialize_result');
       expect(initialize).toHaveBeenCalledWith('pageModel', {
         configuration: '{\n  "frames": []\n}',
       });
+      expect(clearErrors).toHaveBeenCalled();
     });
   });
 
@@ -84,18 +78,12 @@ describe('PageModelFormContainer', () => {
       expect(updatePageModel).toHaveBeenCalledWith();
     });
 
-    it('onSubmit goes to the page models list route', (done) => {
-      props.onSubmit().then(() => {
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('onWillMount dispatches redux-form initialize action', () => {
+    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
       initPageModelForm.mockReturnValue('initPageModelForm_result');
       props.onWillMount();
       expect(dispatch).toHaveBeenCalledWith('initPageModelForm_result');
       expect(initPageModelForm).toHaveBeenCalledWith();
+      expect(clearErrors).toHaveBeenCalled();
     });
   });
 });

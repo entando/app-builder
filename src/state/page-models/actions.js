@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
-import { getParams } from '@entando/router';
+import { getParams, gotoRoute } from '@entando/router';
+import { formattedText } from '@entando/utils';
 
 import {
   getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel,
@@ -8,11 +9,14 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
+import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
+import { addToast } from 'state/toasts/actions';
+import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 import {
   SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL,
   SET_SELECTED_PAGE_MODEL_PAGE_REFS, SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
-import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
+import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 
 export const setPageModels = pageModels => ({
@@ -92,9 +96,14 @@ export const removePageModel = pageModelCode => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removePageModelSync(pageModelCode));
+          dispatch(addToast(
+            formattedText('app.deleted', null, { type: 'page model', code: pageModelCode }),
+            TOAST_SUCCESS,
+          ));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
           resolve();
         }
       });
@@ -153,6 +162,11 @@ export const updatePageModel = pageModel => (dispatch, getState) => {
             resolve();
           });
         } else {
+          dispatch(addToast(
+            formattedText('app.updated', null, { type: 'page model', code: toSend.code }),
+            TOAST_SUCCESS,
+          ));
+          gotoRoute(ROUTE_PAGE_MODEL_LIST);
           resolve();
         }
       });
@@ -173,6 +187,11 @@ export const createPageModel = pageModel => (dispatch, getState) => {
             resolve();
           });
         } else {
+          dispatch(addToast(
+            formattedText('app.created', null, { type: 'page model', code: toSend.code }),
+            TOAST_SUCCESS,
+          ));
+          gotoRoute(ROUTE_PAGE_MODEL_LIST);
           resolve();
         }
       });

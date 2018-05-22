@@ -1,6 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import { initialize } from 'redux-form';
-import { getParams } from '@entando/router';
+import { getParams, gotoRoute } from '@entando/router';
 import { mockApi } from 'test/testUtils';
 import {
   setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel,
@@ -15,11 +15,13 @@ import {
   SET_SELECTED_PAGE_MODEL_PAGE_REFS,
   SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
+import { ADD_TOAST } from 'state/toasts/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { PAGE_MODELS_LIST, PAGE_REFS } from 'test/mocks/pageModels';
 import { getPageModels, getPageModel, deletePageModel, putPageModel, postPageModel, getPageReferences } from 'api/pageModels';
+import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -199,8 +201,9 @@ describe('state/page-models/actions', () => {
     it('if API response is ok, calls the right action sequence', (done) => {
       store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', REMOVE_PAGE_MODEL);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -209,8 +212,9 @@ describe('state/page-models/actions', () => {
       deletePageModel.mockImplementation(mockApi({ errors: true }));
       store.dispatch(removePageModel(PAGE_MODEL.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -355,7 +359,9 @@ describe('state/page-models/actions', () => {
       putPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(updatePageModel(PAGE_MODEL)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(0);
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
         done();
       }).catch(done.fail);
     });
@@ -399,7 +405,9 @@ describe('state/page-models/actions', () => {
       postPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(createPageModel(PAGE_MODEL)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(0);
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
         done();
       }).catch(done.fail);
     });
