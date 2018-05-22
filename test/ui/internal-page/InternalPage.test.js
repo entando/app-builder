@@ -12,7 +12,7 @@ describe('InternalPage', () => {
   const component = shallow(<InternalPage />);
 
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('contains the ToastsContainer', () => {
