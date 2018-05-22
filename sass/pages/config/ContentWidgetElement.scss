@@ -21,11 +21,15 @@
   }
 
   &__widget-title {
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 16px 0 16px 18px;
     background: $color-widget-title-bg-color;
     font-size: 14px;
     font-weight: 600;
-  }
+    line-height: 1;
+    text-transform: capitalize;
+   }
 }
 
 .ContentWidgetList--list {
