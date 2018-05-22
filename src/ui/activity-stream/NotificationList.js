@@ -4,7 +4,8 @@ import Notification from 'ui/activity-stream/Notification';
 
 
 const NotificationList = ({
-  notifications, onClickUsername, onClickTargetName, onClickLike, onSubmitComment,
+  notifications, onClickUsername, onClickTargetName, onClickLike,
+  onSubmitComment, onClickDeleteComment,
 }) => (
   notifications.map(item => (
     <Notification
@@ -18,6 +19,7 @@ const NotificationList = ({
       onClickTargetName={onClickTargetName}
       onClickLike={onClickLike}
       onSubmitComment={onSubmitComment}
+      onClickDeleteComment={onClickDeleteComment}
       modificationDate={new Date(item.updatedAt)}
     />
 

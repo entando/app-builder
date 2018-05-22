@@ -1,4 +1,18 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { gotoRoute } from '@entando/router';
+import { ROUTE_USER_DETAIL } from 'app-init/router';
 
+import { mockApi } from 'test/testUtils';
+import { ADD_ERRORS } from 'state/errors/types';
+
+import {
+  getActivityStream,
+  postActivityStreamComment,
+  deleteActivityStreamComment,
+  postActivityStreamLike,
+  deleteActivityStreamLike,
+} from 'api/activityStream';
 import {
   toggleNotificationDrawer,
   addNotifications,
@@ -6,129 +20,173 @@ import {
   toggleNotificationList,
   getRouteUserName,
   getRouteTargetName,
+  sendPostActivityStreamComment,
+  sendDeleteActivityStreamComment,
+  sendPostActivityStreamLike,
+  sendDeleteActivityStreamLike,
 } from 'state/activity-stream/actions';
-import { NOTIFICATION } from 'test/mocks/notification';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-stream/types';
-import { getHidden } from 'state/activity-stream/selectors';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
+
+import { NOTIFICATIONS } from 'test/mocks/activityStream';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
+import { getHidden, getNotifications } from 'state/activity-stream/selectors';
+
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-const NOTIFICATION_PAYLOAD = NOTIFICATION.payload;
+
+jest.mock('state/activity-stream/selectors', () => ({
+  getNotifications: jest.fn(),
+  getHidden: jest.fn(),
+}));
+
+getNotifications.mockReturnValue(NOTIFICATIONS);
 
 const ADD_NOTIFICATION_MOCK_INITIAL_STATE = {
-  type: ADD_NOTIFICATIONS,
-  payload: {
-    hidden: true,
-    notifications: [],
-  },
+  hidden: true,
 };
 
-const TOGGLE_NOTIFICATION_LIST_HIDDEN = {
-  activityStream: {
-    hidden: true,
-  },
-};
-
-const TOGGLE_NOTIFICATION_LIST_VISIBLE = {
-  activityStream: {
-    hidden: false,
-    notifications: [],
-  },
-};
-
-const GET_ROUTE_USER_NAME = {
-  activityStream: {
-    hidden: true,
-    notifications: NOTIFICATION_PAYLOAD.notifications,
-  },
-};
-
-const GET_ROUTE_TARGET_NAME_DEFAULT_ROUTE = {
-  activityStream: {
-    hidden: true,
-    notifications: [{
-      id: 0,
-      targetType: 'notarget',
-    }],
-  },
-};
-
-const CONTENT_NOTIFICATION_ID = 3;
 const WIDGET_NOTIFICATION_ID = 2;
 const PAGE_NOTIFICATION_ID = 1;
 const DEFAULT_NOTIFICATION_ID = 0;
 
+let store;
+
+const wrapErrorTest = done => (actionCall, apiCall) => (...args) => {
+  apiCall.mockImplementationOnce(mockApi({ errors: true }));
+  store.dispatch(actionCall(...args)).then(() => {
+    expect(apiCall).toHaveBeenCalled();
+    const actions = store.getActions();
+    expect(actions).toHaveLength(1);
+    expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+    done();
+  }).catch(done.fail);
+};
+
+const wrapActionActivityStreamTest = done => (actionCall, apiCall) => (...args) => {
+  store.dispatch(actionCall(...args)).then(() => {
+    expect(apiCall).toHaveBeenCalled();
+    const actions = store.getActions();
+    expect(actions[0]).toHaveProperty('type', UPDATE_NOTIFCATION);
+    expect(actions[0]).toHaveProperty('payload.notifcation', NOTIFICATIONS[0]);
+    done();
+  }).catch(done.fail);
+};
+
+
 describe('activity-stream actions', () => {
-  const store = mockStore(ADD_NOTIFICATION_MOCK_INITIAL_STATE);
+  beforeEach(() => {
+    store = mockStore(ADD_NOTIFICATION_MOCK_INITIAL_STATE);
+  });
   it('test toggleNotificationDrawer action', () => {
     expect(toggleNotificationDrawer()).toEqual({ type: TOGGLE_NOTIFICATION_DRAWER });
   });
+
   it('test addNotifications action', () => {
-    store.dispatch(addNotifications(NOTIFICATION_PAYLOAD.notifications));
+    store.dispatch(addNotifications(NOTIFICATIONS));
     const actions = store.getActions();
-    expect(actions[0].type).toEqual(ADD_NOTIFICATIONS);
-    expect(actions[0].payload.notifications).toBeDefined();
-    expect(actions[0].payload).toEqual(NOTIFICATION_PAYLOAD);
+    expect(actions[0]).toHaveProperty('type', ADD_NOTIFICATIONS);
+    expect(actions[0]).toHaveProperty('payload.notifications', NOTIFICATIONS);
   });
 
-  it('test fetchNotifications calls addNotifications', (done) => {
-    store.dispatch(fetchNotifications()).then(() => {
-      const actions = store.getActions();
-      expect(actions[0].type).toEqual(ADD_NOTIFICATIONS);
-      expect(actions[0].payload.notifications).toBeDefined();
-      expect(actions[0].payload).toEqual(NOTIFICATION_PAYLOAD);
-      done();
-    });
-  });
-});
-
-describe('activity-stream actions', () => {
-  let store = mockStore(TOGGLE_NOTIFICATION_LIST_HIDDEN);
   it('test if toggleNotificationList is hidden', () => {
+    getHidden.mockReturnValue(true);
     store.dispatch(toggleNotificationList());
     const actions = store.getActions();
-    expect(actions[0].type).toEqual(TOGGLE_NOTIFICATION_DRAWER);
-    expect(getHidden(store.getState())).toEqual(true);
+    expect(actions[0]).toHaveProperty('type', TOGGLE_NOTIFICATION_DRAWER);
+    expect(getHidden(store.getState())).toBe(true);
   });
+
   it('test if toggleNotificationList is visible and calls addNotification', () => {
-    store = mockStore(TOGGLE_NOTIFICATION_LIST_VISIBLE);
+    getHidden.mockReturnValue(false);
     store.dispatch(toggleNotificationList());
     const actions = store.getActions();
-    expect(actions[0].type).toEqual(TOGGLE_NOTIFICATION_DRAWER);
-    expect(getHidden(store.getState())).toEqual(false);
+    expect(actions[0]).toHaveProperty('type', TOGGLE_NOTIFICATION_DRAWER);
+    expect(getHidden(store.getState())).toBe(false);
   });
 });
+
 it('test getRouteUserName', () => {
-  const store = mockStore(GET_ROUTE_USER_NAME);
-  store.dispatch(getRouteUserName(CONTENT_NOTIFICATION_ID));
+  store.dispatch(getRouteUserName(1));
   expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith('userprofile', { username: 'Admin' });
+  expect(gotoRoute).toHaveBeenCalledWith(
+    ROUTE_USER_DETAIL,
+    { username: NOTIFICATIONS[0].username },
+  );
 });
-it('test getRouteTargetName with targetType content', () => {
-  const store = mockStore(GET_ROUTE_USER_NAME);
-  store.dispatch(getRouteTargetName(CONTENT_NOTIFICATION_ID));
+
+xit('test getRouteTargetName with targetType content', () => {
+  store.dispatch(getRouteTargetName(1));
   expect(gotoRoute).toHaveBeenCalled();
   expect(gotoRoute).toHaveBeenCalledWith('content', { content: 'psdf', frame: 0 });
 });
-it('test getRouteTargetName with targetType widget', () => {
-  const store = mockStore(GET_ROUTE_USER_NAME);
+
+xit('test getRouteTargetName with targetType widget', () => {
   store.dispatch(getRouteTargetName(WIDGET_NOTIFICATION_ID));
   expect(gotoRoute).toHaveBeenCalled();
   expect(gotoRoute).toHaveBeenCalledWith('widget', { widget: 'widgetId' });
 });
-it('test getRouteTargetName with targetType page', () => {
-  const store = mockStore(GET_ROUTE_USER_NAME);
+
+xit('test getRouteTargetName with targetType page', () => {
   store.dispatch(getRouteTargetName(PAGE_NOTIFICATION_ID));
   expect(gotoRoute).toHaveBeenCalled();
   expect(gotoRoute).toHaveBeenCalledWith('page', { page: 'testdsf' });
 });
-it('test getRouteTargetName with default route', () => {
-  const store = mockStore(GET_ROUTE_TARGET_NAME_DEFAULT_ROUTE);
+
+xit('test getRouteTargetName with default route', () => {
   store.dispatch(getRouteTargetName(DEFAULT_NOTIFICATION_ID));
   expect(gotoRoute).toHaveBeenCalled();
   expect(gotoRoute).toHaveBeenCalledWith('dashboard');
+});
+
+describe('thunk', () => {
+  beforeEach(() => {
+    store = mockStore(ADD_NOTIFICATION_MOCK_INITIAL_STATE);
+  });
+
+  it('test fetchNotifications calls addNotifications', (done) => {
+    store.dispatch(fetchNotifications()).then(() => {
+      expect(getActivityStream).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions[0]).toHaveProperty('type', ADD_NOTIFICATIONS);
+      expect(actions[0]).toHaveProperty('payload.notifications', NOTIFICATIONS);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    wrapErrorTest(done)(fetchNotifications, getActivityStream)();
+  });
+
+  it('test sendPostActivityStreamComment calls UPDATE_NOTIFCATION_COMMENT', (done) => {
+    wrapActionActivityStreamTest(done)(sendPostActivityStreamComment, postActivityStreamComment)({ recordId: 1, comment: 'test comment' });
+  });
+
+  it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    wrapErrorTest(done)(sendPostActivityStreamComment, postActivityStreamComment)({ recordId: 1, comment: 'test comment' });
+  });
+
+  it('test sendDeleteActivityStreamComment calls UPDATE_NOTIFCATION_COMMENT', (done) => {
+    wrapActionActivityStreamTest(done)(sendDeleteActivityStreamComment, deleteActivityStreamComment)({ recordId: 1, comment: 'test comment' });
+  });
+
+  it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    wrapErrorTest(done)(sendDeleteActivityStreamComment, deleteActivityStreamComment)({ recordId: 1, comment: 'test comment' });
+  });
+
+  it('test sendPostActivityStreamLike calls UPDATE_NOTIFCATION_COMMENT', (done) => {
+    wrapActionActivityStreamTest(done)(sendPostActivityStreamLike, postActivityStreamLike)(1);
+  });
+
+  it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    wrapErrorTest(done)(sendPostActivityStreamLike, postActivityStreamLike)(1);
+  });
+
+  it('test sendDeleteActivityStreamLike calls UPDATE_NOTIFCATION_COMMENT', (done) => {
+    wrapActionActivityStreamTest(done)(sendDeleteActivityStreamLike, deleteActivityStreamLike)(1);
+  });
+
+  it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    wrapErrorTest(done)(sendDeleteActivityStreamLike, deleteActivityStreamLike)(1);
+  });
 });

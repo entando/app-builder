@@ -1,10 +1,9 @@
-// import { getApiNotifications } from 'api/notification';
-import { getActivityStream, postActivityStreamComment } from 'api/activityStream';
+import { getActivityStream, postActivityStreamComment, deleteActivityStreamComment, postActivityStreamLike, deleteActivityStreamLike } from 'api/activityStream';
 import { gotoRoute } from '@entando/router';
 import { convertToQueryString } from '@entando/utils';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { addErrors } from 'state/errors/actions';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, ADD_COMMENT, REMOVE_COMMENT } from 'state/activity-stream/types';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
 
 export const toggleNotificationDrawer = () => ({
@@ -18,18 +17,10 @@ export const addNotifications = notifications => ({
   },
 });
 
-export const addComment = notifcation => ({
-  type: ADD_COMMENT,
+export const updateNotification = notifcation => ({
+  type: UPDATE_NOTIFCATION,
   payload: {
     notifcation,
-  },
-});
-
-export const removeComment = (recordId, commentId) => ({
-  type: REMOVE_COMMENT,
-  payload: {
-    recordId,
-    commentId,
   },
 });
 
@@ -41,8 +32,7 @@ export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch
         direction: 'DESC',
       },
     });
-    console.log(params);
-    getActivityStream(page, '?direction=DESC').then((response) => {
+    getActivityStream(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(addNotifications(json.payload));
@@ -94,28 +84,28 @@ export const getRouteTargetName = id => (dispatch, getState) => {
   }
 };
 
-export const sendPostActivityStreamComment = (recordId, comment) => dispatch =>
+const wrapApiActivityStream = apiCall => (...params) => dispatch => (
   new Promise((resolve) => {
-    postActivityStreamComment({ recordId, comment }).then((response) => {
+    apiCall(...params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(addComment(json.payload));
+          dispatch(updateNotification(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-        dispatch(addErrors(json.errors.map(e => e.message)));
         resolve();
       });
     });
-  });
+  }));
+
+export const sendPostActivityStreamComment = (recordId, comment) => dispatch =>
+  dispatch(wrapApiActivityStream(postActivityStreamComment)({ recordId, comment }));
 
 export const sendDeleteActivityStreamComment = (recordId, commentId) => dispatch =>
-  new Promise((resolve) => {
-    postActivityStreamComment({ recordId, commentId }).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(removeComment(json.payload, commentId));
-        }
-        dispatch(addErrors(json.errors.map(e => e.message)));
-        resolve();
-      });
-    });
-  });
+  dispatch(wrapApiActivityStream(deleteActivityStreamComment)({ recordId, commentId }));
+
+export const sendPostActivityStreamLike = id => dispatch =>
+  dispatch(wrapApiActivityStream(postActivityStreamLike)(id));
+
+export const sendDeleteActivityStreamLike = id => dispatch =>
+  dispatch(wrapApiActivityStream(deleteActivityStreamLike)(id));

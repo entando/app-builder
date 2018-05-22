@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, ADD_COMMENT, REMOVE_COMMENT } from 'state/activity-stream/types';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 
 const toMap = array => array.reduce((acc, notification) => {
   acc[notification.id] = notification;
@@ -20,15 +20,9 @@ export const map = (state = [], action = {}) => {
     case ADD_NOTIFICATIONS: {
       return toMap(action.payload.notifications);
     }
-    case ADD_COMMENT: {
+    case UPDATE_NOTIFCATION: {
       const { id } = action.payload.notifcation;
       return ({ ...state, [id]: action.payload.notifcation });
-    }
-    case REMOVE_COMMENT: {
-      const { recordId, commentId } = action.payload.notifcation;
-      const newState = { ...state };
-      delete newState[recordId].comments[commentId];
-      return newState;
     }
     default: return state;
   }

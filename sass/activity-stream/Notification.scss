@@ -67,12 +67,15 @@
     background: $color-pf-black-100;
   }
 
-  &__user-notifcation {
+  &__user-notification {
     font-size: 13px;
     font-weight: 600;
+
+    .Notification__user-comment {
+      margin-left: 5px;
+      font-size: 11px;
+      text-shadow: none;
+    }
   }
 
-  &__utente-comment {
-    margin-left: 5px;
-  }
 }

@@ -15,17 +15,16 @@ class Notification extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onClickDeleteComment = (event) => {
+  onClickDeleteComment = (recordId, commentId) => (event) => {
     event.preventDefault();
-    console.log('delete comment', event);
+    this.props.onClickDeleteComment(recordId, commentId);
   };
 
   handleChange(event) {
     this.setState({ comment: event.target.value });
   }
 
-
-  renderComments() {
+  renderComments(id) {
     return (
       <Row>
         <Col xs={12}>
@@ -43,18 +42,18 @@ class Notification extends Component {
                   <span className="Notification__delete-comment">
                     <a
                       href=""
-                      onClick={this.onClickDeleteComment}
+                      onClick={this.onClickDeleteComment(id, comment.id)}
                       className="pull-right btn-delete-comment"
                     >
                       <span className="fa fa-times" />
                     </a>
                   </span>
-                  <span className="media-text Notification__utente-comment">
+                  <span className="Notification__user-comment">
                     {comment.commentText}
                   </span>
                   <p className="time-notifications">
                     <time dateTime={comment.commentDate} title={comment.commentDate}>
-                      {comment.commentDate}
+                      <FormattedRelative value={comment.commentDate} />
                     </time>
                   </p>
                 </div>
@@ -75,7 +74,8 @@ class Notification extends Component {
 
     const onSubmit = (ev) => {
       ev.preventDefault();
-      onSubmitComment(this.state.comment, id);
+      onSubmitComment(id, this.state.comment);
+      this.setState({ comment: '' });
     };
 
     const onClickUsernameHandler = (ev) => {
@@ -127,7 +127,7 @@ class Notification extends Component {
             </a>
           </Col>
         </Row>
-        {this.renderComments()}
+        {this.renderComments(id)}
         <Panel className="Notification__panel-override">
           <Row className="Notification__comment-section">
             <Panel.Toggle componentClass="a" className="pull-right Notification__comment-section">
@@ -185,6 +185,7 @@ Notification.propTypes = {
   onClickUsername: PropTypes.func,
   onClickLike: PropTypes.func,
   onSubmitComment: PropTypes.func.isRequired,
+  onClickDeleteComment: PropTypes.func.isRequired,
 };
 
 export default Notification;
