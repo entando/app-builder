@@ -14,6 +14,7 @@ import {
   SET_WIDGETS_TOTAL,
 } from 'state/widgets/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { ADD_TOAST } from 'state/toasts/types';
 import {
   getWidgetList,
   fetchWidgetList,
@@ -31,7 +32,6 @@ import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
-import { SET_PAGE } from 'state/pagination/types';
 import {
   getWidget,
   getWidgets,
@@ -244,8 +244,11 @@ describe('state/widgets/actions', () => {
 
     describe('sendPostWidgets', () => {
       it('calls gotoRoute', (done) => {
-        store.dispatch(sendPostWidgets()).then(() => {
+        store.dispatch(sendPostWidgets({ code: 'test' })).then(() => {
           expect(postWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
@@ -265,8 +268,11 @@ describe('state/widgets/actions', () => {
 
     describe('sendPutWidgets', () => {
       it('calls gotoRoute', (done) => {
-        store.dispatch(sendPutWidgets('WDG', WIDGET)).then(() => {
+        store.dispatch(sendPutWidgets(WIDGET)).then(() => {
           expect(putWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
@@ -288,8 +294,9 @@ describe('state/widgets/actions', () => {
         store.dispatch(sendDeleteWidgets('WDG')).then(() => {
           expect(deleteWidgets).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', REMOVE_WIDGET);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
@@ -300,8 +307,9 @@ describe('state/widgets/actions', () => {
         store.dispatch(sendDeleteWidgets()).then(() => {
           expect(deleteWidgets).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
