@@ -1,6 +1,7 @@
 import { initialize } from 'redux-form';
 import { get } from 'lodash';
 import { getParams, gotoRoute } from '@entando/router';
+import { formattedText } from '@entando/utils';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
@@ -16,7 +17,7 @@ import { getSelectedWidget } from 'state/widgets/selectors';
 
 import { addToast } from 'state/toasts/actions';
 
-import { TOAST_ERROR } from 'state/toasts/const';
+import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 
 
 export const getWidgetList = widgetList => ({
@@ -119,6 +120,10 @@ export const sendPostWidgets = widgetObject => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           gotoRoute(ROUTE_WIDGET_LIST);
+          dispatch(addToast(
+            formattedText('app.created', null, { type: 'widget', code: widgetObject.code }),
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -127,12 +132,16 @@ export const sendPostWidgets = widgetObject => dispatch =>
     });
   });
 
-export const sendPutWidgets = (widgetCode, widgetObject) => dispatch =>
+export const sendPutWidgets = widgetObject => dispatch =>
   new Promise((resolve) => {
-    putWidgets(widgetCode, widgetObject).then((response) => {
+    putWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           gotoRoute(ROUTE_WIDGET_LIST);
+          dispatch(addToast(
+            formattedText('app.updated', null, { type: 'widget', code: widgetObject.code }),
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -147,6 +156,10 @@ export const sendDeleteWidgets = widgetCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeWidget(widgetCode));
+          dispatch(addToast(
+            formattedText('app.deleted', null, { type: 'widget', code: widgetCode }),
+            TOAST_SUCCESS,
+          ));
           gotoRoute(ROUTE_WIDGET_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
