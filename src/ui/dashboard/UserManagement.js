@@ -25,7 +25,12 @@ class UserManagement extends Component {
         <CardTitle>
           <Icon size="lg" name="user" />
           <FormattedMessage id="menu.userManagement" />
-          <Button className="pull-right" componentClass={Link} route={ROUTE_USER_ADD} >
+          <Button
+            bsStyle="primary"
+            className="pull-right"
+            componentClass={Link}
+            route={ROUTE_USER_ADD}
+          >
             <FormattedMessage id="dashboard.newUser" />
           </Button>
           <Clearfix />
