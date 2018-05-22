@@ -4,9 +4,11 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/dashboard/PagesListConta
 
 const TEST_STATE = {
   pagination: {
-    page: 1,
-    pageSize: 5,
-    totalItems: 7,
+    global: {
+      page: 1,
+      pageSize: 5,
+      totalItems: 7,
+    },
   },
   pages: {
     search: [],
@@ -22,15 +24,15 @@ describe('PagesListContainer', () => {
   });
 
   it('maps the page property', () => {
-    expect(stateProps).toHaveProperty('page', TEST_STATE.pagination.page);
+    expect(stateProps).toHaveProperty('page', TEST_STATE.pagination.global.page);
   });
 
   it('maps the totalItems property', () => {
-    expect(stateProps).toHaveProperty('totalItems', TEST_STATE.pagination.totalItems);
+    expect(stateProps).toHaveProperty('totalItems', TEST_STATE.pagination.global.totalItems);
   });
 
   it('maps the pageSize property', () => {
-    expect(stateProps).toHaveProperty('pageSize', TEST_STATE.pagination.pageSize);
+    expect(stateProps).toHaveProperty('pageSize', TEST_STATE.pagination.global.pageSize);
   });
 
   it('maps the language property', () => {
