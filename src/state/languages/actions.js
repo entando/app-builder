@@ -3,8 +3,6 @@ import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { SET_LANGUAGE_ACTIVE, SET_LANGUAGES } from 'state/languages/types';
 import { getLanguagesMap } from 'state/languages/selectors';
-import { setPage } from 'state/pagination/actions';
-
 
 export const setLanguages = languages => ({
   type: SET_LANGUAGES,
@@ -31,7 +29,6 @@ export const fetchLanguages = (page = { page: 1, pageSize: 10 }, params = '') =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setLanguages(json.payload));
-          dispatch(setPage(json.metaData));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

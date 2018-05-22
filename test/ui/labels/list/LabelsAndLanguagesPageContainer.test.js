@@ -15,6 +15,13 @@ jest.mock('state/loading/selectors', () => ({
   }),
 }));
 
+jest.mock('state/labels/selectors', () => ({
+  getActiveTab: jest.fn().mockReturnValue({
+    activeTab: 'labels',
+  }),
+}));
+
+
 describe('LabelsAndLanguagesPageContainer', () => {
   beforeEach(jest.clearAllMocks);
 
