@@ -8,8 +8,8 @@ import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidge
 
 const renderWidgetCategory = title => (
   <div key={`cat-${title}`} className="ContentWidgetElement__widget-spacer">
-    <h2 className="panel-title ContentWidgetElement__widget-title">
-      {title}
+    <h2 className="panel-title- ContentWidgetElement__widget-title">
+      {title.replace('jp', '')}
     </h2>
   </div>
 );
