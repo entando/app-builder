@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem } from 'patternfly-react';
+import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 import { BreadcrumbItem } from 'frontend-common-components';
@@ -14,8 +14,6 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_PREVIEW } from 'app-init/router';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
@@ -23,18 +21,37 @@ const TRANSLATED_NO = formattedText('app.no');
 class PageConfigPage extends Component {
   constructor(props) {
     super(props);
-    this.toggleInfoTable = this.toggleInfoTable.bind(this);
     this.state = {
       infoTableOpen: false,
+      statusChange: null,
     };
+
+    this.removeStatusAlert = this.removeStatusAlert.bind(this);
+    this.toggleInfoTable = this.toggleInfoTable.bind(this);
   }
 
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pageStatus !== 'draft') {
+      this.setState({
+        statusChange: (nextProps.pageStatus !== this.props.pageStatus) ?
+          nextProps.pageStatus :
+          null,
+      });
+    }
+  }
+
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
+  }
+
+  removeStatusAlert() {
+    this.setState({
+      statusChange: null,
+    });
   }
 
   toggleInfoTable() {
@@ -47,7 +64,7 @@ class PageConfigPage extends Component {
     const {
       pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault, pageCode,
+      applyDefaultConfig, pageConfigMatchesDefault, previewUri,
     } = this.props;
 
     let defaultConfigBtn;
@@ -70,6 +87,18 @@ class PageConfigPage extends Component {
         </Button>
       );
     }
+
+    const statusMessage = this.state.statusChange ?
+      (
+        <Alert type="info" onDismiss={this.removeStatusAlert}>
+          <FormattedMessage
+            id={`pageSettings.status.${this.state.statusChange}`}
+            values={{ page: pageName }}
+          />
+        </Alert>
+      ) :
+      null;
+
     return (
       <InternalPage className="PageConfigPage">
         <Grid fluid>
@@ -94,6 +123,12 @@ class PageConfigPage extends Component {
 
               <ErrorsAlertContainer />
 
+              <Row>
+                <Col xs={12}>
+                  {statusMessage}
+                </Col>
+              </Row>
+
               <Row className="PageConfigPage__toolbar-row">
                 <Col xs={12}>
                   <ButtonToolbar className="pull-left">
@@ -104,9 +139,14 @@ class PageConfigPage extends Component {
                     >
                       <FormattedMessage id="app.info" />
                     </Button>
-                    <Button bsStyle="primary" onClick={() => (gotoRoute(ROUTE_PAGE_PREVIEW, { pageCode }))}>
+                    <a
+                      href={previewUri}
+                      title={formattedText('app.preview', 'Preview')}
+                      className="btn btn-primary"
+                      target="_blank"
+                    >
                       <FormattedMessage id="app.preview" />
-                    </Button>
+                    </a>
                   </ButtonToolbar>
                   <ButtonToolbar className="pull-right">
                     <Button
@@ -194,7 +234,7 @@ class PageConfigPage extends Component {
 }
 
 PageConfigPage.propTypes = {
-  pageCode: PropTypes.string,
+  previewUri: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   pageName: PropTypes.string,
@@ -212,7 +252,7 @@ PageConfigPage.propTypes = {
 };
 
 PageConfigPage.defaultProps = {
-  pageCode: '',
+  previewUri: '',
   onWillMount: null,
   onWillUnmount: null,
   pageName: '',

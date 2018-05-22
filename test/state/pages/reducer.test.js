@@ -8,7 +8,7 @@ import {
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
-  setReferenceSelectedPage,
+  setReferenceSelectedPage, clearTree,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -20,6 +20,13 @@ describe('state/pages/reducer', () => {
   it('should return an object', () => {
     const state = reducer();
     expect(typeof state).toBe('object');
+    expect(state).toHaveProperty('map', {});
+    expect(state).toHaveProperty('childrenMap', {});
+    expect(state).toHaveProperty('titlesMap', {});
+    expect(state).toHaveProperty('statusMap', {});
+    expect(state).toHaveProperty('freePages', []);
+    expect(state).toHaveProperty('selected', null);
+    expect(state).toHaveProperty('search', []);
   });
 
   describe('after action ADD_PAGES', () => {
@@ -46,6 +53,40 @@ describe('state/pages/reducer', () => {
       expect(state.titlesMap).toBeDefined();
       PAGES.forEach((page) => {
         expect(state.titlesMap[page.code]).toBeDefined();
+      });
+    });
+
+    describe('after action CLEAR_TREE', () => {
+      beforeEach(() => {
+        state = reducer(state, setFreePages(FREE_PAGES_PAYLOAD));
+        state = reducer(state, setSelectedPage(HOMEPAGE_PAYLOAD));
+        state = reducer(state, togglePageExpanded('homepage'));
+
+        state = reducer(state, clearTree());
+      });
+
+      it('should have an empty map', () => {
+        expect(state).toHaveProperty('map', {});
+      });
+
+      it('should have an empty childrenMap', () => {
+        expect(state).toHaveProperty('childrenMap', {});
+      });
+
+      it('should have an empty titlesMap', () => {
+        expect(state).toHaveProperty('titlesMap', {});
+      });
+
+      it('should have an empty statusMap', () => {
+        expect(state).toHaveProperty('statusMap', {});
+      });
+
+      it('should have an empty freePages', () => {
+        expect(state).toHaveProperty('freePages', []);
+      });
+
+      it('should have an empty selected', () => {
+        expect(state).toHaveProperty('selected', null);
       });
     });
 

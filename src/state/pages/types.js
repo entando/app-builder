@@ -11,3 +11,4 @@ export const SET_REFERENCES_SELECTED_PAGE = 'pages/set-references-selected-page'
 export const UPDATE_PAGE = 'pages/update-page';
 export const SEARCH_PAGES = 'pages/search-pages';
 export const CLEAR_SEARCH = 'pages/clear-search';
+export const CLEAR_TREE = 'pages/clear-tree';

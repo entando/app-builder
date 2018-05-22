@@ -16,7 +16,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (labelCode) => {
-    dispatch(fetchLanguages());
+    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchLabel(labelCode));
   },
   onSubmit: (label) => {

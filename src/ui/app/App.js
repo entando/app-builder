@@ -61,6 +61,8 @@ import {
   ROUTE_DATABASE_REPORT,
   ROUTE_DATABASE_DUMP_TABLE,
   ROUTE_FILE_BROWSER,
+  ROUTE_FILE_BROWSER_UPLOAD,
+  ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -123,6 +125,8 @@ import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
 import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
 import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
+import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
+import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -194,6 +198,8 @@ const App = ({ route, username }) => {
     case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;
     case ROUTE_DATABASE_DUMP_TABLE: return <DatabaseDumpTablePageContainer />;
     case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
+    case ROUTE_FILE_BROWSER_UPLOAD: return <UploadFileBrowserPage />;
+    case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
     default: return <NotFoundPage />;
   }
 };

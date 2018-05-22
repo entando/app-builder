@@ -36,7 +36,8 @@ import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPa
 import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
 import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
-import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
+import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
+import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 
 import {
   ROUTE_HOME,
@@ -71,6 +72,7 @@ import {
   ROUTE_PAGE_MODEL_EDIT,
   ROUTE_PAGE_MODEL_DETAIL,
   ROUTE_FILE_BROWSER,
+  ROUTE_FILE_BROWSER_CREATE_FOLDER,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -241,7 +243,12 @@ describe('App', () => {
 
   it('route to page file browser page', () => {
     const component = shallow(<App route={ROUTE_FILE_BROWSER} username="admin" />);
-    expect(component.contains(<FileBrowserPage />)).toBe(true);
+    expect(component.contains(<FileBrowserPageContainer />)).toBe(true);
+  });
+
+  it('route to page file browser page create folder', () => {
+    const component = shallow(<App route={ROUTE_FILE_BROWSER_CREATE_FOLDER} username="admin" />);
+    expect(component.contains(<CreateFolderFormContainer />)).toBe(true);
   });
 
   it('default route', () => {

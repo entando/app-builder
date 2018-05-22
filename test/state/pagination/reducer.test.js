@@ -14,19 +14,20 @@ describe('pagination reducer', () => {
   it('should return an object', () => {
     defaultState = reducer();
     expect(typeof defaultState).toBe('object');
-    expect(defaultState).toHaveProperty('page', 1);
-    expect(defaultState).toHaveProperty('pageSize', 10);
-    expect(defaultState).toHaveProperty('lastPage', 1);
-    expect(defaultState).toHaveProperty('totalItems', 0);
+    expect(defaultState).toHaveProperty('global', expect.any(Object));
+    expect(defaultState).toHaveProperty('global.page', 1);
+    expect(defaultState).toHaveProperty('global.pageSize', 10);
+    expect(defaultState).toHaveProperty('global.lastPage', 1);
+    expect(defaultState).toHaveProperty('global.totalItems', 0);
   });
 
   describe('after action SET_PAGE', () => {
     it('should define page with the correct parameters', () => {
       const state = reducer(defaultState, setPage(correctBody));
-      expect(state).toHaveProperty('page', 1);
-      expect(state).toHaveProperty('pageSize', 2);
-      expect(state).toHaveProperty('lastPage', 3);
-      expect(state).toHaveProperty('totalItems', 5);
+      expect(state).toHaveProperty('global.page', 1);
+      expect(state).toHaveProperty('global.pageSize', 2);
+      expect(state).toHaveProperty('global.lastPage', 3);
+      expect(state).toHaveProperty('global.totalItems', 5);
     });
 
     describe('page validation', () => {
@@ -72,10 +73,10 @@ describe('pagination reducer', () => {
           ...correctBody,
           page: '2',
         }));
-        expect(state).toHaveProperty('page', 2);
-        expect(state).toHaveProperty('pageSize', 2);
-        expect(state).toHaveProperty('lastPage', 3);
-        expect(state).toHaveProperty('totalItems', 5);
+        expect(state).toHaveProperty('global.page', 2);
+        expect(state).toHaveProperty('global.pageSize', 2);
+        expect(state).toHaveProperty('global.lastPage', 3);
+        expect(state).toHaveProperty('global.totalItems', 5);
       });
     });
 
@@ -114,10 +115,10 @@ describe('pagination reducer', () => {
           ...correctBody,
           totalItems: '10',
         }));
-        expect(state).toHaveProperty('page', 1);
-        expect(state).toHaveProperty('pageSize', 2);
-        expect(state).toHaveProperty('lastPage', 3);
-        expect(state).toHaveProperty('totalItems', 10);
+        expect(state).toHaveProperty('global.page', 1);
+        expect(state).toHaveProperty('global.pageSize', 2);
+        expect(state).toHaveProperty('global.lastPage', 3);
+        expect(state).toHaveProperty('global.totalItems', 10);
       });
     });
 
@@ -156,10 +157,10 @@ describe('pagination reducer', () => {
           ...correctBody,
           pageSize: '30',
         }));
-        expect(state).toHaveProperty('page', 1);
-        expect(state).toHaveProperty('pageSize', 30);
-        expect(state).toHaveProperty('lastPage', 3);
-        expect(state).toHaveProperty('totalItems', 5);
+        expect(state).toHaveProperty('global.page', 1);
+        expect(state).toHaveProperty('global.pageSize', 30);
+        expect(state).toHaveProperty('global.lastPage', 3);
+        expect(state).toHaveProperty('global.totalItems', 5);
       });
 
       it('should define page if the pageSize is zero', () => {
@@ -167,10 +168,10 @@ describe('pagination reducer', () => {
           ...correctBody,
           pageSize: 0,
         }));
-        expect(state).toHaveProperty('page', 1);
-        expect(state).toHaveProperty('pageSize', 0);
-        expect(state).toHaveProperty('lastPage', 3);
-        expect(state).toHaveProperty('totalItems', 5);
+        expect(state).toHaveProperty('global.page', 1);
+        expect(state).toHaveProperty('global.pageSize', 0);
+        expect(state).toHaveProperty('global.lastPage', 3);
+        expect(state).toHaveProperty('global.totalItems', 5);
       });
     });
 
@@ -201,10 +202,22 @@ describe('pagination reducer', () => {
           ...correctBody,
           lastPage: '50',
         }));
-        expect(state).toHaveProperty('pageSize', 2);
-        expect(state).toHaveProperty('lastPage', 50);
-        expect(state).toHaveProperty('page', 1);
-        expect(state).toHaveProperty('totalItems', 5);
+        expect(state).toHaveProperty('global.pageSize', 2);
+        expect(state).toHaveProperty('global.lastPage', 50);
+        expect(state).toHaveProperty('global.page', 1);
+        expect(state).toHaveProperty('global.totalItems', 5);
+      });
+    });
+
+    describe('namespacing', () => {
+      it('should set the values in the correct namespace', () => {
+        const state = reducer(defaultState, setPage(correctBody, 'custom'));
+        expect(state).toHaveProperty('global', defaultState.global);
+        expect(state).toHaveProperty('custom', expect.any(Object));
+        expect(state).toHaveProperty('custom.pageSize', 2);
+        expect(state).toHaveProperty('custom.lastPage', 3);
+        expect(state).toHaveProperty('custom.page', 1);
+        expect(state).toHaveProperty('custom.totalItems', 5);
       });
     });
   });

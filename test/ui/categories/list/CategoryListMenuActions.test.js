@@ -5,8 +5,10 @@ import { shallow } from 'enzyme';
 import CategoryListMenuActions from 'ui/categories/list/CategoryListMenuActions';
 
 const onClickDelete = jest.fn();
+const onClickAdd = jest.fn();
 
 const props = {
+  onClickAdd,
   onClickDelete,
   code: 'role_code',
 };
@@ -41,5 +43,11 @@ describe('CategoryListMenuActions', () => {
     const deleteButton = component.find('.CategoryListMenuAction__menu-item-delete');
     deleteButton.simulate('click');
     expect(onClickDelete).toHaveBeenCalled();
+  });
+
+  it('clicking on add MenuItem component calls onClickAdd', () => {
+    const addButton = component.find('.CategoryListMenuAction__menu-item-add');
+    addButton.simulate('click');
+    expect(onClickAdd).toHaveBeenCalled();
   });
 });

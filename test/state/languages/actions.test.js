@@ -111,9 +111,7 @@ describe('state/languages/actions', () => {
         expect(actions[0].type).toBe(TOGGLE_LOADING);
         expect(actions[1].type).toBe(SET_LANGUAGES);
         expect(actions[1].payload.languages).toEqual(LANGUAGES_LIST);
-        expect(actions[2].type).toBe(SET_PAGE);
-        expect(actions[2].payload.page).toEqual(PAGE);
-        expect(actions[3].type).toBe(TOGGLE_LOADING);
+        expect(actions[2].type).toBe(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

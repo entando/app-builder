@@ -15,7 +15,7 @@ describe('state/file-browser/reducer', () => {
   it('should return an object', () => {
     expect(INITIAL_STATE).toBeInstanceOf(Object);
     expect(INITIAL_STATE).toHaveProperty('list', []);
-    expect(INITIAL_STATE).toHaveProperty('pathInfo' );
+    expect(INITIAL_STATE).toHaveProperty('pathInfo');
     expect(INITIAL_STATE).toHaveProperty('pathInfo.protectedFolder', null);
     expect(INITIAL_STATE).toHaveProperty('pathInfo.prevPath', '');
     expect(INITIAL_STATE).toHaveProperty('pathInfo.currentPath', '');

@@ -6,8 +6,8 @@ import {
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
-
 import { makeRequest, METHODS } from '@entando/apimanager';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 jest.mock('@entando/apimanager', () => {
   const makeMockRequest = jest.fn(() => new Promise(resolve => resolve({})));
@@ -37,7 +37,16 @@ describe('api/pages', () => {
     it('makes the correct request', () => {
       getPage(PAGE_CODE);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/api/pages/${PAGE_CODE}`,
+        uri: `/api/pages/${PAGE_CODE}?status=${PAGE_STATUS_DRAFT}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+
+    it('makes the correct request with other page status', () => {
+      getPage(PAGE_CODE, PAGE_STATUS_PUBLISHED);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${PAGE_CODE}?status=${PAGE_STATUS_PUBLISHED}`,
         method: METHODS.GET,
         useAuthentication: true,
       }));

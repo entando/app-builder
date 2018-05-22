@@ -8,10 +8,12 @@ import { getLoading } from 'state/loading/selectors';
 const TEST_STATE = {
   fragments: { list: LIST_FRAGMENTS_OK },
   pagination: {
-    page: 1,
-    pageSize: 10,
-    lastPage: 2,
-    totalItems: 20,
+    global: {
+      page: 1,
+      pageSize: 10,
+      lastPage: 2,
+      totalItems: 20,
+    },
   },
 };
 
@@ -32,9 +34,9 @@ describe('FragmentListTableContainer', () => {
   it('maps fragmentList property state in FragmentListTable', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       fragments: TEST_STATE.fragments.list,
-      page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.totalItems,
-      pageSize: TEST_STATE.pagination.pageSize,
+      page: TEST_STATE.pagination.global.page,
+      totalItems: TEST_STATE.pagination.global.totalItems,
+      pageSize: TEST_STATE.pagination.global.pageSize,
     });
   });
 

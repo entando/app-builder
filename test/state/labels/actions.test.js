@@ -1,7 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { initialize } from 'redux-form';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
