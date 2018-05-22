@@ -5,6 +5,7 @@ import { ROUTE_USER_DETAIL } from 'app-init/router';
 
 import { mockApi } from 'test/testUtils';
 import { ADD_ERRORS } from 'state/errors/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 
 import {
   getActivityStream,
@@ -148,14 +149,25 @@ describe('thunk', () => {
     store.dispatch(fetchNotifications()).then(() => {
       expect(getActivityStream).toHaveBeenCalled();
       const actions = store.getActions();
-      expect(actions[0]).toHaveProperty('type', ADD_NOTIFICATIONS);
-      expect(actions[0]).toHaveProperty('payload.notifications', NOTIFICATIONS);
+      expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+      expect(actions[1]).toHaveProperty('type', ADD_NOTIFICATIONS);
+      expect(actions[1]).toHaveProperty('payload.notifications', NOTIFICATIONS);
+      expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
       done();
     }).catch(done.fail);
   });
 
   it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
-    wrapErrorTest(done)(fetchNotifications, getActivityStream)();
+    getActivityStream.mockImplementationOnce(mockApi({ errors: true }));
+    store.dispatch(fetchNotifications()).then(() => {
+      expect(getActivityStream).toHaveBeenCalled();
+      const actions = store.getActions();
+      expect(actions).toHaveLength(3);
+      expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+      expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+      expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+      done();
+    }).catch(done.fail);
   });
 
   it('test sendPostActivityStreamComment calls UPDATE_NOTIFCATION_COMMENT', (done) => {

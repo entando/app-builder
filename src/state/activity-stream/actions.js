@@ -3,6 +3,7 @@ import { gotoRoute } from '@entando/router';
 import { convertToQueryString } from '@entando/utils';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
 import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
 
@@ -32,6 +33,7 @@ export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch
         direction: 'DESC',
       },
     });
+    dispatch(toggleLoading('activityStream'));
     getActivityStream(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -39,6 +41,7 @@ export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }
+        dispatch(toggleLoading('activityStream'));
         resolve();
       });
     });
