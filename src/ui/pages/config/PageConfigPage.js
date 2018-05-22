@@ -14,8 +14,6 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_PREVIEW } from 'app-init/router';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
@@ -66,7 +64,7 @@ class PageConfigPage extends Component {
     const {
       pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault, pageCode,
+      applyDefaultConfig, pageConfigMatchesDefault, previewUri,
     } = this.props;
 
     let defaultConfigBtn;
@@ -141,9 +139,14 @@ class PageConfigPage extends Component {
                     >
                       <FormattedMessage id="app.info" />
                     </Button>
-                    <Button bsStyle="primary" onClick={() => (gotoRoute(ROUTE_PAGE_PREVIEW, { pageCode }))}>
+                    <a
+                      href={previewUri}
+                      title={formattedText('app.preview', 'Preview')}
+                      className="btn btn-primary"
+                      target="_blank"
+                    >
                       <FormattedMessage id="app.preview" />
-                    </Button>
+                    </a>
                   </ButtonToolbar>
                   <ButtonToolbar className="pull-right">
                     <Button
@@ -231,7 +234,7 @@ class PageConfigPage extends Component {
 }
 
 PageConfigPage.propTypes = {
-  pageCode: PropTypes.string,
+  previewUri: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   pageName: PropTypes.string,
@@ -249,7 +252,7 @@ PageConfigPage.propTypes = {
 };
 
 PageConfigPage.defaultProps = {
-  pageCode: '',
+  previewUri: '',
   onWillMount: null,
   onWillUnmount: null,
   pageName: '',

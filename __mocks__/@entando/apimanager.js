@@ -8,6 +8,7 @@ apimanager.api = real.api;
 apimanager.currentUser = real.currentUser;
 apimanager.getUsername = real.getUsername;
 apimanager.config = real.config;
+apimanager.getDomain = jest.fn(() => 'getDomain_result');
 
 jest.spyOn(apimanager, 'makeMockRequest');
 jest.spyOn(apimanager, 'makeRequest');
@@ -21,5 +22,6 @@ export const {
   api,
   currentUser,
   getUsername,
+  getDomain,
   METHODS,
 } = apimanager;

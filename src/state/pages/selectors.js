@@ -2,7 +2,8 @@ import { createSelector } from 'reselect';
 
 import { getLocale } from 'state/locale/selectors';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-
+import { getDomain } from '@entando/apimanager';
+import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 export const getPages = state => state.pages;
 export const getPagesMap = state => state.pages.map;
@@ -116,3 +117,10 @@ export const getReferencesFromSelectedPage = createSelector([getSelectedPage], (
   }
   return [];
 });
+
+export const getSelectedPagePreviewURI = createSelector(
+  getSelectedPage, getDomain,
+  (selectedPage, domain) => (
+    `${domain}/${PREVIEW_NAMESPACE}?pageCode=${selectedPage.code}&token=${selectedPage.token}`
+  ),
+);

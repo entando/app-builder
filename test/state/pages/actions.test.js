@@ -681,28 +681,6 @@ describe('loadSelectedPage', () => {
       done();
     }).catch(done.fail);
   });
-
-  it('if there is a selected page but is not the one we need, load the page', (done) => {
-    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
-
-    store.dispatch(loadSelectedPage('RANDOM_CODE')).then(() => {
-      expect(getPage).toHaveBeenCalled();
-      const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([SET_SELECTED_PAGE]);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('if there is a selected page and it is the one we need, do not load the page', (done) => {
-    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
-    store.dispatch(loadSelectedPage(HOMEPAGE_PAYLOAD.code)).then(() => {
-      expect(getPage).not.toHaveBeenCalled();
-      expect(store.getActions()).toHaveLength(0);
-      done();
-    }).catch(done.fail);
-  });
 });
 
 describe('clearSearchPage', () => {
