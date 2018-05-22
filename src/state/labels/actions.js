@@ -77,6 +77,7 @@ export const updateLabel = label => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateLabelSync(label));
+          dispatch(setActiveTab('labels'));
           gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
