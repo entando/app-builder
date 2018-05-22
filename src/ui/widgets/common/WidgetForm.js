@@ -109,8 +109,8 @@ export class WidgetFormBody extends Component {
                   <FormattedMessage id="widget.page.create.group" />
                 </label>
                 <Col xs={10}>
-                  <Field name="group" component="select" className="form-control">
-                    <option>{formattedText('form.select.chooseOne')}</option>
+                  <Field name="group" component="select" className="form-control" validate={required}>
+                    <option value="">{formattedText('form.select.chooseOne')}</option>
                     {this.renderSelectOptions()}
                   </Field>
                 </Col>
