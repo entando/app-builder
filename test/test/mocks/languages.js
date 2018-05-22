@@ -3,18 +3,21 @@ export const LANGUAGES_LIST = [
   {
     code: 'it',
     description: 'Italiano',
+    name: 'Italiano',
     isActive: true,
     isDefault: false,
   },
   {
     code: 'en',
     description: 'English',
+    name: 'English',
     isActive: true,
     isDefault: true,
   },
   {
     code: 'nl',
     description: 'Dutch',
+    name: 'Dutch',
     isActive: false,
     isDefault: false,
   },
