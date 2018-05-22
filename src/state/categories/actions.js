@@ -5,7 +5,7 @@ import {
   putCategory, deleteCategory, getReferences,
 } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
-import { ROUTE_CATEGORY_LIST } from 'app-init/router';
+import { ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -168,3 +168,8 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) =>
       }
     });
   });
+
+export const initCategoryForm = categoryData => (dispatch) => {
+  dispatch(initialize('category', categoryData));
+  gotoRoute(ROUTE_CATEGORY_ADD);
+};
