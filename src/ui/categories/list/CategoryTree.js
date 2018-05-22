@@ -14,7 +14,7 @@ class CategoryTree extends Component {
   }
 
   renderRows() {
-    const { categories, onClickDelete } = this.props;
+    const { categories, onClickDelete, onClickAdd } = this.props;
     return categories.map((category, i) => {
       const onClickExpand = () => {
         if (!category.isEmpty) {
@@ -49,6 +49,7 @@ class CategoryTree extends Component {
             <CategoryListMenuActions
               code={category.code}
               onClickDelete={onClickDelete}
+              onClickAdd={onClickAdd}
             />
           </td>
         </tr>
@@ -93,6 +94,7 @@ CategoryTree.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   onExpandCategory: PropTypes.func,
   onClickDelete: PropTypes.func,
+  onClickAdd: PropTypes.func,
   loading: PropTypes.bool,
 };
 
@@ -100,6 +102,7 @@ CategoryTree.defaultProps = {
   categories: [],
   onExpandCategory: null,
   onClickDelete: null,
+  onClickAdd: null,
   loading: false,
 };
 

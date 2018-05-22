@@ -5,7 +5,7 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_CATEGORY_EDIT, ROUTE_CATEGORY_DETAIL } from 'app-init/router';
 
-const CategoryListMenuActions = ({ onClickDelete, code }) => (
+const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>
     <LinkMenuItem
       id={`detail-${code}`}
@@ -16,6 +16,7 @@ const CategoryListMenuActions = ({ onClickDelete, code }) => (
     />
     <MenuItem
       className="CategoryListMenuAction__menu-item-add"
+      onClick={() => onClickAdd(code)}
     >
       <FormattedMessage id="app.add" />
     </MenuItem>
@@ -37,11 +38,13 @@ const CategoryListMenuActions = ({ onClickDelete, code }) => (
 
 CategoryListMenuActions.propTypes = {
   onClickDelete: PropTypes.func,
+  onClickAdd: PropTypes.func,
   code: PropTypes.string.isRequired,
 };
 
 CategoryListMenuActions.defaultProps = {
   onClickDelete: null,
+  onClickAdd: null,
 };
 
 export default CategoryListMenuActions;

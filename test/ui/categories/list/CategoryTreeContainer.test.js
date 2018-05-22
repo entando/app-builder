@@ -1,5 +1,8 @@
 import 'test/enzyme-init';
+import { initialize } from 'redux-form';
+import { gotoRoute } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/list/CategoryTreeContainer';
+import { ROUTE_CATEGORY_ADD } from 'app-init/router';
 
 const CATEGORY_CODE = 'category_code';
 
@@ -76,6 +79,15 @@ describe('CategoryTreeContainer', () => {
       props.onClickDelete(CATEGORY_CODE);
       expect(dispatchMock).toHaveBeenCalledWith('setVisibleModal_result');
       expect(dispatchMock).toHaveBeenCalledWith('setInfo_result');
+    });
+
+    it('should dispatch initialize and gotoRoute if onClickAdd is called', () => {
+      expect(props.onClickAdd).toBeDefined();
+      props.onClickAdd(CATEGORY_CODE);
+      expect(initialize).toHaveBeenCalledWith('category', {
+        parentCode: CATEGORY_CODE,
+      });
+      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_CATEGORY_ADD);
     });
   });
 });
