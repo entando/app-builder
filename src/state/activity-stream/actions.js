@@ -1,9 +1,12 @@
-import { getApiNotifications } from 'api/notification';
+import { getActivityStream, postActivityStreamComment, deleteActivityStreamComment, postActivityStreamLike, deleteActivityStreamLike } from 'api/activityStream';
 import { gotoRoute } from '@entando/router';
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS } from 'state/activity-stream/types';
+import { convertToQueryString } from '@entando/utils';
+import { ROUTE_USER_DETAIL } from 'app-init/router';
+import { addErrors } from 'state/errors/actions';
+import { toggleLoading } from 'state/loading/actions';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
-// declare action for close notification drawer
-// eslint-disable-next-line
+
 export const toggleNotificationDrawer = () => ({
   type: TOGGLE_NOTIFICATION_DRAWER,
 });
@@ -15,14 +18,36 @@ export const addNotifications = notifications => ({
   },
 });
 
-export const fetchNotifications = () => dispatch => (
-  getApiNotifications().then((data) => {
-    dispatch(addNotifications(data.payload.notifications));
-  })
-);
+export const updateNotification = notifcation => ({
+  type: UPDATE_NOTIFCATION,
+  payload: {
+    notifcation,
+  },
+});
 
-// if you have to check a property before call a dispatch action,
-// you have to use a thunk by passing a second argument to check the state
+export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch => (
+  new Promise((resolve) => {
+    const params = convertToQueryString({
+      sorting: {
+        attribute: 'id',
+        direction: 'DESC',
+      },
+    });
+    dispatch(toggleLoading('activityStream'));
+    getActivityStream(page, params).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(addNotifications(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        }
+        dispatch(toggleLoading('activityStream'));
+        resolve();
+      });
+    });
+  }));
+
+
 export const toggleNotificationList = () => (dispatch, getState) => {
   dispatch(toggleNotificationDrawer());
   if (!getHidden(getState())) {
@@ -33,8 +58,8 @@ export const toggleNotificationList = () => (dispatch, getState) => {
 
 export const getRouteUserName = id => (dispatch, getState) => {
   const notification = getNotifications(getState()).find(item => item.id === id);
-  gotoRoute('userprofile', {
-    username: notification.author.username,
+  gotoRoute(ROUTE_USER_DETAIL, {
+    username: notification.username,
   });
 };
 
@@ -61,3 +86,29 @@ export const getRouteTargetName = id => (dispatch, getState) => {
     default: gotoRoute('dashboard'); break;
   }
 };
+
+const wrapApiActivityStream = apiCall => (...params) => dispatch => (
+  new Promise((resolve) => {
+    apiCall(...params).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(updateNotification(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        }
+        resolve();
+      });
+    });
+  }));
+
+export const sendPostActivityStreamComment = (recordId, comment) => dispatch =>
+  dispatch(wrapApiActivityStream(postActivityStreamComment)({ recordId, comment }));
+
+export const sendDeleteActivityStreamComment = (recordId, commentId) => dispatch =>
+  dispatch(wrapApiActivityStream(deleteActivityStreamComment)({ recordId, commentId }));
+
+export const sendPostActivityStreamLike = id => dispatch =>
+  dispatch(wrapApiActivityStream(postActivityStreamLike)(id));
+
+export const sendDeleteActivityStreamLike = id => dispatch =>
+  dispatch(wrapApiActivityStream(deleteActivityStreamLike)(id));
