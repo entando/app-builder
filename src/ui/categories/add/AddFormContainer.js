@@ -6,6 +6,7 @@ import { getLoading } from 'state/loading/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 import CategoryForm from 'ui/categories/common/CategoryForm';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
+import { activeLangQueryString, noPagination } from 'ui/categories/common/formUtils';
 
 export const mapStateToProps = state => ({
   mode: 'add',
@@ -18,7 +19,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchCategoryTree());
-    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
+    dispatch(fetchLanguages(noPagination, activeLangQueryString));
   },
   onSubmit: data => (dispatch(sendPostCategory(data))),
   onChangeDefaultTitle: title =>
