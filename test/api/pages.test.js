@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
-  getPageSettingsList, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
-  getReferencesPage, restorePageConfig, applyDefaultPageConfig,
+  getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
+  getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings,
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
@@ -136,16 +136,33 @@ describe('api/pages', () => {
     });
   });
 
-  describe('getPageSettingsList', () => {
+  describe('getPageSettings', () => {
     it('returns a promise', () => {
-      const filledInput = getPageSettingsList();
-      expect(typeof filledInput.then === 'function').toBeDefined();
+      expect(getPageSettings()).toBeInstanceOf(Promise);
     });
+
     it('verify success page settings', () => {
-      getPageSettingsList();
+      getPageSettings();
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/pageSettings',
         method: METHODS.GET,
+        mockResponse: PAGE_SETTINGS_PAYLOAD,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putPageSettings', () => {
+    it('returns a promise', () => {
+      expect(putPageSettings()).toBeInstanceOf(Promise);
+    });
+
+    it('verify success page settings', () => {
+      putPageSettings({});
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pageSettings',
+        method: METHODS.PUT,
+        body: {},
         mockResponse: PAGE_SETTINGS_PAYLOAD,
         useAuthentication: true,
       }));

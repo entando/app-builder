@@ -3,10 +3,20 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
-import { FREE_PAGES_PAYLOAD as OPTIONS } from 'test/mocks/pages';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
+
+const OPTIONS = [
+  {
+    code: 'homepage',
+    fullTitles: 'title',
+  },
+  {
+    code: 'service',
+    fullTitles: 'title',
+  },
+];
 
 describe('PageSettingsForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -33,8 +43,8 @@ describe('PageSettingsForm', () => {
       const { options } = selectComponent.props();
       expect(options).toHaveLength(OPTIONS.length);
       options.forEach((option, i) => {
-        expect(option.value).toEqual(OPTIONS[i].pageCode);
-        expect(option.text).toEqual(OPTIONS[i].shortFullTitle);
+        expect(option.value).toEqual(OPTIONS[i].code);
+        expect(option.text).toEqual(OPTIONS[i].fullTitles);
       });
     });
   });

@@ -32,7 +32,7 @@ import {
 } from 'test/mocks/pages';
 
 import {
-  setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettingsList,
+  setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettings,
   putPageStatus, deletePage, getFreePages, getSearchPages, getReferencesPage,
 } from 'api/pages';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
@@ -502,19 +502,19 @@ describe('state/pages/actions', () => {
       store = mockStore(INITIALIZED_STATE);
     });
 
-    it('when getPageSettingsList succeeds, should dispatch redux-form initialize', (done) => {
-      getPageSettingsList.mockImplementation(mockApi({ payload: { param: [{ name: 'a', value: 'b' }] } }));
+    it('when getPageSettings succeeds, should dispatch redux-form initialize', (done) => {
+      getPageSettings.mockImplementation(mockApi({ payload: { params: [{ name: 'a', value: 'b' }] } }));
       store.dispatch(fetchPageSettings()).then(() => {
-        expect(getPageSettingsList).toHaveBeenCalled();
+        expect(getPageSettings).toHaveBeenCalled();
         expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
         done();
       }).catch(done.fail);
     });
 
     it('if the response is not ok, dispatch add errors', async () => {
-      getPageSettingsList.mockImplementation(mockApi({ errors: true }));
+      getPageSettings.mockImplementation(mockApi({ errors: true }));
       return store.dispatch(fetchPageSettings()).catch((e) => {
-        expect(getPageSettingsList).toHaveBeenCalled();
+        expect(getPageSettings).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -548,7 +548,7 @@ describe('state/pages/actions', () => {
         store = mockStore(INITIALIZED_STATE);
       });
 
-      it('when getPageSettingsList succeeds, should dispatch redux-form initialize', (done) => {
+      it('when getPageSettings succeeds, should dispatch redux-form initialize', (done) => {
         store.dispatch(fetchFreePages()).then(() => {
           expect(getFreePages).toHaveBeenCalled();
           const actions = store.getActions();

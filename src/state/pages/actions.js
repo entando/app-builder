@@ -3,7 +3,7 @@ import { gotoRoute } from '@entando/router';
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettingsList, putPage, putPageStatus, getSearchPages, getReferencesPage,
+  getPageSettings, putPage, putPageStatus, getSearchPages, getReferencesPage,
 } from 'api/pages';
 
 import {
@@ -273,7 +273,7 @@ export const mapItem = param => (
 );
 
 export const fetchPageSettings = () => async (dispatch) => {
-  const response = await getPageSettingsList();
+  const response = await getPageSettings();
   const contentType = response.headers.get('content-type');
   if (contentType && contentType.includes('application/json')) {
     const json = await response.json();
