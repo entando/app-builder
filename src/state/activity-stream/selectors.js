@@ -1,6 +1,7 @@
 
 import { createSelector } from 'reselect';
-import { isNull } from 'lodash';
+import { isNull, isUndefined, isEmpty } from 'lodash';
+import { formattedText } from '@entando/utils';
 
 export const getActivityStream = state => state.activityStream;
 const getActivityStreamList = createSelector(getActivityStream, root => root.list);
@@ -13,20 +14,49 @@ export const getHidden = createSelector(
 
 const getActionText = (notification) => {
   const { actionName, parameters } = notification;
+  const { strutsAction } = parameters;
   switch (actionName) {
-    case 'POST': {
-      return 'Publish';
+    case 'save': {
+      if (strutsAction === '1') {
+        return formattedText('activityStream.newPage');
+      } else if (strutsAction === '2') {
+        return formattedText('activityStream.editPage');
+      }
+      return '';
     }
-    case 'PUT': {
-      return isNull(parameters) ? 'UnPublish' : 'edit';
+    case 'delete': {
+      return formattedText('activityStream.deletePage');
+    }
+    case 'setOnline': {
+      return formattedText('activityStream.onlinePage');
+    }
+    case 'setOffline': {
+      return formattedText('activityStream.offlinePage');
+    }
+    case 'saveConfigure': {
+      return formattedText('activityStream.modifyPage');
     }
     default: return '';
   }
 };
 
+const getTargetText = (notification) => {
+  if (isEmpty(notification.parameters)) return '';
+  const { pageCode } = notification.parameters;
+
+  return isNull(pageCode) || isUndefined(pageCode) ? '' : pageCode;
+};
+
 export const getNotifications = createSelector(
   [getActivityStreamList, getActivityStreamMap],
   (activityStreamList, activityStreamMap) =>
-    activityStreamList.map(id => (
-      { ...activityStreamMap[id], actionText: getActionText(activityStreamMap[id]) })),
+    activityStreamList.map((id) => {
+      const obj = {
+        ...activityStreamMap[id],
+        actionText: getActionText(activityStreamMap[id]),
+        targetText: getTargetText(activityStreamMap[id]),
+      };
+      console.log('obj', obj);
+      return obj;
+    }),
 );

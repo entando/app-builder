@@ -51,7 +51,7 @@ class Notification extends Component {
                   <span className="Notification__user-comment">
                     {comment.commentText}
                   </span>
-                  <p className="time-notifications">
+                  <p className="Notification__time-notifications">
                     <time dateTime={comment.commentDate} title={comment.commentDate}>
                       <FormattedRelative value={comment.commentDate} />
                     </time>

@@ -12,8 +12,8 @@ const NotificationList = ({
       key={item.id}
       id={item.id}
       username={item.username}
-      notification={item.actionName} // {item.notification[locale]}
-      targetName={item.parameters || ''}
+      notification={item.actionText} // {item.notification[locale]}
+      targetName={item.targetText}
       comments={item.comments}
       onClickUsername={onClickUsername}
       onClickTargetName={onClickTargetName}
@@ -41,7 +41,6 @@ NotificationList.propTypes = {
 NotificationList.defaultProps = {
   notifications: [],
   onClickUsername: () => {},
-  onClickTargetName: () => {},
   onClickLike: () => {},
 };
 export default NotificationList;
