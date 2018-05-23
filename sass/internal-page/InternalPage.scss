@@ -23,3 +23,24 @@
     vertical-align: top;
   }
 }
+
+.HomePageLink {
+  &__icon {
+    padding-right: 4px;
+  }
+
+  &__link {
+    color: $color-pf-white;
+    text-decoration: none;
+  }
+
+  &__link:hover {
+    color: $color-pf-white;
+    text-decoration: none;
+  }
+
+  &__link:visited {
+    color: $color-pf-white;
+    text-decoration: none;
+  }
+}
