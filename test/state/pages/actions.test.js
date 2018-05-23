@@ -14,6 +14,7 @@ import {
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
   fetchReferencesPage, setReferenceSelectedPage, clonePage, clearTree,
+  sendPutPageSettings,
 } from 'state/pages/actions';
 
 import {
@@ -21,6 +22,8 @@ import {
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
   SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
+
+import { ADD_TOAST } from 'state/toasts/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
 
@@ -34,6 +37,7 @@ import {
 import {
   setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettings,
   putPageStatus, deletePage, getFreePages, getSearchPages, getReferencesPage,
+  putPageSettings,
 } from 'api/pages';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
@@ -515,6 +519,37 @@ describe('state/pages/actions', () => {
       getPageSettings.mockImplementation(mockApi({ errors: true }));
       return store.dispatch(fetchPageSettings()).catch((e) => {
         expect(getPageSettings).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
+    });
+  });
+
+  describe('sendPutPageSettings()', () => {
+    let store;
+    beforeEach(() => {
+      store = mockStore(INITIALIZED_STATE);
+    });
+
+    it('when sendPutPageSettings succeeds, should dispatch ADD_TOAST', (done) => {
+      store.dispatch(sendPutPageSettings()).then(() => {
+        expect(putPageSettings).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if the response is not ok, dispatch add errors', async () => {
+      putPageSettings.mockImplementationOnce(mockApi({ errors: true }));
+      return store.dispatch(sendPutPageSettings()).catch((e) => {
+        expect(putPageSettings).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

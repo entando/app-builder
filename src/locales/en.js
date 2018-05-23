@@ -271,6 +271,7 @@ export default {
     'pageSettings.baseUrl.help': 'The portals URL are produced from the BASE URL defined in the context file (es.: www.entando.com/ portal/ en/ pagecode.page). RELATIVE when in the generated caused URL omitted the BASE URL (es.: /portal /en / pagecode.page). BUILT BY HTTP REQUEST PARAMETERS when the URL generated from the request takes the parameter generated from the previews request. STATIC when in the generated URL is insert the BASE URL defined in the context file ( es.: www.entando.com/ portal/ en/ pagecode.page)',
     'pageSettings.jsession.help': 'It is a security requisite. Avoid that the JSESSIONID would insert in the generated link from the portal. You must have cookies activted.',
     'pageSettings.appendBaseUrl.help': 'Add the context name to the BASE URL (es.: /portal/) (unused with static BaseURL)',
+    'pageSettings.success': 'Page Settings have been updated',
     'dataModel.help': 'The DATA MODELS section lets the admnistrator add new content data or edit those already existing. Entando has a formatting engine based on models used to present the contents (or part of it) to users. Contents data are Velocity templates and, like contents, they are easily managed from the administration Interface.',
     'dataModel.type': 'Type',
     'dataModel.stylesheet': 'Style Sheet',

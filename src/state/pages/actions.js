@@ -1,9 +1,11 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
+import { formattedText } from '@entando/utils';
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages, getReferencesPage,
+  putPageSettings,
 } from 'api/pages';
 
 import {
@@ -17,6 +19,9 @@ import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
+
+import { addToast } from 'state/toasts/actions';
+import { TOAST_SUCCESS } from 'state/toasts/const';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -279,6 +284,24 @@ export const fetchPageSettings = () => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(initialize('settings', mapItem(json.payload.params)));
+      return json;
+    }
+    dispatch(addErrors(json.errors.map(e => e.message)));
+    throw json;
+  }
+  throw new TypeError('No JSON content-type in response headers');
+};
+
+export const sendPutPageSettings = pageSettings => async (dispatch) => {
+  const response = await putPageSettings(pageSettings);
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(addToast(
+        formattedText('pageSettings.success'),
+        TOAST_SUCCESS,
+      ));
       return json;
     }
     dispatch(addErrors(json.errors.map(e => e.message)));
