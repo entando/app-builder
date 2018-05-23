@@ -71,11 +71,15 @@ const getBase64 = file => (
   }));
 
 const sendPostFile = fileObject => new Promise((resolve, reject) => {
-  postFile(fileObject).then(response => (response.ok ? resolve('OK') : reject()));
+  postFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
+    reject(error);
+  });
 });
 
 const sendPutFile = fileObject => new Promise((resolve, reject) => {
-  putFile(fileObject).then(response => (response.ok ? resolve('OK') : reject()));
+  putFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
+    reject(error);
+  });
 });
 
 const createFileObject = (protectedFolder, currentPath, file) => getBase64(file).then(base64 => ({
@@ -87,14 +91,13 @@ const createFileObject = (protectedFolder, currentPath, file) => getBase64(file)
 
 const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {
-    apiFunc(obj).then((complete) => {
-      if (complete === 'OK') {
-        dispatch(addToast(formattedText('fileBrowser.uploadFileComplete', TOAST_SUCCESS)));
-        gotoRoute(ROUTE_FILE_BROWSER);
-        dispatch(fetchFileList(...args));
-      } else {
-        dispatch(addToast(formattedText('fileBrowser.UploadFileError', TOAST_ERROR)));
-      }
+    apiFunc(obj).then(() => {
+      dispatch(addToast(formattedText('fileBrowser.uploadFileComplete', TOAST_SUCCESS)));
+      gotoRoute(ROUTE_FILE_BROWSER);
+      dispatch(fetchFileList(...args));
+    }).catch((error) => {
+      const message = formattedText('fileBrowser.uploadFileError');
+      dispatch(addToast(`${message} - ${error}`, TOAST_ERROR));
     });
   });
 };
