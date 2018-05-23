@@ -95,6 +95,7 @@ export default {
     'app.lastModified': 'Last Modified',
     'app.logout': 'Sign out',
     'app.myProfile': 'My Profile',
+    'app.homepage': 'Go to Homepage',
     'app.number': 'Number',
     'app.date': 'Date',
     'app.requiredTime': 'Required time',

@@ -103,6 +103,7 @@ export default {
     'app.lastModified': 'Ultima Modifica',
     'app.logout': 'Esci',
     'app.myProfile': 'Mio Profilo',
+    'app.homepage': 'Vai all\'Applicazione',
     'app.tableName': 'Nome Tabella',
     'app.rows': 'Righe',
     'app.created': 'Il {type} {code} è stato creato',
