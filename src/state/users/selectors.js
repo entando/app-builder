@@ -21,8 +21,8 @@ const getGroupRolesComboValue = state => formValueSelector('autorityForm')(state
 const getArrayData = array => (groups, roles) =>
   array.reduce((acc, item) => {
     acc.push({
-      group: { code: groups[item.group].code, name: groups[item.group].name },
-      role: { code: roles[item.role].code, name: roles[item.role].name },
+      group: item.group ? { code: groups[item.group].code, name: groups[item.group].name } : {},
+      role: item.role ? { code: roles[item.role].code, name: roles[item.role].name } : {},
     });
     return acc;
   }, []);
