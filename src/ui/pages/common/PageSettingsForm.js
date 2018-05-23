@@ -76,8 +76,8 @@ export class PageSettingsFormBody extends Component {
     };
 
     const selectOptions = this.props.options.map(item => ({
-      value: item.pageCode,
-      text: item.shortFullTitle,
+      value: item.code,
+      text: item.fullTitles,
     }));
 
     return (

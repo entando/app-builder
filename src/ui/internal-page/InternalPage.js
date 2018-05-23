@@ -17,7 +17,7 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_USER_RESTRICTIONS,
+  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -61,6 +61,11 @@ const InternalPage = ({ className, children }) => (
           label={formattedText('menu.pageConfig')}
           route={ROUTE_PAGE_CONFIG}
           params={{ pageCode: 'homepage' }}
+        />
+        <LinkMenuItem
+          id="menu-page-settings"
+          label={formattedText('menu.pageSettings')}
+          route={ROUTE_PAGE_SETTINGS}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem

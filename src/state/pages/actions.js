@@ -278,7 +278,7 @@ export const fetchPageSettings = () => async (dispatch) => {
   if (contentType && contentType.includes('application/json')) {
     const json = await response.json();
     if (response.ok) {
-      dispatch(initialize('settings', mapItem(json.payload.param)));
+      dispatch(initialize('settings', mapItem(json.payload.params)));
       return json;
     }
     dispatch(addErrors(json.errors.map(e => e.message)));
