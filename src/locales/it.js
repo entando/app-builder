@@ -332,6 +332,7 @@ export default {
     'user.restrictions.form.gravatar': 'Abilita Gravatar (Avatar Utenti)',
     'user.restrictions.form.monthsSinceLastLogin.error': 'Questo valore dev\'essere uguale o minore al precedente',
     'user.restrictions.months': 'mesi',
+    'user.restrictions.success': 'La Restrizione Utenti è stata aggiornata',
     'form.select.chooseOne': 'Seleziona un\'opzione',
     'user.profile.all': 'Tutti',
     'user.profile.with': 'Utente con un profilo',

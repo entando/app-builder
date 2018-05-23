@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ToastNotificationList, TimedToastNotification } from 'patternfly-react';
 
 const Toasts = ({ toasts, onDismiss }) => {
-  const notifications = Object.keys(toasts).map(key => (
+  const notifications = Object.keys(toasts).reverse().map(key => (
     <TimedToastNotification
       key={key}
       type={toasts[key].type}
