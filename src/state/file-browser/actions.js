@@ -1,6 +1,9 @@
 import { getFileBrowser, getFile, postFile, putFile, postFileBrowserCreateFolder } from 'api/fileBrowser';
+import { formattedText } from '@entando/utils';
 import { gotoRoute } from '@entando/router';
 import { addErrors } from 'state/errors/actions';
+import { addToast } from 'state/toasts/actions';
+import { TOAST_SUCCESS, TOAST_ERROR } from 'state/toasts/const';
 import { toggleLoading } from 'state/loading/actions';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { getPathInfo } from 'state/file-browser/selectors';
@@ -68,7 +71,7 @@ const getBase64 = file => (
   }));
 
 const sendPostFile = fileObject => new Promise((resolve, reject) => {
-  postFile(fileObject).then(response => (response.ok ? resolve() : reject()));
+  postFile(fileObject).then(response => (response.ok ? resolve('OK') : reject()));
 });
 
 const sendPutFile = fileObject => new Promise((resolve, reject) => {
@@ -84,9 +87,14 @@ const createFileObject = (protectedFolder, currentPath, file) => getBase64(file)
 
 const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {
-    apiFunc(obj).then(() => {
-      gotoRoute(ROUTE_FILE_BROWSER);
-      dispatch(fetchFileList(...args));
+    apiFunc(obj).then((complete) => {
+      if (complete === 'OK') {
+        dispatch(addToast(formattedText('fileBrowser.uploadFileComplete', TOAST_SUCCESS)));
+        gotoRoute(ROUTE_FILE_BROWSER);
+        dispatch(fetchFileList(...args));
+      } else {
+        dispatch(addToast(formattedText('fileBrowser.UploadFileError', TOAST_ERROR)));
+      }
     });
   });
 };
