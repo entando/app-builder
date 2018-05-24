@@ -56,7 +56,6 @@ export const getNotifications = createSelector(
         actionText: getActionText(activityStreamMap[id]),
         targetText: getTargetText(activityStreamMap[id]),
       };
-      console.log('obj', obj);
       return obj;
     }),
 );
