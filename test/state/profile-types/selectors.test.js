@@ -1,40 +1,105 @@
-import {
-  PROFILE_TYPES_OK_PAGE_1,
-  PROFILE_TYPES_NORMALIZED,
-  PROFILE_TYPES_OPTIONS,
-} from 'test/mocks/profileTypes';
+import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 
 import {
   getProfileTypes,
   getProfileTypesIdList,
   getProfileTypesMap,
-  getProfileTypesList,
-  getProfileTypesOptions,
+  getProfileTypeList,
+  getSelectedProfileType,
+  getProfileTypeAttributes,
+  getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeType,
+  getProfileTypeSelectedAttributeSearchable,
+  getProfileTypeSelectedAttributeIndexable,
+  getProfileTypeSelectedAttributeAllowedRoles,
+  getProfileTypeSelectedAttributeallowedDisablingCodes,
 } from 'state/profile-types/selectors';
+
+const TEST_STATE = {
+  profileTypes: {
+    list: ['ABC', 'DEF'],
+    map: {
+      ABC: {
+        name: 'profileType1',
+        code: 'ABC',
+        status: 'ok',
+      },
+      DEF: {
+        name: 'profileType2',
+        code: 'DEF',
+        status: 'ok',
+      },
+    },
+    attributes: {
+    },
+  },
+  pagination: PROFILE_TYPES_OK_PAGE_1.metaData,
+};
+
+const STATE_ATTRIBUTES = {
+  profileTypes: {
+    attributes: {
+      list: [],
+      selected: {
+        listAttribute: [],
+        searchableOptionSupported: [],
+        indexableOptionSupported: [],
+        allowedRoles: [],
+        allowedDisablingCodes: [],
+
+      },
+    },
+  },
+};
 
 describe('state/users/selectors', () => {
   it('getProfileTypes(state) returns the users object', () => {
-    const selected = getProfileTypes(PROFILE_TYPES_NORMALIZED);
-    expect(selected).toBe(PROFILE_TYPES_NORMALIZED.profileTypes);
+    const selected = getProfileTypes(TEST_STATE);
+    expect(selected).toBe(TEST_STATE.profileTypes);
   });
 
   it('verify getProfileTypesIdList selector', () => {
-    expect(getProfileTypesIdList(PROFILE_TYPES_NORMALIZED))
-      .toEqual(PROFILE_TYPES_NORMALIZED.profileTypes.list);
+    expect(getProfileTypesIdList(TEST_STATE)).toEqual(TEST_STATE.profileTypes.list);
   });
 
   it('verify getProfileTypesMap selector', () => {
-    expect(getProfileTypesMap(PROFILE_TYPES_NORMALIZED))
-      .toEqual(PROFILE_TYPES_NORMALIZED.profileTypes.map);
+    expect(getProfileTypesMap(TEST_STATE)).toEqual(TEST_STATE.profileTypes.map);
   });
 
   it('verify getProfileTypeList selector', () => {
-    expect(getProfileTypesList(PROFILE_TYPES_NORMALIZED))
-      .toEqual(PROFILE_TYPES_OK_PAGE_1.payload);
+    expect(getProfileTypeList(TEST_STATE)).toEqual(PROFILE_TYPES_OK_PAGE_1.payload);
   });
 
-  it('verify getProfileTypesOptions selector', () => {
-    expect(getProfileTypesOptions(PROFILE_TYPES_NORMALIZED))
-      .toEqual(PROFILE_TYPES_OPTIONS);
+  it('verify getSelectedProfileType selector is undefined', () => {
+    expect(getSelectedProfileType(TEST_STATE)).toBeUndefined();
+  });
+
+  it('verify getSelectedProfileType selector is defined', () => {
+    expect(getSelectedProfileType({ profileTypes: { selected: {} } })).toBeDefined();
+  });
+
+  it('verify getProfileTypeAttributes selector is defined', () => {
+    expect(getProfileTypeAttributes(TEST_STATE)).toBeDefined();
+  });
+  it('verify getProfileTypeAttributesIdList selector is undefined', () => {
+    expect(getProfileTypeAttributesIdList(TEST_STATE)).toBeUndefined();
+  });
+  it('verify getProfileTypeAttributesIdList selector is defined', () => {
+    expect(getProfileTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getProfileTypeSelectedAttributeType selector is defined', () => {
+    expect(getProfileTypeSelectedAttributeType(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getProfileTypeSelectedAttributeSearchable selector is defined', () => {
+    expect(getProfileTypeSelectedAttributeSearchable(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getProfileTypeSelectedAttributeIndexable selector is defined', () => {
+    expect(getProfileTypeSelectedAttributeIndexable(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getProfileTypeSelectedAttributeAllowedRoles selector is defined', () => {
+    expect(getProfileTypeSelectedAttributeAllowedRoles(STATE_ATTRIBUTES)).toBeDefined();
+  });
+  it('verify getProfileTypeSelectedAttributeallowedDisablingCodes selector is defined', () => {
+    expect(getProfileTypeSelectedAttributeallowedDisablingCodes(STATE_ATTRIBUTES)).toBeDefined();
   });
 });

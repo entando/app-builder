@@ -127,10 +127,12 @@ export class AttributeFormBody extends Component {
    }
 }
 
+
 AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
+  profileTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   initialValues: PropTypes.shape({
@@ -161,6 +163,7 @@ AttributeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
+  profileTypeAttributeCode: '',
   initialValues: {},
   selectedAttributeType: {
     enumeratorExtractorBean: [],
