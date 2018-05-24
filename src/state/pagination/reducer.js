@@ -2,10 +2,12 @@ import { SET_PAGE } from 'state/pagination/types';
 import { isInteger } from '@entando/utils';
 
 const initialState = {
-  page: 1,
-  pageSize: 10,
-  lastPage: 1,
-  totalItems: 0,
+  global: {
+    page: 1,
+    pageSize: 10,
+    lastPage: 1,
+    totalItems: 0,
+  },
 };
 
 const isPageValid = (page, lastPage) => {
@@ -57,7 +59,9 @@ const castValues = page => (
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_PAGE: {
-      return isPayloadValid(action.payload.page) ? castValues(action.payload.page) : state;
+      return isPayloadValid(action.payload.page) ?
+        { ...state, [action.payload.namespace]: castValues(action.payload.page) } :
+        state;
     }
     default: return state;
   }

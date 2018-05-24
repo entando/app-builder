@@ -9,8 +9,23 @@ import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class GroupDetailTabPages extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
+  }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.page);
+  }
+
+  changePage(page) {
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderRows() {

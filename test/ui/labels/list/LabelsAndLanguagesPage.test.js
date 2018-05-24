@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 
 const onWillMount = jest.fn();
+const onClickTab = jest.fn();
 
 describe('LabelsAndLanguagesPage', () => {
   let component;
@@ -16,6 +17,7 @@ describe('LabelsAndLanguagesPage', () => {
     page: 1,
     pageSize: 10,
     totalItems: 10,
+    onClickTab,
   };
 
   describe('basic rendering', () => {
@@ -39,18 +41,16 @@ describe('LabelsAndLanguagesPage', () => {
       expect(component.find('PageTitle').exists()).toBe(true);
     });
 
-    it('when clicking on Languages tab, it should render the languages', () => {
-      const onClick = component.find('.LabelsAndLanguagesPage__header-tab').at(0).prop('onClick');
-      onClick();
-      expect(component.state('activeTab')).toBe('languages');
+    it('verify click on header tab labels', () => {
+      component.find('.LabelsAndLanguagesPage__header-tab-labels').simulate('click');
+      expect(onClickTab).toHaveBeenCalledWith('labels');
     });
-
-    it('when clicking on Labels tab, it should render the labels', () => {
-      const onClick = component.find('.LabelsAndLanguagesPage__header-tab').at(1).prop('onClick');
-      onClick();
-      expect(component.state('activeTab')).toBe('labels');
+    it('verify click on header tab languages', () => {
+      component.find('.LabelsAndLanguagesPage__header-tab-languages').simulate('click');
+      expect(onClickTab).toHaveBeenCalledWith('languages');
     });
   });
+
 
   it('it calls onWillMount at rendering', () => {
     const onWillMountMock = jest.fn();

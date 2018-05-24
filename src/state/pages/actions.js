@@ -9,9 +9,9 @@ import {
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
-  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE,
+  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
@@ -123,6 +123,10 @@ export const updatePage = page => ({
   payload: {
     page,
   },
+});
+
+export const clearTree = () => ({
+  type: CLEAR_TREE,
 });
 
 // TODO: generalize and centralize this function to cleanup API calls
@@ -283,7 +287,6 @@ export const fetchPageSettings = () => async (dispatch) => {
   throw new TypeError('No JSON content-type in response headers');
 };
 
-
 export const sendPutPage = pageData => async (dispatch) => {
   const response = await putPage(pageData);
   const contentType = response.headers.get('content-type');
@@ -305,27 +308,23 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   })
   .catch(() => {});
 
-export const loadSelectedPage = pageCode => (dispatch, getState) => {
-  const selectedPage = getSelectedPage(getState());
-  if (selectedPage && selectedPage.code === pageCode) {
-    return new Promise(r => r(selectedPage));
-  }
-  return fetchPage(pageCode)(dispatch)
+export const loadSelectedPage = pageCode => dispatch =>
+  fetchPage(pageCode)(dispatch)
     .then((response) => {
       dispatch(setSelectedPage(response.payload));
       return response.payload;
     })
     .catch(() => {});
-};
-
-
 const putSelectedPageStatus = status => (dispatch, getState) =>
   new Promise((resolve) => {
     const page = getSelectedPage(getState());
     if (!page) {
       resolve();
     }
-    const newPage = { ...page, status };
+    const newPage = {
+      ...page,
+      status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
+    };
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));

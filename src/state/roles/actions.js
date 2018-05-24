@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
+import { addToast } from 'state/toasts/actions';
 import {
   getRoles, getRole, postRole, putRole, deleteRole,
   getUserReferences,
@@ -7,7 +8,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-// import { fetchPermissions } from 'state/permissions/actions';
+import { TOAST_ERROR } from 'state/toasts/const';
 import {
   SET_ROLES, SET_SELECTED, REMOVE_ROLE,
   SET_USER_REFS,
@@ -53,6 +54,7 @@ export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dis
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
           dispatch(toggleLoading('roles'));
         }
         resolve();
@@ -68,6 +70,7 @@ export const fetchRole = roleCode => dispatch =>
           dispatch(initialize('role', data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
@@ -82,6 +85,7 @@ export const fetchRoleDetail = roleCode => dispatch =>
           dispatch(setSelected(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
@@ -96,6 +100,7 @@ export const sendPostRole = rolesData => dispatch =>
           gotoRoute(ROUTE_ROLE_LIST);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
@@ -110,6 +115,7 @@ export const sendPutRole = rolesData => dispatch =>
           gotoRoute(ROUTE_ROLE_LIST);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
@@ -124,6 +130,7 @@ export const sendDeleteRole = roleCode => dispatch =>
           dispatch(removeRole(roleCode));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         resolve();
       });
@@ -140,6 +147,7 @@ export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          dispatch(addToast(data.errors[0].message, TOAST_ERROR));
         }
         dispatch(toggleLoading('references'));
         resolve();

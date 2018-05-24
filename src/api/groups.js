@@ -1,11 +1,7 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GROUPS_NORMALIZED,
-  PAGE_REFERENCES,
-  USER_REFERENCES,
-  WIDGETTYPE_REFERENCES,
-  GROUP_CONTENT_REFERENCES,
-  RESOURCE_REFERENCES,
+  MOCK_REFERENCES,
   LIST_GROUPS_OK,
   BODY_OK,
 } from 'test/mocks/groups';
@@ -23,9 +19,6 @@ const getGroupErrors = groupname => (
   GROUPS_NORMALIZED.groups.map[groupname] ? [] :
     [{ code: 1, message: 'invalid group name' }]
 );
-
-const getErrorsReferences = (ref, groupname) =>
-  (ref[groupname] ? [] : [{ code: 1, message: 'invalid group name' }]);
 
 const getGenericError = obj => (
   obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]
@@ -85,22 +78,12 @@ export const deleteGroup = groupCode => (
   })
 );
 
-export const getReferences = (entityName, mockRefs) =>
-  (page = { page: 1, pageSize: 10 }, groupname) => makeRequest(
-    {
-      uri: `/api/groups/${groupname}/references/${entityName}`,
-      method: METHODS.GET,
-      mockResponse: mockRefs[groupname] ? mockRefs[groupname].list : [],
-      useAuthentication: true,
-      errors: () => getErrorsReferences(mockRefs, groupname),
-    },
-    page,
-  );
-
-export const getPageReferences = getReferences('PageManager', PAGE_REFERENCES);
-export const getUserReferences = getReferences('UserManager', USER_REFERENCES);
-export const getWidgetTypeReferences = getReferences('WidgetTypeManager', WIDGETTYPE_REFERENCES);
-export const getContentReferences = getReferences('jacmsContentManager', GROUP_CONTENT_REFERENCES);
-export const getResourceReferences = getReferences('jacmsResourceManager', RESOURCE_REFERENCES);
-
-export default getGroups;
+export const getReferences = (page, groupCode, referenceKey) => makeRequest(
+  {
+    uri: `/api/groups/${groupCode}/references/${referenceKey}`,
+    method: METHODS.GET,
+    mockResponse: MOCK_REFERENCES[referenceKey] || [],
+    useAuthentication: true,
+  },
+  page,
+);

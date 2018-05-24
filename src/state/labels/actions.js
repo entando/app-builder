@@ -4,7 +4,7 @@ import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/label
 import { setPage } from 'state/pagination/actions';
 import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB } from 'state/labels/types';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 export const setLabels = labels => ({
@@ -28,6 +28,12 @@ export const removeLabelSync = labelCode => ({
   },
 });
 
+export const setActiveTab = activeTab => ({
+  type: SET_ACTIVE_TAB,
+  payload: {
+    activeTab,
+  },
+});
 
 // thunks
 
@@ -71,6 +77,7 @@ export const updateLabel = label => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateLabelSync(label));
+          dispatch(setActiveTab('labels'));
           gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
@@ -87,6 +94,7 @@ export const createLabel = label => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateLabelSync(label));
+          dispatch(setActiveTab('labels'));
           gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));

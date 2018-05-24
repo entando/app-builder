@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import FileBreadcrumb from 'ui/file-browser/list/FileBreadcrumb';
+import FileBreadcrumb from 'ui/file-browser/common/FileBreadcrumb';
 
 jest.mock('state/file-browser/selectors', () => ({
   getPathInfo: jest.fn(),

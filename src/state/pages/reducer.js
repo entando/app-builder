@@ -13,6 +13,7 @@ import {
   UPDATE_PAGE,
   SEARCH_PAGES,
   CLEAR_SEARCH,
+  CLEAR_TREE,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -65,6 +66,9 @@ const reducer = (state = {}, action = {}) => {
     case UPDATE_PAGE: {
       const { page } = action.payload;
       return { ...state, [page.code]: page };
+    }
+    case CLEAR_TREE: {
+      return {};
     }
     default: return state;
   }
@@ -120,6 +124,9 @@ const childrenMap = (state = {}, action = {}) => {
       delete newState[code];
       return newState;
     }
+    case CLEAR_TREE: {
+      return {};
+    }
     default: return state;
   }
 };
@@ -137,6 +144,9 @@ const titlesMap = (state = {}, action = {}) => {
       const newState = { ...state };
       delete newState[code];
       return newState;
+    }
+    case CLEAR_TREE: {
+      return {};
     }
     default: return state;
   }
@@ -166,6 +176,9 @@ const statusMap = (state = {}, action = {}) => {
         [pageCode]: { ...state[pageCode], loaded: true, loading: false },
       };
     }
+    case CLEAR_TREE: {
+      return {};
+    }
     default: return state;
   }
 };
@@ -174,6 +187,9 @@ const freePages = (state = [], action = {}) => {
   switch (action.type) {
     case SET_FREE_PAGES: {
       return action.payload.freePages;
+    }
+    case CLEAR_TREE: {
+      return [];
     }
     default: return state;
   }
@@ -191,6 +207,9 @@ const selected = (state = null, action = {}) => {
     case REMOVE_PAGE: {
       const { code } = action.payload.page;
       return state && state.code === code ? null : state;
+    }
+    case CLEAR_TREE: {
+      return null;
     }
     default: return state;
   }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
-  ProjectLink,
   HelpMenu,
   AdminAppSwitch,
   LinkMenuItem,
@@ -24,13 +23,13 @@ import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuCo
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
+import ToastsContainer from 'ui/internal-page/ToastsContainer';
+import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 
-const PROJECT_LINK = 'http://www.entando.com';
-const PROJECT_NAME = 'ENTANDO';
 const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
 const menuHeader = [
-  <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
+  <HomePageLinkContainer key="projectLink" />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
@@ -168,6 +167,7 @@ const InternalPage = ({ className, children }) => (
     <ActivityStreamContainer >
       <NotificationListContainer />
     </ActivityStreamContainer>
+    <ToastsContainer />
     {children}
   </div>
 );

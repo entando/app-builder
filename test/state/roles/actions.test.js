@@ -11,6 +11,7 @@ import { SET_ROLES, REMOVE_ROLE, SET_SELECTED, SET_USER_REFS } from 'state/roles
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS } from 'state/errors/types';
+import { ADD_TOAST } from 'state/toasts/types';
 import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];
@@ -92,9 +93,10 @@ describe('state/roles/actions', () => {
       store.dispatch(fetchRoles()).then(() => {
         expect(getRoles).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -114,8 +116,9 @@ describe('state/roles/actions', () => {
       store.dispatch(fetchRole(BODY_OK)).then(() => {
         expect(getRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -135,8 +138,9 @@ describe('state/roles/actions', () => {
       store.dispatch(sendPostRole(BODY_OK)).then(() => {
         expect(postRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -156,8 +160,9 @@ describe('state/roles/actions', () => {
       store.dispatch(sendPutRole(BODY_OK)).then(() => {
         expect(putRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -181,8 +186,9 @@ describe('state/roles/actions', () => {
       store.dispatch(sendDeleteRole(ROLE_CODE)).then(() => {
         expect(deleteRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -202,8 +208,9 @@ describe('state/roles/actions', () => {
       store.dispatch(fetchRoleDetail(GET_ROLE_PAYLOAD.code)).then(() => {
         expect(getRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -223,10 +230,11 @@ describe('state/roles/actions', () => {
       store.dispatch(fetchUserRefs(GET_ROLE_PAYLOAD.code)).then(() => {
         expect(getUserReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

@@ -35,7 +35,7 @@ describe('pagination selectors', () => {
   let page;
 
   const setPage = (mockState) => {
-    state = { pagination: mockState };
+    state = { pagination: { global: mockState } };
     page = mockState;
   };
 
@@ -114,6 +114,31 @@ describe('pagination selectors', () => {
     it('returns the current page if the current page is the first page', () => {
       setPage(firstPage);
       expect(getPreviousPage(state)).toEqual(page.page);
+    });
+  });
+
+  describe('access different namespace', () => {
+    beforeEach(() => {
+      state = {
+        pagination: {
+          global: state.pagination.global,
+          custom: lastPage,
+        },
+      };
+    });
+
+    it('the global namespace is still accessable', () => {
+      expect(getCurrentPage(state)).toEqual(firstPage.page);
+      expect(getLastPage(state)).toEqual(firstPage.lastPage);
+      expect(getPageSize(state)).toEqual(firstPage.pageSize);
+      expect(getTotalItems(state)).toEqual(firstPage.totalItems);
+    });
+
+    it('can access another existing namespace', () => {
+      expect(getCurrentPage(state, 'custom')).toEqual(lastPage.page);
+      expect(getLastPage(state, 'custom')).toEqual(lastPage.lastPage);
+      expect(getPageSize(state, 'custom')).toEqual(lastPage.pageSize);
+      expect(getTotalItems(state, 'custom')).toEqual(lastPage.totalItems);
     });
   });
 });

@@ -26,6 +26,7 @@ jest.mock('state/page-config/selectors', () => ({
 jest.mock('state/pages/selectors', () => ({
   getSelectedPage: jest.fn(),
   getSelectedPageIsPublished: jest.fn(),
+  getSelectedPagePreviewURI: jest.fn().mockReturnValue('getSelectedPagePreviewURI_result'),
 }));
 
 jest.mock('state/locale/selectors', () => ({

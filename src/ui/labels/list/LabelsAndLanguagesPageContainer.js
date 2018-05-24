@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 
 import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 import { fetchLanguages } from 'state/languages/actions';
-import { fetchLabels } from 'state/labels/actions';
+import { fetchLabels, setActiveTab } from 'state/labels/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
+import { getActiveTab } from 'state/labels/selectors';
 import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = state => (
@@ -13,10 +14,12 @@ export const mapStateToProps = state => (
     pageSize: getPageSize(state),
     loadingLabels: getLoading(state).systemLabels,
     loadingLangs: getLoading(state).languages,
+    activeTab: getActiveTab(state),
   }
 );
 
 export const mapDispatchToProps = dispatch => ({
+  onClickTab: tabId => dispatch(setActiveTab(tabId)),
   onWillMount: (page) => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchLabels(page));

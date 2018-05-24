@@ -16,6 +16,7 @@ const INITIAL_STATE = {
 jest.mock('state/categories/actions', () => ({
   fetchCategoryTree: jest.fn().mockReturnValue('fetchCategoryTree_result'),
   handleExpandCategory: jest.fn().mockReturnValue('handleExpandCategory_result'),
+  initCategoryForm: jest.fn().mockReturnValue('initCategoryForm_result'),
 
 }));
 
@@ -76,6 +77,12 @@ describe('CategoryTreeContainer', () => {
       props.onClickDelete(CATEGORY_CODE);
       expect(dispatchMock).toHaveBeenCalledWith('setVisibleModal_result');
       expect(dispatchMock).toHaveBeenCalledWith('setInfo_result');
+    });
+
+    it('should dispatch initCategoryForm onClickAdd is called', () => {
+      expect(props.onClickAdd).toBeDefined();
+      props.onClickAdd(CATEGORY_CODE);
+      expect(dispatchMock).toHaveBeenCalledWith('initCategoryForm_result');
     });
   });
 });

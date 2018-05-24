@@ -32,6 +32,7 @@ import configuration from 'state/reload-configuration/reducer';
 import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
+import toasts from 'state/toasts/reducer';
 
 const reducerDef = {
   activityStream,
@@ -63,6 +64,7 @@ const reducerDef = {
   profileTypes,
   roles,
   router,
+  toasts,
   users,
   widgets,
 };

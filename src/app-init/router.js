@@ -13,7 +13,6 @@ export const ROUTE_PAGE_TREE = 'pageTree';
 export const ROUTE_PAGE_DETAIL = 'pageDetail';
 export const ROUTE_PAGE_SETTINGS = 'pageSettings';
 export const ROUTE_PAGE_CONFIG = 'pageConfiguration';
-export const ROUTE_PAGE_PREVIEW = 'pagePreview';
 export const ROUTE_PAGE_MODEL_LIST = 'pageModelList';
 export const ROUTE_PAGE_MODEL_ADD = 'pageModelAdd';
 export const ROUTE_PAGE_MODEL_EDIT = 'pageModelEdit';
@@ -72,6 +71,8 @@ export const ROUTE_DATABASE_REPORT = 'databaseReport';
 export const ROUTE_DATABASE_DUMP_TABLE = 'databaseDumpTable';
 export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
+export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
+export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
 
 routerConfig(
   store,
@@ -89,7 +90,6 @@ routerConfig(
       { name: ROUTE_PAGE_EDIT, path: '/page/edit/:pageCode' },
       { name: ROUTE_PAGE_SETTINGS, path: '/page/settings' },
       { name: ROUTE_PAGE_CONFIG, path: '/page/configuration/:pageCode' },
-      { name: ROUTE_PAGE_PREVIEW, path: '/page/preview/:pageCode' },
       { name: ROUTE_PAGE_MODEL_LIST, path: '/page-model' },
       { name: ROUTE_PAGE_MODEL_ADD, path: '/page-model/add' },
       { name: ROUTE_PAGE_MODEL_EDIT, path: '/page-model/edit/:pageModelCode' },
@@ -146,7 +146,9 @@ routerConfig(
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
       { name: ROUTE_DATABASE_DUMP_TABLE, path: '/database/report/dumpTable/:dumpCode' },
-      { name: ROUTE_FILE_BROWSER, path: '/fileBrowser' },
+      { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
+      { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/file-browser/upload' },
+      { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

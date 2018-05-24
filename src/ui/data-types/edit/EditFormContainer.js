@@ -39,5 +39,5 @@ export const mapDispatchToProps = dispatch => ({
   },
 
 });
-const DataTypeFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeForm);
-export default DataTypeFormContainer;
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataTypeForm);

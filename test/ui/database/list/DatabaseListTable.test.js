@@ -9,6 +9,7 @@ const props = {
   databases: DATABASE_DUMP_REPORT_LIST,
   onWillMount: jest.fn(),
   onClickDelete: jest.fn(),
+  status: 0,
 };
 
 describe('DatabaseListTable', () => {

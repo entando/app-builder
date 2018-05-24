@@ -4,19 +4,11 @@ import {
   postGroup,
   putGroup,
   getGroup,
-  getPageReferences,
-  getUserReferences,
-  getWidgetTypeReferences,
-  getContentReferences,
-  getResourceReferences,
+  getReferences,
 } from 'api/groups';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
-  PAGE_REFERENCES,
-  USER_REFERENCES,
-  WIDGETTYPE_REFERENCES,
-  GROUP_CONTENT_REFERENCES,
-  RESOURCE_REFERENCES,
+  MOCK_REFERENCES,
   LIST_GROUPS_OK,
   BODY_OK,
 } from 'test/mocks/groups';
@@ -148,118 +140,21 @@ describe('api/groups', () => {
     });
   });
 
-  describe('getPageReferences', () => {
+  describe('getReferences', () => {
     it('returns a promise', () => {
-      expect(getPageReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
+      expect(getReferences({ page: 1, pageSize: 10 }, 'administrators', 'PageManager')).toBeInstanceOf(Promise);
     });
 
     it('makes the request with additional params', () => {
       const correctRequestPageReferences = {
         uri: '/api/groups/administrators/references/PageManager',
         method: METHODS.GET,
-        mockResponse: PAGE_REFERENCES.administrators.list,
+        mockResponse: MOCK_REFERENCES.PageManager,
         useAuthentication: true,
-        errors: expect.any(Function),
       };
-      getPageReferences({ page: 1, pageSize: 10 }, 'administrators');
+      getReferences({ page: 1, pageSize: 10 }, 'administrators', 'PageManager');
       expect(makeRequest).toHaveBeenCalledWith(
         correctRequestPageReferences,
-        {
-          page: 1,
-          pageSize: 10,
-        },
-      );
-    });
-  });
-
-  describe('getUserReferences', () => {
-    it('returns a promise', () => {
-      expect(getUserReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
-    });
-
-    it('makes the request with additional params', () => {
-      const correctRequestUserReferences = {
-        uri: '/api/groups/administrators/references/UserManager',
-        method: METHODS.GET,
-        mockResponse: USER_REFERENCES.administrators.list,
-        useAuthentication: true,
-        errors: expect.any(Function),
-      };
-      getUserReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeRequest).toHaveBeenCalledWith(
-        correctRequestUserReferences,
-        {
-          page: 1,
-          pageSize: 10,
-        },
-      );
-    });
-  });
-
-  describe('getWidgetTypeReferences', () => {
-    it('returns a promise', () => {
-      expect(getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
-    });
-
-    it('makes the request with additional params', () => {
-      const correctRequestWidgetTypeReferences = {
-        uri: '/api/groups/administrators/references/WidgetTypeManager',
-        method: METHODS.GET,
-        mockResponse: WIDGETTYPE_REFERENCES.administrators.list,
-        useAuthentication: true,
-        errors: expect.any(Function),
-      };
-      getWidgetTypeReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeRequest).toHaveBeenCalledWith(
-        correctRequestWidgetTypeReferences,
-        {
-          page: 1,
-          pageSize: 10,
-        },
-      );
-    });
-  });
-
-  describe('getContentReferences', () => {
-    it('returns a promise', () => {
-      expect(getContentReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
-    });
-
-    it('makes the request with additional params', () => {
-      const correctRequestContentReferences = {
-        uri: '/api/groups/administrators/references/jacmsContentManager',
-        method: METHODS.GET,
-        mockResponse: GROUP_CONTENT_REFERENCES.administrators.list,
-        useAuthentication: true,
-        errors: expect.any(Function),
-      };
-      getContentReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeRequest).toHaveBeenCalledWith(
-        correctRequestContentReferences,
-        {
-          page: 1,
-          pageSize: 10,
-        },
-      );
-    });
-  });
-
-  describe('getResourceReferences', () => {
-    it('returns a promise', () => {
-      expect(getResourceReferences({ page: 1, pageSize: 10 }, 'administrators')).toBeInstanceOf(Promise);
-    });
-
-    it('makes the request with additional params', () => {
-      const correctRequestResourceReferences = {
-        uri: '/api/groups/administrators/references/jacmsResourceManager',
-        method: METHODS.GET,
-        mockResponse: RESOURCE_REFERENCES.administrators.list,
-        useAuthentication: true,
-        errors: expect.any(Function),
-      };
-      getResourceReferences({ page: 1, pageSize: 10 }, 'administrators');
-      expect(makeRequest).toHaveBeenCalledWith(
-        correctRequestResourceReferences,
         {
           page: 1,
           pageSize: 10,

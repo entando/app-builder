@@ -13,13 +13,13 @@ import {
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, fetchSearchPages,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
-  fetchReferencesPage, setReferenceSelectedPage, clonePage,
+  fetchReferencesPage, setReferenceSelectedPage, clonePage, clearTree,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
-  SET_REFERENCES_SELECTED_PAGE,
+  SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -124,6 +124,21 @@ describe('state/pages/actions', () => {
 
     it('actions is correct setup ', () => {
       expect(action).toHaveProperty('type', CLEAR_SEARCH);
+    });
+  });
+
+  describe('clearTree', () => {
+    let action;
+    beforeEach(() => {
+      action = clearTree();
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', CLEAR_TREE);
     });
   });
 
@@ -663,28 +678,6 @@ describe('loadSelectedPage', () => {
       expect(getPage).toHaveBeenCalled();
       const actionsTypes = store.getActions().map(action => action.type);
       expect(actionsTypes).toEqual([SET_SELECTED_PAGE]);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('if there is a selected page but is not the one we need, load the page', (done) => {
-    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
-
-    store.dispatch(loadSelectedPage('RANDOM_CODE')).then(() => {
-      expect(getPage).toHaveBeenCalled();
-      const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([SET_SELECTED_PAGE]);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('if there is a selected page and it is the one we need, do not load the page', (done) => {
-    getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
-    store.dispatch(loadSelectedPage(HOMEPAGE_PAYLOAD.code)).then(() => {
-      expect(getPage).not.toHaveBeenCalled();
-      expect(store.getActions()).toHaveLength(0);
       done();
     }).catch(done.fail);
   });

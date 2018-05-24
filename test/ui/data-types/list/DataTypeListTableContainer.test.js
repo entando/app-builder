@@ -21,7 +21,7 @@ const TEST_STATE = {
       },
     },
   },
-  pagination: DATA_TYPES_OK_PAGE_1.metaData,
+  pagination: { global: DATA_TYPES_OK_PAGE_1.metaData },
 };
 
 const dispatchMock = jest.fn();
@@ -54,9 +54,9 @@ describe('DataTypeListTableContainer', () => {
   it('maps datatype list property state in DataTypesListTable', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       datatypes: DATA_TYPES_OK_PAGE_1.payload,
-      page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
-      pageSize: TEST_STATE.pagination.pageSize,
+      page: TEST_STATE.pagination.global.page,
+      totalItems: TEST_STATE.pagination.global.totalItems,
+      pageSize: TEST_STATE.pagination.global.pageSize,
     });
   });
 

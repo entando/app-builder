@@ -30,7 +30,9 @@ const TEST_STATE = {
       },
     },
   },
-  pagination: TEST_PAGINATION.metaData,
+  pagination: {
+    global: TEST_PAGINATION.metaData,
+  },
 };
 
 const dispatchMock = jest.fn();
@@ -63,9 +65,9 @@ describe('ProfileTypeListTableContainer', () => {
   it('maps profiletype list property state in ProfileTypesListTable', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       profiletypes: PROFILE_TYPES_OK_PAGE_1.payload,
-      page: TEST_STATE.pagination.page,
-      totalItems: TEST_STATE.pagination.lastPage * TEST_STATE.pagination.pageSize,
-      pageSize: TEST_STATE.pagination.pageSize,
+      page: TEST_STATE.pagination.global.page,
+      totalItems: TEST_STATE.pagination.global.totalItems,
+      pageSize: TEST_STATE.pagination.global.pageSize,
     });
   });
 

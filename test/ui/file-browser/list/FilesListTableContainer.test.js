@@ -32,12 +32,13 @@ getPathInfo.mockReturnValue(path);
 const dispatchMock = jest.fn();
 
 describe('FilesListTableContainer', () => {
-  it('maps files List property state', () => {
-    const props = mapStateToProps({});
-    expect(props).toHaveProperty('files', FILE_BROWSER);
-    expect(props).toHaveProperty('pathInfo', path);
+  describe('mapStateToProps', () => {
+    it('maps files List property state', () => {
+      const props = mapStateToProps({});
+      expect(props).toHaveProperty('files', FILE_BROWSER);
+      expect(props).toHaveProperty('pathInfo', path);
+    });
   });
-
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {

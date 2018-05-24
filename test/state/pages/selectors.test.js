@@ -7,7 +7,9 @@ import {
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
   getPageTreePages, getCharsets, getContentTypes, getFreePages, getReferencesFromSelectedPage,
+  getSelectedPagePreviewURI,
 } from 'state/pages/selectors';
+import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 const LOCALE_MOCK = 'en';
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
@@ -203,6 +205,19 @@ describe('state/pages/selectors', () => {
       const data = getReferencesFromSelectedPage(STATE);
       expect(data).toBeDefined();
       expect(data).toEqual(expect.arrayContaining([]));
+    });
+  });
+
+  describe('getSelectedPagePreviewURI', () => {
+    it('get preview page uri ', () => {
+      const STATE = {
+        pages: {
+          selected: { ...HOMEPAGE_PAYLOAD, token: 'token_mock' },
+        },
+      };
+      const data = getSelectedPagePreviewURI(STATE);
+      expect(data)
+        .toBe(`getDomain_result/${PREVIEW_NAMESPACE}?pageCode=${HOMEPAGE_PAYLOAD.code}&token=token_mock`);
     });
   });
 });

@@ -6,12 +6,27 @@ import { Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 
 class GroupDetailTabWidgetTypes extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
+  }
+
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.page);
+  }
+
+  changePage(page) {
+    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   renderRows() {
-    return this.props.pageReferences.map(item => (
+    return this.props.widgetReferences.map(item => (
       <tr key={item.code}>
         <td>{item.title}</td>
         <td>{item.code}</td>
@@ -20,7 +35,7 @@ class GroupDetailTabWidgetTypes extends React.Component {
   }
 
   renderTable() {
-    if (this.props.pageReferences.length > 0) {
+    if (this.props.widgetReferences.length > 0) {
       const pagination = {
         page: this.props.page,
         perPage: this.props.pageSize,
@@ -73,7 +88,7 @@ class GroupDetailTabWidgetTypes extends React.Component {
 GroupDetailTabWidgetTypes.propTypes = {
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
-  pageReferences: PropTypes.arrayOf(PropTypes.shape({
+  widgetReferences: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     title: PropTypes.string,
   })),
@@ -85,7 +100,7 @@ GroupDetailTabWidgetTypes.propTypes = {
 GroupDetailTabWidgetTypes.defaultProps = {
   onWillMount: () => {},
   loading: false,
-  pageReferences: [],
+  widgetReferences: [],
 };
 
 export default GroupDetailTabWidgetTypes;

@@ -36,7 +36,7 @@ class FragmentListTable extends Component {
         <table className="FragmentListTable__table table table-striped table-bordered">
           <thead>
             <tr>
-              <th><FormattedMessage id="app.name" /></th>
+              <th><FormattedMessage id="app.code" /></th>
               <th><FormattedMessage id="fragment.table.widgetType" /></th>
               <th className="text-center" width="10%">
                 <FormattedMessage id="fragment.table.plugin" />
