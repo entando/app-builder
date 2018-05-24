@@ -17,25 +17,17 @@ export const getUserList = createSelector(
 
 const getGroupRolesComboValue = state => formValueSelector('autorityForm')(state, 'groupRolesCombo');
 
-
-const getArrayData = array => (groups, roles) =>
-  array.reduce((acc, item) => {
-    acc.push({
-      group: item.group ? { code: groups[item.group].code, name: groups[item.group].name } : {},
-      role: item.role ? { code: roles[item.role].code, name: roles[item.role].name } : {},
-    });
-    return acc;
-  }, []);
-
 export const getGroupRolesCombo =
   createSelector(
     getGroupRolesComboValue, getGroupsMap, getRolesMap,
     (groupRoleCombo, groups, roles) => {
-      let result = [];
       if (groupRoleCombo) {
-        result = getArrayData(groupRoleCombo)(groups, roles);
+        return groupRoleCombo.map(item => ({
+          group: item.group ? { code: item.group, name: groups[item.group].name } : {},
+          role: item.role ? { code: item.role, name: roles[item.role].name } : {},
+        }));
       }
-      return result;
+      return [];
     },
 
   );
