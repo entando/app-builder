@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
+import { clearErrors } from 'state/errors/actions';
 import PageModelForm from 'ui/page-models/common/PageModelForm';
-import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 export const mapStateToProps = state => ({
   previewCellMap: getPageModelFormCellMap(state),
@@ -13,19 +12,20 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onSubmit: () => {
-    let promise;
-    if (ownProps.mode === 'edit') {
-      promise = dispatch(updatePageModel());
-    } else {
-      promise = dispatch(createPageModel());
-    }
-    return promise.then(() => {
-      gotoRoute(ROUTE_PAGE_MODEL_LIST);
-    });
-  },
+  onSubmit: (data) => {
+    const jsonData = {
+      ...data,
+      configuration: data.configuration ? JSON.parse(data.configuration) : {},
+    };
 
+    if (ownProps.mode === 'edit') {
+      dispatch(updatePageModel(jsonData));
+    } else {
+      dispatch(createPageModel(jsonData));
+    }
+  },
   onWillMount: () => {
+    dispatch(clearErrors());
     if (ownProps.mode === 'edit') {
       dispatch(initPageModelForm());
     } else {

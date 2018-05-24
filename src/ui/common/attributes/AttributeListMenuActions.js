@@ -42,13 +42,14 @@ AttributeListMenuActions.propTypes = {
   onMoveDown: PropTypes.func,
   code: PropTypes.string.isRequired,
   routeToEdit: PropTypes.string.isRequired,
-  datatypeCode: PropTypes.string.isRequired,
+  datatypeCode: PropTypes.string,
 };
 
 AttributeListMenuActions.defaultProps = {
   onClickDelete: null,
   onMoveUp: null,
   onMoveDown: null,
+  datatypeCode: '',
 };
 
 export default AttributeListMenuActions;

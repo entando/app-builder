@@ -1,8 +1,5 @@
 import 'test/enzyme-init';
-import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/list/CategoryTreeContainer';
-import { ROUTE_CATEGORY_ADD } from 'app-init/router';
 
 const CATEGORY_CODE = 'category_code';
 
@@ -19,6 +16,7 @@ const INITIAL_STATE = {
 jest.mock('state/categories/actions', () => ({
   fetchCategoryTree: jest.fn().mockReturnValue('fetchCategoryTree_result'),
   handleExpandCategory: jest.fn().mockReturnValue('handleExpandCategory_result'),
+  initCategoryForm: jest.fn().mockReturnValue('initCategoryForm_result'),
 
 }));
 
@@ -81,13 +79,10 @@ describe('CategoryTreeContainer', () => {
       expect(dispatchMock).toHaveBeenCalledWith('setInfo_result');
     });
 
-    it('should dispatch initialize and gotoRoute if onClickAdd is called', () => {
+    it('should dispatch initCategoryForm onClickAdd is called', () => {
       expect(props.onClickAdd).toBeDefined();
       props.onClickAdd(CATEGORY_CODE);
-      expect(initialize).toHaveBeenCalledWith('category', {
-        parentCode: CATEGORY_CODE,
-      });
-      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_CATEGORY_ADD);
+      expect(dispatchMock).toHaveBeenCalledWith('initCategoryForm_result');
     });
   });
 });
