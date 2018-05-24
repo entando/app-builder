@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Alert, Spinner, Icon, DropdownKebab } from 'patternfly-react';
+import { Col, Alert, Spinner, Icon, DropdownKebab, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { LinkMenuItem } from 'frontend-common-components';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
@@ -54,13 +54,13 @@ class FilesListTable extends Component {
         }
         return (
           <DropdownKebab pullRight id={`${file.name}-actions`}>
-            <LinkMenuItem
+            <MenuItem
               id={`download-${file.name}`}
-              route={ROUTE_FILE_BROWSER}
-              params={{ fileName: file.name }}
-              label={downloadLabel}
               className="FilesListMenuAction__menu-item-detail"
-            />
+              onClick={this.onClickDownload(file)}
+            >
+              {downloadLabel}
+            </MenuItem>
             <LinkMenuItem
               id={`delete-${file.name}`}
               route={ROUTE_FILE_BROWSER}
@@ -84,7 +84,7 @@ class FilesListTable extends Component {
         );
       }
       return (
-        <a className="FilesListTable__link-download" href="" download onClick={this.onClickDownload(file)}>
+        <a className="FilesListTable__link-download" role="presentation" download onClick={this.onClickDownload(file)}>
           <Icon size="lg" name="file" /> {file.name}
         </a>
       );
