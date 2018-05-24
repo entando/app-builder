@@ -25,6 +25,7 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
+import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
@@ -64,6 +65,7 @@ import {
   ROUTE_USER_EDIT,
   ROUTE_USER_DETAIL,
   ROUTE_USER_RESTRICTIONS,
+  ROUTE_USER_MY_PROFILE,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -204,6 +206,11 @@ describe('App', () => {
   it('route to user restrictions page', () => {
     const component = shallow(<App route={ROUTE_USER_RESTRICTIONS} username="admin" />);
     expect(component.contains(<UserRestrictionsPage />)).toBe(true);
+  });
+
+  it('route to user restrictions page', () => {
+    const component = shallow(<App route={ROUTE_USER_MY_PROFILE} username="admin" />);
+    expect(component.contains(<MyProfilePage />)).toBe(true);
   });
 
   it('route to group list page', () => {

@@ -37,6 +37,7 @@ export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
 export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
+export const ROUTE_USER_MY_PROFILE = 'myProfile';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
@@ -111,6 +112,7 @@ routerConfig(
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
       { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
+      { name: ROUTE_USER_MY_PROFILE, path: '/myProfile' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
