@@ -6,7 +6,7 @@ import { Table, Alert } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 
 import { LinkMenuItem } from 'frontend-common-components';
-import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class PageModelPageReferencesTable extends Component {
   componentWillMount() {
@@ -19,15 +19,15 @@ class PageModelPageReferencesTable extends Component {
     const goTo = formattedText('group.action.goto');
     const pageConfiguration = formattedText('group.action.pageConfiguration');
     return this.props.pageReferences.map(item => (
-      <tr key={item.code}>
+      <tr key={`ref-${item.code}-${item.lastModified}`}>
         <td>{item.status}</td>
         <td>{item.fullTitle}</td>
         <td className="text-center">
           <DropdownKebab id={`kebab-${item.code}`} pullRight>
             <LinkMenuItem
               id={`goto-${item.code}`}
-              route={ROUTE_PAGE}
-              params={{ page: item.code }}
+              route={ROUTE_PAGE_EDIT}
+              params={{ pageCode: item.code }}
               label={`${goTo} ${item.title}`}
               className="PageModelPageReferencesTable__menu-item-goto"
             />
