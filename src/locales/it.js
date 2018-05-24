@@ -223,6 +223,8 @@ export default {
     'fileBrowser.createTextFile': 'Crea file di testo',
     'fileBrowser.createFolder': 'Crea cartella',
     'fileBrowser.uploadFile': 'Upload',
+    'fileBrowser.uploadFileComplete': 'Upload del file completato',
+    'fileBrowser.uploadFileError': 'Errore nell\'upload del file',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nome nuova cartella',
     'fileBrowser.help': 'La sezione FILE BROWSER permette di navigare le cartelle del file system.',

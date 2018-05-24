@@ -223,6 +223,8 @@ export default {
     'fileBrowser.createTextFile': 'Create text file',
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFile': 'Upload',
+    'fileBrowser.uploadFileComplete': 'Upload file complete',
+    'fileBrowser.uploadFileError': 'Error upload file',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New Folder Name',
     'fileBrowser.help': 'The FILE BROWSER section lets system administrators can browse the File System folders.',
