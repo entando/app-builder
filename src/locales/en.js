@@ -335,6 +335,7 @@ export default {
     'user.restrictions.form.gravatar': 'Enable Gravatar Integration (Avatar of users)',
     'user.restrictions.form.monthsSinceLastLogin.error': 'This value must be equal to or less than the previous field',
     'user.restrictions.months': 'month(s)',
+    'user.myProfile.help': 'The MY PROFILE section let user change the password of his account and manage the profile information.',
     'form.select.chooseOne': 'Choose one option',
     'user.profile.all': 'All',
     'user.profile.with': 'User with a profile',

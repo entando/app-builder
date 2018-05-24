@@ -21,7 +21,7 @@ const AddUserPage = () => (
       </Row>
       <PageTitle
         titleId="app.myProfile"
-        helpId="user.help"
+        helpId="user.myProfile.help"
       />
       <Row>
         <Col xs={12}>
