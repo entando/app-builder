@@ -9,6 +9,7 @@ import { ROUTE_USER_MY_PROFILE } from 'app-init/router';
 const UserMenu = ({ username, logout }) => (
   <UserDropdown key="userDropdown" userName={username}>
     <LinkMenuItem
+      id="my-profile"
       route={ROUTE_USER_MY_PROFILE}
       label={<span><Icon name="user" /> <FormattedMessage id="app.myProfile" /></span>}
     />

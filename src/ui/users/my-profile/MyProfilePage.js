@@ -5,6 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
 
 const AddUserPage = () => (
 
@@ -25,7 +26,7 @@ const AddUserPage = () => (
       />
       <Row>
         <Col xs={12}>
-          asdf
+          <PasswordFormContainer />
         </Col>
       </Row>
     </Grid>
