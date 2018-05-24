@@ -123,11 +123,12 @@ describe('api/fileBrowser', () => {
 
     it('makes the correct request', () => {
       const protectedFolder = false;
-      const path = 'folder/subfolder';
-      deleteFolder(protectedFolder, path);
+      const currentPath = 'folder/subfolder';
+      const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}`;
+      deleteFolder(queryString);
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/api/fileBrowser/directory',
-        body: { protectedFolder, path },
+        uri: `/api/fileBrowser/directory${queryString}`,
+        body: {},
         method: METHODS.DELETE,
         mockResponse: FILE_BROWSER_FOLDER,
         useAuthentication: true,

@@ -119,10 +119,10 @@ export const sendPostCreateFolder = values => (dispatch, getState) => (
     postCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
-      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess'), TOAST_SUCCESS));
+      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess', null, { path: values.path }), TOAST_SUCCESS));
       resolve();
     }).catch(() => {
-      dispatch(addToast(formattedText('fileBrowser.createFolderError'), TOAST_ERROR));
+      dispatch(addToast(formattedText('fileBrowser.createFolderError', null, { path: values.path }), TOAST_ERROR));
     });
   })
 );
@@ -136,12 +136,7 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(
-        formattedText(
-          'fileBrowser.deleteFolderSuccess',
-          null,
-          { path: values.path },
-
-        ),
+        formattedText('fileBrowser.deleteFolderSuccess', null, { path: values.path }),
         TOAST_SUCCESS,
       ));
       resolve();
@@ -151,7 +146,6 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
           'fileBrowser.deleteFolderError',
           null,
           { path: values.path },
-
         ),
         TOAST_ERROR,
       ));

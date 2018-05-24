@@ -5,6 +5,7 @@ import { fetchFileList } from 'state/file-browser/actions';
 
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 const path = {
   pathInfo: {
@@ -24,6 +25,10 @@ jest.mock('state/loading/selectors', () => ({
 
 jest.mock('state/file-browser/actions', () => ({
   fetchFileList: jest.fn(),
+}));
+jest.mock('state/modal/actions', () => ({
+  setInfo: jest.fn(),
+  setVisibleModal: jest.fn(),
 }));
 
 getFileList.mockReturnValue(FILE_BROWSER);
@@ -53,6 +58,13 @@ describe('FilesListTableContainer', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchFileList).toHaveBeenCalled();
+    });
+
+    it('should dispatch 2 actions if onClickDelete is called', () => {
+      props.onClickDelete({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalled();
+      expect(setInfo).toHaveBeenCalled();
     });
   });
 });

@@ -14,7 +14,7 @@ const FilesListMenuActions = ({ onClickDelete, file }) => {
       return (
         <DropdownKebab pullRight id={`${file}-actions`}>
           <MenuItem
-            className="FilesListMenuAction__menu-item-delete"
+            className="FilesListMenuAction__delete"
             onClick={() => onClickDelete(file)}
           >
             <FormattedMessage id="app.delete" />
@@ -29,14 +29,14 @@ const FilesListMenuActions = ({ onClickDelete, file }) => {
           route={ROUTE_FILE_BROWSER}
           params={{ fileName: file.name }}
           label={downloadLabel}
-          className="FilesListMenuAction__menu-item-detail"
+          className="FilesListMenuAction__download"
         />
         <LinkMenuItem
           id={`delete-${file.name}`}
           route={ROUTE_FILE_BROWSER}
           params={{ fileName: file.name }}
           label={deleteLabel}
-          className="FilesListMenuAction__menu-item-detail"
+          className="FilesListMenuAction__delete"
         />
       </DropdownKebab>
     );
