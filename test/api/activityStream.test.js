@@ -9,7 +9,7 @@ import {
 } from 'api/activityStream';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { COMMENT, NOTIFICATION } from 'test/mocks/activityStream';
+import { NOTIFICATIONS } from 'test/mocks/activityStream';
 
 jest.unmock('api/activityStream');
 jest.mock('@entando/apimanager', () => ({
@@ -18,9 +18,17 @@ jest.mock('@entando/apimanager', () => ({
 }));
 
 const RECORD = {
-  id: 10,
+  recordId: 10,
   comment: 'text comment',
   commentId: 99,
+};
+
+const correctRequest = {
+  uri: '/api/activityStream',
+  method: METHODS.GET,
+  mockResponse: NOTIFICATIONS,
+  useAuthentication: true,
+
 };
 
 describe('api/activityStream', () => {
@@ -35,11 +43,11 @@ describe('api/activityStream', () => {
 
     it('if successful, returns a mock ok response', () => {
       getActivityStream();
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: '/api/activityStream',
-        method: METHODS.GET,
-        useAuthentication: true,
-      }));
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
+      }, {
+        page: 1, pageSize: 10,
+      });
     });
   });
   describe('postActivityStreamComment', () => {
@@ -49,12 +57,12 @@ describe('api/activityStream', () => {
 
     it('if successful, returns a mock ok response', () => {
       postActivityStreamComment(RECORD);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
         uri: '/api/activityStream/10/comments',
         method: METHODS.POST,
         body: RECORD,
-        useAuthentication: true,
-      }));
+      });
     });
   });
   describe('deleteActivityStreamComment', () => {
@@ -77,12 +85,13 @@ describe('api/activityStream', () => {
     });
 
     it('if successful, returns a mock ok response', () => {
-      postActivityStreamLike(RECORD);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      postActivityStreamLike(10);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
         uri: '/api/activityStream/10/like',
         method: METHODS.POST,
-        useAuthentication: true,
-      }));
+        body: {},
+      });
     });
   });
   describe('deleteActivityStreamLike', () => {
@@ -91,12 +100,13 @@ describe('api/activityStream', () => {
     });
 
     it('if successful, returns a mock ok response', () => {
-      deleteActivityStreamLike(RECORD);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      deleteActivityStreamLike(10);
+      expect(makeRequest).toHaveBeenCalledWith({
+        ...correctRequest,
         uri: '/api/activityStream/10/like',
         method: METHODS.DELETE,
         useAuthentication: true,
-      }));
+      });
     });
   });
 });

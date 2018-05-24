@@ -438,5 +438,12 @@ export default {
     'reloadConfiguration.reload.confirm': 'Sei sicuro di voler ricaricare la configurazione?',
     'reloadConfiguration.confirm.success': 'La configurazione di sistema è stata ricaricata.',
     'reloadConfiguration.confirm.error': 'Non è stato possibile ricaricare la configurazione di sistema',
+    'activityStream.newPage': 'ha creato una nuova Pagina',
+    'activityStream.editPage': 'ha modificato una Pagina',
+    'activityStream.deletePage': 'ha eliminato una Pagina',
+    'activityStream.onlinePage': 'ha messo offline una Pagina',
+    'activityStream.offlinePage': 'ha messo offline una Pagina',
+    'activityStream.modifyPage': 'ha modificato una Pagina',
+    'activityStream.like': 'Like',
   },
 };

@@ -438,5 +438,12 @@ export default {
     'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
     'reloadConfiguration.confirm.success': 'The configuration has been reloaded.',
     'reloadConfiguration.confirm.error': 'Something went wrong while reloading the configuration. Try again in a minute.',
+    'activityStream.newPage': 'created a new page',
+    'activityStream.editPage': 'edited a new page',
+    'activityStream.deletePage': 'delete a page',
+    'activityStream.onlinePage': 'publish a page',
+    'activityStream.offlinePage': 'unpublish a page',
+    'activityStream.modifyPage': 'modified a page',
+    'activityStream.like': 'Like',
   },
 };
