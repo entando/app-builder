@@ -5,6 +5,22 @@
     margin: 2em 0 0 0;
   }
 
+  &__th-lg {
+    width: 45%;
+  }
+
+  &__th-md {
+    width: 25%;
+  }
+
+  &__th-sm {
+    width: 10%;
+  }
+
+  &__th-xs {
+    width: 5%;
+  }
+
   &__status-icon--active:before {
     color: $color-pf-light-green-500;
     font-family: FontAwesome;
