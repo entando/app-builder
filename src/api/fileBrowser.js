@@ -49,12 +49,10 @@ export const postCreateFolder = (protectedFolder, path) => (
   })
 );
 
-export const deleteFolder = (protectedFolder, currentPath) => (
-  makeRequest({
-    uri: '/api/fileBrowser/directory',
-    body: { protectedFolder, currentPath },
-    method: METHODS.DELETE,
-    mockResponse: FILE_BROWSER_FOLDER,
-    useAuthentication: true,
-  })
-);
+export const deleteFolder = params => makeRequest({
+  uri: `/api/fileBrowser/directory${params}`,
+  body: {},
+  method: METHODS.DELETE,
+  mockResponse: FILE_BROWSER_FOLDER,
+  useAuthentication: true,
+});

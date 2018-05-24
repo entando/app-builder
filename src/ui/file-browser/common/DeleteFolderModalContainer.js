@@ -9,8 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onConfirmDelete: (file) => {
-    dispatch(sendDeleteFolder({ protectedFolder: file.protectedFolder, path: file.path }));
+  onConfirmDelete: (values) => {
+    dispatch(sendDeleteFolder(values));
     dispatch(setVisibleModal(''));
   },
 });

@@ -226,7 +226,7 @@ export default {
     'fileBrowser.newFolder': 'Nome nuova cartella',
     'fileBrowser.createFolderSuccess': 'Cartella creata correttamente',
     'fileBrowser.createFolderError': 'Si è verificato un errore durante la creazione della cartella',
-    'fileBrowser.deleteFolderSuccess': 'Cartella canacellata correttamente',
+    'fileBrowser.deleteFolderSuccess': 'Cartella cancellata correttamente',
     'fileBrowser.deleteFolderError': 'Si è verificato un errore durante la cancellazione della cartella',
     'fileBrowser.help': 'La sezione FILE BROWSER permette di navigare le cartelle del file system.',
     'pages.pageForm.info': 'Info',

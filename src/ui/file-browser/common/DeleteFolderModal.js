@@ -22,6 +22,14 @@ const DeleteFolderModal = ({
     <Modal.Title><FormattedMessage id="app.delete" /></Modal.Title>
   );
 
+  const renderModalInfo = () => {
+    let code = info.type;
+    if (info.file) {
+      code = info.file.path;
+    }
+    return <FormattedMessage id="modal.confirm.delete" values={{ code }} />;
+  };
+
   return (
     <GenericModalContainer modalId={MODAL_ID} buttons={buttons} modalTitle={modalTitle} className="DeleteFolderModal">
       <EmptyState>
@@ -30,7 +38,7 @@ const DeleteFolderModal = ({
           <FormattedMessage id="app.delete" />&nbsp;{info.type}
         </EmptyStateTitle>
         <EmptyStateInfo className="DeleteFolderModal__info">
-          <FormattedMessage id="modal.confirm.delete" values={{ code: info.type }} defaultValues={{ code: '' }} />
+          {renderModalInfo()}
         </EmptyStateInfo>
       </EmptyState>
     </GenericModalContainer>

@@ -119,10 +119,10 @@ export const sendPostCreateFolder = values => (dispatch, getState) => (
     postCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
-      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess', TOAST_SUCCESS)));
+      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess'), TOAST_SUCCESS));
       resolve();
     }).catch(() => {
-      dispatch(addToast(formattedText('fileBrowser.createFolderError', TOAST_ERROR)));
+      dispatch(addToast(formattedText('fileBrowser.createFolderError'), TOAST_ERROR));
     });
   })
 );
@@ -131,14 +131,30 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
   new Promise((resolve) => {
     const deleteFolderApi = wrapApiCall(deleteFolder);
     const pathInfo = getPathInfo(getState());
-    const folderPath = `${pathInfo.currentPath}/${values.path}`;
-    deleteFolderApi(pathInfo.protectedFolder, folderPath)(dispatch).then(() => {
+    const queryString = `?protectedFolder=${values.protectedFolder}&currentPath=${values.path}`;
+    deleteFolderApi(queryString)(dispatch).then(() => {
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
-      dispatch(addToast(formattedText('fileBrowser.deleteFolderSuccess', TOAST_SUCCESS)));
+      dispatch(addToast(
+        formattedText(
+          'fileBrowser.deleteFolderSuccess',
+          null,
+          { path: values.path },
+
+        ),
+        TOAST_SUCCESS,
+      ));
       resolve();
     }).catch(() => {
-      dispatch(addToast(formattedText('fileBrowser.deleteFolderError', TOAST_ERROR)));
+      dispatch(addToast(
+        formattedText(
+          'fileBrowser.deleteFolderError',
+          null,
+          { path: values.path },
+
+        ),
+        TOAST_ERROR,
+      ));
     });
   })
 );
