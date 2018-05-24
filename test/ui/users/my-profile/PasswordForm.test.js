@@ -10,7 +10,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 describe('PasswordForm', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<PasswordFormBody handleSubmit={() => {}} />);
+    component = shallow(<PasswordFormBody onSubmit={() => {}} username="admin" handleSubmit={() => {}} />);
   });
 
   it('renders without crashing', () => {

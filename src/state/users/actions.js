@@ -1,4 +1,4 @@
-import { initialize, clearFields } from 'redux-form';
+import { initialize, reset } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 
@@ -14,12 +14,12 @@ import {
   postUserPassword,
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
+import { addErrors, clearErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addToast } from 'state/toasts/actions';
 import { ROUTE_USER_LIST } from 'app-init/router';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
-import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
+import { TOAST_SUCCESS } from 'state/toasts/const';
 
 
 export const setUsers = users => ({
@@ -237,11 +237,11 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
         formattedText('user.password.success'),
         TOAST_SUCCESS,
       ));
-      dispatch(clearFields('myprofile-password'));
+      dispatch(clearErrors());
+      dispatch(reset('myprofile-password'));
       return json;
     }
     dispatch(addErrors(json.errors.map(e => e.message)));
-    dispatch(addToast(json.errors[0].message, TOAST_ERROR));
     throw json;
   }
   throw new TypeError('No JSON content-type in response headers');

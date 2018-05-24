@@ -4,6 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
 
 describe('MyProfilePage', () => {
@@ -26,6 +27,10 @@ describe('MyProfilePage', () => {
 
   it('verify if has a page title', () => {
     expect(component.find('PageTitle').exists());
+  });
+
+  it('has the errors container', () => {
+    expect(component.find(ErrorsAlertContainer).exists());
   });
 
   it('verify if has the password form', () => {

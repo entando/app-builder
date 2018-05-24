@@ -21,7 +21,7 @@ import {
 } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
-import { ADD_ERRORS } from 'state/errors/types';
+import { ADD_ERRORS, CLEAR_ERRORS } from 'state/errors/types';
 import { ADD_TOAST } from 'state/toasts/types';
 
 const middlewares = [thunk];
@@ -312,9 +312,10 @@ describe('state/users/actions', () => {
         store.dispatch(sendPostUserPassword('username', {})).then(() => {
           expect(postUserPassword).toHaveBeenCalledWith('username', {});
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1]).toHaveProperty('type', '@@redux-form/CLEAR_FIELDS');
+          expect(actions[1]).toHaveProperty('type', CLEAR_ERRORS);
+          expect(actions[2]).toHaveProperty('type', '@@redux-form/RESET');
           done();
         }).catch(done.fail);
       });
@@ -324,9 +325,8 @@ describe('state/users/actions', () => {
         return store.dispatch(sendPostUserPassword('username', {})).catch((e) => {
           expect(postUserPassword).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           expect(e).toHaveProperty('errors');
           e.errors.forEach((error, index) => {
             expect(error.message).toEqual(actions[0].payload.errors[index]);

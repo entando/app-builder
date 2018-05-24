@@ -5,6 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
 
 const AddUserPage = () => (
@@ -24,6 +25,11 @@ const AddUserPage = () => (
         titleId="app.myProfile"
         helpId="user.myProfile.help"
       />
+      <Row>
+        <Col xs={12}>
+          <ErrorsAlertContainer />
+        </Col>
+      </Row>
       <Row>
         <Col xs={12}>
           <PasswordFormContainer />
