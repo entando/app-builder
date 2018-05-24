@@ -33,12 +33,7 @@ const correctRequest = {
 
 
 jest.unmock('api/profileTypes');
-jest.mock('@entando/apimanager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: {
-    GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
-  },
-}));
+makeRequest.mockImplementation(() => Promise.resolve({}));
 
 describe('api/postProfileType', () => {
   beforeEach(() => {
@@ -51,10 +46,11 @@ describe('api/postProfileType', () => {
   it('if successful, returns a mock ok response', () => {
     postProfileType(PROFILE_TYPES);
     expect(makeRequest).toHaveBeenCalledWith({
-      ...correctRequest,
+      uri: '/api/profileTypes',
       method: 'POST',
       mockResponse: PROFILE_TYPES,
       body: PROFILE_TYPES,
+      useAuthentication: true,
     });
   });
 });
@@ -70,11 +66,11 @@ describe('api/putProfileType', () => {
   it('if successful, returns a mock ok response', () => {
     putProfileType(PROFILE_TYPES);
     expect(makeRequest).toHaveBeenCalledWith({
-      ...correctRequest,
       uri: '/api/profileTypes/AAA',
       method: 'PUT',
       mockResponse: PROFILE_TYPES,
       body: PROFILE_TYPES,
+      useAuthentication: true,
     });
   });
 });
@@ -90,10 +86,10 @@ describe('api/getProfileType', () => {
   it('if successful, returns a mock ok response', () => {
     getProfileType('AAA');
     expect(makeRequest).toHaveBeenCalledWith({
-      ...correctRequest,
       uri: '/api/profileTypes/AAA',
       method: 'GET',
       mockResponse: PROFILE_TYPES,
+      useAuthentication: true,
     });
   });
 });
@@ -110,11 +106,11 @@ describe('api/deleteProfileType', () => {
   it('if successful, returns a mock ok response', () => {
     deleteProfileType('AAA');
     expect(makeRequest).toHaveBeenCalledWith({
-      ...correctRequest,
       uri: '/api/profileTypes/AAA',
       method: 'DELETE',
       mockResponse: PROFILE_TYPES_DELETE_OK,
       body: 'AAA',
+      useAuthentication: true,
     });
   });
 });
@@ -131,9 +127,10 @@ describe('/api/profileTypes/', () => {
     it('if successful, returns a mock ok response', () => {
       getAttributeFromProfileType('AAA', 'code');
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/profileTypes/AAA/attribute/code',
+        method: 'GET',
         mockResponse: PROFILE_TYPES.attributes[0],
+        useAuthentication: true,
       });
     });
   });
@@ -149,10 +146,10 @@ describe('/api/profileTypes/', () => {
     it('if successful, returns a mock ok response', () => {
       deleteAttributeFromProfileType('AAA', 'code');
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/profileTypes/AAA/attribute/code',
         method: 'DELETE',
         mockResponse: ATTRIBUTE_PROFILE_TYPES_DELETE_OK,
+        useAuthentication: true,
       });
     });
   });
@@ -168,11 +165,11 @@ describe('/api/profileTypes/', () => {
     it('if successful, returns a mock ok response', () => {
       postAttributeFromProfileType('AAA', PROFILE_TYPES.attributes[0]);
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/profileTypes/AAA/attribute',
         method: 'POST',
         body: PROFILE_TYPES.attributes[0],
         mockResponse: PROFILE_TYPES.attributes[0],
+        useAuthentication: true,
       });
     });
   });
@@ -188,11 +185,11 @@ describe('/api/profileTypes/', () => {
     it('if successful, returns a mock ok response', () => {
       putAttributeFromProfileType('AAA', PROFILE_TYPES.attributes[0]);
       expect(makeRequest).toHaveBeenCalledWith({
-        ...correctRequest,
         uri: '/api/profileTypes/AAA/attribute/attrCode',
         method: 'PUT',
         body: PROFILE_TYPES.attributes[0],
         mockResponse: PROFILE_TYPES.attributes[0],
+        useAuthentication: true,
       });
     });
   });
@@ -244,8 +241,11 @@ describe('api/getProfileTypes', () => {
       getProfileTypes({ page: 1, pageSize: 10 }, '?param=true');
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          ...correctRequest,
+          // ...correctRequest,
           uri: '/api/profileTypes?param=true',
+          mockResponse: PROFILE_TYPES_OK_PAGE_1,
+          method: 'GET',
+          useAuthentication: true,
         },
         {
           page: 1,
@@ -269,9 +269,10 @@ describe('api/getProfileTypes', () => {
         getProfileTypeAttributes();
         expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
-            ...correctRequest,
             uri: '/api/profileTypeAttributes',
+            method: 'GET',
             mockResponse: PROFILE_TYPES_ATTRIBUTES,
+            useAuthentication: true,
           }),
           {
             page: 1,
@@ -284,9 +285,10 @@ describe('api/getProfileTypes', () => {
         getProfileTypeAttributes({ page: 1, pageSize: 10 }, '?param=true');
         expect(makeRequest).toHaveBeenCalledWith(
           expect.objectContaining({
-            ...correctRequest,
             uri: '/api/profileTypeAttributes?param=true',
+            method: 'GET',
             mockResponse: PROFILE_TYPES_ATTRIBUTES,
+            useAuthentication: true,
           }),
           {
             page: 1,
@@ -308,9 +310,10 @@ describe('api/getProfileTypes', () => {
       it('if successful, returns a attributes response', () => {
         getProfileTypeAttribute('code');
         expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-          ...correctRequest,
           uri: '/api/profileTypeAttributes/code',
+          method: 'GET',
           mockResponse: PROFILE_TYPE_ATTRIBUTE,
+          useAuthentication: true,
         }));
       });
     });

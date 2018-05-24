@@ -5,6 +5,15 @@ import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 import { getProfileTypeList } from 'state/profile-types/selectors';
 import { getLoading } from 'state/loading/selectors';
 
+const TEST_PAGINATION = {
+  metaData: {
+    page: 1,
+    pageSize: 10,
+    lastPage: 2,
+    totalItems: 20,
+  },
+};
+
 const TEST_STATE = {
   profileTypes: {
     list: ['ABC', 'DEF'],
@@ -21,7 +30,7 @@ const TEST_STATE = {
       },
     },
   },
-  pagination: PROFILE_TYPES_OK_PAGE_1.metaData,
+  pagination: TEST_PAGINATION.metaData,
 };
 
 const dispatchMock = jest.fn();

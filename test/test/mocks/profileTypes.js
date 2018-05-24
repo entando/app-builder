@@ -100,12 +100,6 @@ export const PROFILE_TYPES_OK_PAGE_1 =
     },
   ],
   errors: [],
-  metaData: {
-    page: 1,
-    pageSize: 10,
-    lastPage: 2,
-    totalItems: 20,
-  },
 };
 
 export const PROFILE_TYPES_OK_PAGE_2 =
@@ -123,12 +117,6 @@ export const PROFILE_TYPES_OK_PAGE_2 =
     },
   ],
   errors: [],
-  metaData: {
-    page: 2,
-    pageSize: 2,
-    lastPage: 2,
-    totalItems: 4,
-  },
 };
 export const PROFILE_TYPES_ATTRIBUTES = [
   'Enumerator',
