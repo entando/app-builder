@@ -10,6 +10,11 @@ class FilesListTable extends Component {
     this.props.onWillMount();
   }
 
+  onClickDownload = file => (ev) => {
+    ev.preventDefault();
+    this.props.onClickDownload(file);
+  }
+
   renderTableRows() {
     const downloadLabel = <FormattedMessage id="fileBrowser.downloadFile" />;
     const deleteLabel = <FormattedMessage id="app.delete" />;
@@ -79,7 +84,7 @@ class FilesListTable extends Component {
         );
       }
       return (
-        <a className="FilesListTable__link-download" href={`download?${file.path}`}>
+        <a className="FilesListTable__link-download" href="" download onClick={this.onClickDownload(file)}>
           <Icon size="lg" name="file" /> {file.name}
         </a>
       );
@@ -158,6 +163,7 @@ class FilesListTable extends Component {
 
 FilesListTable.propTypes = {
   onWillMount: PropTypes.func.isRequired,
+  onClickDownload: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
