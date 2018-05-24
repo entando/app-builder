@@ -4,19 +4,7 @@ import { fetchFileList, downloadFile } from 'state/file-browser/actions';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
 import { getLoading } from 'state/loading/selectors';
 import FilesListTable from 'ui/file-browser/list/FilesListTable';
-
-const download = (filename, text) => {
-  const element = document.createElement('a');
-  element.setAttribute('href', `data:application/octet-stream;charset=utf-8;base64,${encodeURIComponent(text)}`);
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-};
+import { download } from 'ui/file-browser/utils/downloadFile';
 
 export const mapStateToProps = state => (
   {
