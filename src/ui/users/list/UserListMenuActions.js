@@ -4,7 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { gotoRoute } from '@entando/router';
 import { LinkMenuItem } from 'frontend-common-components';
-import { ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL, ROUTE_USER_EDIT } from 'app-init/router';
+import {
+  ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
+  ROUTE_USER_EDIT, ROUTE_USER_PROFILE,
+} from 'app-init/router';
 
 class UserListMenuActions extends Component {
   constructor(props) {
@@ -36,6 +39,10 @@ class UserListMenuActions extends Component {
     const manageAuthLabel = (
       <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
     );
+    const editUserProfileLabel = (
+      <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
+    );
+
     const renderViewProfile = () => {
       if (this.props.hasProfile) {
         return (
@@ -66,11 +73,13 @@ class UserListMenuActions extends Component {
           label={manageAuthLabel}
           className="UserListMenuAction__menu-item-auth"
         />
-        <MenuItem
+        <LinkMenuItem
+          id={`editProfile-${this.props.username}`}
+          route={ROUTE_USER_PROFILE}
+          params={{ username: this.props.username }}
+          label={editUserProfileLabel}
           className="UserListMenuAction__menu-item-edit-profile"
-        >
-          <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
-        </MenuItem>
+        />
         {renderViewProfile()}
         <MenuItem
           className="UserListMenuAction__menu-item-delete"
