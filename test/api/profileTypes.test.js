@@ -241,7 +241,6 @@ describe('api/getProfileTypes', () => {
       getProfileTypes({ page: 1, pageSize: 10 }, '?param=true');
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          // ...correctRequest,
           uri: '/api/profileTypes?param=true',
           mockResponse: PROFILE_TYPES_OK_PAGE_1,
           method: 'GET',
