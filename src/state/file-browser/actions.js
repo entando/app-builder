@@ -1,6 +1,9 @@
-import { getFileBrowser, getFile, postFile, putFile, postFileBrowserCreateFolder } from 'api/fileBrowser';
+import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder } from 'api/fileBrowser';
+import { formattedText } from '@entando/utils';
 import { gotoRoute } from '@entando/router';
 import { addErrors } from 'state/errors/actions';
+import { addToast } from 'state/toasts/actions';
+import { TOAST_SUCCESS, TOAST_ERROR } from 'state/toasts/const';
 import { toggleLoading } from 'state/loading/actions';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { getPathInfo } from 'state/file-browser/selectors';
@@ -110,13 +113,32 @@ export const saveFile = file => (dispatch, getState) => new Promise((resolve) =>
 
 export const sendPostCreateFolder = values => (dispatch, getState) => (
   new Promise((resolve) => {
-    const postFileBrowserCreateFolderApi = wrapApiCall(postFileBrowserCreateFolder);
+    const postCreateFolderApi = wrapApiCall(postCreateFolder);
     const pathInfo = getPathInfo(getState());
     const newFolderPath = `${pathInfo.currentPath}/${values.path}`;
-    postFileBrowserCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
+    postCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
+      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess', TOAST_SUCCESS)));
       resolve();
-    }).catch(() => {});
+    }).catch(() => {
+      dispatch(addToast(formattedText('fileBrowser.createFolderError', TOAST_ERROR)));
+    });
+  })
+);
+
+export const sendDeleteFolder = values => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const deleteFolderApi = wrapApiCall(deleteFolder);
+    const pathInfo = getPathInfo(getState());
+    const folderPath = `${pathInfo.currentPath}/${values.path}`;
+    deleteFolderApi(pathInfo.protectedFolder, folderPath)(dispatch).then(() => {
+      gotoRoute(ROUTE_FILE_BROWSER);
+      dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
+      dispatch(addToast(formattedText('fileBrowser.deleteFolderSuccess', TOAST_SUCCESS)));
+      resolve();
+    }).catch(() => {
+      dispatch(addToast(formattedText('fileBrowser.deleteFolderError', TOAST_ERROR)));
+    });
   })
 );
