@@ -91,11 +91,14 @@ const createFileObject = (protectedFolder, currentPath, file) => getBase64(file)
 
 const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {
+    dispatch(toggleLoading('uploadFile'));
     apiFunc(obj).then(() => {
       dispatch(addToast(formattedText('fileBrowser.uploadFileComplete', TOAST_SUCCESS)));
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(...args));
+      dispatch(toggleLoading('uploadFile'));
     }).catch((error) => {
+      dispatch(toggleLoading('uploadFile'));
       const message = formattedText('fileBrowser.uploadFileError');
       dispatch(addToast(`${message} - ${error}`, TOAST_ERROR));
     });

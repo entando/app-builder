@@ -2,17 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import { FormGroup, Col, Icon, Button } from 'patternfly-react';
+import { FormGroup, Col, Icon, Button, Spinner } from 'patternfly-react';
 import { Link } from '@entando/router';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 import { required } from '@entando/utils';
 import RenderFileInput from 'ui/common/form/RenderFileInput';
 
 export const UploadFileBrowserBody = (props) => {
-  const { handleSubmit, invalid, submitting } = props;
+  const {
+    handleSubmit, invalid, submitting, loading,
+  } = props;
 
   return (
     <form onSubmit={handleSubmit} className="UploadFileBrowserForm form-horizontal">
+      <Spinner loading={loading} size="lg" />
       <Field
         className="UploadFileBrowserForm__file"
         name="file"
@@ -42,9 +45,9 @@ export const UploadFileBrowserBody = (props) => {
             </Link>
           </div>
         </Col>
-
       </FormGroup>
     </form>
+
   );
 };
 
@@ -52,11 +55,13 @@ UploadFileBrowserBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 UploadFileBrowserBody.defaultProps = {
   invalid: false,
   submitting: false,
+  loading: false,
 };
 
 const UploadFileBrowserForm = reduxForm({
