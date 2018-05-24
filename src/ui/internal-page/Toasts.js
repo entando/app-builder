@@ -8,6 +8,7 @@ const Toasts = ({ toasts, onDismiss }) => {
       key={key}
       type={toasts[key].type}
       onDismiss={() => onDismiss(key)}
+      timerdelay={5000}
     >
       {toasts[key].message}
     </TimedToastNotification>
