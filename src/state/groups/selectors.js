@@ -1,5 +1,12 @@
 import { createSelector } from 'reselect';
 import { getLocale } from 'state/locale/selectors';
+import {
+  USER_REFERENCE_KEY,
+  CONTENT_REFERENCE_KEY,
+  RESOURCE_REFERENCE_KEY,
+  WIDGET_TYPE_REFERENCE_KEY,
+  PAGE_REFERENCE_KEY,
+} from 'ui/common/references/const';
 
 export const getGroups = state => state.groups;
 
@@ -53,25 +60,25 @@ export const getReferenceMap =
 export const getSelectedGroupResourceReferences =
   createSelector(
     getReferenceMap,
-    refMap => (refMap.jacmsResourceManager || []),
+    refMap => (refMap[RESOURCE_REFERENCE_KEY] || []),
   );
 
 export const getSelectedGroupContentReferences =
     createSelector(
       getReferenceMap,
-      refMap => (refMap.jacmsContentManager || []),
+      refMap => (refMap[CONTENT_REFERENCE_KEY] || []),
     );
 
 export const getSelectedGroupUserReferences =
   createSelector(
     getReferenceMap,
-    refMap => (refMap.UserManager || []),
+    refMap => (refMap[USER_REFERENCE_KEY] || []),
   );
 
 export const getSelectedGroupWidgetTypeReferences =
   createSelector(
     getReferenceMap,
-    refMap => (refMap.WidgetTypeManager || []),
+    refMap => (refMap[WIDGET_TYPE_REFERENCE_KEY] || []),
   );
 
 export const getWidgetTypeReferences =
@@ -86,7 +93,7 @@ export const getWidgetTypeReferences =
 export const getSelectedGroupPageReferences =
   createSelector(
     getReferenceMap,
-    refMap => (refMap.PageManager || []),
+    refMap => (refMap[PAGE_REFERENCE_KEY] || []),
   );
 
 export const getPageReferences =
