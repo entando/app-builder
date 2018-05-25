@@ -6,7 +6,8 @@ import { formattedText } from '@entando/utils';
 const RenderSelectInput = ({
   input, meta: { touched, error },
   labelSize, alignClass, label, help,
-  defaultOptionId, options,
+  defaultOptionId, options, optionReducer,
+  optionValue, optionDisplayName, size, inputSize,
 }) => {
   const containerClasses = (touched && error) ? 'form-group has-error' : 'form-group';
 
@@ -18,12 +19,12 @@ const RenderSelectInput = ({
     ) :
     null;
 
-  const optionsList = options.map(item => (
+  const optionsList = optionReducer ? optionReducer(options) : options.map(item => (
     <option
-      key={item.value}
-      value={item.value}
+      key={item[optionValue]}
+      value={item[optionValue]}
     >
-      {item.text}
+      {item[optionDisplayName]}
     </option>
   ));
 
@@ -38,9 +39,10 @@ const RenderSelectInput = ({
           {label} {help}
         </ControlLabel>
       </Col>
-      <Col xs={12 - labelSize}>
+      <Col xs={inputSize || 12 - labelSize}>
         <select
           {...input}
+          size={size}
           className="form-control RenderSelectInput"
         >
           {defaultOption}
@@ -70,6 +72,11 @@ RenderSelectInput.propTypes = {
   labelSize: PropTypes.number,
   alignClass: PropTypes.string,
   help: PropTypes.node,
+  optionReducer: PropTypes.func,
+  optionValue: PropTypes.string,
+  optionDisplayName: PropTypes.string,
+  size: PropTypes.number,
+  inputSize: PropTypes.number,
 };
 
 RenderSelectInput.defaultProps = {
@@ -84,5 +91,10 @@ RenderSelectInput.defaultProps = {
   labelSize: 2,
   alignClass: 'text-right',
   help: null,
+  optionReducer: null,
+  optionValue: 'value',
+  optionDisplayName: 'text',
+  size: null,
+  inputSize: null,
 };
 export default RenderSelectInput;

@@ -12,6 +12,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 
 export class PageFormBody extends Component {
@@ -50,23 +51,17 @@ export class PageFormBody extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <FormGroup>
-                <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                  <FormLabel labelId="pages.pageForm.ownerGroup" required />
-                </label>
-                <Col xs={10}>
-                  <Field
-                    component="select"
-                    name="ownerGroup"
-                    className="form-control"
-                    validate={[required]}
-                    disabled={isEditMode}
-                  >
-                    {groupsWithEmpty.map(gr =>
-                      <option key={gr.code} value={gr.code}>{gr.name}</option>)}
-                  </Field>
-                </Col>
-              </FormGroup>
+              <Field
+                component={RenderSelectInput}
+                name="ownerGroup"
+                className="form-control"
+                validate={[required]}
+                disabled={isEditMode}
+                label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
+                options={groupsWithEmpty}
+                optionValue="code"
+                optionDisplayName="name"
+              />
               <FormGroup>
                 <label htmlFor="ownerGroup" className="col-xs-2 control-label">
                   <FormLabel labelId="pages.pageForm.joinGroup" required />
@@ -92,26 +87,22 @@ export class PageFormBody extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <FormGroup>
-                <label htmlFor="pageModel" className="col-xs-2 control-label">
+              <Field
+                component={RenderSelectInput}
+                name="pageModel"
+                className="form-control"
+                validate={[required]}
+                label={
                   <FormLabel
                     labelId="pages.pageForm.pageModel"
                     helpId="pages.pageForm.pageModelHelp"
                     required
                   />
-                </label>
-                <Col xs={10}>
-                  <Field
-                    component="select"
-                    name="pageModel"
-                    className="form-control"
-                    validate={[required]}
-                  >
-                    {pageModelsWithEmpty.map(gr =>
-                      <option key={gr.code} value={gr.code}>{gr.descr}</option>)}
-                  </Field>
-                </Col>
-              </FormGroup>
+                }
+                options={pageModelsWithEmpty}
+                optionValue="code"
+                optionDisplayName="descr"
+              />
               <FormGroup>
                 <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
                   <FormLabel
