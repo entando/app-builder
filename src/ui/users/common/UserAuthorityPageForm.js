@@ -19,7 +19,6 @@ export class UserAuthorityPageFormBody extends Component {
 
   render() {
     const { invalid, submitting, handleSubmit } = this.props;
-    const validate = values => (!values || values.length === 0);
 
     return (
       <form
@@ -36,7 +35,6 @@ export class UserAuthorityPageFormBody extends Component {
                   groups={this.props.groups}
                   roles={this.props.roles}
                   groupRolesCombo={this.props.groupRolesCombo}
-                  validate={validate}
                 />
               </Col>
             </Row>
