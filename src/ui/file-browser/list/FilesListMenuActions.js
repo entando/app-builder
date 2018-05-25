@@ -2,21 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
-import { LinkMenuItem } from 'frontend-common-components';
 
 const downloadLabel = <FormattedMessage id="fileBrowser.downloadFile" />;
 const deleteLabel = <FormattedMessage id="app.delete" />;
 
 
-const FilesListMenuActions = ({ onClickDelete, onClickDownload, file }) => {
+const FilesListMenuActions = ({
+  onClickDeleteFolder, onClickDeleteFile, onClickDownload, file,
+}) => {
   if ((file.name !== 'protected') && (file.name !== 'public')) {
     if (file.directory) {
       return (
         <DropdownKebab pullRight id={`${file}-actions`}>
           <MenuItem
             className="FilesListMenuAction__delete"
-            onClick={() => onClickDelete(file)}
+            onClick={() => onClickDeleteFolder(file)}
           >
             {deleteLabel}
           </MenuItem>
@@ -32,13 +32,12 @@ const FilesListMenuActions = ({ onClickDelete, onClickDownload, file }) => {
         >
           {downloadLabel}
         </MenuItem>
-        <LinkMenuItem
-          id={`delete-${file.name}`}
-          route={ROUTE_FILE_BROWSER}
-          params={{ fileName: file.name }}
-          label={deleteLabel}
+        <MenuItem
           className="FilesListMenuAction__delete"
-        />
+          onClick={() => onClickDeleteFile(file)}
+        >
+          {deleteLabel}
+        </MenuItem>
       </DropdownKebab>
     );
   }
@@ -46,7 +45,8 @@ const FilesListMenuActions = ({ onClickDelete, onClickDownload, file }) => {
 };
 
 FilesListMenuActions.propTypes = {
-  onClickDelete: PropTypes.func,
+  onClickDeleteFolder: PropTypes.func,
+  onClickDeleteFile: PropTypes.func,
   onClickDownload: PropTypes.func,
   file: PropTypes.shape({
     name: PropTypes.string,
@@ -59,7 +59,8 @@ FilesListMenuActions.propTypes = {
 
 FilesListMenuActions.defaultProps = {
   onClickDownload: () => {},
-  onClickDelete: () => {},
+  onClickDeleteFolder: () => {},
+  onClickDeleteFile: () => {},
 };
 
 export default FilesListMenuActions;

@@ -7,3 +7,4 @@ export const postFile = jest.fn(mockApi({ payload: FILE_BROWSER_FILE }));
 export const putFile = jest.fn(mockApi({ payload: FILE_BROWSER_FILE }));
 export const postCreateFolder = jest.fn(mockApi({ payload: FILE_BROWSER_FOLDER }));
 export const deleteFolder = jest.fn(mockApi({ payload: FILE_BROWSER_FOLDER }));
+export const deleteFile = jest.fn(mockApi({ payload: FILE_BROWSER_FILE }));

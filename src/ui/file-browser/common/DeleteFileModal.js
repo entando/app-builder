@@ -7,13 +7,13 @@ import {
   EmptyStateIcon, EmptyStateTitle, EmptyStateInfo,
 } from 'patternfly-react';
 
-export const DELETE_FOLDER_MODAL_ID = 'DeleteFolderModal';
+export const DELETE_FILE_MODAL_ID = 'DeleteFileModal';
 
-const DeleteFolderModal = ({
+const DeleteFileModal = ({
   onConfirmDelete, info,
 }) => {
   const buttons = [
-    <Button bsStyle="danger" id="DeleteFolderModal__button-delete" onClick={() => (onConfirmDelete(info.file))}>
+    <Button bsStyle="danger" id="DeleteFileModal__button-delete" onClick={() => (onConfirmDelete(info.file))}>
       <FormattedMessage id="app.delete" />
     </Button>,
   ];
@@ -31,13 +31,13 @@ const DeleteFolderModal = ({
   };
 
   return (
-    <GenericModalContainer modalId={DELETE_FOLDER_MODAL_ID} buttons={buttons} modalTitle={modalTitle} className="DeleteFolderModal">
+    <GenericModalContainer modalId={DELETE_FILE_MODAL_ID} buttons={buttons} modalTitle={modalTitle} className="DeleteFileModal">
       <EmptyState>
-        <EmptyStateIcon name="exclamation" type="fa" className="DeleteFolderModal__icon" />
+        <EmptyStateIcon name="exclamation" type="fa" className="DeleteFileModal__icon" />
         <EmptyStateTitle>
           <FormattedMessage id="app.delete" />&nbsp;{info.type}
         </EmptyStateTitle>
-        <EmptyStateInfo className="DeleteFolderModal__info">
+        <EmptyStateInfo className="DeleteFileModal__info">
           {renderModalInfo()}
         </EmptyStateInfo>
       </EmptyState>
@@ -45,7 +45,7 @@ const DeleteFolderModal = ({
   );
 };
 
-DeleteFolderModal.propTypes = {
+DeleteFileModal.propTypes = {
   onConfirmDelete: PropTypes.func,
   info: PropTypes.shape({
     file: PropTypes.shape({
@@ -56,7 +56,7 @@ DeleteFolderModal.propTypes = {
   }),
 };
 
-DeleteFolderModal.defaultProps = {
+DeleteFileModal.defaultProps = {
   onConfirmDelete: () => {},
   info: {
     file: {
@@ -67,4 +67,4 @@ DeleteFolderModal.defaultProps = {
   },
 };
 
-export default DeleteFolderModal;
+export default DeleteFileModal;

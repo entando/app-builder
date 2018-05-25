@@ -1,4 +1,4 @@
-import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder } from 'api/fileBrowser';
+import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { formattedText } from '@entando/utils';
 import { gotoRoute } from '@entando/router';
 import { addErrors } from 'state/errors/actions';
@@ -170,6 +170,32 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
       dispatch(addToast(
         formattedText(
           'fileBrowser.deleteFolderError',
+          null,
+          { path: values.path },
+        ),
+        TOAST_ERROR,
+      ));
+    });
+  })
+);
+
+export const sendDeleteFile = values => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const deleteFileApi = wrapApiCall(deleteFile);
+    const pathInfo = getPathInfo(getState());
+    const queryString = `?protectedFolder=${values.protectedFolder}&currentPath=${values.path}`;
+    deleteFileApi(queryString)(dispatch).then(() => {
+      gotoRoute(ROUTE_FILE_BROWSER);
+      dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
+      dispatch(addToast(
+        formattedText('fileBrowser.deleteFileSuccess', null, { path: values.path }),
+        TOAST_SUCCESS,
+      ));
+      resolve();
+    }).catch(() => {
+      dispatch(addToast(
+        formattedText(
+          'fileBrowser.deleteFileError',
           null,
           { path: values.path },
         ),

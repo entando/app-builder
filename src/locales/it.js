@@ -234,6 +234,8 @@ export default {
     'fileBrowser.createFolderError': 'Si è verificato un errore durante la creazione della cartella \'{path}\'',
     'fileBrowser.deleteFolderSuccess': 'Cartella \'{path}\' cancellata correttamente',
     'fileBrowser.deleteFolderError': 'Si è verificato un errore durante la cancellazione della cartella \'{path}\'',
+    'fileBrowser.deleteFileSuccess': 'File \'{path}\' cancellato correttamente',
+    'fileBrowser.deleteFileError': 'Si è verificato un errore durante la cancellazione del file \'{path}\'',
     'fileBrowser.help': 'La sezione FILE BROWSER permette di navigare le cartelle del file system.',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Gruppi',

@@ -1,4 +1,4 @@
-import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder } from 'api/fileBrowser';
+import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_FOLDER } from 'test/mocks/fileBrowser';
 
@@ -131,6 +131,26 @@ describe('api/fileBrowser', () => {
         body: {},
         method: METHODS.DELETE,
         mockResponse: FILE_BROWSER_FOLDER,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('deleteFile', () => {
+    it('returns a promise', () => {
+      expect(deleteFolder(false, 'folder/subfolder')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const protectedFolder = false;
+      const currentPath = 'folder/subfolder/filebame';
+      const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}`;
+      deleteFile(queryString);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/fileBrowser/file${queryString}`,
+        body: {},
+        method: METHODS.DELETE,
+        mockResponse: FILE_BROWSER_FILE,
         useAuthentication: true,
       });
     });

@@ -56,6 +56,8 @@ describe('FilesListTableContainer', () => {
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
       expect(props.onClickDownload).toBeDefined();
+      expect(props.onClickDeleteFolder).toBeDefined();
+      expect(props.onClickDeleteFile).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
@@ -70,8 +72,15 @@ describe('FilesListTableContainer', () => {
       expect(downloadFile).toHaveBeenCalled();
     });
 
-    it('should dispatch 2 actions if onClickDelete is called', () => {
-      props.onClickDelete({});
+    it('should dispatch 2 actions if onClickDeleteFolder is called', () => {
+      props.onClickDeleteFolder({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalled();
+      expect(setInfo).toHaveBeenCalled();
+    });
+
+    it('should dispatch 2 actions if onClickDeleteFile is called', () => {
+      props.onClickDeleteFile({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(setVisibleModal).toHaveBeenCalled();
       expect(setInfo).toHaveBeenCalled();

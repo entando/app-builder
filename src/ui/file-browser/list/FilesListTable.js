@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
+import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
 
 class FilesListTable extends Component {
@@ -11,7 +12,7 @@ class FilesListTable extends Component {
   }
 
   renderTableRows() {
-    const { onClickDelete, onClickDownload } = this.props;
+    const { onClickDeleteFolder, onClickDeleteFile, onClickDownload } = this.props;
 
     const getProtectedFolder = (path) => {
       switch (path) {
@@ -55,7 +56,8 @@ class FilesListTable extends Component {
           <FilesListMenuActions
             file={file}
             onClickDownload={onClickDownload}
-            onClickDelete={onClickDelete}
+            onClickDeleteFolder={onClickDeleteFolder}
+            onClickDeleteFile={onClickDeleteFile}
           />
         </td>
       </tr>
@@ -118,6 +120,7 @@ class FilesListTable extends Component {
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
           <DeleteFolderModalContainer />
+          <DeleteFileModalContainer />
         </Spinner>
       </div>
     );
@@ -127,7 +130,8 @@ class FilesListTable extends Component {
 FilesListTable.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   onClickDownload: PropTypes.func,
-  onClickDelete: PropTypes.func,
+  onClickDeleteFolder: PropTypes.func,
+  onClickDeleteFile: PropTypes.func,
   loading: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
@@ -145,7 +149,8 @@ FilesListTable.propTypes = {
 
 FilesListTable.defaultProps = {
   onClickDownload: () => {},
-  onClickDelete: () => {},
+  onClickDeleteFolder: () => {},
+  onClickDeleteFile: () => {},
   loading: false,
   files: [],
   pathInfo: {
