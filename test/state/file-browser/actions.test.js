@@ -1,10 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { isFSA } from 'flux-standard-action';
-import { setFileList, setPathInfo, fetchFileList, saveFile, sendPostCreateFolder, sendDeleteFolder } from 'state/file-browser/actions';
+import { setFileList, setPathInfo, fetchFileList, saveFile, sendPostCreateFolder, sendDeleteFolder, sendDeleteFile } from 'state/file-browser/actions';
 import { getPathInfo } from 'state/file-browser/selectors';
 import { mockApi } from 'test/testUtils';
-import { getFileBrowser, postCreateFolder, getFile, deleteFolder } from 'api/fileBrowser';
+import { getFileBrowser, postCreateFolder, getFile, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { ADD_TOAST } from 'state/toasts/types';
@@ -176,6 +176,44 @@ describe('state/file-browser/actions', () => {
         });
       });
     });
+
+
+    describe('sendDeleteFile', () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+      });
+
+      it('sendDeleteFile calls deleteFile, gotoRoute and addToast', (done) => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
+        store.dispatch(sendDeleteFile({ protectedFolder: false, path: 'path' })).then(() => {
+          expect(deleteFile).toHaveBeenCalledWith('?protectedFolder=false&currentPath=path');
+          expect(gotoRoute).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFileSuccess');
+          expect(actions[1].payload).toHaveProperty('type', 'success');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when deleteFile get error, should dispatch addErrors and addToast', async () => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
+        deleteFile.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendDeleteFile({ protectedFolder: false, path: 'path' })).catch((e) => {
+          expect(deleteFile).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFileError');
+          expect(actions[1].payload).toHaveProperty('type', 'error');
+          expect(e).toHaveProperty('errors');
+        });
+      });
+    });
+
 
     describe('saveFile', () => {
       const file = new File([''], 'filename.txt');

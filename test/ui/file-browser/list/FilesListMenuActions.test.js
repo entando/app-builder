@@ -5,7 +5,8 @@ import { shallow } from 'enzyme';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
 
 const propsFile = {
-  onClickDelete: jest.fn(),
+  onClickDeleteFile: jest.fn(),
+  onClickDeleteFolder: jest.fn(),
   file: ({
     name: 'test',
     lastModifiedTime: '',
@@ -16,7 +17,8 @@ const propsFile = {
 };
 
 const propsFirstLevelFolder = {
-  onClickDelete: jest.fn(),
+  onClickDeleteFile: jest.fn(),
+  onClickDeleteFolder: jest.fn(),
   file: ({
     name: 'public',
     lastModifiedTime: '',
@@ -27,7 +29,8 @@ const propsFirstLevelFolder = {
 };
 
 const propsFolder = {
-  onClickDelete: jest.fn(),
+  onClickDeleteFile: jest.fn(),
+  onClickDeleteFolder: jest.fn(),
   file: ({
     name: 'test',
     lastModifiedTime: '',
@@ -61,7 +64,7 @@ describe('FilesListMenuActions', () => {
       it('verify click delete', () => {
         const preventDefault = jest.fn();
         component.find('.FilesListMenuAction__delete').simulate('click', { preventDefault });
-        expect(propsFolder.onClickDelete).toHaveBeenCalled();
+        expect(propsFolder.onClickDeleteFolder).toHaveBeenCalled();
       });
     });
   });
@@ -80,7 +83,7 @@ describe('FilesListMenuActions', () => {
     it('verify click delete', () => {
       const preventDefault = jest.fn();
       component.find('.FilesListMenuAction__delete').simulate('click', { preventDefault });
-      expect(propsFolder.onClickDelete).toHaveBeenCalled();
+      expect(propsFile.onClickDeleteFile).toHaveBeenCalled();
     });
   });
 
