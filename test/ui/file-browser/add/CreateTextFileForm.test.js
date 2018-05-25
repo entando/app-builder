@@ -3,7 +3,6 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { required } from '@entando/utils';
 
-import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 import { CreateTextFileFormBody, maxLength50 } from 'ui/file-browser/add/CreateTextFileForm';
 
@@ -41,7 +40,6 @@ describe('CreateTextFileForm', () => {
     const element = createTextFileForm.find('Field[name="name"]');
     expect(element.exists()).toBe(true);
     const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
     expect(props).toHaveProperty('validate', [required, maxLength50]);
   });
 

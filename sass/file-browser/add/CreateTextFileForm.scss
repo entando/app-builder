@@ -1,10 +1,11 @@
 .CreateTextFileForm {
 
-  &__select-extension {
-    width: 50%;
+  &__input {
+    padding: 0 20px;
   }
 
   &__btn-cancel {
     margin-right: 2em;
-  }
+}
+
 }
