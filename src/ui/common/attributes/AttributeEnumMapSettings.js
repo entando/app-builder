@@ -8,7 +8,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import { required, formattedText } from '@entando/utils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
-const elements = value =>
+export const elements = value =>
   (value && !/^(\w+)=([^\s]+)$/i.test(value)
     ? <FormattedMessage id="validateForm.elements" /> : undefined);
 
