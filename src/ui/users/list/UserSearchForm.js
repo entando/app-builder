@@ -3,23 +3,9 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
-import { Row, Col, FormGroup, Button, InputGroup } from 'patternfly-react';
+import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
-
-const PROFILE_FILTER_OPTIONS = [
-  {
-    id: 'all',
-    label: formattedText('user.profile.all'),
-  },
-  {
-    id: 'with',
-    label: formattedText('user.profile.with'),
-  },
-  {
-    id: 'without',
-    label: formattedText('user.profile.without'),
-  },
-];
+import { PROFILE_FILTER_OPTIONS } from 'ui/users/common/const';
 
 export const renderSelectOptions = options => (
   options.map(option => (
@@ -50,7 +36,6 @@ export class UserSearchFormBody extends Component {
   }
 
   render() {
-    const { setProfileType } = this.props;
     return (
       <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well">
         <h3><FormattedMessage id="app.search" /></h3>
@@ -63,7 +48,7 @@ export class UserSearchFormBody extends Component {
               <Field
                 id="username"
                 component="input"
-                className="form-control"
+                className="form-control UserSearchForm__username"
                 name="username"
                 placeholder={formattedText('user.table.username')}
               />
@@ -82,38 +67,14 @@ export class UserSearchFormBody extends Component {
                   toggleElement={PROFILE_FILTER_OPTIONS}
                   defaultValue={PROFILE_FILTER_OPTIONS[0].id}
                   name="withProfile"
+                  className="UserSearchForm__withProfile"
                 />
               </label>
             </Col>
           </Row>
         </FormGroup>
-        {/* insert Advanced Search component when available
-            Manage profileType selection when avalaible
-        */}
-        <FormGroup>
-          <Row>
-            <label className="control-label col-sm-2" htmlFor="profileType">
-              <FormattedMessage id="user.profileType" />
-            </label>
-            <Col sm={9}>
-              <InputGroup>
-                <Field
-                  component="select"
-                  className="form-control"
-                  name="profileType"
-                >
-                  <option>{formattedText('app.all')}</option>
-                  {renderSelectOptions(this.props.profileTypes)}
-                </Field>
-                <span className="input-group-btn">
-                  <Button onClick={this.handleClick(setProfileType)} className="UserSearchForm_set-profile-btn">
-                    <FormattedMessage id="app.set" />
-                  </Button>
-                </span>
-              </InputGroup>
-            </Col>
-          </Row>
-        </FormGroup>
+        {/* insert Advanced Search component when available */}
+        {/* Manage profileType selection when avalaible */}
         <FormGroup>
           <Row>
             <Col xs={11}>
@@ -134,18 +95,7 @@ export class UserSearchFormBody extends Component {
 
 UserSearchFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  setProfileType: PropTypes.func,
-  onWillMount: PropTypes.func,
-  profileTypes: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    text: PropTypes.string,
-  })),
-};
-
-UserSearchFormBody.defaultProps = {
-  onWillMount: () => {},
-  setProfileType: null,
-  profileTypes: [],
+  onWillMount: PropTypes.func.isRequired,
 };
 
 const UserSearchForm = reduxForm({

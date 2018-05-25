@@ -1,11 +1,11 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { UserSearchFormBody, renderSelectOptions } from 'ui/users/list/UserSearchForm';
-import { PROFILE_TYPES_OPTIONS } from 'test/mocks/profileTypes';
+import { UserSearchFormBody } from 'ui/users/list/UserSearchForm';
 
 const handleSubmit = jest.fn();
 const setProfileType = jest.fn();
+const onWillMount = jest.fn();
 
 describe('UserSearchForm', () => {
   let userSearchForm;
@@ -22,6 +22,7 @@ describe('UserSearchForm', () => {
       invalid,
       handleSubmit,
       setProfileType,
+      onWillMount,
     };
 
     return shallow(<UserSearchFormBody {...props} />);
@@ -32,27 +33,17 @@ describe('UserSearchForm', () => {
       userSearchForm = buildUserSearchForm();
     });
     it('root component renders without crashing', () => {
-      expect(userSearchForm.exists()).toEqual(true);
+      expect(userSearchForm).toExist();
     });
 
     it('root component renders username field', () => {
-      const username = userSearchForm.find('[name="username"]');
-      expect(username.exists()).toEqual(true);
+      const username = userSearchForm.find('.UserSearchForm__username');
+      expect(username).toExist();
     });
 
-    it('root component renders profileType field', () => {
-      const profileType = userSearchForm.find('[name="profileType"]');
-      expect(profileType.exists()).toEqual(true);
-    });
-
-    it('root component renders withProfile Field', () => {
-      const plugin = userSearchForm.find('[name="withProfile"]');
-      expect(plugin.exists()).toEqual(true);
-    });
-
-    it('root component renders options for select input', () => {
-      const options = renderSelectOptions(PROFILE_TYPES_OPTIONS);
-      expect(options.length).toBe(PROFILE_TYPES_OPTIONS.length);
+    it('root component renders withProfile field', () => {
+      const withProfile = userSearchForm.find('.UserSearchForm__withProfile');
+      expect(withProfile).toExist();
     });
   });
 
@@ -60,26 +51,6 @@ describe('UserSearchForm', () => {
     const preventDefault = jest.fn();
     beforeEach(() => {
       userSearchForm = buildUserSearchForm();
-    });
-
-    it('on click profileType button calls setProfileType', () => {
-      userSearchForm
-        .find('.UserSearchForm_set-profile-btn')
-        .simulate('click', { preventDefault });
-      expect(setProfileType).toHaveBeenCalled();
-    });
-
-    it('on click profileType button calls setProfileType default', () => {
-      const props = {
-        submitting,
-        invalid,
-        handleSubmit,
-      };
-      userSearchForm = shallow(<UserSearchFormBody {...props} />);
-      userSearchForm
-        .find('.UserSearchForm_set-profile-btn')
-        .simulate('click', { preventDefault });
-      expect(setProfileType).toHaveBeenCalled();
     });
 
     it('on form submit calls handleSubmit', () => {
