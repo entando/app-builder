@@ -22,6 +22,7 @@ export const stopSubmit = jest.fn().mockReturnValue({ type: '@@redux-form/STOP_S
 export const stopAsyncValidation = jest.fn().mockReturnValue({ type: '@@redux-form/STOP_AV' });
 export const touch = jest.fn().mockReturnValue({ type: '@@redux-form/TOUCH' });
 export const untouch = jest.fn().mockReturnValue({ type: '@@redux-form/UNTOUCH' });
+export const clearFields = jest.fn().mockReturnValue({ type: '@@redux-form/CLEAR_FIELDS' });
 
 export const initialize = jest.fn().mockImplementation((form, data) => ({
   type: '@@redux-form/INITIALIZE',

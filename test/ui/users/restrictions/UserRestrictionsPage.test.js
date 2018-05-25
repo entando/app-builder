@@ -28,7 +28,7 @@ describe('UserRestrictionsPage', () => {
     expect(component.find('PageTitle').exists());
   });
 
-  it('verify if has the add button', () => {
+  it('verify if has the restrictions form', () => {
     expect(component.find(RestrictionsFormContainer).exists());
   });
 });
