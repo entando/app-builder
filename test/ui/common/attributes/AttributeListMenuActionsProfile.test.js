@@ -7,6 +7,8 @@ import AttributeListMenuActionsProfile from 'ui/common/attributes/AttributeListM
 const onMoveUp = jest.fn();
 const onMoveDown = jest.fn();
 const onClickDelete = jest.fn();
+const PROFILE_TYPE_CODE = 'PFL';
+
 
 describe('AttributeListMenuActions', () => {
   let component;
@@ -17,6 +19,7 @@ describe('AttributeListMenuActions', () => {
       onMoveDown={onMoveDown}
       onClickDelete={onClickDelete}
       routeToEdit=""
+      profiletypeCode={PROFILE_TYPE_CODE}
       datatypeCode="code"
     />);
   });

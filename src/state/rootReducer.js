@@ -33,6 +33,7 @@ import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import toasts from 'state/toasts/reducer';
+import userSettings from 'state/user-settings/reducer';
 
 const reducerDef = {
   activityStream,
@@ -67,6 +68,7 @@ const reducerDef = {
   toasts,
   users,
   widgets,
+  userSettings,
 };
 
 if (pluginArray.length) {
