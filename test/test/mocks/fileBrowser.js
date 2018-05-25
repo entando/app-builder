@@ -41,7 +41,7 @@ export const FILE_BROWSER_FILE = {
   base64: 'base64',
 };
 
-export const FILE_BROWSER_CREATE_FOLDER = {
+export const FILE_BROWSER_FOLDER = {
   protectedFolder: false,
   path: 'folder/subfolder',
 };

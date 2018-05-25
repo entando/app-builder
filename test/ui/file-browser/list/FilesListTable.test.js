@@ -11,6 +11,7 @@ jest.mock('state/file-browser/selectors', () => ({
 
 const props = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: true,
     prevPath: '/first',
@@ -20,6 +21,7 @@ const props = {
 
 const propsRootFolder = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: null,
     prevPath: '',
@@ -29,6 +31,7 @@ const propsRootFolder = {
 
 const propsFirstLevelFolder = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: true,
     prevPath: '',
@@ -74,7 +77,7 @@ describe('FilesListTable', () => {
         const tbody = component.find('tbody');
         expect(tbody).toHaveLength(1);
         expect(tbody.find('tr')).toHaveLength(2);
-        expect(tbody.find('DropdownKebab')).toHaveLength(2);
+        expect(tbody.find('FilesListMenuActions')).toHaveLength(2);
       });
 
       it('has correct links for folders and files', () => {
@@ -117,11 +120,10 @@ describe('FilesListTable', () => {
       expect(upIcon.find({ name: 'share' })).toHaveLength(0);
     });
 
-    it('has 2 rows without actions', () => {
+    it('has 2 rows', () => {
       const tbody = component.find('tbody');
       expect(tbody).toHaveLength(1);
       expect(tbody.find('tr')).toHaveLength(2);
-      expect(tbody.find('DropdownKebab')).toHaveLength(0);
     });
   });
 
@@ -146,7 +148,7 @@ describe('FilesListTable', () => {
       const tbody = component.find('tbody');
       expect(tbody).toHaveLength(1);
       expect(tbody.find('tr')).toHaveLength(2);
-      expect(tbody.find('DropdownKebab')).toHaveLength(2);
+      expect(tbody.find('FilesListMenuActions')).toHaveLength(2);
     });
 
     it('verify click uplink', () => {

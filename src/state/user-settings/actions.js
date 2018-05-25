@@ -1,8 +1,10 @@
 import { initialize } from 'redux-form';
-
+import { formattedText } from '@entando/utils';
 import { getUserSettings, putUserSettings } from 'api/userSettings';
 import { addErrors } from 'state/errors/actions';
+import { addToast } from 'state/toasts/actions';
 import { SET_USER_SETTINGS } from 'state/user-settings/types';
+import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 
 export const setUserSettings = settings => ({
   type: SET_USER_SETTINGS,
@@ -19,6 +21,7 @@ export const fetchUserSettings = () => dispatch => new Promise((resolve) => {
         dispatch(initialize('user-restrictions', json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        dispatch(addToast(json.errors[0].message, TOAST_ERROR));
       }
       resolve();
     });
@@ -30,8 +33,13 @@ export const updateUserSettings = settings => dispatch => new Promise((resolve) 
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserSettings(json.payload));
+        dispatch(addToast(
+          formattedText('app.updateSettings.success'),
+          TOAST_SUCCESS,
+        ));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        dispatch(addToast(json.errors[0].message, TOAST_ERROR));
       }
       resolve();
     });

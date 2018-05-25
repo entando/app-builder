@@ -8,7 +8,7 @@ import { RestrictionsFormBody, montshSinceLogin } from 'ui/users/restrictions/Re
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-describe('UserRestrictionsPage', () => {
+describe('RestrictionsForm', () => {
   const onWillMount = jest.fn();
   let component;
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('UserRestrictionsPage', () => {
     expect(component.exists()).toBe(true);
   });
 
-  it('renders without crashing', () => {
+  it('calls onWillMount on mount', () => {
     expect(onWillMount).toHaveBeenCalled();
   });
 

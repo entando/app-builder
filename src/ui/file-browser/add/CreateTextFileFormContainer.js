@@ -10,8 +10,8 @@ export const mapStateToProps = () => ({
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => {
-    const { path, extension, content } = values;
-    const file = new File([content], `${path}${extension}`);
+    const { name, extension, content } = values;
+    const file = new File([content], `${name}${extension}`);
     dispatch(saveFile(file));
   },
 });

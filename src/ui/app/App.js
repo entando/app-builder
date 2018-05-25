@@ -33,6 +33,7 @@ import {
   ROUTE_PAGE_CLONE,
   ROUTE_USER_DETAIL,
   ROUTE_USER_RESTRICTIONS,
+  ROUTE_USER_MY_PROFILE,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -102,6 +103,7 @@ import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
+import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -174,6 +176,7 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_MODEL_ADD: return <PageModelAddPage />;
     case ROUTE_PAGE_MODEL_EDIT: return <PageModelEditPage />;
     case ROUTE_PAGE_MODEL_DETAIL: return <PageModelDetailPageContainer />;
+    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     case ROUTE_USER_LIST: return <UserListPage />;
@@ -181,7 +184,7 @@ const App = ({ route, username }) => {
     case ROUTE_USER_ADD: return <AddUserPage />;
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_USER_DETAIL: return <DetailUserPage />;
-    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
+    case ROUTE_USER_MY_PROFILE: return <MyProfilePage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;

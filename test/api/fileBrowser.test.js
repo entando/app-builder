@@ -1,6 +1,6 @@
-import { getFileBrowser, getFile, postFile, putFile, postFileBrowserCreateFolder } from 'api/fileBrowser';
+import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder } from 'api/fileBrowser';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_CREATE_FOLDER } from 'test/mocks/fileBrowser';
+import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_FOLDER } from 'test/mocks/fileBrowser';
 
 jest.unmock('api/fileBrowser');
 jest.mock('@entando/apimanager', () => ({
@@ -97,20 +97,40 @@ describe('api/fileBrowser', () => {
     });
   });
 
-  describe('postFileBrowserCreateFolder', () => {
+  describe('postCreateFolder', () => {
     it('returns a promise', () => {
-      expect(postFileBrowserCreateFolder(false, 'folder/subfolder')).toBeInstanceOf(Promise);
+      expect(postCreateFolder(false, 'folder/subfolder')).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
       const protectedFolder = false;
       const path = 'folder/subfolder';
-      postFileBrowserCreateFolder(protectedFolder, path);
+      postCreateFolder(protectedFolder, path);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/fileBrowser/directory',
         body: { protectedFolder, path },
         method: METHODS.POST,
-        mockResponse: FILE_BROWSER_CREATE_FOLDER,
+        mockResponse: FILE_BROWSER_FOLDER,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('deleteFolder', () => {
+    it('returns a promise', () => {
+      expect(deleteFolder(false, 'folder/subfolder')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const protectedFolder = false;
+      const currentPath = 'folder/subfolder';
+      const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}`;
+      deleteFolder(queryString);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/fileBrowser/directory${queryString}`,
+        body: {},
+        method: METHODS.DELETE,
+        mockResponse: FILE_BROWSER_FOLDER,
         useAuthentication: true,
       });
     });

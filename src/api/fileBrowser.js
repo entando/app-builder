@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_CREATE_FOLDER } from 'test/mocks/fileBrowser';
+import { FILE_BROWSER, FILE_BROWSER_FILE, FILE_BROWSER_FOLDER } from 'test/mocks/fileBrowser';
 
 export const getFileBrowser = (queryString = '') => (
   makeRequest({
@@ -39,12 +39,20 @@ export const putFile = file => (
   })
 );
 
-export const postFileBrowserCreateFolder = (protectedFolder, path) => (
+export const postCreateFolder = (protectedFolder, path) => (
   makeRequest({
     uri: '/api/fileBrowser/directory',
     body: { protectedFolder, path },
     method: METHODS.POST,
-    mockResponse: FILE_BROWSER_CREATE_FOLDER,
+    mockResponse: FILE_BROWSER_FOLDER,
     useAuthentication: true,
   })
 );
+
+export const deleteFolder = params => makeRequest({
+  uri: `/api/fileBrowser/directory${params}`,
+  body: {},
+  method: METHODS.DELETE,
+  mockResponse: FILE_BROWSER_FOLDER,
+  useAuthentication: true,
+});

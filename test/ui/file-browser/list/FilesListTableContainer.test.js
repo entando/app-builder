@@ -1,10 +1,11 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/file-browser/list/FilesListTableContainer';
-import { fetchFileList } from 'state/file-browser/actions';
+import { fetchFileList, downloadFile } from 'state/file-browser/actions';
 
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 const path = {
   pathInfo: {
@@ -24,12 +25,19 @@ jest.mock('state/loading/selectors', () => ({
 
 jest.mock('state/file-browser/actions', () => ({
   fetchFileList: jest.fn(),
+  downloadFile: jest.fn(),
 }));
+jest.mock('state/modal/actions', () => ({
+  setInfo: jest.fn(),
+  setVisibleModal: jest.fn(),
+}));
+
+downloadFile.mockReturnValue(Promise.resolve(new File([''], 'filename.txt')));
 
 getFileList.mockReturnValue(FILE_BROWSER);
 getPathInfo.mockReturnValue(path);
 
-const dispatchMock = jest.fn();
+const dispatchMock = jest.fn(() => Promise.resolve({}));
 
 describe('FilesListTableContainer', () => {
   describe('mapStateToProps', () => {
@@ -47,12 +55,26 @@ describe('FilesListTableContainer', () => {
 
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
+      expect(props.onClickDownload).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchFileList).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickDownload is called', () => {
+      props.onClickDownload(new File([''], 'filename.txt'));
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(downloadFile).toHaveBeenCalled();
+    });
+
+    it('should dispatch 2 actions if onClickDelete is called', () => {
+      props.onClickDelete({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalled();
+      expect(setInfo).toHaveBeenCalled();
     });
   });
 });
