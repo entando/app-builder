@@ -230,6 +230,7 @@ export default {
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New Folder Name',
     'fileBrowser.help': 'The FILE BROWSER section lets system administrators can browse the File System folders.',
+    'fileBroswer.textFile.placeholder': 'file content here...',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',

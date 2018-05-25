@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
-import CreateTextFileForm from 'ui/file-browser/add/CreateTextFileForm';
+import CreateTextFileFormContainer from 'ui/file-browser/add/CreateTextFileFormContainer';
 
 
 const CreateTextFilePage = () => (
@@ -46,7 +46,7 @@ const CreateTextFilePage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <CreateTextFileForm />
+          <CreateTextFileFormContainer />
         </Col>
       </Row>
     </Grid>

@@ -32,7 +32,6 @@ export class CreateTextFileFormBody extends Component {
                 component={RenderTextInput}
                 name="path"
                 label={<FormLabel labelId="app.name" />}
-                placeholder={formattedText('app.name')}
                 validate={[required, maxLength50]}
               />
             </fieldset>
@@ -43,16 +42,17 @@ export class CreateTextFileFormBody extends Component {
               <Field
                 component="select"
                 name="extension"
+                validate={[required]}
                 className="CreateTextFileForm__select-extension form-control"
               >
-                <option value="txt">txt</option>
-                <option value="css">css</option>
+                <option value=".txt">txt</option>
+                <option value=".css">css</option>
               </Field>
             </fieldset>
           </Col>
         </Row>
         <Row>
-          <Col xs={8}>
+          <Col xs={12}>
             <fieldset className="no-padding">
               <Field
                 component={RenderTextAreaInput}
@@ -60,6 +60,7 @@ export class CreateTextFileFormBody extends Component {
                 rows={20}
                 label="Content"
                 name="content"
+                placeholder={formattedText('fileBroswer.textFile.placeholder')}
                 validate={[required]}
               />
             </fieldset>

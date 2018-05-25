@@ -230,6 +230,7 @@ export default {
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nome nuova cartella',
     'fileBrowser.help': 'La sezione FILE BROWSER permette di navigare le cartelle del file system.',
+    'fileBroswer.textFile.placeholder': 'inserisci il contenuto...',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',
