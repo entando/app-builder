@@ -5,6 +5,7 @@ import { fetchFileList, downloadFile } from 'state/file-browser/actions';
 
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 const path = {
   pathInfo: {
@@ -25,6 +26,10 @@ jest.mock('state/loading/selectors', () => ({
 jest.mock('state/file-browser/actions', () => ({
   fetchFileList: jest.fn(),
   downloadFile: jest.fn(),
+}));
+jest.mock('state/modal/actions', () => ({
+  setInfo: jest.fn(),
+  setVisibleModal: jest.fn(),
 }));
 
 downloadFile.mockReturnValue(Promise.resolve(new File([''], 'filename.txt')));
@@ -63,6 +68,13 @@ describe('FilesListTableContainer', () => {
       props.onClickDownload(new File([''], 'filename.txt'));
       expect(dispatchMock).toHaveBeenCalled();
       expect(downloadFile).toHaveBeenCalled();
+    });
+
+    it('should dispatch 2 actions if onClickDelete is called', () => {
+      props.onClickDelete({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(setVisibleModal).toHaveBeenCalled();
+      expect(setInfo).toHaveBeenCalled();
     });
   });
 });
