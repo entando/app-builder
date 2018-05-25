@@ -54,12 +54,14 @@ export class ProfileTypeFormBody extends Component {
               <FormattedMessage id="app.attributes" />
             </legend>
             <InputGroup>
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 defaultOptionId="app.chooseAnOption"
-                labelId="ProfileType.type"
-                fieldName="type"
-                mandatory
+                label={
+                  <FormLabel labelId="ProfileType.type" required />
+                }
+                name="type"
               />
               <span className="input-group-btn">
                 <Button
@@ -98,7 +100,7 @@ export class ProfileTypeFormBody extends Component {
                 name="code"
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
-                 }
+                }
                 validate={[required, uppercaseThreeLetters]}
                 disabled={isEdit}
               />

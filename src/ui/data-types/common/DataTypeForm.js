@@ -55,12 +55,14 @@ export class DataTypeFormBody extends Component {
               <FormattedMessage id="app.attributes" />
             </legend>
             <InputGroup>
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 defaultOptionId="app.chooseAnOption"
-                labelId="DataType.type"
-                fieldName="type"
-                mandatory
+                label={
+                  <FormLabel labelId="DataType.type" required />
+                }
+                name="type"
               />
               <span className="input-group-btn">
                 <Button
