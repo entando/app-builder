@@ -1,22 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
+import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextAreaInput = ({
-  input, name, label, placeholder, meta: { touched, error }, help, disabled,
+  input, append, label, labelSize, placeholder, alignClass,
+  meta: { touched, error }, help, disabled, cols, rows,
 }) => (
 
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <label htmlFor={name} className="col-xs-2 control-label">
-      {label} {help}
-    </label>
-    <Col xs={10}>
+    <Col xs={labelSize} className={alignClass}>
+      <ControlLabel htmlFor={input.name}>
+        {label} {help}
+      </ControlLabel>
+    </Col>
+    <Col xs={12 - labelSize}>
       <textarea
         {...input}
+        cols={cols}
+        rows={rows}
         placeholder={placeholder}
-        className="form-control"
+        className="form-control RenderTextAreaInput"
         disabled={disabled}
       />
+      {append && <span className="AppendedLabel">{append}</span>}
       {touched && ((error && <span className="help-block">{error}</span>))}
     </Col>
   </div>
@@ -31,6 +37,11 @@ RenderTextAreaInput.propTypes = {
   meta: PropTypes.shape({}),
   help: PropTypes.node,
   disabled: PropTypes.bool,
+  labelSize: PropTypes.number,
+  append: PropTypes.string,
+  alignClass: PropTypes.string,
+  cols: PropTypes.number,
+  rows: PropTypes.number,
 };
 
 RenderTextAreaInput.defaultProps = {
@@ -41,5 +52,10 @@ RenderTextAreaInput.defaultProps = {
   meta: {},
   help: null,
   disabled: false,
+  labelSize: 2,
+  append: '',
+  alignClass: 'text-right',
+  cols: 20,
+  rows: 20,
 };
 export default RenderTextAreaInput;
