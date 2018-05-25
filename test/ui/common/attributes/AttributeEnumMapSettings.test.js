@@ -2,7 +2,10 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
+import AttributeEnumMapSettings, { elements as elementValidation } from 'ui/common/attributes/AttributeEnumMapSettings';
+import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import { required } from '@entando/utils';
 
 describe('AttributeEnumMapSettings', () => {
   let component;
@@ -19,10 +22,25 @@ describe('AttributeEnumMapSettings', () => {
     expect(component.find('Row')).toHaveLength(1);
   });
 
-  it('has two Fields and one RenderSelectInput', () => {
-    expect(component.find('Field').exists()).toBe(true);
-    expect(component.find('Field')).toHaveLength(2);
-    expect(component.find('RenderSelectInput').exists()).toBe(true);
-    expect(component.find('RenderSelectInput')).toHaveLength(1);
+  it('has a enumeratorStaticItems text field', () => {
+    const element = component.find('Field[name="enumeratorStaticItems"]');
+    expect(element.exists()).toBe(true);
+    const props = element.props();
+    expect(props).toHaveProperty('component', RenderTextInput);
+    expect(props).toHaveProperty('validate', [required, elementValidation]);
+  });
+
+  it('has a enumeratorMapExtractorBeans select field', () => {
+    const element = component.find('Field[name="enumeratorMapExtractorBeans"]');
+    expect(element.exists()).toBe(true);
+    const props = element.props();
+    expect(props).toHaveProperty('component', RenderSelectInput);
+  });
+
+  it('has a enumeratorStaticItemsSeparator text field', () => {
+    const element = component.find('Field[name="enumeratorStaticItemsSeparator"]');
+    expect(element.exists()).toBe(true);
+    const props = element.props();
+    expect(props).toHaveProperty('component', RenderTextInput);
   });
 });

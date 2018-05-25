@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { Row, Col } from 'patternfly-react';
 import { required } from '@entando/utils';
-import { FormSection } from 'redux-form';
+import { Field, FormSection } from 'redux-form';
+
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
   const selectAttribute = attributesList.map(item => ({
@@ -20,11 +22,14 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
             <FormattedMessage id="app.settings" />
           </legend>
           <FormSection name="nestedAttribute">
-            <RenderSelectInput
+            <Field
+              component={RenderSelectInput}
               options={selectAttribute}
               defaultOptionId="app.chooseAnOption"
-              labelId="app.list"
-              fieldName="type"
+              label={
+                <FormLabel labelId="app.list" required />
+              }
+              name="type"
               validate={[required]}
               selectedValue={defaultValue}
             />

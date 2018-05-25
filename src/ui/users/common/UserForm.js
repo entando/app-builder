@@ -101,11 +101,13 @@ export class UserFormBody extends Component {
 
     const showProfileType = (
       mode !== EDIT_MODE ?
-        (<RenderSelectInput
+        (<Field
+          component={RenderSelectInput}
           options={profileTypes}
           defaultOptionId="form.select.chooseOne"
-          labelId="user.profileType"
-          fieldName="profileType"
+          label={<FormLabel labelId="user.profileType" required />}
+          name="profileType"
+          validate={required}
         />) : null
     );
 

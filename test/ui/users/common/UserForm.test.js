@@ -82,7 +82,7 @@ describe('UserForm', () => {
 
     it('root component renders profileType field', () => {
       userForm = buildUserForm();
-      const status = userForm.find('[fieldName="profileType"]');
+      const status = userForm.find('[name="profileType"]');
       expect(status.exists()).toEqual(true);
     });
   });

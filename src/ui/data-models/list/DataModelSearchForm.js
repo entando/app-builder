@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
+
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
 export class DataModelSearchFormBody extends Component {
   constructor(props) {
@@ -31,10 +33,13 @@ export class DataModelSearchFormBody extends Component {
          <FormGroup>
            <Row>
              <Col sm={10}>
-               <RenderSelectInput
+               <Field
+                 component={RenderSelectInput}
                  options={selectOptions}
-                 labelId="dataModel.type"
-                 fieldName="type"
+                 name="type"
+                 label={
+                   <FormLabel labelId="dataModel.type" required />
+                 }
                />
              </Col>
            </Row>

@@ -1,39 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
-import { Field } from 'redux-form';
+import { Col, ControlLabel } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
-import FormLabel from 'ui/common/form/FormLabel';
 
 const RenderSelectInput = ({
-  defaultOptionId, options, labelId, fieldName, mandatory,
-}) => (
-  <div className="form-group">
-    <label htmlFor={fieldName} className="col-xs-2 control-label text-right">
-      <FormLabel labelId={labelId} required={mandatory} />
-    </label>
-    <Col xs={10}>
-      <Field
-        component="select"
-        name={fieldName}
-        className="form-control"
-      >
-        {defaultOptionId &&
-          <option value="">
-            {formattedText(defaultOptionId)}
-          </option>}
-        {options.map(item => (
-          <option
-            key={item.value}
-            value={item.value}
-          >{item.text}
-          </option>))}
-      </Field>
-    </Col>
-  </div>
-);
+  input, meta: { touched, error },
+  labelSize, alignClass, label, help,
+  defaultOptionId, options, optionReducer,
+  optionValue, optionDisplayName, size, inputSize,
+}) => {
+  const containerClasses = (touched && error) ? 'form-group has-error' : 'form-group';
+
+  const defaultOption = defaultOptionId ?
+    (
+      <option value="">
+        {formattedText(defaultOptionId)}
+      </option>
+    ) :
+    null;
+
+  const optionsList = optionReducer ? optionReducer(options) : options.map(item => (
+    <option
+      key={item[optionValue]}
+      value={item[optionValue]}
+    >
+      {item[optionDisplayName]}
+    </option>
+  ));
+
+  const errorBox = touched && error ?
+    <span className="help-block">{error}</span> :
+    null;
+
+  return (
+    <div className={containerClasses}>
+      <Col xs={labelSize} className={alignClass}>
+        <ControlLabel htmlFor={input.name}>
+          {label} {help}
+        </ControlLabel>
+      </Col>
+      <Col xs={inputSize || 12 - labelSize}>
+        <select
+          {...input}
+          size={size}
+          className="form-control RenderSelectInput"
+        >
+          {defaultOption}
+          {optionsList}
+        </select>
+        {errorBox}
+      </Col>
+    </div>
+  );
+};
 
 RenderSelectInput.propTypes = {
+  input: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.shape({}),
+  }),
   defaultOptionId: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([
@@ -42,14 +68,33 @@ RenderSelectInput.propTypes = {
     ]),
     text: PropTypes.string,
   })),
-  labelId: PropTypes.string.isRequired,
-  mandatory: PropTypes.bool,
-  fieldName: PropTypes.string.isRequired,
+  label: PropTypes.node,
+  labelSize: PropTypes.number,
+  alignClass: PropTypes.string,
+  help: PropTypes.node,
+  optionReducer: PropTypes.func,
+  optionValue: PropTypes.string,
+  optionDisplayName: PropTypes.string,
+  size: PropTypes.number,
+  inputSize: PropTypes.number,
 };
 
 RenderSelectInput.defaultProps = {
+  input: {},
+  meta: {
+    touched: false,
+    error: {},
+  },
   defaultOptionId: '',
   options: [],
-  mandatory: false,
+  label: null,
+  labelSize: 2,
+  alignClass: 'text-right',
+  help: null,
+  optionReducer: null,
+  optionValue: 'value',
+  optionDisplayName: 'text',
+  size: null,
+  inputSize: null,
 };
 export default RenderSelectInput;
