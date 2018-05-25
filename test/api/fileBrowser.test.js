@@ -128,7 +128,6 @@ describe('api/fileBrowser', () => {
       deleteFolder(queryString);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: `/api/fileBrowser/directory${queryString}`,
-        body: {},
         method: METHODS.DELETE,
         mockResponse: FILE_BROWSER_FOLDER,
         useAuthentication: true,
@@ -148,7 +147,6 @@ describe('api/fileBrowser', () => {
       deleteFile(queryString);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: `/api/fileBrowser/file${queryString}`,
-        body: {},
         method: METHODS.DELETE,
         mockResponse: FILE_BROWSER_FILE,
         useAuthentication: true,
