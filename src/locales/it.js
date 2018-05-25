@@ -109,6 +109,7 @@ export default {
     'app.created': 'Il {type} {code} è stato creato',
     'app.updated': 'Il {type} {code} è stato aggiornato',
     'app.deleted': 'Il {type} {code} è stato cancellato',
+    'app.updateSettings.success': 'La configurazione è stata aggiornata con successo',
     'menu.dashboard': 'Dashboard',
     'menu.pageTree': 'Albero delle pagine',
     'menu.uxPattern': 'UX Patterns',

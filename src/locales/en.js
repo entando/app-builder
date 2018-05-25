@@ -109,6 +109,7 @@ export default {
     'app.created': 'The {type} {code} has been created',
     'app.updated': 'The {type} {code} has been updated',
     'app.deleted': 'The {type} {code} has been deleted',
+    'app.updateSettings.success': 'The settings have been updated successfully',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',

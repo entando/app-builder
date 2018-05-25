@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Col, Form, FormGroup, Button, ControlLabel } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { isNumber } from '@entando/utils';
+import { isNumber, formattedText } from '@entando/utils';
 
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -47,7 +47,8 @@ export class RestrictionsFormBody extends Component {
           name="maxMonthsPasswordValid"
           disabled={disabled}
           validate={isNumber}
-          append={<FormattedMessage id="user.restrictions.months" />}
+          alignClass="text-left"
+          append={formattedText('user.restrictions.months')}
         />
         <Field
           label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
@@ -56,7 +57,8 @@ export class RestrictionsFormBody extends Component {
           name="lastAccessPasswordExpirationMonths"
           disabled={disabled}
           validate={[isNumber, montshSinceLogin]}
-          append={<FormattedMessage id="user.restrictions.months" />}
+          alignClass="text-left"
+          append={formattedText('user.restrictions.months')}
         />
         <legend>
           <FormattedMessage id="user.restrictions.avatarSection" />
