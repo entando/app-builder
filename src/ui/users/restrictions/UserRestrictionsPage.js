@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
 
-const ListUserPage = () => (
+const UserRestrictionsPage = () => (
   <InternalPage className="UserRestrictionsPage">
     <Grid fluid>
       <Row>
@@ -39,4 +39,4 @@ const ListUserPage = () => (
   </InternalPage>
 );
 
-export default ListUserPage;
+export default UserRestrictionsPage;

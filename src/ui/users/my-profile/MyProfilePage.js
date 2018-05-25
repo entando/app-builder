@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
 
-const AddUserPage = () => (
+const MyProfilePage = () => (
 
   <InternalPage className="MyProfilePage">
     <Grid fluid>
@@ -40,4 +40,4 @@ const AddUserPage = () => (
 );
 
 
-export default AddUserPage;
+export default MyProfilePage;
