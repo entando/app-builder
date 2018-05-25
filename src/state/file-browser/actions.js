@@ -71,11 +71,15 @@ const getBase64 = file => (
   }));
 
 const sendPostFile = fileObject => new Promise((resolve, reject) => {
-  postFile(fileObject).then(response => (response.ok ? resolve() : reject()));
+  postFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
+    reject(error);
+  });
 });
 
 const sendPutFile = fileObject => new Promise((resolve, reject) => {
-  putFile(fileObject).then(response => (response.ok ? resolve('OK') : reject()));
+  putFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
+    reject(error);
+  });
 });
 
 const createFileObject = (protectedFolder, currentPath, file) => getBase64(file).then(base64 => ({
@@ -87,9 +91,16 @@ const createFileObject = (protectedFolder, currentPath, file) => getBase64(file)
 
 const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {
+    dispatch(toggleLoading('uploadFile'));
     apiFunc(obj).then(() => {
+      dispatch(addToast(formattedText('fileBrowser.uploadFileComplete'), TOAST_SUCCESS));
       gotoRoute(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(...args));
+      dispatch(toggleLoading('uploadFile'));
+    }).catch((error) => {
+      dispatch(toggleLoading('uploadFile'));
+      const message = formattedText('fileBrowser.uploadFileError');
+      dispatch(addToast(`${message} - ${error}`), TOAST_ERROR);
     });
   });
 };
@@ -107,6 +118,21 @@ export const saveFile = file => (dispatch, getState) => new Promise((resolve) =>
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
       resolve();
+    });
+  });
+});
+
+export const downloadFile = file => (dispatch, getState) => new Promise((resolve) => {
+  const { protectedFolder, currentPath } = getPathInfo(getState());
+  const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}/${file.name}`;
+  getFile(queryString).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        resolve(json.payload.base64);
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+        resolve();
+      }
     });
   });
 });

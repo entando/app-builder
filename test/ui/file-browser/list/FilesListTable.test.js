@@ -11,6 +11,7 @@ jest.mock('state/file-browser/selectors', () => ({
 
 const props = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: true,
     prevPath: '/first',
@@ -20,6 +21,7 @@ const props = {
 
 const propsRootFolder = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: null,
     prevPath: '',
@@ -29,6 +31,7 @@ const propsRootFolder = {
 
 const propsFirstLevelFolder = {
   onWillMount: jest.fn(),
+  onClickDownload: jest.fn(),
   pathInfo: {
     protectedFolder: true,
     prevPath: '',

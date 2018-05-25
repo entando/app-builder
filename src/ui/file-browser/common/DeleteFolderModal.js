@@ -46,7 +46,7 @@ const DeleteFolderModal = ({
 };
 
 DeleteFolderModal.propTypes = {
-  onConfirmDelete: PropTypes.func,
+  onConfirmDelete: PropTypes.func.isRequired,
   info: PropTypes.shape({
     file: PropTypes.shape({
       path: PropTypes.string,
@@ -57,7 +57,6 @@ DeleteFolderModal.propTypes = {
 };
 
 DeleteFolderModal.defaultProps = {
-  onConfirmDelete: null,
   info: {
     file: {
       path: '',

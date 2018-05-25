@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
 
@@ -12,7 +11,7 @@ class FilesListTable extends Component {
   }
 
   renderTableRows() {
-    const { onClickDelete, onClickAdd } = this.props;
+    const { onClickDelete, onClickDownload } = this.props;
 
     const getProtectedFolder = (path) => {
       switch (path) {
@@ -41,7 +40,7 @@ class FilesListTable extends Component {
         );
       }
       return (
-        <a className="FilesListTable__link-download" href={`download?${file.path}`}>
+        <a className="FilesListTable__link-download" role="presentation" download onClick={() => onClickDownload(file)}>
           <Icon size="lg" name="file" /> {file.name}
         </a>
       );
@@ -55,8 +54,8 @@ class FilesListTable extends Component {
         <td className="FilesListRow__td">
           <FilesListMenuActions
             file={file}
+            onClickDownload={onClickDownload}
             onClickDelete={onClickDelete}
-            onClickAdd={onClickAdd}
           />
         </td>
       </tr>
@@ -127,8 +126,8 @@ class FilesListTable extends Component {
 
 FilesListTable.propTypes = {
   onWillMount: PropTypes.func.isRequired,
+  onClickDownload: PropTypes.func,
   onClickDelete: PropTypes.func,
-  onClickAdd: PropTypes.func,
   loading: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
@@ -145,9 +144,9 @@ FilesListTable.propTypes = {
 };
 
 FilesListTable.defaultProps = {
+  onClickDownload: () => {},
+  onClickDelete: () => {},
   loading: false,
-  onClickDelete: null,
-  onClickAdd: null,
   files: [],
   pathInfo: {
     protectedFolder: null,

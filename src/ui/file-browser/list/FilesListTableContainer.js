@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 
-import { fetchFileList } from 'state/file-browser/actions';
+import { fetchFileList, downloadFile } from 'state/file-browser/actions';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
 import { getLoading } from 'state/loading/selectors';
 import FilesListTable from 'ui/file-browser/list/FilesListTable';
+import { download } from 'ui/file-browser/utils/downloadFile';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/file-browser/common/DeleteFolderModal';
 
@@ -18,6 +19,9 @@ export const mapStateToProps = state => (
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (protectedFolder = '', path = '') => {
     dispatch(fetchFileList(protectedFolder, path));
+  },
+  onClickDownload: (file) => {
+    dispatch(downloadFile(file)).then((base64) => { download(file.name, base64); });
   },
   onClickDelete: (file) => {
     dispatch(setVisibleModal(MODAL_ID));

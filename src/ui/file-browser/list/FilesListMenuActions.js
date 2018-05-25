@@ -8,7 +8,8 @@ import { LinkMenuItem } from 'frontend-common-components';
 const downloadLabel = <FormattedMessage id="fileBrowser.downloadFile" />;
 const deleteLabel = <FormattedMessage id="app.delete" />;
 
-const FilesListMenuActions = ({ onClickDelete, file }) => {
+
+const FilesListMenuActions = ({ onClickDelete, onClickDownload, file }) => {
   if ((file.name !== 'protected') && (file.name !== 'public')) {
     if (file.directory) {
       return (
@@ -17,20 +18,20 @@ const FilesListMenuActions = ({ onClickDelete, file }) => {
             className="FilesListMenuAction__delete"
             onClick={() => onClickDelete(file)}
           >
-            <FormattedMessage id="app.delete" />
+            {deleteLabel}
           </MenuItem>
         </DropdownKebab>
       );
     }
     return (
       <DropdownKebab pullRight id={`${file.name}-actions`}>
-        <LinkMenuItem
+        <MenuItem
           id={`download-${file.name}`}
-          route={ROUTE_FILE_BROWSER}
-          params={{ fileName: file.name }}
-          label={downloadLabel}
           className="FilesListMenuAction__download"
-        />
+          onClick={() => onClickDownload(file)}
+        >
+          {downloadLabel}
+        </MenuItem>
         <LinkMenuItem
           id={`delete-${file.name}`}
           route={ROUTE_FILE_BROWSER}
@@ -46,6 +47,7 @@ const FilesListMenuActions = ({ onClickDelete, file }) => {
 
 FilesListMenuActions.propTypes = {
   onClickDelete: PropTypes.func,
+  onClickDownload: PropTypes.func,
   file: PropTypes.shape({
     name: PropTypes.string,
     lastModifiedTime: PropTypes.string,
@@ -56,7 +58,8 @@ FilesListMenuActions.propTypes = {
 };
 
 FilesListMenuActions.defaultProps = {
-  onClickDelete: null,
+  onClickDownload: () => {},
+  onClickDelete: () => {},
 };
 
 export default FilesListMenuActions;

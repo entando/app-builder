@@ -148,6 +148,7 @@ export const USER_REFERENCES = [
     fullName: 'Administrators',
     lastLogin: '2018-01-08 00:00:00',
     status: 'active',
+    profileAttributes: {},
   },
 ];
 
