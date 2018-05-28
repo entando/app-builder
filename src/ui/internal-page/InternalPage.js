@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
-  HelpMenu,
   AdminAppSwitch,
   LinkMenuItem,
   FirstLevelMenuItem,
@@ -33,7 +32,6 @@ const menuHeader = [
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
-  <HelpMenu key="helpMenu" />,
 ];
 
 
