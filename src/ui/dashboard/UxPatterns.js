@@ -25,8 +25,13 @@ class UxPatterns extends Component {
         <CardTitle>
           <Icon size="lg" name="object-ungroup" />
           <FormattedMessage id="menu.uxPattern" />
-          <Button className="pull-right" componentClass={Link} route={ROUTE_WIDGET_ADD} >
-            <FormattedMessage id="dashboard.newWidget" />
+          <Button
+            bsStyle="primary"
+            className="pull-right"
+            componentClass={Link}
+            route={ROUTE_WIDGET_ADD}
+          >
+            <FormattedMessage id="app.new" />
           </Button>
           <Clearfix />
         </CardTitle>
