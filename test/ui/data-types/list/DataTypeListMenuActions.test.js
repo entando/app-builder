@@ -32,15 +32,8 @@ describe('DataTypeListMenuActions', () => {
 
   it('should call handler function and preventDefault', () => {
     const handler = jest.fn();
-    const result = component.instance().handleClick(handler);
-    result(EVENT);
+    component.instance().handleClick(handler, EVENT);
     expect(handler).toHaveBeenCalled();
-    expect(EVENT.preventDefault).toHaveBeenCalled();
-  });
-
-  it('should call ev.preventDefault only', () => {
-    const result = component.instance().handleClick();
-    result(EVENT);
     expect(EVENT.preventDefault).toHaveBeenCalled();
   });
 });

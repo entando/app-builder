@@ -29,18 +29,4 @@ describe('ProfileTypeListMenuActions', () => {
   it('has a drop down with kebab button', () => {
     expect(component.find('DropdownKebab')).toHaveLength(1);
   });
-
-  it('should call handler function and preventDefault', () => {
-    const handler = jest.fn();
-    const result = component.instance().handleClick(handler);
-    result(EVENT);
-    expect(handler).toHaveBeenCalled();
-    expect(EVENT.preventDefault).toHaveBeenCalled();
-  });
-
-  it('should call ev.preventDefault only', () => {
-    const result = component.instance().handleClick();
-    result(EVENT);
-    expect(EVENT.preventDefault).toHaveBeenCalled();
-  });
 });

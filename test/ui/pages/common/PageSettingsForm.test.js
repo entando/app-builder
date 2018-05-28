@@ -3,10 +3,20 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
-import { FREE_PAGES_PAYLOAD as OPTIONS } from 'test/mocks/pages';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
+
+const OPTIONS = [
+  {
+    code: 'homepage',
+    fullTitles: 'title',
+  },
+  {
+    code: 'service',
+    fullTitles: 'title',
+  },
+];
 
 describe('PageSettingsForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -33,8 +43,8 @@ describe('PageSettingsForm', () => {
       const { options } = selectComponent.props();
       expect(options).toHaveLength(OPTIONS.length);
       options.forEach((option, i) => {
-        expect(option.value).toEqual(OPTIONS[i].pageCode);
-        expect(option.text).toEqual(OPTIONS[i].shortFullTitle);
+        expect(option.value).toEqual(OPTIONS[i].code);
+        expect(option.text).toEqual(OPTIONS[i].fullTitles);
       });
     });
   });
@@ -52,43 +62,47 @@ describe('PageSettingsForm', () => {
 
     it('renders homePageCode field', () => {
       const homePageCode = component.find('[fieldName="homePageCode"]');
-      expect(homePageCode.exists()).toEqual(true);
+      expect(homePageCode.exists()).toBe(true);
     });
+
     it('renders errorPageCode field', () => {
       const errorPageCode = component.find('[fieldName="errorPageCode"]');
-      expect(errorPageCode.exists()).toEqual(true);
+      expect(errorPageCode.exists()).toBe(true);
     });
+
     it('renders loginPageCode field', () => {
       const loginPageCode = component.find('[fieldName="loginPageCode"]');
-      expect(loginPageCode.exists()).toEqual(true);
+      expect(loginPageCode.exists()).toBe(true);
     });
+
     it('renders notFoundPageCode field', () => {
       const notFoundPageCode = component.find('[fieldName="notFoundPageCode"]');
-      expect(notFoundPageCode.exists()).toEqual(true);
+      expect(notFoundPageCode.exists()).toBe(true);
     });
+
     it('renders baseUrl field', () => {
       const notFoundPageCode = component.find('[name="baseUrl"]');
-      expect(notFoundPageCode.exists()).toEqual(true);
+      expect(notFoundPageCode.exists()).toBe(true);
     });
+
     it('renders baseUrlContext field', () => {
       const baseUrlContext = component.find('[name="baseUrlContext"]');
-      expect(baseUrlContext.exists()).toEqual(true);
+      expect(baseUrlContext.exists()).toBe(true);
     });
+
     it('renders useJsessionId field', () => {
       const useJsessionId = component.find('[name="useJsessionId"]');
-      expect(useJsessionId.exists()).toEqual(true);
+      expect(useJsessionId.exists()).toBe(true);
     });
+
     it('renders startLangFromBrowser field', () => {
       const startLangFromBrowser = component.find('[name="startLangFromBrowser"]');
-      expect(startLangFromBrowser.exists()).toEqual(true);
+      expect(startLangFromBrowser.exists()).toBe(true);
     });
-    it('renders treeStyle_page field', () => {
-      const treeStylePage = component.find('[name="treeStyle_page"]');
-      expect(treeStylePage.exists()).toEqual(true);
-    });
+
     it('renders urlStyle field', () => {
       const urlStyle = component.find('[name="urlStyle"]');
-      expect(urlStyle.exists()).toEqual(true);
+      expect(urlStyle.exists()).toBe(true);
     });
   });
 

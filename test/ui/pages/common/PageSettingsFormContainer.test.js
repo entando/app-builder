@@ -15,7 +15,20 @@ const TEST_STATE = {
 
 describe('PageSettingsFormContainer', () => {
   it('maps options property state in PageSettingsForm', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ options: OPTIONS });
+    expect(mapStateToProps(TEST_STATE)).toEqual({
+      options: [
+        {
+          code: 'homepage',
+          fullTitles: 'Home Page / Service page / Contacts',
+          titles: 'Contacts',
+        },
+        {
+          code: 'services',
+          fullTitles: 'Home Page / Service page / Contacts',
+          titles: 'Contacts',
+        },
+      ],
+    });
   });
 
   it('verify that onWillMount is defined by mapDispatchToProps', () => {

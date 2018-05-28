@@ -10,9 +10,18 @@ export const getPagesMap = state => state.pages.map;
 export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
-export const getFreePages = state => state.pages.freePages;
 export const getSelectedPage = state => state.pages.selected;
 export const getSearchPages = state => state.pages.search;
+
+export const getFreePages = createSelector(
+  getPages,
+  getLocale,
+  (pages, locale) => pages.freePages.map(page => ({
+    ...page,
+    titles: page.titles[locale],
+    fullTitles: page.fullTitles[locale],
+  })),
+);
 
 
 // relies on the children map order
