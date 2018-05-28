@@ -85,5 +85,10 @@ describe('ProfileTypeListTableContainer', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
     });
+
+    it('should dispatch an action if removeProfileType is called', () => {
+      props.removeProfileType({});
+      expect(dispatchMock).toHaveBeenCalled();
+    });
   });
 });

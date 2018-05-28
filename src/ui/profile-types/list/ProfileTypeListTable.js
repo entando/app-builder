@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMenuActions';
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
+import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
 
 class ProfileTypeListTable extends Component {
   constructor(props) {
@@ -38,7 +39,10 @@ class ProfileTypeListTable extends Component {
           />
         </td>
         <td className="ProfileTypeListRow__td text-center">
-          <ProfileTypeListMenuActions code={profiletype.code} />
+          <ProfileTypeListMenuActions
+            code={profiletype.code}
+            onClickDelete={this.props.removeProfileType}
+          />
         </td>
       </tr>
     ));
@@ -97,6 +101,7 @@ class ProfileTypeListTable extends Component {
       <div className="ProfileTypeListTable">
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
+          <ProfileTypesDeleteModalContainer />
         </Spinner>
       </div>
     );
@@ -114,6 +119,7 @@ ProfileTypeListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  removeProfileType: PropTypes.func.isRequired,
 };
 
 ProfileTypeListTable.defaultProps = {
