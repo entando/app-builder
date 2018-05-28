@@ -237,6 +237,8 @@ export default {
     'fileBrowser.deleteFileSuccess': 'File \'{path}\' successfully deleted',
     'fileBrowser.deleteFileError': 'An error has occurred during deletion of the file \'{path}\'',
     'fileBrowser.help': 'The FILE BROWSER section lets system administrators can browse the File System folders.',
+    'fileBrowser.textFile.placeholder': 'file content here...',
+    'fileBrowser.textFile.content': 'Content',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',

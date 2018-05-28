@@ -70,6 +70,7 @@ import {
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_UPLOAD,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
+  ROUTE_FILE_BROWSER_CREATE_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -141,6 +142,7 @@ import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePa
 import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
+import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 
 const App = ({ route, username }) => {
   if (username === null && route !== ROUTE_HOME && route) {
@@ -220,6 +222,7 @@ const App = ({ route, username }) => {
     case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
     case ROUTE_FILE_BROWSER_UPLOAD: return <UploadFileBrowserPage />;
     case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
+    case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
     default: return <NotFoundPage />;
   }
 };

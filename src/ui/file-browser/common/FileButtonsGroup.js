@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Col, ButtonGroup, Button, Icon } from 'patternfly-react';
 
 import { Link } from '@entando/router';
-import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_CREATE_FOLDER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
+import { ROUTE_FILE_BROWSER_CREATE_TEXT_FILE, ROUTE_FILE_BROWSER_CREATE_FOLDER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 class FileButtonsGroup extends Component {
   renderButtons() {
@@ -16,7 +16,7 @@ class FileButtonsGroup extends Component {
             className="pull-right FilesButtonGroup__createTextFile"
             bsStyle="primary"
             componentClass={Link}
-            route={ROUTE_FILE_BROWSER}
+            route={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE}
           >
             <Icon size="lg" name="file-text" />&nbsp;
             <FormattedMessage

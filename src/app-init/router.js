@@ -74,6 +74,7 @@ export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
 export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
+export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = 'fileBrowserPageCreateFile';
 
 routerConfig(
   store,
@@ -151,6 +152,7 @@ routerConfig(
       { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
       { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/file-browser/upload' },
       { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
+      { name: ROUTE_FILE_BROWSER_CREATE_TEXT_FILE, path: '/file-browser/create-text-file' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

@@ -237,6 +237,8 @@ export default {
     'fileBrowser.deleteFileSuccess': 'File \'{path}\' cancellato correttamente',
     'fileBrowser.deleteFileError': 'Si è verificato un errore durante la cancellazione del file \'{path}\'',
     'fileBrowser.help': 'La sezione FILE BROWSER permette di navigare le cartelle del file system.',
+    'fileBrowser.textFile.placeholder': 'inserisci il contenuto...',
+    'fileBrowser.textFile.content': 'Contenuto',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',
