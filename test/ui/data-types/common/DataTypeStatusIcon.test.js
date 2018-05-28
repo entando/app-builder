@@ -7,20 +7,20 @@ import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 
 describe('DataTypeStatusIcon', () => {
   it('renders without crashing', () => {
-    const component = shallow(<DataTypeStatusIcon status="ok" />);
+    const component = shallow(<DataTypeStatusIcon status="0" />);
     expect(component.exists()).toEqual(true);
   });
 
-  it('if status = ko, has class DataTypeStatusIcon--ok', () => {
-    const draftComponent = shallow(<DataTypeStatusIcon status="ok" />);
-    expect(draftComponent.hasClass('DataTypeStatusIcon--ok')).toBe(true);
+  it('ok icon', () => {
+    const draftComponent = shallow(<DataTypeStatusIcon status="0" />);
+    expect(draftComponent.props()).toHaveProperty('name', 'check');
   });
-  it('if status = ok, has class DataTypeStatusIcon--ko', () => {
-    const draftComponent = shallow(<DataTypeStatusIcon status="ko" />);
-    expect(draftComponent.hasClass('DataTypeStatusIcon--ko')).toBe(true);
+  it('ko icon', () => {
+    const draftComponent = shallow(<DataTypeStatusIcon status="2" />);
+    expect(draftComponent.props()).toHaveProperty('name', 'exclamation');
   });
-  it('if status = wip, has class DataTypeStatusIcon--wip', () => {
-    const draftComponent = shallow(<DataTypeStatusIcon status="wip" />);
-    expect(draftComponent.hasClass('DataTypeStatusIcon--wip')).toBe(true);
+  it('wip icon', () => {
+    const draftComponent = shallow(<DataTypeStatusIcon status="1" />);
+    expect(draftComponent.props()).toHaveProperty('name', 'spinner');
   });
 });

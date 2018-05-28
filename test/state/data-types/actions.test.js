@@ -258,7 +258,7 @@ describe('state/data-types/actions ', () => {
           const dataType = actionPayload.dataTypes[0];
           expect(dataType).toHaveProperty('name', 'dataType1');
           expect(dataType).toHaveProperty('code', 'ABC');
-          expect(dataType).toHaveProperty('status', 'ok');
+          expect(dataType).toHaveProperty('status', '0');
           done();
         }).catch(done.fail);
       });

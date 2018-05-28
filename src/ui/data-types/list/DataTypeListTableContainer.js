@@ -22,11 +22,11 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchDataTypes(page));
   },
-  onClickDelete: (values) => {
-    const { code } = values;
+  onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'DataType', code }));
   },
+  onClickReload: () => {},
 });
 
 const DataTypeListTableContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeListTable);

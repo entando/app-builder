@@ -12,11 +12,18 @@ jest.mock('state/data-types/selectors', () => ({
   getDataTypeList: jest.fn(),
 }));
 
+const props = {
+  onClickDelete: jest.fn(),
+  onClickReload: jest.fn(),
+  status: '0',
+
+};
+
 describe('DataTypeListTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<DataTypeListTable
-      onClickDelete={jest.fn()}
+      {...props}
       datatype={dataTypes}
       page={1}
       pageSize={1}
@@ -30,7 +37,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable datatype={dataTypes} pageSize={1} totalItems={1} />);
+    shallow(<DataTypeListTable datatype={dataTypes} pageSize={1} totalItems={1} {...props} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -38,7 +45,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable page={1} totalItems={1} />);
+    shallow(<DataTypeListTable page={1} totalItems={1} {...props} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -46,7 +53,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable pageSize={1} page={1} />);
+    shallow(<DataTypeListTable pageSize={1} page={1} {...props} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -58,6 +65,7 @@ describe('DataTypeListTable', () => {
         page={1}
         pageSize={1}
         totalItems={1}
+        {...props}
       />);
     });
 
