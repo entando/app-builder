@@ -21,7 +21,7 @@ const RenderTextInput = (field) => {
         {...input}
         type="text"
         id={input.name}
-        className="form-control RenderTextInput"
+        className="form-control CreateTextFileForm__input-text"
         disabled={disabled}
       />
       {append && <span className="AppendedLabel">{append}</span>}
@@ -75,8 +75,8 @@ export const CreateTextFileFormBody = ({ invalid, submitting, handleSubmit }) =>
             component={RenderTextAreaInput}
             cols={50}
             rows={20}
-            label="Content"
             name="content"
+            label={formattedText('fileBrowser.textFile.content')}
             placeholder={formattedText('fileBrowser.textFile.placeholder')}
             validate={[required]}
           />
