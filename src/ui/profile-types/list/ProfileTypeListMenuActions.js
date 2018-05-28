@@ -14,7 +14,7 @@ class ProfileTypeListMenuActions extends Component {
   handleClick(handler) {
     return (ev) => {
       ev.preventDefault();
-      if (handler) { handler(this.props); }
+      if (handler) { handler(this.props.code); }
     };
   }
 

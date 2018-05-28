@@ -4,7 +4,7 @@ import { Icon } from 'patternfly-react';
 
 const ProfileTypeStatusIcon = ({ status, title }) => {
   let icon;
-  switch (status) {
+  switch (parseFloat(status)) {
     case 1:
       icon = 'spinner';
       break;

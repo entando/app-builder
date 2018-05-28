@@ -1,10 +1,9 @@
-
-
 import { gotoRoute, getParams } from '@entando/router';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
+import { formattedText } from '@entando/utils';
 
 import {
   ROUTE_PROFILE_TYPE_LIST,
@@ -33,9 +32,12 @@ import {
   SET_SELECTED_PROFILE_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
-}
-  from 'state/profile-types/types';
+} from 'state/profile-types/types';
 import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
+
+import { addToast } from 'state/toasts/actions';
+
+import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 
 const TYPE_MONOLIST = 'Monolist';
 const TYPE_LIST = 'List';
@@ -149,9 +151,14 @@ export const sendDeleteProfileType = profileTypeCode => dispatch =>
           response.json().then((json) => {
             if (response.ok) {
               dispatch(removeProfileType(profileTypeCode));
+              dispatch(addToast(
+                formattedText('app.deleted', null, { type: 'profile type', code: profileTypeCode }),
+                TOAST_SUCCESS,
+              ));
               gotoRoute(ROUTE_PROFILE_TYPE_LIST);
             } else {
               dispatch(addErrors(json.errors.map(err => err.message)));
+              dispatch(addToast(json.errors[0].message, TOAST_ERROR));
             }
             resolve();
           });

@@ -41,7 +41,7 @@ class ProfileTypeListTable extends Component {
         <td className="ProfileTypeListRow__td text-center">
           <ProfileTypeListMenuActions
             code={profiletype.code}
-            removeProfileType={this.props.removeProfileType}
+            onClickDelete={this.props.removeProfileType}
           />
         </td>
       </tr>
