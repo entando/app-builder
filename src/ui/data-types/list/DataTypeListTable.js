@@ -42,6 +42,7 @@ class DataTypeListTable extends Component {
           <DataTypeListMenuActions
             code={datatype.code}
             onClickDelete={this.props.onClickDelete}
+            onClickReload={this.props.onClickReload}
           />
         </td>
       </tr>
@@ -111,6 +112,7 @@ class DataTypeListTable extends Component {
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
   onClickDelete: PropTypes.func.isRequired,
+  onClickReload: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

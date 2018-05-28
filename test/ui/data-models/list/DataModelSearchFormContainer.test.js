@@ -10,12 +10,12 @@ const TEST_STATE = {
       ABC: {
         name: 'dataType1',
         code: 'ABC',
-        status: 'ok',
+        status: '0',
       },
       DEF: {
         name: 'dataType2',
         code: 'DEF',
-        status: 'ok',
+        status: '0',
       },
     },
   },

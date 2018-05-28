@@ -4,14 +4,13 @@ import { shallow } from 'enzyme';
 
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 
-const EVENT = {
-  preventDefault: jest.fn(),
-};
+const onClickDelete = jest.fn();
+const onClickReload = jest.fn();
 
 describe('DataTypeListMenuActions', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DataTypeListMenuActions code="code" />);
+    component = shallow(<DataTypeListMenuActions code="code" onClickDelete={onClickDelete} onClickReload={onClickReload} />);
   });
 
   it('errors without a code', () => {
@@ -23,17 +22,10 @@ describe('DataTypeListMenuActions', () => {
   });
 
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('has a drop down with kebab button', () => {
     expect(component.find('DropdownKebab')).toHaveLength(1);
-  });
-
-  it('should call handler function and preventDefault', () => {
-    const handler = jest.fn();
-    component.instance().handleClick(handler, EVENT);
-    expect(handler).toHaveBeenCalled();
-    expect(EVENT.preventDefault).toHaveBeenCalled();
   });
 });
