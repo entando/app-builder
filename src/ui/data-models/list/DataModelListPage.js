@@ -19,7 +19,7 @@ const DataModelListPage = () => (
               <FormattedMessage id="menu.data" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="menu.dataModel" />
+              <FormattedMessage id="menu.dataModels" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
@@ -27,7 +27,7 @@ const DataModelListPage = () => (
       <Row>
         <Col md={12}>
           <PageTitle
-            titleId="menu.dataModel"
+            titleId="menu.dataModels"
             helpId="datamodel.help"
           />
         </Col>

@@ -98,7 +98,7 @@ const InternalPage = ({ className, children }) => (
         />
         <LinkMenuItem
           id="menu-data-models"
-          label={formattedText('menu.dataModel')}
+          label={formattedText('menu.dataModels')}
           route={ROUTE_DATA_MODEL_LIST}
         />
       </FirstLevelMenuItem>

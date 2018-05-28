@@ -115,7 +115,7 @@ export default {
     'menu.uxPattern': 'UX Patterns',
     'menu.integration': 'Integrazioni',
     'menu.data': 'Data',
-    'menu.dataModel': 'Data Model',
+    'menu.dataModels': 'Data Models',
     'menu.components': 'Componenti',
     'menu.configuration': 'Impostazioni',
     'menu.fileBrowser': 'File browser',
