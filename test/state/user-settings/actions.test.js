@@ -91,7 +91,7 @@ describe('state/user-settings/actions', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1].payload).toHaveProperty('type', 'error');
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

@@ -212,24 +212,26 @@ export const CONTACTS_PAYLOAD = {
 
 export const FREE_PAGES_PAYLOAD = [
   {
-    pageCode: 'homepage',
-    shortFullTitle: 'Home',
+    code: 'homepage',
+    titles: {
+      it: 'Contatti',
+      en: 'Contacts',
+    },
+    fullTitles: {
+      en: 'Home Page / Service page / Contacts',
+      it: 'Pagina iniziale / Contatti',
+    },
   },
   {
-    pageCode: 'service',
-    shortFullTitle: '[i].. / Service',
-  },
-  {
-    pageCode: 'notfound',
-    shortFullTitle: '.. / .. / Page not found',
-  },
-  {
-    pageCode: 'errorpage',
-    shortFullTitle: '.. / .. / Error page',
-  },
-  {
-    pageCode: 'login',
-    shortFullTitle: '.. / .. / Login',
+    code: 'services',
+    titles: {
+      it: 'Contatti',
+      en: 'Contacts',
+    },
+    fullTitles: {
+      en: 'Home Page / Service page / Contacts',
+      it: 'Pagina iniziale / Contatti',
+    },
   },
 ];
 

@@ -125,9 +125,17 @@ export const getFreePages = () => makeRequest({
   useAuthentication: true,
 });
 
-export const getPageSettingsList = () => makeRequest({
+export const getPageSettings = () => makeRequest({
   uri: '/api/pageSettings',
   method: METHODS.GET,
+  mockResponse: PAGE_SETTINGS_PAYLOAD,
+  useAuthentication: true,
+});
+
+export const putPageSettings = pageSettings => makeRequest({
+  uri: '/api/pageSettings',
+  method: METHODS.PUT,
+  body: pageSettings,
   mockResponse: PAGE_SETTINGS_PAYLOAD,
   useAuthentication: true,
 });

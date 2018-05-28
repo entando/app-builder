@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
 import { formattedText } from '@entando/utils';
+
 import { getUserSettings, putUserSettings } from 'api/userSettings';
 import { addErrors } from 'state/errors/actions';
 import { addToast } from 'state/toasts/actions';

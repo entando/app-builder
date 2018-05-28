@@ -23,17 +23,6 @@ const BASE_URL_TYPES = [
   },
 ];
 
-const TREE_STYLE_PAGE = [
-  {
-    id: 'classic',
-    label: 'Classic',
-  },
-  {
-    id: 'request',
-    label: 'Loads node on Demand',
-  },
-];
-
 const URL_STYLE = [
   {
     id: 'classic',
@@ -76,8 +65,8 @@ export class PageSettingsFormBody extends Component {
     };
 
     const selectOptions = this.props.options.map(item => ({
-      value: item.pageCode,
-      text: item.shortFullTitle,
+      value: item.code,
+      text: item.fullTitles,
     }));
 
     return (
@@ -111,7 +100,7 @@ export class PageSettingsFormBody extends Component {
               />
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.BaseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.baseURL" />&nbsp;
                   <OverlayTrigger
                     overlay={appendBaseUrl()}
                     placement="top"
@@ -134,7 +123,7 @@ export class PageSettingsFormBody extends Component {
 
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.AppendBaseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.appendBaseURL" />&nbsp;
                   <OverlayTrigger
                     overlay={baseUrl()}
                     placement="top"
@@ -182,20 +171,6 @@ export class PageSettingsFormBody extends Component {
               </div>
 
               <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <span className="display-block">
-                    <FormattedMessage id="pageSettings.input.pageTreeStyle" />
-                  </span>
-                </Col>
-                <Col xs={4}>
-                  <label htmlFor="2" >
-                    <Field
-                      component={RenderRadioInput}
-                      toggleElement={TREE_STYLE_PAGE}
-                      name="treeStyle_page"
-                    />
-                  </label>
-                </Col>
                 <Col xs={2} className="text-right">
                   <FormattedMessage id="pageSettings.input.pageTreeStyle.url" />
                 </Col>
