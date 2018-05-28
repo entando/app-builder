@@ -39,12 +39,12 @@ const PageTitle = ({ titleId, helpId, titleParam }) => (
 PageTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
   helpId: PropTypes.string,
-  titleParam: PropTypes.string,
+  titleParam: PropTypes.shape({}),
 };
 
 PageTitle.defaultProps = {
   helpId: '',
-  titleParam: '',
+  titleParam: {},
 };
 
 export default PageTitle;
