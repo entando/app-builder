@@ -62,43 +62,47 @@ describe('PageSettingsForm', () => {
 
     it('renders homePageCode field', () => {
       const homePageCode = component.find('[fieldName="homePageCode"]');
-      expect(homePageCode.exists()).toEqual(true);
+      expect(homePageCode.exists()).toBe(true);
     });
+
     it('renders errorPageCode field', () => {
       const errorPageCode = component.find('[fieldName="errorPageCode"]');
-      expect(errorPageCode.exists()).toEqual(true);
+      expect(errorPageCode.exists()).toBe(true);
     });
+
     it('renders loginPageCode field', () => {
       const loginPageCode = component.find('[fieldName="loginPageCode"]');
-      expect(loginPageCode.exists()).toEqual(true);
+      expect(loginPageCode.exists()).toBe(true);
     });
+
     it('renders notFoundPageCode field', () => {
       const notFoundPageCode = component.find('[fieldName="notFoundPageCode"]');
-      expect(notFoundPageCode.exists()).toEqual(true);
+      expect(notFoundPageCode.exists()).toBe(true);
     });
+
     it('renders baseUrl field', () => {
       const notFoundPageCode = component.find('[name="baseUrl"]');
-      expect(notFoundPageCode.exists()).toEqual(true);
+      expect(notFoundPageCode.exists()).toBe(true);
     });
+
     it('renders baseUrlContext field', () => {
       const baseUrlContext = component.find('[name="baseUrlContext"]');
-      expect(baseUrlContext.exists()).toEqual(true);
+      expect(baseUrlContext.exists()).toBe(true);
     });
+
     it('renders useJsessionId field', () => {
       const useJsessionId = component.find('[name="useJsessionId"]');
-      expect(useJsessionId.exists()).toEqual(true);
+      expect(useJsessionId.exists()).toBe(true);
     });
+
     it('renders startLangFromBrowser field', () => {
       const startLangFromBrowser = component.find('[name="startLangFromBrowser"]');
-      expect(startLangFromBrowser.exists()).toEqual(true);
+      expect(startLangFromBrowser.exists()).toBe(true);
     });
-    it('renders treeStyle_page field', () => {
-      const treeStylePage = component.find('[name="treeStyle_page"]');
-      expect(treeStylePage.exists()).toEqual(true);
-    });
+
     it('renders urlStyle field', () => {
       const urlStyle = component.find('[name="urlStyle"]');
-      expect(urlStyle.exists()).toEqual(true);
+      expect(urlStyle.exists()).toBe(true);
     });
   });
 

@@ -14,10 +14,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchPageSettings());
   },
   onSubmit: (pageSettings) => {
-    const data = {
-      params: Object.keys(pageSettings).map(key => ({ [key]: pageSettings[key] })),
-    };
-    dispatch(sendPutPageSettings(data));
+    dispatch(sendPutPageSettings(pageSettings));
   },
 });
 

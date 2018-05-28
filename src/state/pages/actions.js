@@ -273,17 +273,13 @@ export const clonePage = page => async (dispatch) => {
   gotoRoute(ROUTE_PAGE_CLONE);
 };
 
-export const mapItem = param => (
-  param.reduce((acc, item) => { acc[item.name] = item.value; return acc; }, {})
-);
-
 export const fetchPageSettings = () => async (dispatch) => {
   const response = await getPageSettings();
   const contentType = response.headers.get('content-type');
   if (contentType && contentType.includes('application/json')) {
     const json = await response.json();
     if (response.ok) {
-      dispatch(initialize('settings', mapItem(json.payload.params)));
+      dispatch(initialize('settings', json.payload));
       return json;
     }
     dispatch(addErrors(json.errors.map(e => e.message)));

@@ -507,7 +507,7 @@ describe('state/pages/actions', () => {
     });
 
     it('when getPageSettings succeeds, should dispatch redux-form initialize', (done) => {
-      getPageSettings.mockImplementation(mockApi({ payload: { params: [{ name: 'a', value: 'b' }] } }));
+      getPageSettings.mockImplementation(mockApi({ payload: { a: 'b' } }));
       store.dispatch(fetchPageSettings()).then(() => {
         expect(getPageSettings).toHaveBeenCalled();
         expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
