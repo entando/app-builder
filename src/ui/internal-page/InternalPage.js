@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
-  ProjectLink,
   HelpMenu,
   AdminAppSwitch,
   LinkMenuItem,
@@ -17,7 +16,7 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS,
+  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -25,13 +24,12 @@ import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer'
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 import ToastsContainer from 'ui/internal-page/ToastsContainer';
+import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 
-const PROJECT_LINK = 'http://www.entando.com';
-const PROJECT_NAME = 'ENTANDO';
 const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
 const menuHeader = [
-  <ProjectLink key="projectLink" projectLink={PROJECT_LINK} projectName={PROJECT_NAME} />,
+  <HomePageLinkContainer key="projectLink" />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
@@ -127,6 +125,11 @@ const InternalPage = ({ className, children }) => (
           id="menu-groups"
           label={formattedText('menu.groups')}
           route={ROUTE_GROUP_LIST}
+        />
+        <LinkMenuItem
+          id="menu-profile"
+          label={formattedText('menu.profileTypes')}
+          route={ROUTE_PROFILE_TYPE_LIST}
         />
         <LinkMenuItem
           id="menu-user-restrictions"

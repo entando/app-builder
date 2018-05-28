@@ -1,5 +1,5 @@
 // eslinter-disable-next-line
-export const NOTIFICATION = {
+export const NOTIFICATIONS = {
   payload: {
     notifications: [
       {
@@ -64,4 +64,4 @@ export const NOTIFICATION = {
     ],
   },
 };
-export default NOTIFICATION;
+export default NOTIFICATIONS;

@@ -15,6 +15,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -100,11 +101,13 @@ export class UserFormBody extends Component {
 
     const showProfileType = (
       mode !== EDIT_MODE ?
-        (<RenderSelectInput
+        (<Field
+          component={RenderSelectInput}
           options={profileTypes}
           defaultOptionId="form.select.chooseOne"
-          labelId="user.profileType"
-          fieldName="profileType"
+          label={<FormLabel labelId="user.profileType" required />}
+          name="profileType"
+          validate={required}
         />) : null
     );
 
@@ -113,12 +116,7 @@ export class UserFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <legend>
-                <FormattedMessage id="app.info" />
-                <div className="UserForm__required-fields text-right">
-                  * <FormattedMessage id="app.fieldsRequired" />
-                </div>
-              </legend>
+              <FormSectionTitle titleId="app.info" />
               {showUsername}
               <Field
                 component={RenderTextInput}

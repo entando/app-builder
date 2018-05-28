@@ -5,7 +5,7 @@ import { Col, ControlLabel } from 'patternfly-react';
 const RenderFileInput = ({
   input: { name, onChange, onBlur },
   append, label, labelSize, placeholder, meta: { touched, error },
-  help, disabled,
+  help, disabled, acceptFile,
 }) => (
 
   <div className={(touched && error) ? 'text-right form-group has-error' : 'text-right form-group'}>
@@ -18,6 +18,7 @@ const RenderFileInput = ({
       <input
         name={name}
         type="file"
+        accept={acceptFile}
         onChange={e => onChange(e.target.files[0])}
         onBlur={e => onBlur(e.target.files[0])}
         placeholder={placeholder}
@@ -40,6 +41,7 @@ RenderFileInput.propTypes = {
   disabled: PropTypes.bool,
   labelSize: PropTypes.number,
   append: PropTypes.string,
+  acceptFile: PropTypes.string.isRequired,
 
 };
 

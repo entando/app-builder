@@ -8,7 +8,7 @@ import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
-  sendPutUserAuthorities,
+  sendPutUserAuthorities, sendPostUserPassword,
 } from 'state/users/actions';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -17,11 +17,12 @@ import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import {
   getUsers, getUser, putUser, postUser, deleteUser,
   getUserAuthorities, postUserAuthorities, putUserAuthorities,
-}
-  from 'api/users';
+  postUserPassword,
+} from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
-import { ADD_ERRORS } from 'state/errors/types';
+import { ADD_ERRORS, CLEAR_ERRORS } from 'state/errors/types';
+import { ADD_TOAST } from 'state/toasts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -295,6 +296,34 @@ describe('state/users/actions', () => {
         putUserAuthorities.mockImplementation(mockApi({ errors: true }));
         return store.dispatch(sendPutUserAuthorities(AUTHORITIES)).catch((e) => {
           expect(putUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+
+    describe('sendPostUserPassword', () => {
+      it('when sendPostUserPassword succeeds, should dispatch ADD_TOAST and clearFields', (done) => {
+        store.dispatch(sendPostUserPassword('username', {})).then(() => {
+          expect(postUserPassword).toHaveBeenCalledWith('username', {});
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1]).toHaveProperty('type', CLEAR_ERRORS);
+          expect(actions[2]).toHaveProperty('type', '@@redux-form/RESET');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        postUserPassword.mockImplementationOnce(mockApi({ errors: true }));
+        return store.dispatch(sendPostUserPassword('username', {})).catch((e) => {
+          expect(postUserPassword).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

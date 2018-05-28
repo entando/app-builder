@@ -62,8 +62,10 @@ describe('state/user-settings/actions', () => {
         store.dispatch(fetchUserSettings()).then(() => {
           expect(getUserSettings).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('type', 'error');
           done();
         }).catch(done.fail);
       });
@@ -77,6 +79,7 @@ describe('state/user-settings/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_USER_SETTINGS);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('type', 'success');
           done();
         }).catch(done.fail);
       });

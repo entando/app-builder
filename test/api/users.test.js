@@ -1,5 +1,15 @@
 import 'test/enzyme-init';
-import { getUsers, getUser, postUser, putUser, deleteUser, getUserAuthorities, postUserAuthorities, putUserAuthorities } from 'api/users';
+import {
+  getUsers,
+  getUser,
+  postUser,
+  putUser,
+  deleteUser,
+  getUserAuthorities,
+  postUserAuthorities,
+  putUserAuthorities,
+  postUserPassword,
+} from 'api/users';
 import { USER, USERS, ERROR, AUTHORITIES } from 'test/mocks/users';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -51,6 +61,7 @@ describe('api/users', () => {
     });
   });
 });
+
 describe('api/users', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -68,6 +79,7 @@ describe('api/users', () => {
     });
   });
 });
+
 describe('postUser', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -179,6 +191,27 @@ describe('putUserAuthorities', () => {
       uri: `/api/users/${USER.username}/authorities`,
       method: METHODS.PUT,
       mockResponse: { ...AUTHORITIES },
+      useAuthentication: true,
+    }));
+  });
+});
+
+describe('postUserPassword', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('returns a promise', () => {
+    expect(postUserPassword(USER.username, {})).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    postUserPassword(USER.username, {});
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}/password`,
+      method: METHODS.POST,
+      body: {},
+      mockResponse: {},
       useAuthentication: true,
     }));
   });

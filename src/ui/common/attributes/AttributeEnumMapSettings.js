@@ -8,7 +8,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import { required, formattedText } from '@entando/utils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
-const elements = value =>
+export const elements = value =>
   (value && !/^(\w+)=([^\s]+)$/i.test(value)
     ? <FormattedMessage id="validateForm.elements" /> : undefined);
 
@@ -43,11 +43,14 @@ const AttributeEnumEnumMapSettings = ({ enumeratorMapExtractorBeans }) => {
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
           />
-          <RenderSelectInput
+          <Field
+            component={RenderSelectInput}
             options={selectAllowedOptions}
             defaultOptionId="app.chooseAnOption"
-            labelId="app.enumeratorExtractorBean"
-            fieldName="enumeratorMapExtractorBeans"
+            label={
+              <FormLabel labelId="app.enumeratorExtractorBean" />
+            }
+            name="enumeratorMapExtractorBeans"
           />
         </fieldset>
       </Col>

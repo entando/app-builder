@@ -9,6 +9,8 @@ utils.throttle = real.throttle;
 utils.maxLength = real.maxLength;
 utils.minLength = real.minLength;
 utils.isNumber = real.isNumber;
+utils.matchElement = real.matchElement;
+utils.required = real.required;
 
 export const {
   formattedText,
@@ -21,4 +23,6 @@ export const {
   throttle,
   maxLength,
   minLength,
+  matchElement,
+  required,
 } = utils;

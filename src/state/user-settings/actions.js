@@ -22,6 +22,7 @@ export const fetchUserSettings = () => dispatch => new Promise((resolve) => {
         dispatch(initialize('user-restrictions', json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        dispatch(addToast(json.errors[0].message, TOAST_ERROR));
       }
       resolve();
     });
@@ -34,7 +35,7 @@ export const updateUserSettings = settings => dispatch => new Promise((resolve) 
       if (response.ok) {
         dispatch(setUserSettings(json.payload));
         dispatch(addToast(
-          formattedText('user.restrictions.success', null),
+          formattedText('app.updateSettings.success'),
           TOAST_SUCCESS,
         ));
       } else {

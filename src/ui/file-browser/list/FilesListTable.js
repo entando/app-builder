@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Alert, Spinner, Icon, DropdownKebab } from 'patternfly-react';
+import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from 'frontend-common-components';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
+import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
+import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
 
 class FilesListTable extends Component {
   componentWillMount() {
@@ -11,8 +12,7 @@ class FilesListTable extends Component {
   }
 
   renderTableRows() {
-    const downloadLabel = <FormattedMessage id="fileBrowser.downloadFile" />;
-    const deleteLabel = <FormattedMessage id="app.delete" />;
+    const { onClickDeleteFolder, onClickDeleteFile, onClickDownload } = this.props;
 
     const getProtectedFolder = (path) => {
       switch (path) {
@@ -32,44 +32,6 @@ class FilesListTable extends Component {
       return path;
     };
 
-    const getActionsMenuItem = (file) => {
-      if ((file.name !== 'protected') && (file.name !== 'public')) {
-        if (file.directory) {
-          return (
-            <DropdownKebab pullRight id={`${file.name}-actions`}>
-              <LinkMenuItem
-                id={`delete-${file.name}`}
-                route={ROUTE_FILE_BROWSER}
-                params={{ fileName: file.name }}
-                label={deleteLabel}
-                className="FilesListMenuAction__menu-item-detail"
-              />
-            </DropdownKebab>
-          );
-        }
-        return (
-          <DropdownKebab pullRight id={`${file.name}-actions`}>
-            <LinkMenuItem
-              id={`download-${file.name}`}
-              route={ROUTE_FILE_BROWSER}
-              params={{ fileName: file.name }}
-              label={downloadLabel}
-              className="FilesListMenuAction__menu-item-detail"
-            />
-            <LinkMenuItem
-              id={`delete-${file.name}`}
-              route={ROUTE_FILE_BROWSER}
-              params={{ fileName: file.name }}
-              label={deleteLabel}
-              className="FilesListMenuAction__menu-item-detail"
-            />
-          </DropdownKebab>
-        );
-      }
-      return <div />;
-    };
-
-
     const getLinkItem = (file) => {
       if (file.directory) {
         return (
@@ -79,7 +41,7 @@ class FilesListTable extends Component {
         );
       }
       return (
-        <a className="FilesListTable__link-download" href={`download?${file.path}`}>
+        <a className="FilesListTable__link-download" role="presentation" download onClick={() => onClickDownload(file)}>
           <Icon size="lg" name="file" /> {file.name}
         </a>
       );
@@ -90,7 +52,14 @@ class FilesListTable extends Component {
         <td className="FilesListRow__td">{getLinkItem(file)}</td>
         <td className="FilesListRow__td">{file.size}</td>
         <td className="FilesListRow__td">{file.lastModifiedTime}</td>
-        <td className="FilesListRow__td">{getActionsMenuItem(file)}</td>
+        <td className="FilesListRow__td">
+          <FilesListMenuActions
+            file={file}
+            onClickDownload={onClickDownload}
+            onClickDeleteFolder={onClickDeleteFolder}
+            onClickDeleteFile={onClickDeleteFile}
+          />
+        </td>
       </tr>
     ));
   }
@@ -150,6 +119,8 @@ class FilesListTable extends Component {
       <div className="FilesListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
+          <DeleteFolderModalContainer />
+          <DeleteFileModalContainer />
         </Spinner>
       </div>
     );
@@ -158,6 +129,9 @@ class FilesListTable extends Component {
 
 FilesListTable.propTypes = {
   onWillMount: PropTypes.func.isRequired,
+  onClickDownload: PropTypes.func,
+  onClickDeleteFolder: PropTypes.func,
+  onClickDeleteFile: PropTypes.func,
   loading: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
@@ -174,6 +148,9 @@ FilesListTable.propTypes = {
 };
 
 FilesListTable.defaultProps = {
+  onClickDownload: () => {},
+  onClickDeleteFolder: () => {},
+  onClickDeleteFile: () => {},
   loading: false,
   files: [],
   pathInfo: {

@@ -9,3 +9,4 @@ export const deleteUser = jest.fn(mockApi({ payload: {} }));
 export const getUserAuthorities = jest.fn(mockApi({ payload: [] }));
 export const postUserAuthorities = jest.fn(mockApi({ payload: [] }));
 export const putUserAuthorities = jest.fn(mockApi({ payload: [] }));
+export const postUserPassword = jest.fn(mockApi({ payload: [] }));

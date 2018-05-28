@@ -34,11 +34,13 @@ export class DataModelFormBody extends Component {
          <Row>
            <Col xs={12}>
              <fieldset className="no-padding">
-               <RenderSelectInput
+               <Field
+                 component={RenderSelectInput}
                  options={selectOptions}
-                 labelId="dataModel.type"
-                 fieldName="type"
-                 mandatory
+                 label={
+                   <FormLabel labelId="dataModel.type" required />
+                 }
+                 name="type"
                />
 
                <Field

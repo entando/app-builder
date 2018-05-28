@@ -23,6 +23,7 @@ describe('RestrictionsFormContainer', () => {
     result.onWillMount();
     expect(dispatchMock).toHaveBeenCalled();
   });
+
   it('verify that onSubmit is defined by mapDispatchToProps', () => {
     const result = mapDispatchToProps(dispatchMock);
     expect(result.onSubmit).toBeDefined();

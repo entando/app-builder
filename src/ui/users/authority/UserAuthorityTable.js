@@ -19,8 +19,10 @@ class UserAuthorityTable extends Component {
       return;
     }
 
+
     const isPresent = Boolean(groupRolesCombo
-      .find(item => item.group.code === this.group.value && item.role.code === this.role.value));
+      .find(item => (this.group.value === '' || item.group.code === this.group.value) &&
+        (this.role.value === '' || item.role.code === this.role.value)));
 
     if (!isPresent) {
       fields.push({
@@ -78,8 +80,8 @@ class UserAuthorityTable extends Component {
 
     const renderRow = groupRolesCombo.map((item, index) => (
       <tr key={`groupRole-${parseInt(index, 10)}`}>
-        <td className="UserAuthorityTable__td">{item.group.name}</td>
-        <td className="UserAuthorityTable__td text-center">{item.role.name}</td>
+        <td className="UserAuthorityTable__td">{item.group.name || <i className="fa fa-minus" />}</td>
+        <td className="UserAuthorityTable__td text-center">{item.role.name || <i className="fa fa-minus" />}</td>
         <td className="UserAuthorityTable__td text-center">
           <Button
             bsStyle="link"

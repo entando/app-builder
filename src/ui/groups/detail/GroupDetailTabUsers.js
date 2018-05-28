@@ -35,25 +35,25 @@ class GroupDetailTabUsers extends React.Component {
 
     return this.props.userReferences.map(item => (
       <tr key={item.username}>
-        <td>{item.fullName}</td>
+        <td>{item.profileAttributes.fullname || item.username}</td>
         <td>{item.lastLogin}</td>
-        <td>
+        <td className="text-center">
           <i className={`${statusIconClass(item.status)}`} />
         </td>
-        <td >
-          <DropdownKebab id={`kebab-${item.username}`}>
+        <td className="text-center">
+          <DropdownKebab id={`kebab-${item.username}`} pullRight>
             <LinkMenuItem
               id={`edit-user-${item.username}`}
               route={ROUTE_USER_EDIT}
               params={{ username: item.username }}
-              label={`${editUser} ${item.fullName}`}
+              label={`${editUser} ${item.profileAttributes.fullname || item.username}`}
               className="GroupDetailTabUsers__menu-item-edit"
             />
             <LinkMenuItem
               id={`authority-${item.username}`}
               route={ROUTE_USER_AUTHORITY}
               params={{ username: item.username }}
-              label={`${authority} ${item.fullName}`}
+              label={`${authority} ${item.profileAttributes.fullname || item.username}`}
               className="GroupDetailTabUsers__menu-item-edit"
             />
           </DropdownKebab>
@@ -76,8 +76,8 @@ class GroupDetailTabUsers extends React.Component {
               <tr>
                 <th><FormattedMessage id="user.table.username" /></th>
                 <th><FormattedMessage id="user.lastLogin" /></th>
-                <th><FormattedMessage id="user.table.status" /></th>
-                <th width={30}> <FormattedMessage id="app.actions" /></th>
+                <th className="text-center GroupDetailTabUsers__th-xs"><FormattedMessage id="user.table.status" /></th>
+                <th className="text-center GroupDetailTabUsers__th-xs"> <FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>
             <tbody>
@@ -120,9 +120,10 @@ GroupDetailTabUsers.propTypes = {
   loading: PropTypes.bool,
   userReferences: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string,
-    fullName: PropTypes.string,
+    fullname: PropTypes.string,
     lastLogin: PropTypes.string,
     status: PropTypes.string,
+    profileAttributes: PropTypes.shape({}),
   })),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,

@@ -8,6 +8,7 @@ import { formattedText, required, widgetCode, maxLength } from '@entando/utils';
 
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
@@ -32,16 +33,6 @@ export const renderDefaultUIField = (field) => {
 export class WidgetFormBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
-  }
-
-  renderSelectOptions() {
-    const { groups } = this.props;
-    return groups.map(gr => (
-      <option
-        key={gr.code}
-        value={gr.code}
-      > {gr.name}
-      </option>));
   }
 
   render() {
@@ -104,17 +95,17 @@ export class WidgetFormBody extends Component {
                 placeholder={formattedText('widget.page.create.title.it.placeholder')}
                 validate={[required, maxLength(255)]}
               />
-              <div className="form-group">
-                <label htmlFor="mainGroup" className="col-xs-2 control-label">
-                  <FormattedMessage id="widget.page.create.group" />
-                </label>
-                <Col xs={10}>
-                  <Field name="group" component="select" className="form-control" validate={required}>
-                    <option value="">{formattedText('form.select.chooseOne')}</option>
-                    {this.renderSelectOptions()}
-                  </Field>
-                </Col>
-              </div>
+              <Field
+                component={RenderSelectInput}
+                name="group"
+                label={
+                  <FormLabel labelId="widget.page.create.group" required />
+                }
+                validate={required}
+                options={this.props.groups}
+                optionValue="code"
+                optionDisplayName="name"
+              />
             </fieldset>
           </Col>
         </Row>

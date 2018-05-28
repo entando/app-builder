@@ -32,11 +32,15 @@ export const ROUTE_DATA_MODEL_LIST = 'dataModelList';
 export const ROUTE_DATA_TYPE_LIST = 'dataTypeList';
 export const ROUTE_DATA_TYPE_EDIT = 'dataTypeEdit';
 export const ROUTE_DATA_TYPE_ADD = 'dataTypeAdd';
+export const ROUTE_PROFILE_TYPE_LIST = 'profileTypeList';
+export const ROUTE_PROFILE_TYPE_EDIT = 'profileTypeEdit';
+export const ROUTE_PROFILE_TYPE_ADD = 'profileTypeAdd';
 export const ROUTE_USER_LIST = 'userList';
 export const ROUTE_USER_ADD = 'userAdd';
 export const ROUTE_USER_EDIT = 'userEdit';
 export const ROUTE_USER_DETAIL = 'userDetail';
 export const ROUTE_USER_RESTRICTIONS = 'userRestrictions';
+export const ROUTE_USER_MY_PROFILE = 'myProfile';
 export const ROUTE_GROUP_LIST = 'groupList';
 export const ROUTE_GROUP_ADD = 'groupAdd';
 export const ROUTE_GROUP_EDIT = 'groupEdit';
@@ -50,7 +54,10 @@ export const ROUTE_CATEGORY_LIST = 'categoryList';
 export const ROUTE_CATEGORY_ADD = 'categoryAdd';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = 'attributeAdd';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = 'attributeEdit';
+export const ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD = 'attributeProfileAdd';
+export const ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT = 'attributeProfileEdit';
 export const ROUTE_ATTRIBUTE_MONOLIST_ADD = 'attributeAddMonolist';
+export const ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD = 'attributeProfileAddMonolist';
 export const ROUTE_CATEGORY_EDIT = 'categoryEdit';
 export const ROUTE_CATEGORY_DETAIL = 'categoryDetail';
 export const ROUTE_ROLE_LIST = 'roleList';
@@ -67,6 +74,7 @@ export const ROUTE_PLUGIN_CONFIG_PAGE = 'pluginConfigPage';
 export const ROUTE_FILE_BROWSER = 'fileBrowserPage';
 export const ROUTE_FILE_BROWSER_UPLOAD = 'fileUploadBrowserPage';
 export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
+export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = 'fileBrowserPageCreateFile';
 
 routerConfig(
   store,
@@ -102,15 +110,21 @@ routerConfig(
       { name: ROUTE_DATA_TYPE_LIST, path: '/datatype' },
       { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
       { name: ROUTE_DATA_TYPE_EDIT, path: '/datatype/edit/:datatypeCode' },
-      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/attribute/:entityCode/add' },
-      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/attribute/:entityCode/edit/:attributeCode' },
-      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/attribute/:entityCode/MonolistAdd/:attributeCode' },
-      { name: ROUTE_DATA_TYPE_ADD, path: '/datatype/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_ADD, path: '/datatype/attribute/:entityCode/add' },
+      { name: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT, path: '/datatype/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_ADD, path: '/datatype/attribute/:entityCode/MonolistAdd/:attributeCode' },
+      { name: ROUTE_PROFILE_TYPE_LIST, path: '/profiletype' },
+      { name: ROUTE_PROFILE_TYPE_ADD, path: '/profiletype/add' },
+      { name: ROUTE_PROFILE_TYPE_EDIT, path: '/profiletype/edit/:profiletypeCode' },
+      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, path: '/profiletype/attribute/:entityCode/add' },
+      { name: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, path: '/profiletype/attribute/:entityCode/edit/:attributeCode' },
+      { name: ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, path: '/profiletype/attribute/:entityCode/MonolistAdd/:attributeCode' },
       { name: ROUTE_USER_LIST, path: '/user' },
       { name: ROUTE_USER_ADD, path: '/user/add' },
       { name: ROUTE_USER_EDIT, path: '/user/edit/:username' },
       { name: ROUTE_USER_DETAIL, path: '/user/view/:username' },
       { name: ROUTE_USER_RESTRICTIONS, path: '/user/restrictions' },
+      { name: ROUTE_USER_MY_PROFILE, path: '/myProfile' },
       { name: ROUTE_GROUP_LIST, path: '/group' },
       { name: ROUTE_GROUP_ADD, path: '/group/add' },
       { name: ROUTE_GROUP_DETAIL, path: '/group/view/:groupname' },
@@ -138,6 +152,7 @@ routerConfig(
       { name: ROUTE_FILE_BROWSER, path: '/file-browser' },
       { name: ROUTE_FILE_BROWSER_UPLOAD, path: '/file-browser/upload' },
       { name: ROUTE_FILE_BROWSER_CREATE_FOLDER, path: '/file-browser/create-folder' },
+      { name: ROUTE_FILE_BROWSER_CREATE_TEXT_FILE, path: '/file-browser/create-text-file' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

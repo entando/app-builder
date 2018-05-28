@@ -8,7 +8,6 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_PAGE_MODEL_LIST, ROUTE_PAGE_MODEL_EDIT } from 'app-init/router';
-import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageModelDetailTableContainer from 'ui/page-models/detail/SelectedPageModelDetailTableContainer';
 import PageModelPageReferencesTableContainer from 'ui/page-models/detail/PageModelPageReferencesTableContainer';
 
@@ -33,11 +32,6 @@ const PageModelDetailPage = ({ pageModelCode }) => (
       <Row>
         <Col xs={12}>
           <PageTitle titleId="menu.pageModelDetails" helpId="pageModels.help" />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <ErrorsAlertContainer />
         </Col>
       </Row>
       <Row>
