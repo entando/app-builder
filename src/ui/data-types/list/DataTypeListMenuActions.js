@@ -11,11 +11,11 @@ class DataTypeListMenuActions extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(handler) {
-    return (ev) => {
+  handleClick(handler, ev) {
+    if (handler) {
       ev.preventDefault();
-      if (handler) { handler(this.props); }
-    };
+      handler(this.props);
+    }
   }
 
   render() {
@@ -34,13 +34,13 @@ class DataTypeListMenuActions extends Component {
         />
         <MenuItem
           className="DataTypeListMenuAction__menu-item-reload"
-          onClick={this.handleClick()}
+          onClick={this.handleClick}
         >
           <FormattedMessage id="app.reload" />
         </MenuItem>
         <MenuItem
           className="DataTypeListMenuAction__menu-item-delete"
-          onClick={this.handleClick(onClickDelete)}
+          onClick={ev => this.handleClick(onClickDelete, ev)}
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>

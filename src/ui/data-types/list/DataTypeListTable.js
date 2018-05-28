@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
+import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -38,7 +39,10 @@ class DataTypeListTable extends Component {
           />
         </td>
         <td className="DataTypeListRow__td text-center">
-          <DataTypeListMenuActions code={datatype.code} />
+          <DataTypeListMenuActions
+            code={datatype.code}
+            onClickDelete={this.props.onClickDelete}
+          />
         </td>
       </tr>
     ));
@@ -98,6 +102,7 @@ class DataTypeListTable extends Component {
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
+        <DeleteDataTypeModalContainer />
       </div>
     );
   }
@@ -105,6 +110,7 @@ class DataTypeListTable extends Component {
 
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
+  onClickDelete: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
