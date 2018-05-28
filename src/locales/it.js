@@ -293,9 +293,9 @@ export default {
     'dataType.list.title': 'Data Type',
     'dataType.help': 'Dalla sezione DATA TYPE l\'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.',
     'dataType.table.status': 'Status',
-    'dataType.table.status.ok': 'A posto. Se vuoi, ricarica',
-    'dataType.table.status.ko': 'Necessità di un ricaricamento: lancialo ora.',
-    'dataType.table.status.wip': 'Ricaricamento in corso. Aggiorna la pagina.',
+    'dataType.table.status.0': 'A posto. Se vuoi, ricarica',
+    'dataType.table.status.1': 'Ricaricamento in corso. Aggiorna la pagina.',
+    'dataType.table.status.2': 'Necessità di un ricaricamento: lancialo ora.',
     'dataType.listEmpty': 'Non ci sono DATA TYPES disponibili',
 
     'profileType.table.status': 'Status',

@@ -32,7 +32,7 @@ const UserAuthorityPage = ({ username }) => (
           <PageTitle
             titleId="user.authority.title"
             helpId="user.help"
-            titleParam={username}
+            titleParam={{ username }}
           />
         </Col>
       </Row>

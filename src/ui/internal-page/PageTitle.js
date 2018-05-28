@@ -29,7 +29,7 @@ const PageTitle = ({ titleId, helpId, titleParam }) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
       <h1 className="PageTitle__title">
-        <FormattedMessage id={titleId} values={{ titleParam }} />
+        <FormattedMessage id={titleId} values={titleParam} />
         {helpIcon(helpId)}
       </h1>
     </div>

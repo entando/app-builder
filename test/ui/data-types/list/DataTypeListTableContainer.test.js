@@ -44,12 +44,12 @@ const DATA_TYPES = [
   {
     name: 'dataType1',
     code: 'ABC',
-    status: 'ok',
+    status: '0',
   },
   {
     name: 'dataType2',
     code: 'DEF',
-    status: 'ok',
+    status: '0',
   },
 ];
 

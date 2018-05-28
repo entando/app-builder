@@ -19,6 +19,7 @@ export const mapStateToProps = state => ({
   JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getDataTypeAttributesIdList(state),
+  mode: 'edit',
 });
 
 export const mapDispatchToProps = dispatch => ({
