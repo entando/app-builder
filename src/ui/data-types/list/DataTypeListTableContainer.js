@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 
 import { fetchDataTypes } from 'state/data-types/actions';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLoading } from 'state/loading/selectors';
 import DataTypeListTable from 'ui/data-types/list/DataTypeListTable';
+import { MODAL_ID } from 'ui/data-types/common/DeleteDataTypeModal';
 
 export const mapStateToProps = state => (
   {
@@ -19,6 +21,11 @@ export const mapStateToProps = state => (
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchDataTypes(page));
+  },
+  onClickDelete: (values) => {
+    const { code } = values;
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'DataType', code }));
   },
 });
 

@@ -1,9 +1,10 @@
 import 'test/enzyme-init';
 
+import { getLoading } from 'state/loading/selectors';
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-types/list/DataTypeListTableContainer';
+import { fetchDataTypes } from 'state/data-types/actions';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 import { getDataTypeList } from 'state/data-types/selectors';
-import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   dataTypes: {
@@ -25,6 +26,11 @@ const TEST_STATE = {
 };
 
 const dispatchMock = jest.fn();
+
+
+jest.mock('state/data-types/actions', () => ({
+  fetchDataTypes: jest.fn(),
+}));
 
 jest.mock('state/data-types/selectors', () => ({
   getDataTypeList: jest.fn(),
@@ -68,10 +74,18 @@ describe('DataTypeListTableContainer', () => {
 
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
+      expect(props.onClickDelete).toBeDefined();
     });
+
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchDataTypes).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickDelete is called', () => {
+      props.onClickDelete('code');
       expect(dispatchMock).toHaveBeenCalled();
     });
   });

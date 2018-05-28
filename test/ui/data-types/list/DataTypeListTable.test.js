@@ -16,6 +16,7 @@ describe('DataTypeListTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<DataTypeListTable
+      onClickDelete={jest.fn()}
       datatype={dataTypes}
       page={1}
       pageSize={1}
@@ -24,7 +25,7 @@ describe('DataTypeListTable', () => {
   });
 
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('errors without a page', () => {
