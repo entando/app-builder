@@ -7,7 +7,7 @@ import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
-import { handleExpandPage, sendPutPage, fetchPageForm } from 'state/pages/actions';
+import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -40,6 +40,7 @@ export const mapDispatchToProps = dispatch => ({
     });
   },
   onWillMount: ({ pageCode }) => {
+    dispatch(clearTree());
     dispatch(fetchGroups());
     dispatch(fetchPageModels());
     dispatch(handleExpandPage());

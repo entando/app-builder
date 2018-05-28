@@ -16,7 +16,7 @@ import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferenc
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { addErrors } from 'state/errors/actions';
 import { setPublishedPageConfig } from 'state/page-config/actions';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
+import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -164,7 +164,7 @@ export const sendDeletePage = page => async (dispatch) => {
   throw new TypeError('No JSON content-type in response headers');
 };
 
-const fetchPageTree = pageCode => async (dispatch) => {
+export const fetchPageTree = pageCode => async (dispatch) => {
   if (pageCode === HOMEPAGE_CODE) {
     const responses = await Promise.all([
       fetchPage(pageCode)(dispatch),
@@ -387,4 +387,10 @@ export const fetchReferencesPage = getState => async (dispatch) => {
     throw new TypeError('No JSON content-type in response headers');
   }));
   dispatch(setReferenceSelectedPage(data));
+};
+
+export const initPageForm = pageData => (dispatch) => {
+  console.log('action', pageData);
+  dispatch(initialize('page', pageData));
+  gotoRoute(ROUTE_PAGE_ADD);
 };
