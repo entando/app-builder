@@ -11,15 +11,15 @@ describe('DataTypeStatusIcon', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('if status = ko, has class DataTypeStatusIcon--check', () => {
+  it('if status = 0, has class DataTypeStatusIcon--check', () => {
     const draftComponent = shallow(<DataTypeStatusIcon status="0" />);
     expect(draftComponent.hasClass('DataTypeStatusIcon--check')).toBe(true);
   });
-  it('if status = ok, has class DataTypeStatusIcon--exclamation', () => {
+  it('if status = 2, has class DataTypeStatusIcon--exclamation', () => {
     const draftComponent = shallow(<DataTypeStatusIcon status="2" />);
     expect(draftComponent.hasClass('DataTypeStatusIcon--exclamation')).toBe(true);
   });
-  it('if status = wip, has class DataTypeStatusIcon--spinner', () => {
+  it('if status = 1, has class DataTypeStatusIcon--spinner', () => {
     const draftComponent = shallow(<DataTypeStatusIcon status="1" />);
     expect(draftComponent.hasClass('DataTypeStatusIcon--spinner')).toBe(true);
   });
