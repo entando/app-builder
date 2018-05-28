@@ -3,7 +3,7 @@ import { gotoRoute } from '@entando/router';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
-  setSelectedPage, handleExpandPage,
+  setSelectedPage, handleExpandPage, initPageForm,
   setPageParent, movePageAbove, movePageBelow, clonePage, clearSearchPage,
 } from 'state/pages/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
@@ -20,6 +20,7 @@ jest.mock('state/pages/actions', () => ({
   movePageBelow: jest.fn(),
   clearSearchPage: jest.fn(),
   fetchSearchPages: jest.fn(),
+  initPageForm: jest.fn(),
 }));
 
 jest.mock('state/pagination/selectors', () => ({
@@ -75,9 +76,9 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onExpandPage');
     });
 
-    it('should dispatch an action if onClickAdd is called', () => {
+    it('should dispatch an action if "onClickAdd" is called', () => {
       props.onClickAdd('pagecode');
-      expect(gotoRoute).toHaveBeenCalled();
+      expect(initPageForm).toHaveBeenCalled();
     });
 
     it('should dispatch "setSelectedPage" then "gotoRoute" action if "onClickEdit" is called', () => {

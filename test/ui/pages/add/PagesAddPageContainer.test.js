@@ -10,6 +10,7 @@ jest.mock('state/page-models/actions', () => ({
 }));
 jest.mock('state/pages/actions', () => ({
   handleExpandPage: jest.fn().mockReturnValue('handleExpandPage_result'),
+  clearTree: jest.fn().mockReturnValue('clearTree_result'),
 }));
 
 
@@ -27,12 +28,19 @@ describe('PagesAddPageContainer', () => {
       beforeEach(() => {
         props.onWillMount();
       });
+
+      it('dispatch clearTree', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
+      });
+
       it('dispatch fetchGroups', () => {
         expect(dispatchMock).toHaveBeenCalledWith('fetchGroups_result');
       });
+
       it('dispatch fetchPageModels', () => {
         expect(dispatchMock).toHaveBeenCalledWith('fetchPageModels_result');
       });
+
       it('dispatch handleExpandPage', () => {
         expect(dispatchMock).toHaveBeenCalledWith('handleExpandPage_result');
       });

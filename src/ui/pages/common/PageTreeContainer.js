@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG, ROUTE_PAGE_DETAIL } from 'app-init/router';
+import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG, ROUTE_PAGE_DETAIL } from 'app-init/router';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
@@ -17,6 +17,7 @@ import {
   movePageBelow,
   clonePage,
   clearSearchPage,
+  initPageForm,
 } from 'state/pages/actions';
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
@@ -31,7 +32,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onClickAdd: () => { gotoRoute(ROUTE_PAGE_ADD); },
+  onClickAdd: (page) => {
+    dispatch(initPageForm({ parentCode: page.code }));
+  },
   onClickEdit: (page) => {
     dispatch(setSelectedPage(page));
     dispatch(clearSearchPage());
