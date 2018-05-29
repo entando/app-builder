@@ -9,7 +9,9 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchDataTypes()); },
-  handleSubmit: values => (values),
+  onSubmit: (values) => {
+    console.log(values);
+  },
 
 });
 const DataModelFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataModelForm);

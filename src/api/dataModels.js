@@ -16,4 +16,14 @@ export const getDataModels = (page = { page: 1, pageSize: 10 }, params = '') => 
   )
 );
 
+export const postDataModels = data => (
+  makeRequest({
+    uri: '/api/dataModels',
+    method: METHODS.POST,
+    mockResponse: {},
+    body: data,
+    useAuthentication: true,
+  })
+);
+
 export default getDataModels;
