@@ -28,7 +28,10 @@ class DataModelListTable extends Component {
         <td className="DataModelListRow__td">{item.type}</td>
         <td className="DataModelListRow__td text-center">{item.modelId}</td>
         <td className="DataModelListRow__td text-center">
-          <DataModelListActionsMenu code={item.type} />
+          <DataModelListActionsMenu
+            code={item.type}
+            onClickEdit={() => this.props.onClickEdit(item.modelId)}
+          />
         </td>
       </tr>
     ));
@@ -74,6 +77,7 @@ class DataModelListTable extends Component {
 }
 DataModelListTable.propTypes = {
   onWillMount: PropTypes.func,
+  onClickEdit: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,

@@ -21,6 +21,7 @@ import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
+import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
@@ -57,6 +58,7 @@ import {
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
   ROUTE_DATA_MODEL_ADD,
+  ROUTE_DATA_MODEL_EDIT,
   ROUTE_DATA_MODEL_LIST,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
@@ -166,6 +168,11 @@ describe('App', () => {
   it('route to add data model page', () => {
     const component = shallow(<App route={ROUTE_DATA_MODEL_ADD} username="admin" />);
     expect(component.contains(<AddDataModelPage />)).toBe(true);
+  });
+
+  it('route to edit data model page', () => {
+    const component = shallow(<App route={ROUTE_DATA_MODEL_EDIT} username="admin" />);
+    expect(component.contains(<EditDataModelPage />)).toBe(true);
   });
 
   it('route to data model list page', () => {

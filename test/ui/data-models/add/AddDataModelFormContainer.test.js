@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/data-models/common/DataModelFormContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/data-models/add/AddDataModelFormContainer';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 const TEST_STATE = {
@@ -21,7 +21,7 @@ const TEST_STATE = {
   },
 };
 
-describe('DataModelFormContainer', () => {
+describe('AddDataModelFormContainer', () => {
   it('maps dataTypes property state in DataModelForm', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({ dataTypes: DATA_TYPES_OK_PAGE_1.payload });
   });

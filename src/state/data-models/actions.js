@@ -55,7 +55,7 @@ export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(addToast(
-          formattedText('app.created', null, { type: 'data model', code: data.code }),
+          formattedText('app.created', null, { type: 'data model', code: data.modelId }),
           TOAST_SUCCESS,
         ));
         gotoRoute(ROUTE_DATA_MODEL_LIST);
@@ -72,7 +72,7 @@ export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(addToast(
-          formattedText('app.updated', null, { type: 'data model', code: data.code }),
+          formattedText('app.updated', null, { type: 'data model', code: data.modelId }),
           TOAST_SUCCESS,
         ));
         gotoRoute(ROUTE_DATA_MODEL_LIST);
