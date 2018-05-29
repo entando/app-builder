@@ -258,7 +258,7 @@ describe('state/profile-types/actions ', () => {
           const profileType = actionPayload.profileTypes[0];
           expect(profileType).toHaveProperty('name', 'profileType1');
           expect(profileType).toHaveProperty('code', 'ABC');
-          expect(profileType).toHaveProperty('status', 'ok');
+          expect(profileType).toHaveProperty('status', '0');
           done();
         }).catch(done.fail);
       });

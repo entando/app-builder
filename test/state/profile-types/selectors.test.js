@@ -22,12 +22,12 @@ const TEST_STATE = {
       ABC: {
         name: 'profileType1',
         code: 'ABC',
-        status: 'ok',
+        status: '0',
       },
       DEF: {
         name: 'profileType2',
         code: 'DEF',
-        status: 'ok',
+        status: '0',
       },
     },
     attributes: {
