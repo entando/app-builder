@@ -6,6 +6,7 @@ import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
+import DataTypeReferenceStatusContainer from 'ui/data-types/common/DataTypeReferenceStatusContainer';
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -85,7 +86,10 @@ class DataTypeListTable extends Component {
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
           />
+          <br />
+          <DataTypeReferenceStatusContainer />
         </Col>
+
       );
     }
     return (
@@ -102,6 +106,8 @@ class DataTypeListTable extends Component {
       <div className="DataTypeListTable">
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
+
+
         </Spinner>
         <DeleteDataTypeModalContainer />
       </div>

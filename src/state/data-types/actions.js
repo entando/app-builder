@@ -16,6 +16,7 @@ import {
   deleteDataType,
   getDataType,
   getDataTypes,
+  getDataTypesStatus,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
@@ -31,6 +32,7 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 }
   from 'state/data-types/types';
 import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
@@ -56,6 +58,13 @@ export const setSelectedDataType = dataType => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
     dataType,
+  },
+});
+
+export const setDataTypeReferenceStatus = dataTypeStatus => ({
+  type: SET_DATA_TYPE_REFERENCE_STATUS,
+  payload: {
+    dataTypeStatus,
   },
 });
 
@@ -91,6 +100,19 @@ export const setDataTypeAttributes = attributes => ({
 
 
 // thunk
+
+export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
+  getDataTypesStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setDataTypeReferenceStatus(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
 
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {

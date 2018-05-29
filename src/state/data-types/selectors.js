@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 export const getDataTypes = state => state.dataTypes;
 export const getDataTypesIdList = state => state.dataTypes.list;
 export const getDataTypesMap = state => state.dataTypes.map;
 export const getSelectedDataType = state => state.dataTypes.selected;
 export const getDataTypeAttributes = state => state.dataTypes.attributes;
+const getDataTypeReferences = state => state.dataTypes.references;
 export const getDataTypeAttributesIdList = state => get(state.dataTypes.attributes, 'list');
 export const getDataTypeSelectedAttribute = state => state.dataTypes.attributes.selected;
 export const getDataTypeSelectedAttributeType = state =>
@@ -29,3 +30,12 @@ export const getDataTypeList = createSelector(
   [getDataTypesMap, getDataTypesIdList],
   (dataTypesMap, idList) => idList.map(id => (dataTypesMap[id])),
 );
+
+export const getDataTypeReferencesStatus = createSelector([getDataTypeReferences], (ref) => {
+  if (!isEmpty(ref.refreshing)) {
+    return { type: 'warning', status: 'refreshing', dataTypesCode: ref.refreshing };
+  } else if (!isEmpty(ref.toRefresh)) {
+    return { type: 'error', status: 'toRefresh', dataTypesCode: ref.toRefresh };
+  }
+  return { type: 'success', status: 'ready', dataTypesCode: [] };
+});

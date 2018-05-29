@@ -26,7 +26,6 @@ export default {
     'app.alert.notAvaible': 'Not avaible',
     'app.info': 'Info',
     'app.name': 'Name',
-    'app.description': 'Description',
     'app.group': 'Group',
     'app.code': 'Code',
     'app.used': 'used',
@@ -464,5 +463,10 @@ export default {
     'activityStream.offlinePage': 'unpublish a page',
     'activityStream.modifyPage': 'modified a page',
     'activityStream.like': 'Like',
+    'reference.status': 'Reference Status',
+    'reference.text': 'Reload the references for these entity types',
+    'reference.status.ready': 'Everything is fine.',
+    'reference.status.refreshing': 'Reloading. Refresh this page.',
+    'reference.status.toRefresh': 'Stale status, please reload.',
   },
 };
