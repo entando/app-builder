@@ -1,5 +1,7 @@
+import { isEmpty } from 'lodash';
 
-const b64toBlob = (b64Data, contentType = 'application/octet-stream, application/pkcs12,', sliceSize = 512) => {
+
+const b64toBlob = (b64Data, contentType = 'application/octet-stream, application/pkcs12', sliceSize = 512) => {
   const byteCharacters = atob(b64Data);
   const byteArrays = [];
 
@@ -21,6 +23,7 @@ const b64toBlob = (b64Data, contentType = 'application/octet-stream, application
 };
 
 export const download = (filename, text) => {
+  if (isEmpty(text)) { return; }
   const data = window.URL.createObjectURL(b64toBlob(text));
   const element = document.createElement('a');
 
