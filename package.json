@@ -89,7 +89,8 @@
     "coverage": "node scripts/test.js --env=jsdom --coverage",
     "sass-lint": "sass-lint -v",
     "precommit": "npm run lint && npm run sass-lint && npm run coverage",
-    "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js"
+    "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
+    "start-openshift": "npm install -g serve && serve -p 8080 -s build"
   },
   "jest": {
     "collectCoverageFrom": [

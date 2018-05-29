@@ -21,6 +21,7 @@ describe('ProfileTypeListTable', () => {
       pageSize={1}
       totalItems={1}
       removeProfileType={() => {}}
+      status="0"
     />);
   });
 

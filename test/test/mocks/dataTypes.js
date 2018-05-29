@@ -114,12 +114,12 @@ export const DATA_TYPES_OK_PAGE_2 =
     {
       name: 'dataType3',
       code: 'GHI',
-      status: 'ok',
+      status: '0',
     },
     {
       name: 'dataType4',
       code: 'LMN',
-      status: 'ok',
+      status: '0',
     },
   ],
   errors: [],

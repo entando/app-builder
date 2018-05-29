@@ -26,6 +26,7 @@ export default {
     'app.alert.notAvaible': 'Non disponibile',
     'app.info': 'Info',
     'app.name': 'Nome',
+    'app.description': 'Descrizione',
     'app.group': 'Gruppo',
     'app.code': 'Codice',
     'app.used': 'usato',

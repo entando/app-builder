@@ -20,6 +20,7 @@ jest.mock('state/pages/actions', () => ({
   handleExpandPage: jest.fn().mockReturnValue('handleExpandPage_result'),
   fetchPageForm: jest.fn().mockReturnValue('fetchPageForm_result'),
   sendPutPage: jest.fn(() => Promise.resolve({})),
+  clearTree: jest.fn().mockReturnValue('clearTree_result'),
 }));
 
 
@@ -81,6 +82,10 @@ describe('PagesEditFormContainer', () => {
     describe('prop onWillMount', () => {
       beforeEach(() => {
         props.onWillMount({ pageCode: PAGE_CODE });
+      });
+
+      it('dispatch clearTree', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
       });
 
       it('dispatch fetchGroups', () => {
