@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DDTable } from 'frontend-common-components';
+import { DragDropContextProvider } from 'react-dnd';
+import MouseBackend from 'react-dnd-mouse-backend';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
@@ -51,7 +53,7 @@ class PageTree extends Component {
 
       return (
         <DDTable.Tr key={page.code} rowData={page} className="PageTree__row">
-          <td className={className.join(' ').trim()}>
+          <td className={className.join(' ')}>
             <DDTable.Handle>
               <button className="PageTree__drag-handle btn btn-primary">
                 <i className="fa fa-arrows" />
@@ -102,34 +104,36 @@ class PageTree extends Component {
       return <PageListSearchTable {...this.props} />;
     }
     return (
-      <div>
-        <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
-          <table className="PageTree table table-bordered table-hover table-treegrid">
-            <thead>
-              <tr>
-                <th width="70%">
-                  <FormattedMessage id="pageTree.pageTree" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.status" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.displayedInMenu" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              { this.renderRows() }
-            </tbody>
-          </table>
-        </DDTable>
-        <DeletePageModalContainer />
-        <PublishPageModalContainer />
-        <UnpublishPageModalContainer />
-      </div>
+      <DragDropContextProvider backend={MouseBackend}>
+        <div>
+          <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
+            <table className="PageTree table table-bordered table-hover table-treegrid">
+              <thead>
+                <tr>
+                  <th width="70%">
+                    <FormattedMessage id="pageTree.pageTree" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.status" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.displayedInMenu" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.actions" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.renderRows() }
+              </tbody>
+            </table>
+          </DDTable>
+          <DeletePageModalContainer />
+          <PublishPageModalContainer />
+          <UnpublishPageModalContainer />
+        </div>
+      </DragDropContextProvider>
     );
   }
 }
