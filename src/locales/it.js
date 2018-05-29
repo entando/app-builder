@@ -291,6 +291,8 @@ export default {
     'dataModel.type': 'Tipo',
     'dataModel.stylesheet': 'Foglio di Stile',
     'dataModel.model': 'Modello',
+    'dataModel.deleteDataModelSuccess': 'Data Model \'{id}\' cancellato correttamente',
+    'dataModel.deleteDataModelError': 'Si è verificato un errore durante la cancellazione del Data Model \'{id}\'',
     'dataType.list.title': 'Data Type',
     'dataType.help': 'Dalla sezione DATA TYPE l\'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.',
     'dataType.table.status': 'Status',

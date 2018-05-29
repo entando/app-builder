@@ -4,6 +4,8 @@ import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/sel
 import DataModelListTable from 'ui/data-models/list/DataModelListTable';
 import { getListDataModels } from 'state/data-models/selectors';
 import { getLoading } from 'state/loading/selectors';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/data-models/common/DeleteDataModelModal';
 
 
 export const mapStateToProps = state => (
@@ -19,6 +21,11 @@ export const mapStateToProps = state => (
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page) => {
     dispatch(fetchDataModelListPaged(page));
+  },
+  onClickDelete: (values) => {
+    const { code } = values;
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'DataModel', code }));
   },
 });
 

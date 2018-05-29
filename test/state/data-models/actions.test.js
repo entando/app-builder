@@ -3,8 +3,8 @@ import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
 
 import { mockApi } from 'test/testUtils';
-import { fetchDataModelListPaged, sendPostDataModel } from 'state/data-models/actions';
-import { getDataModels, postDataModel } from 'api/dataModels';
+import { fetchDataModelListPaged, sendPostDataModel, sendDeleteDataModel } from 'state/data-models/actions';
+import { getDataModels, postDataModel, deleteDataModel } from 'api/dataModels';
 import { SET_DATA_MODELS } from 'state/data-models/types';
 import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -91,6 +91,40 @@ describe('state/data-models/actions', () => {
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
+    });
+  });
+
+  describe('sendDeleteDataModel', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('sendDeleteDataModel calls deleteDataModel, gotoRoute and addToast', (done) => {
+      store.dispatch(sendDeleteDataModel('modelId')).then(() => {
+        expect(deleteDataModel).toHaveBeenCalledWith('modelId');
+        expect(gotoRoute).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1].payload).toHaveProperty('message', 'dataModel.deleteDataModelSuccess');
+        expect(actions[1].payload).toHaveProperty('type', 'success');
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when deleteDataModel get error, should dispatch addErrors and addToast', async () => {
+      deleteDataModel.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendDeleteDataModel('modelId')).catch((e) => {
+        expect(deleteDataModel).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1].payload).toHaveProperty('message', 'dataModel.deleteDataModelError');
+        expect(actions[1].payload).toHaveProperty('type', 'error');
+        expect(e).toHaveProperty('errors');
+      });
     });
   });
 });

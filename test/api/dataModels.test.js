@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 
-import { getDataModels, postDataModel } from 'api/dataModels';
+import { getDataModels, postDataModel, deleteDataModel } from 'api/dataModels';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
+import { DATA_MODELS, DATA_MODEL_DELETE, ERROR } from 'test/mocks/dataModels';
 
 const correctRequest = {
   uri: '/api/dataModels',
@@ -96,6 +96,23 @@ describe('api/dataModel', () => {
         method: METHODS.POST,
         mockResponse: {},
         body: { data: 1 },
+        useAuthentication: true,
+      });
+    });
+  });
+
+ describe('deleteDataModel', () => {
+    it('returns a promise', () => {
+      expect(deleteDataModel('dataModelId')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const dataModelId = 'dataModelId';
+      deleteDataModel(dataModelId);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/dataModels/${dataModelId}`,
+        method: METHODS.DELETE,
+        mockResponse: DATA_MODEL_DELETE,
         useAuthentication: true,
       });
     });
