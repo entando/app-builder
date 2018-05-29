@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col, Form } from 'patternfly-react';
-import { required, maxLength } from '@entando/utils';
+import { required, maxLength, isNumber } from '@entando/utils';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
@@ -28,10 +28,12 @@ export class DataModelFormBody extends Component {
               <Field
                 component={RenderSelectInput}
                 options={selectOptions}
+                defaultOptionId="app.chooseAnOption"
                 label={
                   <FormLabel labelId="dataModel.type" required />
                 }
                 name="type"
+                validate={required}
               />
 
               <Field
@@ -40,13 +42,13 @@ export class DataModelFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="app.help.code" required />
                  }
-                validate={[required, maxLength(255)]}
+                validate={[required, isNumber, maxLength(255)]}
               />
               <Field
                 component={RenderTextInput}
-                name="name"
+                name="descr"
                 label={
-                  <FormLabel labelId="app.name" required />
+                  <FormLabel labelId="app.description" required />
                  }
                 validate={[required, maxLength(255)]}
               />
