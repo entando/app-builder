@@ -5,6 +5,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import DataModelFormContainer from 'ui/data-models/common/DataModelFormContainer';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
@@ -32,6 +33,7 @@ const AddDataModelPage = () => (
       />
       <Row>
         <Col xs={12} >
+          <ErrorsAlertContainer />
           <DataModelFormContainer />
         </Col>
       </Row>

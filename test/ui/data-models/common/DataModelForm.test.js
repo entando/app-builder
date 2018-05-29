@@ -49,8 +49,7 @@ describe('DataModelForm', () => {
 
   it('on form submit calls handleSubmit', () => {
     dataModelForm = buildDataModelForm();
-    const preventDefault = jest.fn();
-    dataModelForm.find('form').simulate('submit', { preventDefault });
+    dataModelForm.find('Form').simulate('submit');
     expect(handleSubmit).toHaveBeenCalled();
   });
 });

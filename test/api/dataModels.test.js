@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { getDataModels } from 'api/dataModels';
+import { getDataModels, postDataModel } from 'api/dataModels';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
 
@@ -81,6 +81,23 @@ describe('api/dataModel', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('postDataModel', () => {
+    it('returns a promise', () => {
+      expect(postDataModel()).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      postDataModel({ data: 1 });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels',
+        method: METHODS.POST,
+        mockResponse: {},
+        body: { data: 1 },
+        useAuthentication: true,
+      });
     });
   });
 });
