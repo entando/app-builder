@@ -16,7 +16,7 @@ export const getDataModels = (page = { page: 1, pageSize: 10 }, params = '') => 
   )
 );
 
-export const postDataModels = data => (
+export const postDataModel = data => (
   makeRequest({
     uri: '/api/dataModels',
     method: METHODS.POST,
