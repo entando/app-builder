@@ -10,6 +10,7 @@ class DataModelListTable extends Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
     this.items = [];
   }
 
@@ -19,6 +20,10 @@ class DataModelListTable extends Component {
 
   changePage(page) {
     this.props.onWillMount({ page, pageSize: this.props.pageSize });
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount({ page: 1, pageSize });
   }
 
   render() {
@@ -69,6 +74,7 @@ class DataModelListTable extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
           />
         </Spinner>
       </div>
