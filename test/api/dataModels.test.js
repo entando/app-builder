@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { getDataModels, postDataModel } from 'api/dataModels';
+import { getDataModels, getDataModel, postDataModel, putDataModel } from 'api/dataModels';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
 
@@ -84,6 +84,22 @@ describe('api/dataModel', () => {
     });
   });
 
+  describe('getDataModel', () => {
+    it('returns a promise', () => {
+      expect(getDataModel(1)).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      getDataModel(2);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels/2',
+        method: METHODS.GET,
+        mockResponse: {},
+        useAuthentication: true,
+      });
+    });
+  });
+
   describe('postDataModel', () => {
     it('returns a promise', () => {
       expect(postDataModel()).toBeInstanceOf(Promise);
@@ -96,6 +112,23 @@ describe('api/dataModel', () => {
         method: METHODS.POST,
         mockResponse: {},
         body: { data: 1 },
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('putDataModel', () => {
+    it('returns a promise', () => {
+      expect(putDataModel({})).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      putDataModel({ modelId: 1 });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels/1',
+        method: METHODS.PUT,
+        mockResponse: {},
+        body: { modelId: 1 },
         useAuthentication: true,
       });
     });
