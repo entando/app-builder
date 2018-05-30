@@ -24,7 +24,9 @@ const b64toBlob = (b64Data, contentType = defaultContentType, sliceSize = 512) =
 };
 
 export const download = (filename, text) => {
-  if (isEmpty(text)) { return; }
+  if (isEmpty(text)) {
+    return;
+  }
   const data = window.URL.createObjectURL(b64toBlob(text));
   const element = document.createElement('a');
 
