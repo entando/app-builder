@@ -11,7 +11,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 
 export class DataModelFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props.dataModelId);
   }
 
   render() {
@@ -39,6 +39,7 @@ export class DataModelFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="modelId"
+                disabled={!!this.props.dataModelId}
                 label={
                   <FormLabel labelId="app.code" helpId="app.help.code" required />
                  }
@@ -109,6 +110,10 @@ DataModelFormBody.propTypes = {
   })),
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  dataModelId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
 };
 
 DataModelFormBody.defaultProps = {
@@ -116,6 +121,7 @@ DataModelFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypes: [],
+  dataModelId: null,
 };
 
 const DataModelForm = reduxForm({

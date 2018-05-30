@@ -1,7 +1,8 @@
 import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
+import { initialize } from 'redux-form';
 
-import { getDataModels, postDataModel } from 'api/dataModels';
+import { getDataModels, getDataModel, postDataModel, putDataModel } from 'api/dataModels';
 import { addErrors } from 'state/errors/actions';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -36,12 +37,42 @@ export const fetchDataModelListPaged = (page = { page: 1, pageSize: 10 }, params
   });
 });
 
+export const fetchDataModel = dataModelId => dispatch => new Promise((resolve) => {
+  getDataModel(dataModelId).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(initialize('dataModel', json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
 export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
   postDataModel(data).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(addToast(
-          formattedText('app.updated', null, { type: 'data model', code: data.code }),
+          formattedText('app.created', null, { type: 'data model', code: data.modelId }),
+          TOAST_SUCCESS,
+        ));
+        gotoRoute(ROUTE_DATA_MODEL_LIST);
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
+export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
+  putDataModel(data).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(addToast(
+          formattedText('app.updated', null, { type: 'data model', code: data.modelId }),
           TOAST_SUCCESS,
         ));
         gotoRoute(ROUTE_DATA_MODEL_LIST);
