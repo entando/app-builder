@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
@@ -10,7 +11,7 @@ class AttributeRole extends Component {
     this.props.onWillMount(this.props);
   }
   render() {
-    const { JoinAllowedOptions, allowedRoles } = this.props;
+    const { joinAllowedOptions, allowedRoles } = this.props;
 
     const selectAllowedOptions = allowedRoles.map(item => (
       {
@@ -19,8 +20,18 @@ class AttributeRole extends Component {
       }
     ));
 
-    const roleWrapper = (allowedRoles ?
-      (
+    const roleWrapper = () => {
+      if (isEmpty(allowedRoles)) {
+        return (
+          <FormGroup>
+            <Col xs={10}>
+              <FormattedMessage id="app.no.roles" />
+            </Col>
+          </FormGroup>
+        );
+      }
+
+      return (
         <FormGroup>
           <label htmlFor="attrRole" className="col-xs-2 control-label">
             <FormattedMessage id="app.role" />
@@ -30,16 +41,15 @@ class AttributeRole extends Component {
               component={RoleSelectRenderer}
               name="joinRoles"
               options={selectAllowedOptions}
-              selectedValues={JoinAllowedOptions}
+              selectedValues={joinAllowedOptions}
               labelKey="text"
               valueKey="value"
               emptyOptionTextId="app.chooseARole"
             />
           </Col>
         </FormGroup>
-      )
-      : <div><FormattedMessage id="app.no.roles" /><br /><br /></div>
-    );
+      );
+    };
 
     return (
       <Row>
@@ -48,7 +58,7 @@ class AttributeRole extends Component {
             <legend>
               <FormattedMessage id="app.roles" />
             </legend>
-            {roleWrapper}
+            {roleWrapper()}
           </fieldset>
         </Col>
       </Row>
@@ -62,13 +72,13 @@ AttributeRole.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
-  JoinAllowedOptions: PropTypes.arrayOf(PropTypes.string),
+  joinAllowedOptions: PropTypes.arrayOf(PropTypes.string),
 };
 
 AttributeRole.defaultProps = {
   onWillMount: () => {},
   allowedRoles: [],
-  JoinAllowedOptions: [],
+  joinAllowedOptions: [],
 };
 
 

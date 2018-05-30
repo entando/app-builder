@@ -15,122 +15,119 @@ import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 
 
 export class AttributeFormBody extends Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
 
-   onSubmit = (ev) => {
-     ev.preventDefault();
-     this.props.handleSubmit();
-   };
+  render() {
+    const { selectedAttributeType } = this.props;
+    const renderMonolistConf = () => {
+      if (selectedAttributeType.listAttribute) {
+        return (
+          <AttributeMonoListMonoSettings {...this.props} />
+        );
+      }
+      return '';
+    };
 
-   render() {
-     const { selectedAttributeType } = this.props;
-     const renderMonolistConf = () => {
-       if (selectedAttributeType.listAttribute) {
-         return (
-           <AttributeMonoListMonoSettings {...this.props} />
-         );
-       }
-       return '';
-     };
+    const renderNumberConf = () => {
+      if (selectedAttributeType.numberFilterSupported) {
+        return (
+          <FormSection name="validationRules">
+            <AttributesNumber {...this.props} />
+          </FormSection>
+        );
+      }
+      return '';
+    };
 
-     const renderNumberConf = () => {
-       if (selectedAttributeType.numberFilterSupported) {
-         return (
-           <FormSection name="validationRules">
-             <AttributesNumber {...this.props} />
-           </FormSection>
-         );
-       }
-       return '';
-     };
+    const renderDateConf = () => {
+      if (selectedAttributeType.dateFilterSupported) {
+        return (
+          <FormSection name="validationRules">
+            <AttributesDateSettings {...this.props} />
+          </FormSection>
+        );
+      }
+      return '';
+    };
 
-     const renderDateConf = () => {
-       if (selectedAttributeType.dateFilterSupported) {
-         return (
-           <FormSection name="validationRules">
-             <AttributesDateSettings {...this.props} />
-           </FormSection>
-         );
-       }
-       return '';
-     };
+    const renderTextConf = () => {
+      if (selectedAttributeType.multilingual) {
+        return (
+          <FormSection name="validationRules">
+            <AttributeHypeLongMonoTextSettings {...this.props} />
+          </FormSection>
+        );
+      }
+      return '';
+    };
 
-     const renderTextConf = () => {
-       if (selectedAttributeType.multilingual) {
-         return (
-           <FormSection name="validationRules">
-             <AttributeHypeLongMonoTextSettings {...this.props} />
-           </FormSection>
-         );
-       }
-       return '';
-     };
+    const renderEnumConf = () => {
+      if (selectedAttributeType.enumeratorOptionsSupported) {
+        return (
+          <AttributeEnumSettings {...this.props} />
+        );
+      }
+      return '';
+    };
 
-     const renderEnumConf = () => {
-       if (selectedAttributeType.enumeratorOptionsSupported) {
-         return (
-           <AttributeEnumSettings {...this.props} />
-         );
-       }
-       return '';
-     };
+    const renderEnumMapConf = () => {
+      if (selectedAttributeType.enumeratorMapOptionsSupported) {
+        return (
+          <AttributeEnumMapSettings {...this.props} />
+        );
+      }
+      return '';
+    };
 
-     const renderEnumMapConf = () => {
-       if (selectedAttributeType.enumeratorMapOptionsSupported) {
-         return (
-           <AttributeEnumMapSettings {...this.props} />
-         );
-       }
-       return '';
-     };
-
-     return (
-       <form onSubmit={this.onSubmit} className="form-horizontal">
-         <Row>
-           <Col xs={12}>
-             <fieldset className="no-padding">
-               <AttributeInfo {...this.props} />
-               <AttributeRole {...this.props} />
-               {renderMonolistConf()}
-               {renderTextConf()}
-               {renderEnumConf()}
-               {renderEnumMapConf()}
-               <FormSection name="validationRules">
-                 {renderNumberConf()}
-                 {renderDateConf()}
-                 <AttributeOgnlValidation />
-               </FormSection>
-             </fieldset>
-           </Col>
-         </Row>
-         <br />
-         <Row>
-           <Col xs={12}>
-             <Button
-               className="pull-right AttributeForm__continue--btn"
-               type="submit"
-               bsStyle="primary"
-               disabled={this.props.invalid || this.props.submitting}
-             >
-               <FormattedMessage id="app.continue" />
-             </Button>
-           </Col>
-         </Row>
-       </form>
-     );
-   }
+    return (
+      <form
+        onSubmit={this.props.handleSubmit(values => (
+            this.props.onSubmit(values, this.props.allowedRoles)
+          ))}
+        className="form-horizontal"
+      >
+        <Row>
+          <Col xs={12}>
+            <fieldset className="no-padding">
+              <AttributeInfo {...this.props} />
+              <AttributeRole {...this.props} />
+              {renderMonolistConf()}
+              {renderTextConf()}
+              {renderEnumConf()}
+              {renderEnumMapConf()}
+              <FormSection name="validationRules">
+                {renderNumberConf()}
+                {renderDateConf()}
+                <AttributeOgnlValidation />
+              </FormSection>
+            </fieldset>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col xs={12}>
+            <Button
+              className="pull-right AttributeForm__continue--btn"
+              type="submit"
+              bsStyle="primary"
+              disabled={this.props.invalid || this.props.submitting}
+            >
+              <FormattedMessage id="app.continue" />
+            </Button>
+          </Col>
+        </Row>
+      </form>
+    );
+  }
 }
 
 
 AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
   profileTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
@@ -156,6 +153,10 @@ AttributeFormBody.propTypes = {
     maxLength: PropTypes.string,
     regex: PropTypes.string,
   }),
+  allowedRoles: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    descr: PropTypes.string,
+  })),
 };
 
 AttributeFormBody.defaultProps = {
@@ -174,6 +175,7 @@ AttributeFormBody.defaultProps = {
     maxLength: '',
     regex: '',
   }),
+  allowedRoles: [],
 };
 
 const AttributeForm = reduxForm({

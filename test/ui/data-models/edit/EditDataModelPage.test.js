@@ -10,10 +10,10 @@ describe('EditDataModelPage', () => {
     component = shallow(<EditDataModelPage />);
   });
   it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
+    expect(component.exists()).toBe(true);
   });
 
   it('verify if exist InternalPage with class EditDataModelPage', () => {
-    expect(component.find('InternalPage').hasClass('EditDataModelPage')).toEqual(true);
+    expect(component.find('InternalPage').hasClass('EditDataModelPage')).toBe(true);
   });
 });

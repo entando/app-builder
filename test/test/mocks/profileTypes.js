@@ -162,7 +162,7 @@ export const PROFILE_TYPES_NORMALIZED = {
       PFL: {
         name: 'Default User Profile',
         code: 'PFL',
-        status: 'ok',
+        status: '0',
       },
       SUP: {
         name: 'Supervisor User Profile',

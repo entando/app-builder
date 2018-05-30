@@ -2,17 +2,10 @@
   font-family: FontAwesome;
 }
 
-.DataTypeStatusIcon--ok:before {
+.DataTypeStatusIcon--check {
   color: $color-pf-green;
-  content: $fa-check;
 }
 
-.DataTypeStatusIcon--ko:before {
-  // warning
+.DataTypeStatusIcon--exclamation {
   color: $color-pf-orange;
-  content: $fa-exclamation;
-}
-
-.DataTypeStatusIcon--wip {
-  content: $fa-spinner;
 }

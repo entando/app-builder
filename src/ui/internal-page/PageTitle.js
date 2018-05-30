@@ -29,7 +29,7 @@ const PageTitle = ({ titleId, helpId, titleParam }) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
       <h1 className="PageTitle__title">
-        <FormattedMessage id={titleId} values={{ titleParam }} />
+        <FormattedMessage id={titleId} values={titleParam} />
         {helpIcon(helpId)}
       </h1>
     </div>
@@ -39,12 +39,12 @@ const PageTitle = ({ titleId, helpId, titleParam }) => (
 PageTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
   helpId: PropTypes.string,
-  titleParam: PropTypes.string,
+  titleParam: PropTypes.shape({}),
 };
 
 PageTitle.defaultProps = {
   helpId: '',
-  titleParam: '',
+  titleParam: {},
 };
 
 export default PageTitle;

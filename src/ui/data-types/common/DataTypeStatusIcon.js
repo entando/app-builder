@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'patternfly-react';
 
-
 const DataTypeStatusIcon = ({ status, title }) => {
   let icon;
   switch (parseFloat(status)) {
@@ -16,7 +15,12 @@ const DataTypeStatusIcon = ({ status, title }) => {
       icon = 'check';
   }
   return (
-    <Icon title={title} name={icon} type="fa" />
+    <Icon
+      title={title}
+      name={icon}
+      type="fa"
+      className={`DataTypeStatusIcon DataTypeStatusIcon--${icon}`}
+    />
   );
 };
 

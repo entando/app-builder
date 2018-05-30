@@ -16,7 +16,7 @@ import {
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
   profileTypeAttributeCode: getParams(state).entityCode,
-  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+  joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getProfileTypeAttributesIdList(state),
 });
