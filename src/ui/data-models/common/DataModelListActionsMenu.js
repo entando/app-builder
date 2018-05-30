@@ -30,7 +30,6 @@ class DataModelListActionsMenu extends Component {
         </MenuItem>
         <MenuItem
           className="DataModelListActionsMenu__menu-item-edit"
-          // onClick={onClickEdit}
         >
           <FormattedMessage id="app.edit" />
         </MenuItem>
@@ -45,7 +44,6 @@ DataModelListActionsMenu.propTypes = {
 
 DataModelListActionsMenu.defaultProps = {
   onClickDelete: () => {},
-  // onClickEdit: () => {},
 };
 
 export default DataModelListActionsMenu;

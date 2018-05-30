@@ -16,6 +16,15 @@ export const getDataModels = (page = { page: 1, pageSize: 10 }, params = '') => 
   )
 );
 
+export const getDataModel = dataModelId => (
+  makeRequest({
+    uri: `/api/dataModels/${dataModelId}`,
+    method: METHODS.GET,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);
+
 export const postDataModel = data => (
   makeRequest({
     uri: '/api/dataModels',
@@ -25,6 +34,17 @@ export const postDataModel = data => (
     useAuthentication: true,
   })
 );
+
+export const putDataModel = data => (
+  makeRequest({
+    uri: `/api/dataModels/${data.modelId}`,
+    method: METHODS.PUT,
+    mockResponse: {},
+    body: data,
+    useAuthentication: true,
+  })
+);
+
 export const deleteDataModel = dataModelId => (
   makeRequest({
     uri: `/api/dataModels/${dataModelId}`,

@@ -29,9 +29,10 @@ class DataModelListTable extends Component {
         <td className="DataModelListRow__td text-center">{item.modelId}</td>
         <td className="DataModelListRow__td text-center">
           <DataModelListActionsMenu
-            code={item.modelId}
-            onClickDelete={this.props.onClickDelete}
-          />
+            code={item.type}
+            onClickEdit={() => this.props.onClickEdit(item.modelId)}
+            onClickDelete={() => this.props.onClickDelete(item.modelId)}      
+   	  />
         </td>
       </tr>
     ));
@@ -78,6 +79,7 @@ class DataModelListTable extends Component {
 }
 DataModelListTable.propTypes = {
   onWillMount: PropTypes.func,
+  onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   page: PropTypes.number.isRequired,

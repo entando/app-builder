@@ -15,7 +15,7 @@ const props = {
   }),
 };
 
-describe('WidgetListMenuAction', () => {
+describe('DataModelListActionsMenu', () => {
   let component;
   beforeEach(jest.clearAllMocks);
   it('renders without crashing', () => {
@@ -27,7 +27,6 @@ describe('WidgetListMenuAction', () => {
   describe('test list component actions', () => {
     beforeEach(() => {
       component = shallow(<DataModelListActionsMenu {...props} />);
-      console.log(component.debug());
     });
 
     describe('with a row', () => {
