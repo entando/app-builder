@@ -22,6 +22,8 @@ import {
   putAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/dataTypes';
 import {
   SET_DATA_TYPES,
@@ -31,9 +33,14 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
-}
-  from 'state/data-types/types';
-import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
+} from 'state/data-types/types';
+import {
+  getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeType,
+  getSelectedDataType,
+} from 'state/data-types/selectors';
 
 const TYPE_MONOLIST = 'Monolist';
 
@@ -89,6 +96,21 @@ export const setDataTypeAttributes = attributes => ({
   },
 });
 
+export const moveAttributeUpSync = ({ dataTypeCode, attributeCode }) => ({
+  type: MOVE_ATTRIBUTE_UP,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+  },
+});
+
+export const moveAttributeDownSync = ({ dataTypeCode, attributeCode }) => ({
+  type: MOVE_ATTRIBUTE_DOWN,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+  },
+});
 
 // thunk
 
@@ -288,6 +310,38 @@ export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendMoveAttributeUp = attributeCode => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
+    moveAttributeUp(dataTypeCode, attributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(moveAttributeUpSync(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendMoveAttributeDown = attributeCode => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
+    moveAttributeDown(dataTypeCode, attributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(moveAttributeDownSync(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

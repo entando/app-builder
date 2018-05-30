@@ -7,7 +7,6 @@ import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 
 const AttributeListTable = (props) => {
   const { attributes } = props;
-
   const renderRoles = (roles) => {
     if (roles.length > 0) {
       return (
@@ -22,24 +21,33 @@ const AttributeListTable = (props) => {
     return (<span>&ndash;</span>);
   };
 
-  const renderTableRows = () => attributes.map(attribute => (
-    <tr key={attribute.code}>
-      <td className="AttributeListRow__td">{attribute.code}</td>
-      <td className="AttributeListRow__td">{attribute.type}</td>
-      <td className="AttributeListRow__td">
-        {renderRoles(attribute.roles)}
-      </td>
-      <td className="AttributeListRow__td text-center">
-        <AttributeCheckIcon isChecked={attribute.mandatory} />
-      </td>
-      <td className="AttributeListRow__td text-center">
-        <AttributeCheckIcon isChecked={attribute.listFilter} />
-      </td>
-      <td className="AttributeListRow__td text-center">
-        <AttributeListMenuActions {...props} code={attribute.code} />
-      </td>
-    </tr>
-  ));
+  const renderTableRows = () => attributes.map((attribute, index) => {
+    const isMovableUp = index > 0;
+    const isMovableDown = index < attributes.length - 1;
+    return (
+      <tr key={attribute.code}>
+        <td className="AttributeListRow__td">{attribute.code}</td>
+        <td className="AttributeListRow__td">{attribute.type}</td>
+        <td className="AttributeListRow__td">
+          {renderRoles(attribute.roles)}
+        </td>
+        <td className="AttributeListRow__td text-center">
+          <AttributeCheckIcon isChecked={attribute.mandatory} />
+        </td>
+        <td className="AttributeListRow__td text-center">
+          <AttributeCheckIcon isChecked={attribute.listFilter} />
+        </td>
+        <td className="AttributeListRow__td text-center">
+          <AttributeListMenuActions
+            {...props}
+            isMovableUp={isMovableUp}
+            isMovableDown={isMovableDown}
+            code={attribute.code}
+          />
+        </td>
+      </tr>
+    );
+  });
 
   const renderTable = () => (
     <Col xs={10} xsOffset={2}>

@@ -7,6 +7,8 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
 } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
@@ -15,6 +17,23 @@ const toMap = array => array.reduce((acc, dataType) => {
 }, {});
 
 const toIdList = array => array.map(dataType => dataType.code);
+
+const swapItems = (attributes, attributeCode, isMovableUp) => {
+  const attributesArray = [...attributes];
+  const attrIndex = attributes.indexOf(attributes.filter(item => (
+    item.code === attributeCode))[0]);
+  let swapIndex;
+  if (isMovableUp) {
+    swapIndex = attrIndex > 0 ? attrIndex - 1 : 0;
+  } else {
+    swapIndex = attrIndex < attributesArray.length ? attrIndex + 1 : attributesArray.length;
+  }
+  const temp = attributes[attrIndex];
+  attributesArray[attrIndex] = attributes[swapIndex];
+  attributesArray[swapIndex] = temp;
+
+  return attributesArray;
+};
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -67,6 +86,24 @@ export const selectedDataType = (state = {}, action = {}) => {
     }
     case SET_SELECTED_ATTRIBUTE_FOR_DATATYPE: {
       return { ...state, attributeSelected: action.payload.attribute };
+    }
+    case MOVE_ATTRIBUTE_UP: {
+      const { attributeCode } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeCode, true),
+      };
+    }
+    case MOVE_ATTRIBUTE_DOWN: {
+      const { attributeCode } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeCode, false),
+      };
     }
     default: return state;
   }

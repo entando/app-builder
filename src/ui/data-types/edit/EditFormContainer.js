@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import {
   fetchDataTypeAttributes, sendPutDataType, fetchDataType,
   fetchDataTypeAttribute,
-
+  sendMoveAttributeUp,
+  sendMoveAttributeDown,
 } from 'state/data-types/actions';
 import {
   getSelectedDataTypeAttributes,
@@ -33,6 +34,12 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypeAttribute(attributeCode)).then(() => {
       gotoRoute(ROUTE_DATA_TYPE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
     });
+  },
+  onMoveUp: (attributeCode) => {
+    dispatch(sendMoveAttributeUp(attributeCode));
+  },
+  onMoveDown: (attributeCode) => {
+    dispatch(sendMoveAttributeDown(attributeCode));
   },
   onSubmit: (values) => {
     dispatch(sendPutDataType(values));

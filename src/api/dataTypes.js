@@ -112,5 +112,24 @@ export const getDataTypeAttribute = attributeTypeCode => (
   })
 );
 
+export const moveAttributeUp = (dataTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveUp`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: DATA_TYPE_ATTRIBUTE,
+    useAuthentication: true,
+  })
+);
+
+export const moveAttributeDown = (dataTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveDown`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: DATA_TYPE_ATTRIBUTE,
+    useAuthentication: true,
+  })
+);
 
 export default getDataTypes;
