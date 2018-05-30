@@ -7,10 +7,11 @@ import DataTypeReferenceStatus from 'ui/data-types/common/DataTypeReferenceStatu
 
 const props = {
   onWillMount: jest.fn(),
+  onReload: jest.fn(),
   status: {
-    status: 'ready',
-    type: 'success',
-    dataTypesCode: [],
+    type: 'warning',
+    status: 'toRefresh',
+    dataTypesCode: ['CCC'],
   },
 };
 
@@ -27,25 +28,12 @@ describe('DataTypeReferenceStatus', () => {
     expect(component.find('Alert').exists());
   });
 
+  it('has no Alert component', () => {
+    component = shallow(<DataTypeReferenceStatus {...props} status={{ type: 'success' }} />);
+    expect(component.find('Alert').exists()).toBe(false);
+  });
+
   it('has class DataTypeReferenceStatus__text ', () => {
     expect(component.hasClass('DataTypeReferenceStatus')).toBe(true);
-  });
-
-  it('has Label component', () => {
-    expect(component.find('Label').exists());
-  });
-
-  it('has ul empty', () => {
-    expect(component.find('ul').children()).toHaveLength(0);
-  });
-
-  it('has ul child', () => {
-    const obj = {
-      status: 'refreshing',
-      type: 'warning',
-      dataTypesCode: ['AAA', 'BBB'],
-    };
-    component = shallow(<DataTypeReferenceStatus {...props} status={obj} />);
-    expect(component.find('ul').children()).toHaveLength(2);
   });
 });

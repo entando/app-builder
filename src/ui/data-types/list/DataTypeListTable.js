@@ -43,7 +43,6 @@ class DataTypeListTable extends Component {
           <DataTypeListMenuActions
             code={datatype.code}
             onClickDelete={this.props.onClickDelete}
-            onClickReload={this.props.onClickReload}
           />
         </td>
       </tr>
@@ -60,6 +59,7 @@ class DataTypeListTable extends Component {
 
       return (
         <Col xs={12}>
+          <DataTypeReferenceStatusContainer />
           <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -86,10 +86,7 @@ class DataTypeListTable extends Component {
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
           />
-          <br />
-          <DataTypeReferenceStatusContainer />
         </Col>
-
       );
     }
     return (
@@ -104,10 +101,8 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        <Spinner loading={!!this.props.loading} >
+        <Spinner loading={this.props.loading} >
           {this.renderTable()}
-
-
         </Spinner>
         <DeleteDataTypeModalContainer />
       </div>
@@ -118,7 +113,6 @@ class DataTypeListTable extends Component {
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
   onClickDelete: PropTypes.func.isRequired,
-  onClickReload: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

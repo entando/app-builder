@@ -32,10 +32,11 @@ export const getDataTypeList = createSelector(
 );
 
 export const getDataTypeReferencesStatus = createSelector([getDataTypeReferences], (ref) => {
-  if (!isEmpty(ref.refreshing)) {
-    return { type: 'warning', status: 'refreshing', dataTypesCode: ref.refreshing };
-  } else if (!isEmpty(ref.toRefresh)) {
-    return { type: 'error', status: 'toRefresh', dataTypesCode: ref.toRefresh };
+  const { status } = ref;
+  if (!isEmpty(status.toRefresh)) {
+    return {
+      type: 'warning', status: 'toRefresh', dataTypesCodes: status.toRefresh, count: status.toRefresh.length,
+    };
   }
   return { type: 'success', status: 'ready', dataTypesCode: [] };
 });

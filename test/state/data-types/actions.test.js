@@ -46,6 +46,7 @@ import {
   fetchDataTypeAttribute,
   setDataTypeReferenceStatus,
   fetchDataTypeReferenceStatus,
+  sendPostDataTypeReferenceStatus,
 } from 'state/data-types/actions';
 import {
   postDataType,
@@ -60,6 +61,7 @@ import {
   getDataTypeAttributes,
   getDataTypeAttribute,
   getDataTypesStatus,
+  postDataTypesStatus,
 
 } from 'api/dataTypes';
 import {
@@ -165,7 +167,7 @@ describe('state/data-types/actions ', () => {
 
   describe('thunk', () => {
     describe('fetchDataTypeReferenceStatus', () => {
-      it('when fetchDataTypeReferenceStatus succeeds, should dispatch gotoRoute', (done) => {
+      it('when fetchDataTypeReferenceStatus succeeds, should dispatch SET_DATA_TYPE_REFERENCE_STATUS', (done) => {
         getDataTypesStatus
           .mockImplementationOnce(mockApi({ payload: DATA_TYPE_REFERENCES_STATUS }));
         store.dispatch(fetchDataTypeReferenceStatus(DATA_TYPES)).then(() => {
@@ -182,6 +184,30 @@ describe('state/data-types/actions ', () => {
         getDataTypesStatus.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS)).then(() => {
           expect(getDataTypesStatus).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostDataTypeReferenceStatus', () => {
+      const datatypesCodes = ['AAA'];
+      it('when sendPostDataTypeReferenceStatus succeeds, should dispatch gotoRoute', (done) => {
+        postDataTypesStatus
+          .mockImplementationOnce(mockApi({ payload: { datatypesCodes } }));
+        store.dispatch(sendPostDataTypeReferenceStatus({ datatypesCodes })).then(() => {
+          expect(postDataTypesStatus).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when sendPostDataTypeReferenceStatus get error, should dispatch addError', (done) => {
+        postDataTypesStatus.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendPostDataTypeReferenceStatus({ datatypesCodes })).then(() => {
+          expect(postDataTypesStatus).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

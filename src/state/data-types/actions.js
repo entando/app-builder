@@ -17,6 +17,7 @@ import {
   getDataType,
   getDataTypes,
   getDataTypesStatus,
+  postDataTypesStatus,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
@@ -113,6 +114,21 @@ export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resol
     });
   });
 });
+
+export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
+  (new Promise((resolve) => {
+    postDataTypesStatus({ dataTypesCodes }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  }));
+
 
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {

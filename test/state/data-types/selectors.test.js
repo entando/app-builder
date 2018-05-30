@@ -1,4 +1,4 @@
-import { DATA_TYPES_OK_PAGE_1, SET_DATA_TYPE_REFERENCE_STATUS } from 'test/mocks/dataTypes';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPE_REFERENCES_STATUS } from 'test/mocks/dataTypes';
 
 import {
   getDataTypes,
@@ -34,7 +34,7 @@ const TEST_STATE = {
     attributes: {
     },
     references: {
-      status: SET_DATA_TYPE_REFERENCE_STATUS,
+      status: DATA_TYPE_REFERENCES_STATUS,
     },
   },
   pagination: DATA_TYPES_OK_PAGE_1.metaData,
@@ -77,7 +77,7 @@ describe('state/users/selectors', () => {
 
   it('verify getDataTypeReferencesStatus selector', () => {
     expect(getDataTypeReferencesStatus(TEST_STATE)).toMatchObject({
-      type: 'success', status: 'ready', dataTypesCode: [],
+      type: 'warning', status: 'toRefresh', dataTypesCodes: ['CCC'], count: 1,
     });
   });
 
