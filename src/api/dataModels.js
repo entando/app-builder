@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { DATA_MODELS } from 'test/mocks/dataModels';
+import { DATA_MODELS, DATA_MODEL_DELETE } from 'test/mocks/dataModels';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
@@ -45,4 +45,12 @@ export const putDataModel = data => (
   })
 );
 
+export const deleteDataModel = dataModelId => (
+  makeRequest({
+    uri: `/api/dataModels/${dataModelId}`,
+    method: METHODS.DELETE,
+    mockResponse: DATA_MODEL_DELETE,
+    useAuthentication: true,
+  })
+);
 export default getDataModels;

@@ -52,6 +52,10 @@ export const DATA_MODELS = {
   },
 };
 
+export const DATA_MODEL_DELETE = {
+  modelId: 'dataModelId',
+};
+
 export const ERROR = {
   payload: [],
   errors: [

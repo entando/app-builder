@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Paginator, Spinner } from 'patternfly-react';
 import DataModelListActionsMenu from 'ui/data-models/common/DataModelListActionsMenu';
-
+import DeleteDataModelModalContainer from 'ui/data-models/common/DeleteDataModelModalContainer';
 
 class DataModelListTable extends Component {
   constructor(props) {
@@ -29,8 +29,9 @@ class DataModelListTable extends Component {
         <td className="DataModelListRow__td text-center">{item.modelId}</td>
         <td className="DataModelListRow__td text-center">
           <DataModelListActionsMenu
-            code={item.type}
+            code={item.modelId}
             onClickEdit={() => this.props.onClickEdit(item.modelId)}
+            onClickDelete={() => this.props.onClickDelete(item.modelId)}
           />
         </td>
       </tr>
@@ -70,6 +71,7 @@ class DataModelListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
           />
+          <DeleteDataModelModalContainer />
         </Spinner>
       </div>
     );
@@ -78,6 +80,7 @@ class DataModelListTable extends Component {
 DataModelListTable.propTypes = {
   onWillMount: PropTypes.func,
   onClickEdit: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,

@@ -291,6 +291,8 @@ export default {
     'dataModel.type': 'Type',
     'dataModel.stylesheet': 'Style Sheet',
     'dataModel.model': 'Model',
+    'dataModel.deleteDataModelSuccess': 'Data Model \'{id}\' successfully deleted',
+    'dataModel.deleteDataModelError': 'An error has occurred during deletion of the Data Model \'{id}\'',
     'dataType.list.title': 'Data Type',
     'dataType.help': 'The DATA TYPES section let the administrator add new data types or edit those already existing.',
     'dataType.table.status': 'Status',

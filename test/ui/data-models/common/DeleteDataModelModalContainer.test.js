@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps } from 'ui/file-browser/common/DeleteFileModalContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/data-models/common/DeleteDataModelModalContainer';
 
 import { MODAL_VISIBILITY, MODAL_INFO } from 'test/mocks/modal';
 
@@ -12,7 +12,7 @@ const TEST_STATE = {
 
 const dispatchMock = jest.fn();
 
-describe('DeleteFileModalContainer', () => {
+describe('DeleteDataModelModalContainer', () => {
   describe('mapStateToProps', () => {
     it('maps info property from state', () => {
       expect(mapStateToProps(TEST_STATE))

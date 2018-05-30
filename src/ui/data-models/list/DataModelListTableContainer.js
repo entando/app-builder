@@ -7,7 +7,8 @@ import DataModelListTable from 'ui/data-models/list/DataModelListTable';
 import { getListDataModels } from 'state/data-models/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { ROUTE_DATA_MODEL_EDIT } from 'app-init/router';
-
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/data-models/common/DeleteDataModelModal';
 
 export const mapStateToProps = state => (
   {
@@ -25,6 +26,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onClickEdit: (dataModelId) => {
     gotoRoute(ROUTE_DATA_MODEL_EDIT, { dataModelId });
+  },
+  onClickDelete: (code) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'DataModel', code }));
   },
 });
 
