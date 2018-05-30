@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { formattedText } from '@entando/utils';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -29,6 +30,7 @@ const EditProfileTypeAttributePage = () => (
       <PageTitle
         titleId="app.attribute"
         helpId="profileType.help"
+        titleParam={{ mode: formattedText('app.edit') }}
       />
       <Row>
         <Col xs={12} >

@@ -8,7 +8,7 @@ import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
 describe('UserListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserAuthorityPage />);
+    component = shallow(<UserAuthorityPage username="user" />);
   });
 
   it('renders without crashing', () => {
