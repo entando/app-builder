@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import {
   fetchAttributeFromDataType,
   sendPutAttributeFromDataType,
@@ -10,16 +11,19 @@ import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
   getSelectedAttributeType,
   getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeAllowedRoles,
 } from 'state/data-types/selectors';
 
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
   dataTypeAttributeCode: getParams(state).entityCode,
-  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+  joinAllowedOptions:
+    formValueSelector('attribute')(state, 'joinRoles') ||
+    formValueSelector('attribute')(state, 'joinAllowedOptions') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getDataTypeAttributesIdList(state),
-  mode: 'edit',
+  allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -27,11 +31,14 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchAttributeFromDataType(dataTypeAttributeCode, attributeCode));
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values) => {
+  onSubmit: (values, allowedRoles) => {
     const payload = {
       ...values,
       code: values.code,
       type: values.type,
+      roles: values.joinRoles ? values.joinRoles.map(roleId => (
+        { code: roleId, descr: allowedRoles[roleId] }
+      )) : [],
       nestedAttribute: {
         ...values.nestedAttribute,
         code: values.code,

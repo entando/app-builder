@@ -7,28 +7,33 @@ import {
   getDataTypeSelectedAttribute,
   getDataTypeSelectedAttributeCode,
   getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeAllowedRoles,
 } from 'state/data-types/selectors';
 
 
 export const mapStateToProps = state => ({
   dataTypeAttributeCode: getParams(state).entityCode,
-  JoinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+  joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
   initialValues: {
     type: getDataTypeSelectedAttributeCode(state),
   },
+  allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values) => {
+  onSubmit: (values, allowedRoles) => {
     const payload = {
       ...values,
       code: values.code,
       type: values.type,
+      roles: values.joinRoles ? values.joinRoles.map(roleId => (
+        { code: roleId, descr: allowedRoles[roleId] }
+      )) : [],
       nestedAttribute: {
         code: values.code,
         type: values.listNestedType,
@@ -36,7 +41,6 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    console.log('test payload', payload);
     dispatch(sendPostAttributeFromDataType(payload));
   },
 });
