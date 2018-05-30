@@ -5,6 +5,8 @@ import {
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  DATA_TYPE_REFERENCES_STATUS,
+  DATA_TYPE_RELOAD_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -51,6 +53,26 @@ export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
     page,
   )
 );
+
+export const getDataTypesStatus = () => (
+  makeRequest({
+    uri: '/api/dataTypesStatus',
+    method: METHODS.GET,
+    mockResponse: DATA_TYPE_REFERENCES_STATUS,
+    useAuthentication: true,
+  })
+);
+
+export const postDataTypesStatus = dataTypeCodes => (
+  makeRequest({
+    uri: '/api/dataTypesStatus',
+    method: METHODS.POST,
+    body: dataTypeCodes,
+    mockResponse: DATA_TYPE_RELOAD_REFERENCES_STATUS,
+    useAuthentication: true,
+  })
+);
+
 
 // attributes
 

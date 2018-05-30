@@ -20,6 +20,7 @@ import {
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
   REMOVE_ATTRIBUTE,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
@@ -43,6 +44,9 @@ import {
   setSelectedAttribute,
   fetchDataTypeAttributes,
   fetchDataTypeAttribute,
+  setDataTypeReferenceStatus,
+  fetchDataTypeReferenceStatus,
+  sendPostDataTypeReferenceStatus,
 } from 'state/data-types/actions';
 import {
   postDataType,
@@ -56,12 +60,16 @@ import {
   deleteAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  getDataTypesStatus,
+  postDataTypesStatus,
+
 } from 'api/dataTypes';
 import {
   DATA_TYPES,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  DATA_TYPE_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
 
 const middlewares = [thunk];
@@ -96,6 +104,18 @@ describe('state/data-types/actions ', () => {
     });
     it('test setDataTypes action sets the correct type', () => {
       expect(action.type).toBe(SET_DATA_TYPES);
+    });
+  });
+
+  describe('setDataTypeReferenceStatus', () => {
+    beforeEach(() => {
+      action = setDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setDataTypeReferenceStatus action sets the correct type', () => {
+      expect(action.type).toBe(SET_DATA_TYPE_REFERENCE_STATUS);
     });
   });
 
@@ -147,6 +167,57 @@ describe('state/data-types/actions ', () => {
   });
 
   describe('thunk', () => {
+    describe('fetchDataTypeReferenceStatus', () => {
+      it('when fetchDataTypeReferenceStatus succeeds, should dispatch SET_DATA_TYPE_REFERENCE_STATUS', (done) => {
+        getDataTypesStatus
+          .mockImplementationOnce(mockApi({ payload: DATA_TYPE_REFERENCES_STATUS }));
+        store.dispatch(fetchDataTypeReferenceStatus(DATA_TYPES)).then(() => {
+          expect(getDataTypesStatus).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('type', SET_DATA_TYPE_REFERENCE_STATUS);
+          expect(actions[0]).toHaveProperty('payload.dataTypeStatus', DATA_TYPE_REFERENCES_STATUS);
+
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when fetchDataTypeReferenceStatus get error, should dispatch addError', (done) => {
+        getDataTypesStatus.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS)).then(() => {
+          expect(getDataTypesStatus).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostDataTypeReferenceStatus', () => {
+      const datatypesCodes = ['AAA'];
+      it('when sendPostDataTypeReferenceStatus succeeds, should dispatch gotoRoute', (done) => {
+        postDataTypesStatus
+          .mockImplementationOnce(mockApi({ payload: { datatypesCodes } }));
+        store.dispatch(sendPostDataTypeReferenceStatus({ datatypesCodes })).then(() => {
+          expect(postDataTypesStatus).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when sendPostDataTypeReferenceStatus get error, should dispatch addError', (done) => {
+        postDataTypesStatus.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendPostDataTypeReferenceStatus({ datatypesCodes })).then(() => {
+          expect(postDataTypesStatus).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+
     describe('sendPostDataType', () => {
       it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
         postDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));

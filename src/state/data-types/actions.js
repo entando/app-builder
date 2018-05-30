@@ -16,6 +16,8 @@ import {
   deleteDataType,
   getDataType,
   getDataTypes,
+  getDataTypesStatus,
+  postDataTypesStatus,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
@@ -31,6 +33,7 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 }
   from 'state/data-types/types';
 
@@ -61,6 +64,13 @@ export const setSelectedDataType = dataType => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
     dataType,
+  },
+});
+
+export const setDataTypeReferenceStatus = dataTypeStatus => ({
+  type: SET_DATA_TYPE_REFERENCE_STATUS,
+  payload: {
+    dataTypeStatus,
   },
 });
 
@@ -96,6 +106,34 @@ export const setDataTypeAttributes = attributes => ({
 
 
 // thunk
+
+export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
+  getDataTypesStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setDataTypeReferenceStatus(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
+export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
+  (new Promise((resolve) => {
+    postDataTypesStatus({ dataTypesCodes }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  }));
+
 
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {

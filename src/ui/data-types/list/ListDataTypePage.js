@@ -25,7 +25,7 @@ const ListDataTypePage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <PageTitle
             titleId="dataType.list.title"
             helpId="dataType.help"
@@ -33,7 +33,7 @@ const ListDataTypePage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
+        <Col xs={12}>
           <Link route={ROUTE_DATA_TYPE_ADD} className="pull-right">
             <Button className="DataType__add" bsStyle="primary" >
               <FormattedMessage id="app.new" />

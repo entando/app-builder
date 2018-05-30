@@ -166,3 +166,22 @@ export const DATA_TYPE_ATTRIBUTE = {
     descr: 'Description 2',
   }],
 };
+
+export const DATA_TYPE_REFERENCES_STATUS = {
+  ready: [
+    'AAA',
+    'BBB',
+  ],
+  toRefresh: [
+    'CCC',
+  ],
+  refreshing: [],
+};
+
+export const DATA_TYPE_RELOAD_REFERENCES_STATUS = {
+  result: 'success',
+  dataTypeCodes: {
+    AAA: 0,
+    BBB: 1,
+  },
+};
