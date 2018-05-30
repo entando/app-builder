@@ -27,8 +27,7 @@ export const mapDispatchToProps = dispatch => ({
   onClickEdit: (dataModelId) => {
     gotoRoute(ROUTE_DATA_MODEL_EDIT, { dataModelId });
   },
-  onClickDelete: (values) => {
-    const { code } = values;
+  onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'DataModel', code }));
   },

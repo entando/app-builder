@@ -29,10 +29,10 @@ class DataModelListTable extends Component {
         <td className="DataModelListRow__td text-center">{item.modelId}</td>
         <td className="DataModelListRow__td text-center">
           <DataModelListActionsMenu
-            code={item.type}
+            code={item.modelId}
             onClickEdit={() => this.props.onClickEdit(item.modelId)}
-            onClickDelete={() => this.props.onClickDelete(item.modelId)}      
-   	  />
+            onClickDelete={() => this.props.onClickDelete(item.modelId)}
+          />
         </td>
       </tr>
     ));

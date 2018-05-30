@@ -97,6 +97,7 @@ export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
       resolve();
     });
   });
+});
 
 export const sendDeleteDataModel = dataModelId => dispatch => (
   new Promise((resolve) => {
@@ -120,4 +121,4 @@ export const sendDeleteDataModel = dataModelId => dispatch => (
       ));
     });
   })
-});
+);
