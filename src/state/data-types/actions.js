@@ -33,7 +33,12 @@ import {
   SET_SELECTED_ATTRIBUTE,
 }
   from 'state/data-types/types';
-import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
+
+import {
+  getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeType,
+  getSelectedAttributeType,
+} from 'state/data-types/selectors';
 
 const TYPE_MONOLIST = 'Monolist';
 
@@ -169,13 +174,34 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
+  new Promise((resolve) => {
+    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttribute(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (dispatch, getState) => (
   new Promise((resolve) => {
     getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
+          dispatch(initialize('attribute', {
+            ...json.payload,
+            joinRoles,
+            joinAllowedOptions: joinRoles,
+          }));
           dispatch(setSelectedAttributeDataType(json.payload));
-          dispatch(initialize('attribute', json.payload));
+          dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -276,21 +302,6 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         dispatch(toggleLoading('dataTypes'));
-        resolve();
-      });
-    });
-  })
-);
-
-export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
-  new Promise((resolve) => {
-    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedAttribute(json.payload));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
         resolve();
       });
     });

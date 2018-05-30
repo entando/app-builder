@@ -74,6 +74,7 @@ const INITIAL_STATE = {};
 jest.mock('state/data-types/selectors', () => ({
   getDataTypeAttributesIdList: jest.fn(),
   getDataTypeSelectedAttributeType: jest.fn(),
+  getSelectedAttributeType: jest.fn(),
 }));
 
 getParams.mockReturnValue({ list: 'Monolist', datatypeCode: 'Monolist', entityCode: 'Monolist' });
@@ -281,7 +282,8 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
+          expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
           done();
         }).catch(done.fail);
       });

@@ -30,11 +30,11 @@ class RoleSelectRenderer extends Component {
       selectedValues, fields, labelKey, valueKey, options,
     } = this.props;
     return selectedValues.map((value, i) => (
-      <div>
+      <div key={value}>
         <h3><FormattedMessage id="app.assigned.roles" /></h3>
         <hr />
         <Col xs={4}>
-          <p key={value}>
+          <p>
             {options.find(opt => opt[valueKey] === value)[labelKey]}
           </p>
         </Col>
