@@ -5,6 +5,8 @@ import {
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
   DATA_TYPE_REFERENCES_STATUS,
   DATA_TYPE_RELOAD_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
@@ -134,5 +136,24 @@ export const getDataTypeAttribute = attributeTypeCode => (
   })
 );
 
+export const moveAttributeUp = (dataTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveUp`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: ATTRIBUTE_MOVE_UP,
+    useAuthentication: true,
+  })
+);
+
+export const moveAttributeDown = (dataTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveDown`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: ATTRIBUTE_MOVE_DOWN,
+    useAuthentication: true,
+  })
+);
 
 export default getDataTypes;

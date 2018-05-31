@@ -167,6 +167,18 @@ export const DATA_TYPE_ATTRIBUTE = {
   }],
 };
 
+export const ATTRIBUTE_MOVE_UP = {
+  attributeCode: 'title',
+  dataTypeCode: 'DTT',
+  movement: 'UP',
+};
+
+export const ATTRIBUTE_MOVE_DOWN = {
+  attributeCode: 'title',
+  dataTypeCode: 'DTT',
+  movement: 'DOWN',
+};
+
 export const DATA_TYPE_REFERENCES_STATUS = {
   ready: [
     'AAA',

@@ -24,6 +24,8 @@ import {
   putAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/dataTypes';
 import {
   SET_DATA_TYPES,
@@ -33,13 +35,14 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
-}
-  from 'state/data-types/types';
-
+} from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeType,
+  getSelectedDataType,
   getSelectedAttributeType,
 } from 'state/data-types/selectors';
 
@@ -104,6 +107,23 @@ export const setDataTypeAttributes = attributes => ({
   },
 });
 
+export const moveAttributeUpSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_UP,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
+
+export const moveAttributeDownSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_DOWN,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
 
 // thunk
 
@@ -212,12 +232,15 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
+export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
   new Promise((resolve) => {
     getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
+          if (route) {
+            gotoRoute(route.route, route.params);
+          }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -345,3 +368,42 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
     });
   })
 );
+
+export const sendMoveAttributeUp = ({ attributeCode, attributeIndex }) => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
+    moveAttributeUp(dataTypeCode, attributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(moveAttributeUpSync({
+            ...json.payload,
+            attributeIndex,
+          }));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const sendMoveAttributeDown = ({ attributeCode, attributeIndex }) =>
+  (dispatch, getState) => (
+    new Promise((resolve) => {
+      const dataTypeCode = getSelectedDataType(getState()).code;
+      moveAttributeDown(dataTypeCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeDownSync({
+              ...json.payload,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );
