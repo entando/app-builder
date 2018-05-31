@@ -20,6 +20,8 @@ import {
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
   REMOVE_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 import {
@@ -44,6 +46,8 @@ import {
   setSelectedAttribute,
   fetchDataTypeAttributes,
   fetchDataTypeAttribute,
+  sendMoveAttributeUp,
+  sendMoveAttributeDown,
   setDataTypeReferenceStatus,
   fetchDataTypeReferenceStatus,
   sendPostDataTypeReferenceStatus,
@@ -60,15 +64,18 @@ import {
   deleteAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
   getDataTypesStatus,
   postDataTypesStatus,
-
 } from 'api/dataTypes';
 import {
   DATA_TYPES,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
   DATA_TYPE_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
 
@@ -82,6 +89,7 @@ const INITIAL_STATE = {};
 jest.mock('state/data-types/selectors', () => ({
   getDataTypeAttributesIdList: jest.fn(),
   getDataTypeSelectedAttributeType: jest.fn(),
+  getSelectedDataType: jest.fn().mockReturnValue({ code: 'dataType_code' }),
   getSelectedAttributeType: jest.fn(),
 }));
 
@@ -471,7 +479,6 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
           done();
         }).catch(done.fail);
       });
@@ -486,7 +493,6 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
-
 
     describe('fetchDataTypeAttributes', () => {
       it('fetchDataTypeAttributes call setAttributes actions', (done) => {
@@ -530,7 +536,7 @@ describe('state/data-types/actions ', () => {
     });
 
     describe('fetchDataTypeAttribute', () => {
-      it('fetchDataTypeAttribute calls setSelectedAttribute actions', (done) => {
+      it('fetchDataTypeAttribute calls setSelectedAttribute action', (done) => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
@@ -543,9 +549,62 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
 
-      it('fetchDataTypeAttribute calls ADD_ERROR actions', (done) => {
+      it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith('mocked_route', 'mocked_params');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchDataTypeAttribute calls ADD_ERROR action', (done) => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendMoveAttributeUp', () => {
+      it('sendMoveAttributeUp calls moveAttributeUpSync actions', (done) => {
+        moveAttributeUp.mockImplementationOnce(mockApi({ payload: ATTRIBUTE_MOVE_UP }));
+        store.dispatch(sendMoveAttributeUp('attributeCode')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', MOVE_ATTRIBUTE_UP);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('sendMoveAttributeUp calls ADD_ERROR actions', (done) => {
+        moveAttributeUp.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendMoveAttributeUp({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendMoveAttributeDown', () => {
+      it('sendMoveAttributeDown calls moveAttributeUpSync actions', (done) => {
+        moveAttributeDown.mockImplementationOnce(mockApi({ payload: ATTRIBUTE_MOVE_DOWN }));
+        store.dispatch(sendMoveAttributeDown('attributeCode')).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', MOVE_ATTRIBUTE_DOWN);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('sendMoveAttributeDown calls ADD_ERROR actions', (done) => {
+        moveAttributeDown.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendMoveAttributeDown({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
