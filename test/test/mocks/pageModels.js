@@ -1,14 +1,14 @@
-import { PAYLOAD as COMPLEX_PAYLOAD, STRUCT as COMPLEX_STRUCT } from 'test/mocks/page-models/complex';
-import { PAYLOAD as SINGLE_CELL_PAYLOAD, STRUCT as SINGLE_CELL_STRUCT } from 'test/mocks/page-models/singleCell';
-import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD, STRUCT as SIDEBAR_HOLES_STRUCT } from 'test/mocks/page-models/sidebarHoles';
+import { PAYLOAD as COMPLEX_PAYLOAD } from 'test/mocks/page-models/complex';
+import { PAYLOAD as SINGLE_CELL_PAYLOAD } from 'test/mocks/page-models/singleCell';
+import { PAYLOAD as SIDEBAR_HOLES_PAYLOAD } from 'test/mocks/page-models/sidebarHoles';
 import { PAYLOAD as OVERLAPPING_FRAMES_PAYLOAD } from 'test/mocks/page-models/overlappingFrames';
 import { PAYLOAD as MISSING_SKETCH_PAYLOAD } from 'test/mocks/page-models/missingSketch';
 
 import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD, LOGIN_PAYLOAD, DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 
 export {
-  COMPLEX_PAYLOAD, COMPLEX_STRUCT, SINGLE_CELL_PAYLOAD, SINGLE_CELL_STRUCT,
-  SIDEBAR_HOLES_PAYLOAD, SIDEBAR_HOLES_STRUCT, OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD,
+  COMPLEX_PAYLOAD, SINGLE_CELL_PAYLOAD,
+  SIDEBAR_HOLES_PAYLOAD, OVERLAPPING_FRAMES_PAYLOAD, MISSING_SKETCH_PAYLOAD,
 };
 
 export const ERROR = {
