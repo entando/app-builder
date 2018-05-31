@@ -551,10 +551,10 @@ describe('state/data-types/actions ', () => {
       });
 
       it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
-        const ROUTE = 'mocked_route';
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE);
+          expect(gotoRoute).toHaveBeenCalledWith('mocked_route', 'mocked_params');
           done();
         }).catch(done.fail);
       });
@@ -583,7 +583,9 @@ describe('state/data-types/actions ', () => {
 
       it('sendMoveAttributeUp calls ADD_ERROR actions', (done) => {
         moveAttributeUp.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(sendMoveAttributeUp()).then(() => {
+        store.dispatch(sendMoveAttributeUp({
+          attributeCode: 'attr_code', attributeIndex: 'attr_index',
+        })).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -605,7 +607,9 @@ describe('state/data-types/actions ', () => {
 
       it('sendMoveAttributeDown calls ADD_ERROR actions', (done) => {
         moveAttributeDown.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(sendMoveAttributeDown()).then(() => {
+        store.dispatch(sendMoveAttributeDown({
+          attributeCode: 'attr_code', attributeIndex: 'attr_index',
+        })).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
