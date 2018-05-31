@@ -9,6 +9,7 @@ import {
   SET_SELECTED_ATTRIBUTE,
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
@@ -117,6 +118,16 @@ export const selectedAttribute = (state = {}, action = {}) => {
   }
 };
 
+export const status = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_DATA_TYPE_REFERENCE_STATUS: {
+      return action.payload.dataTypeStatus;
+    }
+    default: return state;
+  }
+};
+
+
 export default combineReducers({
   list,
   map: dataTypeMap,
@@ -124,5 +135,8 @@ export default combineReducers({
   attributes: combineReducers({
     list: attributeList,
     selected: selectedAttribute,
+  }),
+  references: combineReducers({
+    status,
   }),
 });

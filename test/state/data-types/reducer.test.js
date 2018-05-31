@@ -7,12 +7,14 @@ import {
   setSelectedAttributeDataType,
   setDataTypeAttributes,
   setSelectedAttribute,
+  setDataTypeReferenceStatus,
 } from 'state/data-types/actions';
 import {
   DATA_TYPES,
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  DATA_TYPE_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
 
 const dataTypesList = ['ABC', 'DEF'];
@@ -102,6 +104,18 @@ describe('state/data-types/reducer', () => {
       expect(newState).toHaveProperty('attributes');
       expect(newState).toHaveProperty('attributes.selected');
       expect(newState.attributes.selected).toMatchObject(DATA_TYPE_ATTRIBUTE);
+    });
+  });
+
+  describe('after action SET_DATA_TYPE_REFERENCE_STATUS', () => {
+    beforeEach(() => {
+      newState = reducer(state, setDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS));
+    });
+
+    it('should define the references.status payload', () => {
+      expect(newState).toHaveProperty('references');
+      expect(newState).toHaveProperty('references.status');
+      expect(newState.references.status).toMatchObject(DATA_TYPE_REFERENCES_STATUS);
     });
   });
 });

@@ -6,6 +6,7 @@ import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
+import DataTypeReferenceStatusContainer from 'ui/data-types/common/DataTypeReferenceStatusContainer';
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -42,7 +43,6 @@ class DataTypeListTable extends Component {
           <DataTypeListMenuActions
             code={datatype.code}
             onClickDelete={this.props.onClickDelete}
-            onClickReload={this.props.onClickReload}
           />
         </td>
       </tr>
@@ -59,6 +59,7 @@ class DataTypeListTable extends Component {
 
       return (
         <Col xs={12}>
+          <DataTypeReferenceStatusContainer />
           <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -100,7 +101,7 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        <Spinner loading={!!this.props.loading} >
+        <Spinner loading={this.props.loading} >
           {this.renderTable()}
         </Spinner>
         <DeleteDataTypeModalContainer />
@@ -112,7 +113,6 @@ class DataTypeListTable extends Component {
 DataTypeListTable.propTypes = {
   onWillMount: PropTypes.func,
   onClickDelete: PropTypes.func.isRequired,
-  onClickReload: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   datatypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

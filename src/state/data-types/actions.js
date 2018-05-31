@@ -16,6 +16,8 @@ import {
   deleteDataType,
   getDataType,
   getDataTypes,
+  getDataTypesStatus,
+  postDataTypesStatus,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
@@ -35,11 +37,13 @@ import {
   SET_SELECTED_ATTRIBUTE,
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeType,
   getSelectedDataType,
+  getSelectedAttributeType,
 } from 'state/data-types/selectors';
 
 const TYPE_MONOLIST = 'Monolist';
@@ -63,6 +67,13 @@ export const setSelectedDataType = dataType => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
     dataType,
+  },
+});
+
+export const setDataTypeReferenceStatus = dataTypeStatus => ({
+  type: SET_DATA_TYPE_REFERENCE_STATUS,
+  payload: {
+    dataTypeStatus,
   },
 });
 
@@ -113,6 +124,34 @@ export const moveAttributeDownSync = ({ dataTypeCode, attributeCode }) => ({
 });
 
 // thunk
+
+export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
+  getDataTypesStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setDataTypeReferenceStatus(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
+export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
+  (new Promise((resolve) => {
+    postDataTypesStatus({ dataTypesCodes }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  }));
+
 
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
@@ -191,13 +230,37 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
+  new Promise((resolve) => {
+    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttribute(json.payload));
+          if (route) {
+            gotoRoute(route);
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (dispatch, getState) => (
   new Promise((resolve) => {
     getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
+          dispatch(initialize('attribute', {
+            ...json.payload,
+            joinRoles,
+            joinAllowedOptions: joinRoles,
+          }));
           dispatch(setSelectedAttributeDataType(json.payload));
-          dispatch(initialize('attribute', json.payload));
+          dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -298,24 +361,6 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
         dispatch(toggleLoading('dataTypes'));
-        resolve();
-      });
-    });
-  })
-);
-
-export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
-  new Promise((resolve) => {
-    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedAttribute(json.payload));
-          if (route) {
-            gotoRoute(route);
-          }
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
         resolve();
       });
     });

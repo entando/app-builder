@@ -14,8 +14,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypes());
   },
 
-  handleSubmit: (values) => {
-    dispatch(fetchDataModelListPaged(1, convertToQueryString({
+  onSubmit: (values) => {
+    dispatch(fetchDataModelListPaged({ page: 1, pageSize: 10 }, convertToQueryString({
       formValues: values,
       sorting: {
         attribute: 'code',

@@ -5,6 +5,8 @@ import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'pat
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 import { BreadcrumbItem } from 'frontend-common-components';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
@@ -100,135 +102,137 @@ class PageConfigPage extends Component {
       null;
 
     return (
-      <InternalPage className="PageConfigPage">
-        <Grid fluid>
-          <Row>
-            <Col xs={8} lg={9}>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.pageDesigner" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.pageConfig" />
-                </BreadcrumbItem>
-              </Breadcrumb>
+      <DragDropContextProvider backend={HTML5Backend}>
+        <InternalPage className="PageConfigPage">
+          <Grid fluid>
+            <Row>
+              <Col xs={8} lg={9}>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <FormattedMessage id="menu.pageDesigner" />
+                  </BreadcrumbItem>
+                  <BreadcrumbItem active>
+                    <FormattedMessage id="menu.pageConfig" />
+                  </BreadcrumbItem>
+                </Breadcrumb>
 
-              <h1 className="PageConfigPage__title">
-                <PageStatusIcon
-                  status={pageStatus}
-                  differsFromPublished={pageDiffersFromPublished}
-                />
-                { pageName }
-              </h1>
+                <h1 className="PageConfigPage__title">
+                  <PageStatusIcon
+                    status={pageStatus}
+                    differsFromPublished={pageDiffersFromPublished}
+                  />
+                  { pageName }
+                </h1>
 
-              <ErrorsAlertContainer />
+                <ErrorsAlertContainer />
 
-              <Row>
-                <Col xs={12}>
-                  {statusMessage}
-                </Col>
-              </Row>
+                <Row>
+                  <Col xs={12}>
+                    {statusMessage}
+                  </Col>
+                </Row>
 
-              <Row className="PageConfigPage__toolbar-row">
-                <Col xs={12}>
-                  <ButtonToolbar className="pull-left">
-                    <Button
-                      className="PageConfigPage__info-btn"
-                      bsStyle="default"
-                      onClick={this.toggleInfoTable}
-                    >
-                      <FormattedMessage id="app.info" />
-                    </Button>
-                    <a
-                      href={previewUri}
-                      title={formattedText('app.preview', 'Preview')}
-                      className="btn btn-primary"
-                      target="_blank"
-                    >
-                      <FormattedMessage id="app.preview" />
-                    </a>
-                  </ButtonToolbar>
-                  <ButtonToolbar className="pull-right">
-                    <Button
-                      bsStyle="warning"
-                      onClick={restoreConfig}
-                      disabled={!pageDiffersFromPublished}
-                    >
-                      <FormattedMessage id="app.restore" />
-                    </Button>
-                    <Button
-                      className="PageConfigPage__unpublish-btn"
-                      bsStyle="default"
-                      onClick={unpublishPage}
-                      disabled={!pageIsPublished}
-                    >
-                      <FormattedMessage id="app.unpublish" />
-                    </Button>
-                    <Button
-                      className="PageConfigPage__publish-btn"
-                      bsStyle="success"
-                      onClick={publishPage}
-                      disabled={pageIsPublished}
-                    >
-                      <FormattedMessage id="app.publish" />
-                    </Button>
-                  </ButtonToolbar>
-                </Col>
-              </Row>
-              <Row className="PageConfigPage__toolbar-row">
-                <Col xs={12}>
-                  <ButtonToolbar className="pull-left">
-                    { defaultConfigBtn }
-                  </ButtonToolbar>
-                  <div className="pull-right">
-                    <label className="PageConfigPage__on-the-fly-label">
-                      <FormattedMessage id="pageConfig.onTheFlyPage" />
-                    </label>
-                    <DropdownButton
-                      id="dropdown-on-the-fly"
-                      bsStyle="default"
-                      title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
-                      pullRight
-                      disabled={!isOnTheFlyEnabled}
-                    >
-                      <MenuItem
-                        eventKey="1"
-                        className="PageConfigPage__on-the-fly-yes"
-                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
+                <Row className="PageConfigPage__toolbar-row">
+                  <Col xs={12}>
+                    <ButtonToolbar className="pull-left">
+                      <Button
+                        className="PageConfigPage__info-btn"
+                        bsStyle="default"
+                        onClick={this.toggleInfoTable}
                       >
-                        {TRANSLATED_YES}
-                      </MenuItem>
-                      <MenuItem
-                        eventKey="2"
-                        className="PageConfigPage__on-the-fly-no"
-                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
+                        <FormattedMessage id="app.info" />
+                      </Button>
+                      <a
+                        href={previewUri}
+                        title={formattedText('app.preview', 'Preview')}
+                        className="btn btn-primary"
+                        target="_blank"
                       >
-                        {TRANSLATED_NO}
-                      </MenuItem>
-                    </DropdownButton>
-                  </div>
-                </Col>
-              </Row>
+                        <FormattedMessage id="app.preview" />
+                      </a>
+                    </ButtonToolbar>
+                    <ButtonToolbar className="pull-right">
+                      <Button
+                        bsStyle="warning"
+                        onClick={restoreConfig}
+                        disabled={!pageDiffersFromPublished}
+                      >
+                        <FormattedMessage id="app.restore" />
+                      </Button>
+                      <Button
+                        className="PageConfigPage__unpublish-btn"
+                        bsStyle="default"
+                        onClick={unpublishPage}
+                        disabled={!pageIsPublished}
+                      >
+                        <FormattedMessage id="app.unpublish" />
+                      </Button>
+                      <Button
+                        className="PageConfigPage__publish-btn"
+                        bsStyle="success"
+                        onClick={publishPage}
+                        disabled={pageIsPublished}
+                      >
+                        <FormattedMessage id="app.publish" />
+                      </Button>
+                    </ButtonToolbar>
+                  </Col>
+                </Row>
+                <Row className="PageConfigPage__toolbar-row">
+                  <Col xs={12}>
+                    <ButtonToolbar className="pull-left">
+                      { defaultConfigBtn }
+                    </ButtonToolbar>
+                    <div className="pull-right">
+                      <label className="PageConfigPage__on-the-fly-label">
+                        <FormattedMessage id="pageConfig.onTheFlyPage" />
+                      </label>
+                      <DropdownButton
+                        id="dropdown-on-the-fly"
+                        bsStyle="default"
+                        title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
+                        pullRight
+                        disabled={!isOnTheFlyEnabled}
+                      >
+                        <MenuItem
+                          eventKey="1"
+                          className="PageConfigPage__on-the-fly-yes"
+                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
+                        >
+                          {TRANSLATED_YES}
+                        </MenuItem>
+                        <MenuItem
+                          eventKey="2"
+                          className="PageConfigPage__on-the-fly-no"
+                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
+                        >
+                          {TRANSLATED_NO}
+                        </MenuItem>
+                      </DropdownButton>
+                    </div>
+                  </Col>
+                </Row>
 
-              <Panel
-                className="PageConfigPage__info-panel"
-                id="collapsible-info-table"
-                expanded={this.state.infoTableOpen}
-                onToggle={() => {}}
-              >
-                <Panel.Collapse>
-                  <SelectedPageInfoTableContainer />
-                </Panel.Collapse>
-              </Panel>
+                <Panel
+                  className="PageConfigPage__info-panel"
+                  id="collapsible-info-table"
+                  expanded={this.state.infoTableOpen}
+                  onToggle={() => {}}
+                >
+                  <Panel.Collapse>
+                    <SelectedPageInfoTableContainer />
+                  </Panel.Collapse>
+                </Panel>
 
-              <PageConfigGridContainer />
-            </Col>
-            <Col xs={4} lg={3} className="PageConfigPage__side-widget">
-              <ToolbarPageConfigContainer />
-            </Col>
-          </Row>
-        </Grid>
-      </InternalPage>
+                <PageConfigGridContainer />
+              </Col>
+              <Col xs={4} lg={3} className="PageConfigPage__side-widget">
+                <ToolbarPageConfigContainer />
+              </Col>
+            </Row>
+          </Grid>
+        </InternalPage>
+      </DragDropContextProvider>
     );
   }
 }

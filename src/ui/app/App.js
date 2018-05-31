@@ -18,14 +18,12 @@ import {
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_DETAIL,
-  ROUTE_DATA_MODEL_LIST,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
   ROUTE_PAGE_MODEL_LIST,
   ROUTE_PAGE_MODEL_ADD,
   ROUTE_PAGE_MODEL_EDIT,
   ROUTE_PAGE_MODEL_DETAIL,
-  ROUTE_DATA_MODEL_ADD,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -51,6 +49,9 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
+  ROUTE_DATA_MODEL_LIST,
+  ROUTE_DATA_MODEL_ADD,
+  ROUTE_DATA_MODEL_EDIT,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
@@ -96,6 +97,7 @@ import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
 import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
+import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
@@ -178,6 +180,7 @@ const App = ({ route, username }) => {
     case ROUTE_PAGE_MODEL_DETAIL: return <PageModelDetailPageContainer />;
     case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
     case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
+    case ROUTE_DATA_MODEL_EDIT: return <EditDataModelPage />;
     case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
     case ROUTE_USER_LIST: return <UserListPage />;
     case ROUTE_USER_AUTHORITY: return <UserAuthorityPageContainer />;

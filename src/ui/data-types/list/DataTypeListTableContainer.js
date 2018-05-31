@@ -14,7 +14,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
-    loading: getLoading(state).dataType,
+    loading: getLoading(state).dataTypes,
   }
 );
 
@@ -26,7 +26,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'DataType', code }));
   },
-  onClickReload: () => {},
 });
 
 const DataTypeListTableContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeListTable);
