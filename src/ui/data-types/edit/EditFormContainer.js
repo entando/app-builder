@@ -36,15 +36,17 @@ export const mapDispatchToProps = dispatch => ({
   onAddAttribute: ({ attributeCode, datatypeCode }) => {
     dispatch(fetchDataTypeAttribute(
       attributeCode,
-      [ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-        { entityCode: datatypeCode }],
+      {
+        route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+        params: { entityCode: datatypeCode },
+      },
     ));
   },
-  onMoveUp: (attributeCode) => {
-    dispatch(sendMoveAttributeUp(attributeCode));
+  onMoveUp: (attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeUp({ attributeCode, attributeIndex }));
   },
-  onMoveDown: (attributeCode) => {
-    dispatch(sendMoveAttributeDown(attributeCode));
+  onMoveDown: (attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeDown({ attributeCode, attributeIndex }));
   },
   onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));

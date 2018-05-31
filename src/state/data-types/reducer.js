@@ -19,15 +19,14 @@ const toMap = array => array.reduce((acc, dataType) => {
 
 const toIdList = array => array.map(dataType => dataType.code);
 
-const swapItems = (attributes, attributeCode, isMovableUp) => {
+const swapItems = (attributes, attrIndex, isMovableUp) => {
   const attributesArray = [...attributes];
-  const attrIndex = attributes.indexOf(attributes.filter(item => (
-    item.code === attributeCode))[0]);
   let swapIndex;
   if (isMovableUp) {
     swapIndex = attrIndex > 0 ? attrIndex - 1 : 0;
   } else {
-    swapIndex = attrIndex < attributesArray.length ? attrIndex + 1 : attributesArray.length;
+    swapIndex = attrIndex < attributesArray.length - 1 ?
+      attrIndex + 1 : attributesArray.length - 1;
   }
   const temp = attributes[attrIndex];
   attributesArray[attrIndex] = attributes[swapIndex];
@@ -82,21 +81,21 @@ export const selectedDataType = (state = {}, action = {}) => {
       return { ...state, attributeSelected: action.payload.attribute };
     }
     case MOVE_ATTRIBUTE_UP: {
-      const { attributeCode } = action.payload;
+      const { attributeIndex } = action.payload;
       const { attributes } = state;
       const newState = { ...state };
       return {
         ...newState,
-        attributes: swapItems(attributes, attributeCode, true),
+        attributes: swapItems(attributes, attributeIndex, true),
       };
     }
     case MOVE_ATTRIBUTE_DOWN: {
-      const { attributeCode } = action.payload;
+      const { attributeIndex } = action.payload;
       const { attributes } = state;
       const newState = { ...state };
       return {
         ...newState,
-        attributes: swapItems(attributes, attributeCode, false),
+        attributes: swapItems(attributes, attributeIndex, false),
       };
     }
     case REMOVE_ATTRIBUTE: {

@@ -40,6 +40,7 @@ const AttributeListTable = (props) => {
         <td className="AttributeListRow__td text-center">
           <AttributeListMenuActions
             {...props}
+            attributeIndex={index}
             isMovableUp={isMovableUp}
             isMovableDown={isMovableDown}
             code={attribute.code}
