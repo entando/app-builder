@@ -5,6 +5,8 @@ import {
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
 } from 'test/mocks/dataTypes';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -117,7 +119,7 @@ export const moveAttributeUp = (dataTypeCode, attributeCode) => (
     uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveUp`,
     body: {},
     method: METHODS.PUT,
-    mockResponse: DATA_TYPE_ATTRIBUTE,
+    mockResponse: ATTRIBUTE_MOVE_UP,
     useAuthentication: true,
   })
 );
@@ -127,7 +129,7 @@ export const moveAttributeDown = (dataTypeCode, attributeCode) => (
     uri: `/api/dataTypes/${dataTypeCode}/attribute/${attributeCode}/moveDown`,
     body: {},
     method: METHODS.PUT,
-    mockResponse: DATA_TYPE_ATTRIBUTE,
+    mockResponse: ATTRIBUTE_MOVE_DOWN,
     useAuthentication: true,
   })
 );

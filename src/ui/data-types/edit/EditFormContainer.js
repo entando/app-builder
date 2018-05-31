@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import {
-  fetchDataTypeAttributes, sendPutDataType, fetchDataType,
+  fetchDataTypeAttributes,
+  sendPutDataType,
+  fetchDataType,
   fetchDataTypeAttribute,
   sendMoveAttributeUp,
   sendMoveAttributeDown,
@@ -13,7 +15,7 @@ import {
 
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
 import { formValueSelector } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
+import { getParams } from '@entando/router';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
 
 export const mapStateToProps = state => ({
@@ -31,9 +33,11 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypeAttributes());
   },
   onAddAttribute: ({ attributeCode, datatypeCode }) => {
-    dispatch(fetchDataTypeAttribute(attributeCode)).then(() => {
-      gotoRoute(ROUTE_DATA_TYPE_ATTRIBUTE_ADD, { entityCode: datatypeCode });
-    });
+    dispatch(fetchDataTypeAttribute(
+      attributeCode,
+      ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+      { entityCode: datatypeCode },
+    ));
   },
   onMoveUp: (attributeCode) => {
     dispatch(sendMoveAttributeUp(attributeCode));

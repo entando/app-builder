@@ -36,7 +36,6 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    console.log('test payload', payload);
     dispatch(sendPostAttributeFromDataType(payload));
   },
 });

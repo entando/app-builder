@@ -304,12 +304,15 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
   })
 );
 
-export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
+export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
   new Promise((resolve) => {
     getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
+          if (route) {
+            gotoRoute(route);
+          }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
