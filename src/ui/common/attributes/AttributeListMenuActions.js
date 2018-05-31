@@ -49,7 +49,7 @@ const AttributeListMenuActions = ({
       {renderMoveDown()}
       <MenuItem
         className="AttributeListMenuAction__menu-item-delete"
-        onClick={onClickDelete}
+        onClick={() => onClickDelete(code)}
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>

@@ -479,7 +479,6 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
           done();
         }).catch(done.fail);
       });
@@ -553,8 +552,8 @@ describe('state/data-types/actions ', () => {
       it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
         const ROUTE = 'mocked_route';
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
-        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE);
+        store.dispatch(fetchDataTypeAttribute('attribute_code', [ROUTE, {}])).then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE, {});
           done();
         }).catch(done.fail);
       });

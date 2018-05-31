@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
+import { getParams } from '@entando/router';
 import {
   fetchDataTypeAttributes,
   sendPutDataType,
@@ -12,10 +14,9 @@ import {
   getDataTypeAttributesIdList,
 
 } from 'state/data-types/selectors';
-
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
-import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/data-types/attributes/DeleteAttributeModal';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
 
 export const mapStateToProps = state => ({
@@ -35,8 +36,8 @@ export const mapDispatchToProps = dispatch => ({
   onAddAttribute: ({ attributeCode, datatypeCode }) => {
     dispatch(fetchDataTypeAttribute(
       attributeCode,
-      ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-      { entityCode: datatypeCode },
+      [ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+        { entityCode: datatypeCode }],
     ));
   },
   onMoveUp: (attributeCode) => {
@@ -44,6 +45,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onMoveDown: (attributeCode) => {
     dispatch(sendMoveAttributeDown(attributeCode));
+  },
+  onClickDelete: (code) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'attribute', code }));
   },
   onSubmit: (values) => {
     dispatch(sendPutDataType(values));

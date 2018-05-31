@@ -237,7 +237,7 @@ export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
           if (route) {
-            gotoRoute(route);
+            gotoRoute(route[0], route[1]);
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
@@ -330,13 +330,13 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
   })
 );
 
-export const sendDeleteAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
     deleteAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeAttribute(dataTypeCode, attributeCode));
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
