@@ -293,6 +293,7 @@ export default {
     'dataModel.model': 'Model',
     'dataModel.deleteDataModelSuccess': 'Data Model \'{id}\' successfully deleted',
     'dataModel.deleteDataModelError': 'An error has occurred during deletion of the Data Model \'{id}\'',
+    'dataModel.help.code': 'You can insert only numeric characters',
     'dataType.list.title': 'Data Type',
     'dataType.help': 'The DATA TYPES section let the administrator add new data types or edit those already existing.',
     'dataType.table.status': 'Status',
