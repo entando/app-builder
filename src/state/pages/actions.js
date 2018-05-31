@@ -409,7 +409,6 @@ export const fetchReferencesPage = getState => async (dispatch) => {
 };
 
 export const initPageForm = pageData => (dispatch) => {
-  console.log('action', pageData);
   dispatch(initialize('page', pageData));
   gotoRoute(ROUTE_PAGE_ADD);
 };

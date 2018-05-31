@@ -131,6 +131,7 @@ export const initConfigPage = () => async (dispatch, getState) => {
       dispatch(setPublishedPageConfig(pageCode, null));
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('initConfigPage failed:', e);
   }
 };
