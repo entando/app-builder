@@ -14,7 +14,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
-    loading: getLoading(state).dataType,
+    loading: getLoading(state).dataTypes,
   }
 );
 
@@ -22,8 +22,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchDataTypes(page));
   },
-  onClickDelete: (values) => {
-    const { code } = values;
+  onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'DataType', code }));
   },

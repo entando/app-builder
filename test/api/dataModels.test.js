@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 
-import { getDataModels } from 'api/dataModels';
+import { getDataModels, getDataModel, postDataModel, putDataModel, deleteDataModel } from 'api/dataModels';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { DATA_MODELS, ERROR } from 'test/mocks/dataModels';
+import { DATA_MODELS, DATA_MODEL_DELETE, ERROR } from 'test/mocks/dataModels';
 
 const correctRequest = {
   uri: '/api/dataModels',
@@ -81,6 +81,74 @@ describe('api/dataModel', () => {
           pageSize: 10,
         },
       );
+    });
+  });
+
+  describe('getDataModel', () => {
+    it('returns a promise', () => {
+      expect(getDataModel(1)).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      getDataModel(2);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels/2',
+        method: METHODS.GET,
+        mockResponse: {},
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('postDataModel', () => {
+    it('returns a promise', () => {
+      expect(postDataModel()).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      postDataModel({ data: 1 });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels',
+        method: METHODS.POST,
+        mockResponse: {},
+        body: { data: 1 },
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('putDataModel', () => {
+    it('returns a promise', () => {
+      expect(putDataModel({})).toBeInstanceOf(Promise);
+    });
+
+    it('sends the correct request object', () => {
+      putDataModel({ modelId: 1 });
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/dataModels/1',
+        method: METHODS.PUT,
+        mockResponse: {},
+        body: { modelId: 1 },
+        useAuthentication: true,
+      });
+    });
+  });
+
+
+ describe('deleteDataModel', () => {
+    it('returns a promise', () => {
+      expect(deleteDataModel('dataModelId')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const dataModelId = 'dataModelId';
+      deleteDataModel(dataModelId);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/dataModels/${dataModelId}`,
+        method: METHODS.DELETE,
+        mockResponse: DATA_MODEL_DELETE,
+        useAuthentication: true,
+      });
     });
   });
 });

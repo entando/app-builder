@@ -1,61 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { LinkMenuItem } from 'frontend-common-components';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
 
-class DataTypeListMenuActions extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(handler, ev) {
-    if (handler) {
-      ev.preventDefault();
-      handler(this.props);
-    }
-  }
-
-  render() {
-    const { onClickDelete } = this.props;
-    const editLabel = (
-      <FormattedMessage id="app.edit" values={{ code: this.props.code }} />
-    );
-    return (
-      <DropdownKebab pullRight id={`${this.props.code}-actions`}>
-        <LinkMenuItem
-          id={`dataType-${this.props.code}`}
-          route={ROUTE_DATA_TYPE_EDIT}
-          params={{ datatypeCode: this.props.code }}
-          label={editLabel}
-          className="DataTypeListMenuAction__menu-item-edit"
-        />
-        <MenuItem
-          className="DataTypeListMenuAction__menu-item-reload"
-          onClick={this.handleClick}
-        >
-          <FormattedMessage id="app.reload" />
-        </MenuItem>
-        <MenuItem
-          className="DataTypeListMenuAction__menu-item-delete"
-          onClick={ev => this.handleClick(onClickDelete, ev)}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
-      </DropdownKebab>
-    );
-  }
-}
-
-DataTypeListMenuActions.propTypes = {
-  onClickDelete: PropTypes.func,
-  code: PropTypes.string.isRequired,
+const DataTypeListMenuActions = ({ code, onClickDelete }) => {
+  const editLabel = (
+    <FormattedMessage id="app.edit" values={{ code }} />
+  );
+  return (
+    <DropdownKebab pullRight id={`${code}-actions`}>
+      <LinkMenuItem
+        id={`dataType-${code}`}
+        route={ROUTE_DATA_TYPE_EDIT}
+        params={{ datatypeCode: code }}
+        label={editLabel}
+        className="DataTypeListMenuAction__menu-item-edit"
+      />
+      <MenuItem
+        className="DataTypeListMenuAction__menu-item-delete"
+        onClick={() => onClickDelete(code)}
+      >
+        <FormattedMessage id="app.delete" />
+      </MenuItem>
+    </DropdownKebab>
+  );
 };
 
-DataTypeListMenuActions.defaultProps = {
-  onClickDelete: () => {},
+DataTypeListMenuActions.propTypes = {
+  onClickDelete: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
 };
 
 export default DataTypeListMenuActions;

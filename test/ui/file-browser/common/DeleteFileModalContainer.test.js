@@ -12,7 +12,7 @@ const TEST_STATE = {
 
 const dispatchMock = jest.fn();
 
-describe('DeleteCategoryModalContainer', () => {
+describe('DeleteFileModalContainer', () => {
   describe('mapStateToProps', () => {
     it('maps info property from state', () => {
       expect(mapStateToProps(TEST_STATE))

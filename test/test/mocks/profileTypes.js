@@ -91,12 +91,12 @@ export const PROFILE_TYPES_OK_PAGE_1 =
     {
       name: 'profileType1',
       code: 'ABC',
-      status: 'ok',
+      status: '0',
     },
     {
       name: 'profileType2',
       code: 'DEF',
-      status: 'ok',
+      status: '0',
     },
   ],
   errors: [],
@@ -108,12 +108,12 @@ export const PROFILE_TYPES_OK_PAGE_2 =
     {
       name: 'profileType3',
       code: 'GHI',
-      status: 'ok',
+      status: '0',
     },
     {
       name: 'profileType4',
       code: 'LMN',
-      status: 'ok',
+      status: '0',
     },
   ],
   errors: [],
@@ -162,7 +162,7 @@ export const PROFILE_TYPES_NORMALIZED = {
       PFL: {
         name: 'Default User Profile',
         code: 'PFL',
-        status: 'ok',
+        status: '0',
       },
       SUP: {
         name: 'Supervisor User Profile',

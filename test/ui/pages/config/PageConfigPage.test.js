@@ -16,12 +16,12 @@ describe('PageConfigPage', () => {
     expect(component.exists()).toBe(true);
   });
 
-  it('is an InternalPage', () => {
-    expect(component.is('InternalPage')).toBe(true);
+  it('is a wrapped InternalPage', () => {
+    expect(component.children().first().is('InternalPage')).toBe(true);
   });
 
   it('has the PageConfigPage class', () => {
-    expect(component.hasClass('PageConfigPage')).toBe(true);
+    expect(component.children().first().hasClass('PageConfigPage')).toBe(true);
   });
 
   it('has a breadcrumb', () => {

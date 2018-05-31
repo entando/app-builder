@@ -91,12 +91,12 @@ export const DATA_TYPES_OK_PAGE_1 =
     {
       name: 'dataType1',
       code: 'ABC',
-      status: 'ok',
+      status: '0',
     },
     {
       name: 'dataType2',
       code: 'DEF',
-      status: 'ok',
+      status: '0',
     },
   ],
   errors: [],
@@ -114,12 +114,12 @@ export const DATA_TYPES_OK_PAGE_2 =
     {
       name: 'dataType3',
       code: 'GHI',
-      status: 'ok',
+      status: '0',
     },
     {
       name: 'dataType4',
       code: 'LMN',
-      status: 'ok',
+      status: '0',
     },
   ],
   errors: [],
@@ -165,4 +165,35 @@ export const DATA_TYPE_ATTRIBUTE = {
     code: 'Code2',
     descr: 'Description 2',
   }],
+};
+
+export const ATTRIBUTE_MOVE_UP = {
+  attributeCode: 'title',
+  dataTypeCode: 'DTT',
+  movement: 'UP',
+};
+
+export const ATTRIBUTE_MOVE_DOWN = {
+  attributeCode: 'title',
+  dataTypeCode: 'DTT',
+  movement: 'DOWN',
+};
+
+export const DATA_TYPE_REFERENCES_STATUS = {
+  ready: [
+    'AAA',
+    'BBB',
+  ],
+  toRefresh: [
+    'CCC',
+  ],
+  refreshing: [],
+};
+
+export const DATA_TYPE_RELOAD_REFERENCES_STATUS = {
+  result: 'success',
+  dataTypeCodes: {
+    AAA: 0,
+    BBB: 1,
+  },
 };

@@ -9,6 +9,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
+import DeleteAttributeModalContainer from 'ui/data-types/attributes/DeleteAttributeModalContainer';
 
 
 const uppercaseThreeLetters = value =>
@@ -41,6 +42,7 @@ export class DataTypeFormBody extends Component {
         return (
           <Row>
             <AttributeListTable {...this.props} />
+            <DeleteAttributeModalContainer />
           </Row>
         );
       }

@@ -55,8 +55,9 @@
     "react-codemirror2": "^4.2.1",
     "react-datepicker": "^1.4.1",
     "react-dev-utils": "^5.0.0",
-    "react-dnd": "^2.5.4",
-    "react-dnd-html5-backend": "^2.5.4",
+    "react-dnd": "^2.6.0",
+    "react-dnd-html5-backend": "^2.6.0",
+    "react-dnd-mouse-backend": "^0.1.1",
     "react-dom": "^16.2.0",
     "react-ellipsis-with-tooltip": "^1.0.7",
     "react-intl": "^2.4.0",
@@ -89,7 +90,8 @@
     "coverage": "node scripts/test.js --env=jsdom --coverage",
     "sass-lint": "sass-lint -v",
     "precommit": "npm run lint && npm run sass-lint && npm run coverage",
-    "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js"
+    "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
+    "start-openshift": "npm install -g serve && serve -p 8080 -s build"
   },
   "jest": {
     "collectCoverageFrom": [

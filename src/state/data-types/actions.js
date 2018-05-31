@@ -16,12 +16,16 @@ import {
   deleteDataType,
   getDataType,
   getDataTypes,
+  getDataTypesStatus,
+  postDataTypesStatus,
   deleteAttributeFromDataType,
   getAttributeFromDataType,
   postAttributeFromDataType,
   putAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/dataTypes';
 import {
   SET_DATA_TYPES,
@@ -31,9 +35,16 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
-}
-  from 'state/data-types/types';
-import { getDataTypeAttributesIdList, getDataTypeSelectedAttributeType } from 'state/data-types/selectors';
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
+  SET_DATA_TYPE_REFERENCE_STATUS,
+} from 'state/data-types/types';
+import {
+  getDataTypeAttributesIdList,
+  getDataTypeSelectedAttributeType,
+  getSelectedDataType,
+  getSelectedAttributeType,
+} from 'state/data-types/selectors';
 
 const TYPE_MONOLIST = 'Monolist';
 
@@ -56,6 +67,13 @@ export const setSelectedDataType = dataType => ({
   type: SET_SELECTED_DATA_TYPE,
   payload: {
     dataType,
+  },
+});
+
+export const setDataTypeReferenceStatus = dataTypeStatus => ({
+  type: SET_DATA_TYPE_REFERENCE_STATUS,
+  payload: {
+    dataTypeStatus,
   },
 });
 
@@ -89,8 +107,53 @@ export const setDataTypeAttributes = attributes => ({
   },
 });
 
+export const moveAttributeUpSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_UP,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
+
+export const moveAttributeDownSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_DOWN,
+  payload: {
+    dataTypeCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
 
 // thunk
+
+export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
+  getDataTypesStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setDataTypeReferenceStatus(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  });
+});
+
+export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
+  (new Promise((resolve) => {
+    postDataTypesStatus({ dataTypesCodes }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_DATA_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  }));
+
 
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
@@ -169,13 +232,37 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
+  new Promise((resolve) => {
+    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttribute(json.payload));
+          if (route) {
+            gotoRoute(route.route, route.params);
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (dispatch, getState) => (
   new Promise((resolve) => {
     getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
+          dispatch(initialize('attribute', {
+            ...json.payload,
+            joinRoles,
+            joinAllowedOptions: joinRoles,
+          }));
           dispatch(setSelectedAttributeDataType(json.payload));
-          dispatch(initialize('attribute', json.payload));
+          dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -245,13 +332,13 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
   })
 );
 
-export const sendDeleteAttributeFromDataType = (dataTypeCode, attributeCode) => dispatch => (
+export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
     deleteAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeAttribute(dataTypeCode, attributeCode));
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -282,12 +369,16 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
   })
 );
 
-export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
+export const sendMoveAttributeUp = ({ attributeCode, attributeIndex }) => (dispatch, getState) => (
   new Promise((resolve) => {
-    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
+    const dataTypeCode = getSelectedDataType(getState()).code;
+    moveAttributeUp(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(setSelectedAttribute(json.payload));
+          dispatch(moveAttributeUpSync({
+            ...json.payload,
+            attributeIndex,
+          }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -296,3 +387,23 @@ export const fetchDataTypeAttribute = dataTypeAttributeCode => dispatch => (
     });
   })
 );
+
+export const sendMoveAttributeDown = ({ attributeCode, attributeIndex }) =>
+  (dispatch, getState) => (
+    new Promise((resolve) => {
+      const dataTypeCode = getSelectedDataType(getState()).code;
+      moveAttributeDown(dataTypeCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeDownSync({
+              ...json.payload,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );

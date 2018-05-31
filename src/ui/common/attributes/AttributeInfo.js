@@ -11,7 +11,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 const maxLength10 = maxLength(10);
 const maxLength50 = maxLength(50);
 
-const AttributeInfo = ({ isSearchable, isIndexable }) => {
+const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
   const renderSearchable = () => {
     if (isSearchable) {
       return (
@@ -69,6 +69,7 @@ const AttributeInfo = ({ isSearchable, isIndexable }) => {
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
             validate={[required, maxLength10]}
+            disabled={mode === 'edit'}
           />
           <Field
             component={RenderTextInput}
@@ -99,9 +100,11 @@ export default AttributeInfo;
 AttributeInfo.propTypes = {
   isSearchable: PropTypes.bool,
   isIndexable: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 AttributeInfo.defaultProps = {
   isSearchable: false,
   isIndexable: false,
+  mode: 'add',
 };

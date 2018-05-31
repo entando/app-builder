@@ -94,7 +94,7 @@ describe('state/profile-types/actions ', () => {
       expect(isFSA(action)).toBe(true);
     });
     it('test setProfileTypes action sets the correct type', () => {
-      expect(action.type).toBe(SET_PROFILE_TYPES);
+      expect(action).toHaveProperty('type', SET_PROFILE_TYPES);
     });
   });
 
@@ -119,7 +119,7 @@ describe('state/profile-types/actions ', () => {
       expect(isFSA(action)).toBe(true);
     });
     it('test setProfileTypeAttributes action sets the correct type', () => {
-      expect(action.type).toBe(SET_ATTRIBUTES);
+      expect(action).toHaveProperty('type', SET_ATTRIBUTES);
     });
   });
   describe('setSelectedProfileType', () => {
@@ -130,7 +130,7 @@ describe('state/profile-types/actions ', () => {
       expect(isFSA(action)).toBe(true);
     });
     it('test setSelectedProfileType action sets the correct type', () => {
-      expect(action.type).toBe(SET_SELECTED_PROFILE_TYPE);
+      expect(action).toHaveProperty('type', SET_SELECTED_PROFILE_TYPE);
     });
   });
   describe('setSelectedAttribute', () => {
@@ -141,7 +141,7 @@ describe('state/profile-types/actions ', () => {
       expect(isFSA(action)).toBe(true);
     });
     it('test setSelectedAttribute action sets the correct type', () => {
-      expect(action.type).toBe(SET_SELECTED_ATTRIBUTE);
+      expect(action).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
     });
   });
 
@@ -258,7 +258,7 @@ describe('state/profile-types/actions ', () => {
           const profileType = actionPayload.profileTypes[0];
           expect(profileType).toHaveProperty('name', 'profileType1');
           expect(profileType).toHaveProperty('code', 'ABC');
-          expect(profileType).toHaveProperty('status', 'ok');
+          expect(profileType).toHaveProperty('status', '0');
           done();
         }).catch(done.fail);
       });

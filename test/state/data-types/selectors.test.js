@@ -1,4 +1,4 @@
-import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
+import { DATA_TYPES_OK_PAGE_1, DATA_TYPE_REFERENCES_STATUS } from 'test/mocks/dataTypes';
 
 import {
   getDataTypes,
@@ -13,6 +13,7 @@ import {
   getDataTypeSelectedAttributeIndexable,
   getDataTypeSelectedAttributeAllowedRoles,
   getDataTypeSelectedAttributeallowedDisablingCodes,
+  getDataTypeReferencesStatus,
 } from 'state/data-types/selectors';
 
 const TEST_STATE = {
@@ -22,15 +23,18 @@ const TEST_STATE = {
       ABC: {
         name: 'dataType1',
         code: 'ABC',
-        status: 'ok',
+        status: '0',
       },
       DEF: {
         name: 'dataType2',
         code: 'DEF',
-        status: 'ok',
+        status: '0',
       },
     },
     attributes: {
+    },
+    references: {
+      status: DATA_TYPE_REFERENCES_STATUS,
     },
   },
   pagination: DATA_TYPES_OK_PAGE_1.metaData,
@@ -48,6 +52,7 @@ const STATE_ATTRIBUTES = {
         allowedDisablingCodes: [],
 
       },
+
     },
   },
 };
@@ -68,6 +73,12 @@ describe('state/users/selectors', () => {
 
   it('verify getDataTypeList selector', () => {
     expect(getDataTypeList(TEST_STATE)).toEqual(DATA_TYPES_OK_PAGE_1.payload);
+  });
+
+  it('verify getDataTypeReferencesStatus selector', () => {
+    expect(getDataTypeReferencesStatus(TEST_STATE)).toMatchObject({
+      type: 'warning', status: 'toRefresh', dataTypesCodes: ['CCC'], count: 1,
+    });
   });
 
   it('verify getSelectedDataType selector is undefined', () => {

@@ -7,6 +7,9 @@ import {
   SET_SELECTED_DATA_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_DATATYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
+  SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 
 const toMap = array => array.reduce((acc, dataType) => {
@@ -15,6 +18,22 @@ const toMap = array => array.reduce((acc, dataType) => {
 }, {});
 
 const toIdList = array => array.map(dataType => dataType.code);
+
+const swapItems = (attributes, attrIndex, isMovableUp) => {
+  const attributesArray = [...attributes];
+  let swapIndex;
+  if (isMovableUp) {
+    swapIndex = attrIndex > 0 ? attrIndex - 1 : 0;
+  } else {
+    swapIndex = attrIndex < attributesArray.length - 1 ?
+      attrIndex + 1 : attributesArray.length - 1;
+  }
+  const temp = attributes[attrIndex];
+  attributesArray[attrIndex] = attributes[swapIndex];
+  attributesArray[swapIndex] = temp;
+
+  return attributesArray;
+};
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -40,13 +59,6 @@ const dataTypeMap = (state = {}, action = {}) => {
       delete newState[dataTypeCode];
       return newState;
     }
-    case REMOVE_ATTRIBUTE: {
-      const { dataTypeCode, attributeCode } = action.payload;
-      const attributes =
-        state[dataTypeCode]
-          .attributes.filter(f => f.code !== attributeCode);
-      return { ...state, [dataTypeCode]: { ...state[dataTypeCode], attributes } };
-    }
     default: return state;
   }
 };
@@ -68,6 +80,30 @@ export const selectedDataType = (state = {}, action = {}) => {
     case SET_SELECTED_ATTRIBUTE_FOR_DATATYPE: {
       return { ...state, attributeSelected: action.payload.attribute };
     }
+    case MOVE_ATTRIBUTE_UP: {
+      const { attributeIndex } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeIndex, true),
+      };
+    }
+    case MOVE_ATTRIBUTE_DOWN: {
+      const { attributeIndex } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeIndex, false),
+      };
+    }
+    case REMOVE_ATTRIBUTE: {
+      const { attributeCode } = action.payload;
+      const attributes =
+        state.attributes.filter(f => f.code !== attributeCode);
+      return { ...state, attributes };
+    }
     default: return state;
   }
 };
@@ -80,6 +116,16 @@ export const selectedAttribute = (state = {}, action = {}) => {
   }
 };
 
+export const status = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_DATA_TYPE_REFERENCE_STATUS: {
+      return action.payload.dataTypeStatus;
+    }
+    default: return state;
+  }
+};
+
+
 export default combineReducers({
   list,
   map: dataTypeMap,
@@ -87,5 +133,8 @@ export default combineReducers({
   attributes: combineReducers({
     list: attributeList,
     selected: selectedAttribute,
+  }),
+  references: combineReducers({
+    status,
   }),
 });

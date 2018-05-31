@@ -6,3 +6,6 @@ export const SET_SELECTED_DATA_TYPE = 'data-types/set-selected-data-type';
 export const SET_SELECTED_ATTRIBUTE_FOR_DATATYPE = 'data-types/set-selected-attribute-for-data-type';
 export const SET_SELECTED_ATTRIBUTE = 'data-types/set-selected-attribute';
 export const SET_SELECTED = 'data-types/set-selected';
+export const MOVE_ATTRIBUTE_UP = 'data-types/move-attribute-up';
+export const MOVE_ATTRIBUTE_DOWN = 'data-types/move-attribute-down';
+export const SET_DATA_TYPE_REFERENCE_STATUS = 'data-types/set-reference-status';

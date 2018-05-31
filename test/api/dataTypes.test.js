@@ -11,6 +11,10 @@ import {
   putAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
+  getDataTypesStatus,
+  postDataTypesStatus,
 } from 'api/dataTypes';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -22,6 +26,10 @@ import {
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
+  DATA_TYPE_REFERENCES_STATUS,
+  DATA_TYPE_RELOAD_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
 
 const correctRequest = {
@@ -39,6 +47,46 @@ jest.mock('@entando/apimanager', () => ({
     GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
   },
 }));
+
+describe('api/getDataTypesStatus', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(getDataTypesStatus()).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    getDataTypesStatus();
+    expect(makeRequest).toHaveBeenCalledWith({
+      uri: '/api/dataTypesStatus',
+      method: 'GET',
+      mockResponse: DATA_TYPE_REFERENCES_STATUS,
+      useAuthentication: true,
+    });
+  });
+});
+
+describe('api/postDataTypesStatus', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postDataTypesStatus([])).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    postDataTypesStatus([]);
+    expect(makeRequest).toHaveBeenCalledWith({
+      uri: '/api/dataTypesStatus',
+      body: [],
+      method: 'POST',
+      mockResponse: DATA_TYPE_RELOAD_REFERENCES_STATUS,
+      useAuthentication: true,
+    });
+  });
+});
+
 
 describe('api/postDataType', () => {
   beforeEach(() => {
@@ -313,6 +361,46 @@ describe('api/getDataTypes', () => {
           mockResponse: DATA_TYPE_ATTRIBUTE,
         }));
       });
+    });
+  });
+  describe('moveAttributeUp', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(moveAttributeUp()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a move up comfirm', () => {
+      moveAttributeUp('dataType_code', 'attribute_code');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        ...correctRequest,
+        body: {},
+        method: METHODS.PUT,
+        uri: '/api/dataTypes/dataType_code/attribute/attribute_code/moveUp',
+        mockResponse: ATTRIBUTE_MOVE_UP,
+      }));
+    });
+  });
+
+  describe('moveAttributeUp', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('returns a promise', () => {
+      expect(moveAttributeDown()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a move up comfirm', () => {
+      moveAttributeDown('dataType_code', 'attribute_code');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        ...correctRequest,
+        body: {},
+        method: METHODS.PUT,
+        uri: '/api/dataTypes/dataType_code/attribute/attribute_code/moveDown',
+        mockResponse: ATTRIBUTE_MOVE_DOWN,
+      }));
     });
   });
 });

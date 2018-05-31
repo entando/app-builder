@@ -7,9 +7,6 @@ import registerServiceWorker from 'registerServiceWorker';
 import { Provider } from 'react-redux';
 import store from 'state/store';
 
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
 import 'app-init/router';
 import 'app-init/locale';
 import 'app-init/apiManager';
@@ -31,9 +28,7 @@ import 'index.scss';
 export default ReactDOM.render(
   <Provider store={store}>
     <IntlProviderContainer>
-      <DragDropContextProvider backend={HTML5Backend}>
-        <AppContainer />
-      </DragDropContextProvider>
+      <AppContainer />
     </IntlProviderContainer>
   </Provider>,
   document.getElementById('root'),

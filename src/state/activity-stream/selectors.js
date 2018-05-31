@@ -14,27 +14,18 @@ export const getHidden = createSelector(
 
 const getActionText = (notification) => {
   const { actionName, parameters } = notification;
-  const { strutsAction } = parameters;
   switch (actionName) {
-    case 'save': {
-      if (strutsAction === '1') {
+    case 'POST': {
+      if (isEmpty(parameters)) {
         return formattedText('activityStream.newPage');
-      } else if (strutsAction === '2') {
-        return formattedText('activityStream.editPage');
       }
-      return '';
+      return formattedText('activityStream.editPage');
     }
-    case 'delete': {
+    case 'PUT': {
+      return formattedText('activityStream.editPage');
+    }
+    case 'DELETE': {
       return formattedText('activityStream.deletePage');
-    }
-    case 'setOnline': {
-      return formattedText('activityStream.onlinePage');
-    }
-    case 'setOffline': {
-      return formattedText('activityStream.offlinePage');
-    }
-    case 'saveConfigure': {
-      return formattedText('activityStream.modifyPage');
     }
     default: return '';
   }

@@ -10,12 +10,12 @@ const TEST_STATE = {
       ABC: {
         name: 'dataType1',
         code: 'ABC',
-        status: 'ok',
+        status: '0',
       },
       DEF: {
         name: 'dataType2',
         code: 'DEF',
-        status: 'ok',
+        status: '0',
       },
     },
   },
@@ -27,14 +27,14 @@ describe('DataModelSearchFormContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({ dataTypes: DATA_TYPES_OK_PAGE_1.payload });
   });
 
-  it('verify that onWillMount and handleSubmit are defined and called in mapDispatchToProps', () => {
+  it('verify that onWillMount and onSubmit are defined and called in mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     const result = mapDispatchToProps(dispatchMock);
     expect(result.onWillMount).toBeDefined();
-    expect(result.handleSubmit).toBeDefined();
+    expect(result.onSubmit).toBeDefined();
     result.onWillMount();
     expect(dispatchMock).toHaveBeenCalled();
-    result.handleSubmit();
+    result.onSubmit();
     expect(dispatchMock).toHaveBeenCalled();
   });
 });

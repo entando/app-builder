@@ -6,6 +6,7 @@ import { formattedText } from '@entando/utils';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
+import DataTypeReferenceStatusContainer from 'ui/data-types/common/DataTypeReferenceStatusContainer';
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class DataTypeListTable extends Component {
         <td className="DataTypeListRow__td text-center">
           <DataTypeStatusIcon
             status={datatype.status}
-            title={formattedText('dataType.table.status')}
+            title={formattedText('dataType.table.status', null, { status: datatype.status })}
           />
         </td>
         <td className="DataTypeListRow__td text-center">
@@ -58,6 +59,7 @@ class DataTypeListTable extends Component {
 
       return (
         <Col xs={12}>
+          <DataTypeReferenceStatusContainer />
           <table className="DataTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -99,7 +101,7 @@ class DataTypeListTable extends Component {
   render() {
     return (
       <div className="DataTypeListTable">
-        <Spinner loading={!!this.props.loading} >
+        <Spinner loading={this.props.loading} >
           {this.renderTable()}
         </Spinner>
         <DeleteDataTypeModalContainer />

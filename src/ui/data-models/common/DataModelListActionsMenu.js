@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 
-
 const DataModelListActionsMenu = ({ onClickEdit, onClickDelete }) => (
-
   <DropdownKebab id="DataModelListActionsMenu" pullRight>
     <MenuItem
-      className="DataModelListActionsMenu__menu-item-delete"
+      className="DataModelMenuAction__delete"
       onClick={onClickDelete}
     >
       <FormattedMessage id="app.delete" />
@@ -21,7 +19,6 @@ const DataModelListActionsMenu = ({ onClickEdit, onClickDelete }) => (
     </MenuItem>
   </DropdownKebab>
 );
-
 
 DataModelListActionsMenu.propTypes = {
   onClickDelete: PropTypes.func,
