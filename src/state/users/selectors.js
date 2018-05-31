@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { formValueSelector } from 'redux-form';
 import { getGroupsMap } from 'state/groups/selectors';
 import { getRolesMap } from 'state/roles/selectors';
+import { isEmpty } from 'lodash';
 
 export const getUsers = state => state.users;
 export const getUsersIdList = state => state.users.list;
@@ -19,9 +20,9 @@ const getGroupRolesComboValue = state => formValueSelector('autorityForm')(state
 
 export const getGroupRolesCombo =
   createSelector(
-    getGroupRolesComboValue, getGroupsMap, getRolesMap,
+    [getGroupRolesComboValue, getGroupsMap, getRolesMap],
     (groupRoleCombo, groups, roles) => {
-      if (groupRoleCombo) {
+      if (!isEmpty(groupRoleCombo) && !isEmpty(groups) && !isEmpty(roles)) {
         return groupRoleCombo.map(item => ({
           group: item.group ? { code: item.group, name: groups[item.group].name } : {},
           role: item.role ? { code: item.role, name: roles[item.role].name } : {},
