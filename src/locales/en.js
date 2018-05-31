@@ -334,7 +334,7 @@ export default {
     'user.action.manageAuth': 'Manage autorization for: {username}',
     'user.action.editProfile': 'Edit profile of: {username}',
     'user.action.viewProfile': 'View profile of: {username}',
-    'user.authority.title': 'Authorizations for {titleParam}',
+    'user.authority.title': 'Authorizations for {username}',
     'user.authority.groups': 'User Group',
     'user.authority.roles': 'User Role',
     'user.authority.new': 'New authorizations',
