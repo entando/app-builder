@@ -19,12 +19,12 @@ describe('PageModelDetailPage', () => {
     expect(component).toExist();
   });
 
-  it('is an InternalPage', () => {
-    expect(component.is('InternalPage')).toBe(true);
+  it('is a wrapped InternalPage', () => {
+    expect(component.children().first().is('InternalPage')).toBe(true);
   });
 
   it('has the PageModelDetailPage class', () => {
-    expect(component).toHaveClassName('PageModelDetailPage');
+    expect(component.children().first()).toHaveClassName('PageModelDetailPage');
   });
 
   it('has a breadcrumb', () => {
