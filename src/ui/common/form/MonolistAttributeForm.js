@@ -44,7 +44,6 @@ export class MonolistAttributeFormBody extends Component {
        selectedAttribute,
      } = this.props;
 
-     console.log(' MONOLIST', selectedAttribute);
      const renderNumberConf = () => {
        if (type === 'Number') {
          return (

@@ -479,7 +479,6 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_TYPE_LIST);
           done();
         }).catch(done.fail);
       });

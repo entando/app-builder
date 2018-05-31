@@ -41,7 +41,7 @@ export class DataModelFormBody extends Component {
                 name="modelId"
                 disabled={!!this.props.dataModelId}
                 label={
-                  <FormLabel labelId="app.code" helpId="app.help.code" required />
+                  <FormLabel labelId="app.code" helpId="dataModel.help.code" required />
                  }
                 validate={[required, isNumber, maxLength(255)]}
               />
@@ -49,7 +49,7 @@ export class DataModelFormBody extends Component {
                 component={RenderTextInput}
                 name="descr"
                 label={
-                  <FormLabel labelId="app.description" required />
+                  <FormLabel labelId="app.name" required />
                  }
                 validate={[required, maxLength(255)]}
               />

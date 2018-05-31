@@ -49,7 +49,7 @@ const AttributeListMenuActions = ({
       {renderMoveDown()}
       <MenuItem
         className="AttributeListMenuAction__menu-item-delete"
-        onClick={onClickDelete}
+        onClick={() => onClickDelete(code)}
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>
@@ -74,8 +74,8 @@ AttributeListMenuActions.defaultProps = {
   onMoveUp: null,
   onMoveDown: null,
   datatypeCode: '',
-  isMovableUp: true,
-  isMovableDown: true,
+  isMovableUp: false,
+  isMovableDown: false,
   attributeIndex: 0,
 };
 

@@ -59,13 +59,6 @@ const dataTypeMap = (state = {}, action = {}) => {
       delete newState[dataTypeCode];
       return newState;
     }
-    case REMOVE_ATTRIBUTE: {
-      const { dataTypeCode, attributeCode } = action.payload;
-      const attributes =
-        state[dataTypeCode]
-          .attributes.filter(f => f.code !== attributeCode);
-      return { ...state, [dataTypeCode]: { ...state[dataTypeCode], attributes } };
-    }
     default: return state;
   }
 };
@@ -104,6 +97,12 @@ export const selectedDataType = (state = {}, action = {}) => {
         ...newState,
         attributes: swapItems(attributes, attributeIndex, false),
       };
+    }
+    case REMOVE_ATTRIBUTE: {
+      const { attributeCode } = action.payload;
+      const attributes =
+        state.attributes.filter(f => f.code !== attributeCode);
+      return { ...state, attributes };
     }
     default: return state;
   }

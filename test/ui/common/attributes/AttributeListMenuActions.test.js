@@ -37,16 +37,27 @@ describe('AttributeListMenuActions', () => {
     expect(component.find('DropdownKebab')).toHaveLength(1);
   });
 
-  it('on item-move-up clicked should call onMoveUp', () => {
-    component.find('.AttributeListMenuAction__menu-item-move-up')
-      .simulate('click');
-    expect(onMoveUp).toHaveBeenCalled();
-  });
+  describe('test moveUp/moveDown', () => {
+    beforeEach(() => {
+      component = shallow(<AttributeListMenuActions
+        isMovableUp
+        isMovableDown
+        onMoveUp={onMoveUp}
+        onMoveDown={onMoveDown}
+      />);
+    });
 
-  it('on item-move-up clicked should call onMoveDown', () => {
-    component.find('.AttributeListMenuAction__menu-item-move-down')
-      .simulate('click');
-    expect(onMoveDown).toHaveBeenCalled();
+    it('on item-move-up clicked should call onMoveUp', () => {
+      component.find('.AttributeListMenuAction__menu-item-move-up')
+        .simulate('click');
+      expect(onMoveUp).toHaveBeenCalled();
+    });
+
+    it('on item-move-up clicked should call onMoveDown', () => {
+      component.find('.AttributeListMenuAction__menu-item-move-down')
+        .simulate('click');
+      expect(onMoveDown).toHaveBeenCalled();
+    });
   });
 
   it('on item-delete clicked should call onClickDelete', () => {
