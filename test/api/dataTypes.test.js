@@ -11,6 +11,8 @@ import {
   putAttributeFromDataType,
   getDataTypeAttributes,
   getDataTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
   getDataTypesStatus,
   postDataTypesStatus,
 } from 'api/dataTypes';
@@ -24,6 +26,8 @@ import {
   DATA_TYPES_OK_PAGE_1,
   DATA_TYPES_ATTRIBUTES,
   DATA_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
   DATA_TYPE_REFERENCES_STATUS,
   DATA_TYPE_RELOAD_REFERENCES_STATUS,
 } from 'test/mocks/dataTypes';
@@ -357,6 +361,46 @@ describe('api/getDataTypes', () => {
           mockResponse: DATA_TYPE_ATTRIBUTE,
         }));
       });
+    });
+  });
+  describe('moveAttributeUp', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(moveAttributeUp()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a move up comfirm', () => {
+      moveAttributeUp('dataType_code', 'attribute_code');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        ...correctRequest,
+        body: {},
+        method: METHODS.PUT,
+        uri: '/api/dataTypes/dataType_code/attribute/attribute_code/moveUp',
+        mockResponse: ATTRIBUTE_MOVE_UP,
+      }));
+    });
+  });
+
+  describe('moveAttributeUp', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('returns a promise', () => {
+      expect(moveAttributeDown()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a move up comfirm', () => {
+      moveAttributeDown('dataType_code', 'attribute_code');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        ...correctRequest,
+        body: {},
+        method: METHODS.PUT,
+        uri: '/api/dataTypes/dataType_code/attribute/attribute_code/moveDown',
+        mockResponse: ATTRIBUTE_MOVE_DOWN,
+      }));
     });
   });
 });
