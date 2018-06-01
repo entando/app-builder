@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_USER_DETAIL } from 'app-init/router';
+import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
 
 import { mockApi } from 'test/testUtils';
 import { ADD_ERRORS } from 'state/errors/types';
@@ -41,15 +41,9 @@ jest.mock('state/activity-stream/selectors', () => ({
   getHidden: jest.fn(),
 }));
 
-getNotifications.mockReturnValue(NOTIFICATIONS);
-
 const ADD_NOTIFICATION_MOCK_INITIAL_STATE = {
   hidden: true,
 };
-
-const WIDGET_NOTIFICATION_ID = 2;
-const PAGE_NOTIFICATION_ID = 1;
-const DEFAULT_NOTIFICATION_ID = 0;
 
 let store;
 
@@ -108,6 +102,7 @@ describe('activity-stream actions', () => {
 });
 
 it('test getRouteUserName', () => {
+  getNotifications.mockReturnValueOnce(NOTIFICATIONS);
   store.dispatch(getRouteUserName(1));
   expect(gotoRoute).toHaveBeenCalled();
   expect(gotoRoute).toHaveBeenCalledWith(
@@ -116,28 +111,18 @@ it('test getRouteUserName', () => {
   );
 });
 
-xit('test getRouteTargetName with targetType content', () => {
+xit('test getRouteTargetName with ROUTE_PAGE_EDIT route', () => {
+  getNotifications.mockReturnValueOnce(NOTIFICATIONS);
   store.dispatch(getRouteTargetName(1));
   expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith('content', { content: 'psdf', frame: 0 });
+  expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_EDIT, { pageCode: 'page' });
 });
 
-xit('test getRouteTargetName with targetType widget', () => {
-  store.dispatch(getRouteTargetName(WIDGET_NOTIFICATION_ID));
+it('test getRouteTargetName with default route ROUTE_HOME', () => {
+  getNotifications.mockReturnValueOnce([...NOTIFICATIONS], NOTIFICATIONS[0].namespace = 'api/content');
+  store.dispatch(getRouteTargetName(1));
   expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith('widget', { widget: 'widgetId' });
-});
-
-xit('test getRouteTargetName with targetType page', () => {
-  store.dispatch(getRouteTargetName(PAGE_NOTIFICATION_ID));
-  expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith('page', { page: 'testdsf' });
-});
-
-xit('test getRouteTargetName with default route', () => {
-  store.dispatch(getRouteTargetName(DEFAULT_NOTIFICATION_ID));
-  expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith('dashboard');
+  expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
 });
 
 describe('thunk', () => {
