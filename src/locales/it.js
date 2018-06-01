@@ -334,7 +334,7 @@ export default {
     'user.action.manageAuth': 'Gestisci permessi per: {username}',
     'user.action.editProfile': 'Modifica il profilo di: {username}',
     'user.action.viewProfile': 'Visualizza il profilo di: {username}',
-    'user.authority.title': 'Autorizzazioni per {username}',
+    'user.authority.title': 'Autorizzazioni per {titleParam}',
     'user.authority.groups': 'Gruppo utenti',
     'user.authority.roles': 'Ruolo utenti',
     'user.authority.new': 'Nuove autorizzazioni',
