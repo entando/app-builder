@@ -5,7 +5,7 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from 'frontend-common-components';
 
 const AttributeListMenuActions = ({
-  onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, datatypeCode,
+  onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, entityCode,
   isMovableUp, isMovableDown, attributeIndex,
 }) => {
   const renderMoveUp = () => {
@@ -13,7 +13,7 @@ const AttributeListMenuActions = ({
       return (
         <MenuItem
           className="AttributeListMenuAction__menu-item-move-up"
-          onClick={() => onMoveUp(code, attributeIndex)}
+          onClick={() => onMoveUp(entityCode, code, attributeIndex)}
         >
           <FormattedMessage id="app.moveUp" />
         </MenuItem>
@@ -27,7 +27,7 @@ const AttributeListMenuActions = ({
       return (
         <MenuItem
           className="AttributeListMenuAction__menu-item-move-down"
-          onClick={() => onMoveDown(code, attributeIndex)}
+          onClick={() => onMoveDown(entityCode, code, attributeIndex)}
         >
           <FormattedMessage id="app.moveDown" />
         </MenuItem>
@@ -41,7 +41,7 @@ const AttributeListMenuActions = ({
       <LinkMenuItem
         id={`edit-${code}`}
         route={routeToEdit}
-        params={{ entityCode: datatypeCode, attributeCode: code }}
+        params={{ entityCode, attributeCode: code }}
         label={<FormattedMessage id="app.edit" />}
         className="AttributeListMenuAction__menu-item-edit"
       />
@@ -63,7 +63,7 @@ AttributeListMenuActions.propTypes = {
   onMoveDown: PropTypes.func,
   code: PropTypes.string.isRequired,
   routeToEdit: PropTypes.string.isRequired,
-  datatypeCode: PropTypes.string,
+  entityCode: PropTypes.string,
   isMovableUp: PropTypes.bool,
   isMovableDown: PropTypes.bool,
   attributeIndex: PropTypes.number,
@@ -73,7 +73,7 @@ AttributeListMenuActions.defaultProps = {
   onClickDelete: null,
   onMoveUp: null,
   onMoveDown: null,
-  datatypeCode: '',
+  entityCode: '',
   isMovableUp: false,
   isMovableDown: false,
   attributeIndex: 0,

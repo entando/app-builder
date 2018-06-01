@@ -2,14 +2,16 @@ import { connect } from 'react-redux';
 import {
   fetchProfileTypeAttributes, sendPutProfileType, fetchProfileType,
   fetchProfileTypeAttribute,
-
+  sendMoveAttributeUp,
+  sendMoveAttributeDown,
 } from 'state/profile-types/actions';
 import {
   getSelectedProfileTypeAttributes,
   getProfileTypeAttributesIdList,
 
 } from 'state/profile-types/selectors';
-
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/profile-types/attributes/DeleteAttributeModal';
 import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
 import { formValueSelector } from 'redux-form';
 import {
@@ -25,7 +27,7 @@ import {
 export const mapStateToProps = state => (
   {
     mode: 'edit',
-    profiletypeCode: getParams(state).profiletypeCode,
+    profileTypeCode: getParams(state).profiletypeCode,
     attributes: getSelectedProfileTypeAttributes(state),
     attributesType: getProfileTypeAttributesIdList(state),
     attributeCode: formValueSelector('ProfileType')(state, 'type'),
@@ -34,14 +36,24 @@ export const mapStateToProps = state => (
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ profiletypeCode }) => {
-    dispatch(fetchProfileType(profiletypeCode));
+  onWillMount: ({ profileTypeCode }) => {
+    dispatch(fetchProfileType(profileTypeCode));
     dispatch(fetchProfileTypeAttributes());
   },
-  onAddAttribute: ({ attributeCode, profiletypeCode }) => {
+  onAddAttribute: ({ attributeCode, profileTypeCode }) => {
     dispatch(fetchProfileTypeAttribute(attributeCode)).then(() => {
-      gotoRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, { entityCode: profiletypeCode });
+      gotoRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, { entityCode: profileTypeCode });
     });
+  },
+  onMoveUp: (entityCode, attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeUp({ entityCode, attributeCode, attributeIndex }));
+  },
+  onMoveDown: (entityCode, attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeDown({ entityCode, attributeCode, attributeIndex }));
+  },
+  onClickDelete: (code) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'attribute', code }));
   },
   onSubmit: (values) => {
     dispatch(sendPutProfileType(values));

@@ -23,6 +23,8 @@ import {
   putAttributeFromProfileType,
   getProfileTypeAttributes,
   getProfileTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/profileTypes';
 import {
   SET_PROFILE_TYPES,
@@ -32,8 +34,14 @@ import {
   SET_SELECTED_PROFILE_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
 } from 'state/profile-types/types';
-import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
+import {
+  getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeType,
+  getSelectedProfileType,
+} from 'state/profile-types/selectors';
 
 import { addToast } from 'state/toasts/actions';
 
@@ -94,6 +102,23 @@ export const setProfileTypeAttributes = attributes => ({
   },
 });
 
+export const moveAttributeUpSync = ({ entityCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_UP,
+  payload: {
+    entityCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
+
+export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_DOWN,
+  payload: {
+    entityCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
 
 const isJsonContentType = (headers) => {
   const contentType = headers.get('content-type');
@@ -316,15 +341,15 @@ export const sendPutAttributeFromProfileTypeMonolist = attributeObject => (dispa
   })
 );
 
-export const sendDeleteAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
+export const sendDeleteAttributeFromProfileType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
+    const profileTypeCode = getSelectedProfileType(getState()).code;
     deleteAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
       try {
         if (isJsonContentType(response.headers)) {
           response.json().then((json) => {
             if (response.ok) {
               dispatch(removeAttribute(profileTypeCode, attributeCode));
-              gotoRoute(ROUTE_PROFILE_TYPE_LIST);
             } else {
               dispatch(addErrors(json.errors.map(err => err.message)));
             }
@@ -385,3 +410,43 @@ export const fetchProfileTypeAttribute = ProfileTypeAttributeCode => dispatch =>
     });
   })
 );
+
+export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex }) =>
+  dispatch => (
+    new Promise((resolve) => {
+      moveAttributeUp(entityCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeUpSync({
+              ...json.payload,
+              entityCode,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );
+
+export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeIndex }) =>
+  dispatch => (
+    new Promise((resolve) => {
+      moveAttributeDown(entityCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeDownSync({
+              ...json.payload,
+              entityCode,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );
