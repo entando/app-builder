@@ -9,6 +9,7 @@ import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendPostPage } from 'state/pages/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 
 export const mapStateToProps = state => ({
   groups: getGroupsList(state),
@@ -17,10 +18,7 @@ export const mapStateToProps = state => ({
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
   initialValues: {
-    seo: false,
-    displayedInMenu: true,
-    charset: 'utf-8',
-    contentType: 'text/html',
+    ...PAGE_INIT_VALUES,
   },
   mode: 'add',
 });

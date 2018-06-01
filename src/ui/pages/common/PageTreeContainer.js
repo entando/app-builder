@@ -21,6 +21,7 @@ import {
 } from 'state/pages/actions';
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
+import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -33,7 +34,10 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onClickAdd: (page) => {
-    dispatch(initPageForm({ parentCode: page.code }));
+    dispatch(initPageForm({
+      parentCode: page.code,
+      ...PAGE_INIT_VALUES,
+    }));
   },
   onClickEdit: (page) => {
     dispatch(setSelectedPage(page));
