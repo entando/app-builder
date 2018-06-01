@@ -71,19 +71,6 @@ export const getRouteTargetName = id => (dispatch, getState) => {
       gotoRoute(ROUTE_PAGE_EDIT, { pageCode: notification.parameters.pageCode });
       break;
     }
-    case 'content': {
-      gotoRoute('content', {
-        content: notification.target.pageCode,
-        frame: notification.target.frame,
-      });
-      break;
-    }
-    case 'widget': {
-      gotoRoute('widget', {
-        widget: notification.target.id,
-      });
-      break;
-    }
     default: gotoRoute(ROUTE_HOME); break;
   }
 };

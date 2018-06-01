@@ -19,9 +19,11 @@ export const NOTIFICATIONS = [{
   createdAt: '2013-09-27 08:58:38',
   updatedAt: '2018-05-11 07:28:17',
   username: 'admin',
-  namespace: '/do/Page',
+  namespace: '/entando-sample/api/pages/',
   actionName: 'save',
-  parameters: 'selectedNode=service\nmodel=service\nstrutsAction=1\nextraGroupName=free\ncharset=\nparentPageCode=service\ndefaultShowlet=true\ncopyPageCode=\nlangit=Accedi\ngroupSelectLock=false\nlangen=Sign In\ngroup=free\nmimeType=\npageCode=sign_in\n',
+  parameters: {
+    pageCode: 'page',
+  },
   likes: [{
     username: 'admin',
     displayName: 'admin',
