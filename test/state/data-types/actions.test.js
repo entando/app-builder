@@ -582,7 +582,9 @@ describe('state/data-types/actions ', () => {
 
       it('sendMoveAttributeUp calls ADD_ERROR actions', (done) => {
         moveAttributeUp.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(sendMoveAttributeUp({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
+        store.dispatch(sendMoveAttributeUp({
+          attributeCode: 'attr_code', attributeIndex: 'attr_index',
+        })).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -604,7 +606,9 @@ describe('state/data-types/actions ', () => {
 
       it('sendMoveAttributeDown calls ADD_ERROR actions', (done) => {
         moveAttributeDown.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(sendMoveAttributeDown({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
+        store.dispatch(sendMoveAttributeDown({
+          attributeCode: 'attr_code', attributeIndex: 'attr_index',
+        })).then(() => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

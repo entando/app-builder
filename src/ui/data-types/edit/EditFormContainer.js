@@ -15,6 +15,7 @@ import {
 
 } from 'state/data-types/selectors';
 import DataTypeForm from 'ui/data-types/common/DataTypeForm';
+
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/data-types/attributes/DeleteAttributeModal';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
