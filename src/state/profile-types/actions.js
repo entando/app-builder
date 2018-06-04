@@ -4,6 +4,7 @@ import { toggleLoading } from 'state/loading/actions';
 import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
 import { formattedText } from '@entando/utils';
+import moment from 'moment';
 
 import {
   ROUTE_PROFILE_TYPE_LIST,
@@ -216,6 +217,12 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
   })
 );
 
+const fmtDateDDMMYYY = (date) => {
+  let d = new Date(date);
+  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
+};
+
 export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
   new Promise((resolve) => {
     getAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
@@ -224,7 +231,34 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
           response.json().then((json) => {
             if (response.ok) {
               dispatch(setSelectedAttributeProfileType(json.payload));
-              dispatch(initialize('attribute', json.payload));
+              if (json.payload.code === 'Date') {
+                let {
+                  rangeStartDate, rangeEndDate, equalDate,
+                  rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+                } = json.payload.validationRules;
+                rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+                rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+                equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+                rangeStartDateAttribute =
+                  rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+                rangeEndDateAttribute =
+                  rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+                equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+                const payload = {
+                  ...json.payload,
+                  validationRules: {
+                    rangeStartDate,
+                    rangeEndDate,
+                    equalDate,
+                    rangeStartDateAttribute,
+                    rangeEndDateAttribute,
+                    equalDateAttribute,
+                  },
+                };
+                dispatch(initialize('attribute', payload));
+              } else {
+                dispatch(initialize('attribute', json.payload));
+              }
             } else {
               dispatch(addErrors(json.errors.map(err => err.message)));
             }
