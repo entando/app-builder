@@ -7,7 +7,11 @@ import {
   SET_SELECTED_PROFILE_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
 } from 'state/profile-types/types';
+
+import { swapItems } from 'state/attributes/utils';
 
 const toMap = array => array.reduce((acc, profileType) => {
   acc[profileType.code] = profileType;
@@ -40,13 +44,6 @@ const profileTypeMap = (state = {}, action = {}) => {
       delete newState[profileTypeCode];
       return newState;
     }
-    case REMOVE_ATTRIBUTE: {
-      const { profileTypeCode, attributeCode } = action.payload;
-      const attributes =
-        state[profileTypeCode]
-          .attributes.filter(f => f.code !== attributeCode);
-      return { ...state, [profileTypeCode]: { ...state[profileTypeCode], attributes } };
-    }
     default: return state;
   }
 };
@@ -67,6 +64,30 @@ export const selectedProfileType = (state = {}, action = {}) => {
     }
     case SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE: {
       return { ...state, attributeSelected: action.payload.attribute };
+    }
+    case MOVE_ATTRIBUTE_UP: {
+      const { attributeIndex } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeIndex, true),
+      };
+    }
+    case MOVE_ATTRIBUTE_DOWN: {
+      const { attributeIndex } = action.payload;
+      const { attributes } = state;
+      const newState = { ...state };
+      return {
+        ...newState,
+        attributes: swapItems(attributes, attributeIndex, false),
+      };
+    }
+    case REMOVE_ATTRIBUTE: {
+      const { attributeCode } = action.payload;
+      const attributes =
+        state.attributes.filter(f => f.code !== attributeCode);
+      return { ...state, attributes };
     }
     default: return state;
   }
