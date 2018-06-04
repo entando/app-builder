@@ -27,50 +27,6 @@ The command ```npm run import-plugins``` does the following:
 5. **Generates the imports file** ```src/entando-plugins.js```, which imports each plugin compiled CSS and JS, and exports an array of the compiled plugins, in the same order defined in ```entando-plugins-config/plugins.json```
 
 
-## Valid plugins
+## Creating plugins
 
-A valid Entando plugin must match the following constraints:
-
-- it must be a valid npm module
-- it must be compiled with ```npm run build-plugin``` command
-- the compiled bundle has the structure:
-```
-    PLUGIN_DIR
-    └── pluginBuild
-    |   ├── static
-    |   |   ├── js
-    |   |   |   ├── main.js
-    |   |   |   └── [main.js.map]
-    |   |   ├── css
-    |   |   |   ├── main.css
-    |   |   |   └── [main.css.map]
-    |   |   └── [media]
-    |   |   |   └── [... plugin imported assets ...]
-    |   └── plugin-assets
-    |       └── PLUGIN_NAME
-    |           └── [... plugin public assets ...]
-```
-- the ```main.js``` must export:
-
-  - **id**: the plugin id (should be the "name" property in ```package.json```)
-  - **reducer**: a valid Redux reducer, returning the plugin state
-  - **uiComponent**: a React Component representing the plugin UI
-  - **locales**: an array with the following schema:
-```
-        [
-          {
-            locale: 'en',
-            messages: {
-              welcome: 'Welcome to Entando',
-              ... other messages ...
-            }
-          },
-          {
-            locale: 'it',
-            messages: {
-              welcome: 'Benvenuto in Entando',
-              ... other messages ...
-            }
-          },
-        ]
-```
+The easiest way to create a new plugin is following the instructions at [https://github.com/entando/ui-component-sample](https://github.com/entando/ui-component-sample)
