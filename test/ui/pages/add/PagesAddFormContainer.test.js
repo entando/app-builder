@@ -7,10 +7,11 @@ import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
-import { getCharsets, getContentTypes } from 'state/pages/selectors';
+import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
+
 
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
@@ -19,13 +20,18 @@ jest.mock('state/pages/actions', () => ({
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
 }));
+
 jest.mock('state/page-models/selectors', () => ({
   getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
 }));
+
 jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
+  getSelectedPageLocaleTitle: jest.fn().mockReturnValue('getSelectedPageLocaleTitle_result'),
 }));
+
+jest.mock('@entando/router');
 
 const STATE = {
   pages: {},
@@ -33,7 +39,6 @@ const STATE = {
 
 describe('PagesAddFormContainer', () => {
   beforeEach(jest.clearAllMocks);
-
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
@@ -58,6 +63,11 @@ describe('PagesAddFormContainer', () => {
     it('maps the "contentTypes" prop with the getContentTypes selector', () => {
       expect(getContentTypes).toHaveBeenCalledWith(STATE);
       expect(props.contentTypes).toBe('getContentTypes_result');
+    });
+
+    it('maps the "parentTitle" prop with the getSelectedPageLocaleTitle selector', () => {
+      expect(getSelectedPageLocaleTitle).toHaveBeenCalledWith(STATE);
+      expect(props.parentTitle).toBe('getSelectedPageLocaleTitle_result');
     });
 
     it('maps the "selectedJoinGroups" prop with the correct values from redux-form', () => {
