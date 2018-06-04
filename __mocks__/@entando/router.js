@@ -4,6 +4,7 @@ const router = jest.genMockFromModule('@entando/router');
 const real = require.requireActual('@entando/router');
 
 router.routeToPath = jest.fn();
+router.getSearchParams = jest.fn().mockReturnValue({});
 router.gotoPath = jest.fn();
 router.gotoRoute = jest.fn();
 router.routerConfig = real.routerConfig;
@@ -20,4 +21,5 @@ export const {
   getRoute,
   Link,
   getParams,
+  getSearchParams,
 } = router;

@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import { formValueSelector, change } from 'redux-form';
-import { gotoRoute } from '@entando/router';
+import { gotoRoute, getSearchParams } from '@entando/router';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import PageForm from 'ui/pages/common/PageForm';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
-import { getCharsets, getContentTypes } from 'state/pages/selectors';
-import { sendPostPage } from 'state/pages/actions';
+import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
+import { sendPostPage, loadSelectedPage } from 'state/pages/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
+import { getLocale } from 'state/locale/selectors';
 
 export const mapStateToProps = state => ({
   groups: getGroupsList(state),
@@ -21,10 +22,15 @@ export const mapStateToProps = state => ({
     ...PAGE_INIT_VALUES,
   },
   mode: 'add',
+  locale: getLocale(state),
+  parentCode: getSearchParams(state).parentCode,
+  parentTitle: getSelectedPageLocaleTitle(state),
 });
 
 
 export const mapDispatchToProps = dispatch => ({
+  onWillMount: data =>
+    dispatch(loadSelectedPage(data.parentCode)),
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then(() => {
       switch (action) {

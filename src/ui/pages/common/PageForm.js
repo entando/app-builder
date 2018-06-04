@@ -25,7 +25,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle,
+      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, // locale,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -36,6 +36,14 @@ export class PageFormBody extends Component {
 
     const groupsWithEmpty =
       [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
+
+    const parentPageComponent = parentCode ?
+      <span>{parentTitle}</span> :
+      (<Field
+        component={PageTreeSelectorContainer}
+        name="parentCode"
+        validate={[required]}
+      />);
 
     const renderFullForm = () => {
       if (isCloneMode) {
@@ -196,6 +204,14 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
+            <FormGroup>
+              <label htmlFor="parentCode" className="col-xs-2 control-label">
+                <FormLabel labelId="pages.pageForm.pagePlacement" required />
+              </label>
+              <Col xs={10}>
+                { parentPageComponent }
+              </Col>
+            </FormGroup>
             <Field
               component={RenderTextInput}
               name="titles.en"
@@ -219,18 +235,7 @@ export class PageFormBody extends Component {
               validate={[required]}
               disabled={isEditMode}
             />
-            <FormGroup>
-              <label htmlFor="parentCode" className="col-xs-2 control-label">
-                <FormLabel labelId="pages.pageForm.pagePlacement" required />
-              </label>
-              <Col xs={10}>
-                <Field
-                  component={PageTreeSelectorContainer}
-                  name="parentCode"
-                  validate={[required]}
-                />
-              </Col>
-            </FormGroup>
+
           </Col>
         </Row>
 
@@ -289,6 +294,8 @@ PageFormBody.propTypes = {
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
   onChangeEnTitle: PropTypes.func,
+  parentCode: PropTypes.string,
+  parentTitle: PropTypes.string,
 };
 
 PageFormBody.defaultProps = {
@@ -297,6 +304,8 @@ PageFormBody.defaultProps = {
   mode: 'add',
   onWillMount: null,
   onChangeEnTitle: null,
+  parentCode: null,
+  parentTitle: null,
 };
 
 const PageForm = reduxForm({
