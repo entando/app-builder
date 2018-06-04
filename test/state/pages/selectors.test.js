@@ -7,7 +7,7 @@ import {
 import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
   getPageTreePages, getCharsets, getContentTypes, getFreePages, getReferencesFromSelectedPage,
-  getSelectedPagePreviewURI,
+  getSelectedPagePreviewURI, getSelectedPageLocaleTitle,
 } from 'state/pages/selectors';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
@@ -218,6 +218,19 @@ describe('state/pages/selectors', () => {
       const data = getSelectedPagePreviewURI(STATE);
       expect(data)
         .toBe(`getDomain_result/${PREVIEW_NAMESPACE}?pageCode=${HOMEPAGE_PAYLOAD.code}&token=token_mock`);
+    });
+  });
+
+  describe('getSelectedPageLocaleTitle', () => {
+    it('get locale title', () => {
+      const STATE = {
+        pages: {
+          selected: { ...HOMEPAGE_PAYLOAD },
+        },
+      };
+      const data = getSelectedPageLocaleTitle(STATE);
+      expect(data).toBeDefined();
+      expect(data).toEqual('Home page');
     });
   });
 });
