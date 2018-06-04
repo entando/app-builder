@@ -12,6 +12,7 @@ import {
   getProfileTypeAttributesIdList,
 } from 'state/profile-types/selectors';
 
+const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
 
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
@@ -27,8 +28,27 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchProfileTypeAttributes());
   },
   onSubmit: (values) => {
+    let {
+      rangeStartDate, rangeEndDate, equalDate,
+      rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+    } = values.validationRules;
+    rangeStartDate = rangeStartDate && converDate(rangeStartDate);
+    rangeEndDate = rangeEndDate && converDate(rangeEndDate);
+    equalDate = equalDate && converDate(equalDate);
+    rangeStartDateAttribute = rangeStartDateAttribute && converDate(rangeStartDateAttribute);
+    rangeEndDateAttribute = rangeEndDateAttribute && converDate(rangeEndDateAttribute);
+    equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
+
     const payload = {
       ...values,
+      validationRules: {
+        rangeStartDate,
+        rangeEndDate,
+        equalDate,
+        rangeStartDateAttribute,
+        rangeEndDateAttribute,
+        equalDateAttribute,
+      },
       code: values.code,
       type: values.type,
       nestedAttribute: {
