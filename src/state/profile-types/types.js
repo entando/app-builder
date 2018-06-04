@@ -6,3 +6,5 @@ export const SET_SELECTED_PROFILE_TYPE = 'profile-types/set-selected-profile-typ
 export const SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE = 'profile-types/set-selected-attribute-for-profile-type';
 export const SET_SELECTED_ATTRIBUTE = 'profile-types/set-selected-attribute';
 export const SET_SELECTED = 'profile-types/set-selected';
+export const MOVE_ATTRIBUTE_UP = 'profile-types/move-attribute-up';
+export const MOVE_ATTRIBUTE_DOWN = 'profile-types/move-attribute-down';

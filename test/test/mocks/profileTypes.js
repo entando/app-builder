@@ -184,3 +184,15 @@ export const PROFILE_TYPES_OPTIONS = [
     value: 'SUP',
   },
 ];
+
+export const ATTRIBUTE_MOVE_UP = {
+  attributeCode: 'title',
+  profileTypeCode: 'PFT',
+  movement: 'UP',
+};
+
+export const ATTRIBUTE_MOVE_DOWN = {
+  attributeCode: 'title',
+  profileTypeCode: 'PFT',
+  movement: 'DOWN',
+};

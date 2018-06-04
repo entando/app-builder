@@ -12,28 +12,14 @@ import {
   SET_DATA_TYPE_REFERENCE_STATUS,
 } from 'state/data-types/types';
 
+import { swapItems } from 'state/attributes/utils';
+
 const toMap = array => array.reduce((acc, dataType) => {
   acc[dataType.code] = dataType;
   return acc;
 }, {});
 
 const toIdList = array => array.map(dataType => dataType.code);
-
-const swapItems = (attributes, attrIndex, isMovableUp) => {
-  const attributesArray = [...attributes];
-  let swapIndex;
-  if (isMovableUp) {
-    swapIndex = attrIndex > 0 ? attrIndex - 1 : 0;
-  } else {
-    swapIndex = attrIndex < attributesArray.length - 1 ?
-      attrIndex + 1 : attributesArray.length - 1;
-  }
-  const temp = attributes[attrIndex];
-  attributesArray[attrIndex] = attributes[swapIndex];
-  attributesArray[swapIndex] = temp;
-
-  return attributesArray;
-};
 
 export const list = (state = [], action = {}) => {
   switch (action.type) {

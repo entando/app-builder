@@ -18,8 +18,8 @@ import {
 const profileTypesList = ['ABC', 'DEF'];
 
 const STATE_REMOVE_ATTRIBUTE = {
-  AAA: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
-  BBB: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
+  code: 'AAA',
+  attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }],
 };
 
 describe('state/profile-types/reducer', () => {
@@ -50,10 +50,13 @@ describe('state/profile-types/reducer', () => {
 
   describe('after action REMOVE_ATTRIBUTE', () => {
     it('should define the new state', () => {
-      newState = reducer({ map: STATE_REMOVE_ATTRIBUTE }, removeAttribute('AAA', 'attrCode'));
-      expect(newState.map).toMatchObject({
-        AAA: { attributes: [{ type: 'text', code: 'attrCode1' }] },
-        BBB: { attributes: [{ type: 'text', code: 'attrCode' }, { type: 'text', code: 'attrCode1' }] },
+      newState = reducer(
+        { selected: STATE_REMOVE_ATTRIBUTE },
+        removeAttribute('AAA', 'attrCode'),
+      );
+      expect(newState.selected).toMatchObject({
+        code: 'AAA',
+        attributes: [{ type: 'text', code: 'attrCode1' }],
       });
     });
   });
