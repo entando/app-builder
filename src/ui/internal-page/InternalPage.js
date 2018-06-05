@@ -24,6 +24,8 @@ import NotificationListContainer from 'ui/activity-stream/NotificationListContai
 import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 import ToastsContainer from 'ui/internal-page/ToastsContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
+import pluginArray from 'entando-plugins';
+
 
 const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
 
@@ -33,6 +35,15 @@ const menuHeader = [
   <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
 ];
+
+const integrationsMenuItem = pluginArray && pluginArray.length ? (
+  <FirstLevelMenuItem
+    id="menu-integration"
+    label={formattedText('menu.integration', 'Integration')}
+  >
+    <IntegrationMenu />
+  </FirstLevelMenuItem>
+) : null;
 
 
 const InternalPage = ({ className, children }) => (
@@ -84,12 +95,9 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_PAGE_MODEL_LIST}
         />
       </FirstLevelMenuItem>
-      <FirstLevelMenuItem
-        id="menu-integration"
-        label={formattedText('menu.integration', 'Integration')}
-      >
-        <IntegrationMenu />
-      </FirstLevelMenuItem>
+
+      {integrationsMenuItem}
+
       <FirstLevelMenuItem
         id="menu-data"
         label={formattedText('menu.data')}
