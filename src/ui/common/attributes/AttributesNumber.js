@@ -2,10 +2,15 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
+import { isUndefined } from 'lodash';
 import { isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
+const validateIsNumber = (value) => {
+  if (isUndefined(value)) return undefined;
+  return isNumber(value);
+};
 
 const AttributesNumber = () => (
   <Row>
@@ -20,7 +25,7 @@ const AttributesNumber = () => (
           label={
             <FormLabel labelId="app.from" />
           }
-          validate={[isNumber]}
+          validate={[validateIsNumber]}
         />
         <Field
           component={RenderTextInput}
@@ -28,7 +33,7 @@ const AttributesNumber = () => (
           label={
             <FormLabel labelId="app.to" />
           }
-          validate={[isNumber]}
+          validate={[validateIsNumber]}
         />
         <Field
           component={RenderTextInput}
@@ -36,7 +41,7 @@ const AttributesNumber = () => (
           label={
             <FormLabel labelId="app.equal" />
           }
-          validate={[isNumber]}
+          validate={[validateIsNumber]}
         />
       </fieldset>
     </Col>
