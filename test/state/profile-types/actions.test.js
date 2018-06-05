@@ -279,7 +279,8 @@ describe('state/profile-types/actions ', () => {
 
     describe('fetchAttributeFromProfileType', () => {
       it('fetchAttributeFromProfileType calls setSelectedAttributeProfileType', (done) => {
-        store.dispatch(fetchAttributeFromProfileType('AAA')).then(() => {
+        store.dispatch(fetchAttributeFromProfileType('AAA', 'Date')).then(() => {
+          expect(getAttributeFromProfileType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
