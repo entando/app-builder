@@ -328,7 +328,7 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   .catch(() => {});
 
 export const loadSelectedPage = pageCode => (dispatch, getState) =>
-  fetchPage(pageCode || getSearchParams(getState()).parentCode)(dispatch)
+  fetchPage(pageCode || getSearchParams(getState()).parentCode || HOMEPAGE_CODE)(dispatch)
     .then((response) => {
       dispatch(setSelectedPage(response.payload));
       return response.payload;
