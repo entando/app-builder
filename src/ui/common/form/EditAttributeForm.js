@@ -95,7 +95,7 @@ export class EditAttributeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <AttributeInfo {...this.props} />
+              <AttributeInfo {...this.props} mode="edit" />
               <AttributeRole {...this.props} />
               {renderMonolistConf()}
               {renderTextConf()}
