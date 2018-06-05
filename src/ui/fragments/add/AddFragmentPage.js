@@ -6,6 +6,7 @@ import { BreadcrumbItem } from 'frontend-common-components';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/fragments/add/AddFormContainer';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
 const AddFragmentPage = () => (
 
@@ -17,7 +18,7 @@ const AddFragmentPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem>
+            <BreadcrumbItem route={ROUTE_FRAGMENT_LIST}>
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
