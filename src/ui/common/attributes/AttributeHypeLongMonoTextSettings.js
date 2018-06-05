@@ -2,12 +2,13 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
+import { isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { isNumber } from '@entando/utils';
 
 const AttributeHypeLongMonoTextSettings = () => (
   <Row>
+
     <Col xs={12}>
       <fieldset className="no-padding">
         <legend>

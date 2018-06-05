@@ -6,7 +6,6 @@ import { isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
-
 const AttributesNumber = () => (
   <Row>
     <Col xs={12}>
