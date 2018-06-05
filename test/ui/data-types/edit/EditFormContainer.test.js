@@ -35,7 +35,7 @@ describe('EditFormContainer', () => {
 
     it('maps the properties by state', () => {
       expect(props).toHaveProperty('mode', 'edit');
-      expect(props).toHaveProperty('datatypeCode', 'datatypeCode_code');
+      expect(props).toHaveProperty('dataTypeCode', 'datatypeCode_code');
       expect(props).toHaveProperty('attributes', 'getSelectedDataTypeAttributes_result');
       expect(props).toHaveProperty('attributesType', 'getDataTypeAttributesIdList_result');
       expect(props).toHaveProperty('attributeCode', 'formValueSelector_result');

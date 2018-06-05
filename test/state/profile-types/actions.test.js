@@ -74,6 +74,7 @@ const INITIAL_STATE = {};
 jest.mock('state/profile-types/selectors', () => ({
   getProfileTypeAttributesIdList: jest.fn(),
   getProfileTypeSelectedAttributeType: jest.fn(),
+  getSelectedProfileType: jest.fn().mockReturnValue({ code: 'profileType_code' }),
 }));
 
 getParams.mockReturnValue({ list: 'Monolist', profileTypeCode: 'Monolist', entityCode: 'Monolist' });
@@ -398,7 +399,6 @@ describe('state/profile-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', REMOVE_ATTRIBUTE);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_LIST);
           done();
         }).catch(done.fail);
       });

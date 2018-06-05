@@ -5,6 +5,8 @@ import {
   PROFILE_TYPES_OK_PAGE_1,
   PROFILE_TYPES_ATTRIBUTES,
   PROFILE_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
 } from 'test/mocks/profileTypes';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -112,5 +114,24 @@ export const getProfileTypeAttribute = attributeTypeCode => (
   })
 );
 
+export const moveAttributeUp = (profileTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/profileTypes/${profileTypeCode}/attribute/${attributeCode}/moveUp`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: ATTRIBUTE_MOVE_UP,
+    useAuthentication: true,
+  })
+);
+
+export const moveAttributeDown = (profileTypeCode, attributeCode) => (
+  makeRequest({
+    uri: `/api/profileTypes/${profileTypeCode}/attribute/${attributeCode}/moveDown`,
+    body: {},
+    method: METHODS.PUT,
+    mockResponse: ATTRIBUTE_MOVE_DOWN,
+    useAuthentication: true,
+  })
+);
 
 export default getProfileTypes;
