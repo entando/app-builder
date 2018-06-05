@@ -108,4 +108,7 @@ For more information checkout the documentation on NPM.
 
 ## Plugins
 
-[Entando plugins docs](entando-plugins-config/README.md)
+The easiest way to create an `app-builder` plugin is using our [sample plugin repo](https://github.com/entando/ui-component-sample).
+There are all the informations on how to get started, and about plugin requirements.
+
+Here are some more informations on [plugins and how they work](entando-plugins-config/README.md)
