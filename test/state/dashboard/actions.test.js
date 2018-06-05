@@ -1,7 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import { isFSA } from 'flux-standard-action';
+import { ADD_ERRORS } from '@entando/messages';
+
 import {
   setApis,
   setPlugins,
@@ -12,7 +13,6 @@ import {
 import { mockApi } from 'test/testUtils';
 import { getIntegration, getPageStatus } from 'api/dashboard';
 import { SET_APIS, SET_PLUGINS, SET_PAGE_STATUS } from 'state/dashboard/types';
-import { ADD_ERRORS } from 'state/errors/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

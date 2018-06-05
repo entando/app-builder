@@ -1,13 +1,8 @@
-import { formattedText } from '@entando/utils';
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
+import { formattedText } from '@entando/utils';
+import { addErrors } from '@entando/messages';
 
-import {
-  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
-  SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
-} from 'state/page-config/types';
-
-import { addErrors } from 'state/errors/actions';
 import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
 import { loadSelectedPage } from 'state/pages/actions';
@@ -21,6 +16,10 @@ import {
 } from 'api/pages';
 import { getPublishedConfigMap, getSelectedPageConfig } from 'state/page-config/selectors';
 import { getWidgetsMap } from 'state/widgets/selectors';
+import {
+  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
+} from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { ROUTE_WIDGET_CONFIG } from 'app-init/router';
 

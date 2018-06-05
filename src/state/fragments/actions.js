@@ -1,13 +1,22 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { addErrors } from '@entando/messages';
 
-import { getFragment, getFragments, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment, postFragment, putFragment } from 'api/fragments';
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import {
+  getFragment,
+  getFragments,
+  getPlugins,
+  getFragmentSettings,
+  putFragmentSettings,
+  deleteFragment,
+  postFragment,
+  putFragment,
+} from 'api/fragments';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { addAlert } from 'state/alerts/actions';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,

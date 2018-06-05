@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { mockApi } from 'test/testUtils';
+import { ADD_TOAST, ADD_ERRORS, CLEAR_ERRORS } from '@entando/messages';
 
 import { gotoRoute, getParams } from '@entando/router';
 import {
@@ -20,9 +21,6 @@ import {
   postUserPassword,
 } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
-
-import { ADD_ERRORS, CLEAR_ERRORS } from 'state/errors/types';
-import { ADD_TOAST } from 'state/toasts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

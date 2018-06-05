@@ -1,14 +1,12 @@
+import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
-import { initialize } from 'redux-form';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { getDataModels, getDataModel, postDataModel, putDataModel, deleteDataModel } from 'api/dataModels';
-import { addErrors } from 'state/errors/actions';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { addToast } from 'state/toasts/actions';
 import { SET_DATA_MODELS } from 'state/data-models/types';
-import { TOAST_SUCCESS, TOAST_ERROR } from 'state/toasts/const';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 

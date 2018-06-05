@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import { routerReducer as router } from '@entando/router';
 import { api, currentUser } from '@entando/apimanager';
+import { messages } from '@entando/messages';
 
 import pluginArray from 'entando-plugins';
 
@@ -15,7 +16,6 @@ import roles from 'state/roles/reducer';
 import pagination from 'state/pagination/reducer';
 import fragments from 'state/fragments/reducer';
 import pageModels from 'state/page-models/reducer';
-import errors from 'state/errors/reducer';
 import dataTypes from 'state/data-types/reducer';
 import profileTypes from 'state/profile-types/reducer';
 import pageConfig from 'state/page-config/reducer';
@@ -32,7 +32,6 @@ import configuration from 'state/reload-configuration/reducer';
 import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
-import toasts from 'state/toasts/reducer';
 import userSettings from 'state/user-settings/reducer';
 
 const reducerDef = {
@@ -46,7 +45,6 @@ const reducerDef = {
   database,
   dataModels,
   dataTypes,
-  errors,
   fileBrowser,
   form,
   fragments,
@@ -56,6 +54,7 @@ const reducerDef = {
   loading,
   locale,
   loginForm,
+  messages,
   modal,
   pages,
   pagination,
@@ -65,7 +64,6 @@ const reducerDef = {
   profileTypes,
   roles,
   router,
-  toasts,
   users,
   widgets,
   userSettings,

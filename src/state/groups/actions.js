@@ -1,4 +1,5 @@
 import { initialize } from 'redux-form';
+import { addErrors } from '@entando/messages';
 
 import {
   getGroups,
@@ -9,11 +10,9 @@ import {
   getReferences,
 } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
 import { getParams, gotoRoute } from '@entando/router';
-
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
@@ -21,7 +20,6 @@ import {
   REMOVE_GROUP,
   SET_GROUPS_TOTAL,
 } from 'state/groups/types';
-
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 
 

@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
 import { gotoRoute, getParams } from '@entando/router';
-
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 
@@ -13,8 +13,6 @@ import {
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
 } from 'state/widgets/types';
-import { ADD_ERRORS } from 'state/errors/types';
-import { ADD_TOAST } from 'state/toasts/types';
 import {
   getWidgetList,
   fetchWidgetList,

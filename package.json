@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@entando/apimanager": "^1.0.4",
+    "@entando/messages": "^1.0.0",
     "@entando/router": "^1.0.1",
     "@entando/utils": "^1.0.4",
     "autoprefixer": "7.1.6",
