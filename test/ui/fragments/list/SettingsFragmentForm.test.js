@@ -41,9 +41,4 @@ describe('ui/fragments/list/SettingsFragmentForm', () => {
     component.find('form').simulate('submit', { preventDefault });
     expect(handleSubmit).toHaveBeenCalled();
   });
-
-  it('if there is a error show Alter message', () => {
-    component = shallow(<SettingsFragmentFormBody alert="error" handleSubmit={handleSubmit} />);
-    expect(component.find('Alert').prop('type')).toBe('error');
-  });
 });

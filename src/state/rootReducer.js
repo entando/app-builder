@@ -27,7 +27,6 @@ import labels from 'state/labels/reducer';
 import categories from 'state/categories/reducer';
 import loading from 'state/loading/reducer';
 import permissions from 'state/permissions/reducer';
-import alerts from 'state/alerts/reducer';
 import configuration from 'state/reload-configuration/reducer';
 import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
@@ -36,7 +35,6 @@ import userSettings from 'state/user-settings/reducer';
 
 const reducerDef = {
   activityStream,
-  alerts,
   api,
   categories,
   configuration,
