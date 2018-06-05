@@ -41,7 +41,7 @@ describe('HtmlCodeEditorRenderer', () => {
           help={HELP}
         />
       ));
-      editor = component.find('UnControlled');
+      editor = component.find('LoadableComponent');
     });
 
     it('renders the label component', () => {
@@ -52,7 +52,7 @@ describe('HtmlCodeEditorRenderer', () => {
       expect(component.contains(HELP)).toBe(true);
     });
 
-    it('renders a CodeMirror UnControlled editor', () => {
+    it('renders a LoadableComponent', () => {
       expect(editor.exists()).toBe(true);
     });
 

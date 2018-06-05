@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
-import 'codemirror/mode/htmlembedded/htmlembedded';
-import 'codemirror/addon/selection/active-line';
+
+import LoadableCodeMirror from 'ui/common/form/LoadableCodeMirror';
+
 
 const HtmlCodeEditorRenderer = ({
   input, name, label, meta: { touched, error }, help,
@@ -14,7 +14,7 @@ const HtmlCodeEditorRenderer = ({
       {label} {help}
     </label>
     <Col xs={10}>
-      <CodeMirror
+      <LoadableCodeMirror
         value={input.value}
         autoCursor={false}
         onChange={(editor, data, value) => input.onChange(value)}
