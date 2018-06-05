@@ -25,7 +25,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, // locale,
+      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle,
     } = this.props;
 
     const isEditMode = mode === 'edit';
