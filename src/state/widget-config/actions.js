@@ -1,11 +1,11 @@
 import { getParams, gotoRoute } from '@entando/router';
+import { addErrors } from '@entando/messages';
 
-import { addErrors } from 'state/errors/actions';
-import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { putPageWidget } from 'api/pages';
 import { loadSelectedPage } from 'state/pages/actions';
 import { loadSelectedPageModel } from 'state/page-models/actions';
 import { loadSelectedWidget } from 'state/widgets/actions';
+import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 
 export const updateConfiguredPageWidget = widgetConfig =>

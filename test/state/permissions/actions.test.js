@@ -1,12 +1,13 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { ADD_ERRORS } from '@entando/messages';
+
 import { setPermissions, fetchPermissions } from 'state/permissions/actions';
 import { getPermissions } from 'api/permissions';
 import { LIST_PERMISSIONS_OK } from 'test/mocks/permissions';
 import { SET_PERMISSIONS } from 'state/permissions/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from 'state/errors/types';
 import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];

@@ -1,6 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { ADD_ERRORS } from '@entando/messages';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
@@ -9,7 +10,6 @@ import {
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 

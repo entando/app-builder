@@ -2,6 +2,8 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute, getParams } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
+
 import {
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
@@ -10,7 +12,6 @@ import {
 import { mockApi } from 'test/testUtils';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { ADD_ERRORS } from 'state/errors/types';
 
 import {
   SET_PROFILE_TYPES,

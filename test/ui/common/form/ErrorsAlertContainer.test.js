@@ -1,7 +1,7 @@
-import 'test/enzyme-init';
+import { CLEAR_ERRORS } from '@entando/messages';
 
+import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/common/form/ErrorsAlertContainer';
-import { CLEAR_ERRORS } from 'state/errors/types';
 
 const ERRORS = [
   'Error message 1',
@@ -9,7 +9,7 @@ const ERRORS = [
 ];
 
 const STATE = {
-  errors: ERRORS,
+  messages: { errors: ERRORS },
 };
 
 const dispatchMock = jest.fn();

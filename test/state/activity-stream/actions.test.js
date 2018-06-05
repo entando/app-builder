@@ -1,11 +1,11 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
+import { ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
+import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
 
 import {
   getActivityStream,

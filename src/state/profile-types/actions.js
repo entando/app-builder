@@ -1,16 +1,10 @@
-import { gotoRoute, getParams } from '@entando/router';
-import { setPage } from 'state/pagination/actions';
-import { toggleLoading } from 'state/loading/actions';
-import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
+import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
-import {
-  ROUTE_PROFILE_TYPE_LIST,
-  ROUTE_PROFILE_TYPE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
-} from 'app-init/router';
-
+import { toggleLoading } from 'state/loading/actions';
+import { setPage } from 'state/pagination/actions';
 import {
   postProfileType,
   putProfileType,
@@ -24,6 +18,12 @@ import {
   getProfileTypeAttributes,
   getProfileTypeAttribute,
 } from 'api/profileTypes';
+import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
+import {
+  ROUTE_PROFILE_TYPE_LIST,
+  ROUTE_PROFILE_TYPE_EDIT,
+  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+} from 'app-init/router';
 import {
   SET_PROFILE_TYPES,
   REMOVE_PROFILE_TYPE,
@@ -33,11 +33,7 @@ import {
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
 } from 'state/profile-types/types';
-import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
 
-import { addToast } from 'state/toasts/actions';
-
-import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 
 const TYPE_MONOLIST = 'Monolist';
 const TYPE_LIST = 'List';

@@ -2,8 +2,8 @@ import { isFSA } from 'flux-standard-action';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { gotoRoute, getParams } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
 
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import {
   getDatabaseReportBackupCode,

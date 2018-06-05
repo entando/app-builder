@@ -1,8 +1,9 @@
+import { addErrors } from '@entando/messages';
+
 import { getLanguages, putLanguage } from 'api/languages';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_LANGUAGE_ACTIVE, SET_LANGUAGES } from 'state/languages/types';
 import { getLanguagesMap } from 'state/languages/selectors';
+import { SET_LANGUAGE_ACTIVE, SET_LANGUAGES } from 'state/languages/types';
 
 export const setLanguages = languages => ({
   type: SET_LANGUAGES,

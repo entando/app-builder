@@ -1,13 +1,13 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { isFSA } from 'flux-standard-action';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
+
 import { setFileList, setPathInfo, fetchFileList, saveFile, sendPostCreateFolder, sendDeleteFolder, sendDeleteFile } from 'state/file-browser/actions';
 import { getPathInfo } from 'state/file-browser/selectors';
 import { mockApi } from 'test/testUtils';
 import { getFileBrowser, postCreateFolder, getFile, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
-import { ADD_ERRORS } from 'state/errors/types';
-import { ADD_TOAST } from 'state/toasts/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { gotoRoute } from '@entando/router';

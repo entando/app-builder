@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { initialize } from 'redux-form';
+import { clearErrors } from '@entando/messages';
 
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
-import { clearErrors } from 'state/errors/actions';
 import PageModelForm from 'ui/page-models/common/PageModelForm';
 
 export const mapStateToProps = state => ({

@@ -1,13 +1,15 @@
 import { isFSA } from 'flux-standard-action';
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
+
 import { mockApi } from 'test/testUtils';
 import {
   setPageModels, setSelectedPageModel, fetchPageModels, removePageModel, loadSelectedPageModel,
   fetchPageModel, initPageModelForm, updatePageModel, createPageModel, setSelectedPageModelPageRefs,
   fetchCurrentReferencePages, setPageModelsTotal, fetchPageModelsTotal,
 } from 'state/page-models/actions';
-import { getSelectedPageModel, getFormPageModel } from 'state/page-models/selectors';
+import { getSelectedPageModel } from 'state/page-models/selectors';
 import {
   SET_PAGE_MODELS,
   SET_SELECTED_PAGE_MODEL,
@@ -15,9 +17,7 @@ import {
   SET_SELECTED_PAGE_MODEL_PAGE_REFS,
   SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
-import { ADD_TOAST } from 'state/toasts/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { PAGE_MODELS_LIST, PAGE_REFS } from 'test/mocks/pageModels';
 import { getPageModels, getPageModel, deletePageModel, putPageModel, postPageModel, getPageReferences } from 'api/pageModels';
