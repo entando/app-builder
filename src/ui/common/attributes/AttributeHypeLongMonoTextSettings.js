@@ -2,15 +2,9 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
-import { isUndefined } from 'lodash';
 import { isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-
-const validateIsNumber = (value) => {
-  if (isUndefined(value)) return undefined;
-  return isNumber(value);
-};
 
 const AttributeHypeLongMonoTextSettings = () => (
   <Row>
@@ -26,7 +20,7 @@ const AttributeHypeLongMonoTextSettings = () => (
           label={
             <FormLabel labelId="app.minLength" />
           }
-          validate={[validateIsNumber]}
+          validate={[isNumber]}
         />
         <Field
           component={RenderTextInput}
@@ -34,7 +28,7 @@ const AttributeHypeLongMonoTextSettings = () => (
           label={
             <FormLabel labelId="app.maxLength" />
           }
-          validate={[validateIsNumber]}
+          validate={[isNumber]}
         />
         <Field
           component={RenderTextInput}
