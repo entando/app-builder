@@ -23,7 +23,7 @@ class RenderDatePickerInput extends Component {
 
   render() {
     const {
-      input, name, label, help, locale, dateFormat,
+      input, name, label, help, locale, dateFormat, placeholder, meta: { touched, error },
     } = this.props;
 
     return (
@@ -34,7 +34,8 @@ class RenderDatePickerInput extends Component {
         <Col xs={10}>
           <DatePicker
             {...input}
-            selected={input.value ? moment(input.value, 'DD/MM/YYYY') : null}
+            placeholder={placeholder}
+            selected={input.value ? moment(input.value, this.props.dateFormat) : null}
             onChange={this.handleChange}
             disabledKeyboardNavigation
             locale={locale}
@@ -42,6 +43,9 @@ class RenderDatePickerInput extends Component {
             isClearable
             calendarClassName="RenderDatePickerInput__calendar"
           />
+          <div className="help-block help-block-error">
+            {touched ? error : ''}
+          </div>
         </Col>
       </div>
     );
@@ -54,7 +58,12 @@ RenderDatePickerInput.propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
   }).isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.bool,
+  }),
   name: PropTypes.string,
+  placeholder: PropTypes.string,
   label: PropTypes.node,
   help: PropTypes.node,
   language: PropTypes.string,
@@ -65,10 +74,12 @@ RenderDatePickerInput.propTypes = {
 RenderDatePickerInput.defaultProps = {
   onWillMount: () => {},
   name: '',
+  placeholder: '',
   label: '',
   help: null,
   language: 'en',
   dateFormat: 'DD/MM/YYYY',
   locale: 'en',
+  meta: {},
 };
 export default RenderDatePickerInput;
