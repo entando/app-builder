@@ -5,11 +5,13 @@ import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 
-import { formattedText, required } from '@entando/utils';
+import { formattedText, required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import CategoryTreeSelectorContainer from 'ui/categories/common/CategoryTreeSelectorContainer';
 import ActiveLanguagesFields from 'ui/common/form/ActiveLanguagesFields';
+
+const maxLength30 = maxLength(30);
 
 export class CategoryFormBody extends Component {
   componentWillMount() {
@@ -57,7 +59,7 @@ export class CategoryFormBody extends Component {
                 required
               />}
               placeholder={formattedText('app.code')}
-              validate={[required]}
+              validate={[required, maxLength30]}
               disabled={isEditMode}
             />
             {renderCategoryTree()}

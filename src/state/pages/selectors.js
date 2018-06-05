@@ -127,6 +127,17 @@ export const getReferencesFromSelectedPage = createSelector([getSelectedPage], (
   return [];
 });
 
+
+export const getSelectedPageLocaleTitle = createSelector(
+  [getSelectedPage, getLocale],
+  (selectedPage, locale) => {
+    if (selectedPage) {
+      return selectedPage.titles[locale] || selectedPage.titles.en;
+    }
+    return '';
+  },
+);
+
 export const getSelectedPagePreviewURI = createSelector(
   getSelectedPage, getDomain,
   (selectedPage, domain) => (
