@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText, required } from '@entando/utils';
+import { formattedText, required, code, maxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -15,6 +15,8 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 
+const maxLength30 = maxLength(30);
+
 export class PageFormBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) {
@@ -25,7 +27,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, // locale,
+      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -232,7 +234,7 @@ export class PageFormBody extends Component {
               name="code"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={formattedText('app.code')}
-              validate={[required]}
+              validate={[required, code, maxLength30]}
               disabled={isEditMode}
             />
 
