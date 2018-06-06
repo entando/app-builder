@@ -13,6 +13,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 const MODE_NEW = 'new';
+const maxLength30 = maxLength(30);
 
 export const renderDefaultUIField = (field) => {
   const { input } = field;
@@ -49,7 +50,7 @@ export class WidgetFormBody extends Component {
           <FormLabel labelId="widget.page.create.code" helpId="app.help.code" required />
         }
         placeholder={formattedText('widget.page.create.code.placeholder')}
-        validate={[required, widgetCode]}
+        validate={[required, widgetCode, maxLength30]}
       />
     );
 

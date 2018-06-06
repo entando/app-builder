@@ -5,6 +5,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import WidgetFormContainer from 'ui/widgets/common/WidgetFormContainer';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { BreadcrumbItem } from 'frontend-common-components';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 
@@ -33,6 +34,7 @@ const AddWidgetPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
+          <ErrorsAlertContainer />
           <WidgetFormContainer />
         </Col>
       </Row>
