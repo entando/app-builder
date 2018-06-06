@@ -2,6 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import moment from 'moment';
 
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
@@ -17,8 +18,14 @@ import {
   putAttributeFromProfileType,
   getProfileTypeAttributes,
   getProfileTypeAttribute,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/profileTypes';
-import { getProfileTypeAttributesIdList, getProfileTypeSelectedAttributeType } from 'state/profile-types/selectors';
+import {
+  getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeType,
+  getSelectedProfileType,
+} from 'state/profile-types/selectors';
 import {
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
@@ -32,8 +39,9 @@ import {
   SET_SELECTED_PROFILE_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
 } from 'state/profile-types/types';
-
 
 const TYPE_MONOLIST = 'Monolist';
 const TYPE_LIST = 'List';
@@ -90,6 +98,23 @@ export const setProfileTypeAttributes = attributes => ({
   },
 });
 
+export const moveAttributeUpSync = ({ entityCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_UP,
+  payload: {
+    entityCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
+
+export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeIndex }) => ({
+  type: MOVE_ATTRIBUTE_DOWN,
+  payload: {
+    entityCode,
+    attributeCode,
+    attributeIndex,
+  },
+});
 
 const isJsonContentType = (headers) => {
   const contentType = headers.get('content-type');
@@ -212,6 +237,12 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
   })
 );
 
+const fmtDateDDMMYYY = (date) => {
+  let d = new Date(date);
+  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
+};
+
 export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
   new Promise((resolve) => {
     getAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
@@ -220,7 +251,34 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
           response.json().then((json) => {
             if (response.ok) {
               dispatch(setSelectedAttributeProfileType(json.payload));
-              dispatch(initialize('attribute', json.payload));
+              if (json.payload.code === 'Date') {
+                let {
+                  rangeStartDate, rangeEndDate, equalDate,
+                  rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+                } = json.payload.validationRules;
+                rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+                rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+                equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+                rangeStartDateAttribute =
+                  rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+                rangeEndDateAttribute =
+                  rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+                equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+                const payload = {
+                  ...json.payload,
+                  validationRules: {
+                    rangeStartDate,
+                    rangeEndDate,
+                    equalDate,
+                    rangeStartDateAttribute,
+                    rangeEndDateAttribute,
+                    equalDateAttribute,
+                  },
+                };
+                dispatch(initialize('attribute', payload));
+              } else {
+                dispatch(initialize('attribute', json.payload));
+              }
             } else {
               dispatch(addErrors(json.errors.map(err => err.message)));
             }
@@ -312,15 +370,15 @@ export const sendPutAttributeFromProfileTypeMonolist = attributeObject => (dispa
   })
 );
 
-export const sendDeleteAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
+export const sendDeleteAttributeFromProfileType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
+    const profileTypeCode = getSelectedProfileType(getState()).code;
     deleteAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
       try {
         if (isJsonContentType(response.headers)) {
           response.json().then((json) => {
             if (response.ok) {
               dispatch(removeAttribute(profileTypeCode, attributeCode));
-              gotoRoute(ROUTE_PROFILE_TYPE_LIST);
             } else {
               dispatch(addErrors(json.errors.map(err => err.message)));
             }
@@ -381,3 +439,43 @@ export const fetchProfileTypeAttribute = ProfileTypeAttributeCode => dispatch =>
     });
   })
 );
+
+export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex }) =>
+  dispatch => (
+    new Promise((resolve) => {
+      moveAttributeUp(entityCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeUpSync({
+              ...json.payload,
+              entityCode,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );
+
+export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeIndex }) =>
+  dispatch => (
+    new Promise((resolve) => {
+      moveAttributeDown(entityCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeDownSync({
+              ...json.payload,
+              entityCode,
+              attributeIndex,
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      });
+    })
+  );

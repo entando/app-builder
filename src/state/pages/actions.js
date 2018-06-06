@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
+import { gotoRoute, getSearchParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
@@ -325,8 +325,8 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   })
   .catch(() => {});
 
-export const loadSelectedPage = pageCode => dispatch =>
-  fetchPage(pageCode)(dispatch)
+export const loadSelectedPage = pageCode => (dispatch, getState) =>
+  fetchPage(pageCode || getSearchParams(getState()).parentCode || HOMEPAGE_CODE)(dispatch)
     .then((response) => {
       dispatch(setSelectedPage(response.payload));
       return response.payload;
@@ -408,5 +408,5 @@ export const fetchReferencesPage = getState => async (dispatch) => {
 
 export const initPageForm = pageData => (dispatch) => {
   dispatch(initialize('page', pageData));
-  gotoRoute(ROUTE_PAGE_ADD);
+  gotoRoute(ROUTE_PAGE_ADD, null, { parentCode: pageData.parentCode });
 };

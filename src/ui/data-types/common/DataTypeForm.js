@@ -28,6 +28,7 @@ export class DataTypeFormBody extends Component {
     const {
       attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
+      dataTypeCode,
     } = this.props;
 
     const isEdit = mode === 'edit';
@@ -41,7 +42,10 @@ export class DataTypeFormBody extends Component {
       if (isEdit) {
         return (
           <Row>
-            <AttributeListTable {...this.props} />
+            <AttributeListTable
+              entityCode={dataTypeCode}
+              {...this.props}
+            />
             <DeleteAttributeModalContainer />
           </Row>
         );
@@ -148,6 +152,7 @@ DataTypeFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
+  dataTypeCode: PropTypes.string,
 };
 
 DataTypeFormBody.defaultProps = {
@@ -156,7 +161,7 @@ DataTypeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: 'add',
-
+  dataTypeCode: '',
 };
 
 const DataTypeForm = reduxForm({

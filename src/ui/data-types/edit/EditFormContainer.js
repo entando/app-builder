@@ -22,7 +22,7 @@ import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'a
 
 export const mapStateToProps = state => ({
   mode: 'edit',
-  datatypeCode: getParams(state).datatypeCode,
+  dataTypeCode: getParams(state).datatypeCode,
   attributes: getSelectedDataTypeAttributes(state),
   attributesType: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
@@ -30,24 +30,24 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ datatypeCode }) => {
-    dispatch(fetchDataType(datatypeCode));
+  onWillMount: ({ dataTypeCode }) => {
+    dispatch(fetchDataType(dataTypeCode));
     dispatch(fetchDataTypeAttributes());
   },
-  onAddAttribute: ({ attributeCode, datatypeCode }) => {
+  onAddAttribute: ({ attributeCode, dataTypeCode }) => {
     dispatch(fetchDataTypeAttribute(
       attributeCode,
       {
         route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-        params: { entityCode: datatypeCode },
+        params: { entityCode: dataTypeCode },
       },
     ));
   },
-  onMoveUp: (attributeCode, attributeIndex) => {
-    dispatch(sendMoveAttributeUp({ attributeCode, attributeIndex }));
+  onMoveUp: (entityCode, attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeUp({ entityCode, attributeCode, attributeIndex }));
   },
-  onMoveDown: (attributeCode, attributeIndex) => {
-    dispatch(sendMoveAttributeDown({ attributeCode, attributeIndex }));
+  onMoveDown: (entityCode, attributeCode, attributeIndex) => {
+    dispatch(sendMoveAttributeDown({ entityCode, attributeCode, attributeIndex }));
   },
   onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));

@@ -4,6 +4,7 @@ import { Col } from 'patternfly-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import { isNull } from 'lodash';
 
 class RenderDatePickerInput extends Component {
   constructor(props) {
@@ -16,13 +17,15 @@ class RenderDatePickerInput extends Component {
   }
 
   handleChange(date) {
-    this.props.input.onChange(moment(date).format('DD-MM-YYYY'));
+    const value = !isNull(date) ? date.format(this.props.dateFormat) : '';
+    this.props.input.onChange(value);
   }
 
   render() {
     const {
-      input, name, label, help,
+      input, name, label, help, locale, dateFormat, placeholder, meta: { touched, error },
     } = this.props;
+
     return (
       <div className="form-group" >
         <label htmlFor={name} className="col-xs-2 control-label">
@@ -31,12 +34,18 @@ class RenderDatePickerInput extends Component {
         <Col xs={10}>
           <DatePicker
             {...input}
-            selected={input.value ? moment(input.value, 'YYYY-MM-DD HH:mm:ss') : null}
+            placeholder={placeholder}
+            selected={input.value ? moment(input.value, this.props.dateFormat) : null}
             onChange={this.handleChange}
             disabledKeyboardNavigation
-            dateFormat="YYYY-MM-DD HH:mm:ss"
+            locale={locale}
+            dateFormat={dateFormat}
+            isClearable
             calendarClassName="RenderDatePickerInput__calendar"
           />
+          <div className="help-block help-block-error">
+            {touched ? error : ''}
+          </div>
         </Col>
       </div>
     );
@@ -49,17 +58,28 @@ RenderDatePickerInput.propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
   }).isRequired,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.bool,
+  }),
   name: PropTypes.string,
+  placeholder: PropTypes.string,
   label: PropTypes.node,
   help: PropTypes.node,
   language: PropTypes.string,
+  dateFormat: PropTypes.string,
+  locale: PropTypes.string,
 };
 
 RenderDatePickerInput.defaultProps = {
   onWillMount: () => {},
   name: '',
+  placeholder: '',
   label: '',
   help: null,
   language: 'en',
+  dateFormat: 'DD/MM/YYYY',
+  locale: 'en',
+  meta: {},
 };
 export default RenderDatePickerInput;

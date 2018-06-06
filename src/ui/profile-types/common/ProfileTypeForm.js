@@ -8,8 +8,8 @@ import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import AttributeListTableProfile from 'ui/common/attributes/AttributeListTableProfile';
-
+import AttributeListTable from 'ui/common/attributes/AttributeListTable';
+import DeleteAttributeModalContainer from 'ui/profile-types/attributes/DeleteAttributeModalContainer';
 
 const uppercaseThreeLetters = value =>
   (value && !/^[A-Z]{1,3}$/i.test(value)
@@ -26,6 +26,7 @@ export class ProfileTypeFormBody extends Component {
     const {
       attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
+      profileTypeCode,
     } = this.props;
 
     const isEdit = mode === 'edit';
@@ -39,7 +40,11 @@ export class ProfileTypeFormBody extends Component {
       if (isEdit) {
         return (
           <Row>
-            <AttributeListTableProfile {...this.props} />
+            <AttributeListTable
+              {...this.props}
+              entityCode={profileTypeCode}
+            />
+            <DeleteAttributeModalContainer />
           </Row>
         );
       }
@@ -145,6 +150,7 @@ ProfileTypeFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
+  profileTypeCode: PropTypes.string,
 };
 
 ProfileTypeFormBody.defaultProps = {
@@ -153,7 +159,7 @@ ProfileTypeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: 'add',
-
+  profileTypeCode: '',
 };
 
 const ProfileTypeForm = reduxForm({

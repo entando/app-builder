@@ -108,19 +108,19 @@ export const setDataTypeAttributes = attributes => ({
   },
 });
 
-export const moveAttributeUpSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+export const moveAttributeUpSync = ({ entityCode, attributeCode, attributeIndex }) => ({
   type: MOVE_ATTRIBUTE_UP,
   payload: {
-    dataTypeCode,
+    entityCode,
     attributeCode,
     attributeIndex,
   },
 });
 
-export const moveAttributeDownSync = ({ dataTypeCode, attributeCode, attributeIndex }) => ({
+export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeIndex }) => ({
   type: MOVE_ATTRIBUTE_DOWN,
   payload: {
-    dataTypeCode,
+    entityCode,
     attributeCode,
     attributeIndex,
   },
@@ -370,14 +370,14 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
   })
 );
 
-export const sendMoveAttributeUp = ({ attributeCode, attributeIndex }) => (dispatch, getState) => (
+export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex }) => dispatch => (
   new Promise((resolve) => {
-    const dataTypeCode = getSelectedDataType(getState()).code;
-    moveAttributeUp(dataTypeCode, attributeCode).then((response) => {
+    moveAttributeUp(entityCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(moveAttributeUpSync({
             ...json.payload,
+            entityCode,
             attributeIndex,
           }));
         } else {
@@ -389,15 +389,15 @@ export const sendMoveAttributeUp = ({ attributeCode, attributeIndex }) => (dispa
   })
 );
 
-export const sendMoveAttributeDown = ({ attributeCode, attributeIndex }) =>
-  (dispatch, getState) => (
+export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeIndex }) =>
+  dispatch => (
     new Promise((resolve) => {
-      const dataTypeCode = getSelectedDataType(getState()).code;
-      moveAttributeDown(dataTypeCode, attributeCode).then((response) => {
+      moveAttributeDown(entityCode, attributeCode).then((response) => {
         response.json().then((json) => {
           if (response.ok) {
             dispatch(moveAttributeDownSync({
               ...json.payload,
+              entityCode,
               attributeIndex,
             }));
           } else {

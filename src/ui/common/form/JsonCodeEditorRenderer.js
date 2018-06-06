@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'patternfly-react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/addon/selection/active-line';
+
+import LoadableCodeMirror from 'ui/common/form/LoadableCodeMirror';
 
 
 const JsonCodeEditorRenderer = ({
@@ -15,7 +14,7 @@ const JsonCodeEditorRenderer = ({
       {label} {help}
     </label>
     <Col xs={10}>
-      <CodeMirror
+      <LoadableCodeMirror
         value={input.value}
         autoCursor={false}
         onChange={(editor, data, value) => input.onChange(value)}
