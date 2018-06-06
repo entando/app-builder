@@ -1,14 +1,18 @@
-import { getActivityStream, postActivityStreamComment, deleteActivityStreamComment, postActivityStreamLike, deleteActivityStreamLike } from 'api/activityStream';
 import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
-import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
-import { addErrors } from 'state/errors/actions';
-import { toggleLoading } from 'state/loading/actions';
-import { addToast } from 'state/toasts/actions';
-import { TOAST_SUCCESS } from 'state/toasts/const';
+import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
-import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
+import {
+  getActivityStream,
+  postActivityStreamComment,
+  deleteActivityStreamComment,
+  postActivityStreamLike,
+  deleteActivityStreamLike,
+} from 'api/activityStream';
+import { toggleLoading } from 'state/loading/actions';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
+import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
+import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 
 export const toggleNotificationDrawer = () => ({
   type: TOGGLE_NOTIFICATION_DRAWER,

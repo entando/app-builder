@@ -1,6 +1,7 @@
-import { reloadConf } from 'api/reloadConfiguration';
-import { addErrors } from 'state/errors/actions';
 import { gotoRoute } from '@entando/router';
+import { addErrors } from '@entando/messages';
+
+import { reloadConf } from 'api/reloadConfiguration';
 import { SET_STATUS } from 'state/reload-configuration/types';
 import { ROUTE_RELOAD_CONFIRM } from 'app-init/router';
 

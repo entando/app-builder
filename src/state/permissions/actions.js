@@ -1,7 +1,8 @@
+import { addErrors } from '@entando/messages';
+
 import { SET_PERMISSIONS } from 'state/permissions/types';
 import { getPermissions } from 'api/permissions';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 
 export const setPermissions = permissions => ({

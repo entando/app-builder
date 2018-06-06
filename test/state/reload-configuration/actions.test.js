@@ -1,17 +1,18 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { gotoRoute } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
+
 import {
   setStatus,
   sendReloadConf,
 } from 'state/reload-configuration/actions';
 
-import { gotoRoute } from '@entando/router';
 import { reloadConf } from 'api/reloadConfiguration';
 import { mockApi } from 'test/testUtils';
 
 import { SET_STATUS } from 'state/reload-configuration/types';
 
-import { ADD_ERRORS } from 'state/errors/types';
 import { ROUTE_RELOAD_CONFIRM } from 'app-init/router';
 import { SUCCESS } from 'test/mocks/reloadConfiguration';
 

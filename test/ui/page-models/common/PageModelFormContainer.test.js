@@ -1,11 +1,9 @@
-import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelFormContainer';
 import { initialize } from 'redux-form';
+import { clearErrors } from '@entando/messages';
 
+import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelFormContainer';
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
-import { clearErrors } from 'state/errors/actions';
-
-jest.mock('state/errors/actions');
 
 jest.mock(
   'state/page-models/selectors',

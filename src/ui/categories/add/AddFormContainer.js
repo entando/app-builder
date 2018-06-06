@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { change } from 'redux-form';
+import { clearErrors } from '@entando/messages';
+
 import { handleExpandCategory, fetchCategoryTree, sendPostCategory } from 'state/categories/actions';
 import { getCategoryTree } from 'state/categories/selectors';
 import { getLoading } from 'state/loading/selectors';
@@ -7,7 +9,6 @@ import { fetchLanguages } from 'state/languages/actions';
 import CategoryForm from 'ui/categories/common/CategoryForm';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
 import { activeLangQueryString, noPagination } from 'ui/categories/common/formUtils';
-import { clearErrors } from 'state/errors/actions';
 
 export const mapStateToProps = state => ({
   mode: 'add',

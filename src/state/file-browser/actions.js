@@ -1,12 +1,11 @@
-import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { formattedText } from '@entando/utils';
 import { gotoRoute } from '@entando/router';
-import { addErrors } from 'state/errors/actions';
-import { addToast } from 'state/toasts/actions';
-import { TOAST_SUCCESS, TOAST_ERROR } from 'state/toasts/const';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+
+import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { getPathInfo } from 'state/file-browser/selectors';
+import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 
 export const setFileList = fileList => ({
