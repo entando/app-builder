@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
+import { clearErrors } from '@entando/messages';
+
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 import { sendPostWidgets } from 'state/widgets/actions';
-import { clearErrors } from 'state/errors/actions';
 
 export const mapStateToProps = state => ({
   groups: getGroupsList(state),

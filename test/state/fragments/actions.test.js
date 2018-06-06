@@ -3,11 +3,11 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { config } from '@entando/apimanager';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
-
-import { config } from '@entando/apimanager';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
@@ -31,10 +31,8 @@ import {
 } from 'api/fragments';
 
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ALERT } from 'state/alerts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -228,7 +226,7 @@ describe('state/fragments/actions', () => {
           expect(initialize).toHaveBeenCalled();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
-          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -246,7 +244,7 @@ describe('state/fragments/actions', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_ALERT);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

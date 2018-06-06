@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
 import {
   setCategories,
   toggleCategoryExpanded,
@@ -37,7 +38,6 @@ import {
   SET_REFERENCES,
 } from 'state/categories/types';
 
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';

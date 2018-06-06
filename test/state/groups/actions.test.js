@@ -2,6 +2,8 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
+
 import {
   setGroups,
   fetchGroups,
@@ -35,7 +37,6 @@ import {
 } from 'state/groups/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from 'state/errors/types';
 
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 

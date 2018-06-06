@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { clearErrors } from '@entando/messages';
 
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
 
@@ -9,7 +10,6 @@ import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
 import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPageConfigMatchesDefault } from 'state/page-config/selectors';
 import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
-import { clearErrors } from 'state/errors/actions';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {

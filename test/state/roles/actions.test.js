@@ -1,5 +1,7 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
+
 import {
   setRoles, fetchRoles, fetchRole, sendPostRole, sendPutRole,
   sendDeleteRole, setSelected, removeRole, setUserRefs, fetchRoleDetail,
@@ -10,8 +12,6 @@ import { LIST_ROLES_OK, GET_ROLE_PAYLOAD, BODY_OK, ROLE_USER_REFERENCES_PAYLOAD 
 import { SET_ROLES, REMOVE_ROLE, SET_SELECTED, SET_USER_REFS } from 'state/roles/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from 'state/errors/types';
-import { ADD_TOAST } from 'state/toasts/types';
 import { mockApi } from 'test/testUtils';
 
 const middlewares = [thunk];

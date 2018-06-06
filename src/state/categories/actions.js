@@ -1,19 +1,20 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
+import { addErrors } from '@entando/messages';
+
 import {
   getCategoryTree, getCategory, postCategory,
   putCategory, deleteCategory, getReferences,
 } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
 import { ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
+import { getStatusMap, getReferenceKeyList, getSelectedRefs } from 'state/categories/selectors';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
   SET_REFERENCES,
 } from 'state/categories/types';
-import { addErrors } from 'state/errors/actions';
-import { getStatusMap, getReferenceKeyList, getSelectedRefs } from 'state/categories/selectors';
 
 const ROOT_CODE = 'home';
 

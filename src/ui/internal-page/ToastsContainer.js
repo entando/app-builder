@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { getToasts } from 'state/toasts/selectors';
-import { removeToast } from 'state/toasts/actions';
+import { getToasts, removeToast } from '@entando/messages';
 
 import Toasts from 'ui/internal-page/Toasts';
 
