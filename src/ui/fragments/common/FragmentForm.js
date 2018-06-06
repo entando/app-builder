@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { formattedText, required } from '@entando/utils';
+import { formattedText, required, code, maxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
+
+const maxLength50 = maxLength(50);
 
 export const renderDefaultGuiCodeField = (field) => {
   const { input } = field;
@@ -104,7 +106,7 @@ export const FragmentFormBody = (props) => {
                 </span>
               }
               placeholder={formattedText('fragment.code.placeholder')}
-              validate={[required]}
+              validate={[required, code, maxLength50]}
               disabled={mode === EDIT_MODE}
             />
             {widgetTypeField}
