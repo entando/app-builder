@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { convertToQueryString } from '@entando/utils';
+import { clearErrors } from '@entando/messages';
 
 import PageTreePage from 'ui/pages/list/PageTreePage';
 import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree } from 'state/pages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
-import { clearErrors } from 'state/errors/actions';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),

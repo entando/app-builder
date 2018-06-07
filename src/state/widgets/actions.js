@@ -2,23 +2,18 @@ import { initialize } from 'redux-form';
 import { get } from 'lodash';
 import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
-import { addErrors } from 'state/errors/actions';
-import { toggleLoading } from 'state/loading/actions';
-import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
+import { toggleLoading } from 'state/loading/actions';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
+import { getSelectedWidget } from 'state/widgets/selectors';
 import {
   SET_WIDGET_LIST,
   SET_SELECTED_WIDGET,
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
 } from 'state/widgets/types';
-import { getSelectedWidget } from 'state/widgets/selectors';
-
-import { addToast } from 'state/toasts/actions';
-
-import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
-
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 export const getWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,

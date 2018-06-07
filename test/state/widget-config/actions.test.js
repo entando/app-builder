@@ -1,10 +1,10 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { getParams, gotoRoute } from '@entando/router';
+import { ADD_ERRORS } from '@entando/messages';
 
 import { mockApi, mockThunk } from 'test/testUtils';
 
-import { ADD_ERRORS } from 'state/errors/types';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { putPageWidget } from 'api/pages';
 import { loadSelectedPage } from 'state/pages/actions';

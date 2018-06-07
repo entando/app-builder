@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
+import { clearErrors } from '@entando/messages';
 
+import GroupListTable from 'ui/groups/list/GroupListTable';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
-import GroupListTable from 'ui/groups/list/GroupListTable';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
-import { clearErrors } from 'state/errors/actions';
 import { MODAL_ID } from 'ui/groups/common/DeleteGroupModal';
 
 

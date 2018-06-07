@@ -1,8 +1,9 @@
+import { initialize } from 'redux-form';
 import { isFSA } from 'flux-standard-action';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
-import { initialize } from 'redux-form';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 
@@ -23,11 +24,7 @@ import {
   SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 
-import { ADD_TOAST } from 'state/toasts/types';
-
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
-
-import { ADD_ERRORS } from 'state/errors/types';
 
 import {
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,

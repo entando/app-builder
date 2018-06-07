@@ -1,14 +1,13 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-import { addToast } from 'state/toasts/actions';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
+
 import {
   getRoles, getRole, postRole, putRole, deleteRole,
   getUserReferences,
 } from 'api/roles';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { TOAST_ERROR } from 'state/toasts/const';
 import {
   SET_ROLES, SET_SELECTED, REMOVE_ROLE,
   SET_USER_REFS,

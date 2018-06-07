@@ -1,27 +1,25 @@
 import { initialize } from 'redux-form';
 import { gotoRoute, getSearchParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
+import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
+
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages, getReferencesPage,
   putPageSettings,
 } from 'api/pages';
-
+import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
+import { getSelectedPageConfig } from 'state/page-config/selectors';
+import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
-import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
-import { getSelectedPageConfig } from 'state/page-config/selectors';
-import { addErrors } from 'state/errors/actions';
-import { setPublishedPageConfig } from 'state/page-config/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 
-import { addToast } from 'state/toasts/actions';
-import { TOAST_SUCCESS } from 'state/toasts/const';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {

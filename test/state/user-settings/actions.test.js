@@ -1,7 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import { isFSA } from 'flux-standard-action';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
+
 import {
   setUserSettings,
   fetchUserSettings,
@@ -10,8 +11,6 @@ import {
 import { mockApi } from 'test/testUtils';
 import { getUserSettings, putUserSettings } from 'api/userSettings';
 import { SET_USER_SETTINGS } from 'state/user-settings/types';
-import { ADD_ERRORS } from 'state/errors/types';
-import { ADD_TOAST } from 'state/toasts/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

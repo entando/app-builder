@@ -1,13 +1,23 @@
 import { initialize } from 'redux-form';
 import { gotoRoute } from '@entando/router';
-import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { formattedText } from '@entando/utils';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
-import { getFragment, getFragments, getPlugins, getFragmentSettings, putFragmentSettings, deleteFragment, postFragment, putFragment } from 'api/fragments';
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+
+import {
+  getFragment,
+  getFragments,
+  getPlugins,
+  getFragmentSettings,
+  putFragmentSettings,
+  deleteFragment,
+  postFragment,
+  putFragment,
+} from 'api/fragments';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { addAlert } from 'state/alerts/actions';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -113,10 +123,16 @@ export const updateFragmentSettings = settings => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(initialize('fragmentSettings', json.payload));
-          dispatch(addAlert('fragmentSettings', 'success'));
+          dispatch(addToast(
+            formattedText('fragment.settings.alert.success'),
+            TOAST_SUCCESS,
+          ));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(addAlert('fragmentSettings', 'error'));
+          dispatch(addToast(
+            formattedText('fragment.settings.alert.error'),
+            TOAST_ERROR,
+          ));
         }
         resolve();
       });

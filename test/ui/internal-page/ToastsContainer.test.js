@@ -1,9 +1,7 @@
 import 'test/enzyme-init';
+import { getToasts } from '@entando/messages';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/internal-page/ToastsContainer';
-import { getToasts } from 'state/toasts/selectors';
-
-jest.mock('state/toasts/selectors');
 
 const mockToasts = {
   a: {

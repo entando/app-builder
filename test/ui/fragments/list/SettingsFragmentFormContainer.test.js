@@ -1,17 +1,10 @@
-import { getAlerts } from 'state/alerts/selectors';
-import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/SettingsFragmentFormContainer';
+import { mapDispatchToProps } from 'ui/fragments/list/SettingsFragmentFormContainer';
 
 import { fetchFragmentSettings, updateFragmentSettings } from 'state/fragments/actions';
 
 
 const dispatchMock = jest.fn();
 
-
-jest.mock('state/alerts/selectors', () => ({
-  getAlerts: jest.fn(),
-}));
-
-getAlerts.mockReturnValue({ fragmentSettings: 'success' });
 
 jest.mock('state/fragments/actions', () => ({
   fetchFragmentSettings: jest.fn(),
@@ -20,12 +13,6 @@ jest.mock('state/fragments/actions', () => ({
 
 describe('ui/fragments/list/SettingsFragmentFormContainer', () => {
   let props;
-  describe('mapStateToProps', () => {
-    it('map error in state', () => {
-      props = mapStateToProps({});
-      expect(props).toHaveProperty('alert', 'success');
-    });
-  });
 
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
