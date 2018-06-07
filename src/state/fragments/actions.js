@@ -59,7 +59,7 @@ export const fetchFragment = fragmentCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 
@@ -74,7 +74,7 @@ export const fetchFragmentDetail = fragmentCode => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -93,14 +93,16 @@ export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
 export const fetchPlugins = () => dispatch => (
   getPlugins().then((response) => {
-    dispatch(setPlugins(response.payload));
-  })
+    if (response.ok) {
+      dispatch(setPlugins(response.payload));
+    }
+  }).catch(() => {})
 );
 
 export const fetchFragmentSettings = () => dispatch =>
@@ -114,7 +116,7 @@ export const fetchFragmentSettings = () => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const updateFragmentSettings = settings => dispatch =>
@@ -136,7 +138,7 @@ export const updateFragmentSettings = settings => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendDeleteFragment = fragmentCode => dispatch =>
@@ -150,35 +152,27 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendPostFragment = fragment => async (dispatch) => {
   const response = await postFragment(fragment);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      gotoRoute(ROUTE_FRAGMENT_LIST);
-      return json;
-    }
+  const json = await response.json();
+  if (response.ok) {
+    gotoRoute(ROUTE_FRAGMENT_LIST);
+  } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
   }
-  throw new TypeError('No JSON content-type in response headers');
+  return json;
 };
 
 export const sendPutFragment = fragment => async (dispatch) => {
   const response = await putFragment(fragment);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      gotoRoute(ROUTE_FRAGMENT_LIST);
-      return json;
-    }
+  const json = await response.json();
+  if (response.ok) {
+    gotoRoute(ROUTE_FRAGMENT_LIST);
+  } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
   }
-  throw new TypeError('No JSON content-type in response headers');
+  return json;
 };

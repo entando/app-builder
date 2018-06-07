@@ -24,16 +24,12 @@ export const setPathInfo = pathInfo => ({
 
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  const json = await response.json();
+  if (response.ok) {
+    return json;
   }
-  throw new TypeError('No JSON content-type in response headers');
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
 };
 
 
@@ -48,13 +44,19 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
     if (path) {
       queryString.push(`currentPath=${path}`);
     }
-    const getFileBrowserApi = wrapApiCall(getFileBrowser);
-    getFileBrowserApi((`?${queryString.join('&')}`))(dispatch).then((response) => {
-      gotoRoute(ROUTE_FILE_BROWSER);
-      dispatch(setFileList(response.payload));
-      dispatch(setPathInfo(response.metaData));
-      dispatch(toggleLoading('files'));
-      resolve();
+
+    getFileBrowser(`?${queryString.join('&')}`).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_FILE_BROWSER);
+          dispatch(setFileList(json.payload));
+          dispatch(setPathInfo(json.metaData));
+          dispatch(toggleLoading('files'));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        }
+        resolve();
+      });
     }).catch(() => {});
   });
 
@@ -118,7 +120,7 @@ export const saveFile = file => (dispatch, getState) => new Promise((resolve) =>
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const downloadFile = file => (dispatch, getState) => new Promise((resolve) => {
@@ -133,7 +135,7 @@ export const downloadFile = file => (dispatch, getState) => new Promise((resolve
         resolve();
       }
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendPostCreateFolder = values => (dispatch, getState) => (
