@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { ToastNotificationList } from 'patternfly-react';
 
-import Toasts from 'ui/internal-page/Toasts';
+import Toasts from 'ui/app/Toasts';
 
 const component = shallow(<Toasts onDismiss={() => {}} />);
 

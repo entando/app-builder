@@ -157,6 +157,7 @@
     "duplicate-package-checker-webpack-plugin": "^2.1.0",
     "jest-enzyme": "^6.0.0",
     "jest-localstorage-mock": "^2.2.0",
-    "npm-run": "^4.1.2"
+    "npm-run": "^4.1.2",
+    "whatwg-fetch": "^2.0.4"
   }
 }
