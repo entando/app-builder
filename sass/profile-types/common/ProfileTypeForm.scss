@@ -14,4 +14,10 @@
     text-transform: uppercase;
   }
   // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
+
+  .ProfileTypeForm__input-group-btn {
+    top: 15px;
+    vertical-align: top;
+}
+
 }
