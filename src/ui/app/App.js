@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { gotoRoute } from '@entando/router';
 import { LoginPage, NotFoundPage } from 'frontend-common-components';
@@ -75,6 +75,7 @@ import {
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
+import ToastsContainer from 'ui/internal-page/ToastsContainer';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
@@ -146,12 +147,7 @@ import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage'
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 
-const App = ({ route, username }) => {
-  if (username === null && route !== ROUTE_HOME && route) {
-    gotoRoute(ROUTE_HOME);
-    return <h1>401</h1>;
-  }
-
+const getRouteComponent = (route) => {
   switch (route) {
     case ROUTE_HOME: return (
       <LoginPage>
@@ -228,6 +224,20 @@ const App = ({ route, username }) => {
     case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
     default: return <NotFoundPage />;
   }
+};
+
+const App = ({ route, username }) => {
+  if (username === null && route !== ROUTE_HOME && route) {
+    gotoRoute(ROUTE_HOME);
+    return <h1>401</h1>;
+  }
+
+  return (
+    <Fragment>
+      <ToastsContainer />
+      {getRouteComponent(route)}
+    </Fragment>
+  );
 };
 
 App.propTypes = {
