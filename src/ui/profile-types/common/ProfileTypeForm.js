@@ -66,9 +66,10 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="ProfileType.type" required />
                 }
+                validate={[required]}
                 name="type"
               />
-              <span className="input-group-btn">
+              <span className="ProfileTypeForm__input-group-btn input-group-btn">
                 <Button
                   type="button"
                   className="pull-right ProfileTypeForm__add"
@@ -126,7 +127,7 @@ export class ProfileTypeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <Button
-              className="pull-right ProfileTypeFormBody__save--btn"
+              className="pull-right ProfileTypeForm__save-btn"
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
