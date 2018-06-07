@@ -1,6 +1,9 @@
 export default {
   locale: 'it',
   messages: {
+    'app.serverError': 'non è possibile raggiungere {domain}',
+    'app.noJsonReturned': 'non è possibile raggiungere {domain}',
+    'app.permissionDenied': 'sessione scaduta',
     'app.welcome': 'Benvenuto in Entando, {name}!',
     'app.yes': 'Si',
     'app.no': 'No',
