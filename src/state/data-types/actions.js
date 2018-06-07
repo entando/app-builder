@@ -1,7 +1,8 @@
 import { gotoRoute, getParams } from '@entando/router';
+import { addErrors } from '@entando/messages';
+
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { addErrors } from 'state/errors/actions';
 import { initialize } from 'redux-form';
 
 import {

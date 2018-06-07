@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 import {
@@ -12,11 +13,9 @@ import {
 } from 'state/data-models/actions';
 import { getDataModels, getDataModel, postDataModel, putDataModel, deleteDataModel } from 'api/dataModels';
 import { SET_DATA_MODELS } from 'state/data-models/types';
-import { ADD_ERRORS } from 'state/errors/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { DATA_MODELS } from 'test/mocks/dataModels';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_TOAST } from 'state/toasts/types';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 

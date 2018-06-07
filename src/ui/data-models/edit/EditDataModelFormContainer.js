@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { getParams } from '@entando/router';
+import { clearErrors } from '@entando/messages';
 
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { fetchDataModel, sendPutDataModel } from 'state/data-models/actions';
-import { clearErrors } from 'state/errors/actions';
 import DataModelForm from 'ui/data-models/common/DataModelForm';
 
 export const mapStateToProps = state => ({

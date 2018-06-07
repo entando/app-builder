@@ -1,9 +1,7 @@
-
 import { connect } from 'react-redux';
+import { getErrors, clearErrors } from '@entando/messages';
 
 import ErrorsAlert from 'ui/common/form/ErrorsAlert';
-import { getErrors } from 'state/errors/selectors';
-import { clearErrors } from 'state/errors/actions';
 
 
 export const mapStateToProps = state => ({

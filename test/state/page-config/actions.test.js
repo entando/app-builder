@@ -1,6 +1,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
+import { ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 
@@ -13,7 +14,6 @@ import {
 
 import { loadSelectedPage } from 'state/pages/actions';
 
-import { ADD_ERRORS } from 'state/errors/types';
 import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 
 import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD } from 'test/mocks/pages';
@@ -40,10 +40,6 @@ jest.mock('api/pages', () => ({
 
 jest.mock('api/pageModels', () => ({
   getPageModel: jest.fn(),
-}));
-
-jest.mock('state/errors/actions', () => ({
-  addErrors: jest.fn().mockImplementation(require.requireActual('state/errors/actions').addErrors),
 }));
 
 jest.mock('state/pages/actions', () => ({

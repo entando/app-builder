@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
+import { clearErrors } from '@entando/messages';
 
 import { fetchDataTypes } from 'state/data-types/actions';
 import { getDataTypeList } from 'state/data-types/selectors';
 import { sendPostDataModel } from 'state/data-models/actions';
-import { clearErrors } from 'state/errors/actions';
 import DataModelForm from 'ui/data-models/common/DataModelForm';
 
 export const mapStateToProps = state => ({

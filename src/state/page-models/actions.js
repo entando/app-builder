@@ -1,17 +1,15 @@
 import { initialize } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
   getPageModels, getPageModel, deletePageModel, postPageModel, putPageModel,
   getPageReferences,
 } from 'api/pageModels';
 import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getSelectedPageModel } from 'state/page-models/selectors';
-import { addToast } from 'state/toasts/actions';
-import { TOAST_ERROR, TOAST_SUCCESS } from 'state/toasts/const';
 import {
   SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL,
   SET_SELECTED_PAGE_MODEL_PAGE_REFS, SET_PAGE_MODELS_TOTAL,

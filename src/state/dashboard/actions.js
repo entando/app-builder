@@ -1,6 +1,7 @@
+import { addErrors } from '@entando/messages';
+
 import { SET_APIS, SET_PLUGINS, SET_PAGE_STATUS } from 'state/dashboard/types';
 import { getIntegration, getPageStatus } from 'api/dashboard';
-import { addErrors } from 'state/errors/actions';
 
 export const setApis = apis => ({
   type: SET_APIS,

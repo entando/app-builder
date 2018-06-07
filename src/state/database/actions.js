@@ -1,16 +1,8 @@
 import { gotoRoute, getParams } from '@entando/router';
-import { setPage } from 'state/pagination/actions';
-import { addErrors } from 'state/errors/actions';
-import { toggleLoading } from 'state/loading/actions';
+import { addErrors } from '@entando/messages';
 
-import {
-  SET_DATABASE_DUMPS,
-  SET_DATABASE_INIT_BACKUP,
-  SET_DATABASE_STATUS_BACKUP,
-  SET_DATABASE_REPORT_BACKUP,
-  SET_DATABASE_DUMP_TABLE,
-  SET_DATABASE_DUMP_TABLE_DATA,
-} from 'state/database/types';
+import { setPage } from 'state/pagination/actions';
+import { toggleLoading } from 'state/loading/actions';
 import {
   getDatabaseDumpReportList,
   getDatabaseInitBackup,
@@ -20,10 +12,17 @@ import {
   getReportBackup,
   getDatabaseTableDump,
 } from 'api/database';
-
+import { getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
+import {
+  SET_DATABASE_DUMPS,
+  SET_DATABASE_INIT_BACKUP,
+  SET_DATABASE_STATUS_BACKUP,
+  SET_DATABASE_REPORT_BACKUP,
+  SET_DATABASE_DUMP_TABLE,
+  SET_DATABASE_DUMP_TABLE_DATA,
+} from 'state/database/types';
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
-import { getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
 
 export const setDatabaseDumps = database => ({
   type: SET_DATABASE_DUMPS,
