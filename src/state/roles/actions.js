@@ -58,7 +58,7 @@ export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dis
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const fetchRole = roleCode => dispatch =>
@@ -73,7 +73,7 @@ export const fetchRole = roleCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const fetchRoleDetail = roleCode => dispatch =>
@@ -88,7 +88,7 @@ export const fetchRoleDetail = roleCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendPostRole = rolesData => dispatch =>
@@ -103,7 +103,7 @@ export const sendPostRole = rolesData => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendPutRole = rolesData => dispatch =>
@@ -118,7 +118,7 @@ export const sendPutRole = rolesData => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendDeleteRole = roleCode => dispatch =>
@@ -133,7 +133,7 @@ export const sendDeleteRole = roleCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
@@ -151,5 +151,5 @@ export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params
         dispatch(toggleLoading('references'));
         resolve();
       });
-    });
+    }).catch(() => {});
   });

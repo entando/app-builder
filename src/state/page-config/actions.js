@@ -191,7 +191,7 @@ export const restoreSelectedPageConfig = () => (dispatch, getState) => {
         dispatch(setPageConfig(pageCode, publishedConfig));
       }
       resolve();
-    }, resolve).catch(() => {});
+    }).catch(() => {});
   });
 };
 

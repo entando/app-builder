@@ -24,7 +24,7 @@ export const fetchUserSettings = () => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const updateUserSettings = settings => dispatch => new Promise((resolve) => {
@@ -42,5 +42,5 @@ export const updateUserSettings = settings => dispatch => new Promise((resolve) 
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });

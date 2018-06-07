@@ -18,7 +18,7 @@ export const updateConfiguredPageWidget = widgetConfig =>
       code: widgetCode,
       config: widgetConfig,
     };
-    return putPageWidget(pageCode, framePosNum, requestBody)
+    putPageWidget(pageCode, framePosNum, requestBody)
       .then(response =>
         response.json().then((json) => {
           if (response.ok) {
@@ -26,7 +26,7 @@ export const updateConfiguredPageWidget = widgetConfig =>
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
           }
-        }));
+        })).catch(() => {});
   };
 
 
