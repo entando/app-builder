@@ -20,7 +20,6 @@ import {
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 
-
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
   code: '',

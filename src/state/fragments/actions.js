@@ -98,11 +98,18 @@ export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') =>
 );
 
 export const fetchPlugins = () => dispatch => (
-  getPlugins().then((response) => {
-    if (response.ok) {
-      dispatch(setPlugins(response.payload));
-    }
-  }).catch(() => {})
+  new Promise((resolve) => {
+    getPlugins().then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          dispatch(setPlugins(json.payload));
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    }).catch(() => {});
+  })
 );
 
 export const fetchFragmentSettings = () => dispatch =>

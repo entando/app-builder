@@ -18,7 +18,7 @@ export const updateConfiguredPageWidget = widgetConfig =>
       code: widgetCode,
       config: widgetConfig,
     };
-    putPageWidget(pageCode, framePosNum, requestBody)
+    return putPageWidget(pageCode, framePosNum, requestBody)
       .then(response =>
         response.json().then((json) => {
           if (response.ok) {

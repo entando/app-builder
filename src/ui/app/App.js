@@ -75,7 +75,7 @@ import {
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
-import ToastsContainer from 'ui/internal-page/ToastsContainer';
+import ToastsContainer from 'ui/app/ToastsContainer';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';

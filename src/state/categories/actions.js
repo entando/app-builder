@@ -133,51 +133,51 @@ export const fetchCategory = categoryCode => dispatch =>
 
 export const sendPostCategory = categoryData => (dispatch) => {
   try {
-    dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
+    return dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
       gotoRoute(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
-    // do nothing
+    return new Promise(resolve => resolve());
   }
 };
 
 export const sendPutCategory = categoryData => (dispatch) => {
   try {
-    dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
+    return dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
       gotoRoute(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
-    // do nothing
+    return new Promise(resolve => resolve());
   }
 };
 
 export const sendDeleteCategory = categoryCode => (dispatch) => {
   try {
-    dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
+    return dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
       dispatch(removeCategory(categoryCode));
     });
   } catch (e) {
-    // do nothing
+    return new Promise(resolve => resolve());
   }
 };
 
 export const fetchReferences = (categoryCode, referenceKey) => (dispatch) => {
   try {
-    dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
+    return dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
       dispatch(setReferences({
         [referenceKey]: data.payload,
       }));
     });
   } catch (e) {
-    // do nothing
+    return new Promise(resolve => resolve());
   }
 };
 
 export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
   try {
-    dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
+    return dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
       dispatch(setSelectedCategory(data.payload));
       const references = getReferenceKeyList(getState());
       references.forEach((referenceKey) => {
@@ -191,7 +191,7 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
       });
     });
   } catch (e) {
-    // do nothing
+    return new Promise(resolve => resolve());
   }
 };
 
