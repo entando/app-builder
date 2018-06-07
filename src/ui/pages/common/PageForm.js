@@ -5,6 +5,7 @@ import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
 import { formattedText, required, code, maxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
+import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -27,7 +28,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle,
+      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, languages,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -46,6 +47,25 @@ export class PageFormBody extends Component {
         name="parentCode"
         validate={[required]}
       />);
+
+    const renderActiveLanguages = () => {
+      if (!isUndefined(languages)) {
+        return languages
+          .sort(a => (a.isDefault ? -1 : 1))
+          .map(lang => (
+            <Field
+              key={lang.code}
+              component={RenderTextInput}
+              name={`titles.${lang.code}`}
+              label={<FormLabel labelId="app.title" langLabelId={`app.${lang.code}`} required />}
+              placeholder={formattedText(`app.${lang.code}Title`)}
+              validate={[required]}
+              onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
+            />
+          ));
+      }
+      return null;
+    };
 
     const renderFullForm = () => {
       if (isCloneMode) {
@@ -214,21 +234,7 @@ export class PageFormBody extends Component {
                 { parentPageComponent }
               </Col>
             </FormGroup>
-            <Field
-              component={RenderTextInput}
-              name="titles.en"
-              label={<FormLabel labelId="app.title" langLabelId="app.en" required />}
-              placeholder={formattedText('app.enTitle')}
-              validate={[required]}
-              onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
-            />
-            <Field
-              component={RenderTextInput}
-              name="titles.it"
-              label={<FormLabel labelId="app.title" langLabelId="app.it" required />}
-              placeholder={formattedText('app.itTitle')}
-              validate={[required]}
-            />
+            {renderActiveLanguages()}
             <Field
               component={RenderTextInput}
               name="code"
@@ -285,6 +291,11 @@ PageFormBody.propTypes = {
   selectedJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
   charsets: PropTypes.arrayOf(PropTypes.string).isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    isDefault: PropTypes.bool,
+  })).isRequired,
   groups: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
