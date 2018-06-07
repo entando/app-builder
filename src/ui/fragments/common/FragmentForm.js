@@ -6,6 +6,7 @@ import { Panel } from 'react-bootstrap';
 import { formattedText, required, code, maxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -100,10 +101,7 @@ export const FragmentFormBody = (props) => {
               component={RenderTextInput}
               name="code"
               label={
-                <span>
-                  <FormattedMessage id="app.code" />
-                  <i className="fa fa-asterisk required-icon FragmentForm__required-icon" />
-                </span>
+                <FormLabel labelId="app.code" helpId="app.help.code" required />
               }
               placeholder={formattedText('fragment.code.placeholder')}
               validate={[required, code, maxLength50]}
