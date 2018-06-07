@@ -99,7 +99,7 @@ export const fetchPageConfig = (pageCode, status) =>
         }
         dispatch(addErrors(json.errors.map(e => e.message)));
         return null;
-      }));
+      })).catch(() => {});
 
 
 export const initConfigPage = () => async (dispatch, getState) => {
@@ -141,7 +141,7 @@ export const removePageWidget = frameId => (dispatch, getState) => {
   return deletePageWidget(pageCode, frameId)
     .then(() => {
       dispatch(removePageWidgetSync(pageCode, frameId));
-    });
+    }).catch(() => {});
 };
 
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
@@ -156,7 +156,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
       .then(() => putPageWidget(pageCode, targetFrameId, requestBody))
       .then(() => {
         dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
-      });
+      }).catch(() => {});
   };
 
 export const setSelectedPageOnTheFly = value => (dispatch, getState) =>
@@ -191,7 +191,7 @@ export const restoreSelectedPageConfig = () => (dispatch, getState) => {
         dispatch(setPageConfig(pageCode, publishedConfig));
       }
       resolve();
-    }, resolve);
+    }, resolve).catch(() => {});
   });
 };
 
@@ -211,7 +211,7 @@ export const applyDefaultConfig = () => (dispatch, getState) =>
         dispatch(setPageConfig(pageCode, defaultConfig));
       }
       resolve();
-    });
+    }).catch(() => {});
   });
 
 export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId) =>
