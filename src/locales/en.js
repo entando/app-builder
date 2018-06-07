@@ -1,6 +1,9 @@
 export default {
   locale: 'en',
   messages: {
+    'app.serverError': 'could not establish connection with {domain}',
+    'app.noJsonReturned': 'could not establish connection with {domain}',
+    'app.permissionDenied': 'your session expired',
     'app.welcome': 'Welcome to Entando, {name}!',
     'app.yes': 'Yes',
     'app.no': 'No',
