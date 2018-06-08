@@ -30,8 +30,7 @@ const FormLabel = ({
 
   return (
     <span className="FormLabel">
-      {langLabel}
-      {langLabelWithText}
+      {langLabel || langLabelWithText}
       <FormattedMessage id={labelId} />
       {requiredIcon}
       {fieldHelp}
