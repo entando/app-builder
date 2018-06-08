@@ -57,7 +57,7 @@ export class PageFormBody extends Component {
               key={lang.code}
               component={RenderTextInput}
               name={`titles.${lang.code}`}
-              label={<FormLabel labelId="app.title" langLabelId={`app.${lang.code}`} required />}
+              label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
               placeholder={formattedText(`app.${lang.code}Title`)}
               validate={[required]}
               onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
