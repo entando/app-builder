@@ -4,6 +4,7 @@ export default {
     'app.serverError': 'non è possibile raggiungere {domain}',
     'app.noJsonReturned': 'non è possibile raggiungere {domain}',
     'app.permissionDenied': 'sessione scaduta',
+    'app.usingMocks': 'App Builder sta usando i mocks',
     'app.welcome': 'Benvenuto in Entando, {name}!',
     'app.yes': 'Si',
     'app.no': 'No',
