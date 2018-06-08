@@ -74,22 +74,15 @@ export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
     const datasource = getDataSourceDump(getState());
     const tableName = getTableDump(getState());
     getDatabaseTableDump(dumpCode, datasource, tableName).then((response) => {
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setDumpTableData(json.payload.base64));
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setDumpTableData(json.payload.base64));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -98,56 +91,40 @@ export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
     const { dumpCode } = getParams(getState());
     dispatch(toggleLoading('database'));
     getReportBackup(dumpCode).then((response) => {
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setReportBackup(json.payload));
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            dispatch(toggleLoading('database'));
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setReportBackup(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        dispatch(toggleLoading('database'));
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
-
-const isJsonContentType = (headers) => {
-  const contentType = headers.get('content-type');
-  return !!(contentType && contentType.includes('application/json'));
-};
 
 const intervalStatusBackup = () => (dispatch) => {
   const interval = setInterval(() => {
     getStatusBackup().then((response) => {
-      if (isJsonContentType(response.headers)) {
-        response.json().then((json) => {
-          const status = parseInt(json.payload.status, 10);
-          if (status === 0) {
-            clearInterval(interval);
-            dispatch(setStatusBackup(json.payload.status));
-            getDatabaseDumpReportList({ page: 1, pageSize: 0 }).then((resp) => {
-              if (isJsonContentType(resp.headers)) {
-                resp.json().then((backup) => {
-                  if (resp.ok) {
-                    dispatch(setDatabaseDumps(backup.payload));
-                    dispatch(setPage(backup.metaData));
-                  } else {
-                    dispatch(addErrors(backup.errors.map(e => e.message)));
-                  }
-                });
+      response.json().then((json) => {
+        const status = parseInt(json.payload.status, 10);
+        if (status === 0) {
+          clearInterval(interval);
+          dispatch(setStatusBackup(json.payload.status));
+          getDatabaseDumpReportList({ page: 1, pageSize: 0 }).then((resp) => {
+            resp.json().then((backup) => {
+              if (resp.ok) {
+                dispatch(setDatabaseDumps(backup.payload));
+                dispatch(setPage(backup.metaData));
+              } else {
+                dispatch(addErrors(backup.errors.map(e => e.message)));
               }
             });
-          }
-        });
-      }
-    });
+          }).catch(() => {});
+        }
+      });
+    }).catch(() => {});
   }, 500);
 };
 
@@ -155,85 +132,58 @@ export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
   dispatch => new Promise((resolve) => {
     dispatch(toggleLoading('database'));
     getDatabaseDumpReportList(page).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(intervalStatusBackup());
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            dispatch(toggleLoading('database'));
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(intervalStatusBackup());
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        dispatch(toggleLoading('database'));
+        resolve();
+      });
+    }).catch(() => {});
   });
 
 export const sendPostDatabaseStartBackup = () => dispatch => (
   new Promise((resolve) => {
     postStartBackup().then((response) => {
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setStatusBackup(json.payload.status));
-              gotoRoute(ROUTE_DATABASE_LIST);
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setStatusBackup(json.payload.status));
+          gotoRoute(ROUTE_DATABASE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
 export const fetchDatabaseInitBackup = () => dispatch => (
   new Promise((resolve) => {
     getDatabaseInitBackup().then((response) => {
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setDatabaseInitBackup(json.payload));
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setDatabaseInitBackup(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   }));
 
 export const sendDeleteDatabaseBackup = code => dispatch => (
   new Promise((resolve) => {
     deleteDatabaseBackup(code).then((response) => {
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(fetchDatabaseDumpReport());
-            } else {
-              dispatch(addErrors(json.errors.map(e => e.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(fetchDatabaseDumpReport());
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   }));

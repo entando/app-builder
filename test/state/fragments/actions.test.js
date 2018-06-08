@@ -24,7 +24,6 @@ import {
   putFragmentSettings,
   getFragment,
   getFragments,
-  getPlugins,
   deleteFragment,
   postFragment,
   putFragment,
@@ -179,24 +178,26 @@ describe('state/fragments/actions', () => {
         }).catch(done.fail);
       });
 
-      it('action payload contains fragment information', () => {
+      it('action payload contains fragment information', (done) => {
         store.dispatch(fetchFragmentDetail(FRAGMENT_CODE)).then(() => {
           const actions = store.getActions();
           expect(actions[0].payload.fragment).toEqual(GET_FRAGMENT_PAYLOAD);
-        });
+          done();
+        }).catch(done.fail);
       });
     });
 
     describe('fetchPlugins', () => {
-      it('action payload contains plugins list', () => {
-        getPlugins.mockReturnValue(new Promise(resolve => resolve(PLUGINS_PAYLOAD)));
+      it('action payload contains plugins list', (done) => {
         store.dispatch(fetchPlugins()).then(() => {
           const actions = store.getActions();
-          expect(actions[0].type).toEqual(SET_PLUGINS);
-          expect(actions[0].payload.plugins).toEqual(PLUGINS_PAYLOAD.payload);
-        });
+          expect(actions[0]).toHaveProperty('type', SET_PLUGINS);
+          expect(actions[0]).toHaveProperty('payload.plugins', PLUGINS_PAYLOAD.payload);
+          done();
+        }).catch(done.fail);
       });
     });
+
     describe('fetchFragmentSettings', () => {
       it('if API response is ok, initializes the form with fragmentSettings information', (done) => {
         store.dispatch(fetchFragmentSettings()).then(() => {

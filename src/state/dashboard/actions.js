@@ -37,7 +37,7 @@ export const fetchIntegration = () => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const fetchPageStatus = () => dispatch => new Promise((resolve) => {
@@ -50,5 +50,5 @@ export const fetchPageStatus = () => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });

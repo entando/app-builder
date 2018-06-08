@@ -117,99 +117,71 @@ export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeInde
   },
 });
 
-const isJsonContentType = (headers) => {
-  const contentType = headers.get('content-type');
-  return !!(contentType && contentType.includes('application/json'));
-};
 
 // thunk
 
 export const sendPostProfileType = ProfileTypeObject => dispatch =>
   new Promise((resolve) => {
     postProfileType(ProfileTypeObject).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: json.payload.code });
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: json.payload.code });
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   });
 
 
 export const sendPutProfileType = ProfileTypeObject => dispatch =>
   new Promise((resolve) => {
     putProfileType(ProfileTypeObject).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              gotoRoute(ROUTE_PROFILE_TYPE_LIST);
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   });
 
 export const sendDeleteProfileType = profileTypeCode => dispatch =>
   new Promise((resolve) => {
     deleteProfileType(profileTypeCode).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(removeProfileType(profileTypeCode));
-              dispatch(addToast(
-                formattedText('app.deleted', null, { type: 'profile type', code: profileTypeCode }),
-                TOAST_SUCCESS,
-              ));
-              gotoRoute(ROUTE_PROFILE_TYPE_LIST);
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-              dispatch(addToast(json.errors[0].message, TOAST_ERROR));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeProfileType(profileTypeCode));
+          dispatch(addToast(
+            formattedText('app.deleted', null, { type: 'profile type', code: profileTypeCode }),
+            TOAST_SUCCESS,
+          ));
+          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(addToast(json.errors[0].message, TOAST_ERROR));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   });
 
 export const fetchProfileType = profileTypeCode => dispatch => (
   new Promise((resolve) => {
     getProfileType(profileTypeCode).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setSelectedProfileType(json.payload));
-              dispatch(initialize('ProfileType', json.payload));
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedProfileType(json.payload));
+          dispatch(initialize('ProfileType', json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -218,23 +190,17 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
   new Promise((resolve) => {
     dispatch(toggleLoading('ProfileTypes'));
     getProfileTypes(page, params).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setProfileTypes(json.payload));
-              dispatch(setPage(json.metaData));
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            dispatch(toggleLoading('ProfileTypes'));
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setProfileTypes(json.payload));
+          dispatch(setPage(json.metaData));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        dispatch(toggleLoading('ProfileTypes'));
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -247,49 +213,43 @@ const fmtDateDDMMYYY = (date) => {
 export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
   new Promise((resolve) => {
     getAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setSelectedAttributeProfileType(json.payload));
-              if (json.payload.code === 'Date') {
-                let {
-                  rangeStartDate, rangeEndDate, equalDate,
-                  rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
-                } = json.payload.validationRules;
-                rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
-                rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
-                equalDate = equalDate && fmtDateDDMMYYY(equalDate);
-                rangeStartDateAttribute =
-                  rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
-                rangeEndDateAttribute =
-                  rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
-                equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
-                const payload = {
-                  ...json.payload,
-                  validationRules: {
-                    rangeStartDate,
-                    rangeEndDate,
-                    equalDate,
-                    rangeStartDateAttribute,
-                    rangeEndDateAttribute,
-                    equalDateAttribute,
-                  },
-                };
-                dispatch(initialize('attribute', payload));
-              } else {
-                dispatch(initialize('attribute', json.payload));
-              }
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttributeProfileType(json.payload));
+          if (json.payload.code === 'Date') {
+            let {
+              rangeStartDate, rangeEndDate, equalDate,
+              rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+            } = json.payload.validationRules;
+            rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+            rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+            equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+            rangeStartDateAttribute =
+            rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+            rangeEndDateAttribute =
+            rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+            equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+            const payload = {
+              ...json.payload,
+              validationRules: {
+                rangeStartDate,
+                rangeEndDate,
+                equalDate,
+                rangeStartDateAttribute,
+                rangeEndDateAttribute,
+                equalDateAttribute,
+              },
+            };
+            dispatch(initialize('attribute', payload));
+          } else {
+            dispatch(initialize('attribute', json.payload));
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -299,26 +259,20 @@ export const sendPostAttributeFromProfileType = attributeObject => (dispatch, ge
     const profiletypeCode = getParams(getState()).entityCode;
     const list = getProfileTypeSelectedAttributeType(getState());
     postAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (!response.ok) {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            } else if (list) {
-              gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-                entityCode: profiletypeCode,
-                attributeCode: attributeObject.code,
-              });
-            } else {
-              gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
-            }
-            resolve();
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else if (list) {
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
+            entityCode: profiletypeCode,
+            attributeCode: attributeObject.code,
           });
+        } else {
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -326,26 +280,20 @@ export const sendPutAttributeFromProfileType = attributeObject => (dispatch, get
   new Promise((resolve) => {
     const profiletypeCode = getParams(getState()).entityCode;
     putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (!response.ok) {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            } else if (json.payload.type === TYPE_MONOLIST || json.payload.type === TYPE_LIST) {
-              gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-                entityCode: profiletypeCode,
-                attributeCode: attributeObject.code,
-              });
-            } else {
-              gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
-            }
-            resolve();
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else if (json.payload.type === TYPE_MONOLIST || json.payload.type === TYPE_LIST) {
+          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
+            entityCode: profiletypeCode,
+            attributeCode: attributeObject.code,
           });
+        } else {
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -353,21 +301,15 @@ export const sendPutAttributeFromProfileTypeMonolist = attributeObject => (dispa
   new Promise((resolve) => {
     const profiletypeCode = getParams(getState()).entityCode;
     putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (!response.ok) {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            } else {
-              gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -375,20 +317,14 @@ export const sendDeleteAttributeFromProfileType = attributeCode => (dispatch, ge
   new Promise((resolve) => {
     const profileTypeCode = getSelectedProfileType(getState()).code;
     deleteAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(removeAttribute(profileTypeCode, attributeCode));
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(removeAttribute(profileTypeCode, attributeCode));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
+        resolve();
+      }).catch(() => {});
     });
   })
 );
@@ -398,46 +334,34 @@ export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, para
   new Promise((resolve) => {
     dispatch(toggleLoading('ProfileTypes'));
     getProfileTypeAttributes(page, params).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              const list = getProfileTypeAttributesIdList(getState());
-              if (!list || list.length === 0) {
-                dispatch(setProfileTypeAttributes(json.payload));
-              }
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            dispatch(toggleLoading('ProfileTypes'));
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          const list = getProfileTypeAttributesIdList(getState());
+          if (!list || list.length === 0) {
+            dispatch(setProfileTypeAttributes(json.payload));
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        dispatch(toggleLoading('ProfileTypes'));
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
 export const fetchProfileTypeAttribute = ProfileTypeAttributeCode => dispatch => (
   new Promise((resolve) => {
     getProfileTypeAttribute(ProfileTypeAttributeCode).then((response) => {
-      try {
-        if (isJsonContentType(response.headers)) {
-          response.json().then((json) => {
-            if (response.ok) {
-              dispatch(setSelectedAttribute(json.payload));
-            } else {
-              dispatch(addErrors(json.errors.map(err => err.message)));
-            }
-            resolve();
-          });
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedAttribute(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
         }
-      } catch (error) {
-        throw new TypeError('No JSON content-type in response headers', error);
-      }
-    });
+        resolve();
+      });
+    }).catch(() => {});
   })
 );
 
@@ -457,7 +381,7 @@ export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex 
           }
           resolve();
         });
-      });
+      }).catch(() => {});
     })
   );
 
@@ -477,6 +401,6 @@ export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeInde
           }
           resolve();
         });
-      });
+      }).catch(() => {});
     })
   );

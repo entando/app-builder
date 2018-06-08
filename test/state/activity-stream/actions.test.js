@@ -111,7 +111,7 @@ it('test getRouteUserName', () => {
   );
 });
 
-xit('test getRouteTargetName with ROUTE_PAGE_EDIT route', () => {
+it('test getRouteTargetName with ROUTE_PAGE_EDIT route', () => {
   getNotifications.mockReturnValueOnce(NOTIFICATIONS);
   store.dispatch(getRouteTargetName(1));
   expect(gotoRoute).toHaveBeenCalled();

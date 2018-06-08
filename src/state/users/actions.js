@@ -64,7 +64,7 @@ export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dis
         dispatch(toggleLoading('users'));
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -79,7 +79,7 @@ export const fetchUsersTotal = () => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -102,7 +102,7 @@ export const fetchCurrentPageUserDetail = () => (dispatch, getState) => (
           resolve();
         });
       }
-    });
+    }).catch(() => {});
   })
 );
 
@@ -124,21 +124,24 @@ export const fetchUserForm = username => dispatch => (
           resolve();
         });
       }
-    });
+    }).catch(() => {});
   })
 );
 
 export const sendPostUser = user => async (dispatch) => {
-  const response = await postUser(user);
-  const json = await response.json();
-  if (response.ok) {
-    dispatch(setSelectedUserDetail(json.payload));
-    dispatch(fetchUsers());
-    gotoRoute(ROUTE_USER_LIST);
-    return json;
+  try {
+    const response = await postUser(user);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setSelectedUserDetail(json.payload));
+      dispatch(fetchUsers());
+      gotoRoute(ROUTE_USER_LIST);
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (e) {
+    // do nothing
   }
-  dispatch(addErrors(json.errors.map(e => e.message)));
-  throw json;
 };
 
 export const sendPutUser = user => dispatch => (
@@ -154,7 +157,7 @@ export const sendPutUser = user => dispatch => (
             resolve();
           });
         }
-      });
+      }).catch(() => {});
     } else {
       resolve();
     }
@@ -172,63 +175,59 @@ export const sendDeleteUser = username => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
 export const fetchUserAuthorities = () => async (dispatch, getState) => {
-  const { username } = getParams(getState());
-  const response = await getUserAuthorities(username);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const { username } = getParams(getState());
+    const response = await getUserAuthorities(username);
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedUserAuthorities(username, json.payload));
       dispatch(initialize('autorityForm', { groupRolesCombo: json.payload }));
-      return json.payload;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
-  const { username } = getParams(getState());
-  const response = await postUserAuthorities(username, authorities);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const { username } = getParams(getState());
+    const response = await postUserAuthorities(username, authorities);
     const json = await response.json();
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const sendPutUserAuthorities = authorities => async (dispatch, getState) => {
-  const { username } = getParams(getState());
-  const response = await putUserAuthorities(username, authorities);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const { username } = getParams(getState());
+    const response = await putUserAuthorities(username, authorities);
     const json = await response.json();
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const sendPostUserPassword = (username, data) => async (dispatch) => {
-  const response = await postUserPassword(username, data);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await postUserPassword(username, data);
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast(
@@ -237,10 +236,10 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
       ));
       dispatch(clearErrors());
       dispatch(reset('myprofile-password'));
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };

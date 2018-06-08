@@ -17,20 +17,6 @@ export const setDataModels = dataModelsPaged => ({
   },
 });
 
-const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
-  const response = await apiFunc(...args);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
-  }
-  throw new TypeError('No JSON content-type in response headers');
-};
-
 
 // thunks
 
@@ -47,7 +33,7 @@ export const fetchDataModelListPaged = (page = { page: 1, pageSize: 10 }, params
       dispatch(toggleLoading('dataModel'));
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const fetchDataModel = dataModelId => dispatch => new Promise((resolve) => {
@@ -60,7 +46,7 @@ export const fetchDataModel = dataModelId => dispatch => new Promise((resolve) =
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
@@ -77,7 +63,7 @@ export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
@@ -94,29 +80,30 @@ export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendDeleteDataModel = dataModelId => dispatch => (
   new Promise((resolve) => {
-    const deleteDataModelApi = wrapApiCall(deleteDataModel);
-    deleteDataModelApi(dataModelId)(dispatch).then(() => {
-      gotoRoute(ROUTE_DATA_MODEL_LIST);
-      dispatch(fetchDataModelListPaged());
-      dispatch(addToast(
-        formattedText('dataModel.deleteDataModelSuccess', null, { id: dataModelId }),
-        TOAST_SUCCESS,
-      ));
+    deleteDataModel(dataModelId).then((response) => {
+      if (response.ok) {
+        gotoRoute(ROUTE_DATA_MODEL_LIST);
+        dispatch(fetchDataModelListPaged());
+        dispatch(addToast(
+          formattedText('dataModel.deleteDataModelSuccess', null, { id: dataModelId }),
+          TOAST_SUCCESS,
+        ));
+      } else {
+        dispatch(addToast(
+          formattedText(
+            'dataModel.deleteDataModelError',
+            null,
+            { id: dataModelId },
+          ),
+          TOAST_ERROR,
+        ));
+      }
       resolve();
-    }).catch(() => {
-      dispatch(addToast(
-        formattedText(
-          'dataModel.deleteDataModelError',
-          null,
-          { id: dataModelId },
-        ),
-        TOAST_ERROR,
-      ));
-    });
+    }).catch(() => {});
   })
 );
