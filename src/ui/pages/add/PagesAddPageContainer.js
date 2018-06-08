@@ -9,8 +9,8 @@ import { handleExpandPage, clearTree } from 'state/pages/actions';
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(clearTree());
-    dispatch(fetchGroups());
-    dispatch(fetchPageModels());
+    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchPageModels({ page: 1, pageSize: 0 }));
     dispatch(handleExpandPage());
   },
 });

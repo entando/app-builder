@@ -13,7 +13,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPostUser(user));
   },
   onWillMount: () => {
-    dispatch(fetchProfileTypes());
+    dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
   },
 });
 
