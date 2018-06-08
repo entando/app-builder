@@ -70,16 +70,12 @@ export const setReferences = references => ({
 
 export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  const json = await response.json();
+  if (response.ok) {
+    return json;
   }
-  throw new TypeError('No JSON content-type in response headers');
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
 };
 
 export const fetchCategoryNode = wrapApiCall(getCategory);
@@ -87,26 +83,30 @@ export const fetchCategoryChildren = wrapApiCall(getCategoryTree);
 
 export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, getState) => {
   let categoryTree;
-  if (categoryCode === ROOT_CODE) {
-    dispatch(toggleLoading('categories'));
-    const responses = await Promise.all([
-      fetchCategoryNode(categoryCode)(dispatch),
-      fetchCategoryChildren(categoryCode)(dispatch),
-    ]);
-    dispatch(setCategoryLoaded(categoryCode));
-    const categoryStatus = getStatusMap(getState())[categoryCode];
-    const toExpand = (!categoryStatus || !categoryStatus.expanded);
-    if (toExpand) {
-      dispatch(toggleCategoryExpanded(categoryCode, true));
+  try {
+    if (categoryCode === ROOT_CODE) {
+      dispatch(toggleLoading('categories'));
+      const responses = await Promise.all([
+        fetchCategoryNode(categoryCode)(dispatch),
+        fetchCategoryChildren(categoryCode)(dispatch),
+      ]);
+      dispatch(setCategoryLoaded(categoryCode));
+      const categoryStatus = getStatusMap(getState())[categoryCode];
+      const toExpand = (!categoryStatus || !categoryStatus.expanded);
+      if (toExpand) {
+        dispatch(toggleCategoryExpanded(categoryCode, true));
+      }
+      dispatch(toggleLoading('categories'));
+      categoryTree = [responses[0].payload].concat(responses[1].payload);
+    } else {
+      const response = await fetchCategoryChildren(categoryCode)(dispatch);
+      categoryTree = response.payload;
     }
-    dispatch(toggleLoading('categories'));
-    categoryTree = [responses[0].payload].concat(responses[1].payload);
-  } else {
-    const response = await fetchCategoryChildren(categoryCode)(dispatch);
-    categoryTree = response.payload;
-  }
 
-  dispatch(setCategories(categoryTree));
+    dispatch(setCategories(categoryTree));
+  } catch (e) {
+    // do nothing
+  }
 };
 
 export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, getState) =>
@@ -131,44 +131,69 @@ export const fetchCategory = categoryCode => dispatch =>
     dispatch(initialize('category', data.payload));
   });
 
-export const sendPostCategory = categoryData => dispatch =>
-  dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
-    dispatch(setCategories([data.payload]));
-    gotoRoute(ROUTE_CATEGORY_LIST);
-  });
-
-export const sendPutCategory = categoryData => dispatch =>
-  dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
-    dispatch(setCategories([data.payload]));
-    gotoRoute(ROUTE_CATEGORY_LIST);
-  });
-
-export const sendDeleteCategory = categoryCode => dispatch =>
-  dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
-    dispatch(removeCategory(categoryCode));
-  });
-
-export const fetchReferences = (categoryCode, referenceKey) => dispatch =>
-  dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
-    dispatch(setReferences({
-      [referenceKey]: data.payload,
-    }));
-  });
-
-export const fetchCategoryDetail = categoryCode => (dispatch, getState) =>
-  dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
-    dispatch(setSelectedCategory(data.payload));
-    const references = getReferenceKeyList(getState());
-    references.forEach((referenceKey) => {
-      if (getSelectedRefs(getState())[referenceKey]) {
-        dispatch(fetchReferences(categoryCode, referenceKey));
-      } else {
-        setReferences({
-          [referenceKey]: [],
-        });
-      }
+export const sendPostCategory = categoryData => (dispatch) => {
+  try {
+    return dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
+      dispatch(setCategories([data.payload]));
+      gotoRoute(ROUTE_CATEGORY_LIST);
     });
-  });
+  } catch (e) {
+    return Promise.resolve();
+  }
+};
+
+export const sendPutCategory = categoryData => (dispatch) => {
+  try {
+    return dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
+      dispatch(setCategories([data.payload]));
+      gotoRoute(ROUTE_CATEGORY_LIST);
+    });
+  } catch (e) {
+    return Promise.resolve();
+  }
+};
+
+export const sendDeleteCategory = categoryCode => (dispatch) => {
+  try {
+    return dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
+      dispatch(removeCategory(categoryCode));
+    });
+  } catch (e) {
+    return Promise.resolve();
+  }
+};
+
+export const fetchReferences = (categoryCode, referenceKey) => (dispatch) => {
+  try {
+    return dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
+      dispatch(setReferences({
+        [referenceKey]: data.payload,
+      }));
+    });
+  } catch (e) {
+    return Promise.resolve();
+  }
+};
+
+export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
+  try {
+    return dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
+      dispatch(setSelectedCategory(data.payload));
+      const references = getReferenceKeyList(getState());
+      references.forEach((referenceKey) => {
+        if (getSelectedRefs(getState())[referenceKey]) {
+          dispatch(fetchReferences(categoryCode, referenceKey));
+        } else {
+          setReferences({
+            [referenceKey]: [],
+          });
+        }
+      });
+    });
+  } catch (e) {
+    return Promise.resolve();
+  }
+};
 
 export const initCategoryForm = categoryData => (dispatch) => {
   dispatch(initialize('category', categoryData));

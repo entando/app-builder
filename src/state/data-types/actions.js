@@ -138,7 +138,7 @@ export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resol
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
@@ -152,7 +152,7 @@ export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   }));
 
 
@@ -167,7 +167,7 @@ export const sendPostDataType = dataTypeObject => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendPutDataType = dataTypeObject => dispatch =>
@@ -181,7 +181,7 @@ export const sendPutDataType = dataTypeObject => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendDeleteDataType = dataTypeCode => dispatch =>
@@ -196,7 +196,7 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const fetchDataType = dataTypeCode => dispatch => (
@@ -211,7 +211,7 @@ export const fetchDataType = dataTypeCode => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -229,7 +229,7 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
         dispatch(toggleLoading('dataTypes'));
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -247,7 +247,7 @@ export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -269,7 +269,7 @@ export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (disp
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -292,7 +292,7 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -313,7 +313,7 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -329,7 +329,7 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -345,7 +345,7 @@ export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getSt
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -366,7 +366,7 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
         dispatch(toggleLoading('dataTypes'));
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -385,7 +385,7 @@ export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex 
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -405,6 +405,6 @@ export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeInde
           }
           resolve();
         });
-      });
+      }).catch(() => {});
     })
   );

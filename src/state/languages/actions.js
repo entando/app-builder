@@ -36,7 +36,7 @@ export const fetchLanguages = (page = { page: 1, pageSize: 10 }, params = '') =>
         dispatch(toggleLoading('languages'));
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -57,7 +57,7 @@ const setLanguageActive = (langCode, active) => (dispatch, getState) => (
       } else {
         resolve();
       }
-    });
+    }).catch(() => {});
   })
 );
 

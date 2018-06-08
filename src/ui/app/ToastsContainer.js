@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getToasts, removeToast } from '@entando/messages';
 
-import Toasts from 'ui/internal-page/Toasts';
+import Toasts from 'ui/app/Toasts';
 
 export const mapStateToProps = state => ({
   toasts: getToasts(state),

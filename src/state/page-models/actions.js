@@ -69,7 +69,7 @@ export const fetchPageModels = (page = { page: 1, pageSize: 10 }, params = '') =
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -84,7 +84,7 @@ export const fetchPageModelsTotal = () => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -105,7 +105,7 @@ export const removePageModel = pageModelCode => dispatch => (
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -122,7 +122,7 @@ export const fetchPageModel = pageModelCode => dispatch => (
         }
         dispatch(toggleLoading('pageModel'));
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -146,7 +146,7 @@ export const initPageModelForm = () => (dispatch, getState) => {
     const pageModel = json.payload;
     pageModel.configuration = JSON.stringify(pageModel.configuration, null, 2);
     dispatch(initialize('pageModel', pageModel));
-  });
+  }).catch(() => {});
 };
 
 export const updatePageModel = pageModel => dispatch => new Promise((resolve) => {
@@ -164,7 +164,7 @@ export const updatePageModel = pageModel => dispatch => new Promise((resolve) =>
       gotoRoute(ROUTE_PAGE_MODEL_LIST);
       resolve();
     }
-  });
+  }).catch(() => {});
 });
 
 export const createPageModel = pageModel => dispatch => new Promise((resolve) => {
@@ -182,7 +182,7 @@ export const createPageModel = pageModel => dispatch => new Promise((resolve) =>
       gotoRoute(ROUTE_PAGE_MODEL_LIST);
       resolve();
     }
-  });
+  }).catch(() => {});
 });
 
 const fetchCurrentReference = (getApiCall, setActionCreator) =>
@@ -201,7 +201,7 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
           dispatch(toggleLoading('references'));
           resolve();
         });
-      });
+      }).catch(() => {});
     });
 
 export const fetchCurrentReferencePages =
