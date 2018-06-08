@@ -161,19 +161,15 @@ export const sendDeletePage = page => async (dispatch) => {
 };
 
 export const fetchPageTree = pageCode => async (dispatch) => {
-  try {
-    if (pageCode === HOMEPAGE_CODE) {
-      const responses = await Promise.all([
-        fetchPage(pageCode)(dispatch),
-        fetchPageChildren(pageCode)(dispatch),
-      ]);
-      return [responses[0].payload].concat(responses[1].payload);
-    }
-    const response = await fetchPageChildren(pageCode)(dispatch);
-    return response.payload;
-  } catch (e) {
-    throw e;
+  if (pageCode === HOMEPAGE_CODE) {
+    const responses = await Promise.all([
+      fetchPage(pageCode)(dispatch),
+      fetchPageChildren(pageCode)(dispatch),
+    ]);
+    return [responses[0].payload].concat(responses[1].payload);
   }
+  const response = await fetchPageChildren(pageCode)(dispatch);
+  return response.payload;
 };
 
 /**
@@ -352,7 +348,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         }
       }
       resolve();
-    }).catch();
+    }).catch(() => {});
   });
 
 export const publishSelectedPage = () => (dispatch, getState) =>

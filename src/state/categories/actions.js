@@ -138,7 +138,7 @@ export const sendPostCategory = categoryData => (dispatch) => {
       gotoRoute(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
-    return new Promise(resolve => resolve());
+    return Promise.resolve();
   }
 };
 
@@ -149,7 +149,7 @@ export const sendPutCategory = categoryData => (dispatch) => {
       gotoRoute(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
-    return new Promise(resolve => resolve());
+    return Promise.resolve();
   }
 };
 
@@ -159,7 +159,7 @@ export const sendDeleteCategory = categoryCode => (dispatch) => {
       dispatch(removeCategory(categoryCode));
     });
   } catch (e) {
-    return new Promise(resolve => resolve());
+    return Promise.resolve();
   }
 };
 
@@ -171,7 +171,7 @@ export const fetchReferences = (categoryCode, referenceKey) => (dispatch) => {
       }));
     });
   } catch (e) {
-    return new Promise(resolve => resolve());
+    return Promise.resolve();
   }
 };
 
@@ -191,7 +191,7 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
       });
     });
   } catch (e) {
-    return new Promise(resolve => resolve());
+    return Promise.resolve();
   }
 };
 
