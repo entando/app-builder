@@ -31,10 +31,10 @@ class ListWidgetPage extends Component {
     } = this.props;
 
     return (
+
       <Spinner loading={!!this.props.loading}>
         {
           Object.keys(widgetList).map(typology => (
-
             <WidgetListTable
               key={typology}
               title={typology}
