@@ -81,19 +81,19 @@ class PageTreeActionMenu extends Component {
             <FormattedMessage id="app.configure" />
           </MenuItem>
           <MenuItem
-            className="PageTreeActionMenuButton__menu-item-details"
-            onClick={this.handleClick(onClickDetails)}
-          >
-            <FormattedMessage id="app.details" />
-          </MenuItem>
-          <MenuItem
             className="PageTreeActionMenuButton__menu-item-clone"
             onClick={this.handleClick(onClickClone)}
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
-          {renderDeleteItem()}
           { changePublishStatus }
+          <MenuItem
+            className="PageTreeActionMenuButton__menu-item-details"
+            onClick={this.handleClick(onClickDetails)}
+          >
+            <FormattedMessage id="app.details" />
+          </MenuItem>
+          {renderDeleteItem()}
         </DropdownKebab>
       </div>
     );
