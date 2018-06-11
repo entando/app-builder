@@ -27,6 +27,7 @@ class PageTreeActionMenu extends Component {
     const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
+          disabled={page.status === PAGE_STATUS_PUBLISHED && !page.isEmpty}
           className="PageTreeActionMenuButton__menu-item-unpublish"
           onClick={this.handleClick(onClickUnpublish)}
         >
@@ -49,6 +50,7 @@ class PageTreeActionMenu extends Component {
 
       return (
         <MenuItem
+          disabled={!page.isEmpty}
           className="PageTreeActionMenuButton__menu-item-delete"
           onClick={this.handleClick(onClickDelete)}
         >
