@@ -16,10 +16,11 @@ export const getListWidget = createSelector(
 export const getTypologyWidgetList = createSelector(getListWidget, widgetList =>
 
   widgetList.reduce((acc, widget) => {
-    if (acc[widget.typology]) {
-      acc[widget.typology].push(widget);
+    const title = widget.pluginDesc || widget.typology;
+    if (acc[title]) {
+      acc[title].push(widget);
     } else {
-      acc[widget.typology] = [widget];
+      acc[title] = [widget];
     }
     return acc;
   }, {}));
