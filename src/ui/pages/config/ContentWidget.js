@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
-import { isNull } from 'lodash';
 
 import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
@@ -26,7 +25,7 @@ const renderWidgetElement = el => (
 const renderComponent = widgetList =>
   Object.keys(widgetList).map(widget =>
     widgetList[widget].map((el, index) => {
-      const title = isNull(el.pluginDesc) ? el.typology : el.pluginDesc;
+      const title = el.pluginDesc || el.typology;
       const element = [];
       if (index === 0) {
         element.push(renderWidgetCategory(title));
