@@ -19,6 +19,7 @@ import {
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
+import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -203,8 +204,14 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
   }
   const newChildren = getChildrenMap(state)[newParentCode];
   return setPagePosition(pageCode, newChildren.length + 1, newParentCode)
-    .then(() => {
-      dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
+    .then((response) => {
+      if (response.ok) {
+        dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
+      } else {
+        response.json().then((json) => {
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        });
+      }
     }).catch(() => {});
 };
 
