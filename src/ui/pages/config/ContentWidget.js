@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { formattedText } from '@entando/utils';
+import { isNull } from 'lodash';
 
 import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
@@ -9,7 +10,7 @@ import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidge
 const renderWidgetCategory = title => (
   <div key={`cat-${title}`} className="ContentWidgetElement__widget-spacer">
     <h2 className="ContentWidgetElement__widget-title">
-      {title.replace('jp', '')}
+      {title}
     </h2>
   </div>
 );
@@ -25,9 +26,10 @@ const renderWidgetElement = el => (
 const renderComponent = widgetList =>
   Object.keys(widgetList).map(widget =>
     widgetList[widget].map((el, index) => {
+      const title = isNull(el.pluginDesc) ? el.typology : el.pluginDesc;
       const element = [];
       if (index === 0) {
-        element.push(renderWidgetCategory(el.typology));
+        element.push(renderWidgetCategory(title));
       }
       element.push(renderWidgetElement(el));
       return element;
