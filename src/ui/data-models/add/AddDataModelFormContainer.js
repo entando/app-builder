@@ -13,7 +13,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(clearErrors());
-    dispatch(fetchDataTypes());
+    dispatch(fetchDataTypes({ page: 1, pageSize: 0 }));
   },
   onSubmit: (values) => {
     dispatch(sendPostDataModel(values));

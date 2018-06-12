@@ -53,7 +53,7 @@ export const fetchLabels = (page = { page: 1, pageSize: 10 }, params = '') => di
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -68,7 +68,7 @@ export const fetchLabel = labelkey => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -85,7 +85,7 @@ export const updateLabel = label => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -102,7 +102,7 @@ export const createLabel = label => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -117,6 +117,6 @@ export const removeLabel = labelCode => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
