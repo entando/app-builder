@@ -92,14 +92,23 @@ export const getPageTreePages = createSelector(
   (pages, pageChildren, pagesStatus, pagesTitles, locale) => (
     getPagesOrder(pageChildren)
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
-      .map(pageCode => ({
-        ...pages[pageCode],
-        ...PAGE_STATUS_DEFAULTS,
-        ...pagesStatus[pageCode],
-        depth: getDepth(pages, pageCode),
-        isEmpty: !(pageChildren[pageCode] && pageChildren[pageCode].length),
-        title: pagesTitles[pageCode][locale],
-      }))),
+      .map((pageCode) => {
+        const isEmpty = !(pageChildren[pageCode] && pageChildren[pageCode].length);
+        let pagePublish = false;
+        if (!isEmpty) {
+          pagePublish = pageChildren[pageCode]
+            .some(el => pages[el] && pages[el].status === PAGE_STATUS_PUBLISHED);
+        }
+        return ({
+          ...pages[pageCode],
+          ...PAGE_STATUS_DEFAULTS,
+          ...pagesStatus[pageCode],
+          depth: getDepth(pages, pageCode),
+          isEmpty,
+          pagePublish,
+          title: pagesTitles[pageCode][locale],
+        });
+      })),
 );
 
 export const getCharsets = () => ([
