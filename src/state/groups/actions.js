@@ -68,7 +68,7 @@ export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => di
         resolve();
       }
     });
-  });
+  }).catch(() => {});
 });
 
 export const fetchGroupsTotal = () => dispatch => (
@@ -82,7 +82,7 @@ export const fetchGroupsTotal = () => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -98,7 +98,7 @@ export const fetchGroup = groupCode => dispatch => (
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -114,7 +114,7 @@ export const sendPutGroup = groupData => dispatch => (
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -130,7 +130,7 @@ export const sendPostGroup = groupData => dispatch => (
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -146,7 +146,7 @@ export const sendDeleteGroup = groupCode => dispatch => (
           resolve();
         }
       });
-    });
+    }).catch(() => {});
   })
 );
 
@@ -175,7 +175,7 @@ export const fetchReferences = (referenceKey, page = { page: 1, pageSize: 10 }) 
           dispatch(toggleLoading('references'));
           resolve();
         });
-      });
+      }).catch(() => {});
     })
   );
 
@@ -201,6 +201,6 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   })
 );

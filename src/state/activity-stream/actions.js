@@ -46,7 +46,7 @@ export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch
         dispatch(toggleLoading('activityStream'));
         resolve();
       });
-    });
+    }).catch(() => {});
   }));
 
 
@@ -90,7 +90,7 @@ const wrapApiActivityStream = apiCall => (...params) => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   }));
 
 export const sendPostActivityStreamComment = (recordId, comment) => dispatch =>
@@ -112,7 +112,7 @@ export const sendPostActivityStreamLike = id => dispatch => (
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   }));
 
 export const sendDeleteActivityStreamLike = id => dispatch =>
