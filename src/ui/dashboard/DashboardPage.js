@@ -4,7 +4,7 @@ import { Row, Col, CardGrid } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
-import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
+import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
@@ -19,7 +19,7 @@ const DashboardPage = () => (
           <UxPatternsContainer />
         </Col>
         <Col md={4}>
-          <IntegrationsContainer />
+          <LanguagesContainer />
         </Col>
       </Row>
       <Row>
