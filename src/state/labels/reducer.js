@@ -37,7 +37,7 @@ const list = (state = [], action = {}) => {
 };
 
 
-const activeTab = (state = {}, action = {}) => {
+const activeTab = (state = null, action = {}) => {
   switch (action.type) {
     case SET_ACTIVE_TAB: {
       return action.payload.activeTab;
