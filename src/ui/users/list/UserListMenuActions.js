@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { gotoRoute } from '@entando/router';
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 import {
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
   ROUTE_USER_EDIT, ROUTE_USER_PROFILE,

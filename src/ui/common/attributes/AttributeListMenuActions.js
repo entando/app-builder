@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 
 const AttributeListMenuActions = ({
   onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, entityCode,

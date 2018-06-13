@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ActivityStreamMenu } from 'frontend-common-components';
+import { ActivityStreamMenu } from '@entando/menu';
 
 import { toggleNotificationList } from 'state/activity-stream/actions';
 

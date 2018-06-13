@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_PROFILE_TYPE_EDIT } from 'app-init/router';
 
