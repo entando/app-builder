@@ -21,19 +21,6 @@ const dispatchMock = jest.fn();
 
 jest.mock('frontend-common-components', () => ({
   BreadcrumbItem: () => (<span />),
-  LoginPage: () => (<span />),
-  LoginForm: () => (<span />),
-  BrandMenu: () => (<span />),
-  ProjectLink: () => (<span />),
-  UserDropdown: () => (<span />),
-  HelpMenu: () => (<span />),
-  AdminAppSwitch: () => (<span />),
-  LinkMenuItem: () => (<span />),
-  FirstLevelMenuItem: () => (<span />),
-  DropdownMenuItem: () => (<span />),
-  ActivityStreamMenu: () => (<span />),
-  ActivityStream: () => (<span />),
-  Notification: () => (<span />),
 }));
 
 describe('EditFragmentPageContainer', () => {
