@@ -4,11 +4,11 @@
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
-    "@entando/apimanager": "^1.0.6",
+    "@entando/apimanager": "^2.0.1",
     "@entando/menu": "^1.0.0",
-    "@entando/messages": "^1.0.0",
-    "@entando/router": "^1.0.1",
-    "@entando/utils": "^1.0.5",
+    "@entando/messages": "^1.0.1",
+    "@entando/router": "^1.0.2",
+    "@entando/utils": "^1.0.6",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
@@ -41,6 +41,7 @@
     "husky": "^0.14.3",
     "jest": "20.0.4",
     "jest-webpack-resolver": "^0.3.0",
+    "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "node-sass": "^4.7.2",
     "object-assign": "4.1.1",
@@ -162,6 +163,7 @@
     "mini-css-extract-plugin": "^0.4.0",
     "npm-run": "^4.1.2",
     "source-map-explorer": "^1.5.0",
-    "webpack-cli": "^2.1.4"
+    "webpack-cli": "^2.1.4",
+    "whatwg-fetch": "^2.0.4"
   }
 }

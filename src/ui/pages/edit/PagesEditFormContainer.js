@@ -3,6 +3,7 @@ import { formValueSelector } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 
 import PageForm from 'ui/pages/common/PageForm';
+import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
@@ -11,8 +12,10 @@ import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/p
 import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { fetchLanguages } from 'state/languages/actions';
 
 export const mapStateToProps = state => ({
+  languages: getActiveLanguages(state),
   groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
@@ -41,6 +44,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onWillMount: ({ pageCode }) => {
     dispatch(clearTree());
+    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups());
     dispatch(fetchPageModels());
     dispatch(handleExpandPage());

@@ -8,6 +8,7 @@ const RenderSelectInput = ({
   labelSize, alignClass, label, help,
   defaultOptionId, options, optionReducer,
   optionValue, optionDisplayName, size, inputSize,
+  disabled,
 }) => {
   const containerClasses = (touched && error) ? 'form-group has-error' : 'form-group';
 
@@ -44,6 +45,7 @@ const RenderSelectInput = ({
           {...input}
           size={size}
           className="form-control RenderSelectInput"
+          disabled={disabled}
         >
           {defaultOption}
           {optionsList}
@@ -77,6 +79,7 @@ RenderSelectInput.propTypes = {
   optionDisplayName: PropTypes.string,
   size: PropTypes.number,
   inputSize: PropTypes.number,
+  disabled: PropTypes.bool,
 };
 
 RenderSelectInput.defaultProps = {
@@ -96,5 +99,6 @@ RenderSelectInput.defaultProps = {
   optionDisplayName: 'text',
   size: null,
   inputSize: null,
+  disabled: false,
 };
 export default RenderSelectInput;

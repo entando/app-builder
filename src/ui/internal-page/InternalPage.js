@@ -22,7 +22,6 @@ import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuCo
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
-import ToastsContainer from 'ui/internal-page/ToastsContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 import pluginArray from 'entando-plugins';
 
@@ -178,7 +177,6 @@ const InternalPage = ({ className, children }) => (
     <ActivityStreamContainer >
       <NotificationListContainer />
     </ActivityStreamContainer>
-    <ToastsContainer />
     {children}
   </div>
 );

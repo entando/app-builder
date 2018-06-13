@@ -6,6 +6,7 @@ import { gotoRoute } from '@entando/router';
 import { NotFoundPage } from 'frontend-common-components';
 
 import App from 'ui/app/App';
+import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
@@ -83,6 +84,13 @@ describe('App', () => {
   it('renders without crashing', () => {
     const component = shallow(<App route={ROUTE_HOME} />);
     expect(component.exists()).toBe(true);
+  });
+
+  it('always contains the ToastsContainer', () => {
+    let component = shallow(<App route={ROUTE_HOME} />);
+    expect(component.find(ToastsContainer).exists()).toBe(true);
+    component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />);
+    expect(component.find(ToastsContainer).exists()).toBe(true);
   });
 
   it('redirects to login page if the user is not logged in', () => {

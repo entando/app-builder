@@ -61,7 +61,7 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
         }
         dispatch(addErrors(json.errors.map(e => e.message)));
         return null;
-      }));
+      })).catch(() => {});
 };
 
 export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) => {
@@ -78,7 +78,7 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
@@ -93,7 +93,7 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') =>
       dispatch(toggleLoading('widgets'));
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
@@ -106,7 +106,7 @@ export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
       }
       resolve();
     });
-  });
+  }).catch(() => {});
 });
 
 export const sendPostWidgets = widgetObject => dispatch =>
@@ -124,7 +124,7 @@ export const sendPostWidgets = widgetObject => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendPutWidgets = widgetObject => dispatch =>
@@ -142,7 +142,7 @@ export const sendPutWidgets = widgetObject => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
 
 export const sendDeleteWidgets = widgetCode => dispatch =>
@@ -162,5 +162,5 @@ export const sendDeleteWidgets = widgetCode => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });
