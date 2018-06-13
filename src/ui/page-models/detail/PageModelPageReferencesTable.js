@@ -5,7 +5,7 @@ import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class PageModelPageReferencesTable extends Component {

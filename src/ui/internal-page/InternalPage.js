@@ -6,7 +6,7 @@ import {
   AdminAppSwitch,
   LinkMenuItem,
   FirstLevelMenuItem,
-} from 'frontend-common-components';
+} from '@entando/menu';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 
