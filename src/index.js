@@ -19,6 +19,8 @@ import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';
 
 import 'codemirror/lib/codemirror.css';
+import '@entando/menu/dist/css/index.css';
+import '@entando/pages/dist/css/index.css';
 
 import 'frontend-common-components/index.css';
 import 'index.scss';

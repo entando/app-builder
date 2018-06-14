@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 import pluginArray from 'entando-plugins';
 
 import { ROUTE_PLUGIN_CONFIG_PAGE } from 'app-init/router';

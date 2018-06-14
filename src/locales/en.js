@@ -294,6 +294,8 @@ export default {
     'dashboard.newPage': 'Add Page',
     'dashboard.apis': 'APIs',
     'dashboard.numberWidgets': 'Number of Widgets',
+    'dashboard.languages': 'Languages',
+    'dashboard.activeLanguages': 'Active Languages',
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',

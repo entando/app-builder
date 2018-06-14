@@ -1,9 +1,9 @@
 import React from 'react';
+import { UserDropdown, LinkMenuItem } from '@entando/menu';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import UserMenu from 'ui/internal-page/UserMenu';
-import { UserDropdown, LinkMenuItem } from 'frontend-common-components';
 
 const component = shallow(<UserMenu logout={() => {}} username="entando" />);
 
