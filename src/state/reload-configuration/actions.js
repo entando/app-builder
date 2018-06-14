@@ -25,5 +25,5 @@ export const sendReloadConf = () => dispatch =>
         }
         resolve();
       });
-    });
+    }).catch(() => {});
   });

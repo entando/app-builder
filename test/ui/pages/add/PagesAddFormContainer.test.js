@@ -11,7 +11,8 @@ import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
-
+import { getActiveLanguages } from 'state/languages/selectors';
+import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
@@ -31,6 +32,12 @@ jest.mock('state/pages/selectors', () => ({
   getSelectedPageLocaleTitle: jest.fn().mockReturnValue('getSelectedPageLocaleTitle_result'),
 }));
 
+jest.mock('state/languages/selectors', () => ({
+  getActiveLanguages: jest.fn(),
+}));
+
+getActiveLanguages.mockReturnValue(LANGUAGES);
+
 jest.mock('@entando/router');
 
 const STATE = {
@@ -43,6 +50,11 @@ describe('PagesAddFormContainer', () => {
     let props;
     beforeEach(() => {
       props = mapStateToProps(STATE);
+    });
+
+    it('maps the "languages" prop with the getActiveLanguages selector', () => {
+      expect(getActiveLanguages).toHaveBeenCalled();
+      expect(props).toHaveProperty('languages', LANGUAGES);
     });
 
     it('maps the "groups" prop with the getGroupsList selector', () => {

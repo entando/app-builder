@@ -1,6 +1,8 @@
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
+import { getActiveLanguages } from 'state/languages/selectors';
+import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 // mocked
 import { formValueSelector } from 'redux-form';
@@ -42,6 +44,12 @@ jest.mock('state/pages/selectors', () => ({
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
 
+jest.mock('state/languages/selectors', () => ({
+  getActiveLanguages: jest.fn(),
+}));
+
+getActiveLanguages.mockReturnValue(LANGUAGES);
+
 const PAGE_CODE = 'page_code';
 const STATE = {};
 
@@ -61,6 +69,7 @@ describe('PagesEditFormContainer', () => {
     it('props are correctly defined', () => {
       expect(props).toHaveProperty('mode', 'edit');
       expect(props).toHaveProperty('pageCode', PAGE_CODE);
+      expect(props).toHaveProperty('languages', LANGUAGES);
       expect(props).toHaveProperty('groups', GROUPS);
       expect(props).toHaveProperty('pageModels', 'getPageModels_result');
       expect(props).toHaveProperty('charsets', 'getCharsets_result');
@@ -86,6 +95,10 @@ describe('PagesEditFormContainer', () => {
 
       it('dispatch clearTree', () => {
         expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
+      });
+
+      it('dispatch fetchLanguages', () => {
+        expect(dispatchMock).toHaveBeenCalled();
       });
 
       it('dispatch fetchGroups', () => {

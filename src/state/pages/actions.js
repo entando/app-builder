@@ -6,10 +6,10 @@ import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettings, putPage, putPageStatus, getSearchPages, getReferencesPage,
+  getPageSettings, putPage, putPageStatus, getSearchPages,
   putPageSettings,
 } from 'api/pages';
-import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage, getReferencesFromSelectedPage } from 'state/pages/selectors';
+import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
@@ -19,7 +19,7 @@ import {
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
-
+import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -132,19 +132,14 @@ export const clearTree = () => ({
   type: CLEAR_TREE,
 });
 
-// TODO: generalize and centralize this function to cleanup API calls
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  const json = await response.json();
+  if (response.ok) {
+    return json;
   }
-  throw new TypeError('No JSON content-type in response headers');
+  dispatch(addErrors(json.errors.map(e => e.message)));
+  throw json;
 };
 
 
@@ -152,19 +147,18 @@ export const fetchPage = wrapApiCall(getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
 export const sendDeletePage = page => async (dispatch) => {
-  const response = await deletePage(page);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await deletePage(page);
     const json = await response.json();
     if (response.ok) {
       dispatch(removePage(page));
       gotoRoute(ROUTE_PAGE_TREE);
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const fetchPageTree = pageCode => async (dispatch) => {
@@ -195,7 +189,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
         dispatch(addPages(pages));
         dispatch(togglePageExpanded(pageCode, true));
         dispatch(setPageLoaded(pageCode));
-      });
+      }).catch(() => {});
   }
   dispatch(togglePageExpanded(pageCode, toExpand));
   return noopPromise();
@@ -210,9 +204,15 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
   }
   const newChildren = getChildrenMap(state)[newParentCode];
   return setPagePosition(pageCode, newChildren.length + 1, newParentCode)
-    .then(() => {
-      dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
-    });
+    .then((response) => {
+      if (response.ok) {
+        dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
+      } else {
+        response.json().then((json) => {
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        });
+      }
+    }).catch(() => {});
 };
 
 
@@ -232,7 +232,7 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
   return setPagePosition(pageCode, newPosition, newParentCode)
     .then(() => {
       dispatch(movePageSync(pageCode, oldParentCode, newParentCode, newPosition));
-    });
+    }).catch(() => {});
 };
 
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
@@ -248,75 +248,75 @@ export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatc
   .catch(() => { });
 
 export const fetchFreePages = () => async (dispatch) => {
-  const response = await getFreePages();
-  const json = await response.json();
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await getFreePages();
+    const json = await response.json();
     if (response.ok) {
       dispatch(setFreePages(json.payload));
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const clonePage = page => async (dispatch) => {
-  const json = await fetchPage(page.code)(dispatch);
-  dispatch(initialize('page', {
-    ...json.payload,
-    ...RESET_FOR_CLONE,
-  }));
-  gotoRoute(ROUTE_PAGE_CLONE);
+  try {
+    const json = await fetchPage(page.code)(dispatch);
+    dispatch(initialize('page', {
+      ...json.payload,
+      ...RESET_FOR_CLONE,
+    }));
+    gotoRoute(ROUTE_PAGE_CLONE);
+  } catch (e) {
+    // do nothing
+  }
 };
 
 export const fetchPageSettings = () => async (dispatch) => {
-  const response = await getPageSettings();
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await getPageSettings();
     const json = await response.json();
     if (response.ok) {
       dispatch(initialize('settings', json.payload));
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const sendPutPageSettings = pageSettings => async (dispatch) => {
-  const response = await putPageSettings(pageSettings);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await putPageSettings(pageSettings);
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast(
         formattedText('pageSettings.success'),
         TOAST_SUCCESS,
       ));
-      return json;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const sendPutPage = pageData => async (dispatch) => {
-  const response = await putPage(pageData);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await putPage(pageData);
     const json = await response.json();
     if (response.ok) {
       dispatch(updatePage(json.payload));
-      return json.payload;
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
@@ -332,6 +332,7 @@ export const loadSelectedPage = pageCode => (dispatch, getState) =>
       return response.payload;
     })
     .catch(() => {});
+
 const putSelectedPageStatus = status => (dispatch, getState) =>
   new Promise((resolve) => {
     const page = getSelectedPage(getState());
@@ -354,7 +355,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         }
       }
       resolve();
-    });
+    }).catch(() => {});
   });
 
 export const publishSelectedPage = () => (dispatch, getState) =>
@@ -364,46 +365,23 @@ export const unpublishSelectedPage = () => (dispatch, getState) =>
   putSelectedPageStatus(PAGE_STATUS_DRAFT)(dispatch, getState);
 
 export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
-  const response = await getSearchPages(page, params);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+  try {
+    const response = await getSearchPages(page, params);
     const json = await response.json();
     if (response.ok) {
-      if (json.payload) {
-        dispatch(setSearchPages(json.payload));
-        dispatch(setPage(json.metaData));
-        return json.payload;
-      }
-      return 'homepage';
+      dispatch(setSearchPages(json.payload));
+      dispatch(setPage(json.metaData));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
-    throw json;
+  } catch (e) {
+    // do nothing
   }
-  throw new TypeError('No JSON content-type in response headers');
 };
 
 export const clearSearchPage = () => (dispatch) => {
   dispatch(clearSearch());
   dispatch(initialize('pageSearch', {}));
-};
-
-export const fetchReferencesPage = getState => async (dispatch) => {
-  const pageCode = getSelectedPage(getState());
-  const references = getReferencesFromSelectedPage(getState());
-  const data = await Promise.all(references.map(async (ref) => {
-    const response = await getReferencesPage(pageCode, ref);
-    const contentType = response.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      const json = await response.json();
-      if (response.ok) {
-        return json.payload;
-      }
-      dispatch(addErrors(json.errors.map(e => e.message)));
-      throw json;
-    }
-    throw new TypeError('No JSON content-type in response headers');
-  }));
-  dispatch(setReferenceSelectedPage(data));
 };
 
 export const initPageForm = pageData => (dispatch) => {

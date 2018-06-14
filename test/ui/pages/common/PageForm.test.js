@@ -5,6 +5,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageFormBody } from 'ui/pages/common/PageForm';
 import { LIST_GROUPS_OK as GROUPS } from 'test/mocks/groups';
+import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
 import { getContentTypes, getCharsets } from 'state/pages/selectors';
 
@@ -30,6 +31,7 @@ describe('PageForm', () => {
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          languages={LANGUAGES}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
           contentTypes={CONTENT_TYPES}
@@ -77,6 +79,7 @@ describe('PageForm', () => {
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          languages={LANGUAGES}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
           contentTypes={CONTENT_TYPES}
@@ -98,6 +101,7 @@ describe('PageForm', () => {
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          languages={LANGUAGES}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
           contentTypes={CONTENT_TYPES}
@@ -117,6 +121,7 @@ describe('PageForm', () => {
       component = shallow((
         <PageFormBody
           onSubmit={ON_SUBMIT}
+          languages={LANGUAGES}
           handleSubmit={HANDLE_SUBMIT}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
@@ -142,6 +147,7 @@ describe('PageForm', () => {
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          languages={LANGUAGES}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
           contentTypes={CONTENT_TYPES}
@@ -166,6 +172,7 @@ describe('PageForm', () => {
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
+          languages={LANGUAGES}
           groups={GROUPS}
           pageModels={PAGE_MODELS}
           contentTypes={CONTENT_TYPES}

@@ -28,5 +28,5 @@ export const fetchPermissions = (page = { page: 1, pageSize: 10 }, params = '') 
         }
         dispatch(toggleLoading('permissions'));
       });
-    });
+    }).catch(() => {});
   });

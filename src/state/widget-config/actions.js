@@ -26,7 +26,7 @@ export const updateConfiguredPageWidget = widgetConfig =>
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
           }
-        }));
+        })).catch(() => {});
   };
 
 
