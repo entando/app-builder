@@ -94,9 +94,9 @@ export const getPageTreePages = createSelector(
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
       .map((pageCode) => {
         const isEmpty = !(pageChildren[pageCode] && pageChildren[pageCode].length);
-        let pagePublish = false;
+        let hasPublishedChildren = false;
         if (!isEmpty) {
-          pagePublish = pageChildren[pageCode]
+          hasPublishedChildren = pageChildren[pageCode]
             .some(el => pages[el] && pages[el].status === PAGE_STATUS_PUBLISHED);
         }
         return ({
@@ -105,7 +105,7 @@ export const getPageTreePages = createSelector(
           ...pagesStatus[pageCode],
           depth: getDepth(pages, pageCode),
           isEmpty,
-          pagePublish,
+          hasPublishedChildren,
           title: pagesTitles[pageCode][locale],
         });
       })),

@@ -29,7 +29,7 @@ class PageTreeActionMenu extends Component {
       disabled = true;
     }
     if (page.expanded) {
-      disabled = page.pagePublish;
+      disabled = page.hasPublishedChildren;
     }
     const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
