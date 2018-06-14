@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { gotoRoute } from '@entando/router';
-import { NotFoundPage } from 'frontend-common-components';
+import { NotFoundPage } from '@entando/pages';
 
 import App from 'ui/app/App';
 import ToastsContainer from 'ui/app/ToastsContainer';

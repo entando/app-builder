@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { gotoRoute } from '@entando/router';
-import { LoginPage, NotFoundPage } from 'frontend-common-components';
+import { LoginPage, NotFoundPage } from '@entando/pages';
 
 import {
   ROUTE_HOME,

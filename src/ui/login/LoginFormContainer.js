@@ -1,8 +1,5 @@
-
 import { connect } from 'react-redux';
-
-// import the Component to be connected
-import { LoginForm } from 'frontend-common-components';
+import { LoginForm } from '@entando/pages';
 
 import { performLogin } from 'state/login-form/actions';
 import { setCurrentLanguage } from 'state/locale/actions';
