@@ -28,7 +28,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, languages,
+      contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -60,7 +60,11 @@ export class PageFormBody extends Component {
               label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
               placeholder={formattedText(`app.${lang.code}Title`)}
               validate={[required]}
-              onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
+              onChange={(ev) => {
+                if (onChangeDefaultTitle && lang.isDefault) {
+                  onChangeDefaultTitle(ev.currentTarget.value);
+                }
+              }}
             />
           ));
       }
@@ -308,7 +312,7 @@ PageFormBody.propTypes = {
   })).isRequired,
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
-  onChangeEnTitle: PropTypes.func,
+  onChangeDefaultTitle: PropTypes.func,
   parentCode: PropTypes.string,
   parentTitle: PropTypes.string,
 };
@@ -318,7 +322,7 @@ PageFormBody.defaultProps = {
   submitting: false,
   mode: 'add',
   onWillMount: null,
-  onChangeEnTitle: null,
+  onChangeDefaultTitle: null,
   parentCode: null,
   parentTitle: null,
 };
