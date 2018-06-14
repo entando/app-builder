@@ -11,7 +11,7 @@ const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map(item =>
         {item.code === defaultLanguage ? `${item.code}*` : item.code}
       </span>
     </td>
-    <td className="ActiveLangTable__td text-center">{item.name}</td>
+    <td className="ActiveLangTable__td">{item.name}</td>
     <td className="ActiveLangTable__td text-center">
       <Button
         bsStyle="link"
@@ -56,6 +56,7 @@ const renderTable = (activeLanguages, onDeactivateLang, defaultLanguage) => {
 
 const ActiveLangTable = ({ activeLanguages, onDeactivateLang, defaultLanguage }) => (
   <div className="ActiveLangTable">
+    * <FormattedMessage id="labels.default.language" />
     {renderTable(activeLanguages, onDeactivateLang, defaultLanguage)}
     <DeleteLabelAndLanguagesModalContainer />
   </div>
