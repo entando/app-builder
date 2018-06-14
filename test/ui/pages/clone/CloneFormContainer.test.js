@@ -85,9 +85,9 @@ describe('CloneFormContainer', () => {
       }).catch(done.fail);
     });
 
-    it('maps the "onChangeEnTitle" prop a redux-form change dispatch', () => {
-      expect(props).toHaveProperty('onChangeEnTitle');
-      props.onChangeEnTitle('En Title');
+    it('maps the "onChangeDefaultTitle" prop a redux-form change dispatch', () => {
+      expect(props).toHaveProperty('onChangeDefaultTitle');
+      props.onChangeDefaultTitle('En Title');
       expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
     });
   });

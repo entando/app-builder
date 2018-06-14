@@ -95,9 +95,10 @@ describe('PageForm', () => {
     });
   });
 
-  describe('with onChangeEnTitle callback', () => {
-    it('when changing the en title, it calls onChangeEnTitle', () => {
-      const component = shallow((
+  describe('with onChangeDefaultTitle callback', () => {
+    let component;
+    beforeEach(() => {
+      component = shallow((
         <PageFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
@@ -107,11 +108,19 @@ describe('PageForm', () => {
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
-          onChangeEnTitle={ON_CHANGE_EN_TITLE}
+          onChangeDefaultTitle={ON_CHANGE_EN_TITLE}
         />
       ));
+    });
+
+    it('when changing a default language title, it calls onChangeDefaultTitle', () => {
       component.find('Field[name="titles.en"]').prop('onChange')(CHANGE_EVENT);
       expect(ON_CHANGE_EN_TITLE).toHaveBeenCalledWith(CHANGE_EVENT.currentTarget.value);
+    });
+
+    it('when changing a not default language title, it calls nothing', () => {
+      component.find('Field[name="titles.it"]').prop('onChange')(CHANGE_EVENT);
+      expect(ON_CHANGE_EN_TITLE).not.toHaveBeenCalled();
     });
   });
 
