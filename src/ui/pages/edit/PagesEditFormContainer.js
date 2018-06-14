@@ -45,7 +45,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ pageCode }) => {
     dispatch(clearTree());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchGroups());
+    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchPageModels());
     dispatch(handleExpandPage());
     dispatch(fetchPageForm(pageCode));
