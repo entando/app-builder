@@ -6,7 +6,7 @@ import DashboardPage from 'ui/dashboard/DashboardPage';
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
-import IntegrationsContainer from 'ui/dashboard/IntegrationsContainer';
+import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
@@ -32,9 +32,9 @@ describe('DashboardPage', () => {
     expect(component.find(UxPatternsContainer)).toHaveLength(1);
   });
 
-  it('verify if Integrations exists', () => {
+  it('verify if Languages exists', () => {
     const component = shallow(<DashboardPage />);
-    expect(component.find(IntegrationsContainer)).toHaveLength(1);
+    expect(component.find(LanguagesContainer)).toHaveLength(1);
   });
 
   it('verify if PageStatus exists', () => {

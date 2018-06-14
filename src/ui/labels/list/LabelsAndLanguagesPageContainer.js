@@ -7,6 +7,8 @@ import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/sel
 import { getActiveTab } from 'state/labels/selectors';
 import { getLoading } from 'state/loading/selectors';
 
+const TAB_LANGUAGES = 'languages';
+
 export const mapStateToProps = state => (
   {
     page: getCurrentPage(state),
@@ -14,7 +16,7 @@ export const mapStateToProps = state => (
     pageSize: getPageSize(state),
     loadingLabels: getLoading(state).systemLabels,
     loadingLangs: getLoading(state).languages,
-    activeTab: getActiveTab(state),
+    activeTab: getActiveTab(state) || TAB_LANGUAGES,
   }
 );
 
