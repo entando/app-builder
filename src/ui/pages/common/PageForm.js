@@ -98,7 +98,7 @@ export class PageFormBody extends Component {
               />
               <FormGroup>
                 <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                  <FormLabel labelId="pages.pageForm.joinGroup" required />
+                  <FormLabel labelId="pages.pageForm.joinGroup" />
                 </label>
                 <Col xs={10}>
                   <FieldArray
