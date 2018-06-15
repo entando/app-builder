@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
@@ -53,6 +53,16 @@ export const deleteWidgets = widgetCode => (
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.DELETE,
     mockResponse: { code: widgetCode },
+    useAuthentication: true,
+  })
+);
+
+
+export const getWidgetInfo = widgetCode => (
+  makeRequest({
+    uri: `/api/widgets/${widgetCode}/info`,
+    method: METHODS.GET,
+    mockResponse: WIDGET_INFO,
     useAuthentication: true,
   })
 );
