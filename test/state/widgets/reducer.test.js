@@ -4,9 +4,10 @@ import {
   setSelectedWidget,
   removeWidget,
   setWidgetsTotal,
+  setWidgetInfo,
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
-import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 
 const WIDGET_LIST_PAYLOAD = WIDGET_LIST.payload;
@@ -28,6 +29,16 @@ describe('state/widget-list/reducer', () => {
     expect(state).toHaveProperty('map', {});
     expect(state).toHaveProperty('selected', null);
     expect(state).toHaveProperty('total', 0);
+    expect(state).toHaveProperty('info', {});
+  });
+
+  describe('after action SET_WIDGET_INFO', () => {
+    beforeEach(() => {
+      state = reducer({}, setWidgetInfo(WIDGET_INFO));
+    });
+    it('should define info', () => {
+      expect(state.info).toBeDefined();
+    });
   });
 
   describe('after action SET_WIDGETS_TOTAL', () => {

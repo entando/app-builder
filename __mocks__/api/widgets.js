@@ -5,3 +5,4 @@ export const getWidgets = jest.fn(mockApi({ payload: [] }));
 export const postWidgets = jest.fn(mockApi({ payload: {} }));
 export const putWidgets = jest.fn(mockApi({ payload: {} }));
 export const deleteWidgets = jest.fn(mockApi({ payload: {} }));
+export const getWidgetInfo = jest.fn(mockApi({ payload: {} }));
