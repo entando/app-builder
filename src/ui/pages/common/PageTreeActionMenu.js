@@ -24,10 +24,17 @@ class PageTreeActionMenu extends Component {
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
     } = this.props;
 
+    let disabled = false;
+    if (!page.isEmpty && page.status === PAGE_STATUS_PUBLISHED) {
+      disabled = true;
+    }
+    if (page.expanded) {
+      disabled = page.hasPublishedChildren;
+    }
     const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
-          disabled={page.status === PAGE_STATUS_PUBLISHED && !page.isEmpty}
+          disabled={disabled}
           className="PageTreeActionMenuButton__menu-item-unpublish"
           onClick={this.handleClick(onClickUnpublish)}
         >
