@@ -90,7 +90,6 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
 
 export const fetchWidgetInfo = () => (dispatch, getState) => new Promise((resolve) => {
   const { widgetCode } = getParams(getState());
-
   getWidgetInfo(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
