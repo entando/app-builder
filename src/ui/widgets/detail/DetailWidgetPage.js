@@ -16,7 +16,7 @@ class DetailWidgetPage extends Component {
   render() {
     const { widgetInfo } = this.props;
     return (
-      <InternalPage className="AddWidgetPage">
+      <InternalPage className="DetailWidgetPage">
         <Grid fluid>
           <Row>
             <Col xs={12}>

@@ -12,6 +12,7 @@ import {
   SET_SELECTED_WIDGET,
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
+  SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import {
   getWidgetList,
@@ -25,6 +26,8 @@ import {
   loadSelectedWidget,
   setSelectedWidget,
   removeWidget,
+  setWidgetInfo,
+  fetchWidgetInfo,
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -36,8 +39,9 @@ import {
   postWidgets,
   putWidgets,
   deleteWidgets,
+  getWidgetInfo,
 } from 'api/widgets';
-import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -119,6 +123,21 @@ describe('state/widgets/actions', () => {
     });
   });
 
+  describe('setWidgetInfo', () => {
+    beforeEach(() => {
+      action = setWidgetInfo(WIDGET_INFO);
+    });
+
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+
+    it('actions is correct setup ', () => {
+      expect(action).toHaveProperty('type', SET_WIDGET_INFO);
+      expect(action).toHaveProperty('payload.widgetInfo', WIDGET_INFO);
+    });
+  });
+
 
   describe('thunk', () => {
     describe('loadSelectedWidget', () => {
@@ -181,6 +200,29 @@ describe('state/widgets/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         getWidget.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
+          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('fetchWidgetInfo', () => {
+      it('if API response is ok, set widget information', (done) => {
+        getWidgetInfo.mockImplementationOnce(mockApi({ payload: WIDGET_INFO }));
+        store.dispatch(fetchWidgetInfo()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(getWidgetInfo).toHaveBeenCalled();
+          expect(actions[0]).toHaveProperty('type', SET_WIDGET_INFO);
+          expect(actions[0]).toHaveProperty('payload', { widgetInfo: WIDGET_INFO });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getWidgetInfo.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchWidgetInfo(WIDGET_LIST)).then(() => {
           expect(store.getActions()).toHaveLength(1);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
           done();
