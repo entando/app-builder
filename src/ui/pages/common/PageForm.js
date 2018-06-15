@@ -28,7 +28,7 @@ export class PageFormBody extends Component {
   render() {
     const {
       handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
-      contentTypes, charsets, mode, onChangeEnTitle, parentCode, parentTitle, languages,
+      contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -60,7 +60,11 @@ export class PageFormBody extends Component {
               label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
               placeholder={formattedText(`app.${lang.code}Title`)}
               validate={[required]}
-              onChange={(ev) => { if (onChangeEnTitle) onChangeEnTitle(ev.currentTarget.value); }}
+              onChange={(ev) => {
+                if (onChangeDefaultTitle && lang.isDefault) {
+                  onChangeDefaultTitle(ev.currentTarget.value);
+                }
+              }}
             />
           ));
       }
@@ -94,7 +98,7 @@ export class PageFormBody extends Component {
               />
               <FormGroup>
                 <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                  <FormLabel labelId="pages.pageForm.joinGroup" required />
+                  <FormLabel labelId="pages.pageForm.joinGroup" />
                 </label>
                 <Col xs={10}>
                   <FieldArray
@@ -226,15 +230,6 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <FormGroup>
-              <label htmlFor="parentCode" className="col-xs-2 control-label">
-                <FormLabel labelId="pages.pageForm.pagePlacement" required />
-              </label>
-              <Col xs={10}>
-                { parentPageComponent }
-              </Col>
-            </FormGroup>
-            {renderActiveLanguages()}
             <Field
               component={RenderTextInput}
               name="code"
@@ -243,6 +238,17 @@ export class PageFormBody extends Component {
               validate={[required, code, maxLength30]}
               disabled={isEditMode}
             />
+
+            {renderActiveLanguages()}
+
+            <FormGroup>
+              <label htmlFor="parentCode" className="col-xs-2 control-label">
+                <FormLabel labelId="pages.pageForm.pagePlacement" required />
+              </label>
+              <Col xs={10}>
+                { parentPageComponent }
+              </Col>
+            </FormGroup>
 
           </Col>
         </Row>
@@ -306,7 +312,7 @@ PageFormBody.propTypes = {
   })).isRequired,
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
-  onChangeEnTitle: PropTypes.func,
+  onChangeDefaultTitle: PropTypes.func,
   parentCode: PropTypes.string,
   parentTitle: PropTypes.string,
 };
@@ -316,7 +322,7 @@ PageFormBody.defaultProps = {
   submitting: false,
   mode: 'add',
   onWillMount: null,
-  onChangeEnTitle: null,
+  onChangeDefaultTitle: null,
   parentCode: null,
   parentTitle: null,
 };
