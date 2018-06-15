@@ -34,7 +34,7 @@ export const mapDispatchToProps = dispatch => ({
         default: gotoRoute(ROUTE_PAGE_TREE);
       }
     }),
-  onChangeEnTitle: title =>
+  onChangeDefaultTitle: title =>
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
 });
 

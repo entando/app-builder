@@ -2,15 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'patternfly-react';
-import { required } from '@entando/utils';
+import { required, maxLength as validateMaxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-const ActiveLanguagesFields = ({ activeLanguages, defaultLanguage, onChangeDefaultTitle }) => {
+const ActiveLanguagesFields = ({
+  activeLanguages, defaultLanguage, onChangeDefaultTitle, maxLength,
+}) => {
   const renderField = () => activeLanguages.map((language) => {
     const titles = `titles.${language.code}`;
 
     const isDefault = language.code === defaultLanguage;
+
+    const validation = maxLength ?
+      [required, validateMaxLength(maxLength)] :
+      [required];
 
     return (
       <Field
@@ -27,7 +33,7 @@ const ActiveLanguagesFields = ({ activeLanguages, defaultLanguage, onChangeDefau
            }
         placeholder={language.name}
         className="form-control"
-        validate={[required]}
+        validate={validation}
         onChange={(ev) => {
             if (isDefault && onChangeDefaultTitle) onChangeDefaultTitle(ev.currentTarget.value);
           }}
@@ -61,12 +67,14 @@ ActiveLanguagesFields.propTypes = {
   })),
   defaultLanguage: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
+  maxLength: PropTypes.number,
 };
 
 ActiveLanguagesFields.defaultProps = {
   activeLanguages: [],
   defaultLanguage: '',
   onChangeDefaultTitle: null,
+  maxLength: 0,
 };
 
 export default ActiveLanguagesFields;
