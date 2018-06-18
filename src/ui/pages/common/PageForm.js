@@ -17,6 +17,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 
 const maxLength30 = maxLength(30);
+const maxLength70 = maxLength(70);
 
 export class PageFormBody extends Component {
   componentWillMount() {
@@ -59,7 +60,7 @@ export class PageFormBody extends Component {
               name={`titles.${lang.code}`}
               label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
               placeholder={formattedText(`app.${lang.code}Title`)}
-              validate={[required]}
+              validate={[required, maxLength70]}
               onChange={(ev) => {
                 if (onChangeDefaultTitle && lang.isDefault) {
                   onChangeDefaultTitle(ev.currentTarget.value);
