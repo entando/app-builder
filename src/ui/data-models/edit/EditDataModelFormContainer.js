@@ -15,7 +15,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (dataModelId) => {
     dispatch(clearErrors());
-    dispatch(fetchDataTypes());
+    dispatch(fetchDataTypes({ page: 1, pageSize: 0 }));
     dispatch(fetchDataModel(dataModelId));
   },
   onSubmit: (values) => {
