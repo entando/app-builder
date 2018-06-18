@@ -4,6 +4,7 @@ import { getLocale } from 'state/locale/selectors';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
+import { get } from 'lodash';
 
 export const getPages = state => state.pages;
 export const getPagesMap = state => state.pages.map;
@@ -95,7 +96,8 @@ export const getPageTreePages = createSelector(
       .map((pageCode) => {
         const isEmpty = !(pageChildren[pageCode] && pageChildren[pageCode].length);
         let hasPublishedChildren = false;
-        const parentStatus = pages[pageCode].parentCode && pages[pages[pageCode].parentCode].status;
+        const { parentCode } = pages[pageCode];
+        const parentStatus = get(pages, `${parentCode}.status`);
         if (!isEmpty) {
           hasPublishedChildren = pageChildren[pageCode]
             .some(el => pages[el] && pages[el].status === PAGE_STATUS_PUBLISHED);
