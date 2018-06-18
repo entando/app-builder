@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DDTable } from 'frontend-common-components';
+import { DDTable } from '@entando/ddtable';
 import { DragDropContextProvider } from 'react-dnd';
 import MouseBackend from 'react-dnd-mouse-backend';
 

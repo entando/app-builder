@@ -8,12 +8,13 @@ import itLocaleData from 'react-intl/locale-data/it';
 
 import { setCurrentLocale } from '@entando/utils';
 
-import { locales } from 'frontend-common-components';
+import { locales as pLocales } from '@entando/pages';
+import { locales as mLocales } from '@entando/menu';
 
 addLocaleData(itLocaleData);
 
-enLocale.messages = { ...enLocale.messages, ...locales.en.messages };
-itLocale.messages = { ...itLocale.messages, ...locales.it.messages };
+enLocale.messages = { ...enLocale.messages, ...pLocales.en.messages, ...mLocales.en.messages };
+itLocale.messages = { ...itLocale.messages, ...pLocales.it.messages, ...mLocales.it.messages };
 
 // enrich locales with messages coming from the plugins
 pluginArray.forEach((plugin) => {

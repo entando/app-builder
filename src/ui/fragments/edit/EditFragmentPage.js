@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import InternalPage from 'ui/internal-page/InternalPage';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Breadcrumb, Grid } from 'patternfly-react';
 import { Row, Col } from 'react-bootstrap';
-import { BreadcrumbItem } from 'frontend-common-components';
+
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import InternalPage from 'ui/internal-page/InternalPage';
 import EditFormContainer from 'ui/fragments/edit/EditFormContainer';
-import PropTypes from 'prop-types';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import InternalPage from 'ui/internal-page/InternalPage';
 import { Breadcrumb, Grid, Row, Col } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
+
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import EditWidgetFormContainer from 'ui/widgets/edit/EditWidgetFormContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';

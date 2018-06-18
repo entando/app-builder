@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from '@entando/router';
-import { BreadcrumbItem } from 'frontend-common-components';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';

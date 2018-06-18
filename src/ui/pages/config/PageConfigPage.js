@@ -4,18 +4,17 @@ import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
-import { BreadcrumbItem } from 'frontend-common-components';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
+import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');

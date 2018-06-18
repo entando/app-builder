@@ -37,10 +37,6 @@ const TEST_STATE = {
 
 getParams.mockReturnValue({ widgetCode: 'code' });
 
-jest.mock('frontend-common-components', () => ({
-  BreadcrumbItem: () => (<span />),
-}));
-
 describe('EditWidgetPageContainer', () => {
   describe('mapStateToProps', () => {
     it('map widgetName property state in WidgetEditPage', () => {

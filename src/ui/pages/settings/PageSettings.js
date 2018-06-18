@@ -1,12 +1,11 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
-import PageTitle from 'ui/internal-page/PageTitle';
-import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
-
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
+
+import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
 
 
 const pageSettings = () => (
