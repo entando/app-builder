@@ -40,8 +40,6 @@ DOMAIN=//my.entando.com
 ### Clone and set up:
 
 - Make sure to have `git`, `npm` + `node` installed and up to date.
-- Clone the repo: `git clone https://github.com/entando/frontend-common-components.git`
-- `cd frontend-common-components.git`
 - `npm install`: installs npm dependencies
 
 

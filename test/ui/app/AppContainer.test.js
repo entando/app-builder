@@ -2,8 +2,6 @@ import 'test/enzyme-init';
 
 import { mapStateToProps } from 'ui/app/AppContainer';
 
-jest.unmock('frontend-common-components');
-
 const TEST_STATE = {
   router: { route: 'page' },
   currentUser: { username: 'admin' },

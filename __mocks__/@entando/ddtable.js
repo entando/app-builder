@@ -1,8 +1,7 @@
 import React from 'react';
 
-export const locales = { en: {}, it: {} };
+// eslint-disable-next-line import/prefer-default-export
 export const DDTable = () => (<span />);
-export const BreadcrumbItem = () => (<span />);
 DDTable.Handle = () => (<span />);
 DDTable.Tr = () => (<span />);
 DDTable.DROP_MEDIUM = 'medium';

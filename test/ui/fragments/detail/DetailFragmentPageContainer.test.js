@@ -16,11 +16,6 @@ const dispatchMock = jest.fn();
 
 getParams.mockReturnValue({ fragmentCode: 'code' });
 
-jest.mock('frontend-common-components', () => ({
-  BreadcrumbItem: () => (<span />),
-}));
-
-
 describe('DetailFragmentPageContainer', () => {
   it('maps groups and mode property state in DetailFragmentPage', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({ code: 'code', fragment: GET_FRAGMENT_OK.payload });

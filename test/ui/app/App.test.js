@@ -94,9 +94,6 @@ describe('App', () => {
   });
 
   it('redirects to login page if the user is not logged in', () => {
-    jest.mock('frontend-common-components', () => ({
-      gotoRoute: jest.fn(),
-    }));
     const component = shallow(<App route={ROUTE_DASHBOARD} />);
     expect(component.contains(<DashboardPage />)).toBe(false);
     expect(component.contains(<h1>401</h1>)).toBe(true);

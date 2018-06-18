@@ -12,10 +12,6 @@ getParams.mockReturnValue({ groupCode: 'group_code' });
 
 const dispatchMock = jest.fn();
 
-jest.mock('frontend-common-components', () => ({
-  BreadcrumbItem: () => (<span />),
-}));
-
 const TEST_STATE = {
   router: {
     params: {

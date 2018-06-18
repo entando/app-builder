@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Link } from '@entando/router';
-import { BreadcrumbItem } from 'frontend-common-components';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
 import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
-import { ROUTE_PAGE_ADD } from 'app-init/router';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
+import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 class PageTreePage extends Component {
   componentWillMount() {

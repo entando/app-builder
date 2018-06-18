@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
-import EditFormContainer from 'ui/categories/edit/EditFormContainer';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import EditFormContainer from 'ui/categories/edit/EditFormContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';

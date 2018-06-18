@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Breadcrumb, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { BreadcrumbItem } from 'frontend-common-components';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import SettingsFragmentFormContainer from 'ui/fragments/list/SettingsFragmentFormContainer';
