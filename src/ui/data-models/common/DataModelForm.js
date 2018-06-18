@@ -9,6 +9,9 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
+const maxLength10 = maxLength(10);
+const maxLength50 = maxLength(50);
+
 export class DataModelFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props.dataModelId);
@@ -43,7 +46,7 @@ export class DataModelFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="dataModel.help.code" required />
                  }
-                validate={[required, isNumber, maxLength(255)]}
+                validate={[required, isNumber, maxLength10]}
               />
               <Field
                 component={RenderTextInput}
@@ -51,7 +54,7 @@ export class DataModelFormBody extends Component {
                 label={
                   <FormLabel labelId="app.name" required />
                  }
-                validate={[required, maxLength(255)]}
+                validate={[maxLength50]}
               />
               <div className="form-group">
                 <Col xs={2} className="text-right">
@@ -71,14 +74,13 @@ export class DataModelFormBody extends Component {
                 </Col>
               </div>
 
-
               <Field
                 component={RenderTextInput}
                 name="stylesheet"
                 label={
                   <FormLabel labelId="dataModel.stylesheet" />
                  }
-                validate={[maxLength(255)]}
+                validate={[maxLength50]}
               />
             </fieldset>
           </Col>
