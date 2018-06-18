@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -43,6 +43,9 @@ class PageTreeActionMenu extends Component {
       ) :
       (
         <MenuItem
+          disabled={
+            page.status === PAGE_STATUS_UNPUBLISHED && page.parentStatus === PAGE_STATUS_UNPUBLISHED
+          }
           className="PageTreeActionMenuButton__menu-item-publish"
           onClick={this.handleClick(onClickPublish)}
         >
