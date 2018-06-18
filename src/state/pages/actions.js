@@ -353,6 +353,10 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         } else {
           dispatch(setPublishedPageConfig(newPage.code, null));
         }
+      } else {
+        response.json().then((json) => {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        });
       }
       resolve();
     }).catch(() => {});

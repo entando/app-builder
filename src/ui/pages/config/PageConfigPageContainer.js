@@ -1,6 +1,4 @@
 import { connect } from 'react-redux';
-import { clearErrors } from '@entando/messages';
-
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
 
 import { initConfigPage, setSelectedPageOnTheFly, restoreSelectedPageConfig, applyDefaultConfig } from 'state/page-config/actions';
@@ -13,7 +11,6 @@ import { getLocale } from 'state/locale/selectors';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(clearErrors());
     dispatch(initConfigPage());
   },
   onWillUnmount: () => dispatch(setSelectedPageModel(null)),
