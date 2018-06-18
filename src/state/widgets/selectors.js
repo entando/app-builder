@@ -25,21 +25,22 @@ export const getTypologyWidgetList = createSelector(getListWidget, widgetList =>
     }
     return acc;
   }, {}));
+
 export const getWidgetInfo = createSelector([getWidgets], (widget) => {
   const { info } = widget;
   if (!isEmpty(info)) {
     const list = uniq(info.draftUtilizers.map(m => m.pageCode)
       .concat(info.publishedUtilizers.map(m => m.pageCode)));
     const data = list.reduce((acc, pageCode) => {
-      acc[pageCode] = {};
       const draft = info.draftUtilizers.find(f => f.pageCode === pageCode);
       const publish = info.publishedUtilizers.find(f => f.pageCode === pageCode);
-      acc[pageCode].pageFullPath =
-        (draft && draft.pageFullPath) || (publish && publish.pageFullPath);
-      acc[pageCode].draft = !isEmpty(draft);
-      acc[pageCode].frameDraft = draft && `${draft.frame} [${draft.frameIndex}]`;
-      acc[pageCode].publish = !isEmpty(publish);
-      acc[pageCode].framePublish = publish && `${publish.frame} [${publish.frameIndex}]`;
+      acc[pageCode] = {
+        pageFullPath: (draft && draft.pageFullPath) || (publish && publish.pageFullPath),
+        draft: !isEmpty(draft),
+        frameDraft: draft && `${draft.frame} [${draft.frameIndex}]`,
+        publish: !isEmpty(publish),
+        framePublish: publish && `${publish.frame} [${publish.frameIndex}]`,
+      };
       return acc;
     }, {});
     return {
