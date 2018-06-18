@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import { LinkMenuItem } from '@entando/menu';
+
+import { ROUTE_WIDGET_DETAIL } from 'app-init/router';
 
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
@@ -9,7 +12,7 @@ import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from '
 class WidgetFrame extends Component {
   render() {
     const {
-      widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
+      widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
       onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings,
     } = this.props;
 
@@ -45,9 +48,13 @@ class WidgetFrame extends Component {
           className="WidgetFrame__menu-button"
           pullRight
         >
-          <MenuItem>
-            <FormattedMessage id="app.details" />
-          </MenuItem>
+          <LinkMenuItem
+            key={widgetId}
+            id={`detail-widget-${widgetId}`}
+            label={<FormattedMessage id="app.details" />}
+            route={ROUTE_WIDGET_DETAIL}
+            params={{ widgetCode: widgetId }}
+          />
 
           { configMenuItems }
 

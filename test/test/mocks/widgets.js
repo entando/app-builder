@@ -88,3 +88,23 @@ export const WIDGETS_MAP = WIDGET_LIST.payload.reduce((acc, widget) => {
 export const WIDGET_ONE_LIST = {
   'User Widget': [WIDGET],
 };
+
+export const WIDGET_INFO = {
+  code: 'row_content_viewer_list',
+  publishedUtilizers: [
+    {
+      frameIndex: 0,
+      pageCode: 'sub_page2',
+      pageFullPath: 'homepage/service/sub_page/sub_page2',
+      frame: 'Sample Frame',
+    },
+  ],
+  draftUtilizers: [
+    {
+      frameIndex: 0,
+      pageCode: 'sub_page2',
+      pageFullPath: 'homepage/service/sub_page/sub_page2',
+      frame: 'Sample Frame',
+    },
+  ],
+};
