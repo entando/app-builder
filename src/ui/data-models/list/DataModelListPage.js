@@ -1,12 +1,13 @@
 import React from 'react';
+import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
+import { Link } from '@entando/router';
+
 import InternalPage from 'ui/internal-page/InternalPage';
 import DataModelSearchFormContainer from 'ui/data-models/list/DataModelSearchFormContainer';
 import DataModelListTableContainer from 'ui/data-models/list/DataModelListTableContainer';
 import PageTitle from 'ui/internal-page/PageTitle';
-import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
-import { BreadcrumbItem } from 'frontend-common-components';
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import { ROUTE_DATA_MODEL_ADD } from 'app-init/router';
 
 const DataModelListPage = () => (

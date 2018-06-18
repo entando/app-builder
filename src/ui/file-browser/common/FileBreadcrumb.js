@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb, Col } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
+
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 
 class FileBreadcrumb extends Component {
   getProtectedFolderLabel() {

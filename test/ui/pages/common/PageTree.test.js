@@ -1,10 +1,9 @@
-
 import React from 'react';
+import { shallow } from 'enzyme';
+import { DDTable } from '@entando/ddtable';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import PageTree from 'ui/pages/common/PageTree';
-import { DDTable } from 'frontend-common-components';
 
 
 const PAGES = [

@@ -1,15 +1,15 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { BreadcrumbItem } from 'frontend-common-components';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 import PageModelFormContainer from 'ui/page-models/common/PageModelFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
+import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 
 const PageModelAddPage = () => (

@@ -14,10 +14,6 @@ const TEST_STATE = {
 
 getParams.mockReturnValue({ username: 'username' });
 
-jest.mock('frontend-common-components', () => ({
-  BreadcrumbItem: () => (<span />),
-}));
-
 describe('UserAuthorityPageFormContainer', () => {
   it('maps params state in UserAuthorityPageContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({ username: 'username' });

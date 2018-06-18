@@ -2,9 +2,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Link } from '@entando/router';
-import { BreadcrumbItem } from 'frontend-common-components';
-import CategoryTreeContainer from 'ui/categories/list/CategoryTreeContainer';
 
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import CategoryTreeContainer from 'ui/categories/list/CategoryTreeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 

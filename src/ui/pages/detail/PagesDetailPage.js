@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import InternalPage from 'ui/internal-page/InternalPage';
 import { FormattedMessage } from 'react-intl';
-import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { Panel, Button } from 'react-bootstrap';
-import { BreadcrumbItem } from 'frontend-common-components';
+
+import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import InternalPage from 'ui/internal-page/InternalPage';
+import PageTitle from 'ui/internal-page/PageTitle';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import EmptyData from 'ui/fragments/detail/EmptyData';
 
