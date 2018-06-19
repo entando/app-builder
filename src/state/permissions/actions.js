@@ -13,7 +13,7 @@ export const setPermissions = permissions => ({
 });
 
 // thunk
-export const fetchPermissions = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
+export const fetchPermissions = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
   new Promise((resolve) => {
     getPermissions(page, params).then((response) => {
       dispatch(toggleLoading('permissions'));
