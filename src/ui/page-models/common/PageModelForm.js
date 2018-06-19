@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText, required } from '@entando/utils';
+import { formattedText, required, maxLength, code } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -12,6 +12,8 @@ import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
+
+const maxLength70 = maxLength(70);
 
 export const validateJson = (value) => {
   try {
@@ -56,7 +58,7 @@ export class PageModelFormBody extends Component {
                 name="code"
                 label={<FormLabel labelId="app.code" helpId="pageModels.code.help" required />}
                 placeholder={formattedText('app.code')}
-                validate={[required]}
+                validate={[required, code]}
                 disabled={isEditMode}
               />
             </fieldset>
@@ -66,7 +68,7 @@ export class PageModelFormBody extends Component {
                 name="descr"
                 label={<FormLabel labelId="app.name" helpId="pageModels.name.help" required />}
                 placeholder={formattedText('app.name')}
-                validate={[required]}
+                validate={[required, maxLength70]}
               />
             </fieldset>
           </Col>
