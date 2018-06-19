@@ -4,6 +4,8 @@ import { gotoRoute } from '@entando/router';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import PageForm from 'ui/pages/common/PageForm';
+import { fetchLanguages } from 'state/languages/actions';
+import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
@@ -11,6 +13,7 @@ import { sendPostPage } from 'state/pages/actions';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 export const mapStateToProps = state => ({
+  languages: getActiveLanguages(state),
   groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
   charsets: getCharsets(state),
@@ -20,6 +23,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => {
+    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
+  },
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then(() => {
       switch (action) {
