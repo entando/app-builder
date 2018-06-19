@@ -50,7 +50,7 @@ export class CategoryFormBody extends Component {
       <form onSubmit={handleSubmit(onSubmit.bind(this))} className="CategoryForm form-horizontal">
         <Row>
           <Col xs={12}>
-            <ActiveLanguagesFields {...this.props} maxLength={70} />
+            <ActiveLanguagesFields {...this.props} />
             <Field
               component={RenderTextInput}
               name="code"
