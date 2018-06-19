@@ -11,6 +11,8 @@ import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
+import { getActiveLanguages } from 'state/languages/selectors';
+import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
@@ -27,6 +29,12 @@ jest.mock('state/pages/selectors', () => ({
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
 
+jest.mock('state/languages/selectors', () => ({
+  getActiveLanguages: jest.fn(),
+}));
+
+getActiveLanguages.mockReturnValue(LANGUAGES);
+
 const STATE = {
   pages: {},
 };
@@ -38,6 +46,11 @@ describe('CloneFormContainer', () => {
     let props;
     beforeEach(() => {
       props = mapStateToProps(STATE);
+    });
+
+    it('maps the "languages" prop with the getActiveLanguages selector', () => {
+      expect(getActiveLanguages).toHaveBeenCalled();
+      expect(props).toHaveProperty('languages', LANGUAGES);
     });
 
     it('maps the "groups" prop with the getGroupsList selector', () => {
@@ -89,6 +102,17 @@ describe('CloneFormContainer', () => {
       expect(props).toHaveProperty('onChangeDefaultTitle');
       props.onChangeDefaultTitle('En Title');
       expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
+    });
+
+
+    describe('prop onWillMount', () => {
+      beforeEach(() => {
+        props.onWillMount();
+      });
+
+      it('dispatch fetchLanguages', () => {
+        expect(dispatchMock).toHaveBeenCalled();
+      });
     });
   });
 });
