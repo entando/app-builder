@@ -5,13 +5,14 @@ import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { toggleLoading } from 'state/loading/actions';
-import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo } from 'api/widgets';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import {
   SET_WIDGET_LIST,
   SET_SELECTED_WIDGET,
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
+  SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
@@ -44,6 +45,12 @@ export const removeWidget = widgetCode => ({
   },
 });
 
+export const setWidgetInfo = widgetInfo => ({
+  type: SET_WIDGET_INFO,
+  payload: {
+    widgetInfo,
+  },
+});
 
 // thunk
 
@@ -73,6 +80,20 @@ export const fetchWidget = () => (dispatch, getState) => new Promise((resolve) =
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  }).catch(() => {});
+});
+
+export const fetchWidgetInfo = () => (dispatch, getState) => new Promise((resolve) => {
+  const { widgetCode } = getParams(getState());
+  getWidgetInfo(widgetCode).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setWidgetInfo(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }
