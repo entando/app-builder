@@ -77,7 +77,6 @@ export class PageSettingsFormBody extends Component {
             <fieldset className="no-padding">
               <RenderSelectInput
                 options={selectOptions}
-                // label="pageSettings.input.homepage"
                 label={
                   <FormLabel labelId="pageSettings.input.homepage" />
               }
