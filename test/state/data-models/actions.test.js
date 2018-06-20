@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
-import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS, TOAST_ERROR } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 import {
@@ -110,13 +110,15 @@ describe('state/data-models/actions', () => {
       }).catch(done.fail);
     });
 
-    it('when sendPostDataModel errors it should dispatch addError', (done) => {
+    it('when sendPostDataModel errors it should dispatch toastError', (done) => {
       postDataModel.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(sendPostDataModel()).then(() => {
         expect(postDataModel).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0].payload).toHaveProperty('message', 'Error!');
+        expect(actions[0].payload).toHaveProperty('type', 'error');
         done();
       }).catch(done.fail);
     });
@@ -175,7 +177,9 @@ describe('state/data-models/actions', () => {
         expect(putDataModel).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0].payload).toHaveProperty('message', 'Error!');
+        expect(actions[0].payload).toHaveProperty('type', 'error');
         done();
       }).catch(done.fail);
     });
