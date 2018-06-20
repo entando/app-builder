@@ -355,7 +355,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         }
       } else {
         response.json().then((json) => {
-          dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         });
       }
       resolve();
