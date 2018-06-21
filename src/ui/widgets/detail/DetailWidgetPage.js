@@ -14,7 +14,7 @@ class DetailWidgetPage extends Component {
     this.props.onWillMount();
   }
   render() {
-    const { widgetInfo } = this.props;
+    const { widgetInfo, defaultLanguage } = this.props;
     return (
       <InternalPage className="DetailWidgetPage">
         <Grid fluid>
@@ -37,7 +37,10 @@ class DetailWidgetPage extends Component {
             <Col xs={12}>
               <PageTitle
                 titleId="widget.detail.title"
-                titleParam={{ widgetDescription: widgetInfo.code }}
+                titleParam={{
+                  widgetDescription:
+                    widgetInfo.titles && widgetInfo.titles[defaultLanguage],
+                  }}
                 helpId="widget.help"
               />
             </Col>
@@ -57,6 +60,7 @@ class DetailWidgetPage extends Component {
 DetailWidgetPage.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   widgetInfo: PropTypes.shape({}).isRequired,
+  defaultLanguage: PropTypes.string.isRequired,
 };
 
 export default DetailWidgetPage;
