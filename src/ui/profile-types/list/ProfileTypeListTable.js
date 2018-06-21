@@ -59,7 +59,7 @@ class ProfileTypeListTable extends Component {
 
       return (
         <Col xs={12}>
-         <ProfileTypeReferenceStatusContainer />
+          <ProfileTypeReferenceStatusContainer />
           <table className="ProfileTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>
