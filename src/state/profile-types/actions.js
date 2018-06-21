@@ -231,7 +231,7 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setProfileTypes(json.payload));
-          dispatch(setPage(json.metaProfile));
+          dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
