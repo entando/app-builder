@@ -237,7 +237,10 @@ describe('state/users/actions', () => {
         store.dispatch(fetchUserAuthorities(USER.username)).then(() => {
           expect(getUserAuthorities).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_USER_AUTHORITIES);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_USER_AUTHORITIES);
+          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup, Button, Alert } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
 
-
 class UserAuthorityTable extends Component {
   constructor(props) {
     super(props);
@@ -26,8 +25,8 @@ class UserAuthorityTable extends Component {
 
     if (!isPresent) {
       fields.push({
-        group: this.group.value,
-        role: this.role.value,
+        group: this.group.value || null,
+        role: this.role.value || null,
       });
     }
   }

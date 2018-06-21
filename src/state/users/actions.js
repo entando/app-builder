@@ -1,7 +1,7 @@
 import { initialize, reset } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
-import { addToast, addErrors, clearErrors, TOAST_SUCCESS } from '@entando/messages';
+import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import {
   getUsers,
@@ -181,6 +181,7 @@ export const sendDeleteUser = username => dispatch => (
 
 export const fetchUserAuthorities = () => async (dispatch, getState) => {
   try {
+    dispatch(toggleLoading('users'));
     const { username } = getParams(getState());
     const response = await getUserAuthorities(username);
     const json = await response.json();
@@ -190,6 +191,7 @@ export const fetchUserAuthorities = () => async (dispatch, getState) => {
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
+    dispatch(toggleLoading('users'));
   } catch (e) {
     // do nothing
   }
@@ -203,7 +205,7 @@ export const sendPostUserAuthorities = authorities => async (dispatch, getState)
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
     } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -218,7 +220,7 @@ export const sendPutUserAuthorities = authorities => async (dispatch, getState) 
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
     } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
