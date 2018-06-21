@@ -9,6 +9,7 @@ import DetailWidgetElement from 'ui/widgets/detail/DetailWidgetElement';
 const props = {
   onWillMount: jest.fn(),
   widgetInfo: {},
+  defaultLanguage: 'en',
 };
 
 describe('DetailWidgetPage', () => {
