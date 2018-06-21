@@ -8,3 +8,4 @@ export const SET_SELECTED_ATTRIBUTE = 'profile-types/set-selected-attribute';
 export const SET_SELECTED = 'profile-types/set-selected';
 export const MOVE_ATTRIBUTE_UP = 'profile-types/move-attribute-up';
 export const MOVE_ATTRIBUTE_DOWN = 'profile-types/move-attribute-down';
+export const SET_PROFILE_TYPE_REFERENCE_STATUS = 'profile-types/set-reference-status';
