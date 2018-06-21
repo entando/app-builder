@@ -196,3 +196,22 @@ export const ATTRIBUTE_MOVE_DOWN = {
   profileTypeCode: 'PFT',
   movement: 'DOWN',
 };
+
+export const PROFILE_TYPE_REFERENCES_STATUS = {
+  ready: [
+    'AAA',
+    'BBB',
+  ],
+  toRefresh: [
+    'CCC',
+  ],
+  refreshing: [],
+};
+
+export const PROFILE_TYPE_RELOAD_REFERENCES_STATUS = {
+  result: 'success',
+  profileTypeCodes: {
+    AAA: 0,
+    BBB: 1,
+  },
+};

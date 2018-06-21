@@ -12,6 +12,8 @@ import {
   deleteProfileType,
   getProfileType,
   getProfileTypes,
+  getProfileTypesStatus,
+  postProfileTypesStatus,
   deleteAttributeFromProfileType,
   getAttributeFromProfileType,
   postAttributeFromProfileType,
@@ -41,6 +43,7 @@ import {
   SET_SELECTED_ATTRIBUTE,
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
+  SET_PROFILE_TYPE_REFERENCE_STATUS,
 } from 'state/profile-types/types';
 
 
@@ -84,6 +87,13 @@ export const removeAttribute = (profileTypeCode, attributeCode) => ({
   },
 });
 
+export const setProfileTypeReferenceStatus = profileTypeStatus => ({
+  type: SET_PROFILE_TYPE_REFERENCE_STATUS,
+  payload: {
+    profileTypeStatus,
+  },
+});
+
 // Profile type attributes
 export const setSelectedAttribute = attribute => ({
   type: SET_SELECTED_ATTRIBUTE,
@@ -119,6 +129,34 @@ export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeInde
 
 
 // thunk
+
+export const fetchProfileTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
+  getProfileTypesStatus().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setProfileTypeReferenceStatus(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  }).catch(() => {});
+});
+
+export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch =>
+  (new Promise((resolve) => {
+    postProfileTypesStatus({ profileTypesCodes }).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
+  }));
+
 
 export const sendPostProfileType = ProfileTypeObject => dispatch =>
   new Promise((resolve) => {
@@ -193,7 +231,7 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setProfileTypes(json.payload));
-          dispatch(setPage(json.metaData));
+          dispatch(setPage(json.metaProfile));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

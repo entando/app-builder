@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 export const getProfileTypes = state => state.profileTypes;
 export const getProfileTypesIdList = state => state.profileTypes.list;
@@ -37,3 +37,15 @@ export const getProfileTypesOptions = createSelector(
     text: profileTypesMap[id].name,
   })),
 );
+
+const getProfileTypeReferences = state => state.profileTypes.references;
+
+export const getProfileTypeReferencesStatus = createSelector([getProfileTypeReferences], (ref) => {
+  const { status } = ref;
+  if (!isEmpty(status.toRefresh)) {
+    return {
+      type: 'warning', status: 'toRefresh', profileTypesCodes: status.toRefresh, count: status.toRefresh.length,
+    };
+  }
+  return { type: 'success', status: 'ready', profileTypesCode: [] };
+});
