@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/common/UserAuthorityPageFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
-
+import { getLoading } from 'state/loading/selectors';
 import { LIST_GROUPS_OK } from 'test/mocks/groups';
 import { LIST_ROLES_OK } from 'test/mocks/roles';
 
@@ -19,12 +19,18 @@ jest.mock('state/users/selectors', () => ({
   getSelectedUserActionAuthorities: jest.fn(),
 }));
 
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn(),
+}));
+getLoading.mockReturnValue(false);
+
 getGroupsList.mockReturnValue(LIST_GROUPS_OK);
 getRolesList.mockReturnValue(LIST_ROLES_OK);
 
 describe('UserAuthorityPageFormContainer', () => {
   it('maps groups & roles property state in UserAuthorityPageFormContainer', () => {
     const props = mapStateToProps({});
+    expect(props).toHaveProperty('loading');
     expect(props).toHaveProperty('groups');
     expect(props).toHaveProperty('roles');
     expect(props).toHaveProperty('groupRolesCombo');

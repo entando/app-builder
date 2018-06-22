@@ -8,6 +8,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UserAuthorityPageFormContainer from 'ui/users/common/UserAuthorityPageFormContainer';
 import { ROUTE_USER_LIST } from 'app-init/router';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 
 const UserAuthorityPage = ({ username }) => (
   <InternalPage className="authorityPage">
@@ -25,6 +26,11 @@ const UserAuthorityPage = ({ username }) => (
               <FormattedMessage id="menu.users.authority" />
             </BreadcrumbItem>
           </Breadcrumb>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <ErrorsAlertContainer />
         </Col>
       </Row>
       <Row>

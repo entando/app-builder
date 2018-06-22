@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchGroups } from 'state/groups/actions';
+import { getLoading } from 'state/loading/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
 import { fetchRoles } from 'state/roles/actions';
@@ -11,6 +12,7 @@ import { getGroupRolesCombo, getSelectedUserActionAuthorities } from 'state/user
 
 export const mapStateToProps = state =>
   ({
+    loading: getLoading(state).users,
     groups: getGroupsList(state),
     roles: getRolesList(state),
     groupRolesCombo: getGroupRolesCombo(state),
@@ -19,9 +21,9 @@ export const mapStateToProps = state =>
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
-    dispatch(fetchGroups());
-    dispatch(fetchRoles());
-    dispatch(fetchUserAuthorities());
+    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchRoles({ page: 1, pageSize: 0 }));
+    dispatch(fetchUserAuthorities({ page: 1, pageSize: 0 }));
   },
   onSubmit: (authorities, action) => {
     if (action === ACTION_UPDATE) {
