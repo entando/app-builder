@@ -41,7 +41,6 @@ export class WidgetFormBody extends Component {
     const { languages, onChangeDefaultTitle } = this.props;
     if (!isUndefined(languages)) {
       return languages
-        .sort(a => (a.isDefault ? -1 : 1))
         .map(lang => (
           <Field
             key={lang.code}
@@ -114,6 +113,7 @@ export class WidgetFormBody extends Component {
                 options={this.props.groups}
                 optionValue="code"
                 optionDisplayName="name"
+                defaultOptionId="app.chooseAnOption"
               />
             </fieldset>
           </Col>
