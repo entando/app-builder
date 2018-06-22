@@ -59,7 +59,7 @@ export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
         ));
         gotoRoute(ROUTE_DATA_MODEL_LIST);
       } else {
-        dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -76,7 +76,7 @@ export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
         ));
         gotoRoute(ROUTE_DATA_MODEL_LIST);
       } else {
-        dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });

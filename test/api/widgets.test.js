@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets } from 'api/widgets';
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo } from 'api/widgets';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { WIDGET, WIDGET_LIST } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -152,6 +152,25 @@ describe('api/widgets', () => {
         uri: '/api/widgets/AAA',
         method: 'DELETE',
         mockResponse: { code: 'AAA' },
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getInfoWidget', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(getWidgetInfo()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getWidgetInfo('AAA');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widgets/AAA/info',
+        method: 'GET',
+        mockResponse: WIDGET_INFO,
         useAuthentication: true,
       });
     });

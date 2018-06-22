@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText, required } from '@entando/utils';
+import { formattedText, required, code } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
+import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
@@ -51,13 +52,9 @@ export class LabelsFormBody extends Component {
      <Field
        component={RenderTextInput}
        name="key"
-       label={
-         <span>
-           <FormattedMessage id="app.code" />
-         </span>
-       }
+       label={<FormLabel labelId="app.code" helpId="app.help.code" required />}
        placeholder={formattedText('labels.code.placeholder')}
-       validate={[required]}
+       validate={[required, code]}
        disabled={this.props.mode === EDIT_MODE}
      />
    </div>

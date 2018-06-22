@@ -181,6 +181,7 @@ export const sendDeleteUser = username => dispatch => (
 
 export const fetchUserAuthorities = () => async (dispatch, getState) => {
   try {
+    dispatch(toggleLoading('users'));
     const { username } = getParams(getState());
     const response = await getUserAuthorities(username);
     const json = await response.json();
@@ -190,6 +191,7 @@ export const fetchUserAuthorities = () => async (dispatch, getState) => {
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
+    dispatch(toggleLoading('users'));
   } catch (e) {
     // do nothing
   }
