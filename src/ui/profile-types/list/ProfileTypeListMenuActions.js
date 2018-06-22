@@ -19,11 +19,6 @@ const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
         className="ProfileTypeListMenuAction__menu-item-edit"
       />
       <MenuItem
-        className="ProfileTypeListMenuAction__menu-item-reload"
-      >
-        <FormattedMessage id="app.reload" />
-      </MenuItem>
-      <MenuItem
         className="ProfileTypeListMenuAction__menu-item-delete"
         onClick={() => (onClickDelete(code))}
       >
