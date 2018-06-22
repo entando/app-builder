@@ -1,7 +1,7 @@
 import { initialize, reset } from 'redux-form';
 import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
-import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, clearErrors, TOAST_SUCCESS } from '@entando/messages';
 
 import {
   getUsers,
@@ -205,7 +205,7 @@ export const sendPostUserAuthorities = authorities => async (dispatch, getState)
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
     } else {
-      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (e) {
     // do nothing
@@ -220,7 +220,7 @@ export const sendPutUserAuthorities = authorities => async (dispatch, getState) 
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
     } else {
-      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (e) {
     // do nothing
