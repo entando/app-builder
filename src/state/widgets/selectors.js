@@ -46,6 +46,7 @@ export const getWidgetInfo = createSelector([getWidgets], (widget) => {
     return {
       code: info.code,
       data,
+      titles: info.titles,
     };
   }
   return info;
