@@ -52,7 +52,6 @@ export class PageFormBody extends Component {
     const renderActiveLanguages = () => {
       if (!isUndefined(languages)) {
         return languages
-          .sort(a => (a.isDefault ? -1 : 1))
           .map(lang => (
             <Field
               key={lang.code}

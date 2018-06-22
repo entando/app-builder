@@ -10,6 +10,7 @@
 @import "widgets/list/WidgetListTable";
 @import "widgets/list/WidgetListActionToggle";
 @import "widgets/list/WidgetListRow";
+@import "widgets/detail/DetailWidgetElement";
 @import "pages/common/PageStatusIcon";
 @import "pages/common/PageTree";
 @import "pages/common/PageTreeCompact";
@@ -18,6 +19,7 @@
 @import "pages/common/MultiSelectRenderer";
 @import "pages/common/PageTreeSelector";
 @import "pages/common/PageForm";
+@import "pages/common/PageSettingsForm";
 @import "pages/settings/PageSettings";
 @import "pages/config/ToolbarPageConfig";
 @import "pages/config/ToolbarContentIcon";

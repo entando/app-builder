@@ -4,9 +4,10 @@ import { Row, Col, OverlayTrigger, Popover } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import FormLabel from 'ui/common/form/FormLabel';
 
 const BASE_URL_TYPES = [
   {
@@ -76,25 +77,33 @@ export class PageSettingsFormBody extends Component {
             <fieldset className="no-padding">
               <RenderSelectInput
                 options={selectOptions}
-                labelId="pageSettings.input.homepage"
+                label={
+                  <FormLabel labelId="pageSettings.input.homepage" />
+              }
                 fieldName="homePageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="pageSettings.input.500"
+                label={
+                  <FormLabel labelId="pageSettings.input.500" />
+              }
                 fieldName="errorPageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="pageSettings.input.proceed"
+                label={
+                  <FormLabel labelId="pageSettings.input.proceed" />
+              }
                 fieldName="loginPageCode"
                 mandatory
               />
               <RenderSelectInput
                 options={selectOptions}
-                labelId="pageSettings.input.404"
+                label={
+                  <FormLabel labelId="pageSettings.input.404" />
+              }
                 fieldName="notFoundPageCode"
                 mandatory
               />

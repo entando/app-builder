@@ -4,6 +4,7 @@ import {
   SET_SELECTED_WIDGET,
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
+  SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 
@@ -62,9 +63,19 @@ const total = (state = 0, action = {}) => {
   }
 };
 
+const info = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_WIDGET_INFO: {
+      return action.payload.widgetInfo;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map,
   selected,
   total,
+  info,
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/common/WidgetForm';
+import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();
@@ -27,6 +28,7 @@ describe('WidgetForm', () => {
       onWillMount,
       groups,
       mode,
+      languages: LANGUAGES,
     };
 
     return shallow(<WidgetFormBody {...props} />);

@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { formattedText, required, widgetCode, maxLength } from '@entando/utils';
-
+import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
@@ -14,6 +14,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 const MODE_NEW = 'new';
 const maxLength30 = maxLength(30);
+const maxLength70 = maxLength(70);
 
 export const renderDefaultUIField = (field) => {
   const { input } = field;
@@ -34,6 +35,29 @@ export const renderDefaultUIField = (field) => {
 export class WidgetFormBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
+  }
+
+  renderActiveLanguages() {
+    const { languages, onChangeDefaultTitle } = this.props;
+    if (!isUndefined(languages)) {
+      return languages
+        .map(lang => (
+          <Field
+            key={lang.code}
+            component={RenderTextInput}
+            name={`titles.${lang.code}`}
+            label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
+            placeholder={formattedText(`app.${lang.code}Title`)}
+            validate={[required, maxLength70]}
+            onChange={(ev) => {
+              if (onChangeDefaultTitle && lang.isDefault) {
+                onChangeDefaultTitle(ev.currentTarget.value);
+              }
+            }}
+          />
+        ));
+    }
+    return null;
   }
 
   render() {
@@ -78,24 +102,7 @@ export class WidgetFormBody extends Component {
             <fieldset className="no-padding">
               <FormSectionTitle titleId="widget.page.create.pageTitle" />
               {codeField}
-              <Field
-                component={RenderTextInput}
-                name="titles.en"
-                label={
-                  <FormLabel labelId="widget.page.create.title" langLabelId="app.en" required />
-                }
-                placeholder={formattedText('widget.page.create.title.en.placeholder')}
-                validate={[required, maxLength(255)]}
-              />
-              <Field
-                component={RenderTextInput}
-                name="titles.it"
-                label={
-                  <FormLabel labelId="widget.page.create.title" langLabelId="app.it" required />
-                }
-                placeholder={formattedText('widget.page.create.title.it.placeholder')}
-                validate={[required, maxLength(255)]}
-              />
+              {this.renderActiveLanguages()}
               <Field
                 component={RenderSelectInput}
                 name="group"
@@ -106,6 +113,7 @@ export class WidgetFormBody extends Component {
                 options={this.props.groups}
                 optionValue="code"
                 optionDisplayName="name"
+                defaultOptionId="app.chooseAnOption"
               />
             </fieldset>
           </Col>
@@ -159,12 +167,18 @@ WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    isDefault: PropTypes.bool,
+  })).isRequired,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
   })),
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
+  onChangeDefaultTitle: PropTypes.func,
 };
 
 WidgetFormBody.defaultProps = {
@@ -177,6 +191,7 @@ WidgetFormBody.defaultProps = {
   }],
   mode: MODE_NEW,
   defaultUIField: '',
+  onChangeDefaultTitle: null,
 };
 
 const WidgetForm = reduxForm({
