@@ -3,15 +3,14 @@ import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
 
-import { setVisibleModal, setInfo } from 'state/modal/actions';
-import { MODAL_ID } from 'ui/data-types/attributes/DeleteAttributeModal';
-
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
   fetchAttributeFromDataType,
   handlerAttributeFromDataType,
   fetchDataTypeAttributes,
   fetchDataTypeAttribute,
+  removeAttributeFromComposite,
+  moveAttributeFromComposite,
 } from 'state/data-types/actions';
 
 import {
@@ -35,7 +34,7 @@ export const mapStateToProps = state => ({
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-  attributes: getSelectedCompositeAttributes(state),
+  attributesComposite: getSelectedCompositeAttributes(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -60,10 +59,11 @@ export const mapDispatchToProps = dispatch => ({
       ));
     }
   },
-  onClickDelete: (code) => {
-    console.log('Delete', code);
-    dispatch(setVisibleModal(MODAL_ID));
-    dispatch(setInfo({ type: 'attribute', code }));
+  onClickDelete: (attributeCode) => {
+    dispatch(removeAttributeFromComposite(attributeCode));
+  },
+  onMove: (fromIndex, toIndex) => {
+    dispatch(moveAttributeFromComposite(fromIndex, toIndex));
   },
 });
 
