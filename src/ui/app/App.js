@@ -33,6 +33,7 @@ import {
   ROUTE_USER_DETAIL,
   ROUTE_USER_RESTRICTIONS,
   ROUTE_USER_MY_PROFILE,
+  ROUTE_USER_PROFILE,
   ROUTE_GROUP_LIST,
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
@@ -106,6 +107,7 @@ import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
+import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
 import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
@@ -187,6 +189,7 @@ const getRouteComponent = (route) => {
     case ROUTE_USER_EDIT: return <EditUserPage />;
     case ROUTE_USER_DETAIL: return <DetailUserPage />;
     case ROUTE_USER_MY_PROFILE: return <MyProfilePage />;
+    case ROUTE_USER_PROFILE: return <EditUserProfilePage />;
     case ROUTE_GROUP_LIST: return <ListGroupPage />;
     case ROUTE_GROUP_ADD: return <AddGroupPage />;
     case ROUTE_GROUP_EDIT: return <EditGroupPage />;
