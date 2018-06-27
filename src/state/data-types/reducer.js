@@ -10,6 +10,7 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
 } from 'state/data-types/types';
 
 import { swapItems } from 'state/attributes/utils';
@@ -89,6 +90,9 @@ export const selectedDataType = (state = {}, action = {}) => {
       const attributes =
         state.attributes.filter(f => f.code !== attributeCode);
       return { ...state, attributes };
+    }
+    case SET_ACTION_MODE: {
+      return { ...state, actionMode: action.payload.actionMode };
     }
     default: return state;
   }

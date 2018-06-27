@@ -4,6 +4,7 @@ import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
+import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
@@ -12,74 +13,134 @@ import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoLis
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
+import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
+import { MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE } from 'state/data-types/const';
 
 export class AttributeFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    this.props.onWillMount();
   }
 
   render() {
-    const { selectedAttributeType } = this.props;
-    const renderMonolistConf = () => {
-      if (selectedAttributeType.listAttribute) {
-        return (
-          <AttributeMonoListMonoSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    console.log('AttributeForm props', this.props);
+    const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
+    const isComposite = mode === MODE_ADD_COMPOSITE;
+    // const renderMonolistConf = () => {
+    //   if (selectedAttributeType.listAttribute) {
+    //     return (
+    //       <AttributeMonoListMonoSettings {...this.props} />
+    //     );
+    //   }
+    //   return '';
+    // };
+    //
+    // const renderNumberConf = () => {
+    //   if (selectedAttributeType.numberFilterSupported) {
+    //     return (
+    //       <FormSection name="validationRules">
+    //         <AttributesNumber {...this.props} />
+    //       </FormSection>
+    //     );
+    //   }
+    //   return '';
+    // };
+    //
+    // const renderDateConf = () => {
+    //   if (selectedAttributeType.dateFilterSupported) {
+    //     return (
+    //       <FormSection name="validationRules">
+    //         <AttributesDateSettings {...this.props} />
+    //       </FormSection>
+    //     );
+    //   }
+    //   return '';
+    // };
+    //
+    // const renderTextConf = () => {
+    //   if (selectedAttributeType.multilingual) {
+    //     return (
+    //       <FormSection name="validationRules">
+    //         <AttributeHypeLongMonoTextSettings {...this.props} />
+    //       </FormSection>
+    //     );
+    //   }
+    //   return '';
+    // };
+    //
+    // const renderEnumConf = () => {
+    //   if (selectedAttributeType.enumeratorOptionsSupported) {
+    //     return (
+    //       <AttributeEnumSettings {...this.props} />
+    //     );
+    //   }
+    //   return '';
+    // };
+    //
+    // const renderEnumMapConf = () => {
+    //   if (selectedAttributeType.enumeratorMapOptionsSupported) {
+    //     return (
+    //       <AttributeEnumMapSettings {...this.props} />
+    //     );
+    //   }
+    //   return '';
+    // };
 
-    const renderNumberConf = () => {
-      if (selectedAttributeType.numberFilterSupported) {
-        return (
+    const renderAttributeInfo = () => (
+      isComposite ?
+        <AttributeInfoComposite /> :
+        <AttributeInfo {...this.props} />
+    );
+
+    const renderAttributeRole = () => (
+      !isComposite ? <AttributeRole {...this.props} /> : null
+    );
+
+    const renderSelectedAttribute = () => {
+      switch (selectedAttributeType.code) {
+        case 'Boolean': return null;
+        case 'CheckBox': return null;
+        case 'Monolist': return <AttributeMonoListMonoSettings {...this.props} />;
+        case 'List': return <AttributeMonoListMonoSettings {...this.props} />;
+        case 'Number': return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
           </FormSection>
         );
-      }
-      return '';
-    };
-
-    const renderDateConf = () => {
-      if (selectedAttributeType.dateFilterSupported) {
-        return (
+        case 'Date': return (
           <FormSection name="validationRules">
             <AttributesDateSettings {...this.props} />
           </FormSection>
         );
-      }
-      return '';
-    };
+        case 'Enumerator': return (
+          <AttributeEnumSettings {...this.props} />
+        );
+        case 'EnumeratorMap': return (
+          <AttributeEnumMapSettings {...this.props} />
+        );
+        case 'Composite':
+          return isComposite ?
+            (
+              <AttributeListTableComposite
+                entityCode={dataTypeAttributeCode}
+                {...this.props}
+              />
+            ) : null;
 
-    const renderTextConf = () => {
-      if (selectedAttributeType.multilingual) {
-        return (
+        default: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
           </FormSection>
         );
       }
-      return '';
     };
 
-    const renderEnumConf = () => {
-      if (selectedAttributeType.enumeratorOptionsSupported) {
-        return (
-          <AttributeEnumSettings {...this.props} />
-        );
-      }
-      return '';
-    };
-
-    const renderEnumMapConf = () => {
-      if (selectedAttributeType.enumeratorMapOptionsSupported) {
-        return (
-          <AttributeEnumMapSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const renderOgnlValidation = () => (
+      !isComposite ?
+        <FormSection name="validationRules">
+          <AttributeOgnlValidation />
+        </FormSection> : null
+    );
 
     return (
       <form
@@ -91,17 +152,10 @@ export class AttributeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <AttributeInfo {...this.props} />
-              <AttributeRole {...this.props} />
-              {renderMonolistConf()}
-              {renderTextConf()}
-              {renderEnumConf()}
-              {renderEnumMapConf()}
-              <FormSection name="validationRules">
-                {renderNumberConf()}
-                {renderDateConf()}
-                <AttributeOgnlValidation />
-              </FormSection>
+              {renderAttributeInfo()}
+              {renderAttributeRole()}
+              {renderSelectedAttribute()}
+              {renderOgnlValidation()}
             </fieldset>
           </Col>
         </Row>
@@ -114,7 +168,9 @@ export class AttributeFormBody extends Component {
               bsStyle="primary"
               disabled={this.props.invalid || this.props.submitting}
             >
-              <FormattedMessage id="app.continue" />
+              {
+                mode !== MODE_EDIT_COMPOSITE ? <FormattedMessage id="app.continue" /> : <FormattedMessage id="app.save" />
+              }
             </Button>
           </Col>
         </Row>
@@ -157,6 +213,7 @@ AttributeFormBody.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  mode: PropTypes.string.isRequired,
 };
 
 AttributeFormBody.defaultProps = {
@@ -179,7 +236,7 @@ AttributeFormBody.defaultProps = {
 };
 
 const AttributeForm = reduxForm({
-  form: 'attribute',
+  form: 'addAttribute',
 })(AttributeFormBody);
 
 export default AttributeForm;

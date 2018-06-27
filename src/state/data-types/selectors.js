@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { formValueSelector } from 'redux-form';
 import { get, isEmpty } from 'lodash';
 
 export const getDataTypes = state => state.dataTypes;
@@ -24,6 +25,7 @@ export const getSelectedDataTypeAttributes = state => get(state.dataTypes.select
 export const getSelectedAttributeType = state => get(state.dataTypes.selected, 'attributeSelected.type');
 export const getSelectedAttributeNestedType = state => get(state.dataTypes.selected, 'attributeSelected.nestedAttribute.type');
 export const getSelectedValidationRules = state => get(state.dataTypes.selected, 'attributeSelected.validationRules');
+export const getSelectedCompositeAttributes = state => get(state.dataTypes.selected, 'attributeSelected.compositeAttributes');
 export const getDataTypeSelectedAttributeCode = state => get(state.dataTypes.attributes.selected, 'code');
 
 export const getDataTypeList = createSelector(
@@ -40,3 +42,11 @@ export const getDataTypeReferencesStatus = createSelector([getDataTypeReferences
   }
   return { type: 'success', status: 'ready', dataTypesCode: [] };
 });
+
+export const getActionModeDataTypeSelectedAttribute =
+  createSelector([getSelectedDataType], sel => sel.actionMode);
+
+export const getAttributeSelectFromDataType =
+  createSelector([getSelectedDataType], selected => selected.attributeSelected);
+
+export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');

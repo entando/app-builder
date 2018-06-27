@@ -1,14 +1,15 @@
 import { gotoRoute, getParams } from '@entando/router';
+import { METHODS } from '@entando/apimanager';
 import { addErrors } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { initialize } from 'redux-form';
-
 import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
 import {
@@ -39,15 +40,25 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeType,
   getSelectedDataType,
   getSelectedAttributeType,
+  getFormTypeValue,
+  getAttributeSelectFromDataType,
 } from 'state/data-types/selectors';
 
-const TYPE_MONOLIST = 'Monolist';
+import {
+  TYPE_MONOLIST,
+  TYPE_COMPOSITE,
+  MODE_ADD,
+  MODE_EDIT,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+} from 'state/data-types/const';
 
 // Data type
 export const setDataTypes = dataTypes => ({
@@ -123,6 +134,13 @@ export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeInde
     entityCode,
     attributeCode,
     attributeIndex,
+  },
+});
+
+export const setActionMode = actionMode => ({
+  type: SET_ACTION_MODE,
+  payload: {
+    actionMode,
   },
 });
 
@@ -233,49 +251,59 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
-  new Promise((resolve) => {
-    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedAttribute(json.payload));
-          if (route) {
-            gotoRoute(route.route, route.params);
-          }
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
+export const fetchDataTypeAttribute =
+ (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
+   new Promise((resolve) => {
+     console.log('[fetchDataTypeAttribute] formName :', formName, ' dataTypeAttributeCode ', dataTypeAttributeCode, ' route ', route, 'selectedAttributeType ', selectedAttributeType);
+     let typeAttribute = dataTypeAttributeCode;
+     if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
+       typeAttribute = getFormTypeValue(getState(), formName);
+     }
+     console.log('typeAttribute', typeAttribute);
+     getDataTypeAttribute(typeAttribute).then((response) => {
+       response.json().then((json) => {
+         if (response.ok) {
+           dispatch(setSelectedAttribute(json.payload));
+           if (route) {
+             gotoRoute(route.route, route.params);
+           }
+         } else {
+           dispatch(addErrors(json.errors.map(err => err.message)));
+         }
+         resolve();
+       });
+     }).catch(() => {});
+   })
+ );
 
-export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (dispatch, getState) => (
-  new Promise((resolve) => {
-    getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
-          dispatch(initialize('attribute', {
-            ...json.payload,
-            joinRoles,
-            joinAllowedOptions: joinRoles,
-          }));
-          dispatch(setSelectedAttributeDataType(json.payload));
-          dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
+export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode) =>
+  (dispatch, getState) => (
+    new Promise((resolve) => {
+      getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
+            dispatch(initialize(formName, {
+              ...json.payload,
+              joinRoles,
+              joinAllowedOptions: joinRoles,
+              compositeAttributeType: TYPE_COMPOSITE,
+            }));
+            dispatch(setSelectedAttributeDataType(json.payload));
+            dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      }).catch(() => {});
+    })
+  );
 
 
 export const sendPostAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
+    console.log('sendPostAttributeFromDataType', attributeObject);
     const dataTypeCode = getParams(getState()).entityCode;
     const list = getDataTypeSelectedAttributeType(getState());
     postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
@@ -298,6 +326,7 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
 
 export const sendPutAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
+    console.log('sendPutAttributeFromDataType', attributeObject);
     const dataTypeCode = getParams(getState()).entityCode;
     putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
       response.json().then((json) => {
@@ -309,7 +338,15 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
             attributeCode: attributeObject.code,
           });
         } else {
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          const { type, code } = attributeObject;
+          if (type === TYPE_COMPOSITE) {
+            gotoRoute(
+              ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+              { entityCode: dataTypeCode, attributeCode: code },
+            );
+          } else {
+            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          }
         }
         resolve();
       });
@@ -333,9 +370,62 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
   })
 );
 
+const getPayloadFromTypeAttribute = (values, allowedRoles) => {
+  const payload = {
+    ...values,
+    code: values.code,
+    type: values.type,
+    roles: values.joinRoles ? values.joinRoles.map(roleId => (
+      { code: roleId, descr: allowedRoles[roleId] }
+    )) : [],
+    nestedAttribute: {
+      code: values.code,
+      type: values.listNestedType,
+      enumeratorStaticItems: 'default',
+      enumeratorStaticItemsSeparator: ',',
+    },
+  };
+  return payload;
+};
+
+export const handlerAttributeFromDataType = (action, values, allowedRoles, mode) =>
+  (dispatch, getState) => {
+    const payload = getPayloadFromTypeAttribute(values, allowedRoles);
+    console.log('handlerAttributeFromDataType - payload', payload);
+    console.log('handlerAttributeFromDataType - action', action);
+    console.log('handlerAttributeFromDataType - mode', mode);
+    if (action === METHODS.POST) {
+      dispatch(setActionMode(MODE_ADD));
+      const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
+      if (attributeSelected.type === TYPE_COMPOSITE) {
+        attributeSelected.compositeAttributes.push(payload);
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+        dispatch(sendPutAttributeFromDataType(attributeSelected));
+      } else if (payload.type === TYPE_COMPOSITE) {
+        console.log('section add Composite');
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+      } else {
+        dispatch(sendPostAttributeFromDataType(payload));
+      }
+    } else {
+      dispatch(setActionMode(MODE_EDIT));
+      if (values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE) {
+        if (mode === MODE_EDIT_COMPOSITE) {
+          dispatch(sendPutAttributeFromDataType(payload)).then(() => {
+            gotoRoute(ROUTE_DATA_TYPE_LIST);
+          });
+        }
+        dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+      } else {
+        dispatch(sendPutAttributeFromDataType(payload));
+      }
+    }
+  };
+
 export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
     const dataTypeCode = getSelectedDataType(getState()).code;
+    console.log('sendDeleteAttributeFromDataType attributeCode', attributeCode, 'dataTypeCode ', dataTypeCode, getSelectedDataType(getState()));
     deleteAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {

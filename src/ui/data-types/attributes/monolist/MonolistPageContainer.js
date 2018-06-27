@@ -16,7 +16,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ attributeCode, dataTypeCode }) => {
-    dispatch(fetchAttributeFromDataType(dataTypeCode, attributeCode));
+    dispatch(fetchAttributeFromDataType('monoListAttribute', dataTypeCode, attributeCode));
   },
 });
 
