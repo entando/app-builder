@@ -41,6 +41,8 @@ import {
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
   SET_ACTION_MODE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  MOVE_ATTRIBUTE_FROM_COMPOSITE,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
@@ -141,6 +143,21 @@ export const setActionMode = actionMode => ({
   type: SET_ACTION_MODE,
   payload: {
     actionMode,
+  },
+});
+
+export const removeAttributeFromComposite = attributeCode => ({
+  type: REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    attributeCode,
+  },
+});
+
+export const moveAttributeFromComposite = (fromIndex, toIndex) => ({
+  type: MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    fromIndex,
+    toIndex,
   },
 });
 
@@ -282,6 +299,7 @@ export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode
       getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
         response.json().then((json) => {
           if (response.ok) {
+            console.log('fetchAttributeFromDataType payload : ', json.payload);
             const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
             dispatch(initialize(formName, {
               ...json.payload,
@@ -425,7 +443,6 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
 export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
     const dataTypeCode = getSelectedDataType(getState()).code;
-    console.log('sendDeleteAttributeFromDataType attributeCode', attributeCode, 'dataTypeCode ', dataTypeCode, getSelectedDataType(getState()));
     deleteAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {

@@ -50,13 +50,7 @@ export class EditAttributeFormBody extends Component {
           <AttributeEnumMapSettings {...this.props} />
         );
         case 'Composite':
-          return isComposite ?
-            (
-              <AttributeListTableComposite
-                entityCode={dataTypeAttributeCode}
-                {...this.props}
-              />
-            ) : null;
+          return isComposite ? <AttributeListTableComposite {...this.props} /> : null;
 
         default: return (
           <FormSection name="validationRules">

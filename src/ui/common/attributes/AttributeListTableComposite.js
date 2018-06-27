@@ -1,43 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field } from 'redux-form';
-import { InputGroup, Button, Col } from 'patternfly-react';
+import { Field, FieldArray } from 'redux-form';
+import { InputGroup, Button, Col, DropdownKebab, MenuItem } from 'patternfly-react';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
-import DeleteAttributeModalContainer from 'ui/data-types/attributes/DeleteAttributeModalContainer';
 
 import { TYPE_COMPOSITE } from 'state/data-types/const';
 
 const AttributeListTableComposite = (props) => {
   const {
-    attributes, attributesList, onAddAttribute, invalid, submitting,
+    attributesComposite, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
   } = props;
-
-  const renderTableRows = () => attributes.map((attribute, index) => {
-    const isMovableUp = index > 0;
-    const isMovableDown = index < attributes.length - 1;
-    return (
-      <tr key={attribute.code}>
-        <td className="AttributeListRow__td">{attribute.code}</td>
-        <td className="AttributeListRow__td">{attribute.type}</td>
-        <td className="AttributeListRow__td text-center">
-          <AttributeCheckIcon isChecked={attribute.mandatory} />
-        </td>
-        <td className="AttributeListRow__td text-center">
-          <AttributeListMenuActions
-            {...props}
-            attributeIndex={index}
-            isMovableUp={isMovableUp}
-            isMovableDown={isMovableDown}
-            code={attribute.code}
-          />
-        </td>
-      </tr>
-    );
-  });
 
   const selectOptions = attributesList
     .filter(f => f !== TYPE_COMPOSITE)
@@ -78,6 +53,54 @@ const AttributeListTableComposite = (props) => {
     </div>
   );
 
+  const renderAttributes = ({ compositeAttributes, fields }) =>
+    compositeAttributes.map((attribute, index) => {
+      const isMovableUp = index > 0;
+      const isMovableDown = index < compositeAttributes.length - 1;
+      return (
+        <tr key={attribute.code}>
+          <td className="AttributeListRow__td">{attribute.code}</td>
+          <td className="AttributeListRow__td">{attribute.type}</td>
+          <td className="AttributeListRow__td text-center">
+            <AttributeCheckIcon isChecked={attribute.mandatory} />
+          </td>
+          <td className="AttributeListRow__td text-center">
+
+            <DropdownKebab pullRight id={`${attribute.code}-actions`}>
+              {
+                isMovableUp ?
+                  <MenuItem
+                    className="AttributeListMenuAction__menu-item-move-up"
+                    onClick={() => { onMove(index, index - 1); fields.move(index, index - 1); }}
+                  >
+                    <FormattedMessage id="app.moveUp" />
+                  </MenuItem>
+                : null
+              }
+              {
+              isMovableDown ?
+                <MenuItem
+                  className="AttributeListMenuAction__menu-item-move-down"
+                  onClick={() => { onMove(index, index + 1); fields.move(index, index + 1); }}
+                >
+                  <FormattedMessage id="app.moveDown" />
+                </MenuItem>
+              : null
+            }
+
+              <MenuItem
+                className="AttributeListMenuAction__menu-item-delete"
+                onClick={() => { fields.remove(index); onClickDelete(attribute.code); }}
+              >
+                <FormattedMessage id="app.delete" />
+              </MenuItem>
+            </DropdownKebab>
+
+          </td>
+        </tr>
+      );
+    });
+
   const renderTable = () => (
     <Col xs={10} xsOffset={2}>
       <table className="AttributeListTableComposite__table table table-striped table-bordered">
@@ -98,7 +121,12 @@ const AttributeListTableComposite = (props) => {
           </tr>
         </thead>
         <tbody>
-          {renderTableRows()}
+          <FieldArray
+            name="compositeAttributes"
+            compositeAttributes={attributesComposite}
+            component={renderAttributes}
+            rerenderOnEveryChange
+          />
         </tbody>
       </table>
     </Col>
@@ -107,26 +135,24 @@ const AttributeListTableComposite = (props) => {
   return (
     <div className="AttributeListTableComposite">
       {renderSelectOption()}
-      {attributes.length > 0 ? renderTable() : null}
-      <DeleteAttributeModalContainer />
+      {attributesComposite.length > 0 ? renderTable() : null}
     </div>
   );
 };
 
 AttributeListTableComposite.propTypes = {
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  attributes: PropTypes.arrayOf(PropTypes.shape({})),
-  onAddAttribute: PropTypes.func,
+  attributesComposite: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onAddAttribute: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
 };
 
 AttributeListTableComposite.defaultProps = {
-  attributes: [],
-  onAddAttribute: () => {},
   invalid: false,
   submitting: false,
-
 };
 
 export default AttributeListTableComposite;
