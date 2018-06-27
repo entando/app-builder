@@ -32,6 +32,7 @@ import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
+import userProfile from 'state/user-profile/reducer';
 
 const reducerDef = {
   activityStream,
@@ -65,6 +66,7 @@ const reducerDef = {
   users,
   widgets,
   userSettings,
+  userProfile,
 };
 
 if (pluginArray.length) {
