@@ -22,7 +22,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget());
-    dispatch(fetchGroups());
+    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
   },
   onSubmit: (values) => {
     dispatch(sendPutWidgets(values));
