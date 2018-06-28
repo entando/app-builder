@@ -10,8 +10,10 @@ import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 import { TYPE_COMPOSITE } from 'state/data-types/const';
 
 const AttributeListTableComposite = (props) => {
+  console.log('AttributeListTableComposite props', props);
   const {
-    attributesComposite, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
+    compositeAttributes, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
+    // attributeCode, dataTypeAttributeCode, selectedAttributeType,
   } = props;
 
   const selectOptions = attributesList
@@ -41,7 +43,8 @@ const AttributeListTableComposite = (props) => {
             type="button"
             className="pull-right DataTypeForm__add"
             bsStyle="primary"
-            onClick={() => onAddAttribute(props)}
+            onClick={() =>
+                onAddAttribute(props)}
             disabled={invalid || submitting}
           >
             <FormattedMessage
@@ -53,7 +56,7 @@ const AttributeListTableComposite = (props) => {
     </div>
   );
 
-  const renderAttributes = ({ compositeAttributes, fields }) =>
+  const renderAttributes = ({ fields }) =>
     compositeAttributes.map((attribute, index) => {
       const isMovableUp = index > 0;
       const isMovableDown = index < compositeAttributes.length - 1;
@@ -123,7 +126,7 @@ const AttributeListTableComposite = (props) => {
         <tbody>
           <FieldArray
             name="compositeAttributes"
-            compositeAttributes={attributesComposite}
+            compositeAttributes={compositeAttributes}
             component={renderAttributes}
             rerenderOnEveryChange
           />
@@ -135,19 +138,24 @@ const AttributeListTableComposite = (props) => {
   return (
     <div className="AttributeListTableComposite">
       {renderSelectOption()}
-      {attributesComposite.length > 0 ? renderTable() : null}
+      {compositeAttributes.length > 0 ? renderTable() : null}
     </div>
   );
 };
 
 AttributeListTableComposite.propTypes = {
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  attributesComposite: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  compositeAttributes: PropTypes.arrayOf(PropTypes.shape({
+    mandatory: PropTypes.bool,
+  })).isRequired,
   onAddAttribute: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  // attributeCode: PropTypes.string.isRequired,
+  // dataTypeAttributeCode: PropTypes.string.isRequired,
+  // selectedAttributeType: PropTypes.string.isRequired,
 };
 
 AttributeListTableComposite.defaultProps = {

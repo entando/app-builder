@@ -1,10 +1,16 @@
 import { connect } from 'react-redux';
-import { setActionMode, fetchDataTypeAttributes, handlerAttributeFromDataType, fetchDataTypeAttribute } from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
 import AttributeForm from 'ui/common/form/AttributeForm';
-// import AttributeFormComposite from 'ui/common/form/AttributeFormComposite';
+import {
+  setActionMode,
+  fetchDataTypeAttributes,
+  handlerAttributeFromDataType,
+  fetchDataTypeAttribute,
+  removeAttributeFromComposite,
+  moveAttributeFromComposite,
+} from 'state/data-types/actions';
 
 import {
   getDataTypeSelectedAttribute,
@@ -12,6 +18,7 @@ import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
   getActionModeDataTypeSelectedAttribute,
+  getSelectedCompositeAttributes,
 } from 'state/data-types/selectors';
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
@@ -28,6 +35,7 @@ export const mapStateToProps = state => ({
     compositeAttributeType: TYPE_COMPOSITE,
   },
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
+  compositeAttributes: getSelectedCompositeAttributes(state) || [],
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -50,6 +58,13 @@ export const mapDispatchToProps = dispatch => ({
       'addAttribute',
     ));
   },
+  onClickDelete: (attributeCode) => {
+    dispatch(removeAttributeFromComposite(attributeCode));
+  },
+  onMove: (fromIndex, toIndex) => {
+    dispatch(moveAttributeFromComposite(fromIndex, toIndex));
+  },
+
 });
 
 const AddFormContainer =
