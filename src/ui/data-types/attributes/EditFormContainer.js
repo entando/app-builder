@@ -22,7 +22,6 @@ import {
 } from 'state/data-types/selectors';
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
-import { TYPE_COMPOSITE } from 'state/data-types/const';
 
 export const mapStateToProps = state => ({
   mode: getActionModeDataTypeSelectedAttribute(state) || 'edit',
@@ -34,7 +33,7 @@ export const mapStateToProps = state => ({
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-  attributesComposite: getSelectedCompositeAttributes(state),
+  compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -45,19 +44,19 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (values, allowedRoles, mode) => {
     dispatch(handlerAttributeFromDataType(METHODS.PUT, values, allowedRoles, mode));
   },
-  onAddAttribute: ({ attributeCode, entityCode, selectedAttributeType }) => {
-    console.log('EditFormContainer - onAddAttribute [attributeCode]', attributeCode, ' entityCode ', entityCode, ' selectedAttributeType ', selectedAttributeType);
-    if (selectedAttributeType !== TYPE_COMPOSITE) {
-      dispatch(fetchDataTypeAttribute(
-        attributeCode,
-        {
-          route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-          params: { entityCode },
-        },
-        selectedAttributeType,
-        'attribute',
-      ));
-    }
+  onAddAttribute: (props) => {
+    console.log('EditFormContainer props', props);
+    const { attributeCode, dataTypeAttributeCode, selectedAttributeType } = props;
+    console.log('EditFormContainer - onAddAttribute [attributeCode]', attributeCode, ' dataTypeAttributeCode ', dataTypeAttributeCode, ' selectedAttributeType ', selectedAttributeType);
+    dispatch(fetchDataTypeAttribute(
+      attributeCode,
+      {
+        route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+        params: { entityCode: dataTypeAttributeCode },
+      },
+      selectedAttributeType,
+      'attribute',
+    ));
   },
   onClickDelete: (attributeCode) => {
     dispatch(removeAttributeFromComposite(attributeCode));

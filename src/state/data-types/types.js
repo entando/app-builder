@@ -12,3 +12,4 @@ export const SET_DATA_TYPE_REFERENCE_STATUS = 'data-types/set-reference-status';
 export const SET_ACTION_MODE = 'data-types/set-action-mode';
 export const REMOVE_ATTRIBUTE_FROM_COMPOSITE = 'data-types/remove-attribute-from-composite';
 export const MOVE_ATTRIBUTE_FROM_COMPOSITE = 'data-types/move-attribute-from-composite';
+export const SET_NEW_ATTRIBUTE_COMPOSITE = 'data-types/set-new-attribute-composite';

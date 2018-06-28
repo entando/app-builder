@@ -49,4 +49,7 @@ export const getActionModeDataTypeSelectedAttribute =
 export const getAttributeSelectFromDataType =
   createSelector([getSelectedDataType], selected => selected.attributeSelected);
 
+export const getNewAttributeComposite =
+    createSelector([getSelectedDataType], sel => sel.newAttributeComposite);
+
 export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');

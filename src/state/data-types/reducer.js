@@ -13,6 +13,7 @@ import {
   SET_ACTION_MODE,
   REMOVE_ATTRIBUTE_FROM_COMPOSITE,
   MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
 } from 'state/data-types/types';
 
 import { swapItems } from 'state/attributes/utils';
@@ -120,6 +121,9 @@ export const selectedDataType = (state = {}, action = {}) => {
           compositeAttributes,
         },
       };
+    }
+    case SET_NEW_ATTRIBUTE_COMPOSITE: {
+      return { ...state, newAttributeComposite: action.payload.attributeData };
     }
     default: return state;
   }
