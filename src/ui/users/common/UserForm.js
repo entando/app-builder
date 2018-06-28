@@ -59,7 +59,7 @@ export class UserFormBody extends Component {
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
         placeholder={formattedText('user.table.username')}
         validate={mode !== EDIT_MODE ?
-          [required, minLength8, maxLength20, userFormText] : undefined}
+          [required, maxLength20, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
       />
     );
