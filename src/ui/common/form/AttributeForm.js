@@ -14,24 +14,19 @@ import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
-// import AttributeCompositeForm from 'ui/common/form/AttributeCompositeForm';
 
-import { TYPE_COMPOSITE, MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE } from 'state/data-types/const';
+import { TYPE_COMPOSITE, MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/data-types/const';
 
 export class AttributeFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
 
-
   render() {
-    console.log('AttributeForm props', this.props);
-    const {
-      selectedAttributeType, dataTypeAttributeCode, mode,
-      // compositeAttributes,
-    } = this.props;
+    const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
     const isComposite = mode === MODE_ADD_COMPOSITE;
-    // const isAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
+    const isEditComposite = mode === MODE_EDIT_COMPOSITE;
+    const isAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
 
     const renderAttributeInfo = () => (
       isComposite ?
@@ -66,26 +61,12 @@ export class AttributeFormBody extends Component {
           <AttributeEnumMapSettings {...this.props} />
         );
         case TYPE_COMPOSITE: {
-          if (isComposite) {
-            return (<AttributeListTableComposite
+          return isComposite ?
+            <AttributeListTableComposite
               entityCode={dataTypeAttributeCode}
               {...this.props}
-            />);
-          }
-          // else if (isAddAttributeComposite) {
-          //   return (
-          //     <FieldArray
-          //       name="compositeAttributes"
-          //       component={AttributeCompositeForm}
-          //       selectedAttributeType={selectedAttributeType.code}
-          //       compositeAttributes={compositeAttributes}
-          //     />
-          //   );
-          // }
-          return null;
+            /> : null;
         }
-
-
         default: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
@@ -128,7 +109,7 @@ export class AttributeFormBody extends Component {
               disabled={this.props.invalid || this.props.submitting}
             >
               {
-                mode !== MODE_EDIT_COMPOSITE ? <FormattedMessage id="app.continue" /> : <FormattedMessage id="app.save" />
+                isEditComposite || isAddAttributeComposite ? <FormattedMessage id="app.save" /> : <FormattedMessage id="app.continue" />
               }
             </Button>
           </Col>
@@ -201,13 +182,3 @@ const AttributeForm = reduxForm({
 })(AttributeFormBody);
 
 export default AttributeForm;
-
-// {
-//   (isAddAttributeComposite && selectedAttributeType.code !== TYPE_COMPOSITE) ?
-//     <AttributeCompositeForm
-//       mode="no filedArray"
-//       selectedAttributeType={selectedAttributeType.code}
-//       compositeAttributes={compositeAttributes}
-//     /> :
-//   renderAttributes()
-// }

@@ -45,9 +45,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handlerAttributeFromDataType(METHODS.PUT, values, allowedRoles, mode));
   },
   onAddAttribute: (props) => {
-    console.log('EditFormContainer props', props);
     const { attributeCode, dataTypeAttributeCode, selectedAttributeType } = props;
-    console.log('EditFormContainer - onAddAttribute [attributeCode]', attributeCode, ' dataTypeAttributeCode ', dataTypeAttributeCode, ' selectedAttributeType ', selectedAttributeType);
     dispatch(fetchDataTypeAttribute(
       attributeCode,
       {

@@ -13,9 +13,7 @@ import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings'
 import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 
 const AttributeCompositeForm = (props) => {
-  const { selectedAttributeType, fields } = props;
-  console.log('AttributeCompositeForm', props);
-  console.log('AttributeCompositeForm fields', fields);
+  const { selectedAttributeType } = props;
 
   const renderAttributeInfo = () => (
     <AttributeInfo />

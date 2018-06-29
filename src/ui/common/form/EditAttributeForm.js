@@ -23,8 +23,7 @@ export class EditAttributeFormBody extends Component {
   }
 
   render() {
-    const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
-    console.log('EditAttributeForm - props', this.props, 'dataTypeAttributeCode ', dataTypeAttributeCode);
+    const { selectedAttributeType, mode } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
 
     const renderSelectedAttribute = () => {
@@ -115,7 +114,7 @@ export class EditAttributeFormBody extends Component {
 }
 
 EditAttributeFormBody.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
@@ -130,7 +129,6 @@ EditAttributeFormBody.propTypes = {
 };
 
 EditAttributeFormBody.defaultProps = {
-  onWillMount: () => {},
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
