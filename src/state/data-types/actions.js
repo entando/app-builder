@@ -1,6 +1,6 @@
 import { gotoRoute, getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
-import { addErrors } from '@entando/messages';
+import { addErrors, clearErrors } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -286,12 +286,13 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
 export const fetchDataTypeAttribute =
  (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
    new Promise((resolve) => {
-     const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+     dispatch(clearErrors());
      let typeAttribute = dataTypeAttributeCode;
      if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
        typeAttribute = getFormTypeValue(getState(), formName);
        dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
      }
+     const actionMode = getActionModeDataTypeSelectedAttribute(getState());
      if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
        resolve();
      } else {
@@ -315,6 +316,12 @@ export const fetchDataTypeAttribute =
    })
  );
 
+const fmtDateDDMMYYY = (date) => {
+  let d = new Date(date);
+  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
+};
+
 export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode) =>
   (dispatch, getState) => (
     new Promise((resolve) => {
@@ -322,14 +329,43 @@ export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode
         response.json().then((json) => {
           if (response.ok) {
             const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
-            dispatch(initialize(formName, {
+            let payload = {
               ...json.payload,
               joinRoles,
               joinAllowedOptions: joinRoles,
               compositeAttributeType: TYPE_COMPOSITE,
-            }));
-            dispatch(setSelectedAttributeDataType(json.payload));
-            dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
+            };
+            if (json.payload.type === TYPE_DATE) {
+              let {
+                rangeStartDate, rangeEndDate, equalDate,
+                rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+              } = json.payload.validationRules;
+              rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+              rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+              equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+              rangeStartDateAttribute =
+              rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+              rangeEndDateAttribute =
+              rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+              equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+              payload = {
+                ...payload,
+                validationRules: {
+                  rangeStartDate,
+                  rangeEndDate,
+                  equalDate,
+                  rangeStartDateAttribute,
+                  rangeEndDateAttribute,
+                  equalDateAttribute,
+                },
+              };
+            }
+            const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+            if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+              dispatch(initialize(formName, payload));
+              dispatch(setSelectedAttributeDataType(json.payload));
+              dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
+            }
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
           }
@@ -377,6 +413,7 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
           dispatch(setSelectedAttributeDataType(json.payload));
           const { type, code } = attributeObject;
           if (type === TYPE_COMPOSITE) {
+            dispatch(initialize('attribute', { ...json.payload, compositeAttributeType: TYPE_COMPOSITE }));
             gotoRoute(
               ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
               { entityCode: dataTypeCode, attributeCode: code },
@@ -407,7 +444,7 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
   })
 );
 
-const fmtDateDDMMYYY = date => moment(date, 'DD/MM/YYYY').format('DD-MM-YYYY HH:mm:ss');
+const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
 
 const getPayloadFromTypeAttribute = (values, allowedRoles) => {
   let payload = {
@@ -430,14 +467,14 @@ const getPayloadFromTypeAttribute = (values, allowedRoles) => {
       rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
     } = payload.validationRules;
 
-    rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
-    rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
-    equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+    rangeStartDate = rangeStartDate && converDate(rangeStartDate);
+    rangeEndDate = rangeEndDate && converDate(rangeEndDate);
+    equalDate = equalDate && converDate(equalDate);
     rangeStartDateAttribute =
-    rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+    rangeStartDateAttribute && converDate(rangeStartDateAttribute);
     rangeEndDateAttribute =
-    rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
-    equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+    rangeEndDateAttribute && converDate(rangeEndDateAttribute);
+    equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
     payload = {
       ...payload,
       validationRules: {
@@ -450,7 +487,6 @@ const getPayloadFromTypeAttribute = (values, allowedRoles) => {
       },
     };
   }
-  console.log(payload);
   return payload;
 };
 
@@ -461,8 +497,8 @@ const getPayloadFromTypeAttributeComposite = (composite, childAttribute) => ({
 
 export const handlerAttributeFromDataType = (action, values, allowedRoles, mode) =>
   (dispatch, getState) => {
+    dispatch(clearErrors());
     let payload = getPayloadFromTypeAttribute(values, allowedRoles);
-    console.log('handlerAttributeFromDataType payload da Inviare', payload);
     if (action === METHODS.POST) {
       dispatch(setActionMode(MODE_ADD));
       const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
@@ -490,6 +526,12 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
         }
         dispatch(setActionMode(MODE_EDIT_COMPOSITE));
       } else {
+        if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+          const compositeData = getAttributeSelectFromDataType(getState());
+          compositeData.compositeAttributes.push(payload);
+          payload = compositeData;
+          dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+        }
         dispatch(sendPutAttributeFromDataType(payload));
       }
     }

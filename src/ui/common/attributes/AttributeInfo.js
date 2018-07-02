@@ -11,38 +11,37 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 const maxLength10 = maxLength(10);
 const maxLength50 = maxLength(50);
 
-const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
-  const renderSearchable = () => {
-    if (isSearchable) {
-      return (
-        <FormGroup>
-          <label htmlFor="filterList" className="col-xs-2 control-label">
-            <FormLabel labelId="app.indexable" />
-          </label>
-          <Col xs={4}>
-            <Field component={SwitchRenderer} name="indexable" />
-          </Col>
-        </FormGroup>
-      );
-    }
-    return '';
-  };
+const AttributeInfo = ({
+  selectedAttributeType, listFilter, indexable, mode,
+}) => {
+  // const { indexableOptionSupported, searchableOptionSupported } = selectedAttributeType;
+  const isSearchable =
+    (selectedAttributeType && selectedAttributeType.indexableOptionSupported) || listFilter;
+  const isIndexable =
+    (selectedAttributeType && selectedAttributeType.searchableOptionSupported) || indexable;
+  const renderSearchable = () => (
+    isSearchable ?
+      <FormGroup>
+        <label htmlFor="filterList" className="col-xs-2 control-label">
+          <FormLabel labelId="app.indexable" />
+        </label>
+        <Col xs={4}>
+          <Field component={SwitchRenderer} name="indexable" />
+        </Col>
+      </FormGroup>
+      : null);
 
-  const renderIndexable = () => {
-    if (isIndexable) {
-      return (
-        <FormGroup>
-          <label htmlFor="filterList" className="col-xs-2 control-label">
-            <FormLabel labelId="app.filterList" />
-          </label>
-          <Col xs={4}>
-            <Field component={SwitchRenderer} name="filterList" />
-          </Col>
-        </FormGroup>
-      );
-    }
-    return '';
-  };
+  const renderIndexable = () => (
+    isIndexable ?
+      <FormGroup>
+        <label htmlFor="filterList" className="col-xs-2 control-label">
+          <FormLabel labelId="app.filterList" />
+        </label>
+        <Col xs={4}>
+          <Field component={SwitchRenderer} name="filterList" />
+        </Col>
+      </FormGroup>
+      : null);
 
   return (
     <Row>
@@ -98,13 +97,22 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
 export default AttributeInfo;
 
 AttributeInfo.propTypes = {
-  isSearchable: PropTypes.bool,
-  isIndexable: PropTypes.bool,
+  selectedAttributeType: PropTypes.shape({
+    indexableOptionSupported: PropTypes.bool,
+    searchableOptionSupported: PropTypes.bool,
+  }),
+  indexable: PropTypes.bool,
+  listFilter: PropTypes.bool,
   mode: PropTypes.string,
 };
 
 AttributeInfo.defaultProps = {
-  isSearchable: false,
-  isIndexable: false,
+  selectedAttributeType: {},
+  indexable: false,
+  listFilter: false,
+
+};
+
+AttributeInfo.defaultProps = {
   mode: 'add',
 };

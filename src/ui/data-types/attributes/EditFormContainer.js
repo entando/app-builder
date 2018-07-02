@@ -19,6 +19,7 @@ import {
   getDataTypeSelectedAttributeAllowedRoles,
   getSelectedCompositeAttributes,
   getActionModeDataTypeSelectedAttribute,
+  getDataTypeSelectedAttribute,
 } from 'state/data-types/selectors';
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
@@ -31,6 +32,7 @@ export const mapStateToProps = state => ({
     formValueSelector('attribute')(state, 'joinRoles') ||
     formValueSelector('attribute')(state, 'joinAllowedOptions') || [],
   selectedAttributeType: getSelectedAttributeType(state),
+  selectedAttributeTypeForAddComposite: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   compositeAttributes: getSelectedCompositeAttributes(state),
