@@ -86,7 +86,7 @@ getPageConfig.mockImplementation(mockApi({ payload: [] }));
 describe('state/page-config/actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    deletePageWidget.mockImplementation(resolveRespOk);
+    deletePageWidget.mockImplementation(mockApi({}));
     putPageWidget.mockImplementation(resolveRespOk);
     restorePageConfig.mockImplementation(resolveRespOk);
     applyDefaultPageConfig.mockImplementation(resolveRespOk);
@@ -265,17 +265,71 @@ describe('state/page-config/actions', () => {
     const FRAME_ID = 1;
     const OLD_FRAME_ID = 0;
     beforeEach(() => {
+      putPageWidget.mockImplementation(mockApi({}));
+      deletePageWidget.mockImplementation(mockApi({}));
+      getSelectedPageConfig.mockReturnValue([{ type: 'some' }, null]);
       store = mockStore(INITIAL_STATE);
     });
 
-    it('calls PUT page widget API and dispatches SET_PAGE_WIDGET', (done) => {
+    describe('if source frame id is defined (dragging a widget from another frame)', () => {
+      it('calls DELETE page widget API to empty the source frame', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID)).then(() => {
+          expect(deletePageWidget)
+            .toHaveBeenCalledWith(CURRENT_PAGE_CODE, OLD_FRAME_ID);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('calls PUT page widget API to put the widget to the target frame', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID)).then(() => {
+          expect(putPageWidget)
+            .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('dispatches SET_PAGE_WIDGET to update the state', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID)).then(() => {
+          const actionTypes = store.getActions().map(action => action.type);
+          expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('if source frame id is null or undefined (dragging a new widget)', () => {
+      it('it does not call DELETE page widget API to empty the source frame', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID)).then(() => {
+          expect(deletePageWidget).not.toHaveBeenCalled();
+          done();
+        }).catch(done.fail);
+      });
+
+      it('calls PUT page widget API to put the widget to the target frame', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID)).then(() => {
+          expect(putPageWidget)
+            .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('dispatches SET_PAGE_WIDGET to update the state', (done) => {
+        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID)).then(() => {
+          const actionTypes = store.getActions().map(action => action.type);
+          expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    it('it does not call DELETE page widget if source frameId is null or undefined', (done) => {
       putPageWidget.mockImplementation(mockApi({}));
+      deletePageWidget.mockImplementation(mockApi({}));
       getSelectedPageConfig.mockReturnValue([{ type: 'some' }, null]);
-      store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID)).then(() => {
+      store.dispatch(updatePageWidget(WIDGET_CODE, undefined, FRAME_ID)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
-        expect(deletePageWidget)
-          .toHaveBeenCalledWith(CURRENT_PAGE_CODE, OLD_FRAME_ID);
+        expect(deletePageWidget).not.toHaveBeenCalled();
         expect(putPageWidget)
           .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
         done();
