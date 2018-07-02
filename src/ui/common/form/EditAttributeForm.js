@@ -2,20 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { Button, Row, Col } from 'patternfly-react';
+import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+// import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
-import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
-import { MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE } from 'state/data-types/const';
+import {
+  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  TYPE_COMPOSITE,
+  TYPE_BOOLEAN,
+  TYPE_CHECKBOX,
+  TYPE_DATE,
+  // TYPE_ENUMERATOR,
+  TYPE_ENUMERATOR_MAP,
+  TYPE_MONOLIST,
+  TYPE_LIST,
+  TYPE_NUMBER,
+} from 'state/data-types/const';
 
 export class EditAttributeFormBody extends Component {
   componentWillMount() {
@@ -23,32 +34,50 @@ export class EditAttributeFormBody extends Component {
   }
 
   render() {
-    const { selectedAttributeType, mode } = this.props;
+    const {
+      selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
+      indexable, listFilter,
+    } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
+    const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
+    const attributeType = isModeAddAttributeComposite ?
+      selectedAttributeTypeForAddComposite.code : selectedAttributeType;
+
+    const renderAttributeInfo = () => (
+      isComposite ?
+        <AttributeInfoComposite /> :
+        <AttributeInfo
+          indexable={indexable}
+          listFilter={listFilter}
+          mode={mode}
+        />
+    );
 
     const renderSelectedAttribute = () => {
-      switch (selectedAttributeType) {
-        case 'Boolean': return null;
-        case 'CheckBox': return null;
-        case 'Monolist': return <AttributeMonoListMonoSettings {...this.props} />;
-        case 'List': return <AttributeMonoListMonoSettings {...this.props} />;
-        case 'Number': return (
+      switch (attributeType) {
+        case TYPE_BOOLEAN: return null;
+        case TYPE_CHECKBOX: return null;
+        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
           </FormSection>
         );
-        case 'Date': return (
+        case TYPE_DATE: return (
           <FormSection name="validationRules">
             <AttributesDateSettings {...this.props} />
           </FormSection>
         );
-        case 'Enumerator': return (
-          <AttributeEnumSettings {...this.props} />
-        );
-        case 'EnumeratorMap': return (
+        // case TYPE_ENUMERATOR: return (
+        //   <AttributeEnumSettings
+        //     enumeratorExtractorBeans={attributeType.enumeratorExtractorBeans}
+        //   />
+        // );
+        case TYPE_ENUMERATOR_MAP: return (
           <AttributeEnumMapSettings {...this.props} />
         );
-        case 'Composite':
+        case TYPE_COMPOSITE:
           return isComposite ? <AttributeListTableComposite {...this.props} /> : null;
 
         default: return (
@@ -58,12 +87,6 @@ export class EditAttributeFormBody extends Component {
         );
       }
     };
-
-    const renderAttributeInfo = () => (
-      isComposite ?
-        <AttributeInfoComposite /> :
-        <AttributeInfo {...this.props} mode={mode} />
-    );
 
     const renderAttributeRole = () => (
       !isComposite ? <AttributeRole {...this.props} /> : null
@@ -83,6 +106,16 @@ export class EditAttributeFormBody extends Component {
          ))}
         className="form-horizontal"
       >
+        <Row>
+          <Col xs={12}>
+            {
+              selectedAttributeType === TYPE_COMPOSITE ?
+                <Alert type="info">
+                  <FormattedMessage id="app.working" /> {attributeCode}
+                </Alert> : null
+            }
+          </Col>
+        </Row>
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
@@ -121,10 +154,14 @@ EditAttributeFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   selectedAttributeType: PropTypes.string,
+  selectedAttributeTypeForAddComposite: PropTypes.PropTypes.shape({}),
+  attributeCode: PropTypes.string.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  indexable: PropTypes.bool,
+  listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,
 };
 
@@ -133,6 +170,9 @@ EditAttributeFormBody.defaultProps = {
   submitting: false,
   dataTypeAttributeCode: '',
   selectedAttributeType: '',
+  selectedAttributeTypeForAddComposite: '',
+  indexable: false,
+  listFilter: false,
   allowedRoles: [],
 };
 

@@ -13,11 +13,11 @@ export const element = value =>
     ? <FormattedMessage id="validateForm.element" /> : undefined);
 
 
-const AttributeEnumEnumMapSettings = ({ enumeratorExtractorBeans }) => {
+const AttributeEnumSettings = ({ enumeratorExtractorBeans }) => {
   const selectAllowedOptions = enumeratorExtractorBeans.map(item => (
     {
-      value: item.code,
-      text: item.descr,
+      value: item,
+      text: item,
     }
   ));
   return (
@@ -58,16 +58,8 @@ const AttributeEnumEnumMapSettings = ({ enumeratorExtractorBeans }) => {
   );
 };
 
-AttributeEnumEnumMapSettings.propTypes = {
-  enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string,
-    descr: PropTypes.string,
-  })),
+AttributeEnumSettings.propTypes = {
+  enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-AttributeEnumEnumMapSettings.defaultProps = {
-  enumeratorExtractorBeans: [],
-};
-
-
-export default AttributeEnumEnumMapSettings;
+export default AttributeEnumSettings;

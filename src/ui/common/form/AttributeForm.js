@@ -8,14 +8,25 @@ import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite'
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
-import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
-import { TYPE_COMPOSITE, MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/data-types/const';
+import {
+  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  TYPE_COMPOSITE,
+  TYPE_BOOLEAN,
+  TYPE_CHECKBOX,
+  TYPE_DATE,
+  TYPE_ENUMERATOR,
+  TYPE_ENUMERATOR_MAP,
+  TYPE_MONOLIST,
+  TYPE_LIST,
+  TYPE_NUMBER,
+} from 'state/data-types/const';
 
 export class AttributeFormBody extends Component {
   componentWillMount() {
@@ -31,7 +42,7 @@ export class AttributeFormBody extends Component {
     const renderAttributeInfo = () => (
       isComposite ?
         <AttributeInfoComposite /> :
-        <AttributeInfo {...this.props} />
+        <AttributeInfo selectedAttributeType={selectedAttributeType} />
     );
 
     const renderAttributeRole = () => (
@@ -40,24 +51,26 @@ export class AttributeFormBody extends Component {
 
     const renderSelectedAttribute = () => {
       switch (selectedAttributeType.code) {
-        case 'Boolean': return null;
-        case 'CheckBox': return null;
-        case 'Monolist': return <AttributeMonoListMonoSettings {...this.props} />;
-        case 'List': return <AttributeMonoListMonoSettings {...this.props} />;
-        case 'Number': return (
+        case TYPE_BOOLEAN: return null;
+        case TYPE_CHECKBOX: return null;
+        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
           </FormSection>
         );
-        case 'Date': return (
+        case TYPE_DATE: return (
           <FormSection name="validationRules">
             <AttributesDateSettings {...this.props} />
           </FormSection>
         );
-        case 'Enumerator': return (
-          <AttributeEnumSettings {...this.props} />
+        case TYPE_ENUMERATOR: return (
+          <AttributeEnumSettings
+            enumeratorExtractorBeans={selectedAttributeType.enumeratorExtractorBeans}
+          />
         );
-        case 'EnumeratorMap': return (
+        case TYPE_ENUMERATOR_MAP: return (
           <AttributeEnumMapSettings {...this.props} />
         );
         case TYPE_COMPOSITE: {
@@ -140,9 +153,9 @@ AttributeFormBody.propTypes = {
     enumeratorOptionsSupported: PropTypes.bool,
     enumeratorMapOptionsSupported: PropTypes.bool,
     listAttribute: PropTypes.bool,
-    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
+    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
     enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
+  }).isRequired,
   validation: PropTypes.shape({
     minLength: PropTypes.string,
     maxLength: PropTypes.string,
@@ -164,10 +177,6 @@ AttributeFormBody.defaultProps = {
   dataTypeAttributeCode: '',
   profileTypeAttributeCode: '',
   initialValues: {},
-  selectedAttributeType: {
-    enumeratorExtractorBean: [],
-    enumeratorMapExtractorBeans: [],
-  },
   validation: ({
     minLength: '',
     maxLength: '',
