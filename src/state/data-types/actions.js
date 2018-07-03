@@ -455,8 +455,9 @@ const getPayloadFromTypeAttribute = (values, allowedRoles) => {
       { code: roleId, descr: allowedRoles[roleId] }
     )) : [],
     nestedAttribute: {
+      ...values.nestedAttribute,
+      type: values.listNestedType || (values.nestedAttribute && values.nestedAttribute.type),
       code: values.code,
-      type: values.listNestedType,
       enumeratorStaticItems: 'default',
       enumeratorStaticItemsSeparator: ',',
     },

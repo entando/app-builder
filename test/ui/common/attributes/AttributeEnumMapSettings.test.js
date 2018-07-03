@@ -7,10 +7,14 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
 
+const DATA = { code: 'code', descr: 'descr' };
+
 describe('AttributeEnumMapSettings', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AttributeEnumMapSettings />);
+    component = shallow(<AttributeEnumMapSettings
+      enumeratorMapExtractorBeans={[DATA]}
+    />);
   });
 
   it('renders without crashing', () => {
