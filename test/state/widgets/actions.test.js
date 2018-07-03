@@ -190,9 +190,28 @@ describe('state/widgets/actions', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(initialize).toHaveBeenCalled();
-          expect(actions[1]).toHaveProperty('type', SET_SELECTED_WIDGET);
-          expect(actions[1]).toHaveProperty('payload');
-          expect(actions[1].payload).toMatchObject({ widget: WIDGET });
+          const initializeAction = actions[0];
+          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(initializeAction).toHaveProperty('payload');
+          expect(initializeAction.payload).toEqual({
+            code: WIDGET.code,
+            titles: WIDGET.titles,
+            group: WIDGET.group,
+            customUi: WIDGET.guiFragments[0].customUi,
+          });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is ok, initializes the form with widget information', (done) => {
+        getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
+        store.dispatch(fetchWidget()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          const selectWidgetAction = actions[1];
+          expect(selectWidgetAction).toHaveProperty('type', SET_SELECTED_WIDGET);
+          expect(selectWidgetAction).toHaveProperty('payload');
+          expect(selectWidgetAction.payload).toMatchObject({ widget: WIDGET });
           done();
         }).catch(done.fail);
       });
