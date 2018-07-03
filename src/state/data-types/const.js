@@ -7,6 +7,8 @@ export const TYPE_MONOLIST = 'Monolist';
 export const TYPE_COMPOSITE = 'Composite';
 export const TYPE_LIST = 'List';
 export const TYPE_NUMBER = 'Number';
+export const TYPE_THREESTATE = 'ThreeState';
+export const TYPE_TIMESTAMP = 'Timestamp';
 
 export const MODE_ADD = 'add';
 export const MODE_EDIT = 'edit';

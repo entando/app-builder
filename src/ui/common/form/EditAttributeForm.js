@@ -27,6 +27,8 @@ import {
   TYPE_MONOLIST,
   TYPE_LIST,
   TYPE_NUMBER,
+  TYPE_THREESTATE,
+  TYPE_TIMESTAMP,
 } from 'state/data-types/const';
 
 export class EditAttributeFormBody extends Component {
@@ -56,6 +58,8 @@ export class EditAttributeFormBody extends Component {
       switch (attributeType) {
         case TYPE_BOOLEAN: return null;
         case TYPE_CHECKBOX: return null;
+        case TYPE_THREESTATE: return null;
+        case TYPE_TIMESTAMP: return null;
         case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
         case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
         case TYPE_NUMBER: return (

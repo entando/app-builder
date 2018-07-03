@@ -2,7 +2,7 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute, getParams } from '@entando/router';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, CLEAR_ERRORS } from '@entando/messages';
 
 import {
   ROUTE_DATA_TYPE_LIST,
@@ -24,10 +24,15 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeType,
+  getActionModeDataTypeSelectedAttribute,
+  getFormTypeValue,
 } from 'state/data-types/selectors';
 import {
   sendPostDataType,
@@ -52,6 +57,9 @@ import {
   setDataTypeReferenceStatus,
   fetchDataTypeReferenceStatus,
   sendPostDataTypeReferenceStatus,
+  setActionMode,
+  removeAttributeFromComposite,
+  setNewAttributeComposite,
 } from 'state/data-types/actions';
 import {
   postDataType,
@@ -78,7 +86,10 @@ import {
   ATTRIBUTE_MOVE_UP,
   ATTRIBUTE_MOVE_DOWN,
   DATA_TYPE_REFERENCES_STATUS,
+
 } from 'test/mocks/dataTypes';
+
+import { TYPE_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/data-types/const';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -92,6 +103,8 @@ jest.mock('state/data-types/selectors', () => ({
   getDataTypeSelectedAttributeType: jest.fn(),
   getSelectedDataType: jest.fn().mockReturnValue({ code: 'dataType_code' }),
   getSelectedAttributeType: jest.fn(),
+  getActionModeDataTypeSelectedAttribute: jest.fn(),
+  getFormTypeValue: jest.fn(),
 }));
 
 getParams.mockReturnValue({ list: 'Monolist', datatypeCode: 'Monolist', entityCode: 'Monolist' });
@@ -115,7 +128,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_DATA_TYPES);
     });
   });
-
   describe('setDataTypeReferenceStatus', () => {
     beforeEach(() => {
       action = setDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS);
@@ -127,7 +139,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_DATA_TYPE_REFERENCE_STATUS);
     });
   });
-
   describe('removeDataType', () => {
     beforeEach(() => {
       action = removeDataType('AAA');
@@ -139,8 +150,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(REMOVE_DATA_TYPE);
     });
   });
-
-
   describe('setDataTypeAttributes', () => {
     beforeEach(() => {
       action = setDataTypeAttributes(DATA_TYPES_ATTRIBUTES);
@@ -172,6 +181,53 @@ describe('state/data-types/actions ', () => {
     });
     it('test setSelectedAttribute action sets the correct type', () => {
       expect(action.type).toBe(SET_SELECTED_ATTRIBUTE);
+    });
+  });
+  describe('setActionMode', () => {
+    beforeEach(() => {
+      action = setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(SET_ACTION_MODE);
+    });
+  });
+
+  describe('setActionMode', () => {
+    beforeEach(() => {
+      action = setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(SET_ACTION_MODE);
+    });
+  });
+
+  describe('removeAttributeFromComposite', () => {
+    beforeEach(() => {
+      action = removeAttributeFromComposite('code');
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(REMOVE_ATTRIBUTE_FROM_COMPOSITE);
+    });
+  });
+
+  describe('setNewAttributeComposite', () => {
+    beforeEach(() => {
+      action = setNewAttributeComposite(DATA_TYPES);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(SET_NEW_ATTRIBUTE_COMPOSITE);
     });
   });
 
@@ -225,7 +281,6 @@ describe('state/data-types/actions ', () => {
         }).catch(done.fail);
       });
     });
-
 
     describe('sendPostDataType', () => {
       it('when postDataType succeeds, should dispatch gotoRoute', (done) => {
@@ -359,9 +414,12 @@ describe('state/data-types/actions ', () => {
 
     describe('fetchAttributeFromDataType', () => {
       it('fetchAttributeFromDataType calls setSelectedAttributeDataType', (done) => {
-        store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
+        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce('edit');
+        getAttributeFromDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));
+        store.dispatch(fetchAttributeFromDataType('attribute', 'AAA', 'Text')).then(() => {
+          expect(getAttributeFromDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
           done();
@@ -371,6 +429,7 @@ describe('state/data-types/actions ', () => {
       it('fetchAttributeFromDataType calls ADD_ERROR actions', (done) => {
         getAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
+          expect(getAttributeFromDataType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -541,11 +600,42 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[0]).toHaveProperty('payload.attribute');
-          expect(actions[0].payload.attribute)
+          expect(actions).toHaveLength(2);
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[1]).toHaveProperty('payload.attribute');
+          expect(actions[1].payload.attribute)
             .toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
+          done();
+        }).catch(done.fail);
+      });
+
+      it('not call goToRoute if attribute is Composite and actionMode is AddCompositeAttribute ', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
+        store.dispatch(fetchDataTypeAttribute(TYPE_COMPOSITE, ROUTE, TYPE_COMPOSITE)).then(() => {
+          expect(getDataTypeAttribute).not.toHaveBeenCalled();
+          const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
+          expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('dispatch initialize if actionMode is AddCompositeAttribute ', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
+        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
+          const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
+          expect(getDataTypeAttribute).toHaveBeenCalled();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           done();
         }).catch(done.fail);
       });
@@ -563,8 +653,9 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });
