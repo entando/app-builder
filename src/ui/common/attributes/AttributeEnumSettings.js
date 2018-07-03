@@ -7,13 +7,13 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { required, formattedText } from '@entando/utils';
+import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 
 export const element = value =>
   (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)
     ? <FormattedMessage id="validateForm.element" /> : undefined);
 
-
-const AttributeEnumSettings = ({ enumeratorExtractorBeans }) => {
+const AttributeEnumSettings = ({ enumeratorExtractorBeans, mode }) => {
   const selectAllowedOptions = enumeratorExtractorBeans.map(item => (
     {
       value: item,
@@ -43,15 +43,27 @@ const AttributeEnumSettings = ({ enumeratorExtractorBeans }) => {
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
           />
-          <Field
-            component={RenderSelectInput}
-            options={selectAllowedOptions}
-            defaultOptionId="app.chooseAnOption"
-            label={
-              <FormLabel labelId="app.enumeratorExtractorBean" />
-            }
-            name="enumeratorExtractorBean"
-          />
+          {
+            mode === MODE_ADD ?
+              <Field
+                component={RenderSelectInput}
+                options={selectAllowedOptions}
+                defaultOptionId="app.chooseAnOption"
+                label={
+                  <FormLabel labelId="app.enumeratorExtractorBean" />
+              }
+                name="enumeratorExtractorBean"
+              /> :
+              <Field
+                component={RenderTextInput}
+                name="enumeratorExtractorBean"
+                label={
+                  <FormLabel labelId="app.enumeratorExtractorBean" />
+                }
+                disabled
+              />
+          }
+
         </fieldset>
       </Col>
     </Row>
@@ -59,7 +71,13 @@ const AttributeEnumSettings = ({ enumeratorExtractorBeans }) => {
 };
 
 AttributeEnumSettings.propTypes = {
-  enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string).isRequired,
+  enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
+  mode: PropTypes.oneOf([MODE_ADD, MODE_EDIT]),
+};
+
+AttributeEnumSettings.defaultProps = {
+  enumeratorExtractorBeans: [],
+  mode: MODE_ADD,
 };
 
 export default AttributeEnumSettings;
