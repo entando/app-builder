@@ -7,41 +7,45 @@ import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 
 const maxLength10 = maxLength(10);
 const maxLength50 = maxLength(50);
 
-const AttributeInfo = ({
-  selectedAttributeType, listFilter, indexable, mode,
-}) => {
-  // const { indexableOptionSupported, searchableOptionSupported } = selectedAttributeType;
-  const isSearchable =
-    (selectedAttributeType && selectedAttributeType.indexableOptionSupported) || listFilter;
-  const isIndexable =
-    (selectedAttributeType && selectedAttributeType.searchableOptionSupported) || indexable;
-  const renderSearchable = () => (
-    isSearchable ?
+const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
+  const renderSearchable = () => {
+    const html = (
       <FormGroup>
-        <label htmlFor="filterList" className="col-xs-2 control-label">
+        <label htmlFor="indexable" className="col-xs-2 control-label">
           <FormLabel labelId="app.indexable" />
         </label>
         <Col xs={4}>
           <Field component={SwitchRenderer} name="indexable" />
         </Col>
       </FormGroup>
-      : null);
+    );
+    if (mode === MODE_EDIT) {
+      return html;
+    }
+    return isSearchable ? html : null;
+  };
 
-  const renderIndexable = () => (
-    isIndexable ?
+  const renderIndexable = () => {
+    const html = (
       <FormGroup>
-        <label htmlFor="filterList" className="col-xs-2 control-label">
+        <label htmlFor="listFilter" className="col-xs-2 control-label">
           <FormLabel labelId="app.filterList" />
         </label>
         <Col xs={4}>
-          <Field component={SwitchRenderer} name="filterList" />
+          <Field component={SwitchRenderer} name="listFilter" />
         </Col>
       </FormGroup>
-      : null);
+    );
+    if (mode === MODE_EDIT) {
+      return html;
+    }
+    return isIndexable ? html : null;
+  };
 
   return (
     <Row>
@@ -97,22 +101,16 @@ const AttributeInfo = ({
 export default AttributeInfo;
 
 AttributeInfo.propTypes = {
-  selectedAttributeType: PropTypes.shape({
-    indexableOptionSupported: PropTypes.bool,
-    searchableOptionSupported: PropTypes.bool,
-  }),
-  indexable: PropTypes.bool,
-  listFilter: PropTypes.bool,
+  isSearchable: PropTypes.bool,
+  isIndexable: PropTypes.bool,
   mode: PropTypes.string,
 };
 
 AttributeInfo.defaultProps = {
-  selectedAttributeType: {},
-  indexable: false,
-  listFilter: false,
-
+  isSearchable: false,
+  isIndexable: false,
 };
 
 AttributeInfo.defaultProps = {
-  mode: 'add',
+  mode: MODE_ADD,
 };

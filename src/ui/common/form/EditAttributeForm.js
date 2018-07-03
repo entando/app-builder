@@ -8,7 +8,7 @@ import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite'
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
-// import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
+import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
@@ -17,11 +17,12 @@ import AttributeListTableComposite from 'ui/common/attributes/AttributeListTable
 
 import {
   MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_EDIT,
   TYPE_COMPOSITE,
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
   TYPE_DATE,
-  // TYPE_ENUMERATOR,
+  TYPE_ENUMERATOR,
   TYPE_ENUMERATOR_MAP,
   TYPE_MONOLIST,
   TYPE_LIST,
@@ -36,7 +37,6 @@ export class EditAttributeFormBody extends Component {
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
-      indexable, listFilter,
     } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
     const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
@@ -47,8 +47,7 @@ export class EditAttributeFormBody extends Component {
       isComposite ?
         <AttributeInfoComposite /> :
         <AttributeInfo
-          indexable={indexable}
-          listFilter={listFilter}
+          {...this.props}
           mode={mode}
         />
     );
@@ -66,16 +65,14 @@ export class EditAttributeFormBody extends Component {
         );
         case TYPE_DATE: return (
           <FormSection name="validationRules">
-            <AttributesDateSettings {...this.props} />
+            <AttributesDateSettings />
           </FormSection>
         );
-        // case TYPE_ENUMERATOR: return (
-        //   <AttributeEnumSettings
-        //     enumeratorExtractorBeans={attributeType.enumeratorExtractorBeans}
-        //   />
-        // );
+        case TYPE_ENUMERATOR: return (
+          <AttributeEnumSettings mode={MODE_EDIT} />
+        );
         case TYPE_ENUMERATOR_MAP: return (
-          <AttributeEnumMapSettings {...this.props} />
+          <AttributeEnumMapSettings />
         );
         case TYPE_COMPOSITE:
           return isComposite ? <AttributeListTableComposite {...this.props} /> : null;

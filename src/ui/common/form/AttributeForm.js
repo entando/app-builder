@@ -42,7 +42,10 @@ export class AttributeFormBody extends Component {
     const renderAttributeInfo = () => (
       isComposite ?
         <AttributeInfoComposite /> :
-        <AttributeInfo selectedAttributeType={selectedAttributeType} />
+        <AttributeInfo
+          isSearchable={selectedAttributeType.searchableOptionSupported}
+          isIndexable={selectedAttributeType.indexableOptionSupported}
+        />
     );
 
     const renderAttributeRole = () => (
@@ -62,7 +65,7 @@ export class AttributeFormBody extends Component {
         );
         case TYPE_DATE: return (
           <FormSection name="validationRules">
-            <AttributesDateSettings {...this.props} />
+            <AttributesDateSettings />
           </FormSection>
         );
         case TYPE_ENUMERATOR: return (
@@ -71,7 +74,9 @@ export class AttributeFormBody extends Component {
           />
         );
         case TYPE_ENUMERATOR_MAP: return (
-          <AttributeEnumMapSettings {...this.props} />
+          <AttributeEnumMapSettings
+            enumeratorMapExtractorBeans={selectedAttributeType.enumeratorMapExtractorBeans}
+          />
         );
         case TYPE_COMPOSITE: {
           return isComposite ?
