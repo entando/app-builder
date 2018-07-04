@@ -13,7 +13,6 @@ class RenderMonolistField extends Component {
       return (
         <Button
           className="pull-right"
-          type="submit"
           bsStyle="default"
           title={`Move up ${index + 1}`}
           onClick={() => fields.swap(index, index - 1)}
@@ -32,7 +31,6 @@ class RenderMonolistField extends Component {
       return (
         <Button
           className="pull-right"
-          type="submit"
           bsStyle="default"
           title={`Move down ${index + 1}`}
           onClick={() => fields.swap(index, index + 1)}
@@ -59,7 +57,6 @@ class RenderMonolistField extends Component {
           </Col>
           <Col xs={1}>
             <Button
-              type="submit"
               bsStyle="default"
               title="Add"
               onClick={() => fields.push()}
@@ -94,7 +91,6 @@ class RenderMonolistField extends Component {
 
                 <Button
                   className="pull-right"
-                  type="submit"
                   bsStyle="danger"
                   title={`Remove ${index + 1}`}
                   onClick={() => fields.remove(index)}
