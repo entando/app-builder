@@ -91,6 +91,10 @@ export const WIDGET_ONE_LIST = {
 
 export const WIDGET_INFO = {
   code: 'row_content_viewer_list',
+  titles: {
+    en: 'En title',
+    it: 'It title',
+  },
   publishedUtilizers: [
     {
       frameIndex: 0,

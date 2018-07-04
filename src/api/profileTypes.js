@@ -7,6 +7,8 @@ import {
   PROFILE_TYPE_ATTRIBUTE,
   ATTRIBUTE_MOVE_UP,
   ATTRIBUTE_MOVE_DOWN,
+  PROFILE_TYPE_REFERENCES_STATUS,
+  PROFILE_TYPE_RELOAD_REFERENCES_STATUS,
 } from 'test/mocks/profileTypes';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -53,6 +55,26 @@ export const getProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') =
     page,
   )
 );
+
+export const getProfileTypesStatus = () => (
+  makeRequest({
+    uri: '/api/profileTypesStatus',
+    method: METHODS.GET,
+    mockResponse: PROFILE_TYPE_REFERENCES_STATUS,
+    useAuthentication: true,
+  })
+);
+
+export const postProfileTypesStatus = profileTypeCodes => (
+  makeRequest({
+    uri: '/api/profileTypesStatus',
+    method: METHODS.POST,
+    body: profileTypeCodes,
+    mockResponse: PROFILE_TYPE_RELOAD_REFERENCES_STATUS,
+    useAuthentication: true,
+  })
+);
+
 
 // attributes
 

@@ -43,15 +43,19 @@ const AttributeEnumEnumMapSettings = ({ enumeratorMapExtractorBeans }) => {
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
           />
-          <Field
-            component={RenderSelectInput}
-            options={selectAllowedOptions}
-            defaultOptionId="app.chooseAnOption"
-            label={
-              <FormLabel labelId="app.enumeratorExtractorBean" />
-            }
-            name="enumeratorMapExtractorBeans"
-          />
+          {
+            enumeratorMapExtractorBeans.length > 0 ?
+              <Field
+                component={RenderSelectInput}
+                options={selectAllowedOptions}
+                defaultOptionId="app.chooseAnOption"
+                label={
+                  <FormLabel labelId="app.enumeratorExtractorBean" />
+              }
+                name="enumeratorMapExtractorBeans"
+              /> : null
+          }
+
         </fieldset>
       </Col>
     </Row>

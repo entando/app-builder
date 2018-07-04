@@ -13,7 +13,8 @@ import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
 
-const maxLength70 = maxLength(70);
+const maxLength50 = maxLength(50);
+const maxLength40 = maxLength(40);
 
 export const validateJson = (value) => {
   try {
@@ -58,7 +59,7 @@ export class PageModelFormBody extends Component {
                 name="code"
                 label={<FormLabel labelId="app.code" helpId="pageModels.code.help" required />}
                 placeholder={formattedText('app.code')}
-                validate={[required, code]}
+                validate={[required, code, maxLength40]}
                 disabled={isEditMode}
               />
             </fieldset>
@@ -68,7 +69,7 @@ export class PageModelFormBody extends Component {
                 name="descr"
                 label={<FormLabel labelId="app.name" helpId="pageModels.name.help" required />}
                 placeholder={formattedText('app.name')}
-                validate={[required, maxLength70]}
+                validate={[required, maxLength50]}
               />
             </fieldset>
           </Col>

@@ -4,82 +4,105 @@ import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
+import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
-import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
+import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
+import {
+  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  TYPE_COMPOSITE,
+  TYPE_BOOLEAN,
+  TYPE_CHECKBOX,
+  TYPE_DATE,
+  TYPE_ENUMERATOR,
+  TYPE_ENUMERATOR_MAP,
+  TYPE_MONOLIST,
+  TYPE_LIST,
+  TYPE_NUMBER,
+  TYPE_THREESTATE,
+  TYPE_TIMESTAMP,
+} from 'state/data-types/const';
 
 export class AttributeFormBody extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    this.props.onWillMount();
   }
 
   render() {
-    const { selectedAttributeType } = this.props;
-    const renderMonolistConf = () => {
-      if (selectedAttributeType.listAttribute) {
-        return (
-          <AttributeMonoListMonoSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
+    const isComposite = mode === MODE_ADD_COMPOSITE;
+    const isEditComposite = mode === MODE_EDIT_COMPOSITE;
+    const isAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
 
-    const renderNumberConf = () => {
-      if (selectedAttributeType.numberFilterSupported) {
-        return (
+    const renderAttributeInfo = () => (
+      isComposite ?
+        <AttributeInfoComposite /> :
+        <AttributeInfo
+          isSearchable={selectedAttributeType.searchableOptionSupported}
+          isIndexable={selectedAttributeType.indexableOptionSupported}
+        />
+    );
+
+    const renderAttributeRole = () => (
+      !isComposite ? <AttributeRole {...this.props} /> : null
+    );
+
+    const renderSelectedAttribute = () => {
+      switch (selectedAttributeType.code) {
+        case TYPE_BOOLEAN: return null;
+        case TYPE_CHECKBOX: return null;
+        case TYPE_THREESTATE: return null;
+        case TYPE_TIMESTAMP: return null;
+        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
           </FormSection>
         );
-      }
-      return '';
-    };
-
-    const renderDateConf = () => {
-      if (selectedAttributeType.dateFilterSupported) {
-        return (
+        case TYPE_DATE: return (
           <FormSection name="validationRules">
-            <AttributesDateSettings {...this.props} />
+            <AttributesDateSettings />
           </FormSection>
         );
-      }
-      return '';
-    };
-
-    const renderTextConf = () => {
-      if (selectedAttributeType.multilingual) {
-        return (
+        case TYPE_ENUMERATOR: return (
+          <AttributeEnumSettings
+            enumeratorExtractorBeans={selectedAttributeType.enumeratorExtractorBeans}
+          />
+        );
+        case TYPE_ENUMERATOR_MAP: return (
+          <AttributeEnumMapSettings
+            enumeratorMapExtractorBeans={selectedAttributeType.enumeratorMapExtractorBeans}
+          />
+        );
+        case TYPE_COMPOSITE: {
+          return isComposite ?
+            <AttributeListTableComposite
+              entityCode={dataTypeAttributeCode}
+              {...this.props}
+            /> : null;
+        }
+        default: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
           </FormSection>
         );
       }
-      return '';
     };
 
-    const renderEnumConf = () => {
-      if (selectedAttributeType.enumeratorOptionsSupported) {
-        return (
-          <AttributeEnumSettings {...this.props} />
-        );
-      }
-      return '';
-    };
-
-    const renderEnumMapConf = () => {
-      if (selectedAttributeType.enumeratorMapOptionsSupported) {
-        return (
-          <AttributeEnumMapSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const renderOgnlValidation = () => (
+      !isComposite ?
+        <FormSection name="validationRules">
+          <AttributeOgnlValidation />
+        </FormSection> : null
+    );
 
     return (
       <form
@@ -91,17 +114,10 @@ export class AttributeFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <AttributeInfo {...this.props} />
-              <AttributeRole {...this.props} />
-              {renderMonolistConf()}
-              {renderTextConf()}
-              {renderEnumConf()}
-              {renderEnumMapConf()}
-              <FormSection name="validationRules">
-                {renderNumberConf()}
-                {renderDateConf()}
-                <AttributeOgnlValidation />
-              </FormSection>
+              {renderAttributeInfo()}
+              {renderAttributeRole()}
+              {renderSelectedAttribute()}
+              {renderOgnlValidation()}
             </fieldset>
           </Col>
         </Row>
@@ -114,7 +130,9 @@ export class AttributeFormBody extends Component {
               bsStyle="primary"
               disabled={this.props.invalid || this.props.submitting}
             >
-              <FormattedMessage id="app.continue" />
+              {
+                isEditComposite || isAddAttributeComposite ? <FormattedMessage id="app.save" /> : <FormattedMessage id="app.continue" />
+              }
             </Button>
           </Col>
         </Row>
@@ -122,7 +140,6 @@ export class AttributeFormBody extends Component {
     );
   }
 }
-
 
 AttributeFormBody.propTypes = {
   onWillMount: PropTypes.func,
@@ -145,9 +162,9 @@ AttributeFormBody.propTypes = {
     enumeratorOptionsSupported: PropTypes.bool,
     enumeratorMapOptionsSupported: PropTypes.bool,
     listAttribute: PropTypes.bool,
-    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
+    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
     enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({})),
-  }),
+  }).isRequired,
   validation: PropTypes.shape({
     minLength: PropTypes.string,
     maxLength: PropTypes.string,
@@ -157,6 +174,9 @@ AttributeFormBody.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  mode: PropTypes.string.isRequired,
+  compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
+
 };
 
 AttributeFormBody.defaultProps = {
@@ -166,20 +186,17 @@ AttributeFormBody.defaultProps = {
   dataTypeAttributeCode: '',
   profileTypeAttributeCode: '',
   initialValues: {},
-  selectedAttributeType: {
-    enumeratorExtractorBean: [],
-    enumeratorMapExtractorBeans: [],
-  },
   validation: ({
     minLength: '',
     maxLength: '',
     regex: '',
   }),
   allowedRoles: [],
+  compositeAttributes: [],
 };
 
 const AttributeForm = reduxForm({
-  form: 'attribute',
+  form: 'addAttribute',
 })(AttributeFormBody);
 
 export default AttributeForm;
