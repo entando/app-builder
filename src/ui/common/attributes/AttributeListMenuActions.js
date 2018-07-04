@@ -8,6 +8,21 @@ const AttributeListMenuActions = ({
   onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, entityCode,
   isMovableUp, isMovableDown, attributeIndex,
 }) => {
+  const renderEdit = () => {
+    if (routeToEdit) {
+      return (
+        <LinkMenuItem
+          id={`edit-${code}`}
+          route={routeToEdit}
+          params={{ entityCode, attributeCode: code }}
+          label={<FormattedMessage id="app.edit" />}
+          className="AttributeListMenuAction__menu-item-edit"
+        />
+      );
+    }
+    return null;
+  };
+
   const renderMoveUp = () => {
     if (isMovableUp) {
       return (
@@ -38,13 +53,7 @@ const AttributeListMenuActions = ({
 
   return (
     <DropdownKebab pullRight id={`${code}-actions`}>
-      <LinkMenuItem
-        id={`edit-${code}`}
-        route={routeToEdit}
-        params={{ entityCode, attributeCode: code }}
-        label={<FormattedMessage id="app.edit" />}
-        className="AttributeListMenuAction__menu-item-edit"
-      />
+      {renderEdit()}
       {renderMoveUp()}
       {renderMoveDown()}
       <MenuItem
@@ -62,7 +71,7 @@ AttributeListMenuActions.propTypes = {
   onMoveUp: PropTypes.func,
   onMoveDown: PropTypes.func,
   code: PropTypes.string.isRequired,
-  routeToEdit: PropTypes.string.isRequired,
+  routeToEdit: PropTypes.string,
   entityCode: PropTypes.string,
   isMovableUp: PropTypes.bool,
   isMovableDown: PropTypes.bool,
@@ -70,6 +79,7 @@ AttributeListMenuActions.propTypes = {
 };
 
 AttributeListMenuActions.defaultProps = {
+  routeToEdit: '',
   onClickDelete: null,
   onMoveUp: null,
   onMoveDown: null,

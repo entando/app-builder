@@ -1,14 +1,18 @@
 import { gotoRoute, getParams } from '@entando/router';
-import { addErrors } from '@entando/messages';
+import { METHODS } from '@entando/apimanager';
+import { addErrors, clearErrors } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { initialize } from 'redux-form';
+import { isUndefined } from 'lodash';
+import moment from 'moment';
 
 import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
 import {
@@ -39,15 +43,32 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
 } from 'state/data-types/types';
 import {
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeType,
   getSelectedDataType,
   getSelectedAttributeType,
+  getFormTypeValue,
+  getAttributeSelectFromDataType,
+  getActionModeDataTypeSelectedAttribute,
+  getNewAttributeComposite,
 } from 'state/data-types/selectors';
 
-const TYPE_MONOLIST = 'Monolist';
+import {
+  TYPE_MONOLIST,
+  TYPE_COMPOSITE,
+  TYPE_DATE,
+  MODE_ADD,
+  MODE_EDIT,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
+} from 'state/data-types/const';
 
 // Data type
 export const setDataTypes = dataTypes => ({
@@ -123,6 +144,35 @@ export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeInde
     entityCode,
     attributeCode,
     attributeIndex,
+  },
+});
+
+export const setActionMode = actionMode => ({
+  type: SET_ACTION_MODE,
+  payload: {
+    actionMode,
+  },
+});
+
+export const removeAttributeFromComposite = attributeCode => ({
+  type: REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    attributeCode,
+  },
+});
+
+export const moveAttributeFromComposite = (fromIndex, toIndex) => ({
+  type: MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    fromIndex,
+    toIndex,
+  },
+});
+
+export const setNewAttributeComposite = attributeData => ({
+  type: SET_NEW_ATTRIBUTE_COMPOSITE,
+  payload: {
+    attributeData,
   },
 });
 
@@ -233,46 +283,97 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-export const fetchDataTypeAttribute = (dataTypeAttributeCode, route) => dispatch => (
-  new Promise((resolve) => {
-    getDataTypeAttribute(dataTypeAttributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedAttribute(json.payload));
-          if (route) {
-            gotoRoute(route.route, route.params);
+export const fetchDataTypeAttribute =
+ (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
+   new Promise((resolve) => {
+     dispatch(clearErrors());
+     let typeAttribute = dataTypeAttributeCode;
+     if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
+       typeAttribute = getFormTypeValue(getState(), formName);
+       dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
+     }
+     const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+     if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+       resolve();
+     } else {
+       getDataTypeAttribute(typeAttribute).then((response) => {
+         response.json().then((json) => {
+           if (response.ok) {
+             dispatch(setSelectedAttribute(json.payload));
+             if (actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+               dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+             }
+             if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+               gotoRoute(route.route, route.params);
+             }
+           } else {
+             dispatch(addErrors(json.errors.map(err => err.message)));
+           }
+           resolve();
+         });
+       }).catch(() => {});
+     }
+   })
+ );
+
+const fmtDateDDMMYYY = (date) => {
+  let d = new Date(date);
+  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
+};
+
+export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode) =>
+  (dispatch, getState) => (
+    new Promise((resolve) => {
+      getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
+            let payload = {
+              ...json.payload,
+              joinRoles,
+              joinAllowedOptions: joinRoles,
+              compositeAttributeType: TYPE_COMPOSITE,
+            };
+            if (json.payload.type === TYPE_DATE) {
+              let {
+                rangeStartDate, rangeEndDate, equalDate,
+                rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+              } = json.payload.validationRules;
+              rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+              rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+              equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+              rangeStartDateAttribute =
+              rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+              rangeEndDateAttribute =
+              rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+              equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+              payload = {
+                ...payload,
+                validationRules: {
+                  rangeStartDate,
+                  rangeEndDate,
+                  equalDate,
+                  rangeStartDateAttribute,
+                  rangeEndDateAttribute,
+                  equalDateAttribute,
+                },
+              };
+            }
+            const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+            if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+              dispatch(initialize(formName, payload));
+              dispatch(setSelectedAttributeDataType(json.payload));
+              dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
+            }
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
           }
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
-
-export const fetchAttributeFromDataType = (dataTypeCode, attributeCode) => (dispatch, getState) => (
-  new Promise((resolve) => {
-    getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
-          dispatch(initialize('attribute', {
-            ...json.payload,
-            joinRoles,
-            joinAllowedOptions: joinRoles,
-          }));
-          dispatch(setSelectedAttributeDataType(json.payload));
-          dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
-
+          resolve();
+        });
+      }).catch(() => {});
+    })
+  );
 
 export const sendPostAttributeFromDataType = attributeObject => (dispatch, getState) => (
   new Promise((resolve) => {
@@ -309,7 +410,17 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
             attributeCode: attributeObject.code,
           });
         } else {
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          dispatch(setSelectedAttributeDataType(json.payload));
+          const { type, code } = attributeObject;
+          if (type === TYPE_COMPOSITE) {
+            dispatch(initialize('attribute', { ...json.payload, compositeAttributeType: TYPE_COMPOSITE }));
+            gotoRoute(
+              ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+              { entityCode: dataTypeCode, attributeCode: code },
+            );
+          } else {
+            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          }
         }
         resolve();
       });
@@ -333,6 +444,100 @@ export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch
   })
 );
 
+const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
+
+const getPayloadFromTypeAttribute = (values, allowedRoles) => {
+  let payload = {
+    ...values,
+    code: values.code,
+    type: values.type,
+    roles: values.joinRoles ? values.joinRoles.map(roleId => (
+      { code: roleId, descr: allowedRoles[roleId] }
+    )) : [],
+    nestedAttribute: {
+      ...values.nestedAttribute,
+      type: values.listNestedType || (values.nestedAttribute && values.nestedAttribute.type),
+      code: values.code,
+      enumeratorStaticItems: 'default',
+      enumeratorStaticItemsSeparator: ',',
+    },
+  };
+  if (payload.type === TYPE_DATE) {
+    let {
+      rangeStartDate, rangeEndDate, equalDate,
+      rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+    } = payload.validationRules;
+
+    rangeStartDate = rangeStartDate && converDate(rangeStartDate);
+    rangeEndDate = rangeEndDate && converDate(rangeEndDate);
+    equalDate = equalDate && converDate(equalDate);
+    rangeStartDateAttribute =
+    rangeStartDateAttribute && converDate(rangeStartDateAttribute);
+    rangeEndDateAttribute =
+    rangeEndDateAttribute && converDate(rangeEndDateAttribute);
+    equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
+    payload = {
+      ...payload,
+      validationRules: {
+        rangeStartDate,
+        rangeEndDate,
+        equalDate,
+        rangeStartDateAttribute,
+        rangeEndDateAttribute,
+        equalDateAttribute,
+      },
+    };
+  }
+  return payload;
+};
+
+const getPayloadFromTypeAttributeComposite = (composite, childAttribute) => ({
+  ...composite,
+  compositeAttributes: [childAttribute],
+});
+
+export const handlerAttributeFromDataType = (action, values, allowedRoles, mode) =>
+  (dispatch, getState) => {
+    dispatch(clearErrors());
+    let payload = getPayloadFromTypeAttribute(values, allowedRoles);
+    if (action === METHODS.POST) {
+      dispatch(setActionMode(MODE_ADD));
+      const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
+      if (attributeSelected.type === TYPE_COMPOSITE) {
+        attributeSelected.compositeAttributes.push(payload);
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+        dispatch(sendPutAttributeFromDataType(attributeSelected));
+      } else if (payload.type === TYPE_COMPOSITE) {
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+        dispatch(setNewAttributeComposite(payload));
+      } else {
+        const newAttributeComposite = getNewAttributeComposite(getState());
+        if (!isUndefined(newAttributeComposite)) {
+          payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, payload);
+        }
+        dispatch(sendPostAttributeFromDataType(payload));
+      }
+    } else {
+      dispatch(setActionMode(MODE_EDIT));
+      if (values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE) {
+        if (mode === MODE_EDIT_COMPOSITE) {
+          dispatch(sendPutAttributeFromDataType(payload)).then(() => {
+            gotoRoute(ROUTE_DATA_TYPE_LIST);
+          });
+        }
+        dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+      } else {
+        if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+          const compositeData = getAttributeSelectFromDataType(getState());
+          compositeData.compositeAttributes.push(payload);
+          payload = compositeData;
+          dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+        }
+        dispatch(sendPutAttributeFromDataType(payload));
+      }
+    }
+  };
+
 export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getState) => (
   new Promise((resolve) => {
     const dataTypeCode = getSelectedDataType(getState()).code;
@@ -348,7 +553,6 @@ export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getSt
     }).catch(() => {});
   })
 );
-
 
 export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params = '') => (dispatch, getState) => (
   new Promise((resolve) => {

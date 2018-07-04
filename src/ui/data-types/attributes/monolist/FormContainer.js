@@ -7,14 +7,14 @@ import { formValueSelector } from 'redux-form';
 export const mapStateToProps = state => ({
   attributeCode: getParams(state).attributeCode,
   dataTypeCode: getParams(state).entityCode,
-  isIndexable: formValueSelector('attribute')(state, 'nestedAttribute.indexable'),
-  type: formValueSelector('attribute')(state, 'nestedAttribute.type'),
-  selectedAttribute: formValueSelector('attribute')(state, 'type'),
+  isIndexable: formValueSelector('monoListAttribute')(state, 'nestedAttribute.indexable'),
+  type: formValueSelector('monoListAttribute')(state, 'nestedAttribute.type'),
+  selectedAttribute: formValueSelector('monoListAttribute')(state, 'type'),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ attributeCode, dataTypeCode }) => {
-    dispatch(fetchAttributeFromDataType(dataTypeCode, attributeCode));
+    dispatch(fetchAttributeFromDataType('monoListAttribute', dataTypeCode, attributeCode));
   },
   onSubmit: (values) => {
     dispatch(sendPutAttributeFromDataTypeMonolist(values));
