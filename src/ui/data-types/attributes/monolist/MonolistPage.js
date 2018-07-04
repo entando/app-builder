@@ -21,7 +21,7 @@ class MonolistPage extends Component {
     const {
       attributeCode, dataTypeCode, selectedAttribute, entityCode,
     } = this.props;
-
+    const titleId = selectedAttribute === '' ? 'app.edit' : `app.edit.${selectedAttribute}`;
     return (
       <InternalPage className="MonolistPage">
         <Grid fluid>
@@ -53,7 +53,7 @@ class MonolistPage extends Component {
             </Col>
           </Row>
           <PageTitle
-            titleId={`app.edit.${selectedAttribute}`}
+            titleId={titleId}
             helpId="dataType.help"
           />
           <Row>

@@ -1,52 +1,68 @@
 import { connect } from 'react-redux';
-
-import {
-  fetchAttributeFromDataType,
-  sendPutAttributeFromDataType,
-  fetchDataTypeAttributes,
-} from 'state/data-types/actions';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
+import { METHODS } from '@entando/apimanager';
+
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
+import {
+  fetchAttributeFromDataType,
+  handlerAttributeFromDataType,
+  fetchDataTypeAttributes,
+  fetchDataTypeAttribute,
+  removeAttributeFromComposite,
+  moveAttributeFromComposite,
+} from 'state/data-types/actions';
+
 import {
   getSelectedAttributeType,
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttributeAllowedRoles,
+  getSelectedCompositeAttributes,
+  getActionModeDataTypeSelectedAttribute,
+  getDataTypeSelectedAttribute,
 } from 'state/data-types/selectors';
 
+import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
 
 export const mapStateToProps = state => ({
+  mode: getActionModeDataTypeSelectedAttribute(state) || 'edit',
   attributeCode: getParams(state).attributeCode,
   dataTypeAttributeCode: getParams(state).entityCode,
   joinAllowedOptions:
     formValueSelector('attribute')(state, 'joinRoles') ||
     formValueSelector('attribute')(state, 'joinAllowedOptions') || [],
   selectedAttributeType: getSelectedAttributeType(state),
+  selectedAttributeTypeForAddComposite: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
+  compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
-    dispatch(fetchAttributeFromDataType(dataTypeAttributeCode, attributeCode));
+    dispatch(fetchAttributeFromDataType('attribute', dataTypeAttributeCode, attributeCode));
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values, allowedRoles) => {
-    const payload = {
-      ...values,
-      code: values.code,
-      type: values.type,
-      roles: values.joinRoles ? values.joinRoles.map(roleId => (
-        { code: roleId, descr: allowedRoles[roleId] }
-      )) : [],
-      nestedAttribute: {
-        ...values.nestedAttribute,
-        code: values.code,
-        enumeratorStaticItems: 'default',
-        enumeratorStaticItemsSeparator: ',',
+  onSubmit: (values, allowedRoles, mode) => {
+    dispatch(handlerAttributeFromDataType(METHODS.PUT, values, allowedRoles, mode));
+  },
+  onAddAttribute: (props) => {
+    const { attributeCode, dataTypeAttributeCode, selectedAttributeType } = props;
+    dispatch(fetchDataTypeAttribute(
+      attributeCode,
+      {
+        route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+        params: { entityCode: dataTypeAttributeCode },
       },
-    };
-    dispatch(sendPutAttributeFromDataType(payload));
+      selectedAttributeType,
+      'attribute',
+    ));
+  },
+  onClickDelete: (attributeCode) => {
+    dispatch(removeAttributeFromComposite(attributeCode));
+  },
+  onMove: (fromIndex, toIndex) => {
+    dispatch(moveAttributeFromComposite(fromIndex, toIndex));
   },
 });
 

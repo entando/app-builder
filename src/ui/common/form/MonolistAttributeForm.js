@@ -219,7 +219,7 @@ MonolistAttributeFormBody.defaultProps = {
 };
 
 const MonolistAttributeForm = reduxForm({
-  form: 'attribute',
+  form: 'monoListAttribute',
 })(MonolistAttributeFormBody);
 
 export default MonolistAttributeForm;
