@@ -52,7 +52,7 @@ class RenderMonolistField extends Component {
       <div>
         <FormGroup>
 
-          <Col xs={2}>
+          <Col xs={2} className="text-right">
             {this.props.label}
           </Col>
           <Col xs={1}>
@@ -66,40 +66,37 @@ class RenderMonolistField extends Component {
           </Col>
         </FormGroup>
         <FormGroup>
-          <ul>
+          <ul className="list-unstyled">
             {fields.map((name, index) => (
           // eslint-disable-next-line
           <li key={index}>
-            <FormGroup>
-              <Col xs={10}>
-                <Field
-                  name={name}
-                  type="text"
-                  component={getComponentType(attributeType)}
-                  label={index + 1}
-                  options={options}
-                  optionValue={optionValue}
-                  optionDisplayName={optionDisplayName}
-                />
-              </Col>
+            <Col xs={10}>
+              <Field
+                name={name}
+                type="text"
+                component={getComponentType(attributeType)}
+                label={index + 1}
+                options={options}
+                optionValue={optionValue}
+                optionDisplayName={optionDisplayName}
+              />
+            </Col>
+            <Col xs={1}>
+              <ButtonGroup>
+                {this.buttonMoveUp(index)}
+                {this.buttonMoveDown(index, fields.length)}
+              </ButtonGroup>
 
-              <Col xs={1}>
-                <ButtonGroup>
-                  {this.buttonMoveUp(index)}
-                  {this.buttonMoveDown(index, fields.length)}
-                </ButtonGroup>
+              <Button
+                className="pull-right"
+                bsStyle="danger"
+                title={`Remove ${index + 1}`}
+                onClick={() => fields.remove(index)}
+              >
+                <Icon size="lg" name="times" />
+              </Button>
 
-                <Button
-                  className="pull-right"
-                  bsStyle="danger"
-                  title={`Remove ${index + 1}`}
-                  onClick={() => fields.remove(index)}
-                >
-                  <Icon size="lg" name="times" />
-                </Button>
-
-              </Col>
-            </FormGroup>
+            </Col>
           </li>
         ))}
           </ul>
