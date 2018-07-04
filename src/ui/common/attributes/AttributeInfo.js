@@ -7,41 +7,44 @@ import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 
 const maxLength10 = maxLength(10);
 const maxLength50 = maxLength(50);
 
 const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
   const renderSearchable = () => {
-    if (isSearchable) {
-      return (
-        <FormGroup>
-          <label htmlFor="filterList" className="col-xs-2 control-label">
-            <FormLabel labelId="app.indexable" />
-          </label>
-          <Col xs={4}>
-            <Field component={SwitchRenderer} name="indexable" />
-          </Col>
-        </FormGroup>
-      );
+    const html = (
+      <FormGroup>
+        <label htmlFor="indexable" className="col-xs-2 control-label">
+          <FormLabel labelId="app.indexable" />
+        </label>
+        <Col xs={4}>
+          <Field component={SwitchRenderer} name="indexable" />
+        </Col>
+      </FormGroup>
+    );
+    if (mode === MODE_EDIT) {
+      return html;
     }
-    return '';
+    return isSearchable ? html : null;
   };
 
   const renderIndexable = () => {
-    if (isIndexable) {
-      return (
-        <FormGroup>
-          <label htmlFor="filterList" className="col-xs-2 control-label">
-            <FormLabel labelId="app.filterList" />
-          </label>
-          <Col xs={4}>
-            <Field component={SwitchRenderer} name="filterList" />
-          </Col>
-        </FormGroup>
-      );
+    const html = (
+      <FormGroup>
+        <label htmlFor="listFilter" className="col-xs-2 control-label">
+          <FormLabel labelId="app.filterList" />
+        </label>
+        <Col xs={4}>
+          <Field component={SwitchRenderer} name="listFilter" />
+        </Col>
+      </FormGroup>
+    );
+    if (mode === MODE_EDIT) {
+      return html;
     }
-    return '';
+    return isIndexable ? html : null;
   };
 
   return (
@@ -106,5 +109,8 @@ AttributeInfo.propTypes = {
 AttributeInfo.defaultProps = {
   isSearchable: false,
   isIndexable: false,
-  mode: 'add',
+};
+
+AttributeInfo.defaultProps = {
+  mode: MODE_ADD,
 };

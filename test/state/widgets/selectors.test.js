@@ -43,6 +43,7 @@ describe('state/widgest/selectors', () => {
   it('getWidgetInfo return the information of widget', () => {
     const result = getWidgetInfo(MOCK_STATE);
     expect(result).toHaveProperty('code', WIDGET_INFO.code);
+    expect(result).toHaveProperty('titles', WIDGET_INFO.titles);
     expect(result).toHaveProperty('data');
   });
 });

@@ -10,6 +10,10 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_DATA_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
 } from 'state/data-types/types';
 
 import { swapItems } from 'state/attributes/utils';
@@ -89,6 +93,37 @@ export const selectedDataType = (state = {}, action = {}) => {
       const attributes =
         state.attributes.filter(f => f.code !== attributeCode);
       return { ...state, attributes };
+    }
+    case SET_ACTION_MODE: {
+      return { ...state, actionMode: action.payload.actionMode };
+    }
+    case REMOVE_ATTRIBUTE_FROM_COMPOSITE: {
+      const { attributeCode } = action.payload;
+      const compositeAttributes =
+        state.attributeSelected.compositeAttributes.filter(f => f.code !== attributeCode);
+      return {
+        ...state,
+        attributeSelected: {
+          ...state.attributeSelected,
+          compositeAttributes,
+        },
+      };
+    }
+    case MOVE_ATTRIBUTE_FROM_COMPOSITE: {
+      const { fromIndex, toIndex } = action.payload;
+      const { compositeAttributes } = state.attributeSelected;
+      const from = compositeAttributes.splice(fromIndex, 1)[0];
+      compositeAttributes.splice(toIndex, 0, from);
+      return {
+        ...state,
+        attributeSelected: {
+          ...state.attributeSelected,
+          compositeAttributes,
+        },
+      };
+    }
+    case SET_NEW_ATTRIBUTE_COMPOSITE: {
+      return { ...state, newAttributeComposite: action.payload.attributeData };
     }
     default: return state;
   }

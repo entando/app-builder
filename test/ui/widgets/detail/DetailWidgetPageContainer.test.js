@@ -1,13 +1,22 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/detail/DetailWidgetPageContainer';
 
 import { fetchWidgetInfo } from 'state/widgets/actions';
+import { fetchLanguages } from 'state/languages/actions';
 
 jest.mock('state/widgets/actions', () => ({
   fetchWidgetInfo: jest.fn(),
 }));
 
+jest.mock('state/languages/actions', () => ({
+  fetchLanguages: jest.fn(),
+}));
+
 jest.mock('state/widgets/selectors', () => ({
   getWidgetInfo: jest.fn(),
+}));
+
+jest.mock('state/languages/selectors', () => ({
+  getDefaultLanguage: jest.fn().mockReturnValue('en'),
 }));
 
 const dispatchMock = jest.fn();
@@ -25,6 +34,7 @@ describe('ui/widgets/detail/DetailWidgetPageContainer', () => {
       props.onWillMount();
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchWidgetInfo).toHaveBeenCalled();
+      expect(fetchLanguages).toHaveBeenCalled();
     });
   });
 
@@ -35,6 +45,7 @@ describe('ui/widgets/detail/DetailWidgetPageContainer', () => {
 
     it('maps widgetList property from state', () => {
       expect(props).toHaveProperty('widgetInfo');
+      expect(props).toHaveProperty('defaultLanguage', 'en');
     });
   });
 });

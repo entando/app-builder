@@ -6,6 +6,7 @@ import { formattedText } from '@entando/utils';
 import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMenuActions';
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
 import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
+import ProfileTypeReferenceStatusContainer from 'ui/profile-types/common/ProfileTypeReferenceStatusContainer';
 
 class ProfileTypeListTable extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class ProfileTypeListTable extends Component {
 
       return (
         <Col xs={12}>
+          <ProfileTypeReferenceStatusContainer />
           <table className="ProfileTypeListTable__table table table-striped table-bordered">
             <thead>
               <tr>

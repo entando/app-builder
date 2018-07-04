@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
+import { runValidators } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
@@ -56,34 +57,85 @@ describe('UserForm', () => {
   });
 
   describe('test with mode = new', () => {
-    it('root component renders username field', () => {
+    beforeEach(() => {
       userForm = buildUserForm();
+    });
+
+    it('root component renders username field', () => {
       const username = userForm.find('[name="username"]');
       expect(username.exists()).toEqual(true);
     });
 
-    it('root component renders password field', () => {
-      userForm = buildUserForm();
-      const password = userForm.find('[name="password"]');
-      expect(password.exists()).toEqual(true);
-    });
-
-    it('root component renders passwordConfirm field', () => {
-      userForm = buildUserForm();
-      const passwordConfirm = userForm.find('[name="passwordConfirm"]');
-      expect(passwordConfirm.exists()).toEqual(true);
-    });
-
     it('root component renders status field', () => {
-      userForm = buildUserForm();
       const status = userForm.find('[name="status"]');
       expect(status.exists()).toEqual(true);
     });
 
     it('root component renders profileType field', () => {
-      userForm = buildUserForm();
       const status = userForm.find('[name="profileType"]');
       expect(status.exists()).toEqual(true);
+    });
+
+    describe('password field', () => {
+      let passwordField;
+      beforeEach(() => {
+        passwordField = userForm.find('[name="password"]');
+      });
+
+      it('is rendered', () => {
+        expect(passwordField).toExist();
+      });
+
+      describe('validation', () => {
+        let validatorArray;
+        beforeEach(() => {
+          validatorArray = passwordField.prop('validate');
+        });
+
+        it('is required', () => {
+          expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
+        });
+
+        it('is invalid if input is shorter than 8 chars', () => {
+          expect(runValidators(validatorArray, '1234567').props.id).toBe('validateForm.minLength');
+          expect(runValidators(validatorArray, '12345678')).toBeFalsy();
+        });
+
+        it('is invalid if input is longer than 20 chars', () => {
+          expect(runValidators(validatorArray, '123456789abcdefghijk')).toBeFalsy();
+          expect(runValidators(validatorArray, '123456789abcdefghijkl').props.id)
+            .toBe('validateForm.maxLength');
+        });
+      });
+    });
+
+    describe('passwordConfirm field', () => {
+      const ALL_VALUES = { password: '12345678' };
+      let passwordConfirmField;
+      beforeEach(() => {
+        passwordConfirmField = userForm.find('[name="passwordConfirm"]');
+      });
+
+      it('is rendered', () => {
+        expect(passwordConfirmField).toExist();
+      });
+
+      describe('validation', () => {
+        let validatorArray;
+        beforeEach(() => {
+          validatorArray = passwordConfirmField.prop('validate');
+        });
+
+        it('is required', () => {
+          expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
+        });
+
+        it('is invalid if input does not match the password', () => {
+          expect(runValidators(validatorArray, 'abcdefgh', ALL_VALUES).props.id)
+            .toBe('validateForm.passwordNotMatch');
+          expect(runValidators(validatorArray, ALL_VALUES.password, ALL_VALUES)).toBeFalsy();
+        });
+      });
     });
   });
 

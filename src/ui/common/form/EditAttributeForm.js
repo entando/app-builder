@@ -2,17 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { Button, Row, Col } from 'patternfly-react';
+import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
+import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/attributes/AttributeHypeLongMonoTextSettings';
+import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
 import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
 import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoListMonoSettings';
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
-import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
+import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
+import {
+  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_EDIT,
+  TYPE_COMPOSITE,
+  TYPE_BOOLEAN,
+  TYPE_CHECKBOX,
+  TYPE_DATE,
+  TYPE_ENUMERATOR,
+  TYPE_ENUMERATOR_MAP,
+  TYPE_MONOLIST,
+  TYPE_LIST,
+  TYPE_NUMBER,
+  TYPE_THREESTATE,
+  TYPE_TIMESTAMP,
+} from 'state/data-types/const';
 
 export class EditAttributeFormBody extends Component {
   componentWillMount() {
@@ -20,92 +37,93 @@ export class EditAttributeFormBody extends Component {
   }
 
   render() {
-    const { selectedAttributeType } = this.props;
+    const {
+      selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
+    } = this.props;
+    const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
+    const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
+    const attributeType = isModeAddAttributeComposite ?
+      selectedAttributeTypeForAddComposite.code : selectedAttributeType;
 
-    const renderMonolistConf = () => {
-      if (selectedAttributeType === 'Monolist' || selectedAttributeType === 'List') {
-        return (
-          <AttributeMonoListMonoSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const renderAttributeInfo = () => (
+      isComposite ?
+        <AttributeInfoComposite /> :
+        <AttributeInfo
+          {...this.props}
+          mode={mode}
+        />
+    );
 
-    const renderNumberConf = () => {
-      if (selectedAttributeType === 'Number') {
-        return (
+    const renderSelectedAttribute = () => {
+      switch (attributeType) {
+        case TYPE_BOOLEAN: return null;
+        case TYPE_CHECKBOX: return null;
+        case TYPE_THREESTATE: return null;
+        case TYPE_TIMESTAMP: return null;
+        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
           </FormSection>
         );
-      }
-      return '';
-    };
-
-    const renderDateConf = () => {
-      if (selectedAttributeType === 'Date') {
-        return (
+        case TYPE_DATE: return (
           <FormSection name="validationRules">
-            <AttributesDateSettings {...this.props} />
+            <AttributesDateSettings />
           </FormSection>
         );
-      }
-      return '';
-    };
+        case TYPE_ENUMERATOR: return (
+          <AttributeEnumSettings mode={MODE_EDIT} />
+        );
+        case TYPE_ENUMERATOR_MAP: return (
+          <AttributeEnumMapSettings />
+        );
+        case TYPE_COMPOSITE:
+          return isComposite ? <AttributeListTableComposite {...this.props} /> : null;
 
-    const renderTextConf = () => {
-      if (selectedAttributeType === 'Hypertext' ||
-       selectedAttributeType === 'Monotext' ||
-       selectedAttributeType === 'Longtext' ||
-       selectedAttributeType === 'Text') {
-        return (
+        default: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
           </FormSection>
         );
       }
-      return '';
     };
 
-    const renderEnumConf = () => {
-      if (selectedAttributeType === 'Enumerator') {
-        return (
-          <AttributeEnumSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const renderAttributeRole = () => (
+      !isComposite ? <AttributeRole {...this.props} /> : null
+    );
 
-    const renderEnumMapConf = () => {
-      if (selectedAttributeType === 'EnumeratorMap') {
-        return (
-          <AttributeEnumMapSettings {...this.props} />
-        );
-      }
-      return '';
-    };
+    const renderOgnlValidation = () => (
+      !isComposite ?
+        <FormSection name="validationRules">
+          <AttributeOgnlValidation />
+        </FormSection> : null
+    );
 
     return (
       <form
         onSubmit={this.props.handleSubmit(values => (
-           this.props.onSubmit(values, this.props.allowedRoles)
+           this.props.onSubmit(values, this.props.allowedRoles, mode)
          ))}
         className="form-horizontal"
       >
         <Row>
           <Col xs={12}>
+            {
+              selectedAttributeType === TYPE_COMPOSITE ?
+                <Alert type="info">
+                  <FormattedMessage id="app.working" /> {attributeCode}
+                </Alert> : null
+            }
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
             <fieldset className="no-padding">
-              <AttributeInfo {...this.props} mode="edit" />
-              <AttributeRole {...this.props} />
-              {renderMonolistConf()}
-              {renderTextConf()}
-              {renderEnumConf()}
-              {renderEnumMapConf()}
-              {renderNumberConf()}
-              {renderDateConf()}
-              <FormSection name="validationRules">
-                <AttributeOgnlValidation />
-              </FormSection>
+              {renderAttributeInfo()}
+              {renderAttributeRole()}
+              {renderSelectedAttribute()}
+              {renderOgnlValidation()}
             </fieldset>
           </Col>
         </Row>
@@ -118,7 +136,9 @@ export class EditAttributeFormBody extends Component {
               bsStyle="primary"
               disabled={this.props.invalid || this.props.submitting}
             >
-              <FormattedMessage id="app.continue" />
+              {
+              !isComposite ? <FormattedMessage id="app.continue" /> : <FormattedMessage id="app.save" />
+              }
             </Button>
           </Col>
         </Row>
@@ -128,25 +148,32 @@ export class EditAttributeFormBody extends Component {
 }
 
 EditAttributeFormBody.propTypes = {
-  onWillMount: PropTypes.func,
+  onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   selectedAttributeType: PropTypes.string,
+  selectedAttributeTypeForAddComposite: PropTypes.PropTypes.shape({}),
+  attributeCode: PropTypes.string.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  indexable: PropTypes.bool,
+  listFilter: PropTypes.bool,
+  mode: PropTypes.string.isRequired,
 };
 
 EditAttributeFormBody.defaultProps = {
-  onWillMount: () => {},
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
   selectedAttributeType: '',
+  selectedAttributeTypeForAddComposite: '',
+  indexable: false,
+  listFilter: false,
   allowedRoles: [],
 };
 

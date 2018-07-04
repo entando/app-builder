@@ -59,7 +59,7 @@ export class UserFormBody extends Component {
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
         placeholder={formattedText('user.table.username')}
         validate={mode !== EDIT_MODE ?
-          [required, minLength8, maxLength20, userFormText] : undefined}
+          [required, maxLength20, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
       />
     );
@@ -124,8 +124,7 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.password')}
-                validate={mode !== EDIT_MODE ?
-                [required, minLength8, maxLength20, userFormText] : undefined}
+                validate={[required, minLength8, maxLength20, userFormText]}
               />
               <Field
                 component={RenderTextInput}
@@ -133,8 +132,7 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.passwordConfirm')}
-                validate={mode !== EDIT_MODE ?
-                [required, matchPassword] : undefined}
+                validate={[required, matchPassword]}
               />
               {/* Insert user info and reset button on EDIT */}
               {showEdit()}

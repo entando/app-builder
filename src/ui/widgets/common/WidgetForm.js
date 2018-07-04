@@ -37,21 +37,21 @@ export class WidgetFormBody extends Component {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
-  renderActiveLanguages() {
-    const { languages, onChangeDefaultTitle } = this.props;
+  renderTitleFields() {
+    const { onChangeDefaultTitle } = this.props;
+    const languages = ['en', 'it'];
     if (!isUndefined(languages)) {
       return languages
-        .sort(a => (a.isDefault ? -1 : 1))
-        .map(lang => (
+        .map(langCode => (
           <Field
-            key={lang.code}
+            key={langCode}
             component={RenderTextInput}
-            name={`titles.${lang.code}`}
-            label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
-            placeholder={formattedText(`app.${lang.code}Title`)}
+            name={`titles.${langCode}`}
+            label={<FormLabel langLabelText={langCode} labelId="app.title" required />}
+            placeholder={formattedText(`app.${langCode}Title`)}
             validate={[required, maxLength70]}
             onChange={(ev) => {
-              if (onChangeDefaultTitle && lang.isDefault) {
+              if (onChangeDefaultTitle && langCode === 'en') {
                 onChangeDefaultTitle(ev.currentTarget.value);
               }
             }}
@@ -103,7 +103,7 @@ export class WidgetFormBody extends Component {
             <fieldset className="no-padding">
               <FormSectionTitle titleId="widget.page.create.pageTitle" />
               {codeField}
-              {this.renderActiveLanguages()}
+              {this.renderTitleFields()}
               <Field
                 component={RenderSelectInput}
                 name="group"
@@ -114,6 +114,7 @@ export class WidgetFormBody extends Component {
                 options={this.props.groups}
                 optionValue="code"
                 optionDisplayName="name"
+                defaultOptionId="app.chooseAnOption"
               />
             </fieldset>
           </Col>
@@ -167,11 +168,6 @@ WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  languages: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    isDefault: PropTypes.bool,
-  })).isRequired,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,

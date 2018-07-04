@@ -9,6 +9,7 @@ import {
   SET_SELECTED_ATTRIBUTE,
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
+  SET_PROFILE_TYPE_REFERENCE_STATUS,
 } from 'state/profile-types/types';
 
 import { swapItems } from 'state/attributes/utils';
@@ -101,6 +102,15 @@ export const selectedAttribute = (state = {}, action = {}) => {
   }
 };
 
+export const status = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_PROFILE_TYPE_REFERENCE_STATUS: {
+      return action.payload.profileTypeStatus;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: profileTypeMap,
@@ -108,5 +118,8 @@ export default combineReducers({
   attributes: combineReducers({
     list: attributeList,
     selected: selectedAttribute,
+  }),
+  references: combineReducers({
+    status,
   }),
 });
