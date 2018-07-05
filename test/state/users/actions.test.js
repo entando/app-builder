@@ -269,6 +269,14 @@ describe('state/users/actions', () => {
         }).catch(done.fail);
       });
 
+      it('when sendPostUserAuthorities succeeds and do not give an autority, do not call the APi but only dispatch gotoRoute', (done) => {
+        store.dispatch(sendPostUserAuthorities([])).then(() => {
+          expect(postUserAuthorities).not.toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
       it('if the response is not ok, dispatch add errors', async () => {
         postUserAuthorities.mockImplementation(mockApi({ errors: true }));
         return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
