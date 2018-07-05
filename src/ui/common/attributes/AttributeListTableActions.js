@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
-import { LinkMenuItem } from '@entando/menu';
+import { LinkMenuItem } from 'frontend-common-components';
 import { TYPE_LIST, TYPE_MONOLIST } from 'state/data-types/const';
 
 const renderRoles = (roles) => {
