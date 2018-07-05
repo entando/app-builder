@@ -36,7 +36,6 @@ const AttributeListTableActions = ({
     return (
       <tr key={attribute.code}>
         <td className="AttributeListRow__td">{attribute.code}</td>
-        <td className="AttributeListRow__td">{attribute.type}</td>
         <td className="AttributeListRow__td">
           {
             type === TYPE_LIST || type === TYPE_MONOLIST ? `${type}: ${nestedAttribute.type}` : type
