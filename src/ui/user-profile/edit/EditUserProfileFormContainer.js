@@ -29,4 +29,5 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 const EditUserProfileFormContainer = connect(mapStateToProps, mapDispatchToProps)(UserProfileForm);
+EditUserProfileFormContainer.displayName = 'EditUserProfileFormContainer';
 export default EditUserProfileFormContainer;
