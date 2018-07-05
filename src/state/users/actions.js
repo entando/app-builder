@@ -200,13 +200,17 @@ export const fetchUserAuthorities = () => async (dispatch, getState) => {
 
 export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
   try {
-    const { username } = getParams(getState());
-    const response = await postUserAuthorities(username, authorities);
-    const json = await response.json();
-    if (response.ok) {
+    if (authorities.length === 0) {
       gotoRoute(ROUTE_USER_LIST);
     } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+      const { username } = getParams(getState());
+      const response = await postUserAuthorities(username, authorities);
+      const json = await response.json();
+      if (response.ok) {
+        gotoRoute(ROUTE_USER_LIST);
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+      }
     }
   } catch (e) {
     // do nothing
