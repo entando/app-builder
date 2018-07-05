@@ -1,4 +1,5 @@
 import moment from 'moment';
+import padStart from 'lodash/padStart';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderDatePickerInput from 'ui/common/form/RenderDatePickerInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
@@ -11,7 +12,7 @@ const FORM_DATE_FORMAT = 'DD/MM/YYYY';
 const API_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const API_TIMESTAMP_FORMAT = 'YYYY-MM-DD';
 
-export const zeroFill = number => (number < 10 ? (`0${number}`) : number);
+export const zeroFill = number => padStart(number, 2, '0');
 
 export const getComponentType = (component) => {
   switch (component) {
@@ -38,7 +39,7 @@ export const getPayloadForForm = (
   username, userProfile, selectedProfileType,
   defaultLanguage,
 ) => {
-  let formAttr = {
+  const formAttr = {
     id: username,
     typeCode: userProfile.typeCode,
     typeDescription: userProfile.typeDescription,
@@ -49,24 +50,21 @@ export const getPayloadForForm = (
       code, value, values, listElements, elements,
     } = attr;
 
-    let attrType = {};
-    selectedProfileType.forEach((type) => {
-      if (type.code === code) { attrType = type; }
-    });
-    // alert(`attrType.type: ${attrType.type}`);
+    const attrType = selectedProfileType.find(type => type.code === code);
+
     switch (attrType.type) {
       case 'Boolean':
       case 'ThreeState': {
         if (value === undefined) {
-          formAttr = { ...formAttr, [code]: null };
+          formAttr[code] = null;
         } else {
-          formAttr = { ...formAttr, [code]: value.toString() };
+          formAttr[code] = value.toString();
         }
         break;
       }
       case 'Date': {
         const newDate = moment(value, API_DATE_FORMAT).format(FORM_DATE_FORMAT);
-        formAttr = { ...formAttr, [code]: newDate };
+        formAttr[code] = newDate;
         break;
       }
       case 'Timestamp': {
@@ -74,79 +72,57 @@ export const getPayloadForForm = (
         const minutes = moment(value).minutes();
         const seconds = moment(value).seconds();
         const newDate = moment(value, API_TIMESTAMP_FORMAT).format(FORM_DATE_FORMAT);
-        formAttr = { ...formAttr, [`${code}_ts_hours`]: zeroFill(hours).toString() };
-        formAttr = { ...formAttr, [`${code}_ts_minutes`]: zeroFill(minutes).toString() };
-        formAttr = { ...formAttr, [`${code}_ts_seconds`]: zeroFill(seconds).toString() };
-        formAttr = { ...formAttr, [code]: newDate };
+        formAttr[`${code}_ts_hours`] = zeroFill(hours);
+        formAttr[`${code}_ts_minutes`] = zeroFill(minutes);
+        formAttr[`${code}_ts_seconds`] = zeroFill(seconds);
+        formAttr[code] = newDate;
         break;
       }
       case 'Hypertext':
       case 'Longtext':
       case 'Text': {
-        const attrValues = values;
-        if (attrValues) {
-          formAttr = { ...formAttr, [code]: attrValues[defaultLanguage] };
+        if (values) {
+          formAttr[code] = values[defaultLanguage];
         }
         break;
       }
       case 'Monolist': {
-        const selectedProfileTypeId = Object.keys(selectedProfileType).filter((sel, index) =>
-          selectedProfileType[index].code === code);
-        const elems = [];
-        if (elements) {
-          elements.forEach((element) => {
-            elems.push(getPayloadForForm(
-              username, { attributes: [element] },
-              [selectedProfileType[selectedProfileTypeId].nestedAttribute],
+        const childProfileType = selectedProfileType.find(item => item.code === code);
+        if (Array.isArray(elements) && childProfileType && childProfileType.nestedAttribute) {
+          formAttr[code] = elements.map(element =>
+            getPayloadForForm(
+              username,
+              { attributes: [element] },
+              [childProfileType.nestedAttribute],
               defaultLanguage,
             )[code]);
-          });
         }
-        formAttr = {
-          ...formAttr,
-          [code]:
-              elems,
-        };
         break;
       }
       case 'List': {
-        let elems = {};
         if (listElements) {
-          Object.keys(listElements).forEach((lang) => {
-            let elementValue = '';
-            const elementsLang = [];
-            elementValue = listElements[lang];
-            Object.keys(elementValue).forEach((v) => {
-              elementsLang.push(elementValue[v].value);
-            });
-            elems = { ...elems, [lang]: elementsLang };
-          });
+          formAttr[code] = Object.keys(listElements).reduce((acc, langCode) => {
+            acc[langCode] = listElements[langCode].map(item => item.value);
+            return acc;
+          }, {});
+        } else {
+          formAttr[code] = {};
         }
-        formAttr = { ...formAttr, [code]: elems };
         break;
       }
       case 'Composite': {
-        let elems = {};
-        if (elements) {
-          const selectedProfileTypeId = Object.keys(selectedProfileType).filter((sel, index) =>
-            selectedProfileType[index].code === code);
-          elements.forEach((element) => {
-            elems = { ...elems, [element.code]: element.value };
-          });
-
-          formAttr = {
-            ...formAttr,
-            [code]: getPayloadForForm(
-              username, { attributes: elements },
-              selectedProfileType[selectedProfileTypeId].compositeAttributes,
-              defaultLanguage,
-            ),
-          };
+        const childProfileType = selectedProfileType.find(item => item.code === code);
+        if (elements && childProfileType) {
+          formAttr[code] = getPayloadForForm(
+            username, { attributes: elements },
+            childProfileType.compositeAttributes,
+            defaultLanguage,
+          );
         }
         break;
       }
       default:
-        formAttr = { ...formAttr, [code]: value };
+        formAttr[code] = value;
     }
   });
   return formAttr;
