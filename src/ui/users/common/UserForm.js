@@ -124,8 +124,7 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.password')}
-                validate={mode !== EDIT_MODE ?
-                [required, minLength8, maxLength20, userFormText] : undefined}
+                validate={[required, minLength8, maxLength20, userFormText]}
               />
               <Field
                 component={RenderTextInput}
@@ -133,8 +132,7 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
                 placeholder={formattedText('user.passwordConfirm')}
-                validate={mode !== EDIT_MODE ?
-                [required, matchPassword] : undefined}
+                validate={[required, matchPassword]}
               />
               {/* Insert user info and reset button on EDIT */}
               {showEdit()}

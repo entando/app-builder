@@ -12,6 +12,7 @@ import {
   getUserAuthorities,
   postUserAuthorities,
   putUserAuthorities,
+  deleteUserAuthorities,
   postUserPassword,
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
@@ -199,8 +200,27 @@ export const fetchUserAuthorities = () => async (dispatch, getState) => {
 
 export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
   try {
+    if (authorities.length === 0) {
+      gotoRoute(ROUTE_USER_LIST);
+    } else {
+      const { username } = getParams(getState());
+      const response = await postUserAuthorities(username, authorities);
+      const json = await response.json();
+      if (response.ok) {
+        gotoRoute(ROUTE_USER_LIST);
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+      }
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const sendPutUserAuthorities = authorities => async (dispatch, getState) => {
+  try {
     const { username } = getParams(getState());
-    const response = await postUserAuthorities(username, authorities);
+    const response = await putUserAuthorities(username, authorities);
     const json = await response.json();
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);
@@ -212,10 +232,10 @@ export const sendPostUserAuthorities = authorities => async (dispatch, getState)
   }
 };
 
-export const sendPutUserAuthorities = authorities => async (dispatch, getState) => {
+export const sendDeleteUserAuthorities = () => async (dispatch, getState) => {
   try {
     const { username } = getParams(getState());
-    const response = await putUserAuthorities(username, authorities);
+    const response = await deleteUserAuthorities(username);
     const json = await response.json();
     if (response.ok) {
       gotoRoute(ROUTE_USER_LIST);

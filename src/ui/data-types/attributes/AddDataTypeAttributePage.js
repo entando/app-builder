@@ -6,6 +6,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
@@ -32,6 +33,11 @@ const AddDataTypeAttributePage = () => (
         helpId="dataType.help"
         titleParam={{ mode: formattedText('app.add') }}
       />
+      <Row>
+        <Col xs={12}>
+          <ErrorsAlertContainer />
+        </Col>
+      </Row>
       <Row>
         <Col xs={12} >
           <AddFormContainer />
