@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
-import { LinkMenuItem } from 'frontend-common-components';
+import { LinkMenuItem } from '@entando/menu';
 import { TYPE_LIST, TYPE_MONOLIST } from 'state/data-types/const';
 
 const renderRoles = (roles) => {
@@ -36,7 +36,6 @@ const AttributeListTableActions = ({
     return (
       <tr key={attribute.code}>
         <td className="AttributeListRow__td">{attribute.code}</td>
-        <td className="AttributeListRow__td">{attribute.type}</td>
         <td className="AttributeListRow__td">
           {
             type === TYPE_LIST || type === TYPE_MONOLIST ? `${type}: ${nestedAttribute.type}` : type
