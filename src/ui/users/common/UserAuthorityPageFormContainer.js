@@ -26,12 +26,15 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchUserAuthorities({ page: 1, pageSize: 0 }));
   },
   onSubmit: (authorities, action) => {
+    const { groupRolesCombo } = authorities;
     if (action === ACTION_UPDATE) {
-      if (authorities.length > 0) {
-        dispatch(sendPutUserAuthorities(authorities.groupRolesCombo));
-      } else { dispatch(sendDeleteUserAuthorities()); }
+      if (groupRolesCombo.length > 0) {
+        dispatch(sendPutUserAuthorities(groupRolesCombo));
+      } else {
+        dispatch(sendDeleteUserAuthorities());
+      }
     } else {
-      dispatch(sendPostUserAuthorities(authorities.groupRolesCombo));
+      dispatch(sendPostUserAuthorities(groupRolesCombo));
     }
   },
 
