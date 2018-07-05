@@ -285,7 +285,7 @@ export default {
     'menu.uxPattern.addLabels': 'Etichette di sistema',
     'menu.categories': 'Categorie',
     'menu.roles': 'Roles',
-    'menu.reloadConfiguration': 'Ricarca la configurazione',
+    'menu.reloadConfiguration': 'Ricarica la configurazione',
     'menu.reloadConfirm': 'Reload the Configuration',
     'menu.profileTypes': 'Tipi di profilo',
     'menu.profile': 'Profilo',
