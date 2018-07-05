@@ -42,7 +42,7 @@ describe('DashboardPage', () => {
     expect(component.find(PageStatusContainer)).toHaveLength(1);
   });
 
-  it('verify if PageStatus exists', () => {
+  it('verify if PagesList exists', () => {
     const component = shallow(<DashboardPage />);
     expect(component.find(PagesListContainer)).toHaveLength(1);
   });

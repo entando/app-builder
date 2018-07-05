@@ -9,7 +9,7 @@ import EditUserProfileFormContainer from 'ui/user-profile/edit/EditUserProfileFo
 import { ROUTE_USER_LIST } from 'app-init/router';
 
 const EditUserProfilePage = () => (
-  <InternalPage className="EditUserPage">
+  <InternalPage className="EditUserProfilePage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
