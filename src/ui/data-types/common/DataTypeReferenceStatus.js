@@ -27,10 +27,7 @@ class DataTypeReferenceStatus extends Component {
           id="reference.reload"
           values={{
             link:
-  <a
-    role="presentation"
-    onClick={this.onClickReload}
-  >
+  <a role="presentation" onClick={this.onClickReload}>
     <FormattedMessage id="app.here" />
   </a>,
           }}
