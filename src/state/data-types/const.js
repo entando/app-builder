@@ -12,8 +12,11 @@ export const TYPE_TIMESTAMP = 'Timestamp';
 export const TYPE_HYPERTEXT = 'Hypertext';
 export const TYPE_LONGTEXT = 'Longtext';
 export const TYPE_TEXT = 'Text';
+
+
 export const MODE_ADD = 'add';
 export const MODE_EDIT = 'edit';
 export const MODE_EDIT_COMPOSITE = 'editComposite';
 export const MODE_ADD_COMPOSITE = 'addComposite';
 export const MODE_ADD_ATTRIBUTE_COMPOSITE = 'addAttributeComposite';
+export const MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE = 'addMonolistAttributeComposite';

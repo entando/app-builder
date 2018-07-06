@@ -60,8 +60,20 @@ export class AttributeFormBody extends Component {
         case TYPE_CHECKBOX: return null;
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
-        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
-        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_MONOLIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType.code}
+              attributesList={this.props.attributesList}
+            />
+          );
+        case TYPE_LIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType.code}
+              attributesList={this.props.attributesList}
+            />
+          );
         case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
@@ -176,6 +188,7 @@ AttributeFormBody.propTypes = {
   })),
   mode: PropTypes.string.isRequired,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
+  attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 
 };
 

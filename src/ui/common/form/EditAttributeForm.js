@@ -60,8 +60,19 @@ export class EditAttributeFormBody extends Component {
         case TYPE_CHECKBOX: return null;
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
-        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
-        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_MONOLIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType}
+              attributesList={this.props.attributesList}
+            />);
+        case TYPE_LIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType}
+              attributesList={this.props.attributesList}
+            />
+          );
         case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
@@ -164,6 +175,7 @@ EditAttributeFormBody.propTypes = {
   indexable: PropTypes.bool,
   listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,
+  attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 EditAttributeFormBody.defaultProps = {
