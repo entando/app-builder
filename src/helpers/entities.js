@@ -1,5 +1,6 @@
 import moment from 'moment';
 import padStart from 'lodash/padStart';
+import first from 'lodash/first';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderDatePickerInput from 'ui/common/form/RenderDatePickerInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
@@ -136,17 +137,8 @@ export const getPayloadForApi = (
 ) => {
   const attr = [];
   Object.keys(profile).forEach((key) => {
-    if (key !== 'id' &&
-        key !== 'typeCode' &&
-        key !== 'typeDescription' &&
-        (!(key.endsWith('_ts_hours'))) &&
-        (!(key.endsWith('_ts_minutes'))) &&
-        (!(key.endsWith('_ts_seconds')))
-    ) {
-      let attrType = {};
-      selectedProfileType.forEach((type) => {
-        if (type.code === key) { attrType = type; }
-      });
+    if (!key.match(/^id$|^typeCode$|^typeDescription$|_ts_hours$|_ts_minutes$|_ts_seconds$/)) {
+      const attrType = selectedProfileType.find(type => type.code === key);
       switch (attrType.type) {
         case 'Boolean': {
           const isTrue = (profile[key] === 'true');
@@ -187,44 +179,33 @@ export const getPayloadForApi = (
           break;
         }
         case 'Monolist': {
-          profile[key].forEach((value) => {
-            const selectedProfileTypeId = Object.keys(selectedProfileType).filter((sel, index) =>
-              selectedProfileType[index].code === key);
-            const monolistProfile = { [key]: value };
-            const elements = getPayloadForApi(
-              monolistProfile,
-              [selectedProfileType[selectedProfileTypeId].nestedAttribute],
+          const childProfileType = selectedProfileType.find(item => item.code === key);
+          const elements = profile[key].map(value =>
+            first(getPayloadForApi(
+              { [key]: value },
+              [childProfileType.nestedAttribute],
               defaultLanguage,
-            ).attributes;
-            attr.push({ code: key, elements });
-            // listFields.push({ code: key, elements });
-          });
+            ).attributes));
+
+          attr.push({ code: key, elements });
           break;
         }
         case 'List': {
-          let listFields = {};
-          Object.keys(profile[key]).forEach((lang) => {
-            const listLangFields = [];
-            profile[key][lang].forEach((value) => {
-              listLangFields.push({ code: key, value });
-            });
-            listFields = { ...listFields, [lang]: listLangFields };
-          });
-          attr.push({ code: key, listElements: listFields });
+          const listElements = Object.keys(profile[key]).reduce((acc, langCode) => {
+            acc[langCode] = profile[key][langCode].map(value => ({ code: key, value }));
+            return acc;
+          }, {});
+          attr.push({ code: key, listElements });
           break;
         }
         case 'Composite': {
-          const selectedProfileTypeId = Object.keys(selectedProfileType).filter((sel, index) =>
-            selectedProfileType[index].code === key);
+          const childProfileType = selectedProfileType.find(item => item.code === key);
           const elements = getPayloadForApi(
             profile[key],
-            selectedProfileType[selectedProfileTypeId].compositeAttributes,
+            childProfileType.compositeAttributes,
             defaultLanguage,
           ).attributes;
-          attr.push({
-            code: key,
-            elements,
-          });
+          attr.push({ code: key, elements });
           break;
         }
         default:
