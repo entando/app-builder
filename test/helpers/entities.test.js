@@ -1,5 +1,5 @@
 
-import { zeroFill, getComponentType, getPayloadForForm } from 'helpers/entities';
+import { zeroFill, getComponentType, getPayloadForForm, getPayloadForApi } from 'helpers/entities';
 
 
 // fake values to easily test getComponentType mapping
@@ -58,11 +58,6 @@ describe('getPayloadForForm', () => {
     attributes: [],
   };
 
-  const expectCommonProps = (attr) => {
-    expect(attr).toHaveProperty('id', USERNAME);
-    expect(attr).toHaveProperty('typeCode', USER_PROFILE.typeCode);
-    expect(attr).toHaveProperty('typeDescription', USER_PROFILE.typeDescription);
-  };
 
   const testGetPayloadForm = (text, {
     attrType, attributes, profileType, testAssertions,
@@ -79,7 +74,14 @@ describe('getPayloadForForm', () => {
           profileType,
           DEFAULT_LANGUAGE,
         );
-        testAssertions(formAttr);
+
+        expect(formAttr).toHaveProperty('id', USERNAME);
+        expect(formAttr).toHaveProperty('typeCode', USER_PROFILE.typeCode);
+        expect(formAttr).toHaveProperty('typeDescription', USER_PROFILE.typeDescription);
+
+        if (testAssertions) {
+          testAssertions(formAttr);
+        }
       });
     });
   };
@@ -93,9 +95,6 @@ describe('getPayloadForForm', () => {
       attrType: 'NO',
       attributes: [],
       profileType: [],
-      testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
-      },
     },
   );
 
@@ -108,7 +107,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'isActive', value: true }],
       profileType: [{ code: 'isActive', type: 'Boolean' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('isActive', 'true');
       },
     },
@@ -121,7 +119,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'isActive' }],
       profileType: [{ code: 'isActive', type: 'Boolean' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('isActive', null);
       },
     },
@@ -137,7 +134,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'isActive', value: true }],
       profileType: [{ code: 'isActive', type: 'ThreeState' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('isActive', 'true');
       },
     },
@@ -150,7 +146,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'isActive' }],
       profileType: [{ code: 'isActive', type: 'ThreeState' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('isActive', null);
       },
     },
@@ -166,7 +161,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'birthDate', value: '1889-04-20 06:06:06' }],
       profileType: [{ code: 'birthDate', type: 'Date' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('birthDate', '20/04/1889');
       },
     },
@@ -182,7 +176,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'created', value: '1889-04-20 03:06:09' }],
       profileType: [{ code: 'created', type: 'Timestamp' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('created', '20/04/1889');
         expect(formAttr).toHaveProperty('created_ts_hours', '03');
         expect(formAttr).toHaveProperty('created_ts_minutes', '06');
@@ -201,7 +194,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'description', values: { [DEFAULT_LANGUAGE]: 'some text' } }],
       profileType: [{ code: 'description', type: 'Hypertext' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('description', 'some text');
       },
     },
@@ -217,7 +209,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'description', values: { [DEFAULT_LANGUAGE]: 'some text' } }],
       profileType: [{ code: 'description', type: 'Longtext' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('description', 'some text');
       },
     },
@@ -233,7 +224,6 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'description', values: { [DEFAULT_LANGUAGE]: 'some text' } }],
       profileType: [{ code: 'description', type: 'Text' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('description', 'some text');
       },
     },
@@ -261,7 +251,6 @@ describe('getPayloadForForm', () => {
         nestedAttribute: { code: 'someList', type: 'Boolean' },
       }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('someList', ['true', 'false']);
       },
     },
@@ -285,7 +274,6 @@ describe('getPayloadForForm', () => {
       ],
       profileType: [{ code: 'multilist', type: 'List' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('multilist', { en: ['goofy'], it: ['pippo', 'pluto'] });
       },
     },
@@ -299,7 +287,6 @@ describe('getPayloadForForm', () => {
       ],
       profileType: [{ code: 'multilist', type: 'List' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('multilist', {});
       },
     },
@@ -330,7 +317,6 @@ describe('getPayloadForForm', () => {
         ],
       }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('someComposite');
         expect(formAttr.someComposite).toHaveProperty('textChild', 'random text');
         expect(formAttr.someComposite).toHaveProperty('booleanChild', 'false');
@@ -348,8 +334,296 @@ describe('getPayloadForForm', () => {
       attributes: [{ code: 'someCode', value: 'hello123' }],
       profileType: [{ code: 'someCode', type: 'SomeRandomType' }],
       testAssertions: (formAttr) => {
-        expectCommonProps(formAttr);
         expect(formAttr).toHaveProperty('someCode', 'hello123');
+      },
+    },
+  );
+});
+
+
+describe('getPayloadForApi', () => {
+  const DEFAULT_LANGUAGE = 'en';
+  const USER_PROFILE = {
+    id: 'someUserName',
+    typeCode: 'someTypecode',
+    typeDescription: 'someTypeDescription',
+  };
+
+
+  const testGetPayloadForApi = (text, {
+    attrType, attributes, profileType, testAssertions,
+  }) => {
+    describe(`with ${attrType} attribute`, () => {
+      let formAttr;
+      it(text, () => {
+        formAttr = getPayloadForApi(
+          { ...USER_PROFILE, ...attributes },
+          profileType,
+          DEFAULT_LANGUAGE,
+        );
+
+        expect(formAttr).toHaveProperty('id', USER_PROFILE.id);
+        expect(formAttr).toHaveProperty('typeCode', USER_PROFILE.typeCode);
+        expect(formAttr).toHaveProperty('typeDescription', USER_PROFILE.typeDescription);
+        expect(formAttr).toHaveProperty('attributes');
+
+        if (testAssertions) {
+          testAssertions(formAttr);
+        }
+      });
+    });
+  };
+
+
+  // no attributes
+
+  testGetPayloadForApi(
+    'if no attribute provided, it will still return: id, typeCode, typeDescription, attributes',
+    {
+      attrType: 'NO',
+      attributes: { },
+      profileType: [],
+    },
+  );
+
+  // Boolean
+
+  testGetPayloadForApi(
+    'returns an attributes item with value = parsed value',
+    {
+      attrType: 'Boolean',
+      attributes: { isActive: 'true' },
+      profileType: [{ code: 'isActive', type: 'Boolean' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'isActive');
+        expect(attribute).toHaveProperty('value', true);
+      },
+    },
+  );
+
+  testGetPayloadForApi(
+    'if value is empty string, returns an attributes item with value = false',
+    {
+      attrType: 'Boolean',
+      attributes: { isActive: '' },
+      profileType: [{ code: 'isActive', type: 'Boolean' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'isActive');
+        expect(attribute).toHaveProperty('value', false);
+      },
+    },
+  );
+
+
+  // ThreeState
+
+  testGetPayloadForApi(
+    'returns an attributes item with value = parsed value',
+    {
+      attrType: 'ThreeState',
+      attributes: { isActive: 'true' },
+      profileType: [{ code: 'isActive', type: 'ThreeState' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'isActive');
+        expect(attribute).toHaveProperty('value', true);
+      },
+    },
+  );
+
+  testGetPayloadForApi(
+    'if value is empty string, returns an attributes item with value = null',
+    {
+      attrType: 'ThreeState',
+      attributes: { isActive: '' },
+      profileType: [{ code: 'isActive', type: 'ThreeState' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'isActive');
+        expect(attribute).toHaveProperty('value', null);
+      },
+    },
+  );
+
+
+  // Number
+
+  testGetPayloadForApi(
+    'returns an attributes item with value = parsed number',
+    {
+      attrType: 'Number',
+      attributes: { myAttribute: '6' },
+      profileType: [{ code: 'myAttribute', type: 'Number' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('value', 6);
+      },
+    },
+  );
+
+
+  // Date
+
+  testGetPayloadForApi(
+    'returns a date in YYYY-MM-DD HH:mm:ss format',
+    {
+      attrType: 'Date',
+      attributes: { myAttribute: '20/04/1889' },
+      profileType: [{ code: 'myAttribute', type: 'Date' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('value', '1889-04-20 00:00:00');
+      },
+    },
+  );
+
+
+  // Timestamp
+
+  testGetPayloadForApi(
+    'returns a date in YYYY-MM-DD HH:mm:ss format',
+    {
+      attrType: 'Timestamp',
+      attributes: {
+        myAttribute: '20/04/1889',
+        myAttribute_ts_hours: '03',
+        myAttribute_ts_minutes: '06',
+        myAttribute_ts_seconds: '09',
+      },
+      profileType: [{ code: 'myAttribute', type: 'Timestamp' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('value', '1889-04-20 03:06:09');
+      },
+    },
+  );
+
+
+  // Text
+
+  testGetPayloadForApi(
+    'returns an object with default language key',
+    {
+      attrType: 'Text',
+      attributes: { myAttribute: 'pippo' },
+      profileType: [{ code: 'myAttribute', type: 'Text' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('values', { [DEFAULT_LANGUAGE]: 'pippo' });
+      },
+    },
+  );
+
+
+  // Longtext
+
+  testGetPayloadForApi(
+    'returns an object with default language key',
+    {
+      attrType: 'Longtext',
+      attributes: { myAttribute: 'pippo' },
+      profileType: [{ code: 'myAttribute', type: 'Longtext' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('values', { [DEFAULT_LANGUAGE]: 'pippo' });
+      },
+    },
+  );
+
+
+  // Hypertext
+
+  testGetPayloadForApi(
+    'returns an object with default language key',
+    {
+      attrType: 'Hypertext',
+      attributes: { myAttribute: 'pippo' },
+      profileType: [{ code: 'myAttribute', type: 'Hypertext' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('values', { [DEFAULT_LANGUAGE]: 'pippo' });
+      },
+    },
+  );
+
+
+  // Monolist
+
+  testGetPayloadForApi(
+    'returns an array of attributes of the same type',
+    {
+      attrType: 'Monolist',
+      attributes: { myAttribute: ['true', 'false'] },
+      profileType: [{
+        code: 'myAttribute',
+        type: 'Monolist',
+        nestedAttribute: { code: 'myAttribute', type: 'Boolean' },
+      }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('elements', [
+          { code: 'myAttribute', value: true },
+          { code: 'myAttribute', value: false },
+        ]);
+      },
+    },
+  );
+
+
+  // List
+
+  testGetPayloadForApi(
+    'returns an object of language codes, mapping arrays of attributes',
+    {
+      attrType: 'List',
+      attributes: { myAttribute: { en: ['goofy'], it: ['pippo', 'pluto'] } },
+      profileType: [{ code: 'myAttribute', type: 'List' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('listElements', {
+          en: [{ code: 'myAttribute', value: 'goofy' }],
+          it: [{ code: 'myAttribute', value: 'pippo' }, { code: 'myAttribute', value: 'pluto' }],
+        });
+      },
+    },
+  );
+
+
+  // Composite
+
+  testGetPayloadForApi(
+    'returns an object with an elements property, which is an Array containing the children',
+    {
+      attrType: 'Composite',
+      attributes: { myAttribute: { textChild: 'random text', booleanChild: true } },
+      profileType: [{
+        code: 'myAttribute',
+        type: 'Composite',
+        compositeAttributes: [
+          { code: 'textChild', type: 'Text' },
+          { code: 'booleanChild', type: 'Boolean' },
+        ],
+      }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('elements', [
+          { code: 'textChild', values: { [DEFAULT_LANGUAGE]: 'random text' } },
+          { code: 'booleanChild', value: false },
+        ]);
+      },
+    },
+  );
+
+
+  // other types (default)
+
+  testGetPayloadForApi(
+    'returns an attribute with prop value = the attribute value',
+    {
+      attrType: 'another type',
+      attributes: { myAttribute: 'some text' },
+      profileType: [{ code: 'myAttribute', type: 'SomeRandomType' }],
+      testAssertions: (formAttr) => {
+        const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
+        expect(attribute).toHaveProperty('value', 'some text');
       },
     },
   );
