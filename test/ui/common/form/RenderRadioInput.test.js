@@ -25,6 +25,11 @@ const INPUT = {
   onChange: onChangeMock,
 };
 
+const META = {
+  touched: false,
+  error: false,
+};
+
 describe('RenderRadioInput', () => {
   beforeEach(jest.clearAllMocks);
 
@@ -33,6 +38,7 @@ describe('RenderRadioInput', () => {
     component = shallow((
       <RenderRadioInput
         input={INPUT}
+        meta={META}
         toggleElement={TOGGLE_ELEMENT}
       />
     ));
