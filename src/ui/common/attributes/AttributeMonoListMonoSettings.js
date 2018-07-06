@@ -7,9 +7,26 @@ import { Field, FormSection } from 'redux-form';
 
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import {
+  TYPE_LIST,
+  TYPE_COMPOSITE,
+  TYPE_HYPERTEXT,
+  TYPE_LONGTEXT,
+  TYPE_MONOLIST,
+  TYPE_TEXT,
+} from 'state/data-types/const';
 
-const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
-  const selectAttribute = attributesList.map(item => ({
+const NO_ATTRIBUTE_FOR_TYPE_LIST =
+  [TYPE_LIST, TYPE_COMPOSITE, TYPE_HYPERTEXT, TYPE_LONGTEXT, TYPE_MONOLIST, TYPE_TEXT];
+
+const AttributeMonoListMonoSettings = ({ attributeType, attributesList }) => {
+  let list = attributesList;
+  if (attributeType === TYPE_LIST) {
+    list = list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_LIST.includes(f));
+  } else {
+    list = list.filter(f => f !== TYPE_LIST && f !== TYPE_MONOLIST);
+  }
+  const selectAttribute = list.map(item => ({
     value: item,
     text: item,
   }));
@@ -31,7 +48,6 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
               }
               name="type"
               validate={[required]}
-              selectedValue={defaultValue}
             />
           </FormSection>
         </fieldset>
@@ -41,14 +57,8 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
 };
 
 AttributeMonoListMonoSettings.propTypes = {
-  attributesList: PropTypes.arrayOf(PropTypes.string),
-  defaultValue: PropTypes.string,
+  attributeType: PropTypes.oneOf([TYPE_LIST, TYPE_MONOLIST]).isRequired,
+  attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
-
-AttributeMonoListMonoSettings.defaultProps = {
-  attributesList: [],
-  defaultValue: '',
-};
-
 
 export default AttributeMonoListMonoSettings;

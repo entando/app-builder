@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Col } from 'patternfly-react';
 import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
+import { TYPE_LIST, TYPE_MONOLIST } from 'state/data-types/const';
 
 const AttributeListTable = (props) => {
   const { attributes } = props;
@@ -24,10 +25,15 @@ const AttributeListTable = (props) => {
   const renderTableRows = () => attributes.map((attribute, index) => {
     const isMovableUp = index > 0;
     const isMovableDown = index < attributes.length - 1;
+    const { type, nestedAttribute } = attribute;
     return (
       <tr key={attribute.code}>
         <td className="AttributeListRow__td">{attribute.code}</td>
-        <td className="AttributeListRow__td">{attribute.type}</td>
+        <td className="AttributeListRow__td">
+          {
+            type === TYPE_LIST || type === TYPE_MONOLIST ? `${type}: ${nestedAttribute.type}` : type
+          }
+        </td>
         <td className="AttributeListRow__td">
           {renderRoles(attribute.roles)}
         </td>

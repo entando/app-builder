@@ -68,6 +68,7 @@ import {
   MODE_ADD_COMPOSITE,
   MODE_EDIT_COMPOSITE,
   MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
 } from 'state/data-types/const';
 
 // Data type
@@ -205,7 +206,6 @@ export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
     }).catch(() => {});
   }));
 
-
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
     postDataType(dataTypeObject).then((response) => {
@@ -286,13 +286,19 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
 export const fetchDataTypeAttribute =
  (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
    new Promise((resolve) => {
+     console.log('fetchDataTypeAttribute dataTypeAttributeCode, route, selectedAttributeType, formName', dataTypeAttributeCode, route, selectedAttributeType, formName);
      dispatch(clearErrors());
+     let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
      let typeAttribute = dataTypeAttributeCode;
      if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
+       console.log('entro qui');
        typeAttribute = getFormTypeValue(getState(), formName);
        dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
      }
-     const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+     actionMode = getActionModeDataTypeSelectedAttribute(getState());
+     console.log('fetchDataTypeAttribute actionMode', actionMode);
+     console.log('fetchDataTypeAttribute typeAttribute', typeAttribute);
+
      if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
        resolve();
      } else {
@@ -300,10 +306,22 @@ export const fetchDataTypeAttribute =
          response.json().then((json) => {
            if (response.ok) {
              dispatch(setSelectedAttribute(json.payload));
-             if (actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-               dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+             switch (actionMode) {
+               case MODE_ADD_ATTRIBUTE_COMPOSITE: {
+                 dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+                 break;
+               }
+               case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
+                 console.log('chiamo initialize', json.payload);
+                 const nestedAttribute = { ...json.payload, type: json.payload.code };
+                 console.log('chiamo initialize nestedAttribute', nestedAttribute);
+                 dispatch(initialize(formName, { nestedAttribute }));
+                 break;
+               }
+               default: break;
              }
              if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+               console.log('chiamo gotoRoute ROUTE', route);
                gotoRoute(route.route, route.params);
              }
            } else {
@@ -325,6 +343,7 @@ const fmtDateDDMMYYY = (date) => {
 export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode) =>
   (dispatch, getState) => (
     new Promise((resolve) => {
+      console.log('fetchAttributeFromDataType formName, dataTypeCode, attributeCode', formName, dataTypeCode, attributeCode);
       getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
         response.json().then((json) => {
           if (response.ok) {
@@ -500,6 +519,14 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
   (dispatch, getState) => {
     dispatch(clearErrors());
     let payload = getPayloadFromTypeAttribute(values, allowedRoles);
+    const isMonolistComposite =
+      payload.type === TYPE_MONOLIST && payload.nestedAttribute.type === TYPE_COMPOSITE;
+
+    console.log('handlerAttributeFromDataType values', values);
+    console.log('handlerAttributeFromDataType payload', payload);
+    console.log('handlerAttributeFromDataType mode', mode);
+
+
     if (action === METHODS.POST) {
       dispatch(setActionMode(MODE_ADD));
       const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
@@ -507,9 +534,16 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
         attributeSelected.compositeAttributes.push(payload);
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
         dispatch(sendPutAttributeFromDataType(attributeSelected));
-      } else if (payload.type === TYPE_COMPOSITE) {
+      } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
         dispatch(setNewAttributeComposite(payload));
+        if (isMonolistComposite) {
+          dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
+          gotoRoute(
+            ROUTE_ATTRIBUTE_MONOLIST_ADD,
+            { entityCode: getParams(getState()).entityCode, attributeCode: payload.code },
+          );
+        }
       } else {
         const newAttributeComposite = getNewAttributeComposite(getState());
         if (!isUndefined(newAttributeComposite)) {
