@@ -20,4 +20,3 @@ export const MODE_EDIT_COMPOSITE = 'editComposite';
 export const MODE_ADD_COMPOSITE = 'addComposite';
 export const MODE_ADD_ATTRIBUTE_COMPOSITE = 'addAttributeComposite';
 export const MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE = 'addMonolistAttributeComposite';
-export const MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE = 'addSubAttributeMonolistComposite';

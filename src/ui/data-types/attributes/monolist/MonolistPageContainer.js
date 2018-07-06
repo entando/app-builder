@@ -10,7 +10,7 @@ import MonolistPage from 'ui/data-types/attributes/monolist/MonolistPage';
 
 
 export const mapStateToProps = state => ({
-  mode: getActionModeDataTypeSelectedAttribute(state) || '',
+  mode: getActionModeDataTypeSelectedAttribute(state),
   attributeCode: getParams(state).attributeCode,
   entityCode: getParams(state).entityCode,
   dataTypeCode: getParams(state).entityCode,
