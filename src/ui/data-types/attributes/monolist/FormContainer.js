@@ -3,6 +3,7 @@ import { getParams } from '@entando/router';
 import { formValueSelector } from 'redux-form';
 
 import {
+  fetchAttributeFromDataType,
   fetchDataTypeAttribute,
   sendPutAttributeFromDataTypeMonolist,
   setActionMode,
@@ -25,6 +26,7 @@ export const mapStateToProps = state => ({
   dataTypeCode: getParams(state).entityCode,
   isIndexable: formValueSelector('monoListAttribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('monoListAttribute')(state, 'nestedAttribute.type'),
+  selectedAttribute: formValueSelector('monoListAttribute')(state, 'type'),
   selectedAttributeType: formValueSelector('monoListAttribute')(state, 'type'),
   attributesList: getDataTypeAttributesIdList(state),
 });
@@ -43,7 +45,7 @@ export const mapDispatchToProps = dispatch => ({
         'monoListAttribute',
       ));
     } else {
-      // dispatch(fetchAttributeFromDataType('monoListAttribute', dataTypeCode, attributeCode));
+      dispatch(fetchAttributeFromDataType('monoListAttribute', dataTypeCode, attributeCode));
     }
   },
   onSubmit: (values) => {
