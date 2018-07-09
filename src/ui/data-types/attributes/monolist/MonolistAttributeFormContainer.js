@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getParams } from '@entando/router';
+import { clearErrors } from '@entando/messages';
 import { formValueSelector } from 'redux-form';
 
 import {
@@ -13,8 +14,14 @@ import {
 import {
   getActionModeDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
+  getDataTypeSelectedAttribute,
+  getDataTypeSelectedAttributeCode,
 } from 'state/data-types/selectors';
-import { TYPE_COMPOSITE, MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE, MODE_ADD } from 'state/data-types/const';
+import {
+  TYPE_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
+} from 'state/data-types/const';
 
 import { ROUTE_ATTRIBUTE_MONOLIST_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
 
@@ -26,14 +33,17 @@ export const mapStateToProps = state => ({
   dataTypeCode: getParams(state).entityCode,
   isIndexable: formValueSelector('monoListAttribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('monoListAttribute')(state, 'nestedAttribute.type'),
-  selectedAttribute: formValueSelector('monoListAttribute')(state, 'type'),
+  type1: getDataTypeSelectedAttributeCode(state),
+  selectedAttributeTypeForAddComposite: getDataTypeSelectedAttribute(state),
   selectedAttributeType: formValueSelector('monoListAttribute')(state, 'type'),
+  selectedAttributeType1: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
 });
 
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ attributeCode, dataTypeCode, mode }) => {
+    dispatch(clearErrors());
     if (mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE) {
       dispatch(fetchDataTypeAttribute(
         TYPE_COMPOSITE,
@@ -52,15 +62,16 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPutAttributeFromDataTypeMonolist(values));
   },
   onAddAttribute: (props) => {
-    const { attributeCode, entityCode, selectedAttributeType: { code } } = props;
-    dispatch(setActionMode(MODE_ADD));
+    console.log('onAddAttribute ', props);
+    const { dataTypeCode, type } = props;
+    dispatch(setActionMode(MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE));
     dispatch(fetchDataTypeAttribute(
-      attributeCode,
+      type,
       {
         route: ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-        params: { entityCode },
+        params: { entityCode: dataTypeCode },
       },
-      code,
+      type,
       'addAttribute',
     ));
   },
@@ -72,6 +83,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AddFormContainer =
+const MonolistAttributeFormContainer =
   connect(mapStateToProps, mapDispatchToProps)(MonolistAttributeForm);
-export default AddFormContainer;
+export default MonolistAttributeFormContainer;

@@ -42,8 +42,8 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values, allowedRoles) => {
-    dispatch(handlerAttributeFromDataType(METHODS.POST, values, allowedRoles));
+  onSubmit: (values, allowedRoles, mode) => {
+    dispatch(handlerAttributeFromDataType(METHODS.POST, values, allowedRoles, mode));
   },
   onAddAttribute: (props) => {
     const { attributeCode, entityCode, selectedAttributeType: { code } } = props;

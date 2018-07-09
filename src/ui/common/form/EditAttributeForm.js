@@ -63,12 +63,14 @@ export class EditAttributeFormBody extends Component {
         case TYPE_MONOLIST:
           return (
             <AttributeMonoListMonoSettings
+              {...this.props}
               attributeType={selectedAttributeType}
               attributesList={this.props.attributesList}
             />);
         case TYPE_LIST:
           return (
             <AttributeMonoListMonoSettings
+              {...this.props}
               attributeType={selectedAttributeType}
               attributesList={this.props.attributesList}
             />
