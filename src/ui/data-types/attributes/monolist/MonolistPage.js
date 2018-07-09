@@ -6,7 +6,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import FormContainer from 'ui/data-types/attributes/monolist/FormContainer';
+import MonolistAttributeFormContainer from 'ui/data-types/attributes/monolist/MonolistAttributeFormContainer';
 import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
@@ -58,7 +58,7 @@ class MonolistPage extends Component {
           />
           <Row>
             <Col xs={12} >
-              <FormContainer />
+              <MonolistAttributeFormContainer />
             </Col>
           </Row>
         </Grid>

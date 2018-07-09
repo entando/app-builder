@@ -69,6 +69,7 @@ import {
   MODE_EDIT_COMPOSITE,
   MODE_ADD_ATTRIBUTE_COMPOSITE,
   MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
 } from 'state/data-types/const';
 
 // Data type
@@ -287,7 +288,7 @@ export const fetchDataTypeAttribute =
  (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
    new Promise((resolve) => {
      console.log('fetchDataTypeAttribute dataTypeAttributeCode, route, selectedAttributeType, formName', dataTypeAttributeCode, route, selectedAttributeType, formName);
-     dispatch(clearErrors());
+
      let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
      let typeAttribute = dataTypeAttributeCode;
      if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
@@ -311,9 +312,17 @@ export const fetchDataTypeAttribute =
                  dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
                  break;
                }
+               case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
+                 dispatch(initialize(formName, { type: json.payload.code }));
+                 break;
+               }
                case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
                  console.log('chiamo initialize', json.payload);
-                 const nestedAttribute = { ...json.payload, type: json.payload.code };
+                 const nestedAttribute = {
+                   ...json.payload,
+                   type: json.payload.code,
+                   compositeAttributeType: TYPE_COMPOSITE,
+                 };
                  console.log('chiamo initialize nestedAttribute', nestedAttribute);
                  dispatch(initialize(formName, { nestedAttribute }));
                  break;
@@ -325,6 +334,7 @@ export const fetchDataTypeAttribute =
                gotoRoute(route.route, route.params);
              }
            } else {
+             console.log('errore!!!!');
              dispatch(addErrors(json.errors.map(err => err.message)));
            }
            resolve();
@@ -548,6 +558,9 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
         const newAttributeComposite = getNewAttributeComposite(getState());
         if (!isUndefined(newAttributeComposite)) {
           payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, payload);
+        }
+        if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
+          console.log('MODE MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE ');
         }
         dispatch(sendPostAttributeFromDataType(payload));
       }

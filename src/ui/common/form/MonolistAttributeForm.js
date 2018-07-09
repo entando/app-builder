@@ -13,6 +13,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
+import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 
 import {
   TYPE_BOOLEAN,
@@ -44,12 +45,12 @@ export class MonolistAttributeFormBody extends Component {
       submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
     } = this.props;
 
-    const isComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
+    const isAddMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
 
     console.log('MonolistAttributeFormBody Props', this.props);
-    console.log('isComposite', isComposite);
+    console.log('isAddMonoListComposite', isAddMonoListComposite);
     console.log('mode', mode);
-    const attributeType = selectedAttributeType;
+    const attributeType = isAddMonoListComposite ? TYPE_COMPOSITE : type;
     console.log('attributeType', attributeType);
 
     const renderIndexable = () => {
@@ -68,13 +69,17 @@ export class MonolistAttributeFormBody extends Component {
       return '';
     };
 
-    const renderAttributeInfo = () => (
-      !NO_INFO_ATTRIBUTE.includes(type) ?
+    const renderAttributeInfo = () => {
+      if (isAddMonoListComposite) {
+        return <AttributeInfoComposite />;
+      }
+
+      return (!NO_INFO_ATTRIBUTE.includes(type) ?
         <fieldset className="no-padding">
           <legend>
             <FormattedMessage id="app.info" />
             <div className="MonolistAttributeForm__required-fields text-right">
-             * <FormattedMessage id="app.fieldsRequired" />
+               * <FormattedMessage id="app.fieldsRequired" />
             </div>
           </legend>
           <Field
@@ -85,11 +90,11 @@ export class MonolistAttributeFormBody extends Component {
           />
           {renderIndexable()}
         </fieldset>
-        : null
-    );
+        : null);
+    };
 
     const renderSelectedAttribute = () => {
-      switch (type) {
+      switch (attributeType) {
         case TYPE_TEXT: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
@@ -116,8 +121,9 @@ export class MonolistAttributeFormBody extends Component {
           />
         );
         case TYPE_COMPOSITE: {
-          return isComposite ?
+          return isAddMonoListComposite ?
             <AttributeListTableComposite
+              {...this.props}
               attributesList={attributesList}
               onAddAttribute={onAddAttribute}
               onClickDelete={onClickDelete}
@@ -130,7 +136,7 @@ export class MonolistAttributeFormBody extends Component {
     };
 
     const renderOgnlValidation = () => (
-      !isComposite ?
+      !isAddMonoListComposite ?
         <FormSection name="validationRules">
           <AttributeOgnlValidation />
         </FormSection> : null
@@ -144,7 +150,7 @@ export class MonolistAttributeFormBody extends Component {
           {type},&nbsp;
           <FormattedMessage id="app.element.of" />&nbsp;
           {attributeCode}&nbsp;
-           ({isComposite ? TYPE_MONOLIST : selectedAttributeType}).
+           ({isAddMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
         </Alert>
         <form onSubmit={this.props.handleSubmit(onSubmit)} className="form-horizontal">
           <Row>
@@ -203,7 +209,7 @@ MonolistAttributeFormBody.defaultProps = {
   isIndexable: false,
   type: '',
   attributeCode: '',
-  selectedAttributeType: '',
+  selectedAttributeType: TYPE_MONOLIST,
   mode: '',
   attributesList: [],
 };
