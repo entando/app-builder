@@ -20,6 +20,12 @@ a boolean used to determine whether the API calls will be against a real Entando
 a string representing the domain name of the Entando Core instance. The protocol is optional and it is possible to specify a subdirectory of the domain.
 Trailing slashes are not valid and it only vaildates up to 3rd level domains.
 
+#### `EMBEDDED_DOMAIN` (optional, string, default: `null`)
+a string representing the context that the Entando Core is running which is relative to the base URL of the App Builder. The `DOMAIN` property is ignored when `EMBEDDED_DOMAIN` is provided.  This allows the same deployment of Entando Core and App Builder to be bundled and deployed together anywhere without rebuilding the App Builder each time as long as the relative context is consistent.
+
+#### `PUBLIC_URL` (optional, string, default: `null`)
+this is a standard react property that you "may use ... to force assets to be referenced verbatim to the url you provide".  This value should be used when the App Builder is not being deployed to the root context (e.g., `/appbuilder`).  This value will be prepended to all routes as well as calls that request static resources within the project.
+
 All the following would be valid values:
 
 - http://my.entando.com
@@ -27,12 +33,29 @@ All the following would be valid values:
 - //my.entando.com
 - //my.entando.com/entando-sample
 
-### Sample .env file
+### Sample .env file: deploying separately from Entando Core
 
 ```
 USE_MOCKS=false
 DOMAIN=//my.entando.com
 ```
+
+### Sample .env file: deploying bundled with Entando Core
+
+```
+USE_MOCKS=false
+PUBLIC_URL=/appbuilder
+EMBEDDED_DOMAIN=entando
+```
+* Using the above compile-time configuration would result in an App Builder working as follows:
+  * Deployed to http://myserver.com:8080
+    * App Builder: http://myserver.com:8080/appbuilder
+    * Entando Core: http://myserver.com:8080/entando
+  * Deployed to https://192.168.1.1
+    * App Builder: https://192.168.1.1/appbuilder
+    * Entando Core: https://192.168.1.1/entando
+  * etc.
+
 ---
 
 ## Commands
