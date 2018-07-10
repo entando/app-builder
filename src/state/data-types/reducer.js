@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { cloneDeep, set } from 'lodash';
 import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
@@ -98,16 +99,22 @@ export const selectedDataType = (state = {}, action = {}) => {
       return { ...state, actionMode: action.payload.actionMode };
     }
     case REMOVE_ATTRIBUTE_FROM_COMPOSITE: {
-      const { attributeCode } = action.payload;
-      const compositeAttributes =
-        state.attributeSelected.compositeAttributes.filter(f => f.code !== attributeCode);
-      return {
-        ...state,
-        attributeSelected: {
-          ...state.attributeSelected,
-          compositeAttributes,
-        },
-      };
+      const { attributeCode, isMonolistComposite } = action.payload;
+      console.log('attributeCode', attributeCode);
+      const { compositeAttributes } =
+        isMonolistComposite ? state.attributeSelected.nestedAttribute : state.attributeSelected;
+      console.log('compositeAttributes', compositeAttributes);
+      const newComposite = compositeAttributes.filter(f => f.code !== attributeCode);
+      console.log('newComposite', newComposite);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        console.log('entro qui');
+        set(newState, 'attributeSelected.nestedAttribute.compositeAttributes', newComposite);
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newComposite);
+      }
+      console.log('newstate', newState);
+      return newState;
     }
     case MOVE_ATTRIBUTE_FROM_COMPOSITE: {
       const { fromIndex, toIndex } = action.payload;

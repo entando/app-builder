@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
+import { clearErrors } from '@entando/messages';
 
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
@@ -20,6 +21,7 @@ import {
   getSelectedCompositeAttributes,
   getActionModeDataTypeSelectedAttribute,
   getDataTypeSelectedAttribute,
+  isMonolistComposteAttributeType,
 } from 'state/data-types/selectors';
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
@@ -36,10 +38,12 @@ export const mapStateToProps = state => ({
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   compositeAttributes: getSelectedCompositeAttributes(state),
+  isMonolistCompositeType: isMonolistComposteAttributeType(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
+    dispatch(clearErrors());
     dispatch(fetchAttributeFromDataType('attribute', dataTypeAttributeCode, attributeCode));
     dispatch(fetchDataTypeAttributes());
   },
@@ -58,8 +62,8 @@ export const mapDispatchToProps = dispatch => ({
       'attribute',
     ));
   },
-  onClickDelete: (attributeCode) => {
-    dispatch(removeAttributeFromComposite(attributeCode));
+  onClickDelete: (attributeCode, isMonolistCompositeType) => {
+    dispatch(removeAttributeFromComposite(attributeCode, isMonolistCompositeType));
   },
   onMove: (fromIndex, toIndex) => {
     dispatch(moveAttributeFromComposite(fromIndex, toIndex));

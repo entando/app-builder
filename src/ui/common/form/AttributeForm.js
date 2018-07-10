@@ -18,7 +18,6 @@ import AttributeListTableComposite from 'ui/common/attributes/AttributeListTable
 import {
   MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE,
   MODE_ADD_ATTRIBUTE_COMPOSITE,
-  // MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
   TYPE_COMPOSITE,
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
@@ -38,9 +37,8 @@ export class AttributeFormBody extends Component {
   }
 
   render() {
-    console.log('AttributeForm props', this.props);
     const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
-    const isComposite = mode === MODE_ADD_COMPOSITE; // || MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
+    const isComposite = mode === MODE_ADD_COMPOSITE;
     const isEditComposite = mode === MODE_EDIT_COMPOSITE;
     const isAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
 

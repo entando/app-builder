@@ -40,6 +40,7 @@ export class EditAttributeFormBody extends Component {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
     } = this.props;
+
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
     const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
     const attributeType = isModeAddAttributeComposite ?
@@ -61,12 +62,13 @@ export class EditAttributeFormBody extends Component {
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
         case TYPE_MONOLIST:
-          return (
+          return isComposite ?
+            <AttributeListTableComposite {...this.props} /> :
             <AttributeMonoListMonoSettings
               {...this.props}
               attributeType={selectedAttributeType}
               attributesList={this.props.attributesList}
-            />);
+            />;
         case TYPE_LIST:
           return (
             <AttributeMonoListMonoSettings
@@ -178,6 +180,7 @@ EditAttributeFormBody.propTypes = {
   listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+//  isMonolistCompositeType: PropTypes.bool,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -189,6 +192,7 @@ EditAttributeFormBody.defaultProps = {
   indexable: false,
   listFilter: false,
   allowedRoles: [],
+//  isMonolistCompositeType: false,
 };
 
 const EditAttributeForm = reduxForm({
