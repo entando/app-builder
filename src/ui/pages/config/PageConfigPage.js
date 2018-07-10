@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import throttle from 'lodash/throttle';
 import { formattedText } from '@entando/utils';
 import { BreadcrumbItem } from 'frontend-common-components';
 import { DragDropContextProvider } from 'react-dnd';
@@ -30,10 +31,29 @@ class PageConfigPage extends Component {
 
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
+
+    this.winScrollListener = throttle(() => {
+      const sideWidget = document.querySelector('.PageConfigPage__side-widget');
+      if (sideWidget) {
+        const parentOffsetTop = sideWidget.parentElement.offsetTop;
+        const windowScrollTop = window.scrollY;
+        if (windowScrollTop > parentOffsetTop) {
+          if (!this.state.sticky) {
+            this.setState({ sticky: true });
+          }
+        } else if (this.state.sticky) {
+          this.setState({ sticky: false });
+        }
+      }
+    }, 200);
   }
 
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.winScrollListener);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,6 +68,7 @@ class PageConfigPage extends Component {
 
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
+    window.removeEventListener('scroll', this.winScrollListener);
   }
 
   removeStatusAlert() {
@@ -100,6 +121,11 @@ class PageConfigPage extends Component {
         </Alert>
       ) :
       null;
+
+    const sideWidgetClassAr = ['PageConfigPage__side-widget'];
+    if (this.state.sticky) {
+      sideWidgetClassAr.push('PageConfigPage__side-widget--sticky');
+    }
 
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -226,7 +252,12 @@ class PageConfigPage extends Component {
 
                 <PageConfigGridContainer />
               </Col>
-              <Col xs={4} lg={3} className="PageConfigPage__side-widget">
+              <Col
+                xs={4}
+                lg={3}
+                className={sideWidgetClassAr.join(' ')}
+                ref={(el) => { this.sideWidget = el; }}
+              >
                 <ToolbarPageConfigContainer />
               </Col>
             </Row>
