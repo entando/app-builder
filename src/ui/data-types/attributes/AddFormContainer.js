@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
+import { clearErrors } from '@entando/messages';
 import AttributeForm from 'ui/common/form/AttributeForm';
 import {
   setActionMode,
@@ -40,6 +41,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
+    dispatch(clearErrors());
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values, allowedRoles, mode) => {

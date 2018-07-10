@@ -62,7 +62,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPutAttributeFromDataTypeMonolist(values));
   },
   onAddAttribute: (props) => {
-    console.log('onAddAttribute ', props);
     const { dataTypeCode, type } = props;
     dispatch(setActionMode(MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE));
     dispatch(fetchDataTypeAttribute(

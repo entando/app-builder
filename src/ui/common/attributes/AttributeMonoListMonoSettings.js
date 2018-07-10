@@ -7,26 +7,9 @@ import { Field, FormSection } from 'redux-form';
 
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import {
-  TYPE_LIST,
-  TYPE_COMPOSITE,
-  TYPE_HYPERTEXT,
-  TYPE_LONGTEXT,
-  TYPE_MONOLIST,
-  TYPE_TEXT,
-} from 'state/data-types/const';
 
-const NO_ATTRIBUTE_FOR_TYPE_LIST =
-  [TYPE_LIST, TYPE_COMPOSITE, TYPE_HYPERTEXT, TYPE_LONGTEXT, TYPE_MONOLIST, TYPE_TEXT];
-
-const AttributeMonoListMonoSettings = ({ attributeType, attributesList }) => {
-  let list = attributesList;
-  if (attributeType === TYPE_LIST) {
-    list = list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_LIST.includes(f));
-  } else {
-    list = list.filter(f => f !== TYPE_LIST && f !== TYPE_MONOLIST);
-  }
-  const selectAttribute = list.map(item => ({
+const AttributeMonoListMonoSettings = ({ attributesList }) => {
+  const selectAttribute = attributesList.map(item => ({
     value: item,
     text: item,
   }));
@@ -57,7 +40,6 @@ const AttributeMonoListMonoSettings = ({ attributeType, attributesList }) => {
 };
 
 AttributeMonoListMonoSettings.propTypes = {
-  attributeType: PropTypes.oneOf([TYPE_LIST, TYPE_MONOLIST]).isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

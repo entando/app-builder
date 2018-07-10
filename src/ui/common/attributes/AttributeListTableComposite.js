@@ -12,6 +12,7 @@ import { TYPE_COMPOSITE } from 'state/data-types/const';
 const AttributeListTableComposite = (props) => {
   const {
     compositeAttributes, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
+    isMonolistCompositeType,
   } = props;
 
   const selectOptions = attributesList
@@ -63,7 +64,7 @@ const AttributeListTableComposite = (props) => {
           <td className="AttributeListRow__td">{attribute.code}</td>
           <td className="AttributeListRow__td">{attribute.type}</td>
           <td className="AttributeListRow__td text-center">
-            <AttributeCheckIcon isChecked={attribute.mandatory} />
+            <AttributeCheckIcon isChecked={attribute.mandatory || false} />
           </td>
           <td className="AttributeListRow__td text-center">
 
@@ -90,7 +91,11 @@ const AttributeListTableComposite = (props) => {
             }
               <MenuItem
                 className="AttributeListMenuAction__menu-item-delete"
-                onClick={() => { fields.remove(index); onClickDelete(attribute.code); }}
+                onClick={() => {
+                  console.log('fields', fields);
+                  fields.remove(index);
+                  onClickDelete(attribute.code, isMonolistCompositeType);
+                }}
               >
                 <FormattedMessage id="app.delete" />
               </MenuItem>
@@ -147,12 +152,14 @@ AttributeListTableComposite.propTypes = {
   onMove: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  isMonolistCompositeType: PropTypes.bool,
 };
 
 AttributeListTableComposite.defaultProps = {
   invalid: false,
   submitting: false,
   compositeAttributes: [],
+  isMonolistCompositeType: false,
 };
 
 export default AttributeListTableComposite;

@@ -44,15 +44,8 @@ export class MonolistAttributeFormBody extends Component {
       attributeCode, selectedAttributeType, isIndexable, type, invalid,
       submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
     } = this.props;
-
-    const isAddMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
-
-    console.log('MonolistAttributeFormBody Props', this.props);
-    console.log('isAddMonoListComposite', isAddMonoListComposite);
-    console.log('mode', mode);
-    const attributeType = isAddMonoListComposite ? TYPE_COMPOSITE : type;
-    console.log('attributeType', attributeType);
-
+    const isMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
+    const attributeType = isMonoListComposite ? TYPE_COMPOSITE : type;
     const renderIndexable = () => {
       if (isIndexable) {
         return (
@@ -70,7 +63,7 @@ export class MonolistAttributeFormBody extends Component {
     };
 
     const renderAttributeInfo = () => {
-      if (isAddMonoListComposite) {
+      if (isMonoListComposite) {
         return <AttributeInfoComposite />;
       }
 
@@ -121,7 +114,7 @@ export class MonolistAttributeFormBody extends Component {
           />
         );
         case TYPE_COMPOSITE: {
-          return isAddMonoListComposite ?
+          return isMonoListComposite ?
             <AttributeListTableComposite
               {...this.props}
               attributesList={attributesList}
@@ -136,7 +129,7 @@ export class MonolistAttributeFormBody extends Component {
     };
 
     const renderOgnlValidation = () => (
-      !isAddMonoListComposite ?
+      !isMonoListComposite ?
         <FormSection name="validationRules">
           <AttributeOgnlValidation />
         </FormSection> : null
@@ -150,7 +143,7 @@ export class MonolistAttributeFormBody extends Component {
           {type},&nbsp;
           <FormattedMessage id="app.element.of" />&nbsp;
           {attributeCode}&nbsp;
-           ({isAddMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
+           ({isMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
         </Alert>
         <form onSubmit={this.props.handleSubmit(onSubmit)} className="form-horizontal">
           <Row>
