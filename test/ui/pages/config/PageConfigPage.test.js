@@ -5,6 +5,9 @@ import { shallow } from 'enzyme';
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
 
 
+jest.spyOn(global, 'addEventListener');
+jest.spyOn(global, 'removeEventListener');
+
 describe('PageConfigPage', () => {
   let component;
   beforeEach(() => {
@@ -37,6 +40,17 @@ describe('PageConfigPage', () => {
     expect(onWillMount).not.toHaveBeenCalled();
   });
 
+  it('will add a window scroll event listener on componentDidMount', () => {
+    const { winScrollListener } = component.instance();
+    expect(global.addEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
+  });
+
+  it('will remove the window scroll event listener on componentWillUnmount', () => {
+    const { winScrollListener } = component.instance();
+    component.unmount();
+    expect(global.removeEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
+  });
+
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
     component = shallow(<PageConfigPage onWillUnmount={onWillUnmount} />);
@@ -66,6 +80,41 @@ describe('PageConfigPage', () => {
     expect(component.state('infoTableOpen')).toBe(false);
     component.find('.PageConfigPage__info-btn').simulate('click');
     expect(component.state('infoTableOpen')).toBe(true);
+  });
+
+  describe('window scroll handler', () => {
+    beforeEach(() => {
+      document.querySelector = jest.fn().mockReturnValueOnce({
+        parentElement: { offsetTop: 75 },
+      });
+    });
+
+    it('it is throttled', () => {
+      jest.spyOn(document, 'querySelector'); // called internally
+      const { winScrollListener } = component.instance();
+      winScrollListener();
+      winScrollListener();
+      winScrollListener();
+      expect(document.querySelector).toHaveBeenCalledTimes(1);
+    });
+
+    it('when the window scroll is above the sidewidget component, it should not be sticky', () => {
+      window.scrollY = 0;
+      const { winScrollListener } = component.instance();
+
+      winScrollListener();
+
+      expect(component.state('sticky')).toBeFalsy();
+    });
+
+    it('when the window scroll is below the sidewidget component, it should be sticky', () => {
+      window.scrollY = 100;
+      const { winScrollListener } = component.instance();
+
+      winScrollListener();
+
+      expect(component.state('sticky')).toBeTruthy();
+    });
   });
 
   describe('if page config does not match default', () => {
