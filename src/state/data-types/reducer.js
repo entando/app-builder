@@ -100,34 +100,35 @@ export const selectedDataType = (state = {}, action = {}) => {
     }
     case REMOVE_ATTRIBUTE_FROM_COMPOSITE: {
       const { attributeCode, isMonolistComposite } = action.payload;
-      console.log('attributeCode', attributeCode);
       const { compositeAttributes } =
         isMonolistComposite ? state.attributeSelected.nestedAttribute : state.attributeSelected;
-      console.log('compositeAttributes', compositeAttributes);
       const newComposite = compositeAttributes.filter(f => f.code !== attributeCode);
-      console.log('newComposite', newComposite);
       const newState = cloneDeep(state);
       if (isMonolistComposite) {
-        console.log('entro qui');
         set(newState, 'attributeSelected.nestedAttribute.compositeAttributes', newComposite);
       } else {
         set(newState, 'attributeSelected.compositeAttributes', newComposite);
       }
-      console.log('newstate', newState);
       return newState;
     }
     case MOVE_ATTRIBUTE_FROM_COMPOSITE: {
-      const { fromIndex, toIndex } = action.payload;
-      const { compositeAttributes } = state.attributeSelected;
-      const from = compositeAttributes.splice(fromIndex, 1)[0];
-      compositeAttributes.splice(toIndex, 0, from);
-      return {
-        ...state,
-        attributeSelected: {
-          ...state.attributeSelected,
-          compositeAttributes,
-        },
-      };
+      const { fromIndex, toIndex, isMonolistComposite } = action.payload;
+      const { compositeAttributes } =
+        isMonolistComposite ? state.attributeSelected.nestedAttribute : state.attributeSelected;
+      const newCompositeAttribute = [...compositeAttributes];
+      const from = newCompositeAttribute.splice(toIndex, 1)[0];
+      newCompositeAttribute.splice(fromIndex, 0, from);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        set(
+          newState,
+          'attributeSelected.nestedAttribute.compositeAttributes',
+          newCompositeAttribute,
+        );
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newCompositeAttribute);
+      }
+      return newState;
     }
     case SET_NEW_ATTRIBUTE_COMPOSITE: {
       return { ...state, newAttributeComposite: action.payload.attributeData };

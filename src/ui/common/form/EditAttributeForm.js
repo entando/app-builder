@@ -16,7 +16,9 @@ import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings'
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
 import {
-  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
   MODE_EDIT,
   TYPE_COMPOSITE,
   TYPE_BOOLEAN,
@@ -39,6 +41,7 @@ export class EditAttributeFormBody extends Component {
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
+      nestedAttributeComposite,
     } = this.props;
 
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
@@ -115,6 +118,28 @@ export class EditAttributeFormBody extends Component {
         </FormSection> : null
     );
 
+    const header = () => {
+      switch (selectedAttributeType) {
+        case TYPE_COMPOSITE:
+          return (
+            <Alert type="info">
+              <FormattedMessage id="app.working" /> {attributeCode}
+            </Alert>
+          );
+        case TYPE_MONOLIST:
+          return (
+            <Alert type="info">
+              <FormattedMessage id="app.working" />
+              {TYPE_COMPOSITE},&nbsp;
+              <FormattedMessage id="app.element.of" />&nbsp;
+              { isComposite ? attributeCode : nestedAttributeComposite }&nbsp;
+                ({TYPE_MONOLIST})
+            </Alert>
+          );
+        default: return null;
+      }
+    };
+
     return (
       <form
         onSubmit={this.props.handleSubmit(values => (
@@ -124,12 +149,7 @@ export class EditAttributeFormBody extends Component {
       >
         <Row>
           <Col xs={12}>
-            {
-              selectedAttributeType === TYPE_COMPOSITE ?
-                <Alert type="info">
-                  <FormattedMessage id="app.working" /> {attributeCode}
-                </Alert> : null
-            }
+            {header()}
           </Col>
         </Row>
         <Row>
@@ -180,6 +200,7 @@ EditAttributeFormBody.propTypes = {
   listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  nestedAttributeComposite: PropTypes.string.isRequired,
 //  isMonolistCompositeType: PropTypes.bool,
 };
 
