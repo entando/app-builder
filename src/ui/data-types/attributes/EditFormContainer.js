@@ -39,6 +39,7 @@ export const mapStateToProps = state => ({
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   compositeAttributes: getSelectedCompositeAttributes(state),
   isMonolistCompositeType: isMonolistComposteAttributeType(state),
+  nestedAttributeComposite: formValueSelector('attribute')(state, 'nestedAttribute.type') || '',
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -65,8 +66,8 @@ export const mapDispatchToProps = dispatch => ({
   onClickDelete: (attributeCode, isMonolistCompositeType) => {
     dispatch(removeAttributeFromComposite(attributeCode, isMonolistCompositeType));
   },
-  onMove: (fromIndex, toIndex) => {
-    dispatch(moveAttributeFromComposite(fromIndex, toIndex));
+  onMove: (fromIndex, toIndex, isMonolistCompositeType) => {
+    dispatch(moveAttributeFromComposite(fromIndex, toIndex, isMonolistCompositeType));
   },
 });
 

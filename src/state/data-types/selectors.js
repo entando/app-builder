@@ -62,15 +62,16 @@ export const getAttributeSelectFromDataType =
   createSelector([getSelectedDataType], selected => selected.attributeSelected);
 
 export const getSelectedCompositeAttributes =
-  createSelector([getAttributeSelectFromDataType], (attributeSelected) => {
-    if (isUndefined(attributeSelected)) {
-      return null;
-    }
-    const { type, nestedAttribute, compositeAttributes } = attributeSelected;
-    const isMonolistComposite = type === TYPE_MONOLIST && nestedAttribute.type === TYPE_COMPOSITE;
-    return isMonolistComposite ?
-      nestedAttribute.compositeAttributes : compositeAttributes || [];
-  });
+    createSelector([getAttributeSelectFromDataType], (attributeSelected) => {
+      if (isUndefined(attributeSelected)) {
+        return [];
+      }
+      const { type, nestedAttribute, compositeAttributes } = attributeSelected;
+      const isMonolistComposite = type === TYPE_MONOLIST && nestedAttribute.type === TYPE_COMPOSITE;
+      return isMonolistComposite ?
+        nestedAttribute.compositeAttributes : compositeAttributes || [];
+    });
+
 
 export const getDataTypeAttributesIdList =
   createSelector(

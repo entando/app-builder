@@ -166,11 +166,12 @@ export const removeAttributeFromComposite = (attributeCode, isMonolistComposite 
   },
 });
 
-export const moveAttributeFromComposite = (fromIndex, toIndex) => ({
+export const moveAttributeFromComposite = (fromIndex, toIndex, isMonolistComposite = false) => ({
   type: MOVE_ATTRIBUTE_FROM_COMPOSITE,
   payload: {
     fromIndex,
     toIndex,
+    isMonolistComposite,
   },
 });
 
@@ -292,6 +293,7 @@ export const fetchDataTypeAttribute =
    new Promise((resolve) => {
      let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
      let typeAttribute = dataTypeAttributeCode;
+
      const checkCompositeSubAttribute =
         selectedAttributeType === TYPE_COMPOSITE ||
         (selectedAttributeType === TYPE_MONOLIST &&
@@ -302,7 +304,6 @@ export const fetchDataTypeAttribute =
        dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
      }
      actionMode = getActionModeDataTypeSelectedAttribute(getState());
-
      if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
        resolve();
      } else {
