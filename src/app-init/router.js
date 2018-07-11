@@ -82,7 +82,7 @@ routerConfig(
   store,
   {
     mode: 'browser',
-    pathPrefix: `${process.env.PUBLIC_URL}`,
+    pathPrefix: process.env.PUBLIC_URL,
     routes: [
       { name: ROUTE_HOME, path: '/' },
       { name: ROUTE_DASHBOARD, path: '/dashboard' },

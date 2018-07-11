@@ -7,13 +7,10 @@ import { ROUTE_HOME, ROUTE_DASHBOARD } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 
 config(store, ROUTE_HOME, ROUTE_DASHBOARD);
-let parsedDomain = process.env.DOMAIN;
-const embeddedDomain = process.env.EMBEDDED_DOMAIN;
-if (embeddedDomain) {
-  parsedDomain = `${window.location.origin}/${embeddedDomain}`;
-}
 store.dispatch(setApi({
-  domain: parsedDomain,
+  domain: process.env.EMBEDDED_DOMAIN ?
+    `${window.location.origin}/${process.env.EMBEDDED_DOMAIN}` :
+    process.env.DOMAIN,
   useMocks: process.env.USE_MOCKS,
 }));
 

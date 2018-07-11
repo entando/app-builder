@@ -9,7 +9,7 @@
     "@entando/menu": "^1.1.0",
     "@entando/messages": "^1.0.2",
     "@entando/pages": "^1.1.0",
-    "@entando/router": "^1.0.3",
+    "@entando/router": "^1.1.0",
     "@entando/utils": "^1.0.7",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
