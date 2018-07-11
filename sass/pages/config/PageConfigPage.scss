@@ -36,4 +36,10 @@
     padding: 0!important;
     // sass-lint:enable no-important
   }
+
+  &__side-widget--sticky {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }
