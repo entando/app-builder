@@ -15,7 +15,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchProfileTypeAttributes());
   },
   onSubmit: (values) => {
-    dispatch(sendPostProfileType(values));
+    dispatch(sendPostProfileType({
+      ...values,
+      code: values.code && values.code.toUpperCase(),
+    }));
   },
 
 });
