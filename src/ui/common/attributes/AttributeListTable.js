@@ -5,11 +5,9 @@ import { FieldArray } from 'redux-form';
 import { Col } from 'patternfly-react';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 
-const AttributeListTable = (props) => {
-  const {
-    attributes,
-  } = props;
-
+const AttributeListTable = ({
+  attributes, onClickDelete, onMoveUp, onMoveDown, entityCode, routeToEdit,
+}) => {
   const renderTable = () => (
     <Col xs={10} xsOffset={2}>
       <table className="AttributeListTable__table table table-striped table-bordered">
@@ -37,9 +35,13 @@ const AttributeListTable = (props) => {
         </thead>
         <tbody>
           <FieldArray
-            {...props}
-            name="attributes"
             attributes={attributes}
+            onClickDelete={onClickDelete}
+            onMoveUp={onMoveUp}
+            onMoveDown={onMoveDown}
+            entityCode={entityCode}
+            routeToEdit={routeToEdit}
+            name="attributes"
             component={AttributeListTableActions}
             rerenderOnEveryChange
           />
@@ -57,10 +59,20 @@ const AttributeListTable = (props) => {
 
 AttributeListTable.propTypes = {
   attributes: PropTypes.arrayOf(PropTypes.shape({})),
+  onClickDelete: PropTypes.func,
+  onMoveUp: PropTypes.func,
+  onMoveDown: PropTypes.func,
+  entityCode: PropTypes.string,
+  routeToEdit: PropTypes.string,
 };
 
 AttributeListTable.defaultProps = {
   attributes: [],
+  onClickDelete: null,
+  onMoveUp: null,
+  onMoveDown: null,
+  entityCode: '',
+  routeToEdit: '',
 };
 
 export default AttributeListTable;
