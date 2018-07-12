@@ -289,60 +289,61 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
 );
 
 export const fetchDataTypeAttribute =
- (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
-   new Promise((resolve) => {
-     let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
-     let typeAttribute = dataTypeAttributeCode;
+ (dataTypeAttributeCode, route, selectedAttributeType = '', formName) =>
+   (dispatch, getState) => (
+     new Promise((resolve) => {
+       let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
+       let typeAttribute = dataTypeAttributeCode;
 
-     const checkCompositeSubAttribute =
+       const checkCompositeSubAttribute =
         selectedAttributeType === TYPE_COMPOSITE ||
         (selectedAttributeType === TYPE_MONOLIST &&
           getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
-     if (checkCompositeSubAttribute) {
-       typeAttribute = getFormTypeValue(getState(), formName);
-       dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
-     }
-     actionMode = getActionModeDataTypeSelectedAttribute(getState());
-     if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-       resolve();
-     } else {
-       getDataTypeAttribute(typeAttribute).then((response) => {
-         response.json().then((json) => {
-           if (response.ok) {
-             dispatch(setSelectedAttribute(json.payload));
-             switch (actionMode) {
-               case MODE_ADD_ATTRIBUTE_COMPOSITE: {
-                 dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
-                 break;
+       if (checkCompositeSubAttribute) {
+         typeAttribute = getFormTypeValue(getState(), formName);
+         dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
+       }
+       actionMode = getActionModeDataTypeSelectedAttribute(getState());
+       if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+         resolve();
+       } else {
+         getDataTypeAttribute(typeAttribute).then((response) => {
+           response.json().then((json) => {
+             if (response.ok) {
+               dispatch(setSelectedAttribute(json.payload));
+               switch (actionMode) {
+                 case MODE_ADD_ATTRIBUTE_COMPOSITE: {
+                   dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+                   break;
+                 }
+                 case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
+                   dispatch(initialize(formName, { type: json.payload.code }));
+                   break;
+                 }
+                 case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
+                   const nestedAttribute = {
+                     ...json.payload,
+                     type: json.payload.code,
+                     compositeAttributeType: TYPE_COMPOSITE,
+                   };
+                   dispatch(initialize(formName, { nestedAttribute }));
+                   break;
+                 }
+                 default: break;
                }
-               case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
-                 dispatch(initialize(formName, { type: json.payload.code }));
-                 break;
+               if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+                 gotoRoute(route.route, route.params);
                }
-               case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
-                 const nestedAttribute = {
-                   ...json.payload,
-                   type: json.payload.code,
-                   compositeAttributeType: TYPE_COMPOSITE,
-                 };
-                 dispatch(initialize(formName, { nestedAttribute }));
-                 break;
-               }
-               default: break;
+             } else {
+               dispatch(addErrors(json.errors.map(err => err.message)));
              }
-             if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-               gotoRoute(route.route, route.params);
-             }
-           } else {
-             dispatch(addErrors(json.errors.map(err => err.message)));
-           }
-           resolve();
-         });
-       }).catch(() => {});
-     }
-   })
- );
+             resolve();
+           });
+         }).catch(() => {});
+       }
+     })
+   );
 
 const fmtDateDDMMYYY = (date) => {
   let d = new Date(date);
