@@ -3,59 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'redux-form';
 import { Col } from 'patternfly-react';
-import AttributeListMenuActions from 'ui/common/attributes/AttributeListMenuActions';
-import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
-import { TYPE_LIST, TYPE_MONOLIST } from 'state/data-types/const';
-
-const AttributeListTable = (props) => {
-  const { attributes } = props;
-  const renderRoles = (roles) => {
-    if (roles.length > 0) {
-      return (
-        <ul className="AttributeListTable__role-list">
-          {roles.map(role => (
-            <li key={role.code}>{role.descr}</li>
-          ))}
-        </ul>
-      );
-    }
-
-    return (<span>&ndash;</span>);
-  };
-
-  const renderTableRows = () => attributes.map((attribute, index) => {
-    const isMovableUp = index > 0;
-    const isMovableDown = index < attributes.length - 1;
-    const { type, nestedAttribute } = attribute;
-    return (
-      <tr key={attribute.code}>
-        <td className="AttributeListRow__td">{attribute.code}</td>
-        <td className="AttributeListRow__td">
-          {
-            type === TYPE_LIST || type === TYPE_MONOLIST ? `${type}: ${nestedAttribute.type}` : type
-          }
-        </td>
-        <td className="AttributeListRow__td">
-          {renderRoles(attribute.roles)}
-        </td>
-        <td className="AttributeListRow__td text-center">
-          <AttributeCheckIcon isChecked={attribute.mandatory} />
-        </td>
-        <td className="AttributeListRow__td text-center">
-          <AttributeCheckIcon isChecked={attribute.listFilter} />
-        </td>
-        <td className="AttributeListRow__td text-center">
-          <AttributeListMenuActions
-            {...props}
-            attributeIndex={index}
-            isMovableUp={isMovableUp}
-            isMovableDown={isMovableDown}
-            code={attribute.code}
-          />
-        </td>
-      </tr>
-    );
-  });
+import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 
 const AttributeListTable = ({
   attributes, onClickDelete, onMoveUp, onMoveDown, entityCode, routeToEdit,
