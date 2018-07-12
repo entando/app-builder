@@ -6,6 +6,7 @@ import { getDataTypeReferencesStatus } from 'state/data-types/selectors';
 export const mapStateToProps = state => ({
   status: getDataTypeReferencesStatus(state),
 });
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => dispatch(fetchDataTypeReferenceStatus()),
   onReload: dataTypesCodes => (dispatch(sendPostDataTypeReferenceStatus(dataTypesCodes))),
