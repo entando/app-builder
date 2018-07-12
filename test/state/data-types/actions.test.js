@@ -89,7 +89,7 @@ import {
 
 } from 'test/mocks/dataTypes';
 
-import { TYPE_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/data-types/const';
+import { TYPE_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE, MODE_ADD } from 'state/data-types/const';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -196,7 +196,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_ACTION_MODE);
     });
   });
-
   describe('setActionMode', () => {
     beforeEach(() => {
       action = setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE);
@@ -208,7 +207,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_ACTION_MODE);
     });
   });
-
   describe('removeAttributeFromComposite', () => {
     beforeEach(() => {
       action = removeAttributeFromComposite('code');
@@ -220,7 +218,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(REMOVE_ATTRIBUTE_FROM_COMPOSITE);
     });
   });
-
   describe('setNewAttributeComposite', () => {
     beforeEach(() => {
       action = setNewAttributeComposite(DATA_TYPES);
@@ -414,68 +411,6 @@ describe('state/data-types/actions ', () => {
       });
     });
 
-    describe('fetchDataTypeAttribute', () => {
-      it('fetchDataTypeAttribute calls setSelectedAttribute action', (done) => {
-        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
-        store.dispatch(fetchDataTypeAttribute()).then(() => {
-          const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[0]).toHaveProperty('payload.attribute');
-          expect(actions[0].payload.attribute)
-            .toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
-          done();
-        }).catch(done.fail);
-      });
-
-      it('not call goToRoute if attribute is Composite and actionMode is AddCompositeAttribute ', (done) => {
-        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
-        getFormTypeValue.mockReturnValue(TYPE_COMPOSITE);
-        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
-        store.dispatch(fetchDataTypeAttribute('TYPE_COMPOSITE', ROUTE, TYPE_COMPOSITE)).then(() => {
-          expect(getDataTypeAttribute).not.toHaveBeenCalled();
-          const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
-          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
-          done();
-        }).catch(done.fail);
-      });
-
-      it('dispatch initialize if actionMode is AddCompositeAttribute ', (done) => {
-        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
-        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
-        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce(MODE_ADD_ATTRIBUTE_COMPOSITE);
-        getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
-        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
-          const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
-          expect(getDataTypeAttribute).toHaveBeenCalled();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          done();
-        }).catch(done.fail);
-      });
-
-      it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
-        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
-        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
-        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
-          expect(gotoRoute).toHaveBeenCalledWith('mocked_route', 'mocked_params');
-          done();
-        }).catch(done.fail);
-      });
-
-      it('fetchDataTypeAttribute calls ADD_ERROR action', (done) => {
-        getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(fetchDataTypeAttribute()).then(() => {
-          const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          done();
-        }).catch(done.fail);
-      });
-    });
-
     describe('fetchAttributeFromDataType', () => {
       it('fetchAttributeFromDataType calls setSelectedAttributeDataType', (done) => {
         getActionModeDataTypeSelectedAttribute.mockReturnValueOnce('edit');
@@ -654,6 +589,71 @@ describe('state/data-types/actions ', () => {
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('fetchDataTypeAttribute', () => {
+      it('fetchDataTypeAttribute calls setSelectedAttribute action', (done) => {
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        store.dispatch(fetchDataTypeAttribute()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[0]).toHaveProperty('payload.attribute');
+          expect(actions[0].payload.attribute)
+            .toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
+          done();
+        }).catch(done.fail);
+      });
+
+      it('not call goToRoute if attribute is Composite and actionMode is AddCompositeAttribute ', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+
+        getFormTypeValue.mockReturnValue(TYPE_COMPOSITE);
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        store.dispatch(fetchDataTypeAttribute('TYPE_COMPOSITE', ROUTE, TYPE_COMPOSITE)).then(() => {
+          expect(getDataTypeAttribute).not.toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('dispatch initialize if actionMode is AddCompositeAttribute ', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
+        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
+          const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
+          expect(getDataTypeAttribute).toHaveBeenCalled();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
+        const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
+        getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD);
+        store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
+          expect(gotoRoute).toHaveBeenCalledWith('mocked_route', 'mocked_params');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchDataTypeAttribute calls ADD_ERROR action', (done) => {
+        getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(fetchDataTypeAttribute()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });
