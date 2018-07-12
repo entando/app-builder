@@ -11,13 +11,9 @@ class PageTreeActionMenu extends Component {
   }
 
   handleClick(handler) {
-    return (ev) => {
-      ev.preventDefault();
-      if (handler) {
-        handler(this.props.page);
-      }
-    };
+    return () => handler && handler(this.props.page);
   }
+
   render() {
     const {
       page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
@@ -36,7 +32,7 @@ class PageTreeActionMenu extends Component {
         <MenuItem
           disabled={disabled}
           className="PageTreeActionMenuButton__menu-item-unpublish"
-          onClick={this.handleClick(onClickUnpublish)}
+          onSelect={this.handleClick(onClickUnpublish)}
         >
           <FormattedMessage id="app.unpublish" />
         </MenuItem>
@@ -47,7 +43,7 @@ class PageTreeActionMenu extends Component {
             page.status === PAGE_STATUS_UNPUBLISHED && page.parentStatus === PAGE_STATUS_UNPUBLISHED
           }
           className="PageTreeActionMenuButton__menu-item-publish"
-          onClick={this.handleClick(onClickPublish)}
+          onSelect={this.handleClick(onClickPublish)}
         >
           <FormattedMessage id="app.publish" />
         </MenuItem>
@@ -62,7 +58,7 @@ class PageTreeActionMenu extends Component {
         <MenuItem
           disabled={!page.isEmpty}
           className="PageTreeActionMenuButton__menu-item-delete"
-          onClick={this.handleClick(onClickDelete)}
+          onSelect={this.handleClick(onClickDelete)}
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>
@@ -74,32 +70,32 @@ class PageTreeActionMenu extends Component {
         <DropdownKebab pullRight id="WidgetListRow-dropown">
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-add"
-            onClick={this.handleClick(onClickAdd)}
+            onSelect={this.handleClick(onClickAdd)}
           >
             <FormattedMessage id="app.add" />
           </MenuItem>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-edit"
-            onClick={this.handleClick(onClickEdit)}
+            onSelect={this.handleClick(onClickEdit)}
           >
             <FormattedMessage id="app.edit" />
           </MenuItem>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-configure"
-            onClick={this.handleClick(onClickConfigure)}
+            onSelect={this.handleClick(onClickConfigure)}
           >
             <FormattedMessage id="app.configure" />
           </MenuItem>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-clone"
-            onClick={this.handleClick(onClickClone)}
+            onSelect={this.handleClick(onClickClone)}
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
           { changePublishStatus }
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-details"
-            onClick={this.handleClick(onClickDetails)}
+            onSelect={this.handleClick(onClickDetails)}
           >
             <FormattedMessage id="app.details" />
           </MenuItem>

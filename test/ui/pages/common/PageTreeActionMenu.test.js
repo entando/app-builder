@@ -99,31 +99,31 @@ describe('PageTreeActionMenu', () => {
       ));
     });
     it('Add calls onClickAdd', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-add').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-add').prop('onSelect')();
       expect(onClickAdd).toHaveBeenCalled();
     });
     it('Edit calls onClickEdit', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-edit').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-edit').prop('onSelect')();
       expect(onClickEdit).toHaveBeenCalled();
     });
     it('Configure calls onClickConfigure', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-configure').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-configure').prop('onSelect')();
       expect(onClickConfigure).toHaveBeenCalled();
     });
     it('Details calls onClickDetails', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-details').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-details').prop('onSelect')();
       expect(onClickDetails).toHaveBeenCalled();
     });
     it('Clone calls onClickClone', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-clone').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-clone').prop('onSelect')();
       expect(onClickClone).toHaveBeenCalled();
     });
     it('Delete calls onClickDelete', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-delete').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-delete').prop('onSelect')();
       expect(onClickDelete).toHaveBeenCalled();
     });
     it('Publish calls onClickPublish', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-publish').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-publish').prop('onSelect')();
       expect(onClickPublish).toHaveBeenCalled();
     });
 
@@ -131,7 +131,7 @@ describe('PageTreeActionMenu', () => {
       component = shallow((
         <PageTreeActionMenu page={PUBLISHED_PAGE} onClickUnpublish={onClickUnpublish} />
       ));
-      component.find('.PageTreeActionMenuButton__menu-item-unpublish').simulate('click', EVENT);
+      component.find('.PageTreeActionMenuButton__menu-item-unpublish').prop('onSelect')();
       expect(onClickUnpublish).toHaveBeenCalled();
     });
   });
