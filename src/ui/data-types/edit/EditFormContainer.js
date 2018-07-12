@@ -8,6 +8,7 @@ import {
   fetchDataTypeAttribute,
   sendMoveAttributeUp,
   sendMoveAttributeDown,
+
 } from 'state/data-types/actions';
 import {
   getSelectedDataTypeAttributes,
@@ -28,6 +29,7 @@ export const mapStateToProps = state => ({
   routeToEdit: ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 });
 
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ dataTypeCode }) => {
     dispatch(fetchDataType(dataTypeCode));
@@ -42,6 +44,7 @@ export const mapDispatchToProps = dispatch => ({
       },
     ));
   },
+
   onMoveUp: (entityCode, attributeCode, attributeIndex) => {
     dispatch(sendMoveAttributeUp({ entityCode, attributeCode, attributeIndex }));
   },

@@ -8,6 +8,7 @@ import {
   getUserAuthorities,
   postUserAuthorities,
   putUserAuthorities,
+  deleteUserAuthorities,
   postUserPassword,
 } from 'api/users';
 import { USER, USERS, ERROR, AUTHORITIES } from 'test/mocks/users';
@@ -191,6 +192,25 @@ describe('putUserAuthorities', () => {
       uri: `/api/users/${USER.username}/authorities`,
       method: METHODS.PUT,
       mockResponse: { ...AUTHORITIES },
+      useAuthentication: true,
+    }));
+  });
+});
+
+describe('deleteUserAuthorities', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(deleteUserAuthorities(USER.username)).toBeInstanceOf(Promise);
+  });
+
+  it('makes the correct request with user body', () => {
+    deleteUserAuthorities(USER.username);
+    expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      uri: `/api/users/${USER.username}/authorities`,
+      method: METHODS.DELETE,
+      mockResponse: [],
       useAuthentication: true,
     }));
   });
