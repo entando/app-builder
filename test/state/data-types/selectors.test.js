@@ -48,6 +48,7 @@ const STATE_ATTRIBUTES = {
     attributes: {
       list: [],
       selected: {
+        code: '',
         attributeSelected: {},
         listAttribute: [],
         searchableOptionSupported: [],
@@ -66,7 +67,11 @@ const STATE_ATTRIBUTES_NO_LIST = {
     selected: {
       attributeSelected: {},
     },
-    attributes: {},
+    attributes: {
+      selected: {
+
+      },
+    },
   },
 };
 

@@ -73,23 +73,27 @@ export const getSelectedCompositeAttributes =
     });
 
 
+const getList = (type, list) => {
+  switch (type) {
+    case TYPE_LIST: return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_LIST.includes(f));
+    case TYPE_MONOLIST:
+      return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
+    case TYPE_COMPOSITE:
+      return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
+    default: return list;
+  }
+};
+
 export const getDataTypeAttributesIdList =
   createSelector(
     [getDataTypeAttributes, getAttributeSelectFromDataType],
     (attributes, attributeSelected) => {
-      const { list } = attributes;
+      const { list, selected: { code } } = attributes;
       if (isUndefined(attributeSelected)) {
-        return list;
+        return getList(code, list);
       }
       const { type } = attributeSelected;
-      switch (type) {
-        case TYPE_LIST: return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_LIST.includes(f));
-        case TYPE_MONOLIST:
-          return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
-        case TYPE_COMPOSITE:
-          return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
-        default: return list;
-      }
+      return getList(type, list);
     },
   );
 

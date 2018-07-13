@@ -43,6 +43,7 @@ export class MonolistAttributeFormBody extends Component {
     const {
       attributeCode, selectedAttributeType, isIndexable, type, invalid,
       submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
+      compositeAttributes,
     } = this.props;
     const isMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
     const attributeType = isMonoListComposite ? TYPE_COMPOSITE : type;
@@ -118,10 +119,12 @@ export class MonolistAttributeFormBody extends Component {
             <AttributeListTableComposite
               {...this.props}
               attributesList={attributesList}
+              compositeAttributes={compositeAttributes}
               onAddAttribute={onAddAttribute}
               onClickDelete={onClickDelete}
               onMove={onMove}
-
+              invalid={invalid}
+              submitting={submitting}
             /> : null;
         }
         default: return null;
@@ -191,6 +194,7 @@ MonolistAttributeFormBody.propTypes = {
   isIndexable: PropTypes.bool,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 MonolistAttributeFormBody.defaultProps = {
