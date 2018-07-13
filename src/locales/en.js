@@ -423,7 +423,7 @@ export default {
     'pageSettings.input.homepage': 'Home Page',
     'pageSettings.input.404': 'Page for: 404 - Page not found',
     'pageSettings.input.500': 'Page for: 500 - Generic error',
-    'pageSettings.input.proceed': 'Page for: Sign in to proceede further',
+    'pageSettings.input.proceed': 'Page for: Sign in to proceed further',
     'pageSettings.input.baseURL': 'Base URL',
     'pageSettings.input.baseURL.http': 'Built by HTTP request parameters',
     'pageSettings.input.baseURL.relative': 'Relative',
