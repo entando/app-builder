@@ -292,7 +292,6 @@ export const fetchDataTypeAttribute =
  (dataTypeAttributeCode, route, selectedAttributeType = '', formName) =>
    (dispatch, getState) => (
      new Promise((resolve) => {
-       let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
        let typeAttribute = dataTypeAttributeCode;
 
        const checkCompositeSubAttribute =
@@ -304,7 +303,7 @@ export const fetchDataTypeAttribute =
          typeAttribute = getFormTypeValue(getState(), formName);
          dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
        }
-       actionMode = getActionModeDataTypeSelectedAttribute(getState());
+       const actionMode = getActionModeDataTypeSelectedAttribute(getState());
        if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
          resolve();
        } else {
@@ -540,66 +539,61 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
     let payload = getPayloadFromTypeAttribute(values, allowedRoles);
     const isMonolistComposite =
       payload.type === TYPE_MONOLIST && payload.nestedAttribute.type === TYPE_COMPOSITE;
-    switch (action) {
-      case METHODS.POST: {
-        dispatch(setActionMode(MODE_ADD));
-        const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
-        if (attributeSelected.type === TYPE_COMPOSITE) {
-          attributeSelected.compositeAttributes.push(payload);
-          dispatch(setActionMode(MODE_ADD_COMPOSITE));
-          dispatch(sendPutAttributeFromDataType(attributeSelected));
-        } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
-          dispatch(setActionMode(MODE_ADD_COMPOSITE));
-          dispatch(setNewAttributeComposite(payload));
-          if (isMonolistComposite) {
-            dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
-            gotoRoute(
-              ROUTE_ATTRIBUTE_MONOLIST_ADD,
-              { entityCode: getParams(getState()).entityCode, attributeCode: payload.code },
-            );
-          }
-        } else {
-          const newAttributeComposite = getNewAttributeComposite(getState());
-          if (!isUndefined(newAttributeComposite)) {
-            payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, payload);
-          }
-          if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
-            payload = getPayloadFromTypeMonolistAttributeComposite(
-              newAttributeComposite,
-              getPayloadFromTypeAttribute(values, allowedRoles),
-            );
-          }
-          dispatch(sendPostAttributeFromDataType(payload));
+
+    if (action === METHODS.POST) {
+      dispatch(setActionMode(MODE_ADD));
+      const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
+      if (attributeSelected.type === TYPE_COMPOSITE) {
+        attributeSelected.compositeAttributes.push(payload);
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+        dispatch(sendPutAttributeFromDataType(attributeSelected));
+      } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
+        dispatch(setActionMode(MODE_ADD_COMPOSITE));
+        dispatch(setNewAttributeComposite(payload));
+        if (isMonolistComposite) {
+          dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
+          gotoRoute(
+            ROUTE_ATTRIBUTE_MONOLIST_ADD,
+            { entityCode: getParams(getState()).entityCode, attributeCode: payload.code },
+          );
         }
-        break;
+      } else {
+        const newAttributeComposite = getNewAttributeComposite(getState());
+        if (!isUndefined(newAttributeComposite)) {
+          payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, payload);
+        }
+        if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
+          payload = getPayloadFromTypeMonolistAttributeComposite(
+            newAttributeComposite,
+            getPayloadFromTypeAttribute(values, allowedRoles),
+          );
+        }
+        dispatch(sendPostAttributeFromDataType(payload));
       }
-      case METHODS.PUT: {
-        dispatch(setActionMode(MODE_EDIT));
-        const isComposite =
-          values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE || isMonolistComposite;
-        if (isComposite) {
-          if (mode === MODE_EDIT_COMPOSITE) {
-            dispatch(sendPutAttributeFromDataType(payload)).then(() => {
-              gotoRoute(ROUTE_DATA_TYPE_LIST);
-            });
+    } else {
+      dispatch(setActionMode(MODE_EDIT));
+      const isComposite =
+        values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE || isMonolistComposite;
+      if (isComposite) {
+        if (mode === MODE_EDIT_COMPOSITE) {
+          dispatch(sendPutAttributeFromDataType(payload)).then(() => {
+            gotoRoute(ROUTE_DATA_TYPE_LIST);
+          });
+        }
+        dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+      } else {
+        if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+          const compositeData = getAttributeSelectFromDataType(getState());
+          if (isMonolistComposteAttributeType(getState())) {
+            compositeData.nestedAttribute.compositeAttributes.push(payload);
+          } else {
+            compositeData.compositeAttributes.push(payload);
           }
+          payload = compositeData;
           dispatch(setActionMode(MODE_EDIT_COMPOSITE));
-        } else {
-          if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-            const compositeData = getAttributeSelectFromDataType(getState());
-            if (isMonolistComposteAttributeType(getState())) {
-              compositeData.nestedAttribute.compositeAttributes.push(payload);
-            } else {
-              compositeData.compositeAttributes.push(payload);
-            }
-            payload = compositeData;
-            dispatch(setActionMode(MODE_EDIT_COMPOSITE));
-          }
-          dispatch(sendPutAttributeFromDataType(payload));
         }
-        break;
+        dispatch(sendPutAttributeFromDataType(payload));
       }
-      default: break;
     }
   };
 
