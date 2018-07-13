@@ -32,3 +32,6 @@ export const mockApi = ({
 };
 
 export const mockThunk = arg => () => () => new Promise(r => r(arg));
+
+export const runValidators = (arr, value, allValues) =>
+  arr.reduce((acc, func) => (acc || func(value, allValues)), undefined);

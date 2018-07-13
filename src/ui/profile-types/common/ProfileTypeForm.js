@@ -66,7 +66,6 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="ProfileType.type" required />
                 }
-                validate={[required]}
                 name="type"
               />
               <span className="ProfileTypeForm__input-group-btn input-group-btn">

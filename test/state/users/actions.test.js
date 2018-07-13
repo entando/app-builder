@@ -9,7 +9,7 @@ import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
-  sendPutUserAuthorities, sendPostUserPassword,
+  sendPutUserAuthorities, sendDeleteUserAuthorities, sendPostUserPassword,
 } from 'state/users/actions';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -18,7 +18,7 @@ import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import {
   getUsers, getUser, putUser, postUser, deleteUser,
   getUserAuthorities, postUserAuthorities, putUserAuthorities,
-  postUserPassword,
+  deleteUserAuthorities, postUserPassword,
 } from 'api/users';
 import { ROUTE_USER_LIST } from 'app-init/router';
 
@@ -269,6 +269,14 @@ describe('state/users/actions', () => {
         }).catch(done.fail);
       });
 
+      it('when sendPostUserAuthorities succeeds and do not give an autority, do not call the APi but only dispatch gotoRoute', (done) => {
+        store.dispatch(sendPostUserAuthorities([])).then(() => {
+          expect(postUserAuthorities).not.toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
       it('if the response is not ok, dispatch add errors', async () => {
         postUserAuthorities.mockImplementation(mockApi({ errors: true }));
         return store.dispatch(sendPostUserAuthorities(AUTHORITIES)).catch((e) => {
@@ -297,6 +305,30 @@ describe('state/users/actions', () => {
         putUserAuthorities.mockImplementation(mockApi({ errors: true }));
         return store.dispatch(sendPutUserAuthorities(AUTHORITIES)).catch((e) => {
           expect(putUserAuthorities).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(e).toHaveProperty('errors');
+          e.errors.forEach((error, index) => {
+            expect(error.message).toEqual(actions[0].payload.errors[index]);
+          });
+        });
+      });
+    });
+
+    describe('sendDeleteUserAuthorities', () => {
+      it('when sendDeleteUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+        store.dispatch(sendDeleteUserAuthorities()).then(() => {
+          expect(deleteUserAuthorities).toHaveBeenCalled();
+          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', async () => {
+        deleteUserAuthorities.mockImplementation(mockApi({ errors: true }));
+        return store.dispatch(sendDeleteUserAuthorities()).catch((e) => {
+          expect(deleteUserAuthorities).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

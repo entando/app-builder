@@ -2,8 +2,7 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/common/WidgetFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
-import { getActiveLanguages } from 'state/languages/selectors';
-import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
+
 
 const GROUP = {
   code: '1',
@@ -22,11 +21,6 @@ jest.mock('state/groups/selectors', () => ({
 
 getGroupsList.mockReturnValue([GROUP]);
 
-jest.mock('state/languages/selectors', () => ({
-  getActiveLanguages: jest.fn(),
-}));
-
-getActiveLanguages.mockReturnValue(LANGUAGES);
 
 describe('WidgetFormContainer', () => {
   let props;
@@ -37,7 +31,7 @@ describe('WidgetFormContainer', () => {
 
     it('maps groups property state in WidgetForm', () => {
       expect(props).toHaveProperty('groups', [GROUP]);
-      expect(props).toHaveProperty('languages', LANGUAGES);
+      expect(props).not.toHaveProperty('languages');
     });
   });
 
