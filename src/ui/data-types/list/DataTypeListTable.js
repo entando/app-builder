@@ -100,12 +100,12 @@ class DataTypeListTable extends Component {
 
   render() {
     return (
-      <div className="DataTypeListTable">
-        <Spinner loading={this.props.loading} >
+      <Spinner loading={this.props.loading} >
+        <div className="DataTypeListTable">
           {this.renderTable()}
-        </Spinner>
-        <DeleteDataTypeModalContainer />
-      </div>
+          <DeleteDataTypeModalContainer />
+        </div>
+      </Spinner>
     );
   }
 }
