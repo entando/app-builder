@@ -100,12 +100,12 @@ class ProfileTypeListTable extends Component {
 
   render() {
     return (
-      <div className="ProfileTypeListTable">
-        <Spinner loading={!!this.props.loading} >
+      <Spinner loading={!!this.props.loading} >
+        <div className="ProfileTypeListTable">
           {this.renderTable()}
           <ProfileTypesDeleteModalContainer />
-        </Spinner>
-      </div>
+        </div>
+      </Spinner>
     );
   }
 }
