@@ -292,7 +292,6 @@ export const fetchDataTypeAttribute =
  (dataTypeAttributeCode, route, selectedAttributeType = '', formName) =>
    (dispatch, getState) => (
      new Promise((resolve) => {
-       let actionMode = getActionModeDataTypeSelectedAttribute(getState()) || '';
        let typeAttribute = dataTypeAttributeCode;
 
        const checkCompositeSubAttribute =
@@ -304,7 +303,7 @@ export const fetchDataTypeAttribute =
          typeAttribute = getFormTypeValue(getState(), formName);
          dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
        }
-       actionMode = getActionModeDataTypeSelectedAttribute(getState());
+       const actionMode = getActionModeDataTypeSelectedAttribute(getState());
        if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
          resolve();
        } else {
