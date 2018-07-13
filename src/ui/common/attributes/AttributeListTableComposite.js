@@ -11,7 +11,13 @@ import { TYPE_COMPOSITE } from 'state/data-types/const';
 
 const AttributeListTableComposite = (props) => {
   const {
-    compositeAttributes, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
+    compositeAttributes,
+    attributesList,
+    onAddAttribute,
+    onClickDelete,
+    onMove,
+    invalid,
+    submitting,
     isMonolistCompositeType,
   } = props;
   const name = isMonolistCompositeType ? 'nestedAttribute.compositeAttributes' : 'compositeAttributes';

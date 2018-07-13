@@ -12,6 +12,8 @@ import {
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
+import { TYPE_COMPOSITE, TYPE_MONOLIST } from 'state/data-types/const';
+
 class MonolistPage extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -19,7 +21,7 @@ class MonolistPage extends Component {
 
   render() {
     const {
-      attributeCode, dataTypeCode, selectedAttribute, entityCode,
+      attributeCode, dataTypeCode, selectedAttribute, entityCode, type,
     } = this.props;
     const titleId = selectedAttribute === '' ? 'app.edit' : `app.edit.${selectedAttribute}`;
     return (
@@ -38,16 +40,22 @@ class MonolistPage extends Component {
                   <FormattedMessage id="app.edit" /> :
                   &nbsp;{dataTypeCode}
                 </BreadcrumbItem>
-
-                <BreadcrumbItem
-                  route={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
-                  params={{ entityCode, attributeCode }}
-                >
-                  <FormattedMessage id="app.edit.attribute" />
-                  {attributeCode}
-                </BreadcrumbItem>
+                {
+                  type === TYPE_COMPOSITE ?
+                    <BreadcrumbItem>
+                      <FormattedMessage id="app.edit.attribute" />
+                      {attributeCode}
+                    </BreadcrumbItem> :
+                    <BreadcrumbItem
+                      route={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
+                      params={{ entityCode, attributeCode }}
+                    >
+                      <FormattedMessage id="app.edit.attribute" />
+                      {attributeCode}
+                    </BreadcrumbItem>
+                }
                 <BreadcrumbItem active>
-                  {selectedAttribute}
+                  {type === TYPE_COMPOSITE ? TYPE_MONOLIST : selectedAttribute}
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
@@ -73,6 +81,8 @@ MonolistPage.propTypes = {
   attributeCode: PropTypes.string,
   selectedAttribute: PropTypes.string,
   entityCode: PropTypes.string,
+  type: PropTypes.string,
+
 };
 
 MonolistPage.defaultProps = {
@@ -81,6 +91,7 @@ MonolistPage.defaultProps = {
   attributeCode: '',
   selectedAttribute: '',
   entityCode: '',
+  type: '',
 };
 
 

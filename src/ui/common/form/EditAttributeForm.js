@@ -201,7 +201,6 @@ EditAttributeFormBody.propTypes = {
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   nestedAttributeComposite: PropTypes.string.isRequired,
-//  isMonolistCompositeType: PropTypes.bool,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -213,7 +212,6 @@ EditAttributeFormBody.defaultProps = {
   indexable: false,
   listFilter: false,
   allowedRoles: [],
-//  isMonolistCompositeType: false,
 };
 
 const EditAttributeForm = reduxForm({

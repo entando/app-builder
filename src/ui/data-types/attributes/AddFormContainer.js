@@ -36,7 +36,7 @@ export const mapStateToProps = state => ({
     compositeAttributeType: TYPE_COMPOSITE,
   },
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-  compositeAttributes: getSelectedCompositeAttributes(state) || [],
+  compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

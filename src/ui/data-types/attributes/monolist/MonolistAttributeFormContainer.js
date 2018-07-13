@@ -15,7 +15,7 @@ import {
   getActionModeDataTypeSelectedAttribute,
   getDataTypeAttributesIdList,
   getDataTypeSelectedAttribute,
-  getDataTypeSelectedAttributeCode,
+  getSelectedCompositeAttributes,
 } from 'state/data-types/selectors';
 import {
   TYPE_COMPOSITE,
@@ -33,11 +33,10 @@ export const mapStateToProps = state => ({
   dataTypeCode: getParams(state).entityCode,
   isIndexable: formValueSelector('monoListAttribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('monoListAttribute')(state, 'nestedAttribute.type'),
-  type1: getDataTypeSelectedAttributeCode(state),
   selectedAttributeTypeForAddComposite: getDataTypeSelectedAttribute(state),
   selectedAttributeType: formValueSelector('monoListAttribute')(state, 'type'),
-  selectedAttributeType1: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
+  compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
 
@@ -61,8 +60,7 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => {
     dispatch(sendPutAttributeFromDataTypeMonolist(values));
   },
-  onAddAttribute: (props) => {
-    const { dataTypeCode, type } = props;
+  onAddAttribute: ({ dataTypeCode, type }) => {
     dispatch(setActionMode(MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE));
     dispatch(fetchDataTypeAttribute(
       type,
