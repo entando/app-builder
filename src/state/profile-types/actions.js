@@ -226,7 +226,7 @@ export const fetchProfileType = profileTypeCode => dispatch => (
 
 export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
-    dispatch(toggleLoading('ProfileTypes'));
+    dispatch(toggleLoading('profileTypes'));
     getProfileTypes(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -235,7 +235,7 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
-        dispatch(toggleLoading('ProfileTypes'));
+        dispatch(toggleLoading('profileTypes'));
         resolve();
       });
     }).catch(() => {});
