@@ -1,6 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { METHODS } from '@entando/apimanager';
 import { gotoRoute, getParams } from '@entando/router';
 import { ADD_ERRORS, CLEAR_ERRORS, ADD_TOAST } from '@entando/messages';
 
@@ -33,6 +34,7 @@ import {
   getDataTypeSelectedAttributeType,
   getActionModeDataTypeSelectedAttribute,
   getFormTypeValue,
+  getAttributeSelectFromDataType,
 } from 'state/data-types/selectors';
 import {
   sendPostDataType,
@@ -60,6 +62,7 @@ import {
   setActionMode,
   removeAttributeFromComposite,
   setNewAttributeComposite,
+  handlerAttributeFromDataType,
 } from 'state/data-types/actions';
 import {
   postDataType,
@@ -86,10 +89,21 @@ import {
   ATTRIBUTE_MOVE_UP,
   ATTRIBUTE_MOVE_DOWN,
   DATA_TYPE_REFERENCES_STATUS,
+  ATTRIBUTE_COMPOSITE,
+  ATTRIBUTE_MONOLIST_COMPOSITE,
 
 } from 'test/mocks/dataTypes';
 
-import { TYPE_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/data-types/const';
+import {
+  TYPE_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
+  TYPE_TEXT,
+  MODE_ADD,
+  MODE_EDIT,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+} from 'state/data-types/const';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -105,6 +119,10 @@ jest.mock('state/data-types/selectors', () => ({
   getSelectedAttributeType: jest.fn(),
   getActionModeDataTypeSelectedAttribute: jest.fn(),
   getFormTypeValue: jest.fn(),
+  getIsMonolistComposteAttributeType: jest.fn(),
+  getMonolistAttributeType: jest.fn(),
+  getAttributeSelectFromDataType: jest.fn(),
+  getNewAttributeComposite: jest.fn(),
 }));
 
 getParams.mockReturnValue({ list: 'Monolist', datatypeCode: 'Monolist', entityCode: 'Monolist' });
@@ -194,7 +212,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_ACTION_MODE);
     });
   });
-
   describe('setActionMode', () => {
     beforeEach(() => {
       action = setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE);
@@ -206,7 +223,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(SET_ACTION_MODE);
     });
   });
-
   describe('removeAttributeFromComposite', () => {
     beforeEach(() => {
       action = removeAttributeFromComposite('code');
@@ -218,7 +234,6 @@ describe('state/data-types/actions ', () => {
       expect(action.type).toBe(REMOVE_ATTRIBUTE_FROM_COMPOSITE);
     });
   });
-
   describe('setNewAttributeComposite', () => {
     beforeEach(() => {
       action = setNewAttributeComposite(DATA_TYPES);
@@ -420,7 +435,7 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchAttributeFromDataType('attribute', 'AAA', 'Text')).then(() => {
           expect(getAttributeFromDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
           done();
@@ -601,10 +616,10 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[1]).toHaveProperty('payload.attribute');
-          expect(actions[1].payload.attribute)
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[0]).toHaveProperty('payload.attribute');
+          expect(actions[0].payload.attribute)
             .toMatchObject(expect.objectContaining(DATA_TYPE_ATTRIBUTE));
           done();
         }).catch(done.fail);
@@ -612,15 +627,15 @@ describe('state/data-types/actions ', () => {
 
       it('not call goToRoute if attribute is Composite and actionMode is AddCompositeAttribute ', (done) => {
         const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
-        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce(MODE_ADD_ATTRIBUTE_COMPOSITE);
-        getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
-        store.dispatch(fetchDataTypeAttribute(TYPE_COMPOSITE, ROUTE, TYPE_COMPOSITE)).then(() => {
+
+        getFormTypeValue.mockReturnValue(TYPE_COMPOSITE);
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        store.dispatch(fetchDataTypeAttribute('TYPE_COMPOSITE', ROUTE, TYPE_COMPOSITE)).then(() => {
           expect(getDataTypeAttribute).not.toHaveBeenCalled();
-          const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
-          expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
-          expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
           done();
         }).catch(done.fail);
       });
@@ -628,22 +643,22 @@ describe('state/data-types/actions ', () => {
       it('dispatch initialize if actionMode is AddCompositeAttribute ', (done) => {
         const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
         getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
-        getActionModeDataTypeSelectedAttribute.mockReturnValueOnce(MODE_ADD_ATTRIBUTE_COMPOSITE);
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
         getFormTypeValue.mockReturnValueOnce(TYPE_COMPOSITE);
         store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
           const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
           expect(getDataTypeAttribute).toHaveBeenCalled();
-          expect(actions).toHaveLength(3);
-          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
-          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
+          expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           done();
         }).catch(done.fail);
       });
 
       it('fetchDataTypeAttribute calls gotoRoute if route exists', (done) => {
         const ROUTE = { route: 'mocked_route', params: 'mocked_params' };
-        getDataTypeAttribute.mockImplementationOnce(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getDataTypeAttribute.mockImplementation(mockApi({ payload: DATA_TYPE_ATTRIBUTE }));
+        getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD);
         store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
           expect(gotoRoute).toHaveBeenCalledWith('mocked_route', 'mocked_params');
           done();
@@ -654,9 +669,8 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', CLEAR_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
       });
@@ -703,6 +717,155 @@ describe('state/data-types/actions ', () => {
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
+      });
+    });
+  });
+  describe('handlerAttributeFromDataType', () => {
+    const { allowedRoles } = DATA_TYPE_ATTRIBUTE;
+    describe('action POST', () => {
+      it('default action', (done) => {
+        postAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(TYPE_TEXT);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.POST,
+          DATA_TYPE_ATTRIBUTE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD });
+        expect(postAttributeFromDataType).toHaveBeenCalled();
+        done();
+      });
+
+      it('action add sub attribute to Composite attribute', (done) => {
+        postAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.POST,
+          DATA_TYPE_ATTRIBUTE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD });
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+        expect(putAttributeFromDataType).toHaveBeenCalled();
+        done();
+      });
+
+      it('action new Composite attribute', () => {
+        postAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(DATA_TYPE_ATTRIBUTE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.POST,
+          ATTRIBUTE_COMPOSITE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD });
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+        expect(actions[2]).toHaveProperty('type', SET_NEW_ATTRIBUTE_COMPOSITE);
+      });
+
+      it('action new Monolist Composite attribute', () => {
+        postAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(DATA_TYPE_ATTRIBUTE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.POST,
+          ATTRIBUTE_MONOLIST_COMPOSITE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD });
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+        expect(actions[2]).toHaveProperty('type', SET_NEW_ATTRIBUTE_COMPOSITE);
+        expect(actions[3]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[3]).toHaveProperty('payload', { actionMode: MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE });
+        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+          attributeCode: 'mlstc', entityCode: 'Monolist',
+        });
+      });
+    });
+
+    describe('action PUT', () => {
+      it('default action', (done) => {
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValue(TYPE_TEXT);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.PUT,
+          DATA_TYPE_ATTRIBUTE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+        expect(putAttributeFromDataType).toHaveBeenCalled();
+        done();
+      });
+
+      it('Composite attribute', (done) => {
+        getAttributeSelectFromDataType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.PUT,
+          ATTRIBUTE_COMPOSITE,
+          allowedRoles,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+        done();
+      });
+
+      it('Composite attribute is mode is MODE_EDIT_COMPOSITE call sendPutAttributeFromDataType', (done) => {
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.PUT,
+          ATTRIBUTE_COMPOSITE,
+          allowedRoles,
+          MODE_EDIT_COMPOSITE,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+        expect(putAttributeFromDataType).toHaveBeenCalled();
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+        done();
+      });
+
+      it('if mode MODE_ADD_ATTRIBUTE_COMPOSITE dispatch setActionMode and sendPutAttributeFromDataType', (done) => {
+        putAttributeFromDataType.mockImplementationOnce(mockApi({ }));
+        getAttributeSelectFromDataType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+        store.dispatch(handlerAttributeFromDataType(
+          METHODS.PUT,
+          DATA_TYPE_ATTRIBUTE,
+          allowedRoles,
+          MODE_ADD_ATTRIBUTE_COMPOSITE,
+        ));
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+        expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+        expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+        expect(putAttributeFromDataType).toHaveBeenCalled();
+        done();
       });
     });
   });

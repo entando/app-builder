@@ -57,6 +57,8 @@ import {
   getAttributeSelectFromDataType,
   getActionModeDataTypeSelectedAttribute,
   getNewAttributeComposite,
+  getMonolistAttributeType,
+  getIsMonolistComposteAttributeType,
 } from 'state/data-types/selectors';
 
 import {
@@ -68,6 +70,8 @@ import {
   MODE_ADD_COMPOSITE,
   MODE_EDIT_COMPOSITE,
   MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
 } from 'state/data-types/const';
 
 // Data type
@@ -154,18 +158,20 @@ export const setActionMode = actionMode => ({
   },
 });
 
-export const removeAttributeFromComposite = attributeCode => ({
+export const removeAttributeFromComposite = (attributeCode, isMonolistComposite = false) => ({
   type: REMOVE_ATTRIBUTE_FROM_COMPOSITE,
   payload: {
     attributeCode,
+    isMonolistComposite,
   },
 });
 
-export const moveAttributeFromComposite = (fromIndex, toIndex) => ({
+export const moveAttributeFromComposite = (fromIndex, toIndex, isMonolistComposite = false) => ({
   type: MOVE_ATTRIBUTE_FROM_COMPOSITE,
   payload: {
     fromIndex,
     toIndex,
+    isMonolistComposite,
   },
 });
 
@@ -205,13 +211,12 @@ export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
     }).catch(() => {});
   }));
 
-
 export const sendPostDataType = dataTypeObject => dispatch =>
   new Promise((resolve) => {
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(addToast(formattedText('dataType.created'), null, TOAST_SUCCESS));
+          dispatch(addToast(formattedText('dataType.created'), TOAST_SUCCESS));
           gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: json.payload.code });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
@@ -287,37 +292,60 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
 );
 
 export const fetchDataTypeAttribute =
- (dataTypeAttributeCode, route, selectedAttributeType, formName) => (dispatch, getState) => (
-   new Promise((resolve) => {
-     dispatch(clearErrors());
-     let typeAttribute = dataTypeAttributeCode;
-     if (selectedAttributeType && selectedAttributeType === TYPE_COMPOSITE) {
-       typeAttribute = getFormTypeValue(getState(), formName);
-       dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
-     }
-     const actionMode = getActionModeDataTypeSelectedAttribute(getState());
-     if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-       resolve();
-     } else {
-       getDataTypeAttribute(typeAttribute).then((response) => {
-         response.json().then((json) => {
-           if (response.ok) {
-             dispatch(setSelectedAttribute(json.payload));
-             if (actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-               dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+ (dataTypeAttributeCode, route, selectedAttributeType = '', formName) =>
+   (dispatch, getState) => (
+     new Promise((resolve) => {
+       let typeAttribute = dataTypeAttributeCode;
+
+       const checkCompositeSubAttribute =
+        selectedAttributeType === TYPE_COMPOSITE ||
+        (selectedAttributeType === TYPE_MONOLIST &&
+          getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
+
+       if (checkCompositeSubAttribute) {
+         typeAttribute = getFormTypeValue(getState(), formName);
+         dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
+       }
+       const actionMode = getActionModeDataTypeSelectedAttribute(getState());
+       if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+         resolve();
+       } else {
+         getDataTypeAttribute(typeAttribute).then((response) => {
+           response.json().then((json) => {
+             if (response.ok) {
+               dispatch(setSelectedAttribute(json.payload));
+               switch (actionMode) {
+                 case MODE_ADD_ATTRIBUTE_COMPOSITE: {
+                   dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
+                   break;
+                 }
+                 case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
+                   dispatch(initialize(formName, { type: json.payload.code }));
+                   break;
+                 }
+                 case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
+                   const nestedAttribute = {
+                     ...json.payload,
+                     type: json.payload.code,
+                     compositeAttributeType: TYPE_COMPOSITE,
+                   };
+                   dispatch(initialize(formName, { nestedAttribute }));
+                   break;
+                 }
+                 default: break;
+               }
+               if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+                 gotoRoute(route.route, route.params);
+               }
+             } else {
+               dispatch(addErrors(json.errors.map(err => err.message)));
              }
-             if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-               gotoRoute(route.route, route.params);
-             }
-           } else {
-             dispatch(addErrors(json.errors.map(err => err.message)));
-           }
-           resolve();
-         });
-       }).catch(() => {});
-     }
-   })
- );
+             resolve();
+           });
+         }).catch(() => {});
+       }
+     })
+   );
 
 const fmtDateDDMMYYY = (date) => {
   let d = new Date(date);
@@ -407,7 +435,9 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-        } else if (json.payload.type === TYPE_MONOLIST) {
+        } else if (json.payload.type === TYPE_MONOLIST &&
+          !getIsMonolistComposteAttributeType(getState())
+        ) {
           gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
             entityCode: dataTypeCode,
             attributeCode: attributeObject.code,
@@ -499,10 +529,20 @@ const getPayloadFromTypeAttributeComposite = (composite, childAttribute) => ({
   compositeAttributes: [childAttribute],
 });
 
+const getPayloadFromTypeMonolistAttributeComposite = (composite, childAttribute) => ({
+  ...composite,
+  nestedAttribute: {
+    ...composite.nestedAttribute,
+    compositeAttributes: [childAttribute],
+  },
+});
+
 export const handlerAttributeFromDataType = (action, values, allowedRoles, mode) =>
   (dispatch, getState) => {
-    dispatch(clearErrors());
     let payload = getPayloadFromTypeAttribute(values, allowedRoles);
+    const isMonolistComposite =
+      payload.type === TYPE_MONOLIST && payload.nestedAttribute.type === TYPE_COMPOSITE;
+
     if (action === METHODS.POST) {
       dispatch(setActionMode(MODE_ADD));
       const attributeSelected = getAttributeSelectFromDataType(getState()) || '';
@@ -510,19 +550,34 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
         attributeSelected.compositeAttributes.push(payload);
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
         dispatch(sendPutAttributeFromDataType(attributeSelected));
-      } else if (payload.type === TYPE_COMPOSITE) {
+      } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
         dispatch(setNewAttributeComposite(payload));
+        if (isMonolistComposite) {
+          dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
+          gotoRoute(
+            ROUTE_ATTRIBUTE_MONOLIST_ADD,
+            { entityCode: getParams(getState()).entityCode, attributeCode: payload.code },
+          );
+        }
       } else {
         const newAttributeComposite = getNewAttributeComposite(getState());
         if (!isUndefined(newAttributeComposite)) {
           payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, payload);
         }
+        if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
+          payload = getPayloadFromTypeMonolistAttributeComposite(
+            newAttributeComposite,
+            getPayloadFromTypeAttribute(values, allowedRoles),
+          );
+        }
         dispatch(sendPostAttributeFromDataType(payload));
       }
     } else {
       dispatch(setActionMode(MODE_EDIT));
-      if (values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE) {
+      const isComposite =
+        values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE || isMonolistComposite;
+      if (isComposite) {
         if (mode === MODE_EDIT_COMPOSITE) {
           dispatch(sendPutAttributeFromDataType(payload)).then(() => {
             gotoRoute(ROUTE_DATA_TYPE_LIST);
@@ -532,7 +587,11 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
       } else {
         if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
           const compositeData = getAttributeSelectFromDataType(getState());
-          compositeData.compositeAttributes.push(payload);
+          if (getIsMonolistComposteAttributeType(getState())) {
+            compositeData.nestedAttribute.compositeAttributes.push(payload);
+          } else {
+            compositeData.compositeAttributes.push(payload);
+          }
           payload = compositeData;
           dispatch(setActionMode(MODE_EDIT_COMPOSITE));
         }

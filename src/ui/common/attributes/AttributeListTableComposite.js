@@ -11,9 +11,16 @@ import { TYPE_COMPOSITE } from 'state/data-types/const';
 
 const AttributeListTableComposite = (props) => {
   const {
-    compositeAttributes, attributesList, onAddAttribute, onClickDelete, onMove, invalid, submitting,
+    compositeAttributes,
+    attributesList,
+    onAddAttribute,
+    onClickDelete,
+    onMove,
+    invalid,
+    submitting,
+    isMonolistCompositeType,
   } = props;
-
+  const name = isMonolistCompositeType ? 'nestedAttribute.compositeAttributes' : 'compositeAttributes';
   const selectOptions = attributesList
     .filter(f => f !== TYPE_COMPOSITE)
     .map(item => ({
@@ -63,7 +70,7 @@ const AttributeListTableComposite = (props) => {
           <td className="AttributeListRow__td">{attribute.code}</td>
           <td className="AttributeListRow__td">{attribute.type}</td>
           <td className="AttributeListRow__td text-center">
-            <AttributeCheckIcon isChecked={attribute.mandatory} />
+            <AttributeCheckIcon isChecked={attribute.mandatory || false} />
           </td>
           <td className="AttributeListRow__td text-center">
 
@@ -72,7 +79,10 @@ const AttributeListTableComposite = (props) => {
                 isMovableUp ?
                   <MenuItem
                     className="AttributeListMenuAction__menu-item-move-up"
-                    onClick={() => { onMove(index, index - 1); fields.move(index, index - 1); }}
+                    onClick={() => {
+                      fields.move(index - 1, index);
+                      onMove(index, index - 1, isMonolistCompositeType);
+                    }}
                   >
                     <FormattedMessage id="app.moveUp" />
                   </MenuItem>
@@ -82,7 +92,10 @@ const AttributeListTableComposite = (props) => {
                 isMovableDown ?
                   <MenuItem
                     className="AttributeListMenuAction__menu-item-move-down"
-                    onClick={() => { onMove(index, index + 1); fields.move(index, index + 1); }}
+                    onClick={() => {
+                      fields.move(index, index + 1);
+                      onMove(index, index + 1, isMonolistCompositeType);
+                    }}
                   >
                     <FormattedMessage id="app.moveDown" />
                   </MenuItem>
@@ -90,7 +103,10 @@ const AttributeListTableComposite = (props) => {
             }
               <MenuItem
                 className="AttributeListMenuAction__menu-item-delete"
-                onClick={() => { fields.remove(index); onClickDelete(attribute.code); }}
+                onClick={() => {
+                  fields.remove(index);
+                  onClickDelete(attribute.code, isMonolistCompositeType);
+                }}
               >
                 <FormattedMessage id="app.delete" />
               </MenuItem>
@@ -122,7 +138,7 @@ const AttributeListTableComposite = (props) => {
         </thead>
         <tbody>
           <FieldArray
-            name="compositeAttributes"
+            name={name}
             compositeAttributes={compositeAttributes}
             component={renderAttributes}
           />
@@ -141,18 +157,19 @@ const AttributeListTableComposite = (props) => {
 
 AttributeListTableComposite.propTypes = {
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
+  compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onAddAttribute: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  isMonolistCompositeType: PropTypes.bool,
 };
 
 AttributeListTableComposite.defaultProps = {
   invalid: false,
   submitting: false,
-  compositeAttributes: [],
+  isMonolistCompositeType: false,
 };
 
 export default AttributeListTableComposite;

@@ -42,9 +42,14 @@ const TEST_STATE = {
 
 const STATE_ATTRIBUTES = {
   dataTypes: {
+    selected: {
+      attributeSelected: {},
+    },
     attributes: {
       list: [],
       selected: {
+        code: '',
+        attributeSelected: {},
         listAttribute: [],
         searchableOptionSupported: [],
         indexableOptionSupported: [],
@@ -53,6 +58,19 @@ const STATE_ATTRIBUTES = {
 
       },
 
+    },
+  },
+};
+
+const STATE_ATTRIBUTES_NO_LIST = {
+  dataTypes: {
+    selected: {
+      attributeSelected: {},
+    },
+    attributes: {
+      selected: {
+
+      },
     },
   },
 };
@@ -92,24 +110,31 @@ describe('state/users/selectors', () => {
   it('verify getDataTypeAttributes selector is defined', () => {
     expect(getDataTypeAttributes(TEST_STATE)).toBeDefined();
   });
+
   it('verify getDataTypeAttributesIdList selector is undefined', () => {
-    expect(getDataTypeAttributesIdList(TEST_STATE)).toBeUndefined();
+    expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES_NO_LIST)).toBeUndefined();
   });
+
   it('verify getDataTypeAttributesIdList selector is defined', () => {
     expect(getDataTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();
   });
+
   it('verify getDataTypeSelectedAttributeType selector is defined', () => {
     expect(getDataTypeSelectedAttributeType(STATE_ATTRIBUTES)).toBeDefined();
   });
+
   it('verify getDataTypeSelectedAttributeSearchable selector is defined', () => {
     expect(getDataTypeSelectedAttributeSearchable(STATE_ATTRIBUTES)).toBeDefined();
   });
+
   it('verify getDataTypeSelectedAttributeIndexable selector is defined', () => {
     expect(getDataTypeSelectedAttributeIndexable(STATE_ATTRIBUTES)).toBeDefined();
   });
+
   it('verify getDataTypeSelectedAttributeAllowedRoles selector is defined', () => {
     expect(getDataTypeSelectedAttributeAllowedRoles(STATE_ATTRIBUTES)).toBeDefined();
   });
+
   it('verify getDataTypeSelectedAttributeallowedDisablingCodes selector is defined', () => {
     expect(getDataTypeSelectedAttributeallowedDisablingCodes(STATE_ATTRIBUTES)).toBeDefined();
   });
