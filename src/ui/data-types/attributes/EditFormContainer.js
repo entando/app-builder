@@ -21,7 +21,7 @@ import {
   getSelectedCompositeAttributes,
   getActionModeDataTypeSelectedAttribute,
   getDataTypeSelectedAttribute,
-  isMonolistComposteAttributeType,
+  getIsMonolistComposteAttributeType,
 } from 'state/data-types/selectors';
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
@@ -38,7 +38,7 @@ export const mapStateToProps = state => ({
   attributesList: getDataTypeAttributesIdList(state),
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
   compositeAttributes: getSelectedCompositeAttributes(state),
-  isMonolistCompositeType: isMonolistComposteAttributeType(state),
+  isMonolistCompositeType: getIsMonolistComposteAttributeType(state),
   nestedAttributeComposite: formValueSelector('attribute')(state, 'nestedAttribute.type') || '',
 });
 

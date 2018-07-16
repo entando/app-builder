@@ -104,7 +104,7 @@ export const getMonolistAttributeType =
       (attributeSelected.type === TYPE_MONOLIST ? attributeSelected.nestedAttribute.type : ''),
   );
 
-export const isMonolistComposteAttributeType =
+export const getIsMonolistComposteAttributeType =
     createSelector(
       [getAttributeSelectFromDataType],
       attributeSelected =>

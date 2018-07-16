@@ -58,7 +58,7 @@ import {
   getActionModeDataTypeSelectedAttribute,
   getNewAttributeComposite,
   getMonolistAttributeType,
-  isMonolistComposteAttributeType,
+  getIsMonolistComposteAttributeType,
 } from 'state/data-types/selectors';
 
 import {
@@ -433,7 +433,7 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (json.payload.type === TYPE_MONOLIST &&
-          !isMonolistComposteAttributeType(getState())
+          !getIsMonolistComposteAttributeType(getState())
         ) {
           gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
             entityCode: dataTypeCode,
@@ -584,7 +584,7 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
       } else {
         if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
           const compositeData = getAttributeSelectFromDataType(getState());
-          if (isMonolistComposteAttributeType(getState())) {
+          if (getIsMonolistComposteAttributeType(getState())) {
             compositeData.nestedAttribute.compositeAttributes.push(payload);
           } else {
             compositeData.compositeAttributes.push(payload);
