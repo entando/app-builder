@@ -1,7 +1,7 @@
 import { gotoRoute, getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
-import { addErrors, clearErrors } from '@entando/messages';
-
+import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { formattedText } from '@entando/utils';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { initialize } from 'redux-form';
@@ -211,9 +211,12 @@ export const sendPostDataType = dataTypeObject => dispatch =>
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          dispatch(addToast(formattedText('dataType.created'), null, TOAST_SUCCESS));
           gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: json.payload.code });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(clearErrors());
         }
         resolve();
       });

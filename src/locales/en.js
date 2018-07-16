@@ -454,6 +454,7 @@ export default {
     'dataType.table.status.1': 'Reloading. Refresh this page.',
     'dataType.table.status.2': 'Stale status, please reload.',
     'dataType.listEmpty': 'There are no DATA TYPES available',
+    'dataType.created': 'DATA TYPE created succesfully',
 
     'profileType.table.status': 'Status',
     'profileType.table.status.ok': 'Ok. Reload if you want to.',

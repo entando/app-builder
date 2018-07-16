@@ -2,7 +2,7 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute, getParams } from '@entando/router';
-import { ADD_ERRORS, CLEAR_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, CLEAR_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   ROUTE_DATA_TYPE_LIST,
@@ -296,8 +296,9 @@ describe('state/data-types/actions ', () => {
         store.dispatch(sendPostDataType(DATA_TYPES)).then(() => {
           expect(postDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
-          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions).toHaveLength(3);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('type', 'error');
           done();
         }).catch(done.fail);
       });
