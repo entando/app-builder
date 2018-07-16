@@ -14,7 +14,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
-    loading: getLoading(state).profileType,
+    loading: getLoading(state).profileTypes,
   }
 );
 
