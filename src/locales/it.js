@@ -454,6 +454,7 @@ export default {
     'dataType.table.status.1': 'Ricaricamento in corso. Aggiorna la pagina.',
     'dataType.table.status.2': 'Necessità di un ricaricamento: lancialo ora.',
     'dataType.listEmpty': 'Non ci sono DATA TYPES disponibili',
+    'dataType.created': 'DATA TYPE creato con successo',
 
     'profileType.table.status': 'Status',
     'profileType.table.status.ok': 'A posto. Se vuoi, ricarica',

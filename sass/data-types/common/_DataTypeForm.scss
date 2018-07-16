@@ -7,11 +7,4 @@
   &__add {
     margin-top: -15px;
   }
-
-  // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-
-  input[name=code] {
-    text-transform: uppercase;
-  }
-  // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
 }
