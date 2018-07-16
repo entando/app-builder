@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { METHODS } from '@entando/apimanager';
 import { gotoRoute, getParams } from '@entando/router';
-import { ADD_ERRORS, CLEAR_ERRORS, ADD_TOAST } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   ROUTE_DATA_TYPE_LIST,
