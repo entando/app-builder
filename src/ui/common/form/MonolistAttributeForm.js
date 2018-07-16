@@ -51,7 +51,7 @@ export class MonolistAttributeFormBody extends Component {
       if (isIndexable) {
         return (
           <FormGroup>
-            <label htmlFor="filterList" className="col-xs-2 control-label">
+            <label htmlFor="indexable" className="col-xs-2 control-label">
               <FormLabel labelId="app.indexable" />
             </label>
             <Col xs={4}>

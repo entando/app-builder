@@ -105,7 +105,7 @@ jest.mock('state/data-types/selectors', () => ({
   getSelectedAttributeType: jest.fn(),
   getActionModeDataTypeSelectedAttribute: jest.fn(),
   getFormTypeValue: jest.fn(),
-  isMonolistComposteAttributeType: jest.fn(),
+  getIsMonolistComposteAttributeType: jest.fn(),
   getMonolistAttributeType: jest.fn(),
 }));
 
