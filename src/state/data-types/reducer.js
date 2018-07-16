@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { cloneDeep, set } from 'lodash';
 import {
   SET_DATA_TYPES,
   REMOVE_DATA_TYPE,
@@ -98,29 +99,36 @@ export const selectedDataType = (state = {}, action = {}) => {
       return { ...state, actionMode: action.payload.actionMode };
     }
     case REMOVE_ATTRIBUTE_FROM_COMPOSITE: {
-      const { attributeCode } = action.payload;
-      const compositeAttributes =
-        state.attributeSelected.compositeAttributes.filter(f => f.code !== attributeCode);
-      return {
-        ...state,
-        attributeSelected: {
-          ...state.attributeSelected,
-          compositeAttributes,
-        },
-      };
+      const { attributeCode, isMonolistComposite } = action.payload;
+      const { compositeAttributes } =
+        isMonolistComposite ? state.attributeSelected.nestedAttribute : state.attributeSelected;
+      const newComposite = compositeAttributes.filter(f => f.code !== attributeCode);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        set(newState, 'attributeSelected.nestedAttribute.compositeAttributes', newComposite);
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newComposite);
+      }
+      return newState;
     }
     case MOVE_ATTRIBUTE_FROM_COMPOSITE: {
-      const { fromIndex, toIndex } = action.payload;
-      const { compositeAttributes } = state.attributeSelected;
-      const from = compositeAttributes.splice(fromIndex, 1)[0];
-      compositeAttributes.splice(toIndex, 0, from);
-      return {
-        ...state,
-        attributeSelected: {
-          ...state.attributeSelected,
-          compositeAttributes,
-        },
-      };
+      const { fromIndex, toIndex, isMonolistComposite } = action.payload;
+      const { compositeAttributes } =
+        isMonolistComposite ? state.attributeSelected.nestedAttribute : state.attributeSelected;
+      const newCompositeAttribute = [...compositeAttributes];
+      const from = newCompositeAttribute.splice(toIndex, 1)[0];
+      newCompositeAttribute.splice(fromIndex, 0, from);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        set(
+          newState,
+          'attributeSelected.nestedAttribute.compositeAttributes',
+          newCompositeAttribute,
+        );
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newCompositeAttribute);
+      }
+      return newState;
     }
     case SET_NEW_ATTRIBUTE_COMPOSITE: {
       return { ...state, newAttributeComposite: action.payload.attributeData };
