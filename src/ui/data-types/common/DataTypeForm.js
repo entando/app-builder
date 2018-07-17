@@ -13,8 +13,10 @@ import DeleteAttributeModalContainer from 'ui/data-types/attributes/DeleteAttrib
 
 
 const uppercaseThreeLetters = value =>
-  (value && !/^[A-Z]{1,3}$/i.test(value)
+  (value && !/[A-Z]$/g.test(value)
     ? <FormattedMessage id="validateForm.element.code" /> : undefined);
+
+const maxLength3 = maxLength(3);
 
 const maxLength50 = maxLength(50);
 
@@ -108,7 +110,7 @@ export class DataTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
                  }
-                validate={[required, uppercaseThreeLetters]}
+                validate={[required, uppercaseThreeLetters, maxLength3]}
                 disabled={isEdit}
               />
               <Field
