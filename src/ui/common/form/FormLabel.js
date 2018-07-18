@@ -5,7 +5,7 @@ import { FieldLevelHelp } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
 
 const FormLabel = ({
-  labelId, langLabelId, helpId, required, langLabelText, helpText,
+  labelId, langLabelId, helpId, required, langLabelText, helpText, labelText,
 }) => {
   const requiredIcon = required ? (
     <sup><i className="fa fa-asterisk required-icon FormLabel__required-icon" /></sup>
@@ -35,10 +35,15 @@ const FormLabel = ({
 
   const fieldHelp = helpId ? fieldHelpId : fieldHelpText;
 
+  const label = labelId ? (
+    <FormattedMessage id={labelId} />
+  ) : labelText;
+
+
   return (
     <span className="FormLabel">
       {langLabel || langLabelWithText}
-      <FormattedMessage id={labelId} />
+      {label}
       {requiredIcon}
       {fieldHelp}
     </span>
@@ -46,7 +51,8 @@ const FormLabel = ({
 };
 
 FormLabel.propTypes = {
-  labelId: PropTypes.string.isRequired,
+  labelId: PropTypes.string,
+  labelText: PropTypes.string,
   langLabelText: PropTypes.string,
   langLabelId: PropTypes.string,
   helpId: PropTypes.string,
@@ -55,6 +61,8 @@ FormLabel.propTypes = {
 };
 
 FormLabel.defaultProps = {
+  labelId: '',
+  labelText: '',
   langLabelId: '',
   langLabelText: '',
   helpId: '',
