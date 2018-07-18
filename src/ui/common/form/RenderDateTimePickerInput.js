@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
+import { Row, Col } from 'patternfly-react';
 import { Field } from 'redux-form';
+import { FormattedMessage } from 'react-intl';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import { isNull } from 'lodash';
-import { formattedText } from '@entando/utils';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { zeroFill } from 'helpers/entities';
 
-class RenderDatePickerInput extends Component {
+class RenderDateTimePickerInput extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -26,18 +25,9 @@ class RenderDatePickerInput extends Component {
   }
 
   render() {
-    const optionsHours = this.props.hoursList.map(item => ({
-      value: zeroFill(item),
-      text: zeroFill(item),
-    }));
-    const optionsMinutes = this.props.minutesList.map(item => ({
-      value: zeroFill(item),
-      text: zeroFill(item),
-    }));
-    const optionsSeconds = this.props.secondsList.map(item => ({
-      value: zeroFill(item),
-      text: zeroFill(item),
-    }));
+    const optionsHours = this.props.hoursList.map(item => zeroFill(item));
+    const optionsMinutes = this.props.minutesList.map(item => zeroFill(item));
+    const optionsSeconds = this.props.secondsList.map(item => zeroFill(item));
 
     const {
       input, name, label, help, locale, dateFormat, placeholder, meta: { touched, error },
@@ -48,44 +38,57 @@ class RenderDatePickerInput extends Component {
           {label} {help}
         </label>
         <Col xs={10}>
-          <Col xs={4}>
-            <DatePicker
-              {...input}
-              placeholder={placeholder}
-              selected={input.value ? moment(input.value, this.props.dateFormat) : null}
-              onChange={this.handleChange}
-              disabledKeyboardNavigation
-              locale={locale}
-              dateFormat={dateFormat}
-              isClearable
-              calendarClassName="RenderDatePickerInput__calendar"
-            />
-          </Col>
-          <Col xs={2}>
-            <Field
-              name={`${input.name}_ts_hours`}
-              label={formattedText('app.timestamp.hours')}
-              options={optionsHours}
-              component={RenderSelectInput}
-              selectedValue={input.value}
-            />
-          </Col>
-          <Col xs={2}>
-            <Field
-              label={formattedText('app.timestamp.minutes')}
-              name={`${input.name}_ts_minutes`}
-              options={optionsMinutes}
-              component={RenderSelectInput}
-            />
-          </Col>
-          <Col xs={2}>
-            <Field
-              label={formattedText('app.timestamp.seconds')}
-              name={`${input.name}_ts_seconds`}
-              options={optionsSeconds}
-              component={RenderSelectInput}
-            />
-          </Col>
+          <Row>
+            <Col xs={3}>
+              <DatePicker
+                {...input}
+                placeholder={placeholder}
+                selected={input.value ? moment(input.value, this.props.dateFormat) : null}
+                onChange={this.handleChange}
+                disabledKeyboardNavigation
+                locale={locale}
+                dateFormat={dateFormat}
+                isClearable
+                calendarClassName="RenderDatePickerInput__calendar"
+              />
+            </Col>
+            <Col xs={3}>
+              <Field
+                name={`${input.name}_ts_hours`}
+                component="select"
+                className="form-control"
+              >
+                { optionsHours.map(value => (<option key={value}>{value}</option>)) }
+              </Field>
+              <span className="help help-block">
+                <FormattedMessage id="app.timestamp.hours" />
+              </span>
+            </Col>
+            <Col xs={3}>
+              <Field
+                name={`${input.name}_ts_minutes`}
+                component="select"
+                className="form-control"
+              >
+                { optionsMinutes.map(value => (<option key={value}>{value}</option>)) }
+              </Field>
+              <span className="help help-block">
+                <FormattedMessage id="app.timestamp.minutes" />
+              </span>
+            </Col>
+            <Col xs={3}>
+              <Field
+                name={`${input.name}_ts_seconds`}
+                component="select"
+                className="form-control"
+              >
+                { optionsSeconds.map(value => (<option key={value}>{value}</option>)) }
+              </Field>
+              <span className="help help-block">
+                <FormattedMessage id="app.timestamp.seconds" />
+              </span>
+            </Col>
+          </Row>
           <Col xs={12}>
             <div className="help-block help-block-error">
               {touched ? error : ''}
@@ -97,7 +100,7 @@ class RenderDatePickerInput extends Component {
   }
 }
 
-RenderDatePickerInput.propTypes = {
+RenderDateTimePickerInput.propTypes = {
   onWillMount: PropTypes.func,
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
@@ -114,12 +117,12 @@ RenderDatePickerInput.propTypes = {
   language: PropTypes.string,
   dateFormat: PropTypes.string,
   locale: PropTypes.string,
-  hoursList: PropTypes.arrayOf(PropTypes.string),
-  minutesList: PropTypes.arrayOf(PropTypes.string),
-  secondsList: PropTypes.arrayOf(PropTypes.string),
+  hoursList: PropTypes.arrayOf(PropTypes.number),
+  minutesList: PropTypes.arrayOf(PropTypes.number),
+  secondsList: PropTypes.arrayOf(PropTypes.number),
 };
 
-RenderDatePickerInput.defaultProps = {
+RenderDateTimePickerInput.defaultProps = {
   onWillMount: () => {},
   name: '',
   placeholder: '',
@@ -133,4 +136,4 @@ RenderDatePickerInput.defaultProps = {
   minutesList: Array.from(Array(60).keys()),
   secondsList: Array.from(Array(60).keys()),
 };
-export default RenderDatePickerInput;
+export default RenderDateTimePickerInput;

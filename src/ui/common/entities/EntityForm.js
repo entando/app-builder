@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, FormSection } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
+import Panel from 'react-bootstrap/lib/Panel';
 import { formattedText } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -109,13 +110,13 @@ export class EntityFormBody extends Component {
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
-        labelId={attribute.name}
+        labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
         helpText={getHelpMessage(attribute.validationRules)}
         required={attribute.mandatory}
       />}
       defaultLanguage={defaultLanguage}
       languages={languages}
-      language={language}
+      language={language && language.code}
     />);
 
     const field = attribute => (<Field
@@ -133,7 +134,7 @@ export class EntityFormBody extends Component {
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
-        labelId={attribute.name}
+        labelText={attribute.name}
         helpText={getHelpMessage(attribute.validationRules)}
         required={attribute.mandatory}
       />}
@@ -146,37 +147,41 @@ export class EntityFormBody extends Component {
       this.props.profileTypesAttributes.map((attribute) => {
         if (attribute.type === 'Composite') {
           return (
-            <div>
-              <h2>
+            <Row key={attribute.code}>
+              <label className="control-label col-xs-2">
                 <FormLabel
-                  labelId={`${attribute.name}`}
+                  labelText={attribute.name}
                   helpText={getHelpMessage(attribute.validationRules)}
                   required={attribute.mandatory}
                 />
-              </h2>
-
-              <FormSection name={attribute.code}>
-                { renderCompositeAttribute(attribute.compositeAttributes)}
-              </FormSection>
-            </div>
+              </label>
+              <Col xs={10}>
+                <Panel>
+                  <Panel.Body>
+                    <FormSection name={attribute.code}>
+                      { renderCompositeAttribute(attribute.compositeAttributes)}
+                    </FormSection>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
           );
         }
         if (attribute.type === 'List') {
           return languages.map(lang => (
-            <div>
-              <h2>
-                <FormLabel
-                  labelId={`${attribute.name} ${lang.name}`}
-                  helpText={getHelpMessage(attribute.validationRules)}
-                  required={attribute.mandatory}
-                />
-              </h2>
-              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang.code)}
+            <div key={lang.code}>
+              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
             </div>
           ));
         }
         if (attribute.type === 'Monolist') {
-          return renderFieldArray(attribute.code, attribute, RenderListField);
+          return (
+            <Row key={attribute.code}>
+              <Col xs={12}>
+                {renderFieldArray(attribute.code, attribute, RenderListField)}
+              </Col>
+            </Row>
+          );
         }
         return field(attribute);
       })
@@ -222,7 +227,7 @@ export class EntityFormBody extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserForm form-horizontal">
         <Row>
-          <Col xs={12}>
+          <Col xs={10}>
             <fieldset className="no-padding">
               {showTypeCode}
               {showUsername}
@@ -232,7 +237,7 @@ export class EntityFormBody extends Component {
         </Row>
         <br />
         <Row>
-          <Col xs={12}>
+          <Col xs={10}>
             <Button
               className="pull-right"
               type="submit"
@@ -255,127 +260,40 @@ EntityFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   defaultLanguage: PropTypes.string.isRequired,
-  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // mode: PropTypes.string,
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     code: PropTypes.string,
     name: PropTypes.string,
-    /* status: PropTypes.string,
-    roles: PropTypes.arrayOf(PropTypes.shape({
-      code: PropTypes.string,
-      descr: PropTypes.string,
-    })),
-    disablingCodes: PropTypes.arrayOf(PropTypes.string),
-    */
     mandatory: PropTypes.bool,
-    // listFilter: PropTypes.bool,
-    // indexable: PropTypes.bool,
     enumeratorStaticItems: PropTypes.string,
     enumeratorStaticItemsSeparator: PropTypes.string,
-    // enumeratorExtractorBean: PropTypes.string,
     validationRules: PropTypes.shape({
       ognlValidation: PropTypes.shape({
-        // ognlExpression: PropTypes.string,
-        // applyOnlyToFilledAttr: PropTypes.bool,
         helpMessage: PropTypes.string,
         keyForHelpMessage: PropTypes.string,
-        errorMessage: PropTypes.string,
-        keyForErrorMessage: PropTypes.string,
       }),
-      /*
-      minLength: PropTypes.number,
-      maxLength: PropTypes.number,
-      regex: PropTypes.string,
-      rangeStartString: PropTypes.string,
-      rangeEndString: PropTypes.string,
-      rangeStartStringAttribute: PropTypes.string,
-      rangeEndStringAttribute: PropTypes.string,
-      equalString: PropTypes.string,
-      equalStringAttribute: PropTypes.string,
-      rangeStartDate: PropTypes.string,
-      rangeEndDate: PropTypes.string,
-      rangeStartDateAttribute: PropTypes.string,
-      rangeEndDateAttribute: PropTypes.string,
-      equalDate: PropTypes.string,
-      equalDateAttribute: PropTypes.string,
-      rangeStartNumber: PropTypes.number,
-      rangeStartNumberAttribute: PropTypes.string,
-      rangeEndNumber: PropTypes.string,
-      rangeEndNumberAttribute: PropTypes.string,
-      equalNumber: PropTypes.string,
-      equalNumberAttribute: PropTypes.string,
-      */
     }),
     nestedAttribute: PropTypes.shape({
-      /*
-      code: PropTypes.string,
-      compositeAttributes: PropTypes.string,
-      disablingCodes: [],
-      enumeratorExtractorBean: null,
-      enumeratorStaticItems: PropTypes.string,
-      enumeratorStaticItemsSeparator: PropTypes.string,
-      indexable: PropTypes.boolean,
-      listFilter: PropTypes.boolean,
-      mandatory: PropTypes.boolean,
-      name: PropTypes.string,
-      nestedAttribute: null,
-      roles: [], */
       type: PropTypes.string,
     }),
-    compositeAttributes: PropTypes.shape({
-
+    compositeAttributes: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string,
-      // compositeAttributes: null,
-      // disablingCodes: [],
-      // enumeratorExtractorBean: null,
       enumeratorStaticItems: PropTypes.string,
       enumeratorStaticItemsSeparator: PropTypes.string,
-      // indexable: false,
-      // listFilter: false,
-      mandatory: PropTypes.boolean,
+      mandatory: PropTypes.bool,
       name: PropTypes.string,
-      // nestedAttribute: null,
-      roles: [],
       type: PropTypes.string,
-      // validationRules:
-      // {
-      //   minLength: null,
-      //   maxLength: null,
-      //   regex: null,
-      //   rangeStartString: null,
-      //   rangeEndString: null,
-      // },
-      // equalDate: null,
-      // equalDateAttribute: null,
-      // equalNumber: null,
-      // equalNumberAttribute: null,
-      // equalString: null,
-      // equalStringAttribute: null,
-      // maxLength: null,
-      // minLength: null,
-      // ognlValidation: null,
-      // rangeEndDate: null,
-      // rangeEndDateAttribute: null,
-      // rangeEndNumber: null,
-      // rangeEndNumberAttribute: null,
-      // rangeEndString: null,
-      // rangeEndStringAttribute: null,
-      // rangeStartDate: null,
-      // rangeStartDateAttribute: null,
-      // rangeStartNumber: null,
-      // rangeStartNumberAttribute: null,
-      // rangeStartString: null,
-      // rangeStartStringAttribute: null,
-      // regex: null,
-    }),
+    })),
   })),
 };
 
 EntityFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  // mode: NEW_MODE,
   onWillMount: null,
   profileTypesAttributes: [],
 };

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 import { getComponentType } from 'helpers/entities';
-import { Button, ButtonGroup, Icon, Col, FormGroup } from 'patternfly-react';
+import { Button, ButtonGroup, Col, FormGroup } from 'patternfly-react';
+import Panel from 'react-bootstrap/lib/Panel';
 
-class RenderMonolistField extends Component {
+class RenderListField extends Component {
   buttonMoveUp(index) {
     const {
       fields,
@@ -17,7 +19,7 @@ class RenderMonolistField extends Component {
           title={`Move up ${index + 1}`}
           onClick={() => fields.swap(index, index - 1)}
         >
-          <Icon size="lg" name="caret-up" />
+          <i className="fa fa-sort-asc" />
         </Button>
       );
     }
@@ -35,7 +37,7 @@ class RenderMonolistField extends Component {
           title={`Move down ${index + 1}`}
           onClick={() => fields.swap(index, index + 1)}
         >
-          <Icon size="lg" name="caret-down" />
+          <i className="fa fa-sort-desc" />
         </Button>
       );
     }
@@ -45,70 +47,70 @@ class RenderMonolistField extends Component {
   render() {
     const {
       attributeType, fields, options, optionValue,
-      optionDisplayName,
+      optionDisplayName, label,
     } = this.props;
 
     return (
       <div>
         <FormGroup>
-
-          <Col xs={2} className="text-right">
-            {this.props.label}
-          </Col>
-          <Col xs={1}>
+          <label className="col-xs-2 text-right control-label">
+            <div>{label}</div>
             <Button
-              bsStyle="default"
+              bsStyle="primary"
               title="Add"
               onClick={() => fields.push()}
             >
-              <Icon size="lg" name="plus" />
+              <FormattedMessage id="app.add" />
             </Button>
-          </Col>
-        </FormGroup>
-        <FormGroup>
-          <ul className="list-unstyled">
+          </label>
+          <Col xs={10}>
             {fields.map((name, index) => (
-          // eslint-disable-next-line
-          <li key={index}>
-            <Col xs={10}>
-              <Field
-                name={name}
-                type="text"
-                component={getComponentType(attributeType)}
-                label={index + 1}
-                options={options}
-                optionValue={optionValue}
-                optionDisplayName={optionDisplayName}
-              />
-            </Col>
-            <Col xs={1}>
-              <ButtonGroup>
-                {this.buttonMoveUp(index)}
-                {this.buttonMoveDown(index, fields.length)}
-              </ButtonGroup>
+              <Panel key={name}>
+                <Panel.Heading>
+                  <b>{index + 1}</b>
+                  <div className="pull-right">
+                    <ButtonGroup>
+                      {this.buttonMoveUp(index)}
+                      {this.buttonMoveDown(index, fields.length)}
+                    </ButtonGroup>
 
-              <Button
-                className="pull-right"
-                bsStyle="danger"
-                title={`Remove ${index + 1}`}
-                onClick={() => fields.remove(index)}
-              >
-                <Icon size="lg" name="times" />
-              </Button>
-
-            </Col>
-          </li>
-        ))}
-          </ul>
+                    <Button
+                      bsStyle="danger"
+                      title={`Remove ${index + 1}`}
+                      onClick={() => fields.remove(index)}
+                    >
+                      <FormattedMessage id="app.delete" />
+                    </Button>
+                  </div>
+                </Panel.Heading>
+                <Panel.Body>
+                  <Field
+                    name={name}
+                    type="text"
+                    component={getComponentType(attributeType)}
+                    label={index + 1}
+                    options={options}
+                    optionValue={optionValue}
+                    optionDisplayName={optionDisplayName}
+                  />
+                </Panel.Body>
+              </Panel>
+            ))}
+          </Col>
         </FormGroup>
       </div>
     );
   }
 }
 
-RenderMonolistField.propTypes = {
-  fields: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  attributeType: PropTypes.shape({}).isRequired,
+RenderListField.propTypes = {
+  fields: PropTypes.shape({
+    push: PropTypes.func,
+    map: PropTypes.func,
+    remove: PropTypes.func,
+    length: PropTypes.number,
+  }).isRequired,
+  attributeType: PropTypes.string.isRequired,
   label: PropTypes.node,
   options: PropTypes.arrayOf(PropTypes.shape({
     optionDisplayName: PropTypes.string,
@@ -118,11 +120,11 @@ RenderMonolistField.propTypes = {
   optionDisplayName: PropTypes.string,
 };
 
-RenderMonolistField.defaultProps = {
+RenderListField.defaultProps = {
   label: null,
   options: [],
   optionValue: 'value',
   optionDisplayName: 'optionDisplayName',
 };
 
-export default RenderMonolistField;
+export default RenderListField;
