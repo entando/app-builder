@@ -45,10 +45,10 @@ const AttributeListTableActions = ({
           {renderRoles(attribute.roles)}
         </td>
         <td className="AttributeListRow__td text-center">
-          <AttributeCheckIcon isChecked={attribute.mandatory} />
+          <AttributeCheckIcon isChecked={attribute.mandatory || false} />
         </td>
         <td className="AttributeListRow__td text-center">
-          <AttributeCheckIcon isChecked={attribute.listFilter} />
+          <AttributeCheckIcon isChecked={attribute.listFilter || false} />
         </td>
 
         <td className="AttributeListRow__td text-center">
