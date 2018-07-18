@@ -21,18 +21,20 @@ export const fetchUserProfile = username => (dispatch, getState) => new Promise(
       if (response.ok) {
         dispatch(setUserProfile(json.payload));
         dispatch(fetchProfileType(json.payload.typeCode)).then(() => {
+          const state = getState();
           dispatch(initialize('UserProfile', getPayloadForForm(
             username, json.payload,
-            getSelectedProfileTypeAttributes(getState()),
-            getDefaultLanguage(getState()),
-            getActiveLanguages(getState()),
+            getSelectedProfileTypeAttributes(state),
+            getDefaultLanguage(state),
+            getActiveLanguages(state),
           )));
+          resolve();
         });
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
         dispatch(addToast(json.errors[0].message, TOAST_ERROR));
+        resolve();
       }
-      resolve();
     });
   });
 });
