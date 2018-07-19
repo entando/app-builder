@@ -20,6 +20,9 @@ describe('FragmentSearchFormContainer', () => {
   it('maps profileTypes property state in UserSearchFormContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       profileTypes: PROFILE_TYPES_OPTIONS,
+      initialValues: {
+        withProfile: 'all',
+      },
     });
   });
 
