@@ -34,7 +34,7 @@ describe('GroupForm', () => {
 
   it('root component renders without crashing', () => {
     groupForm = buildGroupForm();
-    expect(groupForm.exists()).toEqual(true);
+    expect(groupForm.exists()).toBe(true);
   });
 
   describe('test with mode = new', () => {
@@ -65,6 +65,21 @@ describe('GroupForm', () => {
       groupForm = buildGroupForm();
       groupForm.find('[name="name"]').simulate('change', changeEvent);
       expect(onChangeName).not.toHaveBeenCalled();
+    });
+
+    it('on focus code calls onFocus if defined on props', () => {
+      const onFocus = jest.fn();
+      groupForm = buildGroupForm();
+      groupForm.setProps({ onFocus });
+      groupForm.find('[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
+      expect(onFocus).toHaveBeenCalled();
+    });
+
+    it('on focus code calls onFocus if defined on props', () => {
+      const onFocus = jest.fn();
+      groupForm = buildGroupForm();
+      groupForm.find('[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
+      expect(onFocus).not.toHaveBeenCalled();
     });
 
     it('disables submit button while submitting', () => {
