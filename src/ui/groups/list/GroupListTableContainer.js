@@ -22,8 +22,8 @@ export const mapStateToProps = state => (
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
-    dispatch(fetchGroups(page));
     dispatch(clearErrors());
+    dispatch(fetchGroups(page, '?sort=name'));
   },
   onClickDelete: ({ code }) => {
     dispatch(setVisibleModal(MODAL_ID));

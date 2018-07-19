@@ -8,7 +8,7 @@ import { Field, FormSection } from 'redux-form';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
-const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
+const AttributeMonoListMonoSettings = ({ attributesList }) => {
   const selectAttribute = attributesList.map(item => ({
     value: item,
     text: item,
@@ -31,7 +31,6 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
               }
               name="type"
               validate={[required]}
-              selectedValue={defaultValue}
             />
           </FormSection>
         </fieldset>
@@ -41,14 +40,7 @@ const AttributeMonoListMonoSettings = ({ attributesList, defaultValue }) => {
 };
 
 AttributeMonoListMonoSettings.propTypes = {
-  attributesList: PropTypes.arrayOf(PropTypes.string),
-  defaultValue: PropTypes.string,
+  attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
-
-AttributeMonoListMonoSettings.defaultProps = {
-  attributesList: [],
-  defaultValue: '',
-};
-
 
 export default AttributeMonoListMonoSettings;

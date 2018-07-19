@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
+import { clearErrors } from '@entando/messages';
 import AttributeForm from 'ui/common/form/AttributeForm';
 import {
   setActionMode,
@@ -35,15 +36,16 @@ export const mapStateToProps = state => ({
     compositeAttributeType: TYPE_COMPOSITE,
   },
   allowedRoles: getDataTypeSelectedAttributeAllowedRoles(state),
-  compositeAttributes: getSelectedCompositeAttributes(state) || [],
+  compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
+    dispatch(clearErrors());
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values, allowedRoles) => {
-    dispatch(handlerAttributeFromDataType(METHODS.POST, values, allowedRoles));
+  onSubmit: (values, allowedRoles, mode) => {
+    dispatch(handlerAttributeFromDataType(METHODS.POST, values, allowedRoles, mode));
   },
   onAddAttribute: (props) => {
     const { attributeCode, entityCode, selectedAttributeType: { code } } = props;

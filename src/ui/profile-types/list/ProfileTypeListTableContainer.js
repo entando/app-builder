@@ -14,13 +14,13 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
-    loading: getLoading(state).profileType,
+    loading: getLoading(state).profileTypes,
   }
 );
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
-    dispatch(fetchProfileTypes(page));
+    dispatch(fetchProfileTypes(page, '?sort=name'));
   },
   removeProfileType: (code) => {
     dispatch(setVisibleModal(MODAL_ID));

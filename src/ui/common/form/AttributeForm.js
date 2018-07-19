@@ -16,7 +16,8 @@ import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings'
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 
 import {
-  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
   TYPE_COMPOSITE,
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
@@ -60,8 +61,20 @@ export class AttributeFormBody extends Component {
         case TYPE_CHECKBOX: return null;
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
-        case TYPE_MONOLIST: return <AttributeMonoListMonoSettings {...this.props} />;
-        case TYPE_LIST: return <AttributeMonoListMonoSettings {...this.props} />;
+        case TYPE_MONOLIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType.code}
+              attributesList={this.props.attributesList}
+            />
+          );
+        case TYPE_LIST:
+          return (
+            <AttributeMonoListMonoSettings
+              attributeType={selectedAttributeType.code}
+              attributesList={this.props.attributesList}
+            />
+          );
         case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
@@ -107,7 +120,7 @@ export class AttributeFormBody extends Component {
     return (
       <form
         onSubmit={this.props.handleSubmit(values => (
-            this.props.onSubmit(values, this.props.allowedRoles)
+            this.props.onSubmit(values, this.props.allowedRoles, mode)
           ))}
         className="form-horizontal"
       >
@@ -176,6 +189,7 @@ AttributeFormBody.propTypes = {
   })),
   mode: PropTypes.string.isRequired,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
+  attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 
 };
 

@@ -18,12 +18,16 @@ const ATTRIBUTESLIST = [
     type: 'Boolean',
     name: 'test1',
     roles: [],
+    mandatory: true,
+    listFilter: false,
   },
   {
     code: 'bbb',
     type: 'Boolean',
     name: 'test2',
     roles: [],
+    mandatory: false,
+    listFilter: true,
   },
 ];
 
