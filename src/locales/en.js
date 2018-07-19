@@ -461,7 +461,7 @@ export default {
     'profileType.table.status.ko': 'Stale status, please reload.',
     'profileType.table.status.wip': 'Reloading. Refresh this page.',
     'profileType.listEmpty': 'There are no PROFILE TYPES available',
-    'profileType.list.title': 'Profile Type',
+    'profileType.list.title': 'Profile Types',
     'profileType.help': 'The PROFILE TYPES section let the administrator add new user\'s profile type or edit those already existing.',
     'ProfileType.type': 'Type',
 
