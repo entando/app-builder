@@ -485,7 +485,7 @@ export default {
     'user.table.email': 'Email',
     'user.table.status': 'Status',
     'user.listEmpty': 'There are no USERS available',
-    'user.action.manageAuth': 'Manage autorization for: {username}',
+    'user.action.manageAuth': 'Manage authorization for: {username}',
     'user.action.editProfile': 'Edit profile of: {username}',
     'user.action.viewProfile': 'View profile of: {username}',
     'user.authority.title': 'Authorizations for {titleParam}',
