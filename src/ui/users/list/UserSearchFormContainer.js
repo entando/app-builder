@@ -4,7 +4,7 @@ import { fetchProfileTypes } from 'state/profile-types/actions';
 import { getProfileTypesOptions } from 'state/profile-types/selectors';
 import UserSearchForm from 'ui/users/list/UserSearchForm';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { PROFILE_FILTER_VALUE_MAP } from 'ui/users/common/const';
+import { PROFILE_FILTER_VALUE_MAP, PROFILE_FILTER_OPTIONS } from 'ui/users/common/const';
 
 const FIELD_OPERATORS = {
   username: FILTER_OPERATORS.LIKE,
@@ -26,6 +26,9 @@ const generateQueryString = (values) => {
 
 export const mapStateToProps = state => ({
   profileTypes: getProfileTypesOptions(state),
+  initialValues: {
+    withProfile: PROFILE_FILTER_OPTIONS[0].id,
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
