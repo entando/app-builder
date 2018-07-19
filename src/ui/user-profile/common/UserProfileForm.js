@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import Panel from 'react-bootstrap/lib/Panel';
@@ -51,12 +52,8 @@ const getEnumeratorOptions = (component, items, separator, mandatory) => {
 
 const getHelpMessage = (validationRules) => {
   if (validationRules) {
-    if (validationRules.ognlValidation) {
-      if (validationRules.ognlValidation.keyForHelpMessage) {
-        return formattedText(validationRules.ognlValidation.keyForHelpMessage);
-      }
-      return validationRules.ognlValidation.helpMessage;
-    }
+    const key = get(validationRules, 'ognlValidation.keyForHelpMessage');
+    return key ? formattedText(key) : get(validationRules, 'ognlValidation.helpMessage');
   }
   return null;
 };
@@ -94,6 +91,7 @@ export class UserProfileFormBody extends Component {
   render() {
     const {
       onSubmit, handleSubmit, invalid, submitting, defaultLanguage, languages,
+      profileTypesAttributes,
     } = this.props;
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
@@ -122,7 +120,7 @@ export class UserProfileFormBody extends Component {
     />);
 
     const showProfileFields = (
-      this.props.profileTypesAttributes.map((attribute) => {
+      profileTypesAttributes.map((attribute) => {
         if (attribute.type === 'Composite') {
           return (
             <Row key={attribute.code}>
