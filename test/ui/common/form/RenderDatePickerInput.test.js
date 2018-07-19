@@ -8,6 +8,10 @@ const INPUT = {
   value: '',
 };
 
+const momentMock = {
+  format: jest.fn(),
+};
+
 describe('RenderDatePickerInput', () => {
   let component;
   beforeEach(() => {
@@ -20,5 +24,10 @@ describe('RenderDatePickerInput', () => {
 
   it('has DatePicker', () => {
     expect(component.find('DatePicker').exists()).toBe(true);
+  });
+
+  it('this.handleChange calls input.onChange', () => {
+    component.instance().handleChange(momentMock);
+    expect(INPUT.onChange).toHaveBeenCalled();
   });
 });
