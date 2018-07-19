@@ -36,7 +36,7 @@ const ListProfileTypePage = () => (
         <Col md={12}>
           <Link route={ROUTE_PROFILE_TYPE_ADD} className="pull-right">
             <Button className="ProfileType__add" bsStyle="primary" >
-              <FormattedMessage id="app.new" />
+              <FormattedMessage id="app.add" />
             </Button>
           </Link>
         </Col>
