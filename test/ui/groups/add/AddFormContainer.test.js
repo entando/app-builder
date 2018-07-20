@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import { mapDispatchToProps } from 'ui/groups/add/AddFormContainer';
-import { change } from 'redux-form';
+import { change, touch } from 'redux-form';
 
 jest.mock('state/groups/actions', () => ({
   sendPostGroup: jest.fn().mockReturnValue('sendPostGroup_result'),
@@ -24,6 +24,13 @@ describe('AddFormContainer', () => {
       expect(props.onChangeName).toBeDefined();
       props.onChangeName('Group Name');
       expect(change).toHaveBeenCalledWith('group', 'code', 'group_name');
+      expect(touch).toHaveBeenCalledWith('group', 'code');
+    });
+
+    it('verify that onFocus is defined by mapDispatchToProps', () => {
+      expect(props.onFocus).toBeDefined();
+      props.onFocus('code');
+      expect(touch).toHaveBeenCalledWith('group', 'code');
     });
   });
 });

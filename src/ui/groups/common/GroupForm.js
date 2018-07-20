@@ -25,7 +25,7 @@ export class GroupFormBody extends Component {
 
   render() {
     const {
-      invalid, submitting, mode, onChangeName,
+      invalid, submitting, mode, onChangeName, onFocus,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
@@ -53,6 +53,7 @@ export class GroupFormBody extends Component {
                 name="code"
                 label={<FormLabel labelId="group.code" helpId="group.code.help" required />}
                 placeholder={formattedText('group.code')}
+                onFocus={(ev) => { if (onFocus) onFocus(ev.currentTarget.name); }}
                 validate={[required, maxLength20, code]}
                 disabled={isEdit}
               />
@@ -82,6 +83,7 @@ GroupFormBody.propTypes = {
   submitting: PropTypes.bool,
   mode: PropTypes.string,
   onChangeName: PropTypes.func,
+  onFocus: PropTypes.func,
   onWillMount: PropTypes.func,
 };
 
@@ -90,6 +92,7 @@ GroupFormBody.defaultProps = {
   submitting: false,
   mode: NEW_MODE,
   onChangeName: null,
+  onFocus: null,
   onWillMount: () => {},
 };
 
