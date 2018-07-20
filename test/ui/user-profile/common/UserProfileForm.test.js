@@ -208,7 +208,7 @@ describe('with validation rules', () => {
       validationRules: { ognlValidation: { keyForHelpMessage: 'app.myKey' } },
     });
 
-    expect(component.find('FormSection[name="myComposite"]')).toExist();
+    expect(component.find('Field[name="myText"]')).toExist();
   });
 
   it('when the message text is provided', () => {
@@ -218,6 +218,6 @@ describe('with validation rules', () => {
       validationRules: { ognlValidation: { helpMessage: 'My help message' } },
     });
 
-    expect(component.find('FormSection[name="myComposite"]')).toExist();
+    expect(component.find('Field[name="myText"]')).toExist();
   });
 });
