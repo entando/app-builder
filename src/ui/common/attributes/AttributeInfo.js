@@ -24,9 +24,6 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
         </Col>
       </FormGroup>
     );
-    if (mode === MODE_EDIT) {
-      return html;
-    }
     return isSearchable ? html : null;
   };
 
@@ -41,9 +38,6 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
         </Col>
       </FormGroup>
     );
-    if (mode === MODE_EDIT) {
-      return html;
-    }
     return isIndexable ? html : null;
   };
 
@@ -72,7 +66,7 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
             validate={[required, maxLength10]}
-            disabled={mode === 'edit'}
+            disabled={mode === MODE_EDIT}
           />
           <Field
             component={RenderTextInput}
