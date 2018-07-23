@@ -41,7 +41,7 @@ export class EditAttributeFormBody extends Component {
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
-      nestedAttributeComposite,
+      nestedAttributeComposite, isSearchable, isIndexable,
     } = this.props;
 
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
@@ -53,7 +53,8 @@ export class EditAttributeFormBody extends Component {
       isComposite ?
         <AttributeInfoComposite /> :
         <AttributeInfo
-          {...this.props}
+          isSearchable={isSearchable}
+          isIndexable={isIndexable}
           mode={mode}
         />
     );
@@ -128,14 +129,15 @@ export class EditAttributeFormBody extends Component {
           );
         case TYPE_MONOLIST:
           return (
-            <Alert type="info">
-              <FormattedMessage id="app.working" />
-              {TYPE_COMPOSITE},&nbsp;
-              <FormattedMessage id="app.element.of" />&nbsp;
-              { isComposite ? attributeCode : nestedAttributeComposite }&nbsp;
+            mode === MODE_EDIT_COMPOSITE ?
+              <Alert type="info">
+                <FormattedMessage id="app.working" />
+                {TYPE_COMPOSITE},&nbsp;
+                <FormattedMessage id="app.element.of" />&nbsp;
+                { isComposite ? attributeCode : nestedAttributeComposite }&nbsp;
                 ({TYPE_MONOLIST})
-            </Alert>
-          );
+              </Alert>
+              : null);
         default: return null;
       }
     };
@@ -201,6 +203,8 @@ EditAttributeFormBody.propTypes = {
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   nestedAttributeComposite: PropTypes.string.isRequired,
+  isSearchable: PropTypes.bool,
+  isIndexable: PropTypes.bool,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -212,6 +216,8 @@ EditAttributeFormBody.defaultProps = {
   indexable: false,
   listFilter: false,
   allowedRoles: [],
+  isSearchable: false,
+  isIndexable: false,
 };
 
 const EditAttributeForm = reduxForm({
