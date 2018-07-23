@@ -12,13 +12,16 @@ import { getComponentType } from 'helpers/entities';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/form/RenderListField';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS } from 'ui/users/common/const';
-
+import {
+  TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
+  TYPE_COMPOSITE,
+} from 'state/data-types/const';
 
 const getComponentOptions = (component) => {
   switch (component) {
-    case 'Boolean':
+    case TYPE_BOOLEAN:
       return BOOLEAN_OPTIONS;
-    case 'ThreeState':
+    case TYPE_THREESTATE:
       return THREE_STATE_OPTIONS;
     default: return null;
   }
@@ -30,19 +33,18 @@ const getEnumeratorOptions = (component, items, separator, mandatory) => {
     options.push({ value: '', optionDisplayName: formattedText('app.enumerator.none') });
   }
   switch (component) {
-    case 'Enumerator':
+    case TYPE_ENUMERATOR:
     { const itemsList = items.split(separator);
       itemsList.forEach((item) => {
         options.push({ optionDisplayName: item, value: item });
       });
       return options;
     }
-    case 'EnumeratorMap': {
+    case TYPE_ENUMERATOR_MAP: {
       const itemsList = items.split(separator);
       itemsList.forEach((item) => {
-        const itemKey = item.split('=')[0].trim();
-        const itemValue = item.split('=')[1].trim();
-        options.push({ optionDisplayName: itemKey, value: itemValue });
+        const [itemKey, itemValue] = item.split('=');
+        options.push({ optionDisplayName: itemKey.trim(), value: itemValue.trim() });
       });
       return options;
     }
@@ -121,7 +123,7 @@ export class UserProfileFormBody extends Component {
 
     const showProfileFields = (
       profileTypesAttributes.map((attribute) => {
-        if (attribute.type === 'Composite') {
+        if (attribute.type === TYPE_COMPOSITE) {
           return (
             <Row key={attribute.code}>
               <label className="control-label col-xs-2">
@@ -143,14 +145,14 @@ export class UserProfileFormBody extends Component {
             </Row>
           );
         }
-        if (attribute.type === 'List') {
+        if (attribute.type === TYPE_LIST) {
           return languages.map(lang => (
             <div key={lang.code}>
               {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
             </div>
           ));
         }
-        if (attribute.type === 'Monolist') {
+        if (attribute.type === TYPE_MONOLIST) {
           return (
             <Row key={attribute.code}>
               <Col xs={12}>
