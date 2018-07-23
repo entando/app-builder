@@ -6,9 +6,14 @@ export const reducer = () => ({});
 export const formValueSelector = jest.fn().mockReturnValue(returnedFuncMock);
 
 export const Field = () => () => 'span';
-export const FieldArray = () => () => 'span';
-
 Field.displayName = 'Field';
+
+export const FieldArray = () => () => 'span';
+FieldArray.displayName = 'FieldArray';
+
+export const FormSection = () => () => 'span';
+FormSection.displayName = 'FormSection';
+
 
 // action creators
 export const blur = jest.fn().mockReturnValue({ type: '@@redux-form/BLUR' });

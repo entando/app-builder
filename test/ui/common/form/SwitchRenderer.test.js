@@ -6,6 +6,7 @@ import { shallow } from 'enzyme';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 const VALUE = true;
+const NAME = 'inputName';
 const onChangeMock = jest.fn();
 
 describe('SwitchRenderer', () => {
@@ -16,7 +17,7 @@ describe('SwitchRenderer', () => {
   beforeEach(() => {
     component = shallow((
       <SwitchRenderer
-        input={{ value: VALUE, onChange: onChangeMock }}
+        input={{ value: VALUE, name: NAME, onChange: onChangeMock }}
       />
     ));
     switchComponent = component.find('Switch');
