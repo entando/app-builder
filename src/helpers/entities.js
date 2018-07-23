@@ -8,6 +8,11 @@ import RenderDateTimePickerInput from 'ui/common/form/RenderDateTimePickerInput'
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import {
+  TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_CHECKBOX, TYPE_DATE, TYPE_TIMESTAMP, TYPE_LONGTEXT,
+  TYPE_HYPERTEXT, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_TEXT, TYPE_MONOLIST, TYPE_LIST,
+  TYPE_COMPOSITE, TYPE_NUMBER,
+} from 'state/data-types/const';
 
 const FORM_DATE_FORMAT = 'DD/MM/YYYY';
 const API_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -15,22 +20,25 @@ const API_TIMESTAMP_FORMAT = 'YYYY-MM-DD';
 
 export const zeroFill = number => padStart(number, 2, '0');
 
+const changeDateFormat = (dateString, sourceFormat, targetFormat) =>
+  moment(dateString, sourceFormat).format(targetFormat);
+
 export const getComponentType = (component) => {
   switch (component) {
-    case 'Boolean':
-    case 'ThreeState':
+    case TYPE_BOOLEAN:
+    case TYPE_THREESTATE:
       return RenderRadioInput;
-    case 'CheckBox':
+    case TYPE_CHECKBOX:
       return SwitchRenderer;
-    case 'Date':
+    case TYPE_DATE:
       return RenderDatePickerInput;
-    case 'Timestamp':
+    case TYPE_TIMESTAMP:
       return RenderDateTimePickerInput;
-    case 'Longtext':
-    case 'Hypertext':
+    case TYPE_LONGTEXT:
+    case TYPE_HYPERTEXT:
       return RenderTextAreaInput;
-    case 'Enumerator':
-    case 'EnumeratorMap':
+    case TYPE_ENUMERATOR:
+    case TYPE_ENUMERATOR_MAP:
       return RenderSelectInput;
     default: return RenderTextInput;
   }
@@ -54,8 +62,8 @@ export const getPayloadForForm = (
     const attrType = selectedProfileType.find(type => type.code === code);
 
     switch (attrType.type) {
-      case 'Boolean':
-      case 'ThreeState': {
+      case TYPE_BOOLEAN:
+      case TYPE_THREESTATE: {
         if (value === undefined) {
           formAttr[code] = null;
         } else {
@@ -63,31 +71,27 @@ export const getPayloadForForm = (
         }
         break;
       }
-      case 'Date': {
-        const newDate = moment(value, API_DATE_FORMAT).format(FORM_DATE_FORMAT);
-        formAttr[code] = newDate;
+      case TYPE_DATE: {
+        formAttr[code] = changeDateFormat(value, API_DATE_FORMAT, FORM_DATE_FORMAT);
         break;
       }
-      case 'Timestamp': {
-        const hours = moment(value).hours();
-        const minutes = moment(value).minutes();
-        const seconds = moment(value).seconds();
-        const newDate = moment(value, API_TIMESTAMP_FORMAT).format(FORM_DATE_FORMAT);
-        formAttr[`${code}_ts_hours`] = zeroFill(hours);
-        formAttr[`${code}_ts_minutes`] = zeroFill(minutes);
-        formAttr[`${code}_ts_seconds`] = zeroFill(seconds);
-        formAttr[code] = newDate;
+      case TYPE_TIMESTAMP: {
+        const momentDate = moment(value);
+        formAttr[`${code}_ts_hours`] = zeroFill(momentDate.hours());
+        formAttr[`${code}_ts_minutes`] = zeroFill(momentDate.minutes());
+        formAttr[`${code}_ts_seconds`] = zeroFill(momentDate.seconds());
+        formAttr[code] = changeDateFormat(value, API_TIMESTAMP_FORMAT, FORM_DATE_FORMAT);
         break;
       }
-      case 'Hypertext':
-      case 'Longtext':
-      case 'Text': {
+      case TYPE_HYPERTEXT:
+      case TYPE_LONGTEXT:
+      case TYPE_TEXT: {
         if (values) {
           formAttr[code] = values[defaultLanguage];
         }
         break;
       }
-      case 'Monolist': {
+      case TYPE_MONOLIST: {
         const childProfileType = selectedProfileType.find(item => item.code === code);
         if (Array.isArray(elements) && childProfileType && childProfileType.nestedAttribute) {
           formAttr[code] = elements.map(element =>
@@ -100,7 +104,7 @@ export const getPayloadForForm = (
         }
         break;
       }
-      case 'List': {
+      case TYPE_LIST: {
         if (listElements) {
           formAttr[code] = Object.keys(listElements).reduce((acc, langCode) => {
             acc[langCode] = listElements[langCode].map(item => item.value);
@@ -111,7 +115,7 @@ export const getPayloadForForm = (
         }
         break;
       }
-      case 'Composite': {
+      case TYPE_COMPOSITE: {
         const childProfileType = selectedProfileType.find(item => item.code === code);
         if (elements && childProfileType) {
           formAttr[code] = getPayloadForForm(
@@ -140,12 +144,12 @@ export const getPayloadForApi = (
     if (!key.match(/^id$|^typeCode$|^typeDescription$|_ts_hours$|_ts_minutes$|_ts_seconds$/)) {
       const attrType = selectedProfileType.find(type => type.code === key);
       switch (attrType.type) {
-        case 'Boolean': {
+        case TYPE_BOOLEAN: {
           const isTrue = (profile[key] === 'true');
           attr.push({ code: key, value: isTrue });
           break;
         }
-        case 'ThreeState': {
+        case TYPE_THREESTATE: {
           const isTrue = (profile[key] === 'true');
           if (profile[key] === '') {
             attr.push({ code: key, value: null });
@@ -154,31 +158,31 @@ export const getPayloadForApi = (
           }
           break;
         }
-        case 'Number': {
+        case TYPE_NUMBER: {
           attr.push({ code: key, value: Number(profile[key]) });
           break;
         }
-        case 'Date': {
-          const formattedDate = moment(profile[key], FORM_DATE_FORMAT).format(API_DATE_FORMAT);
+        case TYPE_DATE: {
+          const formattedDate = changeDateFormat(profile[key], FORM_DATE_FORMAT, API_DATE_FORMAT);
           attr.push({ code: key, value: formattedDate });
           break;
         }
-        case 'Timestamp': {
-          const formattedDate = moment(profile[key], FORM_DATE_FORMAT).format(API_TIMESTAMP_FORMAT);
+        case TYPE_TIMESTAMP: {
+          const dateStr = changeDateFormat(profile[key], FORM_DATE_FORMAT, API_TIMESTAMP_FORMAT);
           const hours = profile[`${key}_ts_hours`];
           const minutes = profile[`${key}_ts_minutes`];
           const seconds = profile[`${key}_ts_seconds`];
-          const newTimestamp = `${formattedDate} ${hours}:${minutes}:${seconds}`;
+          const newTimestamp = `${dateStr} ${hours}:${minutes}:${seconds}`;
           attr.push({ code: key, value: newTimestamp });
           break;
         }
-        case 'Text':
-        case 'Longtext':
-        case 'Hypertext': {
+        case TYPE_TEXT:
+        case TYPE_LONGTEXT:
+        case TYPE_HYPERTEXT: {
           attr.push({ code: key, values: { [defaultLanguage]: profile[key] } });
           break;
         }
-        case 'Monolist': {
+        case TYPE_MONOLIST: {
           const childProfileType = selectedProfileType.find(item => item.code === key);
           const elements = profile[key].map(value =>
             first(getPayloadForApi(
@@ -190,7 +194,7 @@ export const getPayloadForApi = (
           attr.push({ code: key, elements });
           break;
         }
-        case 'List': {
+        case TYPE_LIST: {
           const listElements = Object.keys(profile[key]).reduce((acc, langCode) => {
             acc[langCode] = profile[key][langCode].map(value => ({ code: key, value }));
             return acc;
@@ -198,7 +202,7 @@ export const getPayloadForApi = (
           attr.push({ code: key, listElements });
           break;
         }
-        case 'Composite': {
+        case TYPE_COMPOSITE: {
           const childProfileType = selectedProfileType.find(item => item.code === key);
           const elements = getPayloadForApi(
             profile[key],
