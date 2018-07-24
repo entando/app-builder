@@ -162,7 +162,7 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPostProfileType(PROFILE_TYPES)).then(() => {
           expect(postProfileType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(2);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           expect(actions[1].payload).toHaveProperty('type', 'error');
           done();
