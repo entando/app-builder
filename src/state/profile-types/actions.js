@@ -166,7 +166,6 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          dispatch(clearErrors());
         }
         resolve();
       });
