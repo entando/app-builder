@@ -2,7 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import moment from 'moment';
-import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
 import {
