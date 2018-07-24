@@ -474,6 +474,7 @@ export default {
     'profileType.list.title': 'Profile Types',
     'profileType.help': 'The PROFILE TYPES section let the administrator add new user\'s profile type or edit those already existing.',
     'ProfileType.type': 'Type',
+    'ProfileType.created': 'PROFILE TYPE created succesfully',
 
     'pageConfig.saveAsNewWidget': 'Save it as new widget',
     'pageConfig.applyDefaultWidget': 'Apply the default widget',

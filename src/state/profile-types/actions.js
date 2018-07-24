@@ -2,8 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import moment from 'moment';
-
-import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
 import {
@@ -163,9 +162,11 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
     postProfileType(ProfileTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          dispatch(addToast(formattedText('ProfileType.created'), TOAST_SUCCESS));
           gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: json.payload.code });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
