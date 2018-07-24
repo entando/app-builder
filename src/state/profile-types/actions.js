@@ -2,7 +2,7 @@ import { initialize } from 'redux-form';
 import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import moment from 'moment';
-import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
 import {
@@ -167,7 +167,6 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          dispatch(clearErrors());
         }
         resolve();
       });
