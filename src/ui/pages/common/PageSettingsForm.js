@@ -75,36 +75,40 @@ export class PageSettingsFormBody extends Component {
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 label={
                   <FormLabel labelId="pageSettings.input.homepage" />
               }
-                fieldName="homePageCode"
+                name="homePageCode"
                 mandatory
               />
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 label={
                   <FormLabel labelId="pageSettings.input.500" />
               }
-                fieldName="errorPageCode"
+                name="errorPageCode"
                 mandatory
               />
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 label={
                   <FormLabel labelId="pageSettings.input.proceed" />
               }
-                fieldName="loginPageCode"
+                name="loginPageCode"
                 mandatory
               />
-              <RenderSelectInput
+              <Field
+                component={RenderSelectInput}
                 options={selectOptions}
                 label={
                   <FormLabel labelId="pageSettings.input.404" />
               }
-                fieldName="notFoundPageCode"
+                name="notFoundPageCode"
                 mandatory
               />
               <div className="form-group">
