@@ -38,8 +38,8 @@ describe('PageSettingsForm', () => {
     it('has class PageSettingsForm', () => {
       expect(component.hasClass('PageSettingsForm')).toBe(true);
     });
-    it('test if RenderSelectInput options are properly valued', () => {
-      const selectComponent = component.find('RenderSelectInput').first();
+    it('test if RenderSelectInput options on Field are properly valued', () => {
+      const selectComponent = component.find('Field').first();
       const { options } = selectComponent.props();
       expect(options).toHaveLength(OPTIONS.length);
       options.forEach((option, i) => {
@@ -61,22 +61,22 @@ describe('PageSettingsForm', () => {
     });
 
     it('renders homePageCode field', () => {
-      const homePageCode = component.find('[fieldName="homePageCode"]');
+      const homePageCode = component.find('[name="homePageCode"]');
       expect(homePageCode.exists()).toBe(true);
     });
 
     it('renders errorPageCode field', () => {
-      const errorPageCode = component.find('[fieldName="errorPageCode"]');
+      const errorPageCode = component.find('[name="errorPageCode"]');
       expect(errorPageCode.exists()).toBe(true);
     });
 
     it('renders loginPageCode field', () => {
-      const loginPageCode = component.find('[fieldName="loginPageCode"]');
+      const loginPageCode = component.find('[name="loginPageCode"]');
       expect(loginPageCode.exists()).toBe(true);
     });
 
     it('renders notFoundPageCode field', () => {
-      const notFoundPageCode = component.find('[fieldName="notFoundPageCode"]');
+      const notFoundPageCode = component.find('[name="notFoundPageCode"]');
       expect(notFoundPageCode.exists()).toBe(true);
     });
 
