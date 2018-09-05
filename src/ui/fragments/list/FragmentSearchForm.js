@@ -61,7 +61,7 @@ export class FragmentSearchFormBody extends Component {
               <Field
                 component="select"
                 className="form-control"
-                name="widgetType"
+                name="widgetType.code"
               >
                 <option>{formattedText('app.all')}</option>
                 {renderSelectOptgroup(this.props.widgetTypes)}

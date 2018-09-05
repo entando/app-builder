@@ -4,6 +4,7 @@ import { fetchWidgetList } from 'state/widgets/actions';
 import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
+import { flatten } from 'flat';
 
 const FIELD_OPERATORS = {
   code: FILTER_OPERATORS.EQUAL,
@@ -25,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
   // calls search API when available
   onSubmit: (values) => {
     dispatch(fetchFragments({ page: 1, pageSize: 10 }, convertToQueryString({
-      formValues: values,
+      formValues: flatten(values),
       operators: FIELD_OPERATORS,
       sorting: {
         attribute: 'code',
