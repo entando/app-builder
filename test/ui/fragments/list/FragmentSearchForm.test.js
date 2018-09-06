@@ -49,7 +49,7 @@ describe('FragmentSearchForm', () => {
     });
 
     it('root component renders widgetType field', () => {
-      const widgetType = fragmentSearchForm.find('[name="widgetType"]');
+      const widgetType = fragmentSearchForm.find('[name="widgetType.code"]');
       expect(widgetType.exists()).toEqual(true);
     });
     it('root component renders plugin Field', () => {
