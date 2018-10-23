@@ -8,7 +8,7 @@ export const getErrors = (username, password) => (
 );
 
 const login = (username, password) => makeRequest({
-  uri: '/oauth/token',
+  uri: '/api/oauth/token',
   method: METHODS.POST,
   mockResponse: BODY_OK,
   contentType: 'application/x-www-form-urlencoded',
