@@ -15,7 +15,7 @@ describe('api/login', () => {
   it('returns a promise', () => {
     const response = login('gianni', 'moi');
     expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/oauth/token',
+      uri: '/api/oauth/token',
       method: 'POST',
       mockResponse: BODY_OK,
       contentType: 'application/x-www-form-urlencoded',
