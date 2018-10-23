@@ -15,16 +15,19 @@ describe('api/login', () => {
   it('returns a promise', () => {
     const response = login('gianni', 'moi');
     expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/OAuth2/access_token',
+      uri: '/oauth/token',
       method: 'POST',
       mockResponse: BODY_OK,
       contentType: 'application/x-www-form-urlencoded',
+      headers: {
+        Authorization: 'Basic dW5kZWZpbmVkOnVuZGVmaW5lZA==',
+      },
       body: {
         username: 'gianni',
         password: 'moi',
         grant_type: 'password',
-        client_id: true,
-        client_secret: true,
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
       },
       errors: expect.any(Function),
     });
