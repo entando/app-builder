@@ -1,5 +1,6 @@
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { gotoRoute } from '@entando/router';
 import { initialize } from 'redux-form';
 import { getUserProfile, putUserProfile } from 'api/userProfile';
 import { SET_USER_PROFILE } from 'state/user-profile/types';
@@ -7,6 +8,8 @@ import { fetchProfileType } from 'state/profile-types/actions';
 import { getPayloadForForm, getPayloadForApi } from 'helpers/entities';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
+
+import { ROUTE_USER_LIST } from 'app-init/router';
 
 export const setUserProfile = profile => ({
   type: SET_USER_PROFILE,
@@ -54,6 +57,7 @@ export const updateUserProfile = profile => (dispatch, getState) => new Promise(
           formattedText('userprofile.edit.success'),
           TOAST_SUCCESS,
         ));
+        gotoRoute(ROUTE_USER_LIST);
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
         dispatch(addToast(json.errors[0].message, TOAST_ERROR));

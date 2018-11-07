@@ -1,8 +1,8 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-
 import { mockApi } from 'test/testUtils';
 
+import { gotoRoute } from '@entando/router';
 import { getUserProfile, putUserProfile } from 'api/userProfile';
 
 import { SET_SELECTED_PROFILE_TYPE } from 'state/profile-types/types';
@@ -97,6 +97,7 @@ describe('updateUserProfile', () => {
       expect(actions).toHaveLength(2);
       expect(actions[0]).toHaveProperty('type', SET_USER_PROFILE);
       expect(actions[1]).toHaveProperty('type', 'toasts/add-toast');
+      expect(gotoRoute).toHaveBeenCalled();
       done();
     }).catch(done.fail);
   });
