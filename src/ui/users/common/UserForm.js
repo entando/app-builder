@@ -20,6 +20,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
 
+const minLength4 = minLength(4);
 const minLength8 = minLength(8);
 const maxLength20 = maxLength(20);
 
@@ -59,7 +60,7 @@ export class UserFormBody extends Component {
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
         placeholder={formattedText('user.table.username')}
         validate={mode !== EDIT_MODE ?
-          [required, maxLength20, userFormText] : undefined}
+          [required, minLength4, maxLength20, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
       />
     );

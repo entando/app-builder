@@ -66,6 +66,28 @@ describe('UserForm', () => {
       expect(username.exists()).toEqual(true);
     });
 
+    describe('username validation', () => {
+      let validatorArray;
+      beforeEach(() => {
+        validatorArray = userForm.find('[name="username"]').prop('validate');
+      });
+
+      it('is required', () => {
+        expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
+      });
+
+      it('is invalid if input is shorter than 4 chars', () => {
+        expect(runValidators(validatorArray, '123').props.id).toBe('validateForm.minLength');
+        expect(runValidators(validatorArray, '1234')).toBeFalsy();
+      });
+
+      it('is invalid if input is longer than 20 chars', () => {
+        expect(runValidators(validatorArray, '123456789abcdefghijk')).toBeFalsy();
+        expect(runValidators(validatorArray, '123456789abcdefghijkl').props.id)
+          .toBe('validateForm.maxLength');
+      });
+    });
+
     it('root component renders status field', () => {
       const status = userForm.find('[name="status"]');
       expect(status.exists()).toEqual(true);
