@@ -26,14 +26,13 @@ class GroupDetailTabContents extends React.Component {
   }
 
   renderRows() {
-    const DATE_FORMAT = 'DD/MM/YYYY';
     return this.props.contentReferences.map(item =>
       (
         <tr key={item.id}>
           <td>{item.description}</td>
           <td>{item.typeCode}</td>
           <td>{item.typeDescription}</td>
-          <td>{moment(item.lastModified).format(DATE_FORMAT)}</td>
+          <td>{moment(item.lastModified).format('DD/MM/YYYY')}</td>
         </tr>
       ));
   }
