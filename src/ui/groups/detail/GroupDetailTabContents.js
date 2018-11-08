@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
@@ -25,14 +26,15 @@ class GroupDetailTabContents extends React.Component {
   }
 
   renderRows() {
-    return this.props.contentReferences.map(item => (
-      <tr key={item.code}>
-        <td>{item.name}</td>
-        <td>{item.code}</td>
-        <td>{item.type}</td>
-        <td>{item.lastEdit}</td>
-      </tr>
-    ));
+    return this.props.contentReferences.map(item =>
+      (
+        <tr key={item.id}>
+          <td>{item.description}</td>
+          <td>{item.typeCode}</td>
+          <td>{item.typeDescription}</td>
+          <td>{moment(item.lastModified).format('DD/MM/YYYY')}</td>
+        </tr>
+      ));
   }
 
   renderTable() {
@@ -47,7 +49,7 @@ class GroupDetailTabContents extends React.Component {
           <Table className="GroupDetailTabContents__table" striped bordered condensed hover >
             <thead>
               <tr>
-                <th><FormattedMessage id="app.title" /></th>
+                <th><FormattedMessage id="app.name" /></th>
                 <th><FormattedMessage id="app.code" /></th>
                 <th><FormattedMessage id="app.type" /></th>
                 <th><FormattedMessage id="group.content.lastEdit" /></th>
