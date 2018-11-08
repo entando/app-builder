@@ -50,7 +50,7 @@ class FilesListTable extends Component {
     return this.props.files.map(file => (
       <tr key={file.path}>
         <td className="FilesListRow__td">{getLinkItem(file)}</td>
-        <td className="FilesListRow__td">{file.size}</td>
+        <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
         <td className="FilesListRow__td">{file.lastModifiedTime}</td>
         <td className="FilesListRow__td">
           <FilesListMenuActions
