@@ -26,9 +26,9 @@ class GroupDetailTabResources extends React.Component {
 
   renderRows() {
     return this.props.resourceReferences.map(item => (
-      <tr key={item.code}>
-        <td>{item.name}</td>
-        <td>{item.type}</td>
+      <tr key={item.id}>
+        <td>{item.description}</td>
+        <td>{item.typeCode}</td>
       </tr>
     ));
   }
