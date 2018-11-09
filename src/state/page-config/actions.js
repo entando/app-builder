@@ -245,6 +245,11 @@ export const editWidgetConfig = frameId =>
     const pageConfig = getSelectedPageConfig(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
+      const { pageCode } = getParams(getState());
       dispatch(initialize('widgetConfigForm', pageConfigItem.config));
+      gotoRoute(
+        ROUTE_WIDGET_CONFIG,
+        { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
+      );
     }
   };
