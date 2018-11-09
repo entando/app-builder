@@ -1,6 +1,7 @@
 import { formattedText } from '@entando/utils';
 import { gotoRoute } from '@entando/router';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { initialize } from 'redux-form';
 
 import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { toggleLoading } from 'state/loading/actions';
@@ -34,6 +35,36 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 
 
 // thunks
+
+const getBase64 = file => (
+  new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64 = reader.result.split(',');
+      resolve(base64[1]);
+    };
+  }));
+
+export const fetchFile = filename => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const state = getState();
+    dispatch(toggleLoading('file'));
+    const { protectedFolder, currentPath } = getPathInfo(state);
+    const queryString = `?protectedFolder=${protectedFolder === null ? false : protectedFolder}&currentPath=${currentPath}/${filename}`;
+    getFile(queryString).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
+        } else {
+          dispatch(addErrors(json.errors.map(e => e.message)));
+        }
+        dispatch(toggleLoading('file'));
+        resolve();
+      });
+    });
+  });
+
 export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
   new Promise((resolve) => {
     dispatch(toggleLoading('files'));
@@ -51,25 +82,14 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
           gotoRoute(ROUTE_FILE_BROWSER);
           dispatch(setFileList(json.payload));
           dispatch(setPathInfo(json.metaData));
-          dispatch(toggleLoading('files'));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }
+        dispatch(toggleLoading('files'));
         resolve();
       });
     }).catch(() => {});
   });
-
-
-const getBase64 = file => (
-  new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const base64 = reader.result.split(',');
-      resolve(base64[1]);
-    };
-  }));
 
 const sendPostFile = fileObject => new Promise((resolve, reject) => {
   postFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {

@@ -1,11 +1,13 @@
 .CreateTextFileForm {
-
   &__input {
     padding: 0 20px;
   }
 
   &__btn-cancel {
     margin-right: 2em;
-}
+  }
 
+  &__download-filename-icon {
+    margin-left: 5px;
+  }
 }

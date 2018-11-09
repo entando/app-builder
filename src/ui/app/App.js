@@ -74,6 +74,7 @@ import {
   ROUTE_FILE_BROWSER_UPLOAD,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_FILE_BROWSER_CREATE_TEXT_FILE,
+  ROUTE_FILE_BROWSER_EDIT_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
 } from 'app-init/router';
 
@@ -150,6 +151,7 @@ import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
+import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 
 const getRouteComponent = (route) => {
   switch (route) {
@@ -228,6 +230,7 @@ const getRouteComponent = (route) => {
     case ROUTE_FILE_BROWSER_UPLOAD: return <UploadFileBrowserPage />;
     case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
     case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
+    case ROUTE_FILE_BROWSER_EDIT_TEXT_FILE: return <EditTextFilePage />;
     default: return <NotFoundPage />;
   }
 };
