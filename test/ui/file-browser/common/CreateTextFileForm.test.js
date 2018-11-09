@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { required } from '@entando/utils';
 
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
-import { CreateTextFileFormBody, maxLength50 } from 'ui/file-browser/add/CreateTextFileForm';
+import { CreateTextFileFormBody, maxLength50 } from 'ui/file-browser/common/CreateTextFileForm';
 
 const handleSubmit = jest.fn();
 
