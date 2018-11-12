@@ -383,6 +383,7 @@ export default {
     'fragment.settings': 'Abilita la creazione di fragment con default GUI vuota',
     'fragment.settings.alert.success': 'Le impostazioni sono state aggiornate',
     'fragment.settings.alert.error': 'Le impostazioni non sono state aggiornate',
+    'fragment.alert.error.fileExtension': 'Estensione del file non e\' permessa',
     'fileBrowser.list.upLink': 'up..',
     'fileBrowser.list.size': 'Dimensione',
     'fileBrowser.list.lastModifiedTime': 'Ultima modifica',
