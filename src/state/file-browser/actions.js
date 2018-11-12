@@ -60,6 +60,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
             dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
+            gotoRoute(ROUTE_FILE_BROWSER);
           }
           dispatch(toggleLoading('file'));
           resolve();
