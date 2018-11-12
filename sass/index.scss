@@ -1,4 +1,3 @@
-
 @import "patternfly";
 @import "common/patternfly-override";
 @import "internal-page/InternalPage";
@@ -83,7 +82,7 @@
 @import "file-browser/list/FilesListTable";
 @import "file-browser/list/FileBreadcrumb";
 @import "file-browser/upload/UploadFileBrowserForm";
-@import "file-browser/add/CreateTextFileForm";
+@import "file-browser/common/CreateTextFileForm";
 @import "activity-stream/Notification";
 @import "profile-types/common/ProfileTypeForm";
 @import "profile-types/list/ProfileTypeListTable";
