@@ -92,7 +92,6 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
   );
 };
 
-export default AttributeInfo;
 
 AttributeInfo.propTypes = {
   isSearchable: PropTypes.bool,
@@ -108,3 +107,5 @@ AttributeInfo.defaultProps = {
 AttributeInfo.defaultProps = {
   mode: MODE_ADD,
 };
+
+export default AttributeInfo;

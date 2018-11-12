@@ -156,6 +156,7 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
           dispatch(removeFragment(fragmentCode));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
