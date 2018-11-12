@@ -15,3 +15,4 @@ export const moveAttributeUp = jest.fn(mockApi({ payload: {} }));
 export const moveAttributeDown = jest.fn(mockApi({ payload: {} }));
 export const getDataTypesStatus = jest.fn(mockApi({ payload: {} }));
 export const postDataTypesStatus = jest.fn(mockApi({ payload: {} }));
+export const postRefreshDataTypes = jest.fn(mockApi({ payload: {} }));
