@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from '@entando/router';
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
 import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
+
+import { ROUTE_FILE_BROWSER_EDIT_TEXT_FILE } from 'app-init/router';
 
 class FilesListTable extends Component {
   componentWillMount() {
@@ -38,6 +41,14 @@ class FilesListTable extends Component {
           <a className="FilesListTable__link-dir" role="presentation" onClick={() => this.props.onWillMount(getProtectedFolder(file.path), getQueryString(file.path))}>
             <Icon size="lg" name="folder" /> {file.name}
           </a>
+        );
+      }
+      const canEdit = file.name.endsWith('.txt') || file.name.endsWith('.css');
+      if (canEdit) {
+        return (
+          <Link className="FilesListTable__link-download" route={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} params={{ filename: file.name }}>
+            <Icon size="lg" name="file" /> {file.name}
+          </Link>
         );
       }
       return (

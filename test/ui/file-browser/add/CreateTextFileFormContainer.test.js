@@ -8,7 +8,7 @@ jest.mock('state/file-browser/actions', () => ({
 
 const dispatchMock = jest.fn();
 
-describe('ui/file-browser/add/CreateTextFileFormContainerer', () => {
+describe('ui/file-browser/add/CreateTextFileFormContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
