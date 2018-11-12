@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import CreateTextFileForm from 'ui/file-browser/add/CreateTextFileForm';
+import CreateTextFileForm from 'ui/file-browser/common/CreateTextFileForm';
 import { saveFile } from 'state/file-browser/actions';
 
 export const mapStateToProps = () => ({

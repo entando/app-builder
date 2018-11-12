@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from '@entando/router';
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
 import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
+
+import { ROUTE_FILE_BROWSER_EDIT_TEXT_FILE } from 'app-init/router';
 
 class FilesListTable extends Component {
   componentWillMount() {
@@ -40,6 +43,14 @@ class FilesListTable extends Component {
           </a>
         );
       }
+      const canEdit = file.name.endsWith('.txt') || file.name.endsWith('.css');
+      if (canEdit) {
+        return (
+          <Link className="FilesListTable__link-download" route={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} params={{ filename: file.name }}>
+            <Icon size="lg" name="file" /> {file.name}
+          </Link>
+        );
+      }
       return (
         <a className="FilesListTable__link-download" role="presentation" download onClick={() => onClickDownload(file)}>
           <Icon size="lg" name="file" /> {file.name}
@@ -50,7 +61,7 @@ class FilesListTable extends Component {
     return this.props.files.map(file => (
       <tr key={file.path}>
         <td className="FilesListRow__td">{getLinkItem(file)}</td>
-        <td className="FilesListRow__td">{file.size}</td>
+        <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
         <td className="FilesListRow__td">{file.lastModifiedTime}</td>
         <td className="FilesListRow__td">
           <FilesListMenuActions

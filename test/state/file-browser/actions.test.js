@@ -1,17 +1,21 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { isFSA } from 'flux-standard-action';
+import { initialize } from 'redux-form';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
-
-import { setFileList, setPathInfo, fetchFileList, saveFile, sendPostCreateFolder, sendDeleteFolder, sendDeleteFile } from 'state/file-browser/actions';
-import { getPathInfo } from 'state/file-browser/selectors';
-import { mockApi } from 'test/testUtils';
-import { getFileBrowser, postCreateFolder, getFile, deleteFolder, deleteFile } from 'api/fileBrowser';
-import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
-import { TOGGLE_LOADING } from 'state/loading/types';
-import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 import { gotoRoute } from '@entando/router';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { mockApi } from 'test/testUtils';
+import { FILE_BROWSER } from 'test/mocks/fileBrowser';
+
+import { getFileBrowser, postCreateFolder, getFile, deleteFolder, deleteFile } from 'api/fileBrowser';
+import {
+  setFileList, setPathInfo, fetchFileList, saveFile,
+  sendPostCreateFolder, sendDeleteFolder, sendDeleteFile, fetchFile,
+} from 'state/file-browser/actions';
+import { getPathInfo } from 'state/file-browser/selectors';
+import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 
 
 const middlewares = [thunk];
@@ -74,6 +78,46 @@ describe('state/file-browser/actions', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       store = mockStore({});
+    });
+
+    describe('fetchFile', () => {
+      it('fetchFile dispatch initialize', (done) => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: true, currentPath: '' }));
+        store.dispatch(fetchFile('file.txt', ['.txt'])).then(() => {
+          expect(getFile).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(initialize).toHaveBeenCalledWith('CreateTextFileForm', { content: window.atob('base64') });
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetchFile give toast error is extension is not permitted', (done) => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: true, currentPath: '' }));
+        store.dispatch(fetchFile('pippo.MD', ['.txt'])).catch(() => {
+          expect(getFile).not.toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        getFile.mockImplementationOnce(mockApi({ errors: true }));
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
+        store.dispatch(fetchFile('file.txt')).then(() => {
+          expect(getFile).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
     });
 
     describe('fetchFileList', () => {
@@ -177,7 +221,6 @@ describe('state/file-browser/actions', () => {
       });
     });
 
-
     describe('sendDeleteFile', () => {
       beforeEach(() => {
         jest.clearAllMocks();
@@ -213,7 +256,6 @@ describe('state/file-browser/actions', () => {
         });
       });
     });
-
 
     describe('saveFile', () => {
       const file = new File([''], 'filename.txt');
