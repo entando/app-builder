@@ -83,7 +83,7 @@ describe('state/file-browser/actions', () => {
     describe('fetchFile', () => {
       it('fetchFile dispatch initialize', (done) => {
         getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: true, currentPath: '' }));
-        store.dispatch(fetchFile('file.txt')).then(() => {
+        store.dispatch(fetchFile('file.txt', ['.txt'])).then(() => {
           expect(getFile).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
@@ -93,6 +93,18 @@ describe('state/file-browser/actions', () => {
           done();
         }).catch(done.fail);
       });
+
+      it('fetchFile give toast error is extension is not permitted', (done) => {
+        getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: true, currentPath: '' }));
+        store.dispatch(fetchFile('pippo.MD', ['.txt'])).catch(() => {
+          expect(getFile).not.toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+
       it('if the response is not ok, dispatch add errors', (done) => {
         getFile.mockImplementationOnce(mockApi({ errors: true }));
         getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));

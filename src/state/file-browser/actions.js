@@ -46,23 +46,30 @@ const getBase64 = file => (
     };
   }));
 
-export const fetchFile = filename => (dispatch, getState) =>
-  new Promise((resolve) => {
+export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getState) =>
+  new Promise((resolve, reject) => {
     const state = getState();
-    dispatch(toggleLoading('file'));
-    const { protectedFolder, currentPath } = getPathInfo(state);
-    const queryString = `?protectedFolder=${protectedFolder === null ? false : protectedFolder}&currentPath=${currentPath}/${filename}`;
-    getFile(queryString).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
-        } else {
-          dispatch(addErrors(json.errors.map(e => e.message)));
-        }
-        dispatch(toggleLoading('file'));
-        resolve();
+    const file = filename.split('.');
+    if (extensions.includes(`.${file[1]}`)) {
+      dispatch(toggleLoading('file'));
+      const { protectedFolder, currentPath } = getPathInfo(state);
+      const queryString = `?protectedFolder=${protectedFolder === null ? false : protectedFolder}&currentPath=${currentPath}/${filename}`;
+      getFile(queryString).then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
+          } else {
+            dispatch(addErrors(json.errors.map(e => e.message)));
+          }
+          dispatch(toggleLoading('file'));
+          resolve();
+        });
       });
-    });
+    } else {
+      const message = formattedText('fragment.alert.error.fileExtension');
+      dispatch(addToast(message), TOAST_ERROR);
+      reject();
+    }
   });
 
 export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>

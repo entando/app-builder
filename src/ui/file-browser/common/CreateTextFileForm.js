@@ -40,13 +40,9 @@ export class CreateTextFileFormBody extends Component {
     const {
       invalid, submitting, handleSubmit, mode, filename, onClickDownload,
     } = this.props;
-    const onSubmit = (ev) => {
-      ev.preventDefault();
-      handleSubmit();
-    };
 
     return (
-      <form onSubmit={onSubmit} className="CreateTextFileForm form-horizontal">
+      <form onSubmit={handleSubmit} className="CreateTextFileForm form-horizontal">
         <Row>
           <Col xs={2} className="text-right">
             <ControlLabel htmlFor="name">

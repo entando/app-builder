@@ -1,4 +1,5 @@
 import 'test/enzyme-init';
+import { gotoRoute } from '@entando/router';
 import { mapDispatchToProps } from 'ui/file-browser/edit/EditTextFileFormContainer';
 import { saveFile, fetchFile, downloadFile } from 'state/file-browser/actions';
 
@@ -8,6 +9,7 @@ jest.mock('state/file-browser/actions', () => ({
   downloadFile: jest.fn(),
 }));
 
+jest.mock('@entando/router');
 const dispatchMock = jest.fn(() => Promise.resolve({}));
 
 describe('ui/file-browser/add/EditTextFileFormContainer', () => {
@@ -29,9 +31,19 @@ describe('ui/file-browser/add/EditTextFileFormContainer', () => {
     });
 
     it('should dispatch action fetchfile when componentWillMount is called', () => {
-      props.onWillMount('filename.txt');
+      props.onWillMount('filename.txt', ['.txt', '.css']);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchFile).toHaveBeenCalledWith('filename.txt');
+      expect(fetchFile).toHaveBeenCalledWith('filename.txt', ['.txt', '.css']);
+    });
+
+    it('should dispatch gotoRoute when componentWillMount is called with wrong file extension', () => {
+      const dispatchMockReject = jest.fn(() => Promise.reject());
+      props = mapDispatchToProps(dispatchMockReject);
+      props.onWillMount('filename.md', ['.txt', '.css']);
+      expect(dispatchMockReject).toHaveBeenCalled();
+      dispatchMockReject().catch(() => {
+        expect(gotoRoute).toHaveBeenCalled();
+      });
     });
 
     it('should dispatch action downloadFile when click icon download', () => {
