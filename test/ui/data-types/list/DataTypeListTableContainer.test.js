@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 
 import { getLoading } from 'state/loading/selectors';
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-types/list/DataTypeListTableContainer';
-import { fetchDataTypes } from 'state/data-types/actions';
+import { fetchDataTypes, sendPostRefreshDataTypes } from 'state/data-types/actions';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 import { getDataTypeList } from 'state/data-types/selectors';
 
@@ -30,6 +30,7 @@ const dispatchMock = jest.fn();
 
 jest.mock('state/data-types/actions', () => ({
   fetchDataTypes: jest.fn(),
+  sendPostRefreshDataTypes: jest.fn(),
 }));
 
 jest.mock('state/data-types/selectors', () => ({
@@ -75,6 +76,7 @@ describe('DataTypeListTableContainer', () => {
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
       expect(props.onClickDelete).toBeDefined();
+      expect(props.onClickReload).toBeDefined();
     });
 
 
@@ -87,6 +89,11 @@ describe('DataTypeListTableContainer', () => {
     it('should dispatch an action if onClickDelete is called', () => {
       props.onClickDelete('code');
       expect(dispatchMock).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onClickReload is called', () => {
+      props.onClickReload('code');
+      expect(sendPostRefreshDataTypes).toHaveBeenCalled();
     });
   });
 });

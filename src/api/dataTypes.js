@@ -75,6 +75,14 @@ export const postDataTypesStatus = dataTypeCodes => (
   })
 );
 
+export const postRefreshDataTypes = dataTypeCode => makeRequest({
+  uri: `/api/dataTypes/refresh/${dataTypeCode}`,
+  method: METHODS.POST,
+  body: { dataTypeCode },
+  mockResponse: { dataTypeCode },
+  useAuthentication: true,
+});
+
 
 // attributes
 
