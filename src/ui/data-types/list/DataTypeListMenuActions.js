@@ -5,7 +5,7 @@ import { LinkMenuItem } from 'frontend-common-components';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
 
-const DataTypeListMenuActions = ({ code, onClickDelete }) => {
+const DataTypeListMenuActions = ({ code, onClickDelete, onClickReload }) => {
   const editLabel = (
     <FormattedMessage id="app.edit" values={{ code }} />
   );
@@ -19,6 +19,12 @@ const DataTypeListMenuActions = ({ code, onClickDelete }) => {
         className="DataTypeListMenuAction__menu-item-edit"
       />
       <MenuItem
+        className="DataTypeListMenuAction__menu-item-reload"
+        onClick={() => onClickReload(code)}
+      >
+        <FormattedMessage id="app.reload" />
+      </MenuItem>
+      <MenuItem
         className="DataTypeListMenuAction__menu-item-delete"
         onClick={() => onClickDelete(code)}
       >
@@ -30,6 +36,7 @@ const DataTypeListMenuActions = ({ code, onClickDelete }) => {
 
 DataTypeListMenuActions.propTypes = {
   onClickDelete: PropTypes.func.isRequired,
+  onClickReload: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
 };
 

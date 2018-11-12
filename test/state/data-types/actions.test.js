@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { METHODS } from '@entando/apimanager';
 import { gotoRoute, getParams } from '@entando/router';
-import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST, CLEAR_ERRORS } from '@entando/messages';
 
 import {
   ROUTE_DATA_TYPE_LIST,
@@ -63,6 +63,7 @@ import {
   removeAttributeFromComposite,
   setNewAttributeComposite,
   handlerAttributeFromDataType,
+  sendPostRefreshDataTypes,
 } from 'state/data-types/actions';
 import {
   postDataType,
@@ -80,6 +81,7 @@ import {
   moveAttributeDown,
   getDataTypesStatus,
   postDataTypesStatus,
+  postRefreshDataTypes,
 } from 'api/dataTypes';
 import {
   DATA_TYPES,
@@ -292,6 +294,36 @@ describe('state/data-types/actions ', () => {
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostRefreshDataTypes', () => {
+      const payload = { code: 'AAA' };
+
+      it('when sendPostRefreshDataTypes succeeds, show toast message', (done) => {
+        postRefreshDataTypes.mockImplementationOnce(mockApi({ payload }));
+        store.dispatch(sendPostRefreshDataTypes(payload)).then(() => {
+          expect(postRefreshDataTypes).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[0].payload).toHaveProperty('type', 'success');
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when postDataType get error, should dispatch addError', (done) => {
+        postRefreshDataTypes.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendPostRefreshDataTypes(payload)).then(() => {
+          expect(postRefreshDataTypes).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[1].payload).toHaveProperty('type', 'error');
+          expect(actions[2]).toHaveProperty('type', CLEAR_ERRORS);
           done();
         }).catch(done.fail);
       });

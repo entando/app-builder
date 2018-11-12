@@ -15,6 +15,7 @@ import {
   moveAttributeDown,
   getDataTypesStatus,
   postDataTypesStatus,
+  postRefreshDataTypes,
 } from 'api/dataTypes';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -82,6 +83,26 @@ describe('api/postDataTypesStatus', () => {
       body: [],
       method: 'POST',
       mockResponse: DATA_TYPE_RELOAD_REFERENCES_STATUS,
+      useAuthentication: true,
+    });
+  });
+});
+
+describe('api/postRefreshDataTypes', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postRefreshDataTypes('AAA')).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    postRefreshDataTypes('AAA');
+    expect(makeRequest).toHaveBeenCalledWith({
+      uri: '/api/dataTypes/refresh/AAA',
+      body: { dataTypeCode: 'AAA' },
+      method: 'POST',
+      mockResponse: { dataTypeCode: 'AAA' },
       useAuthentication: true,
     });
   });
