@@ -383,6 +383,7 @@ export default {
     'fragment.settings': 'Enable Editing of fragment with empty default gui',
     'fragment.settings.alert.success': 'The settings have been updated',
     'fragment.settings.alert.error': 'The settings have not been updated',
+    'fragment.alert.error.fileExtension': 'This extension is not permitted',
     'fileBrowser.list.upLink': 'up..',
     'fileBrowser.list.size': 'Size',
     'fileBrowser.list.lastModifiedTime': 'Last Edit',
