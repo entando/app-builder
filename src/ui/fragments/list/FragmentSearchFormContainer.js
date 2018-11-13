@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
+import { convertToQueryString, FILTER_OPERATORS, formattedText } from '@entando/utils';
 import { fetchWidgetList } from 'state/widgets/actions';
 import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
-import { flatten } from 'flat';
+
 
 const FIELD_OPERATORS = {
   code: FILTER_OPERATORS.EQUAL,
@@ -23,15 +23,17 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchWidgetList());
     dispatch(fetchPlugins());
   },
-  // calls search API when available
+
   onSubmit: (values) => {
-    dispatch(fetchFragments({ page: 1, pageSize: 10 }, convertToQueryString({
-      formValues: flatten(values),
-      operators: FIELD_OPERATORS,
-      sorting: {
-        attribute: 'code',
-      },
-    })));
+    const queryString = values.pluginCode === formattedText('app.all') ? '' :
+      convertToQueryString({
+        formValues: values,
+        operators: FIELD_OPERATORS,
+        sorting: {
+          attribute: 'code',
+        },
+      });
+    dispatch(fetchFragments({ page: 1, pageSize: 10 }, queryString));
   },
 });
 
