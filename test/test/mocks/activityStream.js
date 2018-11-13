@@ -21,6 +21,8 @@ export const NOTIFICATIONS = [{
   username: 'admin',
   namespace: '/entando-sample/api/pages/',
   actionName: 'save',
+  actionText: 'save',
+  targetText: 'target',
   parameters: {
     pageCode: 'page',
   },
