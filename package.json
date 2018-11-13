@@ -5,10 +5,7 @@
   "private": true,
   "dependencies": {
     "@entando/apimanager": "^2.2.0",
-    "@entando/ddtable": "^1.0.3",
-    "@entando/menu": "^1.1.3",
     "@entando/messages": "^1.0.4",
-    "@entando/pages": "^1.1.3",
     "@entando/router": "^1.1.2",
     "@entando/utils": "^1.0.9",
     "autoprefixer": "7.1.6",
