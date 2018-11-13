@@ -31,6 +31,7 @@ import {
   getDataTypeAttribute,
   moveAttributeUp,
   moveAttributeDown,
+  postRefreshDataTypes,
 } from 'api/dataTypes';
 import {
   SET_DATA_TYPES,
@@ -226,6 +227,22 @@ export const sendPostDataType = dataTypeObject => dispatch =>
         resolve();
       });
     }).catch(() => {});
+  });
+
+export const sendPostRefreshDataTypes = dataTypeCode => dispatch =>
+  new Promise((resolve) => {
+    postRefreshDataTypes(dataTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(addToast(json.payload.status, TOAST_SUCCESS));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(clearErrors());
+        }
+        resolve();
+      });
+    });
   });
 
 export const sendPutDataType = dataTypeObject => dispatch =>
