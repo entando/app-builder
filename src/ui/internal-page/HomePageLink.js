@@ -5,7 +5,7 @@ import { Icon } from 'patternfly-react';
 
 const HomePageLink = ({ link }) => (
   <li className="HomePageLink">
-    <a className="HomePageLink__link" href={link} target="_blank">
+    <a className="HomePageLink__link" href={link} target="_blank" rel="noopener noreferrer">
       <Icon name="globe" className="HomePageLink__icon" />
       <FormattedMessage id="app.homepage" />
     </a>

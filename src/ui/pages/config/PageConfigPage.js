@@ -172,6 +172,7 @@ class PageConfigPage extends Component {
                         title={formattedText('app.preview', 'Preview')}
                         className="btn btn-primary"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <FormattedMessage id="app.preview" />
                       </a>

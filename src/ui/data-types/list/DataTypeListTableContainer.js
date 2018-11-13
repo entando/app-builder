@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 
-import { fetchDataTypes } from 'state/data-types/actions';
+import { fetchDataTypes, sendPostRefreshDataTypes } from 'state/data-types/actions';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
+
 import { getDataTypeList } from 'state/data-types/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLoading } from 'state/loading/selectors';
+
 import DataTypeListTable from 'ui/data-types/list/DataTypeListTable';
 import { MODAL_ID } from 'ui/data-types/common/DeleteDataTypeModal';
 
@@ -25,6 +27,9 @@ export const mapDispatchToProps = dispatch => ({
   onClickDelete: (code) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'DataType', code }));
+  },
+  onClickReload: (code) => {
+    dispatch(sendPostRefreshDataTypes(code));
   },
 });
 
