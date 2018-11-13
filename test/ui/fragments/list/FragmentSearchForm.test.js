@@ -40,12 +40,12 @@ describe('FragmentSearchForm', () => {
       fragmentSearchForm = buildFragmentSearchForm();
     });
     it('root component renders without crashing', () => {
-      expect(fragmentSearchForm.exists()).toEqual(true);
+      expect(fragmentSearchForm.exists()).toBe(true);
     });
 
     it('root component renders code field', () => {
       const code = fragmentSearchForm.find('[name="code"]');
-      expect(code.exists()).toEqual(true);
+      expect(code.exists()).toBe(true);
     });
 
     it('root component renders widgetType field', () => {
@@ -53,8 +53,8 @@ describe('FragmentSearchForm', () => {
       expect(widgetType.exists()).toEqual(true);
     });
     it('root component renders plugin Field', () => {
-      const plugin = fragmentSearchForm.find('[name="plugin"]');
-      expect(plugin.exists()).toEqual(true);
+      const plugin = fragmentSearchForm.find('[name="pluginCode"]');
+      expect(plugin.exists()).toBe(true);
     });
 
     it('root component renders options for select input', () => {
