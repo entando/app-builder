@@ -27,6 +27,12 @@ All the following would be valid values:
 - //my.entando.com
 - //my.entando.com/entando-sample
 
+#### `CLIENT_ID` (string, default `client_id`)
+string used for the client id during the OAUTH2 authentication process.
+
+#### `CLIENT_SECRET` (string, default `client_secret`)
+string used for the client secret during the OAUTH2 authentication process.
+
 ### Sample .env file
 
 ```

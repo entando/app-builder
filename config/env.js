@@ -79,6 +79,8 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
         USE_MOCKS: process.env.USE_MOCKS !== 'false',
         DOMAIN: process.env.DOMAIN || null,
+        CLIENT_ID: process.env.CLIENT_ID || 'client_id',
+        CLIENT_SECRET: process.env.CLIENT_SECRET || 'client_secret',
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
