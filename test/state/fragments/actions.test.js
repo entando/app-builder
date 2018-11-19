@@ -192,7 +192,7 @@ describe('state/fragments/actions', () => {
         store.dispatch(fetchPlugins()).then(() => {
           const actions = store.getActions();
           expect(actions[0]).toHaveProperty('type', SET_PLUGINS);
-          expect(actions[0]).toHaveProperty('payload.plugins', PLUGINS_PAYLOAD.payload);
+          expect(actions[0]).toHaveProperty('payload.plugins', [{ code: 'pluginCode', title: 'pluginCode' }]);
           done();
         }).catch(done.fail);
       });

@@ -42,10 +42,10 @@ export const getWidgetTypesOptions = createSelector(
 
 
 export const getPluginsOptions = createSelector(
-  [getPlugins, getLocale],
-  (plugins, locale) =>
+  [getPlugins],
+  plugins =>
     plugins.map(plugin => ({
       code: plugin.code,
-      title: plugin.titles[locale],
+      title: plugin.title,
     })),
 );
