@@ -2,11 +2,8 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
-  PLUGINS_OK,
   FRAGMENT_SETTING,
 } from 'test/mocks/fragments';
-
-import { throttle } from 'util';
 
 export const getFragment = fragmentCode => (
   makeRequest({
@@ -29,10 +26,6 @@ export const getFragments = (page = { page: 1, pageSize: 10 }, params = '') => (
     page,
   )
 );
-
-export const getPlugins = () => new Promise((resolve) => {
-  throttle(resolve(PLUGINS_OK));
-});
 
 export const postFragment = fragment => (
   makeRequest({
