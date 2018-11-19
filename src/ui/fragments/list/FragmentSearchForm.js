@@ -80,7 +80,6 @@ export class FragmentSearchFormBody extends Component {
                 className="form-control"
                 name="pluginCode"
                 placeholder={formattedText('fragment.form.edit.plugin')}
-                disabled
               >
                 <option value={formattedText('app.all')}>{formattedText('app.all')}</option>
                 {this.props.plugins.map(plugin =>
