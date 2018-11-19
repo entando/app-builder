@@ -3,11 +3,9 @@ import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
-
 import {
   getFragment,
   getFragments,
-  getPlugins,
   getFragmentSettings,
   putFragmentSettings,
   deleteFragment,
@@ -99,10 +97,20 @@ export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') =>
 
 export const fetchPlugins = () => dispatch => (
   new Promise((resolve) => {
-    getPlugins().then((response) => {
+    const page = { page: 1, pageSize: 0 };
+    getFragments(page).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
-          dispatch(setPlugins(json.payload));
+          const { payload } = json;
+          const plugins = [
+            ...new Set(payload
+              .filter(f => f.pluginCode)
+              .map(m => m.pluginCode)),
+          ].reduce((acc, item) => {
+            acc.push({ code: item, title: item });
+            return acc;
+          }, []);
+          dispatch(setPlugins(plugins));
           resolve();
         });
       } else {

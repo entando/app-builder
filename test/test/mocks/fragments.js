@@ -89,10 +89,7 @@ export const PLUGINS_OK = {
   payload: [
     {
       code: 'jacms',
-      titles: {
-        en: 'CMS',
-        it: 'CMS',
-      },
+      title: 'CMS',
     },
   ],
   errors: [],
