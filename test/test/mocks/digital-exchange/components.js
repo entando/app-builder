@@ -1,5 +1,5 @@
-// LIST_DE_PLUGINS_OK - List Digital Exchange plugins.
-export const LIST_DE_PLUGINS_OK = [
+// LIST_DE_COMPONENTS_OK - List Digital Exchange components.
+export const LIST_DE_COMPONENTS_OK = [
   {
     id: '3e7d3e0a-fa4e-494a-90d5-2d0bf6899433',
     name: 'Leonardo Theme',
