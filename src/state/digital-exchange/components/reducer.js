@@ -6,7 +6,7 @@ import { SET_SELECTED_DE_COMPONENT, SET_DE_COMPONENTS } from 'state/digital-exch
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_DE_COMPONENT: {
-      return action.payload.component;
+      return action.payload.digitalExchangeComponent;
     }
     default: return state;
   }
@@ -15,7 +15,7 @@ const selected = (state = {}, action = {}) => {
 const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENTS: {
-      return action.payload.components;
+      return action.payload.digitalExchangeComponents;
     }
     default: return state;
   }

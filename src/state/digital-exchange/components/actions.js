@@ -6,17 +6,17 @@ import { getDEComponent, getDEComponents } from 'api/digital-exchange/components
 import { setPage } from 'state/pagination/actions';
 
 
-export const setSelectedDEComponent = component => ({
+export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
   payload: {
-    component,
+    digitalExchangeComponent,
   },
 });
 
-export const setDEComponents = components => ({
+export const setDEComponents = digitalExchangeComponents => ({
   type: SET_DE_COMPONENTS,
   payload: {
-    components,
+    digitalExchangeComponents,
   },
 });
 
