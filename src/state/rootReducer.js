@@ -45,6 +45,7 @@ const reducerDef = {
   database,
   dataModels,
   dataTypes,
+  digitalExchangeComponents,
   fileBrowser,
   form,
   fragments,
@@ -68,7 +69,6 @@ const reducerDef = {
   widgets,
   userSettings,
   userProfile,
-  digitalExchangeComponents,
 };
 
 if (pluginArray.length) {
