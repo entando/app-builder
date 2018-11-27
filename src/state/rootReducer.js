@@ -33,6 +33,7 @@ import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
 import userProfile from 'state/user-profile/reducer';
+import digitalExchangeMarketplaces from 'state/digital-exchange/marketplaces/reducer';
 
 const reducerDef = {
   activityStream,
@@ -67,6 +68,7 @@ const reducerDef = {
   widgets,
   userSettings,
   userProfile,
+  digitalExchangeMarketplaces,
 };
 
 if (pluginArray.length) {
