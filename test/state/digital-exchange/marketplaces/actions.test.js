@@ -43,7 +43,7 @@ describe('state/digital-exchange/marketplaces/actions', () => {
   describe('setDEMarketplaces', () => {
     it('test setDEMarketplaces action sets the correct type', () => {
       action = setDEMarketplaces(LIST_DE_MARKETPLACES_OK);
-      expect(action.type).toEqual(SET_DE_MARKETPLACES);
+      expect(action).toHaveProperty('type', SET_DE_MARKETPLACES);
     });
   });
 
@@ -55,10 +55,10 @@ describe('state/digital-exchange/marketplaces/actions', () => {
       store.dispatch(fetchDEMarketplaces()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
-        expect(actions[0].type).toEqual(TOGGLE_LOADING);
-        expect(actions[1].type).toEqual(SET_DE_MARKETPLACES);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
-        expect(actions[3].type).toEqual(SET_PAGE);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_DE_MARKETPLACES);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', SET_PAGE);
         done();
       }).catch(done.fail);
     });
@@ -68,13 +68,14 @@ describe('state/digital-exchange/marketplaces/actions', () => {
       store.dispatch(fetchDEMarketplaces()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
-        expect(actions[0].type).toEqual(TOGGLE_LOADING);
-        expect(actions[1].type).toEqual(ADD_ERRORS);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
 
         done();
       }).catch(done.fail);
     });
+
     it('marketplaces is defined and properly valued', (done) => {
       store.dispatch(fetchDEMarketplaces()).then(() => {
         const actionPayload = store.getActions()[1].payload;
@@ -84,12 +85,13 @@ describe('state/digital-exchange/marketplaces/actions', () => {
         done();
       }).catch(done.fail);
     });
+
     describe('test sync actions', () => {
       describe('test s', () => {
         it('action payload contains selected marketplace', () => {
           action = setSelectedDEMarketplace(GET_DE_MARKETPLACE_PAYLOAD);
-          expect(action.type).toBe(SET_SELECTED_DE_MARKETPLACE);
-          expect(action.payload.marketplace).toEqual(GET_DE_MARKETPLACE_PAYLOAD);
+          expect(action).toHaveProperty('type', SET_SELECTED_DE_MARKETPLACE);
+          expect(action.payload).toHaveProperty('marketplace', GET_DE_MARKETPLACE_PAYLOAD);
         });
       });
     });

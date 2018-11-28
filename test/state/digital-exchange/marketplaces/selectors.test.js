@@ -16,10 +16,12 @@ describe('state/digital-exchange/marketplaces/selectors', () => {
     const digitalExchangeMarketplaces = getDEMarketplaces(MOCK_STATE);
     expect(digitalExchangeMarketplaces).toBe(MOCK_STATE.digitalExchangeMarketplaces);
   });
+
   it('getDEMarketplaceSelected(state) returns the selected object', () => {
     const selected = getDEMarketplaceSelected(MOCK_STATE);
     expect(selected).toBe(MOCK_STATE.digitalExchangeMarketplaces.selected);
   });
+
   it('verify getDEMarketplaceList selector', () => {
     expect(getDEMarketplaceList(MOCK_STATE)).toEqual(MOCK_STATE.digitalExchangeMarketplaces.list);
   });

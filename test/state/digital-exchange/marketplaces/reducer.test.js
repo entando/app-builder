@@ -23,7 +23,7 @@ describe('digital-exchange/marketplaces/reducer', () => {
     });
 
     it('should define the marketplace payload', () => {
-      expect(newState.selected).toEqual(GET_DE_MARKETPLACE_OK);
+      expect(newState).toHaveProperty('selected', GET_DE_MARKETPLACE_OK);
     });
   });
 
