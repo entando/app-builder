@@ -513,28 +513,21 @@ const getPayloadFromTypeAttribute = (values, allowedRoles) => {
     },
   };
   if (payload.type === TYPE_DATE) {
-    let validationRules = null;
+    const validationRules = {};
     if (payload.validationRules) {
-      let {
+      const {
         rangeStartDate, rangeEndDate, equalDate,
         rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
       } = payload.validationRules;
-      rangeStartDate = rangeStartDate && converDate(rangeStartDate);
-      rangeEndDate = rangeEndDate && converDate(rangeEndDate);
-      equalDate = equalDate && converDate(equalDate);
-      rangeStartDateAttribute =
-      rangeStartDateAttribute && converDate(rangeStartDateAttribute);
-      rangeEndDateAttribute =
-      rangeEndDateAttribute && converDate(rangeEndDateAttribute);
-      equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
-      validationRules = {
-        rangeStartDate,
-        rangeEndDate,
-        equalDate,
-        rangeStartDateAttribute,
-        rangeEndDateAttribute,
-        equalDateAttribute,
-      };
+
+      validationRules.rangeStartDate = rangeStartDate && converDate(rangeStartDate);
+      validationRules.rangeEndDate = rangeEndDate && converDate(rangeEndDate);
+      validationRules.equalDate = equalDate && converDate(equalDate);
+      validationRules.rangeStartDateAttribute =
+        rangeStartDateAttribute && converDate(rangeStartDateAttribute);
+      validationRules.rangeEndDateAttribute =
+        rangeEndDateAttribute && converDate(rangeEndDateAttribute);
+      validationRules.equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
     }
     payload = {
       ...payload,
