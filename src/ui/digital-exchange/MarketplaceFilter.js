@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
+import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
 class MarketplaceFilterBody extends Component {
   componentWillMount() {
@@ -14,11 +15,13 @@ class MarketplaceFilterBody extends Component {
     ));
 
     return (
-      <CheckboxGroup
-        name="marketplaces"
-        options={options}
-        onChange={this.props.onChange}
-      />
+      <SidebarFilter title="Marketplace">
+        <CheckboxGroup
+          name="marketplaces"
+          options={options}
+          onChange={this.props.onChange}
+        />
+      </SidebarFilter>
     );
   }
 }

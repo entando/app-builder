@@ -20,16 +20,20 @@ export default class CheckboxGroup extends Component {
       };
       const checked = inputValue.includes(value);
       return (
-        <label key={`checkbox-${value}`}>
-          <input type="checkbox" name={`${name}[${index}]`} value={value} checked={checked} onChange={handleChange} />
-          <span>{label}</span>
-        </label>
+        <li key={`checkbox-${value}`}>
+          <input id={`checkbox-${value}`} type="checkbox" name={`${name}[${index}]`} value={value} checked={checked} onChange={handleChange} />
+          <label htmlFor={`checkbox-${value}`}>
+            <span>{label}</span>
+          </label>
+        </li>
       );
     });
 
     return (
-      <div>
-        <div>{checkboxes}</div>
+      <div className="CheckboxGroup">
+        <ul>
+          {checkboxes}
+        </ul>
         {touched && error && <p className="error">{error}</p>}
       </div>
     );
