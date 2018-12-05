@@ -5,7 +5,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getDEMarketplaces = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/api/digitalExchange/marketplaces${params}`,
+      uri: `/api/digitalExchange/exchanges${params}`,
       method: METHODS.GET,
       mockResponse: LIST_DE_MARKETPLACES_OK,
       useAuthentication: true,
