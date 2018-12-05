@@ -10,7 +10,7 @@ class MarketplaceFilterBody extends Component {
   }
 
   render() {
-    const options = this.props.marketplaces.map(marketplace => (
+    const options = this.props.digitalExchangeMarketplaces.map(marketplace => (
       { label: marketplace, value: marketplace }
     ));
 
@@ -27,7 +27,7 @@ class MarketplaceFilterBody extends Component {
 }
 
 MarketplaceFilterBody.propTypes = {
-  marketplaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+  digitalExchangeMarketplaces: PropTypes.arrayOf(PropTypes.string).isRequired,
   onWillMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };

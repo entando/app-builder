@@ -26,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export const mapStateToProps = state => (
-  { marketplaces: getDEMarketplaceList(state) }
+  { digitalExchangeMarketplaces: getDEMarketplaceList(state) }
 );
 
 const MarketplaceFilterContainer = connect(
