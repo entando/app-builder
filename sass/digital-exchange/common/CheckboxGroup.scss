@@ -7,7 +7,7 @@
   }
 
   li {
-    color: #000000;
+    color: $color-black;
 
     input {
       display: none;
@@ -16,8 +16,8 @@
     input:checked + label:before {
       font-family: FontAwesome;
       content: $fa-check-square;
-      color: #39A5DC;
-      border-color: #39A5DC;
+      color: $color-light-blue;
+      border-color: $color-light-blue;
       font-size: 20px;
       line-height: 15px;
       text-indent: -2px;
@@ -28,7 +28,7 @@
 
       &:before {
         content: " ";
-        border: 2px solid #4D5258;
+        border: 2px solid $color-dark-grey;
         border-radius: 3px;
         width: 18px;
         height: 18px;
