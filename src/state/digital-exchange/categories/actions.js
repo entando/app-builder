@@ -21,16 +21,17 @@ export const setDECategories = digitalExchangeCategories => ({
 
 export const fetchDECategories = () => dispatch => (
   new Promise((resolve) => {
-    dispatch(toggleLoading('digital-exchange/categories'));
+    const categoryLoading = 'digital-exchange/categories';
+    dispatch(toggleLoading(categoryLoading));
     getDECategories().then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setDECategories(data.payload));
-          dispatch(toggleLoading('digital-exchange/categories'));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          dispatch(toggleLoading('digital-exchange/categories'));
         }
+
+        dispatch(toggleLoading(categoryLoading));
         resolve();
       });
     }).catch(() => {});
