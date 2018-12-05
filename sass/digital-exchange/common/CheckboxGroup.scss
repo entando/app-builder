@@ -16,7 +16,8 @@
     input:checked + label:before {
       font-family: FontAwesome;
       content: $fa-check-square;
-      color: #4D5258;
+      color: #39A5DC;
+      border-color: #39A5DC;
       font-size: 20px;
       line-height: 15px;
       text-indent: -2px;
