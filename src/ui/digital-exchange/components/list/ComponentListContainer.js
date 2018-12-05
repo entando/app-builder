@@ -7,7 +7,7 @@ import ComponentList from 'ui/digital-exchange/components//list/ComponentList';
 
 export const mapStateToProps = state => (
   {
-    components: getDEComponentList(state),
+    digitalExchangeComponents: getDEComponentList(state),
     loading: getLoading(state).digitalExchangeComponents,
   }
 );

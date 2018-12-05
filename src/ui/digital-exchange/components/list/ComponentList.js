@@ -9,7 +9,7 @@ class ComponentList extends Component {
 
   renderComponentList() {
     return (
-      this.props.components.map(component => (
+      this.props.digitalExchangeComponents.map(component => (
         <div key={component.id}>
           <h2>{component.name}</h2>
           <ul>
@@ -36,7 +36,7 @@ class ComponentList extends Component {
 ComponentList.propTypes = {
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
-  components: PropTypes.arrayOf(PropTypes.shape({
+  digitalExchangeComponents: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     lastUpdate: PropTypes.string.isRequired,
@@ -52,7 +52,7 @@ ComponentList.propTypes = {
 ComponentList.defaultProps = {
   onWillMount: () => {},
   loading: false,
-  components: [],
+  digitalExchangeComponents: [],
 };
 
 export default ComponentList;
