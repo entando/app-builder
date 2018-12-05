@@ -30,7 +30,7 @@ describe('digital-exchange/components/reducer', () => {
   describe('list reducer', () => {
     it('should return an object', () => {
       expect(typeof state.list).toBe('object');
-      expect(state.list instanceof Array).toBe(true);
+      expect(Array.isArray(state.list)).toBe(true);
     });
 
     describe('after action setDEcomponents', () => {

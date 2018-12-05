@@ -94,12 +94,10 @@ describe('state/digital-exchange/components/actions', () => {
     });
 
     describe('test sync actions', () => {
-      describe('test s', () => {
-        it('action payload contains selected component', () => {
-          action = setSelectedDEComponent(GET_DE_COMPONENT_PAYLOAD);
-          expect(action).toHaveProperty('type', SET_SELECTED_DE_COMPONENT);
-          expect(action.payload).toHaveProperty('component', GET_DE_COMPONENT_PAYLOAD);
-        });
+      it('action payload contains selected component', () => {
+        action = setSelectedDEComponent(GET_DE_COMPONENT_PAYLOAD);
+        expect(action).toHaveProperty('type', SET_SELECTED_DE_COMPONENT);
+        expect(action.payload).toHaveProperty('component', GET_DE_COMPONENT_PAYLOAD);
       });
     });
   });
