@@ -76,6 +76,7 @@ import {
   ROUTE_FILE_BROWSER_CREATE_TEXT_FILE,
   ROUTE_FILE_BROWSER_EDIT_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
+  ROUTE_DE_COMPONENT_LIST,
 } from 'app-init/router';
 
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -135,6 +136,7 @@ import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
+import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -231,6 +233,7 @@ const getRouteComponent = (route) => {
     case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
     case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
     case ROUTE_FILE_BROWSER_EDIT_TEXT_FILE: return <EditTextFilePage />;
+    case ROUTE_DE_COMPONENT_LIST: return <ComponentListPage />;
     default: return <NotFoundPage />;
   }
 };

@@ -638,5 +638,7 @@ export default {
     'activityStream.writeComment': 'Write a comment',
     'reference.text': 'Reload the references for these entity types. Number of type to reload: {count}. ',
     'reference.reload': 'Click {link} to reload all data types.',
+    'digital-exchange.component.list.title': 'Digital Exchange',
+    'digital-exchange.component.help': 'Entando Digital Exchange is a marketplace from which users can install different Widgets, Components, Fragments, Page Models, Content Models and Content Types.',
   },
 };

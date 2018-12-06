@@ -1,0 +1,15 @@
+.SidebarFilter {
+  text-align: left;
+
+  &__title {
+    color: $color-dark-grey;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 12px;
+    background-color: $color-sidebar-filter-bg-grey;
+    padding: 15px;
+    border: 1px solid $color-sidebar-filter-border-grey;
+  }
+}
