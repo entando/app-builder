@@ -5,20 +5,20 @@ import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 import { formattedText } from '@entando/utils';
 
-class MarketplaceFilterBody extends Component {
+class CategoryFilterBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
 
   render() {
-    const options = this.props.digitalExchangeMarketplaces.map(marketplace => (
-      { label: marketplace, value: marketplace }
+    const options = this.props.digitalExchangeCategories.map(category => (
+      { label: category, value: category }
     ));
 
     return (
-      <SidebarFilter title={formattedText('digital-exchange.sidebar.marketplace-filter-title')}>
+      <SidebarFilter title={formattedText('digital-exchange.sidebar.category-filter-title')}>
         <CheckboxGroup
-          name="marketplaces"
+          name="categories"
           options={options}
           onChange={this.props.onChange}
         />
@@ -27,14 +27,14 @@ class MarketplaceFilterBody extends Component {
   }
 }
 
-MarketplaceFilterBody.propTypes = {
-  digitalExchangeMarketplaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+CategoryFilterBody.propTypes = {
+  digitalExchangeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
   onWillMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-const MarketplaceFilter = reduxForm({
-  form: 'marketplaceFilter',
-})(MarketplaceFilterBody);
+const CategoryFilter = reduxForm({
+  form: 'categoryFilter',
+})(CategoryFilterBody);
 
-export default MarketplaceFilter;
+export default CategoryFilter;
