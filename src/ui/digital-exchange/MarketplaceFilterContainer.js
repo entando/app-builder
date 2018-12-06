@@ -13,8 +13,8 @@ const FIELD_OPERATORS = {
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => (dispatch(fetchDEMarketplaces())),
   onChange: (eventOrValue) => {
-    if (Object.prototype.hasOwnProperty.call(eventOrValue, 'marketplaces')) {
-      const { marketplaces } = eventOrValue;
+    const { marketplaces } = eventOrValue;
+    if (marketplaces) {
       const filters = {
         formValues: { marketplace: marketplaces },
         operators: FIELD_OPERATORS,
