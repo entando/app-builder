@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
+import { formattedText } from '@entando/utils';
 
 class MarketplaceFilterBody extends Component {
   componentWillMount() {
@@ -15,7 +16,7 @@ class MarketplaceFilterBody extends Component {
     ));
 
     return (
-      <SidebarFilter title="Marketplace">
+      <SidebarFilter title={formattedText('digital-exchange.sidebar.marketplace-filter-title')}>
         <CheckboxGroup
           name="marketplaces"
           options={options}
