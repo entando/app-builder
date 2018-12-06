@@ -21,8 +21,4 @@ describe('ComponentListPage', () => {
   it('has a page title', () => {
     expect(component.find('PageTitle')).toHaveLength(1);
   });
-
-  it('has a ComponentListContent as default', () => {
-    expect(component.find('ComponentListContent').exists()).toBe(true);
-  });
 });

@@ -3,7 +3,7 @@ import Sidebar from 'ui/digital-exchange/Sidebar';
 import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import ComponentListContent from 'ui/digital-exchange/components/list/ComponentListContent';
+import ComponentListContainer from 'ui/digital-exchange/components/list/ComponentListContainer';
 
 
 const ComponentListPage = () =>
@@ -23,7 +23,7 @@ const ComponentListPage = () =>
             <Sidebar />
           </Col>
           <Col md={9}>
-            <ComponentListContent />
+            <ComponentListContainer />
           </Col>
         </Row>
       </Grid>
