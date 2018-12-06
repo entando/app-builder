@@ -638,5 +638,7 @@ export default {
     'activityStream.writeComment': 'Scrivi un commento',
     'reference.text': 'Le referenze per i seguenti Tipi di Entita\' hanno bisogno di essere ricaricate. Totale da ricaricare: {count}. ',
     'reference.reload': 'Clicca {link} per ricaricare tutti i data types.',
+    'digital-exchange.component.list.title': 'Digital Exchange',
+    'digital-exchange.component.help': '',
   },
 };
