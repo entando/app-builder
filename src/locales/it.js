@@ -642,5 +642,7 @@ export default {
     'digital-exchange.component.help': 'Entando Digital Exchange è un marketplace da cui l\'utente può installare Widget, Componenti, Frammenti, Modelli di Pagina, Modeli di Contenuto e Tipi di Contenuto',
     'digital-exchange.sidebar.marketplace-filter-title': 'Marketplace',
     'digital-exchange.sidebar.category-filter-title': 'Categorie',
+    'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
+    'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
   },
 };

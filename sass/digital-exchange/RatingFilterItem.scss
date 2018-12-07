@@ -1,0 +1,23 @@
+.RatingFilterItem {
+  padding: 5px 0 2px 18px;
+
+  &:hover {
+    color: $color-rating-filter-text-hover;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: solid 3px $color-rating-selected;
+    outline-offset: -3px;
+    cursor: pointer;
+  }
+
+  span {
+    padding-left: 8px;
+  }
+
+  &--selected {
+    background-color: $color-rating-selected;
+    font-weight: bold;
+  }
+}
