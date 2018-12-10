@@ -1,6 +1,10 @@
 
 import { combineReducers } from 'redux';
-import { SET_SELECTED_DE_COMPONENT, SET_DE_COMPONENTS } from 'state/digital-exchange/components/types';
+import {
+  SET_SELECTED_DE_COMPONENT,
+  SET_DE_COMPONENTS,
+  SET_DE_COMPONENT_LIST_VIEW_MODE,
+} from 'state/digital-exchange/components/types';
 
 
 const selected = (state = {}, action = {}) => {
@@ -21,7 +25,17 @@ const list = (state = [], action = {}) => {
   }
 };
 
+const listViewMode = (state = 'list-view', action = {}) => {
+  switch (action.type) {
+    case SET_DE_COMPONENT_LIST_VIEW_MODE: {
+      return action.payload.listViewMode;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
+  listViewMode,
 });

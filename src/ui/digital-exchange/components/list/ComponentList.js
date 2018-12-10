@@ -7,7 +7,7 @@ class ComponentList extends Component {
     this.props.onWillMount();
   }
 
-  renderComponentList() {
+  renderComponentListView() {
     return (
       this.props.digitalExchangeComponents.map(component => (
         <div key={component.id}>
@@ -22,11 +22,23 @@ class ComponentList extends Component {
     );
   }
 
+  renderComponentGridView() {
+    const { listViewMode } = this.props;
+    return `Render ${listViewMode}`;
+  }
+
   render() {
+    let renderComponents = '';
+    if (this.props.listViewMode === 'list-view') {
+      renderComponents = this.renderComponentListView();
+    } else {
+      renderComponents = this.renderComponentGridView();
+    }
+
     return (
       <div className="ComponentList">
         <Spinner loading={!!this.props.loading} >
-          {this.renderComponentList()}
+          {renderComponents}
         </Spinner>
       </div>
     );
@@ -36,6 +48,7 @@ class ComponentList extends Component {
 ComponentList.propTypes = {
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
+  listViewMode: PropTypes.string,
   digitalExchangeComponents: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -53,6 +66,7 @@ ComponentList.defaultProps = {
   onWillMount: () => {},
   loading: false,
   digitalExchangeComponents: [],
+  listViewMode: 'list-view',
 };
 
 export default ComponentList;
