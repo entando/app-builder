@@ -1,0 +1,9 @@
+.StarIcon {
+  padding-right: 5px;
+  color: $color-rating-filter-star-empty;
+  font-size: 20px;
+
+  &--filled {
+    color: $color-rating-filter-star-filled;
+  }
+}
