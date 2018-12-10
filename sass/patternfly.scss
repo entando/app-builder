@@ -14,6 +14,7 @@ $color-light-blue: #39A5DC;
 $color-black: #000000;
 $color-sidebar-filter-bg-grey: #E7E7E7;
 $color-sidebar-filter-border-grey: #DEDEDE;
+$color-de-component-date: #00B9F7;
 
 //FontAwesome icons
 $fa-check: "\f00c";
@@ -57,4 +58,15 @@ $fa-square-o: "\f096";
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $color-pf-red-100;
   }
 }
+
+.no-gutter {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.no-gutter > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
 // sass-lint:enable class-name-format

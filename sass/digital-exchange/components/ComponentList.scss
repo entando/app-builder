@@ -1,0 +1,23 @@
+.ComponentList--grid-view {
+  .ComponentBody {
+    padding-left: 4px;
+  }
+
+  .Date {
+    color: $color-de-component-date;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}

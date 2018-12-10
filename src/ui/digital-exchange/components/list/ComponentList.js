@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner } from 'patternfly-react';
+import { Spinner, Row, Col } from 'patternfly-react';
+import moment from 'moment';
 
 class ComponentList extends Component {
   componentWillMount() {
@@ -23,8 +24,51 @@ class ComponentList extends Component {
   }
 
   renderComponentGridView() {
-    const { listViewMode } = this.props;
-    return `Render ${listViewMode}`;
+    const noThumbnail = '';
+
+    const componentPairs = this.props.digitalExchangeComponents
+      .reduce((acc, component, index, sourceArray) => {
+        if (index % 2 === 0) {
+          acc.push(sourceArray.slice(index, index + 2));
+        }
+
+        return acc;
+      }, []);
+
+    return (
+      <div className="ComponentList--grid-view">
+        {componentPairs.map(componentPair => (
+          <Row key={`${componentPair[0].id}-pair`} className="no-gutter">
+            {componentPair.map((component) => {
+              const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
+              return (
+                <Col md={6} key={component.id}>
+                  <Row key={component.id} className="no-gutter">
+                    <Col md={4}>
+                      <a href="#">
+                        <img
+                          alt={component.name}
+                          src={component.image ? component.image : noThumbnail}
+                        />
+                      </a>
+                      <span className="status">Installed</span>
+                      <button className="install">Install</button>
+                    </Col>
+                    <Col md={8} className="no-gutter">
+                      <div className="ComponentBody">
+                        <h1>{component.name}</h1>
+                        <span className="Date">{date}</span>
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              );
+            })
+          }
+          </Row>))
+        }
+      </div>
+    );
   }
 
   render() {
@@ -34,6 +78,7 @@ class ComponentList extends Component {
     } else {
       renderComponents = this.renderComponentGridView();
     }
+    renderComponents = this.renderComponentGridView();
 
     return (
       <div className="ComponentList">
