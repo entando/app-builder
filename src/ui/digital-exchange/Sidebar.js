@@ -1,7 +1,7 @@
 import React from 'react';
 import MarketplaceFilterContainer from 'ui/digital-exchange/MarketplaceFilterContainer';
 import CategoryFilterContainer from 'ui/digital-exchange/CategoryFilterContainer';
-import RatingFilterContainer from './RatingFilterContainer';
+import RatingFilterContainer from 'ui/digital-exchange/RatingFilterContainer';
 
 const Sidebar = () => (
   <div className="Sidebar">

@@ -39,9 +39,9 @@ describe('RatingFilterItem', () => {
   });
 
   it('should call onSelect if selected from keyboard', () => {
-    const enterKeyCode = 13;
+    const enterKey = 'Enter';
     component = shallow(<RatingFilterItem onSelect={onSelect} maxRating={5} rating={1} />);
-    component.find('div').simulate('keyDown', { keyCode: enterKeyCode });
+    component.find('div').simulate('keyDown', { key: enterKey });
     expect(onSelect).toHaveBeenCalledWith(1);
   });
 });

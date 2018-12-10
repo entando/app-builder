@@ -12,7 +12,7 @@ const RatingFilterItem = ({
 }) => {
   const selectedClass = selected ? ' RatingFilterItem--selected' : '';
   const className = `RatingFilterItem${selectedClass}`;
-  const enterKeyCode = 13;
+  const enterKey = 'Enter';
   const itemLabel = formattedText('digitalExchange.sidebar.ratingFilter.itemLabel');
   return (
     <div
@@ -20,7 +20,7 @@ const RatingFilterItem = ({
       tabIndex="0"
       className={className}
       onClick={() => onSelect(rating)}
-      onKeyDown={e => e.keyCode === enterKeyCode && onSelect(rating)}
+      onKeyDown={e => e.key === enterKey && onSelect(rating)}
       aria-label={`${rating} ${itemLabel}`}
     >
       {
