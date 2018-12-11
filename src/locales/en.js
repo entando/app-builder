@@ -646,5 +646,7 @@ export default {
     'digital-exchange.components.install': 'Install',
     'digital-exchange.components.installed': 'Installed',
     'digital-exchange.components.uninstall': 'Uninstall',
+    'digitalExchange.sidebar.ratingFilter.title': 'Rating',
+    'digitalExchange.sidebar.ratingFilter.itemLabel': '& up',
   },
 };

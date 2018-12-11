@@ -646,5 +646,7 @@ export default {
     'digital-exchange.components.install': 'Installato',
     'digital-exchange.components.installed': 'Installa',
     'digital-exchange.components.uninstall': 'Disinstalla',
+    'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
+    'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
   },
 };
