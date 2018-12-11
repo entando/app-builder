@@ -1,20 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setDEComponentsListViewMode } from 'state/digital-exchange/components/actions';
+import { getDEComponentListViewMode } from 'state/digital-exchange/components/selectors';
 import PropTypes from 'prop-types';
 
 
-const ComponentListViewModeSwitcher = ({ changeViewMode }) => {
-  function handleClick(e) {
+const ComponentListViewModeSwitcher = ({ viewMode, changeViewMode }) => {
+  function switchToGridView(e) {
     e.preventDefault();
     changeViewMode('grid-view');
   }
 
+  function switchToListView(e) {
+    e.preventDefault();
+    changeViewMode('list-view');
+  }
+  const selectedClass = 'ComponentListViewModeSwitcher__btn--selected';
+  const btnClass = 'ComponentListViewModeSwitcher__btn';
+
   return (
     <div className="ComponentListViewModeSwitcher">
-      <button onClick={handleClick}>
-        Switch to Grid view
-      </button>
+      <div className="">
+        <button
+          className={`${btnClass} ${(viewMode === 'grid-view') ? selectedClass : ''}`}
+          onClick={switchToGridView}
+        >
+          <i className="fa fa-th-large" />
+        </button>
+        <button
+          className={`${btnClass} ${(viewMode === 'list-view') ? selectedClass : ''}`}
+          onClick={switchToListView}
+        >
+          <i className="fa fa-bars" />
+        </button>
+      </div>
     </div>
   );
 };
@@ -22,6 +41,7 @@ const ComponentListViewModeSwitcher = ({ changeViewMode }) => {
 
 ComponentListViewModeSwitcher.propTypes = {
   changeViewMode: PropTypes.func.isRequired,
+  viewMode: PropTypes.string.isRequired,
 };
 
 export const mapDispatchToProps = dispatch => ({
@@ -30,8 +50,13 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
+export const mapStateToProps = state => (
+  {
+    viewMode: getDEComponentListViewMode(state),
+  }
+);
 
 const ComponentListViewModeSwitcherContainer =
-  connect(null, mapDispatchToProps)(ComponentListViewModeSwitcher);
+  connect(mapStateToProps, mapDispatchToProps)(ComponentListViewModeSwitcher);
 
 export default ComponentListViewModeSwitcherContainer;

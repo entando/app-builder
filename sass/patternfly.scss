@@ -23,6 +23,9 @@ $color-de-component-date: #00B9F7;
 $color-de-component-dark-grey: #4F4F4F;
 $color-de-component-installed-button: #3F9C35;
 $color-de-component-installed-button-border: #E0E0E0;
+$color-de-list-icon-active: #363636;
+$color-de-list-icon: #BBBBBB;
+$color-de-component-border: #C3C3C3;
 
 //FontAwesome icons
 $fa-check: "\f00c";
@@ -75,6 +78,11 @@ $fa-square-o: "\f096";
 .no-gutter > [class*="col-"] {
   padding-right: 0;
   padding-left: 0;
+}
+
+.equal {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 // sass-lint:enable class-name-format

@@ -24,3 +24,17 @@ export const renderInstallActions = (component) => {
     </div>
   );
 };
+
+export const renderComponentImageOrPlaceholder = (component) => {
+  if (component.image) {
+    return (
+      <img
+        alt={component.name}
+        src={component.image}
+      />);
+  }
+
+  return (
+    <div className="ComponentListGridView__image-placeholder" />
+  );
+};

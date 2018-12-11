@@ -25,7 +25,7 @@ const list = (state = [], action = {}) => {
   }
 };
 
-const listViewMode = (state = 'list-view', action = {}) => {
+const listViewMode = (state = 'grid-view', action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENT_LIST_VIEW_MODE: {
       return action.payload.listViewMode;

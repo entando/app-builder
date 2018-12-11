@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Spinner, Row, Col } from 'patternfly-react';
 import moment from 'moment';
 import { formattedText } from '@entando/utils';
-import { renderInstallActions } from 'helpers/digital-exchange/components';
+import { renderInstallActions, renderComponentImageOrPlaceholder } from 'helpers/digital-exchange/components';
 import StarRating from 'ui/digital-exchange/common/StarRating';
 
 class ComponentList extends Component {
@@ -27,8 +27,6 @@ class ComponentList extends Component {
   }
 
   renderComponentGridView() {
-    const noThumbnail = '';
-
     const componentPairs = this.props.digitalExchangeComponents
       .reduce((acc, component, index, sourceArray) => {
         if (index % 2 === 0) {
@@ -41,18 +39,15 @@ class ComponentList extends Component {
     return (
       <div className="ComponentListGridView">
         {componentPairs.map(componentPair => (
-          <Row key={`${componentPair[0].id}-pair`} className="no-gutter">
+          <Row key={`${componentPair[0].id}-pair`} className="no-gutter equal">
             {componentPair.map((component) => {
               const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
               return (
-                <Col md={6} key={component.id}>
+                <Col md={6} key={component.id} className="ComponentListGridView__component">
                   <Row key={component.id} className="no-gutter">
                     <Col md={4}>
                       <a href="#">
-                        <img
-                          alt={component.name}
-                          src={component.image ? component.image : noThumbnail}
-                        />
+                        {renderComponentImageOrPlaceholder(component)}
                       </a>
                       {renderInstallActions(component)}
                     </Col>
@@ -86,7 +81,6 @@ class ComponentList extends Component {
     } else {
       renderComponents = this.renderComponentGridView();
     }
-    renderComponents = this.renderComponentGridView();
 
     return (
       <div className="ComponentList">
@@ -119,7 +113,7 @@ ComponentList.defaultProps = {
   onWillMount: () => {},
   loading: false,
   digitalExchangeComponents: [],
-  listViewMode: 'list-view',
+  listViewMode: 'gird-view',
 };
 
 export default ComponentList;
