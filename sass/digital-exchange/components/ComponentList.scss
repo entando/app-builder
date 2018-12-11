@@ -1,18 +1,12 @@
-.ComponentList--grid-view {
-  .ComponentBody {
+.ComponentListGridView {
+
+  &__install-actions {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  &__component-body {
     padding-left: 4px;
-  }
-
-  .Date {
-    color: $color-de-component-date;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: normal;
-  }
-
-  h1 {
-    margin: 0;
-    font-weight: bold;
   }
 
   img {
@@ -20,4 +14,57 @@
     width: 100%;
     height: auto;
   }
+
+  h1 {
+    margin: 0;
+    margin-bottom: 3px;
+    font-weight: bold;
+  }
+
+  &__date {
+    display: block;
+    margin-bottom: 8px;
+    color: $color-de-component-date;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+  }
+
+  &__version {
+    display: block;
+    color: $color-de-component-dark-grey;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+  }
+
+  &__install {
+  }
+
+  &__status {
+    display: block;
+    border: 1px solid $color-de-component-installed-button-border;
+    background-color: $color-de-component-installed-button;
+    color: $color-white;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  &__uninstall {
+    color: $color-de-component-dark-grey;
+    font-family: Open Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    text-decoration-line: underline;
+  }
+
+
 }

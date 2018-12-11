@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Row, Col } from 'patternfly-react';
 import moment from 'moment';
+import { formattedText } from '@entando/utils';
+import { renderInstallActions } from 'helpers/digital-exchange/components';
 
 class ComponentList extends Component {
   componentWillMount() {
@@ -36,7 +38,7 @@ class ComponentList extends Component {
       }, []);
 
     return (
-      <div className="ComponentList--grid-view">
+      <div className="ComponentListGridView">
         {componentPairs.map(componentPair => (
           <Row key={`${componentPair[0].id}-pair`} className="no-gutter">
             {componentPair.map((component) => {
@@ -51,13 +53,18 @@ class ComponentList extends Component {
                           src={component.image ? component.image : noThumbnail}
                         />
                       </a>
-                      <span className="status">Installed</span>
-                      <button className="install">Install</button>
+                      {renderInstallActions(component)}
                     </Col>
                     <Col md={8} className="no-gutter">
-                      <div className="ComponentBody">
+                      <div className="ComponentListGridView__component-body">
                         <h1>{component.name}</h1>
-                        <span className="Date">{date}</span>
+                        <span className="ComponentListGridView__date">{date}</span>
+                        <span className="ComponentListGridView__version">
+                          {formattedText('digital-exchange.components.latest-version')}: {component.version}
+                        </span>
+                        <span className="ComponentListGridView__rating">
+                          Stars
+                        </span>
                       </div>
                     </Col>
                   </Row>
