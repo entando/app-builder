@@ -4,6 +4,7 @@ import { Spinner, Row, Col } from 'patternfly-react';
 import moment from 'moment';
 import { formattedText } from '@entando/utils';
 import { renderInstallActions } from 'helpers/digital-exchange/components';
+import StarRating from 'ui/digital-exchange/common/StarRating';
 
 class ComponentList extends Component {
   componentWillMount() {
@@ -63,7 +64,7 @@ class ComponentList extends Component {
                           {formattedText('digital-exchange.components.latest-version')}: {component.version}
                         </span>
                         <span className="ComponentListGridView__rating">
-                          Stars
+                          <StarRating maxRating={5} rating={component.rating} />
                         </span>
                       </div>
                     </Col>

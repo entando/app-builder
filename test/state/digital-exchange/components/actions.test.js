@@ -88,7 +88,7 @@ describe('state/digital-exchange/components/actions', () => {
         expect(digitalExchangeComponent).toHaveProperty('type', 'widget');
         expect(digitalExchangeComponent).toHaveProperty('description', 'lorem ipsum');
         expect(digitalExchangeComponent).toHaveProperty('image', '');
-        expect(digitalExchangeComponent).toHaveProperty('rating', 3);
+        expect(digitalExchangeComponent).toHaveProperty('rating', 3.4);
         done();
       }).catch(done.fail);
     });
