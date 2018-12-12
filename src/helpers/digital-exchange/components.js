@@ -8,10 +8,10 @@ export const renderInstallActions = (component) => {
     return (
       <div className="ComponentListGridView__install-actions">
         <span className="ComponentListGridView__status">
-          {formattedText('digital-exchange.components.installed')}
+          {formattedText('digitalExchange.components.installed')}
         </span>
         <Button bsStyle="link" className="ComponentListGridView__uninstall">
-          {formattedText('digital-exchange.components.uninstall')}
+          {formattedText('digitalExchange.components.uninstall')}
         </Button>
       </div>
     );
@@ -19,7 +19,7 @@ export const renderInstallActions = (component) => {
   return (
     <div className="ComponentListGridView__install-actions">
       <Button bsStyle="primary" className="ComponentListGridView__install">
-        {formattedText('digital-exchange.components.install')}
+        {formattedText('digitalExchange.components.install')}
       </Button>
     </div>
   );

@@ -16,7 +16,7 @@ class CategoryFilterBody extends Component {
     ));
 
     return (
-      <SidebarFilter title={formattedText('digital-exchange.sidebar.category-filter-title')}>
+      <SidebarFilter title={formattedText('digitalExchange.sidebar.categoryFilterTitle')}>
         <CheckboxGroup
           name="categories"
           options={options}

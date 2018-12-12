@@ -56,7 +56,7 @@ class ComponentList extends Component {
                         <h1>{component.name}</h1>
                         <span className="ComponentListGridView__date">{date}</span>
                         <span className="ComponentListGridView__version">
-                          {formattedText('digital-exchange.components.latest-version')}: {component.version}
+                          {formattedText('digitalExchange.components.latestVersion')}: {component.version}
                         </span>
                         <span className="ComponentListGridView__rating">
                           <StarRating maxRating={5} rating={component.rating} />

@@ -14,8 +14,8 @@ const ComponentListPage = () =>
         <Row>
           <Col md={12}>
             <PageTitle
-              titleId="digital-exchange.component.list.title"
-              helpId="digital-exchange.component.help"
+              titleId="digitalExchange.component.list.title"
+              helpId="digitalExchange.component.help"
             />
           </Col>
         </Row>

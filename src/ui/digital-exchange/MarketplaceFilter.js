@@ -16,7 +16,7 @@ class MarketplaceFilterBody extends Component {
     ));
 
     return (
-      <SidebarFilter title={formattedText('digital-exchange.sidebar.marketplace-filter-title')}>
+      <SidebarFilter title={formattedText('digitalExchange.sidebar.marketplaceFilterTitle')}>
         <CheckboxGroup
           name="marketplaces"
           options={options}
