@@ -4,7 +4,7 @@ export const getDEComponents = state => state.digitalExchangeComponents;
 
 export const getDEComponentListViewMode = createSelector(
   getDEComponents,
-  digitalExchangeComponents => digitalExchangeComponents.listViewMode,
+  digitalExchangeComponents => digitalExchangeComponents.componentListViewMode,
 );
 
 export const getDEComponentList = createSelector(

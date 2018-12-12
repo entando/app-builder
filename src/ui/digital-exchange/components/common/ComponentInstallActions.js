@@ -2,8 +2,10 @@ import React from 'react';
 import { formattedText } from '@entando/utils';
 import { Button } from 'patternfly-react';
 
-// eslint-disable-next-line import/prefer-default-export
-export const renderInstallActions = (component) => {
+import { componentType } from 'state/digital-exchange/components/propTypes';
+
+
+const ComponentInstallActions = ({ component }) => {
   if (component.installed) {
     return (
       <div className="ComponentListGridView__install-actions">
@@ -25,16 +27,9 @@ export const renderInstallActions = (component) => {
   );
 };
 
-export const renderComponentImageOrPlaceholder = (component) => {
-  if (component.image) {
-    return (
-      <img
-        alt={component.name}
-        src={component.image}
-      />);
-  }
-
-  return (
-    <div className="ComponentListGridView__image-placeholder" />
-  );
+ComponentInstallActions.propTypes = {
+  component: componentType.isRequired,
 };
+
+
+export default ComponentInstallActions;

@@ -3,20 +3,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StarIcon from 'ui/digital-exchange/common/StarIcon';
 
-const StarRating = ({ rating }) => (
-  <div>
-    {
+const StarRating = ({ rating }) => {
+  const roundedRating = Math.round(rating);
+  return (
+    <div aria-label={roundedRating}>
+      {
         range(rating).map(currentRating => (
           <StarIcon
             key={`rating-filter-star-${currentRating}`}
             filled={currentRating < rating}
-            filledHalf={Math.round(rating) === currentRating && currentRating < rating}
+            filledHalf={roundedRating === currentRating && currentRating < rating}
             aria-hidden="true"
           />
-          ))
+        ))
       }
-  </div>
-);
+    </div>
+  );
+};
 
 StarRating.propTypes = {
   rating: PropTypes.number.isRequired,

@@ -6,6 +6,7 @@ import {
   SET_DE_COMPONENT_LIST_VIEW_MODE,
 } from 'state/digital-exchange/components/types';
 
+import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -25,10 +26,10 @@ const list = (state = [], action = {}) => {
   }
 };
 
-const listViewMode = (state = 'grid-view', action = {}) => {
+const componentListViewMode = (state = DE_COMPONENTS_GRID_VIEW, action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENT_LIST_VIEW_MODE: {
-      return action.payload.listViewMode;
+      return action.payload.componentListViewMode;
     }
     default: return state;
   }
@@ -37,5 +38,5 @@ const listViewMode = (state = 'grid-view', action = {}) => {
 export default combineReducers({
   selected,
   list,
-  listViewMode,
+  componentListViewMode,
 });

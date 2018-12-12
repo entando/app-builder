@@ -24,10 +24,10 @@ export const setDEComponents = digitalExchangeComponents => ({
   },
 });
 
-export const setDEComponentsListViewMode = listViewMode => ({
+export const setDEComponentListViewMode = componentListViewMode => ({
   type: SET_DE_COMPONENT_LIST_VIEW_MODE,
   payload: {
-    listViewMode,
+    componentListViewMode,
   },
 });
 

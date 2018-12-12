@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setDEComponentsListViewMode } from 'state/digital-exchange/components/actions';
+import { setDEComponentListViewMode } from 'state/digital-exchange/components/actions';
 import { getDEComponentListViewMode } from 'state/digital-exchange/components/selectors';
 import PropTypes from 'prop-types';
+import { DE_COMPONENTS_GRID_VIEW, DE_COMPONENTS_LIST_VIEW } from 'state/digital-exchange/components/const';
 
 
 const ComponentListViewModeSwitcher = ({ viewMode, changeViewMode }) => {
-  function switchToGridView(e) {
+  const switchToGridView = (e) => {
     e.preventDefault();
-    changeViewMode('grid-view');
-  }
+    changeViewMode(DE_COMPONENTS_GRID_VIEW);
+  };
 
-  function switchToListView(e) {
+  const switchToListView = (e) => {
     e.preventDefault();
-    changeViewMode('list-view');
-  }
+    changeViewMode(DE_COMPONENTS_LIST_VIEW);
+  };
+
   const selectedClass = 'ComponentListViewModeSwitcher__btn--selected';
   const btnClass = 'ComponentListViewModeSwitcher__btn';
 
@@ -22,13 +24,13 @@ const ComponentListViewModeSwitcher = ({ viewMode, changeViewMode }) => {
     <div className="ComponentListViewModeSwitcher">
       <div className="">
         <button
-          className={`${btnClass} ${(viewMode === 'grid-view') ? selectedClass : ''}`}
+          className={`${btnClass} ${(viewMode === DE_COMPONENTS_GRID_VIEW) ? selectedClass : ''}`}
           onClick={switchToGridView}
         >
           <i className="fa fa-th-large" />
         </button>
         <button
-          className={`${btnClass} ${(viewMode === 'list-view') ? selectedClass : ''}`}
+          className={`${btnClass} ${(viewMode === DE_COMPONENTS_LIST_VIEW) ? selectedClass : ''}`}
           onClick={switchToListView}
         >
           <i className="fa fa-bars" />
@@ -46,7 +48,7 @@ ComponentListViewModeSwitcher.propTypes = {
 
 export const mapDispatchToProps = dispatch => ({
   changeViewMode: (viewMode) => {
-    dispatch(setDEComponentsListViewMode(viewMode));
+    dispatch(setDEComponentListViewMode(viewMode));
   },
 });
 
