@@ -2,7 +2,7 @@ import React from 'react';
 import { formattedText } from '@entando/utils';
 import { Button } from 'patternfly-react';
 
-import { componentType } from 'state/digital-exchange/components/propTypes';
+import { componentType } from 'models/digital-exchange/components';
 
 
 const ComponentInstallActions = ({ component }) => {

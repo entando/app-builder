@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { componentType } from 'state/digital-exchange/components/propTypes';
+import { componentType } from 'models/digital-exchange/components';
 
 const ComponentListListView = ({ components }) => (
   components.map(component => (

@@ -6,7 +6,7 @@ import ComponentListGridView from 'ui/digital-exchange/components/list/Component
 import ComponentListListView from 'ui/digital-exchange/components/list/ComponentListListView';
 
 import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
-import { componentType } from 'state/digital-exchange/components/propTypes';
+import { componentType } from 'models/digital-exchange/components';
 
 
 class ComponentList extends Component {

@@ -9,7 +9,7 @@ import ComponentInstallActions from 'ui/digital-exchange/components/common/Compo
 import ComponentImage from 'ui/digital-exchange/components/common/ComponentImage';
 
 import StarRating from 'ui/digital-exchange/common/StarRating';
-import { componentType } from 'state/digital-exchange/components/propTypes';
+import { componentType } from 'models/digital-exchange/components';
 
 
 const ComponentListGridView = ({ components }) =>
