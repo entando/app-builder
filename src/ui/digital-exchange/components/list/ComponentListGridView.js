@@ -13,18 +13,8 @@ import { componentType } from 'state/digital-exchange/components/propTypes';
 
 
 const ComponentListGridView = ({ components }) =>
-  // const componentPairs = components
-  //   .reduce((acc, component, index, sourceArray) => {
-  //     if (index % 2 === 0) {
-  //       acc.push(sourceArray.slice(index, index + 2));
-  //     }
-  //
-  //     return acc;
-  //   }, []);
-
   (
     <Row className="ComponentListGridView equal">
-
       {components.map((component) => {
         const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
         return (
