@@ -644,5 +644,6 @@ export default {
     'digital-exchange.sidebar.category-filter-title': 'Categories',
     'digitalExchange.sidebar.ratingFilter.title': 'Rating',
     'digitalExchange.sidebar.ratingFilter.itemLabel': '& up',
+    'digitalExchange.categoryTabs.all': 'All',
   },
 };
