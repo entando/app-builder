@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from 'ui/digital-exchange/Sidebar';
+import SidebarContainer from 'ui/digital-exchange/SidebarContainer';
 import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
@@ -25,7 +25,7 @@ const ComponentListPage = () =>
         </Row>
         <Row>
           <Col md={3} >
-            <Sidebar />
+            <SidebarContainer />
           </Col>
           <Col md={9}>
             <ComponentListContainer />

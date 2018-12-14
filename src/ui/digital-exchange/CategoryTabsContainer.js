@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 import { getDECategoryList } from 'state/digital-exchange/categories/selectors';
-import { fetchDEComponents } from 'state/digital-exchange/components/actions';
+import { fetchDEComponents, setDEFilters } from 'state/digital-exchange/components/actions';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import CategoryTabs from 'ui/digital-exchange/CategoryTabs';
 
@@ -14,17 +14,18 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => (dispatch(fetchDECategories())),
   onSelect: (category) => {
     const filters = {
-      formValues: { category: [category] },
+      formValues: { category: category ? [category] : [] },
       operators: FIELD_OPERATORS,
     };
-
+    // TODO proposal for https://jira.entando.org/browse/EN-2325: pass filters to fetchDEComponents and dispatch set filters action there
+    dispatch(setDEFilters(filters));
     dispatch(fetchDEComponents({ page: 1, pageSize: 10 }, convertToQueryString(filters)));
   },
 });
 
-export const mapStateToProps = state => (
-  { digitalExchangeCategories: getDECategoryList(state) }
-);
+export const mapStateToProps = state => ({
+  digitalExchangeCategories: getDECategoryList(state),
+});
 
 const CategoryTabsContainer = connect(
   mapStateToProps,

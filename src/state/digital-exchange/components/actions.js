@@ -1,4 +1,4 @@
-import { SET_DE_COMPONENTS, SET_SELECTED_DE_COMPONENT } from 'state/digital-exchange/components/types';
+import { SET_DE_COMPONENTS, SET_SELECTED_DE_COMPONENT, SET_DE_FILTERS } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 
@@ -17,6 +17,13 @@ export const setDEComponents = digitalExchangeComponents => ({
   type: SET_DE_COMPONENTS,
   payload: {
     digitalExchangeComponents,
+  },
+});
+
+export const setDEFilters = digitalExchangeFilters => ({
+  type: SET_DE_FILTERS,
+  payload: {
+    digitalExchangeFilters,
   },
 });
 

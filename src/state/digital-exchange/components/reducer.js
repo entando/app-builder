@@ -1,6 +1,6 @@
 
 import { combineReducers } from 'redux';
-import { SET_SELECTED_DE_COMPONENT, SET_DE_COMPONENTS } from 'state/digital-exchange/components/types';
+import { SET_SELECTED_DE_COMPONENT, SET_DE_COMPONENTS, SET_DE_FILTERS } from 'state/digital-exchange/components/types';
 
 
 const selected = (state = {}, action = {}) => {
@@ -21,7 +21,17 @@ const list = (state = [], action = {}) => {
   }
 };
 
+const filters = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_DE_FILTERS: {
+      return action.payload.digitalExchangeFilters;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
+  filters,
 });
