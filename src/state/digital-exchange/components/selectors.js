@@ -10,7 +10,7 @@ export const getDEFilters = createSelector(
 
 export const getTopCategoryFilter = createSelector(
   getDEFilters,
-  digitalExchangeFilters => get(digitalExchangeFilters.formValues, 'category', []),
+  digitalExchangeFilters => get(digitalExchangeFilters.formValues, 'type', []),
 );
 
 export const getDEComponentList = createSelector(

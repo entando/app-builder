@@ -2,11 +2,11 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import CategoryFilter from 'ui/digital-exchange/CategoryFilter';
-import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryFilterContainer';
+import CategoryTabs from 'ui/digital-exchange/CategoryTabs';
+import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabsContainer';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { fetchDEComponents } from 'state/digital-exchange/components/actions';
+import { fetchDEComponents, setDEFilters } from 'state/digital-exchange/components/actions';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 const TEST_STATE = {
@@ -15,6 +15,7 @@ const TEST_STATE = {
 
 jest.mock('state/digital-exchange/components/actions', () => ({
   fetchDEComponents: jest.fn(),
+  setDEFilters: jest.fn(),
 }));
 
 jest.mock('state/digital-exchange/categories/actions', () => ({
@@ -28,10 +29,17 @@ jest.mock('state/loading/selectors', () => ({
 const dispatchMock = jest.fn();
 
 
-describe('CategoryFilter', () => {
+describe('CategoryTabs', () => {
   let component;
+  let noop;
+
   beforeEach(() => {
-    component = shallow(<CategoryFilter />);
+    noop = jest.fn();
+    component = shallow(<CategoryTabs
+      onSelect={noop}
+      onWillMount={noop}
+      digitalExchangeCategories={['category']}
+    />);
   });
 
   it('renders without crashing', () => {
@@ -52,7 +60,7 @@ describe('CategoryFilter', () => {
 
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
-      expect(props.onChange).toBeDefined();
+      expect(props.onSelect).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
@@ -61,16 +69,17 @@ describe('CategoryFilter', () => {
       expect(fetchDECategories).toHaveBeenCalled();
     });
 
-    it('should dispatch an action if filter is checked', () => {
+    it('should dispatch an action if tab is selected', () => {
       const FIELD_OPERATORS = { category: FILTER_OPERATORS.LIKE };
-      const categories = ['category'];
+      const category = 'category';
       const filters = {
-        formValues: { category: categories },
+        formValues: { type: [category] },
         operators: FIELD_OPERATORS,
       };
 
-      props.onChange({ categories });
+      props.onSelect(category);
       expect(dispatchMock).toHaveBeenCalled();
+      expect(setDEFilters).toHaveBeenCalled();
       expect(fetchDEComponents)
         .toHaveBeenCalledWith({ page: 1, pageSize: 10 }, convertToQueryString(filters));
     });

@@ -14,7 +14,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => (dispatch(fetchDECategories())),
   onSelect: (category) => {
     const filters = {
-      formValues: { category: category ? [category] : [] },
+      formValues: { type: category ? [category] : [] },
       operators: FIELD_OPERATORS,
     };
     dispatch(setDEFilters(filters));
