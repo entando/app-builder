@@ -22,6 +22,14 @@ class CategoryTabs extends Component {
       onSelect(categories[key].value);
     };
 
+    const tabs = categories.map((category, index) => (
+      <Tab
+        key={category.label}
+        eventKey={index}
+        title={category.label}
+      />
+    ));
+
     return (
       <div className="CategoryTabs">
         <Tabs
@@ -30,15 +38,7 @@ class CategoryTabs extends Component {
           defaultActiveKey={0}
           onSelect={key => handleSelect(key)}
         >
-          {
-            categories.map((category, index) => (
-              <Tab
-                key={category.label}
-                eventKey={index}
-                title={category.label}
-              />
-            ))
-          }
+          { tabs }
         </Tabs>
       </div>
     );

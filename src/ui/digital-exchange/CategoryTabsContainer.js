@@ -17,7 +17,6 @@ export const mapDispatchToProps = dispatch => ({
       formValues: { category: category ? [category] : [] },
       operators: FIELD_OPERATORS,
     };
-    // TODO proposal for https://jira.entando.org/browse/EN-2325: pass filters to fetchDEComponents and dispatch set filters action there
     dispatch(setDEFilters(filters));
     dispatch(fetchDEComponents({ page: 1, pageSize: 10 }, convertToQueryString(filters)));
   },
