@@ -36,7 +36,7 @@ describe('digital-exchange/components/reducer', () => {
     describe('after action setDEcomponents', () => {
       it('should define component list', () => {
         const newState = reducer({}, setDEComponents(LIST_DE_COMPONENTS_OK));
-        expect(newState.list).toHaveLength(4);
+        expect(newState.list).toHaveLength(5);
       });
     });
   });

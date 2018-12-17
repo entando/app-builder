@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+import { Icon } from 'patternfly-react';
 import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
@@ -15,7 +17,7 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST,
+  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_DE_COMPONENT_LIST,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -144,7 +146,7 @@ const InternalPage = ({ className, children }) => (
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-configuration"
-        label={formattedText('menu.configuration', 'Configuration')}
+        label={<span><Icon name="cog" /> <FormattedMessage id="menu.configuration" /></span>}
         pullRight
       >
         <LinkMenuItem
@@ -173,6 +175,12 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_FILE_BROWSER}
         />
       </FirstLevelMenuItem>
+      <LinkMenuItem
+        id="digital-exchange"
+        label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
+        route={ROUTE_DE_COMPONENT_LIST}
+        pullRight
+      />
     </BrandMenu>
     <ActivityStreamContainer >
       <NotificationListContainer />

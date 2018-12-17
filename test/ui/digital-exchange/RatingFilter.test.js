@@ -31,7 +31,7 @@ describe('RatingFilter', () => {
   });
 
   it('should select a filter item', () => {
-    component.instance().selectRating(3);
+    component.instance().toggleRatingFilter(3);
     expect(onSelect).toHaveBeenCalledWith(3);
   });
 

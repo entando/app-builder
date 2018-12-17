@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 
 import { fetchDEComponents } from 'state/digital-exchange/components/actions';
-import { getDEComponentList } from 'state/digital-exchange/components/selectors';
+import { getDEComponentList, getDEComponentListViewMode } from 'state/digital-exchange/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import ComponentList from 'ui/digital-exchange/components/list/ComponentList';
 
 export const mapStateToProps = state => (
   {
     digitalExchangeComponents: getDEComponentList(state),
+    viewMode: getDEComponentListViewMode(state),
     loading: getLoading(state).digitalExchangeComponents,
   }
 );

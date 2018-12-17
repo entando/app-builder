@@ -78,7 +78,7 @@ describe('state/digital-exchange/components/actions', () => {
     it('components is defined and properly valued', (done) => {
       store.dispatch(fetchDEComponents()).then(() => {
         const actionPayload = store.getActions()[1].payload;
-        expect(actionPayload.digitalExchangeComponents).toHaveLength(4);
+        expect(actionPayload.digitalExchangeComponents).toHaveLength(5);
         const digitalExchangeComponent = actionPayload.digitalExchangeComponents[1];
         expect(digitalExchangeComponent).toHaveProperty('id', 'a7233e30-e6f0-4c90-9786-e3667113be12');
         expect(digitalExchangeComponent).toHaveProperty('name', 'Avatar plugin');
@@ -88,7 +88,7 @@ describe('state/digital-exchange/components/actions', () => {
         expect(digitalExchangeComponent).toHaveProperty('type', 'widget');
         expect(digitalExchangeComponent).toHaveProperty('description', 'lorem ipsum');
         expect(digitalExchangeComponent).toHaveProperty('image', '');
-        expect(digitalExchangeComponent).toHaveProperty('rating', 3);
+        expect(digitalExchangeComponent).toHaveProperty('rating', 3.4);
         done();
       }).catch(done.fail);
     });

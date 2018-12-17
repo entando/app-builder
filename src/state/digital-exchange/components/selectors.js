@@ -13,6 +13,11 @@ export const getTopCategoryFilter = createSelector(
   digitalExchangeFilters => get(digitalExchangeFilters.formValues, 'type', []),
 );
 
+export const getDEComponentListViewMode = createSelector(
+  getDEComponents,
+  digitalExchangeComponents => digitalExchangeComponents.componentListViewMode,
+);
+
 export const getDEComponentList = createSelector(
   getDEComponents,
   digitalExchangeComponents => digitalExchangeComponents.list,

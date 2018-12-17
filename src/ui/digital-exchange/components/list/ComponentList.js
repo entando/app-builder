@@ -2,31 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
 
+import ComponentListGridView from 'ui/digital-exchange/components/list/ComponentListGridView';
+import ComponentListListView from 'ui/digital-exchange/components/list/ComponentListListView';
+
+import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
+import { componentType } from 'models/digital-exchange/components';
+
+
 class ComponentList extends Component {
   componentWillMount() {
     this.props.onWillMount();
-  }
-
-  renderComponentList() {
-    return (
-      this.props.digitalExchangeComponents.map(component => (
-        <div key={component.id}>
-          <h2>{component.name}</h2>
-          <ul>
-            <li> marketplace: {component.marketplace} </li>
-            <li> rating: {component.rating} </li>
-            <li> category: {component.type} </li>
-          </ul>
-        </div>
-      ))
-    );
   }
 
   render() {
     return (
       <div className="ComponentList">
         <Spinner loading={!!this.props.loading} >
-          {this.renderComponentList()}
+          {
+            (this.props.viewMode === DE_COMPONENTS_GRID_VIEW)
+              ? <ComponentListGridView components={this.props.digitalExchangeComponents} />
+              : <ComponentListListView components={this.props.digitalExchangeComponents} />
+          }
         </Spinner>
       </div>
     );
@@ -36,23 +32,15 @@ class ComponentList extends Component {
 ComponentList.propTypes = {
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
-  digitalExchangeComponents: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    lastUpdate: PropTypes.string.isRequired,
-    marketplace: PropTypes.string.isRequired,
-    version: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    image: PropTypes.string,
-    rating: PropTypes.number.isRequired,
-  })),
+  viewMode: PropTypes.string,
+  digitalExchangeComponents: PropTypes.arrayOf(componentType),
 };
 
 ComponentList.defaultProps = {
   onWillMount: () => {},
   loading: false,
   digitalExchangeComponents: [],
+  viewMode: DE_COMPONENTS_GRID_VIEW,
 };
 
 export default ComponentList;

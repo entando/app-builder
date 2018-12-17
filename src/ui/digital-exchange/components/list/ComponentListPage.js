@@ -5,6 +5,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import CategoryTabsContainer from 'ui/digital-exchange/CategoryTabsContainer';
 import ComponentListContainer from 'ui/digital-exchange/components/list/ComponentListContainer';
+import ComponentListViewModeSwitcherContainer from 'ui/digital-exchange/components/common/ComponentListViewModeSwitcherContainer';
 
 const ComponentListPage = () =>
   (
@@ -13,14 +14,24 @@ const ComponentListPage = () =>
         <Row>
           <Col md={12}>
             <PageTitle
-              titleId="digital-exchange.component.list.title"
-              helpId="digital-exchange.component.help"
+              titleId="digitalExchange.component.list.title"
+              helpId="digitalExchange.component.help"
             />
           </Col>
         </Row>
         <Row>
           <Col md={12}>
             <CategoryTabsContainer />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={9} >
+            SearchBar
+          </Col>
+          <Col md={3} >
+            <div className="pull-right">
+              <ComponentListViewModeSwitcherContainer />
+            </div>
           </Col>
         </Row>
         <Row>
