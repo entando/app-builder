@@ -1,4 +1,8 @@
-import { SET_DE_COMPONENTS, SET_SELECTED_DE_COMPONENT } from 'state/digital-exchange/components/types';
+import {
+  SET_DE_COMPONENTS,
+  SET_SELECTED_DE_COMPONENT,
+  SET_DE_COMPONENT_LIST_VIEW_MODE,
+} from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 
@@ -17,6 +21,13 @@ export const setDEComponents = digitalExchangeComponents => ({
   type: SET_DE_COMPONENTS,
   payload: {
     digitalExchangeComponents,
+  },
+});
+
+export const setDEComponentListViewMode = componentListViewMode => ({
+  type: SET_DE_COMPONENT_LIST_VIEW_MODE,
+  payload: {
+    componentListViewMode,
   },
 });
 
