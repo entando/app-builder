@@ -644,5 +644,6 @@ export default {
     'digital-exchange.sidebar.category-filter-title': 'Categorie',
     'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
     'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
+    'digitalExchange.button.title': 'Digital Exchange',
   },
 };
