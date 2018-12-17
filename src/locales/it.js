@@ -648,5 +648,6 @@ export default {
     'digitalExchange.components.uninstall': 'Disinstalla',
     'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
     'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
+    'digitalExchange.button.title': 'Digital Exchange',
   },
 };

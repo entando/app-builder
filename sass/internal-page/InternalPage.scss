@@ -24,6 +24,18 @@
   }
 }
 
+.FirstLevelMenuItem {
+  span .fa { // sass-lint:disable-line force-element-nesting class-name-format
+    padding-right: 8px;
+  }
+}
+
+.LinkMenuItem {
+  span .fa { // sass-lint:disable-line force-element-nesting class-name-format
+    padding-right: 8px;
+  }
+}
+
 .HomePageLink {
   &__icon {
     padding-right: 4px;
