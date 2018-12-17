@@ -9,14 +9,12 @@ const FIELD_OPERATORS = {
 
 export const mapDispatchToProps = dispatch => ({
   onSelect: (rating) => {
-    if (rating) {
-      const filters = {
-        formValues: { rating },
-        operators: FIELD_OPERATORS,
-      };
+    const filters = {
+      formValues: rating ? { rating } : [],
+      operators: FIELD_OPERATORS,
+    };
 
-      dispatch(fetchDEComponents({ page: 1, pageSize: 10 }, convertToQueryString(filters)));
-    }
+    dispatch(fetchDEComponents({ page: 1, pageSize: 10 }, convertToQueryString(filters)));
   },
 });
 

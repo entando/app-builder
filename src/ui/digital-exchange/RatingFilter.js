@@ -14,7 +14,12 @@ class RatingFilter extends PureComponent {
     };
   }
 
-  selectRating(rating) {
+  isSelected(rating) {
+    return this.state.rating === rating;
+  }
+
+  toggleRatingFilter(currentRating) {
+    const rating = this.isSelected(currentRating) ? undefined : currentRating;
     this.setState({ rating });
     this.props.onSelect(rating);
   }
@@ -22,22 +27,23 @@ class RatingFilter extends PureComponent {
   render() {
     const { minRating, maxRating } = this.props;
     const title = formattedText('digitalExchange.sidebar.ratingFilter.title');
+
+    const ratingFilterItems = rangeRight(minRating, maxRating + 1).map(rating => (
+      <li key={`rating-${rating}-filter`}>
+        <RatingFilterItem
+          onSelect={() => this.toggleRatingFilter(rating)}
+          selected={this.isSelected(rating)}
+          rating={rating}
+          maxRating={maxRating}
+        />
+      </li>
+    ));
+
     return (
       <SidebarFilter title={title}>
         <div className="RatingFilter">
           <ul>
-            {
-              rangeRight(minRating, maxRating + 1).map(rating => (
-                <li key={`rating-${rating}-filter`}>
-                  <RatingFilterItem
-                    onSelect={() => this.selectRating(rating)}
-                    selected={this.state.rating === rating}
-                    rating={rating}
-                    maxRating={maxRating}
-                  />
-                </li>
-              ))
-            }
+            { ratingFilterItems }
           </ul>
         </div>
       </SidebarFilter>
