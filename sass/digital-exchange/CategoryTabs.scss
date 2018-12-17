@@ -1,0 +1,9 @@
+.CategoryTabs {
+  margin-bottom: 20px;
+
+  // sass-lint:disable force-element-nesting, class-name-format  
+  .nav-tabs.nav-justified > li > a,
+  .nav-tabs.nav-justified > .active > a {
+    border-bottom: 0;
+  }
+}

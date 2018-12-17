@@ -177,7 +177,7 @@ const InternalPage = ({ className, children }) => (
       </FirstLevelMenuItem>
       <LinkMenuItem
         id="digital-exchange"
-        label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.button.title" /></span>}
+        label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
         route={ROUTE_DE_COMPONENT_LIST}
         pullRight
       />

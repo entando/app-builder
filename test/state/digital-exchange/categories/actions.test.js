@@ -78,7 +78,7 @@ describe('state/digital-exchange/categories/actions', () => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.digitalExchangeCategories).toHaveLength(5);
         const digitalExchangeCategory = actionPayload.digitalExchangeCategories[0];
-        expect(digitalExchangeCategory).toBe('Page Models');
+        expect(digitalExchangeCategory).toBe('pageModel');
         done();
       }).catch(done.fail);
     });

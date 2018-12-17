@@ -4,6 +4,7 @@ import {
   SET_SELECTED_DE_COMPONENT,
   SET_DE_COMPONENTS,
   SET_DE_COMPONENT_LIST_VIEW_MODE,
+  SET_DE_FILTERS,
 } from 'state/digital-exchange/components/types';
 
 import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
@@ -26,6 +27,16 @@ const list = (state = [], action = {}) => {
   }
 };
 
+const filters = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_DE_FILTERS: {
+      return action.payload.digitalExchangeFilters;
+    }
+    default: return state;
+  }
+};
+
+
 const componentListViewMode = (state = DE_COMPONENTS_GRID_VIEW, action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENT_LIST_VIEW_MODE: {
@@ -38,5 +49,6 @@ const componentListViewMode = (state = DE_COMPONENTS_GRID_VIEW, action = {}) => 
 export default combineReducers({
   selected,
   list,
+  filters,
   componentListViewMode,
 });
