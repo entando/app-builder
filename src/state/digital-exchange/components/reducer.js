@@ -5,6 +5,7 @@ import {
   SET_DE_COMPONENTS,
   SET_DE_COMPONENT_LIST_VIEW_MODE,
   SET_DE_FILTERS,
+  ADD_DE_FILTER,
 } from 'state/digital-exchange/components/types';
 
 import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
@@ -31,6 +32,12 @@ const filters = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_DE_FILTERS: {
       return action.payload.digitalExchangeFilters;
+    }
+    case ADD_DE_FILTER: {
+      const filterToAdd = action.payload.digitalExchangeFilter;
+      const formValues = { ...state.formValues, ...filterToAdd.formValues };
+      const operators = { ...state.operators, ...filterToAdd.operators };
+      return { formValues, operators };
     }
     default: return state;
   }

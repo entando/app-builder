@@ -6,7 +6,7 @@ import CategoryTabs from 'ui/digital-exchange/CategoryTabs';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabsContainer';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { fetchDEComponents, setDEFilters } from 'state/digital-exchange/components/actions';
+import { showDEComponentsByCategory } from 'state/digital-exchange/components/actions';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 const TEST_STATE = {
@@ -14,8 +14,7 @@ const TEST_STATE = {
 };
 
 jest.mock('state/digital-exchange/components/actions', () => ({
-  fetchDEComponents: jest.fn(),
-  setDEFilters: jest.fn(),
+  showDEComponentsByCategory: jest.fn(),
 }));
 
 jest.mock('state/digital-exchange/categories/actions', () => ({
@@ -70,18 +69,11 @@ describe('CategoryTabs', () => {
     });
 
     it('should dispatch an action if tab is selected', () => {
-      const FIELD_OPERATORS = { category: FILTER_OPERATORS.LIKE };
       const category = 'category';
-      const filters = {
-        formValues: { type: [category] },
-        operators: FIELD_OPERATORS,
-      };
-
       props.onSelect(category);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(setDEFilters).toHaveBeenCalled();
-      expect(fetchDEComponents)
-        .toHaveBeenCalledWith({ page: 1, pageSize: 10 }, convertToQueryString(filters));
+      expect(showDEComponentsByCategory)
+        .toHaveBeenCalledWith(category);
     });
   });
 });
