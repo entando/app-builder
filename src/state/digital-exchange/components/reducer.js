@@ -1,4 +1,4 @@
-
+import { isEmpty } from 'lodash';
 import { combineReducers } from 'redux';
 import {
   SET_SELECTED_DE_COMPONENT,
@@ -42,34 +42,45 @@ const filters = (state = {}, action = {}) => {
     }
     case REMOVE_DE_FILTER: {
       const filterToRemove = action.payload.digitalExchangeFilter;
-      // we assume there's only one key in the filterToRemove object
-      // because we can only add/remove one filter per time
-      const filterKey = Object.keys(filterToRemove.formValues)[0];
+      const getFirstKey = obj => (
+        obj && Object.keys(obj) && Object.keys(obj).length
+          ? Object.keys(obj)[0]
+          : null
+      );
+      const getFilterKey = filter => (
+        filter && filter.formValues && filter.operators && getFirstKey(filter.formValues)
+        && getFirstKey(filter.formValues) === getFirstKey(filter.operators)
+          ? getFirstKey(filter.formValues) : null
+      );
+      const filterKey = getFilterKey(filterToRemove);
       const { formValues, operators } = state;
-      if (formValues[filterKey] && operators[filterKey]) {
-        const values = formValues[filterKey].filter(x => (
-          !filterToRemove.formValues[filterKey].includes(x)
-        ));
 
-        if (!values.length) {
-          const { [filterKey]: omit1, ...rest1 } = formValues;
-          const { [filterKey]: omit2, ...rest2 } = operators;
-          return Object.keys(rest1).length ? {
-            formValues: rest1,
-            operators: rest2,
-          } : {};
-        }
-
-        return {
-          formValues: {
-            ...formValues,
-            [filterKey]: values,
-          },
-          operators,
-        };
+      const noFilterToRemove = !filterKey || !formValues[filterKey] || !operators[filterKey]
+        || (operators[filterKey] !== filterToRemove.operators[filterKey]);
+      if (noFilterToRemove) {
+        return state;
       }
 
-      return state;
+      const remainingFormValuesForFilterKey = formValues[filterKey].filter(value => (
+        !filterToRemove.formValues[filterKey].includes(value)
+      ));
+
+      if (!remainingFormValuesForFilterKey.length) {
+        const { [filterKey]: formValuesToRemove, ...otherFormValues } = formValues;
+        const { [filterKey]: operatorsToRemove, ...otherOperators } = operators;
+        return !isEmpty(otherFormValues) ? {
+          formValues: otherFormValues,
+          operators: otherOperators,
+        } : {};
+      }
+
+      return {
+        formValues: {
+          ...formValues,
+          [filterKey]: remainingFormValuesForFilterKey,
+        },
+        operators,
+      };
     }
     default: return state;
   }

@@ -17,7 +17,7 @@ describe('digital-exchange/components/reducer', () => {
     expect(typeof state).toBe('object');
   });
 
-  it('should remove filter 1', () => {
+  it('should remove one value from filter', () => {
     const initialState = {
       selected: {},
       list: [],
@@ -43,30 +43,7 @@ describe('digital-exchange/components/reducer', () => {
     });
   });
 
-  it('should remove filter 2', () => {
-    const initialState = {
-      selected: {},
-      list: [],
-      componentListViewMode: '',
-      filters: {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
-      },
-    };
-    const filterToRemove = {
-      formValues: { type: ['category1'] },
-      operators: { type: FILTER_OPERATORS.EQUAL },
-    };
-    const newState = reducer(initialState, removeDEFilter(filterToRemove));
-    expect(newState).toEqual({
-      selected: {},
-      list: [],
-      componentListViewMode: '',
-      filters: {},
-    });
-  });
-
-  it('should remove filter 3', () => {
+  it('should remove last value of a kind from filter', () => {
     const initialState = {
       selected: {},
       list: [],
@@ -89,6 +66,80 @@ describe('digital-exchange/components/reducer', () => {
         formValues: { otherProp: ['value1', 'value2'] },
         operators: { otherProp: FILTER_OPERATORS.LIKE },
       },
+    });
+  });
+
+  it('should remove last value from filter', () => {
+    const initialState = {
+      selected: {},
+      list: [],
+      componentListViewMode: '',
+      filters: {
+        formValues: { type: ['category1'] },
+        operators: { type: FILTER_OPERATORS.EQUAL },
+      },
+    };
+    const filterToRemove = {
+      formValues: { type: ['category1'] },
+      operators: { type: FILTER_OPERATORS.EQUAL },
+    };
+    const newState = reducer(initialState, removeDEFilter(filterToRemove));
+    expect(newState).toEqual({
+      selected: {},
+      list: [],
+      componentListViewMode: '',
+      filters: {},
+    });
+  });
+
+  describe('with not well formed filter', () => {
+    let filterToRemove;
+    const initialState = {
+      selected: {},
+      list: [],
+      componentListViewMode: '',
+      filters: {
+        formValues: { type: ['category1', 'category2'] },
+        operators: { type: FILTER_OPERATORS.EQUAL },
+      },
+    };
+
+    it('should ignore null filter', () => {
+      filterToRemove = null;
+      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      expect(newState).toEqual(initialState);
+    });
+
+    it('should ignore unmatching and incomplete filter', () => {
+      filterToRemove = { otherProp: 'wrongValue' };
+      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      expect(newState).toEqual(initialState);
+    });
+
+    it('should ignore incomplete filter', () => {
+      filterToRemove = {
+        formValues: { type: ['category1'] },
+      };
+      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      expect(newState).toEqual(initialState);
+    });
+
+    it('should ignore unmatching filter 1', () => {
+      filterToRemove = {
+        formValues: { otherProp: ['category1'] },
+        operators: { otherProp: FILTER_OPERATORS.EQUAL },
+      };
+      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      expect(newState).toEqual(initialState);
+    });
+
+    it('should ignore unmatching filter 2', () => {
+      filterToRemove = {
+        formValues: { type: ['category1'] },
+        operators: { type: FILTER_OPERATORS.LIKE },
+      };
+      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      expect(newState).toEqual(initialState);
     });
   });
 
