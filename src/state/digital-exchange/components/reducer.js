@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import { combineReducers } from 'redux';
 import {
   SET_SELECTED_DE_COMPONENT,
@@ -29,6 +29,17 @@ const list = (state = [], action = {}) => {
   }
 };
 
+const getFirstKey = obj => (
+  obj && Object.keys(obj) && Object.keys(obj).length
+    ? Object.keys(obj)[0]
+    : null
+);
+const getFilterKey = filter => (
+  filter && filter.formValues && filter.operators && getFirstKey(filter.formValues)
+  && getFirstKey(filter.formValues) === getFirstKey(filter.operators)
+    ? getFirstKey(filter.formValues) : null
+);
+
 const filters = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_DE_FILTERS: {
@@ -36,22 +47,39 @@ const filters = (state = {}, action = {}) => {
     }
     case ADD_DE_FILTER: {
       const filterToAdd = action.payload.digitalExchangeFilter;
+
+      const filterKey = getFilterKey(filterToAdd);
+
+      const noFilterToAdd = !filterKey;
+      if (noFilterToAdd) {
+        return state;
+      }
+
+      const hasFilterWithGivenKey = get(state, `formValues[${filterKey}]`) && get(state, `operators[${filterKey}]`)
+        && state.operators[filterKey] === filterToAdd.operators[filterKey];
+
+      if (hasFilterWithGivenKey) {
+        const formValuesOfThatKind = [...new Set([
+          ...state.formValues[filterKey],
+          ...filterToAdd.formValues[filterKey],
+        ])];
+
+        const formValues = {
+          ...state.formValues,
+          [filterKey]: formValuesOfThatKind,
+        };
+
+        const operators = { ...state.operators, ...filterToAdd.operators };
+        return { formValues, operators };
+      }
+
       const formValues = { ...state.formValues, ...filterToAdd.formValues };
       const operators = { ...state.operators, ...filterToAdd.operators };
       return { formValues, operators };
     }
     case REMOVE_DE_FILTER: {
       const filterToRemove = action.payload.digitalExchangeFilter;
-      const getFirstKey = obj => (
-        obj && Object.keys(obj) && Object.keys(obj).length
-          ? Object.keys(obj)[0]
-          : null
-      );
-      const getFilterKey = filter => (
-        filter && filter.formValues && filter.operators && getFirstKey(filter.formValues)
-        && getFirstKey(filter.formValues) === getFirstKey(filter.operators)
-          ? getFirstKey(filter.formValues) : null
-      );
+
       const filterKey = getFilterKey(filterToRemove);
       const { formValues, operators } = state;
 
