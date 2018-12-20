@@ -4,6 +4,7 @@ import {
   SET_DE_COMPONENT_LIST_VIEW_MODE,
   SET_DE_FILTERS,
   ADD_DE_FILTER,
+  REMOVE_DE_FILTER,
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
@@ -38,6 +39,13 @@ export const resetDEFilters = () => setDEFilters({});
 
 export const addDEFilter = digitalExchangeFilter => ({
   type: ADD_DE_FILTER,
+  payload: {
+    digitalExchangeFilter,
+  },
+});
+
+export const removeDEFilter = digitalExchangeFilter => ({
+  type: REMOVE_DE_FILTER,
   payload: {
     digitalExchangeFilter,
   },
