@@ -1,24 +1,17 @@
 import { connect } from 'react-redux';
-import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { fetchDEComponents } from 'state/digital-exchange/components/actions';
 import RatingFilter from 'ui/digital-exchange/RatingFilter';
-
-const FIELD_OPERATORS = {
-  rating: FILTER_OPERATORS.GREATER_THAN,
-};
+import { filterByRating } from 'state/digital-exchange/actions';
+import { getDERatingFilter } from 'state/digital-exchange/components/selectors';
 
 export const mapDispatchToProps = dispatch => ({
   onSelect: (rating) => {
-    const filters = {
-      formValues: rating ? { rating } : [],
-      operators: FIELD_OPERATORS,
-    };
-
-    dispatch(fetchDEComponents({ page: 1, pageSize: 10 }, convertToQueryString(filters)));
+    dispatch(filterByRating(rating));
   },
 });
 
-const mapStateToProps = null;
+export const mapStateToProps = state => ({
+  rating: getDERatingFilter(state),
+});
 
 const RatingFilterContainer = connect(
   mapStateToProps,

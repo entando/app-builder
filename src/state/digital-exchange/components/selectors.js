@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 import { createSelector } from 'reselect';
+import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 
 export const getDEComponents = state => state.digitalExchangeComponents;
 
@@ -8,9 +9,19 @@ export const getDEFilters = createSelector(
   digitalExchangeComponents => digitalExchangeComponents.filters,
 );
 
-export const getTopCategoryFilter = createSelector(
+export const getDECategoryFilters = createSelector(
   getDEFilters,
-  digitalExchangeFilters => get(digitalExchangeFilters.formValues, 'type', []),
+  filters => get(filters, 'all.formValues.type', []),
+);
+
+export const getDEMarketplaceFilters = createSelector(
+  [getDEFilters, getSelectedDECategory],
+  (filters, category) => get(filters, `${category}.formValues.marketplace`, []),
+);
+
+export const getDERatingFilter = createSelector(
+  [getDEFilters, getSelectedDECategory],
+  (filters, category) => get(filters, `${category}.formValues.rating`, null),
 );
 
 export const getDEComponentListViewMode = createSelector(

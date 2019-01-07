@@ -57,8 +57,8 @@ describe('state/digital-exchange/components/actions', () => {
         expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_DE_COMPONENTS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[3]).toHaveProperty('type', SET_PAGE);
+        expect(actions[2]).toHaveProperty('type', SET_PAGE);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

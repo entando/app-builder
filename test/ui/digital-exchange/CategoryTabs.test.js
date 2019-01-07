@@ -4,17 +4,30 @@ import { shallow } from 'enzyme';
 
 import CategoryTabs from 'ui/digital-exchange/CategoryTabs';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabsContainer';
+import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { showDEComponentsByCategory } from 'state/digital-exchange/components/actions';
-import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
+import { navigateDECategory } from 'state/digital-exchange/actions';
+
 
 const TEST_STATE = {
-  digitalExchangeCategories: { list: LIST_DE_CATEGORIES_OK },
+  digitalExchangeMarketplaces: {
+    list: [],
+  },
+  digitalExchangeCategories: {
+    list: LIST_DE_CATEGORIES_OK,
+    selected: { ALL_CATEGORIES_CATEGORY },
+  },
+  digitalExchangeComponents: {
+    list: [],
+    selected: {},
+    componentListViewMode: '',
+    filters: {},
+  },
 };
 
-jest.mock('state/digital-exchange/components/actions', () => ({
-  showDEComponentsByCategory: jest.fn(),
+jest.mock('state/digital-exchange/actions', () => ({
+  navigateDECategory: jest.fn(),
 }));
 
 jest.mock('state/digital-exchange/categories/actions', () => ({
@@ -38,6 +51,7 @@ describe('CategoryTabs', () => {
       onSelect={noop}
       onWillMount={noop}
       digitalExchangeCategories={['category']}
+      selectedDECategory="category"
     />);
   });
 
@@ -47,7 +61,11 @@ describe('CategoryTabs', () => {
 
   it('maps digitalExchangeCategories property state', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
-      digitalExchangeCategories: TEST_STATE.digitalExchangeCategories.list,
+      digitalExchangeCategories: [
+        ALL_CATEGORIES_CATEGORY,
+        ...TEST_STATE.digitalExchangeCategories.list,
+      ],
+      selectedDECategory: { ALL_CATEGORIES_CATEGORY },
     });
   });
 
@@ -72,8 +90,7 @@ describe('CategoryTabs', () => {
       const category = 'category';
       props.onSelect(category);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(showDEComponentsByCategory)
-        .toHaveBeenCalledWith(category);
+      expect(navigateDECategory).toHaveBeenCalledWith(category);
     });
   });
 });

@@ -3,8 +3,7 @@ import reducer from 'state/digital-exchange/components/reducer';
 import {
   setSelectedDEComponent,
   setDEComponents,
-  addDEFilter,
-  removeDEFilter,
+  setDEFilter,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
@@ -12,283 +11,279 @@ import {
 } from 'test/mocks/digital-exchange/components';
 
 describe('Digital Exchange components reducer', () => {
-  describe('should add', () => {
-    it('first filter', () => {
+  describe('setFilter action', () => {
+    it('should add filter (array)', () => {
       const initialState = {
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {},
       };
-      const filterToAdd = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
+      const filterToSet = {
+        formValues: { marketplace: ['marketplace1'] },
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual({
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category1'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
+          category1: {
+            formValues: { marketplace: ['marketplace1'] },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          },
         },
       });
     });
 
-    it('first filter with a given key', () => {
+    it('should add filter (number)', () => {
+      const initialState = {
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {},
+      };
+      const filterToSet = {
+        formValues: { rating: 2 },
+        operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+      };
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+      expect(newState).toEqual({
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { rating: 2 },
+            operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+          },
+        },
+      });
+    });
+
+    it('should update filter (array)', () => {
       const initialState = {
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { otherProp: ['value1', 'value2'] },
-          operators: { otherProp: FILTER_OPERATORS.LIKE },
+          category1: {
+            formValues: { marketplace: ['marketplace2'] },
+            operators: { marketplace: FILTER_OPERATORS.LIKE },
+          },
         },
       };
-      const filterToAdd = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
+      const filterToSet = {
+        formValues: { marketplace: ['marketplace1'] },
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual({
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category1'], otherProp: ['value1', 'value2'] },
-          operators: { type: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.LIKE },
+          category1: {
+            formValues: { marketplace: ['marketplace1'] },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          },
         },
       });
     });
 
-    it('a filter with an existing key', () => {
+    it('should update filter (number)', () => {
       const initialState = {
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category1'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
+          category1: {
+            formValues: { rating: 2 },
+            operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+          },
         },
       };
-      const filterToAdd = {
-        formValues: { type: ['category2'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
+      const filterToSet = {
+        formValues: { rating: 4 },
+        operators: { rating: FILTER_OPERATORS.GREATER_THAN },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual({
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category1', 'category2'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
+          category1: {
+            formValues: { rating: 4 },
+            operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+          },
         },
       });
     });
 
-    it('filter with unmatching operator (overwrite)', () => {
+    it('should remove a filter (array)', () => {
       const initialState = {
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category1'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
+          category1: {
+            formValues: { marketplace: ['marketplace1'], otherProp: 'otherValue' },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
+          },
         },
       };
-      const filterToAdd = {
-        formValues: { type: ['category2'] },
-        operators: { type: FILTER_OPERATORS.LIKE },
+      const filterToSet = {
+        formValues: { marketplace: [] },
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual({
         selected: {},
         list: [],
         componentListViewMode: '',
         filters: {
-          formValues: { type: ['category2'] },
-          operators: { type: FILTER_OPERATORS.LIKE },
+          category1: {
+            formValues: { otherProp: 'otherValue' },
+            operators: { otherProp: FILTER_OPERATORS.EQUAL },
+          },
         },
+      });
+    });
+
+    it('should remove a filter (number)', () => {
+      const initialState = {
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { marketplace: ['marketplace1'], rating: 4 },
+            operators: {
+              marketplace: FILTER_OPERATORS.EQUAL,
+              rating: FILTER_OPERATORS.GREATER_THAN,
+            },
+          },
+        },
+      };
+      const filterToSet = {
+        formValues: { rating: null },
+        operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+      };
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+      expect(newState).toEqual({
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { marketplace: ['marketplace1'] },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          },
+        },
+      });
+    });
+
+    it('should remove last filter (array)', () => {
+      const initialState = {
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { marketplace: ['marketplace1'] },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          },
+        },
+      };
+      const filterToSet = {
+        formValues: { marketplace: [] },
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
+      };
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+      expect(newState).toEqual({
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {},
+      });
+    });
+
+    it('should remove last filter (number)', () => {
+      const initialState = {
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { rating: 4 },
+            operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+          },
+        },
+      };
+      const filterToSet = {
+        formValues: { rating: null },
+        operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+      };
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+      expect(newState).toEqual({
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {},
       });
     });
   });
 
-  describe('should NOT add', () => {
-    let filterToAdd;
+  describe('should NOT process', () => {
+    let filterToSet;
     const initialState = {
       selected: {},
       list: [],
       componentListViewMode: '',
       filters: {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
+        category1: {
+          formValues: { marketplace: ['marketplace'] },
+          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        },
       },
     };
 
     it('null filter', () => {
-      filterToAdd = null;
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      filterToSet = null;
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual(initialState);
     });
 
     it('incomplete filter 1', () => {
-      filterToAdd = { otherProp: 'wrongValue' };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      filterToSet = { wrongProp: 'wrongValue' };
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual(initialState);
     });
 
     it('incomplete filter 2', () => {
-      filterToAdd = {
-        formValues: { type: ['category2'] },
+      filterToSet = {
+        formValues: { marketplace: ['marketplace'] },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual(initialState);
     });
 
     it('incomplete filter 3', () => {
-      filterToAdd = {
-        operators: { type: FILTER_OPERATORS.EQUAL },
+      filterToSet = {
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual(initialState);
     });
 
     it('already existing filter', () => {
-      filterToAdd = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
+      filterToSet = {
+        formValues: { marketplace: ['marketplace'] },
+        operators: { marketplace: FILTER_OPERATORS.EQUAL },
       };
-      const newState = reducer(initialState, addDEFilter(filterToAdd));
-      expect(newState).toEqual(initialState);
-    });
-  });
-
-  describe('should remove', () => {
-    it('a filter with a given key', () => {
-      const initialState = {
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {
-          formValues: { type: ['category1', 'category2'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
-        },
-      };
-      const filterToRemove = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual({
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {
-          formValues: { type: ['category2'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
-        },
-      });
-    });
-
-    it('last filter with a given key', () => {
-      const initialState = {
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {
-          formValues: { type: ['category1'], otherProp: ['value1', 'value2'] },
-          operators: { type: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.LIKE },
-        },
-      };
-      const filterToRemove = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual({
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {
-          formValues: { otherProp: ['value1', 'value2'] },
-          operators: { otherProp: FILTER_OPERATORS.LIKE },
-        },
-      });
-    });
-
-    it('last filter', () => {
-      const initialState = {
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {
-          formValues: { type: ['category1'] },
-          operators: { type: FILTER_OPERATORS.EQUAL },
-        },
-      };
-      const filterToRemove = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual({
-        selected: {},
-        list: [],
-        componentListViewMode: '',
-        filters: {},
-      });
-    });
-  });
-
-  describe('should NOT remove', () => {
-    let filterToRemove;
-    const initialState = {
-      selected: {},
-      list: [],
-      componentListViewMode: '',
-      filters: {
-        formValues: { type: ['category1', 'category2'] },
-        operators: { type: FILTER_OPERATORS.EQUAL },
-      },
-    };
-
-    it('null filter', () => {
-      filterToRemove = null;
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('unmatching and incomplete filter', () => {
-      filterToRemove = { otherProp: 'wrongValue' };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('incomplete filter', () => {
-      filterToRemove = {
-        formValues: { type: ['category1'] },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('unmatching filter 1', () => {
-      filterToRemove = {
-        formValues: { otherProp: ['category1'] },
-        operators: { otherProp: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('unmatching filter 2', () => {
-      filterToRemove = {
-        formValues: { type: ['category1'] },
-        operators: { type: FILTER_OPERATORS.LIKE },
-      };
-      const newState = reducer(initialState, removeDEFilter(filterToRemove));
+      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toEqual(initialState);
     });
   });

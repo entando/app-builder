@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { getTopCategoryFilter } from 'state/digital-exchange/components/selectors';
+import { isAllCategoriesCategorySelected } from 'state/digital-exchange/categories/selectors';
 import Sidebar from 'ui/digital-exchange/Sidebar';
 
 const mapDispatchToProps = null;
 
 export const mapStateToProps = state => ({
-  topCategoryFilter: getTopCategoryFilter(state),
+  showCategoryFilter: isAllCategoriesCategorySelected(state),
 });
 
 const SidebarContainer = connect(
