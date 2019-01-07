@@ -11,7 +11,7 @@ import {
 } from 'test/mocks/digital-exchange/components';
 
 describe('Digital Exchange components reducer', () => {
-  describe('setFilter action', () => {
+  describe('filter reducer', () => {
     it('should add filter (array)', () => {
       const initialState = {
         selected: {},
@@ -234,57 +234,57 @@ describe('Digital Exchange components reducer', () => {
         filters: {},
       });
     });
-  });
 
-  describe('should NOT process', () => {
-    let filterToSet;
-    const initialState = {
-      selected: {},
-      list: [],
-      componentListViewMode: '',
-      filters: {
-        category1: {
+    describe('should NOT process', () => {
+      let filterToSet;
+      const initialState = {
+        selected: {},
+        list: [],
+        componentListViewMode: '',
+        filters: {
+          category1: {
+            formValues: { marketplace: ['marketplace'] },
+            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          },
+        },
+      };
+
+      it('null filter', () => {
+        filterToSet = null;
+        const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+        expect(newState).toEqual(initialState);
+      });
+
+      it('incomplete filter 1', () => {
+        filterToSet = { wrongProp: 'wrongValue' };
+        const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+        expect(newState).toEqual(initialState);
+      });
+
+      it('incomplete filter 2', () => {
+        filterToSet = {
+          formValues: { marketplace: ['marketplace'] },
+        };
+        const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+        expect(newState).toEqual(initialState);
+      });
+
+      it('incomplete filter 3', () => {
+        filterToSet = {
+          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        };
+        const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+        expect(newState).toEqual(initialState);
+      });
+
+      it('already existing filter', () => {
+        filterToSet = {
           formValues: { marketplace: ['marketplace'] },
           operators: { marketplace: FILTER_OPERATORS.EQUAL },
-        },
-      },
-    };
-
-    it('null filter', () => {
-      filterToSet = null;
-      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('incomplete filter 1', () => {
-      filterToSet = { wrongProp: 'wrongValue' };
-      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('incomplete filter 2', () => {
-      filterToSet = {
-        formValues: { marketplace: ['marketplace'] },
-      };
-      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('incomplete filter 3', () => {
-      filterToSet = {
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
-      expect(newState).toEqual(initialState);
-    });
-
-    it('already existing filter', () => {
-      filterToSet = {
-        formValues: { marketplace: ['marketplace'] },
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
-      };
-      const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
-      expect(newState).toEqual(initialState);
+        };
+        const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
+        expect(newState).toEqual(initialState);
+      });
     });
   });
 

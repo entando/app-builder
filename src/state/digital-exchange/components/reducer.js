@@ -1,4 +1,4 @@
-import { get, head } from 'lodash';
+import { get, head, omit } from 'lodash';
 import { combineReducers } from 'redux';
 import {
   SET_SELECTED_DE_COMPONENT,
@@ -43,17 +43,9 @@ const getFilterKey = (filter) => {
 
 const addOrUpdateFilter = (filter, state, category) => {
   const firstFilterOfThatCategory = !get(state, `${category}.formValues`);
-  if (firstFilterOfThatCategory) {
-    const obj = {
-      ...state,
-      [category]: filter,
-    };
-    return obj;
-  }
-
-  return {
-    ...state,
-    [category]: {
+  const newStateSlice = firstFilterOfThatCategory
+    ? filter
+    : {
       formValues: {
         ...state[category].formValues,
         ...filter.formValues,
@@ -62,7 +54,11 @@ const addOrUpdateFilter = (filter, state, category) => {
         ...state[category].operators,
         ...filter.operators,
       },
-    },
+    };
+
+  return {
+    ...state,
+    [category]: newStateSlice,
   };
 };
 
@@ -73,17 +69,17 @@ const removeFilter = (filter, state, category) => {
   const isTheOnlyFilter = Object.keys(stateFormValues).length === 1
     && getFilterKey(stateSlice) === filterKey;
 
-  if (isTheOnlyFilter) {
-    return {
-      ...state,
-      [category]: undefined,
+  const newStateSlice = isTheOnlyFilter
+    ? undefined
+    : {
+      formValues: omit(stateSlice.formValues, filterKey),
+      operators: omit(stateSlice.operators, filterKey),
     };
-  }
 
-  delete stateSlice.formValues[filterKey];
-  delete stateSlice.operators[filterKey];
-
-  return state;
+  return {
+    ...state,
+    [category]: newStateSlice,
+  };
 };
 
 const filters = (state = {}, action = {}) => {
