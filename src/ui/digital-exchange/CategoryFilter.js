@@ -35,6 +35,8 @@ CategoryFilterBody.propTypes = {
 
 const CategoryFilter = reduxForm({
   form: 'categoryFilter',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })(CategoryFilterBody);
 
 export default CategoryFilter;

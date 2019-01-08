@@ -6,15 +6,26 @@ import CategoryFilter from 'ui/digital-exchange/CategoryFilter';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryFilterContainer';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { fetchDEComponents } from 'state/digital-exchange/components/actions';
-import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
+import { filterByDECategories } from 'state/digital-exchange/actions';
 
 const TEST_STATE = {
-  digitalExchangeCategories: { list: LIST_DE_CATEGORIES_OK },
+  digitalExchangeMarketplaces: {
+    list: [],
+  },
+  digitalExchangeCategories: {
+    list: LIST_DE_CATEGORIES_OK,
+    selected: {},
+  },
+  digitalExchangeComponents: {
+    list: [],
+    selected: {},
+    componentListViewMode: '',
+    filters: {},
+  },
 };
 
-jest.mock('state/digital-exchange/components/actions', () => ({
-  fetchDEComponents: jest.fn(),
+jest.mock('state/digital-exchange/actions', () => ({
+  filterByDECategories: jest.fn(),
 }));
 
 jest.mock('state/digital-exchange/categories/actions', () => ({
@@ -41,6 +52,7 @@ describe('CategoryFilter', () => {
   it('maps digitalExchangeCategories property state', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       digitalExchangeCategories: TEST_STATE.digitalExchangeCategories.list,
+      initialValues: { categories: [] },
     });
   });
 
@@ -62,17 +74,10 @@ describe('CategoryFilter', () => {
     });
 
     it('should dispatch an action if filter is checked', () => {
-      const FIELD_OPERATORS = { category: FILTER_OPERATORS.LIKE };
       const categories = ['category'];
-      const filters = {
-        formValues: { category: categories },
-        operators: FIELD_OPERATORS,
-      };
-
       props.onChange({ categories });
       expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchDEComponents)
-        .toHaveBeenCalledWith({ page: 1, pageSize: 10 }, convertToQueryString(filters));
+      expect(filterByDECategories).toHaveBeenCalledWith(categories);
     });
   });
 });

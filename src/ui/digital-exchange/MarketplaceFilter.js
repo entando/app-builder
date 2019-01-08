@@ -35,6 +35,8 @@ MarketplaceFilterBody.propTypes = {
 
 const MarketplaceFilter = reduxForm({
   form: 'marketplaceFilter',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })(MarketplaceFilterBody);
 
 export default MarketplaceFilter;

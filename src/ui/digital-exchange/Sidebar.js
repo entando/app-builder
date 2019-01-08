@@ -4,20 +4,16 @@ import MarketplaceFilterContainer from 'ui/digital-exchange/MarketplaceFilterCon
 import CategoryFilterContainer from 'ui/digital-exchange/CategoryFilterContainer';
 import RatingFilterContainer from 'ui/digital-exchange/RatingFilterContainer';
 
-const Sidebar = ({ topCategoryFilter }) => (
+const Sidebar = ({ showCategoryFilter }) => (
   <div className="Sidebar">
     <MarketplaceFilterContainer />
     <RatingFilterContainer />
-    { topCategoryFilter.length ? '' : <CategoryFilterContainer /> }
+    { showCategoryFilter ? <CategoryFilterContainer /> : '' }
   </div>
 );
 
 Sidebar.propTypes = {
-  topCategoryFilter: PropTypes.arrayOf(PropTypes.string),
-};
-
-Sidebar.defaultProps = {
-  topCategoryFilter: [],
+  showCategoryFilter: PropTypes.bool.isRequired,
 };
 
 export default Sidebar;

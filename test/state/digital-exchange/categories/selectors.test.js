@@ -1,6 +1,6 @@
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 
-import { getDECategories, getDECategorySelected, getDECategoryList } from 'state/digital-exchange/categories/selectors';
+import { getDECategories, getSelectedDECategory, getDECategoryList } from 'state/digital-exchange/categories/selectors';
 
 const list = LIST_DE_CATEGORIES_OK;
 
@@ -17,8 +17,8 @@ describe('state/digital-exchange/categories/selectors', () => {
     expect(digitalExchangeCategories).toBe(MOCK_STATE.digitalExchangeCategories);
   });
 
-  it('getDECategorySelected(state) returns the selected object', () => {
-    const selected = getDECategorySelected(MOCK_STATE);
+  it('getSelectedDECategory(state) returns the selected object', () => {
+    const selected = getSelectedDECategory(MOCK_STATE);
     expect(selected).toBe(MOCK_STATE.digitalExchangeCategories.selected);
   });
 
