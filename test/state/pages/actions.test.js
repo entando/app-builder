@@ -14,8 +14,7 @@ import {
   handleExpandPage, setPageParent, movePageBelow, movePageAbove, sendPostPage, fetchSearchPages,
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
-  fetchReferencesPage, setReferenceSelectedPage, clonePage, clearTree,
-  sendPutPageSettings,
+  setReferenceSelectedPage, clonePage, clearTree, sendPutPageSettings, sendPatchPage,
 } from 'state/pages/actions';
 
 import {
@@ -33,12 +32,12 @@ import {
 
 import {
   setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettings,
-  putPageStatus, deletePage, getFreePages, getSearchPages, getReferencesPage,
-  putPageSettings,
+  putPageStatus, deletePage, getFreePages, getSearchPages,
+  putPageSettings, patchPage,
 } from 'api/pages';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
-import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap, getReferencesFromSelectedPage } from 'state/pages/selectors';
+import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
 
 jest.mock('state/page-config/selectors', () => ({
   getSelectedPageConfig: jest.fn(),
@@ -428,6 +427,38 @@ describe('state/pages/actions', () => {
       putPage.mockImplementation(mockApi({ errors: true }));
       return store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).catch((e) => {
         expect(putPage).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(e).toHaveProperty('errors');
+        e.errors.forEach((error, index) => {
+          expect(error.message).toEqual(actions[0].payload.errors[index]);
+        });
+      });
+    });
+  });
+
+  describe('sendPatchPage()', () => {
+    let store;
+    beforeEach(() => {
+      jest.clearAllMocks();
+      store = mockStore(INITIALIZED_STATE);
+    });
+
+    it('when patchPage succeeds, should dispatch UPDATE_PAGE', (done) => {
+      store.dispatch(sendPatchPage(CONTACTS_PAYLOAD)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', UPDATE_PAGE);
+        expect(patchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('if the response is not ok, dispatch add errors', async () => {
+      patchPage.mockImplementation(mockApi({ errors: true }));
+      return store.dispatch(sendPatchPage(CONTACTS_PAYLOAD)).catch((e) => {
+        expect(patchPage).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
