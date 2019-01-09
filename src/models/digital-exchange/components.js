@@ -5,7 +5,7 @@ export const componentType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   lastUpdate: PropTypes.string.isRequired,
-  marketplace: PropTypes.string.isRequired,
+  digitalExchange: PropTypes.string.isRequired,
   version: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   description: PropTypes.string,

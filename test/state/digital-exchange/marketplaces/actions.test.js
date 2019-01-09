@@ -81,7 +81,7 @@ describe('state/digital-exchange/marketplaces/actions', () => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.digitalExchangeMarketplaces).toHaveLength(3);
         const digitalExchangeMarketplace = actionPayload.digitalExchangeMarketplaces[0];
-        expect(digitalExchangeMarketplace).toBe('Entando');
+        expect(digitalExchangeMarketplace.name).toBe('Entando');
         done();
       }).catch(done.fail);
     });
