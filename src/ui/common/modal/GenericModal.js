@@ -4,9 +4,14 @@ import { Modal, Icon, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 const GenericModal = ({
-  visibleModal, modalId, onCloseModal, children, buttons, modalTitle,
+  visibleModal, modalId, modalClassName, onCloseModal, children, buttons, modalTitle,
 }) => (
-  <Modal show={visibleModal === modalId} onHide={onCloseModal} id={modalId}>
+  <Modal
+    show={visibleModal === modalId}
+    onHide={onCloseModal}
+    id={modalId}
+    dialogClassName={modalClassName}
+  >
     <Modal.Header>
       <button
         className="close"
@@ -36,6 +41,7 @@ const GenericModal = ({
 
 GenericModal.propTypes = {
   visibleModal: PropTypes.string,
+  modalClassName: PropTypes.string,
   modalId: PropTypes.string.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   modalTitle: PropTypes.node,
@@ -45,6 +51,7 @@ GenericModal.propTypes = {
 
 GenericModal.defaultProps = {
   visibleModal: '',
+  modalClassName: '',
   modalTitle: '',
   buttons: [],
 };
