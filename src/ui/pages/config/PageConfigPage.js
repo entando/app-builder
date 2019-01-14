@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
+import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import throttle from 'lodash/throttle';
 import { formattedText } from '@entando/utils';
@@ -16,6 +16,7 @@ import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import PageSettingsModalContainer from 'ui/pages/config/PageSettingsModalContainer';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
@@ -86,7 +87,7 @@ class PageConfigPage extends Component {
     const {
       pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault, previewUri,
+      applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings,
     } = this.props;
 
     let defaultConfigBtn;
@@ -179,6 +180,13 @@ class PageConfigPage extends Component {
                     </ButtonToolbar>
                     <ButtonToolbar className="pull-right">
                       <Button
+                        className="PageConfigPage__settings-btn"
+                        bsStyle="default"
+                        onClick={showPageSettings}
+                      >
+                        <span><FormattedMessage id="pageSettings.title" /><Icon name="cogs" /></span>
+                      </Button>
+                      <Button
                         bsStyle="warning"
                         onClick={restoreConfig}
                         disabled={!pageDiffersFromPublished}
@@ -259,6 +267,7 @@ class PageConfigPage extends Component {
                 ref={(el) => { this.sideWidget = el; }}
               >
                 <ToolbarPageConfigContainer />
+                <PageSettingsModalContainer />
               </Col>
             </Row>
           </Grid>
@@ -284,6 +293,7 @@ PageConfigPage.propTypes = {
   publishPage: PropTypes.func,
   unpublishPage: PropTypes.func,
   applyDefaultConfig: PropTypes.func,
+  showPageSettings: PropTypes.func,
 };
 
 PageConfigPage.defaultProps = {
@@ -302,6 +312,7 @@ PageConfigPage.defaultProps = {
   publishPage: null,
   unpublishPage: null,
   applyDefaultConfig: null,
+  showPageSettings: null,
 };
 
 export default PageConfigPage;

@@ -8,6 +8,8 @@ import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
 import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPageConfigMatchesDefault } from 'state/page-config/selectors';
 import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
+import { setVisibleModal } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/pages/config/PageSettingsModal';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
@@ -20,6 +22,7 @@ export const mapDispatchToProps = dispatch => ({
   publishPage: () => dispatch(publishSelectedPage()),
   unpublishPage: () => dispatch(unpublishSelectedPage()),
   applyDefaultConfig: () => dispatch(applyDefaultConfig()),
+  showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
 });
 
 export const mapStateToProps = (state) => {

@@ -7,6 +7,12 @@
     margin-bottom: 5px;
   }
 
+  &__settings-btn {
+    span .fa { // sass-lint:disable-line force-element-nesting class-name-format
+      padding-left: 8px;
+    }
+  }
+
   .PageStatusIcon {
     margin-right: 10px;
   }
