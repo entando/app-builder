@@ -83,7 +83,7 @@ describe('state/digital-exchange/components/actions', () => {
         expect(digitalExchangeComponent).toHaveProperty('id', 'a7233e30-e6f0-4c90-9786-e3667113be12');
         expect(digitalExchangeComponent).toHaveProperty('name', 'Avatar plugin');
         expect(digitalExchangeComponent).toHaveProperty('lastUpdate', '2018-08-22');
-        expect(digitalExchangeComponent).toHaveProperty('marketplace', 'Entando');
+        expect(digitalExchangeComponent).toHaveProperty('digitalExchange', 'Entando');
         expect(digitalExchangeComponent).toHaveProperty('version', '5.1.0');
         expect(digitalExchangeComponent).toHaveProperty('type', 'widget');
         expect(digitalExchangeComponent).toHaveProperty('description', 'lorem ipsum');
