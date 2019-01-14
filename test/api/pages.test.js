@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 import {
-  getPage, getPageChildren, setPagePosition, postPage, putPage, deletePage, getSearchPages,
-  getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
+  getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
+  getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
   getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings,
 } from 'api/pages';
 
@@ -98,6 +98,23 @@ describe('api/pages', () => {
         uri: '/api/pages',
         body: CONTACTS_PAYLOAD,
         method: METHODS.POST,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('patchPage', () => {
+    it('returns a promise', () => {
+      expect(patchPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      patchPage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.PATCH,
+        errors: expect.any(Function),
         useAuthentication: true,
       }));
     });

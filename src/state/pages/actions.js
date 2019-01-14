@@ -7,7 +7,7 @@ import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages,
-  putPageSettings,
+  putPageSettings, patchPage,
 } from 'api/pages';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
@@ -308,6 +308,20 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
 export const sendPutPage = pageData => async (dispatch) => {
   try {
     const response = await putPage(pageData);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(updatePage(json.payload));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const sendPatchPage = pageData => async (dispatch) => {
+  try {
+    const response = await patchPage(pageData);
     const json = await response.json();
     if (response.ok) {
       dispatch(updatePage(json.payload));

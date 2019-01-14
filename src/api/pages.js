@@ -97,12 +97,24 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
+export const patchPage = patchPageObject => makeRequest({
+  uri: `/api/pages/${patchPageObject.code}`,
+  body: patchPageObject,
+  method: METHODS.PATCH,
+  mockResponse: patchPageObject,
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[patchPageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${patchPageObject.code} could be found.` }]
+  ),
+});
+
 export const deletePage = page => makeRequest({
   uri: `/api/pages/${page.code}`,
   method: METHODS.DELETE,
   mockResponse: { code: `${page.code}` },
   useAuthentication: true,
-
 });
 
 export const putPageStatus = (pageCode, status) => makeRequest({
