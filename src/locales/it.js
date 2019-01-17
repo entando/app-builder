@@ -650,5 +650,8 @@ export default {
     'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
     'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
     'digitalExchange.categoryTabs.all': 'Tutti',
+    'singlePageSettings.title': 'Impostazioni pagina',
+    'singlePageSettings.generalSettings': 'Generale',
+    'singlePageSettings.pageTitle': 'Titolo della Pagina',
   },
 };

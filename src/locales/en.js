@@ -650,5 +650,8 @@ export default {
     'digitalExchange.sidebar.ratingFilter.title': 'Rating',
     'digitalExchange.sidebar.ratingFilter.itemLabel': '& up',
     'digitalExchange.categoryTabs.all': 'All',
+    'singlePageSettings.title': 'Page Settings',
+    'singlePageSettings.generalSettings': 'General Settings',
+    'singlePageSettings.pageTitle': 'Page Title',
   },
 };
