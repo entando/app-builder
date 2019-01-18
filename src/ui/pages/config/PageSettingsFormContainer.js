@@ -7,10 +7,14 @@ const mapStateToProps = state => ({
   initialValues: getSelectedPage(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => dispatch(loadSelectedPage()),
   onSubmit: (page) => {
     console.log(page);
+    ownProps.onSubmit();
+  },
+  onReset: () => {
+    ownProps.onReset();
   },
 });
 

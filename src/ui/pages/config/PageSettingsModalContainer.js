@@ -1,16 +1,14 @@
-import { isValid, isSubmitting, submit } from 'redux-form';
 import { connect } from 'react-redux';
 import { setVisibleModal } from 'state/modal/actions';
 import PageSettingsModal from 'ui/pages/config/PageSettingsModal';
-import { FORM_ID } from 'ui/pages/config/PageSettingsForm';
 
-const mapStateToProps = state => ({
-  canSave: isValid(FORM_ID)(state) && !isSubmitting(FORM_ID)(state),
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = dispatch => ({
   onSave: () => {
-    dispatch(submit(FORM_ID));
+    dispatch(setVisibleModal(''));
+  },
+  onCancel: () => {
     dispatch(setVisibleModal(''));
   },
 });

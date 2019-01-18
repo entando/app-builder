@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field, FormSection, reduxForm } from 'redux-form';
 import { required } from '@entando/utils';
-import { Form, TabContainer, Nav, NavItem, TabContent, TabPane } from 'patternfly-react';
+import { Button, Form, TabContainer, Nav, NavItem, TabContent, TabPane } from 'patternfly-react';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 export const MODAL_ID = 'PageSettingsModal';
-export const FORM_ID = 'page-settings';
 
 class PageSettingsFormBody extends Component {
   componentWillMount() {
@@ -15,7 +14,12 @@ class PageSettingsFormBody extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const {
+      handleSubmit,
+      invalid,
+      submitting,
+      onReset,
+    } = this.props;
 
     return (
       <Form onSubmit={handleSubmit} horizontal className="PageSettingsForm">
@@ -48,6 +52,22 @@ class PageSettingsFormBody extends Component {
             </TabContent>
           </div>
         </TabContainer>
+        <div className="pull-right">
+          <Button
+            bsStyle="default"
+            className="btn-cancel"
+            onClick={onReset}
+          >
+            <FormattedMessage id="app.cancel" />
+          </Button>
+          <Button
+            bsStyle="primary"
+            disabled={invalid || submitting}
+            type="submit"
+          >
+            <FormattedMessage id="app.save" />
+          </Button>
+        </div>
       </Form>
     );
   }
@@ -55,7 +75,15 @@ class PageSettingsFormBody extends Component {
 
 PageSettingsFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  invalid: PropTypes.bool,
+  submitting: PropTypes.bool,
+  onReset: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
+};
+
+PageSettingsFormBody.defaultProps = {
+  invalid: false,
+  submitting: false,
 };
 
 export default reduxForm({
