@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { loadSelectedPage } from 'state/pages/actions';
 import { getSelectedPage } from 'state/pages/selectors';
-import PageSettingsForm from 'ui/pages/config/PageSettingsForm';
+import SinglePageSettingsForm from 'ui/pages/config/SinglePageSettingsForm';
+
 
 const mapStateToProps = state => ({
   initialValues: getSelectedPage(state),
@@ -18,9 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const PageSettingFormContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PageSettingsForm);
-
-export default PageSettingFormContainer;
+)(SinglePageSettingsForm);

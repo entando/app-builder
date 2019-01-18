@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { setVisibleModal } from 'state/modal/actions';
-import PageSettingsModal from 'ui/pages/config/PageSettingsModal';
+import SinglePageSettingsModal from 'ui/pages/config/SinglePageSettingsModal';
 
 const mapStateToProps = null;
 
@@ -13,9 +13,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const PageSettingsModalContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PageSettingsModal);
-
-export default PageSettingsModalContainer;
+)(SinglePageSettingsModal);

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field, FormSection, reduxForm } from 'redux-form';
-import { required } from '@entando/utils';
 import { Button, Form, TabContainer, Nav, NavItem, TabContent, TabPane } from 'patternfly-react';
+import { required } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-export const MODAL_ID = 'PageSettingsModal';
+export const MODAL_ID = 'SinglePageSettingsModal';
 
-class PageSettingsFormBody extends Component {
+class SinglePageSettingsFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
@@ -73,7 +73,7 @@ class PageSettingsFormBody extends Component {
   }
 }
 
-PageSettingsFormBody.propTypes = {
+SinglePageSettingsFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -81,11 +81,11 @@ PageSettingsFormBody.propTypes = {
   onWillMount: PropTypes.func.isRequired,
 };
 
-PageSettingsFormBody.defaultProps = {
+SinglePageSettingsFormBody.defaultProps = {
   invalid: false,
   submitting: false,
 };
 
 export default reduxForm({
   form: 'page-settings',
-})(PageSettingsFormBody);
+})(SinglePageSettingsFormBody);

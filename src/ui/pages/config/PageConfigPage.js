@@ -16,7 +16,7 @@ import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import PageSettingsModalContainer from 'ui/pages/config/PageSettingsModalContainer';
+import PageSettingsModalContainer from './SinglePageSettingsModalContainer';
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
