@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -6,11 +7,20 @@ import { Button, Form, TabContainer, Nav, NavItem, TabContent, TabPane } from 'p
 import { required } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-export const MODAL_ID = 'SinglePageSettingsModal';
-
 class SinglePageSettingsFormBody extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { currentNonDefaultLanguageCode: null };
+  }
+
   componentWillMount() {
     this.props.onWillMount();
+  }
+
+  handleCurrentNonDefaultLanguageChange(e) {
+    this.setState({
+      currentNonDefaultLanguageCode: e.currentTarget.value,
+    });
   }
 
   render() {
@@ -19,10 +29,54 @@ class SinglePageSettingsFormBody extends Component {
       invalid,
       submitting,
       onReset,
+      activeNonDefaultLanguages,
+      defaultLanguage,
     } = this.props;
 
+    const activeNonDefaultLanguagesSelect = (
+      <select onChange={e => this.handleCurrentNonDefaultLanguageChange(e)}>
+        {
+          activeNonDefaultLanguages.map(lang => (
+            <option key={lang.code} value={lang.code}>{lang.code.toUpperCase()}</option>
+          ))
+        }
+      </select>
+    );
+
+    const currentNonDefaultLanguageCode = this.state.currentNonDefaultLanguageCode
+      || get(activeNonDefaultLanguages, '[0].code', '');
+
+    const Input = ({ languageCode, input, meta: { touched, error } }) => (
+      <span className={currentNonDefaultLanguageCode === languageCode ? '' : 'SinglePageSettingsForm__field--hidden'}>
+        <input
+          {...input}
+          type="text"
+          className="form-control"
+        />
+        {touched && ((error && <span className="help-block">{error}</span>))}
+      </span>
+    );
+
+    const activeNonDefaultLanguagesInputs = (
+      <React.Fragment>
+        {
+          activeNonDefaultLanguages.map(lang => lang.code).map(languageCode => (
+            <Field
+              key={`input-${languageCode}`}
+              component={props => (
+                <Input {...props} languageCode={languageCode} />
+              )}
+              name={languageCode}
+            />
+          ))
+        }
+      </React.Fragment>
+    );
+
+    const defaultLanguageLabel = `${defaultLanguage.toUpperCase()} (default)*`;
+
     return (
-      <Form onSubmit={handleSubmit} horizontal className="PageSettingsForm">
+      <Form onSubmit={handleSubmit} horizontal className="SinglePageSettingsForm">
         <TabContainer id="page-settings-tabs" defaultActiveKey={1}>
           <div>
             <Nav bsClass="nav nav-tabs">
@@ -32,22 +86,32 @@ class SinglePageSettingsFormBody extends Component {
             </Nav>
             <TabContent>
               <TabPane eventKey={1}>
-                <legend>
-                  <FormattedMessage id="singlePageSettings.pageTitle" />
-                  <span className="PageSettingsModal__required-fields pull-right">
-                  * <FormattedMessage id="app.fieldsRequired" />
-                  </span>
-                </legend>
-                <FormSection name="titles">
-                  <Field
-                    label="ENG (default)*"
-                    labelSize={3}
-                    component={RenderTextInput}
-                    name="en"
-                    validate={required}
-                    alignClass="text-left"
-                  />
-                </FormSection>
+                <div className="SinglePageSettingsForm__section">
+                  <legend>
+                    <FormattedMessage id="singlePageSettings.pageTitle" />
+                    <span className="SinglePageSettingsForm__required-fields pull-right">
+                    * <FormattedMessage id="app.fieldsRequired" />
+                    </span>
+                  </legend>
+                  <FormSection name="titles">
+                    <Field
+                      label={defaultLanguageLabel}
+                      labelSize={3}
+                      component={RenderTextInput}
+                      name={defaultLanguage}
+                      validate={required}
+                      alignClass="text-left"
+                    />
+                    <div className="form-group">
+                      <div className="col-xs-3">
+                        {activeNonDefaultLanguagesSelect}
+                      </div>
+                      <div className="col-xs-9">
+                        {activeNonDefaultLanguagesInputs}
+                      </div>
+                    </div>
+                  </FormSection>
+                </div>
               </TabPane>
             </TabContent>
           </div>
@@ -74,6 +138,13 @@ class SinglePageSettingsFormBody extends Component {
 }
 
 SinglePageSettingsFormBody.propTypes = {
+  activeNonDefaultLanguages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    isActive: PropTypes.bool,
+    isDefault: PropTypes.bool,
+  })).isRequired,
+  defaultLanguage: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
