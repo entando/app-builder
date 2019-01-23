@@ -31,7 +31,7 @@ class MultiSelectRenderer extends Component {
     } = this.props;
     return selectedValues.map((value, i) => (
       <Label key={value} bsStyle="primary" className="MultiSelectRenderer__tag">
-        {options.find(opt => opt[valueKey] === value)[labelKey]}
+        {options.length ? options.find(opt => opt[valueKey] === value)[labelKey] : ''}
         <Button
           bsStyle="link"
           className="MultiSelectRenderer__remove-tag-btn"

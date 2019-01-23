@@ -1,21 +1,29 @@
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 import { loadSelectedPage } from 'state/pages/actions';
-import { getSelectedPage } from 'state/pages/selectors';
-import SinglePageSettingsForm from 'ui/pages/config/SinglePageSettingsForm';
+import { getSelectedPage, getCharsets, getContentTypes } from 'state/pages/selectors';
+import SinglePageSettingsForm, { FORM_ID } from 'ui/pages/config/SinglePageSettingsForm';
 import { fetchLanguages } from 'state/languages/actions';
 import { activeLangQueryString, noPagination } from 'ui/categories/common/formUtils';
 import { getDefaultLanguage, getActiveNonDefaultLanguages } from 'state/languages/selectors';
+import { getGroupsList } from 'state/groups/selectors';
+import { fetchGroups } from 'state/groups/actions';
 
 const mapStateToProps = state => ({
   initialValues: getSelectedPage(state),
   activeNonDefaultLanguages: getActiveNonDefaultLanguages(state),
   defaultLanguage: getDefaultLanguage(state),
+  groups: getGroupsList(state),
+  charsets: getCharsets(state),
+  contentTypes: getContentTypes(state),
+  selectedJoinGroupCodes: formValueSelector(FORM_ID)(state, 'joinGroups'),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => {
     dispatch(loadSelectedPage());
     dispatch(fetchLanguages(noPagination, activeLangQueryString));
+    dispatch(fetchGroups(noPagination));
   },
   onSubmit: (page) => {
     console.log(page);

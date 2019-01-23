@@ -653,5 +653,9 @@ export default {
     'singlePageSettings.title': 'Page Settings',
     'singlePageSettings.generalSettings': 'General Settings',
     'singlePageSettings.pageTitle': 'Page Title',
+    'singlePageSettings.pageGroups': 'Page Groups',
+    'singlePageSettings.settings': 'Settings',
+    'singlePageSettings.ownerGroup': 'Owner Group',
+    'singlePageSettings.joinGroup': 'Join Group',
   },
 };
