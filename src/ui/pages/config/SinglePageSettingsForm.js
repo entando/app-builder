@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field, FieldArray, FormSection, reduxForm } from 'redux-form';
 import { Button, Col, Form, FormGroup, Nav, NavItem, Row, TabContainer, TabContent, TabPane } from 'patternfly-react';
-import { formattedText, required } from '@entando/utils';
+import { formattedText, maxLength, required } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
@@ -12,6 +12,11 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import MultiSelectRenderer from '../common/MultiSelectRenderer';
 
 export const FORM_ID = 'single-page-settings';
+const maxLength70 = maxLength(70);
+
+function mapToSelectInputOptions(arrayOfStrings) {
+  return arrayOfStrings.map(str => ({ code: str, name: str }));
+}
 
 class SinglePageSettingsFormBody extends Component {
   constructor(props) {
@@ -36,8 +41,8 @@ class SinglePageSettingsFormBody extends Component {
       groups, charsets, contentTypes, selectedJoinGroupCodes,
     } = this.props;
 
-    // const selectedJoinGroups = groups.filter(group => selectedJoinGroupCodes
-    // .includes(group.code));
+    const charsetOptions = mapToSelectInputOptions(charsets);
+    const contentTypeOptions = mapToSelectInputOptions(contentTypes);
 
     const activeNonDefaultLanguagesSelect = (
       <select onChange={e => this.handleCurrentNonDefaultLanguageChange(e)}>
@@ -73,16 +78,19 @@ class SinglePageSettingsFormBody extends Component {
                 <Input {...props} languageCode={languageCode} />
               )}
               name={languageCode}
+              validate={maxLength70}
             />
           ))
         }
       </React.Fragment>
     );
 
-    const defaultLanguageLabel = `${defaultLanguage.toUpperCase()} (default)*`;
+    const defaultLanguageLabel = `${defaultLanguage.toUpperCase()} (default)`;
 
-    const groupsWithEmpty =
-      [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
+    const groupsWithEmptyOption = [
+      { code: '', name: formattedText('app.chooseAnOption') },
+      ...groups,
+    ];
 
     return (
       <Form onSubmit={handleSubmit} horizontal className="SinglePageSettingsForm">
@@ -104,22 +112,24 @@ class SinglePageSettingsFormBody extends Component {
                   </legend>
                   <FormSection name="titles">
                     <Field
-                      label={defaultLanguageLabel}
-                      labelSize={3}
+                      label={<FormLabel labelText={defaultLanguageLabel} required />}
+                      labelSize={2}
+                      inputSize={8}
                       component={RenderTextInput}
                       name={defaultLanguage}
-                      validate={required}
+                      validate={[required, maxLength70]}
                       alignClass="text-left"
                     />
                     <div className="form-group">
-                      <div className="col-xs-3">
+                      <div className="col-xs-2">
                         {activeNonDefaultLanguagesSelect}
                       </div>
-                      <div className="col-xs-9">
+                      <div className="col-xs-8">
                         {activeNonDefaultLanguagesInputs}
                       </div>
                     </div>
                   </FormSection>
+
                   <Row>
                     <Col xs={6}>
                       <legend>
@@ -128,18 +138,25 @@ class SinglePageSettingsFormBody extends Component {
                       <Field
                         component={RenderSelectInput}
                         name="ownerGroup"
-                        className="form-control"
+                        label={
+                          <FormLabel
+                            labelId="pages.pageForm.ownerGroup"
+                            helpId="pages.pageForm.displayedInMenuHelp"
+                            required
+                          />
+                        }
+                        labelSize={4}
+                        alignClass=""
                         validate={[required]}
-                        label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
-                        options={groupsWithEmpty}
+                        options={groupsWithEmptyOption}
                         optionValue="code"
                         optionDisplayName="name"
                       />
                       <FormGroup>
-                        <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                          <FormLabel labelId="pages.pageForm.joinGroup" />
+                        <label htmlFor="joinGroups" className="col-xs-4">
+                          <FormLabel labelId="pages.pageForm.joinGroup" helpId="pages.pageForm.displayedInMenuHelp" />
                         </label>
-                        <Col xs={10}>
+                        <Col xs={8}>
                           <FieldArray
                             component={MultiSelectRenderer}
                             name="joinGroups"
@@ -152,94 +169,79 @@ class SinglePageSettingsFormBody extends Component {
                         </Col>
                       </FormGroup>
                     </Col>
+
                     <Col xs={6}>
                       <legend>
                         <FormattedMessage id="singlePageSettings.settings" />
                       </legend>
                       <FormGroup>
-                        <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
+                        <label htmlFor="displayedInMenu" className="col-xs-6">
                           <FormLabel
                             labelId="pages.pageForm.displayedInMenu"
                             helpId="pages.pageForm.displayedInMenuHelp"
                           />
                         </label>
-                        <Col xs={4}>
+                        <Col xs={3}>
                           <Field
                             component={SwitchRenderer}
                             name="displayedInMenu"
                           />
                         </Col>
                       </FormGroup>
-                      <FormGroup>
-                        <label htmlFor="charset" className="col-xs-2 control-label">
+                      <Field
+                        component={RenderSelectInput}
+                        name="charset"
+                        label={
                           <FormLabel
                             labelId="pages.pageForm.charset"
                             helpId="pages.pageForm.charsetHelp"
                           />
-                        </label>
-                        <Col xs={2}>
-                          <Field
-                            component="select"
-                            name="charset"
-                            className="PageForm__charsets-select form-control"
-                            size="3"
-                            validate={[required]}
-                          >
-                            {charsets.map(type => (
-                              <option
-                                key={type}
-                                className="PageForm__bullet-option"
-                                value={type}
-                              >
-                                {type}
-                              </option>
-                          ))}
-                          </Field>
-                        </Col>
-                        <label htmlFor="contentType" className="col-xs-2 col-xs-offset-2 control-label">
+                        }
+                        labelSize={4}
+                        inputSize={5}
+                        alignClass=""
+                        options={charsetOptions}
+                        optionValue="code"
+                        optionDisplayName="name"
+                      />
+
+                      <Field
+                        component={RenderSelectInput}
+                        name="contentType"
+                        label={
                           <FormLabel
                             labelId="pages.pageForm.mimeType"
                             helpId="pages.pageForm.mimeTypeHelp"
                           />
-                        </label>
-                        <Col xs={2}>
-                          <Field
-                            component="select"
-                            name="contentType"
-                            className="PageForm__content-types-select form-control"
-                            size="5"
-                            validate={[required]}
-                          >
-                            {contentTypes.map(type => (
-                              <option
-                                key={type}
-                                className="PageForm__bullet-option"
-                                value={type}
-                              >
-                                {type}
-                              </option>
-                          ))}
-                          </Field>
-                        </Col>
-                      </FormGroup>
+                        }
+                        labelSize={4}
+                        inputSize={5}
+                        alignClass=""
+                        validate={required}
+                        options={contentTypeOptions}
+                        optionValue="code"
+                        optionDisplayName="name"
+                      />
                     </Col>
                   </Row>
+
                 </div>
               </TabPane>
             </TabContent>
           </div>
         </TabContainer>
-        <div className="pull-right">
+        <div className="SinglePageSettingsForm__footer pull-right">
           <Button
             bsStyle="default"
-            className="btn-cancel"
+            className="SinglePageSettingsForm__action-btn SinglePageSettingsForm__btn-cancel"
             onClick={onReset}
           >
-            <FormattedMessage id="app.cancel" />
+            <FormattedMessage id="app.close" />
           </Button>
           <Button
             bsStyle="primary"
             disabled={invalid || submitting}
+            className="SinglePageSettingsForm__action-btn"
             type="submit"
           >
             <FormattedMessage id="app.save" />
@@ -264,7 +266,7 @@ SinglePageSettingsFormBody.propTypes = {
     code: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
-  selectedJoinGroupCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedJoinGroupCodes: PropTypes.arrayOf(PropTypes.string),
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -275,6 +277,7 @@ SinglePageSettingsFormBody.propTypes = {
 SinglePageSettingsFormBody.defaultProps = {
   invalid: false,
   submitting: false,
+  selectedJoinGroupCodes: [],
 };
 
 export default reduxForm({

@@ -16,6 +16,7 @@ export default {
     'app.configure': 'Configura',
     'app.attributes': 'Attributi',
     'app.details': 'Dettagli',
+    'app.close': 'Chiudi',
     'app.clone': 'Clona',
     'app.delete': 'Elimina',
     'app.publish': 'Pubblica',
