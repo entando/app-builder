@@ -20,6 +20,7 @@ import {
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
+import { generateJsonPatch } from 'helpers/jsonPatch';
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -319,12 +320,21 @@ export const sendPutPage = pageData => async (dispatch) => {
   }
 };
 
-export const sendPatchPage = pageData => async (dispatch) => {
+export const sendPatchPage = pageData => async (dispatch, getState) => {
   try {
-    const response = await patchPage(pageData);
+    const initialPageData = getSelectedPage(getState());
+    const patch = generateJsonPatch(initialPageData, pageData);
+    if (!patch.length) {
+      return;
+    }
+    const response = await patchPage(patch, pageData.code);
     const json = await response.json();
     if (response.ok) {
       dispatch(updatePage(json.payload));
+      dispatch(addToast(
+        formattedText('singlePageSettings.updateSuccess'),
+        TOAST_SUCCESS,
+      ));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

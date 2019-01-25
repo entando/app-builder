@@ -658,5 +658,6 @@ export default {
     'singlePageSettings.settings': 'Configurazione',
     'singlePageSettings.ownerGroup': 'Gruppo Proprietario',
     'singlePageSettings.joinGroup': 'Associa Gruppo',
+    'singlePageSettings.updateSuccess': 'Pagina aggiornata con successo',
   },
 };

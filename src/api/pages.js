@@ -97,16 +97,16 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
-export const patchPage = patchPageObject => makeRequest({
-  uri: `/api/pages/${patchPageObject.code}`,
-  body: patchPageObject,
+export const patchPage = (jsonPatchObject, pageCode) => makeRequest({
+  uri: `/api/pages/${pageCode}`,
+  body: jsonPatchObject,
   method: METHODS.PATCH,
-  mockResponse: patchPageObject,
+  mockResponse: fetchPageResponseMap[pageCode],
   useAuthentication: true,
   errors: () => (
-    fetchPageResponseMap[patchPageObject.code] ?
+    fetchPageResponseMap[pageCode] ?
       [] :
-      [{ code: 1, message: `no page with the code ${patchPageObject.code} could be found.` }]
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
   ),
 });
 
