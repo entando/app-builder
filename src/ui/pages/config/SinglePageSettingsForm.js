@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Field, FieldArray, FormSection, reduxForm } from 'redux-form';
 import { Button, Col, Form, FormGroup, Nav, NavItem, Row, TabContainer, TabContent, TabPane } from 'patternfly-react';
-import { formattedText, maxLength, required } from '@entando/utils';
+import { maxLength, required } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
@@ -14,9 +14,9 @@ import MultiSelectRenderer from '../common/MultiSelectRenderer';
 export const FORM_ID = 'single-page-settings';
 const maxLength70 = maxLength(70);
 
-function mapToSelectInputOptions(arrayOfStrings) {
-  return arrayOfStrings.map(str => ({ code: str, name: str }));
-}
+const toSelectInputOptions = arrayOfStrings => (
+  arrayOfStrings.map(str => ({ code: str, name: str }))
+);
 
 class SinglePageSettingsFormBody extends Component {
   constructor(props) {
@@ -39,10 +39,13 @@ class SinglePageSettingsFormBody extends Component {
       handleSubmit, invalid, submitting, onReset,
       activeNonDefaultLanguages, defaultLanguage,
       groups, charsets, contentTypes, selectedJoinGroupCodes,
+      intl,
     } = this.props;
 
-    const charsetOptions = mapToSelectInputOptions(charsets);
-    const contentTypeOptions = mapToSelectInputOptions(contentTypes);
+    const formatText = id => intl.formatMessage({ id });
+
+    const charsetOptions = toSelectInputOptions(charsets);
+    const contentTypeOptions = toSelectInputOptions(contentTypes);
 
     const activeNonDefaultLanguagesSelect = (
       <select onChange={e => this.handleCurrentNonDefaultLanguageChange(e)}>
@@ -88,7 +91,7 @@ class SinglePageSettingsFormBody extends Component {
     const defaultLanguageLabel = `${defaultLanguage.toUpperCase()} (default)`;
 
     const groupsWithEmptyOption = [
-      { code: '', name: formattedText('app.chooseAnOption') },
+      { code: '', name: formatText('app.chooseAnOption') },
       ...groups,
     ];
 
@@ -133,7 +136,7 @@ class SinglePageSettingsFormBody extends Component {
                   <Row>
                     <Col xs={6}>
                       <legend>
-                        <FormattedMessage id="singlePageSettings.pageGroups" />
+                        <FormattedMessage id="pages.pageForm.pageGroups" />
                       </legend>
                       <Field
                         component={RenderSelectInput}
@@ -147,6 +150,7 @@ class SinglePageSettingsFormBody extends Component {
                         }
                         labelSize={4}
                         alignClass=""
+                        disabled
                         validate={[required]}
                         options={groupsWithEmptyOption}
                         optionValue="code"
@@ -172,7 +176,7 @@ class SinglePageSettingsFormBody extends Component {
 
                     <Col xs={6}>
                       <legend>
-                        <FormattedMessage id="singlePageSettings.settings" />
+                        <FormattedMessage id="app.settings" />
                       </legend>
                       <FormGroup>
                         <label htmlFor="displayedInMenu" className="col-xs-6">
@@ -253,6 +257,7 @@ class SinglePageSettingsFormBody extends Component {
 }
 
 SinglePageSettingsFormBody.propTypes = {
+  intl: intlShape.isRequired,
   activeNonDefaultLanguages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -282,4 +287,4 @@ SinglePageSettingsFormBody.defaultProps = {
 
 export default reduxForm({
   form: FORM_ID,
-})(SinglePageSettingsFormBody);
+})(injectIntl(SinglePageSettingsFormBody));
