@@ -18,19 +18,19 @@ const toSelectInputOptions = arrayOfStrings => (
   arrayOfStrings.map(str => ({ code: str, name: str }))
 );
 
-class SinglePageSettingsFormBody extends Component {
+export class SinglePageSettingsFormBody extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentNonDefaultLanguageCode: null };
+    this.state = { visibleTitleTranslationCode: null };
   }
 
   componentWillMount() {
     this.props.onWillMount();
   }
 
-  handleCurrentNonDefaultLanguageChange(e) {
+  selectVisibleTitleTranslation(code) {
     this.setState({
-      currentNonDefaultLanguageCode: e.currentTarget.value,
+      visibleTitleTranslationCode: code,
     });
   }
 
@@ -47,8 +47,8 @@ class SinglePageSettingsFormBody extends Component {
     const charsetOptions = toSelectInputOptions(charsets);
     const contentTypeOptions = toSelectInputOptions(contentTypes);
 
-    const activeNonDefaultLanguagesSelect = (
-      <select onChange={e => this.handleCurrentNonDefaultLanguageChange(e)}>
+    const titleTranslationSelect = (
+      <select onChange={e => this.selectVisibleTitleTranslation(e.currentTarget.value)}>
         {
           activeNonDefaultLanguages.map(lang => (
             <option key={lang.code} value={lang.code}>{lang.code.toUpperCase()}</option>
@@ -57,11 +57,11 @@ class SinglePageSettingsFormBody extends Component {
       </select>
     );
 
-    const currentNonDefaultLanguageCode = this.state.currentNonDefaultLanguageCode
+    const visibleTitleTranslationCode = this.state.visibleTitleTranslationCode
       || get(activeNonDefaultLanguages, '[0].code', '');
 
     const Input = ({ languageCode, input, meta: { touched, error } }) => (
-      <span className={currentNonDefaultLanguageCode === languageCode ? '' : 'SinglePageSettingsForm__field--hidden'}>
+      <span className={visibleTitleTranslationCode === languageCode ? '' : 'SinglePageSettingsForm__field--hidden'}>
         <input
           {...input}
           type="text"
@@ -125,7 +125,7 @@ class SinglePageSettingsFormBody extends Component {
                     />
                     <div className="form-group">
                       <div className="col-xs-2">
-                        {activeNonDefaultLanguagesSelect}
+                        {titleTranslationSelect}
                       </div>
                       <div className="col-xs-8">
                         {activeNonDefaultLanguagesInputs}

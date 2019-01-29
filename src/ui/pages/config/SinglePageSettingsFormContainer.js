@@ -9,7 +9,7 @@ import { getDefaultLanguage, getActiveNonDefaultLanguages } from 'state/language
 import { getGroupsList } from 'state/groups/selectors';
 import { fetchGroups } from 'state/groups/actions';
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   initialValues: getSelectedPage(state),
   activeNonDefaultLanguages: getActiveNonDefaultLanguages(state),
   defaultLanguage: getDefaultLanguage(state),
@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
   selectedJoinGroupCodes: formValueSelector(FORM_ID)(state, 'joinGroups'),
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => {
     dispatch(loadSelectedPage());
     dispatch(fetchLanguages(noPagination, activeLangQueryString));
