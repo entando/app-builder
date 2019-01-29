@@ -330,7 +330,9 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
     const response = await patchPage(patch, pageData.code);
     const json = await response.json();
     if (response.ok) {
-      dispatch(updatePage(json.payload));
+      const page = json.payload;
+      dispatch(setSelectedPage(page));
+      dispatch(updatePage(page));
       dispatch(addToast(
         formattedText('singlePageSettings.updateSuccess'),
         TOAST_SUCCESS,

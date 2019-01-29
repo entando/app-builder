@@ -101,6 +101,7 @@ export const patchPage = (jsonPatchObject, pageCode) => makeRequest({
   uri: `/api/pages/${pageCode}`,
   body: jsonPatchObject,
   method: METHODS.PATCH,
+  contentType: 'application/json-patch+json',
   mockResponse: fetchPageResponseMap[pageCode],
   useAuthentication: true,
   errors: () => (

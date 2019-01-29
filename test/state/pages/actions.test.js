@@ -460,9 +460,10 @@ describe('state/pages/actions', () => {
       ];
       store.dispatch(sendPatchPage(updatedHomePage)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', UPDATE_PAGE);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
         expect(patchPage).toHaveBeenCalledWith(jsonPatch, HOMEPAGE_PAYLOAD.code);
         done();
       }).catch(done.fail);
