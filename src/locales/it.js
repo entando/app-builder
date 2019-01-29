@@ -409,6 +409,7 @@ export default {
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',
     'pages.pageForm.ownerGroup': 'Gruppo Proprietario',
+    'pages.pageForm.ownerGroupHelp': 'É necessario impostare il Gruppo Proprietario per definire le persone che hanno il permesso di vedere questa pagina. I Gruppi si creano e gestiscono nell\'area Settings di Entando.',
     'pages.pageForm.joinGroup': 'Associa Gruppo',
     'pages.pageForm.codeHelp': 'Inserisci il page code',
     'pages.pageForm.pagePlacement': 'Posizione della pagina',

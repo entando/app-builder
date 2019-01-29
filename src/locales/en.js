@@ -409,6 +409,7 @@ export default {
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',
     'pages.pageForm.ownerGroup': 'Owner Group',
+    'pages.pageForm.ownerGroupHelp': 'You must set the Owner Group to define what kind of people (edited in Entando Settings area) are able to see this Page.',
     'pages.pageForm.joinGroup': 'Join Group',
     'pages.pageForm.codeHelp': 'Insert page code',
     'pages.pageForm.pagePlacement': 'Select page placement',

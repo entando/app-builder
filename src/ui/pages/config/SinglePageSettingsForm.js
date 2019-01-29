@@ -144,7 +144,7 @@ class SinglePageSettingsFormBody extends Component {
                         label={
                           <FormLabel
                             labelId="pages.pageForm.ownerGroup"
-                            helpId="pages.pageForm.displayedInMenuHelp"
+                            helpId="pages.pageForm.ownerGroupHelp"
                             required
                           />
                         }
@@ -158,7 +158,7 @@ class SinglePageSettingsFormBody extends Component {
                       />
                       <FormGroup>
                         <label htmlFor="joinGroups" className="col-xs-4">
-                          <FormLabel labelId="pages.pageForm.joinGroup" helpId="pages.pageForm.displayedInMenuHelp" />
+                          <FormLabel labelId="pages.pageForm.joinGroup" />
                         </label>
                         <Col xs={8}>
                           <FieldArray
