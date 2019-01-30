@@ -646,6 +646,7 @@ export default {
     'digitalExchange.components.latestVersion': 'Ultima versione',
     'digitalExchange.components.install': 'Installato',
     'digitalExchange.components.installing': 'Installando',
+    'digitalExchange.components.failedInstall': 'Installazione Fallita',
     'digitalExchange.components.installed': 'Installa',
     'digitalExchange.components.uninstall': 'Disinstalla',
     'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
