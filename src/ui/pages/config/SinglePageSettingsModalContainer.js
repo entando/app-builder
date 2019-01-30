@@ -4,7 +4,7 @@ import SinglePageSettingsModal from 'ui/pages/config/SinglePageSettingsModal';
 
 const mapStateToProps = null;
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   onSave: () => {
     dispatch(setVisibleModal(''));
   },
