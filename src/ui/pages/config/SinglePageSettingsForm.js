@@ -9,7 +9,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import MultiSelectRenderer from '../common/MultiSelectRenderer';
+import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 
 export const FORM_ID = 'single-page-settings';
 const maxLength70 = maxLength(70);

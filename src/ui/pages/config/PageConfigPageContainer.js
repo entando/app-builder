@@ -9,7 +9,7 @@ import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPage
 import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
-import { MODAL_ID } from './SinglePageSettingsModal';
+import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
