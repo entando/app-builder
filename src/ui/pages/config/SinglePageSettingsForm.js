@@ -60,17 +60,6 @@ export class SinglePageSettingsFormBody extends Component {
     const visibleTitleTranslationCode = this.state.visibleTitleTranslationCode
       || get(activeNonDefaultLanguages, '[0].code', '');
 
-    const Input = ({ languageCode, input, meta: { touched, error } }) => (
-      <span className={visibleTitleTranslationCode === languageCode ? '' : 'SinglePageSettingsForm__field--hidden'}>
-        <input
-          {...input}
-          type="text"
-          className="form-control"
-        />
-        {touched && ((error && <span className="help-block">{error}</span>))}
-      </span>
-    );
-
     const activeNonDefaultLanguagesInputs = (
       <React.Fragment>
         {
@@ -78,7 +67,9 @@ export class SinglePageSettingsFormBody extends Component {
             <Field
               key={`input-${languageCode}`}
               component={props => (
-                <Input {...props} languageCode={languageCode} />
+                <span className={visibleTitleTranslationCode === languageCode ? '' : 'SinglePageSettingsForm__field--hidden'}>
+                  <RenderTextInput {...props} labelSize={0} />
+                </span>
               )}
               name={languageCode}
               validate={maxLength70}

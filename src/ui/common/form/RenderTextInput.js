@@ -7,11 +7,15 @@ const RenderTextInput = ({
   meta: { touched, error }, help, disabled, type,
 }) => (
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <Col xs={labelSize} className={alignClass}>
-      <ControlLabel htmlFor={input.name}>
-        {label} {help}
-      </ControlLabel>
-    </Col>
+    {
+      labelSize > 0 ? (
+        <Col xs={labelSize} className={alignClass}>
+          <ControlLabel htmlFor={input.name}>
+            {label} {help}
+          </ControlLabel>
+        </Col>
+      ) : ''
+    }
     <Col xs={inputSize || 12 - labelSize}>
       <input
         {...input}
@@ -25,7 +29,6 @@ const RenderTextInput = ({
       {touched && ((error && <span className="help-block">{error}</span>))}
     </Col>
   </div>
-
 );
 
 RenderTextInput.propTypes = {
