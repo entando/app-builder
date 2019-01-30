@@ -3,6 +3,9 @@ import {
   SET_SELECTED_DE_COMPONENT,
   SET_DE_COMPONENT_LIST_VIEW_MODE,
   SET_DE_FILTER,
+  START_COMPONENT_INSTALLATION,
+  FINISH_COMPONENT_INSTALLATION,
+  FAIL_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
@@ -38,6 +41,29 @@ export const setDEComponentListViewMode = componentListViewMode => ({
     componentListViewMode,
   },
 });
+
+export const startComponentInstallation = id => ({
+  type: START_COMPONENT_INSTALLATION,
+  payload: {
+    id,
+  },
+});
+
+export const finishComponentInstallation = id => ({
+  type: FINISH_COMPONENT_INSTALLATION,
+  payload: {
+    id,
+  },
+});
+
+export const failComponentInstallation = id => ({
+  type: FAIL_COMPONENT_INSTALLATION,
+  payload: {
+    id,
+  },
+});
+
+// thunks
 
 export const fetchDEComponents = (paginationMetadata = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
