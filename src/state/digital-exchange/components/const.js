@@ -1,2 +1,3 @@
 export const DE_COMPONENTS_GRID_VIEW = 'grid-view';
 export const DE_COMPONENTS_LIST_VIEW = 'list-view';
+export const DE_COMPONENTS_INSTALLATION_PROGRESS = 'digitalExchange.components.installing';

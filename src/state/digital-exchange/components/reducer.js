@@ -5,9 +5,11 @@ import {
   SET_DE_COMPONENTS,
   SET_DE_COMPONENT_LIST_VIEW_MODE,
   SET_DE_FILTER,
+  START_COMPONENT_INSTALLATION,
+  FINISH_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 
-import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
+import { DE_COMPONENTS_GRID_VIEW, DE_COMPONENTS_INSTALLATION_PROGRESS } from 'state/digital-exchange/components/const';
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -22,6 +24,21 @@ const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENTS: {
       return action.payload.digitalExchangeComponents;
+    }
+    case FINISH_COMPONENT_INSTALLATION: {
+      const componentIndex = state.findIndex(objectInArray => (
+        objectInArray.id === action.payload.id
+      ));
+
+      if (componentIndex === -1) {
+        return state;
+      }
+      const newState = state.slice();
+      newState.splice(componentIndex, 1, {
+        ...state[componentIndex],
+        installed: true,
+      });
+      return newState;
     }
     default: return state;
   }
@@ -115,9 +132,25 @@ const componentListViewMode = (state = DE_COMPONENTS_GRID_VIEW, action = {}) => 
   }
 };
 
+const installation = (state = {}, action = {}) => {
+  switch (action.type) {
+    case START_COMPONENT_INSTALLATION: {
+      return {
+        ...state,
+        [action.payload.id]: { state: DE_COMPONENTS_INSTALLATION_PROGRESS },
+      };
+    }
+    case FINISH_COMPONENT_INSTALLATION: {
+      return { ...omit(state, action.payload.id) };
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
   filters,
   componentListViewMode,
+  installation,
 });

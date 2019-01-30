@@ -645,6 +645,7 @@ export default {
     'digitalExchange.sidebar.categoryFilterTitle': 'Categories',
     'digitalExchange.components.latestVersion': 'Latest version',
     'digitalExchange.components.install': 'Install',
+    'digitalExchange.components.installing': 'Installing',
     'digitalExchange.components.installed': 'Installed',
     'digitalExchange.components.uninstall': 'Uninstall',
     'digitalExchange.sidebar.ratingFilter.title': 'Rating',

@@ -4,10 +4,21 @@ import { config } from '@entando/apimanager';
 
 import { mockApi } from 'test/testUtils';
 
-import { setDEComponents, fetchDEComponents, setSelectedDEComponent } from 'state/digital-exchange/components/actions';
+import {
+  setDEComponents,
+  fetchDEComponents,
+  setSelectedDEComponent,
+  startComponentInstallation,
+  finishComponentInstallation,
+} from 'state/digital-exchange/components/actions';
 import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK } from 'test/mocks/digital-exchange/components';
 import { getDEComponents } from 'api/digital-exchange/components';
-import { SET_DE_COMPONENTS, SET_SELECTED_DE_COMPONENT } from 'state/digital-exchange/components/types';
+import {
+  SET_DE_COMPONENTS,
+  SET_SELECTED_DE_COMPONENT,
+  START_COMPONENT_INSTALLATION,
+  FINISH_COMPONENT_INSTALLATION,
+} from 'state/digital-exchange/components/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -38,6 +49,24 @@ describe('state/digital-exchange/components/actions', () => {
     store = mockStore(INITIAL_STATE);
     jest.clearAllMocks();
     store.clearActions();
+  });
+
+  describe('startComponentInstallation', () => {
+    it('returns the correct object', () => {
+      action = startComponentInstallation('my-component');
+      expect(action).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.id', 'my-component');
+    });
+  });
+
+  describe('finishComponentInstallation', () => {
+    it('returns the correct object', () => {
+      action = finishComponentInstallation('my-component');
+      expect(action).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.id', 'my-component');
+    });
   });
 
   describe('setDEComponents', () => {
