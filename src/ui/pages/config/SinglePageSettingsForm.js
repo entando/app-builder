@@ -12,7 +12,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 
 export const FORM_ID = 'single-page-settings';
-const maxLength70 = maxLength(70);
+export const maxLength70 = maxLength(70);
 
 const toSelectInputOptions = arrayOfStrings => (
   arrayOfStrings.map(str => ({ code: str, name: str }))
@@ -142,7 +142,7 @@ export class SinglePageSettingsFormBody extends Component {
                         labelSize={4}
                         alignClass=""
                         disabled
-                        validate={[required]}
+                        validate={required}
                         options={groupsWithEmptyOption}
                         optionValue="code"
                         optionDisplayName="name"
