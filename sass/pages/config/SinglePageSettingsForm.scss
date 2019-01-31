@@ -1,0 +1,34 @@
+.SinglePageSettingsForm {
+  &__section {
+    margin: 20px 0 0 10px;
+  }
+
+  legend { // sass-lint:disable-line force-element-nesting class-name-format
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  &__required-fields {
+    color: $color-pf-black-300;
+    font-weight: normal;
+  }
+
+  &__field {
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__footer {
+    margin: 20px 0 10px 0;
+  }
+
+  &__action-btn {
+    padding: 4px 15px;
+  }
+
+  &__btn-cancel {
+    margin-right: 5px;
+  }
+}

@@ -103,16 +103,25 @@ describe('api/pages', () => {
     });
   });
 
-  describe('patchPage', () => {
+  fdescribe('patchPage', () => {
+    const jsonPatch = [
+      {
+        op: 'replace',
+        path: '/pageModel',
+        value: 'new_model',
+      },
+    ];
+    const pageCode = 'pageCode';
+
     it('returns a promise', () => {
-      expect(patchPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+      expect(patchPage(jsonPatch, pageCode)).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
-      patchPage(CONTACTS_PAYLOAD);
+      patchPage(jsonPatch, pageCode);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
-        body: CONTACTS_PAYLOAD,
+        uri: `/api/pages/${pageCode}`,
+        body: jsonPatch,
         method: METHODS.PATCH,
         errors: expect.any(Function),
         useAuthentication: true,

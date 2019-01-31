@@ -31,6 +31,11 @@ export const getActiveLanguages = createSelector(
     )).sort(a => (a.isDefault ? -1 : 1)),
 );
 
+export const getActiveNonDefaultLanguages = createSelector(
+  getActiveLanguages,
+  languages => languages.filter(language => !language.isDefault),
+);
+
 export const getDefaultLanguage = createSelector(
   [getLanguagesMap, getLanguagesIdList],
   (languagesMap, languageIdList) => (

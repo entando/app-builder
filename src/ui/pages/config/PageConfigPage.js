@@ -16,7 +16,8 @@ import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import PageSettingsModalContainer from 'ui/pages/config/PageSettingsModalContainer';
+import SinglePageSettingsModalContainer from 'ui/pages/config/SinglePageSettingsModalContainer';
+
 
 const TRANSLATED_YES = formattedText('app.yes');
 const TRANSLATED_NO = formattedText('app.no');
@@ -267,7 +268,7 @@ class PageConfigPage extends Component {
                 ref={(el) => { this.sideWidget = el; }}
               >
                 <ToolbarPageConfigContainer />
-                <PageSettingsModalContainer />
+                <SinglePageSettingsModalContainer />
               </Col>
             </Row>
           </Grid>

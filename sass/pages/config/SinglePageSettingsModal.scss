@@ -1,0 +1,20 @@
+.SinglePageSettingsModal {
+  .modal-title { // sass-lint:disable-line force-element-nesting class-name-format
+    font-size: 16px;
+  }
+
+  .modal-footer { // sass-lint:disable-line force-element-nesting class-name-format    
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    width: 750px;
+    margin: 110px auto;
+  }
+
+  @media (min-width: 992px) {
+    width: 960px;
+  }
+}

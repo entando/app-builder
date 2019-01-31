@@ -442,22 +442,36 @@ describe('state/pages/actions', () => {
     let store;
     beforeEach(() => {
       jest.clearAllMocks();
+      getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
       store = mockStore(INITIALIZED_STATE);
     });
 
     it('when patchPage succeeds, should dispatch UPDATE_PAGE', (done) => {
-      store.dispatch(sendPatchPage(CONTACTS_PAYLOAD)).then(() => {
+      const updatedHomePage = {
+        ...HOMEPAGE_PAYLOAD,
+        pageModel: 'new_model',
+      };
+      const jsonPatch = [
+        {
+          op: 'replace',
+          path: '/pageModel',
+          value: 'new_model',
+        },
+      ];
+      store.dispatch(sendPatchPage(updatedHomePage)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', UPDATE_PAGE);
-        expect(patchPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(patchPage).toHaveBeenCalledWith(jsonPatch, HOMEPAGE_PAYLOAD.code);
         done();
       }).catch(done.fail);
     });
 
     it('if the response is not ok, dispatch add errors', async () => {
       patchPage.mockImplementation(mockApi({ errors: true }));
-      return store.dispatch(sendPatchPage(CONTACTS_PAYLOAD)).catch((e) => {
+      return store.dispatch(sendPatchPage(HOMEPAGE_PAYLOAD)).catch((e) => {
         expect(patchPage).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
