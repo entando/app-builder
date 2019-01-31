@@ -15,13 +15,19 @@ class ComponentList extends Component {
   }
 
   render() {
+    const {
+      loading,
+      viewMode,
+      digitalExchangeComponents,
+    } = this.props;
+
     return (
       <div className="ComponentList">
-        <Spinner loading={!!this.props.loading} >
+        <Spinner loading={!!loading} >
           {
-            (this.props.viewMode === DE_COMPONENTS_GRID_VIEW)
-              ? <ComponentListGridView components={this.props.digitalExchangeComponents} />
-              : <ComponentListListView components={this.props.digitalExchangeComponents} />
+            (viewMode === DE_COMPONENTS_GRID_VIEW)
+              ? <ComponentListGridView components={digitalExchangeComponents} />
+              : <ComponentListListView components={digitalExchangeComponents} />
           }
         </Spinner>
       </div>
