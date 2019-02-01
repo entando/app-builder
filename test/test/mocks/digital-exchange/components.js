@@ -73,7 +73,7 @@ export const GET_DE_COMPONENT_OK = LIST_DE_COMPONENTS_OK[0];
 
 const componentInstallation = {
   digitalExchangeId: 'DjbtCRJ9Y8NfmNEc9D4m',
-  component: 'component_id',
+  componentId: 'component_id',
   componentName: 'Component Name',
   componentVersion: '5.1.0',
   started: 1548855801000,

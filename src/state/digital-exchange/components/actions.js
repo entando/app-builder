@@ -69,7 +69,7 @@ export const installComponent = component => dispatch => (
     postInstallDEComponent(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(startComponentInstallation(component.componentId));
+          dispatch(startComponentInstallation(component.id));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
         }

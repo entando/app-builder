@@ -7,13 +7,14 @@ import { mockApi } from 'test/testUtils';
 import {
   setDEComponents,
   fetchDEComponents,
+  installComponent,
   setSelectedDEComponent,
   startComponentInstallation,
   finishComponentInstallation,
   failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
-import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK } from 'test/mocks/digital-exchange/components';
-import { getDEComponents } from 'api/digital-exchange/components';
+import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK, COMPONENT_INSTALLATION_CREATED } from 'test/mocks/digital-exchange/components';
+import { getDEComponents, postInstallDEComponent } from 'api/digital-exchange/components';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
@@ -37,8 +38,6 @@ const INITIAL_STATE = {
     list: [],
   },
 };
-
-const GET_DE_COMPONENT_PAYLOAD = GET_DE_COMPONENT_OK.payload;
 
 jest.mock('api/digital-exchange/components');
 
@@ -87,6 +86,33 @@ describe('state/digital-exchange/components/actions', () => {
     });
   });
 
+  describe('installComponent', () => {
+    beforeEach(() => {
+      postInstallDEComponent.mockImplementation(mockApi({
+        payload: COMPONENT_INSTALLATION_CREATED,
+      }));
+    });
+
+    it('installComponent calls startComponentInstallation action', (done) => {
+      store.dispatch(installComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('installComponent has error and dispatch ADD_ERRORS ', (done) => {
+      postInstallDEComponent.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(installComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
   describe('fetchDEComponents', () => {
     beforeEach(() => {
       getDEComponents.mockImplementation(mockApi({ payload: LIST_DE_COMPONENTS_OK }));
@@ -103,7 +129,7 @@ describe('state/digital-exchange/components/actions', () => {
       }).catch(done.fail);
     });
 
-    it('fetchDEComponents as error and dispatch ADD_ERRORS ', (done) => {
+    it('fetchDEComponents has error and dispatch ADD_ERRORS ', (done) => {
       getDEComponents.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchDEComponents()).then(() => {
         const actions = store.getActions();
@@ -136,9 +162,9 @@ describe('state/digital-exchange/components/actions', () => {
 
     describe('test sync actions', () => {
       it('action payload contains selected component', () => {
-        action = setSelectedDEComponent(GET_DE_COMPONENT_PAYLOAD);
+        action = setSelectedDEComponent(GET_DE_COMPONENT_OK);
         expect(action).toHaveProperty('type', SET_SELECTED_DE_COMPONENT);
-        expect(action.payload).toHaveProperty('component', GET_DE_COMPONENT_PAYLOAD);
+        expect(action.payload).toHaveProperty('digitalExchangeComponent', GET_DE_COMPONENT_OK);
       });
     });
   });
