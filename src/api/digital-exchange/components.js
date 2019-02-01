@@ -24,7 +24,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
 
 export const postInstallDEComponent = component => (
   makeRequest({
-    uri: `/api/digitalExchange/${component.exchangeId}/install/${component.componentId}`,
+    uri: `/api/digitalExchange/${component.digitalExchangeId}/install/${component.id}`,
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
