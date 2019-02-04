@@ -1,4 +1,4 @@
-import { GET_DE_COMPONENT_OK, LIST_DE_COMPONENTS_OK } from 'test/mocks/digital-exchange/components';
+import { GET_DE_COMPONENT_OK, LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_CREATED, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/digital-exchange/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getDEComponent = id => (
@@ -20,4 +20,23 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
     },
     page,
   )
+);
+
+export const postInstallDEComponent = component => (
+  makeRequest({
+    uri: `/api/digitalExchange/${component.digitalExchangeId}/install/${component.id}`,
+    body: {},
+    method: METHODS.POST,
+    mockResponse: COMPONENT_INSTALLATION_CREATED,
+    useAuthentication: true,
+  })
+);
+
+export const getDEComponentInstallationStatus = componentId => (
+  makeRequest({
+    uri: `/api/digitalExchange/install/${componentId}`,
+    method: METHODS.GET,
+    mockResponse: COMPONENT_INSTALLATION_IN_PROGRESS,
+    useAuthentication: true,
+  })
 );

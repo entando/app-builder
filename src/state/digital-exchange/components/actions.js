@@ -9,9 +9,8 @@ import {
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
-import { getDEComponent, getDEComponents } from 'api/digital-exchange/components';
+import { getDEComponent, getDEComponents, postInstallDEComponent } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
-
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
@@ -64,6 +63,21 @@ export const failComponentInstallation = id => ({
 });
 
 // thunks
+
+export const installComponent = component => dispatch => (
+  new Promise((resolve) => {
+    postInstallDEComponent(component).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(startComponentInstallation(component.id));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
+  })
+);
 
 export const fetchDEComponents = (paginationMetadata = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
