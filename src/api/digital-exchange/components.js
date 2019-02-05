@@ -32,9 +32,9 @@ export const postInstallDEComponent = component => (
   })
 );
 
-export const getDEComponentInstallationStatus = componentId => (
+export const getDEComponentInstallationStatus = id => (
   makeRequest({
-    uri: `/api/digitalExchange/install/${componentId}`,
+    uri: `/api/digitalExchange/install/${id}`,
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_IN_PROGRESS,
     useAuthentication: true,

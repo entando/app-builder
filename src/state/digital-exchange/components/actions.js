@@ -9,8 +9,9 @@ import {
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
-import { getDEComponent, getDEComponents, postInstallDEComponent } from 'api/digital-exchange/components';
+import { getDEComponent, getDEComponents, postInstallDEComponent, getDEComponentInstallationStatus } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
+import { DE_COMPONENT_INSTALLATION_COMPLETED } from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
@@ -64,12 +65,41 @@ export const failComponentInstallation = id => ({
 
 // thunks
 
+export const pollApi = (apiFn, successConditionFn, timeout = 2000, interval = 100) => {
+  const endTime = Number(new Date()) + timeout;
+  const checkCondition = (resolve, reject) => {
+    apiFn().then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          if (successConditionFn(data)) {
+            resolve(data);
+          } else if (Number(new Date()) < endTime) {
+            setTimeout(checkCondition, interval, resolve, reject);
+          } else {
+            reject({ errors: [{ message: 'Polling timed out' }] });
+          }
+        });
+      } else {
+        reject(response);
+      }
+    });
+  };
+  return new Promise(checkCondition);
+};
+
 export const installComponent = component => dispatch => (
   new Promise((resolve) => {
     postInstallDEComponent(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(startComponentInstallation(component.id));
+          pollApi(
+            () => getDEComponentInstallationStatus(component.id),
+            ({ status }) => status === DE_COMPONENT_INSTALLATION_COMPLETED,
+            2000,
+            150,
+          ).then(() => dispatch(finishComponentInstallation(component.id)))
+            .catch(({ errors }) => dispatch(addErrors(errors.map(err => err.message))));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
         }

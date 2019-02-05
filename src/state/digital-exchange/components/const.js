@@ -4,3 +4,4 @@ export const DE_COMPONENTS_INSTALLATION_PROGRESS = 'digitalExchange.components.i
 export const DE_COMPONENTS_INSTALLATION_FAILURE = 'digitalExchange.components.failedInstall';
 
 export const DE_COMPONENT_INSTALLATION_IN_PROGRESS = 'IN_PROGRESS';
+export const DE_COMPONENT_INSTALLATION_COMPLETED = 'COMPLETED';
