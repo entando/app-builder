@@ -12,20 +12,20 @@ const ComponentInstallActions = ({
   onUninstall,
 }) => (
   component.installed ? (
-    <div className="ComponentListGridView__install-actions">
-      <span className="ComponentListGridView__status">
+    <div className="ComponentList__install-actions">
+      <span className="ComponentList__status">
         <FormattedMessage id="digitalExchange.components.installed" />
       </span>
       <Button
         bsStyle="link"
-        className="ComponentListGridView__uninstall"
+        className="ComponentList__uninstall"
         onClick={() => onUninstall(component.id)}
       >
         <FormattedMessage id="digitalExchange.components.uninstall" />
       </Button>
     </div>
   ) : (
-    <div className="ComponentListGridView__install-actions">
+    <div className="ComponentList__install-actions">
       {
         installationProgress === DE_COMPONENT_INSTALLATION_IN_PROGRESS ? (
           <ProgressBar
@@ -36,7 +36,7 @@ const ComponentInstallActions = ({
         ) : (
           <Button
             bsStyle="primary"
-            className="ComponentListGridView__install"
+            className="ComponentList__install"
             onClick={() => onInstall(component)}
           >
             <FormattedMessage id="digitalExchange.components.install" />
