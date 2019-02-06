@@ -20,6 +20,7 @@ $color-white: #ffffff;
 $color-sidebar-filter-bg-grey: #E7E7E7;
 $color-sidebar-filter-border-grey: #DEDEDE;
 $color-de-component-date: #00B9F7;
+$colod-de-component-text-grey: #828282;
 $color-de-component-dark-grey: #4F4F4F;
 $color-de-component-installed-button: #3F9C35;
 $color-de-component-installed-button-border: #E0E0E0;
@@ -84,6 +85,7 @@ $fa-square-o: "\f096";
   padding: 0;
 }
 
+// Use this on wrapper elements to make children's heights equal.
 .equal {
   display: flex;
   flex-wrap: wrap;

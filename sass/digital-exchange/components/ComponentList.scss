@@ -92,9 +92,20 @@
 
 .ComponentListListView {
   & .ComponentList__description {
-    border-top: 4px solid #C3C3C3;
-    margin-bottom: 40px;
     margin-top: 30px;
+    margin-bottom: 40px;
+    padding-top: 5px;
+    border-top: 4px solid $color-de-component-border;
+    color: $colod-de-component-text-grey;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  & .ComponentList__install-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
   }
 }
 

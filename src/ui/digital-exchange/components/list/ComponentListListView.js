@@ -17,12 +17,11 @@ const ComponentListListView = ({ components }) => (
 
     return (
       <div key={component.id} className="ComponentList ComponentListListView">
-        <Row key={component.id}>
-          <Col md={4} className="no-padding">
+        <Row key={component.id} className="equal">
+          <Col md={2} className="no-padding">
             <a href="#">
               <ComponentImage component={component} />
             </a>
-            <ComponentInstallActionsContainer component={component} />
           </Col>
           <Col md={8}>
             <div className="ComponentListGridView__component-body">
@@ -36,6 +35,9 @@ const ComponentListListView = ({ components }) => (
                 <StarRating maxRating={5} rating={component.rating} />
               </span>
             </div>
+          </Col>
+          <Col md={2}>
+            <ComponentInstallActionsContainer component={component} />
           </Col>
           <Col md={12} className="no-padding">
             <div className="ComponentList__description">
