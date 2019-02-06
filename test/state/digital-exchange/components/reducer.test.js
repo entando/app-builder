@@ -13,8 +13,8 @@ import {
   GET_DE_COMPONENT_OK,
 } from 'test/mocks/digital-exchange/components';
 import {
-  DE_COMPONENTS_INSTALLATION_PROGRESS,
-  DE_COMPONENTS_INSTALLATION_FAILURE,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 describe('Digital Exchange components reducer', () => {
@@ -296,9 +296,9 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(2);
         expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
         expect(state).toHaveProperty('installation.test2');
-        expect(state).toHaveProperty('installation.test2.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test2', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
       });
     });
 
@@ -324,7 +324,7 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(1);
         expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_FAILURE);
+        expect(state).toHaveProperty('installation.test', DE_COMPONENT_INSTALLATION_STATUS_ERROR);
       });
     });
   });

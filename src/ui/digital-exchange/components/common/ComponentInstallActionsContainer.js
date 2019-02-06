@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import ComponentInstallActions from 'ui/digital-exchange/components/common/ComponentInstallActions';
 import { installComponent } from 'state/digital-exchange/components/actions';
-import { getDEComponentInstallation } from 'state/digital-exchange/components/selectors';
+import { getDEComponentInstallationStatus } from 'state/digital-exchange/components/selectors';
 
 export const mapStateToProps = (state, props) => ({
-  installationProgress: getDEComponentInstallation(state, props),
+  installationStatus: getDEComponentInstallationStatus(state, props),
 });
 
 export const mapDispatchToProps = dispatch => ({

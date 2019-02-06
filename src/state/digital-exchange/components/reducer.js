@@ -12,8 +12,8 @@ import {
 
 import {
   DE_COMPONENTS_GRID_VIEW,
-  DE_COMPONENTS_INSTALLATION_PROGRESS,
-  DE_COMPONENTS_INSTALLATION_FAILURE,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 const selected = (state = {}, action = {}) => {
@@ -142,13 +142,13 @@ const installation = (state = {}, action = {}) => {
     case START_COMPONENT_INSTALLATION: {
       return {
         ...state,
-        [action.payload.id]: { state: DE_COMPONENTS_INSTALLATION_PROGRESS },
+        [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
       };
     }
     case FAIL_COMPONENT_INSTALLATION: {
       return {
         ...state,
-        [action.payload.id]: { state: DE_COMPONENTS_INSTALLATION_FAILURE },
+        [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_ERROR,
       };
     }
     case FINISH_COMPONENT_INSTALLATION: {

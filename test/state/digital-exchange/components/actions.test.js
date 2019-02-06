@@ -14,7 +14,7 @@ import {
   failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
 import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK, COMPONENT_INSTALLATION_CREATED } from 'test/mocks/digital-exchange/components';
-import { getDEComponents, postInstallDEComponent } from 'api/digital-exchange/components';
+import { getDEComponents, postDEComponentInstall } from 'api/digital-exchange/components';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
@@ -88,7 +88,7 @@ describe('state/digital-exchange/components/actions', () => {
 
   describe('installComponent', () => {
     beforeEach(() => {
-      postInstallDEComponent.mockImplementation(mockApi({
+      postDEComponentInstall.mockImplementation(mockApi({
         payload: COMPONENT_INSTALLATION_CREATED,
       }));
     });
@@ -103,7 +103,7 @@ describe('state/digital-exchange/components/actions', () => {
     });
 
     it('installComponent has error and dispatch ADD_ERRORS ', (done) => {
-      postInstallDEComponent.mockImplementation(mockApi({ errors: true }));
+      postDEComponentInstall.mockImplementation(mockApi({ errors: true }));
       store.dispatch(installComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);

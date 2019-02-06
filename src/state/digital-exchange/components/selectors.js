@@ -39,6 +39,6 @@ export const getDEComponentSelected = createSelector(
   digitalExchangeComponent => digitalExchangeComponent.selected,
 );
 
-export const getDEComponentInstallation = (state, props) => (
-  get(state, `digitalExchangeComponents.installation[${props.component.id}].state`, '')
+export const getDEComponentInstallationStatus = (state, props) => (
+  get(state, `digitalExchangeComponents.installation[${props.component.id}]`, '')
 );
