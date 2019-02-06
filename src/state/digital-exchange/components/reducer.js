@@ -7,13 +7,11 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
-  FAIL_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 
 import {
   DE_COMPONENTS_GRID_VIEW,
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 const selected = (state = {}, action = {}) => {
@@ -143,12 +141,6 @@ const installation = (state = {}, action = {}) => {
       return {
         ...state,
         [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-      };
-    }
-    case FAIL_COMPONENT_INSTALLATION: {
-      return {
-        ...state,
-        [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_ERROR,
       };
     }
     case FINISH_COMPONENT_INSTALLATION: {

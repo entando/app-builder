@@ -11,7 +11,6 @@ import {
   setSelectedDEComponent,
   startComponentInstallation,
   finishComponentInstallation,
-  failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
 import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK, COMPONENT_INSTALLATION_CREATED } from 'test/mocks/digital-exchange/components';
 import { getDEComponents, postDEComponentInstall } from 'api/digital-exchange/components';
@@ -20,7 +19,6 @@ import {
   SET_SELECTED_DE_COMPONENT,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
-  FAIL_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -65,15 +63,6 @@ describe('state/digital-exchange/components/actions', () => {
     it('returns the correct object', () => {
       action = finishComponentInstallation('my-component');
       expect(action).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
-      expect(action).toHaveProperty('payload');
-      expect(action).toHaveProperty('payload.id', 'my-component');
-    });
-  });
-
-  describe('failComponentInstallation', () => {
-    it('returns the correct object', () => {
-      action = failComponentInstallation('my-component');
-      expect(action).toHaveProperty('type', FAIL_COMPONENT_INSTALLATION);
       expect(action).toHaveProperty('payload');
       expect(action).toHaveProperty('payload.id', 'my-component');
     });

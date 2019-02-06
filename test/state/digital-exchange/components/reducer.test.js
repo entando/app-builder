@@ -6,7 +6,6 @@ import {
   setDEFilter,
   startComponentInstallation,
   finishComponentInstallation,
-  failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
@@ -14,7 +13,6 @@ import {
 } from 'test/mocks/digital-exchange/components';
 import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 describe('Digital Exchange components reducer', () => {
@@ -315,16 +313,6 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(1);
         expect(state).not.toHaveProperty('installation.testing');
-      });
-    });
-
-    describe('after the failComponentInstallation action', () => {
-      it('should update the state of the component', () => {
-        state = reducer(state, failComponentInstallation('test'));
-        expect(state).toHaveProperty('installation');
-        expect(Object.keys(state.installation)).toHaveLength(1);
-        expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test', DE_COMPONENT_INSTALLATION_STATUS_ERROR);
       });
     });
   });
