@@ -84,6 +84,7 @@ describe('state/digital-exchange/components/actions', () => {
 
   describe('installDEComponent', () => {
     beforeEach(() => {
+      jest.useFakeTimers();
       postDEComponentInstall.mockImplementation(mockApi({
         payload: COMPONENT_INSTALLATION_CREATED,
       }));
