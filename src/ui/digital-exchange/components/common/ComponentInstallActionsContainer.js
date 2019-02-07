@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ComponentInstallActions from 'ui/digital-exchange/components/common/ComponentInstallActions';
-import { installComponent } from 'state/digital-exchange/components/actions';
+import { installDEComponent } from 'state/digital-exchange/components/actions';
 import { getDEComponentInstallationStatus } from 'state/digital-exchange/components/selectors';
 
 export const mapStateToProps = (state, props) => ({
@@ -9,7 +9,7 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: (component) => {
-    dispatch(installComponent(component));
+    dispatch(installDEComponent(component));
   },
   onUninstall: (componentId) => {
     console.log(componentId);

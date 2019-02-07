@@ -7,9 +7,10 @@ import {
   FINISH_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
-import { toggleLoading } from 'state/loading/actions';
+import pollApi from 'helpers/pollApi';
 import { getDEComponent, getDEComponents, postDEComponentInstall, getDEComponentInstall } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
+import { toggleLoading } from 'state/loading/actions';
 import { DE_COMPONENT_INSTALLATION_STATUS_COMPLETED } from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
@@ -57,29 +58,7 @@ export const finishComponentInstallation = id => ({
 
 // thunks
 
-const pollApi = (apiFn, successConditionFn, timeout = 2000, interval = 100) => {
-  const endTime = Number(new Date()) + timeout;
-  const checkCondition = (resolve, reject) => {
-    apiFn().then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          if (successConditionFn(data)) {
-            resolve(data);
-          } else if (Number(new Date()) < endTime) {
-            setTimeout(checkCondition, interval, resolve, reject);
-          } else {
-            reject({ errors: [{ message: 'Polling timed out' }] });
-          }
-        });
-      } else {
-        reject(response);
-      }
-    });
-  };
-  return new Promise(checkCondition);
-};
-
-export const installComponent = component => dispatch => (
+export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
     postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
@@ -88,15 +67,18 @@ export const installComponent = component => dispatch => (
           pollApi(
             () => getDEComponentInstall(component.id),
             ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-            2000,
-            150,
           )
-            .then(() => dispatch(finishComponentInstallation(component.id)))
-            .catch(({ errors }) => dispatch(addErrors(errors.map(err => err.message))));
+            .then(() => {
+              dispatch(finishComponentInstallation(component.id));
+            })
+            .catch(({ errors }) => {
+              dispatch(addErrors(errors.map(err => err.message)));
+            })
+            .finally(() => resolve());
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
         }
-        resolve();
       });
     }).catch(() => {});
   })

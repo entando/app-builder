@@ -4,15 +4,22 @@ import { config } from '@entando/apimanager';
 
 import { mockApi } from 'test/testUtils';
 
+import pollApi from 'helpers/pollApi';
+
 import {
   setDEComponents,
   fetchDEComponents,
-  installComponent,
+  installDEComponent,
   setSelectedDEComponent,
   startComponentInstallation,
   finishComponentInstallation,
 } from 'state/digital-exchange/components/actions';
-import { LIST_DE_COMPONENTS_OK, GET_DE_COMPONENT_OK, COMPONENT_INSTALLATION_CREATED } from 'test/mocks/digital-exchange/components';
+import {
+  LIST_DE_COMPONENTS_OK,
+  GET_DE_COMPONENT_OK,
+  COMPONENT_INSTALLATION_CREATED,
+  COMPONENT_INSTALLATION_COMPLETED,
+} from 'test/mocks/digital-exchange/components';
 import { getDEComponents, postDEComponentInstall } from 'api/digital-exchange/components';
 import {
   SET_DE_COMPONENTS,
@@ -30,7 +37,6 @@ const mockStore = configureMockStore(middlewares);
 
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
-
 const INITIAL_STATE = {
   digitalExchangeComponents: {
     list: [],
@@ -38,6 +44,7 @@ const INITIAL_STATE = {
 };
 
 jest.mock('api/digital-exchange/components');
+jest.mock('helpers/pollApi');
 
 
 describe('state/digital-exchange/components/actions', () => {
@@ -75,25 +82,47 @@ describe('state/digital-exchange/components/actions', () => {
     });
   });
 
-  describe('installComponent', () => {
+  describe('installDEComponent', () => {
     beforeEach(() => {
       postDEComponentInstall.mockImplementation(mockApi({
         payload: COMPONENT_INSTALLATION_CREATED,
       }));
     });
 
-    it('installComponent calls startComponentInstallation action', (done) => {
-      store.dispatch(installComponent(GET_DE_COMPONENT_OK)).then(() => {
+    it('installDEComponent dispatches proper actions if component is installed', (done) => {
+      pollApi.mockImplementation(mockApi({
+        payload: COMPONENT_INSTALLATION_COMPLETED,
+      }));
+
+      store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+        expect(actions[1]).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
         done();
       }).catch(done.fail);
     });
 
-    it('installComponent has error and dispatch ADD_ERRORS ', (done) => {
+    it('installDEComponent dispatches proper actions if timeout', (done) => {
+      /* eslint-disable prefer-promise-reject-errors */
+      pollApi.mockImplementation(() => new Promise((resolve, reject) => (
+        reject({
+          errors: [{ message: 'Polling timed out' }],
+        })
+      )));
+
+      store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('installDEComponent dispatches proper actions if error', (done) => {
       postDEComponentInstall.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(installComponent(GET_DE_COMPONENT_OK)).then(() => {
+      store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
