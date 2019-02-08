@@ -137,6 +137,7 @@ import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttrib
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -233,7 +234,8 @@ const getRouteComponent = (route) => {
     case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
     case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
     case ROUTE_FILE_BROWSER_EDIT_TEXT_FILE: return <EditTextFilePage />;
-    case ROUTE_DE_COMPONENT_LIST: return <ComponentListPage />;
+    case ROUTE_DE_COMPONENT_LIST: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      <ComponentListPage /> : <ComponentListPageDisabled />;
     default: return <NotFoundPage />;
   }
 };
