@@ -640,6 +640,8 @@ export default {
     'activityStream.writeComment': 'Scrivi un commento',
     'reference.text': 'Le referenze per i seguenti Tipi di Entita\' hanno bisogno di essere ricaricate. Totale da ricaricare: {count}. ',
     'reference.reload': 'Clicca {link} per ricaricare tutti i data types.',
+    'digitalExchange.disabled.title': 'Digital Exchange è disabilitata.',
+    'digitalExchange.disabled.help': 'È possibile attivarla impostando DIGITAL_EXCHANGE_UI=true nel file .env',
     'digitalExchange.menuButton.title': 'Digital Exchange',
     'digitalExchange.component.list.title': 'Digital Exchange',
     'digitalExchange.component.help': 'Entando Digital Exchange è un marketplace da cui l\'utente può installare Widget, Componenti, Frammenti, Modelli di Pagina, Modeli di Contenuto e Tipi di Contenuto',
