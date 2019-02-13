@@ -22,7 +22,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
   )
 );
 
-export const postInstallDEComponent = component => (
+export const postDEComponentInstall = component => (
   makeRequest({
     uri: `/api/digitalExchange/${component.digitalExchangeId}/install/${component.id}`,
     body: {},
@@ -32,9 +32,9 @@ export const postInstallDEComponent = component => (
   })
 );
 
-export const getDEComponentInstallationStatus = componentId => (
+export const getDEComponentInstall = id => (
   makeRequest({
-    uri: `/api/digitalExchange/install/${componentId}`,
+    uri: `/api/digitalExchange/install/${id}`,
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_IN_PROGRESS,
     useAuthentication: true,

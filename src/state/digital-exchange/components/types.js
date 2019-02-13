@@ -5,4 +5,3 @@ export const SET_DE_FILTER = 'digital-exchange/components/set-filter';
 export const SET_DE_COMPONENT_LIST_VIEW_MODE = 'digital-exchange/components/set-list-view-mode';
 export const START_COMPONENT_INSTALLATION = 'digital-exchange/components/start-component-installation';
 export const FINISH_COMPONENT_INSTALLATION = 'digital-exchange/components/finish-component-installation';
-export const FAIL_COMPONENT_INSTALLATION = 'digital-exchange/components/fail-component-installation';

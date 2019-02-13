@@ -6,15 +6,13 @@ import {
   setDEFilter,
   startComponentInstallation,
   finishComponentInstallation,
-  failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
   GET_DE_COMPONENT_OK,
 } from 'test/mocks/digital-exchange/components';
 import {
-  DE_COMPONENTS_INSTALLATION_PROGRESS,
-  DE_COMPONENTS_INSTALLATION_FAILURE,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
 
 describe('Digital Exchange components reducer', () => {
@@ -296,9 +294,9 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(2);
         expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
         expect(state).toHaveProperty('installation.test2');
-        expect(state).toHaveProperty('installation.test2.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test2', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
       });
     });
 
@@ -315,16 +313,6 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(1);
         expect(state).not.toHaveProperty('installation.testing');
-      });
-    });
-
-    describe('after the failComponentInstallation action', () => {
-      it('should update the state of the component', () => {
-        state = reducer(state, failComponentInstallation('test'));
-        expect(state).toHaveProperty('installation');
-        expect(Object.keys(state.installation)).toHaveLength(1);
-        expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_FAILURE);
       });
     });
   });

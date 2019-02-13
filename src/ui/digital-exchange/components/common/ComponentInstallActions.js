@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import { Button, ProgressBar } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { componentType } from 'models/digital-exchange/components';
-import { DE_COMPONENT_INSTALLATION_IN_PROGRESS } from 'state/digital-exchange/components/const';
+import { DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS, DE_COMPONENT_INSTALLATION_STATUS_CREATED } from 'state/digital-exchange/components/const';
+
+const installationProgressStatuses = [
+  DE_COMPONENT_INSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+];
 
 const ComponentInstallActions = ({
   component,
-  installationProgress,
+  installationStatus,
   onInstall,
   onUninstall,
 }) => (
@@ -27,7 +32,7 @@ const ComponentInstallActions = ({
   ) : (
     <div className="ComponentListGridView__install-actions">
       {
-        installationProgress === DE_COMPONENT_INSTALLATION_IN_PROGRESS ? (
+        installationProgressStatuses.includes(installationStatus) ? (
           <ProgressBar
             active
             bsStyle="success"
@@ -49,7 +54,7 @@ const ComponentInstallActions = ({
 
 ComponentInstallActions.propTypes = {
   component: componentType.isRequired,
-  installationProgress: PropTypes.string.isRequired,
+  installationStatus: PropTypes.string.isRequired,
   onInstall: PropTypes.func.isRequired,
   onUninstall: PropTypes.func.isRequired,
 };
