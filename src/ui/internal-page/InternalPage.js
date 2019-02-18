@@ -48,7 +48,7 @@ const integrationsMenuItem = pluginArray && pluginArray.length ? (
 
 
 const renderDigitalExchangeMenuItem = () => {
-  if (process.env.ENABLE_DIGITAL_EXCHANGE_UI) {
+  if (process.env.DIGITAL_EXCHANGE_UI_ENABLED) {
     return (<LinkMenuItem
       id="digital-exchange"
       label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
