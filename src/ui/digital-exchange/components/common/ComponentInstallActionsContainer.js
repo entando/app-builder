@@ -12,6 +12,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(installDEComponent(component));
   },
   onUninstall: (componentId) => {
+    // eslint-disable-next-line no-console
     console.log(componentId);
   },
 });
