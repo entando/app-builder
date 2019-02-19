@@ -23,19 +23,20 @@ describe('ComponentListListView', () => {
   });
 
   it('provided content is rendered properly', () => {
-    LIST_DE_COMPONENTS_OK.forEach((componentData) => {
+    LIST_DE_COMPONENTS_OK.forEach((componentData, index) => {
       // Checking if provided title is rendered.
-      expect(component).toContainReact(<h1>{componentData.name}</h1>);
+      expect(component.find('h1').at(index).text()).toContain(componentData.name);
 
       // Checking if provided image is rendered.
-      expect(component).toContainReact(<ComponentImage component={componentData} />);
+      const componentImageProp = component.find('ComponentImage').at(index).props().component;
+      expect(componentImageProp.name).toEqual(componentData.name);
+      expect(componentImageProp.image).toEqual(componentData.image);
 
       // Checking if provided rating is rendered.
-      expect(component).toContainReact(<StarRating maxRating={5} rating={componentData.rating} />);
+      expect(component.find(StarRating).at(index).props().rating).toEqual(componentData.rating);
 
       // Checking if provided description is rendered.
-      expect(component)
-        .toContainReact(<div className="ComponentList__description">{componentData.description}</div>);
+      expect(component.find('.ComponentList__description').at(index).text()).toEqual(componentData.description);
     });
   });
 });
