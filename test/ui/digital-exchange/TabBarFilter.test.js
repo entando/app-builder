@@ -2,12 +2,13 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import CategoryTabs from 'ui/digital-exchange/CategoryTabs';
+import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabsContainer';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { navigateDECategory } from 'state/digital-exchange/actions';
+import { formattedText } from '@entando/utils';
 
 
 const TEST_STATE = {
@@ -16,7 +17,7 @@ const TEST_STATE = {
   },
   digitalExchangeCategories: {
     list: LIST_DE_CATEGORIES_OK,
-    selected: { ALL_CATEGORIES_CATEGORY },
+    selected: ALL_CATEGORIES_CATEGORY,
   },
   digitalExchangeComponents: {
     list: [],
@@ -41,17 +42,24 @@ jest.mock('state/loading/selectors', () => ({
 const dispatchMock = jest.fn();
 
 
-describe('CategoryTabs', () => {
+describe('TabBarFilter', () => {
   let component;
   let noop;
 
   beforeEach(() => {
     noop = jest.fn();
-    component = shallow(<CategoryTabs
+    component = shallow(<TabBarFilter
       onSelect={noop}
       onWillMount={noop}
-      digitalExchangeCategories={['category']}
-      selectedDECategory="category"
+      filterTabs={[{
+        label: 'category',
+        value: 'category',
+      }]}
+      selectedFilterTab="all"
+      attributes={{
+        componentClass: 'CategoryTabs',
+        componentId: 'de-category-tabs',
+      }}
     />);
   });
 
@@ -60,12 +68,20 @@ describe('CategoryTabs', () => {
   });
 
   it('maps digitalExchangeCategories property state', () => {
+    const filterTabs = [
+      ALL_CATEGORIES_CATEGORY,
+      ...TEST_STATE.digitalExchangeCategories.list,
+    ].map(filterTab => ({
+      label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
+      value: filterTab,
+    }));
     expect(mapStateToProps(TEST_STATE)).toEqual({
-      digitalExchangeCategories: [
-        ALL_CATEGORIES_CATEGORY,
-        ...TEST_STATE.digitalExchangeCategories.list,
-      ],
-      selectedDECategory: { ALL_CATEGORIES_CATEGORY },
+      filterTabs,
+      selectedFilterTab: ALL_CATEGORIES_CATEGORY,
+      attributes: {
+        componentClass: 'CategoryTabs',
+        componentId: 'de-category-tabs',
+      },
     });
   });
 
