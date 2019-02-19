@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { gotoRoute } from '@entando/router';
-import { ADD_TOAST, ADD_ERRORS, TOAST_ERROR } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 import {
@@ -167,6 +167,7 @@ describe('state/data-models/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0].payload).toHaveProperty('type', TOAST_SUCCESS);
         done();
       }).catch(done.fail);
     });
@@ -179,7 +180,7 @@ describe('state/data-models/actions', () => {
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[0].payload).toHaveProperty('message', 'Error!');
-        expect(actions[0].payload).toHaveProperty('type', 'error');
+        expect(actions[0].payload).toHaveProperty('type', TOAST_ERROR);
         done();
       }).catch(done.fail);
     });

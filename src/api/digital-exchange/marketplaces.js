@@ -1,7 +1,6 @@
 import { LIST_DE_MARKETPLACES_OK } from 'test/mocks/digital-exchange/marketplaces';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getDEMarketplaces = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
@@ -12,4 +11,42 @@ export const getDEMarketplaces = (page = { page: 1, pageSize: 10 }, params = '')
     },
     page,
   )
+);
+
+export const getDEMarketplace = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${id}`,
+    method: METHODS.GET,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);
+
+export const deleteDEMarketplace = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${id}`,
+    method: METHODS.DELETE,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);
+
+export const postDEMarketplaces = marketplace => (
+  makeRequest({
+    uri: '/api/digitalExchange/exchanges',
+    method: METHODS.POST,
+    mockResponse: {},
+    useAuthentication: true,
+    body: marketplace,
+  })
+);
+
+export const putDEMarketplaces = marketplace => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${marketplace.id}`,
+    method: METHODS.PUT,
+    mockResponse: {},
+    useAuthentication: true,
+    body: marketplace,
+  })
 );
