@@ -35,10 +35,10 @@ export const filterByDECategories = (categories, paginationMetadata) => {
   return applyFilter(filter, paginationMetadata);
 };
 
-export const filterByDEMarketplaces = (marketplaces, paginationMetadata) => {
+export const filterByDigitalExchanges = (digitalExchanges, paginationMetadata) => {
   const filter = {
-    formValues: { marketplace: marketplaces },
-    operators: { marketplace: FILTER_OPERATORS.EQUAL },
+    formValues: { digitalExchangeId: digitalExchanges },
+    operators: { digitalExchangeId: FILTER_OPERATORS.EQUAL },
   };
   return applyFilter(filter, paginationMetadata);
 };

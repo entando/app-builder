@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getDEMarketplaceFilters } from 'state/digital-exchange/components/selectors';
 import { getDEMarketplaceList } from 'state/digital-exchange/marketplaces/selectors';
-import { filterByDEMarketplaces } from 'state/digital-exchange/actions';
+import { filterByDigitalExchanges } from 'state/digital-exchange/actions';
 import { fetchDEMarketplaces } from 'state/digital-exchange/marketplaces/actions';
 import MarketplaceFilter from 'ui/digital-exchange/MarketplaceFilter';
 
@@ -10,7 +10,7 @@ export const mapDispatchToProps = dispatch => ({
   onChange: (eventOrValue) => {
     const { marketplaces } = eventOrValue;
     if (marketplaces) {
-      dispatch(filterByDEMarketplaces(marketplaces));
+      dispatch(filterByDigitalExchanges(marketplaces));
     }
   },
 });

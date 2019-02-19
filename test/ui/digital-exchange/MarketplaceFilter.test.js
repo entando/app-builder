@@ -6,7 +6,7 @@ import MarketplaceFilter from 'ui/digital-exchange/MarketplaceFilter';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/MarketplaceFilterContainer';
 import { LIST_DE_MARKETPLACES_OK } from 'test/mocks/digital-exchange/marketplaces';
 import { fetchDEMarketplaces } from 'state/digital-exchange/marketplaces/actions';
-import { filterByDEMarketplaces } from 'state/digital-exchange/actions';
+import { filterByDigitalExchanges } from 'state/digital-exchange/actions';
 
 const TEST_STATE = {
   digitalExchangeMarketplaces: {
@@ -33,7 +33,7 @@ jest.mock('state/loading/selectors', () => ({
 }));
 
 jest.mock('state/digital-exchange/actions', () => ({
-  filterByDEMarketplaces: jest.fn(),
+  filterByDigitalExchanges: jest.fn(),
 }));
 
 const dispatchMock = jest.fn();
@@ -77,7 +77,7 @@ describe('MarketplaceFilter', () => {
       const marketplaces = ['Entando'];
       props.onChange({ marketplaces });
       expect(dispatchMock).toHaveBeenCalled();
-      expect(filterByDEMarketplaces).toHaveBeenCalledWith(marketplaces);
+      expect(filterByDigitalExchanges).toHaveBeenCalledWith(marketplaces);
     });
   });
 });

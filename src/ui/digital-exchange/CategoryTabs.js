@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 import { Tabs, Tab } from 'patternfly-react';
-import { formattedText } from '@entando/utils';
 
 class CategoryTabs extends Component {
   componentWillMount() {
@@ -9,10 +9,16 @@ class CategoryTabs extends Component {
   }
 
   render() {
-    const { digitalExchangeCategories, selectedDECategory, onSelect } = this.props;
+    const {
+      digitalExchangeCategories,
+      selectedDECategory,
+      onSelect,
+      intl,
+    } = this.props;
+    const formatText = id => intl.formatMessage({ id });
 
     const categories = digitalExchangeCategories.map(category => (
-      { label: formattedText(`digitalExchange.categoryTabs.${category}`, category), value: category }
+      { label: formatText(`digitalExchange.categories.${category}`, category), value: category }
     ));
 
     const handleSelect = (key) => {
@@ -46,10 +52,11 @@ class CategoryTabs extends Component {
 }
 
 CategoryTabs.propTypes = {
+  intl: intlShape.isRequired,
   digitalExchangeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedDECategory: PropTypes.string.isRequired,
   onWillMount: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 
-export default CategoryTabs;
+export default injectIntl(CategoryTabs);
