@@ -33,9 +33,9 @@ export const mapStateToProps = (state) => {
   };
 };
 
-const CategoryTabsContainer = connect(
+const FilterTabsContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(TabBarFilter);
 
-export default CategoryTabsContainer;
+export default FilterTabsContainer;
