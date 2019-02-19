@@ -12,42 +12,45 @@ import moment from 'moment';
 
 
 const ComponentListListView = ({ components }) => (
-  components.map((component) => {
-    const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
+  <div className="ComponentListListView">
+    {components.map((component) => {
+      const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
 
-    return (
-      <div key={component.id} className="ComponentList ComponentListListView">
-        <Row key={component.id} className="equal">
-          <Col md={2} className="no-padding">
-            <a href="#">
-              <ComponentImage component={component} />
-            </a>
-          </Col>
-          <Col md={8}>
-            <div className="ComponentListGridView__component-body">
-              <h1>{component.name}</h1>
-              <span className="ComponentListGridView__date">{date}</span>
-              <span className="ComponentListGridView__version">
-                <FormattedMessage id="digitalExchange.components.latestVersion" />
-                : {component.version}
-              </span>
-              <span className="ComponentListGridView__rating">
-                <StarRating maxRating={5} rating={component.rating} />
-              </span>
-            </div>
-          </Col>
-          <Col md={2}>
-            <ComponentInstallActionsContainer component={component} />
-          </Col>
-          <Col md={12} className="no-padding">
-            <div className="ComponentList__description">
-              {component.description}
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  })
+      return (
+        <div key={component.id}>
+          <Row key={component.id} className="equal">
+            <Col md={2} className="no-padding">
+              <a href="#">
+                <ComponentImage component={component} />
+              </a>
+            </Col>
+            <Col md={8}>
+              <div className="ComponentList__component-body">
+                <h1>{component.name}</h1>
+                <span className="ComponentList__date">{date}</span>
+                <span className="ComponentList__version">
+                  <FormattedMessage id="digitalExchange.components.latestVersion" />
+                  : {component.version}
+                </span>
+                <span className="ComponentList__rating">
+                  <StarRating maxRating={5} rating={component.rating} />
+                </span>
+              </div>
+            </Col>
+            <Col md={2}>
+              <ComponentInstallActionsContainer component={component} />
+            </Col>
+            <Col md={12} className="no-padding">
+              <div className="ComponentList__description">
+                {component.description}
+              </div>
+            </Col>
+          </Row>
+        </div>
+      );
+    })}
+  </div>
+
 );
 
 

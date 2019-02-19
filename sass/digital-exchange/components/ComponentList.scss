@@ -60,9 +60,6 @@
     line-height: normal;
   }
 
-  &__install {
-  }
-
   &__status {
     display: block;
     border: 1px solid $color-de-component-installed-button-border;
@@ -97,7 +94,7 @@
     padding-top: 5px;
     border-top: 4px solid $color-de-component-border;
     color: $colod-de-component-text-grey;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 22px;
   }
 
