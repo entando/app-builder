@@ -28,12 +28,17 @@ describe('ComponentListListView', () => {
       expect(component.find('h1').at(index).text()).toContain(componentData.name);
 
       // Checking if provided image is rendered.
-      const componentImageProp = component.find('ComponentImage').at(index).props().component;
-      expect(componentImageProp.name).toEqual(componentData.name);
-      expect(componentImageProp.image).toEqual(componentData.image);
+      if (componentData.image) {
+        const componentImageWrapper = component.find('.ComponentList_component-image-wrapper').at(index);
+        expect(componentImageWrapper.html()).toContain(componentData.image);
+      }
 
-      // Checking if provided rating is rendered.
-      expect(component.find(StarRating).at(index).props().rating).toEqual(componentData.rating);
+      // Checking if provided version is rendered.
+      expect(component.find('.ComponentList__version').at(index).text()).toContain(componentData.version);
+
+      // // Checking if provided rating is rendered.
+      const starRatingRendered = component.find('.ComponentList__rating').at(index).render();
+      expect(starRatingRendered.find('.StarIcon')).toHaveLength(Math.ceil(componentData.rating));
 
       // Checking if provided description is rendered.
       expect(component.find('.ComponentList__description').at(index).text()).toEqual(componentData.description);

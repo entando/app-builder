@@ -20,7 +20,7 @@ const ComponentListListView = ({ components }) => (
         <div key={component.id}>
           <Row key={component.id} className="equal">
             <Col md={2} className="no-padding">
-              <a href="#">
+              <a href="#" className="ComponentList_component-image-wrapper">
                 <ComponentImage component={component} />
               </a>
             </Col>
