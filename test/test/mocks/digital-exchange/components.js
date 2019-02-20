@@ -1,5 +1,5 @@
 import { leonardoImg, redhatImg1, redhatImg2 } from 'test/mocks/digital-exchange/componentImages';
-import { ENTANDO_EXCHANGE, REDHAT_EXCHANGE, LEONARDO_EXCHANGE } from 'test/mocks/digital-exchange/marketplaces';
+import { ENTANDO_EXCHANGE, REDHAT_EXCHANGE, LEONARDO_EXCHANGE } from 'test/mocks/digital-exchange/digitalExchanges';
 
 export const LIST_DE_COMPONENTS_OK = [
   {

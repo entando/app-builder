@@ -7,7 +7,7 @@ const ComponentListListView = ({ components }) => (
     <div key={component.id}>
       <h2>{component.name}</h2>
       <ul>
-        <li> marketplace: {component.digitalExchange} </li>
+        <li> digital exchange: {component.digitalExchange} </li>
         <li> rating: {component.rating} </li>
         <li> category: {component.type} </li>
       </ul>

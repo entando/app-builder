@@ -5,39 +5,40 @@ import { reduxForm } from 'redux-form';
 import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
-class MarketplaceFilterBody extends Component {
+class DigitalExchangeFilterBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
 
   render() {
-    const formatText = id => this.props.intl.formatMessage({ id });
+    const { intl, digitalExchanges, onChange } = this.props;
+    const formatText = id => intl.formatMessage({ id });
 
-    const options = this.props.digitalExchangeMarketplaces.map(marketplace => (
-      { label: marketplace.name, value: marketplace.id }
+    const options = digitalExchanges.map(digitalExchange => (
+      { label: digitalExchange.name, value: digitalExchange.id }
     ));
 
     return (
       <SidebarFilter title={formatText('digitalExchange.sidebar.digitalExchangeFilterTitle')}>
         <CheckboxGroup
-          name="marketplaces"
+          name="digitalExchanges"
           options={options}
-          onChange={this.props.onChange}
+          onChange={onChange}
         />
       </SidebarFilter>
     );
   }
 }
 
-MarketplaceFilterBody.propTypes = {
+DigitalExchangeFilterBody.propTypes = {
   intl: intlShape.isRequired,
-  digitalExchangeMarketplaces: PropTypes.arrayOf(PropTypes.object).isRequired,
+  digitalExchanges: PropTypes.arrayOf(PropTypes.object).isRequired,
   onWillMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
-  form: 'marketplaceFilter',
+  form: 'digitalExchangeFilter',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
-})(injectIntl(MarketplaceFilterBody));
+})(injectIntl(DigitalExchangeFilterBody));

@@ -2,15 +2,15 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import MarketplaceFilter from 'ui/digital-exchange/MarketplaceFilter';
-import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/MarketplaceFilterContainer';
-import { LIST_DE_MARKETPLACES_OK } from 'test/mocks/digital-exchange/marketplaces';
-import { fetchDEMarketplaces } from 'state/digital-exchange/marketplaces/actions';
+import DigitalExchangeFilter from 'ui/digital-exchange/DigitalExchangeFilter';
+import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/DigitalExchangeFilterContainer';
+import { LIST_DIGITAL_EXCHANGES_OK } from 'test/mocks/digital-exchange/digitalExchanges';
+import { fetchDigitalExchanges } from 'state/digital-exchange/digital-exchanges/actions';
 import { filterByDigitalExchanges } from 'state/digital-exchange/actions';
 
 const TEST_STATE = {
-  digitalExchangeMarketplaces: {
-    list: LIST_DE_MARKETPLACES_OK,
+  digitalExchanges: {
+    list: LIST_DIGITAL_EXCHANGES_OK,
   },
   digitalExchangeCategories: {
     list: [],
@@ -24,8 +24,8 @@ const TEST_STATE = {
   },
 };
 
-jest.mock('state/digital-exchange/marketplaces/actions', () => ({
-  fetchDEMarketplaces: jest.fn(),
+jest.mock('state/digital-exchange/digital-exchanges/actions', () => ({
+  fetchDigitalExchanges: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
@@ -39,20 +39,20 @@ jest.mock('state/digital-exchange/actions', () => ({
 const dispatchMock = jest.fn();
 
 
-describe('MarketplaceFilter', () => {
+describe('DigitalExchangeFilter', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<MarketplaceFilter />);
+    component = shallow(<DigitalExchangeFilter />);
   });
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('maps digitalExchangeMarketplaces property state in MarketplaceFilter', () => {
+  it('maps digitalExchanges property state in DigitalExchangeFilter', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
-      digitalExchangeMarketplaces: TEST_STATE.digitalExchangeMarketplaces.list,
-      initialValues: { marketplaces: [] },
+      digitalExchanges: TEST_STATE.digitalExchanges.list,
+      initialValues: { digitalExchanges: [] },
     });
   });
 
@@ -70,14 +70,14 @@ describe('MarketplaceFilter', () => {
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchDEMarketplaces).toHaveBeenCalled();
+      expect(fetchDigitalExchanges).toHaveBeenCalled();
     });
 
     it('should dispatch an action if filter is checked', () => {
-      const marketplaces = ['Entando'];
-      props.onChange({ marketplaces });
+      const digitalExchanges = ['Entando'];
+      props.onChange({ digitalExchanges });
       expect(dispatchMock).toHaveBeenCalled();
-      expect(filterByDigitalExchanges).toHaveBeenCalledWith(marketplaces);
+      expect(filterByDigitalExchanges).toHaveBeenCalledWith(digitalExchanges);
     });
   });
 });

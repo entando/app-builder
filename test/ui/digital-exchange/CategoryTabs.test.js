@@ -11,7 +11,7 @@ import { navigateDECategory } from 'state/digital-exchange/actions';
 
 
 const TEST_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
   digitalExchangeCategories: {

@@ -16,7 +16,7 @@ const mockStore = configureMockStore(middlewares);
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
 const INITIAL_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
   digitalExchangeCategories: {
