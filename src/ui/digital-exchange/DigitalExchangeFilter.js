@@ -1,44 +1,44 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
+import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
-class CategoryFilterBody extends Component {
+class DigitalExchangeFilterBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
 
   render() {
-    const { digitalExchangeCategories, intl } = this.props;
+    const { intl, digitalExchanges, onChange } = this.props;
     const formatText = id => intl.formatMessage({ id });
-    const options = digitalExchangeCategories.map(category => ({
-      label: formatText(`digitalExchange.categories.${category}`),
-      value: category,
-    }));
+
+    const options = digitalExchanges.map(digitalExchange => (
+      { label: digitalExchange.name, value: digitalExchange.id }
+    ));
 
     return (
-      <SidebarFilter title={formatText('digitalExchange.sidebar.categoryFilterTitle')}>
+      <SidebarFilter title={formatText('digitalExchange.sidebar.digitalExchangeFilterTitle')}>
         <CheckboxGroup
-          name="categories"
+          name="digitalExchanges"
           options={options}
-          onChange={this.props.onChange}
+          onChange={onChange}
         />
       </SidebarFilter>
     );
   }
 }
 
-CategoryFilterBody.propTypes = {
+DigitalExchangeFilterBody.propTypes = {
   intl: intlShape.isRequired,
-  digitalExchangeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  digitalExchanges: PropTypes.arrayOf(PropTypes.object).isRequired,
   onWillMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
-  form: 'categoryFilter',
+  form: 'digitalExchangeFilter',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
-})(injectIntl(CategoryFilterBody));
+})(injectIntl(DigitalExchangeFilterBody));
