@@ -28,10 +28,10 @@ export const LEONARDO_EXCHANGE = {
   secret: 'leonardo-secret',
 };
 
-export const LIST_DE_MARKETPLACES_OK = [
+export const LIST_DIGITAL_EXCHANGES_OK = [
   ENTANDO_EXCHANGE,
   REDHAT_EXCHANGE,
   LEONARDO_EXCHANGE,
 ];
 
-export const GET_DE_MARKETPLACE_OK = ENTANDO_EXCHANGE;
+export const DIGITAL_EXCHANGE_OK = ENTANDO_EXCHANGE;

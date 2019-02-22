@@ -6,15 +6,13 @@ import {
   setDEFilter,
   startComponentInstallation,
   finishComponentInstallation,
-  failComponentInstallation,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
   GET_DE_COMPONENT_OK,
 } from 'test/mocks/digital-exchange/components';
 import {
-  DE_COMPONENTS_INSTALLATION_PROGRESS,
-  DE_COMPONENTS_INSTALLATION_FAILURE,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
 
 describe('Digital Exchange components reducer', () => {
@@ -26,14 +24,14 @@ describe('Digital Exchange components reducer', () => {
     it('should add filter (array)', () => {
       const initialState = reducer();
       const filterToSet = {
-        formValues: { marketplace: ['marketplace1'] },
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: ['digitalExchange1'] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { marketplace: ['marketplace1'] },
-          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['digitalExchange1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -58,20 +56,20 @@ describe('Digital Exchange components reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { marketplace: ['marketplace2'] },
-            operators: { marketplace: FILTER_OPERATORS.LIKE },
+            formValues: { digitalExchanges: ['digitalExchange2'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.LIKE },
           },
         },
       };
       const filterToSet = {
-        formValues: { marketplace: ['marketplace1'] },
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: ['digitalExchange1'] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { marketplace: ['marketplace1'] },
-          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['digitalExchange1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -104,14 +102,14 @@ describe('Digital Exchange components reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { marketplace: ['marketplace1'], otherProp: 'otherValue' },
-            operators: { marketplace: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['digitalExchange1'], otherProp: 'otherValue' },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
           },
         },
       };
       const filterToSet = {
-        formValues: { marketplace: [] },
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: [] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
@@ -127,9 +125,9 @@ describe('Digital Exchange components reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { marketplace: ['marketplace1'], rating: 4 },
+            formValues: { digitalExchanges: ['digitalExchange1'], rating: 4 },
             operators: {
-              marketplace: FILTER_OPERATORS.EQUAL,
+              digitalExchanges: FILTER_OPERATORS.EQUAL,
               rating: FILTER_OPERATORS.GREATER_THAN,
             },
           },
@@ -142,8 +140,8 @@ describe('Digital Exchange components reducer', () => {
       const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { marketplace: ['marketplace1'] },
-          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['digitalExchange1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -153,14 +151,14 @@ describe('Digital Exchange components reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { marketplace: ['marketplace1'] },
-            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['digitalExchange1'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
           },
         },
       };
       const filterToSet = {
-        formValues: { marketplace: [] },
-        operators: { marketplace: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: [] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {});
@@ -190,8 +188,8 @@ describe('Digital Exchange components reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { marketplace: ['marketplace'] },
-            operators: { marketplace: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['digitalExchange'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
           },
         },
       };
@@ -210,7 +208,7 @@ describe('Digital Exchange components reducer', () => {
 
       it('incomplete filter 2', () => {
         filterToSet = {
-          formValues: { marketplace: ['marketplace'] },
+          formValues: { digitalExchanges: ['digitalExchange'] },
         };
         const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);
@@ -218,7 +216,7 @@ describe('Digital Exchange components reducer', () => {
 
       it('incomplete filter 3', () => {
         filterToSet = {
-          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         };
         const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);
@@ -226,8 +224,8 @@ describe('Digital Exchange components reducer', () => {
 
       it('already existing filter', () => {
         filterToSet = {
-          formValues: { marketplace: ['marketplace'] },
-          operators: { marketplace: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['digitalExchange'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         };
         const newState = reducer(initialState, setDEFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);
@@ -296,9 +294,9 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(2);
         expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
         expect(state).toHaveProperty('installation.test2');
-        expect(state).toHaveProperty('installation.test2.state', DE_COMPONENTS_INSTALLATION_PROGRESS);
+        expect(state).toHaveProperty('installation.test2', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
       });
     });
 
@@ -315,16 +313,6 @@ describe('Digital Exchange components reducer', () => {
         expect(state).toHaveProperty('installation');
         expect(Object.keys(state.installation)).toHaveLength(1);
         expect(state).not.toHaveProperty('installation.testing');
-      });
-    });
-
-    describe('after the failComponentInstallation action', () => {
-      it('should update the state of the component', () => {
-        state = reducer(state, failComponentInstallation('test'));
-        expect(state).toHaveProperty('installation');
-        expect(Object.keys(state.installation)).toHaveLength(1);
-        expect(state).toHaveProperty('installation.test');
-        expect(state).toHaveProperty('installation.test.state', DE_COMPONENTS_INSTALLATION_FAILURE);
       });
     });
   });

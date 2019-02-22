@@ -34,7 +34,7 @@ import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
 import userProfile from 'state/user-profile/reducer';
 import digitalExchangeComponents from 'state/digital-exchange/components/reducer';
-import digitalExchangeMarketplaces from 'state/digital-exchange/marketplaces/reducer';
+import digitalExchanges from 'state/digital-exchange/digital-exchanges/reducer';
 import digitalExchangeCategories from 'state/digital-exchange/categories/reducer';
 
 const reducerDef = {
@@ -49,7 +49,7 @@ const reducerDef = {
   dataTypes,
   digitalExchangeCategories,
   digitalExchangeComponents,
-  digitalExchangeMarketplaces,
+  digitalExchanges,
   fileBrowser,
   form,
   fragments,

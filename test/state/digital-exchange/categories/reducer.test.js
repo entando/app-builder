@@ -36,7 +36,7 @@ describe('digital-exchange/categories/reducer', () => {
     describe('after action setDECategirues', () => {
       it('should define category list', () => {
         const newState = reducer({}, setDECategories(LIST_DE_CATEGORIES_OK));
-        expect(newState.list).toHaveLength(5);
+        expect(newState.list).toHaveLength(7);
       });
     });
   });

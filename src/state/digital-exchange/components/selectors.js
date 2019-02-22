@@ -14,9 +14,9 @@ export const getDECategoryFilters = createSelector(
   filters => get(filters, 'all.formValues.type', []),
 );
 
-export const getDEMarketplaceFilters = createSelector(
+export const getDigitalExchangeFilters = createSelector(
   [getDEFilters, getSelectedDECategory],
-  (filters, category) => get(filters, `${category}.formValues.marketplace`, []),
+  (filters, category) => get(filters, `${category}.formValues.digitalExchange`, []),
 );
 
 export const getDERatingFilter = createSelector(
@@ -39,6 +39,6 @@ export const getDEComponentSelected = createSelector(
   digitalExchangeComponent => digitalExchangeComponent.selected,
 );
 
-export const getDEComponentInstallation = (state, props) => (
-  get(state, `digitalExchangeComponents.installation[${props.component.id}].state`, '')
+export const getDEComponentInstallationStatus = (state, props) => (
+  get(state, `digitalExchangeComponents.installation[${props.component.id}]`, '')
 );

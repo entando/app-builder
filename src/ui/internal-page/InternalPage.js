@@ -47,6 +47,19 @@ const integrationsMenuItem = pluginArray && pluginArray.length ? (
 ) : null;
 
 
+const renderDigitalExchangeMenuItem = () => {
+  if (process.env.DIGITAL_EXCHANGE_UI_ENABLED) {
+    return (<LinkMenuItem
+      id="digital-exchange"
+      label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
+      route={ROUTE_DE_COMPONENT_LIST}
+      pullRight
+    />);
+  }
+
+  return '';
+};
+
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
     <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
@@ -175,12 +188,9 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_FILE_BROWSER}
         />
       </FirstLevelMenuItem>
-      <LinkMenuItem
-        id="digital-exchange"
-        label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
-        route={ROUTE_DE_COMPONENT_LIST}
-        pullRight
-      />
+
+      {renderDigitalExchangeMenuItem()}
+
     </BrandMenu>
     <ActivityStreamContainer >
       <NotificationListContainer />

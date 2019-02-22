@@ -1,13 +1,13 @@
 import { LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/digital-exchange/components';
 import {
   getDEComponents, getDEComponentSelected,
-  getDEComponentList, getDEComponentInstallation,
+  getDEComponentList, getDEComponentInstallationStatus,
 } from 'state/digital-exchange/components/selectors';
-import { DE_COMPONENTS_INSTALLATION_PROGRESS } from 'state/digital-exchange/components/const';
+import { DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/digital-exchange/components/const';
 
 const list = LIST_DE_COMPONENTS_OK;
 const installation = {
-  [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: { state: DE_COMPONENTS_INSTALLATION_PROGRESS },
+  [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 };
 
 const MOCK_STATE = {
@@ -33,13 +33,13 @@ describe('state/digital-exchange/components/selectors', () => {
     expect(getDEComponentList(MOCK_STATE)).toEqual(MOCK_STATE.digitalExchangeComponents.list);
   });
 
-  it('verify getDEComponentInstallation selector', () => {
+  it('verify getDEComponentInstallationStatus selector', () => {
     const props = {
       component: {
         id: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
       },
     };
-    const installationStatus = getDEComponentInstallation(MOCK_STATE, props);
-    expect(installationStatus).toEqual(DE_COMPONENTS_INSTALLATION_PROGRESS);
+    const installationStatus = getDEComponentInstallationStatus(MOCK_STATE, props);
+    expect(installationStatus).toEqual(DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
   });
 });

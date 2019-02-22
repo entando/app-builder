@@ -33,7 +33,7 @@ string used for the client id during the OAUTH2 authentication process.
 #### `CLIENT_SECRET` (string, default `client_secret`)
 string used for the client secret during the OAUTH2 authentication process.
 
-#### `ENABLE_DIGITAL_EXCHANGE_UI` (boolean, default: `false`)
+#### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Digital Exchange UI should be enabled or not.
 
 ### Sample .env file

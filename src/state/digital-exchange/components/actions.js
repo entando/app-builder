@@ -5,12 +5,13 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
-  FAIL_COMPONENT_INSTALLATION,
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
-import { toggleLoading } from 'state/loading/actions';
-import { getDEComponent, getDEComponents, postInstallDEComponent } from 'api/digital-exchange/components';
+import pollApi from 'helpers/pollApi';
+import { getDEComponent, getDEComponents, postDEComponentInstall, getDEComponentInstall } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
+import { toggleLoading } from 'state/loading/actions';
+import { DE_COMPONENT_INSTALLATION_STATUS_COMPLETED } from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
@@ -55,25 +56,29 @@ export const finishComponentInstallation = id => ({
   },
 });
 
-export const failComponentInstallation = id => ({
-  type: FAIL_COMPONENT_INSTALLATION,
-  payload: {
-    id,
-  },
-});
-
 // thunks
 
-export const installComponent = component => dispatch => (
+export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
-    postInstallDEComponent(component).then((response) => {
+    postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(startComponentInstallation(component.id));
+          pollApi(
+            () => getDEComponentInstall(component.id),
+            ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+          )
+            .then(() => {
+              dispatch(finishComponentInstallation(component.id));
+            })
+            .catch(({ errors }) => {
+              dispatch(addErrors(errors.map(err => err.message)));
+            })
+            .finally(() => resolve());
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
         }
-        resolve();
       });
     }).catch(() => {});
   })

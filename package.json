@@ -45,7 +45,7 @@
     "jest-webpack-resolver": "^0.3.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.11.0",
     "object-assign": "4.1.1",
     "patternfly": "^3.45.0",
     "patternfly-react": "^1.19.1",

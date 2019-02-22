@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
 import ComponentInstallActions from 'ui/digital-exchange/components/common/ComponentInstallActions';
-import { installComponent } from 'state/digital-exchange/components/actions';
-import { getDEComponentInstallation } from 'state/digital-exchange/components/selectors';
+import { installDEComponent } from 'state/digital-exchange/components/actions';
+import { getDEComponentInstallationStatus } from 'state/digital-exchange/components/selectors';
 
 export const mapStateToProps = (state, props) => ({
-  installationProgress: getDEComponentInstallation(state, props),
+  installationStatus: getDEComponentInstallationStatus(state, props),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: (component) => {
-    dispatch(installComponent(component));
+    dispatch(installDEComponent(component));
   },
   onUninstall: (componentId) => {
+    // eslint-disable-next-line no-console
     console.log(componentId);
   },
 });

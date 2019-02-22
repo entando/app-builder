@@ -76,9 +76,9 @@ describe('state/digital-exchange/categories/actions', () => {
     it('categories is defined and properly valued', (done) => {
       store.dispatch(fetchDECategories()).then(() => {
         const actionPayload = store.getActions()[1].payload;
-        expect(actionPayload.digitalExchangeCategories).toHaveLength(5);
+        expect(actionPayload.digitalExchangeCategories).toHaveLength(7);
         const digitalExchangeCategory = actionPayload.digitalExchangeCategories[0];
-        expect(digitalExchangeCategory).toBe('pageModel');
+        expect(digitalExchangeCategory).toBe('widget');
         done();
       }).catch(done.fail);
     });

@@ -12,7 +12,7 @@ import { formattedText } from '@entando/utils';
 
 
 const TEST_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
   digitalExchangeCategories: {
