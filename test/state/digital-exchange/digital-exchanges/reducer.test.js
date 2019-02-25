@@ -10,7 +10,7 @@ import {
 } from 'test/mocks/digital-exchange/digitalExchanges';
 
 
-describe('digital-exchange/marketplaces/reducer', () => {
+describe('digital-exchange/digital-exchanges/reducer', () => {
   const state = reducer();
 
   it('should return an object', () => {
@@ -23,17 +23,17 @@ describe('digital-exchange/marketplaces/reducer', () => {
       newState = reducer(state, setSelectedDigitalExchange(DIGITAL_EXCHANGE_OK));
     });
 
-    it('should define the marketplace payload', () => {
+    it('should define the digitalExchange payload', () => {
       expect(newState).toHaveProperty('selected', DIGITAL_EXCHANGE_OK);
     });
 
     describe('after action removeDigitalExchange', () => {
-      it('should not remove the marketplace if the ID does not match', () => {
+      it('should not remove the digital exchange if the ID does not match', () => {
         newState = reducer(newState, removeDigitalExchange('madeup'));
         expect(newState).toHaveProperty('selected', DIGITAL_EXCHANGE_OK);
       });
 
-      it('should remove the marketplace if the ID matches', () => {
+      it('should remove the digital exchange if the ID matches', () => {
         newState = reducer(newState, removeDigitalExchange(DIGITAL_EXCHANGE_OK.id));
         expect(newState).toHaveProperty('selected', {});
       });
@@ -49,13 +49,13 @@ describe('digital-exchange/marketplaces/reducer', () => {
     describe('after action setDigitalExchanges', () => {
       let newState;
 
-      it('should define marketplace list', () => {
+      it('should define digital exchange list', () => {
         newState = reducer({}, setDigitalExchanges(LIST_DIGITAL_EXCHANGES_OK));
         expect(newState.list).toHaveLength(3);
       });
 
       describe('after action removeDigitalExchange', () => {
-        it('should not remove the marketplace if the ID does not match', () => {
+        it('should not remove the digital exchange if the ID does not match', () => {
           newState = reducer(newState, removeDigitalExchange('madeup'));
           expect(newState.list).toHaveLength(3);
           expect(newState.list[0]).toHaveProperty('id', 'entando');
@@ -63,7 +63,7 @@ describe('digital-exchange/marketplaces/reducer', () => {
           expect(newState.list[2]).toHaveProperty('id', 'leonardo');
         });
 
-        it('should remove the marketplace if the ID matches', () => {
+        it('should remove the digital exchange if the ID matches', () => {
           newState = reducer(newState, removeDigitalExchange('redhat'));
           expect(newState.list).toHaveLength(2);
           expect(newState.list[0]).toHaveProperty('id', 'entando');
