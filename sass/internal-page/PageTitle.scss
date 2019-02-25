@@ -12,4 +12,12 @@
     color: $color-pf-black-500;
     cursor: pointer;
   }
+
+  .PageTitle__configuration {
+    margin-left: 4px;
+
+    .fa { // sass-lint:disable-line class-name-format
+      vertical-align: top;
+    }
+  }
 }

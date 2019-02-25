@@ -1,0 +1,25 @@
+$light-grey: #E7E7E7;
+
+
+.SettingsListContainer {
+  padding: 20px 0 0;
+  background-color: $light-grey;
+
+  .ServerIcon {
+    margin-top: 20px;
+    font-size: 45px;
+    text-align: center;
+
+    span { // sass-lint:disable-line nesting-depth
+      display: inline-block;
+      width: 80px;
+      border: 2px solid $color-light-blue;
+      border-radius: 50px;
+    }
+  }
+
+  .ServerName {
+    margin-top: 10px;
+    text-align: center;
+  }
+}
