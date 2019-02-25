@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import MarketplaceFilterContainer from 'ui/digital-exchange/MarketplaceFilterContainer';
+import DigitalExchangeFilterContainer from 'ui/digital-exchange/DigitalExchangeFilterContainer';
 import RatingFilterContainer from 'ui/digital-exchange/RatingFilterContainer';
 import CategoryFilterContainer from 'ui/digital-exchange/CategoryFilterContainer';
 
@@ -19,7 +19,7 @@ describe('Sidebar', () => {
 
   it('contains all filter components', () => {
     expect(component.containsAllMatchingElements([
-      <MarketplaceFilterContainer />,
+      <DigitalExchangeFilterContainer />,
       <RatingFilterContainer />,
       <CategoryFilterContainer />,
     ]));

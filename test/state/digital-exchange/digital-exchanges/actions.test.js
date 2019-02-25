@@ -5,28 +5,29 @@ import { config } from '@entando/apimanager';
 import { mockApi } from 'test/testUtils';
 
 import {
-  setDEMarketplaces,
-  setSelectedDEMarketplace,
-  removeDEMarketplace,
-  fetchDEMarketplaces,
-  fetchDEMarketplace,
-  sendPostDEMarketplaces,
-  sendPutDEMarketplaces,
-  sendDeleteDEMarketplaces,
-} from 'state/digital-exchange/marketplaces/actions';
-import { LIST_DE_MARKETPLACES_OK, GET_DE_MARKETPLACE_OK } from 'test/mocks/digital-exchange/marketplaces';
+  setDigitalExchanges,
+  setSelectedDigitalExchange,
+  removeDigitalExchange,
+  fetchDigitalExchanges,
+  fetchDigitalExchange,
+  sendPostDigitalExchange,
+  sendPutDigitalExchange,
+  sendDeleteDigitalExchange,
+} from 'state/digital-exchange/digital-exchanges/actions';
+import { LIST_DIGITAL_EXCHANGES_OK, DIGITAL_EXCHANGE_OK } from 'test/mocks/digital-exchange/digitalExchanges';
 import {
-  getDEMarketplaces,
-  getDEMarketplace,
-  postDEMarketplaces,
-  putDEMarketplaces,
-  deleteDEMarketplace,
-} from 'api/digital-exchange/marketplaces';
+  getDigitalExchanges,
+  getDigitalExchange,
+  postDigitalExchange,
+  putDigitalExchange,
+  deleteDigitalExchange,
+} from 'api/digital-exchange/digitalExchanges';
 import {
-  SET_DE_MARKETPLACES,
-  SET_SELECTED_DE_MARKETPLACE,
-  REMOVE_DE_MARKETPLACE,
-} from 'state/digital-exchange/marketplaces/types';
+  SET_DIGITAL_EXCHANGES,
+  SET_SELECTED_DIGITAL_EXCHANGE,
+  REMOVE_DIGITAL_EXCHANGE,
+} from 'state/digital-exchange/digital-exchanges/types';
+
 
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -46,9 +47,9 @@ const INITIAL_STATE = {
   },
 };
 
-const GET_DE_MARKETPLACE_PAYLOAD = GET_DE_MARKETPLACE_OK.payload;
+const DIGITAL_EXCHANGE_PAYLOAD = DIGITAL_EXCHANGE_OK.payload;
 
-jest.mock('api/digital-exchange/marketplaces');
+jest.mock('api/digital-exchange/digitalExchanges');
 
 
 describe('state/digital-exchange/marketplaces/actions', () => {
@@ -61,49 +62,49 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     store.clearActions();
   });
 
-  describe('setDEMarketplaces', () => {
-    it('test setDEMarketplaces action sets the correct type', () => {
-      action = setDEMarketplaces(LIST_DE_MARKETPLACES_OK);
-      expect(action).toHaveProperty('type', SET_DE_MARKETPLACES);
+  describe('setDigitalExchanges', () => {
+    it('test setDigitalExchanges action sets the correct type', () => {
+      action = setDigitalExchanges(LIST_DIGITAL_EXCHANGES_OK);
+      expect(action).toHaveProperty('type', SET_DIGITAL_EXCHANGES);
     });
   });
 
-  describe('setSelectedDEMarketplace', () => {
-    it('action payload contains selected marketplace', () => {
-      action = setSelectedDEMarketplace(GET_DE_MARKETPLACE_PAYLOAD);
-      expect(action).toHaveProperty('type', SET_SELECTED_DE_MARKETPLACE);
-      expect(action.payload).toHaveProperty('marketplace', GET_DE_MARKETPLACE_PAYLOAD);
+  describe('setSelectedDigitalExchange', () => {
+    it('action payload contains selected digital exchange', () => {
+      action = setSelectedDigitalExchange(DIGITAL_EXCHANGE_PAYLOAD);
+      expect(action).toHaveProperty('type', SET_SELECTED_DIGITAL_EXCHANGE);
+      expect(action.payload).toHaveProperty('digitalExchange', DIGITAL_EXCHANGE_PAYLOAD);
     });
   });
 
-  describe('removeDEMarketplace', () => {
-    it('action payload contains marketplace id', () => {
-      action = removeDEMarketplace(12);
-      expect(action).toHaveProperty('type', REMOVE_DE_MARKETPLACE);
-      expect(action.payload).toHaveProperty('marketplace', 12);
+  describe('removeDigitalExchange', () => {
+    it('action payload contains digital exchange id', () => {
+      action = removeDigitalExchange(12);
+      expect(action).toHaveProperty('type', REMOVE_DIGITAL_EXCHANGE);
+      expect(action.payload).toHaveProperty('digitalExchange', 12);
     });
   });
 
-  describe('fetchDEMarketplaces', () => {
+  describe('fetchDigitalExchanges', () => {
     beforeEach(() => {
-      getDEMarketplaces.mockImplementation(mockApi({ payload: LIST_DE_MARKETPLACES_OK }));
+      getDigitalExchanges.mockImplementation(mockApi({ payload: LIST_DIGITAL_EXCHANGES_OK }));
     });
 
-    it('fetchDEMarketplaces calls setDEMarketplaces and setPage actions', (done) => {
-      store.dispatch(fetchDEMarketplaces()).then(() => {
+    it('fetchDigitalExchanges calls setDigitalExchanges and setPage actions', (done) => {
+      store.dispatch(fetchDigitalExchanges()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', SET_DE_MARKETPLACES);
+        expect(actions[1]).toHaveProperty('type', SET_DIGITAL_EXCHANGES);
         expect(actions[2]).toHaveProperty('type', SET_PAGE);
         expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
 
-    it('fetchDEMarketplaces errors and dispatch ADD_ERRORS ', (done) => {
-      getDEMarketplaces.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(fetchDEMarketplaces()).then(() => {
+    it('fetchDigitalExchanges errors and dispatch ADD_ERRORS ', (done) => {
+      getDigitalExchanges.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchDigitalExchanges()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -115,46 +116,46 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
 
     it('marketplaces is defined and properly valued', (done) => {
-      store.dispatch(fetchDEMarketplaces()).then(() => {
+      store.dispatch(fetchDigitalExchanges()).then(() => {
         const actionPayload = store.getActions()[1].payload;
-        expect(actionPayload.digitalExchangeMarketplaces).toHaveLength(3);
-        const digitalExchangeMarketplace = actionPayload.digitalExchangeMarketplaces[0];
-        expect(digitalExchangeMarketplace.name).toBe('Entando');
+        expect(actionPayload.digitalExchanges).toHaveLength(3);
+        const digitalExchange = actionPayload.digitalExchanges[0];
+        expect(digitalExchange.name).toBe('Entando');
         done();
       }).catch(done.fail);
     });
   });
 
-  describe('fetchDEMarketplace', () => {
+  describe('fetchDigitalExchange', () => {
     beforeEach(() => {
-      getDEMarketplace.mockImplementation(mockApi({ payload: GET_DE_MARKETPLACE_OK }));
+      getDigitalExchange.mockImplementation(mockApi({ payload: DIGITAL_EXCHANGE_OK }));
     });
 
-    it('fetchDEMarketplace calls setSelectedDEMarketplace', (done) => {
-      store.dispatch(fetchDEMarketplace(12)).then(() => {
-        expect(getDEMarketplace).toHaveBeenCalledWith(12);
+    it('fetchDigitalExchange calls setSelectedDigitalExchange', (done) => {
+      store.dispatch(fetchDigitalExchange(12)).then(() => {
+        expect(getDigitalExchange).toHaveBeenCalledWith(12);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', SET_SELECTED_DE_MARKETPLACE);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_DIGITAL_EXCHANGE);
         done();
       }).catch(done.fail);
     });
 
     it('prepopulates the form if initForm is true', (done) => {
-      store.dispatch(fetchDEMarketplace(12, true)).then(() => {
-        expect(getDEMarketplace).toHaveBeenCalledWith(12);
+      store.dispatch(fetchDigitalExchange(12, true)).then(() => {
+        expect(getDigitalExchange).toHaveBeenCalledWith(12);
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', SET_SELECTED_DE_MARKETPLACE);
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_DIGITAL_EXCHANGE);
         expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
         expect(actions[1]).toHaveProperty('meta.form', 'deSettings');
         done();
       }).catch(done.fail);
     });
 
-    it('fetchDEMarketplace errors and dispatch ADD_ERRORS ', (done) => {
-      getDEMarketplace.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(fetchDEMarketplace(12)).then(() => {
+    it('fetchDigitalExchange errors and dispatch ADD_ERRORS ', (done) => {
+      getDigitalExchange.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchDigitalExchange(12)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -164,24 +165,24 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
 
     it('marketplace is defined and properly valued', (done) => {
-      store.dispatch(fetchDEMarketplace(12)).then(() => {
+      store.dispatch(fetchDigitalExchange(12)).then(() => {
         const actionPayload = store.getActions()[0].payload;
-        expect(actionPayload).toHaveProperty('digitalExchangeMarketplace.name', 'Entando');
+        expect(actionPayload).toHaveProperty('digitalExchange.name', 'Entando');
         done();
       }).catch(done.fail);
     });
   });
 
-  describe('sendDeleteDEMarketplaces', () => {
-    it('calls deleteDEMarketplace, ADD_TOAST and removeDEMarketplace actions', (done) => {
-      deleteDEMarketplace.mockImplementationOnce(mockApi({ errors: false }));
-      store.dispatch(sendDeleteDEMarketplaces(12)).then(() => {
-        expect(deleteDEMarketplace).toHaveBeenCalledWith(12);
+  describe('sendDeleteDigitalExchange', () => {
+    it('calls deleteDigitalExchange, ADD_TOAST and removeDigitalExchange actions', (done) => {
+      deleteDigitalExchange.mockImplementationOnce(mockApi({ errors: false }));
+      store.dispatch(sendDeleteDigitalExchange(12)).then(() => {
+        expect(deleteDigitalExchange).toHaveBeenCalledWith(12);
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', REMOVE_DE_MARKETPLACE);
+        expect(actions[0]).toHaveProperty('type', REMOVE_DIGITAL_EXCHANGE);
         expect(actions[0]).toHaveProperty('payload');
-        expect(actions[0]).toHaveProperty('payload.marketplace', 12);
+        expect(actions[0]).toHaveProperty('payload.digitalExchange', 12);
         expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('payload');
         expect(actions[1]).toHaveProperty('payload.type', TOAST_SUCCESS);
@@ -190,9 +191,9 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
 
     it('should dispatch toastError when it errors', (done) => {
-      deleteDEMarketplace.mockImplementationOnce(mockApi({ errors: true }));
-      store.dispatch(sendDeleteDEMarketplaces(12)).then(() => {
-        expect(deleteDEMarketplace).toHaveBeenCalled();
+      deleteDigitalExchange.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendDeleteDigitalExchange(12)).then(() => {
+        expect(deleteDigitalExchange).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
@@ -203,12 +204,12 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
   });
 
-  describe('sendPostDEMarketplaces', () => {
-    it('calls postDEMarketplaces, ADD_TOAST and gotoRoute actions ', (done) => {
+  describe('sendPostDigitalExchange', () => {
+    it('calls postDigitalExchange, ADD_TOAST and gotoRoute actions ', (done) => {
       const data = { data: 1 };
-      postDEMarketplaces.mockImplementationOnce(mockApi({ errors: false }));
-      store.dispatch(sendPostDEMarketplaces(data)).then(() => {
-        expect(postDEMarketplaces).toHaveBeenCalledWith(data);
+      postDigitalExchange.mockImplementationOnce(mockApi({ errors: false }));
+      store.dispatch(sendPostDigitalExchange(data)).then(() => {
+        expect(postDigitalExchange).toHaveBeenCalledWith(data);
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
@@ -220,9 +221,9 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
 
     it('should dispatch toastError when it errors', (done) => {
-      postDEMarketplaces.mockImplementationOnce(mockApi({ errors: true }));
-      store.dispatch(sendPostDEMarketplaces()).then(() => {
-        expect(postDEMarketplaces).toHaveBeenCalled();
+      postDigitalExchange.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendPostDigitalExchange()).then(() => {
+        expect(postDigitalExchange).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
@@ -233,12 +234,12 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
   });
 
-  describe('sendPutDEMarketplaces', () => {
-    it('calls putDEMarketplaces, ADD_TOAST and gotoRoute actions ', (done) => {
+  describe('sendPutDigitalExchange', () => {
+    it('calls putDigitalExchange, ADD_TOAST and gotoRoute actions ', (done) => {
       const data = { id: 12, data: 1 };
-      putDEMarketplaces.mockImplementationOnce(mockApi({ errors: false }));
-      store.dispatch(sendPutDEMarketplaces(data)).then(() => {
-        expect(putDEMarketplaces).toHaveBeenCalledWith(data);
+      putDigitalExchange.mockImplementationOnce(mockApi({ errors: false }));
+      store.dispatch(sendPutDigitalExchange(data)).then(() => {
+        expect(putDigitalExchange).toHaveBeenCalledWith(data);
         expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
@@ -250,9 +251,9 @@ describe('state/digital-exchange/marketplaces/actions', () => {
     });
 
     it('should dispatch toastError when it errors', (done) => {
-      putDEMarketplaces.mockImplementationOnce(mockApi({ errors: true }));
-      store.dispatch(sendPutDEMarketplaces()).then(() => {
-        expect(putDEMarketplaces).toHaveBeenCalled();
+      putDigitalExchange.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendPutDigitalExchange()).then(() => {
+        expect(putDigitalExchange).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);

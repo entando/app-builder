@@ -1,19 +1,20 @@
-import { LIST_DE_MARKETPLACES_OK } from 'test/mocks/digital-exchange/marketplaces';
+import { LIST_DIGITAL_EXCHANGES_OK } from 'test/mocks/digital-exchange/digitalExchanges';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getDEMarketplaces = (page = { page: 1, pageSize: 10 }, params = '') => (
+// eslint-disable-next-line import/prefer-default-export
+export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
       uri: `/api/digitalExchange/exchanges${params}`,
       method: METHODS.GET,
-      mockResponse: LIST_DE_MARKETPLACES_OK,
+      mockResponse: LIST_DIGITAL_EXCHANGES_OK,
       useAuthentication: true,
     },
     page,
   )
 );
 
-export const getDEMarketplace = id => (
+export const getDigitalExchange = id => (
   makeRequest({
     uri: `/api/digitalExchange/exchanges/${id}`,
     method: METHODS.GET,
@@ -22,7 +23,7 @@ export const getDEMarketplace = id => (
   })
 );
 
-export const deleteDEMarketplace = id => (
+export const deleteDigitalExchange = id => (
   makeRequest({
     uri: `/api/digitalExchange/exchanges/${id}`,
     method: METHODS.DELETE,
@@ -31,7 +32,7 @@ export const deleteDEMarketplace = id => (
   })
 );
 
-export const postDEMarketplaces = marketplace => (
+export const postDigitalExchange = marketplace => (
   makeRequest({
     uri: '/api/digitalExchange/exchanges',
     method: METHODS.POST,
@@ -41,7 +42,7 @@ export const postDEMarketplaces = marketplace => (
   })
 );
 
-export const putDEMarketplaces = marketplace => (
+export const putDigitalExchange = marketplace => (
   makeRequest({
     uri: `/api/digitalExchange/exchanges/${marketplace.id}`,
     method: METHODS.PUT,

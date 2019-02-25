@@ -1,10 +1,10 @@
 import 'test/enzyme-init';
 
 import { mapDispatchToProps } from 'ui/digital-exchange/settings/add/SettingsAddFormContainer';
-import { sendPostDEMarketplaces } from 'state/digital-exchange/marketplaces/actions';
+import { sendPostDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
 
-jest.mock('state/digital-exchange/marketplaces/actions', () => ({
-  sendPostDEMarketplaces: jest.fn(),
+jest.mock('state/digital-exchange/digital-exchanges/actions', () => ({
+  sendPostDigitalExchange: jest.fn(),
 }));
 
 
@@ -25,7 +25,7 @@ describe('SettingsListContainer', () => {
       const data = { id: 12 };
       props.onSubmit(data);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(sendPostDEMarketplaces).toHaveBeenCalledWith(data);
+      expect(sendPostDigitalExchange).toHaveBeenCalledWith(data);
     });
   });
 });

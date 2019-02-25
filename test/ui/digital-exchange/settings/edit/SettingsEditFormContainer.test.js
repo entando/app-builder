@@ -2,11 +2,11 @@ import 'test/enzyme-init';
 import { getParams } from '@entando/router';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/settings/edit/SettingsEditFormContainer';
-import { sendPutDEMarketplaces, fetchDEMarketplace } from 'state/digital-exchange/marketplaces/actions';
+import { sendPutDigitalExchange, fetchDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
 
-jest.mock('state/digital-exchange/marketplaces/actions', () => ({
-  sendPutDEMarketplaces: jest.fn(),
-  fetchDEMarketplace: jest.fn(),
+jest.mock('state/digital-exchange/digital-exchanges/actions', () => ({
+  sendPutDigitalExchange: jest.fn(),
+  fetchDigitalExchange: jest.fn(),
 }));
 
 
@@ -43,14 +43,14 @@ describe('SettingsListContainer', () => {
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount(12);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchDEMarketplace).toHaveBeenCalledWith(12, true);
+      expect(fetchDigitalExchange).toHaveBeenCalledWith(12, true);
     });
 
     it('should dispatch an action if onSubmit is called', () => {
       const data = { id: 11 };
       props.onSubmit(data);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(sendPutDEMarketplaces).toHaveBeenCalledWith(data);
+      expect(sendPutDigitalExchange).toHaveBeenCalledWith(data);
     });
   });
 });

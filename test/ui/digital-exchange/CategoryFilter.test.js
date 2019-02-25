@@ -9,7 +9,7 @@ import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { filterByDECategories } from 'state/digital-exchange/actions';
 
 const TEST_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
   digitalExchangeCategories: {

@@ -4,7 +4,7 @@ import { config } from '@entando/apimanager';
 import {
   navigateDECategory,
   filterByDECategories,
-  filterByDEMarketplaces,
+  filterByDigitalExchanges,
   filterByRating,
 } from 'state/digital-exchange/actions';
 import { SET_SELECTED_DE_CATEGORY } from 'state/digital-exchange/categories/types';
@@ -16,7 +16,7 @@ const mockStore = configureMockStore(middlewares);
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
 const INITIAL_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
   digitalExchangeCategories: {
@@ -59,8 +59,8 @@ describe('state/digital-exchange/actions', () => {
     }).catch(done.fail);
   });
 
-  it('filterByDEMarketplaces should call proper actions', (done) => {
-    store.dispatch(filterByDEMarketplaces()).then(() => {
+  it('filterByDigitalExchanges should call proper actions', (done) => {
+    store.dispatch(filterByDigitalExchanges()).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(5);
       expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);

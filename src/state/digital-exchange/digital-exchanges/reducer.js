@@ -1,18 +1,18 @@
 import { combineReducers } from 'redux';
 import {
-  SET_SELECTED_DE_MARKETPLACE,
-  SET_DE_MARKETPLACES,
-  REMOVE_DE_MARKETPLACE,
-} from 'state/digital-exchange/marketplaces/types';
+  SET_SELECTED_DIGITAL_EXCHANGE,
+  SET_DIGITAL_EXCHANGES,
+  REMOVE_DIGITAL_EXCHANGE,
+} from 'state/digital-exchange/digital-exchanges/types';
 
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
-    case SET_SELECTED_DE_MARKETPLACE: {
-      return action.payload.digitalExchangeMarketplace;
+    case SET_SELECTED_DIGITAL_EXCHANGE: {
+      return action.payload.digitalExchange;
     }
-    case REMOVE_DE_MARKETPLACE: {
-      return state.id === action.payload.marketplace ? {} : state;
+    case REMOVE_DIGITAL_EXCHANGE: {
+      return state.id === action.payload.digitalExchange ? {} : state;
     }
     default: return state;
   }
@@ -20,12 +20,12 @@ const selected = (state = {}, action = {}) => {
 
 const list = (state = [], action = {}) => {
   switch (action.type) {
-    case SET_DE_MARKETPLACES: {
-      return action.payload.digitalExchangeMarketplaces;
+    case SET_DIGITAL_EXCHANGES: {
+      return action.payload.digitalExchanges;
     }
-    case REMOVE_DE_MARKETPLACE: {
+    case REMOVE_DIGITAL_EXCHANGE: {
       const marketplaceIndex = state.findIndex(objectInArray => (
-        objectInArray.id === action.payload.marketplace
+        objectInArray.id === action.payload.digitalExchange
       ));
 
       if (marketplaceIndex === -1) {

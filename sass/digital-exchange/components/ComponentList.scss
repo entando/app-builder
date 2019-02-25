@@ -1,11 +1,8 @@
-.ComponentListGridView {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media (min-width: 992px) {
-    flex-direction: row;
-    align-items: normal;
+.ComponentList {
+  h1 {
+    margin: 0;
+    margin-bottom: 3px;
+    font-weight: bold;
   }
 
   &__component {
@@ -44,11 +41,6 @@
     height: 100px;
   }
 
-  h1 {
-    margin: 0;
-    margin-bottom: 3px;
-    font-weight: bold;
-  }
 
   &__date {
     display: block;
@@ -66,9 +58,6 @@
     font-size: 14px;
     font-weight: bold;
     line-height: normal;
-  }
-
-  &__install {
   }
 
   &__status {
@@ -96,5 +85,34 @@
     text-decoration-line: underline;
   }
 
+}
 
+.ComponentListListView {
+  & .ComponentList__description {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    padding-top: 5px;
+    border-top: 4px solid $color-de-component-border;
+    color: $colod-de-component-text-grey;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  & .ComponentList__install-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+  }
+}
+
+.ComponentListGridView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+    align-items: normal;
+  }
 }

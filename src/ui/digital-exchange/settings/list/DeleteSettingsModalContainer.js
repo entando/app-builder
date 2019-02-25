@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { setVisibleModal } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
-import { sendDeleteDEMarketplaces } from 'state/digital-exchange/marketplaces/actions';
+import { sendDeleteDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
 import DeleteSettingsModal from 'ui/digital-exchange/settings/list/DeleteSettingsModal';
 
 export const mapStateToProps = state => ({
@@ -10,7 +10,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onConfirmDelete: (id) => {
-    dispatch(sendDeleteDEMarketplaces(id));
+    dispatch(sendDeleteDigitalExchange(id));
     dispatch(setVisibleModal(''));
   },
 });

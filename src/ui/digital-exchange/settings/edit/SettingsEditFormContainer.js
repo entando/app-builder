@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getParams } from '@entando/router';
 
-import { sendPutDEMarketplaces, fetchDEMarketplace } from 'state/digital-exchange/marketplaces/actions';
+import { sendPutDigitalExchange, fetchDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
 import Form from 'ui/digital-exchange/settings/common/Form';
 
 export const mapStateToProps = state => ({
@@ -9,8 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (id) => { dispatch(fetchDEMarketplace(id, true)); },
-  onSubmit: (data) => { dispatch(sendPutDEMarketplaces(data)); },
+  onWillMount: (id) => { dispatch(fetchDigitalExchange(id, true)); },
+  onSubmit: (data) => { dispatch(sendPutDigitalExchange(data)); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

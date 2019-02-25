@@ -5,66 +5,66 @@ import { formattedText } from '@entando/utils';
 import { toggleLoading } from 'state/loading/actions';
 
 import {
-  SET_DE_MARKETPLACES,
-  SET_SELECTED_DE_MARKETPLACE,
-  REMOVE_DE_MARKETPLACE,
-} from 'state/digital-exchange/marketplaces/types';
+  SET_DIGITAL_EXCHANGES,
+  SET_SELECTED_DIGITAL_EXCHANGE,
+  REMOVE_DIGITAL_EXCHANGE,
+} from 'state/digital-exchange/digital-exchanges/types';
 import {
-  getDEMarketplaces,
-  getDEMarketplace,
-  postDEMarketplaces,
-  putDEMarketplaces,
-  deleteDEMarketplace,
-} from 'api/digital-exchange/marketplaces';
+  getDigitalExchanges,
+  getDigitalExchange,
+  postDigitalExchange,
+  putDigitalExchange,
+  deleteDigitalExchange,
+} from 'api/digital-exchange/digitalExchanges';
 import { setPage } from 'state/pagination/actions';
 import { ROUTE_DE_CONFIG_LIST } from 'app-init/router';
 
 
-export const setSelectedDEMarketplace = digitalExchangeMarketplace => ({
-  type: SET_SELECTED_DE_MARKETPLACE,
+export const setSelectedDigitalExchange = digitalExchange => ({
+  type: SET_SELECTED_DIGITAL_EXCHANGE,
   payload: {
-    digitalExchangeMarketplace,
+    digitalExchange,
   },
 });
 
-export const setDEMarketplaces = digitalExchangeMarketplaces => ({
-  type: SET_DE_MARKETPLACES,
+export const setDigitalExchanges = digitalExchanges => ({
+  type: SET_DIGITAL_EXCHANGES,
   payload: {
-    digitalExchangeMarketplaces,
+    digitalExchanges,
   },
 });
 
-export const removeDEMarketplace = marketplace => ({
-  type: REMOVE_DE_MARKETPLACE,
+export const removeDigitalExchange = digitalExchange => ({
+  type: REMOVE_DIGITAL_EXCHANGE,
   payload: {
-    marketplace,
+    digitalExchange,
   },
 });
 
-export const fetchDEMarketplaces = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+export const fetchDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
-    dispatch(toggleLoading('digital-exchange/marketplaces'));
-    getDEMarketplaces(page, params).then((response) => {
+    dispatch(toggleLoading('digital-exchange/list'));
+    getDigitalExchanges(page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setDEMarketplaces(data.payload));
+          dispatch(setDigitalExchanges(data.payload));
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
         }
-        dispatch(toggleLoading('digital-exchange/marketplaces'));
+        dispatch(toggleLoading('digital-exchange/list'));
         resolve();
       });
     }).catch(() => {});
   })
 );
 
-export const fetchDEMarketplace = (id, initForm = false) => dispatch => (
+export const fetchDigitalExchange = (id, initForm = false) => dispatch => (
   new Promise((resolve) => {
-    getDEMarketplace(id).then((response) => {
+    getDigitalExchange(id).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setSelectedDEMarketplace(data.payload));
+          dispatch(setSelectedDigitalExchange(data.payload));
           if (initForm) {
             dispatch(initialize('deSettings', data.payload));
           }
@@ -77,12 +77,12 @@ export const fetchDEMarketplace = (id, initForm = false) => dispatch => (
   })
 );
 
-export const sendDeleteDEMarketplaces = marketplace => dispatch => (
+export const sendDeleteDigitalExchange = marketplace => dispatch => (
   new Promise((resolve) => {
-    deleteDEMarketplace(marketplace).then((response) => {
+    deleteDigitalExchange(marketplace).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(removeDEMarketplace(marketplace));
+          dispatch(removeDigitalExchange(marketplace));
           dispatch(addToast(
             formattedText('app.deleted', null, { type: 'digital exchange', code: null }),
             TOAST_SUCCESS,
@@ -96,9 +96,9 @@ export const sendDeleteDEMarketplaces = marketplace => dispatch => (
   })
 );
 
-export const sendPostDEMarketplaces = marketplace => dispatch => (
+export const sendPostDigitalExchange = marketplace => dispatch => (
   new Promise((resolve) => {
-    postDEMarketplaces(marketplace).then((response) => {
+    postDigitalExchange(marketplace).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
@@ -115,9 +115,9 @@ export const sendPostDEMarketplaces = marketplace => dispatch => (
   })
 );
 
-export const sendPutDEMarketplaces = marketplace => dispatch => (
+export const sendPutDigitalExchange = marketplace => dispatch => (
   new Promise((resolve) => {
-    putDEMarketplaces(marketplace).then((response) => {
+    putDigitalExchange(marketplace).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(

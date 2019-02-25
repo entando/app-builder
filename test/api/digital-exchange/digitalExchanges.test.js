@@ -1,37 +1,37 @@
 import 'test/enzyme-init';
 import {
-  getDEMarketplaces,
-  getDEMarketplace,
-  deleteDEMarketplace,
-  postDEMarketplaces,
-  putDEMarketplaces,
-} from 'api/digital-exchange/marketplaces';
+  getDigitalExchanges,
+  getDigitalExchange,
+  deleteDigitalExchange,
+  postDigitalExchange,
+  putDigitalExchange,
+} from 'api/digital-exchange/digitalExchanges';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { LIST_DE_MARKETPLACES_OK } from 'test/mocks/digital-exchange/marketplaces';
+import { LIST_DIGITAL_EXCHANGES_OK } from 'test/mocks/digital-exchange/digitalExchanges';
 
-jest.unmock('api/digital-exchange/marketplaces');
+jest.unmock('api/digital-exchange/digitalExchanges');
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
-describe('api/digital-exchange/marketplaces', () => {
+describe('api/digital-exchange/digitalExchanges', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('getDEMarketplaces', () => {
+  describe('getDigitalExchanges', () => {
     it('returns a promise', () => {
-      expect(getDEMarketplaces()).toBeInstanceOf(Promise);
+      expect(getDigitalExchanges()).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
-      getDEMarketplaces();
+      getDigitalExchanges();
       expect(makeRequest).toHaveBeenCalledWith(
         {
           uri: '/api/digitalExchange/exchanges',
           method: METHODS.GET,
-          mockResponse: LIST_DE_MARKETPLACES_OK,
+          mockResponse: LIST_DIGITAL_EXCHANGES_OK,
           useAuthentication: true,
         },
         {
@@ -42,13 +42,13 @@ describe('api/digital-exchange/marketplaces', () => {
     });
   });
 
-  describe('getDEMarketplace', () => {
+  describe('getDigitalExchange', () => {
     it('returns a promise', () => {
-      expect(getDEMarketplace(12)).toBeInstanceOf(Promise);
+      expect(getDigitalExchange(12)).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
-      getDEMarketplace(12);
+      getDigitalExchange(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/digitalExchange/exchanges/12',
         method: METHODS.GET,
@@ -58,13 +58,13 @@ describe('api/digital-exchange/marketplaces', () => {
     });
   });
 
-  describe('deleteDEMarketplace', () => {
+  describe('deleteDigitalExchange', () => {
     it('returns a promise', () => {
-      expect(deleteDEMarketplace(12)).toBeInstanceOf(Promise);
+      expect(deleteDigitalExchange(12)).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
-      deleteDEMarketplace(12);
+      deleteDigitalExchange(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/digitalExchange/exchanges/12',
         method: METHODS.DELETE,
@@ -74,14 +74,14 @@ describe('api/digital-exchange/marketplaces', () => {
     });
   });
 
-  describe('postDEMarketplaces', () => {
+  describe('postDigitalExchange', () => {
     it('returns a promise', () => {
-      expect(postDEMarketplaces({})).toBeInstanceOf(Promise);
+      expect(postDigitalExchange({})).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
       const body = { active: false };
-      postDEMarketplaces(body);
+      postDigitalExchange(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/digitalExchange/exchanges',
         method: METHODS.POST,
@@ -92,14 +92,14 @@ describe('api/digital-exchange/marketplaces', () => {
     });
   });
 
-  describe('putDEMarketplaces', () => {
+  describe('putDigitalExchange', () => {
     it('returns a promise', () => {
-      expect(putDEMarketplaces({})).toBeInstanceOf(Promise);
+      expect(putDigitalExchange({})).toBeInstanceOf(Promise);
     });
 
     it('makes the correct request', () => {
       const body = { id: 12 };
-      putDEMarketplaces(body);
+      putDigitalExchange(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/digitalExchange/exchanges/12',
         method: METHODS.PUT,
