@@ -42,7 +42,7 @@ config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
 
 
 const INITIAL_STATE = {
-  digitalExchangeMarketplaces: {
+  digitalExchanges: {
     list: [],
   },
 };
@@ -52,7 +52,7 @@ const DIGITAL_EXCHANGE_PAYLOAD = DIGITAL_EXCHANGE_OK.payload;
 jest.mock('api/digital-exchange/digitalExchanges');
 
 
-describe('state/digital-exchange/marketplaces/actions', () => {
+describe('state/digital-exchange/digital-exchanges/actions', () => {
   let store;
   let action;
 
@@ -115,7 +115,7 @@ describe('state/digital-exchange/marketplaces/actions', () => {
       }).catch(done.fail);
     });
 
-    it('marketplaces is defined and properly valued', (done) => {
+    it('digitalExchanges is defined and properly valued', (done) => {
       store.dispatch(fetchDigitalExchanges()).then(() => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.digitalExchanges).toHaveLength(3);
@@ -164,7 +164,7 @@ describe('state/digital-exchange/marketplaces/actions', () => {
       }).catch(done.fail);
     });
 
-    it('marketplace is defined and properly valued', (done) => {
+    it('digitalExchanges is defined and properly valued', (done) => {
       store.dispatch(fetchDigitalExchange(12)).then(() => {
         const actionPayload = store.getActions()[0].payload;
         expect(actionPayload).toHaveProperty('digitalExchange.name', 'Entando');
