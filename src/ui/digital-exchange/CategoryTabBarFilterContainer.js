@@ -9,8 +9,8 @@ import { formattedText } from '@entando/utils';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => (dispatch(fetchDECategories())),
-  onSelect: (category) => {
-    dispatch(navigateDECategory(category));
+  onSelect: (filter) => {
+    dispatch(navigateDECategory(filter));
   },
 });
 
@@ -33,9 +33,9 @@ export const mapStateToProps = (state) => {
   };
 };
 
-const CategoryTabsContainer = connect(
+const CategoryTabBarFilterContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(TabBarFilter);
 
-export default CategoryTabsContainer;
+export default CategoryTabBarFilterContainer;

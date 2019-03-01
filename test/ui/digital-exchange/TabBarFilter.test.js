@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
-import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabsContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabBarFilterContainer';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';

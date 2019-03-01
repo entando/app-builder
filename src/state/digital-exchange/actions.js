@@ -3,6 +3,7 @@ import { getDEFilters } from 'state/digital-exchange/components/selectors';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 import { setSelectedDECategory } from 'state/digital-exchange/categories/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
+import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/components/const';
 import { fetchDEComponents, setDEFilter } from 'state/digital-exchange/components/actions';
 
 export const navigateDECategory = (category, paginationMetadata) => (dispatch, getState) => {
@@ -18,6 +19,13 @@ export const navigateDECategory = (category, paginationMetadata) => (dispatch, g
   const params = filters[category] ? convertToQueryString(filters[category]) : '';
   return dispatch(fetchDEComponents(paginationMetadata, params));
 };
+
+
+export const navigateDEExtraTab = (extraFilter, paginationMetadata) => (dispatch) => {
+  const params = convertToQueryString(DE_COMPONENTS_EXTRA_FILTERS[extraFilter]);
+  return dispatch(fetchDEComponents(paginationMetadata, params));
+};
+
 
 const applyFilter = (filter, paginationMetadata) => (dispatch, getState) => {
   const selectedCategory = getSelectedDECategory(getState());

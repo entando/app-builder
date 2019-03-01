@@ -49,12 +49,16 @@ TabBarFilter.propTypes = {
     label: PropTypes.string,
   })).isRequired,
   selectedFilterTab: PropTypes.string.isRequired,
-  onWillMount: PropTypes.func.isRequired,
+  onWillMount: PropTypes.func,
   onSelect: PropTypes.func.isRequired,
   attributes: PropTypes.shape({
     componentClass: PropTypes.string,
     componentId: PropTypes.string,
   }).isRequired,
+};
+
+TabBarFilter.defaultProps = {
+  onWillMount: () => {},
 };
 
 export default TabBarFilter;
