@@ -79,6 +79,9 @@ export const ROUTE_FILE_BROWSER_CREATE_FOLDER = 'fileBrowserPageCreateFolder';
 export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = 'fileBrowserPageCreateFile';
 export const ROUTE_FILE_BROWSER_EDIT_TEXT_FILE = 'fileBrowserPageEditFile';
 export const ROUTE_DE_COMPONENT_LIST = 'digitalExchangeComponentList';
+export const ROUTE_DE_CONFIG_LIST = 'digitalExchangeConfigList';
+export const ROUTE_DE_CONFIG_EDIT = 'digitalExchangeConfigEdit';
+export const ROUTE_DE_CONFIG_ADD = 'digitalExchangeConfigAdd';
 
 routerConfig(
   store,
@@ -161,6 +164,9 @@ routerConfig(
       { name: ROUTE_FILE_BROWSER_CREATE_TEXT_FILE, path: '/file-browser/create-text-file' },
       { name: ROUTE_FILE_BROWSER_EDIT_TEXT_FILE, path: '/file-browser/edit/:filename' },
       { name: ROUTE_DE_COMPONENT_LIST, path: '/digital-exchange' },
+      { name: ROUTE_DE_CONFIG_LIST, path: '/digital-exchange/configuration' },
+      { name: ROUTE_DE_CONFIG_EDIT, path: '/digital-exchange/configuration/edit/:server' },
+      { name: ROUTE_DE_CONFIG_ADD, path: '/digital-exchange/configuration/add' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

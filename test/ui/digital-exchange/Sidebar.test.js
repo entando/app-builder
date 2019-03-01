@@ -10,7 +10,7 @@ import Sidebar from 'ui/digital-exchange/Sidebar';
 describe('Sidebar', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<Sidebar />);
+    component = shallow(<Sidebar showCategoryFilter={false} />);
   });
 
   it('renders without crashing', () => {

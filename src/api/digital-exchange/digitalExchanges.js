@@ -13,3 +13,41 @@ export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '
     page,
   )
 );
+
+export const getDigitalExchange = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${id}`,
+    method: METHODS.GET,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);
+
+export const deleteDigitalExchange = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${id}`,
+    method: METHODS.DELETE,
+    mockResponse: {},
+    useAuthentication: true,
+  })
+);
+
+export const postDigitalExchange = marketplace => (
+  makeRequest({
+    uri: '/api/digitalExchange/exchanges',
+    method: METHODS.POST,
+    mockResponse: {},
+    useAuthentication: true,
+    body: marketplace,
+  })
+);
+
+export const putDigitalExchange = marketplace => (
+  makeRequest({
+    uri: `/api/digitalExchange/exchanges/${marketplace.id}`,
+    method: METHODS.PUT,
+    mockResponse: {},
+    useAuthentication: true,
+    body: marketplace,
+  })
+);

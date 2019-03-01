@@ -41,6 +41,12 @@ import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
+// digital exchange
+import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
 
 import {
   ROUTE_HOME,
@@ -78,6 +84,11 @@ import {
   ROUTE_PAGE_MODEL_DETAIL,
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
+  // digital exchange
+  ROUTE_DE_COMPONENT_LIST,
+  ROUTE_DE_CONFIG_LIST,
+  ROUTE_DE_CONFIG_EDIT,
+  ROUTE_DE_CONFIG_ADD,
 } from 'app-init/router';
 
 describe('App', () => {
@@ -268,6 +279,59 @@ describe('App', () => {
   it('route to page file browser page create folder', () => {
     const component = shallow(<App route={ROUTE_FILE_BROWSER_CREATE_FOLDER} username="admin" />);
     expect(component.contains(<CreateFolderFormContainer />)).toBe(true);
+  });
+
+  describe('digital exchange', () => {
+    beforeAll(() => {
+      jest.resetModules();
+      delete process.env.DIGITAL_EXCHANGE_UI_ENABLED;
+    });
+
+    describe('digital exchange disabled', () => {
+      it('routes to the disable page on ROUTE_DE_COMPONENT_LIST', () => {
+        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />);
+        expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
+      });
+
+      it('routes to the disable page on ROUTE_DE_CONFIG_LIST', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />);
+        expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
+      });
+
+      it('routes to the disable page on ROUTE_DE_CONFIG_EDIT', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />);
+        expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
+      });
+
+      it('routes to the disable page on ROUTE_DE_CONFIG_ADD', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />);
+        expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
+      });
+    });
+
+    describe('digital exchange enabled', () => {
+      beforeAll(() => {
+        process.env.DIGITAL_EXCHANGE_UI_ENABLED = true;
+      });
+
+      it('routes to the component list page page on ROUTE_DE_COMPONENT_LIST', () => {
+        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />);
+        expect(component.contains(<ComponentListPage />)).toBe(true);
+      });
+
+      it('routes to the component list page page on ROUTE_DE_CONFIG_LIST', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />);
+        expect(component.contains(<SettingsListPage />)).toBe(true);
+      });
+      it('routes to the component list page page on ROUTE_DE_CONFIG_EDIT', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />);
+        expect(component.contains(<SettingsEditPage />)).toBe(true);
+      });
+      it('routes to the component list page page on ROUTE_DE_CONFIG_ADD', () => {
+        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />);
+        expect(component.contains(<SettingsAddPage />)).toBe(true);
+      });
+    });
   });
 
   it('default route', () => {

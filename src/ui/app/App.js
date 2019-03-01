@@ -77,6 +77,9 @@ import {
   ROUTE_FILE_BROWSER_EDIT_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
   ROUTE_DE_COMPONENT_LIST,
+  ROUTE_DE_CONFIG_LIST,
+  ROUTE_DE_CONFIG_EDIT,
+  ROUTE_DE_CONFIG_ADD,
 } from 'app-init/router';
 
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -136,8 +139,12 @@ import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
+// digital exchange
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -236,6 +243,12 @@ const getRouteComponent = (route) => {
     case ROUTE_FILE_BROWSER_EDIT_TEXT_FILE: return <EditTextFilePage />;
     case ROUTE_DE_COMPONENT_LIST: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
       <ComponentListPage /> : <ComponentListPageDisabled />;
+    case ROUTE_DE_CONFIG_LIST: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      <SettingsListPage /> : <ComponentListPageDisabled />;
+    case ROUTE_DE_CONFIG_EDIT: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      <SettingsEditPage /> : <ComponentListPageDisabled />;
+    case ROUTE_DE_CONFIG_ADD: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      <SettingsAddPage /> : <ComponentListPageDisabled />;
     default: return <NotFoundPage />;
   }
 };

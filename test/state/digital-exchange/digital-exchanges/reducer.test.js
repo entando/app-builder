@@ -2,6 +2,7 @@ import reducer from 'state/digital-exchange/digital-exchanges/reducer';
 import {
   setSelectedDigitalExchange,
   setDigitalExchanges,
+  removeDigitalExchange,
 } from 'state/digital-exchange/digital-exchanges/actions';
 import {
   LIST_DIGITAL_EXCHANGES_OK,
@@ -22,8 +23,20 @@ describe('digital-exchange/digital-exchanges/reducer', () => {
       newState = reducer(state, setSelectedDigitalExchange(DIGITAL_EXCHANGE_OK));
     });
 
-    it('should define the digital exchange payload', () => {
+    it('should define the digitalExchange payload', () => {
       expect(newState).toHaveProperty('selected', DIGITAL_EXCHANGE_OK);
+    });
+
+    describe('after action removeDigitalExchange', () => {
+      it('should not remove the digital exchange if the ID does not match', () => {
+        newState = reducer(newState, removeDigitalExchange('madeup'));
+        expect(newState).toHaveProperty('selected', DIGITAL_EXCHANGE_OK);
+      });
+
+      it('should remove the digital exchange if the ID matches', () => {
+        newState = reducer(newState, removeDigitalExchange(DIGITAL_EXCHANGE_OK.id));
+        expect(newState).toHaveProperty('selected', {});
+      });
     });
   });
 
@@ -34,9 +47,28 @@ describe('digital-exchange/digital-exchanges/reducer', () => {
     });
 
     describe('after action setDigitalExchanges', () => {
+      let newState;
+
       it('should define digital exchange list', () => {
-        const newState = reducer({}, setDigitalExchanges(LIST_DIGITAL_EXCHANGES_OK));
+        newState = reducer({}, setDigitalExchanges(LIST_DIGITAL_EXCHANGES_OK));
         expect(newState.list).toHaveLength(3);
+      });
+
+      describe('after action removeDigitalExchange', () => {
+        it('should not remove the digital exchange if the ID does not match', () => {
+          newState = reducer(newState, removeDigitalExchange('madeup'));
+          expect(newState.list).toHaveLength(3);
+          expect(newState.list[0]).toHaveProperty('id', 'entando');
+          expect(newState.list[1]).toHaveProperty('id', 'redhat');
+          expect(newState.list[2]).toHaveProperty('id', 'leonardo');
+        });
+
+        it('should remove the digital exchange if the ID matches', () => {
+          newState = reducer(newState, removeDigitalExchange('redhat'));
+          expect(newState.list).toHaveLength(2);
+          expect(newState.list[0]).toHaveProperty('id', 'entando');
+          expect(newState.list[1]).toHaveProperty('id', 'leonardo');
+        });
       });
     });
   });
