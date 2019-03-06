@@ -8,7 +8,7 @@ import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-// import { filterByDECategories } from 'state/digital-exchange/actions';
+import { navigateDECategory } from 'state/digital-exchange/actions';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 
 
@@ -41,6 +41,10 @@ jest.mock('state/digital-exchange/categories/actions', () => ({
 
 jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
+}));
+
+jest.mock('state/digital-exchange/actions', () => ({
+  navigateDECategory: jest.fn(),
 }));
 
 const dispatchMock = jest.fn();
@@ -98,11 +102,11 @@ describe('TabBarFilter', () => {
       expect(fetchDECategories).toHaveBeenCalled();
     });
 
-    // it('should dispatch an action if filter is checked', () => {
-    //   const categories = ['category'];
-    //   props.onSelect({ categories });
-    //   expect(dispatchMock).toHaveBeenCalled();
-    //   expect(filterByDECategories).toHaveBeenCalledWith(categories);
-    // });
+    it('should dispatch an action if filter is checked', () => {
+      const category = ['category'];
+      props.onSelect(category);
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(navigateDECategory).toHaveBeenCalledWith(category);
+    });
   });
 });
