@@ -2,8 +2,9 @@ import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { getDEFilters } from 'state/digital-exchange/components/selectors';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 import { setSelectedDECategory } from 'state/digital-exchange/categories/actions';
+import { setSelectedDEExtraFilter } from 'state/digital-exchange/extra-filters/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
-import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/components/const';
+import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
 import { fetchDEComponents, setDEFilter } from 'state/digital-exchange/components/actions';
 
 export const navigateDECategory = (category, paginationMetadata) => (dispatch, getState) => {
@@ -20,8 +21,8 @@ export const navigateDECategory = (category, paginationMetadata) => (dispatch, g
   return dispatch(fetchDEComponents(paginationMetadata, params));
 };
 
-
 export const navigateDEExtraTab = (extraFilter, paginationMetadata) => (dispatch) => {
+  dispatch(setSelectedDEExtraFilter(extraFilter));
   const params = convertToQueryString(DE_COMPONENTS_EXTRA_FILTERS[extraFilter]);
   return dispatch(fetchDEComponents(paginationMetadata, params));
 };

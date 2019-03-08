@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
+import { getSelectedDEExtraFilter } from 'state/digital-exchange/extra-filters/selectors';
 import { navigateDEExtraTab } from 'state/digital-exchange/actions';
-import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
-import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/components/const';
+import { fetchDEExtraFilters } from 'state/digital-exchange/extra-filters/actions';
+import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
 import { formattedText } from '@entando/utils';
 
 
 export const mapDispatchToProps = dispatch => ({
+  onWillMount: () => (dispatch(fetchDEExtraFilters())),
   onSelect: (tab) => {
     dispatch(navigateDEExtraTab(tab));
   },
@@ -19,10 +20,12 @@ export const mapStateToProps = (state) => {
     value: tab,
   }));
 
+  const selectedFilterTab = getSelectedDEExtraFilter(state)
+    || Object.keys(DE_COMPONENTS_EXTRA_FILTERS)[0];
 
   return {
     filterTabs,
-    selectedFilterTab: getSelectedDECategory(state) || ALL_CATEGORIES_CATEGORY,
+    selectedFilterTab,
     attributes: {
       componentClass: 'ExtraTabBarFilter',
       componentId: 'de-extra-tab-bar-filter',

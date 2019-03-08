@@ -21,7 +21,7 @@ const TEST_STATE = {
   },
   digitalExchangeCategories: {
     list: LIST_DE_CATEGORIES_OK,
-    selected: {},
+    selected: 'pageModel',
   },
   digitalExchangeComponents: {
     list: [],
@@ -30,6 +30,7 @@ const TEST_STATE = {
     filters: {},
   },
 };
+
 
 jest.mock('state/digital-exchange/actions', () => ({
   filterByDECategories: jest.fn(),
@@ -84,6 +85,7 @@ describe('TabBarFilter', () => {
       },
     });
   });
+
 
   describe('mapDispatchToProps', () => {
     let props;
