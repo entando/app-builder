@@ -38,19 +38,25 @@ const URL_STYLE = [
 const HELP_TEXT_APPENDBASEURL = 'pageSettings.appendBaseUrl.help';
 const appendBaseUrl = () => (
   <Popover id="appendBaseUrl-switch">
-    <p><FormattedMessage id={HELP_TEXT_APPENDBASEURL} /></p>
+    <p>
+      <FormattedMessage id={HELP_TEXT_APPENDBASEURL} />
+    </p>
   </Popover>
 );
 const HELP_TEXT_JSESSION = 'pageSettings.jsession.help';
 const jsession = () => (
   <Popover id="jsession-switch">
-    <p><FormattedMessage id={HELP_TEXT_JSESSION} /></p>
+    <p>
+      <FormattedMessage id={HELP_TEXT_JSESSION} />
+    </p>
   </Popover>
 );
 const HELP_TEXT_BASEURL = 'pageSettings.baseUrl.help';
 const baseUrl = () => (
   <Popover id="baseUrl-switch">
-    <p><FormattedMessage id={HELP_TEXT_BASEURL} /></p>
+    <p>
+      <FormattedMessage id={HELP_TEXT_BASEURL} />
+    </p>
   </Popover>
 );
 
@@ -78,42 +84,35 @@ export class PageSettingsFormBody extends Component {
               <Field
                 component={RenderSelectInput}
                 options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.homepage" />
-              }
+                label={<FormLabel labelId="pageSettings.input.homepage" />}
                 name="homePageCode"
                 mandatory
               />
               <Field
                 component={RenderSelectInput}
                 options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.500" />
-              }
+                label={<FormLabel labelId="pageSettings.input.500" />}
                 name="errorPageCode"
                 mandatory
               />
               <Field
                 component={RenderSelectInput}
                 options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.proceed" />
-              }
+                label={<FormLabel labelId="pageSettings.input.proceed" />}
                 name="loginPageCode"
                 mandatory
               />
               <Field
                 component={RenderSelectInput}
                 options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.404" />
-              }
+                label={<FormLabel labelId="pageSettings.input.404" />}
                 name="notFoundPageCode"
                 mandatory
               />
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.baseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.baseURL" />
+                  &nbsp;
                   <OverlayTrigger
                     overlay={appendBaseUrl()}
                     placement="top"
@@ -124,7 +123,7 @@ export class PageSettingsFormBody extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <label htmlFor="1" >
+                  <label htmlFor="1">
                     <Field
                       component={RenderRadioInput}
                       toggleElement={BASE_URL_TYPES}
@@ -136,7 +135,8 @@ export class PageSettingsFormBody extends Component {
 
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.appendBaseURL" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.appendBaseURL" />
+                  &nbsp;
                   <OverlayTrigger
                     overlay={baseUrl()}
                     placement="top"
@@ -147,13 +147,11 @@ export class PageSettingsFormBody extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <Field
-                    component={SwitchRenderer}
-                    name="baseUrlContext"
-                  />
+                  <Field component={SwitchRenderer} name="baseUrlContext" />
                 </Col>
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.jsession" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.jsession" />
+                  &nbsp;
                   <OverlayTrigger
                     overlay={jsession()}
                     placement="top"
@@ -164,16 +162,14 @@ export class PageSettingsFormBody extends Component {
                   </OverlayTrigger>
                 </Col>
                 <Col xs={4}>
-                  <Field
-                    component={SwitchRenderer}
-                    name="useJsessionId"
-                  />
+                  <Field component={SwitchRenderer} name="useJsessionId" />
                 </Col>
               </div>
 
               <div className="form-group">
                 <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.languageBroswer" />&nbsp;
+                  <FormattedMessage id="pageSettings.input.languageBroswer" />
+                  &nbsp;
                 </Col>
                 <Col xs={4}>
                   <Field
@@ -194,7 +190,6 @@ export class PageSettingsFormBody extends Component {
                     name="urlStyle"
                   />
                 </Col>
-
               </div>
             </fieldset>
             <div className="form-group">
@@ -206,7 +201,6 @@ export class PageSettingsFormBody extends Component {
                 >
                   <FormattedMessage id="app.save" />
                 </button>
-
               </Col>
             </div>
           </Col>
@@ -227,8 +221,6 @@ PageSettingsFormBody.propTypes = {
 
 PageSettingsFormBody.defaultProps = {
   onWillMount: () => {},
-  invalid: false,
-  submitting: false,
   options: [],
 };
 
