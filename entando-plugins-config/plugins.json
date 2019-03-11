@@ -1,1 +1,4 @@
-[]
+[{
+  "name": "entando-plugin-dashboard",
+  "path": "../entando-components/plugins/entando-plugin-dashboard/app-builder"
+}]

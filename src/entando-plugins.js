@@ -3,5 +3,15 @@
 //          Any change to this file will be overwritten when importing plugins.
 // -----------------------------------------------------------------------------
 
+import plugin0 from 'entando-plugin-dashboard/dist';
+
+
+import 'entando-plugin-dashboard/dist/index.css';
+
+
 const plugins = [];
+
+plugins.push(plugin0);
+
+
 export default plugins;
