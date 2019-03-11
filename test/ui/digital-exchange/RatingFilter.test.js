@@ -30,6 +30,10 @@ describe('RatingFilter', () => {
     expect(component.exists()).toEqual(true);
   });
 
+  it('should render by default 5 rating filter items', () => {
+    expect(component.find('RatingFilterItem')).toHaveLength(5);
+  });
+
   it('should select a filter item', () => {
     component.instance().toggleRatingFilter(3);
     expect(onSelect).toHaveBeenCalledWith(3);
