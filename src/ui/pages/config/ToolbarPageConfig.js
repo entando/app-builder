@@ -14,8 +14,13 @@ class ToolbarPageConfig extends Component {
 
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
+    const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
     if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
+    }
+    if (this.props.fixedView) {
+      classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-fixed');
+      classScrollContainer.push('ToolbarPageConfig__drawer-pf-container-fixed');
     }
     const container = this.props.content === WIDGET_LIST ?
       <ContentWidgetContainer /> :
@@ -51,7 +56,19 @@ class ToolbarPageConfig extends Component {
           </span>
         </span>
         <div className="panel-group">
-          <div className="ToolbarPageConfig__drawer-pf-container" >
+          <div
+            className={classScrollContainer.join(' ')}
+            onMouseEnter={(
+              () => {
+                document.body.style.overflow = 'hidden';
+              }
+            )}
+            onMouseLeave={(
+              () => {
+                document.body.style.overflow = 'auto';
+              }
+            )}
+          >
             {container}
           </div>
         </div>
@@ -65,6 +82,7 @@ ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
   changeContent: PropTypes.func,
   content: PropTypes.string,
+  fixedView: PropTypes.bool,
   toggleExpanded: PropTypes.bool,
   toggleContentToolbar: PropTypes.func,
 };
@@ -73,6 +91,7 @@ ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
   changeContent: PropTypes.noop,
   content: WIDGET_LIST,
+  fixedView: false,
   toggleExpanded: false,
   toggleContentToolbar: PropTypes.noop,
 };

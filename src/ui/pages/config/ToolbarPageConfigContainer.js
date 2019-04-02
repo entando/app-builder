@@ -5,8 +5,9 @@ import { toggleContent, toggleContentToolbarExpanded } from 'state/page-config/a
 import { getContent, getToolbarExpanded } from 'state/page-config/selectors';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, ownProps) => ({
   content: getContent(state),
+  fixedView: ownProps ? ownProps.fixedView : false,
   toggleExpanded: getToolbarExpanded(state),
 });
 

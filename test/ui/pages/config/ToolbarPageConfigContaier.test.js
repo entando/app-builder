@@ -74,6 +74,7 @@ describe('ToolbarPageConfigContainer', () => {
         expect(mapStateToProps(TEST_STATE)).toEqual({
           content: WIDGET_LIST,
           toggleExpanded: true,
+          fixedView: false,
         });
       });
     });
