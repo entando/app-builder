@@ -1,10 +1,14 @@
 import { connect } from 'react-redux';
 import ComponentInstallActions from 'ui/digital-exchange/components/common/ComponentInstallActions';
-import { installDEComponent } from 'state/digital-exchange/components/actions';
-import { getDEComponentInstallationStatus } from 'state/digital-exchange/components/selectors';
+import { installDEComponent, uninstallDEComponent } from 'state/digital-exchange/components/actions';
+import {
+  getDEComponentInstallationStatus,
+  getDEComponentUninstallStatus,
+} from 'state/digital-exchange/components/selectors';
 
 export const mapStateToProps = (state, props) => ({
   installationStatus: getDEComponentInstallationStatus(state, props),
+  uninstallStatus: getDEComponentUninstallStatus(state, props),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -12,8 +16,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(installDEComponent(component));
   },
   onUninstall: (componentId) => {
-    // eslint-disable-next-line no-console
-    console.log(componentId);
+    dispatch(uninstallDEComponent(componentId));
   },
 });
 

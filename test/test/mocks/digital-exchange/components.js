@@ -97,3 +97,20 @@ export const COMPONENT_INSTALLATION_COMPLETED = {
   ...componentInstallation,
   status: 'COMPLETED',
 };
+
+const jobType = 'UNINSTALL';
+
+export const COMPONENT_UNINSTALLATION_CREATED = {
+  ...COMPONENT_INSTALLATION_CREATED,
+  jobType,
+};
+
+export const COMPONENT_UNINSTALLATION_IN_PROGRESS = {
+  ...COMPONENT_INSTALLATION_IN_PROGRESS,
+  jobType,
+};
+
+export const COMPONENT_UNINSTALLATION_COMPLETED = {
+  ...COMPONENT_INSTALLATION_COMPLETED,
+  jobType,
+};

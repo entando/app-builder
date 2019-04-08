@@ -1,4 +1,11 @@
-import { GET_DE_COMPONENT_OK, LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_CREATED, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/digital-exchange/components';
+import {
+  GET_DE_COMPONENT_OK,
+  LIST_DE_COMPONENTS_OK,
+  COMPONENT_INSTALLATION_CREATED,
+  COMPONENT_INSTALLATION_IN_PROGRESS,
+  COMPONENT_UNINSTALLATION_CREATED,
+  COMPONENT_UNINSTALLATION_IN_PROGRESS,
+} from 'test/mocks/digital-exchange/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getDEComponent = id => (
@@ -37,6 +44,25 @@ export const getDEComponentInstall = id => (
     uri: `/api/digitalExchange/install/${id}`,
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_IN_PROGRESS,
+    useAuthentication: true,
+  })
+);
+
+export const postDEComponentUninstall = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/uninstall/${id}`,
+    body: {},
+    method: METHODS.POST,
+    mockResponse: COMPONENT_UNINSTALLATION_CREATED,
+    useAuthentication: true,
+  })
+);
+
+export const getDEComponentUninstall = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/uninstall/${id}`,
+    method: METHODS.GET,
+    mockResponse: COMPONENT_UNINSTALLATION_IN_PROGRESS,
     useAuthentication: true,
   })
 );
