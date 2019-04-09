@@ -25,25 +25,32 @@ const selected = (state = {}, action = {}) => {
   }
 };
 
+const findAndSetInstall = (state, componentId, installed) => {
+  const componentIndex = state.findIndex(objectInArray => (
+    objectInArray.id === componentId
+  ));
+
+  if (componentIndex === -1) {
+    return state;
+  }
+  const newState = state.slice();
+  newState.splice(componentIndex, 1, {
+    ...state[componentIndex],
+    installed,
+  });
+  return newState;
+};
+
 const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENTS: {
       return action.payload.digitalExchangeComponents;
     }
     case FINISH_COMPONENT_INSTALLATION: {
-      const componentIndex = state.findIndex(objectInArray => (
-        objectInArray.id === action.payload.id
-      ));
-
-      if (componentIndex === -1) {
-        return state;
-      }
-      const newState = state.slice();
-      newState.splice(componentIndex, 1, {
-        ...state[componentIndex],
-        installed: true,
-      });
-      return newState;
+      return findAndSetInstall(state, action.payload.id, true);
+    }
+    case FINISH_COMPONENT_UNINSTALLATION: {
+      return findAndSetInstall(state, action.payload.id, false);
     }
     default: return state;
   }
