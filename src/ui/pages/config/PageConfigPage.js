@@ -159,47 +159,80 @@ class PageConfigPage extends Component {
                   </Col>
                 </Row>
 
-                <Row className="PageConfigPage__toolbar-row PageConfigPage__trans-btns">
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
                   <Col xs={12}>
                     <ButtonToolbar className="pull-left">
                       <Button
-                        className="PageConfigPage__info-btn PageConfigPage__icon-btn"
+                        className={[
+                          'PageConfigPage__info-btn',
+                          'PageConfigPage__btn-icon',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="default"
                         onClick={this.toggleInfoTable}
                       >
-                        <span><Icon name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'} /><FormattedMessage id="app.info" /></span>
+                        <span>
+                          <Icon
+                            name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
+                            className="PageConfigPage__btn-icon--svg"
+                          />
+                          <FormattedMessage id="app.info" />
+                        </span>
                       </Button>
                     </ButtonToolbar>
-                    <ButtonToolbar className="pull-right further">
+                    <ButtonToolbar className="pull-right">
                       <a
                         href={previewUri}
                         title={formattedText('app.preview', 'Preview')}
-                        className="btn btn-default"
+                        className={[
+                          'btn',
+                          'btn-default',
+                          'PageConfigPage__btn--trans',
+                          'PageConfigPage__btn--addml',
+                        ].join(' ')}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <FormattedMessage id="app.preview" />
                       </a>
                       <Button
-                        className="PageConfigPage__icon-btn-right"
+                        className={[
+                          'PageConfigPage__btn-icon--right',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="warning"
                         onClick={restoreConfig}
                         disabled={!pageDiffersFromPublished}
                       >
-                        <span><FormattedMessage id="app.restore" /><Icon name="undo" /></span>
+                        <span>
+                          <FormattedMessage id="app.restore" />
+                          <Icon
+                            name="undo"
+                            className="PageConfigPage__btn-icon--svg-right"
+                          />
+                        </span>
                       </Button>
                       <Button
-                        className="PageConfigPage__icon-btn-right"
+                        className={[
+                          'PageConfigPage__btn-icon--right',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="default"
                         onClick={showPageSettings}
                       >
-                        <span><FormattedMessage id="pageSettings.title" /><Icon name="cogs" /></span>
+                        <span>
+                          <FormattedMessage id="pageSettings.title" />
+                          <Icon
+                            name="cogs"
+                            className="PageConfigPage__btn-icon--svg-right"
+                          />
+                        </span>
                       </Button>
                     </ButtonToolbar>
                   </Col>
                 </Row>
                 <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
-                  <Col xs={8} lg={9} className="tbar">
+                  <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
                     <ButtonToolbar className="pull-left">
                       { defaultConfigBtn }
                     </ButtonToolbar>
