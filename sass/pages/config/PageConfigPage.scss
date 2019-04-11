@@ -1,15 +1,62 @@
 .PageConfigPage {
   &__title {
-    font-weight: bold;
+    color: $color-pf-blue-300;
+    font-size: 12px;
+    font-weight: normal;
   }
 
   &__toolbar-row {
     margin-bottom: 5px;
   }
 
-  &__settings-btn {
+  &__trans-btns {
+    padding-bottom: 5px;
+
+    .btn { // sass-lint:disable-line force-element-nesting class-name-format
+      border: 0;
+      outline: none;
+      background: transparent;
+      box-shadow: none;
+
+      &:hover, // sass-lint:disable-line nesting-depth
+      &:active {
+        color: $color-pf-blue-300;
+      }
+    }
+
+    .further .btn { // sass-lint:disable-line force-element-nesting class-name-format
+      margin-left: 36px;
+    }
+  }
+
+  &__icon-btn {
+    span .fa { // sass-lint:disable-line force-element-nesting class-name-format
+      padding-right: 8px;
+    }
+  }
+
+  &__icon-btn-right {
     span .fa { // sass-lint:disable-line force-element-nesting class-name-format
       padding-left: 8px;
+    }
+  }
+
+  &__bottom-options {
+    position: fixed;
+    right: 67px;
+    bottom: 5px;
+    left: 5px;
+    z-index: 11;
+
+    .pull-right .btn:not(.dropdown-toggle) { // sass-lint:disable-line force-element-nesting class-name-format
+      margin-left: 20px;
+    }
+
+    .tbar { // sass-lint:disable-line force-element-nesting class-name-format
+      margin: 0 20px;
+      padding: 8px 14px;
+      background-color: $color-pf-white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
     }
   }
 

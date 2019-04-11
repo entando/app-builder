@@ -159,62 +159,47 @@ class PageConfigPage extends Component {
                   </Col>
                 </Row>
 
-                <Row className="PageConfigPage__toolbar-row">
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__trans-btns">
                   <Col xs={12}>
                     <ButtonToolbar className="pull-left">
                       <Button
-                        className="PageConfigPage__info-btn"
+                        className="PageConfigPage__info-btn PageConfigPage__icon-btn"
                         bsStyle="default"
                         onClick={this.toggleInfoTable}
                       >
-                        <FormattedMessage id="app.info" />
+                        <span><Icon name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'} /><FormattedMessage id="app.info" /></span>
                       </Button>
+                    </ButtonToolbar>
+                    <ButtonToolbar className="pull-right further">
                       <a
                         href={previewUri}
                         title={formattedText('app.preview', 'Preview')}
-                        className="btn btn-primary"
+                        className="btn btn-default"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <FormattedMessage id="app.preview" />
                       </a>
-                    </ButtonToolbar>
-                    <ButtonToolbar className="pull-right">
                       <Button
-                        className="PageConfigPage__settings-btn"
+                        className="PageConfigPage__icon-btn-right"
+                        bsStyle="warning"
+                        onClick={restoreConfig}
+                        disabled={!pageDiffersFromPublished}
+                      >
+                        <span><FormattedMessage id="app.restore" /><Icon name="undo" /></span>
+                      </Button>
+                      <Button
+                        className="PageConfigPage__icon-btn-right"
                         bsStyle="default"
                         onClick={showPageSettings}
                       >
                         <span><FormattedMessage id="pageSettings.title" /><Icon name="cogs" /></span>
                       </Button>
-                      <Button
-                        bsStyle="warning"
-                        onClick={restoreConfig}
-                        disabled={!pageDiffersFromPublished}
-                      >
-                        <FormattedMessage id="app.restore" />
-                      </Button>
-                      <Button
-                        className="PageConfigPage__unpublish-btn"
-                        bsStyle="default"
-                        onClick={unpublishPage}
-                        disabled={!pageIsPublished}
-                      >
-                        <FormattedMessage id="app.unpublish" />
-                      </Button>
-                      <Button
-                        className="PageConfigPage__publish-btn"
-                        bsStyle="success"
-                        onClick={publishPage}
-                        disabled={pageIsPublished}
-                      >
-                        <FormattedMessage id="app.publish" />
-                      </Button>
                     </ButtonToolbar>
                   </Col>
                 </Row>
-                <Row className="PageConfigPage__toolbar-row">
-                  <Col xs={12}>
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
+                  <Col xs={8} lg={9} className="tbar">
                     <ButtonToolbar className="pull-left">
                       { defaultConfigBtn }
                     </ButtonToolbar>
@@ -244,6 +229,22 @@ class PageConfigPage extends Component {
                           {TRANSLATED_NO}
                         </MenuItem>
                       </DropdownButton>
+                      <Button
+                        className="PageConfigPage__unpublish-btn"
+                        bsStyle="default"
+                        onClick={unpublishPage}
+                        disabled={!pageIsPublished}
+                      >
+                        <FormattedMessage id="app.unpublish" />
+                      </Button>
+                      <Button
+                        className="PageConfigPage__publish-btn btn-primary"
+                        bsStyle="success"
+                        onClick={publishPage}
+                        disabled={pageIsPublished}
+                      >
+                        <FormattedMessage id="app.publish" />
+                      </Button>
                     </div>
                   </Col>
                 </Row>
