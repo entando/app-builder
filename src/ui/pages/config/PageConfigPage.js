@@ -40,7 +40,13 @@ class PageConfigPage extends Component {
         const windowScrollTop = window.scrollY;
         if (windowScrollTop > parentOffsetTop) {
           if (!this.state.sticky) {
-            this.setState({ sticky: true });
+            let widgetSize = {};
+            if ('getBoundingClientRect' in sideWidget) {
+              widgetSize = sideWidget.getBoundingClientRect();
+              const { height } = widgetSize;
+              widgetSize = { height: `${height + 80}px` };
+            }
+            this.setState({ widgetSize, sticky: true });
           }
         } else if (this.state.sticky) {
           this.setState({ sticky: false });
@@ -301,9 +307,16 @@ class PageConfigPage extends Component {
                 className={sideWidgetClassAr.join(' ')}
                 ref={(el) => { this.sideWidget = el; }}
               >
-                <ToolbarPageConfigContainer />
+                <ToolbarPageConfigContainer fixedView={this.state.sticky} />
                 <SinglePageSettingsModalContainer />
               </Col>
+              { !this.state.sticky ? null : (
+                <Col
+                  xs={4}
+                  lg={3}
+                  style={this.state.widgetSize}
+                />
+              )}
             </Row>
           </Grid>
         </InternalPage>
