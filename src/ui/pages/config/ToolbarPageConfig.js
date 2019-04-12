@@ -59,14 +59,10 @@ class ToolbarPageConfig extends Component {
           <div
             className={classScrollContainer.join(' ')}
             onMouseEnter={(
-              () => {
-                document.body.style.overflow = 'hidden';
-              }
+              () => document.body.classList.add('no-scroll')
             )}
             onMouseLeave={(
-              () => {
-                document.body.style.overflow = 'auto';
-              }
+              () => document.body.classList.remove('no-scroll')
             )}
           >
             {container}

@@ -91,4 +91,9 @@ $fa-square-o: "\f096";
   flex-wrap: wrap;
 }
 
+// use this when removing body scrolls if you want to focus certain scroll event on an element
+.no-scroll {
+  overflow: hidden;
+}
+
 // sass-lint:enable class-name-format

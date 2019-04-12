@@ -276,7 +276,7 @@ class PageConfigPage extends Component {
                 <ToolbarPageConfigContainer fixedView={this.state.sticky} />
                 <SinglePageSettingsModalContainer />
               </Col>
-              { !this.state.widgetSize ? null : (
+              { !this.state.sticky ? null : (
                 <Col
                   xs={4}
                   lg={3}
