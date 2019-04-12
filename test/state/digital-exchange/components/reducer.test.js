@@ -6,6 +6,8 @@ import {
   setDEFilter,
   startComponentInstallation,
   finishComponentInstallation,
+  startComponentUninstall,
+  finishComponentUninstall,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
@@ -314,6 +316,43 @@ describe('Digital Exchange components reducer', () => {
         expect(Object.keys(state.installation)).toHaveLength(1);
         expect(state).not.toHaveProperty('installation.testing');
       });
+    });
+  });
+});
+
+describe('uninstallation reducer', () => {
+  let state = reducer();
+
+  it('should return an object', () => {
+    expect(state).toHaveProperty('uninstallation', {});
+  });
+
+  describe('after the startComponentUninstall action', () => {
+    it('should return the object with another component id in it', () => {
+      state = reducer(state, startComponentUninstall('test3'));
+      state = reducer(state, startComponentUninstall('test4'));
+      expect(state).toHaveProperty('uninstallation');
+      expect(Object.keys(state.uninstallation)).toHaveLength(2);
+      expect(state).toHaveProperty('uninstallation.test3');
+      expect(state).toHaveProperty('uninstallation.test3', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+      expect(state).toHaveProperty('uninstallation.test4');
+      expect(state).toHaveProperty('uninstallation.test4', DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+    });
+  });
+
+  describe('after the finishComponentUninstall action', () => {
+    it('should remove the component object if one is found', () => {
+      state = reducer(state, finishComponentUninstall('test3'));
+      expect(state).toHaveProperty('uninstallation');
+      expect(Object.keys(state.uninstallation)).toHaveLength(1);
+      expect(state).not.toHaveProperty('uninstallation.test3');
+    });
+
+    it('should not remove any component object if none is found', () => {
+      state = reducer(state, finishComponentUninstall('testing'));
+      expect(state).toHaveProperty('uninstallation');
+      expect(Object.keys(state.uninstallation)).toHaveLength(1);
+      expect(state).not.toHaveProperty('uninstallation.testing');
     });
   });
 });

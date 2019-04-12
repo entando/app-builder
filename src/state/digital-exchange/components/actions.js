@@ -5,10 +5,19 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  START_COMPONENT_UNINSTALLATION,
+  FINISH_COMPONENT_UNINSTALLATION,
 } from 'state/digital-exchange/components/types';
 import { addErrors } from '@entando/messages';
 import pollApi from 'helpers/pollApi';
-import { getDEComponent, getDEComponents, postDEComponentInstall, getDEComponentInstall } from 'api/digital-exchange/components';
+import {
+  getDEComponent,
+  getDEComponents,
+  postDEComponentInstall,
+  getDEComponentInstall,
+  postDEComponentUninstall,
+  getDEComponentUninstall,
+} from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { DE_COMPONENT_INSTALLATION_STATUS_COMPLETED } from 'state/digital-exchange/components/const';
@@ -56,6 +65,20 @@ export const finishComponentInstallation = id => ({
   },
 });
 
+export const startComponentUninstall = id => ({
+  type: START_COMPONENT_UNINSTALLATION,
+  payload: {
+    id,
+  },
+});
+
+export const finishComponentUninstall = id => ({
+  type: FINISH_COMPONENT_UNINSTALLATION,
+  payload: {
+    id,
+  },
+});
+
 // thunks
 
 export const installDEComponent = component => dispatch => (
@@ -70,6 +93,32 @@ export const installDEComponent = component => dispatch => (
           )
             .then(() => {
               dispatch(finishComponentInstallation(component.id));
+            })
+            .catch(({ errors }) => {
+              dispatch(addErrors(errors.map(err => err.message)));
+            })
+            .finally(() => resolve());
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          resolve();
+        }
+      });
+    }).catch(() => {});
+  })
+);
+
+export const uninstallDEComponent = componentId => dispatch => (
+  new Promise((resolve) => {
+    postDEComponentUninstall(componentId).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(startComponentUninstall(componentId));
+          pollApi(
+            () => getDEComponentUninstall(componentId),
+            ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+          )
+            .then(() => {
+              dispatch(finishComponentUninstall(componentId));
             })
             .catch(({ errors }) => {
               dispatch(addErrors(errors.map(err => err.message)));

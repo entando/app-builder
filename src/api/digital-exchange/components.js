@@ -1,4 +1,11 @@
-import { GET_DE_COMPONENT_OK, LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_CREATED, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/digital-exchange/components';
+import {
+  GET_DE_COMPONENT_OK,
+  LIST_DE_COMPONENTS_OK,
+  COMPONENT_INSTALLATION_CREATED,
+  COMPONENT_INSTALLATION_COMPLETED,
+  COMPONENT_UNINSTALLATION_CREATED,
+  COMPONENT_UNINSTALLATION_COMPLETED,
+} from 'test/mocks/digital-exchange/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getDEComponent = id => (
@@ -32,11 +39,33 @@ export const postDEComponentInstall = component => (
   })
 );
 
+// should you need to test (un)installation in-progress using mock mode,
+// you can set the mockResponse to `COMPONENT_INSTALLATION_IN_PROGRESS` to fully test the process.
+// do this the same for `getDEComponentUninstall` API
 export const getDEComponentInstall = id => (
   makeRequest({
     uri: `/api/digitalExchange/install/${id}`,
     method: METHODS.GET,
-    mockResponse: COMPONENT_INSTALLATION_IN_PROGRESS,
+    mockResponse: COMPONENT_INSTALLATION_COMPLETED,
+    useAuthentication: true,
+  })
+);
+
+export const postDEComponentUninstall = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/uninstall/${id}`,
+    body: {},
+    method: METHODS.POST,
+    mockResponse: COMPONENT_UNINSTALLATION_CREATED,
+    useAuthentication: true,
+  })
+);
+
+export const getDEComponentUninstall = id => (
+  makeRequest({
+    uri: `/api/digitalExchange/uninstall/${id}`,
+    method: METHODS.GET,
+    mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     useAuthentication: true,
   })
 );
