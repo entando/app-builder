@@ -25,7 +25,8 @@ const selected = (state = {}, action = {}) => {
   }
 };
 
-const findAndSetInstall = (state, componentId, installed) => {
+
+const markComponentInstalledStatus = (state, componentId, installed) => {
   const componentIndex = state.findIndex(objectInArray => (
     objectInArray.id === componentId
   ));
@@ -41,16 +42,23 @@ const findAndSetInstall = (state, componentId, installed) => {
   return newState;
 };
 
+const markComponentAsInstalled = (state, componentId) => (
+  markComponentInstalledStatus(state, componentId, true)
+);
+const markComponentAsUninstalled = (state, componentId) => (
+  markComponentInstalledStatus(state, componentId, false)
+);
+
 const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENTS: {
       return action.payload.digitalExchangeComponents;
     }
     case FINISH_COMPONENT_INSTALLATION: {
-      return findAndSetInstall(state, action.payload.id, true);
+      return markComponentAsInstalled(state, action.payload.id);
     }
     case FINISH_COMPONENT_UNINSTALLATION: {
-      return findAndSetInstall(state, action.payload.id, false);
+      return markComponentAsUninstalled(state, action.payload.id);
     }
     default: return state;
   }
