@@ -37,7 +37,7 @@ class SearchBar extends Component {
   }
 
   handleKeyUp(e) {
-    if (e.keyCode === 13) this.handleSubmit();
+    if (e.key === 'Enter') this.handleSubmit();
   }
 
   handleSubmit() {
