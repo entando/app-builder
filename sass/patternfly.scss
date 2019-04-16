@@ -59,6 +59,24 @@ $fa-square-o: "\f096";
   background: $color-pf-black-100;
 }
 
+.btn-transparent {
+  border: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+
+  &:hover,
+  &:active {
+    color: $color-pf-blue-300;
+  }
+
+  &:hover,
+  &:active,
+  &:disabled {
+    background: transparent !important; // sass-lint:disable-line no-important
+  }
+}
+
 .CodeMirror {
   border: 1px solid $color-pf-black-400;
 }
