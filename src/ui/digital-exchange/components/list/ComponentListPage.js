@@ -28,10 +28,10 @@ const ComponentListPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={8} >
+        <Col md={9} >
           <SearchBarContainer />
         </Col>
-        <Col md={4} >
+        <Col md={3} >
           <div className="pull-right">
             <ComponentListViewModeSwitcherContainer />
           </div>

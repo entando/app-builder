@@ -1,19 +1,15 @@
 import { connect } from 'react-redux';
-
+import { filterBySearch } from 'state/digital-exchange/actions';
 import SearchBar from 'ui/digital-exchange/components/SearchBar';
 
 
-export const mapDispatchToProps = ({
-  onSubmit: value => ({
-    type: 'search',
-    payload: value,
-  }),
+export const mapDispatchToProps = dispatch => ({
+  onSubmit: (value) => {
+    dispatch(filterBySearch(value));
+  },
 });
 
-export const mapStateToProps = null;
-
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SearchBar);
