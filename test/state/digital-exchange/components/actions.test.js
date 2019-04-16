@@ -10,22 +10,29 @@ import {
   setDEComponents,
   fetchDEComponents,
   installDEComponent,
+  uninstallDEComponent,
   setSelectedDEComponent,
   startComponentInstallation,
   finishComponentInstallation,
+  startComponentUninstall,
+  finishComponentUninstall,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
   GET_DE_COMPONENT_OK,
   COMPONENT_INSTALLATION_CREATED,
   COMPONENT_INSTALLATION_COMPLETED,
+  COMPONENT_UNINSTALLATION_CREATED,
+  COMPONENT_UNINSTALLATION_COMPLETED,
 } from 'test/mocks/digital-exchange/components';
-import { getDEComponents, postDEComponentInstall } from 'api/digital-exchange/components';
+import { getDEComponents, postDEComponentInstall, postDEComponentUninstall } from 'api/digital-exchange/components';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  START_COMPONENT_UNINSTALLATION,
+  FINISH_COMPONENT_UNINSTALLATION,
 } from 'state/digital-exchange/components/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -70,6 +77,24 @@ describe('state/digital-exchange/components/actions', () => {
     it('returns the correct object', () => {
       action = finishComponentInstallation('my-component');
       expect(action).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.id', 'my-component');
+    });
+  });
+
+  describe('startComponentUninstall', () => {
+    it('returns the correct object', () => {
+      action = startComponentUninstall('my-component');
+      expect(action).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.id', 'my-component');
+    });
+  });
+
+  describe('finishComponentUninstall', () => {
+    it('returns the correct object', () => {
+      action = finishComponentUninstall('my-component');
+      expect(action).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
       expect(action).toHaveProperty('payload');
       expect(action).toHaveProperty('payload.id', 'my-component');
     });
@@ -123,6 +148,55 @@ describe('state/digital-exchange/components/actions', () => {
     it('installDEComponent dispatches proper actions if error', (done) => {
       postDEComponentInstall.mockImplementation(mockApi({ errors: true }));
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('uninstallDEComponent', () => {
+    beforeEach(() => {
+      postDEComponentUninstall.mockImplementation(mockApi({
+        payload: COMPONENT_UNINSTALLATION_CREATED,
+      }));
+    });
+
+    it('uninstallDEComponent dispatches proper actions if component is installed', (done) => {
+      pollApi.mockImplementation(mockApi({
+        payload: COMPONENT_UNINSTALLATION_COMPLETED,
+      }));
+
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[1]).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('uninstallDEComponent dispatches proper actions if timeout', (done) => {
+      /* eslint-disable prefer-promise-reject-errors */
+      pollApi.mockImplementation(() => new Promise((resolve, reject) => (
+        reject({
+          errors: [{ message: 'Polling timed out' }],
+        })
+      )));
+
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('uninstallDEComponent dispatches proper actions if error', (done) => {
+      postDEComponentUninstall.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

@@ -2,6 +2,7 @@ import { LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/
 import {
   getDEComponents, getDEComponentSelected,
   getDEComponentList, getDEComponentInstallationStatus,
+  getDEComponentUninstallStatus,
 } from 'state/digital-exchange/components/selectors';
 import { DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/digital-exchange/components/const';
 
@@ -10,11 +11,16 @@ const installation = {
   [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 };
 
+const uninstallation = {
+  [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+};
+
 const MOCK_STATE = {
   digitalExchangeComponents: {
     list,
     selected: list[0],
     installation,
+    uninstallation,
   },
 };
 
@@ -41,5 +47,15 @@ describe('state/digital-exchange/components/selectors', () => {
     };
     const installationStatus = getDEComponentInstallationStatus(MOCK_STATE, props);
     expect(installationStatus).toEqual(DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+  });
+
+  it('verify getDEComponentUninstallStatus selector', () => {
+    const props = {
+      component: {
+        id: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
+      },
+    };
+    const uninstallStatus = getDEComponentUninstallStatus(MOCK_STATE, props);
+    expect(uninstallStatus).toEqual(DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
   });
 });

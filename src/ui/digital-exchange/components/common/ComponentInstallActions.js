@@ -13,10 +13,11 @@ const installationProgressStatuses = [
 const ComponentInstallActions = ({
   component,
   installationStatus,
+  uninstallStatus,
   onInstall,
   onUninstall,
 }) => (
-  component.installed ? (
+  (component.installed && uninstallStatus === '') ? (
     <div className="ComponentList__install-actions">
       <span className="ComponentList__status">
         <FormattedMessage id="digitalExchange.components.installed" />
@@ -32,7 +33,8 @@ const ComponentInstallActions = ({
   ) : (
     <div className="ComponentList__install-actions">
       {
-        installationProgressStatuses.includes(installationStatus) ? (
+        (installationProgressStatuses.includes(installationStatus) ||
+        installationProgressStatuses.includes(uninstallStatus)) ? (
           <ProgressBar
             active
             bsStyle="success"
@@ -55,6 +57,7 @@ const ComponentInstallActions = ({
 ComponentInstallActions.propTypes = {
   component: componentType.isRequired,
   installationStatus: PropTypes.string.isRequired,
+  uninstallStatus: PropTypes.string.isRequired,
   onInstall: PropTypes.func.isRequired,
   onUninstall: PropTypes.func.isRequired,
 };

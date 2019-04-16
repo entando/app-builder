@@ -40,7 +40,13 @@ class PageConfigPage extends Component {
         const windowScrollTop = window.scrollY;
         if (windowScrollTop > parentOffsetTop) {
           if (!this.state.sticky) {
-            this.setState({ sticky: true });
+            let widgetSize = {};
+            if ('getBoundingClientRect' in sideWidget) {
+              widgetSize = sideWidget.getBoundingClientRect();
+              const { height } = widgetSize;
+              widgetSize = { height: `${height + 80}px` };
+            }
+            this.setState({ widgetSize, sticky: true });
           }
         } else if (this.state.sticky) {
           this.setState({ sticky: false });
@@ -159,62 +165,80 @@ class PageConfigPage extends Component {
                   </Col>
                 </Row>
 
-                <Row className="PageConfigPage__toolbar-row">
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
                   <Col xs={12}>
                     <ButtonToolbar className="pull-left">
                       <Button
-                        className="PageConfigPage__info-btn"
+                        className={[
+                          'PageConfigPage__info-btn',
+                          'PageConfigPage__btn-icon',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="default"
                         onClick={this.toggleInfoTable}
                       >
-                        <FormattedMessage id="app.info" />
+                        <span>
+                          <Icon
+                            name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
+                            className="PageConfigPage__btn-icon--svg"
+                          />
+                          <FormattedMessage id="app.info" />
+                        </span>
                       </Button>
+                    </ButtonToolbar>
+                    <ButtonToolbar className="pull-right">
                       <a
                         href={previewUri}
                         title={formattedText('app.preview', 'Preview')}
-                        className="btn btn-primary"
+                        className={[
+                          'btn',
+                          'btn-default',
+                          'PageConfigPage__btn--trans',
+                          'PageConfigPage__btn--addml',
+                        ].join(' ')}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <FormattedMessage id="app.preview" />
                       </a>
-                    </ButtonToolbar>
-                    <ButtonToolbar className="pull-right">
                       <Button
-                        className="PageConfigPage__settings-btn"
-                        bsStyle="default"
-                        onClick={showPageSettings}
-                      >
-                        <span><FormattedMessage id="pageSettings.title" /><Icon name="cogs" /></span>
-                      </Button>
-                      <Button
+                        className={[
+                          'PageConfigPage__btn-icon--right',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="warning"
                         onClick={restoreConfig}
                         disabled={!pageDiffersFromPublished}
                       >
-                        <FormattedMessage id="app.restore" />
+                        <span>
+                          <FormattedMessage id="app.restore" />
+                          <Icon
+                            name="undo"
+                            className="PageConfigPage__btn-icon--svg-right"
+                          />
+                        </span>
                       </Button>
                       <Button
-                        className="PageConfigPage__unpublish-btn"
+                        className={[
+                          'PageConfigPage__btn-icon--right',
+                          'PageConfigPage__btn--trans',
+                        ].join(' ')}
                         bsStyle="default"
-                        onClick={unpublishPage}
-                        disabled={!pageIsPublished}
+                        onClick={showPageSettings}
                       >
-                        <FormattedMessage id="app.unpublish" />
-                      </Button>
-                      <Button
-                        className="PageConfigPage__publish-btn"
-                        bsStyle="success"
-                        onClick={publishPage}
-                        disabled={pageIsPublished}
-                      >
-                        <FormattedMessage id="app.publish" />
+                        <span>
+                          <FormattedMessage id="pageSettings.title" />
+                          <Icon
+                            name="cogs"
+                            className="PageConfigPage__btn-icon--svg-right"
+                          />
+                        </span>
                       </Button>
                     </ButtonToolbar>
                   </Col>
                 </Row>
-                <Row className="PageConfigPage__toolbar-row">
-                  <Col xs={12}>
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
+                  <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
                     <ButtonToolbar className="pull-left">
                       { defaultConfigBtn }
                     </ButtonToolbar>
@@ -244,6 +268,22 @@ class PageConfigPage extends Component {
                           {TRANSLATED_NO}
                         </MenuItem>
                       </DropdownButton>
+                      <Button
+                        className="PageConfigPage__unpublish-btn"
+                        bsStyle="default"
+                        onClick={unpublishPage}
+                        disabled={!pageIsPublished}
+                      >
+                        <FormattedMessage id="app.unpublish" />
+                      </Button>
+                      <Button
+                        className="PageConfigPage__publish-btn btn-primary"
+                        bsStyle="success"
+                        onClick={publishPage}
+                        disabled={pageIsPublished}
+                      >
+                        <FormattedMessage id="app.publish" />
+                      </Button>
                     </div>
                   </Col>
                 </Row>
@@ -267,9 +307,16 @@ class PageConfigPage extends Component {
                 className={sideWidgetClassAr.join(' ')}
                 ref={(el) => { this.sideWidget = el; }}
               >
-                <ToolbarPageConfigContainer />
+                <ToolbarPageConfigContainer fixedView={this.state.sticky} />
                 <SinglePageSettingsModalContainer />
               </Col>
+              { !this.state.sticky ? null : (
+                <Col
+                  xs={4}
+                  lg={3}
+                  style={this.state.widgetSize}
+                />
+              )}
             </Row>
           </Grid>
         </InternalPage>

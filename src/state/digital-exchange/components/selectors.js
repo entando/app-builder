@@ -42,3 +42,7 @@ export const getDEComponentSelected = createSelector(
 export const getDEComponentInstallationStatus = (state, props) => (
   get(state, `digitalExchangeComponents.installation[${props.component.id}]`, '')
 );
+
+export const getDEComponentUninstallStatus = (state, props) => (
+  get(state, `digitalExchangeComponents.uninstallation[${props.component.id}]`, '')
+);

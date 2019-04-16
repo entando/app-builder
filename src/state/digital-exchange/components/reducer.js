@@ -7,6 +7,8 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  START_COMPONENT_UNINSTALLATION,
+  FINISH_COMPONENT_UNINSTALLATION,
 } from 'state/digital-exchange/components/types';
 
 import {
@@ -23,25 +25,40 @@ const selected = (state = {}, action = {}) => {
   }
 };
 
+
+const markComponentInstalledStatus = (state, componentId, installed) => {
+  const componentIndex = state.findIndex(objectInArray => (
+    objectInArray.id === componentId
+  ));
+
+  if (componentIndex === -1) {
+    return state;
+  }
+  const newState = state.slice();
+  newState.splice(componentIndex, 1, {
+    ...state[componentIndex],
+    installed,
+  });
+  return newState;
+};
+
+const markComponentAsInstalled = (state, componentId) => (
+  markComponentInstalledStatus(state, componentId, true)
+);
+const markComponentAsUninstalled = (state, componentId) => (
+  markComponentInstalledStatus(state, componentId, false)
+);
+
 const list = (state = [], action = {}) => {
   switch (action.type) {
     case SET_DE_COMPONENTS: {
       return action.payload.digitalExchangeComponents;
     }
     case FINISH_COMPONENT_INSTALLATION: {
-      const componentIndex = state.findIndex(objectInArray => (
-        objectInArray.id === action.payload.id
-      ));
-
-      if (componentIndex === -1) {
-        return state;
-      }
-      const newState = state.slice();
-      newState.splice(componentIndex, 1, {
-        ...state[componentIndex],
-        installed: true,
-      });
-      return newState;
+      return markComponentAsInstalled(state, action.payload.id);
+    }
+    case FINISH_COMPONENT_UNINSTALLATION: {
+      return markComponentAsUninstalled(state, action.payload.id);
     }
     default: return state;
   }
@@ -150,10 +167,26 @@ const installation = (state = {}, action = {}) => {
   }
 };
 
+const uninstallation = (state = {}, action = {}) => {
+  switch (action.type) {
+    case START_COMPONENT_UNINSTALLATION: {
+      return {
+        ...state,
+        [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+      };
+    }
+    case FINISH_COMPONENT_UNINSTALLATION: {
+      return { ...omit(state, action.payload.id) };
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
   filters,
   componentListViewMode,
   installation,
+  uninstallation,
 });

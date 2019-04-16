@@ -1,16 +1,65 @@
 .PageConfigPage {
   &__title {
-    font-weight: bold;
+    color: $color-pf-blue-300;
+    font-size: 12px;
+    font-weight: normal;
   }
 
   &__toolbar-row {
     margin-bottom: 5px;
   }
 
-  &__settings-btn {
-    span .fa { // sass-lint:disable-line force-element-nesting class-name-format
-      padding-left: 8px;
+  &__btn-group--trans {
+    padding-bottom: 5px;
+
+    .pull-right .btn {  // sass-lint:disable-line force-element-nesting class-name-format
+      margin-left: 36px;
     }
+  }
+
+  &__btn--trans {
+    border: 0;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+
+    &:hover,
+    &:active {
+      color: $color-pf-blue-300;
+    }
+
+    &:hover,
+    &:active,
+    &:disabled {
+      background: transparent !important; // sass-lint:disable-line no-important
+    }
+  }
+
+  &__btn-icon--svg {
+    padding-right: 8px;
+  }
+
+  &__btn-icon--svg-right {
+    padding-left: 8px;
+  }
+
+  &__bottom-options {
+    position: fixed;
+    right: 67px;
+    bottom: 5px;
+    left: 5px;
+    z-index: 11;
+
+    .pull-right .btn:not(.dropdown-toggle) { // sass-lint:disable-line force-element-nesting class-name-format
+      margin-left: 20px;
+    }
+  }
+
+  &__bottom-options--tbar {
+    margin: 0 20px;
+    padding: 8px 14px;
+    background-color: $color-pf-white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
   }
 
   .PageStatusIcon {
@@ -47,5 +96,6 @@
     position: fixed;
     top: 0;
     right: 0;
+    z-index: 1;
   }
 }
