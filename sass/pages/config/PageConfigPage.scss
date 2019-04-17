@@ -90,12 +90,12 @@
     // sass-lint:disable no-important
     padding: 0!important;
     // sass-lint:enable no-important
+    z-index: 12;
   }
 
   &__side-widget--sticky {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 1;
   }
 }
