@@ -35,7 +35,6 @@ describe('SearchBarContainer', () => {
   });
 
   it('should map the correct function properties on mapDispatchToProps', () => {
-    expect(props.clearSearch).toBeDefined();
     expect(props.onSubmit).toBeDefined();
   });
 
