@@ -7,7 +7,7 @@ import SearchTextInput from 'ui/digital-exchange/components/SearchTextInput';
 describe('SearchTextInput', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<SearchTextInput filled={false} />);
+    component = shallow(<SearchTextInput />);
   });
 
   it('renders without crashing', () => {

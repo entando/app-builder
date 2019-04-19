@@ -4,6 +4,10 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/compone
 import { filterBySearch } from 'state/digital-exchange/actions';
 import { getLoading } from 'state/loading/selectors';
 
+jest.mock('state/digital-exchange/components/selectors', () => ({
+  getDESearchFilter: jest.fn(() => ''),
+}));
+
 jest.mock('state/digital-exchange/actions', () => ({
   filterBySearch: jest.fn(),
 }));
@@ -26,8 +30,11 @@ describe('SearchBarContainer', () => {
     };
   });
 
+  it('should map the correct state properties on mapStateToProps', () => {
+    expect(props.searchTerm).toBeDefined();
+  });
+
   it('should map the correct function properties on mapDispatchToProps', () => {
-    expect(props.isFilled).toBeDefined();
     expect(props.clearSearch).toBeDefined();
     expect(props.onSubmit).toBeDefined();
   });

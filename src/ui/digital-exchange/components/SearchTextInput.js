@@ -4,7 +4,6 @@ import { Button, Icon } from 'patternfly-react';
 
 const SearchTextInput = ({
   input,
-  filled,
   meta,
   onClear,
   ...others
@@ -18,16 +17,10 @@ const SearchTextInput = ({
       placeholder="Search"
       {...others}
     />
-    {filled ? (
+    {input.value ? (
       <Button
         className="btn-transparent SearchBar__button-close"
-        onClick={() => {
-          const triggerClear = input.value !== '';
-          input.onChange('');
-          if (triggerClear) {
-            setTimeout(onClear, 10);
-          }
-        }}
+        onClick={onClear}
       >
         <Icon name="close" />
       </Button>
@@ -37,7 +30,6 @@ const SearchTextInput = ({
 
 SearchTextInput.propTypes = {
   input: PropTypes.shape({}),
-  filled: PropTypes.bool.isRequired,
   meta: PropTypes.shape({}),
   onClear: PropTypes.func,
 };

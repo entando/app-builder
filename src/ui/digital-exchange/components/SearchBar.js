@@ -4,12 +4,11 @@ import { Button, Icon } from 'patternfly-react';
 import { Field, reduxForm } from 'redux-form';
 import SearchTextInput from 'ui/digital-exchange/components/SearchTextInput';
 
-const SearchBarBody = ({ clearSearch, handleSubmit, isFilled }) => (
+const SearchBarBody = ({ clearSearch, handleSubmit }) => (
   <form className="SearchBar__container" onSubmit={handleSubmit}>
     <Field
       name="keyword"
       component={SearchTextInput}
-      filled={isFilled}
       onClear={clearSearch}
     />
     <Button
@@ -24,7 +23,6 @@ const SearchBarBody = ({ clearSearch, handleSubmit, isFilled }) => (
 SearchBarBody.propTypes = {
   clearSearch: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  isFilled: PropTypes.bool.isRequired,
 };
 
 const SearchBar = reduxForm({
