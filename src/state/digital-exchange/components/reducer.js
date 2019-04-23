@@ -50,7 +50,7 @@ const markComponentLastInstallStatus = (state, componentId, lastInstallStatus) =
   return updateComponentInfo(state, componentIndex, { lastInstallStatus });
 };
 
-const markComponentLastStatusAsFinished = (state, componentId) => (
+const markComponentLastStatusAsClear = (state, componentId) => (
   markComponentLastInstallStatus(state, componentId, '')
 );
 
@@ -88,14 +88,14 @@ const list = (state = [], action = {}) => {
     }
     case START_COMPONENT_INSTALLATION:
     case START_COMPONENT_UNINSTALLATION: {
-      return markComponentLastStatusAsFinished(state, action.payload.id);
+      return markComponentLastStatusAsClear(state, action.payload.id);
     }
     case FINISH_COMPONENT_INSTALLATION: {
-      const newState = markComponentLastStatusAsFinished(state, action.payload.id);
+      const newState = markComponentLastStatusAsClear(state, action.payload.id);
       return markComponentAsInstalled(newState, action.payload.id);
     }
     case FINISH_COMPONENT_UNINSTALLATION: {
-      const newState = markComponentLastStatusAsFinished(state, action.payload.id);
+      const newState = markComponentLastStatusAsClear(state, action.payload.id);
       return markComponentAsUninstalled(newState, action.payload.id);
     }
     case COMPONENT_INSTALLATION_FAILED:
