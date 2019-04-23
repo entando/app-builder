@@ -39,6 +39,16 @@ export const getDEComponentSelected = createSelector(
   digitalExchangeComponent => digitalExchangeComponent.selected,
 );
 
+export const findComponentInListById = (state, componentId) => (
+  state.findIndex(objectInArray => (
+    objectInArray.id === componentId
+  ))
+);
+export const getDEComponentLastInstallStatus = (state, props) => {
+  const listIdx = findComponentInListById(get(state, 'digitalExchangeComponents.list', []), props.component.id);
+  return get(state, `digitalExchangeComponents.list[${listIdx}].lastInstallStatus`, '');
+};
+
 export const getDEComponentInstallationStatus = (state, props) => (
   get(state, `digitalExchangeComponents.installation[${props.component.id}]`, '')
 );

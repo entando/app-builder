@@ -9,7 +9,11 @@ const pollApi = (apiFn, successConditionFn, timeout = 3000, interval = 500) => {
           } else if (Number(new Date()) < endTime) {
             setTimeout(checkCondition, interval, resolve, reject);
           } else {
-            reject({ errors: [{ message: 'Polling timed out' }] });
+            const { errors, ...otherResponse } = data;
+            reject({
+              errors: [...errors, { message: 'Polling timed out' }],
+              ...otherResponse,
+            });
           }
         });
       } else {

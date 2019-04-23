@@ -7,14 +7,22 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  COMPONENT_INSTALLATION_FAILED,
+  COMPONENT_INSTALL_ONGOING_PROGRESS,
   START_COMPONENT_UNINSTALLATION,
   FINISH_COMPONENT_UNINSTALLATION,
+  COMPONENT_UNINSTALLATION_FAILED,
+  COMPONENT_UNINSTALL_ONGOING_PROGRESS,
 } from 'state/digital-exchange/components/types';
 
 import {
   DE_COMPONENTS_GRID_VIEW,
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
+
+import { findComponentInListById } from 'state/digital-exchange/components/selectors';
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -25,21 +33,45 @@ const selected = (state = {}, action = {}) => {
   }
 };
 
+const updateComponentInfo = (listState, componentIndex, newProps) => {
+  const newListState = listState.slice();
+  newListState.splice(componentIndex, 1, {
+    ...listState[componentIndex],
+    ...newProps,
+  });
+  return newListState;
+};
 
-const markComponentInstalledStatus = (state, componentId, installed) => {
-  const componentIndex = state.findIndex(objectInArray => (
-    objectInArray.id === componentId
-  ));
-
+const markComponentLastInstallStatus = (state, componentId, lastInstallStatus) => {
+  const componentIndex = findComponentInListById(state, componentId);
   if (componentIndex === -1) {
     return state;
   }
-  const newState = state.slice();
-  newState.splice(componentIndex, 1, {
-    ...state[componentIndex],
-    installed,
-  });
-  return newState;
+  return updateComponentInfo(state, componentIndex, { lastInstallStatus });
+};
+
+const markComponentLastStatusAsFinished = (state, componentId) => (
+  markComponentLastInstallStatus(state, componentId, '')
+);
+
+const markComponentLastStatusAsError = (state, componentId) => (
+  markComponentLastInstallStatus(state, componentId, DE_COMPONENT_INSTALLATION_STATUS_ERROR)
+);
+
+const markComponentLastStatusAsInstallInProgress = (state, componentId) => (
+  markComponentLastInstallStatus(state, componentId, DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS)
+);
+
+const markComponentLastStatusAsUninstallInProgress = (state, componentId) => (
+  markComponentLastInstallStatus(state, componentId, DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS)
+);
+
+const markComponentInstalledStatus = (state, componentId, installed) => {
+  const componentIndex = findComponentInListById(state, componentId);
+  if (componentIndex === -1) {
+    return state;
+  }
+  return updateComponentInfo(state, componentIndex, { installed });
 };
 
 const markComponentAsInstalled = (state, componentId) => (
@@ -54,11 +86,30 @@ const list = (state = [], action = {}) => {
     case SET_DE_COMPONENTS: {
       return action.payload.digitalExchangeComponents;
     }
+    case START_COMPONENT_INSTALLATION:
+    case START_COMPONENT_UNINSTALLATION: {
+      return markComponentLastStatusAsFinished(state, action.payload.id);
+    }
     case FINISH_COMPONENT_INSTALLATION: {
-      return markComponentAsInstalled(state, action.payload.id);
+      const newState = markComponentLastStatusAsFinished(state, action.payload.id);
+      return markComponentAsInstalled(newState, action.payload.id);
     }
     case FINISH_COMPONENT_UNINSTALLATION: {
-      return markComponentAsUninstalled(state, action.payload.id);
+      const newState = markComponentLastStatusAsFinished(state, action.payload.id);
+      return markComponentAsUninstalled(newState, action.payload.id);
+    }
+    case COMPONENT_INSTALLATION_FAILED:
+    case COMPONENT_UNINSTALLATION_FAILED:
+    {
+      return markComponentLastStatusAsError(state, action.payload.id);
+    }
+    case COMPONENT_INSTALL_ONGOING_PROGRESS:
+    {
+      return markComponentLastStatusAsInstallInProgress(state, action.payload.id);
+    }
+    case COMPONENT_UNINSTALL_ONGOING_PROGRESS:
+    {
+      return markComponentLastStatusAsUninstallInProgress(state, action.payload.id);
     }
     default: return state;
   }
@@ -160,7 +211,8 @@ const installation = (state = {}, action = {}) => {
         [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
       };
     }
-    case FINISH_COMPONENT_INSTALLATION: {
+    case FINISH_COMPONENT_INSTALLATION:
+    case COMPONENT_INSTALLATION_FAILED: {
       return { ...omit(state, action.payload.id) };
     }
     default: return state;
@@ -175,7 +227,8 @@ const uninstallation = (state = {}, action = {}) => {
         [action.payload.id]: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
       };
     }
-    case FINISH_COMPONENT_UNINSTALLATION: {
+    case FINISH_COMPONENT_UNINSTALLATION:
+    case COMPONENT_UNINSTALLATION_FAILED: {
       return { ...omit(state, action.payload.id) };
     }
     default: return state;

@@ -1,3 +1,5 @@
+import { addErrors, addToast, TOAST_WARNING } from '@entando/messages';
+import { formattedText } from '@entando/utils';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
@@ -5,10 +7,13 @@ import {
   SET_DE_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  COMPONENT_INSTALLATION_FAILED,
+  COMPONENT_INSTALL_ONGOING_PROGRESS,
   START_COMPONENT_UNINSTALLATION,
   FINISH_COMPONENT_UNINSTALLATION,
+  COMPONENT_UNINSTALLATION_FAILED,
+  COMPONENT_UNINSTALL_ONGOING_PROGRESS,
 } from 'state/digital-exchange/components/types';
-import { addErrors } from '@entando/messages';
 import pollApi from 'helpers/pollApi';
 import {
   getDEComponent,
@@ -20,7 +25,10 @@ import {
 } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { DE_COMPONENT_INSTALLATION_STATUS_COMPLETED } from 'state/digital-exchange/components/const';
+import {
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+} from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
@@ -65,8 +73,36 @@ export const finishComponentInstallation = id => ({
   },
 });
 
+export const componentInstallationFailed = id => ({
+  type: COMPONENT_INSTALLATION_FAILED,
+  payload: {
+    id,
+  },
+});
+
+export const componentInstallOngoingProgress = id => ({
+  type: COMPONENT_INSTALL_ONGOING_PROGRESS,
+  payload: {
+    id,
+  },
+});
+
+export const componentUninstallOngoingProgress = id => ({
+  type: COMPONENT_UNINSTALL_ONGOING_PROGRESS,
+  payload: {
+    id,
+  },
+});
+
 export const startComponentUninstall = id => ({
   type: START_COMPONENT_UNINSTALLATION,
+  payload: {
+    id,
+  },
+});
+
+export const componentUninstallFailed = id => ({
+  type: COMPONENT_UNINSTALLATION_FAILED,
   payload: {
     id,
   },
@@ -81,23 +117,45 @@ export const finishComponentUninstall = id => ({
 
 // thunks
 
+export const pollDEComponentInstallStatus = component => dispatch => (
+  new Promise((resolve) => {
+    dispatch(startComponentInstallation(component.id));
+    pollApi(
+      () => getDEComponentInstall(component.id),
+      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+    )
+      .then(() => {
+        dispatch(finishComponentInstallation(component.id));
+      })
+      .catch((res) => {
+        const { errors, payload } = res;
+        if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
+          dispatch(addToast(
+            formattedText('digitalExchange.components.notifyInProgress'),
+            TOAST_WARNING,
+          ));
+          dispatch(componentInstallOngoingProgress(component.id));
+        } else {
+          dispatch(addToast(
+            formattedText('digitalExchange.components.notifyFailedInstall'),
+            TOAST_WARNING,
+          ));
+          dispatch(componentInstallationFailed(component.id));
+        }
+        dispatch(addErrors(errors.map(err => err.message)));
+        resolve(res);
+      })
+      .finally(() => resolve());
+  })
+);
+
 export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
     postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(startComponentInstallation(component.id));
-          pollApi(
-            () => getDEComponentInstall(component.id),
-            ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-          )
-            .then(() => {
-              dispatch(finishComponentInstallation(component.id));
-            })
-            .catch(({ errors }) => {
-              dispatch(addErrors(errors.map(err => err.message)));
-            })
-            .finally(() => resolve());
+          dispatch(pollDEComponentInstallStatus(component))
+            .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
@@ -107,23 +165,45 @@ export const installDEComponent = component => dispatch => (
   })
 );
 
+export const pollDEComponentUninstallStatus = componentId => dispatch => (
+  new Promise((resolve) => {
+    dispatch(startComponentUninstall(componentId));
+    pollApi(
+      () => getDEComponentUninstall(componentId),
+      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+    )
+      .then(() => {
+        dispatch(finishComponentUninstall(componentId));
+      })
+      .catch((res) => {
+        const { errors, payload } = res;
+        if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
+          dispatch(addToast(
+            formattedText('digitalExchange.components.notifyInProgress'),
+            TOAST_WARNING,
+          ));
+          dispatch(componentUninstallOngoingProgress(componentId));
+        } else {
+          dispatch(addToast(
+            formattedText('digitalExchange.components.notifyFailedUninstall'),
+            TOAST_WARNING,
+          ));
+          dispatch(componentUninstallFailed(componentId));
+        }
+        dispatch(addErrors(errors.map(err => err.message)));
+        resolve(res);
+      })
+      .finally(() => resolve());
+  })
+);
+
 export const uninstallDEComponent = componentId => dispatch => (
   new Promise((resolve) => {
     postDEComponentUninstall(componentId).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(startComponentUninstall(componentId));
-          pollApi(
-            () => getDEComponentUninstall(componentId),
-            ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-          )
-            .then(() => {
-              dispatch(finishComponentUninstall(componentId));
-            })
-            .catch(({ errors }) => {
-              dispatch(addErrors(errors.map(err => err.message)));
-            })
-            .finally(() => resolve());
+          dispatch(pollDEComponentUninstallStatus(componentId))
+            .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();

@@ -1,5 +1,6 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/components/common/ComponentInstallActionsContainer';
 import {
+  getDEComponentLastInstallStatus,
   getDEComponentInstallationStatus,
   getDEComponentUninstallStatus,
 } from 'state/digital-exchange/components/selectors';
@@ -32,6 +33,7 @@ const MOCK_PROPS = {
 describe('ComponentInstallActionsContainer', () => {
   it('mapStateToProps props are correctly defined ', () => {
     expect(mapStateToProps(MOCK_STATE, MOCK_PROPS)).toEqual({
+      lastInstallStatus: getDEComponentLastInstallStatus(MOCK_STATE, MOCK_PROPS),
       installationStatus: getDEComponentInstallationStatus(MOCK_STATE, MOCK_PROPS),
       uninstallStatus: getDEComponentUninstallStatus(MOCK_STATE, MOCK_PROPS),
     });
