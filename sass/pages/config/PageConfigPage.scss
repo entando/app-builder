@@ -17,24 +17,6 @@
     }
   }
 
-  &__btn--trans {
-    border: 0;
-    outline: none;
-    background: transparent;
-    box-shadow: none;
-
-    &:hover,
-    &:active {
-      color: $color-pf-blue-300;
-    }
-
-    &:hover,
-    &:active,
-    &:disabled {
-      background: transparent !important; // sass-lint:disable-line no-important
-    }
-  }
-
   &__btn-icon--svg {
     padding-right: 8px;
   }

@@ -50,3 +50,11 @@ export const filterByRating = (rating, paginationMetadata) => {
   };
   return applyFilter(filter, paginationMetadata);
 };
+
+export const filterBySearch = (keyword, paginationMetadata) => {
+  const filter = {
+    formValues: { name: keyword, description: keyword },
+    operators: { name: FILTER_OPERATORS.LIKE, description: FILTER_OPERATORS.LIKE },
+  };
+  return applyFilter(filter, paginationMetadata);
+};

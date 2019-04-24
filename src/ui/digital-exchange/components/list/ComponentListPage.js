@@ -5,6 +5,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import CategoryTabsContainer from 'ui/digital-exchange/CategoryTabsContainer';
 import ComponentListContainer from 'ui/digital-exchange/components/list/ComponentListContainer';
+import SearchBarContainer from 'ui/digital-exchange/components/SearchBarContainer';
 import ComponentListViewModeSwitcherContainer from 'ui/digital-exchange/components/common/ComponentListViewModeSwitcherContainer';
 
 import { ROUTE_DE_CONFIG_LIST } from 'app-init/router';
@@ -28,7 +29,7 @@ const ComponentListPage = () => (
       </Row>
       <Row>
         <Col md={9} >
-            SearchBar
+          <SearchBarContainer />
         </Col>
         <Col md={3} >
           <div className="pull-right">

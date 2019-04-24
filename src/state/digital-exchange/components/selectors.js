@@ -24,6 +24,11 @@ export const getDERatingFilter = createSelector(
   (filters, category) => get(filters, `${category}.formValues.rating`, null),
 );
 
+export const getDESearchFilter = createSelector(
+  [getDEFilters, getSelectedDECategory],
+  (filters, category) => get(filters, `${category}.formValues.name`, null),
+);
+
 export const getDEComponentListViewMode = createSelector(
   getDEComponents,
   digitalExchangeComponents => digitalExchangeComponents.componentListViewMode,

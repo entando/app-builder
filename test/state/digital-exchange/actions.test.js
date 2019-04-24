@@ -6,6 +6,7 @@ import {
   filterByDECategories,
   filterByDigitalExchanges,
   filterByRating,
+  filterBySearch,
 } from 'state/digital-exchange/actions';
 import { SET_SELECTED_DE_CATEGORY } from 'state/digital-exchange/categories/types';
 import { SET_DE_FILTER } from 'state/digital-exchange/components/types';
@@ -70,6 +71,15 @@ describe('state/digital-exchange/actions', () => {
 
   it('filterByRating should call proper actions', (done) => {
     store.dispatch(filterByRating()).then(() => {
+      const actions = store.getActions();
+      expect(actions).toHaveLength(5);
+      expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);
+      done();
+    }).catch(done.fail);
+  });
+
+  it('filterBySearch should call proper actions', (done) => {
+    store.dispatch(filterBySearch()).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(5);
       expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);

@@ -170,9 +170,9 @@ class PageConfigPage extends Component {
                     <ButtonToolbar className="pull-left">
                       <Button
                         className={[
+                          'btn-transparent',
                           'PageConfigPage__info-btn',
                           'PageConfigPage__btn-icon',
-                          'PageConfigPage__btn--trans',
                         ].join(' ')}
                         bsStyle="default"
                         onClick={this.toggleInfoTable}
@@ -193,7 +193,7 @@ class PageConfigPage extends Component {
                         className={[
                           'btn',
                           'btn-default',
-                          'PageConfigPage__btn--trans',
+                          'btn-transparent',
                           'PageConfigPage__btn--addml',
                         ].join(' ')}
                         target="_blank"
@@ -204,7 +204,7 @@ class PageConfigPage extends Component {
                       <Button
                         className={[
                           'PageConfigPage__btn-icon--right',
-                          'PageConfigPage__btn--trans',
+                          'btn-transparent',
                         ].join(' ')}
                         bsStyle="warning"
                         onClick={restoreConfig}
@@ -221,7 +221,7 @@ class PageConfigPage extends Component {
                       <Button
                         className={[
                           'PageConfigPage__btn-icon--right',
-                          'PageConfigPage__btn--trans',
+                          'btn-transparent',
                         ].join(' ')}
                         bsStyle="default"
                         onClick={showPageSettings}
