@@ -2,12 +2,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import SearchBar from 'ui/digital-exchange/components/SearchBar';
+import RenderSearchFormInput from 'ui/common/form/RenderSearchFormInput';
 
-describe('SearchBar', () => {
+describe('RenderSearchFormInput', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<SearchBar />);
+    component = shallow(<RenderSearchFormInput />);
   });
 
   it('renders without crashing', () => {

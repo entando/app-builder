@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formattedText } from '@entando/utils';
 import { Button, Icon } from 'patternfly-react';
 
-const SearchTextInput = ({
+const RenderSearchFormInput = ({
   input,
   meta,
   onClear,
   ...others
 }) => (
-  <div className="SearchBar__textbox">
+  <div className="SearchForm__textbox">
     <input
       {...input}
       id={input.name}
       type="text"
-      className="SearchBar__textbox--base"
-      placeholder="Search"
+      className="SearchForm__textbox--base"
+      placeholder={formattedText('app.search')}
       {...others}
     />
     {input.value ? (
       <Button
-        className="btn-transparent SearchBar__button-close"
+        className="btn-transparent SearchForm__button-close"
         onClick={onClear}
       >
         <Icon name="close" />
@@ -28,16 +29,16 @@ const SearchTextInput = ({
   </div>
 );
 
-SearchTextInput.propTypes = {
+RenderSearchFormInput.propTypes = {
   input: PropTypes.shape({}),
   meta: PropTypes.shape({}),
   onClear: PropTypes.func,
 };
 
-SearchTextInput.defaultProps = {
+RenderSearchFormInput.defaultProps = {
   input: {},
   meta: {},
   onClear: () => {},
 };
 
-export default SearchTextInput;
+export default RenderSearchFormInput;

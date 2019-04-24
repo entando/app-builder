@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from 'patternfly-react';
 import { Field, reduxForm } from 'redux-form';
-import SearchTextInput from 'ui/digital-exchange/components/SearchTextInput';
+import RenderSearchFormInput from 'ui/common/form/RenderSearchFormInput';
 
-class SearchBarBody extends Component {
+class SearchFormBody extends Component {
   constructor(props) {
     super(props);
     this.clearSearch = this.clearSearch.bind(this);
@@ -19,14 +19,14 @@ class SearchBarBody extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form className="SearchBar__container" onSubmit={handleSubmit}>
+      <form className="SearchForm__container" onSubmit={handleSubmit}>
         <Field
           name="keyword"
-          component={SearchTextInput}
+          component={RenderSearchFormInput}
           onClear={this.clearSearch}
         />
         <Button
-          className="SearchBar__button"
+          className="SearchForm__button"
           type="submit"
         >
           <Icon name="search" />
@@ -36,19 +36,19 @@ class SearchBarBody extends Component {
   }
 }
 
-SearchBarBody.propTypes = {
+SearchFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   searchTerm: PropTypes.string,
   submit: PropTypes.func.isRequired,
 };
 
-SearchBarBody.defaultProps = {
+SearchFormBody.defaultProps = {
   searchTerm: '',
 };
 
-const SearchBar = reduxForm({
-  form: 'searchBar',
-})(SearchBarBody);
+const SearchForm = reduxForm({
+  form: 'searchForm',
+})(SearchFormBody);
 
-export default SearchBar;
+export default SearchForm;
