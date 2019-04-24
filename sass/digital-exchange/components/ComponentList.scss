@@ -77,6 +77,15 @@
     box-sizing: border-box;
   }
 
+  &__status-caution {
+    background-color: $color-de-component-inprogress-button;
+    color: $color-black;
+  }
+
+  &__status-danger {
+    background-color: $color-de-component-failed-button;
+  }
+
   &__uninstall {
     color: $color-de-component-dark-grey;
     font-family: Open Sans;

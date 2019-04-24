@@ -31,13 +31,15 @@ import {
   SET_SELECTED_DE_COMPONENT,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
+  COMPONENT_INSTALLATION_FAILED,
   START_COMPONENT_UNINSTALLATION,
   FINISH_COMPONENT_UNINSTALLATION,
+  COMPONENT_UNINSTALLATION_FAILED,
 } from 'state/digital-exchange/components/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -138,9 +140,11 @@ describe('state/digital-exchange/components/actions', () => {
 
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
-        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[2]).toHaveProperty('type', COMPONENT_INSTALLATION_FAILED);
+        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -168,7 +172,7 @@ describe('state/digital-exchange/components/actions', () => {
         payload: COMPONENT_UNINSTALLATION_COMPLETED,
       }));
 
-      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
@@ -185,18 +189,20 @@ describe('state/digital-exchange/components/actions', () => {
         })
       )));
 
-      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
-        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[2]).toHaveProperty('type', COMPONENT_UNINSTALLATION_FAILED);
+        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
 
     it('uninstallDEComponent dispatches proper actions if error', (done) => {
       postDEComponentUninstall.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK)).then(() => {
+      store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
