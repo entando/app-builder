@@ -6,6 +6,7 @@ import { LoginPage, NotFoundPage } from '@entando/pages';
 import {
   ROUTE_HOME,
   ROUTE_DASHBOARD,
+  ROUTE_CMS,
   ROUTE_PAGE_TREE,
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
@@ -171,6 +172,7 @@ const getRouteComponent = (route) => {
       </LoginPage>
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
+    case ROUTE_CMS: return <h1> CMS </h1>;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
