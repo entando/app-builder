@@ -6,7 +6,6 @@ import { LoginPage, NotFoundPage } from '@entando/pages';
 import {
   ROUTE_HOME,
   ROUTE_DASHBOARD,
-  ROUTE_CMS,
   ROUTE_PAGE_TREE,
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
@@ -81,6 +80,10 @@ import {
   ROUTE_DE_CONFIG_LIST,
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
+  ROUTE_CMS_CONTENT_LIST,
+  ROUTE_CMS_CONTENT_TYPES,
+  ROUTE_CMS_CONTENT_MODELS,
+  ROUTE_CMS_CONTENT_SETTINGS,
 } from 'app-init/router';
 
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -146,6 +149,11 @@ import ComponentListPageDisabled from 'ui/digital-exchange/components/list/Compo
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
+// CMS
+import ContentListPage from 'ui/cms/content/list/ContentListPage';
+import ContentTypesListPage from 'ui/cms/content-types/list/ContentTypesListPage';
+import ContentModelsListPage from 'ui/cms/content-models/list/ContentModelsListPage';
+import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -172,7 +180,6 @@ const getRouteComponent = (route) => {
       </LoginPage>
     );
     case ROUTE_DASHBOARD: return <DashboardPage />;
-    case ROUTE_CMS: return <h1> CMS </h1>;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
     case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
@@ -252,6 +259,10 @@ const getRouteComponent = (route) => {
     case ROUTE_DE_CONFIG_ADD: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
       <SettingsAddPage /> : <ComponentListPageDisabled />;
     default: return <NotFoundPage />;
+    case ROUTE_CMS_CONTENT_LIST: return <ContentListPage />;
+    case ROUTE_CMS_CONTENT_TYPES: return <ContentTypesListPage />;
+    case ROUTE_CMS_CONTENT_MODELS: return <ContentModelsListPage />;
+    case ROUTE_CMS_CONTENT_SETTINGS: return <ContentSettingsPage />;
   }
 };
 

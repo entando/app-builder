@@ -18,6 +18,8 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_DE_COMPONENT_LIST,
+  ROUTE_CMS_CONTENT_LIST, ROUTE_CMS_CONTENT_TYPES, ROUTE_CMS_CONTENT_MODELS,
+  ROUTE_CMS_CONTENT_SETTINGS,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -155,6 +157,31 @@ const InternalPage = ({ className, children }) => (
           id="menu-user-restrictions"
           label={formattedText('menu.users.restrictions')}
           route={ROUTE_USER_RESTRICTIONS}
+        />
+      </FirstLevelMenuItem>
+      <FirstLevelMenuItem
+        id="menu-cms"
+        label={formattedText('menu.cms')}
+      >
+        <LinkMenuItem
+          id="menu-cms-content-list"
+          label={formattedText('menu.cms.contentList')}
+          route={ROUTE_CMS_CONTENT_LIST}
+        />
+        <LinkMenuItem
+          id="menu-roles"
+          label={formattedText('menu.cms.contentTypes')}
+          route={ROUTE_CMS_CONTENT_TYPES}
+        />
+        <LinkMenuItem
+          id="menu-groups"
+          label={formattedText('menu.cms.contentModels')}
+          route={ROUTE_CMS_CONTENT_MODELS}
+        />
+        <LinkMenuItem
+          id="menu-profile"
+          label={formattedText('menu.cms.contentSettings')}
+          route={ROUTE_CMS_CONTENT_SETTINGS}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
