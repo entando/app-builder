@@ -161,26 +161,26 @@ const InternalPage = ({ className, children }) => (
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-cms"
-        label={formattedText('menu.cms')}
+        label={<FormattedMessage id="menu.cms" />}
       >
         <LinkMenuItem
           id="menu-cms-content-list"
-          label={formattedText('menu.cms.contentList')}
+          label={<FormattedMessage id="menu.cms.contentList" />}
           route={ROUTE_CMS_CONTENT_LIST}
         />
         <LinkMenuItem
           id="menu-roles"
-          label={formattedText('menu.cms.contentTypes')}
+          label={<FormattedMessage id="menu.cms.contentTypes" />}
           route={ROUTE_CMS_CONTENT_TYPES}
         />
         <LinkMenuItem
           id="menu-groups"
-          label={formattedText('menu.cms.contentModels')}
+          label={<FormattedMessage id="menu.cms.contentModels" />}
           route={ROUTE_CMS_CONTENT_MODELS}
         />
         <LinkMenuItem
           id="menu-profile"
-          label={formattedText('menu.cms.contentSettings')}
+          label={<FormattedMessage id="menu.cms.contentSettings" />}
           route={ROUTE_CMS_CONTENT_SETTINGS}
         />
       </FirstLevelMenuItem>
