@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import 'test/enzyme-init';
@@ -12,5 +11,9 @@ describe('InternalPage', () => {
 
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);
+  });
+
+  it('Renders CMS menu without crashing', () => {
+    expect(component.find('#menu-cms').exists()).toBe(true);
   });
 });
