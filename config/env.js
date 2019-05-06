@@ -78,6 +78,7 @@ function getClientEnvironment(publicUrl) {
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         DIGITAL_EXCHANGE_UI_ENABLED: process.env.DIGITAL_EXCHANGE_UI_ENABLED === 'true',
+        CMS_UI_ENABLED: process.env.CMS_UI_ENABLED === 'true',
       },
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
