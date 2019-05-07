@@ -23,7 +23,7 @@ if (useMocks(store.getState())) {
 if (pluginsArray && pluginsArray.length) {
   pluginsArray.forEach((plugin) => {
     if (plugin.apiManagerConfig) {
-      plugin.apiManagerConfig(store, ROUTE_HOME, ROUTE_DASHBOARD);
+      plugin.apiManagerConfig(store, () => gotoRoute(ROUTE_HOME), () => gotoRoute(ROUTE_DASHBOARD));
     }
   });
 }
