@@ -692,6 +692,8 @@ export default {
     'cms.contentModelsList.title': 'Content Models',
     'cms.contentSettings.title': 'Content Settings',
     'singlePageSettings.title': 'Page Settings',
+    'cms.disabled.title': 'CMS is disabled.',
+    'cms.disabled.help': 'It can be enabled by setting CMS_UI_ENABLED env variable value in your .env file to true.',
     'singlePageSettings.generalSettings': 'General Settings',
     'singlePageSettings.pageTitle': 'Page Title',
     'singlePageSettings.updateSuccess': 'Page successfully updated',

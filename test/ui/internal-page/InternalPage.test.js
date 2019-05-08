@@ -14,6 +14,10 @@ describe('InternalPage', () => {
   });
 
   it('Renders CMS menu without crashing', () => {
-    expect(component.find('#menu-cms').exists()).toBe(true);
+    if (process.env.DIGITAL_EXCHANGE_UI_ENABLED) {
+      expect(component.find('#menu-cms').exists()).toBe(true);
+    } else {
+      expect(component.find('#menu-cms').exists()).toBe(false);
+    }
   });
 });

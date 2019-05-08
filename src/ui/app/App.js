@@ -154,6 +154,7 @@ import ContentListPage from 'ui/cms/content/list/ContentListPage';
 import ContentTypesListPage from 'ui/cms/content-types/list/ContentTypesListPage';
 import ContentModelsListPage from 'ui/cms/content-models/list/ContentModelsListPage';
 import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
+import CMSDisabledPage from 'ui/cms/CMSDisabledPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -259,10 +260,14 @@ const getRouteComponent = (route) => {
     case ROUTE_DE_CONFIG_ADD: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
       <SettingsAddPage /> : <ComponentListPageDisabled />;
     default: return <NotFoundPage />;
-    case ROUTE_CMS_CONTENT_LIST: return <ContentListPage />;
-    case ROUTE_CMS_CONTENT_TYPES: return <ContentTypesListPage />;
-    case ROUTE_CMS_CONTENT_MODELS: return <ContentModelsListPage />;
-    case ROUTE_CMS_CONTENT_SETTINGS: return <ContentSettingsPage />;
+    case ROUTE_CMS_CONTENT_LIST: return (process.env.CMS_UI_ENABLED) ?
+      <ContentListPage /> : <CMSDisabledPage />;
+    case ROUTE_CMS_CONTENT_TYPES: return (process.env.CMS_UI_ENABLED) ?
+      <ContentTypesListPage /> : <CMSDisabledPage />;
+    case ROUTE_CMS_CONTENT_MODELS: return (process.env.CMS_UI_ENABLED) ?
+      <ContentModelsListPage /> : <CMSDisabledPage />;
+    case ROUTE_CMS_CONTENT_SETTINGS: return (process.env.CMS_UI_ENABLED) ?
+      <ContentSettingsPage /> : <CMSDisabledPage />;
   }
 };
 

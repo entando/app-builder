@@ -691,6 +691,8 @@ export default {
     'cms.contentTypesList.title': 'Tipi di Contenuto',
     'cms.contentModelsList.title': 'Modelli di Contenuto',
     'cms.contentSettings.title': 'Impostazione Contenuti',
+    'cms.disabled.title': 'CMS è disabilitata.',
+    'cms.disabled.help': 'È possibile attivarla impostando CMS_UI_ENABLED=true nel file .env',
     'singlePageSettings.title': 'Impostazioni pagina',
     'singlePageSettings.generalSettings': 'Generale',
     'singlePageSettings.pageTitle': 'Titolo della Pagina',

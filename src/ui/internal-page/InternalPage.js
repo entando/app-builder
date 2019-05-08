@@ -62,6 +62,39 @@ const renderDigitalExchangeMenuItem = () => {
   return '';
 };
 
+const renderCMSMenuItems = () => {
+  if (process.env.CMS_UI_ENABLED) {
+    return (
+      <FirstLevelMenuItem
+        id="menu-cms"
+        label={<FormattedMessage id="menu.cms" />}
+      >
+        <LinkMenuItem
+          id="menu-cms-content-list"
+          label={<FormattedMessage id="menu.cms.contentList" />}
+          route={ROUTE_CMS_CONTENT_LIST}
+        />
+        <LinkMenuItem
+          id="menu-roles"
+          label={<FormattedMessage id="menu.cms.contentTypes" />}
+          route={ROUTE_CMS_CONTENT_TYPES}
+        />
+        <LinkMenuItem
+          id="menu-groups"
+          label={<FormattedMessage id="menu.cms.contentModels" />}
+          route={ROUTE_CMS_CONTENT_MODELS}
+        />
+        <LinkMenuItem
+          id="menu-profile"
+          label={<FormattedMessage id="menu.cms.contentSettings" />}
+          route={ROUTE_CMS_CONTENT_SETTINGS}
+        />
+      </FirstLevelMenuItem>);
+  }
+
+  return '';
+};
+
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
     <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
@@ -159,31 +192,9 @@ const InternalPage = ({ className, children }) => (
           route={ROUTE_USER_RESTRICTIONS}
         />
       </FirstLevelMenuItem>
-      <FirstLevelMenuItem
-        id="menu-cms"
-        label={<FormattedMessage id="menu.cms" />}
-      >
-        <LinkMenuItem
-          id="menu-cms-content-list"
-          label={<FormattedMessage id="menu.cms.contentList" />}
-          route={ROUTE_CMS_CONTENT_LIST}
-        />
-        <LinkMenuItem
-          id="menu-roles"
-          label={<FormattedMessage id="menu.cms.contentTypes" />}
-          route={ROUTE_CMS_CONTENT_TYPES}
-        />
-        <LinkMenuItem
-          id="menu-groups"
-          label={<FormattedMessage id="menu.cms.contentModels" />}
-          route={ROUTE_CMS_CONTENT_MODELS}
-        />
-        <LinkMenuItem
-          id="menu-profile"
-          label={<FormattedMessage id="menu.cms.contentSettings" />}
-          route={ROUTE_CMS_CONTENT_SETTINGS}
-        />
-      </FirstLevelMenuItem>
+
+      {renderCMSMenuItems()}
+
       <FirstLevelMenuItem
         id="menu-configuration"
         label={<span><Icon name="cog" /> <FormattedMessage id="menu.configuration" /></span>}
