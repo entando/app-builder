@@ -36,6 +36,9 @@ string used for the client secret during the OAUTH2 authentication process.
 #### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Digital Exchange UI should be enabled or not.
 
+#### `CMS_UI_ENABLED` (boolean, default: `false`)
+a boolean used to determine whether the CMS UI should be enabled or not.
+
 ### Sample .env file
 
 ```
