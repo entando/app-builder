@@ -36,6 +36,7 @@ import userProfile from 'state/user-profile/reducer';
 import digitalExchangeComponents from 'state/digital-exchange/components/reducer';
 import digitalExchanges from 'state/digital-exchange/digital-exchanges/reducer';
 import digitalExchangeCategories from 'state/digital-exchange/categories/reducer';
+import digitalExchangeExtraFilters from 'state/digital-exchange/extra-filters/reducer';
 
 const reducerDef = {
   activityStream,
@@ -49,6 +50,7 @@ const reducerDef = {
   dataTypes,
   digitalExchangeCategories,
   digitalExchangeComponents,
+  digitalExchangeExtraFilters,
   digitalExchanges,
   fileBrowser,
   form,

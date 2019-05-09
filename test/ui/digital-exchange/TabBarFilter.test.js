@@ -2,11 +2,14 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import CategoryFilter from 'ui/digital-exchange/CategoryFilter';
-import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryFilterContainer';
+import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
+import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabBarFilterContainer';
+import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { filterByDECategories } from 'state/digital-exchange/actions';
+import { navigateDECategory } from 'state/digital-exchange/actions';
+import { formattedText } from '@entando/utils';
+
 
 const TEST_STATE = {
   digitalExchanges: {
@@ -14,7 +17,7 @@ const TEST_STATE = {
   },
   digitalExchangeCategories: {
     list: LIST_DE_CATEGORIES_OK,
-    selected: {},
+    selected: ALL_CATEGORIES_CATEGORY,
   },
   digitalExchangeComponents: {
     list: [],
@@ -25,7 +28,7 @@ const TEST_STATE = {
 };
 
 jest.mock('state/digital-exchange/actions', () => ({
-  filterByDECategories: jest.fn(),
+  navigateDECategory: jest.fn(),
 }));
 
 jest.mock('state/digital-exchange/categories/actions', () => ({
@@ -39,10 +42,25 @@ jest.mock('state/loading/selectors', () => ({
 const dispatchMock = jest.fn();
 
 
-describe('CategoryFilter', () => {
+describe('TabBarFilter', () => {
   let component;
+  let noop;
+
   beforeEach(() => {
-    component = shallow(<CategoryFilter />);
+    noop = jest.fn();
+    component = shallow(<TabBarFilter
+      onSelect={noop}
+      onWillMount={noop}
+      filterTabs={[{
+        label: 'category',
+        value: 'category',
+      }]}
+      selectedFilterTab="all"
+      attributes={{
+        componentClass: 'CategoryTabs',
+        componentId: 'de-category-tabs',
+      }}
+    />);
   });
 
   it('renders without crashing', () => {
@@ -50,9 +68,20 @@ describe('CategoryFilter', () => {
   });
 
   it('maps digitalExchangeCategories property state', () => {
+    const filterTabs = [
+      ALL_CATEGORIES_CATEGORY,
+      ...TEST_STATE.digitalExchangeCategories.list,
+    ].map(filterTab => ({
+      label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
+      value: filterTab,
+    }));
     expect(mapStateToProps(TEST_STATE)).toEqual({
-      digitalExchangeCategories: TEST_STATE.digitalExchangeCategories.list,
-      initialValues: { categories: [] },
+      filterTabs,
+      selectedFilterTab: ALL_CATEGORIES_CATEGORY,
+      attributes: {
+        componentClass: 'CategoryTabs',
+        componentId: 'de-category-tabs',
+      },
     });
   });
 
@@ -64,7 +93,7 @@ describe('CategoryFilter', () => {
 
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();
-      expect(props.onChange).toBeDefined();
+      expect(props.onSelect).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
@@ -73,11 +102,11 @@ describe('CategoryFilter', () => {
       expect(fetchDECategories).toHaveBeenCalled();
     });
 
-    it('should dispatch an action if filter is checked', () => {
-      const categories = ['category'];
-      props.onChange({ categories });
+    it('should dispatch an action if tab is selected', () => {
+      const category = 'category';
+      props.onSelect(category);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(filterByDECategories).toHaveBeenCalledWith(categories);
+      expect(navigateDECategory).toHaveBeenCalledWith(category);
     });
   });
 });

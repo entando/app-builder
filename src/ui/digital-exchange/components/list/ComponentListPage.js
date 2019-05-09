@@ -3,7 +3,7 @@ import SidebarContainer from 'ui/digital-exchange/SidebarContainer';
 import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import CategoryTabsContainer from 'ui/digital-exchange/CategoryTabsContainer';
+import CategoryTabBarFilterContainer from 'ui/digital-exchange/CategoryTabBarFilterContainer';
 import ComponentListContainer from 'ui/digital-exchange/components/list/ComponentListContainer';
 import SearchBarContainer from 'ui/digital-exchange/components/SearchBarContainer';
 import ComponentListViewModeSwitcherContainer from 'ui/digital-exchange/components/common/ComponentListViewModeSwitcherContainer';
@@ -24,7 +24,7 @@ const ComponentListPage = () => (
       </Row>
       <Row>
         <Col md={12}>
-          <CategoryTabsContainer />
+          <CategoryTabBarFilterContainer />
         </Col>
       </Row>
       <Row>

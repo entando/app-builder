@@ -4,6 +4,8 @@ import { Spinner } from 'patternfly-react';
 
 import ComponentListGridView from 'ui/digital-exchange/components/list/ComponentListGridView';
 import ComponentListListView from 'ui/digital-exchange/components/list/ComponentListListView';
+import ExtraTabBarFilterContainer from 'ui/digital-exchange/ExtraTabBarFilterContainer';
+
 
 import { DE_COMPONENTS_GRID_VIEW } from 'state/digital-exchange/components/const';
 import { componentType } from 'models/digital-exchange/components';
@@ -23,6 +25,7 @@ class ComponentList extends Component {
 
     return (
       <div className="ComponentList">
+        <ExtraTabBarFilterContainer />
         <Spinner loading={!!loading} >
           {
             (viewMode === DE_COMPONENTS_GRID_VIEW)
