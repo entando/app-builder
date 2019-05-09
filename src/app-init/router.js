@@ -4,6 +4,11 @@ import store from 'state/store';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_DASHBOARD = 'dashboard';
+export const ROUTE_CMS = 'cms';
+export const ROUTE_CMS_CONTENT_LIST = 'cmsContentList';
+export const ROUTE_CMS_CONTENT_TYPES = 'cmsContentTypes';
+export const ROUTE_CMS_CONTENT_MODELS = 'cmsContentModels';
+export const ROUTE_CMS_CONTENT_SETTINGS = 'cmsContentSettings';
 export const ROUTE_USER_PROFILE = 'userprofile';
 export const ROUTE_PAGE = 'page';
 export const ROUTE_PAGE_ADD = 'pageAdd';
@@ -91,6 +96,11 @@ routerConfig(
       { name: ROUTE_HOME, path: '/' },
       { name: ROUTE_DASHBOARD, path: '/dashboard' },
       { name: ROUTE_USER_PROFILE, path: '/userprofile/:username' },
+      { name: ROUTE_CMS, path: '/cms' },
+      { name: ROUTE_CMS_CONTENT_LIST, path: '/cms/content' },
+      { name: ROUTE_CMS_CONTENT_TYPES, path: '/cms/content-type' },
+      { name: ROUTE_CMS_CONTENT_MODELS, path: '/cms/content-model' },
+      { name: ROUTE_CMS_CONTENT_SETTINGS, path: '/cms/content-settings' },
       { name: ROUTE_PAGE_TREE, path: '/page' },
       { name: ROUTE_PAGE_ADD, path: '/page/add' },
       { name: ROUTE_PAGE_CLONE, path: '/page/clone' },
