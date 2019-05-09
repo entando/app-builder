@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Icon } from 'patternfly-react';
-import { formattedText } from '@entando/utils';
 import {
   BrandMenu,
   AdminAppSwitch,
@@ -42,105 +41,95 @@ const menuHeader = [
 const integrationsMenuItem = pluginArray && pluginArray.length ? (
   <FirstLevelMenuItem
     id="menu-integration"
-    label={formattedText('menu.integration', 'Integration')}
+    label={<FormattedMessage id="menu.integration" defaultMessage="Integration" />}
   >
     <IntegrationMenu />
   </FirstLevelMenuItem>
 ) : null;
 
 
-const renderDigitalExchangeMenuItem = () => {
-  if (process.env.DIGITAL_EXCHANGE_UI_ENABLED) {
-    return (<LinkMenuItem
-      id="digital-exchange"
-      label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
-      route={ROUTE_DE_COMPONENT_LIST}
-      pullRight
-    />);
-  }
+const { DIGITAL_EXCHANGE_UI_ENABLED } = process.env;
+const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
+  id="digital-exchange"
+  label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
+  route={ROUTE_DE_COMPONENT_LIST}
+  pullRight
+/>) : '';
 
-  return '';
-};
-
-const renderCMSMenuItems = () => {
-  if (process.env.CMS_UI_ENABLED) {
-    return (
-      <FirstLevelMenuItem
-        id="menu-cms"
-        label={<FormattedMessage id="menu.cms" />}
-      >
-        <LinkMenuItem
-          id="menu-cms-content-list"
-          label={<FormattedMessage id="menu.cms.contentList" />}
-          route={ROUTE_CMS_CONTENT_LIST}
-        />
-        <LinkMenuItem
-          id="menu-roles"
-          label={<FormattedMessage id="menu.cms.contentTypes" />}
-          route={ROUTE_CMS_CONTENT_TYPES}
-        />
-        <LinkMenuItem
-          id="menu-groups"
-          label={<FormattedMessage id="menu.cms.contentModels" />}
-          route={ROUTE_CMS_CONTENT_MODELS}
-        />
-        <LinkMenuItem
-          id="menu-profile"
-          label={<FormattedMessage id="menu.cms.contentSettings" />}
-          route={ROUTE_CMS_CONTENT_SETTINGS}
-        />
-      </FirstLevelMenuItem>);
-  }
-
-  return '';
-};
+const { CMS_UI_ENABLED } = process.env;
+const cmsMenuItems = CMS_UI_ENABLED ? (
+  <FirstLevelMenuItem
+    id="menu-cms"
+    label={<FormattedMessage id="menu.cms" />}
+  >
+    <LinkMenuItem
+      id="menu-cms-content-list"
+      label={<FormattedMessage id="menu.cms.contentList" />}
+      route={ROUTE_CMS_CONTENT_LIST}
+    />
+    <LinkMenuItem
+      id="menu-roles"
+      label={<FormattedMessage id="menu.cms.contentTypes" />}
+      route={ROUTE_CMS_CONTENT_TYPES}
+    />
+    <LinkMenuItem
+      id="menu-groups"
+      label={<FormattedMessage id="menu.cms.contentModels" />}
+      route={ROUTE_CMS_CONTENT_MODELS}
+    />
+    <LinkMenuItem
+      id="menu-profile"
+      label={<FormattedMessage id="menu.cms.contentSettings" />}
+      route={ROUTE_CMS_CONTENT_SETTINGS}
+    />
+  </FirstLevelMenuItem>) : '';
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
     <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
       <LinkMenuItem
         id="menu-dashboard"
-        label={formattedText('menu.dashboard', 'Dashboard')}
+        label={<FormattedMessage id="menu.dashboard" defaultMessage="Dashboard" />}
         route={ROUTE_DASHBOARD}
       />
       <FirstLevelMenuItem
         id="menu-page-creator"
-        label={formattedText('menu.pageDesigner', 'Page Designer')}
+        label={<FormattedMessage id="menu.pageDesigner" defaultMessage="Page Designer" />}
       >
         <LinkMenuItem
           id="menu-page-tree"
-          label={formattedText('menu.pageTree', 'Page Tree')}
+          label={<FormattedMessage id="menu.pageTree" defaultMessage="Page Tree" />}
           route={ROUTE_PAGE_TREE}
         />
         <LinkMenuItem
           id="menu-page-config"
-          label={formattedText('menu.pageConfig')}
+          label={<FormattedMessage id="menu.pageConfig" />}
           route={ROUTE_PAGE_CONFIG}
           params={{ pageCode: 'homepage' }}
         />
         <LinkMenuItem
           id="menu-page-settings"
-          label={formattedText('menu.pageSettings')}
+          label={<FormattedMessage id="menu.pageSettings" />}
           route={ROUTE_PAGE_SETTINGS}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-ux-pattern"
-        label={formattedText('menu.uxPattern')}
+        label={<FormattedMessage id="menu.uxPattern" />}
       >
         <LinkMenuItem
           id="menu-ux-pattern-widgets"
-          label={formattedText('menu.widgets')}
+          label={<FormattedMessage id="menu.widgets" />}
           route={ROUTE_WIDGET_LIST}
         />
         <LinkMenuItem
           id="menu-ux-pattern-fragments"
-          label={formattedText('menu.fragments')}
+          label={<FormattedMessage id="menu.fragments" />}
           route={ROUTE_FRAGMENT_LIST}
         />
         <LinkMenuItem
           id="menu-ux-pattern-page-models"
-          label={formattedText('menu.pageModels')}
+          label={<FormattedMessage id="menu.pageModels" />}
           route={ROUTE_PAGE_MODEL_LIST}
         />
       </FirstLevelMenuItem>
@@ -149,51 +138,51 @@ const InternalPage = ({ className, children }) => (
 
       <FirstLevelMenuItem
         id="menu-data"
-        label={formattedText('menu.data')}
+        label={<FormattedMessage id="menu.data" />}
       >
         <LinkMenuItem
           id="menu-data-types"
-          label={formattedText('menu.dataType')}
+          label={<FormattedMessage id="menu.dataType" />}
           route={ROUTE_DATA_TYPE_LIST}
         />
         <LinkMenuItem
           id="menu-data-models"
-          label={formattedText('menu.dataModels')}
+          label={<FormattedMessage id="menu.dataModels" />}
           route={ROUTE_DATA_MODEL_LIST}
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
         id="menu-user-settings"
-        label={formattedText('menu.userManagement')}
+        label={<FormattedMessage id="menu.userManagement" />}
       >
         <LinkMenuItem
           id="menu-users"
-          label={formattedText('menu.users')}
+          label={<FormattedMessage id="menu.users" />}
           route={ROUTE_USER_LIST}
         />
         <LinkMenuItem
           id="menu-roles"
-          label={formattedText('menu.roles')}
+          label={<FormattedMessage id="menu.roles" />}
           route={ROUTE_ROLE_LIST}
         />
         <LinkMenuItem
           id="menu-groups"
-          label={formattedText('menu.groups')}
+          label={<FormattedMessage id="menu.groups" />}
           route={ROUTE_GROUP_LIST}
         />
         <LinkMenuItem
           id="menu-profile"
-          label={formattedText('menu.profileTypes')}
+          label={<FormattedMessage id="menu.profileTypes" />}
           route={ROUTE_PROFILE_TYPE_LIST}
         />
         <LinkMenuItem
           id="menu-user-restrictions"
-          label={formattedText('menu.users.restrictions')}
+          label={<FormattedMessage id="menu.users.restrictions" />}
           route={ROUTE_USER_RESTRICTIONS}
         />
       </FirstLevelMenuItem>
 
-      {renderCMSMenuItems()}
+      {cmsMenuItems}
 
       <FirstLevelMenuItem
         id="menu-configuration"
@@ -202,32 +191,32 @@ const InternalPage = ({ className, children }) => (
       >
         <LinkMenuItem
           id="menu-categories"
-          label={formattedText('menu.categories')}
+          label={<FormattedMessage id="menu.categories" />}
           route={ROUTE_CATEGORY_LIST}
         />
         <LinkMenuItem
           id="menu-labels-languages"
-          label={formattedText('menu.labelsAndLanguages')}
+          label={<FormattedMessage id="menu.labelsAndLanguages" />}
           route={ROUTE_LABELS_AND_LANGUAGES}
         />
         <LinkMenuItem
           id="menu-reload-configuration"
-          label={formattedText('menu.reloadConfiguration')}
+          label={<FormattedMessage id="menu.reloadConfiguration" />}
           route={ROUTE_RELOAD_CONFIG}
         />
         <LinkMenuItem
           id="menu-databases"
-          label={formattedText('menu.database')}
+          label={<FormattedMessage id="menu.database" />}
           route={ROUTE_DATABASE_LIST}
         />
         <LinkMenuItem
           id="menu-labels-file-browser"
-          label={formattedText('menu.fileBrowser')}
+          label={<FormattedMessage id="menu.fileBrowser" />}
           route={ROUTE_FILE_BROWSER}
         />
       </FirstLevelMenuItem>
 
-      {renderDigitalExchangeMenuItem()}
+      {digitalExchangeMenuItem}
 
     </BrandMenu>
     <ActivityStreamContainer >
