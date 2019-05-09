@@ -48,7 +48,8 @@ const integrationsMenuItem = pluginArray && pluginArray.length ? (
 ) : null;
 
 
-const { DIGITAL_EXCHANGE_UI_ENABLED } = process.env;
+const { DIGITAL_EXCHANGE_UI_ENABLED, CMS_UI_ENABLED } = process.env;
+
 const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
   id="digital-exchange"
   label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
@@ -56,7 +57,6 @@ const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
   pullRight
 />) : '';
 
-const { CMS_UI_ENABLED } = process.env;
 const cmsMenuItems = CMS_UI_ENABLED ? (
   <FirstLevelMenuItem
     id="menu-cms"
