@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withKeycloak } from 'ui/app/Keycloak';
 import { gotoRoute } from '@entando/router';
 import { LoginPage, NotFoundPage } from '@entando/pages';
 
@@ -86,8 +87,8 @@ import {
   ROUTE_CMS_CONTENT_SETTINGS,
 } from 'app-init/router';
 
-import ToastsContainer from 'ui/app/ToastsContainer';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
+import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
@@ -173,13 +174,14 @@ import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 
-const getRouteComponent = (route) => {
+const getRouteComponent = (route, keycloak) => {
   switch (route) {
-    case ROUTE_HOME: return (
-      <LoginPage>
-        <LoginFormContainer />
-      </LoginPage>
-    );
+    case ROUTE_HOME:
+      return keycloak && keycloak.enabled ? <DashboardPage /> : (
+        <LoginPage>
+          <LoginFormContainer />
+        </LoginPage>
+      );
     case ROUTE_DASHBOARD: return <DashboardPage />;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
@@ -271,8 +273,8 @@ const getRouteComponent = (route) => {
   }
 };
 
-const App = ({ route, username }) => {
-  if (username === null && route !== ROUTE_HOME && route) {
+const App = ({ route, keycloak, username }) => {
+  if (!keycloak.enabled && username === null && route !== ROUTE_HOME && route) {
     gotoRoute(ROUTE_HOME);
     return <h1>401</h1>;
   }
@@ -280,7 +282,7 @@ const App = ({ route, username }) => {
   return (
     <Fragment>
       <ToastsContainer />
-      {getRouteComponent(route)}
+      {!keycloak.enabled || keycloak.authenticated ? getRouteComponent(route, keycloak) : null}
     </Fragment>
   );
 };
@@ -288,10 +290,12 @@ const App = ({ route, username }) => {
 App.propTypes = {
   route: PropTypes.string.isRequired,
   username: PropTypes.string,
+  keycloak: PropTypes.shape({ authenticated: PropTypes.bool }),
 };
 
 App.defaultProps = {
   username: null,
+  keycloak: null,
 };
 
-export default App;
+export default withKeycloak(App);
