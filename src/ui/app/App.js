@@ -274,7 +274,8 @@ const getRouteComponent = (route, keycloak) => {
 };
 
 const App = ({ route, keycloak, username }) => {
-  if (!keycloak.enabled && username === null && route !== ROUTE_HOME && route) {
+  const isUserUndefined = username === null || username === undefined;
+  if (!keycloak.enabled && isUserUndefined && route !== ROUTE_HOME && route) {
     gotoRoute(ROUTE_HOME);
     return <h1>401</h1>;
   }
@@ -295,7 +296,7 @@ App.propTypes = {
 
 App.defaultProps = {
   username: null,
-  keycloak: null,
+  keycloak: { enabled: false },
 };
 
 export default withKeycloak(App);
