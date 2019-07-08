@@ -49,7 +49,7 @@ export const getDataTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
     {
       uri: `/api/dataTypes${params}`,
       method: METHODS.GET,
-      mockResponse: DATA_TYPES_OK_PAGE_1,
+      mockResponse: DATA_TYPES_OK_PAGE_1.payload,
       useAuthentication: true,
     },
     page,

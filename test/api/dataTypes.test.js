@@ -36,7 +36,7 @@ import {
 const correctRequest = {
   uri: '/api/dataTypes',
   method: METHODS.GET,
-  mockResponse: DATA_TYPES_OK_PAGE_1,
+  mockResponse: DATA_TYPES_OK_PAGE_1.payload,
   useAuthentication: true,
 };
 
