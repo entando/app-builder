@@ -4,6 +4,7 @@ import Keycloak from 'keycloak-js';
 export const keycloak = new Keycloak(process.env.KEYCLOAK_JSON);
 export const keycloakEnabled = process.env.KEYCLOAK_ENABLED;
 export const keycloakLogout = () => keycloak.logout();
+keycloak.enabled = keycloakEnabled;
 
 const keycloakDisabled = { enabled: false, authenticated: false };
 

@@ -31,6 +31,21 @@ const mapToFolder = (dependencies, folder) =>
     }
   }, {});
 
+/*
+ * Sometimes while we are investigating an issue,
+ * we need to remove some codes/components and it makes
+ * some variables unused, fixing lint on these situations leads too much
+ * wasted time to do this investigation, this flags is useful for those situations
+ */
+const lintDisabled = process.env.DISABLE_LINT === 'true';
+const lintOptions = lintDisabled ? [] : [{
+  options: {
+    formatter: eslintFormatter,
+    eslintPath: require.resolve('eslint'),
+  },
+  loader: require.resolve('eslint-loader'),
+}];
+
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -150,13 +165,7 @@ module.exports = {
         test: /\.(js|jsx|mjs)$/,
         enforce: 'pre',
         use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
-            },
-            loader: require.resolve('eslint-loader'),
-          },
+          ...lintOptions,
         ],
         include: paths.appSrc,
       },
