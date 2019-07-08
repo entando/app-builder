@@ -255,7 +255,6 @@ export default {
     'app.created': 'O {type} {code} foi criado',
     'app.updated': 'O {type} {code} foi atualizado',
     'app.deleted': 'O {type} {code} foi removido',
-    'app.deleted': 'O {type} {code} foi removido',
     'app.updateSettings.success': 'As configurações foram atualizadas com sucesso',
     'app.timestamp.hours': 'Selecione a hora',
     'app.timestamp.minutes': 'Selecione o minuto',
