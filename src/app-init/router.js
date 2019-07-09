@@ -87,6 +87,7 @@ export const ROUTE_DE_COMPONENT_LIST = 'digitalExchangeComponentList';
 export const ROUTE_DE_CONFIG_LIST = 'digitalExchangeConfigList';
 export const ROUTE_DE_CONFIG_EDIT = 'digitalExchangeConfigEdit';
 export const ROUTE_DE_CONFIG_ADD = 'digitalExchangeConfigAdd';
+export const ROUTE_PLUGINS = 'plugins';
 
 routerConfig(
   store,
@@ -163,7 +164,7 @@ routerConfig(
       { name: ROUTE_ROLE_DETAIL, path: '/role/view/:roleCode' },
       { name: ROUTE_RELOAD_CONFIG, path: '/reloadConfiguration' },
       { name: ROUTE_RELOAD_CONFIRM, path: '/reloadConfiguration/confirm' },
-      { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugin/:pluginId/config' },
+      { name: ROUTE_PLUGIN_CONFIG_PAGE, path: '/plugins/config/:id' },
       { name: ROUTE_DATABASE_LIST, path: '/database' },
       { name: ROUTE_DATABASE_ADD, path: '/database/add' },
       { name: ROUTE_DATABASE_REPORT, path: '/database/report/:dumpCode' },
@@ -177,6 +178,7 @@ routerConfig(
       { name: ROUTE_DE_CONFIG_LIST, path: '/digital-exchange/configuration' },
       { name: ROUTE_DE_CONFIG_EDIT, path: '/digital-exchange/configuration/edit/:server' },
       { name: ROUTE_DE_CONFIG_ADD, path: '/digital-exchange/configuration/add' },
+      { name: ROUTE_PLUGINS, path: '/plugins' },
     ],
     notFoundRoute: { name: 'notFound', path: '/route-not-found' },
   },

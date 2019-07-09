@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { gotoRoute } from '@entando/router';
 import { LoginPage, NotFoundPage } from '@entando/pages';
@@ -84,6 +84,7 @@ import {
   ROUTE_CMS_CONTENT_TYPES,
   ROUTE_CMS_CONTENT_MODELS,
   ROUTE_CMS_CONTENT_SETTINGS,
+  ROUTE_PLUGINS,
 } from 'app-init/router';
 
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -162,7 +163,7 @@ import EditProfileTypesPage from 'ui/profile-types/edit/EditProfileTypesPage';
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
+import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
@@ -172,6 +173,7 @@ import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage'
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
+import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
 const getRouteComponent = (route) => {
   switch (route) {
@@ -268,29 +270,40 @@ const getRouteComponent = (route) => {
       <ContentModelsListPage /> : <CMSDisabledPage />;
     case ROUTE_CMS_CONTENT_SETTINGS: return (process.env.CMS_UI_ENABLED) ?
       <ContentSettingsPage /> : <CMSDisabledPage />;
+    case ROUTE_PLUGINS: return <PluginsPageContainer />;
   }
 };
 
-const App = ({ route, username }) => {
-  if (username === null && route !== ROUTE_HOME && route) {
-    gotoRoute(ROUTE_HOME);
-    return <h1>401</h1>;
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchPlugins();
   }
 
-  return (
-    <Fragment>
-      <ToastsContainer />
-      {getRouteComponent(route)}
-    </Fragment>
-  );
-};
+  render() {
+    const { route, username } = this.props;
+    if (username === null && route !== ROUTE_HOME && route) {
+      gotoRoute(ROUTE_HOME);
+      return <h1>401</h1>;
+    }
+
+    return (
+      <Fragment>
+        <ToastsContainer />
+        {getRouteComponent(route)}
+      </Fragment>
+    );
+  }
+}
+
 
 App.propTypes = {
+  fetchPlugins: PropTypes.func,
   route: PropTypes.string.isRequired,
   username: PropTypes.string,
 };
 
 App.defaultProps = {
+  fetchPlugins: () => {},
   username: null,
 };
 

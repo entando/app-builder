@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
+import { fetchPlugins } from 'state/plugins/thunks';
 import { getUsername } from '@entando/apimanager';
 import { getRoute } from '@entando/router';
 
 import App from 'ui/app/App';
 
-// map the props
 export const mapStateToProps = state => ({
   route: getRoute(state),
   username: getUsername(state),
 });
 
-// connect the component
-const AppContainer = connect(mapStateToProps, null)(App);
+export const mapDispatchToProps = dispatch => ({
+  fetchPlugins: () => dispatch(fetchPlugins()),
+});
 
-// export connected component (Container)
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+
 export default AppContainer;
