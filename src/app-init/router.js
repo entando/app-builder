@@ -88,7 +88,7 @@ export const ROUTE_DE_CONFIG_LIST = 'digitalExchangeConfigList';
 export const ROUTE_DE_CONFIG_EDIT = 'digitalExchangeConfigEdit';
 export const ROUTE_DE_CONFIG_ADD = 'digitalExchangeConfigAdd';
 
-const publicUrl = '';
+const publicUrl = process.env.PUBLIC_URL;
 
 routerConfig(
   store,
