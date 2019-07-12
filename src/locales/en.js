@@ -701,5 +701,7 @@ export default {
     'singlePageSettings.generalSettings': 'General Settings',
     'singlePageSettings.pageTitle': 'Page Title',
     'singlePageSettings.updateSuccess': 'Page successfully updated',
+    'plugins.noPlugins': 'No installed plugins. See available plugins on the Digital Exchange',
+    'plugins.installCallToAction': 'Go to Digital Exchange',
   },
 };

@@ -125,7 +125,7 @@ const InternalPage = ({ className, children }) => (
 
       <LinkMenuItem
         id="menu-integrations"
-        label={<FormattedMessage id="menu.integrations" defaultMessage="Integrations" />}
+        label={<FormattedMessage id="menu.integration" defaultMessage="Integrations" />}
         route={ROUTE_PLUGINS}
       />
 
