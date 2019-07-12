@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import Form from 'react-jsonschema-form';
 
 
-class PluginConfigPage extends Component {
+class PluginConfigPage extends PureComponent {
   componentDidMount() {
     this.props.fetchSelectedPluginIfNotCached();
   }
 
   handleSubmit = (plugin) => {
-    console.info(plugin.formData);
     this.props.savePluginConfig(plugin);
   }
 

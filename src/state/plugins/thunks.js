@@ -43,12 +43,12 @@ export const fetchSelectedPluginIfNotCached = () => (dispatch, getState) => {
   return new Promise((resolve) => {
     const pluginMap = getPluginMap(state);
     const plugin = pluginMap[id];
-    if (!plugin) {
-      dispatch(fetchPlugin(id));
-    } else {
-      setSelectedPlugin(plugin);
-      resolve();
+    if (plugin) {
+      dispatch(setSelectedPlugin(plugin));
+      console.log('setSelectedPlugin', plugin);
+      return resolve();
     }
+    return dispatch(fetchPlugin(id));
   });
 };
 
