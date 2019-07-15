@@ -19,7 +19,6 @@ export const setLoginErrorMessage = (message) => ({
 
 const ERROR_LOGIN_MESSAGE = 'error: username or password is invalid';
 const ERROR_LOGIN_CODE = 'fcc.login.errorMessage';
-const domain = process.env.DOMAIN;
 
 export const performLogin = (username, password) => dispatch => (
   new Promise((resolve) => {
@@ -41,7 +40,7 @@ export const performLogin = (username, password) => dispatch => (
       }).catch((e) => {
         const messageCode = (e.message === 'app.permissionDenied') ? ERROR_LOGIN_CODE : e.message;
         dispatch(addToast(
-          formattedText(messageCode, ERROR_LOGIN_MESSAGE, { domain }),
+          formattedText(messageCode, ERROR_LOGIN_MESSAGE, { domain: e.data.domain }),
           TOAST_ERROR,
         ));
       });
