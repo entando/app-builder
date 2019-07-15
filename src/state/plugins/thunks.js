@@ -22,7 +22,7 @@ export const fetchPlugins = (params = '') => dispatch => (
   })
 );
 
-export const fetchPlugin = id => dispatch => (
+const fetchPlugin = id => dispatch => (
   new Promise((resolve) => {
     getPlugin(id).then((response) => {
       response.json().then((json) => {
@@ -45,18 +45,26 @@ export const fetchSelectedPluginIfNotCached = () => (dispatch, getState) => {
     const plugin = pluginMap[id];
     if (plugin) {
       dispatch(setSelectedPlugin(plugin));
-      console.log('setSelectedPlugin', plugin);
-      return resolve();
+      resolve();
     }
-    return dispatch(fetchPlugin(id));
+    dispatch(fetchPlugin(id)).then(() => resolve());
   });
 };
 
 export const savePluginConfig = plugin => dispatch => (
-  putPluginConfig(plugin).then(() => {
-    dispatch(addToast(
-      'Configuration successfully saved',
-      TOAST_SUCCESS,
-    ));
-  }).catch(() => {})
+  new Promise((resolve) => {
+    putPluginConfig(plugin).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(addToast(
+            'Configuration successfully saved',
+            TOAST_SUCCESS,
+          ));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
+  })
 );

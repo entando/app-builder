@@ -75,4 +75,4 @@ export const PLUGIN_OK = {
   apiEndpoint: 'http://localhost:8080/entando-local/api/plugins/sample-plugin/',
 };
 
-export const PLUGINS_OK_PAGE_1 = [PLUGIN_OK];
+export const PLUGINS_OK = [PLUGIN_OK];

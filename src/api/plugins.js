@@ -1,15 +1,15 @@
 import {
   PLUGIN_OK,
-  PLUGINS_OK_PAGE_1,
+  PLUGINS_OK,
 } from 'test/mocks/plugins';
 import { makeMockRequest, METHODS } from '@entando/apimanager';
 
 export const getPlugins = (params, page) => (
   makeMockRequest(
     {
-      uri: `/api/plugins${params}`,
+      uri: `/api/plugins${params || ''}`,
       method: METHODS.GET,
-      mockResponse: PLUGINS_OK_PAGE_1,
+      mockResponse: PLUGINS_OK,
       useAuthentication: true,
     },
     page,
