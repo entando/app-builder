@@ -28,8 +28,8 @@ import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 import pluginArray from 'entando-plugins';
 
-
-const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
+const publicUrl = process.env.PUBLIC_URL;
+const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
 
 const menuHeader = [
   <HomePageLinkContainer key="projectLink" />,
