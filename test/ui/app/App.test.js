@@ -41,6 +41,7 @@ import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
+import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 // digital exchange
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
@@ -90,6 +91,7 @@ import {
   ROUTE_PAGE_MODEL_DETAIL,
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
+  ROUTE_PLUGINS,
   // digital exchange
   ROUTE_DE_COMPONENT_LIST,
   ROUTE_DE_CONFIG_LIST,
@@ -109,187 +111,192 @@ describe('App', () => {
   });
 
   it('always contains the ToastsContainer', () => {
-    let component = shallow(<App route={ROUTE_HOME} />);
+    let component = shallow(<App route={ROUTE_HOME} />).dive();
     expect(component.find(ToastsContainer).exists()).toBe(true);
-    component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />);
+    component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />).dive();
     expect(component.find(ToastsContainer).exists()).toBe(true);
   });
 
   it('redirects to login page if the user is not logged in', () => {
-    const component = shallow(<App route={ROUTE_DASHBOARD} />);
+    const component = shallow(<App route={ROUTE_DASHBOARD} />).dive();
     expect(component.contains(<DashboardPage />)).toBe(false);
     expect(component.contains(<h1>401</h1>)).toBe(true);
     expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
   });
 
   it('route to dashboard', () => {
-    const component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />);
+    const component = shallow(<App route={ROUTE_DASHBOARD} username="admin" />).dive();
     expect(component.contains(<DashboardPage />)).toBe(true);
   });
 
   it('route to page tree page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_TREE} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_TREE} username="admin" />).dive();
     expect(component.contains(<PageTreePageContainer />)).toBe(true);
   });
 
   it('route to widget list page', () => {
-    const component = shallow(<App route={ROUTE_WIDGET_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_WIDGET_LIST} username="admin" />).dive();
     expect(component.contains(<ListWidgetPageContainer />)).toBe(true);
   });
 
   it('route to widget entry page', () => {
-    const component = shallow(<App route={ROUTE_WIDGET_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_WIDGET_ADD} username="admin" />).dive();
     expect(component.contains(<AddWidgetPage />)).toBe(true);
   });
 
   it('route to widget edit page', () => {
-    const component = shallow(<App route={ROUTE_WIDGET_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_WIDGET_EDIT} username="admin" />).dive();
     expect(component.contains(<EditWidgetPageContainer />)).toBe(true);
   });
 
   it('route to widget edit page', () => {
-    const component = shallow(<App route={ROUTE_WIDGET_CONFIG} username="admin" />);
+    const component = shallow(<App route={ROUTE_WIDGET_CONFIG} username="admin" />).dive();
     expect(component.contains(<WidgetConfigPageContainer />)).toBe(true);
   });
 
   it('route to add fragment page', () => {
-    const component = shallow(<App route={ROUTE_FRAGMENT_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_FRAGMENT_ADD} username="admin" />).dive();
     expect(component.contains(<AddFragmentPage />)).toBe(true);
   });
 
   it('route to edit fragment page', () => {
-    const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_FRAGMENT_EDIT} username="admin" />).dive();
     expect(component.contains(<EditFragmentPageContainer />)).toBe(true);
   });
 
   it('route to detail fragment page', () => {
-    const component = shallow(<App route={ROUTE_FRAGMENT_DETAIL} username="admin" />);
+    const component = shallow(<App route={ROUTE_FRAGMENT_DETAIL} username="admin" />).dive();
     expect(component.contains(<DetailFragmentPageContainer />)).toBe(true);
   });
 
   it('route to add page page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_ADD} username="admin" />).dive();
     expect(component.contains(<PagesAddPageContainer />)).toBe(true);
   });
 
   it('route to edit page page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_EDIT} username="admin" />).dive();
     expect(component.contains(<PagesEditPage />)).toBe(true);
   });
 
   it('route to page settings page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_SETTINGS} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_SETTINGS} username="admin" />).dive();
     expect(component.contains(<PageSettingsPage />)).toBe(true);
   });
 
   it('route to list fragment page', () => {
-    const component = shallow(<App route={ROUTE_FRAGMENT_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_FRAGMENT_LIST} username="admin" />).dive();
     expect(component.contains(<ListFragmentPage />)).toBe(true);
   });
 
   it('route to page config page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_CONFIG} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_CONFIG} username="admin" />).dive();
     expect(component.contains(<PageConfigPageContainer />)).toBe(true);
   });
 
   it('route to add data model page', () => {
-    const component = shallow(<App route={ROUTE_DATA_MODEL_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_DATA_MODEL_ADD} username="admin" />).dive();
     expect(component.contains(<AddDataModelPage />)).toBe(true);
   });
 
   it('route to edit data model page', () => {
-    const component = shallow(<App route={ROUTE_DATA_MODEL_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_DATA_MODEL_EDIT} username="admin" />).dive();
     expect(component.contains(<EditDataModelPage />)).toBe(true);
   });
 
   it('route to data model list page', () => {
-    const component = shallow(<App route={ROUTE_DATA_MODEL_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_DATA_MODEL_LIST} username="admin" />).dive();
     expect(component.contains(<DataModelListPage />)).toBe(true);
   });
 
   it('route to data type list page', () => {
-    const component = shallow(<App route={ROUTE_DATA_TYPE_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_DATA_TYPE_LIST} username="admin" />).dive();
     expect(component.contains(<ListDataTypePage />)).toBe(true);
   });
 
   it('route to user list page', () => {
-    const component = shallow(<App route={ROUTE_USER_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_LIST} username="admin" />).dive();
     expect(component.contains(<UserListPage />)).toBe(true);
   });
 
   it('route to user authority page', () => {
-    const component = shallow(<App route={ROUTE_USER_AUTHORITY} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_AUTHORITY} username="admin" />).dive();
     expect(component.contains(<UserAuthorityPageContainer />)).toBe(true);
   });
 
   it('route to user add page', () => {
-    const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_ADD} username="admin" />).dive();
     expect(component.contains(<AddUserPage />)).toBe(true);
   });
 
   it('route to user edit page', () => {
-    const component = shallow(<App route={ROUTE_USER_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_EDIT} username="admin" />).dive();
     expect(component.contains(<EditUserPage />)).toBe(true);
   });
 
   it('route to user detail page', () => {
-    const component = shallow(<App route={ROUTE_USER_DETAIL} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_DETAIL} username="admin" />).dive();
     expect(component.contains(<DetailUserPage />)).toBe(true);
   });
 
   it('route to user restrictions page', () => {
-    const component = shallow(<App route={ROUTE_USER_RESTRICTIONS} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_RESTRICTIONS} username="admin" />).dive();
     expect(component.contains(<UserRestrictionsPage />)).toBe(true);
   });
 
   it('route to user restrictions page', () => {
-    const component = shallow(<App route={ROUTE_USER_MY_PROFILE} username="admin" />);
+    const component = shallow(<App route={ROUTE_USER_MY_PROFILE} username="admin" />).dive();
     expect(component.contains(<MyProfilePage />)).toBe(true);
   });
 
   it('route to group list page', () => {
-    const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />);
+    const component = shallow(<App route={ROUTE_GROUP_LIST} username="admin" />).dive();
     expect(component.contains(<ListGroupPage />)).toBe(true);
   });
 
   it('route to group add page', () => {
-    const component = shallow(<App route={ROUTE_GROUP_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_GROUP_ADD} username="admin" />).dive();
     expect(component.contains(<AddGroupPage />)).toBe(true);
   });
 
   it('route to group edit page', () => {
-    const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_GROUP_EDIT} username="admin" />).dive();
     expect(component.contains(<EditGroupPage />)).toBe(true);
   });
 
   it('route to labels and languages page', () => {
-    const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />);
+    const component = shallow(<App route={ROUTE_LABELS_AND_LANGUAGES} username="admin" />).dive();
     expect(component.contains(<LabelsAndLanguagesPageContainer />)).toBe(true);
   });
 
   it('route to add page model page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_MODEL_ADD} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_ADD} username="admin" />).dive();
     expect(component.contains(<PageModelAddPage />)).toBe(true);
   });
 
   it('route to edit page model page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_MODEL_EDIT} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_EDIT} username="admin" />).dive();
     expect(component.contains(<PageModelEditPage />)).toBe(true);
   });
 
   it('route to page model detail page', () => {
-    const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />);
+    const component = shallow(<App route={ROUTE_PAGE_MODEL_DETAIL} username="admin" />).dive();
     expect(component.contains(<PageModelDetailPageContainer />)).toBe(true);
   });
 
   it('route to page file browser page', () => {
-    const component = shallow(<App route={ROUTE_FILE_BROWSER} username="admin" />);
+    const component = shallow(<App route={ROUTE_FILE_BROWSER} username="admin" />).dive();
     expect(component.contains(<FileBrowserPageContainer />)).toBe(true);
   });
 
   it('route to page file browser page create folder', () => {
-    const component = shallow(<App route={ROUTE_FILE_BROWSER_CREATE_FOLDER} username="admin" />);
+    const component = shallow(<App route={ROUTE_FILE_BROWSER_CREATE_FOLDER} username="admin" />).dive();
     expect(component.contains(<CreateFolderFormContainer />)).toBe(true);
+  });
+
+  it('route to plugins page', () => {
+    const component = shallow(<App route={ROUTE_PLUGINS} username="admin" />).dive();
+    expect(component.contains(<PluginsPageContainer />)).toBe(true);
   });
 
   describe('digital exchange', () => {
@@ -300,22 +307,22 @@ describe('App', () => {
 
     describe('digital exchange disabled', () => {
       it('routes to the disable page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />).dive();
         expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />).dive();
         expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />).dive();
         expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />).dive();
         expect(component.contains(<ComponentListPageDisabled />)).toBe(true);
       });
     });
@@ -326,20 +333,20 @@ describe('App', () => {
       });
 
       it('routes to the component list page page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_COMPONENT_LIST} username="admin" />).dive();
         expect(component.contains(<ComponentListPage />)).toBe(true);
       });
 
       it('routes to the component list page page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_LIST} username="admin" />).dive();
         expect(component.contains(<SettingsListPage />)).toBe(true);
       });
       it('routes to the component list page page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_EDIT} username="admin" />).dive();
         expect(component.contains(<SettingsEditPage />)).toBe(true);
       });
       it('routes to the component list page page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />);
+        const component = shallow(<App route={ROUTE_DE_CONFIG_ADD} username="admin" />).dive();
         expect(component.contains(<SettingsAddPage />)).toBe(true);
       });
     });
@@ -354,22 +361,22 @@ describe('App', () => {
 
     describe('CMS disabled', () => {
       it('routes to the disable page on ROUTE_CMS_CONTENT_LIST', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_LIST} username="admin" />).dive();
         expect(component.contains(<CMSDisabledPage />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_CMS_CONTENT_TYPES', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_TYPES} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_TYPES} username="admin" />).dive();
         expect(component.contains(<CMSDisabledPage />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_CMS_CONTENT_MODELS', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_MODELS} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_MODELS} username="admin" />).dive();
         expect(component.contains(<CMSDisabledPage />)).toBe(true);
       });
 
       it('routes to the disable page on ROUTE_CMS_CONTENT_SETTINGS', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_SETTINGS} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_SETTINGS} username="admin" />).dive();
         expect(component.contains(<CMSDisabledPage />)).toBe(true);
       });
     });
@@ -380,20 +387,20 @@ describe('App', () => {
       });
 
       it('routes to the content list page on ROUTE_CMS_CONTENT_LIST', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_LIST} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_LIST} username="admin" />).dive();
         expect(component.contains(<ContentListPage />)).toBe(true);
       });
 
       it('routes to the content types list page on ROUTE_CMS_CONTENT_TYPES', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_TYPES} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_TYPES} username="admin" />).dive();
         expect(component.contains(<ContentTypesListPage />)).toBe(true);
       });
       it('routes to the content models list page on ROUTE_CMS_CONTENT_MODELS', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_MODELS} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_MODELS} username="admin" />).dive();
         expect(component.contains(<ContentModelsListPage />)).toBe(true);
       });
       it('routes to the content settings page on ROUTE_CMS_CONTENT_SETTINGS', () => {
-        const component = shallow(<App route={ROUTE_CMS_CONTENT_SETTINGS} username="admin" />);
+        const component = shallow(<App route={ROUTE_CMS_CONTENT_SETTINGS} username="admin" />).dive();
         expect(component.contains(<ContentSettingsPage />)).toBe(true);
       });
     });
@@ -401,12 +408,12 @@ describe('App', () => {
 
 
   it('default route', () => {
-    const component = shallow(<App route="test" username="admin" />);
+    const component = shallow(<App route="test" username="admin" />).dive();
     expect(component.contains(<NotFoundPage />)).toBe(true);
   });
 
   it('default route if the user is not logged in and the route is falsy', () => {
-    const component = shallow(<App route="" />);
+    const component = shallow(<App route="" />).dive();
     expect(component.contains(<NotFoundPage />)).toBe(true);
   });
 });

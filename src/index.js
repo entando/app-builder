@@ -22,15 +22,17 @@ import 'codemirror/lib/codemirror.css';
 import '@entando/menu/dist/css/index.css';
 import '@entando/pages/dist/css/index.css';
 import '@entando/ddtable/dist/css/index.css';
+import KeycloakProviderContainer from 'ui/app/KeycloakProviderContainer';
 
 import 'index.scss';
-
 
 // exporting for tests
 export default ReactDOM.render(
   <Provider store={store}>
     <IntlProviderContainer>
-      <AppContainer />
+      <KeycloakProviderContainer>
+        <AppContainer />
+      </KeycloakProviderContainer>
     </IntlProviderContainer>
   </Provider>,
   document.getElementById('root'),

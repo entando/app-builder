@@ -27,8 +27,8 @@ import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer'
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 
-
-const BRAND_LOGO = <img src="images/entando-logo.svg" alt="" />;
+const publicUrl = process.env.PUBLIC_URL;
+const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
 
 const menuHeader = [
   <HomePageLinkContainer key="projectLink" />,

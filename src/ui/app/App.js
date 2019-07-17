@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withKeycloak } from 'ui/app/Keycloak';
 import { gotoRoute } from '@entando/router';
 import { LoginPage, NotFoundPage } from '@entando/pages';
 
@@ -175,13 +176,14 @@ import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
-const getRouteComponent = (route) => {
+const getRouteComponent = (route, keycloak) => {
   switch (route) {
-    case ROUTE_HOME: return (
-      <LoginPage>
-        <LoginFormContainer />
-      </LoginPage>
-    );
+    case ROUTE_HOME:
+      return keycloak && keycloak.enabled ? <DashboardPage /> : (
+        <LoginPage>
+          <LoginFormContainer />
+        </LoginPage>
+      );
     case ROUTE_DASHBOARD: return <DashboardPage />;
     case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
     case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
@@ -280,8 +282,9 @@ class App extends Component {
   }
 
   render() {
-    const { route, username } = this.props;
-    if (username === null && route !== ROUTE_HOME && route) {
+    const { route, keycloak, username } = this.props;
+    const isUserUndefined = username === null || username === undefined;
+    if (!keycloak.enabled && isUserUndefined && route !== ROUTE_HOME && route) {
       gotoRoute(ROUTE_HOME);
       return <h1>401</h1>;
     }
@@ -289,7 +292,9 @@ class App extends Component {
     return (
       <Fragment>
         <ToastsContainer />
-        {getRouteComponent(route)}
+        {!keycloak.enabled || keycloak.authenticated
+        ? getRouteComponent(route, keycloak)
+        : <LoginPage />}
       </Fragment>
     );
   }
@@ -300,11 +305,13 @@ App.propTypes = {
   fetchPlugins: PropTypes.func,
   route: PropTypes.string.isRequired,
   username: PropTypes.string,
+  keycloak: PropTypes.shape({ authenticated: PropTypes.bool }),
 };
 
 App.defaultProps = {
   fetchPlugins: () => {},
   username: null,
+  keycloak: { enabled: false },
 };
 
-export default App;
+export default withKeycloak(App);

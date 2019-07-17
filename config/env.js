@@ -79,6 +79,8 @@ function getClientEnvironment(publicUrl) {
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         DIGITAL_EXCHANGE_UI_ENABLED: process.env.DIGITAL_EXCHANGE_UI_ENABLED === 'true',
         CMS_UI_ENABLED: process.env.CMS_UI_ENABLED === 'true',
+        KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
+        KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${process.env.DOMAIN}/keycloak.json`,
       },
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
