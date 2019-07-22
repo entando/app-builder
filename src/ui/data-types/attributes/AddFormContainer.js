@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { METHODS } from '@entando/apimanager';
 import { clearErrors } from '@entando/messages';
 import AttributeForm from 'ui/common/form/AttributeForm';
@@ -25,9 +25,9 @@ import {
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
 import { TYPE_COMPOSITE, MODE_ADD } from 'state/data-types/const';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: getActionModeDataTypeSelectedAttribute(state) || 'add',
-  dataTypeAttributeCode: getParams(state).entityCode,
+  dataTypeAttributeCode: params.entityCode,
   joinAllowedOptions: formValueSelector('addAttribute')(state, 'joinRoles') || [],
   selectedAttributeType: getDataTypeSelectedAttribute(state),
   attributesList: getDataTypeAttributesIdList(state),
@@ -39,13 +39,19 @@ export const mapStateToProps = state => ({
   compositeAttributes: getSelectedCompositeAttributes(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(clearErrors());
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values, allowedRoles, mode) => {
-    dispatch(handlerAttributeFromDataType(METHODS.POST, values, allowedRoles, mode));
+    dispatch(handlerAttributeFromDataType(
+      METHODS.POST,
+      values,
+      allowedRoles,
+      mode,
+      params.entityCode,
+    ));
   },
   onAddAttribute: (props) => {
     const { attributeCode, entityCode, selectedAttributeType: { code } } = props;
@@ -69,7 +75,4 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-const AddFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(AttributeForm);
-
-export default AddFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AttributeForm));

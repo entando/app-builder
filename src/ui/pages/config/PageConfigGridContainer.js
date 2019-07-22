@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
 import { getPageConfigCellMap } from 'state/page-config/selectors';
 
-export const mapStateToProps = state => ({
-  cellMap: getPageConfigCellMap(state),
+export const mapStateToProps = (state, { match: { params } }) => ({
+  cellMap: getPageConfigCellMap(params)(state),
 });
 
 
-const PageConfigGridContainer = connect(mapStateToProps, null)(PageConfigGrid);
-
-export default PageConfigGridContainer;
+export default withRouter(connect(mapStateToProps, null)(PageConfigGrid));

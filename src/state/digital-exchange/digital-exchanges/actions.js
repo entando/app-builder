@@ -1,6 +1,5 @@
 import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
-import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { toggleLoading } from 'state/loading/actions';
 
@@ -17,7 +16,7 @@ import {
   deleteDigitalExchange,
 } from 'api/digital-exchange/digitalExchanges';
 import { setPage } from 'state/pagination/actions';
-import { ROUTE_DE_CONFIG_LIST } from 'app-init/router';
+import { history, ROUTE_DE_CONFIG_LIST } from 'app-init/router';
 
 
 export const setSelectedDigitalExchange = digitalExchange => ({
@@ -105,7 +104,7 @@ export const sendPostDigitalExchange = marketplace => dispatch => (
             formattedText('app.created', null, { type: 'digital exchange', code: data.payload.name }),
             TOAST_SUCCESS,
           ));
-          gotoRoute(ROUTE_DE_CONFIG_LIST);
+          history.push(ROUTE_DE_CONFIG_LIST);
         } else {
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
@@ -124,7 +123,7 @@ export const sendPutDigitalExchange = marketplace => dispatch => (
             formattedText('app.updated', null, { type: 'digital exchange', code: data.payload.name }),
             TOAST_SUCCESS,
           ));
-          gotoRoute(ROUTE_DE_CONFIG_LIST);
+          history.push(ROUTE_DE_CONFIG_LIST);
         } else {
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 
-import { LinkMenuItem } from '@entando/menu';
 import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class PageModelPageReferencesTable extends Component {
   componentWillMount() {
@@ -24,20 +25,20 @@ class PageModelPageReferencesTable extends Component {
         <td>{item.fullTitle}</td>
         <td className="text-center">
           <DropdownKebab id={`kebab-${item.code}`} pullRight>
-            <LinkMenuItem
+            <Link
               id={`goto-${item.code}`}
-              route={ROUTE_PAGE_EDIT}
-              params={{ pageCode: item.code }}
-              label={`${goTo} ${item.title}`}
+              to={routeConverter(ROUTE_PAGE_EDIT, { pageCode: item.code })}
               className="PageModelPageReferencesTable__menu-item-goto"
-            />
-            <LinkMenuItem
+            >
+              {`${goTo} ${item.title}`}
+            </Link>
+            <Link
               id={`page-configuration-${item.code}`}
-              route={ROUTE_PAGE_CONFIG}
-              params={{ pageCode: item.code }}
-              label={`${pageConfiguration} ${item.title}`}
+              to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: item.code })}
               className="PageModelPageReferencesTable__menu-item-config"
-            />
+            >
+              {`${pageConfiguration} ${item.title}`}
+            </Link>
           </DropdownKebab>
         </td>
       </tr>

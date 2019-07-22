@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
-import { getRoute } from '@entando/router';
 
 import App from 'ui/app/App';
 
 // map the props
-export const mapStateToProps = state => ({
-  route: getRoute(state),
+export const mapStateToProps = (state, { location: { pathname } }) => ({
   username: getUsername(state),
+  currentRoute: pathname,
 });
 
 // connect the component
-const AppContainer = connect(mapStateToProps, null)(App);
+const AppContainer = withRouter(connect(mapStateToProps, null)(App));
 
 // export connected component (Container)
 export default AppContainer;

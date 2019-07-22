@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import DetailRoleTable from 'ui/roles/detail/DetailRoleTable';
 import { fetchRoleDetail } from 'state/roles/actions';
 import { getSelectedRole, getSelectedRolePermissionsList } from 'state/roles/selectors';
 import { fetchPermissions } from 'state/permissions/actions';
 import { getLoading } from 'state/loading/selectors';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   role: getSelectedRole(state),
   rolePermissions: getSelectedRolePermissionsList(state),
-  roleCode: getParams(state).roleCode,
+  roleCode: params.roleCode,
   loading: getLoading(state).permissions,
 });
 
@@ -20,5 +20,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const DetailRoleTableContainer = connect(mapStateToProps, mapDispatchToProps)(DetailRoleTable);
-export default DetailRoleTableContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailRoleTable));

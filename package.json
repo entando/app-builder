@@ -70,6 +70,7 @@
     "react-loadable": "^5.4.0",
     "react-patternfly": "^1.0.0",
     "react-redux": "^5.0.6",
+    "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",

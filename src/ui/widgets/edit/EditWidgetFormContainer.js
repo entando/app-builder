@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -18,10 +19,10 @@ export const mapStateToProps = state => (
     languages: getActiveLanguages(state),
   });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchWidget());
+    dispatch(fetchWidget(params.widgetCode));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
   },
   onSubmit: (values) => {
@@ -29,6 +30,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const EditWidgetFormContainer = connect(mapStateToProps, mapDispatchToProps)(WidgetForm);
-
-export default EditWidgetFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WidgetForm));

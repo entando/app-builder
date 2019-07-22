@@ -11,21 +11,21 @@ import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(clearErrors());
-    dispatch(initConfigPage());
+    dispatch(initConfigPage(params.pageCode));
   },
   onWillUnmount: () => dispatch(setSelectedPageModel(null)),
-  setSelectedPageOnTheFly: value => dispatch(setSelectedPageOnTheFly(value)),
-  restoreConfig: () => dispatch(restoreSelectedPageConfig()),
+  setSelectedPageOnTheFly: value => dispatch(setSelectedPageOnTheFly(value, params.pageCode)),
+  restoreConfig: () => dispatch(restoreSelectedPageConfig(params.pageCode)),
   publishPage: () => dispatch(publishSelectedPage()),
   unpublishPage: () => dispatch(unpublishSelectedPage()),
-  applyDefaultConfig: () => dispatch(applyDefaultConfig()),
+  applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
   showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
 });
 
-export const mapStateToProps = (state) => {
+export const mapStateToProps = (state, { match: { params } }) => {
   const selectedPage = getSelectedPage(state);
   if (!selectedPage) {
     return {};
@@ -36,10 +36,10 @@ export const mapStateToProps = (state) => {
     pageStatus: selectedPage.status,
     previewUri: getSelectedPagePreviewURI(state),
     isOnTheFlyEnabled: getSelectedPageModelCanBeOnTheFly(state),
-    pageIsOnTheFly: getPageIsOnTheFly(state),
+    pageIsOnTheFly: getPageIsOnTheFly(params.pageCode)(state),
     pageIsPublished: getSelectedPageIsPublished(state),
-    pageDiffersFromPublished: getSelectedPageDiffersFromPublished(state),
-    pageConfigMatchesDefault: getSelectedPageConfigMatchesDefault(state),
+    pageDiffersFromPublished: getSelectedPageDiffersFromPublished(params.pageCode)(state),
+    pageConfigMatchesDefault: getSelectedPageConfigMatchesDefault(params.pageCode)(state),
   };
 };
 

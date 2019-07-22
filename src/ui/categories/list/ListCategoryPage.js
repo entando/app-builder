@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import CategoryTreeContainer from 'ui/categories/list/CategoryTreeContainer';
@@ -32,7 +32,7 @@ const ListCategoryPage = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <Link route={ROUTE_CATEGORY_ADD}>
+          <Link to={ROUTE_CATEGORY_ADD}>
             <Button
               type="button"
               className="pull-right ListCategoryPage__add"

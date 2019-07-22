@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { gotoRoute, getSearchParams } from '@entando/router';
+import { getSearchParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
@@ -18,7 +18,7 @@ import {
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 
@@ -153,7 +153,7 @@ export const sendDeletePage = page => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(removePage(page));
-      gotoRoute(ROUTE_PAGE_TREE);
+      history.push(ROUTE_PAGE_TREE);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -269,7 +269,7 @@ export const clonePage = page => async (dispatch) => {
       ...json.payload,
       ...RESET_FOR_CLONE,
     }));
-    gotoRoute(ROUTE_PAGE_CLONE);
+    history.push(ROUTE_PAGE_CLONE);
   } catch (e) {
     // do nothing
   }
@@ -374,7 +374,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
-          const draftConfig = getSelectedPageConfig(getState());
+          const draftConfig = getSelectedPageConfig(page.code)(getState());
           dispatch(setPublishedPageConfig(newPage.code, draftConfig));
         } else {
           dispatch(setPublishedPageConfig(newPage.code, null));
@@ -416,5 +416,5 @@ export const clearSearchPage = () => (dispatch) => {
 
 export const initPageForm = pageData => (dispatch) => {
   dispatch(initialize('page', pageData));
-  gotoRoute(ROUTE_PAGE_ADD, null, { parentCode: pageData.parentCode });
+  history.push(`${ROUTE_PAGE_ADD}?parentCode=${pageData.parentCode}`);
 };

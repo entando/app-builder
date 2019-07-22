@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { Icon } from 'patternfly-react';
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
-import { Link } from '@entando/router';
 
 
 class ContentPages extends Component {
@@ -17,7 +17,7 @@ class ContentPages extends Component {
       <div className="ContentPages">
         <div className="ContentPages__content-action">
           <Link
-            route={ROUTE_PAGE_ADD}
+            to={ROUTE_PAGE_ADD}
             className="ContentPages__add-button btn btn-lg btn-primary btn-block"
           >
             <Icon name="plus" className="ContentPages__icon-add-button" />

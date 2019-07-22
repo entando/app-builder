@@ -14,5 +14,4 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-const ContentPagesContainer = connect(mapStateToProps, mapDispatchToProps)(ContentPages);
-export default ContentPagesContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(ContentPages);

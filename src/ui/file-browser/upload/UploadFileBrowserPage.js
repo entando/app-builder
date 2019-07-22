@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Button, Breadcrumb, Icon, ButtonGroup } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 
@@ -39,7 +39,7 @@ const UploadFileBrowserPage = () => (
         </Col>
         <Col xs={6}>
           <ButtonGroup className="pull-right">
-            <Link route={ROUTE_FILE_BROWSER}>
+            <Link to={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
                 className="pull-right UploadFileBrowserPage__createTextFile"
@@ -51,7 +51,7 @@ const UploadFileBrowserPage = () => (
                 />
               </Button>
             </Link>
-            <Link route={ROUTE_FILE_BROWSER}>
+            <Link to={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
                 className="pull-right UploadFileBrowserPage__createFolder"
@@ -63,7 +63,7 @@ const UploadFileBrowserPage = () => (
                 />
               </Button>
             </Link>
-            <Link route={ROUTE_FILE_BROWSER}>
+            <Link to={ROUTE_FILE_BROWSER}>
               <Button
                 type="button"
                 className="pull-right UploadFileBrowserPage__uploadFile"

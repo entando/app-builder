@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -12,6 +12,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import SelectedPageModelDetailTableContainer from 'ui/page-models/detail/SelectedPageModelDetailTableContainer';
 import PageModelPageReferencesTableContainer from 'ui/page-models/detail/PageModelPageReferencesTableContainer';
 import { ROUTE_PAGE_MODEL_LIST, ROUTE_PAGE_MODEL_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const PageModelDetailPage = ({ pageModelCode }) => (
   <DragDropContextProvider backend={HTML5Backend}>
@@ -23,7 +24,7 @@ const PageModelDetailPage = ({ pageModelCode }) => (
               <BreadcrumbItem active>
                 <FormattedMessage id="menu.pageDesigner" />
               </BreadcrumbItem>
-              <BreadcrumbItem route={ROUTE_PAGE_MODEL_LIST}>
+              <BreadcrumbItem to={ROUTE_PAGE_MODEL_LIST}>
                 <FormattedMessage id="menu.pageModels" />
               </BreadcrumbItem>
               <BreadcrumbItem active>
@@ -45,7 +46,7 @@ const PageModelDetailPage = ({ pageModelCode }) => (
         <br />
         <Row>
           <Col xs={12}>
-            <Link route={ROUTE_PAGE_MODEL_EDIT} params={{ pageModelCode }}>
+            <Link to={routeConverter(ROUTE_PAGE_MODEL_EDIT, { pageModelCode })}>
               <Button
                 type="button"
                 className="pull-right PageModelDetailPage__edit-btn"

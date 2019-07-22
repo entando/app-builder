@@ -1,7 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import pluginArray from 'entando-plugins';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_PLUGIN_CONFIG_PAGE } from 'app-init/router';
 
@@ -17,8 +18,7 @@ const InternalPage = () => {
         key={plugin.menuItemLabelId}
         id={`menu-plugin-${plugin.id}`}
         label={<FormattedMessage id={`plugin.${plugin.id}.${plugin.menuItemLabelId}`} />}
-        route={ROUTE_PLUGIN_CONFIG_PAGE}
-        params={{ pluginId: plugin.id }}
+        to={routeConverter(ROUTE_PLUGIN_CONFIG_PAGE, { pluginId: plugin.id })}
       />
     ));
 };

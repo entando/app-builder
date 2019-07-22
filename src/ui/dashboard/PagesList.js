@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Paginator } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
@@ -66,7 +66,7 @@ class PagesList extends Component {
             bsStyle="primary"
             className="pull-right"
             componentClass={Link}
-            route={ROUTE_PAGE_ADD}
+            to={ROUTE_PAGE_ADD}
           >
             <FormattedMessage id="dashboard.newPage" />
           </Button>

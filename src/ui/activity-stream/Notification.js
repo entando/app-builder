@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Icon } from 'patternfly-react';
 import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class Notification extends Component {
   constructor(props) {
@@ -32,11 +33,17 @@ class Notification extends Component {
           {
             this.props.comments.map(comment => (
               <div key={comment.id} className="media Notification__comment-panel">
-                <Link route={ROUTE_USER_DETAIL} params={{ username: comment.username }} className="Notification__link-user pull-left">
+                <Link
+                  to={routeConverter(ROUTE_USER_DETAIL, { username: comment.username })}
+                  className="Notification__link-user pull-left"
+                >
                   <Icon name="user" />
                 </Link>
                 <div className="Notification__user-notification">
-                  <Link route={ROUTE_USER_DETAIL} params={{ username: comment.username }} className="Notification__link-user pull-left">
+                  <Link
+                    to={routeConverter(ROUTE_USER_DETAIL, { username: comment.username })}
+                    className="Notification__link-user pull-left"
+                  >
                     {comment.username}
                   </Link>
                   <span className="Notification__delete-comment">

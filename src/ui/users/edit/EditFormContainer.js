@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 
 import { fetchUserForm, sendPutUser } from 'state/users/actions';
 import UserForm from 'ui/users/common/UserForm';
 
 const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: EDIT_MODE,
-  username: getParams(state).username,
+  username: params.username,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -17,5 +17,4 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(UserForm);
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserForm));

@@ -14,10 +14,10 @@ const pageSettings = () => (
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem route="home" active>
+            <BreadcrumbItem to="home" active>
               <FormattedMessage id="menu.pageDesigner" />
             </BreadcrumbItem>
-            <BreadcrumbItem route="home">
+            <BreadcrumbItem to="home">
               <FormattedMessage id="menu.pageSettings" />
             </BreadcrumbItem>
           </Breadcrumb>

@@ -6,8 +6,9 @@ import { Table } from 'react-bootstrap';
 import UserStatus from 'ui/users/common/UserStatus';
 import { formattedText } from '@entando/utils';
 
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class UserRefsTable extends React.Component {
   componentWillMount() {
@@ -26,15 +27,13 @@ class UserRefsTable extends React.Component {
           <DropdownKebab id={`kebab-${reference.username}`} pullRight>
             <LinkMenuItem
               id={`edit-user-${reference.username}`}
-              route={ROUTE_USER_EDIT}
-              params={{ username: reference.username }}
+              to={routeConverter(ROUTE_USER_EDIT, { username: reference.username })}
               label={formattedText('reference.edit', null, { code: reference.username })}
               className="UserRefsTable__menu-user-edit"
             />
             <LinkMenuItem
               id={`authority-${reference.username}`}
-              route={ROUTE_USER_AUTHORITY}
-              params={{ username: reference.username }}
+              to={routeConverter(ROUTE_USER_AUTHORITY, { username: reference.username })}
               label={formattedText('reference.manageAuthorization', null, { code: reference.username })}
               className="UserRefsTable__menu-item-edit"
             />

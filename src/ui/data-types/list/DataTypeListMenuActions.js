@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from '@entando/menu';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const DataTypeListMenuActions = ({ code, onClickDelete, onClickReload }) => {
   const editLabel = (
@@ -13,8 +14,7 @@ const DataTypeListMenuActions = ({ code, onClickDelete, onClickReload }) => {
     <DropdownKebab pullRight id={`${code}-actions`}>
       <LinkMenuItem
         id={`dataType-${code}`}
-        route={ROUTE_DATA_TYPE_EDIT}
-        params={{ datatypeCode: code }}
+        to={routeConverter(ROUTE_DATA_TYPE_EDIT, { datatypeCode: code })}
         label={editLabel}
         className="DataTypeListMenuAction__menu-item-edit"
       />

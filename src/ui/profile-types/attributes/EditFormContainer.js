@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   fetchAttributeFromProfileType,
   sendPutAttributeFromProfileType,
   fetchProfileTypeAttributes,
 } from 'state/profile-types/actions';
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
   getSelectedAttributeType,
@@ -14,15 +14,15 @@ import {
 
 const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
 
-export const mapStateToProps = state => ({
-  attributeCode: getParams(state).attributeCode,
-  profileTypeAttributeCode: getParams(state).entityCode,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  attributeCode: params.attributeCode,
+  profileTypeAttributeCode: params.entityCode,
   joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getProfileTypeAttributesIdList(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: ({ profileTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromProfileType(profileTypeAttributeCode, attributeCode));
     dispatch(fetchProfileTypeAttributes());
@@ -58,10 +58,8 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    dispatch(sendPutAttributeFromProfileType(payload));
+    dispatch(sendPutAttributeFromProfileType(payload, params.entityCode));
   },
 });
 
-const EditFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(EditAttributeForm);
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditAttributeForm));

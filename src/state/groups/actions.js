@@ -12,7 +12,6 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
-import { getParams, gotoRoute } from '@entando/router';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
@@ -20,7 +19,7 @@ import {
   REMOVE_GROUP,
   SET_GROUPS_TOTAL,
 } from 'state/groups/types';
-import { ROUTE_GROUP_LIST } from 'app-init/router';
+import { history, ROUTE_GROUP_LIST } from 'app-init/router';
 
 
 export const setGroups = groups => ({
@@ -107,7 +106,7 @@ export const sendPutGroup = groupData => dispatch => (
     putGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          gotoRoute(ROUTE_GROUP_LIST);
+          history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
@@ -123,7 +122,7 @@ export const sendPostGroup = groupData => dispatch => (
     postGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          gotoRoute(ROUTE_GROUP_LIST);
+          history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
@@ -157,10 +156,9 @@ export const setReferences = references => ({
   },
 });
 
-export const fetchReferences = (referenceKey, page = { page: 1, pageSize: 10 }) =>
-  (dispatch, getState) => (
+export const fetchReferences = (referenceKey, groupname, page = { page: 1, pageSize: 10 }) =>
+  dispatch => (
     new Promise((resolve) => {
-      const { groupname } = getParams(getState());
       dispatch(toggleLoading('references'));
       getReferences(page, groupname, referenceKey).then((response) => {
         response.json().then((json) => {
@@ -179,9 +177,8 @@ export const fetchReferences = (referenceKey, page = { page: 1, pageSize: 10 }) 
     })
   );
 
-export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
+export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => (
   new Promise((resolve) => {
-    const { groupname } = getParams(getState());
     getGroup(groupname).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -189,7 +186,7 @@ export const fetchCurrentPageGroupDetail = () => (dispatch, getState) => (
           const references = getReferenceKeyList(getState());
           references.forEach((referenceKey) => {
             if (getSelectedRefs(getState())[referenceKey]) {
-              dispatch(fetchReferences(referenceKey));
+              dispatch(fetchReferences(referenceKey, groupname));
             } else {
               setReferences({
                 [referenceKey]: [],

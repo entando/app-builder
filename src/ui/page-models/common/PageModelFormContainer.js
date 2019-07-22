@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { initialize } from 'redux-form';
 import { clearErrors } from '@entando/messages';
+import { withRouter } from 'react-router-dom';
 
 import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
 import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
@@ -11,14 +12,14 @@ export const mapStateToProps = state => ({
   previewErrors: getPageModelFormErrors(state),
 });
 
-export const mapDispatchToProps = (dispatch, ownProps) => ({
+export const mapDispatchToProps = (dispatch, { mode, match: { params } }) => ({
   onSubmit: (data) => {
     const jsonData = {
       ...data,
       configuration: data.configuration ? JSON.parse(data.configuration) : {},
     };
 
-    if (ownProps.mode === 'edit') {
+    if (mode === 'edit') {
       dispatch(updatePageModel(jsonData));
     } else {
       dispatch(createPageModel(jsonData));
@@ -26,8 +27,8 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onWillMount: () => {
     dispatch(clearErrors());
-    if (ownProps.mode === 'edit') {
-      dispatch(initPageModelForm());
+    if (mode === 'edit') {
+      dispatch(initPageModelForm(params.pageModelCode));
     } else {
       dispatch(initialize('pageModel', {
         configuration: '{\n  "frames": []\n}',
@@ -37,4 +38,4 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageModelForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageModelForm));

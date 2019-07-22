@@ -1,12 +1,11 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { addErrors } from '@entando/messages';
 
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB } from 'state/labels/types';
-import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
+import { history, ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 export const setLabels = labels => ({
   type: SET_LABELS,
@@ -79,7 +78,7 @@ export const updateLabel = label => dispatch => (
         if (response.ok) {
           dispatch(updateLabelSync(label));
           dispatch(setActiveTab('labels'));
-          gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
+          history.push(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -96,7 +95,7 @@ export const createLabel = label => dispatch => (
         if (response.ok) {
           dispatch(updateLabelSync(label));
           dispatch(setActiveTab('labels'));
-          gotoRoute(ROUTE_LABELS_AND_LANGUAGES);
+          history.push(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }

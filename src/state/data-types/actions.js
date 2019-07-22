@@ -1,4 +1,3 @@
-import { gotoRoute, getParams } from '@entando/router';
 import { METHODS } from '@entando/apimanager';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { formattedText } from '@entando/utils';
@@ -9,11 +8,14 @@ import { isUndefined } from 'lodash';
 import moment from 'moment';
 
 import {
+  history,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
+
+import { routeConverter } from 'helpers/routeConverter';
 
 import {
   postDataType,
@@ -203,7 +205,7 @@ export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
     postDataTypesStatus({ dataTypesCodes }).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -218,7 +220,10 @@ export const sendPostDataType = dataTypeObject => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(addToast(formattedText('dataType.created'), TOAST_SUCCESS));
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: json.payload.code });
+          history.push(routeConverter(
+            ROUTE_DATA_TYPE_EDIT,
+            { datatypeCode: json.payload.code },
+          ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -250,7 +255,7 @@ export const sendPutDataType = dataTypeObject => dispatch =>
     putDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -265,7 +270,7 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeDataType(dataTypeCode));
-          gotoRoute(ROUTE_DATA_TYPE_LIST);
+          history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -352,7 +357,7 @@ export const fetchDataTypeAttribute =
                  default: break;
                }
                if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-                 gotoRoute(route.route, route.params);
+                 history.push(routeConverter(route.route, route.params));
                }
              } else {
                dispatch(addErrors(json.errors.map(err => err.message)));
@@ -423,21 +428,26 @@ export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode
     })
   );
 
-export const sendPostAttributeFromDataType = attributeObject => (dispatch, getState) => (
+export const sendPostAttributeFromDataType = (
+  attributeObject,
+  entityCode,
+) => (dispatch, getState) => (
   new Promise((resolve) => {
-    const dataTypeCode = getParams(getState()).entityCode;
     const list = getDataTypeSelectedAttributeType(getState());
-    postAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+    postAttributeFromDataType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
-            entityCode: dataTypeCode,
+          history.push(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+            entityCode,
             attributeCode: attributeObject.code,
           });
         } else {
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          history.push(routeConverter(
+            ROUTE_DATA_TYPE_EDIT,
+            { datatypeCode: entityCode },
+          ));
         }
         resolve();
       });
@@ -445,31 +455,36 @@ export const sendPostAttributeFromDataType = attributeObject => (dispatch, getSt
   })
 );
 
-export const sendPutAttributeFromDataType = attributeObject => (dispatch, getState) => (
+export const sendPutAttributeFromDataType = (
+  attributeObject,
+  entityCode,
+) => (dispatch, getState) => (
   new Promise((resolve) => {
-    const dataTypeCode = getParams(getState()).entityCode;
-    putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+    putAttributeFromDataType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (json.payload.type === TYPE_MONOLIST &&
           !getIsMonolistComposteAttributeType(getState())
         ) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
-            entityCode: dataTypeCode,
-            attributeCode: attributeObject.code,
-          });
+          history.push(routeConverter(
+            ROUTE_ATTRIBUTE_MONOLIST_ADD,
+            {
+              entityCode,
+              attributeCode: attributeObject.code,
+            },
+          ));
         } else {
           dispatch(setSelectedAttributeDataType(json.payload));
           const { type, code } = attributeObject;
           if (type === TYPE_COMPOSITE) {
             dispatch(initialize('attribute', { ...json.payload, compositeAttributeType: TYPE_COMPOSITE }));
-            gotoRoute(
+            history.push(routeConverter(
               ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
-              { entityCode: dataTypeCode, attributeCode: code },
-            );
+              { entityCode, attributeCode: code },
+            ));
           } else {
-            gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+            history.push(routeConverter(ROUTE_DATA_TYPE_EDIT, { datatypeCode: entityCode }));
           }
         }
         resolve();
@@ -478,15 +493,17 @@ export const sendPutAttributeFromDataType = attributeObject => (dispatch, getSta
   })
 );
 
-export const sendPutAttributeFromDataTypeMonolist = attributeObject => (dispatch, getState) => (
+export const sendPutAttributeFromDataTypeMonolist = (attributeObject, entityCode) => dispatch => (
   new Promise((resolve) => {
-    const dataTypeCode = getParams(getState()).entityCode;
-    putAttributeFromDataType(dataTypeCode, attributeObject).then((response) => {
+    putAttributeFromDataType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else {
-          gotoRoute(ROUTE_DATA_TYPE_EDIT, { datatypeCode: dataTypeCode });
+          history.push(routeConverter(
+            ROUTE_DATA_TYPE_EDIT,
+            { datatypeCode: entityCode },
+          ));
         }
         resolve();
       });
@@ -550,7 +567,13 @@ const getPayloadFromTypeMonolistAttributeComposite = (composite, childAttribute)
   },
 });
 
-export const handlerAttributeFromDataType = (action, values, allowedRoles, mode) =>
+export const handlerAttributeFromDataType = (
+  action,
+  values,
+  allowedRoles,
+  mode,
+  entityCode,
+) =>
   (dispatch, getState) => {
     let payload = getPayloadFromTypeAttribute(values, allowedRoles);
     const isMonolistComposite =
@@ -562,16 +585,16 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
       if (attributeSelected.type === TYPE_COMPOSITE) {
         attributeSelected.compositeAttributes.push(payload);
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
-        dispatch(sendPutAttributeFromDataType(attributeSelected));
+        dispatch(sendPutAttributeFromDataType(attributeSelected, entityCode));
       } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
         dispatch(setActionMode(MODE_ADD_COMPOSITE));
         dispatch(setNewAttributeComposite(payload));
         if (isMonolistComposite) {
           dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
-          gotoRoute(
+          history.push(routeConverter(
             ROUTE_ATTRIBUTE_MONOLIST_ADD,
-            { entityCode: getParams(getState()).entityCode, attributeCode: payload.code },
-          );
+            { entityCode, attributeCode: payload.code },
+          ));
         }
       } else {
         const newAttributeComposite = getNewAttributeComposite(getState());
@@ -584,7 +607,7 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
             getPayloadFromTypeAttribute(values, allowedRoles),
           );
         }
-        dispatch(sendPostAttributeFromDataType(payload));
+        dispatch(sendPostAttributeFromDataType(payload, entityCode));
       }
     } else {
       dispatch(setActionMode(MODE_EDIT));
@@ -592,8 +615,8 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
         values.type === TYPE_COMPOSITE || payload.type === TYPE_COMPOSITE || isMonolistComposite;
       if (isComposite) {
         if (mode === MODE_EDIT_COMPOSITE) {
-          dispatch(sendPutAttributeFromDataType(payload)).then(() => {
-            gotoRoute(ROUTE_DATA_TYPE_LIST);
+          dispatch(sendPutAttributeFromDataType(payload, entityCode)).then(() => {
+            history.push(ROUTE_DATA_TYPE_LIST);
           });
         }
         dispatch(setActionMode(MODE_EDIT_COMPOSITE));
@@ -608,7 +631,7 @@ export const handlerAttributeFromDataType = (action, values, allowedRoles, mode)
           payload = compositeData;
           dispatch(setActionMode(MODE_EDIT_COMPOSITE));
         }
-        dispatch(sendPutAttributeFromDataType(payload));
+        dispatch(sendPutAttributeFromDataType(payload, entityCode));
       }
     }
   };

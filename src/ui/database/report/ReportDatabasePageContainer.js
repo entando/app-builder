@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { getLoading } from 'state/loading/selectors';
 import { fetchDatabaseReportBackup } from 'state/database/actions';
 import { getDatabaseReportBackup } from 'state/database/selectors';
@@ -9,13 +10,10 @@ export const mapStateToProps = state => ({
   loading: getLoading(state).database,
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchDatabaseReportBackup());
+    dispatch(fetchDatabaseReportBackup(params.dumpCode));
   },
 });
 
-const ReportDatabasePageContainer =
-  connect(mapStateToProps, mapDispatchToProps)(ReportDatabasePage);
-
-export default ReportDatabasePageContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReportDatabasePage));

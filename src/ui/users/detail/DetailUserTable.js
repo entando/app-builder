@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { isUndefined } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'react-bootstrap';
-import { gotoRoute } from '@entando/router';
 
-import { ROUTE_USER_LIST } from 'app-init/router';
+import { history, ROUTE_USER_LIST } from 'app-init/router';
 
 class DetailUserTable extends React.Component {
   componentWillMount() {
@@ -53,7 +52,7 @@ class DetailUserTable extends React.Component {
         <Button
           className="pull-right"
           type="button"
-          onClick={() => { gotoRoute(ROUTE_USER_LIST); }}
+          onClick={() => { history.push(ROUTE_USER_LIST); }}
           bsStyle="primary"
         >
           <FormattedMessage id="app.back" />

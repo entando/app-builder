@@ -5,8 +5,9 @@ import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
 
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class GroupDetailTabUsers extends React.Component {
   constructor(props) {
@@ -44,15 +45,13 @@ class GroupDetailTabUsers extends React.Component {
           <DropdownKebab id={`kebab-${item.username}`} pullRight>
             <LinkMenuItem
               id={`edit-user-${item.username}`}
-              route={ROUTE_USER_EDIT}
-              params={{ username: item.username }}
+              to={routeConverter(ROUTE_USER_EDIT, { username: item.username })}
               label={`${editUser} ${item.profileAttributes.fullname || item.username}`}
               className="GroupDetailTabUsers__menu-item-edit"
             />
             <LinkMenuItem
               id={`authority-${item.username}`}
-              route={ROUTE_USER_AUTHORITY}
-              params={{ username: item.username }}
+              to={routeConverter(ROUTE_USER_AUTHORITY, { username: item.username })}
               label={`${authority} ${item.profileAttributes.fullname || item.username}`}
               className="GroupDetailTabUsers__menu-item-edit"
             />

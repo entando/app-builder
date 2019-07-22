@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import FragmentListTableContainer from 'ui/fragments/list/FragmentListTableContainer';
 import FragmentSearchFormContainer from 'ui/fragments/list/FragmentSearchFormContainer';
@@ -16,7 +16,7 @@ const FragmentListContent = () => (
     </Row>
     <Row>
       <Col xs={12}>
-        <Link route={ROUTE_FRAGMENT_ADD}>
+        <Link to={ROUTE_FRAGMENT_ADD}>
           <Button
             type="button"
             className="pull-right FragmentListContent__add"

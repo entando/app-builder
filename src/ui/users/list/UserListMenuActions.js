@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { gotoRoute } from '@entando/router';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import {
+  history,
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
   ROUTE_USER_EDIT, ROUTE_USER_PROFILE,
 } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class UserListMenuActions extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class UserListMenuActions extends Component {
   }
 
   onClickEdit() {
-    gotoRoute(ROUTE_USER_EDIT, { username: this.props.username });
+    history.push(routeConverter(ROUTE_USER_EDIT, { username: this.props.username }));
   }
 
   handleClick(handler) {
@@ -48,7 +49,10 @@ class UserListMenuActions extends Component {
         return (
           <MenuItem
             className="UserListMenuAction__menu-item-view-profile"
-            onClick={() => gotoRoute(ROUTE_USER_DETAIL, { username: this.props.username })}
+            onClick={() => history.push(routeConverter(
+              ROUTE_USER_DETAIL,
+              { username: this.props.username },
+            ))}
           >
             <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
           </MenuItem>
@@ -68,15 +72,13 @@ class UserListMenuActions extends Component {
         </MenuItem>
         <LinkMenuItem
           id={`manageAuth-${this.props.username}`}
-          route={ROUTE_USER_AUTHORITY}
-          params={{ username: this.props.username }}
+          to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
           label={manageAuthLabel}
           className="UserListMenuAction__menu-item-auth"
         />
         <LinkMenuItem
           id={`editProfile-${this.props.username}`}
-          route={ROUTE_USER_PROFILE}
-          params={{ username: this.props.username }}
+          to={routeConverter(ROUTE_USER_PROFILE, { username: this.props.username })}
           label={editUserProfileLabel}
           className="UserListMenuAction__menu-item-edit-profile"
         />

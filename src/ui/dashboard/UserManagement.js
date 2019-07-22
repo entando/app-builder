@@ -9,7 +9,7 @@ import {
   Button,
 } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { ROUTE_USER_ADD } from 'app-init/router';
@@ -28,7 +28,7 @@ class UserManagement extends Component {
           <Button
             className="pull-right"
             componentClass={Link}
-            route={ROUTE_USER_ADD}
+            to={ROUTE_USER_ADD}
             bsStyle="primary"
           >
             <FormattedMessage id="app.new" />

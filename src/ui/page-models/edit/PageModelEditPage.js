@@ -22,7 +22,7 @@ const PageModelEditPage = () => (
               <BreadcrumbItem active>
                 <FormattedMessage id="menu.pageDesigner" />
               </BreadcrumbItem>
-              <BreadcrumbItem route={ROUTE_PAGE_MODEL_LIST}>
+              <BreadcrumbItem to={ROUTE_PAGE_MODEL_LIST}>
                 <FormattedMessage id="menu.pageModels" />
               </BreadcrumbItem>
               <BreadcrumbItem active>

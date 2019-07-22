@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   fetchProfileTypeAttributes, sendPutProfileType, fetchProfileType,
   fetchProfileTypeAttribute,
@@ -15,19 +16,17 @@ import { MODAL_ID } from 'ui/profile-types/attributes/DeleteAttributeModal';
 import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
 import { formValueSelector } from 'redux-form';
 import {
-  getParams,
-  gotoRoute,
-} from '@entando/router';
-import {
+  history,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
-
 } from 'app-init/router';
 
-export const mapStateToProps = state => (
+import { routeConverter } from 'helpers/routeConverter';
+
+export const mapStateToProps = (state, { match: { params } }) => (
   {
     mode: 'edit',
-    profileTypeCode: getParams(state).profiletypeCode,
+    profileTypeCode: params.profiletypeCode,
     attributes: getSelectedProfileTypeAttributes(state),
     attributesType: getProfileTypeAttributesIdList(state),
     attributeCode: formValueSelector('ProfileType')(state, 'type'),
@@ -42,7 +41,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onAddAttribute: ({ attributeCode, profileTypeCode }) => {
     dispatch(fetchProfileTypeAttribute(attributeCode)).then(() => {
-      gotoRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, { entityCode: profileTypeCode });
+      history.push(routeConverter(
+        ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+        { entityCode: profileTypeCode },
+      ));
     });
   },
   onMoveUp: (entityCode, attributeCode, attributeIndex) => {
@@ -61,4 +63,4 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileTypeForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileTypeForm));

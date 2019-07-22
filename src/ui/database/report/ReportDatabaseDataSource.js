@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_DATABASE_DUMP_TABLE } from 'app-init/router';
 
@@ -13,8 +14,7 @@ const ReportDatabaseDataSource = ({ datasource, tables, onClickDump }) => {
           {
           table.rows > 0 ?
             <Link
-              route={ROUTE_DATABASE_DUMP_TABLE}
-              params={{ dumpCode: table.tableName }}
+              to={routeConverter(ROUTE_DATABASE_DUMP_TABLE, { dumpCode: table.tableName })}
               onClick={() => onClickDump(datasource, table.tableName)}
             >
               <span className="icon fa fa-arrow-circle-o-down" />&nbsp;{table.tableName}

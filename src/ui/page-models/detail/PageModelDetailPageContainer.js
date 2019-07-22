@@ -1,14 +1,10 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 
 import PageModelDetailPage from 'ui/page-models/detail/PageModelDetailPage';
 
-export const mapStateToProps = state => ({
-  pageModelCode: getParams(state).pageModelCode,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  pageModelCode: params.pageModelCode,
 });
 
-const PageModelDetailPageContainer = connect(mapStateToProps, null)(PageModelDetailPage);
-
-PageModelDetailPageContainer.displayName = 'PageModelDetailPageContainer';
-
-export default PageModelDetailPageContainer;
+export default withRouter(connect(mapStateToProps, null)(PageModelDetailPage));

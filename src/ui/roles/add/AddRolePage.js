@@ -18,7 +18,7 @@ const AddRolePage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_ROLE_LIST}>
+            <BreadcrumbItem to={ROUTE_ROLE_LIST}>
               <FormattedMessage id="menu.roles" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

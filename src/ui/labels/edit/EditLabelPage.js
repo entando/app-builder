@@ -17,7 +17,7 @@ const EditLabelsPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_LABELS_AND_LANGUAGES}>
+            <BreadcrumbItem to={ROUTE_LABELS_AND_LANGUAGES}>
               <FormattedMessage id="menu.labelsAndLanguages" />
             </BreadcrumbItem>
             <BreadcrumbItem>

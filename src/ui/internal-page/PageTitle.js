@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { OverlayTrigger, Popover } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 
 const helpIcon = helpId => (
@@ -29,7 +29,7 @@ const helpIcon = helpId => (
 const configIcon = link => (
   link ?
     <span className="PageTitle__configuration pull-right">
-      <Link route={link}>
+      <Link to={link}>
         <i className="PageTitle__icon fa fa-cog" />
       </Link>
     </span> :

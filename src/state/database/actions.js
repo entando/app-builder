@@ -1,4 +1,3 @@
-import { gotoRoute, getParams } from '@entando/router';
 import { addErrors } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
@@ -21,7 +20,7 @@ import {
   SET_DATABASE_DUMP_TABLE,
   SET_DATABASE_DUMP_TABLE_DATA,
 } from 'state/database/types';
-import { ROUTE_DATABASE_LIST } from 'app-init/router';
+import { history, ROUTE_DATABASE_LIST } from 'app-init/router';
 
 
 export const setDatabaseDumps = database => ({
@@ -86,9 +85,8 @@ export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
   })
 );
 
-export const fetchDatabaseReportBackup = () => (dispatch, getState) => (
+export const fetchDatabaseReportBackup = dumpCode => dispatch => (
   new Promise((resolve) => {
-    const { dumpCode } = getParams(getState());
     dispatch(toggleLoading('database'));
     getReportBackup(dumpCode).then((response) => {
       response.json().then((json) => {
@@ -150,7 +148,7 @@ export const sendPostDatabaseStartBackup = () => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setStatusBackup(json.payload.status));
-          gotoRoute(ROUTE_DATABASE_LIST);
+          history.push(ROUTE_DATABASE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }

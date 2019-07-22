@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 
 import { sendPutDigitalExchange, fetchDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
 import Form from 'ui/digital-exchange/settings/common/Form';
 
-export const mapStateToProps = state => ({
-  id: getParams(state).server,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  id: params.server,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -13,4 +13,4 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => { dispatch(sendPutDigitalExchange(data)); },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));
