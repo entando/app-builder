@@ -36,7 +36,7 @@ export const ROUTE_DATA_MODEL_ADD = '/datamodels/add';
 export const ROUTE_DATA_MODEL_EDIT = '/datamodels/edit/:dataModelId';
 // data type
 export const ROUTE_DATA_TYPE_LIST = '/datatype';
-export const ROUTE_DATA_TYPE_ADD = 'dataTypeAdd';
+export const ROUTE_DATA_TYPE_ADD = '/dataTypeAdd';
 export const ROUTE_DATA_TYPE_EDIT = '/datatype/edit/:datatypeCode';
 // user
 export const ROUTE_USER_LIST = '/user';

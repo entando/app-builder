@@ -1,11 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
 import { ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
+import { history, ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
 
 import {
   getActivityStream,
@@ -40,6 +39,8 @@ jest.mock('state/activity-stream/selectors', () => ({
   getNotifications: jest.fn(),
   getHidden: jest.fn(),
 }));
+
+history.push = jest.fn();
 
 const ADD_NOTIFICATION_MOCK_INITIAL_STATE = {
   hidden: true,
@@ -104,25 +105,19 @@ describe('activity-stream actions', () => {
 it('test getRouteUserName', () => {
   getNotifications.mockReturnValueOnce(NOTIFICATIONS);
   store.dispatch(getRouteUserName(1));
-  expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith(
-    ROUTE_USER_DETAIL,
-    { username: NOTIFICATIONS[0].username },
-  );
+  expect(history.push).toHaveBeenCalledWith('/user/view/admin');
 });
 
 it('test getRouteTargetName with ROUTE_PAGE_EDIT route', () => {
   getNotifications.mockReturnValueOnce(NOTIFICATIONS);
   store.dispatch(getRouteTargetName(1));
-  expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_EDIT, { pageCode: 'page' });
+  expect(history.push).toHaveBeenCalledWith('/page/edit/page');
 });
 
 it('test getRouteTargetName with default route ROUTE_HOME', () => {
   getNotifications.mockReturnValueOnce([...NOTIFICATIONS], NOTIFICATIONS[0].namespace = 'api/content');
   store.dispatch(getRouteTargetName(1));
-  expect(gotoRoute).toHaveBeenCalled();
-  expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
+  expect(history.push).toHaveBeenCalledWith(ROUTE_HOME);
 });
 
 describe('thunk', () => {

@@ -33,7 +33,6 @@ jest.mock('state/locale/selectors', () => ({
   getLocale: jest.fn(),
 }));
 
-
 jest.mock('state/page-models/actions', () => ({
   setSelectedPageModel: jest.fn().mockReturnValue('setSelectedPageModel_result'),
 }));
@@ -50,13 +49,19 @@ jest.mock('state/pages/actions', () => ({
   unpublishSelectedPage: jest.fn(),
 }));
 
-
 describe('PageConfigPageContainer', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('mapStateToProps', () => {
     const PAGE = HOMEPAGE_PAYLOAD;
     let props;
+    const ownProps = {
+      match: {
+        params: {
+          pageCode: PAGE.code,
+        },
+      },
+    };
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
       getSelectedPageModelCanBeOnTheFly.mockReturnValue(true);
@@ -65,7 +70,7 @@ describe('PageConfigPageContainer', () => {
       getSelectedPageConfigMatchesDefault.mockReturnValue(true);
       getSelectedPageIsPublished.mockReturnValue(true);
       getLocale.mockReturnValue('en');
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('defines pageCode', () => {
@@ -111,7 +116,7 @@ describe('PageConfigPageContainer', () => {
     const dispatchMock = jest.fn();
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     describe('prop onWillMount', () => {

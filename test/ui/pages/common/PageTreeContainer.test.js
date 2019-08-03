@@ -1,5 +1,4 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeContainer';
-import { gotoRoute } from '@entando/router';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
@@ -9,6 +8,13 @@ import {
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
+import { history } from 'app-init/router';
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 jest.mock('state/pages/actions', () => ({
   setSelectedPage: jest.fn(),
@@ -81,18 +87,18 @@ describe('PageTreeContainer', () => {
       expect(initPageForm).toHaveBeenCalled();
     });
 
-    it('should dispatch "setSelectedPage" then "gotoRoute" action if "onClickEdit" is called', () => {
+    it('should dispatch "setSelectedPage" then use router if "onClickEdit" is called', () => {
       props.onClickEdit('pagecode');
       expect(setSelectedPage).toHaveBeenCalled();
       expect(clearSearchPage).toHaveBeenCalled();
-      expect(gotoRoute).toHaveBeenCalled();
+      expect(history.push).toHaveBeenCalled();
     });
 
-    it('should dispatch "setSelectedPage" then "gotoRoute" action if "onClickConfigure" is called', () => {
+    it('should dispatch "setSelectedPage" then use router if "onClickConfigure" is called', () => {
       props.onClickConfigure('pagecode');
       expect(setSelectedPage).toHaveBeenCalled();
       expect(clearSearchPage).toHaveBeenCalled();
-      expect(gotoRoute).toHaveBeenCalled();
+      expect(history.push).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onClickDelete is called', () => {
@@ -122,7 +128,7 @@ describe('PageTreeContainer', () => {
       props.onClickDetails('pagecode');
       expect(setSelectedPage).toHaveBeenCalled();
       expect(clearSearchPage).toHaveBeenCalled();
-      expect(gotoRoute).toHaveBeenCalled();
+      expect(history.push).toHaveBeenCalled();
     });
 
     it('should dispatch an action if onExpandPage is called', () => {

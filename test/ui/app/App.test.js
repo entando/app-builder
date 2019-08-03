@@ -2,7 +2,6 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { gotoRoute } from '@entando/router';
 import { NotFoundPage } from '@entando/pages';
 
 import App from 'ui/app/App';
@@ -55,6 +54,7 @@ import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
 import CMSDisabledPage from 'ui/cms/CMSDisabledPage';
 
 import {
+  history, 
   ROUTE_HOME,
   ROUTE_DASHBOARD,
   ROUTE_PAGE_TREE,
@@ -102,6 +102,12 @@ import {
   ROUTE_CMS_CONTENT_SETTINGS,
 } from 'app-init/router';
 
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
+
 describe('App', () => {
   it('renders without crashing', () => {
     const component = shallow(<App route={ROUTE_HOME} />);
@@ -119,7 +125,7 @@ describe('App', () => {
     const component = shallow(<App route={ROUTE_DASHBOARD} />);
     expect(component.contains(<DashboardPage />)).toBe(false);
     expect(component.contains(<h1>401</h1>)).toBe(true);
-    expect(gotoRoute).toHaveBeenCalledWith(ROUTE_HOME);
+    expect(history.push).toHaveBeenCalledWith(ROUTE_HOME);
   });
 
   it('route to dashboard', () => {

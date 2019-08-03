@@ -5,5 +5,5 @@ export const routeConverter = (route, params = {}) => {
     return route;
   }
 
-  return paramsArray.reduce((result, key) => route.replace(`:${key}`, params[key]), route);
+  return paramsArray.reduce((rt, key) => rt.replace(`:${key}`, params[key]), route);
 };

@@ -2,12 +2,6 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/edit/EditFormContainer';
 import { fetchRole } from 'state/roles/actions';
 import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
-import { getParams } from '@entando/router';
-
-
-const TEST_STATE = { roleCode: 'role_code' };
-
-getParams.mockReturnValue(TEST_STATE);
 
 jest.mock('state/roles/actions', () => ({
   sendPutRole: jest.fn().mockReturnValue('sendPutRole_result'),
@@ -22,13 +16,21 @@ jest.mock('state/loading/actions', () => ({
   toggleLoading: jest.fn(),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      roleCode: 'role_code',
+    },
+  },
+};
+
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
 
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps(PERMISSIONS_NORMALIZED);
+      props = mapStateToProps(PERMISSIONS_NORMALIZED, ownProps);
     });
 
     it('maps the permissions property', () => {

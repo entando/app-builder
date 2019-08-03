@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import 'test/enzyme-init';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';

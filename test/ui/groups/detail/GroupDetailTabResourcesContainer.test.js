@@ -23,11 +23,19 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn().mockReturnValue({ references: false }),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      groupname: 'groupname',
+    },
+  },
+};
+
 describe('GroupDetailTabWidgetsContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {

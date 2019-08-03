@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PagesList from 'ui/dashboard/PagesList';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line
 const component = shallow(<PagesList onWillMount={() => {}} pageSize={2} page={3} totalItems={2} language="it" />);

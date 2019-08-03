@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import Languages from 'ui/dashboard/Languages';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 const component = shallow(<Languages onWillMount={() => {}} activeLanguages={2} />);

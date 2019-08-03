@@ -35,12 +35,10 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 const mapToFolder = (dependencies, folder) =>
-  dependencies.reduce((acc, dependency) => {
-    return {
+  dependencies.reduce((acc, dependency) => ({
       [dependency]: path.resolve(`${folder}/${dependency}`),
       ...acc
-    }
-  }, {});
+    }), {});
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -63,7 +61,7 @@ module.exports = {
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: publicPath,
+    publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path
@@ -86,8 +84,7 @@ module.exports = {
 
     ].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
-      process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
-    ),
+      process.env.NODE_PATH.split(path.delimiter).filter(Boolean),),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
@@ -115,7 +112,6 @@ module.exports = {
           'invariant',
           'keycode',
           'prop-types',
-          '@entando/router',
           '@entando/utils',
           '@entando/apimanager',
         ],
@@ -287,8 +283,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: '[name].css',
+      chunkFilename: '[id].css',
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
@@ -319,7 +315,7 @@ module.exports = {
       },
       minify: true,
       // For unknown URLs, fallback to the index page
-      navigateFallback: publicUrl + '/index.html',
+      navigateFallback: `${publicUrl  }/index.html`,
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [/^(?!\/__).*/],

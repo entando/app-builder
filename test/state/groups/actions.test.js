@@ -1,7 +1,6 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
 import { ADD_ERRORS } from '@entando/messages';
 
 import {
@@ -38,7 +37,7 @@ import {
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 
-import { ROUTE_GROUP_LIST } from 'app-init/router';
+import { history, ROUTE_GROUP_LIST } from 'app-init/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -59,7 +58,13 @@ jest.mock('api/groups', () => ({
   getReferences: jest.fn(),
 }));
 
-getParams.mockReturnValue({ groupname: 'test' });
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
+
+const GROUPNAME = 'test';
 
 const GET_GROUPS_PROMISE = {
   ok: true,
@@ -206,11 +211,11 @@ describe('state/groups/actions', () => {
   });
 
   describe('sendPostGroup()', () => {
-    it('when postGroup succeeds, should dispatch gotoRoute', (done) => {
+    it('when postGroup succeeds, should call router', (done) => {
       postGroup.mockReturnValueOnce(new Promise(resolve => resolve(POST_GROUP_PROMISE)));
       store.dispatch(sendPostGroup(BODY_OK)).then(() => {
         expect(postGroup).toHaveBeenCalled();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
       }).catch(done.fail);
     });
@@ -254,11 +259,11 @@ describe('state/groups/actions', () => {
   });
 
   describe('sendPutGroup()', () => {
-    it('when putGroup succeeds, should dispatch gotoRoute', (done) => {
+    it('when putGroup succeeds, should call router', (done) => {
       putGroup.mockReturnValueOnce(new Promise(resolve => resolve(PUT_GROUP_PROMISE)));
       store.dispatch(sendPutGroup(UPDATED_GROUP)).then(() => {
         expect(putGroup).toHaveBeenCalled();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
       }).catch(done.fail);
     });

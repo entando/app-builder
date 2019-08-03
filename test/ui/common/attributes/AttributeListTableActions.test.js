@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 
 const FIELDS = {
@@ -41,17 +41,15 @@ const props = {
   code: 'code',
   datatypeCode: 'THX',
   fields: FIELDS,
-
 };
 
 describe('AttributeListTableActions', () => {
   let component;
   beforeEach(() => {
-    component = mount(<AttributeListTableActions {...props} />);
+    component = shallow(<AttributeListTableActions {...props} />);
   });
 
   it('renders without crashing', () => {
-    component = mount(<AttributeListTableActions {...props} />);
     expect(component.exists()).toEqual(true);
   });
 
@@ -61,7 +59,7 @@ describe('AttributeListTableActions', () => {
 
   describe('test moveUp/moveDown', () => {
     beforeEach(() => {
-      component = mount(<AttributeListTableActions
+      const cmp = (<AttributeListTableActions
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
         onClickDelete={onClickDelete}
@@ -71,6 +69,8 @@ describe('AttributeListTableActions', () => {
         code="code"
         datatypeCode="THX"
       />);
+
+      component = shallow(cmp);
     });
 
     it('on item-move-up clicked should call onMoveUp', () => {

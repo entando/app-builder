@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import { routerReducer as router } from '@entando/router';
 import { api, currentUser } from '@entando/apimanager';
 import { messages } from '@entando/messages';
 
@@ -70,7 +69,6 @@ const reducerDef = {
   permissions,
   profileTypes,
   roles,
-  router,
   users,
   widgets,
   userSettings,

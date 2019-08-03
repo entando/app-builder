@@ -2,7 +2,6 @@
 import { mapDispatchToProps, mapStateToProps } from 'ui/widgets/config/WidgetConfigPageContainer';
 
 // mocked
-import { getParams } from '@entando/router';
 
 import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-config/actions';
@@ -23,22 +22,26 @@ jest.mock('state/widget-config/actions', () => ({
   initWidgetConfigPage: jest.fn().mockReturnValue('initWidgetConfigPage_result'),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      pageCode: PAGE_CODE,
+      widgetCode: WIDGET_CODE,
+      framePos: FRAME_POS,
+    },
+  },
+};
 
 describe('PageConfigPageContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    getWidgetConfigFrameName.mockReturnValue(FRAME_NAME);
-    getParams.mockReturnValue({
-      pageCode: PAGE_CODE,
-      widgetCode: WIDGET_CODE,
-      framePos: FRAME_POS,
-    });
+    getWidgetConfigFrameName.mockReturnValue(() => FRAME_NAME);
   });
 
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('defines widgetId', () => {
@@ -63,7 +66,7 @@ describe('PageConfigPageContainer', () => {
     const dispatchMock = jest.fn();
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     describe('prop onWillMount', () => {
@@ -82,7 +85,11 @@ describe('PageConfigPageContainer', () => {
       });
       it('dispatch updateConfiguredPageWidget()', () => {
         expect(dispatchMock).toHaveBeenCalledWith('updateConfiguredPageWidget_result');
-        expect(updateConfiguredPageWidget).toHaveBeenCalledWith(WIDGET_CONFIG);
+        expect(updateConfiguredPageWidget).toHaveBeenCalledWith(WIDGET_CONFIG, {
+          pageCode: PAGE_CODE,
+          widgetCode: WIDGET_CODE,
+          framePos: FRAME_POS,
+        });
       });
     });
   });

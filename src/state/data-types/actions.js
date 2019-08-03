@@ -439,10 +439,10 @@ export const sendPostAttributeFromDataType = (
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          history.push(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
+          history.push(routeConverter(ROUTE_ATTRIBUTE_MONOLIST_ADD, {
             entityCode,
             attributeCode: attributeObject.code,
-          });
+          }));
         } else {
           history.push(routeConverter(
             ROUTE_DATA_TYPE_EDIT,

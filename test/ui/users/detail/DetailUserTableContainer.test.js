@@ -1,13 +1,18 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/detail/DetailUserTableContainer';
 import { getSelectedUser } from 'state/users/selectors';
-import { getParams } from '@entando/router';
 import { USER } from 'test/mocks/users';
 
 jest.mock('state/users/selectors', () => ({
   getSelectedUser: jest.fn(),
 }));
 
-getParams.mockReturnValue(USER.profileAttributes);
+const ownProps = {
+  match: {
+    params: {
+      user: 'user',
+    },
+  },
+};
 
 getSelectedUser.mockReturnValue(USER);
 
@@ -33,7 +38,7 @@ describe('DetailUserTableContainer', () => {
   describe('mapStateToProps', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('verify that user prop is defined and properly valued', () => {

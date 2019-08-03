@@ -1,11 +1,6 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/detail/DetailRoleTableContainer';
 import { getLoading } from 'state/loading/selectors';
-
-const TEST_STATE = { roleCode: 'role_code' };
-
-getParams.mockReturnValue(TEST_STATE);
 
 jest.mock('state/roles/actions', () => ({
   fetchRoleDetail: jest.fn().mockReturnValue('fetchRoleDetail_result'),
@@ -20,12 +15,19 @@ jest.mock('state/loading/selectors', () => ({
 }));
 
 getLoading.mockReturnValue(false);
-getParams.mockReturnValue({ roleCode: 'role_code' });
 
 jest.mock('state/roles/selectors', () => ({
   getSelectedRole: jest.fn().mockReturnValue('getSelectedRole_result'),
   getSelectedRolePermissionsList: jest.fn().mockReturnValue('getSelectedRolePermissionsList_result'),
 }));
+
+const ownProps = {
+  match: {
+    params: {
+      roleCode: 'role_code',
+    },
+  },
+};
 
 describe('DetailRoleTableContainer', () => {
   const dispatchMock = jest.fn();
@@ -33,7 +35,7 @@ describe('DetailRoleTableContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('maps the properties', () => {

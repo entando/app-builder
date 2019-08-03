@@ -1,12 +1,7 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 import { formValueSelector } from 'redux-form';
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-types/edit/EditFormContainer';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
-
-const TEST_STATE = { datatypeCode: 'datatypeCode_code' };
-
-getParams.mockReturnValue(TEST_STATE);
 
 formValueSelector.mockReturnValue(() => 'formValueSelector_result');
 
@@ -24,13 +19,21 @@ jest.mock('state/data-types/selectors', () => ({
   getDataTypeAttributesIdList: jest.fn().mockReturnValue('getDataTypeAttributesIdList_result'),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      datatypeCode: 'datatypeCode_code',
+    },
+  },
+};
+
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
 
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('maps the properties by state', () => {

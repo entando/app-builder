@@ -2,12 +2,11 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { config } from '@entando/apimanager';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
-import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
@@ -37,6 +36,12 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 config(mockStore({ api: { useMocks: true }, currentUser: { token: 'asdf' } }));
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
 const PLUGINS_PAYLOAD = PLUGINS_OK;
@@ -274,10 +279,10 @@ describe('state/fragments/actions', () => {
       });
     });
     describe('sendPostFragment', () => {
-      it('calls postFragment and gotoRoute', () => {
+      it('calls postFragment and router', () => {
         store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
           expect(postFragment).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
         });
       });
 
@@ -296,10 +301,10 @@ describe('state/fragments/actions', () => {
       });
     });
     describe('sendPutFragment', () => {
-      it('calls putFragment and gotoRoute', () => {
+      it('calls putFragment and router', () => {
         store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
           expect(putFragment).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
         });
       });
 

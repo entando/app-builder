@@ -1,34 +1,34 @@
-import React from 'react';
 import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/groups/edit/EditFormContainer';
-import { getParams } from '@entando/router';
 
 jest.mock('state/groups/actions', () => ({
   sendPutGroup: jest.fn().mockReturnValue('sendPutGroup_result'),
   fetchGroup: jest.fn().mockReturnValue('fetchGroup_result'),
 }));
 
-getParams.mockReturnValue({ groupCode: 'group_code' });
-
 const dispatchMock = jest.fn();
 
 const TEST_STATE = {
-  router: {
-    params: {
-      groupCode: 'group_code',
-    },
-  },
   mode: 'edit',
   form: {
     group: '',
   },
 };
 
+const ownProps = {
+  match: {
+    params: {
+      groupCode: 'group_code',
+    },
+  },
+};
+
 describe('EditFormContainer', () => {
   describe('mapStateToProps', () => {
     it('maps groupCode property state in GroupForm', () => {
-      expect(mapStateToProps(TEST_STATE)).toHaveProperty('mode', 'edit');
-      expect(mapStateToProps(TEST_STATE)).toHaveProperty('groupCode', 'group_code');
+      const props = mapStateToProps(TEST_STATE, ownProps);
+      expect(props).toHaveProperty('mode', 'edit');
+      expect(props).toHaveProperty('groupCode', 'group_code');
     });
   });
 

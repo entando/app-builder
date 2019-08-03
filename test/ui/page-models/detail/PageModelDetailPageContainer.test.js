@@ -1,23 +1,21 @@
 import 'test/enzyme-init';
-
-import { getParams } from '@entando/router';
-import
-PageModelDetailPageContainer, { mapStateToProps } from 'ui/page-models/detail/PageModelDetailPageContainer';
+import { mapStateToProps } from 'ui/page-models/detail/PageModelDetailPageContainer';
 
 describe('PageModelDetailPageContainer', () => {
-  it('has the right display name', () => {
-    expect(PageModelDetailPageContainer)
-      .toHaveProperty('displayName', 'PageModelDetailPageContainer');
-  });
-
   const PAGE_MODEL_CODE = 'PAGE_MODEL_CODE';
+  const ownProps = {
+    match: {
+      params: {
+        pageModelCode: PAGE_MODEL_CODE,
+      },
+    },
+  };
   let props;
 
   describe('mapStateToProps', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      getParams.mockReturnValue({ pageModelCode: PAGE_MODEL_CODE });
-      props = mapStateToProps();
+      props = mapStateToProps(ownProps);
     });
 
     it('maps prop cellMap', () => {

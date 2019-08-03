@@ -1,8 +1,7 @@
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/clone/CloneFormContainer';
 
-import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
@@ -28,9 +27,13 @@ jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
 }));
-
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn(),
+}));
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
 }));
 
 getActiveLanguages.mockReturnValue(LANGUAGES);
@@ -93,7 +96,7 @@ describe('CloneFormContainer', () => {
       expect(props).toHaveProperty('onSubmit');
       props.onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE }).then(() => {
         expect(sendPostPage).toHaveBeenCalled();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);
     });

@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import UxPatterns from 'ui/dashboard/UxPatterns';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';;
 
 const component = shallow(<UxPatterns onWillMount={() => {}} widgets={2} pageModels={3} />);
 

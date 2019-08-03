@@ -1,10 +1,6 @@
-import { getParams } from '@entando/router';
-
 import { getReferencesFromSelectedPage } from 'state/pages/selectors';
 import { loadSelectedPage, setReferenceSelectedPage } from 'state/pages/actions';
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/detail/PagesDetailPageContainer';
-
-getParams.mockReturnValue({ pageCode: 'pageCode' });
 
 jest.mock('state/pages/selectors', () => ({
   getReferencesFromSelectedPage: jest.fn(),
@@ -16,13 +12,21 @@ jest.mock('state/pages/actions', () => ({
   setReferenceSelectedPage: jest.fn(() => Promise.resolve({})),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      pageCode: 'pageCode',
+    },
+  },
+};
+
 describe('ui/pages/detail/PagesDetailPageContainer', () => {
   let props;
   beforeEach(jest.clearAllMocks);
 
   describe('mapStateToProps', () => {
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
     it('maps the properties', () => {
       expect(props).toHaveProperty('pageCode');

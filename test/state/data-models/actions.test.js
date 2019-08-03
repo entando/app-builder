@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
 import { ADD_TOAST, ADD_ERRORS, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -16,7 +15,7 @@ import { SET_DATA_MODELS } from 'state/data-models/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { DATA_MODELS } from 'test/mocks/dataModels';
 import { SET_PAGE } from 'state/pagination/types';
-import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
+import { history, ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 
 
 const middlewares = [thunk];
@@ -27,6 +26,12 @@ const DATA_MODELS_MOCK = DATA_MODELS.payload;
 const DATA_MODELS_MOCK_INITIAL_STATE = {
   dataModelsPaged: [],
 };
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('state/data-models/actions', () => {
   let store;
@@ -98,11 +103,11 @@ describe('state/data-models/actions', () => {
   });
 
   describe('sendPostDataModel', () => {
-    it('sendPostDataModel calls postDataModel, ADD_TOAST and gotoRoute actions ', (done) => {
+    it('sendPostDataModel calls postDataModel, ADD_TOAST and route nav', (done) => {
       const data = { data: 1 };
       store.dispatch(sendPostDataModel(data)).then(() => {
         expect(postDataModel).toHaveBeenCalledWith(data);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
@@ -129,10 +134,10 @@ describe('state/data-models/actions', () => {
       jest.clearAllMocks();
     });
 
-    it('sendDeleteDataModel calls deleteDataModel, gotoRoute and addToast', (done) => {
+    it('sendDeleteDataModel calls deleteDataModel, route nav and addToast', (done) => {
       store.dispatch(sendDeleteDataModel('modelId')).then(() => {
         expect(deleteDataModel).toHaveBeenCalledWith('modelId');
-        expect(gotoRoute).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -159,11 +164,11 @@ describe('state/data-models/actions', () => {
   });
 
   describe('sendPutDataModel', () => {
-    it('sendPutDataModel calls postDataModel, ADD_TOAST and gotoRoute actions ', (done) => {
+    it('sendPutDataModel calls postDataModel, ADD_TOAST and route nav ', (done) => {
       const data = { modelId: 1 };
       store.dispatch(sendPutDataModel(data)).then(() => {
         expect(putDataModel).toHaveBeenCalledWith(data);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_DATA_MODEL_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);

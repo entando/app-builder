@@ -1,8 +1,7 @@
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/add/PagesAddFormContainer';
 
-import { gotoRoute } from '@entando/router';
-import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
@@ -36,9 +35,13 @@ jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn(),
 }));
 
-getActiveLanguages.mockReturnValue(LANGUAGES);
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
-jest.mock('@entando/router');
+getActiveLanguages.mockReturnValue(LANGUAGES);
 
 const STATE = {
   pages: {},
@@ -107,7 +110,7 @@ describe('PagesAddFormContainer', () => {
       expect(props).toHaveProperty('onSubmit');
       props.onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE }).then(() => {
         expect(sendPostPage).toHaveBeenCalled();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);
     });

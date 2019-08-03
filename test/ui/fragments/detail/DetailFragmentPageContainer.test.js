@@ -1,6 +1,4 @@
-import React from 'react';
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/detail/DetailFragmentPageContainer';
 import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
@@ -11,14 +9,19 @@ const TEST_STATE = {
   },
 };
 
-
 const dispatchMock = jest.fn();
 
-getParams.mockReturnValue({ fragmentCode: 'code' });
+const ownProps = {
+  match: {
+    params: {
+      fragmentCode: 'code',
+    },
+  },
+};
 
 describe('DetailFragmentPageContainer', () => {
   it('maps groups and mode property state in DetailFragmentPage', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ code: 'code', fragment: GET_FRAGMENT_OK.payload });
+    expect(mapStateToProps(TEST_STATE, ownProps)).toEqual({ code: 'code', fragment: GET_FRAGMENT_OK.payload });
   });
 
 
