@@ -1,11 +1,15 @@
 import 'test/enzyme-init';
-
-import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabWidgetsContainer';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'ui/groups/detail/GroupDetailTabWidgetsContainer';
 
 const dispatchMock = jest.fn();
 
 jest.mock('state/groups/selectors', () => ({
-  getWidgetTypeReferences: jest.fn().mockReturnValue('getWidgetTypeReferences_result'),
+  getWidgetTypeReferences: jest
+    .fn()
+    .mockReturnValue('getWidgetTypeReferences_result'),
 }));
 
 jest.mock('state/pagination/selectors', () => ({
@@ -22,11 +26,19 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn().mockReturnValue({ references: false }),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      groupname: 'groupname',
+    },
+  },
+};
+
 describe('GroupDetailTabWidgetsContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {
@@ -45,7 +57,10 @@ describe('GroupDetailTabWidgetsContainer', () => {
     });
 
     it('verify props are defined and properly valued', () => {
-      expect(props).toHaveProperty('widgetReferences', 'getWidgetTypeReferences_result');
+      expect(props).toHaveProperty(
+        'widgetReferences',
+        'getWidgetTypeReferences_result',
+      );
       expect(props).toHaveProperty('loading', false);
       expect(props).toHaveProperty('page', 'getCurrentPage_result');
       expect(props).toHaveProperty('totalItems', 'getTotalItems_result');

@@ -1,4 +1,7 @@
-import { mapStateToProps, mapDispatchToProps } from 'ui/users/detail/DetailUserTableContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/users/detail/DetailUserTableContainer';
 import { getSelectedUser } from 'state/users/selectors';
 import { USER } from 'test/mocks/users';
 
@@ -9,20 +12,19 @@ jest.mock('state/users/selectors', () => ({
 const ownProps = {
   match: {
     params: {
-      user: 'user',
+      username: 'username',
     },
   },
 };
 
 getSelectedUser.mockReturnValue(USER);
 
-
 describe('DetailUserTableContainer', () => {
   const dispatchMock = jest.fn();
   let props;
   beforeEach(() => {
     jest.clearAllMocks();
-    props = mapDispatchToProps(dispatchMock);
+    props = mapDispatchToProps(dispatchMock, ownProps);
   });
 
   describe('mapDispatchToProps', () => {

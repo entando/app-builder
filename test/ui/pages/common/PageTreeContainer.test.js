@@ -1,20 +1,25 @@
-import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/pages/common/PageTreeContainer';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
-  setSelectedPage, handleExpandPage, initPageForm,
-  setPageParent, movePageAbove, movePageBelow, clonePage, clearSearchPage,
+  setSelectedPage,
+  handleExpandPage,
+  initPageForm,
+  setPageParent,
+  movePageAbove,
+  movePageBelow,
+  clonePage,
+  clearSearchPage,
 } from 'state/pages/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
 import { history } from 'app-init/router';
 
-jest.mock('app-init/router', () => ({
-  history: {
-    push: jest.fn(),
-  },
-}));
+history.push = jest.fn();
 
 jest.mock('state/pages/actions', () => ({
   setSelectedPage: jest.fn(),

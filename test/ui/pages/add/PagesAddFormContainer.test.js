@@ -1,17 +1,24 @@
-
-import { mapStateToProps, mapDispatchToProps } from 'ui/pages/add/PagesAddFormContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/pages/add/PagesAddFormContainer';
 
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
-import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
+import {
+  getCharsets,
+  getContentTypes,
+  getSelectedPageLocaleTitle,
+} from 'state/pages/selectors';
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
+import getSearchParam from 'helpers/getSearchParam';
 
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
@@ -28,7 +35,9 @@ jest.mock('state/page-models/selectors', () => ({
 jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
-  getSelectedPageLocaleTitle: jest.fn().mockReturnValue('getSelectedPageLocaleTitle_result'),
+  getSelectedPageLocaleTitle: jest
+    .fn()
+    .mockReturnValue('getSelectedPageLocaleTitle_result'),
 }));
 
 jest.mock('state/languages/selectors', () => ({
@@ -40,6 +49,10 @@ jest.mock('app-init/router', () => ({
     push: jest.fn(),
   },
 }));
+
+jest.mock('helpers/getSearchParam');
+
+getSearchParam.mockImplementation(paramName => paramName);
 
 getActiveLanguages.mockReturnValue(LANGUAGES);
 
@@ -108,11 +121,14 @@ describe('PagesAddFormContainer', () => {
 
     it('maps the "onSubmit" prop a sendPostPage dispatch', (done) => {
       expect(props).toHaveProperty('onSubmit');
-      props.onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE }).then(() => {
-        expect(sendPostPage).toHaveBeenCalled();
-        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
-        done();
-      }).catch(done.fail);
+      props
+        .onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE })
+        .then(() => {
+          expect(sendPostPage).toHaveBeenCalled();
+          expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+          done();
+        })
+        .catch(done.fail);
     });
 
     it('maps the "onChangeDefaultTitle" prop a redux-form change dispatch', () => {

@@ -1,6 +1,9 @@
 import 'test/enzyme-init';
 
-import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabPagesContainer';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'ui/groups/detail/GroupDetailTabPagesContainer';
 
 const dispatchMock = jest.fn();
 
@@ -22,11 +25,19 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn().mockReturnValue({ references: false }),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      groupname: 'groupname',
+    },
+  },
+};
+
 describe('GroupDetailTabPagesContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {
@@ -45,7 +56,10 @@ describe('GroupDetailTabPagesContainer', () => {
     });
 
     it('verify props are defined and properly valued', () => {
-      expect(props).toHaveProperty('pageReferences', 'getPageReferences_result');
+      expect(props).toHaveProperty(
+        'pageReferences',
+        'getPageReferences_result',
+      );
       expect(props).toHaveProperty('loading', false);
       expect(props).toHaveProperty('page', 'getCurrentPage_result');
       expect(props).toHaveProperty('totalItems', 'getTotalItems_result');

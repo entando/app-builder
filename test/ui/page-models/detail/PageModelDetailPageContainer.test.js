@@ -15,7 +15,7 @@ describe('PageModelDetailPageContainer', () => {
   describe('mapStateToProps', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      props = mapStateToProps(ownProps);
+      props = mapStateToProps({}, ownProps);
     });
 
     it('maps prop cellMap', () => {

@@ -1,14 +1,30 @@
-
-import { mapDispatchToProps, mapStateToProps } from 'ui/pages/config/PageConfigPageContainer';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'ui/pages/config/PageConfigPageContainer';
 
 // mocked
 import { setSelectedPageModel } from 'state/page-models/actions';
-import { setSelectedPageOnTheFly, restoreSelectedPageConfig, applyDefaultConfig } from 'state/page-config/actions';
-import { publishSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
+import {
+  setSelectedPageOnTheFly,
+  restoreSelectedPageConfig,
+  applyDefaultConfig,
+} from 'state/page-config/actions';
+import {
+  publishSelectedPage,
+  unpublishSelectedPage,
+} from 'state/pages/actions';
 
 import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
-import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPageConfigMatchesDefault } from 'state/page-config/selectors';
-import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
+import {
+  getPageIsOnTheFly,
+  getSelectedPageDiffersFromPublished,
+  getSelectedPageConfigMatchesDefault,
+} from 'state/page-config/selectors';
+import {
+  getSelectedPage,
+  getSelectedPageIsPublished,
+} from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 
 import { HOMEPAGE_PAYLOAD } from 'test/mocks/pages';
@@ -26,7 +42,9 @@ jest.mock('state/page-config/selectors', () => ({
 jest.mock('state/pages/selectors', () => ({
   getSelectedPage: jest.fn(),
   getSelectedPageIsPublished: jest.fn(),
-  getSelectedPagePreviewURI: jest.fn().mockReturnValue('getSelectedPagePreviewURI_result'),
+  getSelectedPagePreviewURI: jest
+    .fn()
+    .mockReturnValue('getSelectedPagePreviewURI_result'),
 }));
 
 jest.mock('state/locale/selectors', () => ({
@@ -49,25 +67,27 @@ jest.mock('state/pages/actions', () => ({
   unpublishSelectedPage: jest.fn(),
 }));
 
+const PAGE = HOMEPAGE_PAYLOAD;
+const ownProps = {
+  match: {
+    params: {
+      pageCode: PAGE.code,
+    },
+  },
+};
+
 describe('PageConfigPageContainer', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('mapStateToProps', () => {
-    const PAGE = HOMEPAGE_PAYLOAD;
     let props;
-    const ownProps = {
-      match: {
-        params: {
-          pageCode: PAGE.code,
-        },
-      },
-    };
+
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
       getSelectedPageModelCanBeOnTheFly.mockReturnValue(true);
-      getPageIsOnTheFly.mockReturnValue(true);
-      getSelectedPageDiffersFromPublished.mockReturnValue(true);
-      getSelectedPageConfigMatchesDefault.mockReturnValue(true);
+      getPageIsOnTheFly.mockReturnValue(() => true);
+      getSelectedPageDiffersFromPublished.mockReturnValue(() => true);
+      getSelectedPageConfigMatchesDefault.mockReturnValue(() => true);
       getSelectedPageIsPublished.mockReturnValue(true);
       getLocale.mockReturnValue('en');
       props = mapStateToProps({}, ownProps);
@@ -107,10 +127,9 @@ describe('PageConfigPageContainer', () => {
 
     it('mapStateToProps if there is no selected page, returns an empty object', () => {
       getSelectedPage.mockReturnValue(null);
-      expect(mapStateToProps({})).toEqual({});
+      expect(mapStateToProps({}, ownProps)).toEqual({});
     });
   });
-
 
   describe('mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
@@ -133,7 +152,7 @@ describe('PageConfigPageContainer', () => {
         props.onWillUnmount();
       });
       it('dispatch setSelectedPageModel(null)', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result');
+        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result',);
         expect(setSelectedPageModel).toHaveBeenCalledWith(null);
       });
     });
@@ -144,7 +163,7 @@ describe('PageConfigPageContainer', () => {
       });
       it('dispatch setSelectedPageOnTheFly(value)', () => {
         expect(dispatchMock).toHaveBeenCalled();
-        expect(setSelectedPageOnTheFly).toHaveBeenCalledWith(true);
+        expect(setSelectedPageOnTheFly).toHaveBeenCalledWith(true, PAGE.code);
       });
     });
 
