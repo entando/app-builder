@@ -11,7 +11,7 @@ const AttributeListMenuActionsProfile = ({
   <DropdownKebab pullRight id={`${code}-actions`}>
     <LinkMenuItem
       id={`edit-${code}`}
-      to={routeConverter(routeToEdit, { entityCode: profiletypeCode, attributeCode: code })}
+      to={routeConverter(routeToEdit || '', { entityCode: profiletypeCode, attributeCode: code })}
       label={<FormattedMessage id="app.edit" />}
       className="AttributeListMenuAction__menu-item-edit"
     />

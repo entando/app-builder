@@ -22,7 +22,7 @@ describe('Languages', () => {
     const element = component.find('Button');
     expect(element).toHaveLength(1);
     const props = element.props();
-    expect(props).toHaveProperty('route', ROUTE_LABELS_AND_LANGUAGES);
+    expect(props).toHaveProperty('to', ROUTE_LABELS_AND_LANGUAGES);
     expect(props).toHaveProperty('componentClass', Link);
   });
 });

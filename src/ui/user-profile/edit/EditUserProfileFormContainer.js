@@ -28,4 +28,8 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProfileForm));
+const EditUserProfileFormContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProfileForm));
+
+EditUserProfileFormContainer.displayName = 'EditUserProfileFormContainer';
+
+export default EditUserProfileFormContainer;

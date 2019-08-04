@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 import 'test/enzyme-init';
@@ -19,7 +20,7 @@ describe('PagesList', () => {
     const element = component.find('Button');
     expect(element).toHaveLength(1);
     const props = element.props();
-    expect(props).toHaveProperty('route', ROUTE_PAGE_ADD);
+    expect(props).toHaveProperty('to', ROUTE_PAGE_ADD);
     expect(props).toHaveProperty('componentClass', Link);
   });
 

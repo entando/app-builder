@@ -14,6 +14,6 @@ describe('routeConverter', () => {
   });
 
   it('replaces more than one matching params', () => {
-    expect(routeConverter('/testing/:a/:c', { a: 'b', c: 'd' })).toBe('/testing/b/d',);
+    expect(routeConverter('/testing/:a/:c', { a: 'b', c: 'd' })).toBe('/testing/b/d');
   });
 });

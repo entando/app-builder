@@ -1,27 +1,27 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { Spinner } from 'patternfly-react';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
-
-const eventMock = {
-  preventDefault: jest.fn(),
-};
+import { ROUTE_WIDGET_ADD } from 'app-init/router';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('ListWidgetPage', () => {
   let component;
   beforeEach(() => {
     component = shallow(<ListWidgetPage title="Widgets" />);
   });
+
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('should call onClickCreate when clicking ', () => {
-    component.find('.ListWidgetPage__add').simulate('click', eventMock);
-    expect(eventMock.preventDefault).toHaveBeenCalled();
+  xit('should open edit widget screen when clicking ', () => {
+    const cmp = mount(<MemoryRouter><ListWidgetPage title="Widgets" /></MemoryRouter>);
+    cmp.find('Button.ListWidgetPage__add').simulate('click');
+    expect(window.location.href).toMatch(ROUTE_WIDGET_ADD);
   });
 
   it('has a Spinner without child', () => {

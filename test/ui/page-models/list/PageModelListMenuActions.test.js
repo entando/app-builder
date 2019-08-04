@@ -1,18 +1,14 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { history, ROUTE_PAGE_MODEL_EDIT, ROUTE_PAGE_MODEL_DETAIL } from 'app-init/router';
+import { history } from 'app-init/router';
 import PageModelListMenuActions from 'ui/page-models/list/PageModelListMenuActions';
 
 global.console.error = jest.fn();
 const onClickDelete = jest.fn();
 const PAGE_MODEL_CODE = 'page_model_code';
 
-jest.mock('app-init/router', () => ({
-  history: {
-    push: jest.fn(),
-  },
-}));
+history.push = jest.fn();
 
 beforeEach(jest.clearAllMocks);
 describe('PageModelListMenuActions', () => {
@@ -49,19 +45,13 @@ describe('PageModelListMenuActions', () => {
     it('when clicking on the edit button, goes to the edit page model page', () => {
       const onClick = component.find('.PageModelListMenuActions__menu-item-edit').prop('onClick');
       onClick();
-      expect(history.push).toHaveBeenCalledWith(
-        ROUTE_PAGE_MODEL_EDIT,
-        { pageModelCode: PAGE_MODEL_CODE },
-      );
+      expect(history.push).toHaveBeenCalledWith('/page-model/edit/page_model_code');
     });
 
     it('when clicking on the details button, goes to the page model details page', () => {
       const onClick = component.find('.PageModelListMenuActions__menu-item-details').prop('onClick');
       onClick();
-      expect(history.push).toHaveBeenCalledWith(
-        ROUTE_PAGE_MODEL_DETAIL,
-        { pageModelCode: PAGE_MODEL_CODE },
-      );
+      expect(history.push).toHaveBeenCalledWith('/page-model/view/page_model_code');
     });
 
     it('when clicking on the delete button, calls the onClickDelete function', () => {

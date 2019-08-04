@@ -18,4 +18,8 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageModelDetailTable));
+const SelectedPageModelDetailTableContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageModelDetailTable));
+
+SelectedPageModelDetailTableContainer.displayName = 'SelectedPageModelDetailTableContainer';
+
+export default SelectedPageModelDetailTableContainer;
