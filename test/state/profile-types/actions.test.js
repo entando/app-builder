@@ -78,11 +78,7 @@ jest.mock('state/profile-types/selectors', () => ({
   getSelectedProfileType: jest.fn().mockReturnValue({ code: 'profileType_code' }),
 }));
 
-jest.mock('app-init/router', () => ({
-  history: {
-    push: jest.fn(),
-  },
-}));
+history.push = jest.fn();
 
 describe('state/profile-types/actions ', () => {
   let store;
@@ -153,7 +149,7 @@ describe('state/profile-types/actions ', () => {
 
   describe('thunk', () => {
     describe('sendPostProfileType', () => {
-      it('when postProfileType succeeds, should call router', (done) => {
+      it('when postProfileType succeeds, should call api', (done) => {
         postProfileType.mockImplementationOnce(mockApi({ payload: PROFILE_TYPES }));
         store.dispatch(sendPostProfileType(PROFILE_TYPES)).then(() => {
           expect(postProfileType).toHaveBeenCalled();
@@ -306,14 +302,11 @@ describe('state/profile-types/actions ', () => {
     });
 
     describe('sendPostAttributeFromProfileType', () => {
-      it('sendPostAttributeFromProfileType calls history.push ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
+      it('sendPostAttributeFromProfileType calls route ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
         getProfileTypeSelectedAttributeType.mockReturnValue({ code: 'Monolist' });
         store.dispatch(sendPostAttributeFromProfileType({ code: 'AAA' }, 'Monolist')).then(() => {
           expect(postAttributeFromProfileType).toHaveBeenCalled();
-          expect(history.push).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-            entityCode: 'Monolist',
-            attributeCode: 'AAA',
-          });
+          expect(history.push).toHaveBeenCalledWith('/profiletype/attribute/Monolist/MonolistAdd/AAA');
           done();
         }).catch(done.fail);
       });
@@ -322,9 +315,7 @@ describe('state/profile-types/actions ', () => {
         getProfileTypeSelectedAttributeType.mockReturnValue(null);
         store.dispatch(sendPostAttributeFromProfileType({ code: 'AAA' }, 'Monolist')).then(() => {
           expect(postAttributeFromProfileType).toHaveBeenCalled();
-          expect(history.push).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monolist',
-          });
+          expect(history.push).toHaveBeenCalledWith('/profiletype/edit/Monolist');
           done();
         }).catch(done.fail);
       });
@@ -341,25 +332,20 @@ describe('state/profile-types/actions ', () => {
     });
 
     describe('sendPutAttributeFromProfileType', () => {
-      it('sendPutAttributeFromProfileType calls history.push ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
+      it('sendPutAttributeFromProfileType calls route ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD', (done) => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
-        store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' })).then(() => {
+        store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' }, 'Monolist')).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
-          expect(history.push).toHaveBeenCalledWith(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-            entityCode: 'Monolist',
-            attributeCode: 'AAA',
-          });
+          expect(history.push).toHaveBeenCalledWith('/profiletype/attribute/Monolist/MonolistAdd/AAA');
           done();
         }).catch(done.fail);
       });
 
-      it('sendPutAttributeFromProfileType calls history.push ROUTE_PROFILE_TYPE_EDIT', (done) => {
+      it('sendPutAttributeFromProfileType calls route ROUTE_PROFILE_TYPE_EDIT', (done) => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ payload: { type: 'Monotext' } }));
         store.dispatch(sendPutAttributeFromProfileType({ code: 'AAA' }, 'Monotext')).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
-          expect(history.push).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monotext',
-          });
+          expect(history.push).toHaveBeenCalledWith('/profiletype/edit/Monotext');
           done();
         }).catch(done.fail);
       });
@@ -380,9 +366,7 @@ describe('state/profile-types/actions ', () => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
         store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA' }, 'Monolist')).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
-          expect(history.push).toHaveBeenCalledWith(ROUTE_PROFILE_TYPE_EDIT, {
-            profiletypeCode: 'Monolist',
-          });
+          expect(history.push).toHaveBeenCalledWith('/profiletype/edit/Monolist');
           done();
         }).catch(done.fail);
       });

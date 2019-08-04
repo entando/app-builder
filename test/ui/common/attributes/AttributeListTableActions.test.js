@@ -1,7 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
+import { MemoryRouter } from 'react-router-dom';
 
 const FIELDS = {
   remove: jest.fn(),
@@ -35,9 +36,9 @@ const props = {
   attributes: ATTRIBUTESLIST,
   routeToEdit: '',
   entityCode: '',
-  onClickDelete: jest.fn(),
-  onMoveUp: jest.fn(),
-  onMoveDown: jest.fn(),
+  onClickDelete,
+  onMoveUp,
+  onMoveDown,
   code: 'code',
   datatypeCode: 'THX',
   fields: FIELDS,
@@ -46,7 +47,7 @@ const props = {
 describe('AttributeListTableActions', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AttributeListTableActions {...props} />);
+    component = mount(<MemoryRouter><AttributeListTableActions {...props} /></MemoryRouter>);
   });
 
   it('renders without crashing', () => {
@@ -58,21 +59,6 @@ describe('AttributeListTableActions', () => {
   });
 
   describe('test moveUp/moveDown', () => {
-    beforeEach(() => {
-      const cmp = (<AttributeListTableActions
-        onMoveUp={onMoveUp}
-        onMoveDown={onMoveDown}
-        onClickDelete={onClickDelete}
-        routeToEdit=""
-        attributes={ATTRIBUTESLIST}
-        fields={FIELDS}
-        code="code"
-        datatypeCode="THX"
-      />);
-
-      component = shallow(cmp);
-    });
-
     it('on item-move-up clicked should call onMoveUp', () => {
       component.find('.AttributeListMenuAction__menu-item-move-up').at(1).simulate('click');
       expect(component.exists()).toBe(true);

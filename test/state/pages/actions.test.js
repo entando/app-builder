@@ -660,7 +660,7 @@ describe('publish/unpublish', () => {
   let store;
   beforeEach(() => {
     getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getSelectedPageConfig.mockReturnValue([null, null]);
+    getSelectedPageConfig.mockReturnValue(() => [null, null]);
     putPageStatus.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
     store = mockStore();
   });
