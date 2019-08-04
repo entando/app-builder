@@ -70,7 +70,7 @@ describe('state/widget-config/actions', () => {
       }).catch(done.fail);
     });
 
-    xit('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+    it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
       putPageWidget.mockImplementation(mockApi({ errors: true }));
       store.dispatch(updateConfiguredPageWidget(WIDGET_CONFIG, { pageCode })).then(() => {
         expect(store.getActions()).toHaveLength(1);

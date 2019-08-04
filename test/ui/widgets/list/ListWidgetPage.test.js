@@ -1,12 +1,9 @@
 import React from 'react';
-
 import 'test/enzyme-init';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { Spinner } from 'patternfly-react';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
-import { ROUTE_WIDGET_ADD } from 'app-init/router';
-import { MemoryRouter } from 'react-router-dom';
 
 describe('ListWidgetPage', () => {
   let component;
@@ -18,10 +15,8 @@ describe('ListWidgetPage', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  xit('should open edit widget screen when clicking ', () => {
-    const cmp = mount(<MemoryRouter><ListWidgetPage title="Widgets" /></MemoryRouter>);
-    cmp.find('Button.ListWidgetPage__add').simulate('click');
-    expect(window.location.href).toMatch(ROUTE_WIDGET_ADD);
+  it('has a link to add widget page', () => {
+    expect(component.find('.ListWidgetPage__add[to="/widget/add"]').exists()).toBe(true);
   });
 
   it('has a Spinner without child', () => {
