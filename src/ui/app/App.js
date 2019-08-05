@@ -352,7 +352,7 @@ const App = ({ currentRoute, keycloak, username }) => {
     <Fragment>
       <ToastsContainer />
       {!keycloak.enabled || keycloak.authenticated
-        ? getRouteComponent(keycloak)
+        ? getRouteComponent()
         : <LoginPage />}
     </Fragment>
   );
