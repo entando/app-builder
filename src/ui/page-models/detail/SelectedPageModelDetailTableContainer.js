@@ -18,7 +18,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-const SelectedPageModelDetailTableContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageModelDetailTable));
+// eslint-disable-next-line function-paren-newline
+const SelectedPageModelDetailTableContainer = withRouter(connect(
+  mapStateToProps, mapDispatchToProps)(PageModelDetailTable));
 
 SelectedPageModelDetailTableContainer.displayName = 'SelectedPageModelDetailTableContainer';
 

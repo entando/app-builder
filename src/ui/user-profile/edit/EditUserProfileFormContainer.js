@@ -28,7 +28,9 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const EditUserProfileFormContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProfileForm));
+// eslint-disable-next-line function-paren-newline
+const EditUserProfileFormContainer = withRouter(connect(
+  mapStateToProps, mapDispatchToProps)(UserProfileForm));
 
 EditUserProfileFormContainer.displayName = 'EditUserProfileFormContainer';
 
