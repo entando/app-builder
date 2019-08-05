@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_CATEGORY_EDIT, ROUTE_CATEGORY_DETAIL } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>
     <LinkMenuItem
       id={`detail-${code}`}
-      route={ROUTE_CATEGORY_DETAIL}
-      params={{ categoryCode: code }}
+      to={routeConverter(ROUTE_CATEGORY_DETAIL, { categoryCode: code })}
       label={<FormattedMessage id="app.details" />}
       className="CategoryListMenuAction__menu-item-details"
     />
@@ -22,8 +22,7 @@ const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
     </MenuItem>
     <LinkMenuItem
       id={`edit-${code}`}
-      route={ROUTE_CATEGORY_EDIT}
-      params={{ categoryCode: code }}
+      to={routeConverter(ROUTE_CATEGORY_EDIT, { categoryCode: code })}
       label={<FormattedMessage id="app.edit" />}
       className="CategoryListMenuAction__menu-item-edit"
     />

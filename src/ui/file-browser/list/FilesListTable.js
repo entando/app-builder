@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
 import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_FILE_BROWSER_EDIT_TEXT_FILE } from 'app-init/router';
 
@@ -46,7 +47,7 @@ class FilesListTable extends Component {
       const canEdit = file.name.endsWith('.txt') || file.name.endsWith('.css');
       if (canEdit) {
         return (
-          <Link className="FilesListTable__link-download" route={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} params={{ filename: file.name }}>
+          <Link className="FilesListTable__link-download" to={routeConverter(ROUTE_FILE_BROWSER_EDIT_TEXT_FILE, { filename: file.name })}>
             <Icon size="lg" name="file" /> {file.name}
           </Link>
         );

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import PagesDetailPage from 'ui/pages/detail/PagesDetailPage';
 import { loadSelectedPage, setReferenceSelectedPage } from 'state/pages/actions';
 import { getReferencesFromSelectedPage } from 'state/pages/selectors';
 
-export const mapStateToProps = state => ({
-  pageCode: getParams(state).pageCode,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  pageCode: params.pageCode,
   references: getReferencesFromSelectedPage(state),
 });
 
@@ -16,5 +16,4 @@ export const mapDispatchToProps = dispatch => ({
     }),
 });
 
-const PagesDetailPageContainer = connect(mapStateToProps, mapDispatchToProps)(PagesDetailPage);
-export default PagesDetailPageContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PagesDetailPage));

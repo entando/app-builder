@@ -1,22 +1,22 @@
 import { connect } from 'react-redux';
-import { getParams, gotoRoute } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { download } from 'ui/file-browser/utils/downloadFile';
 import { saveFile, downloadFile, fetchFile } from 'state/file-browser/actions';
 
 import CreateTextFileForm from 'ui/file-browser/common/CreateTextFileForm';
 
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { history, ROUTE_FILE_BROWSER } from 'app-init/router';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: 'edit',
-  filename: getParams(state).filename,
+  filename: params.filename,
 });
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (filename) => {
     dispatch(fetchFile(filename, ['.txt', '.css']))
       .catch(() => {
-        gotoRoute(ROUTE_FILE_BROWSER);
+        history.push(ROUTE_FILE_BROWSER);
       });
   },
   onClickDownload: (file) => {
@@ -37,6 +37,8 @@ const mergeProps = (stateProps, dispatchProps) => ({
   },
 });
 
-const EditTextFileContainer =
-  connect(mapStateToProps, mapDispatchToProps, mergeProps)(CreateTextFileForm);
-export default EditTextFileContainer;
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(CreateTextFileForm));

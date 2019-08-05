@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
 import { ADD_ERRORS } from '@entando/messages';
 
 import {
@@ -13,7 +12,7 @@ import { mockApi } from 'test/testUtils';
 
 import { SET_STATUS } from 'state/reload-configuration/types';
 
-import { ROUTE_RELOAD_CONFIRM } from 'app-init/router';
+import { history, ROUTE_RELOAD_CONFIRM } from 'app-init/router';
 import { SUCCESS } from 'test/mocks/reloadConfiguration';
 
 const middlewares = [thunk];
@@ -22,6 +21,12 @@ const mockStore = configureMockStore(middlewares);
 const INITIAL_STATE = {
   configuration: {},
 };
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('state/reload-configuration/actions', () => {
   let store;
@@ -41,7 +46,7 @@ describe('state/reload-configuration/actions', () => {
       reloadConf.mockImplementation(mockApi({ payload: SUCCESS }));
       store.dispatch(sendReloadConf()).then(() => {
         expect(reloadConf).toHaveBeenCalled();
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_RELOAD_CONFIRM);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_RELOAD_CONFIRM);
         done();
       }).catch(done.fail);
     });

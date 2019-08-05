@@ -1,19 +1,33 @@
 import { initialize } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/page-models/common/PageModelFormContainer';
-import { getPageModelFormCellMap, getPageModelFormErrors } from 'state/page-models/selectors';
-import { initPageModelForm, updatePageModel, createPageModel } from 'state/page-models/actions';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/page-models/common/PageModelFormContainer';
+import {
+  getPageModelFormCellMap,
+  getPageModelFormErrors,
+} from 'state/page-models/selectors';
+import {
+  initPageModelForm,
+  updatePageModel,
+  createPageModel,
+} from 'state/page-models/actions';
 
-jest.mock(
-  'state/page-models/selectors',
-  () => jest.genMockFromModule('state/page-models/selectors'),
-);
+jest.mock('state/page-models/selectors', () =>
+  jest.genMockFromModule('state/page-models/selectors'),);
 
-jest.mock(
-  'state/page-models/actions',
-  () => jest.genMockFromModule('state/page-models/actions'),
-);
+jest.mock('state/page-models/actions', () =>
+  jest.genMockFromModule('state/page-models/actions'),);
+
+const routerProps = {
+  match: {
+    params: {
+      pageModelCode: 'pageModelCode',
+    },
+  },
+};
 
 const ERRORS = [{ id: 'err' }];
 const CELL_MAP = { some: 'value' };
@@ -39,8 +53,12 @@ describe('PageModelFormContainer', () => {
 
   describe('mapDispatchToProps (mode = "add")', () => {
     let props;
+    const ownProps = {
+      ...routerProps,
+      mode: 'add',
+    };
     beforeEach(() => {
-      props = mapDispatchToProps(dispatch, { mode: 'add' });
+      props = mapDispatchToProps(dispatch, ownProps);
       jest.clearAllMocks();
     });
 
@@ -48,7 +66,10 @@ describe('PageModelFormContainer', () => {
       createPageModel.mockReturnValue('createPageModel_result');
       props.onSubmit({ data: true });
       expect(dispatch).toHaveBeenCalledWith('createPageModel_result');
-      expect(createPageModel).toHaveBeenCalledWith({ data: true, configuration: {} });
+      expect(createPageModel).toHaveBeenCalledWith({
+        data: true,
+        configuration: {},
+      });
     });
 
     it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
@@ -64,8 +85,12 @@ describe('PageModelFormContainer', () => {
 
   describe('mapDispatchToProps (mode = "edit")', () => {
     let props;
+    const ownProps = {
+      ...routerProps,
+      mode: 'edit',
+    };
     beforeEach(() => {
-      props = mapDispatchToProps(dispatch, { mode: 'edit' });
+      props = mapDispatchToProps(dispatch, ownProps);
       jest.clearAllMocks();
     });
 
@@ -73,14 +98,17 @@ describe('PageModelFormContainer', () => {
       updatePageModel.mockReturnValue('updatePageModel_result');
       props.onSubmit({ data: true });
       expect(dispatch).toHaveBeenCalledWith('updatePageModel_result');
-      expect(updatePageModel).toHaveBeenCalledWith({ data: true, configuration: {} });
+      expect(updatePageModel).toHaveBeenCalledWith({
+        data: true,
+        configuration: {},
+      });
     });
 
     it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
       initPageModelForm.mockReturnValue('initPageModelForm_result');
       props.onWillMount();
       expect(dispatch).toHaveBeenCalledWith('initPageModelForm_result');
-      expect(initPageModelForm).toHaveBeenCalledWith();
+      expect(initPageModelForm).toHaveBeenCalledWith('pageModelCode');
       expect(clearErrors).toHaveBeenCalled();
     });
   });

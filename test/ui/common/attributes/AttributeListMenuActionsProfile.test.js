@@ -10,7 +10,7 @@ const onClickDelete = jest.fn();
 const PROFILE_TYPE_CODE = 'PFL';
 
 
-describe('AttributeListMenuActions', () => {
+describe('AttributeListMenuActionsProfile', () => {
   let component;
   beforeEach(() => {
     component = shallow(<AttributeListMenuActionsProfile

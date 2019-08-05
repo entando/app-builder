@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { TYPE_LIST, TYPE_MONOLIST } from 'state/data-types/const';
+import { routeConverter } from 'helpers/routeConverter';
 
 const renderRoles = (roles) => {
   if (roles.length > 0) {
@@ -55,8 +56,7 @@ const AttributeListTableActions = ({
           <DropdownKebab pullRight id={`${attribute.code}-actions`}>
             <LinkMenuItem
               id={`edit-${attribute.code}`}
-              route={routeToEdit}
-              params={{ entityCode, attributeCode: attribute.code }}
+              to={routeConverter(routeToEdit, { entityCode, attributeCode: attribute.code })}
               label={<FormattedMessage id="app.edit" />}
               className="AttributeListMenuAction__menu-item-edit"
             />

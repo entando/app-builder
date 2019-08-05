@@ -17,7 +17,7 @@ const AddCategoryPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_CATEGORY_LIST}>
+            <BreadcrumbItem to={ROUTE_CATEGORY_LIST}>
               <FormattedMessage id="menu.categories" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
 
 import registerServiceWorker from 'registerServiceWorker';
 
@@ -7,7 +8,7 @@ import registerServiceWorker from 'registerServiceWorker';
 import { Provider } from 'react-redux';
 import store from 'state/store';
 
-import 'app-init/router';
+import { history } from 'app-init/router';
 import 'app-init/locale';
 import 'app-init/apiManager';
 
@@ -31,7 +32,9 @@ export default ReactDOM.render(
   <Provider store={store}>
     <IntlProviderContainer>
       <KeycloakProviderContainer>
-        <AppContainer />
+        <Router history={history}>
+          <AppContainer />
+        </Router>
       </KeycloakProviderContainer>
     </IntlProviderContainer>
   </Provider>,

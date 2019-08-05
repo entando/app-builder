@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_ROLE_EDIT, ROUTE_ROLE_DETAIL } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const RoleListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = <FormattedMessage id="app.edit" />;
@@ -13,15 +14,13 @@ const RoleListMenuActions = ({ onClickDelete, code }) => {
     <DropdownKebab pullRight id={`${code}-actions`}>
       <LinkMenuItem
         id={`detail-${code}`}
-        route={ROUTE_ROLE_DETAIL}
-        params={{ roleCode: code }}
+        to={routeConverter(ROUTE_ROLE_DETAIL, { roleCode: code })}
         label={detailsLabel}
         className="RoleListMenuAction__menu-item-detail"
       />
       <LinkMenuItem
         id={`edit-${code}`}
-        route={ROUTE_ROLE_EDIT}
-        params={{ roleCode: code }}
+        to={routeConverter(ROUTE_ROLE_EDIT, { roleCode: code })}
         label={editLabel}
         className="RoleListMenuAction__menu-item-edit"
       />

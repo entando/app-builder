@@ -9,7 +9,7 @@ import {
   Button,
 } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
@@ -29,7 +29,7 @@ class UxPatterns extends Component {
             bsStyle="primary"
             className="pull-right"
             componentClass={Link}
-            route={ROUTE_WIDGET_ADD}
+            to={ROUTE_WIDGET_ADD}
           >
             <FormattedMessage id="app.new" />
           </Button>

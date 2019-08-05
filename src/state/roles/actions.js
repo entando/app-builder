@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
@@ -12,7 +11,7 @@ import {
   SET_ROLES, SET_SELECTED, REMOVE_ROLE,
   SET_USER_REFS,
 } from 'state/roles/types';
-import { ROUTE_ROLE_LIST } from 'app-init/router';
+import { history, ROUTE_ROLE_LIST } from 'app-init/router';
 
 export const setRoles = roles => ({
   type: SET_ROLES,
@@ -96,7 +95,7 @@ export const sendPostRole = rolesData => dispatch =>
     postRole(rolesData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          gotoRoute(ROUTE_ROLE_LIST);
+          history.push(ROUTE_ROLE_LIST);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
@@ -111,7 +110,7 @@ export const sendPutRole = rolesData => dispatch =>
     putRole(rolesData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          gotoRoute(ROUTE_ROLE_LIST);
+          history.push(ROUTE_ROLE_LIST);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));

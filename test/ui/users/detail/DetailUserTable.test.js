@@ -1,10 +1,15 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { gotoRoute } from '@entando/router';
-import { ROUTE_USER_LIST } from 'app-init/router';
+import { history, ROUTE_USER_LIST } from 'app-init/router';
 
 import DetailUserTable from 'ui/users/detail/DetailUserTable';
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('DetailUserTable', () => {
   let component;
@@ -21,6 +26,6 @@ describe('DetailUserTable', () => {
 
   it('verify click back button', () => {
     component.find('Button').simulate('click');
-    expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+    expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
   });
 });

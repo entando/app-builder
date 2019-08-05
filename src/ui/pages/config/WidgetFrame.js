@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from '@entando/menu';
+import { Link } from 'react-router-dom';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_WIDGET_DETAIL } from 'app-init/router';
 
@@ -48,13 +49,15 @@ class WidgetFrame extends Component {
           className="WidgetFrame__menu-button"
           pullRight
         >
-          <LinkMenuItem
-            key={widgetId}
-            id={`detail-widget-${widgetId}`}
-            label={<FormattedMessage id="app.details" />}
-            route={ROUTE_WIDGET_DETAIL}
-            params={{ widgetCode: widgetId }}
-          />
+          <li>
+            <Link
+              key={widgetId}
+              id={`detail-widget-${widgetId}`}
+              to={routeConverter(ROUTE_WIDGET_DETAIL, { widgetCode: widgetId })}
+            >
+              <FormattedMessage id="app.details" />
+            </Link>
+          </li>
 
           { configMenuItems }
 

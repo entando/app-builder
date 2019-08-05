@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
 import { fetchFragmentDetail } from 'state/fragments/actions';
 import { getFragmentSelected } from 'state/fragments/selectors';
-import { gotoRoute, getParams } from '@entando/router';
-import { ROUTE_FRAGMENT_EDIT } from 'app-init/router';
+import { history, ROUTE_FRAGMENT_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
-export const mapStateToProps = state => ({
-  code: getParams(state).fragmentCode,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  code: params.fragmentCode,
   fragment: getFragmentSelected(state),
 });
 
@@ -15,14 +16,11 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchFragmentDetail(props.code));
   },
   handleEdit: (code) => {
-    gotoRoute(ROUTE_FRAGMENT_EDIT, { fragmentCode: code });
+    history.push(routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: code }));
   },
   referencesFragments: item => (item),
   referencesPageModels: item => (item),
 
 });
 
-const DetailFragmentPageContainer =
-  connect(mapStateToProps, mapDispatchToProps)(DetailFragmentPage);
-
-export default DetailFragmentPageContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailFragmentPage));

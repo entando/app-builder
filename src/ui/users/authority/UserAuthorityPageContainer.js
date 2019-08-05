@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
-import { getParams } from '@entando/router';
 
-export const mapStateToProps = state =>
+export const mapStateToProps = (state, { match: { params } }) =>
   ({
-    username: getParams(state).username,
+    username: params.username,
   });
 
-const UserAuthorityPageContainer =
-connect(mapStateToProps, null)(UserAuthorityPage);
-export default UserAuthorityPageContainer;
+export default withRouter(connect(mapStateToProps, null)(UserAuthorityPage));

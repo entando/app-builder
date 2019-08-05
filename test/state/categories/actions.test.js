@@ -1,7 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
 import { ADD_ERRORS } from '@entando/messages';
 import {
   setCategories,
@@ -41,7 +40,7 @@ import {
 import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
-import { ROUTE_CATEGORY_ADD } from 'app-init/router';
+import { history, ROUTE_CATEGORY_ADD } from 'app-init/router';
 
 const CATEGORY_CODE = 'category_code';
 const REFERENCE_KEY = 'jacmsContentManager';
@@ -59,6 +58,12 @@ const INITIAL_STATE = {
     selected: null,
   },
 };
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('state/categories/actions', () => {
   let store;
@@ -257,13 +262,13 @@ describe('state/categories/actions', () => {
   });
 
   describe('initCategoryForm()', () => {
-    it('when initCategoryForm is called should dispatch initialize action then call gotoRoute', () => {
+    it('when initCategoryForm is called should dispatch initialize action then go to route', () => {
       store = mockStore(STATE_NORMALIZED);
       store.dispatch(initCategoryForm({ parentCode: CATEGORY_CODE }));
       expect(initialize).toHaveBeenCalledWith('category', {
         parentCode: CATEGORY_CODE,
       });
-      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_CATEGORY_ADD);
+      expect(history.push).toHaveBeenCalledWith(ROUTE_CATEGORY_ADD);
     });
   });
 });

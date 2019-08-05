@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { cloneDeep, isEqual } from 'lodash';
-import { getParams } from '@entando/router';
 
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
@@ -42,23 +41,23 @@ export const getGroupedWidgetList = createSelector(
   (widget, locale) => widgetGroupByCategory(widget, locale),
 );
 
-export const getSelectedPageConfig = createSelector(
-  [getConfigMap, getParams],
-  (configMap, params) => configMap[params.pageCode] || null,
+export const getSelectedPageConfig = pageCode => createSelector(
+  [getConfigMap],
+  configMap => configMap[pageCode] || null,
 );
 
-export const getSelectedPagePublishedConfig = createSelector(
-  [getPublishedConfigMap, getParams],
-  (publishedConfigMap, params) => publishedConfigMap[params.pageCode] || null,
+export const getSelectedPagePublishedConfig = pageCode => createSelector(
+  [getPublishedConfigMap],
+  publishedConfigMap => publishedConfigMap[pageCode] || null,
 );
 
 
 // the page model struct, enriched with infos about each column (frame, widget)
-export const getPageConfigCellMap = createSelector(
-  [getConfigMap, getPublishedConfigMap, getParams, getWidgetsMap, getSelectedPageModelCellMap,
+export const getPageConfigCellMap = params => createSelector(
+  [getConfigMap, getPublishedConfigMap, getWidgetsMap, getSelectedPageModelCellMap,
     getLocale],
-  (configMap, publishedConfigMap, routeParams, widgetsMap, cellMap, locale) => {
-    const { pageCode } = routeParams;
+  (configMap, publishedConfigMap, widgetsMap, cellMap, locale) => {
+    const { pageCode } = params;
     const pageConfig = configMap[pageCode];
     if (!pageCode || !pageConfig || !cellMap) return null;
     const publishedConfig = publishedConfigMap[pageCode];
@@ -95,8 +94,8 @@ export const getPageConfigCellMap = createSelector(
   },
 );
 
-export const getPageIsOnTheFly = createSelector(
-  [getSelectedPageConfig, getSelectedPageModelMainFrame],
+export const getPageIsOnTheFly = pageCode => createSelector(
+  [getSelectedPageConfig(pageCode), getSelectedPageModelMainFrame],
   (draftConfig, mainFrame) => {
     if (!draftConfig || !mainFrame) {
       return false;
@@ -106,8 +105,8 @@ export const getPageIsOnTheFly = createSelector(
   },
 );
 
-export const getSelectedPageDiffersFromPublished = createSelector(
-  [getSelectedPageConfig, getSelectedPagePublishedConfig],
+export const getSelectedPageDiffersFromPublished = pageCode => createSelector(
+  [getSelectedPageConfig(pageCode), getSelectedPagePublishedConfig(pageCode)],
   (draftConfig, publishedConfig) => {
     if (!draftConfig || !publishedConfig) {
       return false;
@@ -116,7 +115,7 @@ export const getSelectedPageDiffersFromPublished = createSelector(
   },
 );
 
-export const getSelectedPageConfigMatchesDefault = createSelector(
-  [getSelectedPageConfig, getSelectedPageModelDefaultConfig],
+export const getSelectedPageConfigMatchesDefault = pageCode => createSelector(
+  [getSelectedPageConfig(pageCode), getSelectedPageModelDefaultConfig],
   (draftConfig, defaultConfig) => isEqual(draftConfig, defaultConfig),
 );

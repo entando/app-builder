@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { METHODS } from '@entando/apimanager';
 import { clearErrors } from '@entando/messages';
 
@@ -26,10 +26,10 @@ import {
 
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app-init/router';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: getActionModeDataTypeSelectedAttribute(state) || 'edit',
-  attributeCode: getParams(state).attributeCode,
-  dataTypeAttributeCode: getParams(state).entityCode,
+  attributeCode: params.attributeCode,
+  dataTypeAttributeCode: params.entityCode,
   joinAllowedOptions:
     formValueSelector('attribute')(state, 'joinRoles') ||
     formValueSelector('attribute')(state, 'joinAllowedOptions') || [],
@@ -42,14 +42,20 @@ export const mapStateToProps = state => ({
   nestedAttributeComposite: formValueSelector('attribute')(state, 'nestedAttribute.type') || '',
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
     dispatch(clearErrors());
     dispatch(fetchAttributeFromDataType('attribute', dataTypeAttributeCode, attributeCode));
     dispatch(fetchDataTypeAttributes());
   },
   onSubmit: (values, allowedRoles, mode) => {
-    dispatch(handlerAttributeFromDataType(METHODS.PUT, values, allowedRoles, mode));
+    dispatch(handlerAttributeFromDataType(
+      METHODS.PUT,
+      values,
+      allowedRoles,
+      mode,
+      params.entityCode,
+    ));
   },
   onAddAttribute: (props) => {
     const { attributeCode, dataTypeAttributeCode, selectedAttributeType } = props;
@@ -71,6 +77,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const EditFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(EditAttributeForm);
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditAttributeForm));

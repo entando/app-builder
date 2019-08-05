@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -40,7 +40,7 @@ const ListUserPage = () => (
       </Row>
       <Row>
         <Col md={12}>
-          <Link route={ROUTE_USER_ADD}>
+          <Link to={ROUTE_USER_ADD}>
             <Button
               type="button"
               className="pull-right ListUserPage__add"

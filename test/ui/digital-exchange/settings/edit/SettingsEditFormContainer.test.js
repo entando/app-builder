@@ -1,5 +1,4 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/settings/edit/SettingsEditFormContainer';
 import { sendPutDigitalExchange, fetchDigitalExchange } from 'state/digital-exchange/digital-exchanges/actions';
@@ -9,19 +8,22 @@ jest.mock('state/digital-exchange/digital-exchanges/actions', () => ({
   fetchDigitalExchange: jest.fn(),
 }));
 
-
 const dispatchMock = jest.fn();
 
-getParams.mockReturnValue({
-  server: 33,
-});
+const ownProps = {
+  match: {
+    params: {
+      server: 33,
+    },
+  },
+};
 
 describe('SettingsListContainer', () => {
   describe('mapStateToProps', () => {
     let props = {};
 
     beforeAll(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('assigns the correct id value', () => {

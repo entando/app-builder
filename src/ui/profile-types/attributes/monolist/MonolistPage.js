@@ -11,6 +11,7 @@ import {
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class MonolistPage extends Component {
   componentWillMount() {
@@ -41,7 +42,7 @@ class MonolistPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.profile" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
+                <BreadcrumbItem to={ROUTE_PROFILE_TYPE_LIST}>
                   <FormattedMessage id="menu.profileTypes" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
@@ -50,8 +51,10 @@ class MonolistPage extends Component {
                 </BreadcrumbItem>
 
                 <BreadcrumbItem
-                  route={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT}
-                  params={{ entityCode, attributeCode }}
+                  to={routeConverter(
+                    ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+                    { entityCode, attributeCode },
+                  )}
                 >
                   <FormattedMessage id="app.edit.attribute" />
                   {attributeCode}

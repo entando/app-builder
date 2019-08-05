@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col, Button } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -21,7 +21,7 @@ const SettingsListPage = () => (
       </Row>
       <Row>
         <Col md={12}>
-          <Button componentClass={Link} route={ROUTE_DE_CONFIG_ADD} bsStyle="primary" className="pull-right">
+          <Button componentClass={Link} to={ROUTE_DE_CONFIG_ADD} bsStyle="primary" className="pull-right">
             <FormattedMessage id="digitalExchange.settings.add" />
           </Button>
         </Col>

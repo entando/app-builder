@@ -1,6 +1,4 @@
-import React from 'react';
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 
 import { mapStateToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
 
@@ -8,11 +6,6 @@ import { mapStateToProps } from 'ui/widgets/edit/EditWidgetPageContainer';
 import { returnedFuncMock } from 'redux-form';
 
 const TEST_STATE = {
-  router: {
-    params: {
-      widgetCode: 'code',
-    },
-  },
   mode: 'edit',
   form: {
     widget: {
@@ -34,14 +27,19 @@ const TEST_STATE = {
   },
 };
 
-
-getParams.mockReturnValue({ widgetCode: 'code' });
+const ownProps = {
+  match: {
+    params: {
+      widgetCode: 'code',
+    },
+  },
+};
 
 describe('EditWidgetPageContainer', () => {
   describe('mapStateToProps', () => {
     it('map widgetName property state in WidgetEditPage', () => {
       returnedFuncMock.mockReturnValue('Test Widget');
-      expect(mapStateToProps(TEST_STATE)).toEqual({ widgetName: 'Test Widget' });
+      expect(mapStateToProps(TEST_STATE, ownProps)).toEqual({ widgetName: 'Test Widget' });
     });
   });
 });

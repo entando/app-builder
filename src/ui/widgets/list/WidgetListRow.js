@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const WidgetListRow = (props) => {
   const {
@@ -20,7 +21,7 @@ const WidgetListRow = (props) => {
         <div className="list-view-pf-left">
           <span className="fa fa-puzzle-piece list-view-pf-icon-sm" />
           &nbsp;&nbsp;
-          <Link route={ROUTE_WIDGET_EDIT} params={{ widgetCode: code }} >{name}</Link>
+          <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: code })}>{name}</Link>
         </div>
       </td>
       <td className="WidgetListRow__td ">{code}</td>

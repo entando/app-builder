@@ -3,8 +3,7 @@ import thunk from 'redux-thunk';
 import { isFSA } from 'flux-standard-action';
 import { initialize } from 'redux-form';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
-import { gotoRoute } from '@entando/router';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { history, ROUTE_FILE_BROWSER } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
 import { FILE_BROWSER } from 'test/mocks/fileBrowser';
 
@@ -23,6 +22,12 @@ const mockStore = configureMockStore(middlewares);
 
 jest.mock('state/file-browser/selectors', () => ({
   getPathInfo: jest.fn(),
+}));
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
 }));
 
 describe('state/file-browser/actions', () => {
@@ -175,11 +180,11 @@ describe('state/file-browser/actions', () => {
     });
 
     describe('sendPostCreateFolder', () => {
-      it('sendPostCreateFolder calls postCreateFolder and gotoRoute', (done) => {
+      it('sendPostCreateFolder calls postCreateFolder and router', (done) => {
         getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
         store.dispatch(sendPostCreateFolder(false, 'path')).then(() => {
           expect(postCreateFolder).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_FILE_BROWSER);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_FILE_BROWSER);
           done();
         }).catch(done.fail);
       });
@@ -190,11 +195,11 @@ describe('state/file-browser/actions', () => {
         jest.clearAllMocks();
       });
 
-      it('sendDeleteFolder calls deleteFolder, gotoRoute and addToast', (done) => {
+      it('sendDeleteFolder calls deleteFolder, router and addToast', (done) => {
         getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
         store.dispatch(sendDeleteFolder({ protectedFolder: false, path: 'path' })).then(() => {
           expect(deleteFolder).toHaveBeenCalledWith('?protectedFolder=false&currentPath=path');
-          expect(gotoRoute).toHaveBeenCalled();
+          expect(history.push).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -226,11 +231,11 @@ describe('state/file-browser/actions', () => {
         jest.clearAllMocks();
       });
 
-      it('sendDeleteFile calls deleteFile, gotoRoute and addToast', (done) => {
+      it('sendDeleteFile calls deleteFile, router and addToast', (done) => {
         getPathInfo.mockImplementationOnce(mockApi({ protectedFolder: false, currentPath: '' }));
         store.dispatch(sendDeleteFile({ protectedFolder: false, path: 'path' })).then(() => {
           expect(deleteFile).toHaveBeenCalledWith('?protectedFolder=false&currentPath=path');
-          expect(gotoRoute).toHaveBeenCalled();
+          expect(history.push).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);

@@ -1,14 +1,13 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { mockApi } from 'test/testUtils';
+import { history } from 'app-init/router';
 
-import { gotoRoute } from '@entando/router';
 import { getUserProfile, putUserProfile } from 'api/userProfile';
 
 import { SET_SELECTED_PROFILE_TYPE } from 'state/profile-types/types';
 import { SET_USER_PROFILE } from 'state/user-profile/types';
 import { setUserProfile, fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
-
 
 jest.mock('state/profile-types/selectors', () => ({
   getSelectedProfileTypeAttributes: jest.fn(() => 'getSelectedProfileTypeAttributes_result'),
@@ -21,7 +20,11 @@ jest.mock('helpers/entities', () => ({
   getPayloadForForm: jest.fn(() => 'getPayloadForForm_result'),
   getPayloadForApi: jest.fn(() => 'getPayloadForApi_result'),
 }));
-
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 const mockStore = configureMockStore([thunk]);
 
@@ -97,7 +100,7 @@ describe('updateUserProfile', () => {
       expect(actions).toHaveLength(2);
       expect(actions[0]).toHaveProperty('type', SET_USER_PROFILE);
       expect(actions[1]).toHaveProperty('type', 'toasts/add-toast');
-      expect(gotoRoute).toHaveBeenCalled();
+      expect(history.push).toHaveBeenCalled();
       done();
     }).catch(done.fail);
   });

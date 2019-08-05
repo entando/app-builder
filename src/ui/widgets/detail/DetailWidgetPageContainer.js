@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchWidgetInfo } from 'state/widgets/actions';
 import { getWidgetInfo } from 'state/widgets/selectors';
 import DetailWidgetPage from 'ui/widgets/detail/DetailWidgetPage';
@@ -10,13 +11,11 @@ export const mapStateToProps = state => ({
   defaultLanguage: getDefaultLanguage(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchWidgetInfo());
+    dispatch(fetchWidgetInfo(params.widgetCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
   },
 });
 
-const DetailWidgetPageContainer =
-  connect(mapStateToProps, mapDispatchToProps)(DetailWidgetPage);
-export default DetailWidgetPageContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailWidgetPage));

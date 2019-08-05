@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
@@ -14,7 +13,7 @@ import {
 } from 'api/fragments';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
 
 export const setSelectedFragment = fragment => ({
@@ -175,7 +174,7 @@ export const sendPostFragment = fragment => async (dispatch) => {
   const response = await postFragment(fragment);
   const json = await response.json();
   if (response.ok) {
-    gotoRoute(ROUTE_FRAGMENT_LIST);
+    history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
   }
@@ -186,7 +185,7 @@ export const sendPutFragment = fragment => async (dispatch) => {
   const response = await putFragment(fragment);
   const json = await response.json();
   if (response.ok) {
-    gotoRoute(ROUTE_FRAGMENT_LIST);
+    history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
   }

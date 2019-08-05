@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Col, ButtonGroup, Button, Icon } from 'patternfly-react';
 
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_FILE_BROWSER_CREATE_TEXT_FILE, ROUTE_FILE_BROWSER_CREATE_FOLDER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 class FileButtonsGroup extends Component {
@@ -16,7 +16,7 @@ class FileButtonsGroup extends Component {
             className="pull-right FilesButtonGroup__createTextFile"
             bsStyle="primary"
             componentClass={Link}
-            route={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE}
+            to={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE}
           >
             <Icon size="lg" name="file-text" />&nbsp;
             <FormattedMessage
@@ -28,7 +28,7 @@ class FileButtonsGroup extends Component {
             className="pull-right FilesButtonGroup__createFolder"
             bsStyle="primary"
             componentClass={Link}
-            route={ROUTE_FILE_BROWSER_CREATE_FOLDER}
+            to={ROUTE_FILE_BROWSER_CREATE_FOLDER}
           >
             <Icon size="lg" name="folder" />&nbsp;
             <FormattedMessage
@@ -40,7 +40,7 @@ class FileButtonsGroup extends Component {
             className="pull-right FilesButtonGroup__uploadFile"
             bsStyle="primary"
             componentClass={Link}
-            route={ROUTE_FILE_BROWSER_UPLOAD}
+            to={ROUTE_FILE_BROWSER_UPLOAD}
           >
             <Icon size="lg" name="upload" />&nbsp;
             <FormattedMessage

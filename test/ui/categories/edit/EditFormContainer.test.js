@@ -1,8 +1,5 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/edit/EditFormContainer';
-
-const CATEGORY_CODE = { categoryCode: 'category_code' };
 
 const INITIAL_STATE = {
   categories: {
@@ -28,7 +25,14 @@ jest.mock('state/languages/selectors', () => ({
   getDefaultLanguage: jest.fn().mockReturnValue('defaultLanguage_result'),
 }));
 
-getParams.mockReturnValue(CATEGORY_CODE);
+const CATEGORY_CODE = 'category_code';
+const ownProps = {
+  match: {
+    params: {
+      categoryCode: CATEGORY_CODE,
+    },
+  },
+};
 
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
@@ -36,14 +40,14 @@ describe('EditFormContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps(INITIAL_STATE);
+      props = mapStateToProps(INITIAL_STATE, ownProps);
     });
 
     it('maps categories, languages and loading property', () => {
       expect(props).toHaveProperty('mode', 'edit');
       expect(props).toHaveProperty('activeLanguages', 'getActiveLanguages_result');
       expect(props).toHaveProperty('defaultLanguage', 'defaultLanguage_result');
-      expect(props).toHaveProperty('categoryCode', CATEGORY_CODE.categoryCode);
+      expect(props).toHaveProperty('categoryCode', CATEGORY_CODE);
     });
   });
 

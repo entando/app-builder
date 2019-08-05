@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { routeConverter } from 'helpers/routeConverter';
 
 const AttributeListMenuActionsProfile = ({
   onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, profiletypeCode,
@@ -10,8 +11,7 @@ const AttributeListMenuActionsProfile = ({
   <DropdownKebab pullRight id={`${code}-actions`}>
     <LinkMenuItem
       id={`edit-${code}`}
-      route={routeToEdit}
-      params={{ entityCode: profiletypeCode, attributeCode: code }}
+      to={routeConverter(routeToEdit || '', { entityCode: profiletypeCode, attributeCode: code })}
       label={<FormattedMessage id="app.edit" />}
       className="AttributeListMenuAction__menu-item-edit"
     />

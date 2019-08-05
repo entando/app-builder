@@ -5,9 +5,9 @@ import { Icon } from 'patternfly-react';
 import {
   BrandMenu,
   AdminAppSwitch,
-  LinkMenuItem,
   FirstLevelMenuItem,
 } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 
@@ -27,6 +27,7 @@ import NotificationListContainer from 'ui/activity-stream/NotificationListContai
 import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 import pluginArray from 'entando-plugins';
+import { routeConverter } from 'helpers/routeConverter';
 
 const publicUrl = process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
@@ -53,8 +54,9 @@ const { DIGITAL_EXCHANGE_UI_ENABLED, CMS_UI_ENABLED } = process.env;
 const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
   id="digital-exchange"
   label={<span><Icon name="cart-plus" /><FormattedMessage id="digitalExchange.menuButton.title" /></span>}
-  route={ROUTE_DE_COMPONENT_LIST}
+  to={ROUTE_DE_COMPONENT_LIST}
   pullRight
+  isNav
 />) : '';
 
 const cmsMenuItems = CMS_UI_ENABLED ? (
@@ -65,22 +67,26 @@ const cmsMenuItems = CMS_UI_ENABLED ? (
     <LinkMenuItem
       id="menu-cms-content-list"
       label={<FormattedMessage id="menu.cms.contentList" />}
-      route={ROUTE_CMS_CONTENT_LIST}
+      to={ROUTE_CMS_CONTENT_LIST}
+      isNav
     />
     <LinkMenuItem
       id="menu-roles"
       label={<FormattedMessage id="menu.cms.contentTypes" />}
-      route={ROUTE_CMS_CONTENT_TYPES}
+      to={ROUTE_CMS_CONTENT_TYPES}
+      isNav
     />
     <LinkMenuItem
       id="menu-groups"
       label={<FormattedMessage id="menu.cms.contentModels" />}
-      route={ROUTE_CMS_CONTENT_MODELS}
+      to={ROUTE_CMS_CONTENT_MODELS}
+      isNav
     />
     <LinkMenuItem
       id="menu-profile"
       label={<FormattedMessage id="menu.cms.contentSettings" />}
-      route={ROUTE_CMS_CONTENT_SETTINGS}
+      to={ROUTE_CMS_CONTENT_SETTINGS}
+      isNav
     />
   </FirstLevelMenuItem>) : '';
 
@@ -89,8 +95,9 @@ const InternalPage = ({ className, children }) => (
     <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
       <LinkMenuItem
         id="menu-dashboard"
+        to={ROUTE_DASHBOARD}
         label={<FormattedMessage id="menu.dashboard" defaultMessage="Dashboard" />}
-        route={ROUTE_DASHBOARD}
+        isNav
       />
       <FirstLevelMenuItem
         id="menu-page-creator"
@@ -98,19 +105,21 @@ const InternalPage = ({ className, children }) => (
       >
         <LinkMenuItem
           id="menu-page-tree"
+          to={ROUTE_PAGE_TREE}
           label={<FormattedMessage id="menu.pageTree" defaultMessage="Page Tree" />}
-          route={ROUTE_PAGE_TREE}
+          isNav
         />
         <LinkMenuItem
           id="menu-page-config"
+          to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: 'homepage' })}
           label={<FormattedMessage id="menu.pageConfig" />}
-          route={ROUTE_PAGE_CONFIG}
-          params={{ pageCode: 'homepage' }}
+          isNav
         />
         <LinkMenuItem
           id="menu-page-settings"
+          to={ROUTE_PAGE_SETTINGS}
           label={<FormattedMessage id="menu.pageSettings" />}
-          route={ROUTE_PAGE_SETTINGS}
+          isNav
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
@@ -119,18 +128,21 @@ const InternalPage = ({ className, children }) => (
       >
         <LinkMenuItem
           id="menu-ux-pattern-widgets"
+          to={ROUTE_WIDGET_LIST}
           label={<FormattedMessage id="menu.widgets" />}
-          route={ROUTE_WIDGET_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-ux-pattern-fragments"
+          to={ROUTE_FRAGMENT_LIST}
           label={<FormattedMessage id="menu.fragments" />}
-          route={ROUTE_FRAGMENT_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-ux-pattern-page-models"
           label={<FormattedMessage id="menu.pageModels" />}
-          route={ROUTE_PAGE_MODEL_LIST}
+          to={ROUTE_PAGE_MODEL_LIST}
+          isNav
         />
       </FirstLevelMenuItem>
 
@@ -143,12 +155,14 @@ const InternalPage = ({ className, children }) => (
         <LinkMenuItem
           id="menu-data-types"
           label={<FormattedMessage id="menu.dataType" />}
-          route={ROUTE_DATA_TYPE_LIST}
+          to={ROUTE_DATA_TYPE_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-data-models"
           label={<FormattedMessage id="menu.dataModels" />}
-          route={ROUTE_DATA_MODEL_LIST}
+          to={ROUTE_DATA_MODEL_LIST}
+          isNav
         />
       </FirstLevelMenuItem>
       <FirstLevelMenuItem
@@ -158,27 +172,32 @@ const InternalPage = ({ className, children }) => (
         <LinkMenuItem
           id="menu-users"
           label={<FormattedMessage id="menu.users" />}
-          route={ROUTE_USER_LIST}
+          to={ROUTE_USER_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-roles"
           label={<FormattedMessage id="menu.roles" />}
-          route={ROUTE_ROLE_LIST}
+          to={ROUTE_ROLE_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-groups"
           label={<FormattedMessage id="menu.groups" />}
-          route={ROUTE_GROUP_LIST}
+          to={ROUTE_GROUP_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-profile"
           label={<FormattedMessage id="menu.profileTypes" />}
-          route={ROUTE_PROFILE_TYPE_LIST}
+          to={ROUTE_PROFILE_TYPE_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-user-restrictions"
           label={<FormattedMessage id="menu.users.restrictions" />}
-          route={ROUTE_USER_RESTRICTIONS}
+          to={ROUTE_USER_RESTRICTIONS}
+          isNav
         />
       </FirstLevelMenuItem>
 
@@ -192,27 +211,32 @@ const InternalPage = ({ className, children }) => (
         <LinkMenuItem
           id="menu-categories"
           label={<FormattedMessage id="menu.categories" />}
-          route={ROUTE_CATEGORY_LIST}
+          to={ROUTE_CATEGORY_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-labels-languages"
           label={<FormattedMessage id="menu.labelsAndLanguages" />}
-          route={ROUTE_LABELS_AND_LANGUAGES}
+          to={ROUTE_LABELS_AND_LANGUAGES}
+          isNav
         />
         <LinkMenuItem
           id="menu-reload-configuration"
           label={<FormattedMessage id="menu.reloadConfiguration" />}
-          route={ROUTE_RELOAD_CONFIG}
+          to={ROUTE_RELOAD_CONFIG}
+          isNav
         />
         <LinkMenuItem
           id="menu-databases"
           label={<FormattedMessage id="menu.database" />}
-          route={ROUTE_DATABASE_LIST}
+          to={ROUTE_DATABASE_LIST}
+          isNav
         />
         <LinkMenuItem
           id="menu-labels-file-browser"
           label={<FormattedMessage id="menu.fileBrowser" />}
-          route={ROUTE_FILE_BROWSER}
+          to={ROUTE_FILE_BROWSER}
+          isNav
         />
       </FirstLevelMenuItem>
 

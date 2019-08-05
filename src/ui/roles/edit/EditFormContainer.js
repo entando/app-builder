@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { sendPutRole, fetchRole } from 'state/roles/actions';
 import { fetchPermissions } from 'state/permissions/actions';
 import { getPermissionsList } from 'state/permissions/selectors';
@@ -8,10 +8,10 @@ import RoleForm from 'ui/roles/common/RoleForm';
 
 export const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: EDIT_MODE,
   permissions: getPermissionsList(state),
-  roleCode: getParams(state).roleCode,
+  roleCode: params.roleCode,
   loading: getLoading(state).permissions,
 });
 
@@ -23,5 +23,4 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: values => dispatch(sendPutRole(values)),
 });
 
-const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(RoleForm);
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoleForm));

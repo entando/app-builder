@@ -2,7 +2,6 @@ import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
-import { gotoRoute, getParams } from '@entando/router';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -31,7 +30,7 @@ import {
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
 
 import {
   getWidget,
@@ -48,12 +47,15 @@ const mockStore = configureMockStore(middlewares);
 
 const WIDGET_CODE = 'WDG';
 
-getParams.mockImplementation(() => ({ widgetCode: 'WDG' }));
-
 jest.mock('state/widgets/selectors', () => ({
   getSelectedWidget: jest.fn(),
 }));
 
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('state/widgets/actions', () => {
   let store;
@@ -302,13 +304,13 @@ describe('state/widgets/actions', () => {
     });
 
     describe('sendPostWidgets', () => {
-      it('calls gotoRoute', (done) => {
+      it('calls router', (done) => {
         store.dispatch(sendPostWidgets({ code: 'test' })).then(() => {
           expect(postWidgets).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
       });
@@ -326,13 +328,13 @@ describe('state/widgets/actions', () => {
     });
 
     describe('sendPutWidgets', () => {
-      it('calls gotoRoute', (done) => {
+      it('calls router', (done) => {
         store.dispatch(sendPutWidgets(WIDGET)).then(() => {
           expect(putWidgets).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
       });
@@ -349,14 +351,14 @@ describe('state/widgets/actions', () => {
       });
     });
     describe('sendDeleteWidgets', () => {
-      it('calls removeWidgets and gotoRoute', (done) => {
+      it('calls removeWidgets and router', (done) => {
         store.dispatch(sendDeleteWidgets('WDG')).then(() => {
           expect(deleteWidgets).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', REMOVE_WIDGET);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
           done();
         }).catch(done.fail);
       });

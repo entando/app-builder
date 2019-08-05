@@ -1,8 +1,5 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/categories/detail/DetailCategoryTableContainer';
-
-const CATEGORY_CODE = { categoryCode: 'category_code' };
 
 const INITIAL_STATE = {
   categories: {
@@ -25,7 +22,14 @@ jest.mock('state/categories/selectors', () => ({
   getReferenceMap: jest.fn().mockReturnValue('getReferenceMap_result'),
 }));
 
-getParams.mockReturnValue(CATEGORY_CODE);
+const CATEGORY_CODE = 'category_code';
+const ownProps = {
+  match: {
+    params: {
+      categoryCode: CATEGORY_CODE,
+    },
+  },
+};
 
 describe('DetailCategoryTableContainer', () => {
   const dispatchMock = jest.fn();
@@ -33,14 +37,14 @@ describe('DetailCategoryTableContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps(INITIAL_STATE);
+      props = mapStateToProps(INITIAL_STATE, ownProps);
     });
 
     it('maps categories, languages and loading property', () => {
       expect(props).toHaveProperty('category', 'getSelected_result');
       expect(props).toHaveProperty('referenceList', 'getReferenceKeyList_result');
       expect(props).toHaveProperty('referenceMap', 'getReferenceMap_result');
-      expect(props).toHaveProperty('categoryCode', CATEGORY_CODE.categoryCode);
+      expect(props).toHaveProperty('categoryCode', CATEGORY_CODE);
     });
   });
 

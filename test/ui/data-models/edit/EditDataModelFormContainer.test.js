@@ -1,9 +1,5 @@
-import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/data-models/edit/EditDataModelFormContainer';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
-
-getParams.mockReturnValue({ dataModelId: 1 });
-
 
 const TEST_STATE = {
   dataTypes: {
@@ -23,9 +19,17 @@ const TEST_STATE = {
   },
 };
 
+const ownProps = {
+  match: {
+    params: {
+      dataModelId: 1,
+    },
+  },
+};
+
 describe('EditDataModelFormContainer', () => {
   it('maps dataTypes and dataModelId state in DataModelForm', () => {
-    const state = mapStateToProps(TEST_STATE);
+    const state = mapStateToProps(TEST_STATE, ownProps);
     expect(state).toHaveProperty('dataTypes', DATA_TYPES_OK_PAGE_1.payload);
     expect(state).toHaveProperty('dataModelId', 1);
   });

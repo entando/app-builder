@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { fetchCategory, sendPutCategory } from 'state/categories/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import CategoryForm from 'ui/categories/common/CategoryForm';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
 import { activeLangQueryString, noPagination } from 'ui/categories/common/formUtils';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: 'edit',
   activeLanguages: getActiveLanguages(state),
   defaultLanguage: getDefaultLanguage(state),
-  categoryCode: getParams(state).categoryCode,
+  categoryCode: params.categoryCode,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -21,6 +21,4 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: data => (dispatch(sendPutCategory(data))),
 });
 
-const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryForm);
-
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryForm));

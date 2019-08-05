@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import 'test/enzyme-init';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -12,7 +12,7 @@ const CHILD = 'Page title';
 describe('ui/breadcrumb/BreadcrumbItem', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<BreadcrumbItem route="homePage">{CHILD}</BreadcrumbItem>);
+    component = shallow(<BreadcrumbItem to="homePage">{CHILD}</BreadcrumbItem>);
   });
 
   it('renders without crashing', () => {

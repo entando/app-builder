@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
 import { formattedText, required, maxLength } from '@entando/utils';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -55,7 +55,7 @@ export class CreateFolderFormBody extends Component {
             <Button
               className="pull-right FileBrowserCreateFolderForm__btn-cancel"
               componentClass={Link}
-              route={ROUTE_FILE_BROWSER}
+              to={ROUTE_FILE_BROWSER}
             >
               <FormattedMessage id="app.cancel" />
             </Button>

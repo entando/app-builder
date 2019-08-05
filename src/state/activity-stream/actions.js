@@ -1,4 +1,3 @@
-import { gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
@@ -11,7 +10,13 @@ import {
 } from 'api/activityStream';
 import { toggleLoading } from 'state/loading/actions';
 import { getHidden, getNotifications } from 'state/activity-stream/selectors';
-import { ROUTE_HOME, ROUTE_PAGE_EDIT, ROUTE_USER_DETAIL } from 'app-init/router';
+import {
+  history,
+  ROUTE_HOME,
+  ROUTE_PAGE_EDIT,
+  ROUTE_USER_DETAIL,
+} from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 
 export const toggleNotificationDrawer = () => ({
@@ -60,9 +65,9 @@ export const toggleNotificationList = () => (dispatch, getState) => {
 
 export const getRouteUserName = id => (dispatch, getState) => {
   const notification = getNotifications(getState()).find(item => item.id === id);
-  gotoRoute(ROUTE_USER_DETAIL, {
+  history.push(routeConverter(ROUTE_USER_DETAIL, {
     username: notification.username,
-  });
+  }));
 };
 
 
@@ -72,10 +77,10 @@ export const getRouteTargetName = id => (dispatch, getState) => {
   const index = (actions).findIndex(item => item === 'api') + 1;
   switch (actions[index]) {
     case 'pages': {
-      gotoRoute(ROUTE_PAGE_EDIT, { pageCode: notification.parameters.pageCode });
+      history.push(routeConverter(ROUTE_PAGE_EDIT, { pageCode: notification.parameters.pageCode }));
       break;
     }
-    default: gotoRoute(ROUTE_HOME); break;
+    default: history.push(ROUTE_HOME); break;
   }
 };
 

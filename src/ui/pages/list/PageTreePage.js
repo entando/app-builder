@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -26,7 +26,7 @@ class PageTreePage extends Component {
       );
     }
     return (
-      <Link route={ROUTE_PAGE_ADD} className="pull-right PageTreePage__save">
+      <Link to={ROUTE_PAGE_ADD} className="pull-right PageTreePage__save">
         <Button bsStyle="primary">
           <FormattedMessage id="app.add" />
         </Button>

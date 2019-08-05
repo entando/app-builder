@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchGroups } from 'state/groups/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getGroupsList } from 'state/groups/selectors';
@@ -19,27 +20,25 @@ export const mapStateToProps = state =>
     actionOnSave: getSelectedUserActionAuthorities(state),
   });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchRoles({ page: 1, pageSize: 0 }));
-    dispatch(fetchUserAuthorities({ page: 1, pageSize: 0 }));
+    dispatch(fetchUserAuthorities(params.username));
   },
   onSubmit: (authorities, action) => {
     const { groupRolesCombo } = authorities;
     if (action === ACTION_UPDATE) {
       if (groupRolesCombo.length > 0) {
-        dispatch(sendPutUserAuthorities(groupRolesCombo));
+        dispatch(sendPutUserAuthorities(groupRolesCombo, params.username));
       } else {
-        dispatch(sendDeleteUserAuthorities());
+        dispatch(sendDeleteUserAuthorities(params.username));
       }
     } else {
-      dispatch(sendPostUserAuthorities(groupRolesCombo));
+      dispatch(sendPostUserAuthorities(groupRolesCombo, params.username));
     }
   },
 
 });
 
-const UserAuthorityPageFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(UserAuthorityPageForm);
-export default UserAuthorityPageFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserAuthorityPageForm));

@@ -18,7 +18,7 @@ describe('UserMenu', () => {
   });
 
   it('verify it contains my profile and logout', () => {
-    expect(component.find(LinkMenuItem).props()).toHaveProperty('id', 'my-profile');
+    expect(component.find('#my-profile').props()).toHaveProperty('id', 'my-profile');
     expect(component.find('Icon[name="sign-out"]')).toHaveLength(1);
   });
 });

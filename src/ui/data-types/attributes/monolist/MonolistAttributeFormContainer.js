@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { clearErrors } from '@entando/messages';
 import { formValueSelector } from 'redux-form';
 
@@ -27,10 +27,10 @@ import { ROUTE_ATTRIBUTE_MONOLIST_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_ADD } from 'app
 
 import MonolistAttributeForm from 'ui/common/form/MonolistAttributeForm';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: getActionModeDataTypeSelectedAttribute(state),
-  attributeCode: getParams(state).attributeCode,
-  dataTypeCode: getParams(state).entityCode,
+  attributeCode: params.attributeCode,
+  dataTypeCode: params.entityCode,
   isIndexable: formValueSelector('monoListAttribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('monoListAttribute')(state, 'nestedAttribute.type'),
   selectedAttributeTypeForAddComposite: getDataTypeSelectedAttribute(state),
@@ -40,7 +40,7 @@ export const mapStateToProps = state => ({
 });
 
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: ({ attributeCode, dataTypeCode, mode }) => {
     dispatch(clearErrors());
     if (mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE) {
@@ -58,7 +58,7 @@ export const mapDispatchToProps = dispatch => ({
     }
   },
   onSubmit: (values) => {
-    dispatch(sendPutAttributeFromDataTypeMonolist(values));
+    dispatch(sendPutAttributeFromDataTypeMonolist(values, params.entityCode));
   },
   onAddAttribute: ({ dataTypeCode, type }) => {
     dispatch(setActionMode(MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE));
@@ -80,6 +80,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const MonolistAttributeFormContainer =
-  connect(mapStateToProps, mapDispatchToProps)(MonolistAttributeForm);
-export default MonolistAttributeFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MonolistAttributeForm));

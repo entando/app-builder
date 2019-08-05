@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_PROFILE_TYPE_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = (
@@ -13,8 +14,7 @@ const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
     <DropdownKebab pullRight id={`${code}-actions`}>
       <LinkMenuItem
         id={`profileType-${code}`}
-        route={ROUTE_PROFILE_TYPE_EDIT}
-        params={{ profiletypeCode: code }}
+        to={routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: code })}
         label={editLabel}
         className="ProfileTypeListMenuAction__menu-item-edit"
       />

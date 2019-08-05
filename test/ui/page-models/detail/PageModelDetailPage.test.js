@@ -4,7 +4,6 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageModelDetailPage from 'ui/page-models/detail/PageModelDetailPage';
 
-
 const PAGE_MODEL_CODE = 'page_model_code';
 
 describe('PageModelDetailPage', () => {

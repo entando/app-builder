@@ -1,6 +1,5 @@
 import { isFSA } from 'flux-standard-action';
 import { initialize } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -21,7 +20,7 @@ import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { PAGE_MODELS_LIST, PAGE_REFS } from 'test/mocks/pageModels';
 import { getPageModels, getPageModel, deletePageModel, putPageModel, postPageModel, getPageReferences } from 'api/pageModels';
-import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
+import { history, ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -39,6 +38,11 @@ jest.mock('state/page-models/selectors', () => ({
   getFormPageModel: jest.fn(),
 }));
 
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -301,7 +305,6 @@ describe('state/page-models/actions', () => {
 
   describe('initPageModelForm', () => {
     it('if API response is ok, initializes the page model form', (done) => {
-      getParams.mockReturnValue({ pageModelCode: PAGE_MODEL_CODE });
       getPageModel.mockImplementation(mockApi({ payload: PAGE_MODEL }));
       store.dispatch(initPageModelForm(PAGE_MODEL_CODE)).then(() => {
         expect(getPageModel).toHaveBeenCalled();
@@ -345,7 +348,7 @@ describe('state/page-models/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
         done();
       }).catch(done.fail);
     });
@@ -375,7 +378,7 @@ describe('state/page-models/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_MODEL_LIST);
         done();
       }).catch(done.fail);
     });
@@ -392,12 +395,8 @@ describe('state/page-models/actions', () => {
   });
 
   describe('fetchCurrentReferencePages', () => {
-    beforeEach(() => {
-      getParams.mockReturnValue({ pageModelCode: PAGE_MODEL_CODE });
-    });
-
     it('calls getPageReferences with the pageModelCode route parameter', (done) => {
-      store.dispatch(fetchCurrentReferencePages()).then(() => {
+      store.dispatch(fetchCurrentReferencePages(PAGE_MODEL_CODE)).then(() => {
         expect(getPageReferences).toHaveBeenCalledWith(
           PAGE_MODEL_CODE,
           { page: 1, pageSize: 10 },

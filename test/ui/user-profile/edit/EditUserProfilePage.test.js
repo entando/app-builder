@@ -51,7 +51,7 @@ describe('EditUserProfilePage', () => {
 
     it('the second is a link to the userList', () => {
       const secondItem = breadcrumb.children().at(1);
-      expect(secondItem.prop('route')).toBe('userList');
+      expect(secondItem.prop('to')).toBe('/user');
     });
 
     it('the last item should be active', () => {

@@ -1,7 +1,13 @@
 import 'test/enzyme-init';
-import { gotoRoute } from '@entando/router';
 import { mapDispatchToProps } from 'ui/file-browser/edit/EditTextFileFormContainer';
 import { saveFile, fetchFile, downloadFile } from 'state/file-browser/actions';
+import { history } from 'app-init/router';
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 jest.mock('state/file-browser/actions', () => ({
   saveFile: jest.fn(),
@@ -9,7 +15,6 @@ jest.mock('state/file-browser/actions', () => ({
   downloadFile: jest.fn(),
 }));
 
-jest.mock('@entando/router');
 const dispatchMock = jest.fn(() => Promise.resolve({}));
 
 describe('ui/file-browser/add/EditTextFileFormContainer', () => {
@@ -36,13 +41,13 @@ describe('ui/file-browser/add/EditTextFileFormContainer', () => {
       expect(fetchFile).toHaveBeenCalledWith('filename.txt', ['.txt', '.css']);
     });
 
-    it('should dispatch gotoRoute when componentWillMount is called with wrong file extension', () => {
+    it('should call router when componentWillMount is called with wrong file extension', () => {
       const dispatchMockReject = jest.fn(() => Promise.reject());
       props = mapDispatchToProps(dispatchMockReject);
       props.onWillMount('filename.md', ['.txt', '.css']);
       expect(dispatchMockReject).toHaveBeenCalled();
       dispatchMockReject().catch(() => {
-        expect(gotoRoute).toHaveBeenCalled();
+        expect(history.push).toHaveBeenCalled();
       });
     });
 

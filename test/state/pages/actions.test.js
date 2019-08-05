@@ -2,7 +2,6 @@ import { initialize } from 'redux-form';
 import { isFSA } from 'flux-standard-action';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { gotoRoute } from '@entando/router';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -35,7 +34,7 @@ import {
   putPageStatus, deletePage, getFreePages, getSearchPages,
   putPageSettings, patchPage,
 } from 'api/pages';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 import { getSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
 
@@ -49,6 +48,12 @@ jest.mock('state/pages/selectors', () => ({
   getChildrenMap: jest.fn(),
   getSelectedPage: jest.fn(),
   getReferencesFromSelectedPage: jest.fn(() => []),
+}));
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
 }));
 
 const mockStore = configureStore([thunk]);
@@ -490,13 +495,13 @@ describe('state/pages/actions', () => {
       store = mockStore(INITIALIZED_STATE);
     });
 
-    it('calls removePage and gotoRoute', (done) => {
+    it('calls removePage and router', (done) => {
       store.dispatch(sendDeletePage(DASHBOARD_PAYLOAD)).then(() => {
         expect(deletePage).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', REMOVE_PAGE);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);
     });
@@ -655,7 +660,7 @@ describe('publish/unpublish', () => {
   let store;
   beforeEach(() => {
     getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getSelectedPageConfig.mockReturnValue([null, null]);
+    getSelectedPageConfig.mockReturnValue(() => [null, null]);
     putPageStatus.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
     store = mockStore();
   });
@@ -815,13 +820,12 @@ describe('clonePage', () => {
     store = mockStore(INITIALIZED_STATE);
   });
 
-  it('when clonePage succeeds, should dispatch gotoRoute PAGE_ADD and initialize FORM', (done) => {
+  it('when clonePage succeeds, should call router PAGE_ADD and initialize FORM', (done) => {
     store.dispatch(clonePage('page')).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(1);
-      expect(gotoRoute).toHaveBeenCalledWith(ROUTE_PAGE_CLONE);
+      expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_CLONE);
       expect(initialize).toHaveBeenCalled();
-
       done();
     }).catch(done.fail);
   });

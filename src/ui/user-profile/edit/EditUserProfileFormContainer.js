@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import { getUserProfile } from 'state/user-profile/selectors';
 import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
@@ -9,9 +9,9 @@ import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selector
 
 const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: EDIT_MODE,
-  username: getParams(state).username,
+  username: params.username,
   userProfileAttributes: getUserProfile(state).attributes,
   profileTypesAttributes: getSelectedProfileTypeAttributes(state),
   defaultLanguage: getDefaultLanguage(state),
@@ -28,6 +28,10 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const EditUserProfileFormContainer = connect(mapStateToProps, mapDispatchToProps)(UserProfileForm);
+// eslint-disable-next-line function-paren-newline
+const EditUserProfileFormContainer = withRouter(connect(
+  mapStateToProps, mapDispatchToProps)(UserProfileForm));
+
 EditUserProfileFormContainer.displayName = 'EditUserProfileFormContainer';
+
 export default EditUserProfileFormContainer;

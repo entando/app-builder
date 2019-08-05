@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';;
 
 import ReportDatabaseDataSource from 'ui/database/report/ReportDatabaseDataSource';
 

@@ -4,7 +4,6 @@ import thunk from 'redux-thunk';
 import { mockApi } from 'test/testUtils';
 import { ADD_TOAST, ADD_ERRORS, CLEAR_ERRORS } from '@entando/messages';
 
-import { gotoRoute, getParams } from '@entando/router';
 import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
@@ -20,12 +19,16 @@ import {
   getUserAuthorities, postUserAuthorities, putUserAuthorities,
   deleteUserAuthorities, postUserPassword,
 } from 'api/users';
-import { ROUTE_USER_LIST } from 'app-init/router';
+import { history, ROUTE_USER_LIST } from 'app-init/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-getParams.mockReturnValue({});
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 describe('state/users/actions', () => {
   let store;
@@ -165,13 +168,13 @@ describe('state/users/actions', () => {
       });
 
       describe('sendPostUser', () => {
-        it('when postUser succeeds, should dispatch gotoRoute user list', (done) => {
+        it('when postUser succeeds, should call router user list', (done) => {
           store.dispatch(sendPostUser(USER)).then(() => {
             expect(postUser).toHaveBeenCalled();
             const actions = store.getActions();
             expect(actions).toHaveLength(2);
             expect(actions[0]).toHaveProperty('type', SET_SELECTED_USER);
-            expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+            expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
             done();
           }).catch(done.fail);
         });
@@ -192,10 +195,10 @@ describe('state/users/actions', () => {
       });
 
       describe('sendPutUser', () => {
-        it('when putUser succeeds, should dispatch gotoRoute user list', (done) => {
+        it('when putUser succeeds, should call router user list', (done) => {
           store.dispatch(sendPutUser(USER)).then(() => {
             expect(putUser).toHaveBeenCalled();
-            expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+            expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
             done();
           }).catch(done.fail);
         });
@@ -212,7 +215,7 @@ describe('state/users/actions', () => {
       });
 
       describe('sendDeleteUser', () => {
-        it('when sendDeleteUser succeeds, should dispatch gotoRoute user list', (done) => {
+        it('when sendDeleteUser succeeds, should call router user list', (done) => {
           store.dispatch(sendDeleteUser(USER)).then(() => {
             expect(deleteUser).toHaveBeenCalled();
             done();
@@ -261,18 +264,18 @@ describe('state/users/actions', () => {
     });
 
     describe('sendPostUserAuthorities', () => {
-      it('when sendPostUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+      it('when sendPostUserAuthorities succeeds, should call router', (done) => {
         store.dispatch(sendPostUserAuthorities(AUTHORITIES)).then(() => {
           expect(postUserAuthorities).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
           done();
         }).catch(done.fail);
       });
 
-      it('when sendPostUserAuthorities succeeds and do not give an autority, do not call the APi but only dispatch gotoRoute', (done) => {
+      it('when sendPostUserAuthorities succeeds and do not give an autority, do not call the APi but only call router', (done) => {
         store.dispatch(sendPostUserAuthorities([])).then(() => {
           expect(postUserAuthorities).not.toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
           done();
         }).catch(done.fail);
       });
@@ -293,10 +296,10 @@ describe('state/users/actions', () => {
     });
 
     describe('sendPutUserAuthorities', () => {
-      it('when sendPutUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+      it('when sendPutUserAuthorities succeeds, should call router', (done) => {
         store.dispatch(sendPutUserAuthorities(AUTHORITIES)).then(() => {
           expect(putUserAuthorities).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
           done();
         }).catch(done.fail);
       });
@@ -317,10 +320,10 @@ describe('state/users/actions', () => {
     });
 
     describe('sendDeleteUserAuthorities', () => {
-      it('when sendDeleteUserAuthorities succeeds, should dispatch gotoRoute', (done) => {
+      it('when sendDeleteUserAuthorities succeeds, should call router', (done) => {
         store.dispatch(sendDeleteUserAuthorities()).then(() => {
           expect(deleteUserAuthorities).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_USER_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_USER_LIST);
           done();
         }).catch(done.fail);
       });

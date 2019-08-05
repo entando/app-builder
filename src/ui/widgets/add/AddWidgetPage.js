@@ -19,7 +19,7 @@ const AddWidgetPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_WIDGET_LIST}>
+            <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
               <FormattedMessage id="menu.uxPattern.widget" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
