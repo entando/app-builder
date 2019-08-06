@@ -19,12 +19,20 @@ jest.mock('state/languages/selectors', () => ({
   getDefaultLanguage: jest.fn().mockReturnValue('en'),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      widgetCode: 'widgetCode',
+    },
+  },
+};
+
 const dispatchMock = jest.fn();
 describe('ui/widgets/detail/DetailWidgetPageContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
     it('verify that onWillMount is defined', () => {
       expect(props.onWillMount).toBeDefined();

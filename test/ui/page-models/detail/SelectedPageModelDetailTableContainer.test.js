@@ -22,18 +22,20 @@ jest.mock('state/page-models/actions', () =>
 jest.mock('state/loading/selectors', () =>
   jest.genMockFromModule('state/loading/selectors'));
 
+const ownProps = {
+  match: {
+    params: {
+      pageModelCode: 'pageModelCode',
+    },
+  },
+};
 
 describe('SelectedPageModelDetailTableContainer', () => {
-  it('has the right display name', () => {
-    expect(SelectedPageModelDetailTableContainer)
-      .toHaveProperty('displayName', 'SelectedPageModelDetailTableContainer');
-  });
-
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
       loadSelectedPageModel.mockReturnValue(LOAD_SELECTED_PAGE_MODEL_ACTION);
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should dispatch an action if onWillMount is called', () => {

@@ -1,7 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { gotoRoute, getParams } from '@entando/router';
 import { ADD_ERRORS } from '@entando/messages';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -47,7 +46,7 @@ import {
 
 } from 'state/database/actions';
 
-import { ROUTE_DATABASE_LIST } from 'app-init/router';
+import { history, ROUTE_DATABASE_LIST } from 'app-init/router';
 
 import { mockApi } from 'test/testUtils';
 
@@ -59,6 +58,12 @@ jest.mock('state/database/selectors', () => ({
   getDatabaseReportBackupCode: jest.fn(),
   getDataSourceDump: jest.fn(),
   getTableDump: jest.fn(),
+}));
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
 }));
 
 let store;
@@ -73,6 +78,8 @@ const wrapErrorTest = done => (actionCall, apiCall) => (...args) => {
     done();
   }).catch(done.fail);
 };
+
+const DB_DUMP_CODE = 'dumpCode';
 
 describe('state/database/actions', () => {
   let action;
@@ -168,11 +175,11 @@ describe('state/database/actions', () => {
   describe('thunk', () => {
     describe('fetchDatabaseDumpTable', () => {
       it('calls fetchDatabaseDumpTable and calls SET_DATABASE_DUMP_TABLE_DATA', (done) => {
-        getDatabaseReportBackupCode.mockReturnValueOnce('dumpCode');
+        getDatabaseReportBackupCode.mockReturnValueOnce(DB_DUMP_CODE);
         getDataSourceDump.mockReturnValueOnce('datasource');
         getTableDump.mockReturnValueOnce('tableName');
         store.dispatch(fetchDatabaseDumpTable()).then(() => {
-          expect(getDatabaseTableDump).toHaveBeenCalledWith('dumpCode', 'datasource', 'tableName');
+          expect(getDatabaseTableDump).toHaveBeenCalledWith(DB_DUMP_CODE, 'datasource', 'tableName');
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_DATABASE_DUMP_TABLE_DATA);
@@ -181,15 +188,14 @@ describe('state/database/actions', () => {
       });
 
       it('if the response is not ok, dispatch add errors', (done) => {
-        wrapErrorTest(done)(fetchDatabaseDumpTable, getDatabaseTableDump)('dumpCode', 'datasource', 'tableName');
+        wrapErrorTest(done)(fetchDatabaseDumpTable, getDatabaseTableDump)(DB_DUMP_CODE, 'datasource', 'tableName');
       });
     });
 
     describe('fetchDatabaseReportBackup', () => {
       it('calls fetchDatabaseReportBackup and calls SET_DATABASE_REPORT_BACKUP', (done) => {
-        getParams.mockReturnValueOnce({ dumpCode: 'code' });
-        store.dispatch(fetchDatabaseReportBackup()).then(() => {
-          expect(getReportBackup).toHaveBeenCalledWith('code');
+        store.dispatch(fetchDatabaseReportBackup(DB_DUMP_CODE)).then(() => {
+          expect(getReportBackup).toHaveBeenCalledWith(DB_DUMP_CODE);
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -200,9 +206,8 @@ describe('state/database/actions', () => {
       });
 
       it('if the response is not ok, dispatch add errors', (done) => {
-        getParams.mockReturnValueOnce({ dumpCode: 'code' });
         getReportBackup.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(fetchDatabaseReportBackup()).then(() => {
+        store.dispatch(fetchDatabaseReportBackup(DB_DUMP_CODE)).then(() => {
           expect(getReportBackup).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(3);
@@ -276,10 +281,10 @@ describe('state/database/actions', () => {
     });
 
     describe('sendPostDatabaseStartBackup', () => {
-      it('calls sendPostDatabaseStartBackup and call gotoRoute', (done) => {
+      it('calls sendPostDatabaseStartBackup and navigates to database list', (done) => {
         store.dispatch(sendPostDatabaseStartBackup()).then(() => {
           expect(postStartBackup).toHaveBeenCalled();
-          expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DATABASE_LIST);
+          expect(history.push).toHaveBeenCalledWith(ROUTE_DATABASE_LIST);
           done();
         }).catch(done.fail);
       });

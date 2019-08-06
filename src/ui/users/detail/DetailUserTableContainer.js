@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import DetailUserTable from 'ui/users/detail/DetailUserTable';
 import { fetchCurrentPageUserDetail } from 'state/users/actions';
 import { getSelectedUser } from 'state/users/selectors';
@@ -7,11 +8,10 @@ export const mapStateToProps = state => ({
   user: getSelectedUser(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchCurrentPageUserDetail());
+    dispatch(fetchCurrentPageUserDetail(params.username));
   },
 });
 
-const DetailUserTableContainer = connect(mapStateToProps, mapDispatchToProps)(DetailUserTable);
-export default DetailUserTableContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailUserTable));

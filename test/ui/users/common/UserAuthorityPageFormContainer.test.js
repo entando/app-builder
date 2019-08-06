@@ -1,6 +1,9 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/users/common/UserAuthorityPageFormContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/users/common/UserAuthorityPageFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
 import { getLoading } from 'state/loading/selectors';
@@ -27,6 +30,14 @@ getLoading.mockReturnValue(false);
 getGroupsList.mockReturnValue(LIST_GROUPS_OK);
 getRolesList.mockReturnValue(LIST_ROLES_OK);
 
+const ownProps = {
+  match: {
+    params: {
+      dumpCode: 'username',
+    },
+  },
+};
+
 describe('UserAuthorityPageFormContainer', () => {
   it('maps groups & roles property state in UserAuthorityPageFormContainer', () => {
     const props = mapStateToProps({});
@@ -39,7 +50,7 @@ describe('UserAuthorityPageFormContainer', () => {
 
   it('verify that onWillMount and onSubmit are defined in mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
-    const result = mapDispatchToProps(dispatchMock);
+    const result = mapDispatchToProps(dispatchMock, ownProps);
     expect(result.onWillMount).toBeDefined();
     result.onWillMount();
     expect(dispatchMock).toHaveBeenCalled();

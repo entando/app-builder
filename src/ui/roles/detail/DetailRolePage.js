@@ -17,7 +17,7 @@ const DetailRolePage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_ROLE_LIST}>
+            <BreadcrumbItem to={ROUTE_ROLE_LIST}>
               <FormattedMessage id="menu.roles" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

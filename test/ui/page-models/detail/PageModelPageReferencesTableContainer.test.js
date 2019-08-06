@@ -1,8 +1,6 @@
 import 'test/enzyme-init';
 
-import
-PageModelPageReferencesTableContainer,
-{ mapDispatchToProps, mapStateToProps } from 'ui/page-models/detail/PageModelPageReferencesTableContainer';
+import { mapDispatchToProps, mapStateToProps } from 'ui/page-models/detail/PageModelPageReferencesTableContainer';
 import { fetchCurrentReferencePages } from 'state/page-models/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocalizedPageModelPageRefs } from 'state/page-models/selectors';
@@ -35,18 +33,20 @@ jest.mock('state/pagination/selectors', () => ({
   getPageSize: jest.fn(),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      pageModelCode: 'pageModelCode',
+    },
+  },
+};
 
 describe('PageModelPageReferencesTableContainer', () => {
-  it('has the right display name', () => {
-    expect(PageModelPageReferencesTableContainer)
-      .toHaveProperty('displayName', 'PageModelPageReferencesTableContainer');
-  });
-
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
       fetchCurrentReferencePages.mockReturnValue(FETCH_PAGE_REFS_ACTION);
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should dispatch an action if onWillMount is called', () => {

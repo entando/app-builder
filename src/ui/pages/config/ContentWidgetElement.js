@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
+import { routeConverter } from 'helpers/routeConverter';
 
 
 const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
@@ -21,8 +22,7 @@ const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
           <div className="list-view-pf-description">
             <div className="ContentWidgetElement__description">
               <Link
-                route={ROUTE_WIDGET_EDIT}
-                params={{ widgetCode: widgetId }}
+                to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}
               >
                 {widgetName}
               </Link>

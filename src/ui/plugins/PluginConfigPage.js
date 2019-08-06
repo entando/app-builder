@@ -7,7 +7,7 @@ import Form from 'react-jsonschema-form';
 
 class PluginConfigPage extends PureComponent {
   componentDidMount() {
-    this.props.fetchSelectedPluginIfNotCached();
+    this.props.getOrFetchPlugin();
   }
 
   handleSubmit = (plugin) => {
@@ -28,7 +28,7 @@ class PluginConfigPage extends PureComponent {
 }
 
 PluginConfigPage.propTypes = {
-  fetchSelectedPluginIfNotCached: PropTypes.func.isRequired,
+  getOrFetchPlugin: PropTypes.func.isRequired,
   savePluginConfig: PropTypes.func.isRequired,
   plugin: PropTypes.shape({}).isRequired,
 };

@@ -1,5 +1,4 @@
 import { initialize, reset } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS } from '@entando/messages';
 
@@ -17,7 +16,7 @@ import {
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { ROUTE_USER_LIST } from 'app-init/router';
+import { history, ROUTE_USER_LIST } from 'app-init/router';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 
 
@@ -85,9 +84,8 @@ export const fetchUsersTotal = () => dispatch => (
 );
 
 
-export const fetchCurrentPageUserDetail = () => (dispatch, getState) => (
+export const fetchCurrentPageUserDetail = username => dispatch => (
   new Promise((resolve) => {
-    const { username } = getParams(getState());
     dispatch(toggleLoading('user'));
     getUser(username).then((response) => {
       if (response.ok) {
@@ -136,7 +134,7 @@ export const sendPostUser = user => async (dispatch) => {
     if (response.ok) {
       dispatch(setSelectedUserDetail(json.payload));
       dispatch(fetchUsers());
-      gotoRoute(ROUTE_USER_LIST);
+      history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -150,7 +148,7 @@ export const sendPutUser = user => dispatch => (
     if (user) {
       putUser(user).then((response) => {
         if (response.ok) {
-          gotoRoute(ROUTE_USER_LIST);
+          history.push(ROUTE_USER_LIST);
           resolve();
         } else {
           response.json().then((json) => {
@@ -180,10 +178,9 @@ export const sendDeleteUser = username => dispatch => (
   })
 );
 
-export const fetchUserAuthorities = () => async (dispatch, getState) => {
+export const fetchUserAuthorities = username => async (dispatch) => {
   try {
     dispatch(toggleLoading('users'));
-    const { username } = getParams(getState());
     const response = await getUserAuthorities(username);
     const json = await response.json();
     if (response.ok) {
@@ -198,16 +195,15 @@ export const fetchUserAuthorities = () => async (dispatch, getState) => {
   }
 };
 
-export const sendPostUserAuthorities = authorities => async (dispatch, getState) => {
+export const sendPostUserAuthorities = (authorities, username) => async (dispatch) => {
   try {
     if (authorities.length === 0) {
-      gotoRoute(ROUTE_USER_LIST);
+      history.push(ROUTE_USER_LIST);
     } else {
-      const { username } = getParams(getState());
       const response = await postUserAuthorities(username, authorities);
       const json = await response.json();
       if (response.ok) {
-        gotoRoute(ROUTE_USER_LIST);
+        history.push(ROUTE_USER_LIST);
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
       }
@@ -217,13 +213,12 @@ export const sendPostUserAuthorities = authorities => async (dispatch, getState)
   }
 };
 
-export const sendPutUserAuthorities = authorities => async (dispatch, getState) => {
+export const sendPutUserAuthorities = (authorities, username) => async (dispatch) => {
   try {
-    const { username } = getParams(getState());
     const response = await putUserAuthorities(username, authorities);
     const json = await response.json();
     if (response.ok) {
-      gotoRoute(ROUTE_USER_LIST);
+      history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
@@ -232,13 +227,12 @@ export const sendPutUserAuthorities = authorities => async (dispatch, getState) 
   }
 };
 
-export const sendDeleteUserAuthorities = () => async (dispatch, getState) => {
+export const sendDeleteUserAuthorities = username => async (dispatch) => {
   try {
-    const { username } = getParams(getState());
     const response = await deleteUserAuthorities(username);
     const json = await response.json();
     if (response.ok) {
-      gotoRoute(ROUTE_USER_LIST);
+      history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }

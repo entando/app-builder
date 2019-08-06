@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_GROUP_EDIT, ROUTE_GROUP_DETAIL } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class GroupListMenuActions extends Component {
   constructor(props) {
@@ -27,15 +28,13 @@ class GroupListMenuActions extends Component {
       <DropdownKebab pullRight id={`${this.props.code}-actions`}>
         <LinkMenuItem
           id={`detail-${this.props.code}`}
-          route={ROUTE_GROUP_DETAIL}
-          params={{ groupname: this.props.code }}
+          to={routeConverter(ROUTE_GROUP_DETAIL, { groupname: this.props.code })}
           label={editDetails}
           className="GroupListMenuAction__menu-item-detail"
         />
         <LinkMenuItem
           id={`edit-${this.props.code}`}
-          route={ROUTE_GROUP_EDIT}
-          params={{ groupCode: this.props.code }}
+          to={routeConverter(ROUTE_GROUP_EDIT, { groupCode: this.props.code })}
           label={editLabel}
           className="GroupListMenuAction__menu-item-edit"
         />

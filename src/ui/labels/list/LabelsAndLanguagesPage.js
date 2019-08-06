@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator, Spinner } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import LabelSearchFormContainer from 'ui/labels/list/LabelSearchFormContainer';
@@ -60,7 +60,7 @@ class LabelsAndLanguagesPage extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                <Link route={ROUTE_LABEL_ADD}>
+                <Link to={ROUTE_LABEL_ADD}>
                   <Button
                     type="button"
                     className="pull-right LabelsAndLanguagesPage__add-label"

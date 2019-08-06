@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { gotoRoute } from '@entando/router';
 
-import { ROUTE_PAGE_MODEL_EDIT, ROUTE_PAGE_MODEL_DETAIL } from 'app-init/router';
+import { history, ROUTE_PAGE_MODEL_EDIT, ROUTE_PAGE_MODEL_DETAIL } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 
 const PageModelListMenuActions = ({ onClickDelete, code }) => (
@@ -15,13 +15,13 @@ const PageModelListMenuActions = ({ onClickDelete, code }) => (
   >
     <MenuItem
       className="PageModelListMenuActions__menu-item-edit"
-      onClick={() => gotoRoute(ROUTE_PAGE_MODEL_EDIT, { pageModelCode: code })}
+      onClick={() => history.push(routeConverter(ROUTE_PAGE_MODEL_EDIT, { pageModelCode: code }))}
     >
       <FormattedMessage id="app.edit" />
     </MenuItem>
     <MenuItem
       className="PageModelListMenuActions__menu-item-details"
-      onClick={() => gotoRoute(ROUTE_PAGE_MODEL_DETAIL, { pageModelCode: code })}
+      onClick={() => history.push(routeConverter(ROUTE_PAGE_MODEL_DETAIL, { pageModelCode: code }))}
     >
       <FormattedMessage id="app.details" />
     </MenuItem>

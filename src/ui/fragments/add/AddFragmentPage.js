@@ -18,7 +18,7 @@ const AddFragmentPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxPattern" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_FRAGMENT_LIST}>
+            <BreadcrumbItem to={ROUTE_FRAGMENT_LIST}>
               <FormattedMessage id="menu.uxPattern.fragment" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

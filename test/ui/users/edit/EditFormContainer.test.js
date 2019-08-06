@@ -1,12 +1,13 @@
 import { mapDispatchToProps, mapStateToProps } from 'ui/users/edit/EditFormContainer';
-import { getParams } from '@entando/router';
 
-const TEST_STATE = {
-  mode: 'edit',
-  username: 'test',
+const ownProps = {
+  match: {
+    params: {
+      mode: 'edit',
+      username: 'test',
+    },
+  },
 };
-
-getParams.mockReturnValue(TEST_STATE);
 
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
@@ -33,9 +34,9 @@ describe('EditFormContainer', () => {
 
   describe('mapStateToProps', () => {
     it('verify that username prop is defined and properly valued', () => {
-      props = mapStateToProps(TEST_STATE);
-      expect(props.username).toBeDefined();
-      expect(props.username).toEqual(TEST_STATE.username);
+      props = mapStateToProps({}, ownProps);
+      expect(props.mode).toEqual('edit');
+      expect(props.username).toEqual('test');
     });
   });
 });

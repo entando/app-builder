@@ -16,13 +16,21 @@ const SOURCE_WIDGET_ID = 'sample_widget_code';
 const SOURCE_FRAME_ID = 1;
 const TARGET_FRAME_ID = 2;
 
+const ownProps = {
+  match: {
+    params: {
+      pageCode: 'pageCode',
+    },
+  },
+};
+
 describe('ui/pages/config/DraggableWidgetFrame', () => {
   beforeEach(jest.clearAllMocks);
   describe('mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('onDrop will dispatch "updatePageWidget" action', () => {
@@ -32,13 +40,13 @@ describe('ui/pages/config/DraggableWidgetFrame', () => {
         targetFrameId: TARGET_FRAME_ID,
       });
       expect(updatePageWidget)
-        .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID);
+        .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID, 'pageCode');
       expect(dispatchMock).toHaveBeenCalledWith('updatePageWidget__result');
     });
 
     it('onClickDelete will dispatch "removePageWidget" action', () => {
       props.onClickDelete(SOURCE_FRAME_ID);
-      expect(removePageWidget).toHaveBeenCalledWith(SOURCE_FRAME_ID);
+      expect(removePageWidget).toHaveBeenCalledWith(SOURCE_FRAME_ID, 'pageCode');
       expect(dispatchMock).toHaveBeenCalledWith('removePageWidget__result');
     });
   });

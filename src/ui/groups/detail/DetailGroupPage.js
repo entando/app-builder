@@ -17,7 +17,7 @@ const DetailGroupPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_GROUP_LIST}>
+            <BreadcrumbItem to={ROUTE_GROUP_LIST}>
               <FormattedMessage id="menu.groups" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

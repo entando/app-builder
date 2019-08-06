@@ -18,7 +18,7 @@ const AddProfileTypeAttributePage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.profile" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_PROFILE_TYPE_LIST}>
+            <BreadcrumbItem to={ROUTE_PROFILE_TYPE_LIST}>
               <FormattedMessage id="menu.profileTypes" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

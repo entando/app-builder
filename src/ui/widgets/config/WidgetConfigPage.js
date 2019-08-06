@@ -50,7 +50,7 @@ class WidgetConfigPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route={ROUTE_PAGE_CONFIG} params={{ pageCode }}>
+                <BreadcrumbItem to={ROUTE_PAGE_CONFIG} params={{ pageCode }}>
                   <FormattedMessage id="menu.pageConfig" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>

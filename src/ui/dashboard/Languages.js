@@ -11,7 +11,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { Clearfix } from 'react-bootstrap';
 
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 class Languages extends Component {
@@ -29,7 +29,7 @@ class Languages extends Component {
             bsStyle="primary"
             className="pull-right"
             componentClass={Link}
-            route={ROUTE_LABELS_AND_LANGUAGES}
+            to={ROUTE_LABELS_AND_LANGUAGES}
           >
             <FormattedMessage id="app.details" />
           </Button>

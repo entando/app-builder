@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { gotoRoute } from '@entando/router';
 import { addErrors } from '@entando/messages';
 
 import {
@@ -7,7 +6,7 @@ import {
   putCategory, deleteCategory, getReferences,
 } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
-import { ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
+import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
 import { getStatusMap, getReferenceKeyList, getSelectedRefs } from 'state/categories/selectors';
 
 import {
@@ -135,7 +134,7 @@ export const sendPostCategory = categoryData => (dispatch) => {
   try {
     return dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
-      gotoRoute(ROUTE_CATEGORY_LIST);
+      history.push(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
     return Promise.resolve();
@@ -146,7 +145,7 @@ export const sendPutCategory = categoryData => (dispatch) => {
   try {
     return dispatch(wrapApiCall(putCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
-      gotoRoute(ROUTE_CATEGORY_LIST);
+      history.push(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {
     return Promise.resolve();
@@ -197,5 +196,5 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
 
 export const initCategoryForm = categoryData => (dispatch) => {
   dispatch(initialize('category', categoryData));
-  gotoRoute(ROUTE_CATEGORY_ADD);
+  history.push(ROUTE_CATEGORY_ADD);
 };

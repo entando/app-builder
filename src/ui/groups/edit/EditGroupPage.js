@@ -18,7 +18,7 @@ const EditGroupPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_GROUP_LIST}>
+            <BreadcrumbItem to={ROUTE_GROUP_LIST}>
               <FormattedMessage id="menu.groups" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

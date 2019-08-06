@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
@@ -14,7 +13,7 @@ import {
   SET_PAGE_MODELS, SET_SELECTED_PAGE_MODEL, REMOVE_PAGE_MODEL,
   SET_SELECTED_PAGE_MODEL_PAGE_REFS, SET_PAGE_MODELS_TOTAL,
 } from 'state/page-models/types';
-import { ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
+import { history, ROUTE_PAGE_MODEL_LIST } from 'app-init/router';
 
 
 export const setPageModels = pageModels => ({
@@ -126,9 +125,8 @@ export const fetchPageModel = pageModelCode => dispatch => (
   })
 );
 
-export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
+export const loadSelectedPageModel = pageModelCode => (dispatch, getState) => {
   const selectedPage = getSelectedPageModel(getState());
-  const pageModelCode = pageCode || getParams(getState()).pageModelCode;
   if (selectedPage && selectedPage.code === pageModelCode) {
     return new Promise(r => r(selectedPage));
   }
@@ -140,14 +138,13 @@ export const loadSelectedPageModel = pageCode => (dispatch, getState) => {
     }).catch(() => {});
 };
 
-export const initPageModelForm = () => (dispatch, getState) => {
-  const { pageModelCode } = getParams(getState());
-  return fetchPageModel(pageModelCode)(dispatch).then((json) => {
+export const initPageModelForm = pageModelCode => dispatch => (
+  fetchPageModel(pageModelCode)(dispatch).then((json) => {
     const pageModel = json.payload;
     pageModel.configuration = JSON.stringify(pageModel.configuration, null, 2);
     dispatch(initialize('pageModel', pageModel));
-  }).catch(() => {});
-};
+  }).catch(() => {})
+);
 
 export const updatePageModel = pageModel => dispatch => new Promise((resolve) => {
   putPageModel(pageModel).then((response) => {
@@ -161,7 +158,7 @@ export const updatePageModel = pageModel => dispatch => new Promise((resolve) =>
         formattedText('app.updated', null, { type: 'page model', code: pageModel.code }),
         TOAST_SUCCESS,
       ));
-      gotoRoute(ROUTE_PAGE_MODEL_LIST);
+      history.push(ROUTE_PAGE_MODEL_LIST);
       resolve();
     }
   }).catch(() => {});
@@ -179,16 +176,15 @@ export const createPageModel = pageModel => dispatch => new Promise((resolve) =>
         formattedText('app.created', null, { type: 'page model', code: pageModel.code }),
         TOAST_SUCCESS,
       ));
-      gotoRoute(ROUTE_PAGE_MODEL_LIST);
+      history.push(ROUTE_PAGE_MODEL_LIST);
       resolve();
     }
   }).catch(() => {});
 });
 
 const fetchCurrentReference = (getApiCall, setActionCreator) =>
-  (page = { page: 1, pageSize: 10 }) => (dispatch, getState) =>
+  (pageModelCode, page = { page: 1, pageSize: 10 }) => dispatch =>
     new Promise((resolve) => {
-      const { pageModelCode } = getParams(getState());
       dispatch(toggleLoading('references'));
       getApiCall(pageModelCode, page).then((response) => {
         response.json().then((json) => {

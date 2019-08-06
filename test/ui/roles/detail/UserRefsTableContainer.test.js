@@ -1,5 +1,4 @@
 import 'test/enzyme-init';
-import { getParams } from '@entando/router';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/detail/UserRefsTableContainer';
 import { getLoading } from 'state/loading/selectors';
 
@@ -12,11 +11,18 @@ jest.mock('state/loading/selectors', () => ({
 }));
 
 getLoading.mockReturnValue(false);
-getParams.mockReturnValue({ roleCode: 'role_code' });
 
 jest.mock('state/roles/selectors', () => ({
   getUserRefs: jest.fn().mockReturnValue('getUserRefs_result'),
 }));
+
+const ownProps = {
+  match: {
+    params: {
+      roleCode: 'role_code',
+    },
+  },
+};
 
 describe('UserRefsTableContainer', () => {
   const dispatchMock = jest.fn();
@@ -24,7 +30,7 @@ describe('UserRefsTableContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, ownProps);
     });
 
     it('maps the properties', () => {

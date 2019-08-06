@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { getParams } from '@entando/router';
 
 export const getPlugins = state => state.plugins;
 
@@ -16,9 +15,4 @@ export const getPluginMap = createSelector(
 export const getSelectedPlugin = createSelector(
   getPlugins,
   plugins => plugins.selected,
-);
-
-export const getPluginIdByParams = createSelector(
-  getParams,
-  params => params.id,
 );

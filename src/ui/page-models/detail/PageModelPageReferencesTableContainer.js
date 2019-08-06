@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchCurrentReferencePages } from 'state/page-models/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocalizedPageModelPageRefs } from 'state/page-models/selectors';
@@ -14,14 +15,16 @@ export const mapStateToProps = state => ({
   loading: getLoading(state).references,
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchCurrentReferencePages());
+    dispatch(fetchCurrentReferencePages(params.pageModelCode));
   },
 });
 
-const PageModelPageReferencesTableContainer =
-  connect(mapStateToProps, mapDispatchToProps)(PageModelPageReferencesTable);
+const PageModelPageReferencesTableContainer = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PageModelPageReferencesTable));
 
 PageModelPageReferencesTableContainer.displayName = 'PageModelPageReferencesTableContainer';
 

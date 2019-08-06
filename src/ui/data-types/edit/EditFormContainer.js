@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 import {
   fetchDataTypeAttributes,
   sendPutDataType,
@@ -21,9 +21,9 @@ import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/data-types/attributes/DeleteAttributeModal';
 import { ROUTE_DATA_TYPE_ATTRIBUTE_ADD, ROUTE_DATA_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: 'edit',
-  dataTypeCode: getParams(state).datatypeCode,
+  dataTypeCode: params.datatypeCode,
   attributes: getSelectedDataTypeAttributes(state),
   attributesType: getDataTypeAttributesIdList(state),
   attributeCode: formValueSelector('DataType')(state, 'type'),
@@ -62,4 +62,4 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataTypeForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataTypeForm));

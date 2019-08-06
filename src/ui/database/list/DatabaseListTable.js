@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Button, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_DATABASE_REPORT } from 'app-init/router';
 import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModalContainer';
+import { routeConverter } from 'helpers/routeConverter';
 
 class DatabaseListTable extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class DatabaseListTable extends Component {
       <tr key={`${database.code}-${database.date}`}>
         <td className="DatabaseListRow__td">{database.code}</td>
         <td className="DatabaseListRow__td">
-          <Link route={ROUTE_DATABASE_REPORT} params={{ dumpCode: database.code }}>
+          <Link to={routeConverter(ROUTE_DATABASE_REPORT, { dumpCode: database.code })}>
             <code>{database.date}</code>
           </Link>
         </td>

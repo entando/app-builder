@@ -1,5 +1,4 @@
 import { formattedText } from '@entando/utils';
-import { gotoRoute } from '@entando/router';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { initialize } from 'redux-form';
 
@@ -7,7 +6,7 @@ import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFol
 import { toggleLoading } from 'state/loading/actions';
 import { getPathInfo } from 'state/file-browser/selectors';
 import { SET_FILE_LIST, SET_PATH_INFO } from 'state/file-browser/types';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { history, ROUTE_FILE_BROWSER } from 'app-init/router';
 
 export const setFileList = fileList => ({
   type: SET_FILE_LIST,
@@ -60,7 +59,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
             dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
-            gotoRoute(ROUTE_FILE_BROWSER);
+            history.push(ROUTE_FILE_BROWSER);
           }
           dispatch(toggleLoading('file'));
           resolve();
@@ -87,7 +86,7 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
     getFileBrowser(`?${queryString.join('&')}`).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_FILE_BROWSER);
+          history.push(ROUTE_FILE_BROWSER);
           dispatch(setFileList(json.payload));
           dispatch(setPathInfo(json.metaData));
         } else {
@@ -123,7 +122,7 @@ const bodyApi = apiFunc => (...args) => (dispatch) => {
     dispatch(toggleLoading('uploadFile'));
     apiFunc(obj).then(() => {
       dispatch(addToast(formattedText('fileBrowser.uploadFileComplete'), TOAST_SUCCESS));
-      gotoRoute(ROUTE_FILE_BROWSER);
+      history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(...args));
       dispatch(toggleLoading('uploadFile'));
     }).catch((error) => {
@@ -172,7 +171,7 @@ export const sendPostCreateFolder = values => (dispatch, getState) => (
     const pathInfo = getPathInfo(getState());
     const newFolderPath = `${pathInfo.currentPath}/${values.path}`;
     postCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
-      gotoRoute(ROUTE_FILE_BROWSER);
+      history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(formattedText('fileBrowser.createFolderSuccess', null, { path: values.path }), TOAST_SUCCESS));
       resolve();
@@ -188,7 +187,7 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
     const pathInfo = getPathInfo(getState());
     const queryString = `?protectedFolder=${values.protectedFolder}&currentPath=${values.path}`;
     deleteFolderApi(queryString)(dispatch).then(() => {
-      gotoRoute(ROUTE_FILE_BROWSER);
+      history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(
         formattedText('fileBrowser.deleteFolderSuccess', null, { path: values.path }),
@@ -214,7 +213,7 @@ export const sendDeleteFile = values => (dispatch, getState) => (
     const pathInfo = getPathInfo(getState());
     const queryString = `?protectedFolder=${values.protectedFolder}&currentPath=${values.path}`;
     deleteFileApi(queryString)(dispatch).then(() => {
-      gotoRoute(ROUTE_FILE_BROWSER);
+      history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(
         formattedText('fileBrowser.deleteFileSuccess', null, { path: values.path }),

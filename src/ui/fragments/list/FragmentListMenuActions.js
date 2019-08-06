@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_FRAGMENT_EDIT, ROUTE_FRAGMENT_DETAIL } from 'app-init/router';
 
@@ -31,15 +32,13 @@ class FragmentListMenuActions extends Component {
       <DropdownKebab pullRight id={`${this.props.code}-actions`}>
         <LinkMenuItem
           id={`edit-${this.props.code}`}
-          route={ROUTE_FRAGMENT_EDIT}
-          params={{ fragmentCode: this.props.code }}
+          to={routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: this.props.code })}
           label={editLabel}
           className="FragmentListMenuAction__menu-item-edit"
         />
         <LinkMenuItem
           id={`edit-${this.props.code}`}
-          route={ROUTE_FRAGMENT_DETAIL}
-          params={{ fragmentCode: this.props.code }}
+          to={routeConverter(ROUTE_FRAGMENT_DETAIL, { fragmentCode: this.props.code })}
           label={detailLabel}
           className="FragmentListMenuAction__menu-item-details"
         />

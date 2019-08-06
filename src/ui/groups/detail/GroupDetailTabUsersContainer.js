@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchReferences } from 'state/groups/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getSelectedGroupUserReferences } from 'state/groups/selectors';
@@ -14,12 +15,10 @@ export const mapStateToProps = state => ({
   loading: getLoading(state).references,
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (page) => {
-    dispatch(fetchReferences(USER_REFERENCE_KEY, page));
+    dispatch(fetchReferences(USER_REFERENCE_KEY, params.groupname, page));
   },
 });
 
-const GroupDetailTabUsersContainer =
-  connect(mapStateToProps, mapDispatchToProps)(GroupDetailTabUsers);
-export default GroupDetailTabUsersContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupDetailTabUsers));

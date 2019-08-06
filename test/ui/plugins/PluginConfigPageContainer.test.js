@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/plugins/PluginConfigPageContainer';
 
 jest.mock('state/plugins/thunks', () => ({
-  fetchSelectedPluginIfNotCached: jest.fn().mockReturnValue('fetchSelectedPluginIfNotCached_result'),
+  getOrFetchPlugin: jest.fn().mockReturnValue('getOrFetchPlugin_result'),
   savePluginConfig: jest.fn().mockReturnValue('savePluginConfig_result'),
 }));
 
@@ -11,6 +11,14 @@ const dispatchMock = jest.fn();
 const TEST_STATE = {
   plugins: {
     selected: {
+      id: '1',
+    },
+  },
+};
+
+const ownProps = {
+  match: {
+    params: {
       id: '1',
     },
   },
@@ -26,13 +34,13 @@ describe('PluginConfigPageContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
-    it('fetchSelectedPluginIfNotCached method dispatches fetchSelectedPluginIfNotCached thunk', () => {
-      expect(props.fetchSelectedPluginIfNotCached).toBeDefined();
-      props.fetchSelectedPluginIfNotCached();
-      expect(dispatchMock).toHaveBeenCalledWith('fetchSelectedPluginIfNotCached_result');
+    it('getOrFetchPlugin method dispatches getOrFetchPlugin thunk', () => {
+      expect(props.getOrFetchPlugin).toBeDefined();
+      props.getOrFetchPlugin();
+      expect(dispatchMock).toHaveBeenCalledWith('getOrFetchPlugin_result');
     });
 
     it('savePluginConfig method dispatches savePluginConfig thunk', () => {

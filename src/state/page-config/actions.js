@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
@@ -21,7 +20,8 @@ import {
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import { ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
@@ -102,10 +102,8 @@ export const fetchPageConfig = (pageCode, status) =>
       })).catch(() => {});
 
 
-export const initConfigPage = () => async (dispatch, getState) => {
+export const initConfigPage = pageCode => async (dispatch) => {
   try {
-    const { pageCode } = getParams(getState());
-
     const selectedPage = await dispatch(loadSelectedPage(pageCode));
     if (!selectedPage) {
       return;
@@ -136,18 +134,16 @@ export const initConfigPage = () => async (dispatch, getState) => {
 };
 
 
-export const removePageWidget = frameId => (dispatch, getState) => {
-  const { pageCode } = getParams(getState());
-  return deletePageWidget(pageCode, frameId)
+export const removePageWidget = (frameId, pageCode) => dispatch => (
+  deletePageWidget(pageCode, frameId)
     .then(() => {
       dispatch(removePageWidgetSync(pageCode, frameId));
-    }).catch(() => {});
-};
+    }).catch(() => {})
+);
 
-export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
+export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCode) =>
   (dispatch, getState) => {
-    const { pageCode } = getParams(getState());
-    const pageConfig = getSelectedPageConfig(getState());
+    const pageConfig = getSelectedPageConfig(pageCode)(getState());
 
     // build payload
     const config = (pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
@@ -164,27 +160,25 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId) =>
       }).catch(() => {});
   };
 
-export const setSelectedPageOnTheFly = value => (dispatch, getState) =>
+export const setSelectedPageOnTheFly = (value, pageCode) => (dispatch, getState) =>
   new Promise((resolve) => {
     const state = getState();
-    const { pageCode } = getParams(state);
     const mainFrame = getSelectedPageModelMainFrame(state);
 
     if (!pageCode || !mainFrame) {
       resolve(null);
     }
     if (value) {
-      updatePageWidget('content_viewer', null, mainFrame.pos)(dispatch, getState)
+      dispatch(updatePageWidget('content_viewer', null, mainFrame.pos, pageCode))
         .then(resolve);
     } else {
-      removePageWidget(mainFrame.pos)(dispatch, getState)
+      dispatch(removePageWidget(mainFrame.pos, pageCode))
         .then(resolve);
     }
   });
 
-export const restoreSelectedPageConfig = () => (dispatch, getState) => {
+export const restoreSelectedPageConfig = pageCode => (dispatch, getState) => {
   const state = getState();
-  const { pageCode } = getParams(state);
   const publishedPageConfigMap = getPublishedConfigMap(state);
   const publishedConfig = publishedPageConfigMap[pageCode];
   if (!pageCode || !publishedConfig) {
@@ -201,10 +195,9 @@ export const restoreSelectedPageConfig = () => (dispatch, getState) => {
 };
 
 
-export const applyDefaultConfig = () => (dispatch, getState) =>
+export const applyDefaultConfig = pageCode => (dispatch, getState) =>
   new Promise((resolve) => {
     const state = getState();
-    const { pageCode } = getParams(state);
     const defaultConfig = getSelectedPageModelDefaultConfig(state);
 
     if (!pageCode || !defaultConfig) {
@@ -219,37 +212,35 @@ export const applyDefaultConfig = () => (dispatch, getState) =>
     }).catch(() => {});
   });
 
-export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId) =>
+export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId, pageCode) =>
   (dispatch, getState) => new Promise((resolve) => {
     const widget = getWidgetsMap(getState())[sourceWidgetId];
-    const pageConfig = getSelectedPageConfig(getState());
+    const pageConfig = getSelectedPageConfig(pageCode)(getState());
 
     const isAlreadyConfigured =
       !!(pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
 
     if (widget.hasConfig && !isAlreadyConfigured) {
-      const { pageCode } = getParams(getState());
-      gotoRoute(
+      history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: sourceWidgetId, framePos: targetFrameId },
-      );
+      ));
       resolve();
     } else {
-      updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId)(dispatch, getState)
+      dispatch(updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId, pageCode))
         .then(resolve);
     }
   });
 
-export const editWidgetConfig = frameId =>
+export const editWidgetConfig = (frameId, pageCode) =>
   (dispatch, getState) => {
-    const pageConfig = getSelectedPageConfig(getState());
+    const pageConfig = getSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
-      const { pageCode } = getParams(getState());
       dispatch(initialize('widgetConfigForm', pageConfigItem.config));
-      gotoRoute(
+      history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
-      );
+      ));
     }
   };

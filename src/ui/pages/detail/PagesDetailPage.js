@@ -36,7 +36,7 @@ class PagesDetailPage extends Component {
           <Row>
             <Col xs={12}>
               <Breadcrumb>
-                <BreadcrumbItem route="home" active>
+                <BreadcrumbItem to="home" active>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>

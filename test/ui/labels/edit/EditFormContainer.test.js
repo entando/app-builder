@@ -1,10 +1,8 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/edit/EditFormContainer';
-import { getParams } from '@entando/router';
 
 const dispatchMock = jest.fn();
-getParams.mockReturnValue({ labelCode: 'getParams_result' });
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
@@ -22,10 +20,18 @@ jest.mock('state/labels/actions', () => ({
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
 
+const ownProps = {
+  match: {
+    params: {
+      labelCode: 'getParams_result',
+    },
+  },
+};
+
 describe('EditFormContainer', () => {
   let props;
   beforeEach(() => {
-    props = mapStateToProps({});
+    props = mapStateToProps({}, ownProps);
   });
 
   it('maps languages property state in LabelsForm', () => {

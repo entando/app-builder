@@ -26,7 +26,7 @@ class PagesEditPage extends Component {
                 <BreadcrumbItem active>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route={ROUTE_PAGE_TREE}>
+                <BreadcrumbItem to={ROUTE_PAGE_TREE}>
                   <FormattedMessage id="menu.pageTree" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>

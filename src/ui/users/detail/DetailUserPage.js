@@ -17,7 +17,7 @@ const DetailUserPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.userManagement" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_USER_LIST}>
+            <BreadcrumbItem to={ROUTE_USER_LIST}>
               <FormattedMessage id="menu.users" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

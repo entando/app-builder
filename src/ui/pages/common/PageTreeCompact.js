@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { gotoRoute } from '@entando/router';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import {
+  history,
+  ROUTE_PAGE_ADD,
+  ROUTE_PAGE_EDIT,
+  ROUTE_PAGE_CONFIG,
+} from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 class PageTreeCompact extends Component {
   renderRows() {
@@ -47,13 +52,23 @@ class PageTreeCompact extends Component {
           </td>
           <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
-              <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_ADD)} >
+              <MenuItem onClick={() => history.push(ROUTE_PAGE_ADD)}>
                 <FormattedMessage id="app.add" />
               </MenuItem>
-              <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_EDIT, { pageCode: page.code })} >
+              <MenuItem
+                onClick={() => history.push(routeConverter(
+                  ROUTE_PAGE_EDIT,
+                  { pageCode: page.code },
+                ))}
+              >
                 <FormattedMessage id="app.edit" />
               </MenuItem>
-              <MenuItem onClick={() => gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: page.code })} >
+              <MenuItem
+                onClick={() => history.push(routeConverter(
+                  ROUTE_PAGE_CONFIG,
+                  { pageCode: page.code },
+                ))}
+              >
                 <FormattedMessage id="app.configure" />
               </MenuItem>
               <MenuItem onClick={() => page.code} >

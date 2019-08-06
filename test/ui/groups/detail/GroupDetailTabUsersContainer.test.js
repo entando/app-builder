@@ -1,11 +1,24 @@
 import 'test/enzyme-init';
 
-import { mapDispatchToProps, mapStateToProps } from 'ui/groups/detail/GroupDetailTabUsersContainer';
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+} from 'ui/groups/detail/GroupDetailTabUsersContainer';
 
 const dispatchMock = jest.fn();
 
+const ownProps = {
+  match: {
+    params: {
+      groupName: 'groupName',
+    },
+  },
+};
+
 jest.mock('state/groups/selectors', () => ({
-  getSelectedGroupUserReferences: jest.fn().mockReturnValue('getSelectedGroupUserReferences_result'),
+  getSelectedGroupUserReferences: jest
+    .fn()
+    .mockReturnValue('getSelectedGroupUserReferences_result'),
 }));
 
 jest.mock('state/pagination/selectors', () => ({
@@ -26,7 +39,7 @@ describe('GroupDetailTabUsersContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {
@@ -45,7 +58,10 @@ describe('GroupDetailTabUsersContainer', () => {
     });
 
     it('verify props are defined and properly valued', () => {
-      expect(props).toHaveProperty('userReferences', 'getSelectedGroupUserReferences_result');
+      expect(props).toHaveProperty(
+        'userReferences',
+        'getSelectedGroupUserReferences_result',
+      );
       expect(props).toHaveProperty('loading', false);
       expect(props).toHaveProperty('page', 'getCurrentPage_result');
       expect(props).toHaveProperty('totalItems', 'getTotalItems_result');

@@ -32,8 +32,7 @@ import {
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_TOAST, ADD_ERRORS, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
-import { gotoRoute } from '@entando/router';
-import { ROUTE_DE_CONFIG_LIST } from 'app-init/router';
+import { history, ROUTE_DE_CONFIG_LIST } from 'app-init/router';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -50,6 +49,12 @@ const INITIAL_STATE = {
 const DIGITAL_EXCHANGE_PAYLOAD = DIGITAL_EXCHANGE_OK.payload;
 
 jest.mock('api/digital-exchange/digitalExchanges');
+
+jest.mock('app-init/router', () => ({
+  history: {
+    push: jest.fn(),
+  },
+}));
 
 
 describe('state/digital-exchange/digital-exchanges/actions', () => {
@@ -205,12 +210,12 @@ describe('state/digital-exchange/digital-exchanges/actions', () => {
   });
 
   describe('sendPostDigitalExchange', () => {
-    it('calls postDigitalExchange, ADD_TOAST and gotoRoute actions ', (done) => {
+    it('calls postDigitalExchange, ADD_TOAST and router actions ', (done) => {
       const data = { data: 1 };
       postDigitalExchange.mockImplementationOnce(mockApi({ errors: false }));
       store.dispatch(sendPostDigitalExchange(data)).then(() => {
         expect(postDigitalExchange).toHaveBeenCalledWith(data);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
@@ -235,12 +240,12 @@ describe('state/digital-exchange/digital-exchanges/actions', () => {
   });
 
   describe('sendPutDigitalExchange', () => {
-    it('calls putDigitalExchange, ADD_TOAST and gotoRoute actions ', (done) => {
+    it('calls putDigitalExchange, ADD_TOAST and router actions ', (done) => {
       const data = { id: 12, data: 1 };
       putDigitalExchange.mockImplementationOnce(mockApi({ errors: false }));
       store.dispatch(sendPutDigitalExchange(data)).then(() => {
         expect(putDigitalExchange).toHaveBeenCalledWith(data);
-        expect(gotoRoute).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
+        expect(history.push).toHaveBeenCalledWith(ROUTE_DE_CONFIG_LIST);
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);

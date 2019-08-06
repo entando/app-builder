@@ -11,6 +11,7 @@ import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 import { TYPE_COMPOSITE, TYPE_MONOLIST } from 'state/data-types/const';
 
@@ -33,7 +34,7 @@ class MonolistPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.data" />
                 </BreadcrumbItem>
-                <BreadcrumbItem route={ROUTE_DATA_TYPE_LIST}>
+                <BreadcrumbItem to={ROUTE_DATA_TYPE_LIST}>
                   <FormattedMessage id="menu.dataType" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
@@ -47,8 +48,10 @@ class MonolistPage extends Component {
                       {attributeCode}
                     </BreadcrumbItem> :
                     <BreadcrumbItem
-                      route={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
-                      params={{ entityCode, attributeCode }}
+                      to={routeConverter(
+                        ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+                        { entityCode, attributeCode },
+                      )}
                     >
                       <FormattedMessage id="app.edit.attribute" />
                       {attributeCode}

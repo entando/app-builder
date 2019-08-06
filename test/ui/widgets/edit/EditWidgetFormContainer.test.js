@@ -1,6 +1,9 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/edit/EditWidgetFormContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/widgets/edit/EditWidgetFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -13,8 +16,14 @@ const GROUP = {
 const TEST_STATE = {
   mode: 'edit',
   groups: [GROUP],
+};
 
-
+const ownProps = {
+  match: {
+    params: {
+      widgetCode: 'widgetCode',
+    },
+  },
 };
 
 const dispatchMock = jest.fn();
@@ -53,12 +62,8 @@ describe('EditWidgetFormContainer', () => {
   });
 
   describe('mapDispatchToProps', () => {
-    beforeEach(() => {
-      props = mapDispatchToProps(TEST_STATE);
-    });
-
     it('verify that onWillMount and onSubmit is defined by mapDispatchToProps', () => {
-      const result = mapDispatchToProps(dispatchMock);
+      const result = mapDispatchToProps(dispatchMock, ownProps);
       expect(result.onWillMount).toBeDefined();
       result.onWillMount();
       expect(dispatchMock).toHaveBeenCalled();

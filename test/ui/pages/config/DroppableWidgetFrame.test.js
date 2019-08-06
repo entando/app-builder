@@ -12,6 +12,16 @@ const SOURCE_WIDGET_ID = 'widget_code';
 
 const SOURCE_FRAME_ID = 1;
 const TARGET_FRAME_ID = 2;
+const PAGE_CODE = 'pageCode';
+
+const ownProps = {
+  match: {
+    params: {
+      pageCode: PAGE_CODE,
+    },
+  },
+};
+
 
 describe('ui/pages/config/DroppableWidgetFrame', () => {
   beforeEach(jest.clearAllMocks);
@@ -19,7 +29,7 @@ describe('ui/pages/config/DroppableWidgetFrame', () => {
     const dispatchMock = jest.fn();
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('onDrop will dispatch "configOrUpdatePageWidget" action', () => {
@@ -29,7 +39,7 @@ describe('ui/pages/config/DroppableWidgetFrame', () => {
         targetFrameId: TARGET_FRAME_ID,
       });
       expect(configOrUpdatePageWidget)
-        .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID);
+        .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID, PAGE_CODE);
       expect(dispatchMock).toHaveBeenCalledWith('configOrUpdatePageWidget__result');
     });
   });

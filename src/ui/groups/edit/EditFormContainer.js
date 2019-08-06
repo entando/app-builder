@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import GroupForm from 'ui/groups/common/GroupForm';
 import { sendPutGroup, fetchGroup } from 'state/groups/actions';
-import { getParams } from '@entando/router';
 
 export const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   mode: EDIT_MODE,
-  groupCode: getParams(state).groupCode,
+  groupCode: params.groupCode,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -18,5 +18,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(GroupForm);
-export default EditFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupForm));

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { getParams, gotoRoute } from '@entando/router';
+import { withRouter } from 'react-router-dom';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -11,10 +11,11 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
-import { ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
+import { routeConverter } from 'helpers/routeConverter';
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
@@ -22,7 +23,7 @@ export const mapStateToProps = state => ({
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
   mode: 'edit',
-  pageCode: getParams(state).pageCode,
+  pageCode: params.pageCode,
 });
 
 
@@ -31,14 +32,14 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPutPage(data)).then(() => {
       switch (action) {
         case ACTION_SAVE: {
-          gotoRoute(ROUTE_PAGE_TREE);
+          history.push(ROUTE_PAGE_TREE);
           break;
         }
         case ACTION_SAVE_AND_CONFIGURE: {
-          gotoRoute(ROUTE_PAGE_CONFIG, { pageCode: data.code });
+          history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
           break;
         }
-        default: gotoRoute(ROUTE_PAGE_TREE);
+        default: history.push(ROUTE_PAGE_TREE);
       }
     });
   },
@@ -53,7 +54,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const PagesEditFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageForm);
+const PagesEditFormContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageForm));
 
 
 export default PagesEditFormContainer;

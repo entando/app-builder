@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
 import { isEmpty } from 'lodash';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 
 import { ROUTE_DATABASE_LIST } from 'app-init/router';
 
@@ -42,7 +42,7 @@ const AddDatabaseListTable = ({ tables, onClickStartBackup }) => {
         >
           <FormattedMessage id="database.backup" />
         </Button>
-        <Link route={ROUTE_DATABASE_LIST}>
+        <Link to={ROUTE_DATABASE_LIST}>
           <Button className="AddDatabaseListTable__goto-list pull-right" bsStyle="default">
             <FormattedMessage id="database.gotoList" />
           </Button>

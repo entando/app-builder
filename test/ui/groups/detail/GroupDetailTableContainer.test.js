@@ -1,9 +1,11 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/groups/detail/GroupDetailTableContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/groups/detail/GroupDetailTableContainer';
 import { getSelectedGroup } from 'state/groups/selectors';
 import { LIST_GROUPS_OK } from 'test/mocks/groups';
-
 
 const dispatchMock = jest.fn();
 
@@ -11,6 +13,14 @@ const INITIAL_STATE = {
   state: {
     group: {
       selected: {},
+    },
+  },
+};
+
+const ownProps = {
+  match: {
+    params: {
+      groupname: 'groupname',
     },
   },
 };
@@ -26,7 +36,7 @@ describe('GroupDetailTableContainer', () => {
 
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {

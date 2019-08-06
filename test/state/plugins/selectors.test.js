@@ -1,9 +1,7 @@
 import { PLUGIN_OK } from 'test/mocks/plugins';
-import { getParams } from '@entando/router';
 import {
   getPlugins, getPluginList,
   getPluginMap, getSelectedPlugin,
-  getPluginIdByParams,
 } from 'state/plugins/selectors';
 
 const MOCK_STATE = {
@@ -35,12 +33,5 @@ describe('state/plugins/selectors', () => {
   it('getSelectedPlugin returns the proper state slice', () => {
     const selectedPlugin = getSelectedPlugin(MOCK_STATE);
     expect(selectedPlugin).toEqual(MOCK_STATE.plugins.selected);
-  });
-
-  it('getPluginIdByParams returns the proper state slice', () => {
-    getParams.mockReturnValue({ id: PLUGIN_OK.id });
-
-    const pluginId = getPluginIdByParams(MOCK_STATE);
-    expect(pluginId).toEqual(PLUGIN_OK.id);
   });
 });

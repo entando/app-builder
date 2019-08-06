@@ -4,7 +4,7 @@ import {
   EmptyState, EmptyStateAction, Button,
   EmptyStateInfo,
 } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_DE_COMPONENT_LIST } from 'app-init/router';
 
 const PluginsPageEmptyState = () => (
@@ -13,7 +13,7 @@ const PluginsPageEmptyState = () => (
       <FormattedMessage id="plugins.noPlugins" />
     </EmptyStateInfo>
     <EmptyStateAction>
-      <Link route={ROUTE_DE_COMPONENT_LIST}>
+      <Link to={ROUTE_DE_COMPONENT_LIST}>
         <Button bsStyle="primary" bsSize="large">
           <FormattedMessage id="plugins.installCallToAction" />
         </Button>

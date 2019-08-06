@@ -1,12 +1,11 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { config } from '@entando/apimanager';
-import { getParams } from '@entando/router';
 
 import { mockApi } from 'test/testUtils';
 import { PLUGIN_OK, PLUGINS_OK } from 'test/mocks/plugins';
 
-import { fetchPlugins, fetchSelectedPluginIfNotCached, savePluginConfig } from 'state/plugins/thunks';
+import { fetchPlugins, getOrFetchPlugin, savePluginConfig } from 'state/plugins/thunks';
 
 import { getPlugins, getPlugin, putPluginConfig } from 'api/plugins';
 import { SET_PLUGINS, SET_SELECTED_PLUGIN } from 'state/plugins/types';
@@ -66,12 +65,11 @@ describe('state/plugins/thunks', () => {
     });
   });
 
-  describe('fetchSelectedPluginIfNotCached', () => {
+  describe('getOrFetchPlugin', () => {
     it('calls proper actions on success when plugin is not cached', (done) => {
       getPlugin.mockImplementation(mockApi({ payload: PLUGIN_OK }));
-      getParams.mockReturnValue({ id: PLUGIN_OK.id });
 
-      store.dispatch(fetchSelectedPluginIfNotCached()).then(() => {
+      store.dispatch(getOrFetchPlugin(PLUGIN_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_PLUGIN);
@@ -81,9 +79,8 @@ describe('state/plugins/thunks', () => {
 
     it('calls proper actions on error when plugin is not cached', (done) => {
       getPlugin.mockImplementation(mockApi({ errors: true }));
-      getParams.mockReturnValue({ id: PLUGIN_OK.id });
 
-      store.dispatch(fetchSelectedPluginIfNotCached()).then(() => {
+      store.dispatch(getOrFetchPlugin(PLUGIN_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -104,7 +101,7 @@ describe('state/plugins/thunks', () => {
       };
       store = mockStore(stateWithCachedPlugin);
 
-      store.dispatch(fetchSelectedPluginIfNotCached()).then(() => {
+      store.dispatch(getOrFetchPlugin(PLUGIN_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_PLUGIN);

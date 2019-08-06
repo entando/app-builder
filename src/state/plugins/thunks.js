@@ -2,7 +2,7 @@ import { addErrors, addToast, TOAST_SUCCESS } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 import { getPlugins, getPlugin, putPluginConfig } from 'api/plugins';
 import { setPlugins, setSelectedPlugin } from 'state/plugins/actions';
-import { getPluginMap, getPluginIdByParams } from 'state/plugins/selectors';
+import { getPluginMap } from 'state/plugins/selectors';
 
 export const fetchPlugins = (params = '') => dispatch => (
   new Promise((resolve) => {
@@ -37,9 +37,8 @@ const fetchPlugin = id => dispatch => (
   })
 );
 
-export const fetchSelectedPluginIfNotCached = () => (dispatch, getState) => {
+export const getOrFetchPlugin = id => (dispatch, getState) => {
   const state = getState();
-  const id = getPluginIdByParams(state);
   return new Promise((resolve) => {
     const pluginMap = getPluginMap(state);
     const plugin = pluginMap[id];

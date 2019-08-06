@@ -1,5 +1,8 @@
 import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps } from 'ui/database/report/ReportDatabasePageContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/database/report/ReportDatabasePageContainer';
 
 import { getLoading } from 'state/loading/selectors';
 import { DATABASE_DUMP_REPORT_LIST } from 'test/mocks/database';
@@ -20,6 +23,14 @@ jest.mock('state/database/actions', () => ({
   fetchDatabaseReportBackup: jest.fn(),
 }));
 
+const ownProps = {
+  match: {
+    params: {
+      dumpCode: 'dumpCode',
+    },
+  },
+};
+
 const dispatchMock = jest.fn();
 
 describe('ui/database/report/ReportDatabasePageContainer', () => {
@@ -33,7 +44,7 @@ describe('ui/database/report/ReportDatabasePageContainer', () => {
   });
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
     it('should map the correct function properties', () => {
       expect(props.onWillMount).toBeDefined();

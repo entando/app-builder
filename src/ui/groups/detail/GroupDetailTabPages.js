@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 import { formattedText } from '@entando/utils';
+import { Link } from 'react-router-dom';
 
-import { LinkMenuItem } from '@entando/menu';
-import { ROUTE_PAGE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 class GroupDetailTabPages extends React.Component {
   constructor(props) {
@@ -29,27 +29,20 @@ class GroupDetailTabPages extends React.Component {
   }
 
   renderRows() {
-    const goTo = formattedText('group.action.goto');
     const pageConfiguration = formattedText('group.action.pageConfiguration');
     return this.props.pageReferences.map(item => (
       <tr key={item.code}>
         <td>{item.name}</td>
         <td className="text-center">
           <DropdownKebab id={`kebab-${item.code}`} pullRight>
-            <LinkMenuItem
-              id={`goto-${item.code}`}
-              route={ROUTE_PAGE}
-              params={{ page: item.code }}
-              label={`${goTo} ${item.name}`}
-              className="GroupDetailTabPages__menu-item-edit"
-            />
-            <LinkMenuItem
+            <Link
               id={`page-configuration-${item.code}`}
-              route={ROUTE_PAGE_CONFIG}
+              to={ROUTE_PAGE_CONFIG}
               params={{ pageCode: item.code }}
-              label={`${pageConfiguration} ${item.name}`}
               className="GroupDetailTabPages__menu-item-edit"
-            />
+            >
+              {`${pageConfiguration} ${item.name}`}
+            </Link>
           </DropdownKebab>
         </td>
       </tr>

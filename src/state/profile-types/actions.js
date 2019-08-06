@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { gotoRoute, getParams } from '@entando/router';
 import { formattedText } from '@entando/utils';
 import moment from 'moment';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
@@ -28,10 +27,12 @@ import {
   getSelectedProfileType,
 } from 'state/profile-types/selectors';
 import {
+  history,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
 } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 import {
   SET_PROFILE_TYPES,
   REMOVE_PROFILE_TYPE,
@@ -146,7 +147,7 @@ export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch 
     postProfileTypesStatus({ profileTypesCodes }).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+          history.push(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -162,7 +163,10 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(addToast(formattedText('ProfileType.created'), TOAST_SUCCESS));
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: json.payload.code });
+          history.push(routeConverter(
+            ROUTE_PROFILE_TYPE_EDIT,
+            { profiletypeCode: json.payload.code },
+          ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -178,7 +182,7 @@ export const sendPutProfileType = ProfileTypeObject => dispatch =>
     putProfileType(ProfileTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+          history.push(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
@@ -197,7 +201,7 @@ export const sendDeleteProfileType = profileTypeCode => dispatch =>
             formattedText('app.deleted', null, { type: 'profile type', code: profileTypeCode }),
             TOAST_SUCCESS,
           ));
-          gotoRoute(ROUTE_PROFILE_TYPE_LIST);
+          history.push(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           dispatch(addToast(json.errors[0].message, TOAST_ERROR));
@@ -292,21 +296,26 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
 );
 
 
-export const sendPostAttributeFromProfileType = attributeObject => (dispatch, getState) => (
+export const sendPostAttributeFromProfileType = (
+  attributeObject,
+  entityCode,
+) => (dispatch, getState) => (
   new Promise((resolve) => {
-    const profiletypeCode = getParams(getState()).entityCode;
     const list = getProfileTypeSelectedAttributeType(getState());
-    postAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
+    postAttributeFromProfileType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-            entityCode: profiletypeCode,
-            attributeCode: attributeObject.code,
-          });
+          history.push(routeConverter(
+            ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+            {
+              entityCode,
+              attributeCode: attributeObject.code,
+            },
+          ));
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
+          history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
         }
         resolve();
       });
@@ -314,20 +323,22 @@ export const sendPostAttributeFromProfileType = attributeObject => (dispatch, ge
   })
 );
 
-export const sendPutAttributeFromProfileType = attributeObject => (dispatch, getState) => (
+export const sendPutAttributeFromProfileType = (attributeObject, entityCode) => dispatch => (
   new Promise((resolve) => {
-    const profiletypeCode = getParams(getState()).entityCode;
-    putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
+    putAttributeFromProfileType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (json.payload.type === TYPE_MONOLIST || json.payload.type === TYPE_LIST) {
-          gotoRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
-            entityCode: profiletypeCode,
-            attributeCode: attributeObject.code,
-          });
+          history.push(routeConverter(
+            ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+            {
+              entityCode,
+              attributeCode: attributeObject.code,
+            },
+          ));
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
+          history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
         }
         resolve();
       });
@@ -335,15 +346,17 @@ export const sendPutAttributeFromProfileType = attributeObject => (dispatch, get
   })
 );
 
-export const sendPutAttributeFromProfileTypeMonolist = attributeObject => (dispatch, getState) => (
+export const sendPutAttributeFromProfileTypeMonolist = (
+  attributeObject,
+  entityCode,
+) => dispatch => (
   new Promise((resolve) => {
-    const profiletypeCode = getParams(getState()).entityCode;
-    putAttributeFromProfileType(profiletypeCode, attributeObject).then((response) => {
+    putAttributeFromProfileType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else {
-          gotoRoute(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode });
+          history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
         }
         resolve();
       });

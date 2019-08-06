@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchProfileTypeAttributes, sendPostAttributeFromProfileType } from 'state/profile-types/actions';
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
 import AttributeForm from 'ui/common/form/AttributeForm';
 import {
   getProfileTypeSelectedAttribute,
@@ -10,8 +10,8 @@ import {
 } from 'state/profile-types/selectors';
 
 
-export const mapStateToProps = state => ({
-  profileTypeAttributeCode: getParams(state).entityCode,
+export const mapStateToProps = (state, { match: { params } }) => ({
+  profileTypeAttributeCode: params.entityCode,
   joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getProfileTypeSelectedAttribute(state),
   attributesList: getProfileTypeAttributesIdList(state),
@@ -20,7 +20,7 @@ export const mapStateToProps = state => ({
   },
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(fetchProfileTypeAttributes());
   },
@@ -36,10 +36,8 @@ export const mapDispatchToProps = dispatch => ({
         enumeratorStaticItemsSeparator: ',',
       },
     };
-    dispatch(sendPostAttributeFromProfileType(payload));
+    dispatch(sendPostAttributeFromProfileType(payload, params.entityCode));
   },
 });
 
-const AddFormContainer =
-connect(mapStateToProps, mapDispatchToProps)(AttributeForm);
-export default AddFormContainer;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AttributeForm));

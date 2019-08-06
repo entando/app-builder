@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { getSelectedPageModel, getSelectedPageModelCellMap } from 'state/page-models/selectors';
 import { getLoading } from 'state/loading/selectors';
@@ -11,14 +12,15 @@ export const mapStateToProps = state => ({
   loading: !!getLoading(state).pageModel,
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(loadSelectedPageModel());
+    dispatch(loadSelectedPageModel(params.pageModelCode));
   },
 });
 
-const SelectedPageModelDetailTableContainer =
-  connect(mapStateToProps, mapDispatchToProps)(PageModelDetailTable);
+// eslint-disable-next-line function-paren-newline
+const SelectedPageModelDetailTableContainer = withRouter(connect(
+  mapStateToProps, mapDispatchToProps)(PageModelDetailTable));
 
 SelectedPageModelDetailTableContainer.displayName = 'SelectedPageModelDetailTableContainer';
 

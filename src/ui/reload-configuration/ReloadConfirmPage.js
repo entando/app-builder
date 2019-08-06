@@ -18,7 +18,7 @@ const ReloadConfirmPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.configuration" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_RELOAD_CONFIG}>
+            <BreadcrumbItem to={ROUTE_RELOAD_CONFIG}>
               <FormattedMessage id="menu.reloadConfiguration" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

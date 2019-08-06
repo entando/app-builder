@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { withKeycloak } from 'ui/app/Keycloak';
-import { gotoRoute } from '@entando/router';
 import { LoginPage, NotFoundPage } from '@entando/pages';
 
 import {
@@ -88,8 +92,8 @@ import {
   ROUTE_PLUGINS,
 } from 'app-init/router';
 
-import ToastsContainer from 'ui/app/ToastsContainer';
 import LoginFormContainer from 'ui/login/LoginFormContainer';
+import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
@@ -176,105 +180,169 @@ import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
-const getRouteComponent = (route, keycloak) => {
-  switch (route) {
-    case ROUTE_HOME:
-      return keycloak && keycloak.enabled ? <DashboardPage /> : (
+const getRouteComponent = () => (
+  <Switch>
+    <Route
+      path={ROUTE_HOME}
+      exact
+      render={() => (
         <LoginPage>
           <LoginFormContainer />
         </LoginPage>
-      );
-    case ROUTE_DASHBOARD: return <DashboardPage />;
-    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
-    case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
-    case ROUTE_WIDGET_ADD: return <AddWidgetPage />;
-    case ROUTE_WIDGET_EDIT: return <EditWidgetPageContainer />;
-    case ROUTE_WIDGET_CONFIG: return <WidgetConfigPageContainer />;
-    case ROUTE_WIDGET_DETAIL: return <DetailWidgetPageContainer />;
-    case ROUTE_FRAGMENT_LIST: return <ListFragmentPage />;
-    case ROUTE_FRAGMENT_ADD: return <AddFragmentPage />;
-    case ROUTE_FRAGMENT_EDIT: return <EditFragmentPageContainer />;
-    case ROUTE_FRAGMENT_DETAIL: return <DetailFragmentPageContainer />;
-    case ROUTE_PAGE_ADD: return <PagesAddPageContainer />;
-    case ROUTE_PAGE_EDIT: return <PagesEditPage />;
-    case ROUTE_PAGE_CLONE: return <PagesClonePage />;
-    case ROUTE_PAGE_DETAIL: return <PagesDetailPageContainer />;
-    case ROUTE_PAGE_SETTINGS: return <PageSettingsPage />;
-    case ROUTE_PAGE_CONFIG: return <PageConfigPageContainer />;
-    case ROUTE_PAGE_MODEL_LIST: return <PageModelListPage />;
-    case ROUTE_PAGE_MODEL_ADD: return <PageModelAddPage />;
-    case ROUTE_PAGE_MODEL_EDIT: return <PageModelEditPage />;
-    case ROUTE_PAGE_MODEL_DETAIL: return <PageModelDetailPageContainer />;
-    case ROUTE_USER_RESTRICTIONS: return <UserRestrictionsPage />;
-    case ROUTE_DATA_MODEL_ADD: return <AddDataModelPage />;
-    case ROUTE_DATA_MODEL_EDIT: return <EditDataModelPage />;
-    case ROUTE_DATA_MODEL_LIST: return <DataModelListPage />;
-    case ROUTE_USER_LIST: return <UserListPage />;
-    case ROUTE_USER_AUTHORITY: return <UserAuthorityPageContainer />;
-    case ROUTE_USER_ADD: return <AddUserPage />;
-    case ROUTE_USER_EDIT: return <EditUserPage />;
-    case ROUTE_USER_DETAIL: return <DetailUserPage />;
-    case ROUTE_USER_MY_PROFILE: return <MyProfilePage />;
-    case ROUTE_USER_PROFILE: return <EditUserProfilePage />;
-    case ROUTE_GROUP_LIST: return <ListGroupPage />;
-    case ROUTE_GROUP_ADD: return <AddGroupPage />;
-    case ROUTE_GROUP_EDIT: return <EditGroupPage />;
-    case ROUTE_LABELS_AND_LANGUAGES: return <LabelsAndLanguagesPageContainer />;
-    case ROUTE_LABEL_ADD: return <AddLabelPage />;
-    case ROUTE_LABEL_EDIT: return <EditLabelPage />;
-    case ROUTE_GROUP_DETAIL: return <DetailGroupPage />;
-    case ROUTE_CATEGORY_LIST: return <ListCategoryPage />;
-    case ROUTE_CATEGORY_ADD: return <AddCategoryPage />;
-    case ROUTE_CATEGORY_EDIT: return <EditCategoryPage />;
-    case ROUTE_CATEGORY_DETAIL: return <DetailCategoryPage />;
-    case ROUTE_ROLE_LIST: return <ListRolePage />;
-    case ROUTE_ROLE_ADD: return <AddRolePage />;
-    case ROUTE_ROLE_EDIT: return <EditRolePage />;
-    case ROUTE_ROLE_DETAIL: return <DetailRolePage />;
-    case ROUTE_RELOAD_CONFIG: return <ReloadConfigPage />;
-    case ROUTE_RELOAD_CONFIRM: return <ReloadConfirmPage />;
-    case ROUTE_PLUGIN_CONFIG_PAGE: return <PluginConfigPageContainer />;
-    case ROUTE_DATA_TYPE_LIST: return <ListDataTypePage />;
-    case ROUTE_DATA_TYPE_ADD: return <AddDataTypesPage />;
-    case ROUTE_DATA_TYPE_EDIT: return <EditDataTypesPage />;
-    case ROUTE_DATA_TYPE_ATTRIBUTE_ADD: return <AddDataTypeAttributePage />;
-    case ROUTE_DATA_TYPE_ATTRIBUTE_EDIT: return <EditDataTypeAttributePage />;
-    case ROUTE_ATTRIBUTE_MONOLIST_ADD: return <MonolistPageContainer />;
-    case ROUTE_PROFILE_TYPE_LIST: return <ListProfileTypePage />;
-    case ROUTE_PROFILE_TYPE_ADD: return <AddProfileTypesPage />;
-    case ROUTE_PROFILE_TYPE_EDIT: return <EditProfileTypesPage />;
-    case ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD: return <AddProfileTypeAttributePage />;
-    case ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT: return <EditProfileTypeAttributePage />;
-    case ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD: return <MonolistProfilePageContainer />;
-    case ROUTE_DATABASE_LIST: return <ListDatabasePage />;
-    case ROUTE_DATABASE_ADD: return <AddDatabasePageContainer />;
-    case ROUTE_DATABASE_REPORT: return <ReportDatabasePageContainer />;
-    case ROUTE_DATABASE_DUMP_TABLE: return <DatabaseDumpTablePageContainer />;
-    case ROUTE_FILE_BROWSER: return <FileBrowserPage />;
-    case ROUTE_FILE_BROWSER_UPLOAD: return <UploadFileBrowserPage />;
-    case ROUTE_FILE_BROWSER_CREATE_FOLDER: return <CreateFolderPage />;
-    case ROUTE_FILE_BROWSER_CREATE_TEXT_FILE: return <CreateTextFilePage />;
-    case ROUTE_FILE_BROWSER_EDIT_TEXT_FILE: return <EditTextFilePage />;
-    case ROUTE_DE_COMPONENT_LIST: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
-      <ComponentListPage /> : <ComponentListPageDisabled />;
-    case ROUTE_DE_CONFIG_LIST: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
-      <SettingsListPage /> : <ComponentListPageDisabled />;
-    case ROUTE_DE_CONFIG_EDIT: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
-      <SettingsEditPage /> : <ComponentListPageDisabled />;
-    case ROUTE_DE_CONFIG_ADD: return (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
-      <SettingsAddPage /> : <ComponentListPageDisabled />;
-    default: return <NotFoundPage />;
-    case ROUTE_CMS_CONTENT_LIST: return (process.env.CMS_UI_ENABLED) ?
-      <ContentListPage /> : <CMSDisabledPage />;
-    case ROUTE_CMS_CONTENT_TYPES: return (process.env.CMS_UI_ENABLED) ?
-      <ContentTypesListPage /> : <CMSDisabledPage />;
-    case ROUTE_CMS_CONTENT_MODELS: return (process.env.CMS_UI_ENABLED) ?
-      <ContentModelsListPage /> : <CMSDisabledPage />;
-    case ROUTE_CMS_CONTENT_SETTINGS: return (process.env.CMS_UI_ENABLED) ?
-      <ContentSettingsPage /> : <CMSDisabledPage />;
-    case ROUTE_PLUGINS: return <PluginsPageContainer />;
-  }
-};
+      )}
+    />
+    <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
+    {/* page */}
+    <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
+    <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
+    <Route path={ROUTE_PAGE_EDIT} component={PagesEditPage} />
+    <Route path={ROUTE_PAGE_CLONE} component={PagesClonePage} />
+    <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
+    <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
+    <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
+    {/* page model */}
+    <Route exact path={ROUTE_PAGE_MODEL_LIST} component={PageModelListPage} />
+    <Route path={ROUTE_PAGE_MODEL_ADD} component={PageModelAddPage} />
+    <Route path={ROUTE_PAGE_MODEL_EDIT} component={PageModelEditPage} />
+    <Route path={ROUTE_PAGE_MODEL_DETAIL} component={PageModelDetailPageContainer} />
+    {/* widgets */}
+    <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
+    <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
+    <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
+    <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
+    <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
+    {/* fragments */}
+    <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
+    <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
+    <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
+    <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
+    {/* data models */}
+    <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
+    <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
+    <Route path={ROUTE_DATA_MODEL_EDIT} component={EditDataModelPage} />
+    {/* data type */}
+    <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
+    <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
+    <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
+    {/* user */}
+    <Route exact path={ROUTE_USER_LIST} component={UserListPage} />
+    <Route path={ROUTE_USER_ADD} component={AddUserPage} />
+    <Route path={ROUTE_USER_EDIT} component={EditUserPage} />
+    <Route path={ROUTE_USER_DETAIL} component={DetailUserPage} />
+    <Route path={ROUTE_USER_RESTRICTIONS} component={UserRestrictionsPage} />
+    <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePage} />
+    <Route path={ROUTE_USER_AUTHORITY} component={UserAuthorityPageContainer} />
+    {/* profiles */}
+    <Route exact path={ROUTE_PROFILE_TYPE_LIST} component={ListProfileTypePage} />
+    <Route path={ROUTE_PROFILE_TYPE_ADD} component={AddProfileTypesPage} />
+    <Route path={ROUTE_PROFILE_TYPE_EDIT} component={EditProfileTypesPage} />
+    {/* groups */}
+    <Route exact path={ROUTE_GROUP_LIST} component={ListGroupPage} />
+    <Route path={ROUTE_GROUP_ADD} component={AddGroupPage} />
+    <Route path={ROUTE_GROUP_EDIT} component={EditGroupPage} />
+    <Route path={ROUTE_GROUP_DETAIL} component={DetailGroupPage} />
+    {/* labels */}
+    <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
+    <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
+    <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
+    {/* categories */}
+    <Route exact path={ROUTE_CATEGORY_LIST} component={ListCategoryPage} />
+    <Route path={ROUTE_CATEGORY_ADD} component={AddCategoryPage} />
+    <Route path={ROUTE_CATEGORY_EDIT} component={EditCategoryPage} />
+    <Route path={ROUTE_CATEGORY_DETAIL} component={DetailCategoryPage} />
+    {/* roles */}
+    <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
+    <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
+    <Route path={ROUTE_ROLE_EDIT} component={EditRolePage} />
+    <Route path={ROUTE_ROLE_DETAIL} component={DetailRolePage} />
+    {/* database */}
+    <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
+    <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
+    <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
+    <Route path={ROUTE_DATABASE_DUMP_TABLE} component={DatabaseDumpTablePageContainer} />
+    {/* files */}
+    <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
+    <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />
+    <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
+    <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
+    <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
+    {/* cms */}
+    <Route
+      exact
+      path={ROUTE_CMS_CONTENT_LIST}
+      render={() => (
+      (process.env.CMS_UI_ENABLED) ?
+        <ContentListPage /> : <CMSDisabledPage />
+      )}
+    />
+    <Route
+      path={ROUTE_CMS_CONTENT_TYPES}
+      render={() => (
+      (process.env.CMS_UI_ENABLED) ?
+        <ContentTypesListPage /> : <CMSDisabledPage />
+      )}
+    />
+    <Route
+      path={ROUTE_CMS_CONTENT_MODELS}
+      render={() => (
+      (process.env.CMS_UI_ENABLED) ?
+        <ContentModelsListPage /> : <CMSDisabledPage />
+      )}
+    />
+    <Route
+      path={ROUTE_CMS_CONTENT_SETTINGS}
+      render={() => (
+      (process.env.CMS_UI_ENABLED) ?
+        <ContentSettingsPage /> : <CMSDisabledPage />
+      )}
+    />
+    {/* digital exchange */}
+    <Route
+      exact
+      path={ROUTE_DE_COMPONENT_LIST}
+      render={() => (
+      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+        <ComponentListPage /> : <ComponentListPageDisabled />
+      )}
+    />
+    <Route
+      exact
+      path={ROUTE_DE_CONFIG_LIST}
+      render={() => (
+      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+        <SettingsListPage /> : <ComponentListPageDisabled />
+      )}
+    />
+    <Route
+      path={ROUTE_DE_CONFIG_EDIT}
+      render={() => (
+      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+        <SettingsEditPage /> : <ComponentListPageDisabled />
+      )}
+    />
+    <Route
+      path={ROUTE_DE_CONFIG_ADD}
+      render={() => (
+      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+        <SettingsAddPage /> : <ComponentListPageDisabled />
+      )}
+    />
+    {/* other */}
+    <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
+    <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
+    <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
+    <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
+    <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
+    <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />
+    <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT} component={EditProfileTypeAttributePage} />
+    <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
+    <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
+    <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
+    <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+    {/* 404 */}
+    <Route component={NotFoundPage} />
+  </Switch>
+);
 
 class App extends Component {
   componentDidMount() {
@@ -282,36 +350,35 @@ class App extends Component {
   }
 
   render() {
-    const { route, keycloak, username } = this.props;
-    const isUserUndefined = username === null || username === undefined;
-    if (!keycloak.enabled && isUserUndefined && route !== ROUTE_HOME && route) {
-      gotoRoute(ROUTE_HOME);
-      return <h1>401</h1>;
+    const { currentRoute, keycloak, username } = this.props;
+    if (currentRoute === ROUTE_HOME && username) {
+      return <Redirect to={ROUTE_DASHBOARD} />;
+    } else if (!username && currentRoute !== ROUTE_HOME) {
+      return <Redirect to={ROUTE_HOME} />;
     }
 
     return (
       <Fragment>
         <ToastsContainer />
         {!keycloak.enabled || keycloak.authenticated
-        ? getRouteComponent(route, keycloak)
-        : <LoginPage />}
+          ? getRouteComponent()
+          : <LoginPage />}
       </Fragment>
     );
   }
 }
 
-
 App.propTypes = {
-  fetchPlugins: PropTypes.func,
-  route: PropTypes.string.isRequired,
+  currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
   keycloak: PropTypes.shape({ authenticated: PropTypes.bool }),
+  fetchPlugins: PropTypes.func,
 };
 
 App.defaultProps = {
-  fetchPlugins: () => {},
   username: null,
   keycloak: { enabled: false },
+  fetchPlugins: () => {},
 };
 
 export default withKeycloak(App);

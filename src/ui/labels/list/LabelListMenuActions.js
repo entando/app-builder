@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { LinkMenuItem } from '@entando/menu';
+import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_LABEL_EDIT } from 'app-init/router';
+import { routeConverter } from 'helpers/routeConverter';
 
 const LabelListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = <FormattedMessage id="app.edit" />;
@@ -12,8 +13,7 @@ const LabelListMenuActions = ({ onClickDelete, code }) => {
     <DropdownKebab pullRight id={`${code}-actions`}>
       <LinkMenuItem
         id={`edit-${code}`}
-        route={ROUTE_LABEL_EDIT}
-        params={{ labelCode: code }}
+        to={routeConverter(ROUTE_LABEL_EDIT, { labelCode: code })}
         label={editLabel}
         className="LabelListMenuAction__menu-item-edit"
       />

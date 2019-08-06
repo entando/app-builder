@@ -1,5 +1,4 @@
 import { cloneDeep } from 'lodash';
-import { getParams } from '@entando/router';
 
 import {
   getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig,
@@ -111,37 +110,32 @@ describe('state/page-config/selectors', () => {
 
   describe('getSelectedPageConfig', () => {
     it('when there is a page config for the current pageCode', () => {
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
-      expect(getSelectedPageConfig(MOCK_STATE)).toEqual(MOCK_DATA.configMap[CURRENT_PAGE_CODE]);
+      expect(getSelectedPageConfig(CURRENT_PAGE_CODE)(MOCK_STATE)).toEqual(MOCK_DATA.configMap[CURRENT_PAGE_CODE]);
     });
 
     it('when there is NOT a page config for the current pageCode', () => {
-      getParams.mockReturnValue({ pageCode: 'some_other_code' });
-      expect(getSelectedPageConfig(MOCK_STATE)).toBe(null);
+      expect(getSelectedPageConfig('some_other_code')(MOCK_STATE)).toBe(null);
     });
   });
 
   describe('getSelectedPagePublishedConfig', () => {
     it('when there is a page config for the current pageCode', () => {
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
-      expect(getSelectedPagePublishedConfig(MOCK_STATE))
+      expect(getSelectedPagePublishedConfig(CURRENT_PAGE_CODE)(MOCK_STATE))
         .toEqual(MOCK_DATA.publishedConfigMap[CURRENT_PAGE_CODE]);
     });
 
     it('when there is NOT a page config for the current pageCode', () => {
-      getParams.mockReturnValue({ pageCode: 'some_other_code' });
-      expect(getSelectedPagePublishedConfig(MOCK_STATE)).toBe(null);
+      expect(getSelectedPagePublishedConfig('some_other_code')(MOCK_STATE)).toBe(null);
     });
   });
 
   describe('getPageConfigCellMap', () => {
     beforeEach(() => {
       getSelectedPageModelCellMap.mockReturnValue(CELL_MAP);
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
     });
 
     it('verify getPageConfigCellMap selector', () => {
-      const configCellMap = getPageConfigCellMap(MOCK_STATE);
+      const configCellMap = getPageConfigCellMap({ pageCode: CURRENT_PAGE_CODE })(MOCK_STATE);
       Object.keys(configCellMap).forEach((cellKey) => {
         const cell = configCellMap[cellKey];
         const draftItem = HOMEPAGE_DRAFT_CONFIG[cell.framePos];
@@ -169,82 +163,72 @@ describe('state/page-config/selectors', () => {
     });
 
     it('if no page is selected, returns null', () => {
-      getParams.mockReturnValue({});
-      expect(getPageConfigCellMap(MOCK_STATE)).toEqual(null);
+      expect(getPageConfigCellMap({ pageCode: null })(MOCK_STATE)).toEqual(null);
     });
   });
 
   describe('getPageIsOnTheFly', () => {
     const MAIN_FRAME_POS = 3;
     beforeEach(() => {
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
       getSelectedPageModelMainFrame.mockReturnValue({ pos: MAIN_FRAME_POS });
     });
 
     it('returns true if the config has a "content_viewer" with no config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
         { code: 'content_viewer' };
-      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(true);
+      expect(getPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(true);
     });
 
     it('returns false if the config has a "content_viewer" with config in the main frame', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
         { code: 'content_viewer', config: {} };
-      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+      expect(getPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if there is no main frame on the selected page model', () => {
       getSelectedPageModelMainFrame.mockReturnValue(null);
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
         { code: 'content_viewer', config: {} };
-      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+      expect(getPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if there is no config for the current page code', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] = null;
-      expect(getPageIsOnTheFly(MOCK_STATE)).toBe(false);
+      expect(getPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
   });
 
   describe('getSelectedPageDiffersFromPublished', () => {
-    beforeEach(() => {
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
-    });
-
     it('returns false if the draft and published configs are equal', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] =
         MOCK_STATE.pageConfig.publishedConfigMap[CURRENT_PAGE_CODE];
-      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+      expect(getSelectedPageDiffersFromPublished(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if the draft config is null', () => {
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE] = null;
-      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+      expect(getSelectedPageDiffersFromPublished(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
     it('returns false if the published config is null', () => {
       MOCK_STATE.pageConfig.publishedConfigMap[CURRENT_PAGE_CODE] = null;
-      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(false);
+      expect(getSelectedPageDiffersFromPublished(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
     it('returns true if the draft and published configs are different', () => {
-      expect(getSelectedPageDiffersFromPublished(MOCK_STATE)).toBe(true);
+      expect(getSelectedPageDiffersFromPublished(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(true);
     });
   });
 
   describe('getSelectedPageConfigMatchesDefault', () => {
-    beforeEach(() => {
-      getParams.mockReturnValue({ pageCode: CURRENT_PAGE_CODE });
-    });
-
     it('returns true if the draft and default configs are equal', () => {
       getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_DRAFT_CONFIG);
-      expect(getSelectedPageConfigMatchesDefault(MOCK_STATE)).toBe(true);
+      expect(getSelectedPageConfigMatchesDefault(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(true);
     });
 
     it('returns false if the draft and default configs are different', () => {
       getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_PUBLISHED_CONFIG);
-      expect(getSelectedPageConfigMatchesDefault(MOCK_STATE)).toBe(false);
+      expect(getSelectedPageConfigMatchesDefault(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
   });
 });

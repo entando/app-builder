@@ -7,14 +7,14 @@ import { PLUGIN_OK } from 'test/mocks/plugins';
 describe('PluginConfigPage', () => {
   let component;
   let plugin;
-  let fetchSelectedPluginIfNotCached;
+  let getOrFetchPlugin;
   let savePluginConfig;
 
   beforeEach(() => {
-    fetchSelectedPluginIfNotCached = jest.fn();
+    getOrFetchPlugin = jest.fn();
     savePluginConfig = jest.fn();
     plugin = PLUGIN_OK;
-    const props = { plugin, fetchSelectedPluginIfNotCached, savePluginConfig };
+    const props = { plugin, getOrFetchPlugin, savePluginConfig };
     component = shallow(<PluginConfigPage {...props} />);
   });
 

@@ -6,8 +6,6 @@ import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 // mocked
 import { formValueSelector } from 'redux-form';
-import { getParams } from '@entando/router';
-// import { sendPutPage } from 'state/pages/actions';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
@@ -25,10 +23,16 @@ jest.mock('state/pages/actions', () => ({
   clearTree: jest.fn().mockReturnValue('clearTree_result'),
 }));
 
-
-getParams.mockReturnValue({ pageCode: 'page_code' });
+const ownProps = {
+  match: {
+    params: {
+      pageCode: 'page_code',
+    },
+  },
+};
 
 const GROUPS = [{ code: 'group', name: 'groupName' }];
+
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
 }));
@@ -63,7 +67,7 @@ describe('PagesEditFormContainer', () => {
     let props;
 
     beforeEach(() => {
-      props = mapStateToProps(STATE);
+      props = mapStateToProps(STATE, ownProps);
     });
 
     it('props are correctly defined', () => {

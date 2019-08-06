@@ -8,16 +8,21 @@ jest.mock('state/plugins/thunks', () => ({
 const dispatchMock = jest.fn();
 
 const TEST_STATE = {
-  router: { route: 'page' },
   currentUser: { username: 'admin' },
+};
+
+const ownProps = {
+  location: {
+    pathname: 'page',
+  },
 };
 
 describe('AppContainer', () => {
   describe('mapStateToProps', () => {
-    it('maps route property with state.router.route', () => {
-      expect(mapStateToProps(TEST_STATE)).toEqual({
-        route: 'page',
+    it('maps route property', () => {
+      expect(mapStateToProps(TEST_STATE, ownProps)).toEqual({
         username: 'admin',
+        currentRoute: 'page',
       });
     });
   });

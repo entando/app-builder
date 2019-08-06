@@ -5,24 +5,15 @@ import WidgetListTable from 'ui/widgets/list/WidgetListTable';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
 
 
 class ListWidgetPage extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.onClickAdd = this.onClickAdd.bind(this);
-  }
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
 
-  onClickAdd(ev) {
-    ev.preventDefault();
-    this.props.onClickCreate();
-  }
   renderTable() {
     const {
       widgetList,
@@ -31,7 +22,6 @@ class ListWidgetPage extends Component {
     } = this.props;
 
     return (
-
       <Spinner loading={!!this.props.loading}>
         {
           Object.keys(widgetList).map(typology => (
@@ -62,16 +52,15 @@ class ListWidgetPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Link route={ROUTE_WIDGET_ADD}>
-                <Button
-                  type="button"
-                  className="pull-right ListWidgetPage__add"
-                  bsStyle="primary"
-                  onClick={this.onClickAdd}
-                >
-                  <FormattedMessage id="widget.list.new" />
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                className="pull-right ListWidgetPage__add"
+                bsStyle="primary"
+                componentClass={Link}
+                to={ROUTE_WIDGET_ADD}
+              >
+                <FormattedMessage id="widget.list.new" />
+              </Button>
             </Col>
 
           </Row>
@@ -87,7 +76,6 @@ class ListWidgetPage extends Component {
 }
 
 ListWidgetPage.propTypes = {
-  onClickCreate: PropTypes.func,
   onWillMount: PropTypes.func,
   widgetList: PropTypes.shape({}),
   onDelete: PropTypes.func,
@@ -96,7 +84,6 @@ ListWidgetPage.propTypes = {
 };
 
 ListWidgetPage.defaultProps = {
-  onClickCreate: () => {},
   onWillMount: () => {},
   onDelete: () => {},
   locale: 'en',

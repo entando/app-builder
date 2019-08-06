@@ -18,7 +18,7 @@ const EditDataModelPage = () => (
             <BreadcrumbItem>
               <FormattedMessage id="menu.data" />
             </BreadcrumbItem>
-            <BreadcrumbItem route={ROUTE_DATA_MODEL_LIST}>
+            <BreadcrumbItem to={ROUTE_DATA_MODEL_LIST}>
               <FormattedMessage id="menu.dataModels" />
             </BreadcrumbItem>
             <BreadcrumbItem active>

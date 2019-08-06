@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { FormGroup, Col, Icon, Button, Spinner } from 'patternfly-react';
-import { Link } from '@entando/router';
+import { Link } from 'react-router-dom';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 import { required } from '@entando/utils';
 import RenderFileInput from 'ui/common/form/RenderFileInput';
@@ -36,7 +36,7 @@ export const UploadFileBrowserBody = (props) => {
               <Icon size="lg" name="save" />&nbsp;
               <FormattedMessage id="app.save" />
             </Button>
-            <Link route={ROUTE_FILE_BROWSER}>
+            <Link to={ROUTE_FILE_BROWSER}>
               <Button
                 className="pull-right UploadFileBrowserForm__btn-cancel"
               >
