@@ -1,34 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import pluginArray from 'entando-plugins';
-import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
+import Form from 'react-jsonschema-form';
 
-let pluginForms = {};
-if (Array.isArray(pluginArray)) {
-  pluginForms = pluginArray.reduce((acc, plugin) => {
-    if (typeof plugin.widgetForms === 'object') {
-      return Object.assign(acc, plugin.widgetForms);
-    }
-    return acc;
-  }, {});
-}
+const WidgetConfigForm = ({ onSubmit, widgetConfig }) =>
+  (widgetConfig && widgetConfig.schema ? (
+    <Form
+      schema={widgetConfig.schema}
+      formData={widgetConfig.formData}
+      onSubmit={onSubmit}
+    />
+  ) : '');
 
-export const WidgetConfigFormBody = (props) => {
-  if (pluginForms[props.widgetId]) {
-    const PluginWidgetForm = pluginForms[props.widgetId];
-    return <PluginWidgetForm {...props} />;
-  }
-  switch (props.widgetId) {
-    case 'formAction':
-      return <InternalServletConfigForm {...props} />;
-    default:
-      return <span>Error: there is no form for widget {props.widgetId}</span>;
-  }
-};
-
-WidgetConfigFormBody.propTypes = {
-  widgetId: PropTypes.string.isRequired,
+WidgetConfigForm.propTypes = {
+  widgetConfig: PropTypes.shape({}),
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default WidgetConfigFormBody;
+WidgetConfigForm.defaultProps = {
+  widgetConfig: null,
+};
+
+export default WidgetConfigForm;

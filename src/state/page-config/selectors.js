@@ -76,7 +76,7 @@ export const getPageConfigCellMap = params => createSelector(
           if (widget && relatedCell) {
             relatedCell.widgetCode = widget.code;
             relatedCell.widgetTitle = widget.titles[locale] || widget.name;
-            relatedCell.widgetHasConfig = !!item.config;
+            relatedCell.widgetHasConfig = !!widget.config;
           }
         }
         if (draftItem && publishedConfig) {

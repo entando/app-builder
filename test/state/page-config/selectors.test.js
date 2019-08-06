@@ -6,7 +6,7 @@ import {
   getSelectedPagePublishedConfig, getPageIsOnTheFly, getSelectedPageDiffersFromPublished,
   getSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { WIDGET_LIST, WIDGET, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgets';
+import { WIDGET_LIST, WIDGET, WIDGET_WITH_CONFIG_FORM, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgets';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
 import {
@@ -51,7 +51,7 @@ const HOMEPAGE_DRAFT_CONFIG = buildModifiedConfig(HOMEPAGE_CONFIG);
 
 const MOCK_DATA = {
   content: 'WIDGET_LIST',
-  searchFilter: 'My',
+  searchFilter: 'Login',
   viewList: 'list',
   toolbarExpanded: true,
   configMap: {
@@ -110,7 +110,8 @@ describe('state/page-config/selectors', () => {
 
   describe('getSelectedPageConfig', () => {
     it('when there is a page config for the current pageCode', () => {
-      expect(getSelectedPageConfig(CURRENT_PAGE_CODE)(MOCK_STATE)).toEqual(MOCK_DATA.configMap[CURRENT_PAGE_CODE]);
+      expect(getSelectedPageConfig(CURRENT_PAGE_CODE)(MOCK_STATE))
+        .toEqual(MOCK_DATA.configMap[CURRENT_PAGE_CODE]);
     });
 
     it('when there is NOT a page config for the current pageCode', () => {
