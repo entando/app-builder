@@ -42,6 +42,8 @@ import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
+import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 // digital exchange
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
@@ -91,6 +93,8 @@ import {
   ROUTE_PAGE_MODEL_DETAIL,
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
+  ROUTE_PLUGINS,
+  ROUTE_PLUGIN_CONFIG_PAGE,
   // digital exchange
   ROUTE_DE_COMPONENT_LIST,
   ROUTE_DE_CONFIG_LIST,
@@ -105,7 +109,7 @@ import {
 
 const mountWithRoute = route => mount(<MemoryRouter initialEntries={[route]}>
   <App currentRoute={ROUTE_DASHBOARD} username="admin" />
-                                      </MemoryRouter>);
+</MemoryRouter>);
 
 describe('App', () => {
   it('renders without crashing', () => {
@@ -299,6 +303,16 @@ describe('App', () => {
   it('route to page file browser page create folder', () => {
     const component = mountWithRoute(ROUTE_FILE_BROWSER_CREATE_FOLDER);
     expect(component.find(CreateFolderFormContainer).exists()).toBe(true);
+  });
+
+  it('route to plugins page', () => {
+    const component = mountWithRoute(ROUTE_PLUGINS);
+    expect(component.find(PluginsPageContainer).exists()).toBe(true);
+  });
+
+  it('route to plugin config page', () => {
+    const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
+    expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
   });
 
   describe('digital exchange', () => {

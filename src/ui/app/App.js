@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -89,6 +89,7 @@ import {
   ROUTE_CMS_CONTENT_TYPES,
   ROUTE_CMS_CONTENT_MODELS,
   ROUTE_CMS_CONTENT_SETTINGS,
+  ROUTE_PLUGINS,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -167,7 +168,7 @@ import EditProfileTypesPage from 'ui/profile-types/edit/EditProfileTypesPage';
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import PluginConfigPageContainer from 'ui/integrations/PluginConfigPageContainer';
+import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
@@ -177,6 +178,7 @@ import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage'
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
+import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
 const getRouteComponent = () => (
   <Switch>
@@ -327,6 +329,7 @@ const getRouteComponent = () => (
     />
     {/* other */}
     <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
+    <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
     <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
     <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
     <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
@@ -341,32 +344,41 @@ const getRouteComponent = () => (
   </Switch>
 );
 
-const App = ({ currentRoute, keycloak, username }) => {
-  if (currentRoute === ROUTE_HOME && username) {
-    return <Redirect to={ROUTE_DASHBOARD} />;
-  } else if (!username && currentRoute !== ROUTE_HOME) {
-    return <Redirect to={ROUTE_HOME} />;
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchPlugins();
   }
 
-  return (
-    <Fragment>
-      <ToastsContainer />
-      {!keycloak.enabled || keycloak.authenticated
-        ? getRouteComponent()
-        : <LoginPage />}
-    </Fragment>
-  );
-};
+  render() {
+    const { currentRoute, keycloak, username } = this.props;
+    if (currentRoute === ROUTE_HOME && username) {
+      return <Redirect to={ROUTE_DASHBOARD} />;
+    } else if (!username && currentRoute !== ROUTE_HOME) {
+      return <Redirect to={ROUTE_HOME} />;
+    }
+
+    return (
+      <Fragment>
+        <ToastsContainer />
+        {!keycloak.enabled || keycloak.authenticated
+          ? getRouteComponent()
+          : <LoginPage />}
+      </Fragment>
+    );
+  }
+}
 
 App.propTypes = {
   currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
   keycloak: PropTypes.shape({ authenticated: PropTypes.bool }),
+  fetchPlugins: PropTypes.func,
 };
 
 App.defaultProps = {
   username: null,
   keycloak: { enabled: false },
+  fetchPlugins: () => {},
 };
 
 export default withKeycloak(App);

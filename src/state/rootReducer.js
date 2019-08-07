@@ -2,9 +2,6 @@ import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import { api, currentUser } from '@entando/apimanager';
 import { messages } from '@entando/messages';
-
-import pluginArray from 'entando-plugins';
-
 import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
 import locale from 'state/locale/reducer';
@@ -36,6 +33,7 @@ import digitalExchangeComponents from 'state/digital-exchange/components/reducer
 import digitalExchanges from 'state/digital-exchange/digital-exchanges/reducer';
 import digitalExchangeCategories from 'state/digital-exchange/categories/reducer';
 import digitalExchangeExtraFilters from 'state/digital-exchange/extra-filters/reducer';
+import plugins from 'state/plugins/reducer';
 
 const reducerDef = {
   activityStream,
@@ -67,6 +65,7 @@ const reducerDef = {
   pageConfig,
   pageModels,
   permissions,
+  plugins,
   profileTypes,
   roles,
   users,
@@ -74,17 +73,6 @@ const reducerDef = {
   userSettings,
   userProfile,
 };
-
-if (pluginArray.length) {
-  // builds a plugins reducer
-  const pluginsReducerObj = {};
-  pluginArray.forEach((plugin) => {
-    if (plugin.reducer) {
-      pluginsReducerObj[plugin.id] = plugin.reducer;
-    }
-  });
-  reducerDef.plugins = combineReducers(pluginsReducerObj);
-}
 
 // app root reducer
 const reducer = combineReducers(reducerDef);

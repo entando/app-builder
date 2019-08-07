@@ -90,9 +90,12 @@ export const ROUTE_DE_COMPONENT_LIST = '/digital-exchange';
 export const ROUTE_DE_CONFIG_LIST = '/digital-exchange/configuration';
 export const ROUTE_DE_CONFIG_EDIT = '/digital-exchange/configuration/edit/:server';
 export const ROUTE_DE_CONFIG_ADD = '/digital-exchange/configuration/add';
+// plugins
+export const ROUTE_PLUGIN_CONFIG_PAGE = '/plugins/config/:id';
+export const ROUTE_PLUGINS = '/plugins';
+
 // other
 export const ROUTE_USER_PROFILE = '/userprofile/:username';
-export const ROUTE_PLUGIN_CONFIG_PAGE = '/plugin/:pluginId/config';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_ADD = '/datatype/attribute/:entityCode/add';
 export const ROUTE_DATA_TYPE_ATTRIBUTE_EDIT = '/datatype/attribute/:entityCode/edit/:attributeCode';
 export const ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD = '/profiletype/attribute/:entityCode/add';

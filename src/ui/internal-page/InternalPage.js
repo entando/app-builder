@@ -19,14 +19,13 @@ import {
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_DE_COMPONENT_LIST,
   ROUTE_CMS_CONTENT_LIST, ROUTE_CMS_CONTENT_TYPES, ROUTE_CMS_CONTENT_MODELS,
   ROUTE_CMS_CONTENT_SETTINGS,
+  ROUTE_PLUGINS,
 } from 'app-init/router';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
-import IntegrationMenu from 'ui/internal-page/IntegrationMenu';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
-import pluginArray from 'entando-plugins';
 import { routeConverter } from 'helpers/routeConverter';
 
 const publicUrl = process.env.PUBLIC_URL;
@@ -38,16 +37,6 @@ const menuHeader = [
   <UserMenuContainer key="UserMenu" />,
   <AdminAppSwitch key="adminAppSwitch" />,
 ];
-
-const integrationsMenuItem = pluginArray && pluginArray.length ? (
-  <FirstLevelMenuItem
-    id="menu-integration"
-    label={<FormattedMessage id="menu.integration" defaultMessage="Integration" />}
-  >
-    <IntegrationMenu />
-  </FirstLevelMenuItem>
-) : null;
-
 
 const { DIGITAL_EXCHANGE_UI_ENABLED, CMS_UI_ENABLED } = process.env;
 
@@ -146,7 +135,11 @@ const InternalPage = ({ className, children }) => (
         />
       </FirstLevelMenuItem>
 
-      {integrationsMenuItem}
+      <LinkMenuItem
+        id="menu-integrations"
+        label={<FormattedMessage id="menu.integration" defaultMessage="Integrations" />}
+        to={ROUTE_PLUGINS}
+      />
 
       <FirstLevelMenuItem
         id="menu-data"
