@@ -17,9 +17,9 @@ import {
 
 import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
 import {
-  getPageIsOnTheFly,
-  getSelectedPageDiffersFromPublished,
-  getSelectedPageConfigMatchesDefault,
+  makeGetPageIsOnTheFly,
+  makeGetSelectedPageDiffersFromPublished,
+  makeGetSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
 import {
   getSelectedPage,
@@ -34,9 +34,9 @@ jest.mock('state/page-models/selectors', () => ({
 }));
 
 jest.mock('state/page-config/selectors', () => ({
-  getPageIsOnTheFly: jest.fn(),
-  getSelectedPageDiffersFromPublished: jest.fn(),
-  getSelectedPageConfigMatchesDefault: jest.fn(),
+  makeGetPageIsOnTheFly: jest.fn(),
+  makeGetSelectedPageDiffersFromPublished: jest.fn(),
+  makeGetSelectedPageConfigMatchesDefault: jest.fn(),
 }));
 
 jest.mock('state/pages/selectors', () => ({
@@ -85,9 +85,9 @@ describe('PageConfigPageContainer', () => {
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
       getSelectedPageModelCanBeOnTheFly.mockReturnValue(true);
-      getPageIsOnTheFly.mockReturnValue(() => true);
-      getSelectedPageDiffersFromPublished.mockReturnValue(() => true);
-      getSelectedPageConfigMatchesDefault.mockReturnValue(() => true);
+      makeGetPageIsOnTheFly.mockReturnValue(() => true);
+      makeGetSelectedPageDiffersFromPublished.mockReturnValue(() => true);
+      makeGetSelectedPageConfigMatchesDefault.mockReturnValue(() => true);
       getSelectedPageIsPublished.mockReturnValue(true);
       getLocale.mockReturnValue('en');
       props = mapStateToProps({}, ownProps);

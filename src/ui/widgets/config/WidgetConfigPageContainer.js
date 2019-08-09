@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
-import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
+import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-config/actions';
 
 
@@ -19,7 +19,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   // TODO: parse/cast integers in router package
   framePos: parseInt(params.framePos, 10),
   pageCode: params.pageCode,
-  frameName: getWidgetConfigFrameName(params.framePos)(state),
+  frameName: makeGetWidgetConfigFrameName(params.framePos)(state),
 });
 
 

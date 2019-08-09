@@ -5,7 +5,11 @@ import { initConfigPage, setSelectedPageOnTheFly, restoreSelectedPageConfig, app
 import { setSelectedPageModel } from 'state/page-models/actions';
 import { publishSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
 import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
-import { getPageIsOnTheFly, getSelectedPageDiffersFromPublished, getSelectedPageConfigMatchesDefault } from 'state/page-config/selectors';
+import {
+  makeGetPageIsOnTheFly,
+  makeGetSelectedPageDiffersFromPublished,
+  makeGetSelectedPageConfigMatchesDefault,
+} from 'state/page-config/selectors';
 import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
@@ -36,10 +40,10 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageStatus: selectedPage.status,
     previewUri: getSelectedPagePreviewURI(state),
     isOnTheFlyEnabled: getSelectedPageModelCanBeOnTheFly(state),
-    pageIsOnTheFly: getPageIsOnTheFly(params.pageCode)(state),
+    pageIsOnTheFly: makeGetPageIsOnTheFly(params.pageCode)(state),
     pageIsPublished: getSelectedPageIsPublished(state),
-    pageDiffersFromPublished: getSelectedPageDiffersFromPublished(params.pageCode)(state),
-    pageConfigMatchesDefault: getSelectedPageConfigMatchesDefault(params.pageCode)(state),
+    pageDiffersFromPublished: makeGetSelectedPageDiffersFromPublished(params.pageCode)(state),
+    pageConfigMatchesDefault: makeGetSelectedPageConfigMatchesDefault(params.pageCode)(state),
   };
 };
 

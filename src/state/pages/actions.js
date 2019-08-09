@@ -9,7 +9,7 @@ import {
   putPageSettings, patchPage,
 } from 'api/pages';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
-import { getSelectedPageConfig } from 'state/page-config/selectors';
+import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
@@ -375,7 +375,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
-          const draftConfig = getSelectedPageConfig(page.code)(getState());
+          const draftConfig = makeGetSelectedPageConfig(page.code)(getState());
           dispatch(setPublishedPageConfig(newPage.code, draftConfig));
         } else {
           dispatch(setPublishedPageConfig(newPage.code, null));

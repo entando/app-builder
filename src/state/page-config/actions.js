@@ -13,7 +13,7 @@ import {
   restorePageConfig,
   applyDefaultPageConfig,
 } from 'api/pages';
-import { getPublishedConfigMap, getSelectedPageConfig } from 'state/page-config/selectors';
+import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getWidgetsMap } from 'state/widgets/selectors';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
@@ -141,7 +141,7 @@ export const removePageWidget = (frameId, pageCode) => dispatch => (
 
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCode) =>
   (dispatch, getState) => {
-    const pageConfig = getSelectedPageConfig(pageCode)(getState());
+    const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
 
     // build payload
     const config = (pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
@@ -213,7 +213,7 @@ export const applyDefaultConfig = pageCode => (dispatch, getState) =>
 export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId, pageCode) =>
   (dispatch, getState) => new Promise((resolve) => {
     const widget = getWidgetsMap(getState())[sourceWidgetId];
-    const pageConfig = getSelectedPageConfig(pageCode)(getState());
+    const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
 
     const isAlreadyConfigured =
       !!(pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
@@ -232,7 +232,7 @@ export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFr
 
 export const editWidgetConfig = (frameId, pageCode) =>
   (dispatch, getState) => {
-    const pageConfig = getSelectedPageConfig(pageCode)(getState());
+    const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
       dispatch(initialize('widgetConfigForm', pageConfigItem.config));
