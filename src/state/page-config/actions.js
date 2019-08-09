@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
 import { loadSelectedPageModel } from 'state/page-models/actions';
@@ -21,8 +21,6 @@ import {
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
-
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,

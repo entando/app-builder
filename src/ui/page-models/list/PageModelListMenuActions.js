@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
+import { routeConverter } from '@entando/utils';
 
 import { history, ROUTE_PAGE_MODEL_EDIT, ROUTE_PAGE_MODEL_DETAIL } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 
 const PageModelListMenuActions = ({ onClickDelete, code }) => (

@@ -5,6 +5,7 @@ import {
   ROUTE_PAGE_CONFIG,
   ROUTE_PAGE_DETAIL,
 } from 'app-init/router';
+import { routeConverter } from '@entando/utils';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
@@ -12,7 +13,6 @@ import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
-import { routeConverter } from 'helpers/routeConverter';
 
 import {
   setSelectedPage,

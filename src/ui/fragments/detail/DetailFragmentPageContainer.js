@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 import DetailFragmentPage from 'ui/fragments/detail/DetailFragmentPage';
 import { fetchFragmentDetail } from 'state/fragments/actions';
 import { getFragmentSelected } from 'state/fragments/selectors';
 import { history, ROUTE_FRAGMENT_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   code: params.fragmentCode,

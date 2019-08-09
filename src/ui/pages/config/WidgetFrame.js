@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routeConverter } from 'helpers/routeConverter';
+import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_DETAIL } from 'app-init/router';
 

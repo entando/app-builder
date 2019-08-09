@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
+import { routeConverter } from '@entando/utils';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -11,7 +12,6 @@ import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 import { TYPE_COMPOSITE, TYPE_MONOLIST } from 'state/data-types/const';
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_PROFILE_TYPE_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = (

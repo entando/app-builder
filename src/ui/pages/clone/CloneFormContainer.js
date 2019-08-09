@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector, change } from 'redux-form';
+import { routeConverter } from '@entando/utils';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import PageForm from 'ui/pages/common/PageForm';
@@ -10,7 +11,6 @@ import { getPageModelsList } from 'state/page-models/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendPostPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
