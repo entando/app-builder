@@ -40,7 +40,6 @@ describe('SettingsFormBody', () => {
     const element = component.find('Field[name="key"]');
     expect(element.exists()).toBe(true);
     const props = element.props();
-    expect(props).toHaveProperty('validate', [required]);
     expect(props).toHaveProperty('component', RenderTextInput);
   });
 
@@ -48,7 +47,6 @@ describe('SettingsFormBody', () => {
     const element = component.find('Field[name="secret"]');
     expect(element.exists()).toBe(true);
     const props = element.props();
-    expect(props).toHaveProperty('validate', [required]);
     expect(props).toHaveProperty('component', RenderTextInput);
   });
 

@@ -5,7 +5,8 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/api/digitalExchange/exchanges${params}`,
+      uri: `/exchanges${params}`,
+      path: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_DIGITAL_EXCHANGES_OK,
       useAuthentication: true,
@@ -16,7 +17,8 @@ export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '
 
 export const getDigitalExchange = id => (
   makeRequest({
-    uri: `/api/digitalExchange/exchanges/${id}`,
+    uri: `/exchanges/${id}`,
+    path: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: {},
     useAuthentication: true,
@@ -25,7 +27,8 @@ export const getDigitalExchange = id => (
 
 export const deleteDigitalExchange = id => (
   makeRequest({
-    uri: `/api/digitalExchange/exchanges/${id}`,
+    uri: `/exchanges/${id}`,
+    path: '/digital-exchange',
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,
@@ -34,7 +37,8 @@ export const deleteDigitalExchange = id => (
 
 export const postDigitalExchange = marketplace => (
   makeRequest({
-    uri: '/api/digitalExchange/exchanges',
+    uri: '/exchanges',
+    path: '/digital-exchange',
     method: METHODS.POST,
     mockResponse: {},
     useAuthentication: true,
@@ -44,7 +48,8 @@ export const postDigitalExchange = marketplace => (
 
 export const putDigitalExchange = marketplace => (
   makeRequest({
-    uri: `/api/digitalExchange/exchanges/${marketplace.id}`,
+    uri: `/exchanges/${marketplace.id}`,
+    path: '/digital-exchange',
     method: METHODS.PUT,
     mockResponse: {},
     useAuthentication: true,

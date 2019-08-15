@@ -4,7 +4,7 @@
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
-    "@entando/apimanager": "^3.0.2",
+    "@entando/apimanager": "^4.0.0",
     "@entando/ddtable": "^1.0.3",
     "@entando/menu": "^1.1.3",
     "@entando/messages": "^1.0.4",

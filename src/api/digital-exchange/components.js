@@ -10,7 +10,8 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getDEComponent = id => (
   makeRequest({
-    uri: `/api/digitalExchange/components/${id}`,
+    uri: `/components/${id}`,
+    path: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: GET_DE_COMPONENT_OK,
     useAuthentication: true,
@@ -20,7 +21,8 @@ export const getDEComponent = id => (
 export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/api/digitalExchange/components${params}`,
+      uri: `/components${params}`,
+      path: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_DE_COMPONENTS_OK,
       useAuthentication: true,
@@ -31,7 +33,8 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
 
 export const postDEComponentInstall = component => (
   makeRequest({
-    uri: `/api/digitalExchange/${component.digitalExchangeId}/install/${component.id}`,
+    uri: `/components/${component.digitalExchangeId}/install/${component.id}`,
+    path: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
@@ -44,7 +47,8 @@ export const postDEComponentInstall = component => (
 // do this the same for `getDEComponentUninstall` API
 export const getDEComponentInstall = id => (
   makeRequest({
-    uri: `/api/digitalExchange/install/${id}`,
+    uri: `/components/install/${id}`,
+    path: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
     useAuthentication: true,
@@ -53,7 +57,8 @@ export const getDEComponentInstall = id => (
 
 export const postDEComponentUninstall = id => (
   makeRequest({
-    uri: `/api/digitalExchange/uninstall/${id}`,
+    uri: `/components/uninstall/${id}`,
+    path: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_UNINSTALLATION_CREATED,
@@ -63,7 +68,8 @@ export const postDEComponentUninstall = id => (
 
 export const getDEComponentUninstall = id => (
   makeRequest({
-    uri: `/api/digitalExchange/uninstall/${id}`,
+    uri: `/components/uninstall/${id}`,
+    path: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     useAuthentication: true,

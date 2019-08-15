@@ -68,10 +68,9 @@ export class SettingsFormBody extends Component {
               component={RenderTextInput}
               name="key"
               label={
-                <FormLabel labelId="digitalExchange.settings.form.key" required />
+                <FormLabel labelId="digitalExchange.settings.form.key" />
               }
               placeholder={formattedText('digitalExchange.settings.form.key')}
-              validate={[required]}
             />
           </Col>
         </Row>
@@ -81,10 +80,9 @@ export class SettingsFormBody extends Component {
               component={RenderTextInput}
               name="secret"
               label={
-                <FormLabel labelId="digitalExchange.settings.form.secret" required />
+                <FormLabel labelId="digitalExchange.settings.form.secret" />
               }
               placeholder={formattedText('digitalExchange.settings.form.secret')}
-              validate={[required]}
             />
           </Col>
         </Row>
