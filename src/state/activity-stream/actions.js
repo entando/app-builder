@@ -1,4 +1,4 @@
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -16,7 +16,6 @@ import {
   ROUTE_PAGE_EDIT,
   ROUTE_USER_DETAIL,
 } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 import { TOGGLE_NOTIFICATION_DRAWER, ADD_NOTIFICATIONS, UPDATE_NOTIFCATION } from 'state/activity-stream/types';
 
 export const toggleNotificationDrawer = () => ({

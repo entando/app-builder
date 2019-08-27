@@ -1,9 +1,9 @@
 import { mapStateToProps } from 'ui/pages/config/PageConfigGridContainer';
 
 jest.mock('state/page-config/selectors', () => ({
-  getPageConfigCellMap: jest
+  makeGetPageConfigCellMap: jest
     .fn()
-    .mockReturnValue(() => 'getPageConfigCellMap_result'),
+    .mockReturnValue(() => 'makeGetPageConfigCellMap_result'),
 }));
 
 const ownProps = {
@@ -21,8 +21,8 @@ describe('PageConfigGridContainer', () => {
       props = mapStateToProps({}, ownProps);
     });
 
-    it('maps prop "cellMap" with getPageConfigCellMap(state)', () => {
-      expect(props.cellMap).toBe('getPageConfigCellMap_result');
+    it('maps prop "cellMap" with makeGetPageConfigCellMap(state)', () => {
+      expect(props.cellMap).toBe('makeGetPageConfigCellMap_result');
     });
   });
 });

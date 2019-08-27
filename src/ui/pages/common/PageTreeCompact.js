@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
+import { routeConverter } from '@entando/utils';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
@@ -12,7 +13,6 @@ import {
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_CONFIG,
 } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class PageTreeCompact extends Component {
   renderRows() {

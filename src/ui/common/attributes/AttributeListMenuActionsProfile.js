@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
-import { routeConverter } from 'helpers/routeConverter';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 
 const AttributeListMenuActionsProfile = ({
   onClickDelete, onMoveUp, onMoveDown, code, routeToEdit, profiletypeCode,

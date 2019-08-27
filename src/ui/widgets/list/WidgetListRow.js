@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { Link } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 const WidgetListRow = (props) => {
   const {

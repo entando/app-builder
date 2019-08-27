@@ -35,11 +35,11 @@ import {
   putPageSettings, patchPage,
 } from 'api/pages';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
-import { getSelectedPageConfig } from 'state/page-config/selectors';
+import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
 
 jest.mock('state/page-config/selectors', () => ({
-  getSelectedPageConfig: jest.fn(),
+  makeGetSelectedPageConfig: jest.fn(),
 }));
 
 jest.mock('state/pages/selectors', () => ({
@@ -660,7 +660,7 @@ describe('publish/unpublish', () => {
   let store;
   beforeEach(() => {
     getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
-    getSelectedPageConfig.mockReturnValue(() => [null, null]);
+    makeGetSelectedPageConfig.mockReturnValue(() => [null, null]);
     putPageStatus.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
     store = mockStore();
   });

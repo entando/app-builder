@@ -4,11 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Spinner } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
 import UserStatus from 'ui/users/common/UserStatus';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
+import { LinkMenuItem } from '@entando/menu';
 
-import LinkMenuItem from 'ui/common/LinkMenuItem';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class UserRefsTable extends React.Component {
   componentWillMount() {

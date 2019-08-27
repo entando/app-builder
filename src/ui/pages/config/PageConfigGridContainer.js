@@ -3,10 +3,10 @@ import { withRouter } from 'react-router-dom';
 
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
-import { getPageConfigCellMap } from 'state/page-config/selectors';
+import { makeGetPageConfigCellMap } from 'state/page-config/selectors';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
-  cellMap: getPageConfigCellMap(params)(state),
+  cellMap: makeGetPageConfigCellMap(params)(state),
 });
 
 

@@ -13,6 +13,7 @@ utils.matchElement = real.matchElement;
 utils.matchPassword = real.matchPassword;
 utils.userFormText = real.userFormText;
 utils.required = real.required;
+utils.routeConverter = real.routeConverter;
 
 export const {
   formattedText,
@@ -29,4 +30,5 @@ export const {
   matchPassword,
   userFormText,
   required,
+  routeConverter,
 } = utils;

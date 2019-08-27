@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ROUTE_PLUGIN_CONFIG_PAGE } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
+import { routeConverter } from '@entando/utils';
 
 
 const PluginsListItem = ({ plugin }) => (

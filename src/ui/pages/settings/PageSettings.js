@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 
+import { ROUTE_HOME } from 'app-init/router';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -14,10 +15,10 @@ const pageSettings = () => (
       <Row>
         <Col xs={12}>
           <Breadcrumb>
-            <BreadcrumbItem to="home" active>
+            <BreadcrumbItem to={ROUTE_HOME} active>
               <FormattedMessage id="menu.pageDesigner" />
             </BreadcrumbItem>
-            <BreadcrumbItem to="home">
+            <BreadcrumbItem to={ROUTE_HOME}>
               <FormattedMessage id="menu.pageSettings" />
             </BreadcrumbItem>
           </Breadcrumb>

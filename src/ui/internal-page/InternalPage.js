@@ -6,8 +6,9 @@ import {
   BrandMenu,
   AdminAppSwitch,
   FirstLevelMenuItem,
+  LinkMenuItem,
 } from '@entando/menu';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { routeConverter } from '@entando/utils';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 
@@ -26,7 +27,6 @@ import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuCo
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
-import { routeConverter } from 'helpers/routeConverter';
 
 const publicUrl = process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
