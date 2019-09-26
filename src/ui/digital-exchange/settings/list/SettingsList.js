@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, CardGrid, Card, CardBody, DropdownKebab, Spinner, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
 import DeleteSettingsModalContainer from 'ui/digital-exchange/settings/list/DeleteSettingsModalContainer';
 import { ROUTE_DE_CONFIG_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class SettingsList extends Component {
   componentWillMount() {

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import {
   history,
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
   ROUTE_USER_EDIT, ROUTE_USER_PROFILE,
 } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class UserListMenuActions extends Component {
   constructor(props) {

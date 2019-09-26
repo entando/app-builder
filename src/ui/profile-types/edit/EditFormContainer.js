@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 import {
   fetchProfileTypeAttributes, sendPutProfileType, fetchProfileType,
   fetchProfileTypeAttribute,
@@ -21,7 +22,6 @@ import {
   ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 
-import { routeConverter } from 'helpers/routeConverter';
 
 export const mapStateToProps = (state, { match: { params } }) => (
   {

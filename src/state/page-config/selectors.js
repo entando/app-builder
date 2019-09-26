@@ -41,19 +41,19 @@ export const getGroupedWidgetList = createSelector(
   (widget, locale) => widgetGroupByCategory(widget, locale),
 );
 
-export const getSelectedPageConfig = pageCode => createSelector(
+export const makeGetSelectedPageConfig = pageCode => createSelector(
   [getConfigMap],
   configMap => configMap[pageCode] || null,
 );
 
-export const getSelectedPagePublishedConfig = pageCode => createSelector(
+export const makeGetSelectedPagePublishedConfig = pageCode => createSelector(
   [getPublishedConfigMap],
   publishedConfigMap => publishedConfigMap[pageCode] || null,
 );
 
 
 // the page model struct, enriched with infos about each column (frame, widget)
-export const getPageConfigCellMap = params => createSelector(
+export const makeGetPageConfigCellMap = params => createSelector(
   [getConfigMap, getPublishedConfigMap, getWidgetsMap, getSelectedPageModelCellMap,
     getLocale],
   (configMap, publishedConfigMap, widgetsMap, cellMap, locale) => {
@@ -94,8 +94,8 @@ export const getPageConfigCellMap = params => createSelector(
   },
 );
 
-export const getPageIsOnTheFly = pageCode => createSelector(
-  [getSelectedPageConfig(pageCode), getSelectedPageModelMainFrame],
+export const makeGetPageIsOnTheFly = pageCode => createSelector(
+  [makeGetSelectedPageConfig(pageCode), getSelectedPageModelMainFrame],
   (draftConfig, mainFrame) => {
     if (!draftConfig || !mainFrame) {
       return false;
@@ -105,8 +105,8 @@ export const getPageIsOnTheFly = pageCode => createSelector(
   },
 );
 
-export const getSelectedPageDiffersFromPublished = pageCode => createSelector(
-  [getSelectedPageConfig(pageCode), getSelectedPagePublishedConfig(pageCode)],
+export const makeGetSelectedPageDiffersFromPublished = pageCode => createSelector(
+  [makeGetSelectedPageConfig(pageCode), makeGetSelectedPagePublishedConfig(pageCode)],
   (draftConfig, publishedConfig) => {
     if (!draftConfig || !publishedConfig) {
       return false;
@@ -115,7 +115,7 @@ export const getSelectedPageDiffersFromPublished = pageCode => createSelector(
   },
 );
 
-export const getSelectedPageConfigMatchesDefault = pageCode => createSelector(
-  [getSelectedPageConfig(pageCode), getSelectedPageModelDefaultConfig],
+export const makeGetSelectedPageConfigMatchesDefault = pageCode => createSelector(
+  [makeGetSelectedPageConfig(pageCode), getSelectedPageModelDefaultConfig],
   (draftConfig, defaultConfig) => isEqual(draftConfig, defaultConfig),
 );

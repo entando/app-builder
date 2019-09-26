@@ -3,7 +3,7 @@ import { mapDispatchToProps, mapStateToProps } from 'ui/widgets/config/WidgetCon
 
 // mocked
 
-import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
+import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-config/actions';
 
 
@@ -14,7 +14,7 @@ const PAGE_CODE = 'page_code';
 const WIDGET_CONFIG = { type: 'widget_code' };
 
 jest.mock('state/widget-config/selectors', () => ({
-  getWidgetConfigFrameName: jest.fn(),
+  makeGetWidgetConfigFrameName: jest.fn(),
 }));
 
 jest.mock('state/widget-config/actions', () => ({
@@ -43,7 +43,7 @@ const ownProps = {
 describe('WidgetConfigPageContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    getWidgetConfigFrameName.mockReturnValue(() => FRAME_NAME);
+    makeGetWidgetConfigFrameName.mockReturnValue(() => FRAME_NAME);
   });
 
   describe('mapStateToProps', () => {

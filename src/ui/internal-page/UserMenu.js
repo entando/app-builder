@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { MenuItem } from 'react-bootstrap';
 import { Icon } from 'patternfly-react';
-import { UserDropdown } from '@entando/menu';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { UserDropdown, LinkMenuItem } from '@entando/menu';
 import { ROUTE_USER_MY_PROFILE } from 'app-init/router';
 
 const UserMenu = ({ username, logout }) => (

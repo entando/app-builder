@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { routeConverter } from '@entando/utils';
 
 import { fetchDataModelListPaged } from 'state/data-models/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
@@ -8,7 +9,6 @@ import { getLoading } from 'state/loading/selectors';
 import { history, ROUTE_DATA_MODEL_EDIT } from 'app-init/router';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/data-models/common/DeleteDataModelModal';
-import { routeConverter } from 'helpers/routeConverter';
 
 export const mapStateToProps = state => (
   {

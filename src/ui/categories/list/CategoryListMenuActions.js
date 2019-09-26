@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import { ROUTE_CATEGORY_EDIT, ROUTE_CATEGORY_DETAIL } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>

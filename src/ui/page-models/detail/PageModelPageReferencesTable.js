@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 
 import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class PageModelPageReferencesTable extends Component {
   componentWillMount() {

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -13,7 +14,6 @@ import { fetchGroups } from 'state/groups/actions';
 import { fetchPageModels } from 'state/page-models/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
-import { routeConverter } from 'helpers/routeConverter';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),

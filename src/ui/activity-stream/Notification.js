@@ -5,7 +5,7 @@ import { Icon } from 'patternfly-react';
 import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
+import { routeConverter } from '@entando/utils';
 
 class Notification extends Component {
   constructor(props) {

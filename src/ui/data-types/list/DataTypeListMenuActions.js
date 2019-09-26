@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import { ROUTE_DATA_TYPE_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 const DataTypeListMenuActions = ({ code, onClickDelete, onClickReload }) => {
   const editLabel = (
