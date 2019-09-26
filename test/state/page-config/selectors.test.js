@@ -51,7 +51,7 @@ const HOMEPAGE_DRAFT_CONFIG = buildModifiedConfig(HOMEPAGE_CONFIG);
 
 const MOCK_DATA = {
   content: 'WIDGET_LIST',
-  searchFilter: 'My',
+  searchFilter: 'Login',
   viewList: 'list',
   toolbarExpanded: true,
   configMap: {

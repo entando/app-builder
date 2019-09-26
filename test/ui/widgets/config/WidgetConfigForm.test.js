@@ -2,10 +2,11 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { WidgetConfigFormBody } from 'ui/widgets/config/WidgetConfigForm';
+import WidgetConfigForm from 'ui/widgets/config/WidgetConfigForm';
+import { WIDGET_WITH_CONFIG_FORM } from 'test/mocks/widgets';
 
-const PROPS = {
-  handleSubmit: () => {},
+const props = {
+  widgetConfig: WIDGET_WITH_CONFIG_FORM.config,
   onSubmit: () => {},
 };
 
@@ -15,23 +16,12 @@ describe('WidgetConfigForm', () => {
     jest.clearAllMocks();
   });
 
-  it('if widgetId is coming from a plugin', () => {
+  it('renders without crashing', () => {
     component = shallow((
-      <WidgetConfigFormBody
-        {...PROPS}
-        widgetId="plugin-widget"
+      <WidgetConfigForm
+        {...props}
       />
     ));
-    expect(component.find('[widgetId="plugin-widget"]')).toExist();
-  });
-
-  it('if widgetId is unsupported, renders an error span', () => {
-    component = shallow((
-      <WidgetConfigFormBody
-        {...PROPS}
-        widgetId="something wrong"
-      />
-    ));
-    expect(component.is('span')).toBe(true);
+    expect(component).toExist();
   });
 });

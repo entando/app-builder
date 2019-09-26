@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -185,7 +185,7 @@ const PAGE_CONFIG_PUBLISHED_MAP = {
   contacts: CONTACTS_CONFIG,
 };
 
-export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
+export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeMockRequest({
   uri: `/api/pages/${pageCode}/widgets?status=${status}`,
   method: METHODS.GET,
   body: {},
@@ -204,7 +204,7 @@ export const deletePageWidget = (pageCode, frameId) => makeRequest({
 });
 
 
-export const putPageWidget = (pageCode, frameId, configItem) => makeRequest({
+export const putPageWidget = (pageCode, frameId, configItem) => makeMockRequest({
   uri: `/api/pages/${pageCode}/widgets/${frameId}`,
   method: METHODS.PUT,
   body: configItem,

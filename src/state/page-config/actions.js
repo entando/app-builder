@@ -218,7 +218,7 @@ export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFr
     const isAlreadyConfigured =
       !!(pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
 
-    if (widget.hasConfig && !isAlreadyConfigured) {
+    if (widget.config && !isAlreadyConfigured) {
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: sourceWidgetId, framePos: targetFrameId },

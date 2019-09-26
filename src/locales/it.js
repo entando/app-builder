@@ -577,7 +577,7 @@ export default {
     'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
     'modal.confirm.publish': 'Sei sicuro di voler pubblicare la pagina {code}?',
     'modal.confirm.unpublish': 'Sei sicuro di voler de-pubblicare la pagina {code}?',
-    'widgetConfig.help': 'Dalla sezione CONFIGURA WIDGET puoi configurare il Widget, in una posizione precisa della pagina, attraverso un interfaccia guidata.',
+    'widgetConfig.help': 'Dalla sezione CONFIGURA WIDGET puoi configurare il Widget, in una posizione precisa della pagina, attraverso un\' interfaccia guidata.',
     'widgetConfig.internalServlet.widgetName': 'Invocazione di una Servlet Interna',
     'widgetConfig.internalServlet.parameters': 'Parametri di Configurazione',
     'widgetConfig.internalServlet.actionPath': 'actionPath',

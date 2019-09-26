@@ -27,7 +27,7 @@ jest.mock('@entando/apimanager', () => ({
   },
 }));
 
-describe('api/widgets', () => {
+xdescribe('api/widgets', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

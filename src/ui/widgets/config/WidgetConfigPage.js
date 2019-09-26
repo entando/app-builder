@@ -22,8 +22,8 @@ class WidgetConfigPage extends Component {
     };
   }
 
-  componentWillMount() {
-    if (this.props.onWillMount) this.props.onWillMount(this.props);
+  componentDidMount() {
+    if (this.props.onDidMount) this.props.onDidMount(this.props);
   }
 
   componentWillUnmount() {
@@ -38,7 +38,7 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widgetId, framePos, frameName, pageCode, onSubmit,
+      widgetConfig, framePos, frameName, pageCode, onSubmit,
     } = this.props;
 
     return (
@@ -103,7 +103,7 @@ class WidgetConfigPage extends Component {
                   <span>{frameName}</span>
                 </Panel.Heading>
                 <Panel.Body>
-                  <WidgetConfigForm widgetId={widgetId} onSubmit={onSubmit} />
+                  <WidgetConfigForm widgetConfig={widgetConfig} onSubmit={onSubmit} />
                 </Panel.Body>
               </Panel>
             </Col>
@@ -115,9 +115,9 @@ class WidgetConfigPage extends Component {
 }
 
 WidgetConfigPage.propTypes = {
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
-  widgetId: PropTypes.string.isRequired,
+  widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,
   frameName: PropTypes.string.isRequired,
   pageCode: PropTypes.string.isRequired,
@@ -125,7 +125,8 @@ WidgetConfigPage.propTypes = {
 };
 
 WidgetConfigPage.defaultProps = {
-  onWillMount: null,
+  widgetConfig: null,
+  onDidMount: null,
   onWillUnmount: null,
 };
 

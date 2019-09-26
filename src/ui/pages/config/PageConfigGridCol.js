@@ -93,7 +93,6 @@ PageConfigGridCol.propTypes = {
     widget: PropTypes.shape({
       code: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      hasConfig: PropTypes.bool.isRequired,
     }),
   })).isRequired,
   cellKey: PropTypes.string.isRequired,

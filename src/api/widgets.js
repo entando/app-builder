@@ -1,22 +1,21 @@
-import { makeRequest, METHODS } from '@entando/apimanager';
-import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
+import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
+import { WIDGET_WITH_CONFIG_FORM, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
 
 export const getWidget = widgetCode => (
-  makeRequest({
+  makeMockRequest({
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.GET,
-    mockResponse: WIDGET,
+    mockResponse: WIDGET_WITH_CONFIG_FORM,
     useAuthentication: true,
     errors: () => getGenericError(widgetCode),
   })
 );
 
-
 export const getWidgets = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/api/widgets${params}`,
       method: METHODS.GET,
@@ -33,7 +32,7 @@ export const postWidgets = widgetObject => (
     uri: '/api/widgets',
     method: METHODS.POST,
     body: widgetObject,
-    mockResponse: { ...WIDGET, customUi: '<div></div>' },
+    mockResponse: { ...WIDGET_WITH_CONFIG_FORM, customUi: '<div></div>' },
     useAuthentication: true,
   })
 );
@@ -43,7 +42,7 @@ export const putWidgets = widgetObject => (
     uri: `/api/widgets/${widgetObject.code}`,
     method: METHODS.PUT,
     body: widgetObject,
-    mockResponse: { ...WIDGET, code: `${widgetObject.code}`, customUi: '<div></div>' },
+    mockResponse: { ...WIDGET_WITH_CONFIG_FORM, code: `${widgetObject.code}`, customUi: '<div></div>' },
     useAuthentication: true,
   })
 );

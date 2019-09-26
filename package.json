@@ -95,7 +95,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "import-plugins": "node ./entando-plugins-config/import-plugins.js",
     "lint": "eslint ./src",
     "coverage": "node scripts/test.js --env=jsdom --coverage",
     "sass-lint": "sass-lint -v",

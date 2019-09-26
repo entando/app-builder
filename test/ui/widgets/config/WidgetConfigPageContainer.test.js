@@ -22,6 +22,14 @@ jest.mock('state/widget-config/actions', () => ({
   initWidgetConfigPage: jest.fn().mockReturnValue('initWidgetConfigPage_result'),
 }));
 
+const TEST_STATE = {
+  widgets: {
+    selected: {
+      config: {},
+    },
+  },
+};
+
 const ownProps = {
   match: {
     params: {
@@ -32,7 +40,7 @@ const ownProps = {
   },
 };
 
-describe('PageConfigPageContainer', () => {
+describe('WidgetConfigPageContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     makeGetWidgetConfigFrameName.mockReturnValue(() => FRAME_NAME);
@@ -41,7 +49,7 @@ describe('PageConfigPageContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapStateToProps({}, ownProps);
+      props = mapStateToProps(TEST_STATE, ownProps);
     });
 
     it('defines widgetId', () => {
@@ -69,9 +77,9 @@ describe('PageConfigPageContainer', () => {
       props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
-    describe('prop onWillMount', () => {
+    describe('prop onDidMount', () => {
       beforeEach(() => {
-        props.onWillMount();
+        props.onDidMount();
       });
       it('dispatch initWidgetConfigPage', () => {
         expect(dispatchMock).toHaveBeenCalledWith('initWidgetConfigPage_result');
