@@ -33,7 +33,7 @@ describe('WidgetListTable', () => {
 
   it('renders five WidgetListRow', () => {
     expect(component.find(WidgetListRow).exists()).toBe(true);
-    expect(component.find(WidgetListRow)).toHaveLength(8);
+    expect(component.find(WidgetListRow)).toHaveLength(9);
   });
 
   it('not renders  WidgetListRow', () => {

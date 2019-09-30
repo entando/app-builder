@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 import { ROUTE_GROUP_EDIT, ROUTE_GROUP_DETAIL } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class GroupListMenuActions extends Component {
   constructor(props) {

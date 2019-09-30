@@ -23,8 +23,6 @@ const PageConfigGrid = ({ cellMap }) => {
 };
 
 
-// PropTypes
-
 PageConfigGrid.propTypes = {
   cellMap: PropTypes.objectOf(PropTypes.shape({
     x1: PropTypes.number.isRequired,
@@ -38,7 +36,6 @@ PageConfigGrid.propTypes = {
     widget: PropTypes.shape({
       code: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      hasConfig: PropTypes.bool.isRequired,
     }),
   })),
 };

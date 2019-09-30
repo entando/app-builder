@@ -1,6 +1,6 @@
 import { METHODS } from '@entando/apimanager';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { initialize } from 'redux-form';
@@ -14,8 +14,6 @@ import {
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
-
-import { routeConverter } from 'helpers/routeConverter';
 
 import {
   postDataType,

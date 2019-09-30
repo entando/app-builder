@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { Link } from 'react-router-dom';
-import { routeConverter } from 'helpers/routeConverter';
+import { routeConverter } from '@entando/utils';
 
 
 const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {

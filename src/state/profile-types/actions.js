@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 import moment from 'moment';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
@@ -32,7 +32,6 @@ import {
   ROUTE_PROFILE_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
 } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 import {
   SET_PROFILE_TYPES,
   REMOVE_PROFILE_TYPE,

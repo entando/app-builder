@@ -14,7 +14,7 @@ import {
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import {
-  getWidgetList,
+  setWidgetList,
   fetchWidgetList,
   setWidgetsTotal,
   fetchWidgetsTotal,
@@ -65,9 +65,9 @@ describe('state/widgets/actions', () => {
     store = mockStore({});
   });
 
-  describe('getWidgetList', () => {
+  describe('setWidgetList', () => {
     beforeEach(() => {
-      action = getWidgetList(WIDGET_LIST);
+      action = setWidgetList(WIDGET_LIST);
     });
 
     it('is FSA compliant', () => {

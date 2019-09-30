@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
 import { Panel, Button } from 'react-bootstrap';
 
+import { ROUTE_HOME } from 'app-init/router';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
@@ -36,7 +37,7 @@ class PagesDetailPage extends Component {
           <Row>
             <Col xs={12}>
               <Breadcrumb>
-                <BreadcrumbItem to="home" active>
+                <BreadcrumbItem to={ROUTE_HOME} active>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>

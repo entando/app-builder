@@ -26,8 +26,6 @@ const PageConfigGridRow = ({ cellMap, cellKey, gridWidth }) => {
 };
 
 
-// PropTypes
-
 PageConfigGridRow.propTypes = {
   cellMap: PropTypes.objectOf(PropTypes.shape({
     x1: PropTypes.number.isRequired,
@@ -41,7 +39,6 @@ PageConfigGridRow.propTypes = {
     widget: PropTypes.shape({
       code: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      hasConfig: PropTypes.bool.isRequired,
     }),
   })).isRequired,
   cellKey: PropTypes.string.isRequired,

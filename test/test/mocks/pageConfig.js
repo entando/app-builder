@@ -1,4 +1,4 @@
-
+import { WIDGET } from 'test/mocks/widgets';
 
 /*
  * - homepage
@@ -22,11 +22,13 @@ export const HOMEPAGE_CONFIG = [
   null,
   null,
   null,
-  { code: 'single_content', config: {} },
+  { code: 'single_content' },
 ];
 export const DASHBOARD_CONFIG = [];
 export const SERVICE_CONFIG = [];
 export const NOTFOUND_CONFIG = [];
 export const ERROR_CONFIG = [];
 export const LOGIN_CONFIG = [];
-export const CONTACTS_CONFIG = [];
+export const CONTACTS_CONFIG = [{
+  code: WIDGET.code,
+}];

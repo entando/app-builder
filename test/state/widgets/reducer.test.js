@@ -1,6 +1,6 @@
 import reducer from 'state/widgets/reducer';
 import {
-  getWidgetList,
+  setWidgetList,
   setSelectedWidget,
   removeWidget,
   setWidgetsTotal,
@@ -50,7 +50,7 @@ describe('state/widget-list/reducer', () => {
 
   describe('after action SET_WIDGET_LIST', () => {
     beforeEach(() => {
-      state = reducer({}, getWidgetList(WIDGET_LIST_PAYLOAD));
+      state = reducer({}, setWidgetList(WIDGET_LIST_PAYLOAD));
     });
     it('should define tableRow', () => {
       expect(state.list).toBeDefined();

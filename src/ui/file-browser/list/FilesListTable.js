@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Col, Alert, Spinner, Icon } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 import DeleteFolderModalContainer from 'ui/file-browser/common/DeleteFolderModalContainer';
 import DeleteFileModalContainer from 'ui/file-browser/common/DeleteFileModalContainer';
 import FilesListMenuActions from 'ui/file-browser/list/FilesListMenuActions';
-import { routeConverter } from 'helpers/routeConverter';
 
 import { ROUTE_FILE_BROWSER_EDIT_TEXT_FILE } from 'app-init/router';
 

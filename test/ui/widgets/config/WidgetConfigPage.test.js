@@ -42,8 +42,8 @@ describe('WidgetConfigPage', () => {
     expect(component.find('Breadcrumb')).toHaveLength(1);
   });
 
-  it('will call onWillMount on componentWillMount', () => {
-    const onWillMount = jest.fn();
+  it('will call onDidMount on componentWillMount', () => {
+    const onDidMount = jest.fn();
     component = shallow((
       <WidgetConfigPage
         widgetId={WIDGET_CODE}
@@ -51,13 +51,13 @@ describe('WidgetConfigPage', () => {
         framePos={FRAME_POS}
         frameName={FRAME_NAME}
         onSubmit={() => {}}
-        onWillMount={onWillMount}
+        onDidMount={onDidMount}
       />
     ));
-    expect(onWillMount).toHaveBeenCalled();
+    expect(onDidMount).toHaveBeenCalled();
     component.unmount();
-    onWillMount.mockClear();
-    expect(onWillMount).not.toHaveBeenCalled();
+    onDidMount.mockClear();
+    expect(onDidMount).not.toHaveBeenCalled();
   });
 
   it('will call onWillUnmount on componentWillUnmount', () => {

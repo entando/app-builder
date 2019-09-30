@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { getSelectedPageModel } from 'state/page-models/selectors';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getWidgetConfigFrameName = framePos => createSelector(
+export const makeGetWidgetConfigFrameName = framePos => createSelector(
   [getSelectedPageModel],
   (selectedPageModel) => {
     if (selectedPageModel) {

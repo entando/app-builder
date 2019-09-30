@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Col, Button, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
 import { ROUTE_DATABASE_REPORT } from 'app-init/router';
 import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModalContainer';
-import { routeConverter } from 'helpers/routeConverter';
 
 class DatabaseListTable extends Component {
   constructor(props) {

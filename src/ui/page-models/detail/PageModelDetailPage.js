@@ -5,6 +5,7 @@ import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { routeConverter } from '@entando/utils';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -12,7 +13,6 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import SelectedPageModelDetailTableContainer from 'ui/page-models/detail/SelectedPageModelDetailTableContainer';
 import PageModelPageReferencesTableContainer from 'ui/page-models/detail/PageModelPageReferencesTableContainer';
 import { ROUTE_PAGE_MODEL_LIST, ROUTE_PAGE_MODEL_EDIT } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 const PageModelDetailPage = ({ pageModelCode }) => (
   <DragDropContextProvider backend={HTML5Backend}>

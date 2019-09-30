@@ -15,7 +15,7 @@ import {
 } from 'state/widgets/types';
 import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
 
-export const getWidgetList = widgetList => ({
+export const setWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
   payload: {
     widgetList,
@@ -104,7 +104,7 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') =>
   getWidgets(page, params).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        dispatch(getWidgetList(json.payload));
+        dispatch(setWidgetList(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }

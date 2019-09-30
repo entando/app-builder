@@ -23,7 +23,7 @@ import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
 import { deletePageWidget, putPageWidget, restorePageConfig, applyDefaultPageConfig, getPageConfig } from 'api/pages';
 import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
-import { getPublishedConfigMap, getSelectedPageConfig } from 'state/page-config/selectors';
+import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getWidgetsMap } from 'state/widgets/selectors';
 import { validatePageModel } from 'state/page-models/helpers';
 import { history } from 'app-init/router';
@@ -63,7 +63,7 @@ jest.mock('state/page-models/selectors', () => ({
 
 jest.mock('state/page-config/selectors', () => ({
   getPublishedConfigMap: jest.fn(),
-  getSelectedPageConfig: jest.fn(),
+  makeGetSelectedPageConfig: jest.fn(() => jest.fn()),
 }));
 
 jest.mock('state/widgets/selectors', () => ({
@@ -266,13 +266,18 @@ describe('state/page-config/actions', () => {
     beforeEach(() => {
       putPageWidget.mockImplementation(mockApi({}));
       deletePageWidget.mockImplementation(mockApi({}));
-      getSelectedPageConfig.mockImplementation(() => () => [{ type: 'some' }, null]);
+      makeGetSelectedPageConfig.mockImplementation(() => () => [{ type: 'some' }, null]);
       store = mockStore(INITIAL_STATE);
     });
 
     describe('if source frame id is defined (dragging a widget from another frame)', () => {
       it('calls DELETE page widget API to empty the source frame', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          OLD_FRAME_ID,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           expect(deletePageWidget)
             .toHaveBeenCalledWith(CURRENT_PAGE_CODE, OLD_FRAME_ID);
           done();
@@ -280,7 +285,12 @@ describe('state/page-config/actions', () => {
       });
 
       it('calls PUT page widget API to put the widget to the target frame', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          OLD_FRAME_ID,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           expect(putPageWidget)
             .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
           done();
@@ -288,7 +298,12 @@ describe('state/page-config/actions', () => {
       });
 
       it('dispatches SET_PAGE_WIDGET to update the state', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, OLD_FRAME_ID, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          OLD_FRAME_ID,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           const actionTypes = store.getActions().map(action => action.type);
           expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
           done();
@@ -298,14 +313,24 @@ describe('state/page-config/actions', () => {
 
     describe('if source frame id is null or undefined (dragging a new widget)', () => {
       it('it does not call DELETE page widget API to empty the source frame', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          null,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           expect(deletePageWidget).not.toHaveBeenCalled();
           done();
         }).catch(done.fail);
       });
 
       it('calls PUT page widget API to put the widget to the target frame', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          null,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           expect(putPageWidget)
             .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
           done();
@@ -313,7 +338,12 @@ describe('state/page-config/actions', () => {
       });
 
       it('dispatches SET_PAGE_WIDGET to update the state', (done) => {
-        store.dispatch(updatePageWidget(WIDGET_CODE, null, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        store.dispatch(updatePageWidget(
+          WIDGET_CODE,
+          null,
+          FRAME_ID,
+          CURRENT_PAGE_CODE,
+        )).then(() => {
           const actionTypes = store.getActions().map(action => action.type);
           expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
           done();
@@ -324,8 +354,13 @@ describe('state/page-config/actions', () => {
     it('it does not call DELETE page widget if source frameId is null or undefined', (done) => {
       putPageWidget.mockImplementation(mockApi({}));
       deletePageWidget.mockImplementation(mockApi({}));
-      getSelectedPageConfig.mockImplementation(() => () => [{ type: 'some' }, null]);
-      store.dispatch(updatePageWidget(WIDGET_CODE, undefined, FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+      makeGetSelectedPageConfig.mockImplementation(() => () => [{ type: 'some' }, null]);
+      store.dispatch(updatePageWidget(
+        WIDGET_CODE,
+        undefined,
+        FRAME_ID,
+        CURRENT_PAGE_CODE,
+      )).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
         expect(deletePageWidget).not.toHaveBeenCalled();
@@ -445,7 +480,7 @@ describe('state/page-config/actions', () => {
 
   describe('editWidgetConfig', () => {
     beforeEach(() => {
-      getSelectedPageConfig.mockImplementation(() => () => [
+      makeGetSelectedPageConfig.mockImplementation(() => () => [
         null,
         { type: 'widget_code', config: {} },
       ]);
@@ -453,15 +488,15 @@ describe('state/page-config/actions', () => {
     });
 
     it('if there is no selected page config, dispatch nothing', () => {
-      getSelectedPageConfig.mockImplementation(() => () => null);
+      makeGetSelectedPageConfig.mockImplementation(() => () => null);
       store.dispatch(editWidgetConfig(0));
-      expect(getSelectedPageConfig).toHaveBeenCalled();
+      expect(makeGetSelectedPageConfig).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(0);
     });
 
     it('if there is selected page config but the frame has no config, dispatch nothing', () => {
       store.dispatch(editWidgetConfig(0, CURRENT_PAGE_CODE));
-      expect(getSelectedPageConfig).toHaveBeenCalled();
+      expect(makeGetSelectedPageConfig).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(0);
     });
 
@@ -475,10 +510,10 @@ describe('state/page-config/actions', () => {
   describe('configOrUpdatePageWidget()', () => {
     beforeEach(() => {
       getWidgetsMap.mockReturnValue({
-        WIDGET_NO_CONFIG: { code: 'WIDGET_NO_CONFIG', hasConfig: false },
-        WIDGET_WITH_CONFIG: { type: 'WIDGET_WITH_CONFIG', hasConfig: true },
+        WIDGET_NO_CONFIG: { code: 'WIDGET_NO_CONFIG' },
+        WIDGET_WITH_CONFIG: { type: 'WIDGET_WITH_CONFIG', config: { field: 'fieldValue' } },
       });
-      getSelectedPageConfig.mockImplementation(() => () => [
+      makeGetSelectedPageConfig.mockImplementation(() => () => [
         null,
         { type: 'WIDGET_NO_CONFIG' },
         { type: 'WIDGET_WITH_CONFIG', config: { key: 'value' } },
@@ -488,7 +523,7 @@ describe('state/page-config/actions', () => {
 
     it('if the widget needs no config, should update the widget state', (done) => {
       store.dispatch(configOrUpdatePageWidget('WIDGET_NO_CONFIG', 0, 0)).then(() => {
-        expect(getSelectedPageConfig).toHaveBeenCalled();
+        expect(makeGetSelectedPageConfig).toHaveBeenCalled();
         expect(getWidgetsMap).toHaveBeenCalled();
         expect(store.getActions()).toHaveLength(1);
         expect(store.getActions()[0]).toHaveProperty('type', SET_PAGE_WIDGET);
@@ -498,7 +533,7 @@ describe('state/page-config/actions', () => {
 
     it('if the widget is already configured, should update the widget state', (done) => {
       store.dispatch(configOrUpdatePageWidget('WIDGET_WITH_CONFIG', 2, 0)).then(() => {
-        expect(getSelectedPageConfig).toHaveBeenCalled();
+        expect(makeGetSelectedPageConfig).toHaveBeenCalled();
         expect(getWidgetsMap).toHaveBeenCalled();
         expect(store.getActions()).toHaveLength(1);
         expect(store.getActions()[0]).toHaveProperty('type', SET_PAGE_WIDGET);
@@ -508,7 +543,7 @@ describe('state/page-config/actions', () => {
 
     it('if the widget needs config, should go to the widget config route', (done) => {
       store.dispatch(configOrUpdatePageWidget('WIDGET_WITH_CONFIG', 0, 0)).then(() => {
-        expect(getSelectedPageConfig).toHaveBeenCalled();
+        expect(makeGetSelectedPageConfig).toHaveBeenCalled();
         expect(getWidgetsMap).toHaveBeenCalled();
         expect(store.getActions()).toHaveLength(0);
         expect(history.push).toHaveBeenCalled();

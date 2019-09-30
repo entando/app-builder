@@ -72,7 +72,6 @@ export const PLUGIN_OK = {
     bio: 'Roundhouse kicking asses since 1940',
     password: 'noneed',
   },
-  apiEndpoint: 'http://localhost:8080/entando-local/api/plugins/sample-plugin/',
 };
 
 export const PLUGINS_OK = [PLUGIN_OK];

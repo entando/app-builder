@@ -1,4 +1,4 @@
-import { getWidgetConfigFrameName } from 'state/widget-config/selectors';
+import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 
 import { getSelectedPageModel } from 'state/page-models/selectors';
 import { PAYLOAD as PAGE_MODEL } from 'test/mocks/page-models/complex';
@@ -17,8 +17,8 @@ describe('state/widget-config/selectors', () => {
       getSelectedPageModel.mockReturnValue(PAGE_MODEL);
     });
 
-    it('getWidgetConfigFrameName(state) returns the frame name', () => {
-      const result = getWidgetConfigFrameName(FRAME_POS)({});
+    it('makeGetWidgetConfigFrameName(frame)(state) returns the frame name', () => {
+      const result = makeGetWidgetConfigFrameName(FRAME_POS)({});
       expect(result).toBe(PAGE_MODEL.configuration.frames[0].descr);
     });
   });
@@ -28,8 +28,8 @@ describe('state/widget-config/selectors', () => {
       getSelectedPageModel.mockReturnValue(PAGE_MODEL);
     });
 
-    it('getWidgetConfigFrameName(state) returns empty string', () => {
-      const result = getWidgetConfigFrameName(null)({});
+    it('makeGetWidgetConfigFrameName(frame)(state) returns empty string', () => {
+      const result = makeGetWidgetConfigFrameName(null)({});
       expect(result).toBe('');
     });
   });
@@ -39,8 +39,8 @@ describe('state/widget-config/selectors', () => {
       getSelectedPageModel.mockReturnValue(null);
     });
 
-    it('getWidgetConfigFrameName(state) returns empty string', () => {
-      const result = getWidgetConfigFrameName(FRAME_POS)({});
+    it('makeGetWidgetConfigFrameName(frame)(state) returns empty string', () => {
+      const result = makeGetWidgetConfigFrameName(FRAME_POS)({});
       expect(result).toBe('');
     });
   });

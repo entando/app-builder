@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
-import { formattedText } from '@entando/utils';
+import { formattedText, routeConverter } from '@entando/utils';
 
-import LinkMenuItem from 'ui/common/LinkMenuItem';
+import { LinkMenuItem } from '@entando/menu';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
-import { routeConverter } from 'helpers/routeConverter';
 
 class GroupDetailTabUsers extends React.Component {
   constructor(props) {
