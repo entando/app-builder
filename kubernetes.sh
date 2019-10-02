@@ -6,4 +6,4 @@ export DIGITAL_EXCHANGE_UI_ENABLED=true
 export ENABLE_DIGITAL_EXCHANGE_UI=true
 export KEYCLOAK_ENABLED=true
 npm run build --production
-docker build -t entando/entando-app-builder:5.2.0-SNAPSHOT .
+docker build -t entando/entando-app-builder-de:6.0.0-SNAPSHOT .
