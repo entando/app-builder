@@ -66,11 +66,11 @@ export class SettingsFormBody extends Component {
           <Col xs={12}>
             <Field
               component={RenderTextInput}
-              name="key"
+              name="clientId"
               label={
-                <FormLabel labelId="digitalExchange.settings.form.key" />
+                <FormLabel labelId="digitalExchange.settings.form.clientId" />
               }
-              placeholder={formattedText('digitalExchange.settings.form.key')}
+              placeholder={formattedText('digitalExchange.settings.form.clientId')}
             />
           </Col>
         </Row>
@@ -78,11 +78,11 @@ export class SettingsFormBody extends Component {
           <Col xs={12}>
             <Field
               component={RenderTextInput}
-              name="secret"
+              name="clientSecret"
               label={
-                <FormLabel labelId="digitalExchange.settings.form.secret" />
+                <FormLabel labelId="digitalExchange.settings.form.clientSecret" />
               }
-              placeholder={formattedText('digitalExchange.settings.form.secret')}
+              placeholder={formattedText('digitalExchange.settings.form.clientSecret')}
             />
           </Col>
         </Row>

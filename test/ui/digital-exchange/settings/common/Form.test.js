@@ -37,14 +37,14 @@ describe('SettingsFormBody', () => {
   });
 
   it('contains the key field', () => {
-    const element = component.find('Field[name="key"]');
+    const element = component.find('Field[name="clientId"]');
     expect(element.exists()).toBe(true);
     const props = element.props();
     expect(props).toHaveProperty('component', RenderTextInput);
   });
 
   it('contains the secret field', () => {
-    const element = component.find('Field[name="secret"]');
+    const element = component.find('Field[name="clientSecret"]');
     expect(element.exists()).toBe(true);
     const props = element.props();
     expect(props).toHaveProperty('component', RenderTextInput);
