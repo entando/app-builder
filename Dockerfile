@@ -1,7 +1,9 @@
-FROM nginx:latest
+FROM centos/nginx-112-centos7:latest
 
-EXPOSE 80
+EXPOSE 8081
 ENV HOME=/usr/share/nginx/html/entando
 
 COPY build $HOME/app-builder
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN fix-permissions $HOME
+COPY nginx.conf ${NGINX_CONF_PATH}
+CMD ${STI_SCRIPTS_PATH}/run
