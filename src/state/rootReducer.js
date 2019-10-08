@@ -39,7 +39,7 @@ import entandoApps from 'entando-apps';
 const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
 
 const reducerDef = {
-  apps: combineReducers(appsReducers),
+  apps: Object.keys(appsReducers).length ? combineReducers(appsReducers) : {},
   activityStream,
   api,
   categories,

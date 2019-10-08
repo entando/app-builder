@@ -50,12 +50,6 @@ import ComponentListPageDisabled from 'ui/digital-exchange/components/list/Compo
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
-// CMS
-import ContentListPage from 'ui/cms/content/list/ContentListPage';
-import ContentTypesListPage from 'ui/cms/content-types/list/ContentTypesListPage';
-import ContentModelsListPage from 'ui/cms/content-models/list/ContentModelsListPage';
-import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
-import CMSDisabledPage from 'ui/cms/CMSDisabledPage';
 
 import {
   ROUTE_HOME,
@@ -100,11 +94,6 @@ import {
   ROUTE_DE_CONFIG_LIST,
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
-  // CMS
-  ROUTE_CMS_CONTENT_LIST,
-  ROUTE_CMS_CONTENT_TYPES,
-  ROUTE_CMS_CONTENT_MODELS,
-  ROUTE_CMS_CONTENT_SETTINGS,
 } from 'app-init/router';
 
 const mountWithRoute = route => mount(<MemoryRouter initialEntries={[route]}>
@@ -366,62 +355,6 @@ describe('App', () => {
       it('routes to the component list page page on ROUTE_DE_CONFIG_ADD', () => {
         const component = mountWithRoute(ROUTE_DE_CONFIG_ADD);
         expect(component.find(SettingsAddPage).exists()).toBe(true);
-      });
-    });
-  });
-
-
-  describe('CMS', () => {
-    beforeAll(() => {
-      jest.resetModules();
-      delete process.env.CMS_UI_ENABLED;
-    });
-
-    describe('CMS disabled', () => {
-      it('routes to the disable page on ROUTE_CMS_CONTENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_LIST);
-        expect(component.find(CMSDisabledPage).exists()).toBe(true);
-      });
-
-      it('routes to the disable page on ROUTE_CMS_CONTENT_TYPES', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_TYPES);
-        expect(component.find(CMSDisabledPage).exists()).toBe(true);
-      });
-
-      it('routes to the disable page on ROUTE_CMS_CONTENT_MODELS', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_MODELS);
-        expect(component.find(CMSDisabledPage).exists()).toBe(true);
-      });
-
-      it('routes to the disable page on ROUTE_CMS_CONTENT_SETTINGS', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_SETTINGS);
-        expect(component.find(CMSDisabledPage).exists()).toBe(true);
-      });
-    });
-
-    describe('CMS enabled', () => {
-      beforeAll(() => {
-        process.env.CMS_UI_ENABLED = true;
-      });
-
-      it('routes to the content list page on ROUTE_CMS_CONTENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_LIST);
-        expect(component.find(ContentListPage).exists()).toBe(true);
-      });
-
-      it('routes to the content types list page on ROUTE_CMS_CONTENT_TYPES', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_TYPES);
-        expect(component.find(ContentTypesListPage).exists()).toBe(true);
-      });
-
-      it('routes to the content models list page on ROUTE_CMS_CONTENT_MODELS', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_MODELS);
-        expect(component.find(ContentModelsListPage).exists()).toBe(true);
-      });
-
-      it('routes to the content settings page on ROUTE_CMS_CONTENT_SETTINGS', () => {
-        const component = mountWithRoute(ROUTE_CMS_CONTENT_SETTINGS);
-        expect(component.find(ContentSettingsPage).exists()).toBe(true);
       });
     });
   });

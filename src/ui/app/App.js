@@ -170,6 +170,23 @@ import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
+import InternalPage from 'ui/internal-page/InternalPage';
+import entandoApps from 'entando-apps';
+
+const appsRoutes = entandoApps.reduce((routes, app) => (
+  [
+    ...routes,
+    ...app.routesDir.map(AppRoute => (
+      <Route
+        exact
+        key={AppRoute.path}
+        path={AppRoute.path}
+        render={() => <InternalPage><AppRoute.component /></InternalPage>}
+      />
+    )),
+  ]
+), []);
+
 const getRouteComponent = () => (
   <Switch>
     <Route
@@ -299,6 +316,8 @@ const getRouteComponent = () => (
     <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
     <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
     <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+    { /* app routes */ }
+    {appsRoutes}
     {/* 404 */}
     <Route component={NotFoundPage} />
   </Switch>

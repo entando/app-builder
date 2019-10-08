@@ -3,12 +3,6 @@
 //          Any change to this file will be overwritten when adding apps.
 // -----------------------------------------------------------------------------
 
-import cms from '@entando/cms/dist/babel';
-
-
 const apps = [];
-
-apps.push(cms);
-
 
 export default apps;

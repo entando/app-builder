@@ -21,6 +21,7 @@ const createAppsImportFile = (app, id) => {
   fileText += '// -----------------------------------------------------------------------------\n\n';
 
   fileText += `import ${id} from '${app}/dist/babel';\n`;
+  fileText += `import '${app}/dist/css/index.css';\n`;
   fileText += '\n\n';
 
   fileText += 'const apps = [];';
