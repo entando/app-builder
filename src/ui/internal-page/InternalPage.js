@@ -18,10 +18,10 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_DE_COMPONENT_LIST,
-  ROUTE_CMS_CONTENT_LIST, ROUTE_CMS_CONTENT_TYPES, ROUTE_CMS_CONTENT_MODELS,
-  ROUTE_CMS_CONTENT_SETTINGS,
   ROUTE_PLUGINS,
 } from 'app-init/router';
+
+import apps from 'entando-apps';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
@@ -38,7 +38,16 @@ const menuHeader = [
   <AdminAppSwitch key="adminAppSwitch" />,
 ];
 
-const { DIGITAL_EXCHANGE_UI_ENABLED, CMS_UI_ENABLED } = process.env;
+const appMenuItems = Object.values(apps).map(App => (
+  <FirstLevelMenuItem
+    id={App.id}
+    label={<FormattedMessage id={App.id} />}
+  >
+    <App.menu />
+  </FirstLevelMenuItem>
+));
+
+const { DIGITAL_EXCHANGE_UI_ENABLED } = process.env;
 
 const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
   id="digital-exchange"
@@ -47,37 +56,6 @@ const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
   pullRight
   isNav
 />) : '';
-
-const cmsMenuItems = CMS_UI_ENABLED ? (
-  <FirstLevelMenuItem
-    id="menu-cms"
-    label={<FormattedMessage id="menu.cms" />}
-  >
-    <LinkMenuItem
-      id="menu-cms-content-list"
-      label={<FormattedMessage id="menu.cms.contentList" />}
-      to={ROUTE_CMS_CONTENT_LIST}
-      isNav
-    />
-    <LinkMenuItem
-      id="menu-roles"
-      label={<FormattedMessage id="menu.cms.contentTypes" />}
-      to={ROUTE_CMS_CONTENT_TYPES}
-      isNav
-    />
-    <LinkMenuItem
-      id="menu-groups"
-      label={<FormattedMessage id="menu.cms.contentModels" />}
-      to={ROUTE_CMS_CONTENT_MODELS}
-      isNav
-    />
-    <LinkMenuItem
-      id="menu-profile"
-      label={<FormattedMessage id="menu.cms.contentSettings" />}
-      to={ROUTE_CMS_CONTENT_SETTINGS}
-      isNav
-    />
-  </FirstLevelMenuItem>) : '';
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
@@ -194,7 +172,7 @@ const InternalPage = ({ className, children }) => (
         />
       </FirstLevelMenuItem>
 
-      {cmsMenuItems}
+      {appMenuItems}
 
       <FirstLevelMenuItem
         id="menu-configuration"

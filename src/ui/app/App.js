@@ -85,10 +85,6 @@ import {
   ROUTE_DE_CONFIG_LIST,
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
-  ROUTE_CMS_CONTENT_LIST,
-  ROUTE_CMS_CONTENT_TYPES,
-  ROUTE_CMS_CONTENT_MODELS,
-  ROUTE_CMS_CONTENT_SETTINGS,
   ROUTE_PLUGINS,
 } from 'app-init/router';
 
@@ -155,12 +151,6 @@ import ComponentListPageDisabled from 'ui/digital-exchange/components/list/Compo
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
-// CMS
-import ContentListPage from 'ui/cms/content/list/ContentListPage';
-import ContentTypesListPage from 'ui/cms/content-types/list/ContentTypesListPage';
-import ContentModelsListPage from 'ui/cms/content-models/list/ContentModelsListPage';
-import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
-import CMSDisabledPage from 'ui/cms/CMSDisabledPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -266,36 +256,6 @@ const getRouteComponent = () => (
     <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
     <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
     <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
-    {/* cms */}
-    <Route
-      exact
-      path={ROUTE_CMS_CONTENT_LIST}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_TYPES}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentTypesListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_MODELS}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentModelsListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_SETTINGS}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentSettingsPage /> : <CMSDisabledPage />
-      )}
-    />
     {/* digital exchange */}
     <Route
       exact

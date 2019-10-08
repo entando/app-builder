@@ -80,11 +80,6 @@ export const ROUTE_FILE_BROWSER_UPLOAD = '/file-browser/upload';
 export const ROUTE_FILE_BROWSER_CREATE_FOLDER = '/file-browser/create-folder';
 export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = '/file-browser/create-text-file';
 export const ROUTE_FILE_BROWSER_EDIT_TEXT_FILE = '/file-browser/edit/:filename';
-// cms
-export const ROUTE_CMS_CONTENT_LIST = '/cms/content';
-export const ROUTE_CMS_CONTENT_TYPES = '/cms/content-type';
-export const ROUTE_CMS_CONTENT_MODELS = '/cms/content-model';
-export const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
 // digital exchange
 export const ROUTE_DE_COMPONENT_LIST = '/digital-exchange';
 export const ROUTE_DE_CONFIG_LIST = '/digital-exchange/configuration';
