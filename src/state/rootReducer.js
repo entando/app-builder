@@ -34,8 +34,12 @@ import digitalExchanges from 'state/digital-exchange/digital-exchanges/reducer';
 import digitalExchangeCategories from 'state/digital-exchange/categories/reducer';
 import digitalExchangeExtraFilters from 'state/digital-exchange/extra-filters/reducer';
 import plugins from 'state/plugins/reducer';
+import entandoApps from 'entando-apps';
+
+const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
 
 const reducerDef = {
+  apps: combineReducers(appsReducers),
   activityStream,
   api,
   categories,

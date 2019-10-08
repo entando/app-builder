@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { DDTable } from '@entando/ddtable';
+// import { DDTable } from '@entando/ddtable';
 import { DragDropContextProvider } from 'react-dnd';
 import MouseBackend from 'react-dnd-mouse-backend';
 
@@ -15,7 +15,7 @@ import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
 import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
-
+/* eslint-disable */
 class PageTree extends Component {
   constructor(props) {
     super(props);
