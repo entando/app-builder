@@ -40,6 +40,18 @@ The `package` json must contain the correct Babel and App configuration:
   },
 ```
 
+```js
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage",
+    "babel": "babel src -d dist && node-sass --output-style compressed src/sass/index.scss -o dist/css",
+    "prepublish": "npm run babel"
+  },
+```
+
 # Exports
 Each App will have a `babel.js` export file which will look like this:
 
