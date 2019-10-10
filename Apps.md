@@ -2,6 +2,44 @@ Apps for the app builder are developed as standalone applications which should b
 
 Each App will be deployed in npm using the `@entando` namespace and will export in their dist folder several items used by the app builder when integrating it
 
+# Babel and App configuration
+The `package` json must contain the correct Babel and App configuration:
+
+```js
+  "files": [
+    "dist",
+    "!src",
+    "!public",
+    "!node_modules"
+  ],
+  "main": "dist/babel.js",
+  "publishConfig": {
+    "access": "public"
+  },
+```
+
+```js
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "ignore": [
+      "/**/__tests__"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./src/"
+          ]
+        }
+      ]
+    ]
+  },
+```
+
 # Exports
 Each App will have a `babel.js` export file which will look like this:
 
@@ -30,7 +68,7 @@ export default cms;
 ## id
 its the App id.
 
-## menu
+## menu-
 is a React component containing all the menu elements.
 
 ## state
