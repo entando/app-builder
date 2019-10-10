@@ -96,9 +96,11 @@ import {
   ROUTE_DE_CONFIG_ADD,
 } from 'app-init/router';
 
-const mountWithRoute = route => mount(<MemoryRouter initialEntries={[route]}>
-  <App currentRoute={ROUTE_DASHBOARD} username="admin" />
-</MemoryRouter>);
+const mountWithRoute = route => mount((
+  <MemoryRouter initialEntries={[route]}>
+    <App currentRoute={ROUTE_DASHBOARD} username="admin" />
+  </MemoryRouter>
+));
 
 describe('App', () => {
   it('renders without crashing', () => {

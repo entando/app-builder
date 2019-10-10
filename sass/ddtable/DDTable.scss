@@ -1,0 +1,11 @@
+.DDTable__tr--dnd-hover-high {
+  border-top: 2px dashed $color-pf-black-500;
+}
+
+.DDTable__tr--dnd-hover-low {
+  border-bottom: 2px dashed $color-pf-black-500;
+}
+
+.DDTable__tr--dnd-hover-medium {
+  background: $color-pf-black-400;
+}

@@ -36,7 +36,7 @@ export const validatePreviewErrors = (value, allValues, formProps) => {
 };
 
 export class PageModelFormBody extends Component {
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.onWillMount) {
       this.props.onWillMount(this.props);
     }
@@ -44,13 +44,13 @@ export class PageModelFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, onSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
+      handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
     } = this.props;
 
     const isEditMode = mode === 'edit';
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="PageModelForm form-horizontal">
+      <form onSubmit={handleSubmit} className="PageModelForm form-horizontal">
         <Row>
           <Col xs={12}>
             <fieldset>
@@ -131,7 +131,6 @@ export class PageModelFormBody extends Component {
 
 PageModelFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.oneOf(['add', 'edit']),

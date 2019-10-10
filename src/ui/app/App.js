@@ -1,5 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import {
   Route,
   Switch,
@@ -337,12 +339,12 @@ class App extends Component {
     }
 
     return (
-      <Fragment>
+      <DndProvider backend={HTML5Backend}>
         <ToastsContainer />
         {!keycloak.enabled || keycloak.authenticated
           ? getRouteComponent()
           : <LoginPage />}
-      </Fragment>
+      </DndProvider>
     );
   }
 }
