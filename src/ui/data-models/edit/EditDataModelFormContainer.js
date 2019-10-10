@@ -23,4 +23,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 
 });
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataModelForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DataModelForm));

@@ -56,7 +56,6 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const PagesAddFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageForm);
-
-
-export default PagesAddFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(PageForm);

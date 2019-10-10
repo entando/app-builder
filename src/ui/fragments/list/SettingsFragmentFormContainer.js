@@ -12,7 +12,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const SettingsFragmentFormContainer =
-  connect(null, mapDispatchToProps)(SettingsFragmentForm);
-
-export default SettingsFragmentFormContainer;
+export default connect(null, mapDispatchToProps, null, {
+  pure: false,
+})(SettingsFragmentForm);

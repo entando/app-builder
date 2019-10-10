@@ -19,5 +19,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const LanguageFormContainer = connect(mapStateToProps, mapDispatchToProps)(LanguageForm);
-export default LanguageFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(LanguageForm);

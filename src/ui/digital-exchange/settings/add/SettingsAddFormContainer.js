@@ -7,4 +7,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => { dispatch(sendPostDigitalExchange(data)); },
 });
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(null, mapDispatchToProps, null, {
+  pure: false,
+})(Form);

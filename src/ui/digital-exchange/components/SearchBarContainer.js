@@ -11,4 +11,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: values => dispatch(filterBySearch((values && values.keyword) || '')),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(SearchForm);

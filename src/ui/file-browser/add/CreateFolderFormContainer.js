@@ -8,6 +8,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const CreateFolderFormContainer = connect(null, mapDispatchToProps)(CreateFolderForm);
-
-export default CreateFolderFormContainer;
+export default connect(null, mapDispatchToProps, null, {
+  pure: false,
+})(CreateFolderForm);

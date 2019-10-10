@@ -19,5 +19,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPostDataModel(values));
   },
 });
-const DataModelFormContainer = connect(mapStateToProps, mapDispatchToProps)(DataModelForm);
-export default DataModelFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DataModelForm);

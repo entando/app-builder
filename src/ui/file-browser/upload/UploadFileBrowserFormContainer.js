@@ -11,7 +11,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => { dispatch(saveFile(values.file)); },
 });
 
-const UploadFileBrowserFormContainer =
-  connect(mapStateToProps, mapDispatchToProps)(UploadFileBrowserForm);
-
-export default UploadFileBrowserFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(UploadFileBrowserForm);

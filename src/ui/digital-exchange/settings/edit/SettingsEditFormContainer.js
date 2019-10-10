@@ -13,4 +13,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => { dispatch(sendPutDigitalExchange(data)); },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(Form));
