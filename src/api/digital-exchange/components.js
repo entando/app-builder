@@ -11,7 +11,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getDEComponent = id => (
   makeRequest({
     uri: `/components/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: GET_DE_COMPONENT_OK,
     useAuthentication: true,
@@ -22,7 +22,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
   makeRequest(
     {
       uri: `/components${params}`,
-      path: '/digital-exchange',
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_DE_COMPONENTS_OK,
       useAuthentication: true,
@@ -34,7 +34,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
 export const postDEComponentInstall = component => (
   makeRequest({
     uri: `/components/${component.digitalExchangeId}/install/${component.id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
@@ -48,7 +48,7 @@ export const postDEComponentInstall = component => (
 export const getDEComponentInstall = id => (
   makeRequest({
     uri: `/components/install/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
     useAuthentication: true,
@@ -58,7 +58,7 @@ export const getDEComponentInstall = id => (
 export const postDEComponentUninstall = id => (
   makeRequest({
     uri: `/components/uninstall/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_UNINSTALLATION_CREATED,
@@ -69,7 +69,7 @@ export const postDEComponentUninstall = id => (
 export const getDEComponentUninstall = id => (
   makeRequest({
     uri: `/components/uninstall/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     useAuthentication: true,

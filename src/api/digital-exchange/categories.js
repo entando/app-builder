@@ -5,7 +5,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getDECategories = () => (
   makeRequest({
     uri: '/categories',
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: LIST_DE_CATEGORIES_OK,
     useAuthentication: true,

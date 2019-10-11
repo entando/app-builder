@@ -30,7 +30,7 @@ describe('api/digital-exchange/digitalExchanges', () => {
       expect(makeRequest).toHaveBeenCalledWith(
         {
           uri: '/exchanges',
-          path: '/digital-exchange',
+          domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_DIGITAL_EXCHANGES_OK,
           useAuthentication: true,
@@ -52,7 +52,7 @@ describe('api/digital-exchange/digitalExchanges', () => {
       getDigitalExchange(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        path: '/digital-exchange',
+        domain: '/digital-exchange',
         method: METHODS.GET,
         mockResponse: {},
         useAuthentication: true,
@@ -69,7 +69,7 @@ describe('api/digital-exchange/digitalExchanges', () => {
       deleteDigitalExchange(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        path: '/digital-exchange',
+        domain: '/digital-exchange',
         method: METHODS.DELETE,
         mockResponse: {},
         useAuthentication: true,
@@ -87,7 +87,7 @@ describe('api/digital-exchange/digitalExchanges', () => {
       postDigitalExchange(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges',
-        path: '/digital-exchange',
+        domain: '/digital-exchange',
         method: METHODS.POST,
         mockResponse: {},
         useAuthentication: true,
@@ -106,7 +106,7 @@ describe('api/digital-exchange/digitalExchanges', () => {
       putDigitalExchange(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        path: '/digital-exchange',
+        domain: '/digital-exchange',
         method: METHODS.PUT,
         mockResponse: {},
         useAuthentication: true,

@@ -6,7 +6,7 @@ export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '
   makeRequest(
     {
       uri: `/exchanges${params}`,
-      path: '/digital-exchange',
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_DIGITAL_EXCHANGES_OK,
       useAuthentication: true,
@@ -18,7 +18,7 @@ export const getDigitalExchanges = (page = { page: 1, pageSize: 10 }, params = '
 export const getDigitalExchange = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: {},
     useAuthentication: true,
@@ -28,7 +28,7 @@ export const getDigitalExchange = id => (
 export const deleteDigitalExchange = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,
@@ -38,7 +38,7 @@ export const deleteDigitalExchange = id => (
 export const postDigitalExchange = marketplace => (
   makeRequest({
     uri: '/exchanges',
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.POST,
     mockResponse: {},
     useAuthentication: true,
@@ -49,7 +49,7 @@ export const postDigitalExchange = marketplace => (
 export const putDigitalExchange = marketplace => (
   makeRequest({
     uri: `/exchanges/${marketplace.id}`,
-    path: '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.PUT,
     mockResponse: {},
     useAuthentication: true,
