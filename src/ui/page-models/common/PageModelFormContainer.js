@@ -38,4 +38,6 @@ export const mapDispatchToProps = (dispatch, { mode, match: { params } }) => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageModelForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(PageModelForm));

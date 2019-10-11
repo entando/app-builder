@@ -31,6 +31,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handleExpandCategory(categoryCode)),
 });
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryForm);
-
-export default AddFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(CategoryForm);

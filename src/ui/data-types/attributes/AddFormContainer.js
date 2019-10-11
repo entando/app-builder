@@ -75,4 +75,6 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
 
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AttributeForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(AttributeForm));

@@ -20,11 +20,11 @@ describe('PageConfigPage', () => {
   });
 
   it('is a wrapped InternalPage', () => {
-    expect(component.children().first().is('InternalPage')).toBe(true);
+    expect(component.first().is('InternalPage')).toBe(true);
   });
 
   it('has the PageConfigPage class', () => {
-    expect(component.children().first().hasClass('PageConfigPage')).toBe(true);
+    expect(component.first().hasClass('PageConfigPage')).toBe(true);
   });
 
   it('has a breadcrumb', () => {

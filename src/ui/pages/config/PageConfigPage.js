@@ -5,8 +5,6 @@ import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } fro
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import throttle from 'lodash/throttle';
 import { formattedText } from '@entando/utils';
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -135,192 +133,190 @@ class PageConfigPage extends Component {
     }
 
     return (
-      <DragDropContextProvider backend={HTML5Backend}>
-        <InternalPage className="PageConfigPage">
-          <Grid fluid>
-            <Row>
-              <Col xs={8} lg={9}>
-                <Breadcrumb>
-                  <BreadcrumbItem>
-                    <FormattedMessage id="menu.pageDesigner" />
-                  </BreadcrumbItem>
-                  <BreadcrumbItem active>
-                    <FormattedMessage id="menu.pageConfig" />
-                  </BreadcrumbItem>
-                </Breadcrumb>
+      <InternalPage className="PageConfigPage">
+        <Grid fluid>
+          <Row>
+            <Col xs={8} lg={9}>
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <FormattedMessage id="menu.pageDesigner" />
+                </BreadcrumbItem>
+                <BreadcrumbItem active>
+                  <FormattedMessage id="menu.pageConfig" />
+                </BreadcrumbItem>
+              </Breadcrumb>
 
-                <h1 className="PageConfigPage__title">
-                  <PageStatusIcon
-                    status={pageStatus}
-                    differsFromPublished={pageDiffersFromPublished}
-                  />
-                  { pageName }
-                </h1>
+              <h1 className="PageConfigPage__title">
+                <PageStatusIcon
+                  status={pageStatus}
+                  differsFromPublished={pageDiffersFromPublished}
+                />
+                { pageName }
+              </h1>
 
-                <ErrorsAlertContainer />
+              <ErrorsAlertContainer />
 
-                <Row>
-                  <Col xs={12}>
-                    {statusMessage}
-                  </Col>
-                </Row>
+              <Row>
+                <Col xs={12}>
+                  {statusMessage}
+                </Col>
+              </Row>
 
-                <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
-                  <Col xs={12}>
-                    <ButtonToolbar className="pull-left">
-                      <Button
-                        className={[
-                          'btn-transparent',
-                          'PageConfigPage__info-btn',
-                          'PageConfigPage__btn-icon',
-                        ].join(' ')}
-                        bsStyle="default"
-                        onClick={this.toggleInfoTable}
+              <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
+                <Col xs={12}>
+                  <ButtonToolbar className="pull-left">
+                    <Button
+                      className={[
+                        'btn-transparent',
+                        'PageConfigPage__info-btn',
+                        'PageConfigPage__btn-icon',
+                      ].join(' ')}
+                      bsStyle="default"
+                      onClick={this.toggleInfoTable}
+                    >
+                      <span>
+                        <Icon
+                          name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
+                          className="PageConfigPage__btn-icon--svg"
+                        />
+                        <FormattedMessage id="app.info" />
+                      </span>
+                    </Button>
+                  </ButtonToolbar>
+                  <ButtonToolbar className="pull-right">
+                    <a
+                      href={previewUri}
+                      title={formattedText('app.preview', 'Preview')}
+                      className={[
+                        'btn',
+                        'btn-default',
+                        'btn-transparent',
+                        'PageConfigPage__btn--addml',
+                      ].join(' ')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FormattedMessage id="app.preview" />
+                    </a>
+                    <Button
+                      className={[
+                        'PageConfigPage__btn-icon--right',
+                        'btn-transparent',
+                      ].join(' ')}
+                      bsStyle="warning"
+                      onClick={restoreConfig}
+                      disabled={!pageDiffersFromPublished}
+                    >
+                      <span>
+                        <FormattedMessage id="app.restore" />
+                        <Icon
+                          name="undo"
+                          className="PageConfigPage__btn-icon--svg-right"
+                        />
+                      </span>
+                    </Button>
+                    <Button
+                      className={[
+                        'PageConfigPage__btn-icon--right',
+                        'btn-transparent',
+                      ].join(' ')}
+                      bsStyle="default"
+                      onClick={showPageSettings}
+                    >
+                      <span>
+                        <FormattedMessage id="pageSettings.title" />
+                        <Icon
+                          name="cogs"
+                          className="PageConfigPage__btn-icon--svg-right"
+                        />
+                      </span>
+                    </Button>
+                  </ButtonToolbar>
+                </Col>
+              </Row>
+              <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
+                <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
+                  <ButtonToolbar className="pull-left">
+                    { defaultConfigBtn }
+                  </ButtonToolbar>
+                  <div className="pull-right">
+                    <label className="PageConfigPage__on-the-fly-label">
+                      <FormattedMessage id="pageConfig.onTheFlyPage" />
+                    </label>
+                    <DropdownButton
+                      id="dropdown-on-the-fly"
+                      bsStyle="default"
+                      title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
+                      pullRight
+                      disabled={!isOnTheFlyEnabled}
+                    >
+                      <MenuItem
+                        eventKey="1"
+                        className="PageConfigPage__on-the-fly-yes"
+                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
                       >
-                        <span>
-                          <Icon
-                            name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
-                            className="PageConfigPage__btn-icon--svg"
-                          />
-                          <FormattedMessage id="app.info" />
-                        </span>
-                      </Button>
-                    </ButtonToolbar>
-                    <ButtonToolbar className="pull-right">
-                      <a
-                        href={previewUri}
-                        title={formattedText('app.preview', 'Preview')}
-                        className={[
-                          'btn',
-                          'btn-default',
-                          'btn-transparent',
-                          'PageConfigPage__btn--addml',
-                        ].join(' ')}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        {TRANSLATED_YES}
+                      </MenuItem>
+                      <MenuItem
+                        eventKey="2"
+                        className="PageConfigPage__on-the-fly-no"
+                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
                       >
-                        <FormattedMessage id="app.preview" />
-                      </a>
-                      <Button
-                        className={[
-                          'PageConfigPage__btn-icon--right',
-                          'btn-transparent',
-                        ].join(' ')}
-                        bsStyle="warning"
-                        onClick={restoreConfig}
-                        disabled={!pageDiffersFromPublished}
-                      >
-                        <span>
-                          <FormattedMessage id="app.restore" />
-                          <Icon
-                            name="undo"
-                            className="PageConfigPage__btn-icon--svg-right"
-                          />
-                        </span>
-                      </Button>
-                      <Button
-                        className={[
-                          'PageConfigPage__btn-icon--right',
-                          'btn-transparent',
-                        ].join(' ')}
-                        bsStyle="default"
-                        onClick={showPageSettings}
-                      >
-                        <span>
-                          <FormattedMessage id="pageSettings.title" />
-                          <Icon
-                            name="cogs"
-                            className="PageConfigPage__btn-icon--svg-right"
-                          />
-                        </span>
-                      </Button>
-                    </ButtonToolbar>
-                  </Col>
-                </Row>
-                <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
-                  <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
-                    <ButtonToolbar className="pull-left">
-                      { defaultConfigBtn }
-                    </ButtonToolbar>
-                    <div className="pull-right">
-                      <label className="PageConfigPage__on-the-fly-label">
-                        <FormattedMessage id="pageConfig.onTheFlyPage" />
-                      </label>
-                      <DropdownButton
-                        id="dropdown-on-the-fly"
-                        bsStyle="default"
-                        title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
-                        pullRight
-                        disabled={!isOnTheFlyEnabled}
-                      >
-                        <MenuItem
-                          eventKey="1"
-                          className="PageConfigPage__on-the-fly-yes"
-                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
-                        >
-                          {TRANSLATED_YES}
-                        </MenuItem>
-                        <MenuItem
-                          eventKey="2"
-                          className="PageConfigPage__on-the-fly-no"
-                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
-                        >
-                          {TRANSLATED_NO}
-                        </MenuItem>
-                      </DropdownButton>
-                      <Button
-                        className="PageConfigPage__unpublish-btn"
-                        bsStyle="default"
-                        onClick={unpublishPage}
-                        disabled={!pageIsPublished}
-                      >
-                        <FormattedMessage id="app.unpublish" />
-                      </Button>
-                      <Button
-                        className="PageConfigPage__publish-btn btn-primary"
-                        bsStyle="success"
-                        onClick={publishPage}
-                        disabled={pageIsPublished}
-                      >
-                        <FormattedMessage id="app.publish" />
-                      </Button>
-                    </div>
-                  </Col>
-                </Row>
+                        {TRANSLATED_NO}
+                      </MenuItem>
+                    </DropdownButton>
+                    <Button
+                      className="PageConfigPage__unpublish-btn"
+                      bsStyle="default"
+                      onClick={unpublishPage}
+                      disabled={!pageIsPublished}
+                    >
+                      <FormattedMessage id="app.unpublish" />
+                    </Button>
+                    <Button
+                      className="PageConfigPage__publish-btn btn-primary"
+                      bsStyle="success"
+                      onClick={publishPage}
+                      disabled={pageIsPublished}
+                    >
+                      <FormattedMessage id="app.publish" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
 
-                <Panel
-                  className="PageConfigPage__info-panel"
-                  id="collapsible-info-table"
-                  expanded={this.state.infoTableOpen}
-                  onToggle={() => {}}
-                >
-                  <Panel.Collapse>
-                    <SelectedPageInfoTableContainer />
-                  </Panel.Collapse>
-                </Panel>
+              <Panel
+                className="PageConfigPage__info-panel"
+                id="collapsible-info-table"
+                expanded={this.state.infoTableOpen}
+                onToggle={() => {}}
+              >
+                <Panel.Collapse>
+                  <SelectedPageInfoTableContainer />
+                </Panel.Collapse>
+              </Panel>
 
-                <PageConfigGridContainer />
-              </Col>
+              <PageConfigGridContainer />
+            </Col>
+            <Col
+              xs={4}
+              lg={3}
+              className={sideWidgetClassAr.join(' ')}
+              ref={(el) => { this.sideWidget = el; }}
+            >
+              <ToolbarPageConfigContainer fixedView={this.state.sticky} />
+              <SinglePageSettingsModalContainer />
+            </Col>
+            { !this.state.sticky ? null : (
               <Col
                 xs={4}
                 lg={3}
-                className={sideWidgetClassAr.join(' ')}
-                ref={(el) => { this.sideWidget = el; }}
-              >
-                <ToolbarPageConfigContainer fixedView={this.state.sticky} />
-                <SinglePageSettingsModalContainer />
-              </Col>
-              { !this.state.sticky ? null : (
-                <Col
-                  xs={4}
-                  lg={3}
-                  style={this.state.widgetSize}
-                />
-              )}
-            </Row>
-          </Grid>
-        </InternalPage>
-      </DragDropContextProvider>
+                style={this.state.widgetSize}
+              />
+            )}
+          </Row>
+        </Grid>
+      </InternalPage>
     );
   }
 }

@@ -2,79 +2,137 @@ Apps for the app builder are developed as standalone applications which should b
 
 Each App will be deployed in npm using the `@entando` namespace and will export in their dist folder several items used by the app builder when integrating it
 
-# Exports
-several different items need to be exported by the App so that they can be consumed by the app builder.
-
-Each paragraph reports in angle brackets the name of the object that the App itself need exporting
-
-## ID <id>
-the unique identifier for the app:
-
-i.e. `cms`
-
-## Routing
-
-because of the current `@entando/router` it is not possible to simply export a route object and therefore we require two exports
-
-### Routes <routes>
-`routes` is an array with each item being an object with name and path.
+# Babel and App configuration
+The `package` json must contain the correct Babel and App configuration:
 
 ```js
-[
-      { name: 'apps/cms/routename', path: '/apps/cms/my-route' },
-]
-```
-
-`name` is a string containing the `apps/<id>/` prefix
-
-`path` is an absolute URI with the `/apps/<id>/` prefix. The route itself in the `path` must be kebab case.
-
-### Routes Switch <routesSwitch>
-`routesSwitch` is a switch used to resolve the route with a given component.
-
-It resembles in structure the switch in the app builder `app` component.
-
-```js
-switch (route) {
-    case ROUTE_DASHBOARD: return <DashboardPage />;
-    case ROUTE_PAGE_TREE: return <PageTreePageContainer />;
-    case ROUTE_WIDGET_LIST: return <ListWidgetPageContainer />;
-}
-```
-
-the case of the switch is matched against the route name.
-
-## i18n <locales>
-
-the locales object contains one object per locale with the translations:
-
-```js
-{
-  it: {
-    locale: 'en',
-    messages: {
-      'app.serverError': 'could not establish connection with {domain}',
-    },
+  "files": [
+    "dist",
+    "!src",
+    "!public",
+    "!node_modules"
+  ],
+  "main": "dist/babel.js",
+  "publishConfig": {
+    "access": "public"
   },
-}
 ```
 
-## reducers <reducers>
+```js
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "ignore": [
+      "/**/__tests__"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./src/"
+          ]
+        }
+      ]
+    ]
+  },
+```
 
-the reducers object is a combined reducer that will be mounted on top of the root reducer of app-builder.
-The reducers will be mounted inside the `apps.<id>` namespace and therefore when the App is running in standalone mode its route reducer should be created in the same fashion to ensure that the selectors work as intended.
+```js
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage",
+    "babel": "babel src -d dist && node-sass --output-style compressed src/sass/index.scss -o dist/css",
+    "prepublish": "npm run babel"
+  },
+```
 
-## menu items <menu>
+# Exports
+Each App will have a `babel.js` export file which will look like this:
 
-`menu` contains a `LinkMenuItem` used by the app builder to render the menu for the app integration
+```js
+import menu from 'ui/common/LinkMenu';
+import { cms as state } from 'state/rootReducer';
+import { routes, routesDir } from 'ui/App';
+import en from 'locales/en';
+import it from 'locales/it';
 
-# Peer dependencies
+const cms = {
+  id: 'cms',
+  menu,
+  state,
+  routes,
+  routesDir,
+  locales: {
+    en,
+    it,
+  },
+};
 
-when running in standalone mode the App makes use of both `@entando/messages` and `@entando/apimanager`, these two should be peer dependencies of the project. The project itself makes use of it as well in its dist files but it is a responsibility of the app builder to ensure their presence in the project.
+export default cms;
+```
+
+## id
+its the App id.
+
+## menu-
+is a React component containing all the menu elements.
+
+## state
+is the combined reducer of the App
+
+```js
+export const cms = combineReducers({
+  contentModel,
+  contentType,
+  editContent,
+  categories,
+  contentSettings,
+});
+```
+
+## routesDir
+is an object containing each route data
+
+```js
+export const routesDir = [
+  {
+    path: ROUTE_CMS,
+    component: defaultRedirect,
+  },
+  {
+    path: ROUTE_CMS_CONTENTMODEL_LIST,
+    component: ContentModelListPage,
+  },
+  {
+    path: ROUTE_CMS_CONTENTMODEL_ADD,
+    component: AddContentModelPage,
+  },
+  {
+    path: ROUTE_CMS_ADD_CONTENT,
+    component: AddContentPage,
+  },
+];
+```
+
+## routes
+are the actual React `<Route>` components of all the app routes.
+
+## locales
+its an object containing all the i18n locales of the app.
+
+# dependencies
+Only actual dependencies that are not already included in `app-builder` can be added as pure dependencies.
+Every other dependency must be either a `devDependency` or `peerDependency`.
 
 # Installation process
 
-After running `npm install` in the app builder the user can run the `npm app-install <appId>` command to install the app.
+After running `npm install` in the app builder the user can run the `npm run app-install <appId>` command to install the app.
 
 This command will trigger a download of the app from npm and the installation of its component within app builder.
 After the installation process is complete it will be possible to either `npm start` or `npm build` app builder.

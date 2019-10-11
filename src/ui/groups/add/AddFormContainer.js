@@ -15,5 +15,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AddFormContainer = connect(null, mapDispatchToProps)(GroupForm);
-export default AddFormContainer;
+export default connect(null, mapDispatchToProps, null, {
+  pure: false,
+})(GroupForm);

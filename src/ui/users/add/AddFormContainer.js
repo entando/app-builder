@@ -17,5 +17,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(UserForm);
-export default AddFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(UserForm);

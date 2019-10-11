@@ -26,5 +26,6 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-const WidgetFormContainer = connect(mapStateToProps, mapDispatchToProps)(WidgetForm);
-export default WidgetFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(WidgetForm);

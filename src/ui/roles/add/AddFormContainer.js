@@ -20,5 +20,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(change('role', 'code', name.replace(/\W/g, '_').toLowerCase())),
 });
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps)(RoleForm);
-export default AddFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(RoleForm);

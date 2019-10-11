@@ -24,4 +24,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LabelsForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(LabelsForm));

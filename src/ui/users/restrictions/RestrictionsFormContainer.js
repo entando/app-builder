@@ -19,4 +19,6 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestrictionsForm);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(RestrictionsForm);

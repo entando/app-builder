@@ -18,6 +18,6 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const EditFormContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentForm);
-
-export default EditFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(FragmentForm);
