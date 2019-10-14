@@ -10,7 +10,7 @@ const APPS_JS_FILE_PATH = path.resolve('./src/entando-apps.js');
 // ----------------------- Import JS file creation -----------------------------
 // -----------------------------------------------------------------------------
 
-const createAppsImportFile = (app, id) => {
+const createAppsImportFile = (app, id, packageName) => {
   Log.section('Creating app import file');
 
   let fileText = '';
@@ -20,8 +20,8 @@ const createAppsImportFile = (app, id) => {
   fileText += '//          Any change to this file will be overwritten when adding apps.\n';
   fileText += '// -----------------------------------------------------------------------------\n\n';
 
-  fileText += `import ${id} from '${app}/dist/babel';\n`;
-  fileText += `import '${app}/dist/css/index.css';\n`;
+  fileText += `import ${id} from '${packageName}/dist/babel';\n`;
+  fileText += `import '${packageName}/dist/css/index.css';\n`;
   fileText += '\n\n';
 
   fileText += 'const apps = [];';
