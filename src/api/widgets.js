@@ -1,11 +1,11 @@
-import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { WIDGET_WITH_CONFIG_FORM, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
 
 export const getWidget = widgetCode => (
-  makeMockRequest({
+  makeRequest({
     uri: `/api/widgets/${widgetCode}`,
     method: METHODS.GET,
     mockResponse: WIDGET_WITH_CONFIG_FORM,
@@ -15,7 +15,7 @@ export const getWidget = widgetCode => (
 );
 
 export const getWidgets = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeMockRequest(
+  makeRequest(
     {
       uri: `/api/widgets${params}`,
       method: METHODS.GET,
