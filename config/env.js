@@ -75,7 +75,6 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
         USE_MOCKS: process.env.USE_MOCKS !== 'false',
         DOMAIN: process.env.DOMAIN || null,
-        PATH_PREFIX: process.env.PATH_PREFIX || null,
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         DIGITAL_EXCHANGE_UI_ENABLED: process.env.DIGITAL_EXCHANGE_UI_ENABLED === 'true',

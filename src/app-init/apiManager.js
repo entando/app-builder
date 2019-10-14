@@ -12,7 +12,6 @@ const goHome = () => history.push(ROUTE_DASHBOARD);
 config(store, logout, goHome);
 store.dispatch(setApi({
   domain: process.env.DOMAIN,
-  pathPrefix: process.env.PATH_PREFIX,
   useMocks: process.env.USE_MOCKS,
 }));
 
