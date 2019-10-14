@@ -1,5 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import {
   Route,
   Switch,
@@ -85,10 +87,6 @@ import {
   ROUTE_DE_CONFIG_LIST,
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
-  ROUTE_CMS_CONTENT_LIST,
-  ROUTE_CMS_CONTENT_TYPES,
-  ROUTE_CMS_CONTENT_MODELS,
-  ROUTE_CMS_CONTENT_SETTINGS,
   ROUTE_PLUGINS,
 } from 'app-init/router';
 
@@ -155,12 +153,6 @@ import ComponentListPageDisabled from 'ui/digital-exchange/components/list/Compo
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
-// CMS
-import ContentListPage from 'ui/cms/content/list/ContentListPage';
-import ContentTypesListPage from 'ui/cms/content-types/list/ContentTypesListPage';
-import ContentModelsListPage from 'ui/cms/content-models/list/ContentModelsListPage';
-import ContentSettingsPage from 'ui/cms/ContentSettingsPage';
-import CMSDisabledPage from 'ui/cms/CMSDisabledPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -179,6 +171,23 @@ import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+
+import InternalPage from 'ui/internal-page/InternalPage';
+import entandoApps from 'entando-apps';
+
+const appsRoutes = entandoApps.reduce((routes, app) => (
+  [
+    ...routes,
+    ...app.routesDir.map(AppRoute => (
+      <Route
+        exact
+        key={AppRoute.path}
+        path={AppRoute.path}
+        render={() => <InternalPage><AppRoute.component /></InternalPage>}
+      />
+    )),
+  ]
+), []);
 
 const getRouteComponent = () => (
   <Switch>
@@ -266,36 +275,6 @@ const getRouteComponent = () => (
     <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
     <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
     <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
-    {/* cms */}
-    <Route
-      exact
-      path={ROUTE_CMS_CONTENT_LIST}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_TYPES}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentTypesListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_MODELS}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentModelsListPage /> : <CMSDisabledPage />
-      )}
-    />
-    <Route
-      path={ROUTE_CMS_CONTENT_SETTINGS}
-      render={() => (
-      (process.env.CMS_UI_ENABLED) ?
-        <ContentSettingsPage /> : <CMSDisabledPage />
-      )}
-    />
     {/* digital exchange */}
     <Route
       exact
@@ -339,6 +318,8 @@ const getRouteComponent = () => (
     <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
     <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
     <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+    { /* app routes */ }
+    {appsRoutes}
     {/* 404 */}
     <Route component={NotFoundPage} />
   </Switch>
@@ -358,12 +339,12 @@ class App extends Component {
     }
 
     return (
-      <Fragment>
+      <DndProvider backend={HTML5Backend}>
         <ToastsContainer />
         {!keycloak.enabled || keycloak.authenticated
           ? getRouteComponent()
           : <LoginPage />}
-      </Fragment>
+      </DndProvider>
     );
   }
 }

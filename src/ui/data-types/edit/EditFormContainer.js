@@ -62,4 +62,6 @@ export const mapDispatchToProps = dispatch => ({
 
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataTypeForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DataTypeForm));

@@ -16,5 +16,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const CreateTextFileContainer = connect(mapStateToProps, mapDispatchToProps)(CreateTextFileForm);
-export default CreateTextFileContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(CreateTextFileForm);

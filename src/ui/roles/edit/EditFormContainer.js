@@ -23,4 +23,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: values => dispatch(sendPutRole(values)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RoleForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(RoleForm));

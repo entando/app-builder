@@ -24,6 +24,7 @@ export const mapDispatchToProps = dispatch => ({
   },
 
 });
-const DataModelSearchFormContainer =
- connect(mapStateToProps, mapDispatchToProps)(DataModelSearchForm);
-export default DataModelSearchFormContainer;
+
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DataModelSearchForm);

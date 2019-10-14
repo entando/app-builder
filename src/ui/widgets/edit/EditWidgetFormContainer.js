@@ -30,4 +30,6 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WidgetForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(WidgetForm));

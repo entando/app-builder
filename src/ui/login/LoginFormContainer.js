@@ -12,14 +12,11 @@ export const mapStateToProps = state => ({
   currentLanguage: getLocale(state),
 });
 
-// map the props
 export const mapDispatchToProps = dispatch => ({
   performLogin: (username, password) => dispatch(performLogin(username, password)),
   setLanguage: langCode => dispatch(setCurrentLanguage(langCode)),
 });
 
-// connect the component
-const LoginFormContainer = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-
-// export connected component (Container)
-export default LoginFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(LoginForm);

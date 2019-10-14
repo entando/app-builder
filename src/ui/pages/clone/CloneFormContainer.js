@@ -44,6 +44,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
 });
 
-const CloneFormContainer = connect(mapStateToProps, mapDispatchToProps)(PageForm);
-
-export default CloneFormContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(PageForm);

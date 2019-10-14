@@ -21,4 +21,6 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: data => (dispatch(sendPutCategory(data))),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(CategoryForm));

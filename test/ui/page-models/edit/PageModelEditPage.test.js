@@ -18,10 +18,10 @@ describe('PageModelEditPage', () => {
   });
 
   it('is an InternalPage', () => {
-    expect(component.children().first().is('InternalPage')).toBe(true);
+    expect(component.first().is('InternalPage')).toBe(true);
   });
 
   it('has the PageModelEditPage class', () => {
-    expect(component.children().first().hasClass('PageModelEditPage')).toBe(true);
+    expect(component.first().hasClass('PageModelEditPage')).toBe(true);
   });
 });

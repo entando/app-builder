@@ -18,4 +18,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageSettingsForm);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(PageSettingsForm);

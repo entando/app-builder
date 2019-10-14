@@ -18,10 +18,10 @@ describe('PageModelAddPage', () => {
   });
 
   it('is an InternalPage', () => {
-    expect(component.children().first().is('InternalPage')).toBe(true);
+    expect(component.first().is('InternalPage')).toBe(true);
   });
 
   it('has the PageModelAddPage class', () => {
-    expect(component.children().first().hasClass('PageModelAddPage')).toBe(true);
+    expect(component.first().hasClass('PageModelAddPage')).toBe(true);
   });
 });
