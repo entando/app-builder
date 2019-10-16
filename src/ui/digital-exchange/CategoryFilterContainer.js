@@ -6,7 +6,7 @@ import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import CategoryFilter from 'ui/digital-exchange/CategoryFilter';
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => (dispatch(fetchDECategories())),
+  onDidMount: () => dispatch(fetchDECategories()),
   onChange: (eventOrValue) => {
     const { categories } = eventOrValue;
     if (categories) {
@@ -20,9 +20,11 @@ export const mapStateToProps = state => ({
   initialValues: { categories: getDECategoryFilters(state) },
 });
 
-const CategoryFilterContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(CategoryFilter);
-
-export default CategoryFilterContainer;
