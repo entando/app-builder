@@ -20,11 +20,6 @@ export const mapStateToProps = state => ({
   initialValues: { digitalExchanges: getDigitalExchangeFilters(state) },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  {
-    pure: false,
-  },
-)(DigitalExchangeFilter);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DigitalExchangeFilter);
