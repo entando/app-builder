@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-const Log = require('./Log.js');
+const Log = require('@entando/log');
 
 
 const APPS_JS_FILE_PATH = path.resolve('./src/entando-apps.js');

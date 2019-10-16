@@ -1,5 +1,5 @@
 const program = require('commander');
-const Log = require('./Log');
+const Log = require('@entando/log');
 const { execSync } = require('child_process');
 const createAppsImportFile = require('./createImportsFile');
 
