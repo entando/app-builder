@@ -24,6 +24,14 @@
   }
 }
 
+.BrandMenu__first-level-menu {
+  &.nav.persistent-secondary {
+    .LinkMenuItem.active {
+      margin-bottom: 0;
+    }
+  }
+}
+
 .FirstLevelMenuItem {
   span .fa { // sass-lint:disable-line force-element-nesting class-name-format
     padding-right: 8px;
