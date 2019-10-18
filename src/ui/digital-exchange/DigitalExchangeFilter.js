@@ -6,20 +6,23 @@ import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
 class DigitalExchangeFilterBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
   render() {
     const { intl, digitalExchanges, onChange } = this.props;
     const formatText = id => intl.formatMessage({ id });
 
-    const options = digitalExchanges.map(digitalExchange => (
-      { label: digitalExchange.name, value: digitalExchange.id }
-    ));
+    const options = digitalExchanges.map(digitalExchange => ({
+      label: digitalExchange.name,
+      value: digitalExchange.id,
+    }));
 
     return (
-      <SidebarFilter title={formatText('digitalExchange.sidebar.digitalExchangeFilterTitle')}>
+      <SidebarFilter
+        title={formatText('digitalExchange.sidebar.digitalExchangeFilterTitle')}
+      >
         <CheckboxGroup
           name="digitalExchanges"
           options={options}
@@ -33,7 +36,7 @@ class DigitalExchangeFilterBody extends Component {
 DigitalExchangeFilterBody.propTypes = {
   intl: intlShape.isRequired,
   digitalExchanges: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

@@ -3,7 +3,10 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import DigitalExchangeFilter from 'ui/digital-exchange/DigitalExchangeFilter';
-import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/DigitalExchangeFilterContainer';
+import {
+  mapStateToProps,
+  mapDispatchToProps,
+} from 'ui/digital-exchange/DigitalExchangeFilterContainer';
 import { LIST_DIGITAL_EXCHANGES_OK } from 'test/mocks/digital-exchange/digitalExchanges';
 import { fetchDigitalExchanges } from 'state/digital-exchange/digital-exchanges/actions';
 import { filterByDigitalExchanges } from 'state/digital-exchange/actions';
@@ -38,7 +41,6 @@ jest.mock('state/digital-exchange/actions', () => ({
 
 const dispatchMock = jest.fn();
 
-
 describe('DigitalExchangeFilter', () => {
   let component;
   beforeEach(() => {
@@ -63,12 +65,12 @@ describe('DigitalExchangeFilter', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+      expect(props.onDidMount).toBeDefined();
       expect(props.onChange).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount({});
+      props.onDidMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchDigitalExchanges).toHaveBeenCalled();
     });
