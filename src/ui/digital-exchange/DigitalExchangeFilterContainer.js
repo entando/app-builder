@@ -6,7 +6,7 @@ import { fetchDigitalExchanges } from 'state/digital-exchange/digital-exchanges/
 import DigitalExchangeFilter from 'ui/digital-exchange/DigitalExchangeFilter';
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => (dispatch(fetchDigitalExchanges())),
+  onDidMount: () => dispatch(fetchDigitalExchanges()),
   onChange: (eventOrValue) => {
     const { digitalExchanges } = eventOrValue;
     if (digitalExchanges) {
@@ -20,7 +20,6 @@ export const mapStateToProps = state => ({
   initialValues: { digitalExchanges: getDigitalExchangeFilters(state) },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DigitalExchangeFilter);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(DigitalExchangeFilter);

@@ -152,7 +152,7 @@ const addOrUpdateFilter = (filter, state, category) => {
 
 const removeFilter = (filter, state, category) => {
   const filterKey = getFilterKey(filter);
-  const stateSlice = state[category];
+  const stateSlice = state[category] || {};
   const stateFormValues = get(stateSlice, 'formValues', {});
   const isTheOnlyFilter = Object.keys(stateFormValues).length === 1
     && getFilterKey(stateSlice) === filterKey;

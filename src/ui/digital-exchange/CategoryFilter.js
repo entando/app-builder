@@ -6,8 +6,8 @@ import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
 class CategoryFilterBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
   render() {
@@ -19,7 +19,9 @@ class CategoryFilterBody extends Component {
     }));
 
     return (
-      <SidebarFilter title={formatText('digitalExchange.sidebar.categoryFilterTitle')}>
+      <SidebarFilter
+        title={formatText('digitalExchange.sidebar.categoryFilterTitle')}
+      >
         <CheckboxGroup
           name="categories"
           options={options}
@@ -33,7 +35,7 @@ class CategoryFilterBody extends Component {
 CategoryFilterBody.propTypes = {
   intl: intlShape.isRequired,
   digitalExchangeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
