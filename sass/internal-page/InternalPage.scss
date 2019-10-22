@@ -24,6 +24,7 @@
   }
 }
 
+// sass-lint:disable force-element-nesting class-name-format nesting-depth
 .BrandMenu__first-level-menu {
   &.nav.persistent-secondary {
     .LinkMenuItem.active {
@@ -31,6 +32,7 @@
     }
   }
 }
+// sass-lint:enable force-element-nesting class-name-format nesting-depth
 
 .FirstLevelMenuItem {
   span .fa { // sass-lint:disable-line force-element-nesting class-name-format
