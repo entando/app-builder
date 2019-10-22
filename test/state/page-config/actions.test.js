@@ -15,6 +15,8 @@ import {
 import { loadSelectedPage } from 'state/pages/actions';
 
 import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
+import { SET_SELECTED_PAGE } from 'state/pages/types';
+import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
 import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD } from 'test/mocks/pages';
 import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
@@ -25,6 +27,7 @@ import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
 import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getWidgetsMap } from 'state/widgets/selectors';
+import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
 import { validatePageModel } from 'state/page-models/helpers';
 import { history } from 'app-init/router';
 
@@ -43,6 +46,8 @@ jest.mock('api/pageModels', () => ({
 
 jest.mock('state/pages/actions', () => ({
   loadSelectedPage: jest.fn(),
+  setSelectedPage: jest.fn()
+    .mockImplementation(require.requireActual('state/pages/actions').setSelectedPage),
 }));
 
 jest.mock('state/page-models/actions', () => ({
@@ -68,6 +73,11 @@ jest.mock('state/page-config/selectors', () => ({
 
 jest.mock('state/widgets/selectors', () => ({
   getWidgetsMap: jest.fn(),
+}));
+
+jest.mock('state/pages/selectors', () => ({
+  getSelectedPage: jest.fn(),
+  getSelectedPageIsPublished: jest.fn(),
 }));
 
 history.push = jest.fn();
@@ -257,6 +267,19 @@ describe('state/page-config/actions', () => {
         done();
       }).catch(done.fail);
     });
+
+    it('dispatches SET_SELECTED_PAGE with draft status when page status is published', (done) => {
+      getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
+      getSelectedPageIsPublished.mockReturnValue(true);
+      store.dispatch(removePageWidget(FRAME_ID, CURRENT_PAGE_CODE)).then(() => {
+        const actions = store.getActions();
+        const actionTypes = actions.map(action => action.type);
+        const actionPayloads = actions.map(action => action.payload);
+        expect(actionTypes[1]).toEqual(SET_SELECTED_PAGE);
+        expect(actionPayloads[1].page.status).toEqual(PAGE_STATUS_DRAFT);
+        done();
+      }).catch(done.fail);
+    });
   });
 
   describe('updatePageWidget()', () => {
@@ -305,7 +328,7 @@ describe('state/page-config/actions', () => {
           CURRENT_PAGE_CODE,
         )).then(() => {
           const actionTypes = store.getActions().map(action => action.type);
-          expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+          expect(actionTypes).toContain(SET_PAGE_WIDGET);
           done();
         }).catch(done.fail);
       });
@@ -345,7 +368,7 @@ describe('state/page-config/actions', () => {
           CURRENT_PAGE_CODE,
         )).then(() => {
           const actionTypes = store.getActions().map(action => action.type);
-          expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+          expect(actionTypes).toContain(SET_PAGE_WIDGET);
           done();
         }).catch(done.fail);
       });
@@ -362,10 +385,28 @@ describe('state/page-config/actions', () => {
         CURRENT_PAGE_CODE,
       )).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+        expect(actionTypes).toContain(SET_PAGE_WIDGET);
         expect(deletePageWidget).not.toHaveBeenCalled();
         expect(putPageWidget)
           .toHaveBeenCalledWith(CURRENT_PAGE_CODE, FRAME_ID, { code: WIDGET_CODE });
+        done();
+      }).catch(done.fail);
+    });
+
+    it('dispatches SET_SELECTED_PAGE with draft status when page status is published', (done) => {
+      getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
+      getSelectedPageIsPublished.mockReturnValue(true);
+      store.dispatch(updatePageWidget(
+        WIDGET_CODE,
+        OLD_FRAME_ID,
+        FRAME_ID,
+        CURRENT_PAGE_CODE,
+      )).then(() => {
+        const actions = store.getActions();
+        const actionTypes = actions.map(action => action.type);
+        const actionPayloads = actions.map(action => action.payload);
+        expect(actionTypes[1]).toEqual(SET_SELECTED_PAGE);
+        expect(actionPayloads[1].page.status).toEqual(PAGE_STATUS_DRAFT);
         done();
       }).catch(done.fail);
     });
@@ -380,7 +421,7 @@ describe('state/page-config/actions', () => {
       getSelectedPageModelMainFrame.mockReturnValue({ pos: 3 });
       store.dispatch(setSelectedPageOnTheFly(false, CURRENT_PAGE_CODE)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([REMOVE_PAGE_WIDGET]);
+        expect(actionTypes).toContain(REMOVE_PAGE_WIDGET);
         done();
       }).catch(done.fail);
     });
@@ -389,7 +430,7 @@ describe('state/page-config/actions', () => {
       getSelectedPageModelMainFrame.mockReturnValue({ pos: 3 });
       store.dispatch(setSelectedPageOnTheFly(true, CURRENT_PAGE_CODE)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_PAGE_WIDGET]);
+        expect(actionTypes).toContain(SET_PAGE_WIDGET);
         done();
       }).catch(done.fail);
     });
@@ -518,6 +559,7 @@ describe('state/page-config/actions', () => {
         { type: 'WIDGET_NO_CONFIG' },
         { type: 'WIDGET_WITH_CONFIG', config: { key: 'value' } },
       ]);
+      getSelectedPageIsPublished.mockReturnValue(false);
       store = mockStore(INITIAL_STATE);
     });
 

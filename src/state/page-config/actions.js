@@ -4,7 +4,7 @@ import { addErrors } from '@entando/messages';
 
 import { loadSelectedPageModel } from 'state/page-models/actions';
 import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
-import { loadSelectedPage } from 'state/pages/actions';
+import { loadSelectedPage, setSelectedPage } from 'state/pages/actions';
 import { validatePageModel } from 'state/page-models/helpers';
 import {
   getPageConfig,
@@ -15,6 +15,7 @@ import {
 } from 'api/pages';
 import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getWidgetsMap } from 'state/widgets/selectors';
+import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
 import {
   SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
@@ -132,10 +133,19 @@ export const initConfigPage = pageCode => async (dispatch) => {
 };
 
 
-export const removePageWidget = (frameId, pageCode) => dispatch => (
+export const removePageWidget = (frameId, pageCode) => (dispatch, getState) => (
   deletePageWidget(pageCode, frameId)
     .then(() => {
       dispatch(removePageWidgetSync(pageCode, frameId));
+
+      const isPagePublished = getSelectedPageIsPublished(getState());
+      if (isPagePublished) {
+        const selectedPage = getSelectedPage(getState());
+        dispatch(setSelectedPage({
+          ...selectedPage,
+          status: PAGE_STATUS_DRAFT,
+        }));
+      }
     }).catch(() => {})
 );
 
@@ -155,6 +165,15 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
     return promise.then(() => putPageWidget(pageCode, targetFrameId, requestBody))
       .then(() => {
         dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
+
+        const isPagePublished = getSelectedPageIsPublished(getState());
+        if (isPagePublished) {
+          const selectedPage = getSelectedPage(getState());
+          dispatch(setSelectedPage({
+            ...selectedPage,
+            status: PAGE_STATUS_DRAFT,
+          }));
+        }
       }).catch(() => {});
   };
 
