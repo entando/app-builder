@@ -3,7 +3,7 @@ import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 import { keycloak, keycloakEnabled } from 'ui/app/Keycloak';
-import { updateUserToken } from 'state/login-form/actions';
+import { updateUser } from 'state/login-form/actions';
 
 export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
 export const mapDispatchToProps = dispatch => ({
@@ -15,7 +15,7 @@ export const mapDispatchToProps = dispatch => ({
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshSuccess':
-        dispatch(updateUserToken(username, token));
+        dispatch(updateUser(username, token));
         break;
       case 'onTokenExpired':
         break;
