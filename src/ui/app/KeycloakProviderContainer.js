@@ -1,16 +1,25 @@
 import React, { Fragment } from 'react';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
-import { loginUser } from '@entando/apimanager';
+import { loginUser, setUser } from '@entando/apimanager';
 import { keycloak, keycloakEnabled } from 'ui/app/Keycloak';
 
 export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event) => {
+    const { idTokenParsed: { preferred_username: username }, token } = keycloak;
+
     switch (event) {
       case 'onAuthSuccess':
+        dispatch(loginUser(username, token));
+        break;
       case 'onAuthRefreshSuccess':
-        dispatch(loginUser(keycloak.idTokenParsed.preferred_username, keycloak.token));
+        dispatch(setUser({
+          username,
+          token,
+        }));
+        localStorage.setItem('username', username);
+        localStorage.setItem('token', token);
         break;
       case 'onTokenExpired':
         break;
