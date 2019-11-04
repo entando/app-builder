@@ -20,6 +20,7 @@ import 'patternfly/dist/css/patternfly.min.css';
 import 'patternfly/dist/css/patternfly-additions.min.css';
 
 import 'codemirror/lib/codemirror.css';
+import 'codemirror/addon/dialog/dialog.css';
 import '@entando/menu/dist/css/index.css';
 import '@entando/pages/dist/css/index.css';
 import KeycloakProviderContainer from 'ui/app/KeycloakProviderContainer';
