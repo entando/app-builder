@@ -12,6 +12,10 @@ class ToolbarPageConfig extends Component {
     this.props.onWillMount();
   }
 
+  componentWillUnmount() {
+    document.body.classList.remove('no-scroll');
+  }
+
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
     const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
