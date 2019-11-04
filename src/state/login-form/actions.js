@@ -1,5 +1,5 @@
 import { formattedText } from '@entando/utils';
-import { loginUser } from '@entando/apimanager';
+import { loginUser, setUser } from '@entando/apimanager';
 
 import login from 'api/login';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
@@ -42,3 +42,12 @@ export const performLogin = (username, password) => dispatch => (
     }
   })
 );
+
+export const updateUser = (username, token) => (dispatch) => {
+  dispatch(setUser({
+    username,
+    token,
+  }));
+  localStorage.setItem('username', username);
+  localStorage.setItem('token', token);
+};
