@@ -43,7 +43,7 @@ export const performLogin = (username, password) => dispatch => (
   })
 );
 
-export const updateUserToken = (username, token) => (dispatch) => {
+export const updateUser = (username, token) => (dispatch) => {
   dispatch(setUser({
     username,
     token,
