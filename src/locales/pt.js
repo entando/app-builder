@@ -598,7 +598,7 @@ export default {
     'group.content.lastEdit': 'Última modificação',
     'pageModels.help': 'A seção MODELOS DE PÁGINA permite gerenciar novos modelos de pagina ou editar os já existentes. O Modelo de Página define a estrutura de página. Um modelo de página é caracterizado por dois elementos: scheme (a divisão da página em áreas menores chamados de frames) e decoration (o visual de apresentação da página). Dentro de uma aplicação Entando você pode configurar multiplos modelos de página.',
     'pageModels.name.help': 'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
-    'pageModels.code.help': 'Você pode inserir no máximo 40 caracteres (maiúsculo, minúsculo, numeros e \'_\').',
+    'pageModels.code.help': 'Você pode inserir no máximo 40 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
     'pageModels.jsonConfiguration': 'Configuração do JSON',
     'pageModels.template': 'Template',
     'pageModels.templatePreview': 'Prévia do Template',
