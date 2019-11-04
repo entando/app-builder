@@ -597,7 +597,7 @@ export default {
     'group.content.lastEdit': 'Ultima modifica',
     'pageModels.help': 'Dalla sezione MODELLI DI PAGINA puoi gestire i modelli di pagina esistenti o crearne di nuovi. Il modello di pagina definisce la struttura della pagina. All\' interno di un portale Entando si possono configurare piú modelli di pagina. Il Modello di Pagina determina due aspetti: schema (suddivisione della pagina in zone) e decorazione (aspetto grafico della pagina).',
     'pageModels.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
-    'pageModels.code.help': 'Puoi inserire massimo 40 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
+    'pageModels.code.help': 'Puoi inserire massimo 40 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'pageModels.jsonConfiguration': 'Configurazione JSON',
     'pageModels.template': 'Template',
     'pageModels.templatePreview': 'Anteprima Template',

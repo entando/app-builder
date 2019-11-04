@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText, required, maxLength, code } from '@entando/utils';
+import { formattedText, required, maxLength } from '@entando/utils';
 import { FormattedMessage } from 'react-intl';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -59,7 +59,7 @@ export class PageModelFormBody extends Component {
                 name="code"
                 label={<FormLabel labelId="app.code" helpId="pageModels.code.help" required />}
                 placeholder={formattedText('app.code')}
-                validate={[required, code, maxLength40]}
+                validate={[required, maxLength40]}
                 disabled={isEditMode}
               />
             </fieldset>

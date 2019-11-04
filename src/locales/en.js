@@ -597,7 +597,7 @@ export default {
     'group.content.lastEdit': 'Last edit',
     'pageModels.help': 'The PAGE MODELS section lets you manage existing page models or add new. The Page Model defines the page structure. A page model is characterized by two elements: scheme (the division of the page in smaller area called frames) and decoration (the look and feel of the page). Within an Entando application you can configure multiple page models.',
     'pageModels.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
-    'pageModels.code.help': 'You can insert max 40 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'pageModels.code.help': 'You can insert max 40 characters uppercase and lowercase letters, numbers and special characters.',
     'pageModels.jsonConfiguration': 'JSON Configuration',
     'pageModels.template': 'Template',
     'pageModels.templatePreview': 'Template Preview',
