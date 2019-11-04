@@ -18,7 +18,6 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_MODEL_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_DE_COMPONENT_LIST,
-  ROUTE_PLUGINS,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -112,12 +111,6 @@ const InternalPage = ({ className, children }) => (
           isNav
         />
       </FirstLevelMenuItem>
-
-      <LinkMenuItem
-        id="menu-integrations"
-        label={<FormattedMessage id="menu.integration" defaultMessage="Integrations" />}
-        to={ROUTE_PLUGINS}
-      />
 
       <FirstLevelMenuItem
         id="menu-data"
