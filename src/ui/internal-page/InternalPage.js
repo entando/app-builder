@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { Icon } from 'patternfly-react';
 import {
   BrandMenu,
-  AdminAppSwitch,
   FirstLevelMenuItem,
   LinkMenuItem,
 } from '@entando/menu';
@@ -34,7 +33,6 @@ const menuHeader = [
   <HomePageLinkContainer key="projectLink" />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,
-  <AdminAppSwitch key="adminAppSwitch" />,
 ];
 
 const appMenuItems = Object.values(apps).map(App => (
