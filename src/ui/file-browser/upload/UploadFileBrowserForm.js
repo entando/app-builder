@@ -20,7 +20,6 @@ export const UploadFileBrowserBody = (props) => {
         className="UploadFileBrowserForm__file"
         name="file"
         component={RenderFileInput}
-        acceptFile="image/*, .doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         validate={[required]}
         label={<FormattedMessage id="fileBrowser.uploadFile" />}
       />
