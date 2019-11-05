@@ -28,6 +28,7 @@ import { toggleLoading } from 'state/loading/actions';
 import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
@@ -122,10 +123,18 @@ export const pollDEComponentInstallStatus = component => dispatch => (
     dispatch(startComponentInstallation(component.id));
     pollApi(
       () => getDEComponentInstall(component.id),
-      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+      ({ payload }) => payload &&
+        [
+          DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+          DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+        ].includes(payload.status),
     )
-      .then(() => {
-        dispatch(finishComponentInstallation(component.id));
+      .then((res) => {
+        if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
+          dispatch(finishComponentInstallation(component.id));
+        } else {
+          dispatch(componentInstallationFailed(component.id));
+        }
       })
       .catch((res) => {
         const { errors, payload } = res;
@@ -142,7 +151,9 @@ export const pollDEComponentInstallStatus = component => dispatch => (
           ));
           dispatch(componentInstallationFailed(component.id));
         }
-        dispatch(addErrors(errors.map(err => err.message)));
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+        }
         resolve(res);
       })
       .finally(() => resolve());
@@ -170,10 +181,18 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
     dispatch(startComponentUninstall(componentId));
     pollApi(
       () => getDEComponentUninstall(componentId),
-      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+      ({ payload }) => payload &&
+        [
+          DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+          DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+        ].includes(payload.status),
     )
-      .then(() => {
-        dispatch(finishComponentUninstall(componentId));
+      .then(({ payload }) => {
+        if (payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
+          dispatch(finishComponentUninstall(componentId));
+        } else {
+          dispatch(componentUninstallFailed(componentId));
+        }
       })
       .catch((res) => {
         const { errors, payload } = res;
@@ -190,7 +209,9 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
           ));
           dispatch(componentUninstallFailed(componentId));
         }
-        dispatch(addErrors(errors.map(err => err.message)));
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+        }
         resolve(res);
       })
       .finally(() => resolve());
