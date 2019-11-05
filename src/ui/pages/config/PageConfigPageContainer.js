@@ -16,9 +16,9 @@ import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
-  onWillMount: () => {
+  onWillMount: (pageCode) => {
     dispatch(clearErrors());
-    dispatch(initConfigPage(params.pageCode));
+    dispatch(initConfigPage(pageCode || params.pageCode));
   },
   onWillUnmount: () => dispatch(setSelectedPageModel(null)),
   setSelectedPageOnTheFly: value => dispatch(setSelectedPageOnTheFly(value, params.pageCode)),
