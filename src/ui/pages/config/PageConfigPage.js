@@ -54,7 +54,8 @@ class PageConfigPage extends Component {
   }
 
   componentWillMount() {
-    if (this.props.onWillMount) this.props.onWillMount(this.props);
+    const { onWillMount } = this.props;
+    if (onWillMount) onWillMount();
   }
 
   componentDidMount() {
@@ -68,6 +69,12 @@ class PageConfigPage extends Component {
           nextProps.pageStatus :
           null,
       });
+    }
+    const { match, onWillMount } = this.props;
+    const { params: nextMatchParams } = nextProps.match;
+    const { params: currMatchParams } = match;
+    if (nextMatchParams.pageCode !== currMatchParams.pageCode) {
+      onWillMount(nextMatchParams.pageCode);
     }
   }
 
@@ -338,6 +345,9 @@ PageConfigPage.propTypes = {
   unpublishPage: PropTypes.func,
   applyDefaultConfig: PropTypes.func,
   showPageSettings: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({}),
+  }).isRequired,
 };
 
 PageConfigPage.defaultProps = {
