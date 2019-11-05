@@ -21,6 +21,4 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false,
-})(PasswordForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordForm);
