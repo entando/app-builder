@@ -230,6 +230,9 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
+
+            {renderActiveLanguages()}
+
             <Field
               component={RenderTextInput}
               name="code"
@@ -238,8 +241,6 @@ export class PageFormBody extends Component {
               validate={[required, code, maxLength30]}
               disabled={isEditMode}
             />
-
-            {renderActiveLanguages()}
 
             <FormGroup>
               <label htmlFor="parentCode" className="col-xs-2 control-label">
