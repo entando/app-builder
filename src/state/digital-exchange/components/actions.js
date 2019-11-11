@@ -128,6 +128,7 @@ export const pollDEComponentInstallStatus = component => dispatch => (
           DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_INSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
+      180000,
     )
       .then((res) => {
         if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
@@ -186,6 +187,7 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
           DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_INSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
+      180000,
     )
       .then(({ payload }) => {
         if (payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
