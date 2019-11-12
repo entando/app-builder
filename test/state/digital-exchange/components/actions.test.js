@@ -165,7 +165,7 @@ describe('state/digital-exchange/components/actions', () => {
       }));
     });
 
-    it('uninstallDEComponent dispatches proper actions if component is installed', (done) => {
+    it('uninstallDEComponent dispatches proper actions if component is uninstalled', (done) => {
       pollApi.mockImplementation(() => Promise.resolve({
         payload: COMPONENT_UNINSTALLATION_COMPLETED,
       }));

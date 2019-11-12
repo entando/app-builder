@@ -192,7 +192,7 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
       timeout: 180000,
     })
       .then(({ payload }) => {
-        if (payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
+        if (payload.status === DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentUninstall(componentId));
         } else {
           dispatch(componentUninstallFailed(componentId));
