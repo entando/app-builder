@@ -1,4 +1,9 @@
-const pollApi = (apiFn, successConditionFn, timeout = 3000, interval = 500) => {
+const pollApi = (params) => {
+// const pollApi = (apiFn, successConditionFn, timeout = 3000, interval = 500) => {
+  const defaults = { timeout: 3000, interval: 500 };
+  const {
+    apiFn, successConditionFn, timeout, interval,
+  } = { ...defaults, ...params };
   const endTime = Number(new Date()) + timeout;
   const checkCondition = (resolve, reject) => {
     apiFn().then((response) => {

@@ -121,15 +121,15 @@ export const finishComponentUninstall = id => ({
 export const pollDEComponentInstallStatus = component => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentInstallation(component.id));
-    pollApi(
-      () => getDEComponentInstall(component.id),
-      ({ payload }) => payload &&
+    pollApi({
+      apiFn: () => getDEComponentInstall(component.id),
+      successConditionFn: ({ payload }) => payload &&
         [
           DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_INSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
-      180000,
-    )
+      timeout: 180000,
+    })
       .then((res) => {
         if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentInstallation(component.id));
@@ -180,15 +180,15 @@ export const installDEComponent = component => dispatch => (
 export const pollDEComponentUninstallStatus = componentId => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentUninstall(componentId));
-    pollApi(
-      () => getDEComponentUninstall(componentId),
-      ({ payload }) => payload &&
+    pollApi({
+      apiFn: () => getDEComponentUninstall(componentId),
+      successConditionFn: ({ payload }) => payload &&
         [
           DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_INSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
-      180000,
-    )
+      timeout: 180000,
+    })
       .then(({ payload }) => {
         if (payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentUninstall(componentId));
