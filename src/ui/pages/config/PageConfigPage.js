@@ -60,6 +60,9 @@ class PageConfigPage extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.winScrollListener);
+
+    // add scroll overlay style to body to prevent sidebar flicker
+    document.body.classList.add('scroll-overlay');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,6 +84,7 @@ class PageConfigPage extends Component {
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
     window.removeEventListener('scroll', this.winScrollListener);
+    document.body.classList.remove('scroll-overlay');
   }
 
   removeStatusAlert() {
