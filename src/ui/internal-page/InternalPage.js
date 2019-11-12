@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { Icon } from 'patternfly-react';
 import {
   BrandMenu,
-  AdminAppSwitch,
   FirstLevelMenuItem,
   LinkMenuItem,
 } from '@entando/menu';
@@ -34,7 +33,6 @@ const menuHeader = [
   <HomePageLinkContainer key="projectLink" />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,
-  <AdminAppSwitch key="adminAppSwitch" />,
 ];
 
 const appMenuItems = Object.values(apps).map(App => (
@@ -58,7 +56,7 @@ const digitalExchangeMenuItem = DIGITAL_EXCHANGE_UI_ENABLED ? (<LinkMenuItem
 
 const InternalPage = ({ className, children }) => (
   <div className={['InternalPage', className].join(' ').trim()}>
-    <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 5.0" header={menuHeader} >
+    <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 6.0" header={menuHeader} >
       <LinkMenuItem
         id="menu-dashboard"
         to={ROUTE_DASHBOARD}
