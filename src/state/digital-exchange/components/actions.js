@@ -29,6 +29,8 @@ import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
   DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+  DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
@@ -184,8 +186,8 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
       apiFn: () => getDEComponentUninstall(componentId),
       successConditionFn: ({ payload }) => payload &&
         [
-          DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-          DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+          DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+          DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
       timeout: 180000,
     })
