@@ -81,3 +81,7 @@
     right: 0;
   }
 }
+
+.scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
+  margin-right: calc(-1 * (100vw - 100%));
+}

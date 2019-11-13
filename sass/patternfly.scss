@@ -117,4 +117,9 @@ $fa-square-o: "\f096";
   overflow: hidden;
 }
 
+.scroll-overlay {
+  margin-right: calc(-1 * (100vw - 100%));
+  overflow-x: hidden;
+}
+
 // sass-lint:enable class-name-format
