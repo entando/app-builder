@@ -1,8 +1,17 @@
 .FormSectionTitle {
 
+  &__inner-body {
+    outline: none;
+  }
+
   &__required-fields {
     color: $color-pf-black-300;
     font-size: 12px;
+  }
+
+  &__collapse-button {
+    margin-left: 5px;
+    cursor: pointer;
   }
 
 }

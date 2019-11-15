@@ -172,6 +172,8 @@ import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
+import ContentsQueryContainer from 'ui/widgets/common/form/ContentsQueryContainer';
+
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
 
@@ -200,6 +202,7 @@ const getRouteComponent = () => (
         </LoginPage>
       )}
     />
+    <Route exact path="/irakli" component={ContentsQueryContainer} />
     <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
     {/* page */}
     <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />

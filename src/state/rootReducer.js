@@ -35,6 +35,8 @@ import digitalExchangeCategories from 'state/digital-exchange/categories/reducer
 import digitalExchangeExtraFilters from 'state/digital-exchange/extra-filters/reducer';
 import plugins from 'state/plugins/reducer';
 import entandoApps from 'entando-apps';
+import contentType from 'state/content-type/reducer';
+import contentModel from 'state/content-model/reducer';
 
 const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
 
@@ -76,6 +78,8 @@ const reducerDef = {
   widgets,
   userSettings,
   userProfile,
+  contentType,
+  contentModel,
 };
 
 // app root reducer

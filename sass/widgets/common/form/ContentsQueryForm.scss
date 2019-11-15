@@ -1,0 +1,22 @@
+.ReactCollapse--collapse {
+  transition: height 350ms;
+}
+
+.ContentsQueryForm {
+  // sass-lint:disable class-name-format
+  &__inclusiveOr {
+    margin-top: 3rem;
+
+    // sass-lint:disable nesting-depth
+    &--active {
+      // sass-lint:disable no-important
+      border-color: $color-dark-grey !important;
+      background-color: $color-dark-grey !important;
+      color: $color-white !important;
+    }
+  }
+
+  &__formGroup {
+    margin-top: 2.5rem;
+  }
+}
