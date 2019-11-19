@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { config } from '@entando/apimanager';
@@ -117,7 +118,7 @@ describe('state/digital-exchange/components/actions', () => {
     });
 
     it('installDEComponent dispatches proper actions if component is installed', (done) => {
-      pollApi.mockImplementation(mockApi({
+      pollApi.mockImplementation(() => Promise.resolve({
         payload: COMPONENT_INSTALLATION_COMPLETED,
       }));
 
@@ -131,12 +132,9 @@ describe('state/digital-exchange/components/actions', () => {
     });
 
     it('installDEComponent dispatches proper actions if timeout', (done) => {
-      /* eslint-disable prefer-promise-reject-errors */
-      pollApi.mockImplementation(() => new Promise((resolve, reject) => (
-        reject({
-          errors: [{ message: 'Polling timed out' }],
-        })
-      )));
+      pollApi.mockImplementation(() => Promise.reject({
+        errors: [{ message: 'Polling timed out' }],
+      }));
 
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
@@ -167,8 +165,8 @@ describe('state/digital-exchange/components/actions', () => {
       }));
     });
 
-    it('uninstallDEComponent dispatches proper actions if component is installed', (done) => {
-      pollApi.mockImplementation(mockApi({
+    it('uninstallDEComponent dispatches proper actions if component is uninstalled', (done) => {
+      pollApi.mockImplementation(() => Promise.resolve({
         payload: COMPONENT_UNINSTALLATION_COMPLETED,
       }));
 
@@ -182,12 +180,9 @@ describe('state/digital-exchange/components/actions', () => {
     });
 
     it('uninstallDEComponent dispatches proper actions if timeout', (done) => {
-      /* eslint-disable prefer-promise-reject-errors */
-      pollApi.mockImplementation(() => new Promise((resolve, reject) => (
-        reject({
-          errors: [{ message: 'Polling timed out' }],
-        })
-      )));
+      pollApi.mockImplementation(() => Promise.reject({
+        errors: [{ message: 'Polling timed out' }],
+      }));
 
       store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();

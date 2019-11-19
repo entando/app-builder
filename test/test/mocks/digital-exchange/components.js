@@ -1,5 +1,15 @@
 import { leonardoImg, redhatImg1, redhatImg2 } from 'test/mocks/digital-exchange/componentImages';
 import { ENTANDO_EXCHANGE, REDHAT_EXCHANGE, LEONARDO_EXCHANGE } from 'test/mocks/digital-exchange/digitalExchanges';
+import {
+  DE_COMPONENT_INSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+  DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+  DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+} from 'state/digital-exchange/components/const';
 
 export const LIST_DE_COMPONENTS_OK = [
   {
@@ -85,32 +95,40 @@ const componentInstallation = {
 
 export const COMPONENT_INSTALLATION_CREATED = {
   ...componentInstallation,
-  status: 'CREATED',
+  status: DE_COMPONENT_INSTALLATION_STATUS_CREATED,
 };
 
 export const COMPONENT_INSTALLATION_IN_PROGRESS = {
   ...componentInstallation,
-  status: 'IN_PROGRESS',
+  status: DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 };
 
 export const COMPONENT_INSTALLATION_COMPLETED = {
   ...componentInstallation,
-  status: 'COMPLETED',
+  status: DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
 };
 
-const jobType = 'UNINSTALL';
+export const COMPONENT_INSTALLATION_ERROR = {
+  ...componentInstallation,
+  status: DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+};
 
 export const COMPONENT_UNINSTALLATION_CREATED = {
-  ...COMPONENT_INSTALLATION_CREATED,
-  jobType,
+  ...componentInstallation,
+  status: DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
 };
 
 export const COMPONENT_UNINSTALLATION_IN_PROGRESS = {
-  ...COMPONENT_INSTALLATION_IN_PROGRESS,
-  jobType,
+  ...componentInstallation,
+  status: DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 };
 
 export const COMPONENT_UNINSTALLATION_COMPLETED = {
-  ...COMPONENT_INSTALLATION_COMPLETED,
-  jobType,
+  ...componentInstallation,
+  status: DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+};
+
+export const COMPONENT_UNINSTALLATION_ERROR = {
+  ...componentInstallation,
+  status: DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
 };
