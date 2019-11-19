@@ -12,10 +12,6 @@ class ToolbarPageConfig extends Component {
     this.props.onWillMount();
   }
 
-  componentWillUnmount() {
-    document.body.classList.remove('no-scroll');
-  }
-
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
     const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
@@ -62,12 +58,6 @@ class ToolbarPageConfig extends Component {
         <div className="panel-group">
           <div
             className={classScrollContainer.join(' ')}
-            onMouseEnter={(
-              () => document.body.classList.add('no-scroll')
-            )}
-            onMouseLeave={(
-              () => document.body.classList.remove('no-scroll')
-            )}
           >
             {container}
           </div>

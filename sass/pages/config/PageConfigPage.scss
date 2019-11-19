@@ -1,4 +1,9 @@
 .PageConfigPage {
+  &__main {
+    max-height: calc(100vh - 74px);
+    overflow-y: auto;
+  }
+
   &__title {
     color: $color-pf-blue-300;
     font-size: 12px;
@@ -80,4 +85,8 @@
     top: 0;
     right: 0;
   }
+}
+
+.scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
+  margin-right: calc(-1 * (100vw - 100%));
 }
