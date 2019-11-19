@@ -1,13 +1,12 @@
-const pollApi = (params) => {
-  const {
-    apiFn, successConditionFn, timeout = 3000, interval = 500,
-  } = params;
+const pollApi = ({
+  apiFn, stopPollingConditionFn, timeout = 3000, interval = 500 
+}) => {
   const endTime = Number(new Date()) + timeout;
   const checkCondition = (resolve, reject) => {
     apiFn().then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          if (successConditionFn(data)) {
+          if (stopPollingConditionFn(data)) {
             resolve(data);
           } else if (Number(new Date()) < endTime) {
             setTimeout(checkCondition, interval, resolve, reject);

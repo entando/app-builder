@@ -33,6 +33,8 @@ import {
   DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
 
+const POLLING_TIMEOUT_IN_MS = 1000*60*3; // 3 minutes
+
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
   payload: {
@@ -125,12 +127,12 @@ export const pollDEComponentInstallStatus = component => dispatch => (
     dispatch(startComponentInstallation(component.id));
     pollApi({
       apiFn: () => getDEComponentInstall(component.id),
-      successConditionFn: ({ payload }) => payload &&
+      stopPollingConditionFn: ({ payload }) => payload &&
         [
           DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_INSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
-      timeout: 180000,
+      timeout: POLLING_TIMEOUT_IN_MS,
     })
       .then((res) => {
         if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
@@ -184,12 +186,12 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
     dispatch(startComponentUninstall(componentId));
     pollApi({
       apiFn: () => getDEComponentUninstall(componentId),
-      successConditionFn: ({ payload }) => payload &&
+      stopPollingConditionFn: ({ payload }) => payload &&
         [
           DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
           DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
         ].includes(payload.status),
-      timeout: 180000,
+      timeout: POLLING_TIMEOUT_IN_MS,
     })
       .then(({ payload }) => {
         if (payload.status === DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
