@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Collapse } from 'react-collapse';
-import { Button, Row, Col, FormGroup } from 'patternfly-react';
+import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
 import { maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
@@ -21,9 +21,9 @@ export class ContentsQueryFormBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showFilterOptions: true,
+      showFilterOptions: false,
       publishingSettings: false,
-      filters: true,
+      filters: false,
       extraOptions: false,
       frontendFilters: false,
     };
@@ -60,11 +60,9 @@ export class ContentsQueryFormBody extends Component {
     const {
       contentTypes, contentModels, categories, pages,
       selectedCategories, selectedInclusiveOr,
-      onToggleInclusiveOr, onChangeContentType, selectedOrderType,
-      selectedFilters,
+      onToggleInclusiveOr, onChangeContentType,
+      intl, onResetFilterOption, languages,
     } = this.props;
-
-    const languages = ['en', 'it'];
 
     const elementNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]
       .map(i => Object.assign({}, { code: i, name: i }));
@@ -72,7 +70,9 @@ export class ContentsQueryFormBody extends Component {
       this.normalizeTitles(categories.filter(c => c.code !== CATEGORY_HOME));
     const normalizedPages = this.normalizeTitles(pages);
 
-    const renderTitleFields = !isUndefined(languages) ? languages
+    const normalizedLanguages = languages.map(lang => lang.code);
+
+    const renderTitleFields = !isUndefined(normalizedLanguages) ? normalizedLanguages
       .map(langCode => (
         <Field
           key={langCode}
@@ -83,7 +83,7 @@ export class ContentsQueryFormBody extends Component {
         />
       )) : null;
 
-    const renderLinkTextFields = !isUndefined(languages) ? languages
+    const renderLinkTextFields = !isUndefined(normalizedLanguages) ? normalizedLanguages
       .map(langCode => (
         <Field
           key={langCode}
@@ -106,15 +106,59 @@ export class ContentsQueryFormBody extends Component {
         <FormattedMessage id="widget.form.inclusiveOr" defaultMessage="Use inclusive filter (OR)" />
       </Button>);
 
+    const renderSaveButton = this.state.showFilterOptions &&
+      <Button
+        className="pull-right"
+        type="submit"
+        bsStyle="primary"
+        disabled={this.props.invalid || this.props.submitting}
+      >
+        <FormattedMessage id="app.save" />
+      </Button>;
+
+
+    const orderFilters = [
+      {
+        code: '',
+        nameId: 'app.enumerator.none',
+      },
+      {
+        code: 'ASC',
+        nameId: 'widget.form.asc',
+      },
+      {
+        code: 'DESC',
+        nameId: 'widget.form.desc',
+      },
+    ];
+
     const filters = [
+      { code: '', nameId: 'widget.form.selectFilter' },
       { code: 'created', nameId: 'widget.form.creationDate' },
       { code: 'modified', nameId: 'widget.form.lastModify' },
     ];
 
+    const filtersSuboptions = {
+      created: orderFilters,
+      modified: orderFilters,
+    };
+
     const frontendFilters = [
+      { code: '', nameId: 'widget.form.selectFilter' },
       { code: 'text', nameId: 'widget.form.text' },
       { code: 'categories', nameId: 'menu.categories' },
     ];
+
+    const allCategories = [{
+      code: 'all',
+      nameId: 'user.profile.all',
+      name: intl.formatMessage({ id: 'user.profile.all' }),
+    }, ...normalizedCategories];
+
+    const frontendFiltersSuboptions = {
+      text: [],
+      categories: allCategories,
+    };
 
     const handleContentTypeChange = (ev) => {
       const currentValue = ev.currentTarget.value;
@@ -234,15 +278,15 @@ export class ContentsQueryFormBody extends Component {
                         <label htmlFor="categories" className="col-xs-2 control-label">
                           <FormLabel labelId="menu.categories" />
                         </label>
-                        <Col xs={10}>
+                        <Col xs={12} sm={10}>
                           <FieldArray
                             component={MultiSelectRenderer}
                             name="categories"
-                            options={normalizedCategories}
+                            options={allCategories}
                             selectedValues={selectedCategories}
                             labelKey="name"
                             valueKey="code"
-                            emptyOptionTextId="user.profile.all"
+                            allMode
                           />
                           <Field
                             component={ButtonComponent}
@@ -253,18 +297,19 @@ export class ContentsQueryFormBody extends Component {
                           </span>
                         </Col>
                       </FormGroup>
-                      <FormGroup className="ContentsQueryForm__formGroup">
+                      <FormGroup>
                         <label htmlFor="categories" className="col-xs-2 control-label">
                           <FormLabel labelId="app.filter" />
                         </label>
-                        <Col xs={10}>
+                        <Col xs={12} sm={10}>
                           <FieldArray
+                            intl={intl}
                             component={FiltersSelectRenderer}
                             name="filters"
                             options={filters}
-                            selectedValues={selectedFilters}
-                            valueKey="code"
-                            selectedOrderType={selectedOrderType}
+                            suboptions={filtersSuboptions}
+                            onResetFilterOption={onResetFilterOption}
+                            filterName="filters"
                           />
                         </Col>
                       </FormGroup>
@@ -282,6 +327,9 @@ export class ContentsQueryFormBody extends Component {
                       onClick={handleCollapseExtraOptions}
                     />
                     <Collapse isOpened={this.state.extraOptions}>
+                      <Alert type="info" onDismiss={null}>
+                        <FormattedMessage id="widget.form.extraOptionsDescription" />
+                      </Alert>
                       <div>
                         {renderTitleFields}
                         <Field
@@ -311,18 +359,19 @@ export class ContentsQueryFormBody extends Component {
                       onClick={handleCollapseFrontendFilters}
                     />
                     <Collapse isOpened={this.state.frontendFilters}>
-                      <FormGroup>
+                      <FormGroup className="clearfix">
                         <label htmlFor="categories" className="col-xs-2 control-label">
                           <FormLabel labelId="app.filter" />
                         </label>
-                        <Col xs={10}>
+                        <Col xs={12} sm={10}>
                           <FieldArray
+                            intl={intl}
                             component={FiltersSelectRenderer}
                             name="frontendFilters"
                             options={frontendFilters}
-                            selectedValues={[]}
-                            labelKey="name"
-                            valueKey="code"
+                            suboptions={frontendFiltersSuboptions}
+                            onResetFilterOption={onResetFilterOption}
+                            filterName="frontendFilters"
                           />
                         </Col>
                       </FormGroup>
@@ -334,14 +383,7 @@ export class ContentsQueryFormBody extends Component {
             <br />
             <Row>
               <Col xs={12}>
-                <Button
-                  className="pull-right"
-                  type="submit"
-                  bsStyle="primary"
-                  disabled={this.props.invalid || this.props.submitting}
-                >
-                  <FormattedMessage id="app.save" />
-                </Button>
+                {renderSaveButton}
               </Col>
             </Row>
           </form>
@@ -352,7 +394,9 @@ export class ContentsQueryFormBody extends Component {
 }
 
 ContentsQueryFormBody.propTypes = {
+  intl: intlShape.isRequired,
   language: PropTypes.string.isRequired,
+  languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -362,11 +406,10 @@ ContentsQueryFormBody.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   categories: PropTypes.arrayOf(PropTypes.shape({})),
   selectedCategories: PropTypes.arrayOf(PropTypes.string),
-  selectedFilters: PropTypes.arrayOf(PropTypes.shape({})),
   selectedInclusiveOr: PropTypes.bool,
   onToggleInclusiveOr: PropTypes.func.isRequired,
   onChangeContentType: PropTypes.func.isRequired,
-  selectedOrderType: PropTypes.string,
+  onResetFilterOption: PropTypes.func.isRequired,
 };
 
 ContentsQueryFormBody.defaultProps = {
@@ -378,8 +421,6 @@ ContentsQueryFormBody.defaultProps = {
   pages: [],
   selectedCategories: [],
   selectedInclusiveOr: false,
-  selectedOrderType: '',
-  selectedFilters: [],
 };
 
 const ContentsQueryForm = reduxForm({

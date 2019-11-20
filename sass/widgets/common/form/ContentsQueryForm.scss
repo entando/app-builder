@@ -2,6 +2,15 @@
   transition: height 350ms;
 }
 
+.ReactCollapse--content {
+  // sass-lint:disable class-name-format
+  .form-group {
+    // sass-lint:disable zero-unit
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+  }
+}
+
 .ContentsQueryForm {
   // sass-lint:disable class-name-format
   &__inclusiveOr {
@@ -17,6 +26,6 @@
   }
 
   &__formGroup {
-    margin-top: 2.5rem;
+    padding-top: 2.5rem;
   }
 }

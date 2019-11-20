@@ -1,12 +1,14 @@
 // got from https://github.com/patternfly/patternfly-react/blob/master/packages/patternfly-3/patternfly-react/sass/patternfly-react/_type-ahead-select.scss
 // TODO remove it after upgrading to v2.x of patternfly-react
 
-@import '~react-bootstrap-typeahead/css/Typeahead';
+@import "~react-bootstrap-typeahead/css/Typeahead";
 
+// sass-lint:disable class-name-format
 .rbt-input-main {
   padding: 2px 6px;
 }
 
+// sass-lint:disable force-element-nesting
 .form-control.rbt-input-multi {
   height: auto;
 }
