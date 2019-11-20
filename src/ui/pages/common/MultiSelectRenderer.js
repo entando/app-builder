@@ -17,10 +17,16 @@ class MultiSelectRenderer extends Component {
       return;
     }
     const {
-      selectedValues, fields,
+      selectedValues, fields, allMode,
     } = this.props;
 
-    if (this.select.value && !selectedValues.includes(this.select.value)) {
+    const allBool = allMode && this.select.value === 'all';
+
+    if (allBool) {
+      fields.removeAll();
+    }
+
+    if (this.select.value && !selectedValues.includes(this.select.value) && !allBool) {
       fields.push(this.select.value);
     }
   }
@@ -45,11 +51,11 @@ class MultiSelectRenderer extends Component {
 
   render() {
     const {
-      options, selectedValues, labelKey, valueKey, emptyOptionTextId,
+      options, selectedValues, labelKey, valueKey, emptyOptionTextId, allMode,
     } = this.props;
 
     const filteredOptions = options
-      .filter(opt => !selectedValues.includes(opt[valueKey]))
+      .filter(opt => !selectedValues.includes(opt[valueKey]) || allMode)
       .map(item => (
         <option key={`opt-${item[valueKey]}`} value={item[valueKey]}>
           {item[labelKey]}
@@ -99,6 +105,7 @@ MultiSelectRenderer.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   emptyOptionTextId: PropTypes.string,
+  allMode: PropTypes.bool,
 };
 
 MultiSelectRenderer.defaultProps = {
@@ -106,6 +113,7 @@ MultiSelectRenderer.defaultProps = {
   valueKey: 'value',
   labelKey: 'label',
   emptyOptionTextId: '',
+  allMode: false,
 };
 
 export default MultiSelectRenderer;

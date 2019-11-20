@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { clearErrors } from '@entando/messages';
+import { injectIntl } from 'react-intl';
 import { formValueSelector, change } from 'redux-form';
 
 import { fetchSearchPages } from 'state/pages/actions';
@@ -15,9 +16,11 @@ import { sendPostWidgets } from 'state/widgets/actions';
 import { getContentModelList } from 'state/content-model/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
+import { getActiveLanguages } from 'state/languages/selectors';
 
 export const mapStateToProps = state => ({
   language: getLocale(state),
+  languages: getActiveLanguages(state),
   contentTypes: getContentTypeList(state),
   pages: getSearchPages(state),
   categories: getCategoryTree(state),
@@ -25,9 +28,6 @@ export const mapStateToProps = state => ({
   selectedCategories: formValueSelector('widgets.contentsQuery')(state, 'categories'),
   selectedInclusiveOr: formValueSelector('widgets.contentsQuery')(state, 'inclusiveOr'),
   selectedContentType: formValueSelector('widgets.contentsQuery')(state, 'contentType'),
-  selectedFilters: formValueSelector('widgets.contentsQuery')(state, 'filters'),
-  selectedFrontendFilters: formValueSelector('widgets.contentsQuery')(state, 'frontendFilters'),
-  selectedOrderType: formValueSelector('widgets.contentsQuery')(state, 'order'),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -43,9 +43,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onToggleInclusiveOr: value =>
     dispatch(change('widgets.contentsQuery', 'inclusiveOr', !value)),
+  onResetFilterOption: (name, i) => dispatch(change('widgets.contentsQuery', `${name}.[${i}].option`, '')),
   onChangeContentType: contentType => dispatch(fetchContentModelsByContentType(contentType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(ContentsQueryForm);
+})(injectIntl(ContentsQueryForm));

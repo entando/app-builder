@@ -19,7 +19,7 @@
   }
 
   &__settings {
-    margin-top: 1rem;
+    padding-top: 1rem;
 
     button {
       margin-top: 10px;
@@ -29,6 +29,35 @@
 
   &__control-label {
     margin-right: 10px;
+  }
+
+  &__filter-remove {
+    border: 0;
+    background: transparent;
+    color: $color-mid-blue;
+    box-shadow: none;
+
+    &:hover {
+      border: 0;
+      background: transparent;
+      color: $color-mid-blue;
+      box-shadow: none;
+    }
+
+    &:focus {
+      border: 0;
+      background: transparent;
+      color: $color-mid-blue;
+      box-shadow: none;
+    }
+  }
+
+  &__filter-remove-wrapper {
+    margin-left: 10px;
+  }
+
+  &__add {
+    width: 10rem;
   }
 
 }
