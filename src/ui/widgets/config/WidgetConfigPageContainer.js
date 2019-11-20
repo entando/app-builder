@@ -16,7 +16,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
 });
 
 export const mapStateToProps = (state, { match: { params } }) => ({
-  widgetId: params.widgetCode,
+  widgetCode: params.widgetCode,
   widgetConfig: getSelectedWidgetConfig(state),
   // TODO: parse/cast integers in router package
   framePos: parseInt(params.framePos, 10),

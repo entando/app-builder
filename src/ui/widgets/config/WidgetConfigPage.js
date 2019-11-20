@@ -38,9 +38,8 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widgetConfig, framePos, frameName, pageCode, onSubmit,
+      widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit,
     } = this.props;
-
     return (
       <InternalPage className="WidgetConfigPage">
         <Grid fluid>
@@ -103,7 +102,11 @@ class WidgetConfigPage extends Component {
                   <span>{frameName}</span>
                 </Panel.Heading>
                 <Panel.Body>
-                  <WidgetConfigForm widgetConfig={widgetConfig} onSubmit={onSubmit} />
+                  <WidgetConfigForm
+                    widgetCode={widgetCode}
+                    widgetConfig={widgetConfig}
+                    onSubmit={onSubmit}
+                  />
                 </Panel.Body>
               </Panel>
             </Col>
@@ -117,6 +120,7 @@ class WidgetConfigPage extends Component {
 WidgetConfigPage.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
+  widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,
   frameName: PropTypes.string.isRequired,
