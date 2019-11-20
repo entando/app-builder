@@ -15,6 +15,7 @@ class ContentPickerBody extends Component {
     super(props);
     this.handlePickContent = this.handlePickContent.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
+    this.typeaheadRef = React.createRef();
     this.state = {
       selectedContent: null,
     };
@@ -33,6 +34,8 @@ class ContentPickerBody extends Component {
     const { selectedContent } = this.state;
     const { onContentPick } = this.props;
     onContentPick(selectedContent);
+    this.typeaheadRef.current.getInstance().clear();
+    this.setState({ selectedContent: null });
   }
 
   render() {
@@ -77,6 +80,7 @@ class ContentPickerBody extends Component {
                 <FormLabel labelId="contentPicker.description" />
               }
               placeholder="Type to search for a content, ENTER to select it"
+              ref={this.typeaheadRef}
               onSearch={fetchContents}
               onChange={this.handleContentChange}
               labelKey={option => `${option.id} - ${option.description}`}
@@ -104,8 +108,6 @@ ContentPickerBody.propTypes = {
   fetchContents: PropTypes.func.isRequired,
   contentTypeList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   contentStatusList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  // invalid: PropTypes.bool.isRequired,
-  // submitting: PropTypes.bool.isRequired,
 };
 
 ContentPickerBody.defaultProps = {
