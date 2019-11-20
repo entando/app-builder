@@ -52,8 +52,8 @@ describe('WidgetConfigPageContainer', () => {
       props = mapStateToProps(TEST_STATE, ownProps);
     });
 
-    it('defines widgetId', () => {
-      expect(props.widgetId).toBe(WIDGET_CODE);
+    it('defines widgetCode', () => {
+      expect(props.widgetCode).toBe(WIDGET_CODE);
     });
 
     it('defines framePos', () => {

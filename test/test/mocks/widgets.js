@@ -128,6 +128,7 @@ export const WIDGET_LIST = {
       typology: 'Custom Widget',
       titles: { it: 'InternalServlet', en: 'InternalServlet' },
       used: 1,
+      hasConfig: true,
     },
     {
       ...WIDGET,
@@ -135,6 +136,7 @@ export const WIDGET_LIST = {
       typology: 'Entando Redhat BPM connector',
       titles: { it: 'BPM-Case comments', en: 'BPM-Case comments' },
       used: 1,
+      hasConfig: true,
     },
     {
       ...WIDGET,
@@ -142,6 +144,7 @@ export const WIDGET_LIST = {
       typology: 'Entando Redhat BPM connector',
       titles: { it: 'BPM-Case progress status', en: 'BPM-Case progress status' },
       used: 1,
+      hasConfig: true,
     },
     {
       ...WIDGET,
@@ -149,6 +152,7 @@ export const WIDGET_LIST = {
       typology: 'Entando Redhat BPM connector',
       titles: { it: 'BPM-Case instance selector', en: 'BPM-Case instance selector' },
       used: 1,
+      hasConfig: true,
     },
   ],
   errors: [],
