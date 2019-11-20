@@ -52,7 +52,7 @@ export const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
     dispatch(fetchContentTypeListPaged(noPaging));
   },
-  onSubmit: (values) => {
+  onContentPick: (values) => {
     console.log('picked: ', values);
   },
 });

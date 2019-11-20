@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import AsyncTypeAheadSelect from 'ui/widgets/config/forms/AsyncTypeAheadSelect';
 
 import PropTypes from 'prop-types';
@@ -8,17 +8,36 @@ import { Field, reduxForm } from 'redux-form';
 
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 
-class ContentPickerBody extends PureComponent {
+class ContentPickerBody extends Component {
+  constructor(props) {
+    super(props);
+    this.handlePickContent = this.handlePickContent.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.state = {
+      selectedContent: null,
+    };
+  }
+
   componentDidMount() {
     this.props.onDidMount();
   }
 
+  handleContentChange(contentArray) {
+    const selectedContent = contentArray[0];
+    this.setState({ selectedContent });
+  }
+
+  handlePickContent() {
+    const { selectedContent } = this.state;
+    const { onContentPick } = this.props;
+    onContentPick(selectedContent);
+  }
+
   render() {
     const {
-      contentTypeList, contentStatusList, fetchContents, handleSubmit, change,
+      contentTypeList, contentStatusList, fetchContents,
     } = this.props;
     return (
       <Fragment>
@@ -59,19 +78,14 @@ class ContentPickerBody extends PureComponent {
               }
               placeholder="Type to search for a content, ENTER to select it"
               onSearch={fetchContents}
-              onChange={selectedOptions => change('content', selectedOptions[0].id)}
+              onChange={this.handleContentChange}
               labelKey={option => `${option.id} - ${option.description}`}
               useCache={false}
-            />
-            <Field
-              component={RenderTextInput}
-              name="content"
-              type="hidden"
             />
           </Col>
           <Col xs={2}>
             <FormGroup>
-              <Button bsStyle="primary" type="submit" onClick={handleSubmit}>
+              <Button bsStyle="primary" type="submit" onClick={this.handlePickContent}>
               +
               </Button>
             </FormGroup>
@@ -85,9 +99,8 @@ class ContentPickerBody extends PureComponent {
 const ContentPicker = reduxForm()(ContentPickerBody);
 
 ContentPickerBody.propTypes = {
-  change: PropTypes.func.isRequired,
+  onContentPick: PropTypes.func.isRequired,
   onDidMount: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   fetchContents: PropTypes.func.isRequired,
   contentTypeList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   contentStatusList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
