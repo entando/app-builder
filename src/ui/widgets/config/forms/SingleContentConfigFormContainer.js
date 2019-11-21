@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl';
 import { clearErrors } from '@entando/messages';
 import { getContentModelList } from 'state/content-model/selectors';
 import SingleContentConfigForm from 'ui/widgets/config/forms/SingleContentConfigForm';
-
+import { fetchContentModelListPaged } from 'state/content-model/actions';
 
 export const mapStateToProps = state => ({
   contentModels: getContentModelList(state),
@@ -11,6 +11,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
+    dispatch(fetchContentModelListPaged());
   },
   onSubmit: (values) => {
     dispatch(clearErrors());

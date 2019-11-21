@@ -9,7 +9,6 @@ import { Field, reduxForm } from 'redux-form';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
-
 class ContentPickerBody extends Component {
   constructor(props) {
     super(props);
@@ -39,9 +38,7 @@ class ContentPickerBody extends Component {
   }
 
   render() {
-    const {
-      contentTypeList, contentStatusList, fetchContents,
-    } = this.props;
+    const { contentTypeList, contentStatusList, fetchContents } = this.props;
     return (
       <Fragment>
         <Row>
@@ -49,9 +46,7 @@ class ContentPickerBody extends Component {
             <Field
               name="typeCode"
               component={RenderSelectInput}
-              label={
-                <FormLabel labelId="contentPicker.type" />
-              }
+              label={<FormLabel labelId="contentPicker.type" />}
               options={contentTypeList}
               optionValue="code"
               optionDisplayName="name"
@@ -62,9 +57,7 @@ class ContentPickerBody extends Component {
             <Field
               name="status"
               component={RenderSelectInput}
-              label={
-                <FormLabel labelId="contentPicker.status" />
-              }
+              label={<FormLabel labelId="contentPicker.status" />}
               options={contentStatusList}
               optionValue="code"
               optionDisplayName="name"
@@ -76,9 +69,7 @@ class ContentPickerBody extends Component {
           <Col xs={10}>
             <AsyncTypeAheadSelect
               id="content-picker"
-              label={
-                <FormLabel labelId="contentPicker.description" />
-              }
+              label={<FormLabel labelId="contentPicker.description" />}
               placeholder="Type to search for a content, ENTER to select it"
               ref={this.typeaheadRef}
               onSearch={fetchContents}
@@ -90,7 +81,7 @@ class ContentPickerBody extends Component {
           <Col xs={2}>
             <FormGroup>
               <Button bsStyle="primary" onClick={this.handlePickContent}>
-              +
+                +
               </Button>
             </FormGroup>
           </Col>
@@ -110,7 +101,6 @@ ContentPickerBody.propTypes = {
   contentStatusList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
-ContentPickerBody.defaultProps = {
-};
+ContentPickerBody.defaultProps = {};
 
 export default ContentPicker;
