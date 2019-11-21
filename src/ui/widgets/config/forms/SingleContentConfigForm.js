@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { FieldArray, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-
 import ContentTableRenderer from 'ui/widgets/config/forms/ContentTableRenderer';
 
 class SingleContentConfigFormBody extends PureComponent {
+  componentDidMount() {
+    this.props.onDidMount();
+  }
+
   render() {
     const {
       contentModels,
@@ -15,7 +18,6 @@ class SingleContentConfigFormBody extends PureComponent {
       submitting,
       intl,
     } = this.props;
-    console.log('contentModels', contentModels);
     return (
       <Fragment>
         <form onSubmit={handleSubmit}>
@@ -25,7 +27,7 @@ class SingleContentConfigFormBody extends PureComponent {
                 intl={intl}
                 component={ContentTableRenderer}
                 contentModels={contentModels}
-                name="filters"
+                name="contents"
               />
             </Col>
           </Row>
@@ -54,6 +56,7 @@ const SingleContentConfigForm = reduxForm({
 SingleContentConfigFormBody.propTypes = {
   intl: intlShape.isRequired,
   contentModels: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
