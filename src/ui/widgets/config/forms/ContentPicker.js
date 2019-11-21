@@ -32,8 +32,8 @@ class ContentPickerBody extends Component {
 
   handlePickContent() {
     const { selectedContent } = this.state;
-    const { onContentPick } = this.props;
-    onContentPick(selectedContent);
+    const { onPickContent } = this.props;
+    onPickContent(selectedContent);
     this.typeaheadRef.current.getInstance().clear();
     this.setState({ selectedContent: null });
   }
@@ -89,7 +89,7 @@ class ContentPickerBody extends Component {
           </Col>
           <Col xs={2}>
             <FormGroup>
-              <Button bsStyle="primary" type="submit" onClick={this.handlePickContent}>
+              <Button bsStyle="primary" onClick={this.handlePickContent}>
               +
               </Button>
             </FormGroup>
@@ -103,7 +103,7 @@ class ContentPickerBody extends Component {
 const ContentPicker = reduxForm()(ContentPickerBody);
 
 ContentPickerBody.propTypes = {
-  onContentPick: PropTypes.func.isRequired,
+  onPickContent: PropTypes.func.isRequired,
   onDidMount: PropTypes.func.isRequired,
   fetchContents: PropTypes.func.isRequired,
   contentTypeList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { clearErrors } from '@entando/messages';
 import { getContentModelList } from 'state/content-model/selectors';
 import SingleContentConfigForm from 'ui/widgets/config/forms/SingleContentConfigForm';
@@ -13,10 +14,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     dispatch(clearErrors());
-    console.log('values: ', values);
+    console.log('config form submit: ', values);
   },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(SingleContentConfigForm);
+})(injectIntl(SingleContentConfigForm));

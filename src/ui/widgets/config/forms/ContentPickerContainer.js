@@ -52,9 +52,6 @@ export const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
     dispatch(fetchContentTypeListPaged(noPaging));
   },
-  onContentPick: (values) => {
-    console.log('picked: ', values);
-  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
