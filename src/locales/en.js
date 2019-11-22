@@ -181,8 +181,10 @@ export default {
     'app.search.returned': 'Your search returned {value} results',
     'app.chooseAnOption': 'Choose an option',
     'app.add.attribute.code': 'You must insert 3 uppercase characters',
-    'app.help.code': 'You can insert characters uppercase and lowercase letters, numbers and special characters _',
-    'app.help.name': 'You can insert max 50 characters uppercase and lowercase letters, including numbers and special characters',
+    'app.help.code':
+      'You can insert characters uppercase and lowercase letters, numbers and special characters _',
+    'app.help.name':
+      'You can insert max 50 characters uppercase and lowercase letters, including numbers and special characters',
     'app.all': 'All',
     'app.reload': 'Reload',
     'app.pages': 'Pages',
@@ -198,13 +200,18 @@ export default {
     'app.mandatory': 'Mandatory',
     'app.filterList': 'Can be used as a filter in lists',
     'app.ognl.validation': 'OGNL - Validation',
-    'app.ognl.validation.help1': 'In this section you can insert the attribute validation. ',
-    'app.ognl.validation.help2': 'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access to the methods of the attribute without specifying it or using the prefix #attribute.',
-    'app.ognl.validation.help3': 'You can use the map of the system languages (#langs) and the associated entity (#entity).',
-    'app.ognl.validation.help4': 'Also for the elements of list or composite attributes you can access to the parent attribute (#parent) and for the elements of list attibutes you have the index (#index) at your disposal.',
+    'app.ognl.validation.help1':
+      'In this section you can insert the attribute validation. ',
+    'app.ognl.validation.help2':
+      'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access to the methods of the attribute without specifying it or using the prefix #attribute.',
+    'app.ognl.validation.help3':
+      'You can use the map of the system languages (#langs) and the associated entity (#entity).',
+    'app.ognl.validation.help4':
+      'Also for the elements of list or composite attributes you can access to the parent attribute (#parent) and for the elements of list attibutes you have the index (#index) at your disposal.',
     'app.ognl.expression': 'OGNL Expression ',
     'app.apply.expression': 'Apply this expression only to filled attribute',
-    'app.ognl.validation.add.message.help': 'You can insert both a help and a compilation error message, or choose a key to bind them to a system Label.',
+    'app.ognl.validation.add.message.help':
+      'You can insert both a help and a compilation error message, or choose a key to bind them to a system Label.',
     'app.ognl.message': 'Help message',
     'app.help.message.key': 'Key for the help message',
     'app.error.message': 'Error message',
@@ -219,13 +226,16 @@ export default {
     'app.maxLength': 'Maximum length',
     'app.regexp': 'Regular expression',
     'app.enumeratorStaticItems': 'Elements',
-    'app.enumeratorStaticItems.help': 'Insert a configuration like \'lable1,lable2,lable3\'',
-    'app.enumeratorStaticItemsMap.help': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
+    'app.enumeratorStaticItems.help':
+      "Insert a configuration like 'lable1,lable2,lable3'",
+    'app.enumeratorStaticItemsMap.help':
+      "Insert a configuration like 'key1=value1,key2=value2,key3=value3'",
     'app.enumeratorStaticItemsSeparator': 'Separator',
     'app.enumeratorExtractorBean': 'Extractor bean name',
     'app.chooseARole': 'Choose a role',
     'app.assigned.roles': 'Assigned role',
-    'app.no.roles': 'No roles available: they might have been all assigned, yet.',
+    'app.no.roles':
+      'No roles available: they might have been all assigned, yet.',
     'app.from': 'From',
     'app.to': 'To',
     'app.equal': 'Equal to',
@@ -265,6 +275,7 @@ export default {
     'app.threeStateOptions.both': 'Both',
     'app.enumerator.none': 'None',
     'contentPicker.description': 'Description',
+    'contentPicker.searchPlaceholder': 'type to search for a content',
     'contentPicker.status': 'Status',
     'contentPicker.type': 'Type',
     'contentPicker.allStatuses': 'All',
@@ -326,13 +337,18 @@ export default {
     'pageTree.action.clear': 'Clear results',
     'pageTree.searchForm.title': 'Search for an existing page',
     'pageTree.searchForm.code': 'Page Code',
-    'pageTreePage.help': 'The TREE PAGES section lets you manage an existing page, expande all tree at the same time or collapse and display all main node. You can add or move a page. Perform some actions like: the mobile or desktop preview, configure, edit, see details, clone a page or delete. In addition you can display the state draft or online and if the page is in the menu list',
+    'pageTreePage.help':
+      'The TREE PAGES section lets you manage an existing page, expande all tree at the same time or collapse and display all main node. You can add or move a page. Perform some actions like: the mobile or desktop preview, configure, edit, see details, clone a page or delete. In addition you can display the state draft or online and if the page is in the menu list',
     'pageDetails.title': 'Page Details',
-    'pageDetails.help': 'The TREE PAGES section lets you manage an existing page, expande all tree at the same time or collapse and display all main node. You can add or move a page. Perform some actions like: the mobile or desktop preview, configure, edit, see details, clone a page or delete. In addition you can display the state draft or online and if the page is in the menu list.',
+    'pageDetails.help':
+      'The TREE PAGES section lets you manage an existing page, expande all tree at the same time or collapse and display all main node. You can add or move a page. Perform some actions like: the mobile or desktop preview, configure, edit, see details, clone a page or delete. In addition you can display the state draft or online and if the page is in the menu list.',
     'pageDetails.emptyContent': 'This page does not publish any content.',
-    'pageDetails.emptyContentLink': 'There is no content with a link pointing to this page.',
-    'validateForm.elements': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
-    'validateForm.element': 'Insert a configuration like \'lable1,lable2,lable3\'',
+    'pageDetails.emptyContentLink':
+      'There is no content with a link pointing to this page.',
+    'validateForm.elements':
+      "Insert a configuration like 'key1=value1,key2=value2,key3=value3'",
+    'validateForm.element':
+      "Insert a configuration like 'lable1,lable2,lable3'",
     'validateForm.element.code': 'Code must be 3 uppercase letters',
     'validateForm.required': 'Field required',
     'validateForm.maxLength': 'Must be {max} characters or less',
@@ -342,9 +358,12 @@ export default {
     'validateForm.maxValue': 'Must be at most {max}',
     'validateForm.email': 'Invalid email address',
     'validateForm.alphaNumeric': 'Only alphanumeric characters',
-    'validateForm.widgetCode': '{name} Contains invalid characters. Only alphanumeric characters and the underscore _ are allowed',
-    'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',
-    'validateForm.code': 'Code contains invalid characters. Only alphanumeric characters and the underscore \'_\' are allowed.',
+    'validateForm.widgetCode':
+      '{name} Contains invalid characters. Only alphanumeric characters and the underscore _ are allowed',
+    'validateForm.passwordNotMatch':
+      "Confirm value doesn't match with Password value",
+    'validateForm.code':
+      "Code contains invalid characters. Only alphanumeric characters and the underscore '_' are allowed.",
     'widget.form.sample': ' Sample Form',
     'widget.form.linkText': 'Link text',
     'widget.form.text': 'Text',
@@ -353,23 +372,24 @@ export default {
     'widget.form.publishingSettings': 'Publishing settings',
     'widget.form.filters': 'Filters',
     'widget.form.frontendFilters': 'Frontend filters',
+    'widget.form.content': 'Content',
     'widget.form.contentModel': 'Content model',
     'widget.form.elementsPP': 'Elements per page',
     'widget.form.maxElements': 'Max total elements',
     'widget.form.default': 'Default',
     'widget.form.inclusiveOr': 'Use inclusive filter (OR)',
-    'widget.form.inclusiveOrTip': 'When active, filter the contents with an inclusive filter over the selected categories',
+    'widget.form.inclusiveOrTip':
+      'When active, filter the contents with an inclusive filter over the selected categories',
     'widget.form.creationDate': 'Creation date',
     'widget.form.lastModify': 'Last modify',
     'widget.form.asc': 'Ascending',
     'widget.form.desc': 'Descending',
     'widget.form.remove': 'Remove',
     'widget.form.options': 'Options',
-    'widget.form.reoder': 'Reorder',
+    'widget.form.reorder': 'Reorder',
     'widget.form.selectFilter': 'Select Filter',
-    'widget.form.extraOptionsDescription': 'If you want, you can customize the title of the widget or add a link to a page.',
-    'widget.singleContent.config.content': 'Content',
-    'widget.singleContent.config.contentModel': 'Content model',
+    'widget.form.extraOptionsDescription':
+      'If you want, you can customize the title of the widget or add a link to a page.',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Code',
     'widget.page.create.code.placeholder': 'Code',
@@ -393,9 +413,11 @@ export default {
     'widget.detail.table.framePosition': 'Frame position',
     'widget.detail.table.action.pageConfig': 'Page Configuration',
     'widget.detail.table.action.pageDetails': 'Page Details',
-    'widget.help': 'The WIDGET section lets you manage existing widget or add new widget. Widgets are objects used to display information and functionality or services on the pages of an application.',
+    'widget.help':
+      'The WIDGET section lets you manage existing widget or add new widget. Widgets are objects used to display information and functionality or services on the pages of an application.',
     'fragment.list.title': 'Fragments',
-    'fragment.help': 'The FRAGMENTS section lets you manage existing fragments or add new fragments. The fragments are single portions of front-end interface used in Widgets (including plugins) and Page Models.',
+    'fragment.help':
+      'The FRAGMENTS section lets you manage existing fragments or add new fragments. The fragments are single portions of front-end interface used in Widgets (including plugins) and Page Models.',
     'fragment.code': 'Code',
     'fragment.code.placeholder': 'Code',
     'fragment.tab.guiCode': 'Gui Code',
@@ -407,9 +429,12 @@ export default {
     'fragment.detail.title.referencedFragments': 'Referenced fragments',
     'fragment.detail.title.referencedPageModels': 'Referenced page models',
     'fragment.detail.title.referencedWidgetType': 'Referenced widget types',
-    'fragment.detail.emptyReferenceFragments': 'There are no referenced fragments',
-    'fragment.detail.emptyReferencePageModels': 'There are no referenced page models',
-    'fragment.detail.emptyReferenceWidgetTypes': 'There are no referenced widget types',
+    'fragment.detail.emptyReferenceFragments':
+      'There are no referenced fragments',
+    'fragment.detail.emptyReferencePageModels':
+      'There are no referenced page models',
+    'fragment.detail.emptyReferenceWidgetTypes':
+      'There are no referenced widget types',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.table.widgetType': 'Widget Type',
     'fragment.table.plugin': 'Plugin',
@@ -431,20 +456,25 @@ export default {
     'fileBrowser.uploadFileError': 'Error upload file',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New Folder Name',
-    'fileBrowser.createFolderSuccess': 'Folder \'{path}\' successfully created',
-    'fileBrowser.createFolderError': 'An error has occurred during the creation of the folder \'{path}\'',
-    'fileBrowser.deleteFolderSuccess': 'Folder \'{path}\' successfully deleted',
-    'fileBrowser.deleteFolderError': 'An error has occurred during deletion of the folder \'{path}\'',
-    'fileBrowser.deleteFileSuccess': 'File \'{path}\' successfully deleted',
-    'fileBrowser.deleteFileError': 'An error has occurred during deletion of the file \'{path}\'',
-    'fileBrowser.help': 'The FILE BROWSER section lets system administrators can browse the File System folders.',
+    'fileBrowser.createFolderSuccess': "Folder '{path}' successfully created",
+    'fileBrowser.createFolderError':
+      "An error has occurred during the creation of the folder '{path}'",
+    'fileBrowser.deleteFolderSuccess': "Folder '{path}' successfully deleted",
+    'fileBrowser.deleteFolderError':
+      "An error has occurred during deletion of the folder '{path}'",
+    'fileBrowser.deleteFileSuccess': "File '{path}' successfully deleted",
+    'fileBrowser.deleteFileError':
+      "An error has occurred during deletion of the file '{path}'",
+    'fileBrowser.help':
+      'The FILE BROWSER section lets system administrators can browse the File System folders.',
     'fileBrowser.textFile.placeholder': 'file content here...',
     'fileBrowser.textFile.content': 'Content',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',
     'pages.pageForm.ownerGroup': 'Owner Group',
-    'pages.pageForm.ownerGroupHelp': 'You must set the Owner Group to define what kind of people (edited in Entando Settings area) are able to see this Page.',
+    'pages.pageForm.ownerGroupHelp':
+      'You must set the Owner Group to define what kind of people (edited in Entando Settings area) are able to see this Page.',
     'pages.pageForm.joinGroup': 'Join Group',
     'pages.pageForm.codeHelp': 'Insert page code',
     'pages.pageForm.pagePlacement': 'Select page placement',
@@ -455,9 +485,11 @@ export default {
     'pages.pageForm.seo': 'SEO',
     'pages.pageForm.seoHelp': 'Activate SEO on page',
     'pages.pageForm.charset': 'Charset',
-    'pages.pageForm.charsetHelp': 'Interpret a sequence of byte as representation of characters.The Default is set for the machine in use',
+    'pages.pageForm.charsetHelp':
+      'Interpret a sequence of byte as representation of characters.The Default is set for the machine in use',
     'pages.pageForm.mimeType': 'MimeType',
-    'pages.pageForm.mimeTypeHelp': 'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
+    'pages.pageForm.mimeTypeHelp':
+      'Identify the type of information (imagine, text..) that Entando gives back to the asking browser',
     'pages.pageForm.saveAndConfigure': 'Save and Configure',
     'pages.seoDescr': 'SEO: When available, use extra titles',
     'pages.noPageFound': 'No pages found.',
@@ -465,8 +497,10 @@ export default {
     'pages.status.draft': 'Online ≠ Draft',
     'pages.status.unpublished': 'Draft',
     'pageSettings.title': 'Page Settings',
-    'pageSettings.help': 'The PAGE SETTING section let the administrator specify which pages must be used for particular aims and define some general page settings.',
-    'pageSettings.status.published': 'The updates to page {page} are online now!',
+    'pageSettings.help':
+      'The PAGE SETTING section let the administrator specify which pages must be used for particular aims and define some general page settings.',
+    'pageSettings.status.published':
+      'The updates to page {page} are online now!',
     'pageSettings.status.unpublished': 'The page {page} is offline now!',
     'pageSettings.input.homepage': 'Home Page',
     'pageSettings.input.404': 'Page for: 404 - Page not found',
@@ -478,25 +512,33 @@ export default {
     'pageSettings.input.baseURL.static': 'Static',
     'pageSettings.input.appendBaseURL': 'Append context name on BaseURL',
     'pageSettings.input.jsession': 'Use JSESSIONID',
-    'pageSettings.input.languageBroswer': 'Home page gets its language from the browser',
+    'pageSettings.input.languageBroswer':
+      'Home page gets its language from the browser',
     'pageSettings.input.pageTreeStyle': 'Choose the style of the Page tree',
     'pageSettings.input.pageTreeStyle.classic': 'Classic',
     'pageSettings.input.pageTreeStyle.demand': 'Load nodes on demand',
     'pageSettings.input.pageTreeStyle.url': 'URL style',
     'pageSettings.input.pageTreeStyle.breadcrumbs': 'Breadcrumbs',
-    'pageSettings.baseUrl.help': 'The portals URL are produced from the BASE URL defined in the context file (es.: www.entando.com/ portal/ en/ pagecode.page). RELATIVE when in the generated caused URL omitted the BASE URL (es.: /portal /en / pagecode.page). BUILT BY HTTP REQUEST PARAMETERS when the URL generated from the request takes the parameter generated from the previews request. STATIC when in the generated URL is insert the BASE URL defined in the context file ( es.: www.entando.com/ portal/ en/ pagecode.page)',
-    'pageSettings.jsession.help': 'It is a security requisite. Avoid that the JSESSIONID would insert in the generated link from the portal. You must have cookies activted.',
-    'pageSettings.appendBaseUrl.help': 'Add the context name to the BASE URL (es.: /portal/) (unused with static BaseURL)',
+    'pageSettings.baseUrl.help':
+      'The portals URL are produced from the BASE URL defined in the context file (es.: www.entando.com/ portal/ en/ pagecode.page). RELATIVE when in the generated caused URL omitted the BASE URL (es.: /portal /en / pagecode.page). BUILT BY HTTP REQUEST PARAMETERS when the URL generated from the request takes the parameter generated from the previews request. STATIC when in the generated URL is insert the BASE URL defined in the context file ( es.: www.entando.com/ portal/ en/ pagecode.page)',
+    'pageSettings.jsession.help':
+      'It is a security requisite. Avoid that the JSESSIONID would insert in the generated link from the portal. You must have cookies activted.',
+    'pageSettings.appendBaseUrl.help':
+      'Add the context name to the BASE URL (es.: /portal/) (unused with static BaseURL)',
     'pageSettings.success': 'Page Settings have been updated',
-    'dataModel.help': 'The DATA MODELS section lets the admnistrator add new content data or edit those already existing. Entando has a formatting engine based on models used to present the contents (or part of it) to users. Contents data are Velocity templates and, like contents, they are easily managed from the administration Interface.',
+    'dataModel.help':
+      'The DATA MODELS section lets the admnistrator add new content data or edit those already existing. Entando has a formatting engine based on models used to present the contents (or part of it) to users. Contents data are Velocity templates and, like contents, they are easily managed from the administration Interface.',
     'dataModel.type': 'Type',
     'dataModel.stylesheet': 'Style Sheet',
     'dataModel.model': 'Model',
-    'dataModel.deleteDataModelSuccess': 'Data Model \'{id}\' successfully deleted',
-    'dataModel.deleteDataModelError': 'An error has occurred during deletion of the Data Model \'{id}\'',
+    'dataModel.deleteDataModelSuccess':
+      "Data Model '{id}' successfully deleted",
+    'dataModel.deleteDataModelError':
+      "An error has occurred during deletion of the Data Model '{id}'",
     'dataModel.help.code': 'You can insert only numeric characters',
     'dataType.list.title': 'Data Type',
-    'dataType.help': 'The DATA TYPES section let the administrator add new data types or edit those already existing.',
+    'dataType.help':
+      'The DATA TYPES section let the administrator add new data types or edit those already existing.',
     'dataType.table.status': 'Status',
     'dataType.table.status.0': 'Ok. Reload if you want to.',
     'dataType.table.status.1': 'Reloading. Refresh this page.',
@@ -510,7 +552,8 @@ export default {
     'profileType.table.status.wip': 'Reloading. Refresh this page.',
     'profileType.listEmpty': 'There are no PROFILE TYPES available',
     'profileType.list.title': 'Profile Types',
-    'profileType.help': 'The PROFILE TYPES section let the administrator add new user\'s profile type or edit those already existing.',
+    'profileType.help':
+      "The PROFILE TYPES section let the administrator add new user's profile type or edit those already existing.",
     'ProfileType.type': 'Type',
     'ProfileType.created': 'PROFILE TYPE created succesfully',
 
@@ -518,14 +561,19 @@ export default {
     'pageConfig.applyDefaultWidget': 'Apply the default widget',
     'pageConfig.defaultWidgetApplied': 'Default widget applied',
     'pageConfig.onTheFlyPage': 'On-the-fly page',
-    'pageModel.error.overlapping': 'Frame "{frame1}" and "{frame2}" are overlapping',
-    'pageModel.error.pos': 'Frame "{frame}" "pos" property differs from its index',
-    'pageModel.error.sketchX1X2format': 'Frame "{frame}": sketch attributes x1 and x2 must be integers between 0 and 11, with x1 <= x2',
-    'pageModel.error.sketchY1Y2format': 'Frame "{frame}": sketch attributes y1 and y2 must be positive integers, with y1 <= y2',
+    'pageModel.error.overlapping':
+      'Frame "{frame1}" and "{frame2}" are overlapping',
+    'pageModel.error.pos':
+      'Frame "{frame}" "pos" property differs from its index',
+    'pageModel.error.sketchX1X2format':
+      'Frame "{frame}": sketch attributes x1 and x2 must be integers between 0 and 11, with x1 <= x2',
+    'pageModel.error.sketchY1Y2format':
+      'Frame "{frame}": sketch attributes y1 and y2 must be positive integers, with y1 <= y2',
     'pageModel.error.framesArray': 'configuration.frames must be an Array',
     'pageModel.error.configuration': 'configuration is a required Object',
     'user.list.title': 'Users',
-    'user.help': 'The USERS section let the administrator manage users list, their profiles, authorizations - assigning roles and groups - and add users.',
+    'user.help':
+      'The USERS section let the administrator manage users list, their profiles, authorizations - assigning roles and groups - and add users.',
     'user.table.status.active': 'Active',
     'user.table.status.disabled': 'Not active',
     'user.table.status.inactive': 'Not active',
@@ -547,25 +595,34 @@ export default {
     'user.profileType': 'Profile Type',
     'user.status': 'Status',
     'user.searchForm.users': 'Users',
-    'user.username.help': 'You can insert at least 4 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters.',
-    'user.password.help': 'You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters. ',
-    'user.validate.text': 'Contains invalid characters. You can use only alphanumeric characters, the dot \'.\' and the underscore \'_\'.',
+    'user.username.help':
+      "You can insert at least 4 - max 20 characters uppercase and lowercase letters, including numbers, '.' and  '_' special characters.",
+    'user.password.help':
+      "You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, '.' and  '_' special characters. ",
+    'user.validate.text':
+      "Contains invalid characters. You can use only alphanumeric characters, the dot '.' and the underscore '_'.",
     'user.registration': 'Registration',
     'user.lastLogin': 'Last login',
     'user.reset': 'Reset',
     'user.lastPasswordChange': 'Last password change',
     'user.restrictions.title': 'User Restrictions',
-    'user.restrictions.help': 'The section USER RESTRICTION let the administrator manage a system of expiration date of the users.',
+    'user.restrictions.help':
+      'The section USER RESTRICTION let the administrator manage a system of expiration date of the users.',
     'user.restrictions.passwordSection': 'Password Expiration',
     'user.restrictions.avatarSection': 'Avatar',
     'user.restrictions.form.active': 'Password Always Active',
-    'user.restrictions.form.monthsSinceLastLogin': 'Number of months the password is valid for',
-    'user.restrictions.form.maxMonths': 'Number of months the password is valid for, after last access',
-    'user.restrictions.form.gravatar': 'Enable Gravatar Integration (Avatar of users)',
-    'user.restrictions.form.monthsSinceLastLogin.error': 'This value must be equal to or less than the previous field',
+    'user.restrictions.form.monthsSinceLastLogin':
+      'Number of months the password is valid for',
+    'user.restrictions.form.maxMonths':
+      'Number of months the password is valid for, after last access',
+    'user.restrictions.form.gravatar':
+      'Enable Gravatar Integration (Avatar of users)',
+    'user.restrictions.form.monthsSinceLastLogin.error':
+      'This value must be equal to or less than the previous field',
     'user.restrictions.months': 'month(s)',
     'user.restrictions.success': 'User restrictions have been updated',
-    'user.myProfile.help': 'The MY PROFILE section let user change the password of his account and manage the profile information.',
+    'user.myProfile.help':
+      'The MY PROFILE section let user change the password of his account and manage the profile information.',
     'user.myProfile.passwordSection': 'Change your password',
     'user.myProfile.oldPassword': 'Current password',
     'user.myProfile.newPassword': 'New password',
@@ -578,14 +635,18 @@ export default {
     'user.profile.all': 'All',
     'user.profile.with': 'User with a profile',
     'user.profile.without': 'User without a profile',
-    'group.help': 'The GROUPS section lets administrators manage existing groups or add new groups.',
+    'group.help':
+      'The GROUPS section lets administrators manage existing groups or add new groups.',
     'group.listEmpty': 'There are no GROUPS available',
     'group.name': 'Name',
     'group.code': 'Code',
-    'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
-    'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'group.name.help':
+      'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
+    'group.code.help':
+      "You can insert max 20 characters uppercase and lowercase letters, numbers and '_' special character.",
     'database.list.add': 'Create a backup',
-    'database.help': 'The DATABASE section lets system administrators create backup and restore the database, if the feature is enabled. It is a very important feature that, if not performed correctly, can result in irreversible data loss.',
+    'database.help':
+      'The DATABASE section lets system administrators create backup and restore the database, if the feature is enabled. It is a very important feature that, if not performed correctly, can result in irreversible data loss.',
     'database.noDatabaseYet': 'No backups available.',
     'database.inProgress': 'Backup in progress',
     'database.gotoList': 'Go to backup list',
@@ -596,7 +657,8 @@ export default {
     'database.dumpDate': 'Dump Date',
     'database.datasource': 'Datasource',
     'database.datasourceDetails': 'Datasource Details',
-    'labelsAndLanguages.help': 'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
+    'labelsAndLanguages.help':
+      'The LABEL & LANGUAGE section lets you manage labels and languages of the system. Entando supports multilanguage, administrator can add a new language. The first language configured in the system is the default language. Labels are accessories of Entando, mainly used to handle simple semi-static textual information of the application and not associated with particular objects.',
     'label.searchForm.code': 'Search by code',
     'label.searchForm.title': 'Search for existing label',
     'language.selectLanguage': 'Select Language',
@@ -607,11 +669,13 @@ export default {
     'modal.confirm.delete': 'Do you really want to delete {code}?',
     'modal.confirm.publish': 'Do you really want to publish {code}?',
     'modal.confirm.unpublish': 'Do you really want to unpublish {code}?',
-    'widgetConfig.help': 'The WIDGET CONFIGURATION section lets you configure a widget in a specific frame of a page, through a GUI interface.',
+    'widgetConfig.help':
+      'The WIDGET CONFIGURATION section lets you configure a widget in a specific frame of a page, through a GUI interface.',
     'widgetConfig.internalServlet.widgetName': 'Internal Servlet',
     'widgetConfig.internalServlet.parameters': 'Parameters',
     'widgetConfig.internalServlet.actionPath': 'actionPath',
-    'widgetConfig.internalServlet.actionPath.help': 'Path to an action or to a JSP. You must prepend \'/ExtStr2\' to any Struts2 action path',
+    'widgetConfig.internalServlet.actionPath.help':
+      "Path to an action or to a JSP. You must prepend '/ExtStr2' to any Struts2 action path",
     'group.detail.title.users': 'Users',
     'group.detail.title.widgetTypes': 'Widget Types',
     'group.detail.title.contents': 'Contents',
@@ -625,14 +689,18 @@ export default {
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',
     'group.content.lastEdit': 'Last edit',
-    'pageModels.help': 'The PAGE MODELS section lets you manage existing page models or add new. The Page Model defines the page structure. A page model is characterized by two elements: scheme (the division of the page in smaller area called frames) and decoration (the look and feel of the page). Within an Entando application you can configure multiple page models.',
-    'pageModels.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
-    'pageModels.code.help': 'You can insert max 40 characters uppercase and lowercase letters, numbers and special characters.',
+    'pageModels.help':
+      'The PAGE MODELS section lets you manage existing page models or add new. The Page Model defines the page structure. A page model is characterized by two elements: scheme (the division of the page in smaller area called frames) and decoration (the look and feel of the page). Within an Entando application you can configure multiple page models.',
+    'pageModels.name.help':
+      'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
+    'pageModels.code.help':
+      'You can insert max 40 characters uppercase and lowercase letters, numbers and special characters.',
     'pageModels.jsonConfiguration': 'JSON Configuration',
     'pageModels.template': 'Template',
     'pageModels.templatePreview': 'Template Preview',
     'pageModels.pluginCode': 'Plugin code',
-    'category.help': 'The CATEGORIES section let you manage the category tree and create new categories. Through categories you can classify information; this classification is useful to present aggregated information to final users.',
+    'category.help':
+      'The CATEGORIES section let you manage the category tree and create new categories. Through categories you can classify information; this classification is useful to present aggregated information to final users.',
     'category.tree': 'Categories tree',
     'category.settings': 'Categories settings',
     'category.treeStyle': 'Choose the style of the Category tree',
@@ -640,10 +708,13 @@ export default {
     'category.treeType.request': 'Load nodes on demand',
     'category.categoryForm.categoryPlacement': 'Tree position',
     'DataType.type': 'Type',
-    'role.help': 'The ROLES section let the administrator create and manage the user\'s roles. The roles grant groupings of permissions to various functions within applications.',
+    'role.help':
+      "The ROLES section let the administrator create and manage the user's roles. The roles grant groupings of permissions to various functions within applications.",
     'role.listEmpty': 'There are no ROLES available',
-    'role.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters. ',
-    'role.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and ',
+    'role.name.help':
+      'You can insert max 50 uppercase and lowercase letters, numbers and special characters. ',
+    'role.code.help':
+      'You can insert max 20 characters uppercase and lowercase letters, numbers and ',
     'role.detail.referencedUsers': 'Referenced users',
     'role.detail.noPermissions': 'There are no permissions',
     'permission.listEmpty': 'There are no PERMISSION available',
@@ -654,17 +725,25 @@ export default {
     'reference.jacmsResourceManager': 'Resources with this category',
     'reference.DataObjectManager': 'Data Objects with this category',
     'reference.jpcollaborationIdeaManager': 'Ideas with this category',
-    'reference.noReferencejacmsContentManager': 'There are no referenced contents',
-    'reference.noReferencejacmsResourceManager': 'There are no referenced resources',
-    'reference.noReferenceDataObjectManager': 'There are no referenced data object',
-    'reference.noReferencejpcollaborationIdeaManager': 'There are no referenced idea',
+    'reference.noReferencejacmsContentManager':
+      'There are no referenced contents',
+    'reference.noReferencejacmsResourceManager':
+      'There are no referenced resources',
+    'reference.noReferenceDataObjectManager':
+      'There are no referenced data object',
+    'reference.noReferencejpcollaborationIdeaManager':
+      'There are no referenced idea',
     'references.referencedPages': 'Referenced pages',
     'reloadConfiguration.title': 'Reload Configuration',
-    'reloadConfiguration.help': 'The RELOAD CONFIGURATION section lets you to reload the system configuration. This operation is necessary after modifying some parameters.',
+    'reloadConfiguration.help':
+      'The RELOAD CONFIGURATION section lets you to reload the system configuration. This operation is necessary after modifying some parameters.',
     'reloadConfiguration.reload.title': 'Reload the configuration',
-    'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
-    'reloadConfiguration.confirm.success': 'The configuration has been reloaded.',
-    'reloadConfiguration.confirm.error': 'Something went wrong while reloading the configuration. Try again in a minute.',
+    'reloadConfiguration.reload.confirm':
+      'Are you sure you want to reload the configuration?',
+    'reloadConfiguration.confirm.success':
+      'The configuration has been reloaded.',
+    'reloadConfiguration.confirm.error':
+      'Something went wrong while reloading the configuration. Try again in a minute.',
     'activityStream.newPage': 'created a new page',
     'activityStream.editPage': 'edited a new page',
     'activityStream.deletePage': 'delete a page',
@@ -673,13 +752,16 @@ export default {
     'activityStream.modifyPage': 'modified a page',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Write a comment',
-    'reference.text': 'Reload the references for these entity types. Number of type to reload: {count}. ',
+    'reference.text':
+      'Reload the references for these entity types. Number of type to reload: {count}. ',
     'reference.reload': 'Click {link} to reload all data types.',
     'digitalExchange.disabled.title': 'Digital Exchange is disabled.',
-    'digitalExchange.disabled.help': 'It can be enabled by setting DIGITAL_EXCHANGE_UI_ENABLED env variable value in your .env file to true.',
+    'digitalExchange.disabled.help':
+      'It can be enabled by setting DIGITAL_EXCHANGE_UI_ENABLED env variable value in your .env file to true.',
     'digitalExchange.menuButton.title': 'Digital Exchange',
     'digitalExchange.component.list.title': 'Digital Exchange',
-    'digitalExchange.component.help': 'Entando Digital Exchange is a marketplace from which users can install different Widgets, Components, Fragments, Page Models, Content Models and Content Types.',
+    'digitalExchange.component.help':
+      'Entando Digital Exchange is a marketplace from which users can install different Widgets, Components, Fragments, Page Models, Content Models and Content Types.',
     'digitalExchange.sidebar.digitalExchangeFilterTitle': 'Digital Exchanges',
     'digitalExchange.sidebar.categoryFilterTitle': 'Categories',
     'digitalExchange.components.latestVersion': 'Latest version',
@@ -691,9 +773,12 @@ export default {
     'digitalExchange.components.recheck': 'Re-check',
     'digitalExchange.components.retry': 'Retry',
     'digitalExchange.components.inprogress': 'In Progress',
-    'digitalExchange.components.notifyInProgress': 'Installation unexpectedly still in progress. You can check again by refreshing the page.',
-    'digitalExchange.components.notifyFailedInstall': 'An error has occured during installation.',
-    'digitalExchange.components.notifyFailedUninstall': 'An error has occured during uninstallation.',
+    'digitalExchange.components.notifyInProgress':
+      'Installation unexpectedly still in progress. You can check again by refreshing the page.',
+    'digitalExchange.components.notifyFailedInstall':
+      'An error has occured during installation.',
+    'digitalExchange.components.notifyFailedUninstall':
+      'An error has occured during uninstallation.',
     'digitalExchange.components.uninstall': 'Uninstall',
     'digitalExchange.sidebar.ratingFilter.title': 'Rating',
     'digitalExchange.sidebar.ratingFilter.itemLabel': '& up',
@@ -710,7 +795,8 @@ export default {
     'digitalExchange.extraFilters.new': 'New',
     'digitalExchange.extraFilters.installed': 'Installed',
     'digitalExchange.settings.title': 'Digital Exchange Settings',
-    'digitalExchange.settings.help': 'In this section it is possible to setup and manage the settings of marketplaces within the Entando Digital Exchange.',
+    'digitalExchange.settings.help':
+      'In this section it is possible to setup and manage the settings of marketplaces within the Entando Digital Exchange.',
     'digitalExchange.settings.add': 'Add Digital Exchange',
     'digitalExchange.settings.active': 'Active',
     'digitalExchange.settings.address': 'Address',
@@ -727,11 +813,13 @@ export default {
     'cms.contentSettings.title': 'Content Settings',
     'singlePageSettings.title': 'Page Settings',
     'cms.disabled.title': 'CMS is disabled.',
-    'cms.disabled.help': 'It can be enabled by setting CMS_UI_ENABLED env variable value in your .env file to true.',
+    'cms.disabled.help':
+      'It can be enabled by setting CMS_UI_ENABLED env variable value in your .env file to true.',
     'singlePageSettings.generalSettings': 'General Settings',
     'singlePageSettings.pageTitle': 'Page Title',
     'singlePageSettings.updateSuccess': 'Page successfully updated',
-    'plugins.noPlugins': 'No installed plugins. See available plugins on the Digital Exchange',
+    'plugins.noPlugins':
+      'No installed plugins. See available plugins on the Digital Exchange',
     'plugins.installCallToAction': 'Go to Digital Exchange',
   },
 };

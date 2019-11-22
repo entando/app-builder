@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { formValueSelector } from 'redux-form';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -56,4 +57,4 @@ export const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(ContentPicker);
+})(injectIntl(ContentPicker));

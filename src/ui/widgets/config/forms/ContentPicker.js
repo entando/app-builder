@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import AsyncTypeAheadSelect from 'ui/widgets/config/forms/AsyncTypeAheadSelect';
-
+import { intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 
@@ -38,7 +38,13 @@ class ContentPickerBody extends Component {
   }
 
   render() {
-    const { contentTypeList, contentStatusList, fetchContents } = this.props;
+    const {
+      contentTypeList,
+      contentStatusList,
+      fetchContents,
+      intl,
+    } = this.props;
+    const searchPlaceholderMsg = intl.formatMessage({ id: 'contentPicker.searchPlaceholder' });
     return (
       <Fragment>
         <Row>
@@ -70,7 +76,7 @@ class ContentPickerBody extends Component {
             <AsyncTypeAheadSelect
               id="content-picker"
               label={<FormLabel labelId="contentPicker.description" />}
-              placeholder="Type to search for a content, ENTER to select it"
+              placeholder={searchPlaceholderMsg}
               ref={this.typeaheadRef}
               onSearch={fetchContents}
               onChange={this.handleContentChange}
@@ -94,6 +100,7 @@ class ContentPickerBody extends Component {
 const ContentPicker = reduxForm()(ContentPickerBody);
 
 ContentPickerBody.propTypes = {
+  intl: intlShape.isRequired,
   onPickContent: PropTypes.func.isRequired,
   onDidMount: PropTypes.func.isRequired,
   fetchContents: PropTypes.func.isRequired,

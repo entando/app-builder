@@ -182,8 +182,10 @@ export default {
     'app.search.returned': 'Sua busca retornou {value} resultados',
     'app.chooseAnOption': 'Escolha uma opção',
     'app.add.attribute.code': 'Você deve inserir 3 caracteres maiúsculos',
-    'app.help.code': 'Você pode utilizar caracteres maiúsculos e minúsculos, números e caracteres especiais _',
-    'app.help.name': 'Voce pode utilizar no máximo 50 caracteres maiúsculos e minúsculos, incluindo números e caracteres especiais _',
+    'app.help.code':
+      'Você pode utilizar caracteres maiúsculos e minúsculos, números e caracteres especiais _',
+    'app.help.name':
+      'Voce pode utilizar no máximo 50 caracteres maiúsculos e minúsculos, incluindo números e caracteres especiais _',
     'app.all': 'Todos',
     'app.reload': 'Recarregar',
     'app.pages': 'Páginas',
@@ -199,13 +201,19 @@ export default {
     'app.mandatory': 'Obrigatório',
     'app.filterList': 'Pode ser usado como filtros em listas',
     'app.ognl.validation': 'OGNL - Validação',
-    'app.ognl.validation.help1': 'Nessa seção você pode inserir atributos de validação. ',
-    'app.ognl.validation.help2': 'A expressão OGNL deve retornar um valor booleano (true ou false). Na expressão, o objeto pai é o próprio atributo. Você pode acessar os métodos do atributo sem expecificá-lo ou usando o prefixo #atributo.',
-    'app.ognl.validation.help3': 'Você pode usar o mapa de linguagem do sistema (#langs) e a entidade associada (#entity).',
-    'app.ognl.validation.help4': 'Para elementos de uma lista ou que compõe um atributo você pode acessar o elemento pai (#parent). Além disso, os elementos de uma lista disponibilizam seu índice através da expressão (#index).',
+    'app.ognl.validation.help1':
+      'Nessa seção você pode inserir atributos de validação. ',
+    'app.ognl.validation.help2':
+      'A expressão OGNL deve retornar um valor booleano (true ou false). Na expressão, o objeto pai é o próprio atributo. Você pode acessar os métodos do atributo sem expecificá-lo ou usando o prefixo #atributo.',
+    'app.ognl.validation.help3':
+      'Você pode usar o mapa de linguagem do sistema (#langs) e a entidade associada (#entity).',
+    'app.ognl.validation.help4':
+      'Para elementos de uma lista ou que compõe um atributo você pode acessar o elemento pai (#parent). Além disso, os elementos de uma lista disponibilizam seu índice através da expressão (#index).',
     'app.ognl.expression': 'Expressão OGNL ',
-    'app.apply.expression': 'Aplique essa expressão apenas para atributos preenchidos',
-    'app.ognl.validation.add.message.help': 'Você pode inserir mensagens de ajuda e de compilação de erros ou escolher um identificador único para anexar elas ao sistema de Labels.',
+    'app.apply.expression':
+      'Aplique essa expressão apenas para atributos preenchidos',
+    'app.ognl.validation.add.message.help':
+      'Você pode inserir mensagens de ajuda e de compilação de erros ou escolher um identificador único para anexar elas ao sistema de Labels.',
     'app.ognl.message': 'Mensagem de erro',
     'app.help.message.key': 'Identificador da mensagem de ajuda',
     'app.error.message': 'Mensagem de erro',
@@ -220,13 +228,16 @@ export default {
     'app.maxLength': 'Tamanho máximo',
     'app.regexp': 'Expressão regular',
     'app.enumeratorStaticItems': 'Elementos',
-    'app.enumeratorStaticItems.help': 'Insira a configuração no formato \'lable1,lable2,lable3\'',
-    'app.enumeratorStaticItemsMap.help': 'Insira a configuração no formato \'key1=value1,key2=value2,key3=value3\'',
+    'app.enumeratorStaticItems.help':
+      "Insira a configuração no formato 'lable1,lable2,lable3'",
+    'app.enumeratorStaticItemsMap.help':
+      "Insira a configuração no formato 'key1=value1,key2=value2,key3=value3'",
     'app.enumeratorStaticItemsSeparator': 'Separador',
     'app.enumeratorExtractorBean': 'Nome do extrator',
     'app.chooseARole': 'Escolha um papel',
     'app.assigned.roles': 'Papel atribuído',
-    'app.no.roles': 'Nenhum papel disponível: todos os papéis podem ter sido atribuídas.',
+    'app.no.roles':
+      'Nenhum papel disponível: todos os papéis podem ter sido atribuídas.',
     'app.from': 'De',
     'app.to': 'Para',
     'app.equal': 'Igual a',
@@ -255,7 +266,8 @@ export default {
     'app.created': 'O {type} {code} foi criado',
     'app.updated': 'O {type} {code} foi atualizado',
     'app.deleted': 'O {type} {code} foi removido',
-    'app.updateSettings.success': 'As configurações foram atualizadas com sucesso',
+    'app.updateSettings.success':
+      'As configurações foram atualizadas com sucesso',
     'app.timestamp.hours': 'Selecione a hora',
     'app.timestamp.minutes': 'Selecione o minuto',
     'app.timestamp.seconds': 'Selecione o segundo',
@@ -266,6 +278,7 @@ export default {
     'app.threeStateOptions.both': 'Ambos',
     'app.enumerator.none': 'Nenhum',
     'contentPicker.description': 'Description',
+    'contentPicker.searchPlaceholder': 'type to search for a content',
     'contentPicker.status': 'Status',
     'contentPicker.type': 'Type',
     'contentPicker.allStatuses': 'All',
@@ -327,12 +340,17 @@ export default {
     'pageTree.action.clear': 'Limpar resultados',
     'pageTree.searchForm.title': 'Buscar por uma página existente',
     'pageTree.searchForm.code': 'Código de Página',
-    'pageTreePage.help': 'A seção ÁRVORES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
+    'pageTreePage.help':
+      'A seção ÁRVORES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
     'pageDetails.title': 'Detalhes de Página',
-    'pageDetails.help': 'A seção DETALHES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
-    'pageDetails.emptyContentLink': 'Não há conteúdo com link vinculado a essa página.',
-    'validateForm.elements': 'Insira uma configuração no formato \'key1=value1,key2=value2,key3=value3\'',
-    'validateForm.element': 'Insira uma configuração no formato \'label1,label2,label3\'',
+    'pageDetails.help':
+      'A seção DETALHES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
+    'pageDetails.emptyContentLink':
+      'Não há conteúdo com link vinculado a essa página.',
+    'validateForm.elements':
+      "Insira uma configuração no formato 'key1=value1,key2=value2,key3=value3'",
+    'validateForm.element':
+      "Insira uma configuração no formato 'label1,label2,label3'",
     'validateForm.element.code': 'Código deve ter 3 letras maiúsculas',
     'validateForm.required': 'Campo obrigatório',
     'validateForm.maxLength': 'Deve ter {max} caracteres ou menos',
@@ -342,18 +360,20 @@ export default {
     'validateForm.maxValue': 'Deve ter no máximo {max}',
     'validateForm.email': 'Endereço de email inválido',
     'validateForm.alphaNumeric': 'Somente caracteres alfanuméricos',
-    'validateForm.widgetCode': '{name} contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado _ são permitidos',
-    'validateForm.passwordNotMatch': 'A confirmação de senha não confere com a senha digitada',
-    'validateForm.code': 'Código contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado \'_\' são permitidos.',
-    'widget.singleContent.config.content': 'Conteúdo',
-    'widget.singleContent.config.contentModel': 'Modelo de Conteúdo',
+    'validateForm.widgetCode':
+      '{name} contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado _ são permitidos',
+    'validateForm.passwordNotMatch':
+      'A confirmação de senha não confere com a senha digitada',
+    'validateForm.code':
+      "Código contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado '_' são permitidos.",
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Código',
     'widget.page.create.code.placeholder': 'Código',
     'widget.page.create.title': 'Título',
     'widget.page.create.title.en.placeholder': 'Título em Inglês',
     'widget.page.create.title.it.placeholder': 'Título em Italiano',
-    'widget.page.create.title.ptBR.placeholder': 'Título em Português do Brasil',
+    'widget.page.create.title.ptBR.placeholder':
+      'Título em Português do Brasil',
     'widget.page.create.group': 'Grupo',
     'widget.page.tab.customUi': 'UI Customizada',
     'widget.page.tab.defaultUi': 'UI Padrão',
@@ -363,7 +383,8 @@ export default {
     'widget.list.new': 'Novo',
     'widget.list.type': 'Widget customizado',
     'widget.detail.title': 'Widget {widgetDescription} Position',
-    'widget.detail.subtitle': 'Lista e detalhes das páginas que possuem o widget',
+    'widget.detail.subtitle':
+      'Lista e detalhes das páginas que possuem o widget',
     'widget.detail.table.pageCode': 'Código da Página',
     'widget.detail.table.pagePath': 'Caminho da Página',
     'widget.detail.table.publicVersion': 'Versão Pública',
@@ -371,9 +392,11 @@ export default {
     'widget.detail.table.framePosition': 'Posição do Frame',
     'widget.detail.table.action.pageConfig': 'Configuração de Página',
     'widget.detail.table.action.pageDetails': 'Detalhes da Página',
-    'widget.help': 'A seção de WIDGET permite você gerenciar um widget existente ou adicionar um novo widget. Widgets são objetos usados para mostrar informação e funcionalidade do sistema ou representam serviços de uma página da aplicação.',
+    'widget.help':
+      'A seção de WIDGET permite você gerenciar um widget existente ou adicionar um novo widget. Widgets são objetos usados para mostrar informação e funcionalidade do sistema ou representam serviços de uma página da aplicação.',
     'fragment.list.title': 'Fragmentos',
-    'fragment.help': 'A seção FRAGMENTOS permite você gerenciar um fragmento existente ou adionar novos fragmentos. Os fragmentos são um porção simples da interface de front-end usado nos Widgets (incluindo Plugins) e nos Modelos de Página.',
+    'fragment.help':
+      'A seção FRAGMENTOS permite você gerenciar um fragmento existente ou adionar novos fragmentos. Os fragmentos são um porção simples da interface de front-end usado nos Widgets (incluindo Plugins) e nos Modelos de Página.',
     'fragment.code': 'Código',
     'fragment.code.placeholder': 'Código',
     'fragment.tab.guiCode': 'Código de Interface',
@@ -383,19 +406,26 @@ export default {
     'fragment.detail.widgetType': 'Tipo do Widget',
     'fragment.detail.pluginCode': 'Código do Plugin',
     'fragment.detail.title.referencedFragments': 'Fragmento referenciados',
-    'fragment.detail.title.referencedPageModels': 'Modelos de Página referenciados',
-    'fragment.detail.title.referencedWidgetType': 'Tipos de Widget referenciados',
-    'fragment.detail.emptyReferenceFragments': 'Não há fragmentos referenciados',
-    'fragment.detail.emptyReferencePageModels': 'Não há modelos de página referenciados',
-    'fragment.detail.emptyReferenceWidgetTypes': 'Não há tipos de widget referenciados',
+    'fragment.detail.title.referencedPageModels':
+      'Modelos de Página referenciados',
+    'fragment.detail.title.referencedWidgetType':
+      'Tipos de Widget referenciados',
+    'fragment.detail.emptyReferenceFragments':
+      'Não há fragmentos referenciados',
+    'fragment.detail.emptyReferencePageModels':
+      'Não há modelos de página referenciados',
+    'fragment.detail.emptyReferenceWidgetTypes':
+      'Não há tipos de widget referenciados',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.table.widgetType': 'Tipo de Widget',
     'fragment.table.plugin': 'Plugin',
     'fragment.table.edit': 'Editar {code}',
     'fragment.table.details': 'Detalhes de: {code}',
     'fragment.form.edit.widgetType': 'Tipo de Widget',
-    'fragment.settings': 'Habilitar Edição de Fragmento com interface padrão em branco',
-    'fragment.settings.alert.success': 'As configurações foram atualizadas com sucesso',
+    'fragment.settings':
+      'Habilitar Edição de Fragmento com interface padrão em branco',
+    'fragment.settings.alert.success':
+      'As configurações foram atualizadas com sucesso',
     'fragment.settings.alert.error': 'As configurações não foram atualizadas',
     'fragment.alert.error.fileExtension': 'Essa extensão não é permitida',
     'fileBrowser.list.upLink': 'acima..',
@@ -409,20 +439,25 @@ export default {
     'fileBrowser.uploadFileError': 'Erro no upload de arquivo',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nova da Nova Pasta',
-    'fileBrowser.createFolderSuccess': 'Pasta \'{path}\' criada com sucesso',
-    'fileBrowser.createFolderError': 'Ocorreu um erro ao criar a pasta \'{path}\'',
-    'fileBrowser.deleteFolderSuccess': 'Pasta \'{path}\' removida com sucesso',
-    'fileBrowser.deleteFolderError': 'Ocorreu um erro ao remover a pasta \'{path}\'',
-    'fileBrowser.deleteFileSuccess': 'Arquivo \'{path}\' removido com sucesso',
-    'fileBrowser.deleteFileError': 'Ocorreu um erro ao remover o arquivo \'{path}\'',
-    'fileBrowser.help': 'A seção NAVEGARDOR DE ARUIVOS permite o administrador de sistema visualizar as pastas do sistema.',
+    'fileBrowser.createFolderSuccess': "Pasta '{path}' criada com sucesso",
+    'fileBrowser.createFolderError':
+      "Ocorreu um erro ao criar a pasta '{path}'",
+    'fileBrowser.deleteFolderSuccess': "Pasta '{path}' removida com sucesso",
+    'fileBrowser.deleteFolderError':
+      "Ocorreu um erro ao remover a pasta '{path}'",
+    'fileBrowser.deleteFileSuccess': "Arquivo '{path}' removido com sucesso",
+    'fileBrowser.deleteFileError':
+      "Ocorreu um erro ao remover o arquivo '{path}'",
+    'fileBrowser.help':
+      'A seção NAVEGARDOR DE ARUIVOS permite o administrador de sistema visualizar as pastas do sistema.',
     'fileBrowser.textFile.placeholder': 'conteúdo de arquivo aqui...',
     'fileBrowser.textFile.content': 'Conteúdo',
     'pages.pageForm.info': 'Info',
     'pages.pageForm.pageGroups': 'Grupo de páginas',
     'pages.pageForm.settings': 'Configurações',
     'pages.pageForm.ownerGroup': 'Dono do Grupo',
-    'pages.pageForm.ownerGroupHelp': 'Você deve escolher o Dono do Grupo para definir que tipo de pessoas (editado na seção Configurações Entando) podem visualizar essa Página.',
+    'pages.pageForm.ownerGroupHelp':
+      'Você deve escolher o Dono do Grupo para definir que tipo de pessoas (editado na seção Configurações Entando) podem visualizar essa Página.',
     'pages.pageForm.joinGroup': 'Entrar no Grupo',
     'pages.pageForm.codeHelp': 'Insira o código da Página',
     'pages.pageForm.pagePlacement': 'Selecionar o local da Página',
@@ -433,9 +468,11 @@ export default {
     'pages.pageForm.seo': 'SEO',
     'pages.pageForm.seoHelp': 'Ativar Página SEO',
     'pages.pageForm.charset': 'Charset',
-    'pages.pageForm.charsetHelp': 'Interpreta uma sequencia de bytes como representação de caracteres. O valor padrão é setado pela máquina em uso.',
+    'pages.pageForm.charsetHelp':
+      'Interpreta uma sequencia de bytes como representação de caracteres. O valor padrão é setado pela máquina em uso.',
     'pages.pageForm.mimeType': 'MimeType',
-    'pages.pageForm.mimeTypeHelp': 'Identifica o tipo da informação (imagem, texto, ...) que a Entando responderá para o navegador que requesitar.',
+    'pages.pageForm.mimeTypeHelp':
+      'Identifica o tipo da informação (imagem, texto, ...) que a Entando responderá para o navegador que requesitar.',
     'pages.pageForm.saveAndConfigure': 'Salvar e Configurar',
     'pages.seoDescr': 'SEO: Quando disponĩvel use títulos extras',
     'pages.noPageFound': 'Nenhuma página encontrada.',
@@ -443,8 +480,10 @@ export default {
     'pages.status.draft': 'Online ≠ Rascunho',
     'pages.status.unpublished': 'Rascunho',
     'pageSettings.title': 'Configurações de Página',
-    'pageSettings.help': 'A seção CONFIGURAÇÃO DE PÁGINA permite o administrador especificar que páginas devem ser usadas para um objetivo em específico e permite também definir algumas configurações gerais da página.',
-    'pageSettings.status.published': 'A atualização da página {page} está online!',
+    'pageSettings.help':
+      'A seção CONFIGURAÇÃO DE PÁGINA permite o administrador especificar que páginas devem ser usadas para um objetivo em específico e permite também definir algumas configurações gerais da página.',
+    'pageSettings.status.published':
+      'A atualização da página {page} está online!',
     'pageSettings.status.unpublished': 'A página {page} está offline!',
     'pageSettings.input.homepage': 'Página Principal',
     'pageSettings.input.404': 'Página para: 404 - Página não encontrada',
@@ -454,27 +493,36 @@ export default {
     'pageSettings.input.baseURL.http': 'Construído por parâmetros HTTP',
     'pageSettings.input.baseURL.relative': 'Relativo',
     'pageSettings.input.baseURL.static': 'Estático',
-    'pageSettings.input.appendBaseURL': 'Concatenar nome de contexto à URL base',
+    'pageSettings.input.appendBaseURL':
+      'Concatenar nome de contexto à URL base',
     'pageSettings.input.jsession': 'Usar JSESSIONID',
-    'pageSettings.input.languageBroswer': 'Á pagina principal seleciona o seu idioma através do navegador',
+    'pageSettings.input.languageBroswer':
+      'Á pagina principal seleciona o seu idioma através do navegador',
     'pageSettings.input.pageTreeStyle': 'Escolha o estilo da Árvore de Páginas',
     'pageSettings.input.pageTreeStyle.classic': 'Clássico',
     'pageSettings.input.pageTreeStyle.demand': 'Carregar nós sob demanda',
     'pageSettings.input.pageTreeStyle.url': 'Estilo da URL',
     'pageSettings.input.pageTreeStyle.breadcrumbs': 'Navegação estrutural',
-    'pageSettings.baseUrl.help': 'As URLs do portal são produzidas a partir da URL BASE definida no arquivo de contexto (ex.: www.entando.com/ portal/ en/ pagecode.page). RELATIVO quando quando a URL gerada é omitida na URL BASE (ex.: /portal /en / pagecode.page). CONSTRUÍDO POR PARÊMTROS HTTP quando a URL é gerada pela requisição utilizada nos previews. ESTÁTICA quando a URL gerada foi inserida na URL BASE do arquivo de contexto ( ex.: www.entando.com/ portal/ en/ pagecode.page)',
-    'pageSettings.jsession.help': 'É um requisito de segurança. Evite que o JSESSIONID seja inserido no link gerado pelo portal. Deve estar com os cookies ativos.',
-    'pageSettings.appendBaseUrl.help': 'Adiciona o nome de contexto a URL BASE (ex.: /portal/) (ignorado pela BaseURL estática)',
+    'pageSettings.baseUrl.help':
+      'As URLs do portal são produzidas a partir da URL BASE definida no arquivo de contexto (ex.: www.entando.com/ portal/ en/ pagecode.page). RELATIVO quando quando a URL gerada é omitida na URL BASE (ex.: /portal /en / pagecode.page). CONSTRUÍDO POR PARÊMTROS HTTP quando a URL é gerada pela requisição utilizada nos previews. ESTÁTICA quando a URL gerada foi inserida na URL BASE do arquivo de contexto ( ex.: www.entando.com/ portal/ en/ pagecode.page)',
+    'pageSettings.jsession.help':
+      'É um requisito de segurança. Evite que o JSESSIONID seja inserido no link gerado pelo portal. Deve estar com os cookies ativos.',
+    'pageSettings.appendBaseUrl.help':
+      'Adiciona o nome de contexto a URL BASE (ex.: /portal/) (ignorado pela BaseURL estática)',
     'pageSettings.success': 'Configurações de Página foram atualizadas',
-    'dataModel.help': 'A seção MODELOS DE DADOS permite que o administrador adicione novos conteúdos de dados ou edite os existentes. Entando possui um motor de formatação baseado no modelos usados na apresentação dos conteúdos (ou parte disso) usado pelos usuários. Dados de conteúdo são templates Velocity e, assim como os conteúdos, eles são facilmente gerenciados pela interface de administração.',
+    'dataModel.help':
+      'A seção MODELOS DE DADOS permite que o administrador adicione novos conteúdos de dados ou edite os existentes. Entando possui um motor de formatação baseado no modelos usados na apresentação dos conteúdos (ou parte disso) usado pelos usuários. Dados de conteúdo são templates Velocity e, assim como os conteúdos, eles são facilmente gerenciados pela interface de administração.',
     'dataModel.type': 'Tipo',
     'dataModel.stylesheet': 'Folha de Estilos',
     'dataModel.model': 'Modelo',
-    'dataModel.deleteDataModelSuccess': 'Modelo de Dados \'{id}\' removido com sucesso',
-    'dataModel.deleteDataModelError': 'Ocorreu um erro ao remover o Modelo de Dados \'{id}\'',
+    'dataModel.deleteDataModelSuccess':
+      "Modelo de Dados '{id}' removido com sucesso",
+    'dataModel.deleteDataModelError':
+      "Ocorreu um erro ao remover o Modelo de Dados '{id}'",
     'dataModel.help.code': 'Você pode inserir apenas caracteres númericos',
     'dataType.list.title': 'Tipo de Dados',
-    'dataType.help': 'A seção TIPOS DE DADOS permite o administrador adicionar novos tipos de dados ou editar os já existentes.',
+    'dataType.help':
+      'A seção TIPOS DE DADOS permite o administrador adicionar novos tipos de dados ou editar os já existentes.',
     'dataType.table.status': 'Status',
     'dataType.table.status.0': 'Ok. Recarregue se achar necessário.',
     'dataType.table.status.1': 'Recarregando. Atualize essa página.',
@@ -488,7 +536,8 @@ export default {
     'profileType.table.status.wip': 'Recarregando. Atualize essa página.',
     'profileType.listEmpty': 'Não há TIPOS DE PERFIL disponíveis',
     'profileType.list.title': 'Tipos de Perfil',
-    'profileType.help': 'A seção TIPOS DE PERFIL permite o administrador adicionar novos perfis de ususário ou editar os já existentes.',
+    'profileType.help':
+      'A seção TIPOS DE PERFIL permite o administrador adicionar novos perfis de ususário ou editar os já existentes.',
     'ProfileType.type': 'Tipo',
     'ProfileType.created': 'TIPO DE PERFIL criado com sucesso',
 
@@ -496,14 +545,20 @@ export default {
     'pageConfig.applyDefaultWidget': 'Aplicar o widget padrão',
     'pageConfig.defaultWidgetApplied': 'Widget padrão aplicado',
     'pageConfig.onTheFlyPage': 'Página de progresso',
-    'pageModel.error.overlapping': 'Frame "{frame1}" e "{frame2}" estão se sobrepondo',
-    'pageModel.error.pos': 'Propriedade "pos" do Frame "{frame}" difere de seu índice',
-    'pageModel.error.sketchX1X2format': 'Frame "{frame}": atributos de esboço x1 and x2 devem ser inteiros entre 0 e 11, sendo x1 <= x2',
-    'pageModel.error.sketchY1Y2format': 'Frame "{frame}": atributos de esboços y1 and y2 devem ser inteiros positivos, sendo y1 <= y2',
-    'pageModel.error.framesArray': 'configuration.frames deve ser to tipo Array',
+    'pageModel.error.overlapping':
+      'Frame "{frame1}" e "{frame2}" estão se sobrepondo',
+    'pageModel.error.pos':
+      'Propriedade "pos" do Frame "{frame}" difere de seu índice',
+    'pageModel.error.sketchX1X2format':
+      'Frame "{frame}": atributos de esboço x1 and x2 devem ser inteiros entre 0 e 11, sendo x1 <= x2',
+    'pageModel.error.sketchY1Y2format':
+      'Frame "{frame}": atributos de esboços y1 and y2 devem ser inteiros positivos, sendo y1 <= y2',
+    'pageModel.error.framesArray':
+      'configuration.frames deve ser to tipo Array',
     'pageModel.error.configuration': 'configuration é um Objeto obrigatório',
     'user.list.title': 'Usuários',
-    'user.help': 'A seção USUÁRIOS permite que o administrador gerencie listas de usuário (adicionando novos ou editando já existentes), seus perfis, seus papéis e autorizações (vinculando papéis e grupos).',
+    'user.help':
+      'A seção USUÁRIOS permite que o administrador gerencie listas de usuário (adicionando novos ou editando já existentes), seus perfis, seus papéis e autorizações (vinculando papéis e grupos).',
     'user.table.status.active': 'Ativo',
     'user.table.status.disabled': 'Inativo',
     'user.table.status.inactive': 'Inativo',
@@ -525,25 +580,34 @@ export default {
     'user.profileType': 'Tipo de Pefil',
     'user.status': 'Status',
     'user.searchForm.users': 'Usuários',
-    'user.username.help': 'Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (maiúsculo, minúsculo, números), além de caracteres especiais como \'.\' e  \'_\'.',
-    'user.password.help': 'Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (maiúsculo, minúsculo, números), além de caracteres especiais como \'.\' e  \'_\'. ',
-    'user.validate.text': 'Contém caracteres inválidos. Você pode usar apenas caractéres alfanúmericos e os caracteres especiais \'.\' e  \'_\'.',
+    'user.username.help':
+      "Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (maiúsculo, minúsculo, números), além de caracteres especiais como '.' e  '_'.",
+    'user.password.help':
+      "Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (maiúsculo, minúsculo, números), além de caracteres especiais como '.' e  '_'. ",
+    'user.validate.text':
+      "Contém caracteres inválidos. Você pode usar apenas caractéres alfanúmericos e os caracteres especiais '.' e  '_'.",
     'user.registration': 'Cadastro',
     'user.lastLogin': 'Último login',
     'user.reset': 'Resetar',
     'user.lastPasswordChange': 'Última alteração de senha',
     'user.restrictions.title': 'Restrições de Usuário',
-    'user.restrictions.help': 'A seção RESTRIÇÕES DE USUÁRIO permite o administrador gerenciar um sistema de prazo de validade para usuários.',
+    'user.restrictions.help':
+      'A seção RESTRIÇÕES DE USUÁRIO permite o administrador gerenciar um sistema de prazo de validade para usuários.',
     'user.restrictions.passwordSection': 'Senha expira',
     'user.restrictions.avatarSection': 'Avatar',
     'user.restrictions.form.active': 'Senha Sempre Ativa',
-    'user.restrictions.form.monthsSinceLastLogin': 'Validade (em meses) para uma senha expirar',
-    'user.restrictions.form.maxMonths': 'Validade (em meses) que uma senha deve exepirar depois de seu último acesso',
-    'user.restrictions.form.gravatar': 'Habilitar integração com Gravatar (Avatar de usuários)',
-    'user.restrictions.form.monthsSinceLastLogin.error': 'Esse valor deve ser menor ou igual ao campo anterior',
+    'user.restrictions.form.monthsSinceLastLogin':
+      'Validade (em meses) para uma senha expirar',
+    'user.restrictions.form.maxMonths':
+      'Validade (em meses) que uma senha deve exepirar depois de seu último acesso',
+    'user.restrictions.form.gravatar':
+      'Habilitar integração com Gravatar (Avatar de usuários)',
+    'user.restrictions.form.monthsSinceLastLogin.error':
+      'Esse valor deve ser menor ou igual ao campo anterior',
     'user.restrictions.months': 'mês(es)',
     'user.restrictions.success': 'As restrições de usuários foram atualizadas',
-    'user.myProfile.help': 'A seção MEU PERFIL permite que o usuário altere a senha de sua conta e gerencie a informações de seu perfil.',
+    'user.myProfile.help':
+      'A seção MEU PERFIL permite que o usuário altere a senha de sua conta e gerencie a informações de seu perfil.',
     'user.myProfile.passwordSection': 'Mude sua senha',
     'user.myProfile.oldPassword': 'Senha atual',
     'user.myProfile.newPassword': 'Nova senha',
@@ -556,14 +620,18 @@ export default {
     'user.profile.all': 'Todos',
     'user.profile.with': 'Usuário com perfil',
     'user.profile.without': 'Usuário sem perfil',
-    'group.help': 'A seção GRUPOS permite o administrador gerenciar grupos existentes ou adicionar novos grupos.',
+    'group.help':
+      'A seção GRUPOS permite o administrador gerenciar grupos existentes ou adicionar novos grupos.',
     'group.listEmpty': 'Não há GRUPOS disponíveis',
     'group.name': 'Nome',
     'group.code': 'Código',
-    'group.name.help': 'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
-    'group.code.help': 'Você pode inserir no máximo 20 caracteres (maiúsculo, minúsculo, numeros e \'_\').',
+    'group.name.help':
+      'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
+    'group.code.help':
+      "Você pode inserir no máximo 20 caracteres (maiúsculo, minúsculo, numeros e '_').",
     'database.list.add': 'Criar um backup',
-    'database.help': 'A seção BANCO DE DADOS permite o administrador do sistema criar e restaurar backups se essa opção estiver habilitada. Essa opção é muito importante pois, se não executada corretamente, pode causar perdas de dados irreversíveis.',
+    'database.help':
+      'A seção BANCO DE DADOS permite o administrador do sistema criar e restaurar backups se essa opção estiver habilitada. Essa opção é muito importante pois, se não executada corretamente, pode causar perdas de dados irreversíveis.',
     'database.noDatabaseYet': 'Nenhum backup disponível.',
     'database.inProgress': 'Backup em execução',
     'database.gotoList': 'Ir para Lista de Backups',
@@ -574,7 +642,8 @@ export default {
     'database.dumpDate': 'Data do Dump',
     'database.datasource': 'Datasource',
     'database.datasourceDetails': 'Detalhes do Datasource',
-    'labelsAndLanguages.help': 'A seção LABEL & IDIOMAS permite que você gerencie labels e idiomas do sistema. Entando oferece suporte a multiplos idiomas, o administrador pode adiionar um nomo idioma. O primeiro idioma a ser configurado no sistema será o idioma padrão. Labels são acessórios da Entando, principalmente usados para mostrar informações textuais estáticas na aplicação e não há objetos em particular.',
+    'labelsAndLanguages.help':
+      'A seção LABEL & IDIOMAS permite que você gerencie labels e idiomas do sistema. Entando oferece suporte a multiplos idiomas, o administrador pode adiionar um nomo idioma. O primeiro idioma a ser configurado no sistema será o idioma padrão. Labels são acessórios da Entando, principalmente usados para mostrar informações textuais estáticas na aplicação e não há objetos em particular.',
     'label.searchForm.code': 'Busca por código',
     'label.searchForm.title': 'Procucar label existente',
     'language.selectLanguage': 'Selecione o idioma',
@@ -584,12 +653,15 @@ export default {
     'labels.default.language': 'Idioma padrão',
     'modal.confirm.delete': 'Você deseja realmente remover o código {code}?',
     'modal.confirm.publish': 'Você deseja realmente publicar o código {code}?',
-    'modal.confirm.unpublish': 'Você deseja realmente despublicar o código {code}?',
-    'widgetConfig.help': 'A seção CONFIGURAÇÃO DE WIDGET permite você configurar um widget em um fram específico de uma página atraves de uma interface gráfica.',
+    'modal.confirm.unpublish':
+      'Você deseja realmente despublicar o código {code}?',
+    'widgetConfig.help':
+      'A seção CONFIGURAÇÃO DE WIDGET permite você configurar um widget em um fram específico de uma página atraves de uma interface gráfica.',
     'widgetConfig.internalServlet.widgetName': 'Internal Servlet',
     'widgetConfig.internalServlet.parameters': 'Parameters',
     'widgetConfig.internalServlet.actionPath': 'actionPath',
-    'widgetConfig.internalServlet.actionPath.help': 'Caminho para uma ação ou a um JSP. Você deve anexar \'/ExtStr2\' a qualquer caminho de ação Struts2',
+    'widgetConfig.internalServlet.actionPath.help':
+      "Caminho para uma ação ou a um JSP. Você deve anexar '/ExtStr2' a qualquer caminho de ação Struts2",
     'group.detail.title.users': 'Usuários',
     'group.detail.title.widgetTypes': 'Tipos de Widget',
     'group.detail.title.contents': 'Conteúdos',
@@ -603,14 +675,18 @@ export default {
     'group.action.pageConfiguration': 'Configuração de página',
     'group.action.manageAuthorization': 'Gerenciar autorização para',
     'group.content.lastEdit': 'Última modificação',
-    'pageModels.help': 'A seção MODELOS DE PÁGINA permite gerenciar novos modelos de pagina ou editar os já existentes. O Modelo de Página define a estrutura de página. Um modelo de página é caracterizado por dois elementos: scheme (a divisão da página em áreas menores chamados de frames) e decoration (o visual de apresentação da página). Dentro de uma aplicação Entando você pode configurar multiplos modelos de página.',
-    'pageModels.name.help': 'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
-    'pageModels.code.help': 'Você pode inserir no máximo 40 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
+    'pageModels.help':
+      'A seção MODELOS DE PÁGINA permite gerenciar novos modelos de pagina ou editar os já existentes. O Modelo de Página define a estrutura de página. Um modelo de página é caracterizado por dois elementos: scheme (a divisão da página em áreas menores chamados de frames) e decoration (o visual de apresentação da página). Dentro de uma aplicação Entando você pode configurar multiplos modelos de página.',
+    'pageModels.name.help':
+      'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
+    'pageModels.code.help':
+      'Você pode inserir no máximo 40 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais).',
     'pageModels.jsonConfiguration': 'Configuração do JSON',
     'pageModels.template': 'Template',
     'pageModels.templatePreview': 'Prévia do Template',
     'pageModels.pluginCode': 'Código do Plugin',
-    'category.help': 'A seção CATEGORIAS permite gerenciar a árvore de categorias e criar novas categorias. Através das categorias você pode classificar a informação. Essa classificação é útil ao apresentar informções ao usuário final.',
+    'category.help':
+      'A seção CATEGORIAS permite gerenciar a árvore de categorias e criar novas categorias. Através das categorias você pode classificar a informação. Essa classificação é útil ao apresentar informções ao usuário final.',
     'category.tree': 'Árvore de Categorias',
     'category.settings': 'Configurações das Categorias',
     'category.treeStyle': 'Escolha o estilo da Árvore de Categorias',
@@ -618,10 +694,13 @@ export default {
     'category.treeType.request': 'Carregar nós sob demanda',
     'category.categoryForm.categoryPlacement': 'Posição da árvore',
     'DataType.type': 'Tipo',
-    'role.help': 'A seção PAPÉIS permite que o administrador crie e gerencia papéis de usuário. Os papéis agrupam permissões de diversas funções dentro da aplicação.',
+    'role.help':
+      'A seção PAPÉIS permite que o administrador crie e gerencia papéis de usuário. Os papéis agrupam permissões de diversas funções dentro da aplicação.',
     'role.listEmpty': 'Não há PAPÉIS disponíveis',
-    'role.name.help': 'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais). ',
-    'role.code.help': 'Você pode inserir no máximo 20 caracteres (maiúsculo, minúsculo, numeros e \'_\') ',
+    'role.name.help':
+      'Você pode inserir no máximo 50 caracteres (maiúsculo, minúsculo, numeros e caracteres especiais). ',
+    'role.code.help':
+      "Você pode inserir no máximo 20 caracteres (maiúsculo, minúsculo, numeros e '_') ",
     'role.detail.referencedUsers': 'Usuário referenciados',
     'role.detail.noPermissions': 'Não existem permissões',
     'permission.listEmpty': 'Não há PERMISSÃO disponível',
@@ -632,17 +711,25 @@ export default {
     'reference.jacmsResourceManager': 'Recursos com essa categoria',
     'reference.DataObjectManager': 'Objetos de Dados com essa categoria',
     'reference.jpcollaborationIdeaManager': 'Idéias com essa categoria',
-    'reference.noReferencejacmsContentManager': 'Não existem conteúdos referenciados',
-    'reference.noReferencejacmsResourceManager': 'Não existem recursos referenciados',
-    'reference.noReferenceDataObjectManager': 'Não existem objetos de dados referenciados',
-    'reference.noReferencejpcollaborationIdeaManager': 'Não há idéia referenciada',
+    'reference.noReferencejacmsContentManager':
+      'Não existem conteúdos referenciados',
+    'reference.noReferencejacmsResourceManager':
+      'Não existem recursos referenciados',
+    'reference.noReferenceDataObjectManager':
+      'Não existem objetos de dados referenciados',
+    'reference.noReferencejpcollaborationIdeaManager':
+      'Não há idéia referenciada',
     'references.referencedPages': 'Páginas referenciadas',
     'reloadConfiguration.title': 'Recarregar configuração',
-    'reloadConfiguration.help': 'A seção RECARREGAR CONFIGURAÇÃO permite recarregar as configurações do sistema. Essa operação precisa ser executada após modificar alguns parâmetros.',
+    'reloadConfiguration.help':
+      'A seção RECARREGAR CONFIGURAÇÃO permite recarregar as configurações do sistema. Essa operação precisa ser executada após modificar alguns parâmetros.',
     'reloadConfiguration.reload.title': 'Recarregar a configuração',
-    'reloadConfiguration.reload.confirm': 'Você tem certeza que deseja recarregar a configuração?',
-    'reloadConfiguration.confirm.success': 'A configuração foi recarregada com sucesso.',
-    'reloadConfiguration.confirm.error': 'Ocorreu algo de errado enquanto recarregávamos a configuração. Tente novamente em alguns minutos.',
+    'reloadConfiguration.reload.confirm':
+      'Você tem certeza que deseja recarregar a configuração?',
+    'reloadConfiguration.confirm.success':
+      'A configuração foi recarregada com sucesso.',
+    'reloadConfiguration.confirm.error':
+      'Ocorreu algo de errado enquanto recarregávamos a configuração. Tente novamente em alguns minutos.',
     'activityStream.newPage': 'criou uma nova página',
     'activityStream.editPage': 'editou uma nova página',
     'activityStream.deletePage': 'removeu uma página',
@@ -651,13 +738,17 @@ export default {
     'activityStream.modifyPage': 'modificou uma página',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Escreva um comentário',
-    'reference.text': 'Recarregue as referências para esses tipos de entidade. Tipos a serem recarregados: {count}. ',
-    'reference.reload': 'Clique aqui {link} para recarregar todos os tipos de dados.',
+    'reference.text':
+      'Recarregue as referências para esses tipos de entidade. Tipos a serem recarregados: {count}. ',
+    'reference.reload':
+      'Clique aqui {link} para recarregar todos os tipos de dados.',
     'digitalExchange.disabled.title': 'Digital Exchange está desabilitado.',
-    'digitalExchange.disabled.help': 'Você pode habilitar através da variável de ambiente DIGITAL_EXCHANGE_UI_ENABLED (altere para true) que está localizada n arquivo .env.',
+    'digitalExchange.disabled.help':
+      'Você pode habilitar através da variável de ambiente DIGITAL_EXCHANGE_UI_ENABLED (altere para true) que está localizada n arquivo .env.',
     'digitalExchange.menuButton.title': 'Digital Exchange',
     'digitalExchange.component.list.title': 'Digital Exchange',
-    'digitalExchange.component.help': 'Entando Digital Exchange é um marketplace onde os usuários podem instalar diferentes Widgets, Componentes, Fragmentos, Modelos de Página, Modelos de Conteúdo e Tipos de Conteúdo.',
+    'digitalExchange.component.help':
+      'Entando Digital Exchange é um marketplace onde os usuários podem instalar diferentes Widgets, Componentes, Fragmentos, Modelos de Página, Modelos de Conteúdo e Tipos de Conteúdo.',
     'digitalExchange.sidebar.digitalExchangeFilterTitle': 'Digital Exchanges',
     'digitalExchange.sidebar.categoryFilterTitle': 'Categorias',
     'digitalExchange.components.latestVersion': 'Última versão',
@@ -669,9 +760,12 @@ export default {
     'digitalExchange.components.recheck': 'Re-check',
     'digitalExchange.components.retry': 'Tentar novamente',
     'digitalExchange.components.inprogress': 'Executando',
-    'digitalExchange.components.notifyInProgress': 'A instalação continua em execução há algum tempo. Você pode verificar recarregando a página.',
-    'digitalExchange.components.notifyFailedInstall': 'Ocorreu um erro durante a instalação.',
-    'digitalExchange.components.notifyFailedUninstall': 'Ocorreu um erro durante a desinstalação.',
+    'digitalExchange.components.notifyInProgress':
+      'A instalação continua em execução há algum tempo. Você pode verificar recarregando a página.',
+    'digitalExchange.components.notifyFailedInstall':
+      'Ocorreu um erro durante a instalação.',
+    'digitalExchange.components.notifyFailedUninstall':
+      'Ocorreu um erro durante a desinstalação.',
     'digitalExchange.components.uninstall': 'Desinstalar',
     'digitalExchange.sidebar.ratingFilter.title': 'Avaliação',
     'digitalExchange.sidebar.ratingFilter.itemLabel': '& up',
@@ -688,7 +782,8 @@ export default {
     'digitalExchange.extraFilters.new': 'Novos',
     'digitalExchange.extraFilters.installed': 'Instalados',
     'digitalExchange.settings.title': 'Configurações do Digital Exchange',
-    'digitalExchange.settings.help': 'Nessa seção é possível configurar e gerenciar as configurações do marktplace Entando Digital Exchange.',
+    'digitalExchange.settings.help':
+      'Nessa seção é possível configurar e gerenciar as configurações do marktplace Entando Digital Exchange.',
     'digitalExchange.settings.add': 'Adicionar Digital Exchange',
     'digitalExchange.settings.active': 'Ativo',
     'digitalExchange.settings.address': 'Endereço',
@@ -705,7 +800,8 @@ export default {
     'cms.contentSettings.title': 'Configurações de Conteúdo',
     'singlePageSettings.title': 'Configurações de página',
     'cms.disabled.title': 'CMS está desabilitado.',
-    'cms.disabled.help': 'Pode ser habilitado pela variável de ambiente CMS_UI_ENABLED (true) localizada no arquivo .env.',
+    'cms.disabled.help':
+      'Pode ser habilitado pela variável de ambiente CMS_UI_ENABLED (true) localizada no arquivo .env.',
     'singlePageSettings.generalSettings': 'Configurações Gerais',
     'singlePageSettings.pageTitle': 'Título da Página',
     'singlePageSettings.updateSuccess': 'Página atualizada com sucesso',

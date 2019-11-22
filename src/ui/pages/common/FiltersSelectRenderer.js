@@ -105,7 +105,7 @@ class FiltersSelectRenderer extends Component {
               <th
                 width="5%"
               >
-                <FormattedMessage id="widget.form.reoder" />
+                <FormattedMessage id="widget.form.reorder" />
               </th>
             </tr>
           </thead>
