@@ -1,4 +1,8 @@
-import { addErrors, addToast, TOAST_WARNING } from '@entando/messages';
+import {
+  addErrors,
+  addToast,
+  TOAST_WARNING,
+} from '@entando/messages';
 import { formattedText } from '@entando/utils';
 import {
   SET_DE_COMPONENTS,
@@ -28,7 +32,12 @@ import { toggleLoading } from 'state/loading/actions';
 import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+  DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+  DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
 } from 'state/digital-exchange/components/const';
+
+const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
 
 export const setSelectedDEComponent = digitalExchangeComponent => ({
   type: SET_SELECTED_DE_COMPONENT,
@@ -120,15 +129,28 @@ export const finishComponentUninstall = id => ({
 export const pollDEComponentInstallStatus = component => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentInstallation(component.id));
-    pollApi(
-      () => getDEComponentInstall(component.id),
-      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-    )
-      .then(() => {
-        dispatch(finishComponentInstallation(component.id));
+    pollApi({
+      apiFn: () => getDEComponentInstall(component.id),
+      stopPollingConditionFn: ({
+        payload,
+      }) => payload && [
+        DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
+        DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+      ].includes(payload.status),
+      timeout: POLLING_TIMEOUT_IN_MS,
+    })
+      .then((res) => {
+        if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
+          dispatch(finishComponentInstallation(component.id));
+        } else {
+          dispatch(componentInstallationFailed(component.id));
+        }
       })
       .catch((res) => {
-        const { errors, payload } = res;
+        const {
+          errors,
+          payload,
+        } = res;
         if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
           dispatch(addToast(
             formattedText('digitalExchange.components.notifyInProgress'),
@@ -142,7 +164,9 @@ export const pollDEComponentInstallStatus = component => dispatch => (
           ));
           dispatch(componentInstallationFailed(component.id));
         }
-        dispatch(addErrors(errors.map(err => err.message)));
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+        }
         resolve(res);
       })
       .finally(() => resolve());
@@ -168,15 +192,30 @@ export const installDEComponent = component => dispatch => (
 export const pollDEComponentUninstallStatus = componentId => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentUninstall(componentId));
-    pollApi(
-      () => getDEComponentUninstall(componentId),
-      ({ payload }) => payload.status === DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
-    )
-      .then(() => {
-        dispatch(finishComponentUninstall(componentId));
+    pollApi({
+      apiFn: () => getDEComponentUninstall(componentId),
+      stopPollingConditionFn: ({
+        payload,
+      }) => payload && [
+        DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+        DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+      ].includes(payload.status),
+      timeout: POLLING_TIMEOUT_IN_MS,
+    })
+      .then(({
+        payload,
+      }) => {
+        if (payload.status === DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
+          dispatch(finishComponentUninstall(componentId));
+        } else {
+          dispatch(componentUninstallFailed(componentId));
+        }
       })
       .catch((res) => {
-        const { errors, payload } = res;
+        const {
+          errors,
+          payload,
+        } = res;
         if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
           dispatch(addToast(
             formattedText('digitalExchange.components.notifyInProgress'),
@@ -190,7 +229,9 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
           ));
           dispatch(componentUninstallFailed(componentId));
         }
-        dispatch(addErrors(errors.map(err => err.message)));
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+        }
         resolve(res);
       })
       .finally(() => resolve());
@@ -213,7 +254,10 @@ export const uninstallDEComponent = componentId => dispatch => (
   })
 );
 
-export const fetchDEComponents = (paginationMetadata = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+export const fetchDEComponents = (paginationMetadata = {
+  page: 1,
+  pageSize: 10,
+}, params = '') => dispatch => (
   new Promise((resolve) => {
     const feature = 'digital-exchange/components';
     dispatch(toggleLoading(feature));

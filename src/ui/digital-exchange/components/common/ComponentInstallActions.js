@@ -6,11 +6,15 @@ import { componentType } from 'models/digital-exchange/components';
 import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   DE_COMPONENT_INSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
 
-const installationProgressStatuses = [
+const jobProgressStatuses = [
   DE_COMPONENT_INSTALLATION_STATUS_CREATED,
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
+  DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 ];
 
 const ComponentInstallActions = ({
@@ -71,8 +75,8 @@ const ComponentInstallActions = ({
   ) : (
     <div className="ComponentList__install-actions">
       {
-        (installationProgressStatuses.includes(installationStatus) ||
-        installationProgressStatuses.includes(uninstallStatus)) ? (
+        (jobProgressStatuses.includes(installationStatus) ||
+        jobProgressStatuses.includes(uninstallStatus)) ? (
           <ProgressBar
             active
             bsStyle="success"
