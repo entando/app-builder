@@ -21,6 +21,7 @@ import {
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { WIDGET_CONFIG_FORM_ID } from 'state/widget-config/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
@@ -82,6 +83,8 @@ export const changeViewList = view => ({
     view,
   },
 });
+
+export const setWidgetConfigForm = config => initialize(WIDGET_CONFIG_FORM_ID, config);
 
 
 export const fetchPageConfig = (pageCode, status) =>
@@ -254,7 +257,7 @@ export const editWidgetConfig = (frameId, pageCode) =>
     const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
-      dispatch(initialize('widgetConfigForm', pageConfigItem.config));
+      dispatch(setWidgetConfigForm(pageConfigItem.config));
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },

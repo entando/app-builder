@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { clearErrors } from '@entando/messages';
 import { getContentModelList } from 'state/content-model/selectors';
-import SingleContentConfigForm from 'ui/widgets/config/forms/SingleContentConfigForm';
+import HandpickedContentsConfigForm from 'ui/widgets/config/forms/HandpickedContentsConfigForm';
 import { fetchContentModelListPaged } from 'state/content-model/actions';
 
 export const mapStateToProps = state => ({
@@ -21,4 +21,4 @@ export const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(injectIntl(SingleContentConfigForm));
+})(injectIntl(HandpickedContentsConfigForm));

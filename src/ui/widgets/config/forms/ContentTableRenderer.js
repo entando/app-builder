@@ -9,7 +9,7 @@ import ContentPickerContainer from 'ui/widgets/config/forms/ContentPickerContain
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 const ContentTableRenderer = ({ fields, contentModels }) => {
-  const handleAddNewContent = content =>
+  const handlePickContent = content =>
     fields.push({ ...content, contentModelId: null });
 
   const renderContentRows = fields.map((field, i) => {
@@ -70,7 +70,7 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
     <div className="FiltersSelectRenderer">
       <ContentPickerContainer
         form="contentPicker"
-        onPickContent={handleAddNewContent}
+        onPickContent={handlePickContent}
       />
       <Table bordered>
         <thead>
