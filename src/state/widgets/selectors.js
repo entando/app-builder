@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 import { get, isEmpty, uniq } from 'lodash';
-import { getFormValues } from 'redux-form';
-import { WIDGET_CONFIG_FORM_ID } from 'state/widget-config/const';
 
 export const getWidgets = state => state.widgets;
 export const getWidgetsTotal = state => state.widgets.total;
@@ -53,5 +51,3 @@ export const getWidgetInfo = createSelector([getWidgets], (widget) => {
   }
   return info;
 });
-
-export const getWidgetFormConfig = getFormValues(WIDGET_CONFIG_FORM_ID);

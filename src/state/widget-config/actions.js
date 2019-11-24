@@ -6,7 +6,6 @@ import { loadSelectedWidget } from 'state/widgets/actions';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setWidgetFormConfig, initConfigPage } from 'state/page-config/actions';
-import { getWidgetFormConfig } from 'state/widgets/selectors';
 
 
 export const updateConfiguredPageWidget = (widgetConfig, params) =>
@@ -30,6 +29,10 @@ export const updateConfiguredPageWidget = (widgetConfig, params) =>
 
 export const initWidgetConfigPage = (pageCode, widgetCode, framePos) =>
   async (dispatch, getState) => {
+    const getWidgetFormConfig = (state) => {
+      console.log(state);
+      return null;
+    };
     const state = getState();
     if (!getWidgetFormConfig(state)) {
       await dispatch(initConfigPage(pageCode));
@@ -40,5 +43,5 @@ export const initWidgetConfigPage = (pageCode, widgetCode, framePos) =>
         dispatch(setWidgetFormConfig(pageConfigItem.config));
       }
     }
-    dispatch(loadSelectedWidget(widgetCode)); // is it really needed?
+    dispatch(loadSelectedWidget(widgetCode));
   };

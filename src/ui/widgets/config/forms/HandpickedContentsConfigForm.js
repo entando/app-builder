@@ -5,19 +5,21 @@ import { FieldArray, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
 import ContentTableRenderer from 'ui/widgets/config/forms/ContentTableRenderer';
 
-class SingleContentConfigFormBody extends PureComponent {
+class HandpickedContentsConfigForm extends PureComponent {
   componentDidMount() {
     this.props.onDidMount();
   }
 
   render() {
     const {
+      widgetConfig,
       contentModels,
       handleSubmit,
       invalid,
       submitting,
       intl,
     } = this.props;
+    console.log('HandpickedContentsConfigForm', widgetConfig);
     return (
       <Fragment>
         <form onSubmit={handleSubmit}>
@@ -51,10 +53,11 @@ class SingleContentConfigFormBody extends PureComponent {
 
 const SingleContentConfigForm = reduxForm({
   form: 'widgets.singleContentConfig',
-})(SingleContentConfigFormBody);
+})(HandpickedContentsConfigForm);
 
-SingleContentConfigFormBody.propTypes = {
+HandpickedContentsConfigForm.propTypes = {
   intl: intlShape.isRequired,
+  widgetConfig: PropTypes.shape({}).isRequired,
   contentModels: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
