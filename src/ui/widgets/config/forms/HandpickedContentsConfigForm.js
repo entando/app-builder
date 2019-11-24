@@ -57,12 +57,16 @@ const SingleContentConfigForm = reduxForm({
 
 HandpickedContentsConfigForm.propTypes = {
   intl: intlShape.isRequired,
-  widgetConfig: PropTypes.shape({}).isRequired,
+  widgetConfig: PropTypes.shape({}),
   contentModels: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+};
+
+HandpickedContentsConfigForm.defaultProps = {
+  widgetConfig: null,
 };
 
 export default SingleContentConfigForm;

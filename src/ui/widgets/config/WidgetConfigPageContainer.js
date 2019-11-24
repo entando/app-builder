@@ -18,19 +18,20 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
 });
 
 export const mapStateToProps = (state, { match: { params } }) => {
-  const { pageCode, framePos } = params;
+  const { pageCode, framePos, widgetCode } = params;
 
-  const getPageWidgetConfig = (st) => { // TODO refactor to a selector
+  const getPageWidgetConfig = (st) => {
     const pageConfig = st.pageConfig.configMap[pageCode];
-    return pageConfig ? pageConfig[parseInt(framePos, 10)].config : null;
+    const widgetConfig = pageConfig ? pageConfig[parseInt(framePos, 10)] : null;
+    return widgetConfig ? widgetConfig.config : null;
   };
 
   return {
-    widgetCode: params.widgetCode,
+    widgetCode,
     widgetConfig: getPageWidgetConfig(state),
-    framePos: parseInt(params.framePos, 10),
-    pageCode: params.pageCode,
-    frameName: makeGetWidgetConfigFrameName(params.framePos)(state),
+    framePos: parseInt(framePos, 10),
+    pageCode,
+    frameName: makeGetWidgetConfigFrameName(framePos)(state),
   };
 };
 
