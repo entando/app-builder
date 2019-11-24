@@ -54,4 +54,4 @@ export const getWidgetInfo = createSelector([getWidgets], (widget) => {
   return info;
 });
 
-export const getWidgetConfigForm = getFormValues(WIDGET_CONFIG_FORM_ID);
+export const getWidgetFormConfig = getFormValues(WIDGET_CONFIG_FORM_ID);

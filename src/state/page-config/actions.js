@@ -84,7 +84,7 @@ export const changeViewList = view => ({
   },
 });
 
-export const setWidgetConfigForm = config => initialize(WIDGET_CONFIG_FORM_ID, config);
+export const setWidgetFormConfig = config => initialize(WIDGET_CONFIG_FORM_ID, config);
 
 
 export const fetchPageConfig = (pageCode, status) =>
@@ -123,7 +123,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
       return;
     }
 
-    dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
+    await dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
     if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
       dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
     } else {
@@ -257,7 +257,7 @@ export const editWidgetConfig = (frameId, pageCode) =>
     const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
-      dispatch(setWidgetConfigForm(pageConfigItem.config));
+      dispatch(setWidgetFormConfig(pageConfigItem.config));
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
