@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { formattedText, routeConverter } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
@@ -21,8 +20,8 @@ import {
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import { WIDGET_CONFIG_FORM_ID } from 'state/widget-config/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { setWidgetFormConfig } from 'state/widget-config/actions';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
@@ -84,9 +83,6 @@ export const changeViewList = view => ({
   },
 });
 
-export const setWidgetFormConfig = config => initialize(WIDGET_CONFIG_FORM_ID, config);
-
-
 export const fetchPageConfig = (pageCode, status) =>
   dispatch => getPageConfig(pageCode, status)
     .then(response => response.json()
@@ -101,7 +97,7 @@ export const fetchPageConfig = (pageCode, status) =>
         }
         dispatch(addErrors(json.errors.map(e => e.message)));
         return null;
-      })).catch(() => {});
+      })).catch(() => { });
 
 
 export const initConfigPage = pageCode => async (dispatch) => {
@@ -149,7 +145,7 @@ export const removePageWidget = (frameId, pageCode) => (dispatch, getState) => (
           status: PAGE_STATUS_DRAFT,
         }));
       }
-    }).catch(() => {})
+    }).catch(() => { })
 );
 
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCode) =>
@@ -177,7 +173,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
             status: PAGE_STATUS_DRAFT,
           }));
         }
-      }).catch(() => {});
+      }).catch(() => { });
   };
 
 export const setSelectedPageOnTheFly = (value, pageCode) => (dispatch, getState) =>
@@ -210,7 +206,7 @@ export const restoreSelectedPageConfig = pageCode => (dispatch, getState) => {
         dispatch(setPageConfig(pageCode, publishedConfig));
       }
       resolve();
-    }).catch(() => {});
+    }).catch(() => { });
   });
 };
 
@@ -229,7 +225,7 @@ export const applyDefaultConfig = pageCode => (dispatch, getState) =>
         dispatch(setPageConfig(pageCode, defaultConfig));
       }
       resolve();
-    }).catch(() => {});
+    }).catch(() => { });
   });
 
 export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId, pageCode) =>
