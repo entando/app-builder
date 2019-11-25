@@ -2,25 +2,12 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { formValueSelector } from 'redux-form';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { makeRequest, METHODS } from '@entando/apimanager';
 import { fetchContentTypeListPaged } from 'state/content-type/actions';
 import { getContentTypeList } from 'state/content-type/selectors';
 import ContentPicker from 'ui/widgets/config/forms/ContentPicker';
+import { getContents } from 'api/contents';
 
 const noPaging = { page: 1, pageSize: 0 };
-
-const getContents = (page, params = '') =>
-  makeRequest(
-    {
-      uri: `/api/plugins/cms/contents${params}`,
-      method: METHODS.GET,
-      mockResponse: [],
-      contentType: 'application/json',
-      useAuthentication: true,
-      errors: () => [],
-    },
-    page,
-  );
 
 const toFilter = formState => Object.keys(formState).reduce((acc, key) => ({
   formValues: {

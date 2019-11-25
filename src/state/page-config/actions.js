@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { formattedText, routeConverter } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
@@ -22,6 +21,7 @@ import {
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { setWidgetFormConfig } from 'state/widget-config/actions';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
@@ -83,7 +83,6 @@ export const changeViewList = view => ({
   },
 });
 
-
 export const fetchPageConfig = (pageCode, status) =>
   dispatch => getPageConfig(pageCode, status)
     .then(response => response.json()
@@ -98,7 +97,7 @@ export const fetchPageConfig = (pageCode, status) =>
         }
         dispatch(addErrors(json.errors.map(e => e.message)));
         return null;
-      })).catch(() => {});
+      })).catch(() => { });
 
 
 export const initConfigPage = pageCode => async (dispatch) => {
@@ -120,7 +119,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
       return;
     }
 
-    dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
+    await dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
     if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
       dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
     } else {
@@ -146,7 +145,7 @@ export const removePageWidget = (frameId, pageCode) => (dispatch, getState) => (
           status: PAGE_STATUS_DRAFT,
         }));
       }
-    }).catch(() => {})
+    }).catch(() => { })
 );
 
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCode) =>
@@ -174,7 +173,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
             status: PAGE_STATUS_DRAFT,
           }));
         }
-      }).catch(() => {});
+      }).catch(() => { });
   };
 
 export const setSelectedPageOnTheFly = (value, pageCode) => (dispatch, getState) =>
@@ -207,7 +206,7 @@ export const restoreSelectedPageConfig = pageCode => (dispatch, getState) => {
         dispatch(setPageConfig(pageCode, publishedConfig));
       }
       resolve();
-    }).catch(() => {});
+    }).catch(() => { });
   });
 };
 
@@ -226,7 +225,7 @@ export const applyDefaultConfig = pageCode => (dispatch, getState) =>
         dispatch(setPageConfig(pageCode, defaultConfig));
       }
       resolve();
-    }).catch(() => {});
+    }).catch(() => { });
   });
 
 export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFrameId, pageCode) =>
@@ -254,7 +253,7 @@ export const editWidgetConfig = (frameId, pageCode) =>
     const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
     if (pageConfigItem && pageConfigItem.config) {
-      dispatch(initialize('widgetConfigForm', pageConfigItem.config));
+      dispatch(setWidgetFormConfig(pageConfigItem.config));
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },

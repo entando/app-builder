@@ -51,8 +51,3 @@ export const getWidgetInfo = createSelector([getWidgets], (widget) => {
   }
   return info;
 });
-
-export const getSelectedWidgetConfig = createSelector(
-  getSelectedWidget,
-  selectedWidget => get(selectedWidget, 'config'),
-);

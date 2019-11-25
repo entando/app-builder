@@ -9,13 +9,14 @@ import ContentPickerContainer from 'ui/widgets/config/forms/ContentPickerContain
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 const ContentTableRenderer = ({ fields, contentModels }) => {
-  const handleAddNewContent = content =>
-    fields.push({ ...content, contentModelId: null });
+  const handlePickContent = content =>
+    fields.push({ ...content, contentId: content.id, modelId: null });
 
   const renderContentRows = fields.map((field, i) => {
     const content = fields.get(i);
+    const contentTypeCode = content.typeCode || content.contentId.substr(0, 3);
     const filterByCode = contentModel =>
-      contentModel.contentType === content.typeCode;
+      contentModel.contentType === contentTypeCode;
     const contentModelsByContentType = contentModels.filter(filterByCode);
     return (
       // eslint-disable-next-line react/no-array-index-key
@@ -31,9 +32,9 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
           </div>
         </td>
         <td>
-          {content.id} - {content.description}
+          {content.contentId} - {content.description}
           <Field
-            name={`${field}.id`}
+            name={`${field}.contentId`}
             component={RenderTextInput}
             type="hidden"
             className="form-control"
@@ -42,7 +43,7 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
         <td>
           <Field
             component={RenderSelectInput}
-            name={`${field}.contentModelId`}
+            name={`${field}.modelId`}
             options={contentModelsByContentType}
             optionValue="id"
             optionDisplayName="descr"
@@ -70,7 +71,7 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
     <div className="FiltersSelectRenderer">
       <ContentPickerContainer
         form="contentPicker"
-        onPickContent={handleAddNewContent}
+        onPickContent={handlePickContent}
       />
       <Table bordered>
         <thead>
