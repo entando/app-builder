@@ -38,6 +38,7 @@ const menuHeader = [
 const appMenuItems = Object.values(apps).map(App => (
   <FirstLevelMenuItem
     id={App.id}
+    key={App.id}
     label={<FormattedMessage id={`${App.id}.title`} />}
   >
     <App.menu />
