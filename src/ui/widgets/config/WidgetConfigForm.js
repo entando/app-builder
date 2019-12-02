@@ -16,11 +16,15 @@ const CMS_WIDGETS_CONFIG_FORM_MAPPING = {
 
 const CMS_WIDGETS_CONFIG_FORMS = Object.keys(CMS_WIDGETS_CONFIG_FORM_MAPPING);
 
-const WidgetConfigForm = ({ onSubmit, widgetCode, widgetConfig }) => {
+const WidgetConfigForm = ({
+  onSubmit, widgetCode, widgetConfig, pageCode, frameId,
+}) => {
   if (CMS_WIDGETS_CONFIG_FORMS.includes(widgetCode)) {
     return React.createElement(
       CMS_WIDGETS_CONFIG_FORM_MAPPING[widgetCode],
-      { widgetConfig },
+      {
+        widgetConfig, widgetCode, pageCode, frameId,
+      },
       null,
     );
   }
@@ -36,6 +40,8 @@ const WidgetConfigForm = ({ onSubmit, widgetCode, widgetConfig }) => {
 WidgetConfigForm.propTypes = {
   widgetConfig: PropTypes.shape({}),
   widgetCode: PropTypes.string.isRequired,
+  pageCode: PropTypes.string.isRequired,
+  frameId: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

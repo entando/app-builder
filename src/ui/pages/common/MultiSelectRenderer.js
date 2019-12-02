@@ -35,18 +35,21 @@ class MultiSelectRenderer extends Component {
     const {
       selectedValues, fields, labelKey, valueKey, options,
     } = this.props;
-    return selectedValues.map((value, i) => (
-      <Label key={value} bsStyle="primary" className="MultiSelectRenderer__tag">
-        {options.length ? options.find(opt => opt[valueKey] === value)[labelKey] : ''}
-        <Button
-          bsStyle="link"
-          className="MultiSelectRenderer__remove-tag-btn"
-          onClick={() => fields.remove(i)}
-        >
-          <i className="fa fa-times" />
-        </Button>
-      </Label>
-    ));
+    return selectedValues.map((value, i) => {
+      const elem = options.length ? options.find(opt => opt[valueKey] === value) : null;
+      return (
+        <Label key={value} bsStyle="primary" className="MultiSelectRenderer__tag">
+          {elem ? elem[labelKey] : ''}
+          <Button
+            bsStyle="link"
+            className="MultiSelectRenderer__remove-tag-btn"
+            onClick={() => fields.remove(i)}
+          >
+            <i className="fa fa-times" />
+          </Button>
+        </Label>
+      );
+    });
   }
 
   render() {

@@ -1,0 +1,12 @@
+.WidgetConfigPage {
+  &__info-btn {
+    margin-bottom: 2.5em;
+    font-size: 13px;
+    font-weight: normal;
+
+    // sass-lint:disable nesting-depth
+    span:last-child {
+      margin-left: 5px;
+    }
+  }
+}

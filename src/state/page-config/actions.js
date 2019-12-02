@@ -131,6 +131,25 @@ export const initConfigPage = pageCode => async (dispatch) => {
   }
 };
 
+export const initWidgetsConfig = pageCode => async (dispatch) => {
+  try {
+    const selectedPage = await dispatch(loadSelectedPage(pageCode));
+    if (!selectedPage) {
+      return;
+    }
+
+    await dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
+    if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
+      dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
+    } else {
+      dispatch(setPublishedPageConfig(pageCode, null));
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log('initConfigPage failed:', e);
+  }
+};
+
 
 export const removePageWidget = (frameId, pageCode) => (dispatch, getState) => (
   deletePageWidget(pageCode, frameId)

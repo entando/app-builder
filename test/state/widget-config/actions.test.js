@@ -81,12 +81,12 @@ describe('state/widget-config/actions', () => {
   });
 
   describe('initWidgetConfigPage', () => {
-    it('if there is no selected page, do not load selected page model and widget', (done) => {
+    it('if there is no selected page, do not load selected page model', (done) => {
       loadSelectedPage.mockImplementation(mockThunk(null));
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
-        expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
+        expect(loadSelectedPage).not.toHaveBeenCalledWith(pageCode);
         expect(loadSelectedPageModel).not.toHaveBeenCalled();
-        expect(loadSelectedWidget).not.toHaveBeenCalled();
+        expect(loadSelectedWidget).toHaveBeenCalledWith(widgetCode);
         done();
       }).catch(done.fail);
     });
@@ -94,17 +94,17 @@ describe('state/widget-config/actions', () => {
     it('if there is no selected page model, do not load selected widget', (done) => {
       loadSelectedPageModel.mockImplementation(mockThunk(null));
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
-        expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
-        expect(loadSelectedPageModel).toHaveBeenCalledWith(PAGE.pageModel);
-        expect(loadSelectedWidget).not.toHaveBeenCalled();
+        expect(loadSelectedPage).not.toHaveBeenCalledWith(pageCode);
+        expect(loadSelectedPageModel).not.toHaveBeenCalledWith(PAGE.pageModel);
+        expect(loadSelectedWidget).toHaveBeenCalledWith(widgetCode);
         done();
       }).catch(done.fail);
     });
 
     it('if there are selected page and page model, load selected widget', (done) => {
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
-        expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
-        expect(loadSelectedPageModel).toHaveBeenCalledWith(PAGE.pageModel);
+        expect(loadSelectedPage).not.toHaveBeenCalledWith(pageCode);
+        expect(loadSelectedPageModel).not.toHaveBeenCalled();
         expect(loadSelectedWidget).toHaveBeenCalledWith(widgetCode);
         done();
       }).catch(done.fail);

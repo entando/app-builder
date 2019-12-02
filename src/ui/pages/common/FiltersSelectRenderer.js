@@ -52,9 +52,9 @@ class FiltersSelectRenderer extends Component {
           </td>
           <td>
             {
-              code && suboptions[code].length > 0 &&
+              code && suboptions[code] && suboptions[code].length > 0 &&
               <Field
-                name={`${filter}.option`}
+                name={filterName === 'filter' ? `${filter}.order` : `${filter}.categoryCode`}
                 component="select"
                 className="form-control"
               >

@@ -2,13 +2,13 @@ import React from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Button, ButtonGroup } from 'patternfly-react';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
 import ContentPickerContainer from 'ui/widgets/config/forms/ContentPickerContainer';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
-const ContentTableRenderer = ({ fields, contentModels }) => {
+const ContentTableRenderer = ({
+  fields, contentModels, intl, multipleContentsMode,
+}) => {
   const handlePickContent = content =>
     fields.push({ ...content, contentId: content.id, modelId: null });
 
@@ -17,10 +17,17 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
     const contentTypeCode = content.typeCode || content.contentId.substr(0, 3);
     const filterByCode = contentModel =>
       contentModel.contentType === contentTypeCode;
-    const contentModelsByContentType = contentModels.filter(filterByCode);
+    const contentModelsByContentType = [{ id: 'default', descr: intl.formatMessage({ id: 'widget.form.default' }) },
+      ...contentModels.filter(filterByCode)];
+    const contentModelOptions = contentModelsByContentType
+      .map(item => (
+        <option key={`opt-${item.id}`} value={item.id}>
+          {item.descr}
+        </option>
+      ));
     return (
       // eslint-disable-next-line react/no-array-index-key
-      <tr key={i}>
+      <tr key={`${content.contentId}-${i}`}>
         <td className="text-center" style={{ verticalAlign: 'middle' }}>
           <div
             onClick={() => fields.remove(i)}
@@ -35,19 +42,17 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
           {content.contentId} - {content.description}
           <Field
             name={`${field}.contentId`}
-            component={RenderTextInput}
-            type="hidden"
-            className="form-control"
+            component="span"
           />
         </td>
         <td>
           <Field
-            component={RenderSelectInput}
+            component="select"
             name={`${field}.modelId`}
-            options={contentModelsByContentType}
-            optionValue="id"
-            optionDisplayName="descr"
-          />
+            className="form-control"
+          >
+            {contentModelOptions}
+          </Field>
         </td>
         <td className="text-center">
           <ButtonGroup bsSize="small">
@@ -68,12 +73,14 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
   });
 
   return (
-    <div className="FiltersSelectRenderer">
+    <div className="FiltersSelectRenderer well">
       <ContentPickerContainer
         form="contentPicker"
         onPickContent={handlePickContent}
+        multipleContentsMode={multipleContentsMode}
+        contentsNumber={fields.length}
       />
-      <Table bordered>
+      <Table bordered striped>
         <thead>
           <tr>
             <th width="5%">
@@ -97,8 +104,14 @@ const ContentTableRenderer = ({ fields, contentModels }) => {
 };
 
 ContentTableRenderer.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.shape({}).isRequired,
+  multipleContentsMode: PropTypes.bool,
   contentModels: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
+
+ContentTableRenderer.defaultProps = {
+  multipleContentsMode: true,
 };
 
 export default ContentTableRenderer;

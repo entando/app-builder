@@ -186,7 +186,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(initConfigPage(CURRENT_PAGE_CODE)).then(() => {
         expect(loadSelectedPageModel).toHaveBeenCalledWith(HOMEPAGE_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([]);
+        expect(actionTypes).toEqual([SET_PAGE_CONFIG]);
         done();
       }).catch(done.fail);
     });
@@ -207,10 +207,10 @@ describe('state/page-config/actions', () => {
         expect(loadSelectedPageModel).toHaveBeenCalledWith(CONTACTS_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG]);
         expect(store.getActions()[0].payload).toEqual({
           pageCode: CURRENT_PAGE_CODE,
-          pageConfig: null,
+          pageConfig: [],
         });
         done();
       }).catch(done.fail);

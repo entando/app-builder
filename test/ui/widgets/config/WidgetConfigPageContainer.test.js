@@ -28,6 +28,11 @@ const TEST_STATE = {
       config: {},
     },
   },
+  pageConfig: {
+    configMap: {
+      [PAGE_CODE]: {},
+    },
+  },
 };
 
 const ownProps = {

@@ -72,9 +72,10 @@ class WidgetConfigPage extends Component {
             <Col xs={12}>
               <Button
                 className="WidgetConfigPage__info-btn"
-                bsStyle="default"
+                bsStyle="primary"
                 onClick={this.toggleInfoTable}
               >
+                <span className="icon fa fa-chevron-down" />
                 <FormattedMessage id="app.info" />
               </Button>
             </Col>
@@ -104,6 +105,8 @@ class WidgetConfigPage extends Component {
                 <Panel.Body>
                   <WidgetConfigForm
                     widgetCode={widgetCode}
+                    pageCode={pageCode}
+                    frameId={framePos}
                     widgetConfig={widgetConfig}
                     onSubmit={onSubmit}
                   />

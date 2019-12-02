@@ -43,8 +43,26 @@ class ContentPickerBody extends Component {
       contentStatusList,
       fetchContents,
       intl,
+      multipleContentsMode,
+      contentsNumber,
     } = this.props;
     const searchPlaceholderMsg = intl.formatMessage({ id: 'contentPicker.searchPlaceholder' });
+    let addButtonDisabled = false;
+    if (multipleContentsMode) {
+      addButtonDisabled = this.selectedContent != null;
+    } else {
+      addButtonDisabled = (contentsNumber === 0 && this.state.selectedContent == null)
+      || contentsNumber > 0;
+    }
+    const typeAheadDisabled = !multipleContentsMode && contentsNumber > 0;
+    const renderAddButton = (
+      <Button
+        bsStyle="primary"
+        onClick={this.handlePickContent}
+        disabled={addButtonDisabled}
+      >
+    +
+      </Button>);
     return (
       <Fragment>
         <Row>
@@ -82,13 +100,12 @@ class ContentPickerBody extends Component {
               onChange={this.handleContentChange}
               labelKey={option => `${option.id} - ${option.description}`}
               useCache={false}
+              disabled={typeAheadDisabled}
             />
           </Col>
           <Col xs={2}>
             <FormGroup>
-              <Button bsStyle="primary" onClick={this.handlePickContent}>
-                +
-              </Button>
+              {renderAddButton}
             </FormGroup>
           </Col>
         </Row>
@@ -102,12 +119,17 @@ const ContentPicker = reduxForm()(ContentPickerBody);
 ContentPickerBody.propTypes = {
   intl: intlShape.isRequired,
   onPickContent: PropTypes.func.isRequired,
+  multipleContentsMode: PropTypes.bool,
+  contentsNumber: PropTypes.number,
   onDidMount: PropTypes.func.isRequired,
   fetchContents: PropTypes.func.isRequired,
   contentTypeList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   contentStatusList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
-ContentPickerBody.defaultProps = {};
+ContentPickerBody.defaultProps = {
+  multipleContentsMode: true,
+  contentsNumber: 0,
+};
 
 export default ContentPicker;
