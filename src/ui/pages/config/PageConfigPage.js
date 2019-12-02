@@ -60,9 +60,6 @@ class PageConfigPage extends Component {
 
   componentDidMount() {
     window.addEventListener('scroll', this.winScrollListener);
-
-    // hide body's scroll bar to prevent conflict with sidebar's scroll bar
-    document.body.classList.add('no-scroll');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -84,7 +81,6 @@ class PageConfigPage extends Component {
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
     window.removeEventListener('scroll', this.winScrollListener);
-    document.body.classList.remove('no-scroll');
   }
 
   removeStatusAlert() {

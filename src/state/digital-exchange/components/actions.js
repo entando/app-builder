@@ -272,7 +272,7 @@ export const fetchDEComponents = (paginationMetadata = {
         dispatch(toggleLoading(feature));
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => { dispatch(toggleLoading(feature)); });
   })
 );
 

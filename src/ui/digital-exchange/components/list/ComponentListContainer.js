@@ -5,11 +5,13 @@ import { getDEComponentList, getDEComponentListViewMode } from 'state/digital-ex
 import { getLoading } from 'state/loading/selectors';
 import ComponentList from 'ui/digital-exchange/components/list/ComponentList';
 
+const deLoading = 'digital-exchange/components';
+
 export const mapStateToProps = state => (
   {
     digitalExchangeComponents: getDEComponentList(state),
     viewMode: getDEComponentListViewMode(state),
-    loading: getLoading(state).digitalExchangeComponents,
+    loading: getLoading(state)[deLoading],
   }
 );
 
