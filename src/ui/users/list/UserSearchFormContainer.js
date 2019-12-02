@@ -43,5 +43,7 @@ export const mapDispatchToProps = dispatch => ({
 const UserSearchFormContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  { pure: false },
 )(UserSearchForm);
 export default UserSearchFormContainer;
