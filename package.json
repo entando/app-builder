@@ -91,7 +91,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "lint": "eslint ./src",
     "coverage": "node scripts/test.js --env=jsdom --coverage",
