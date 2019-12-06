@@ -23,6 +23,7 @@ const ComponentInstallActions = ({
   installationStatus,
   uninstallStatus,
   installStartLoading,
+  uninstallStartLoading,
   onInstall,
   onUninstall,
   onRecheckStatus,
@@ -62,16 +63,18 @@ const ComponentInstallActions = ({
 
   return (component.installed && uninstallStatus === '') ? (
     <div className="ComponentList__install-actions">
-      <span className="ComponentList__status">
-        <FormattedMessage id="digitalExchange.components.installed" />
-      </span>
-      <Button
-        bsStyle="link"
-        className="ComponentList__uninstall"
-        onClick={() => onUninstall(component.id)}
-      >
-        <FormattedMessage id="digitalExchange.components.uninstall" />
-      </Button>
+      <Spinner loading={uninstallStartLoading}>
+        <span className="ComponentList__status">
+          <FormattedMessage id="digitalExchange.components.installed" />
+        </span>
+        <Button
+          bsStyle="link"
+          className="ComponentList__uninstall"
+          onClick={() => onUninstall(component.id)}
+        >
+          <FormattedMessage id="digitalExchange.components.uninstall" />
+        </Button>
+      </Spinner>
     </div>
   ) : (
     <div className="ComponentList__install-actions">
@@ -109,6 +112,7 @@ ComponentInstallActions.propTypes = {
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
   installStartLoading: PropTypes.bool.isRequired,
+  uninstallStartLoading: PropTypes.bool.isRequired,
 };
 
 export default ComponentInstallActions;

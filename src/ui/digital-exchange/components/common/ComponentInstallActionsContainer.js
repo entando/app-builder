@@ -18,6 +18,7 @@ export const mapStateToProps = (state, props) => ({
   installationStatus: getDEComponentInstallationStatus(state, props),
   uninstallStatus: getDEComponentUninstallStatus(state, props),
   installStartLoading: !!getLoading(state)[`deComponentInstallStart-${props.component.id}`],
+  uninstallStartLoading: !!getLoading(state)[`deComponentUninstallStart-${props.component.id}`],
 });
 
 export const mapDispatchToProps = dispatch => ({

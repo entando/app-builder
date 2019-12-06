@@ -243,6 +243,8 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
 
 export const uninstallDEComponent = componentId => dispatch => (
   new Promise((resolve) => {
+    const loadingId = `deComponentUninstallStart-${componentId}`;
+    dispatch(toggleLoading(loadingId));
     postDEComponentUninstall(componentId).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -252,6 +254,7 @@ export const uninstallDEComponent = componentId => dispatch => (
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
+        dispatch(toggleLoading(loadingId));
       });
     }).catch(() => {});
   })
