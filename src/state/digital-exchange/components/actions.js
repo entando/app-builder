@@ -175,6 +175,8 @@ export const pollDEComponentInstallStatus = component => dispatch => (
 
 export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
+    const loadingId = `deComponentInstallStart-${component.id}`;
+    dispatch(toggleLoading(loadingId));
     postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -184,6 +186,7 @@ export const installDEComponent = component => dispatch => (
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
+        dispatch(toggleLoading(loadingId));
       });
     }).catch(() => {});
   })

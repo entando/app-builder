@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, ProgressBar } from 'patternfly-react';
+import { Button, ProgressBar, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { componentType } from 'models/digital-exchange/components';
 import {
@@ -22,6 +22,7 @@ const ComponentInstallActions = ({
   lastInstallStatus,
   installationStatus,
   uninstallStatus,
+  installStartLoading,
   onInstall,
   onUninstall,
   onRecheckStatus,
@@ -74,24 +75,26 @@ const ComponentInstallActions = ({
     </div>
   ) : (
     <div className="ComponentList__install-actions">
-      {
-        (jobProgressStatuses.includes(installationStatus) ||
-        jobProgressStatuses.includes(uninstallStatus)) ? (
-          <ProgressBar
-            active
-            bsStyle="success"
-            now={100}
-          />
-        ) : (
-          <Button
-            bsStyle="primary"
-            className="ComponentList__install"
-            onClick={() => onInstall(component)}
-          >
-            <FormattedMessage id="digitalExchange.components.install" />
-          </Button>
-        )
-      }
+      <Spinner loading={installStartLoading}>
+        {
+          (jobProgressStatuses.includes(installationStatus) ||
+          jobProgressStatuses.includes(uninstallStatus)) ? (
+            <ProgressBar
+              active
+              bsStyle="success"
+              now={100}
+            />
+          ) : (
+            <Button
+              bsStyle="primary"
+              className="ComponentList__install"
+              onClick={() => onInstall(component)}
+            >
+              <FormattedMessage id="digitalExchange.components.install" />
+            </Button>
+          )
+        }
+      </Spinner>
     </div>
   );
 };
@@ -105,6 +108,7 @@ ComponentInstallActions.propTypes = {
   uninstallStatus: PropTypes.string.isRequired,
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
+  installStartLoading: PropTypes.bool.isRequired,
 };
 
 export default ComponentInstallActions;
