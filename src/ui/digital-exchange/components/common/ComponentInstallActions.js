@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, ProgressBar, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
@@ -60,42 +60,48 @@ const ComponentInstallActions = ({
     );
   }
 
-  return (component.installed && uninstallStatus === '') ? (
-    <div className="ComponentList__install-actions">
-      <Spinner loading={installUninstallLoading}>
-        <span className="ComponentList__status">
-          <FormattedMessage id="digitalExchange.components.installed" />
-        </span>
+  const renderedUninstallButton = (
+    <Fragment>
+      <span className="ComponentList__status">
+        <FormattedMessage id="digitalExchange.components.installed" />
+      </span>
+      <Button
+        bsStyle="link"
+        className="ComponentList__uninstall"
+        onClick={() => onUninstall(component.id)}
+      >
+        <FormattedMessage id="digitalExchange.components.uninstall" />
+      </Button>
+    </Fragment>
+  );
+
+  const renderedInstallButton = (
+    jobProgressStatuses.includes(installationStatus) ||
+    jobProgressStatuses.includes(uninstallStatus) ? (
+      <ProgressBar
+        active
+        bsStyle="success"
+        now={100}
+      />
+      ) : (
         <Button
-          bsStyle="link"
-          className="ComponentList__uninstall"
-          onClick={() => onUninstall(component.id)}
+          bsStyle="primary"
+          className="ComponentList__install"
+          onClick={() => onInstall(component)}
         >
-          <FormattedMessage id="digitalExchange.components.uninstall" />
+          <FormattedMessage id="digitalExchange.components.install" />
         </Button>
-      </Spinner>
-    </div>
-  ) : (
+      )
+  );
+
+  const renderedButton = (component.installed && uninstallStatus === '')
+    ? renderedUninstallButton
+    : renderedInstallButton;
+
+  return (
     <div className="ComponentList__install-actions">
       <Spinner loading={installUninstallLoading}>
-        {
-          (jobProgressStatuses.includes(installationStatus) ||
-          jobProgressStatuses.includes(uninstallStatus)) ? (
-            <ProgressBar
-              active
-              bsStyle="success"
-              now={100}
-            />
-          ) : (
-            <Button
-              bsStyle="primary"
-              className="ComponentList__install"
-              onClick={() => onInstall(component)}
-            >
-              <FormattedMessage id="digitalExchange.components.install" />
-            </Button>
-          )
-        }
+        {renderedButton}
       </Spinner>
     </div>
   );
