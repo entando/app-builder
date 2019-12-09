@@ -175,7 +175,7 @@ export const pollDEComponentInstallStatus = component => dispatch => (
 
 export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
-    const loadingId = `deComponentInstallStart-${component.id}`;
+    const loadingId = `deComponentInstallUninstall-${component.id}`;
     dispatch(toggleLoading(loadingId));
     postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
@@ -243,7 +243,7 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
 
 export const uninstallDEComponent = componentId => dispatch => (
   new Promise((resolve) => {
-    const loadingId = `deComponentUninstallStart-${componentId}`;
+    const loadingId = `deComponentInstallUninstall-${componentId}`;
     dispatch(toggleLoading(loadingId));
     postDEComponentUninstall(componentId).then((response) => {
       response.json().then((data) => {

@@ -22,8 +22,7 @@ const ComponentInstallActions = ({
   lastInstallStatus,
   installationStatus,
   uninstallStatus,
-  installStartLoading,
-  uninstallStartLoading,
+  installUninstallLoading,
   onInstall,
   onUninstall,
   onRecheckStatus,
@@ -63,7 +62,7 @@ const ComponentInstallActions = ({
 
   return (component.installed && uninstallStatus === '') ? (
     <div className="ComponentList__install-actions">
-      <Spinner loading={uninstallStartLoading}>
+      <Spinner loading={installUninstallLoading}>
         <span className="ComponentList__status">
           <FormattedMessage id="digitalExchange.components.installed" />
         </span>
@@ -78,7 +77,7 @@ const ComponentInstallActions = ({
     </div>
   ) : (
     <div className="ComponentList__install-actions">
-      <Spinner loading={installStartLoading}>
+      <Spinner loading={installUninstallLoading}>
         {
           (jobProgressStatuses.includes(installationStatus) ||
           jobProgressStatuses.includes(uninstallStatus)) ? (
@@ -111,8 +110,7 @@ ComponentInstallActions.propTypes = {
   uninstallStatus: PropTypes.string.isRequired,
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
-  installStartLoading: PropTypes.bool.isRequired,
-  uninstallStartLoading: PropTypes.bool.isRequired,
+  installUninstallLoading: PropTypes.bool.isRequired,
 };
 
 export default ComponentInstallActions;
