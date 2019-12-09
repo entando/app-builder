@@ -26,7 +26,8 @@ import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer'
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 
-const publicUrl = (window && window.env && window.env.PUBLIC_URL) || process.env.PUBLIC_URL;
+const publicUrl = (window && window.env && window.env.REACT_APP_PUBLIC_URL)
+|| process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
 
 const menuHeader = [

@@ -11,7 +11,7 @@ const goHome = () => history.push(ROUTE_DASHBOARD);
 
 config(store, logout, goHome);
 store.dispatch(setApi({
-  domain: (window && window.env && window.env.DOMAIN) || process.env.DOMAIN,
+  domain: (window && window.env && window.env.REACT_APP_DOMAIN) || process.env.DOMAIN,
   useMocks: process.env.USE_MOCKS,
 }));
 
