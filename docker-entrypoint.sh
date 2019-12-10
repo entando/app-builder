@@ -1,13 +1,18 @@
-#!/usr/bin/env sh
+#!/bin/sh
 set -eu
-
-ENV_JSON=$(env | grep '^REACT_APP_*' | jq -c '. | split("\n") | map(select(. != "")) | map(split("=") | { (.[0]) : .[1] }) | reduce .[] as $item ({}; . * $item)' -R -s)
-ESCAPED_ENV_JSON=$(echo $ENV_JSON | sed 's/\"/\\\"/g' | sed 's/\//\\\//g' | tr -d '\n' | tr -d '[[:blank:]]')
-
+echo INITIATING PROTOCOL
+BUILD_PATH=${REACT_APP_BUILD_PATH:-""}
 PUBLIC_URL=${REACT_APP_PUBLIC_URL:-""}
+DOMAIN=${REACT_APP_DOMAIN:-""}
 
-if [ "$PUBLIC_URL" != "" ];
+ENV_JSON='{"REACT_APP_DOMAIN":"'"$DOMAIN"'","REACT_APP_PUBLIC_URL":"'"$PUBLIC_URL"'"}'
+
+ESCAPED_ENV_JSON=$(echo $ENV_JSON | sed 's/\"/\\\"/g' | sed 's/\//\\\//g' | tr -d '\n' | tr -d '[[:blank:]]')
+if [ "$BUILD_PATH" != "" ];
 then
-  sed -i 's/%REACT_APP_ENV%/'"$ESCAPED_ENV_JSON"'/g' ${PUBLIC_URL}index.html
-  exec "$@"
+  echo INSIDE IF
+  sed -i 's/%REACT_APP_ENV%/'"$ESCAPED_ENV_JSON"'/g' $BUILD_PATH/index.html
+  echo FINISHED WRITE
 fi
+echo SCRIPT FINISHED
+exec "$@"
