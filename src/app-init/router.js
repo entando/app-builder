@@ -1,7 +1,7 @@
 import { createBrowserHistory } from 'history';
 
 export const history = createBrowserHistory({
-  basename: (window && window.env && window.env.REACT_APP_PUBLIC_URL) || process.env.PUBLIC_URL,
+  basename: process.env.PUBLIC_URL,
 });
 
 export const ROUTE_HOME = '/';
