@@ -10,9 +10,10 @@ import store from 'state/store';
 
 import { history } from 'app-init/router';
 import 'app-init/locale';
-import 'app-init/apiManager';
 
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
+import AuthProvider from 'auth/AuthProvider';
+import ApiManager from 'app-init/apiManager';
 
 import AppContainer from 'ui/app/AppContainer';
 
@@ -23,20 +24,21 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/dialog/dialog.css';
 import '@entando/menu/dist/css/index.css';
 import '@entando/pages/dist/css/index.css';
-import KeycloakProviderContainer from 'ui/app/KeycloakProviderContainer';
 
 import 'index.scss';
 
 // exporting for tests
 export default ReactDOM.render(
   <Provider store={store}>
-    <IntlProviderContainer>
-      <KeycloakProviderContainer>
-        <Router history={history}>
-          <AppContainer />
-        </Router>
-      </KeycloakProviderContainer>
-    </IntlProviderContainer>
+    <AuthProvider store={store}>
+      <IntlProviderContainer>
+        <ApiManager store={store}>
+          <Router history={history}>
+            <AppContainer />
+          </Router>
+        </ApiManager>
+      </IntlProviderContainer>
+    </AuthProvider>
   </Provider>,
   document.getElementById('root'),
 );
