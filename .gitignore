@@ -15,6 +15,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 .idea
 
 npm-debug.log*
@@ -27,3 +28,6 @@ yarn-error.log*
 # false folder
 /false
 
+# Temporary env files
+/public/env-config.js
+env-config.js
