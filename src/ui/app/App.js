@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { withKeycloak } from 'ui/app/Keycloak';
+import withAuth from 'auth/withAuth';
 import { LoginPage, NotFoundPage } from '@entando/pages';
 
 import {
@@ -331,19 +331,26 @@ class App extends Component {
   }
 
   render() {
-    const { currentRoute, keycloak, username } = this.props;
+    const {
+      currentRoute,
+      auth,
+      isReady,
+      username,
+    } = this.props;
     if (currentRoute === ROUTE_HOME && username) {
       return <Redirect to={ROUTE_DASHBOARD} />;
     } else if (!username && currentRoute !== ROUTE_HOME) {
       return <Redirect to={ROUTE_HOME} />;
     }
 
+    const readyDisplay = !auth.enabled || auth.authenticated
+      ? getRouteComponent()
+      : <LoginPage />;
+
     return (
       <DndProvider backend={HTML5Backend}>
         <ToastsContainer />
-        {!keycloak.enabled || keycloak.authenticated
-          ? getRouteComponent()
-          : <LoginPage />}
+        {!isReady ? null : readyDisplay}
       </DndProvider>
     );
   }
@@ -352,14 +359,16 @@ class App extends Component {
 App.propTypes = {
   currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
-  keycloak: PropTypes.shape({ authenticated: PropTypes.bool }),
+  auth: PropTypes.shape({ enabled: PropTypes.bool }),
+  isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
 };
 
 App.defaultProps = {
   username: null,
-  keycloak: { enabled: false },
+  auth: { enabled: false },
   fetchPlugins: () => {},
+  isReady: false,
 };
 
-export default withKeycloak(App);
+export default withAuth(App);
