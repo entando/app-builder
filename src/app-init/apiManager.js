@@ -25,7 +25,7 @@ class ApiManager extends Component {
     };
     config(store, logout, goHome);
     store.dispatch(setApi({
-      domain: process.env.DOMAIN,
+      domain: (window && window.env && window.env.REACT_APP_DOMAIN) || process.env.DOMAIN,
       useMocks: process.env.USE_MOCKS,
     }));
 
