@@ -1,6 +1,8 @@
 import {
   addErrors,
   addToast,
+  clearErrors,
+  TOAST_ERROR,
   TOAST_WARNING,
 } from '@entando/messages';
 import { formattedText } from '@entando/utils';
@@ -268,11 +270,13 @@ export const fetchDEComponents = (paginationMetadata = {
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(clearErrors());
         }
         dispatch(toggleLoading(feature));
         resolve();
       });
-    }).catch(() => { dispatch(toggleLoading(feature)); });
+    }).catch(() => {});
   })
 );
 

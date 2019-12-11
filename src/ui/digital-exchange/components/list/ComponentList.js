@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spinner } from 'patternfly-react';
+import { Spinner, Alert } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
 
 import ComponentListGridView from 'ui/digital-exchange/components/list/ComponentListGridView';
 import ComponentListListView from 'ui/digital-exchange/components/list/ComponentListListView';
@@ -23,15 +24,24 @@ class ComponentList extends Component {
       digitalExchangeComponents,
     } = this.props;
 
+    const renderComponents = (viewMode === DE_COMPONENTS_GRID_VIEW)
+      ? <ComponentListGridView components={digitalExchangeComponents} />
+      : <ComponentListListView components={digitalExchangeComponents} />;
+
+    const components = (!digitalExchangeComponents
+      || digitalExchangeComponents.length === 0)
+      ?
+      (
+        <Alert type="info">
+          <FormattedMessage id="digitalExchange.components.notFound" />
+        </Alert>)
+      : renderComponents;
+
     return (
       <div className="ComponentList">
         <ExtraTabBarFilterContainer />
         <Spinner loading={!!loading} >
-          {
-            (viewMode === DE_COMPONENTS_GRID_VIEW)
-              ? <ComponentListGridView components={digitalExchangeComponents} />
-              : <ComponentListListView components={digitalExchangeComponents} />
-          }
+          {components}
         </Spinner>
       </div>
     );
