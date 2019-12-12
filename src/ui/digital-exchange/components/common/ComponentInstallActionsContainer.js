@@ -11,11 +11,13 @@ import {
   getDEComponentInstallationStatus,
   getDEComponentUninstallStatus,
 } from 'state/digital-exchange/components/selectors';
+import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = (state, props) => ({
   lastInstallStatus: getDEComponentLastInstallStatus(state, props),
   installationStatus: getDEComponentInstallationStatus(state, props),
   uninstallStatus: getDEComponentUninstallStatus(state, props),
+  installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.id}`],
 });
 
 export const mapDispatchToProps = dispatch => ({

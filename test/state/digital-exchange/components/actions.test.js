@@ -124,9 +124,11 @@ describe('state/digital-exchange/components/actions', () => {
 
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
-        expect(actions[1]).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
         done();
       }).catch(done.fail);
     });
@@ -138,11 +140,13 @@ describe('state/digital-exchange/components/actions', () => {
 
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(4);
-        expect(actions[0]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[2]).toHaveProperty('type', COMPONENT_INSTALLATION_FAILED);
-        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(6);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_INSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[4]).toHaveProperty('type', COMPONENT_INSTALLATION_FAILED);
+        expect(actions[5]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -151,8 +155,10 @@ describe('state/digital-exchange/components/actions', () => {
       postDEComponentInstall.mockImplementation(mockApi({ errors: true }));
       store.dispatch(installDEComponent(GET_DE_COMPONENT_OK)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -172,9 +178,11 @@ describe('state/digital-exchange/components/actions', () => {
 
       store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
-        expect(actions[1]).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
         done();
       }).catch(done.fail);
     });
@@ -186,11 +194,13 @@ describe('state/digital-exchange/components/actions', () => {
 
       store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(4);
-        expect(actions[0]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[2]).toHaveProperty('type', COMPONENT_UNINSTALLATION_FAILED);
-        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(6);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[4]).toHaveProperty('type', COMPONENT_UNINSTALLATION_FAILED);
+        expect(actions[5]).toHaveProperty('type', ADD_ERRORS);
         done();
       }).catch(done.fail);
     });
@@ -199,8 +209,10 @@ describe('state/digital-exchange/components/actions', () => {
       postDEComponentUninstall.mockImplementation(mockApi({ errors: true }));
       store.dispatch(uninstallDEComponent(GET_DE_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

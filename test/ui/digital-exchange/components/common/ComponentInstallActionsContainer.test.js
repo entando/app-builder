@@ -22,6 +22,9 @@ const MOCK_STATE = {
     installation,
     uninstallation,
   },
+  loading: {
+    [`deComponentInstallUninstall-${COMPONENT_INSTALLATION_IN_PROGRESS.componentId}`]: false,
+  },
 };
 
 const MOCK_PROPS = {
@@ -36,6 +39,7 @@ describe('ComponentInstallActionsContainer', () => {
       lastInstallStatus: getDEComponentLastInstallStatus(MOCK_STATE, MOCK_PROPS),
       installationStatus: getDEComponentInstallationStatus(MOCK_STATE, MOCK_PROPS),
       uninstallStatus: getDEComponentUninstallStatus(MOCK_STATE, MOCK_PROPS),
+      installUninstallLoading: false,
     });
   });
 
