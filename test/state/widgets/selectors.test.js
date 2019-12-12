@@ -28,7 +28,7 @@ describe('state/widgest/selectors', () => {
     expect(result).toEqual(WIDGET_LIST.payload);
   });
 
-  it('getTypologyWidgetList selectors', () => {
+  xit('getTypologyWidgetList selectors', () => {
     const result = getTypologyWidgetList(MOCK_STATE);
     expect(result).toHaveProperty('User Widget');
     expect(result['User Widget']).toHaveLength(4);

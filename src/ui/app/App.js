@@ -18,6 +18,7 @@ import {
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
   ROUTE_WIDGET_CONFIG,
+  ROUTE_WIDGET_CUSTOM_CONFIG,
   ROUTE_WIDGET_DETAIL,
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
@@ -174,6 +175,7 @@ import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
+import TaskListConfigContainer from 'ui/pages/config/TaskListConfigContainer';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -220,6 +222,7 @@ const getRouteComponent = () => (
     <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
     <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
     <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
+    <Route path={ROUTE_WIDGET_CUSTOM_CONFIG} component={TaskListConfigContainer} />
     {/* fragments */}
     <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
     <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />

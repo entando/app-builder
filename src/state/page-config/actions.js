@@ -21,7 +21,7 @@ import {
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { history, ROUTE_WIDGET_CONFIG, ROUTE_WIDGET_CUSTOM_CONFIG } from 'app-init/router';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
@@ -155,7 +155,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
 
     // build payload
     const config = (pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
-    const requestBody = config ? { code: widgetId, config } : { code: widgetId };
+    const requestBody = config ? { code: widgetId, config } : { code: widgetId, customConfig: widgetId === 'pda_task_list' };
 
     const promise = Promise.resolve();
     if (sourceFrameId != null) {
@@ -259,5 +259,16 @@ export const editWidgetConfig = (frameId, pageCode) =>
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
       ));
+    }
+    if (pageConfigItem.code === 'pda_task_list') {
+      history.push({
+        pathname: routeConverter(
+          ROUTE_WIDGET_CUSTOM_CONFIG,
+          { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
+        ),
+        state: {
+          pageCode, widgetCode: pageConfigItem.code, framePos: frameId,
+        },
+      });
     }
   };

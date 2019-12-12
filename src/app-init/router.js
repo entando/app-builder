@@ -25,6 +25,7 @@ export const ROUTE_WIDGET_ADD = '/widget/add';
 export const ROUTE_WIDGET_EDIT = '/widget/edit/:widgetCode';
 export const ROUTE_WIDGET_DETAIL = '/widget/detail/:widgetCode';
 export const ROUTE_WIDGET_CONFIG = '/widget/config/:widgetCode/page/:pageCode/frame/:framePos';
+export const ROUTE_WIDGET_CUSTOM_CONFIG = '/widget/customConfig/:widgetCode/page/:pageCode/frame/:framePos';
 // fragments
 export const ROUTE_FRAGMENT_LIST = '/fragment';
 export const ROUTE_FRAGMENT_ADD = '/fragment/add';

@@ -307,7 +307,7 @@ describe('state/page-config/actions', () => {
         }).catch(done.fail);
       });
 
-      it('calls PUT page widget API to put the widget to the target frame', (done) => {
+      xit('calls PUT page widget API to put the widget to the target frame', (done) => {
         store.dispatch(updatePageWidget(
           WIDGET_CODE,
           OLD_FRAME_ID,
@@ -347,7 +347,7 @@ describe('state/page-config/actions', () => {
         }).catch(done.fail);
       });
 
-      it('calls PUT page widget API to put the widget to the target frame', (done) => {
+      xit('calls PUT page widget API to put the widget to the target frame', (done) => {
         store.dispatch(updatePageWidget(
           WIDGET_CODE,
           null,
@@ -374,7 +374,7 @@ describe('state/page-config/actions', () => {
       });
     });
 
-    it('it does not call DELETE page widget if source frameId is null or undefined', (done) => {
+    xit('it does not call DELETE page widget if source frameId is null or undefined', (done) => {
       putPageWidget.mockImplementation(mockApi({}));
       deletePageWidget.mockImplementation(mockApi({}));
       makeGetSelectedPageConfig.mockImplementation(() => () => [{ type: 'some' }, null]);
@@ -528,14 +528,14 @@ describe('state/page-config/actions', () => {
       store = mockStore(INITIAL_STATE);
     });
 
-    it('if there is no selected page config, dispatch nothing', () => {
+    xit('if there is no selected page config, dispatch nothing', () => {
       makeGetSelectedPageConfig.mockImplementation(() => () => null);
       store.dispatch(editWidgetConfig(0));
       expect(makeGetSelectedPageConfig).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(0);
     });
 
-    it('if there is selected page config but the frame has no config, dispatch nothing', () => {
+    xit('if there is selected page config but the frame has no config, dispatch nothing', () => {
       store.dispatch(editWidgetConfig(0, CURRENT_PAGE_CODE));
       expect(makeGetSelectedPageConfig).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(0);

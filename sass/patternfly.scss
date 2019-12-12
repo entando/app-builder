@@ -1,4 +1,3 @@
-
 @import "~patternfly/dist/sass/patternfly/variables";
 
 // breakpoints
@@ -13,23 +12,23 @@ $color-rating-selected: #dff3fe;
 $color-rating-filter-star-empty: #979797;
 $color-rating-filter-star-filled: #f1c857;
 $color-icon-gray: #939597;
-$color-dark-grey: #4D5258;
-$color-light-blue: #39A5DC;
+$color-dark-grey: #4d5258;
+$color-light-blue: #39a5dc;
 $color-black: #000000;
 $color-white: #ffffff;
-$color-sidebar-filter-bg-grey: #E7E7E7;
-$color-sidebar-filter-border-grey: #DEDEDE;
-$color-de-component-date: #00B9F7;
+$color-sidebar-filter-bg-grey: #e7e7e7;
+$color-sidebar-filter-border-grey: #dedede;
+$color-de-component-date: #00b9f7;
 $colod-de-component-text-grey: #828282;
-$color-de-component-tab-bar-bg-grey: #D8D8D8;
-$color-de-component-dark-grey: #4F4F4F;
-$color-de-component-installed-button: #3F9C35;
-$color-de-component-installed-button-border: #E0E0E0;
+$color-de-component-tab-bar-bg-grey: #d8d8d8;
+$color-de-component-dark-grey: #4f4f4f;
+$color-de-component-installed-button: #3f9c35;
+$color-de-component-installed-button-border: #e0e0e0;
 $color-de-component-inprogress-button: #f1c857;
 $color-de-component-failed-button: #c45500;
 $color-de-list-icon-active: #363636;
-$color-de-list-icon: #BBBBBB;
-$color-de-component-border: #C3C3C3;
+$color-de-list-icon: #bbbbbb;
+$color-de-component-border: #c3c3c3;
 
 //FontAwesome icons
 $fa-check: "\f00c";
@@ -122,4 +121,21 @@ $fa-square-o: "\f096";
   overflow-x: hidden;
 }
 
+.switch-label {
+  margin-left: 12px;
+}
+
+.table-sortableHelper {
+  display: table-row;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .075);
+  background: white;
+  opacity: .8;
+}
+
+.table-sortableHelper > td {
+  display: table-cell;
+  padding: 1px 10px 3px;
+  line-height: 1.66666667;
+  vertical-align: top;
+}
 // sass-lint:enable class-name-format

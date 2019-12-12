@@ -195,6 +195,13 @@ export const getPageConfig = (pageCode, status = PAGE_STATUS_DRAFT) => makeReque
   useAuthentication: true,
 });
 
+export const getPageWidget = (pageCode, frameId) => makeRequest({
+  uri: `/api/pages/${pageCode}/widgets/${frameId}`,
+  method: METHODS.GET,
+  mockResponse: {},
+  useAuthentication: true,
+});
+
 
 export const deletePageWidget = (pageCode, frameId) => makeRequest({
   uri: `/api/pages/${pageCode}/widgets/${frameId}`,

@@ -20,10 +20,7 @@ export const WIDGET_WITH_CONFIG_FORM = {
       title: 'A registration form',
       description: 'A simple form example.',
       type: 'object',
-      required: [
-        'firstName',
-        'lastName',
-      ],
+      required: ['firstName', 'lastName'],
       properties: {
         firstName: {
           type: 'string',
@@ -114,13 +111,29 @@ export const WIDGET_LIST = {
     WIDGET_WITH_CONFIG_FORM,
     WIDGET,
     {
-      ...WIDGET, code: 'search_form', titles: { it: 'Form di ricerca', en: 'Search Form' }, used: 3,
+      ...WIDGET,
+      code: 'search_form',
+      titles: { it: 'Form di ricerca', en: 'Search Form' },
+      used: 3,
     },
     {
-      ...WIDGET, code: 'single_content', typology: 'Custom Widget', titles: { it: 'Singolo Contenuto', en: 'Single Content' }, used: 4,
+      ...WIDGET,
+      code: 'single_content',
+      typology: 'Custom Widget',
+      titles: { it: 'Singolo Contenuto', en: 'Single Content' },
+      used: 4,
     },
     {
-      ...WIDGET, code: 'content_viewer', titles: { it: 'Contenuti', en: 'Contents' }, used: 2,
+      ...WIDGET,
+      code: 'content_viewer',
+      titles: { it: 'Contenuti', en: 'Contents' },
+      used: 2,
+    },
+    {
+      ...WIDGET,
+      code: 'pda_task_list',
+      titles: { it: 'Task List', en: 'Task List' },
+      used: 2,
     },
     {
       ...WIDGET,
@@ -140,14 +153,20 @@ export const WIDGET_LIST = {
       ...WIDGET,
       code: 'bpm-case-progress-status',
       typology: 'Entando Redhat BPM connector',
-      titles: { it: 'BPM-Case progress status', en: 'BPM-Case progress status' },
+      titles: {
+        it: 'BPM-Case progress status',
+        en: 'BPM-Case progress status',
+      },
       used: 1,
     },
     {
       ...WIDGET,
       code: 'bpm-case-instance-selector',
       typology: 'Entando Redhat BPM connector',
-      titles: { it: 'BPM-Case instance selector', en: 'BPM-Case instance selector' },
+      titles: {
+        it: 'BPM-Case instance selector',
+        en: 'BPM-Case instance selector',
+      },
       used: 1,
     },
   ],
