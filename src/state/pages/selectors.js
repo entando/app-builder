@@ -12,7 +12,18 @@ export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
 export const getSelectedPage = state => state.pages.selected;
-export const getSearchPages = state => state.pages.search;
+export const getSearchPagesRaw = state => state.pages.search;
+
+export const getSearchPages = createSelector(
+  [getSearchPagesRaw, getChildrenMap],
+  (pages, pageChildren) => {
+    if (!pages) return pages;
+    return pages.map(page => ({
+      ...page,
+      isEmpty: pageChildren[page.code] && page.children.length === 0,
+    }));
+  },
+);
 
 export const getFreePages = createSelector(
   getPages,

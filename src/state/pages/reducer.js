@@ -220,6 +220,13 @@ export const search = (state = [], action = {}) => {
     case SEARCH_PAGES: {
       return action.payload.pages;
     }
+    case REMOVE_PAGE: {
+      if (state === null || state.length === 0) {
+        return state;
+      }
+      const { code } = action.payload.page;
+      return state.filter(item => item.code !== code);
+    }
     case CLEAR_SEARCH: {
       return null;
     }
