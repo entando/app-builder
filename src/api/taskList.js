@@ -6,7 +6,7 @@ import { CONNECTIONS, PROCESS, GROUPS, COLUMNS } from 'test/mocks/taskList';
 export const getConnections = () =>
   makeRequest({
     // domain: PDA_DOMAIN,
-    uri: 'pda/connections',
+    uri: '/pda/connections',
     method: METHODS.GET,
     mockResponse: CONNECTIONS,
     withCredentials: false,
@@ -15,7 +15,7 @@ export const getConnections = () =>
 export const getProcess = connection =>
   makeRequest({
     // domain: PDA_DOMAIN,
-    uri: `pda/connections/${connection}/processes/definitions`,
+    uri: `/pda/connections/${connection}/processes/definitions`,
     method: METHODS.GET,
     mockResponse: PROCESS,
   });
@@ -23,7 +23,7 @@ export const getProcess = connection =>
 export const getGroups = connection =>
   makeRequest({
     // domain: PDA_DOMAIN,
-    uri: `pda/connections/${connection}/groups`,
+    uri: `/pda/connections/${connection}/groups`,
     method: METHODS.GET,
     mockResponse: GROUPS,
   });
@@ -31,7 +31,7 @@ export const getGroups = connection =>
 export const getColumns = connection =>
   makeRequest({
     // domain: PDA_DOMAIN,
-    uri: `pda/connections/${connection}/tasks/columns`,
+    uri: `/pda/connections/${connection}/tasks/columns`,
     method: METHODS.GET,
     mockResponse: COLUMNS,
   });
