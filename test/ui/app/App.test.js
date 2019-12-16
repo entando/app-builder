@@ -96,6 +96,10 @@ import {
   ROUTE_DE_CONFIG_ADD,
 } from 'app-init/router';
 
+jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
+  <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />
+));
+
 const mountWithRoute = route => mount((
   <MemoryRouter initialEntries={[route]}>
     <App currentRoute={ROUTE_DASHBOARD} username="admin" />

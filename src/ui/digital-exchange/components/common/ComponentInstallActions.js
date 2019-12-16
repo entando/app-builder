@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, ProgressBar } from 'patternfly-react';
+import { Button, ProgressBar, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { componentType } from 'models/digital-exchange/components';
 import {
@@ -22,6 +22,7 @@ const ComponentInstallActions = ({
   lastInstallStatus,
   installationStatus,
   uninstallStatus,
+  installUninstallLoading,
   onInstall,
   onUninstall,
   onRecheckStatus,
@@ -59,8 +60,8 @@ const ComponentInstallActions = ({
     );
   }
 
-  return (component.installed && uninstallStatus === '') ? (
-    <div className="ComponentList__install-actions">
+  const renderedUninstallButton = (
+    <Fragment>
       <span className="ComponentList__status">
         <FormattedMessage id="digitalExchange.components.installed" />
       </span>
@@ -71,27 +72,37 @@ const ComponentInstallActions = ({
       >
         <FormattedMessage id="digitalExchange.components.uninstall" />
       </Button>
-    </div>
-  ) : (
+    </Fragment>
+  );
+
+  const renderedInstallButton = (
+    jobProgressStatuses.includes(installationStatus) ||
+    jobProgressStatuses.includes(uninstallStatus) ? (
+      <ProgressBar
+        active
+        bsStyle="success"
+        now={100}
+      />
+      ) : (
+        <Button
+          bsStyle="primary"
+          className="ComponentList__install"
+          onClick={() => onInstall(component)}
+        >
+          <FormattedMessage id="digitalExchange.components.install" />
+        </Button>
+      )
+  );
+
+  const renderedButton = (component.installed && uninstallStatus === '')
+    ? renderedUninstallButton
+    : renderedInstallButton;
+
+  return (
     <div className="ComponentList__install-actions">
-      {
-        (jobProgressStatuses.includes(installationStatus) ||
-        jobProgressStatuses.includes(uninstallStatus)) ? (
-          <ProgressBar
-            active
-            bsStyle="success"
-            now={100}
-          />
-        ) : (
-          <Button
-            bsStyle="primary"
-            className="ComponentList__install"
-            onClick={() => onInstall(component)}
-          >
-            <FormattedMessage id="digitalExchange.components.install" />
-          </Button>
-        )
-      }
+      <Spinner loading={installUninstallLoading}>
+        {renderedButton}
+      </Spinner>
     </div>
   );
 };
@@ -105,6 +116,7 @@ ComponentInstallActions.propTypes = {
   uninstallStatus: PropTypes.string.isRequired,
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
+  installUninstallLoading: PropTypes.bool.isRequired,
 };
 
 export default ComponentInstallActions;

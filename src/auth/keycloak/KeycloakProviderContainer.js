@@ -1,23 +1,26 @@
-import React, { Fragment } from 'react';
+import Keycloak from 'keycloak-js';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
-import { keycloak, keycloakEnabled } from 'ui/app/Keycloak';
-import { updateUser } from 'state/login-form/actions';
+
+const keycloak = new Keycloak(process.env.KEYCLOAK_JSON);
+keycloak.enabled = true;
 
 export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
+
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event) => {
     const { idTokenParsed: { preferred_username: username }, token } = keycloak;
-
     switch (event) {
       case 'onAuthSuccess':
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshSuccess':
-        dispatch(updateUser(username, token));
+        keycloak.toRefreshToken = true;
+        dispatch(loginUser(username, token));
         break;
-      case 'onTokenExpired':
+      case 'onAuthRefreshError':
+        keycloak.logout();
         break;
       default:
         break;
@@ -25,9 +28,7 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const KeycloakProviderContainer = keycloakEnabled
-  ? connect(mapStateToProps, mapDispatchToProps)(KeycloakProvider)
-  // eslint-disable-next-line react/prop-types
-  : props => <Fragment>{props.children}</Fragment>;
-
-export default KeycloakProviderContainer;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(KeycloakProvider);

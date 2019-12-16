@@ -175,6 +175,8 @@ export const pollDEComponentInstallStatus = component => dispatch => (
 
 export const installDEComponent = component => dispatch => (
   new Promise((resolve) => {
+    const loadingId = `deComponentInstallUninstall-${component.id}`;
+    dispatch(toggleLoading(loadingId));
     postDEComponentInstall(component).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -184,6 +186,7 @@ export const installDEComponent = component => dispatch => (
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
+        dispatch(toggleLoading(loadingId));
       });
     }).catch(() => {});
   })
@@ -240,6 +243,8 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
 
 export const uninstallDEComponent = componentId => dispatch => (
   new Promise((resolve) => {
+    const loadingId = `deComponentInstallUninstall-${componentId}`;
+    dispatch(toggleLoading(loadingId));
     postDEComponentUninstall(componentId).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -249,6 +254,7 @@ export const uninstallDEComponent = componentId => dispatch => (
           dispatch(addErrors(data.errors.map(err => err.message)));
           resolve();
         }
+        dispatch(toggleLoading(loadingId));
       });
     }).catch(() => {});
   })
@@ -272,7 +278,7 @@ export const fetchDEComponents = (paginationMetadata = {
         dispatch(toggleLoading(feature));
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => { dispatch(toggleLoading(feature)); });
   })
 );
 
