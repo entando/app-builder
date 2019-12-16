@@ -11,6 +11,8 @@ import { getSearchPages } from 'state/pages/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { putPageWidget } from 'api/pages';
 
+const MULTIPLE_CONTENTS_WIDGET = 'row_content_viewer_list';
+
 const parseConfig = (widgetConfig) => {
   if (!widgetConfig || !widgetConfig.contents) {
     return widgetConfig;
@@ -38,15 +40,23 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(fetchContentModelListPaged({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
-    // TODO fetch contents to resolve content descriptions
   },
   onSubmit: (values) => {
     dispatch(clearErrors());
     console.log('config form submit: ', values, ownProps.widgetCode);
-    const { pageCode, frameId, widgetCode } = ownProps;
-    const configItem = Object.assign({ config: values }, { code: widgetCode });
+    const { pageCode, frameId } = ownProps;
+    const contents = values.contents || [];
+    const multipleContentsMode = ownProps.widgetCode === MULTIPLE_CONTENTS_WIDGET;
+    const configContents =
+    contents.map(cc => Object.assign(
+      {},
+      { contentId: cc.contentId, ...(cc.modelId != null && { modelId: cc.modelId }) },
+    ));
+    const payload = multipleContentsMode ? { contents: configContents } : configContents[0];
+    const configItem =
+    Object.assign({ config: payload }, { code: ownProps.widgetCode });
     dispatch(clearErrors());
-    dispatch(putPageWidget(pageCode, frameId, configItem));
+    putPageWidget(pageCode, frameId, configItem);
   },
 });
 

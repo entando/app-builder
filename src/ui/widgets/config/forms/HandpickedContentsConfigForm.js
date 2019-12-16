@@ -136,18 +136,6 @@ class HandpickedContentsConfigFormBody extends PureComponent {
           </Row>
           <Row>
             <Col xs={12}>
-              <Button
-                className="pull-right"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
               <fieldset className="no-padding">
                 <FormSectionTitle
                   titleId="widget.form.publishingSettings"
@@ -174,6 +162,18 @@ class HandpickedContentsConfigFormBody extends PureComponent {
             </Col>
           </Row>
           {renderExtraOptions}
+          <Row>
+            <Col xs={12}>
+              <Button
+                className="pull-right"
+                type="submit"
+                bsStyle="primary"
+                disabled={invalid || submitting}
+              >
+                <FormattedMessage id="app.save" />
+              </Button>
+            </Col>
+          </Row>
         </form>
       </Fragment>
     );
