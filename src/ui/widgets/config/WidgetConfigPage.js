@@ -40,7 +40,7 @@ class WidgetConfigPage extends Component {
     const {
       widgetConfig, framePos, frameName, pageCode, onSubmit,
     } = this.props;
-
+    const pageConfigRoute = `${ROUTE_PAGE_CONFIG.split(':')[0]}${pageCode}`;
     return (
       <InternalPage className="WidgetConfigPage">
         <Grid fluid>
@@ -50,7 +50,7 @@ class WidgetConfigPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
-                <BreadcrumbItem to={ROUTE_PAGE_CONFIG} params={{ pageCode }}>
+                <BreadcrumbItem to={pageConfigRoute}>
                   <FormattedMessage id="menu.pageConfig" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
