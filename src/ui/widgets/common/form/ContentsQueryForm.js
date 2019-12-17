@@ -65,8 +65,6 @@ export class ContentsQueryFormBody extends Component {
       this.props.handleSubmit();
     };
 
-    console.log(this.props);
-
     const {
       contentTypes, contentModels, categories, pages,
       onChangeContentType, selectedContentType, selectedCategories,

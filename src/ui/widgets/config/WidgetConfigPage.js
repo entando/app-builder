@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Panel, Label } from 'react-bootstrap';
 
@@ -38,7 +38,7 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit,
+      widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
     } = this.props;
     return (
       <InternalPage className="WidgetConfigPage">
@@ -109,6 +109,8 @@ class WidgetConfigPage extends Component {
                     frameId={framePos}
                     widgetConfig={widgetConfig}
                     onSubmit={onSubmit}
+                    intl={intl}
+                    history={history}
                   />
                 </Panel.Body>
               </Panel>
@@ -129,6 +131,8 @@ WidgetConfigPage.propTypes = {
   frameName: PropTypes.string.isRequired,
   pageCode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 WidgetConfigPage.defaultProps = {

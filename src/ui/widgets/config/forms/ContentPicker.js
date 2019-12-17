@@ -32,6 +32,7 @@ class ContentPickerBody extends Component {
   handlePickContent() {
     const { selectedContent } = this.state;
     const { onPickContent } = this.props;
+    if (selectedContent == null) return;
     onPickContent(selectedContent);
     this.typeaheadRef.current.getInstance().clear();
     this.setState({ selectedContent: null });

@@ -25,7 +25,9 @@ const toFilter = formState => Object.keys(formState).reduce((acc, key) => ({
 
 const getFilteredContents = (formState) => {
   const filter = toFilter(formState);
-  return getContents(noPaging, convertToQueryString(filter))
+  const filterParams = convertToQueryString(filter);
+  const contentParams = `${filterParams || '?'}&status=published`;
+  return getContents(noPaging, contentParams)
     .then(res => res.json())
     .then(json => json.payload);
 };

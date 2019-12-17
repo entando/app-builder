@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { intlShape } from 'react-intl';
 import Form from 'react-jsonschema-form';
 import HandpickedContentsConfigFormContainer from 'ui/widgets/config/forms/HandpickedContentsConfigFormContainer';
 import ContentsQueryContainer from 'ui/widgets/common/form/ContentsQueryContainer';
@@ -17,13 +18,13 @@ const CMS_WIDGETS_CONFIG_FORM_MAPPING = {
 const CMS_WIDGETS_CONFIG_FORMS = Object.keys(CMS_WIDGETS_CONFIG_FORM_MAPPING);
 
 const WidgetConfigForm = ({
-  onSubmit, widgetCode, widgetConfig, pageCode, frameId,
+  onSubmit, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
   if (CMS_WIDGETS_CONFIG_FORMS.includes(widgetCode)) {
     return React.createElement(
       CMS_WIDGETS_CONFIG_FORM_MAPPING[widgetCode],
       {
-        widgetConfig, widgetCode, pageCode, frameId,
+        widgetConfig, widgetCode, pageCode, frameId, intl, history,
       },
       null,
     );
@@ -43,6 +44,8 @@ WidgetConfigForm.propTypes = {
   pageCode: PropTypes.string.isRequired,
   frameId: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 WidgetConfigForm.defaultProps = {

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
@@ -36,7 +37,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
 };
 
 
-export default withRouter(connect(
+export default withRouter(injectIntl(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(WidgetConfigPage));
+)(WidgetConfigPage)));

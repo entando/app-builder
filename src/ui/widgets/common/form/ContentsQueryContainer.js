@@ -1,8 +1,11 @@
 import { connect } from 'react-redux';
-import { clearErrors } from '@entando/messages';
+import { clearErrors, addToast, TOAST_SUCCESS } from '@entando/messages';
 import { injectIntl } from 'react-intl';
 import { change, formValueSelector } from 'redux-form';
+import { routeConverter } from '@entando/utils';
+import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 
+import { sendPutWidgetConfig } from 'state/page-config/actions';
 import { fetchSearchPages } from 'state/pages/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchCategoryTree } from 'state/categories/actions';
@@ -16,36 +19,11 @@ import { getContentModelList } from 'state/content-model/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { putPageWidget } from 'api/pages';
 
 const nopage = { page: 1, pageSize: 0 };
 
-const parseObject = (string) => {
-  const replaced = string.replace(/\(*(\w+)(?:=)(\w+)()\)*/gm, '"$1":"$2"');
-  return JSON.parse(`{${replaced}}`);
-};
-
-const convertToJSON = arr => arr.replace(/;+/gm, ',').split('+').map(item => parseObject(item));
-
-const parseConfig = (widgetConfig) => {
-  if (!widgetConfig || !widgetConfig.filters) {
-    return widgetConfig;
-  }
-  let { filters, userFilters, categories } = widgetConfig;
-  const reMap = filter => Object.assign(filter, { code: filter.key });
-  filters = convertToJSON(filters).map(reMap);
-  userFilters = convertToJSON(userFilters).map(reMap);
-  categories = categories.split(',');
-  return {
-    ...widgetConfig,
-    filters,
-    userFilters,
-    categories,
-  };
-};
-
 export const mapStateToProps = (state, ownProps) => ({
-  initialValues: parseConfig(ownProps.widgetConfig),
+  initialValues: ownProps.widgetConfig,
   language: getLocale(state),
   languages: getActiveLanguages(state),
   contentTypes: getContentTypeList(state),
@@ -65,10 +43,18 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(fetchSearchPages(nopage));
   },
   onSubmit: (values) => {
-    const { pageCode, frameId, widgetCode } = ownProps;
+    const {
+      pageCode, frameId, widgetCode, history, intl,
+    } = ownProps;
     const configItem = Object.assign({ config: values }, { code: widgetCode });
     dispatch(clearErrors());
-    dispatch(putPageWidget(pageCode, frameId, configItem));
+    dispatch(sendPutWidgetConfig(pageCode, frameId, configItem)).then(() => {
+      dispatch(addToast(
+        intl.formatMessage({ id: 'app.updateSettings.success' }),
+        TOAST_SUCCESS,
+      ));
+      history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
+    });
   },
   onResetFilterOption: (name, i) => dispatch(change('widgets.contentsQuery', `${name}.[${i}].option`, '')),
   onChangeContentType: contentType => dispatch(fetchContentModelsByContentType(contentType)),

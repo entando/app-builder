@@ -10,7 +10,9 @@ const ContentTableRenderer = ({
   fields, contentModels, intl, multipleContentsMode,
 }) => {
   const handlePickContent = content =>
-    fields.push({ ...content, contentId: content.id, modelId: null });
+    fields.push({
+      ...content, contentId: content.id, modelId: null, contentDescription: content.description,
+    });
 
   const renderContentRows = fields.map((field, i) => {
     const content = fields.get(i);
@@ -39,9 +41,13 @@ const ContentTableRenderer = ({
           </div>
         </td>
         <td>
-          {content.contentId} - {content.description}
+          {content.contentId} - {content.contentDescription}
           <Field
             name={`${field}.contentId`}
+            component="span"
+          />
+          <Field
+            name={`${field}.contentDescription`}
             component="span"
           />
         </td>
