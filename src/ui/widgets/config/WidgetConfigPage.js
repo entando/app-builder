@@ -11,6 +11,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import WidgetConfigForm from 'ui/widgets/config/WidgetConfigForm';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { routeConverter } from '@entando/utils';
 
 
 class WidgetConfigPage extends Component {
@@ -40,7 +41,6 @@ class WidgetConfigPage extends Component {
     const {
       widgetConfig, framePos, frameName, pageCode, onSubmit,
     } = this.props;
-    const pageConfigRoute = `${ROUTE_PAGE_CONFIG.split(':')[0]}${pageCode}`;
     return (
       <InternalPage className="WidgetConfigPage">
         <Grid fluid>
@@ -50,7 +50,7 @@ class WidgetConfigPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
                 </BreadcrumbItem>
-                <BreadcrumbItem to={pageConfigRoute}>
+                <BreadcrumbItem to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
                   <FormattedMessage id="menu.pageConfig" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
