@@ -30,16 +30,6 @@ class WidgetFrame extends Component {
               <FormattedMessage id="app.settings" />
             </MenuItem>
           ),
-          (
-            <MenuItem key="menu-api" className="WidgetFrame__api-btn">
-              <FormattedMessage id="app.api" />
-            </MenuItem>
-          ),
-          (
-            <MenuItem key="menu-saveasnew" className="WidgetFrame__save-btn">
-              <FormattedMessage id="pageConfig.saveAsNewWidget" />
-            </MenuItem>
-          ),
         ] :
         null;
 
