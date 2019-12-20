@@ -162,16 +162,8 @@ describe('WidgetFrame (with widget that has config)', () => {
     ));
   });
 
-  it('renders the API menu item', () => {
-    expect(component.find('.WidgetFrame__api-btn').exists()).toBe(false);
-  });
-
   it('renders the Settings menu item', () => {
     expect(component.find('.WidgetFrame__settings-btn').exists()).toBe(true);
-  });
-
-  it('renders the Save as new widget menu item', () => {
-    expect(component.find('.WidgetFrame__save-btn').exists()).toBe(false);
   });
 });
 
