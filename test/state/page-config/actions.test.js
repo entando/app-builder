@@ -552,7 +552,7 @@ describe('state/page-config/actions', () => {
     beforeEach(() => {
       getWidgetsMap.mockReturnValue({
         WIDGET_NO_CONFIG: { code: 'WIDGET_NO_CONFIG' },
-        WIDGET_WITH_CONFIG: { type: 'WIDGET_WITH_CONFIG', config: { field: 'fieldValue' } },
+        WIDGET_WITH_CONFIG: { type: 'WIDGET_WITH_CONFIG', config: { field: 'fieldValue' }, hasConfig: true },
       });
       makeGetSelectedPageConfig.mockImplementation(() => () => [
         null,

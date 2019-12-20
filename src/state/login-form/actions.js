@@ -35,7 +35,10 @@ export const performLogin = (username, password) => dispatch => (
           dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
           resolve();
         }
-      }).catch(() => {});
+      }).catch(() => {
+        dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
+        resolve();
+      });
     } else {
       dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
       resolve();
