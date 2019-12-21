@@ -337,9 +337,7 @@ class App extends Component {
       isReady,
       username,
     } = this.props;
-    if (currentRoute === ROUTE_HOME && username) {
-      return <Redirect to={ROUTE_DASHBOARD} />;
-    } else if (!username && currentRoute !== ROUTE_HOME) {
+    if (!username && currentRoute !== ROUTE_HOME) {
       return <Redirect to={ROUTE_HOME} />;
     }
 

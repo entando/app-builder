@@ -15,9 +15,16 @@ class ApiManager extends Component {
 
   initApiManager() {
     const { store, auth } = this.props;
-    const logout = () => auth.logout();
-    const goHome = () => {
+    const logout = (status) => {
+      auth.logout(status);
+    };
+    const goHome = (opts) => {
       if (!auth.toRefreshToken) {
+        const { redirectUri } = opts;
+        if (redirectUri) {
+          window.location.href = redirectUri;
+          return;
+        }
         history.push(ROUTE_DASHBOARD);
       } else {
         auth.toRefreshToken = false;
