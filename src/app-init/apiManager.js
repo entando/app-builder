@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { formattedText } from '@entando/utils';
-import { history, ROUTE_DASHBOARD } from 'app-init/router';
+import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 
@@ -20,12 +20,15 @@ class ApiManager extends Component {
     };
     const goHome = (opts) => {
       if (!auth.toRefreshToken) {
-        const { redirectUri } = opts;
+        const { redirectUri, pathname } = opts;
         if (redirectUri) {
           window.location.href = redirectUri;
           return;
         }
-        history.push(ROUTE_DASHBOARD);
+        const goto = auth.enabled && pathname && pathname !== ROUTE_HOME
+          ? pathname
+          : ROUTE_DASHBOARD;
+        history.push(goto);
       } else {
         auth.toRefreshToken = false;
       }
