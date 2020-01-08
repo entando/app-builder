@@ -40,7 +40,7 @@ import {
 
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
-import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST, CLEAR_ERRORS } from '@entando/messages';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -238,10 +238,12 @@ describe('state/digital-exchange/components/actions', () => {
       getDEComponents.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchDEComponents()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(5);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', CLEAR_ERRORS);
+        expect(actions[4]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
