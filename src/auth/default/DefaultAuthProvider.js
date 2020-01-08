@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DefaultAuthContext from 'auth/default/DefaultAuthContext';
-import { history, ROUTE_HOME } from 'app-init/router';
+import { history, ROUTE_HOME, ROUTE_DASHBOARD } from 'app-init/router';
 
 const DefaultAuthProvider = ({ children }) => {
   const auth = {
     enabled: false,
     authenticated: false,
-    logout: () => history.push(ROUTE_HOME),
+    logout: (status) => {
+      const redirException = [ROUTE_HOME, ROUTE_DASHBOARD];
+      const { pathname } = status;
+
+      const addredirect = status &&
+        redirException.indexOf(pathname) === -1 ?
+        `?redirect_uri=${pathname}` : '';
+
+      history.push(`${ROUTE_HOME}${addredirect}`);
+    },
   };
   const authProps = {
     auth,
