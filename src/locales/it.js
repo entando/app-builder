@@ -653,6 +653,8 @@ export default {
     'digitalExchange.sidebar.digitalExchangeFilterTitle': 'Digital Exchange',
     'digitalExchange.sidebar.categoryFilterTitle': 'Categorie',
     'digitalExchange.components.latestVersion': 'Ultima versione',
+    'digitalExchange.components.notFound': 'Nessun componente disponibile negli scambi digital-exchanges',
+    'digitalExchange.des.notFound': 'Nessuno scambio digitale è stato ancora registrato, per aggiungere un nuovo scambio digitale fai clic sull\'icona a forma di ingranaggio nell\'angolo in alto a destra di questa pagina',
     'digitalExchange.components.install': 'Installato',
     'digitalExchange.components.installing': 'Installando',
     'digitalExchange.components.failedInstall': 'Installazione Fallita',
