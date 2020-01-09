@@ -29,7 +29,7 @@ const DataModelListPage = () => (
         <Col md={12}>
           <PageTitle
             titleId="menu.dataModels"
-            helpId="datamodel.help"
+            helpId="dataModel.help"
           />
         </Col>
       </Row>
