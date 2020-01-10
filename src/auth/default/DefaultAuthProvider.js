@@ -9,11 +9,10 @@ const DefaultAuthProvider = ({ children }) => {
     authenticated: false,
     logout: (status) => {
       const redirException = [ROUTE_HOME, ROUTE_DASHBOARD];
-      const { pathname } = status;
 
       const addredirect = status &&
-        redirException.indexOf(pathname) === -1 ?
-        `?redirect_uri=${pathname}` : '';
+        redirException.indexOf(status.pathname) === -1 ?
+        `?redirect_uri=${status.pathname}` : '';
 
       history.push(`${ROUTE_HOME}${addredirect}`);
     },
