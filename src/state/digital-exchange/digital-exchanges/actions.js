@@ -54,7 +54,9 @@ export const fetchDigitalExchanges = (page = { page: 1, pageSize: 10 }, params =
         dispatch(toggleLoading('digital-exchange/list'));
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => {
+      dispatch(toggleLoading('digital-exchange/list'));
+    });
   })
 );
 
