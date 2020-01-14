@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
 
@@ -34,9 +33,15 @@ const renderComponent = widgetList =>
       return element;
     }));
 
+const msgs = defineMessages({
+  search: {
+    id: 'app.search',
+    defaultMessage: 'Search',
+  },
+});
 
 const ContentWidget = ({
-  widgetList, filterWidget, changeViewList, viewList,
+  intl, widgetList, filterWidget, changeViewList, viewList,
 }) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
@@ -66,7 +71,7 @@ const ContentWidget = ({
           className="ContentWidget__input-pf-right-menu"
           type="text"
           onChange={onChange}
-          placeholder={formattedText('app.search')}
+          placeholder={intl.formatMessage(msgs.search)}
         />
       </div>
       <div className={`ContentWidgetList ContentWidgetList--${viewList}`}>
@@ -77,6 +82,7 @@ const ContentWidget = ({
 };
 
 ContentWidget.propTypes = {
+  intl: intlShape.isRequired,
   widgetList: PropTypes.shape({}),
   filterWidget: PropTypes.func,
   changeViewList: PropTypes.func,
@@ -91,4 +97,4 @@ ContentWidget.defaultProps = {
 
 };
 
-export default ContentWidget;
+export default injectIntl(ContentWidget);

@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
-import { formattedText, required, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import CategoryTreeSelectorContainer from 'ui/categories/common/CategoryTreeSelectorContainer';
 import ActiveLanguagesFields from 'ui/common/form/ActiveLanguagesFields';
 
 const maxLength30 = maxLength(30);
+
+const msgs = defineMessages({
+  code: {
+    id: 'app.code',
+    defaultMessage: 'Code',
+  },
+});
 
 export class CategoryFormBody extends Component {
   componentWillMount() {
@@ -20,7 +27,7 @@ export class CategoryFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, onSubmit, invalid, submitting, mode,
+      handleSubmit, onSubmit, invalid, submitting, mode, intl,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -58,7 +65,7 @@ export class CategoryFormBody extends Component {
                 labelId="app.code"
                 required
               />}
-              placeholder={formattedText('app.code')}
+              placeholder={intl.formatMessage(msgs.code)}
               validate={[required, maxLength30]}
               disabled={isEditMode}
             />
@@ -83,6 +90,7 @@ export class CategoryFormBody extends Component {
 }
 
 CategoryFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -101,4 +109,4 @@ const CategoryForm = reduxForm({
   form: 'category',
 })(CategoryFormBody);
 
-export default CategoryForm;
+export default injectIntl(CategoryForm);

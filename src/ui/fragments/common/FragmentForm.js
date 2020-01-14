@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { formattedText, required, code, maxLength } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, code, maxLength } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
@@ -55,9 +55,24 @@ export const renderStaticField = (field) => {
   );
 };
 
+const msgs = defineMessages({
+  codePlaceholder: {
+    id: 'fragment.code.placeholder',
+    defaultMessage: 'Code',
+  },
+  guiCode: {
+    id: 'fragment.tab.guiCode',
+    defaultMessage: 'GUI Code',
+  },
+  defaultGuiCode: {
+    id: 'fragment.tab.defaultGuiCode',
+    defaultMessage: 'Default GUI Code',
+  },
+});
+
 export const FragmentFormBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, mode,
+    intl, handleSubmit, invalid, submitting, mode,
   } = props;
 
   const onSubmit = (ev) => {
@@ -103,7 +118,7 @@ export const FragmentFormBody = (props) => {
               label={
                 <FormLabel labelId="app.code" helpId="app.help.code" required />
               }
-              placeholder={formattedText('fragment.code.placeholder')}
+              placeholder={intl.formatMessage(msgs.codePlaceholder)}
               validate={[required, code, maxLength50]}
               disabled={mode === EDIT_MODE}
             />
@@ -120,7 +135,7 @@ export const FragmentFormBody = (props) => {
               <span className="control-label col-xs-2" />
               <Col xs={10}>
                 <Tabs id="basic-tabs" defaultActiveKey={1}>
-                  <Tab eventKey={1} title={formattedText('fragment.tab.guiCode')} >
+                  <Tab eventKey={1} title={intl.formatMessage(msgs.guiCode)} >
                     <div className="tab-content margin-large-bottom ">
                       <div className="tab-pane fade in active">
                         <Field
@@ -134,7 +149,7 @@ export const FragmentFormBody = (props) => {
                       </div>
                     </div>
                   </Tab>
-                  <Tab eventKey={2} title={formattedText('fragment.tab.defaultGuiCode')} >
+                  <Tab eventKey={2} title={intl.formatMessage(msgs.defaultGuiCode)} >
                     {defaultGuiCodeField}
                   </Tab>
                 </Tabs>
@@ -161,6 +176,7 @@ export const FragmentFormBody = (props) => {
 };
 
 FragmentFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -177,4 +193,4 @@ const FragmentForm = reduxForm({
   form: 'fragment',
 })(FragmentFormBody);
 
-export default FragmentForm;
+export default injectIntl(FragmentForm);

@@ -1,23 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, ControlLabel } from 'patternfly-react';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 
 const RenderSelectInput = ({
   input, meta: { touched, error },
   labelSize, alignClass, label, help,
   defaultOptionId, options, optionReducer,
   optionValue, optionDisplayName, size, inputSize,
-  disabled,
+  disabled, intl,
 }) => {
   const containerClasses = (touched && error) ? 'form-group has-error' : 'form-group';
 
+  const createDefaultOption = (optId) => {
+    const msgs = defineMessages({
+      defaultOptionId: {
+        id: optId,
+      },
+    });
+    return <option value="">{intl.formatMessage(msgs.defaultOptionId)}</option>;
+  };
+
   const defaultOption = defaultOptionId ?
-    (
-      <option value="">
-        {formattedText(defaultOptionId)}
-      </option>
-    ) :
+    createDefaultOption(defaultOptionId) :
     null;
 
   const optionsList = optionReducer ? optionReducer(options) : options.map(item => (
@@ -80,6 +85,7 @@ RenderSelectInput.propTypes = {
   size: PropTypes.number,
   inputSize: PropTypes.number,
   disabled: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
 RenderSelectInput.defaultProps = {
@@ -101,4 +107,4 @@ RenderSelectInput.defaultProps = {
   inputSize: null,
   disabled: false,
 };
-export default RenderSelectInput;
+export default injectIntl(RenderSelectInput);

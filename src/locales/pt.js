@@ -399,7 +399,7 @@ export default {
     'fileBrowser.createFolder': 'Criar pasta',
     'fileBrowser.uploadFile': 'Upload',
     'fileBrowser.uploadFileComplete': 'Upload de arquivo concluído',
-    'fileBrowser.uploadFileError': 'Erro no upload de arquivo',
+    'fileBrowser.uploadFileError': 'Erro no upload de arquivo - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nova da Nova Pasta',
     'fileBrowser.createFolderSuccess': 'Pasta \'{path}\' criada com sucesso',

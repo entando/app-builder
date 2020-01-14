@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMenuActions';
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
 import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
 import ProfileTypeReferenceStatusContainer from 'ui/profile-types/common/ProfileTypeReferenceStatusContainer';
+
+const msgs = defineMessages({
+  profileStatus: {
+    id: 'profileType.table.status',
+    defaultMessage: 'Status',
+  },
+});
 
 class ProfileTypeListTable extends Component {
   constructor(props) {
@@ -29,14 +35,15 @@ class ProfileTypeListTable extends Component {
   }
 
   renderTableRows() {
-    return this.props.profiletypes.map(profiletype => (
+    const { intl, profiletypes } = this.props;
+    return profiletypes.map(profiletype => (
       <tr key={profiletype.name}>
         <td className="ProfileTypeListRow__td">{profiletype.name}</td>
         <td className="ProfileTypeListRow__td text-center">{profiletype.code}</td>
         <td className="ProfileTypeListRow__td text-center">
           <ProfileTypeStatusIcon
             status={profiletype.status}
-            title={formattedText('profileType.table.status')}
+            title={intl.formatMessage(msgs.profileStatus)}
           />
         </td>
         <td className="ProfileTypeListRow__td text-center">
@@ -111,6 +118,7 @@ class ProfileTypeListTable extends Component {
 }
 
 ProfileTypeListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   profiletypes: PropTypes.arrayOf(PropTypes.shape({
@@ -130,4 +138,4 @@ ProfileTypeListTable.defaultProps = {
   profiletypes: [],
 };
 
-export default ProfileTypeListTable;
+export default injectIntl(ProfileTypeListTable);

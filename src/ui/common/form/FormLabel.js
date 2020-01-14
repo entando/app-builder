@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { FieldLevelHelp } from 'patternfly-react';
-import { formattedText } from '@entando/utils';
 
 const FormLabel = ({
-  labelId, langLabelId, helpId, required, langLabelText, helpText, labelText,
+  labelId, langLabelId, helpId, required, langLabelText, helpText, labelText, intl,
 }) => {
   const requiredIcon = required ? (
     <sup><i className="fa fa-asterisk required-icon FormLabel__required-icon" /></sup>
@@ -24,8 +23,14 @@ const FormLabel = ({
     </span>
   ) : null;
 
+  const msgs = defineMessages({
+    help: {
+      id: helpId,
+    },
+  });
+
   const fieldHelpId = helpId ? (
-    <FieldLevelHelp content={formattedText(helpId)} />
+    <FieldLevelHelp content={intl.formatMessage(msgs.help)} />
   ) : null;
 
 
@@ -51,6 +56,7 @@ const FormLabel = ({
 };
 
 FormLabel.propTypes = {
+  intl: intlShape.isRequired,
   labelId: PropTypes.string,
   labelText: PropTypes.string,
   langLabelText: PropTypes.string,
@@ -69,4 +75,4 @@ FormLabel.defaultProps = {
   helpText: '',
   required: false,
 };
-export default FormLabel;
+export default injectIntl(FormLabel);

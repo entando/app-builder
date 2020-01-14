@@ -2,12 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from '@entando/utils';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import FormLabel from 'ui/common/form/FormLabel';
 
+const msgs = defineMessages({
+  actionPath: {
+    id: 'widgetConfig.internalServlet.actionPath',
+    defaultMessage: 'Action Path',
+  },
+});
 
-export const InternalServletConfigFormBody = ({ handleSubmit }) => (
+export const InternalServletConfigFormBody = ({ intl, handleSubmit }) => (
   <form
     className="InternalServletConfigForm"
     onSubmit={(ev) => { ev.preventDefault(); handleSubmit(); }}
@@ -34,7 +40,7 @@ export const InternalServletConfigFormBody = ({ handleSubmit }) => (
             component="input"
             className="form-control"
             name="code"
-            placeholder={formattedText('widgetConfig.internalServlet.actionPath')}
+            placeholder={intl.formatMessage(msgs.actionPath)}
           />
         </Col>
       </Row>
@@ -55,9 +61,12 @@ export const InternalServletConfigFormBody = ({ handleSubmit }) => (
 
 
 InternalServletConfigFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default reduxForm({
+const InternalServletConfigForm = reduxForm({
   form: 'widgetConfigForm',
 })(InternalServletConfigFormBody);
+
+export default injectIntl(InternalServletConfigForm);

@@ -1,4 +1,3 @@
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { initialize } from 'redux-form';
 
@@ -66,8 +65,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
         });
       });
     } else {
-      const message = formattedText('fragment.alert.error.fileExtension');
-      dispatch(addToast(message), TOAST_ERROR);
+      dispatch(addToast({ id: 'fragment.alert.error.fileExtension' }, TOAST_ERROR));
       reject();
     }
   });
@@ -121,14 +119,14 @@ const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {
     dispatch(toggleLoading('uploadFile'));
     apiFunc(obj).then(() => {
-      dispatch(addToast(formattedText('fileBrowser.uploadFileComplete'), TOAST_SUCCESS));
+      dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
       history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(...args));
       dispatch(toggleLoading('uploadFile'));
     }).catch((error) => {
       dispatch(toggleLoading('uploadFile'));
-      const message = formattedText('fileBrowser.uploadFileError');
-      dispatch(addToast(`${message} - ${error}`), TOAST_ERROR);
+      const message = { id: 'fileBrowser.uploadFileError', values: { errmsg: error } };
+      dispatch(message, TOAST_ERROR);
     });
   });
 };
@@ -173,10 +171,10 @@ export const sendPostCreateFolder = values => (dispatch, getState) => (
     postCreateFolderApi(pathInfo.protectedFolder, newFolderPath)(dispatch).then(() => {
       history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
-      dispatch(addToast(formattedText('fileBrowser.createFolderSuccess', null, { path: values.path }), TOAST_SUCCESS));
+      dispatch(addToast({ id: 'fileBrowser.createFolderSuccess', values: { path: values.path } }, TOAST_SUCCESS));
       resolve();
     }).catch(() => {
-      dispatch(addToast(formattedText('fileBrowser.createFolderError', null, { path: values.path }), TOAST_ERROR));
+      dispatch(addToast({ id: 'fileBrowser.createFolderError', values: { path: values.path } }, TOAST_ERROR));
     });
   })
 );
@@ -190,17 +188,13 @@ export const sendDeleteFolder = values => (dispatch, getState) => (
       history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(
-        formattedText('fileBrowser.deleteFolderSuccess', null, { path: values.path }),
+        { id: 'fileBrowser.deleteFolderSuccess', values: { path: values.path } },
         TOAST_SUCCESS,
       ));
       resolve();
     }).catch(() => {
       dispatch(addToast(
-        formattedText(
-          'fileBrowser.deleteFolderError',
-          null,
-          { path: values.path },
-        ),
+        { id: 'fileBrowser.deleteFolderError', values: { path: values.path } },
         TOAST_ERROR,
       ));
     });
@@ -216,17 +210,13 @@ export const sendDeleteFile = values => (dispatch, getState) => (
       history.push(ROUTE_FILE_BROWSER);
       dispatch(fetchFileList(pathInfo.protectedFolder, pathInfo.currentPath));
       dispatch(addToast(
-        formattedText('fileBrowser.deleteFileSuccess', null, { path: values.path }),
+        { id: 'fileBrowser.deleteFileSuccess', values: { path: values.path } },
         TOAST_SUCCESS,
       ));
       resolve();
     }).catch(() => {
       dispatch(addToast(
-        formattedText(
-          'fileBrowser.deleteFileError',
-          null,
-          { path: values.path },
-        ),
+        { id: 'fileBrowser.deleteFileError', values: { path: values.path } },
         TOAST_ERROR,
       ));
     });

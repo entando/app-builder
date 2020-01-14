@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 
 import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
+
+const msgs = defineMessages({
+  goto: {
+    id: 'group.action.goto',
+    defaultMessage: 'Go To',
+  },
+  pageConfig: {
+    id: 'group.action.pageConfiguration',
+    defaultMessage: 'Page Config',
+  },
+});
 
 class PageModelPageReferencesTable extends Component {
   componentWillMount() {
@@ -16,9 +27,10 @@ class PageModelPageReferencesTable extends Component {
   }
 
   renderRows() {
-    const goTo = formattedText('group.action.goto');
-    const pageConfiguration = formattedText('group.action.pageConfiguration');
-    return this.props.pageReferences.map(item => (
+    const { intl, pageReferences } = this.props;
+    const goTo = intl.formatMessage(msgs.goto);
+    const pageConfiguration = intl.formatMessage(msgs.pageConfig);
+    return pageReferences.map(item => (
       <tr key={`ref-${item.code}-${item.lastModified}`}>
         <td>{item.status}</td>
         <td>{item.fullTitle}</td>
@@ -96,6 +108,7 @@ class PageModelPageReferencesTable extends Component {
 }
 
 PageModelPageReferencesTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   pageReferences: PropTypes.arrayOf(PropTypes.shape({
@@ -114,4 +127,4 @@ PageModelPageReferencesTable.defaultProps = {
   pageReferences: [],
 };
 
-export default PageModelPageReferencesTable;
+export default injectIntl(PageModelPageReferencesTable);

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { convertToQueryString, FILTER_OPERATORS, formattedText } from '@entando/utils';
+import { defineMessages, injectIntl } from 'react-intl';
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { fetchWidgetList } from 'state/widgets/actions';
 import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
@@ -18,6 +19,13 @@ export const mapStateToProps = state => ({
   plugins: getPluginsOptions(state),
 });
 
+const msgs = defineMessages({
+  appAll: {
+    id: 'app.all',
+    defaultMessage: 'All Apps',
+  },
+});
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchWidgetList());
@@ -25,7 +33,7 @@ export const mapDispatchToProps = dispatch => ({
   },
 
   onSubmit: (values) => {
-    const queryString = values.pluginCode === formattedText('app.all') ? '' :
+    const queryString = values.pluginCode === msgs.formatMessage(msgs.appAll) ? '' :
       convertToQueryString({
         formValues: values,
         operators: FIELD_OPERATORS,
@@ -41,4 +49,5 @@ const FragmentSearchFormContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(FragmentSearchForm);
-export default FragmentSearchFormContainer;
+
+export default injectIntl(FragmentSearchFormContainer);

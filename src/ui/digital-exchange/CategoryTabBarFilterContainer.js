@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
+import { defineMessages, injectIntl } from 'react-intl';
 import { getDECategoryList, getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 import { navigateDECategory } from 'state/digital-exchange/actions';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
-import { formattedText } from '@entando/utils';
 
 
 export const mapDispatchToProps = dispatch => ({
@@ -14,14 +14,22 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export const mapStateToProps = (state) => {
+export const mapStateToProps = (state, { intl }) => {
   const filterTabs = [
     ALL_CATEGORIES_CATEGORY,
     ...getDECategoryList(state),
-  ].map(filterTab => ({
-    label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
-    value: filterTab,
-  }));
+  ].map((filterTab) => {
+    const msgs = defineMessages({
+      filterTab: {
+        id: `digitalExchange.filterTabs.${filterTab}`,
+        defaultMessage: filterTab,
+      },
+    });
+    return {
+      label: intl.formatMessage(msgs.filterTab),
+      value: filterTab,
+    };
+  });
 
   return {
     filterTabs,
@@ -38,4 +46,4 @@ const CategoryTabBarFilterContainer = connect(
   mapDispatchToProps,
 )(TabBarFilter);
 
-export default CategoryTabBarFilterContainer;
+export default injectIntl(CategoryTabBarFilterContainer);

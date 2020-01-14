@@ -1,6 +1,5 @@
 import { initialize } from 'redux-form';
 import { get, pick } from 'lodash';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { toggleLoading } from 'state/loading/actions';
@@ -134,7 +133,7 @@ export const sendPostWidgets = widgetObject => dispatch =>
         if (response.ok) {
           history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
-            formattedText('app.created', null, { type: 'widget', code: widgetObject.code }),
+            { id: 'app.created', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,
           ));
         } else {
@@ -152,7 +151,7 @@ export const sendPutWidgets = widgetObject => dispatch =>
         if (response.ok) {
           history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
-            formattedText('app.updated', null, { type: 'widget', code: widgetObject.code }),
+            { id: 'app.updated', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,
           ));
         } else {
@@ -170,7 +169,7 @@ export const sendDeleteWidgets = widgetCode => dispatch =>
         if (response.ok) {
           dispatch(removeWidget(widgetCode));
           dispatch(addToast(
-            formattedText('app.deleted', null, { type: 'widget', code: widgetCode }),
+            { id: 'app.deleted', values: { type: 'widget', code: widgetCode } },
             TOAST_SUCCESS,
           ));
           history.push(ROUTE_WIDGET_LIST);

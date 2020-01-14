@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { InputGroup, Button, Label } from 'patternfly-react';
 
 
@@ -45,7 +45,7 @@ class MultiSelectRenderer extends Component {
 
   render() {
     const {
-      options, selectedValues, labelKey, valueKey, emptyOptionTextId,
+      intl, options, selectedValues, labelKey, valueKey, emptyOptionTextId,
     } = this.props;
 
     const filteredOptions = options
@@ -57,7 +57,12 @@ class MultiSelectRenderer extends Component {
       ));
 
     if (emptyOptionTextId) {
-      const emptyOptionText = formattedText(emptyOptionTextId);
+      const msgs = defineMessages({
+        emptyOptionText: {
+          id: emptyOptionTextId,
+        },
+      });
+      const emptyOptionText = intl.formatMessage(msgs.emptyOptionText);
       filteredOptions.unshift((
         <option key={emptyOptionText} value="">
           {emptyOptionText}
@@ -93,6 +98,7 @@ class MultiSelectRenderer extends Component {
 
 
 MultiSelectRenderer.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.shape({}).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedValues: PropTypes.arrayOf(PropTypes.string),
@@ -108,4 +114,4 @@ MultiSelectRenderer.defaultProps = {
   emptyOptionTextId: '',
 };
 
-export default MultiSelectRenderer;
+export default injectIntl(MultiSelectRenderer);

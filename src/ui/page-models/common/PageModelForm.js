@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText, required, maxLength } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, maxLength } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
@@ -25,15 +25,37 @@ export const validateJson = (value) => {
   }
 };
 
-export const validatePreviewErrors = (value, allValues, formProps) => {
+export const validatePreviewErrors = intl => (value, allValues, formProps) => {
   if (formProps.previewErrors.length) {
-    return formProps.previewErrors.map((err) => {
-      const message = formattedText(err.id, '', err.values);
+    return formProps.previewErrors.map(({ id, values }) => {
+      const errMsgs = defineMessages({
+        err: { id },
+      });
+      const message = intl.formatMessage(errMsgs.err, values);
       return <div key={message}>{message}</div>;
     });
   }
   return undefined;
 };
+
+const msgs = defineMessages({
+  appCode: {
+    id: 'app.code',
+    defaultMessage: 'Code',
+  },
+  appName: {
+    id: 'app.name',
+    defaultMessage: 'Name',
+  },
+  pageConfig: {
+    id: 'pageModels.jsonConfiguration',
+    defaultMessage: 'JSON',
+  },
+  pageTemplate: {
+    id: 'pageModels.template',
+    defaultMessage: 'Template',
+  },
+});
 
 export class PageModelFormBody extends Component {
   componentDidMount() {
@@ -44,7 +66,7 @@ export class PageModelFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
+      intl, handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
     } = this.props;
 
     const isEditMode = mode === 'edit';
@@ -58,7 +80,7 @@ export class PageModelFormBody extends Component {
                 component={RenderTextInput}
                 name="code"
                 label={<FormLabel labelId="app.code" helpId="pageModels.code.help" required />}
-                placeholder={formattedText('app.code')}
+                placeholder={intl.formatMessage(msgs.appCode)}
                 validate={[required, maxLength40]}
                 disabled={isEditMode}
               />
@@ -68,7 +90,7 @@ export class PageModelFormBody extends Component {
                 component={RenderTextInput}
                 name="descr"
                 label={<FormLabel labelId="app.name" helpId="pageModels.name.help" required />}
-                placeholder={formattedText('app.name')}
+                placeholder={intl.formatMessage(msgs.appName)}
                 validate={[required, maxLength50]}
               />
             </fieldset>
@@ -81,9 +103,9 @@ export class PageModelFormBody extends Component {
                 component={JsonCodeEditorRenderer}
                 name="configuration"
                 label={<FormLabel labelId="pageModels.jsonConfiguration" required />}
-                placeholder={formattedText('pageModels.jsonConfiguration')}
+                placeholder={intl.formatMessage(msgs.jsonConfig)}
                 previewErrors={previewErrors}
-                validate={[required, validateJson, validatePreviewErrors]}
+                validate={[required, validateJson, validatePreviewErrors(intl)]}
               />
             </FormGroup>
           </Col>
@@ -95,7 +117,7 @@ export class PageModelFormBody extends Component {
                 component={HtmlCodeEditorRenderer}
                 name="template"
                 label={<FormLabel labelId="pageModels.template" required />}
-                placeholder={formattedText('pageModels.template')}
+                placeholder={intl.formatMessage(msgs.pageTemplate)}
                 validate={[required]}
               />
             </FormGroup>
@@ -130,6 +152,7 @@ export class PageModelFormBody extends Component {
 }
 
 PageModelFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -154,4 +177,4 @@ const PageModelForm = reduxForm({
   form: 'pageModel',
 })(PageModelFormBody);
 
-export default PageModelForm;
+export default injectIntl(PageModelForm);

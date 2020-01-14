@@ -1,19 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
 import { Field } from 'redux-form';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { required, formattedText } from '@entando/utils';
+import { required } from '@entando/utils';
 import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 
 export const element = value =>
   (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)
     ? <FormattedMessage id="validateForm.element" /> : undefined);
 
-const AttributeEnumSettings = ({ enumeratorExtractorBeans, mode }) => {
+const msgs = defineMessages({
+  help: {
+    id: 'app.enumeratorStaticItems.help',
+    defaultMessage: 'Help',
+  },
+});
+
+const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
   const selectAllowedOptions = enumeratorExtractorBeans.map(item => (
     {
       value: item,
@@ -33,7 +40,7 @@ const AttributeEnumSettings = ({ enumeratorExtractorBeans, mode }) => {
             label={
               <FormLabel labelId="app.enumeratorStaticItems" required />
             }
-            placeholder={formattedText('app.enumeratorStaticItems.help')}
+            placeholder={intl.formatMessage(msgs.help)}
             validate={[required, element]}
           />
           <Field
@@ -73,6 +80,7 @@ const AttributeEnumSettings = ({ enumeratorExtractorBeans, mode }) => {
 AttributeEnumSettings.propTypes = {
   enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
   mode: PropTypes.oneOf([MODE_ADD, MODE_EDIT]),
+  intl: intlShape.isRequired,
 };
 
 AttributeEnumSettings.defaultProps = {
@@ -80,4 +88,4 @@ AttributeEnumSettings.defaultProps = {
   mode: MODE_ADD,
 };
 
-export default AttributeEnumSettings;
+export default injectIntl(AttributeEnumSettings);

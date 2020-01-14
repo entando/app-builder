@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { formattedText, required, code, maxLength } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, code, maxLength } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -19,6 +19,17 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
+const msgs = defineMessages({
+  chooseAnOption: {
+    id: 'app.chooseAnOption',
+    defaultMessage: 'Choose',
+  },
+  appCode: {
+    id: 'app.code',
+    defaultMessage: 'Code',
+  },
+});
+
 export class PageFormBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) {
@@ -28,7 +39,7 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
+      intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
     } = this.props;
 
@@ -36,10 +47,10 @@ export class PageFormBody extends Component {
     const isCloneMode = mode === 'clone';
 
     const pageModelsWithEmpty =
-      [{ code: '', descr: formattedText('app.chooseAnOption') }].concat(pageModels);
+      [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageModels);
 
     const groupsWithEmpty =
-      [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
+      [{ code: '', name: intl.formatMessage(msgs.chooseAnOption) }].concat(groups);
 
     const parentPageComponent = parentCode ?
       <span>{parentTitle}</span> :
@@ -52,21 +63,26 @@ export class PageFormBody extends Component {
     const renderActiveLanguages = () => {
       if (!isUndefined(languages)) {
         return languages
-          .map(lang => (
-            <Field
-              key={lang.code}
-              component={RenderTextInput}
-              name={`titles.${lang.code}`}
-              label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
-              placeholder={formattedText(`app.${lang.code}Title`)}
-              validate={[required, maxLength70]}
-              onChange={(ev) => {
-                if (onChangeDefaultTitle && lang.isDefault) {
-                  onChangeDefaultTitle(ev.currentTarget.value);
-                }
-              }}
-            />
-          ));
+          .map((lang) => {
+            const msgTitle = defineMessages({
+              langCode: { id: `app.${lang.code}Title` },
+            });
+            return (
+              <Field
+                key={lang.code}
+                component={RenderTextInput}
+                name={`titles.${lang.code}`}
+                label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
+                placeholder={intl.formatMessage(msgTitle.langCode)}
+                validate={[required, maxLength70]}
+                onChange={(ev) => {
+                  if (onChangeDefaultTitle && lang.isDefault) {
+                    onChangeDefaultTitle(ev.currentTarget.value);
+                  }
+                }}
+              />
+            );
+          });
       }
       return null;
     };
@@ -237,7 +253,7 @@ export class PageFormBody extends Component {
               component={RenderTextInput}
               name="code"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
-              placeholder={formattedText('app.code')}
+              placeholder={intl.formatMessage(msgs.appCode)}
               validate={[required, code, maxLength30]}
               disabled={isEditMode}
             />
@@ -291,6 +307,7 @@ export class PageFormBody extends Component {
 }
 
 PageFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -332,4 +349,4 @@ const PageForm = reduxForm({
   form: 'page',
 })(PageFormBody);
 
-export default PageForm;
+export default injectIntl(PageForm);

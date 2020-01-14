@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import { PROFILE_FILTER_OPTIONS } from 'ui/users/common/const';
@@ -17,6 +16,13 @@ export const renderSelectOptions = options => (
     </option>
   ))
 );
+
+const msgs = defineMessages({
+  username: {
+    id: 'user.table.username',
+    defaultMessage: 'Username',
+  },
+});
 
 export class UserSearchFormBody extends Component {
   componentWillMount() {
@@ -36,6 +42,7 @@ export class UserSearchFormBody extends Component {
   }
 
   render() {
+    const { intl } = this.props;
     return (
       <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well">
         <h3><FormattedMessage id="app.search" /></h3>
@@ -50,7 +57,7 @@ export class UserSearchFormBody extends Component {
                 component="input"
                 className="form-control UserSearchForm__username"
                 name="username"
-                placeholder={formattedText('user.table.username')}
+                placeholder={intl.formatMessage(msgs.username)}
               />
             </Col>
           </Row>
@@ -94,6 +101,7 @@ export class UserSearchFormBody extends Component {
 }
 
 UserSearchFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
 };
@@ -102,4 +110,4 @@ const UserSearchForm = reduxForm({
   form: 'userSearch',
 })(UserSearchFormBody);
 
-export default UserSearchForm;
+export default injectIntl(UserSearchForm);

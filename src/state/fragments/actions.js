@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -140,13 +139,13 @@ export const updateFragmentSettings = settings => dispatch =>
         if (response.ok) {
           dispatch(initialize('fragmentSettings', json.payload));
           dispatch(addToast(
-            formattedText('fragment.settings.alert.success'),
+            { id: 'fragment.settings.alert.success' },
             TOAST_SUCCESS,
           ));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
           dispatch(addToast(
-            formattedText('fragment.settings.alert.error'),
+            { id: 'fragment.settings.alert.error' },
             TOAST_ERROR,
           ));
         }

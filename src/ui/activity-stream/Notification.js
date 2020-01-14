@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Icon } from 'patternfly-react';
+import { isString } from 'lodash';
 import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
+
+const toMessageDescriptor = message => (
+  isString(message) ? message : <FormattedMessage {...message} />
+);
 
 class Notification extends Component {
   constructor(props) {
@@ -111,7 +116,11 @@ class Notification extends Component {
               onClick={onClickUsernameHandler}
             >{username}
             </a>
-            <p className="Notification__notify">{notification}</p>
+            <p className="Notification__notify">
+              {notification && notification.actionText ? (
+                toMessageDescriptor(notification.actionText)
+              ) : notification}
+            </p>
             <a
               href=""
               className="Notification__link"

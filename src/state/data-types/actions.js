@@ -1,6 +1,6 @@
 import { METHODS } from '@entando/apimanager';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { initialize } from 'redux-form';
@@ -217,7 +217,7 @@ export const sendPostDataType = dataTypeObject => dispatch =>
     postDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(addToast(formattedText('dataType.created'), TOAST_SUCCESS));
+          dispatch(addToast({ id: 'dataType.created' }, TOAST_SUCCESS));
           history.push(routeConverter(
             ROUTE_DATA_TYPE_EDIT,
             { datatypeCode: json.payload.code },

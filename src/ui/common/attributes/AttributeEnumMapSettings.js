@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
 import { Field } from 'redux-form';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { required, formattedText } from '@entando/utils';
+import { required } from '@entando/utils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 export const elements = value =>
   (value && !/^(\w+)=([^\s]+)$/i.test(value)
     ? <FormattedMessage id="validateForm.elements" /> : undefined);
 
+const msgs = defineMessages({
+  help: {
+    id: 'app.enumeratorStaticItemsMap.help',
+    defaultMessage: 'Help',
+  },
+});
 
-const AttributeEnumEnumMapSettings = ({ enumeratorMapExtractorBeans }) => {
+const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans }) => {
   const selectAllowedOptions = enumeratorMapExtractorBeans.map(item => (
     {
       value: item.code,
@@ -34,7 +40,7 @@ const AttributeEnumEnumMapSettings = ({ enumeratorMapExtractorBeans }) => {
               <FormLabel labelId="app.enumeratorStaticItems" required />
           }
             validate={[required, elements]}
-            placeholder={formattedText('app.enumeratorStaticItemsMap.help')}
+            placeholder={intl.formatMessage(msgs.help)}
           />
           <Field
             component={RenderTextInput}
@@ -62,6 +68,7 @@ const AttributeEnumEnumMapSettings = ({ enumeratorMapExtractorBeans }) => {
   );
 };
 AttributeEnumEnumMapSettings.propTypes = {
+  intl: intlShape.isRequired,
   enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     descr: PropTypes.string,
@@ -73,4 +80,4 @@ AttributeEnumEnumMapSettings.defaultProps = {
 };
 
 
-export default AttributeEnumEnumMapSettings;
+export default injectIntl(AttributeEnumEnumMapSettings);

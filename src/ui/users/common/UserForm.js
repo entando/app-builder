@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import {
-  formattedText,
   required,
   maxLength,
   minLength,
   matchPassword,
   userFormText,
 } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
@@ -43,6 +42,21 @@ export const renderStaticField = (field) => {
   );
 };
 
+const msgs = defineMessages({
+  username: {
+    id: 'user.table.username',
+    defaultMessage: 'Username',
+  },
+  password: {
+    id: 'user.password',
+    defaultMessage: 'Password',
+  },
+  passwordConfirm: {
+    id: 'user.passwordConfirm',
+    defaultMessage: 'Confirm Password',
+  },
+});
+
 export class UserFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -50,7 +64,7 @@ export class UserFormBody extends Component {
 
   render() {
     const {
-      onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
+      intl, onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
     } = this.props;
 
     const showUsername = (
@@ -58,7 +72,7 @@ export class UserFormBody extends Component {
         component={RenderTextInput}
         name="username"
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
-        placeholder={formattedText('user.table.username')}
+        placeholder={intl.formatMessage(msgs.username)}
         validate={mode !== EDIT_MODE ?
           [required, minLength4, maxLength20, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
@@ -124,7 +138,7 @@ export class UserFormBody extends Component {
                 name="password"
                 type="password"
                 label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
-                placeholder={formattedText('user.password')}
+                placeholder={intl.formatMessage(msgs.password)}
                 validate={[required, minLength8, maxLength20, userFormText]}
               />
               <Field
@@ -132,7 +146,7 @@ export class UserFormBody extends Component {
                 name="passwordConfirm"
                 type="password"
                 label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
-                placeholder={formattedText('user.passwordConfirm')}
+                placeholder={intl.formatMessage(msgs.passwordConfirm)}
                 validate={[required, matchPassword]}
               />
               {/* Insert user info and reset button on EDIT */}
@@ -173,6 +187,7 @@ export class UserFormBody extends Component {
 }
 
 UserFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -197,4 +212,4 @@ const UserForm = reduxForm({
   form: 'user',
 })(UserFormBody);
 
-export default UserForm;
+export default injectIntl(UserForm);

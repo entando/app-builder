@@ -2,13 +2,32 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col, ControlLabel } from 'patternfly-react';
-import { formattedText, required, maxLength, isNumber } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, maxLength, isNumber } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 export const maxLength50 = maxLength(50);
+
+const msgs = defineMessages({
+  appName: {
+    id: 'app.name',
+    defaultMessage: 'Name',
+  },
+  urlPlaceholder: {
+    id: 'digitalExchange.settings.form.url.placeholder',
+    defaultMessage: 'URL',
+  },
+  clientId: {
+    id: 'digitalExchange.settings.form.clientId',
+    defaultMessage: 'Client ID',
+  },
+  clientSecret: {
+    id: 'digitalExchange.settings.form.clientSecret',
+    defaultMessage: 'Client Secret',
+  },
+});
 
 export class SettingsFormBody extends Component {
   componentWillMount() {
@@ -19,7 +38,7 @@ export class SettingsFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, invalid, submitting,
+      intl, handleSubmit, invalid, submitting,
     } = this.props;
 
     return (
@@ -44,7 +63,7 @@ export class SettingsFormBody extends Component {
               label={
                 <FormLabel labelId="app.name" required />
               }
-              placeholder={formattedText('app.name')}
+              placeholder={intl.formatMessage(msgs.appName)}
               validate={[required, maxLength50]}
             />
           </Col>
@@ -57,7 +76,7 @@ export class SettingsFormBody extends Component {
               label={
                 <FormLabel labelId="digitalExchange.settings.form.url" required />
               }
-              placeholder={formattedText('digitalExchange.settings.form.url.placeholder')}
+              placeholder={intl.formatMessage(msgs.urlPlaceholder)}
               validate={[required]}
             />
           </Col>
@@ -70,7 +89,7 @@ export class SettingsFormBody extends Component {
               label={
                 <FormLabel labelId="digitalExchange.settings.form.clientId" />
               }
-              placeholder={formattedText('digitalExchange.settings.form.clientId')}
+              placeholder={intl.formatMessage(msgs.clientId)}
             />
           </Col>
         </Row>
@@ -82,7 +101,7 @@ export class SettingsFormBody extends Component {
               label={
                 <FormLabel labelId="digitalExchange.settings.form.clientSecret" />
               }
-              placeholder={formattedText('digitalExchange.settings.form.clientSecret')}
+              placeholder={intl.formatMessage(msgs.clientSecret)}
             />
           </Col>
         </Row>
@@ -135,6 +154,7 @@ SettingsFormBody.propTypes = {
   submitting: PropTypes.bool,
   onWillMount: PropTypes.func,
   id: PropTypes.number,
+  intl: intlShape.isRequired,
 };
 
 SettingsFormBody.defaultProps = {
@@ -152,4 +172,4 @@ const SettingsForm = reduxForm({
   },
 })(SettingsFormBody);
 
-export default SettingsForm;
+export default injectIntl(SettingsForm);

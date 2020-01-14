@@ -1,4 +1,3 @@
-import { formattedText } from '@entando/utils';
 import { loginUser, setUser } from '@entando/apimanager';
 
 import login from 'api/login';
@@ -32,15 +31,15 @@ export const performLogin = (username, password) => dispatch => (
             resolve();
           });
         } else {
-          dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
+          dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
           resolve();
         }
       }).catch(() => {
-        dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
+        dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
         resolve();
       });
     } else {
-      dispatch(setLoginErrorMessage(formattedText('fcc.login.errorMessage', ERROR_LOGIN_MESSAGE, {})));
+      dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
       resolve();
     }
   })

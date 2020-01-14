@@ -398,7 +398,7 @@ export default {
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFile': 'Upload',
     'fileBrowser.uploadFileComplete': 'Upload file complete',
-    'fileBrowser.uploadFileError': 'Error upload file',
+    'fileBrowser.uploadFileError': 'Error upload file - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New Folder Name',
     'fileBrowser.createFolderSuccess': 'Folder \'{path}\' successfully created',
