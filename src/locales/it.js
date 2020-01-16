@@ -385,7 +385,7 @@ export default {
     'fragment.table.edit': 'Modifica {code}',
     'fragment.table.details': 'Dettagli di: {code}',
     'fragment.form.edit.plugin': 'Plugin',
-    'fragment.form.edit.widgetType': 'Widget Type',
+    'fragment.form.edit.widgetType': 'Tipo di Widget',
     'fragment.settings': 'Abilita la creazione di fragment con default GUI vuota',
     'fragment.settings.alert.success': 'Le impostazioni sono state aggiornate',
     'fragment.settings.alert.error': 'Le impostazioni non sono state aggiornate',
