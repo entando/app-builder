@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
-import { PROFILE_FILTER_OPTIONS } from 'ui/users/common/const';
+import { PROFILE_FILTER_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 
 export const renderSelectOptions = options => (
   options.map(option => (
@@ -43,6 +43,7 @@ export class UserSearchFormBody extends Component {
 
   render() {
     const { intl } = this.props;
+    const profileFilterOptions = getTranslatedOptions(intl, PROFILE_FILTER_OPTIONS);
     return (
       <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well">
         <h3><FormattedMessage id="app.search" /></h3>
@@ -71,8 +72,8 @@ export class UserSearchFormBody extends Component {
               <label htmlFor="withProfile" >
                 <Field
                   component={RenderRadioInput}
-                  toggleElement={PROFILE_FILTER_OPTIONS}
-                  defaultValue={PROFILE_FILTER_OPTIONS[0].id}
+                  toggleElement={profileFilterOptions}
+                  defaultValue={profileFilterOptions[0].id}
                   name="withProfile"
                   className="UserSearchForm__withProfile"
                 />

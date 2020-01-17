@@ -10,18 +10,20 @@ import { getComponentType } from 'helpers/entities';
 
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/form/RenderListField';
-import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS } from 'ui/users/common/const';
+import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 
-const getComponentOptions = (component) => {
+const getComponentOptions = (component, intl) => {
+  const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
+  const threeStateOptions = getTranslatedOptions(intl, THREE_STATE_OPTIONS);
   switch (component) {
     case TYPE_BOOLEAN:
-      return BOOLEAN_OPTIONS;
+      return booleanOptions;
     case TYPE_THREESTATE:
-      return THREE_STATE_OPTIONS;
+      return threeStateOptions;
     default: return null;
   }
 };
@@ -74,7 +76,7 @@ const field = (intl, attribute) => (<Field
   component={getComponentType(attribute.type)}
   name={attribute.code}
   rows={3}
-  toggleElement={getComponentOptions(attribute.type)}
+  toggleElement={getComponentOptions(attribute.type, intl)}
   options={getEnumeratorOptions(
     attribute.type,
     attribute.enumeratorStaticItems,

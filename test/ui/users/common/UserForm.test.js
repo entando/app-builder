@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
-import { runValidators } from 'test/testUtils';
+import { runValidators, mockRenderWithIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
@@ -28,9 +28,12 @@ describe('UserForm', () => {
       onWillMount,
       onSubmit,
       mode,
+      msgs: {
+        username: { id: 'username', defaultMessage: 'username' },
+      },
     };
 
-    return shallow(<UserFormBody {...props} />);
+    return shallow(mockRenderWithIntl(<UserFormBody {...props} />));
   };
 
   it('root component renders without crashing', () => {
