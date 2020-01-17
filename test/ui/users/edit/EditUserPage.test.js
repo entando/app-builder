@@ -4,11 +4,12 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import EditUserPage from 'ui/users/edit/EditUserPage';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 describe('EditUserPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditUserPage />);
+    component = shallowWithIntl(<EditUserPage />);
   });
 
   it('renders without crashing', () => {

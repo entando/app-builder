@@ -7,12 +7,14 @@ import { isNumber } from '@entando/utils';
 import { RestrictionsFormBody, montshSinceLogin } from 'ui/users/restrictions/RestrictionsForm';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 describe('RestrictionsForm', () => {
   const onWillMount = jest.fn();
   let component;
   beforeEach(() => {
-    component = shallow(<RestrictionsFormBody handleSubmit={() => {}} onWillMount={onWillMount} />);
+    component =
+    shallowWithIntl(<RestrictionsFormBody handleSubmit={() => {}} onWillMount={onWillMount} />);
   });
 
   it('renders without crashing', () => {

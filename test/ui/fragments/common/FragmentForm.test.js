@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/common/FragmentForm';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 
@@ -22,7 +23,7 @@ describe('FragmentForm', () => {
       mode,
     };
 
-    return shallow(<FragmentFormBody {...props} />);
+    return shallowWithIntl(<FragmentFormBody {...props} />);
   };
 
   it('root component renders without crashing', () => {
@@ -61,7 +62,7 @@ describe('FragmentForm', () => {
     const name = 'widgetType';
     const label = <label htmlFor={name}>widgetType</label>;
     const element = renderStaticField({ input, label, name });
-    const widgetType = shallow(element);
+    const widgetType = shallowWithIntl(element);
     expect(widgetType.find('.form-group').exists()).toEqual(true);
   });
 
@@ -74,14 +75,14 @@ describe('FragmentForm', () => {
   it('root component renders an Alert if defaultGuiCode is undefined', () => {
     const input = { name: 'defaultGuiCode', value: '' };
     const element = renderDefaultGuiCodeField({ input });
-    const defaultGuiCode = shallow(element);
+    const defaultGuiCode = shallowWithIntl(element);
     expect(defaultGuiCode.find('.alert.alert-info').exists()).toEqual(true);
   });
 
   it('root component renders a Panel if defaultGuiCode is defined on edit mode', () => {
     const input = { name: 'defaultGuiCode', value: '<p>Default Gui Code</p>' };
     const element = renderDefaultGuiCodeField({ input });
-    const defaultUi = shallow(element);
+    const defaultUi = shallowWithIntl(element);
     expect(defaultUi.find('Panel PanelBody pre').exists()).toEqual(true);
   });
 

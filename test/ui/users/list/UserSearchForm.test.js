@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserSearchFormBody } from 'ui/users/list/UserSearchForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 const setProfileType = jest.fn();
@@ -26,7 +26,7 @@ describe('UserSearchForm', () => {
       onWillMount,
     };
 
-    return shallow(mockRenderWithIntl(<UserSearchFormBody {...props} />));
+    return shallowWithIntl(<UserSearchFormBody {...props} />);
   };
 
   describe('basic render tests', () => {

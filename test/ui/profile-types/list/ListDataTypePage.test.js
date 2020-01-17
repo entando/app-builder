@@ -4,11 +4,12 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 describe('ListProfileTypePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListProfileTypePage />);
+    component = shallowWithIntl(<ListProfileTypePage />);
   });
 
   it('renders without crashing', () => {

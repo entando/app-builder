@@ -3,11 +3,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 describe('EditDataModelPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditDataModelPage />);
+    component = shallowWithIntl(<EditDataModelPage />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);

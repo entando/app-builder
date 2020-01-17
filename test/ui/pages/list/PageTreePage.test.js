@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTreePage from 'ui/pages/list/PageTreePage';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const props = {
   onWillMount: jest.fn(),
@@ -15,7 +16,7 @@ describe('PageTreePage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<PageTreePage {...props} />);
+    component = shallowWithIntl(<PageTreePage {...props} />);
   });
 
   it('renders without crashing', () => {

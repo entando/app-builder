@@ -5,6 +5,7 @@ import { USERS } from 'test/mocks/users';
 
 
 import UserListTable from 'ui/users/list/UserListTable';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const users = USERS;
 
@@ -15,7 +16,7 @@ jest.mock('state/users/selectors', () => ({
 describe('UserListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<UserListTable page={1} pageSize={1} totalItems={1} />);
   });
 
   it('renders without crashing', () => {
@@ -24,7 +25,7 @@ describe('UserListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<UserListTable pageSize={1} totalItems={1} />);
+    shallowWithIntl(<UserListTable pageSize={1} totalItems={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -32,7 +33,7 @@ describe('UserListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<UserListTable page={1} totalItems={1} />);
+    shallowWithIntl(<UserListTable page={1} totalItems={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -40,7 +41,7 @@ describe('UserListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<UserListTable pageSize={1} page={1} />);
+    shallowWithIntl(<UserListTable pageSize={1} page={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -48,7 +49,7 @@ describe('UserListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<UserListTable
+      component = shallowWithIntl(<UserListTable
         page={1}
         pageSize={1}
         totalItems={1}

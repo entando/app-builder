@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { PageSearchFormBody } from 'ui/pages/list/PageSearchForm';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 
 const handleSubmitMock = jest.fn();
@@ -13,7 +14,7 @@ describe('PageSearchForm', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<PageSearchFormBody handleSubmit={handleSubmitMock} />);
+    component = shallowWithIntl(<PageSearchFormBody handleSubmit={handleSubmitMock} />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);

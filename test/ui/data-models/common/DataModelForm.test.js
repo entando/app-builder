@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { DataModelFormBody } from 'ui/data-models/common/DataModelForm';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();
@@ -25,7 +26,7 @@ describe('DataModelForm', () => {
       onWillMount,
     };
 
-    return shallow(<DataModelFormBody {...props} />);
+    return shallowWithIntl(<DataModelFormBody {...props} />);
   };
 
   it('root component renders without crashing', () => {

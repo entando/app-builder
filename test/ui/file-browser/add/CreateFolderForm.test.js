@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { CreateFolderFormBody } from 'ui/file-browser/add/CreateFolderForm';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();
@@ -27,7 +28,7 @@ describe('CreateFolderForm', () => {
       onWillMount,
     };
 
-    return shallow(<CreateFolderFormBody {...props} />);
+    return shallowWithIntl(<CreateFolderFormBody {...props} />);
   };
 
 

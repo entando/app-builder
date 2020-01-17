@@ -3,11 +3,12 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
+import { shallowWithIntl } from '../../../test/testUtils';
 
 describe('ListFragmentPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListFragmentPage />);
+    component = shallowWithIntl(<ListFragmentPage />);
   });
 
   it('renders without crashing', () => {
