@@ -4,8 +4,6 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 
-// jest.unmock('react-intl');
-
 describe('AddDataModelPage', () => {
   let component;
   beforeEach(() => {
