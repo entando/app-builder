@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import ContentWidget from 'ui/pages/config/ContentWidget';
 import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
@@ -12,7 +12,7 @@ describe('ContentWidget', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
-    component = shallow(<ContentWidget />);
+    component = shallowWithIntl(<ContentWidget />).dive();
   });
 
   it('renders without crashing', () => {
@@ -25,20 +25,20 @@ describe('ContentWidget', () => {
 
   describe('props', () => {
     it('widgetList empty data', () => {
-      component = shallow(<ContentWidget widgetList={WIDGET_LIST_MOCK_EMPTY} />);
+      component = shallowWithIntl(<ContentWidget widgetList={WIDGET_LIST_MOCK_EMPTY} />);
       expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeFalsy();
       expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(0);
     });
 
     it('widgetList with data', () => {
-      component = shallow(<ContentWidget widgetList={WIDGET_ONE_LIST} />);
+      component = shallowWithIntl(<ContentWidget widgetList={WIDGET_ONE_LIST} />).dive();
       expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeTruthy();
       expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(1);
     });
 
     it('filterWidget', () => {
       const filterWidget = jest.fn().mockReturnValue('test');
-      component = shallow(<ContentWidget filterWidget={filterWidget} />);
+      component = shallowWithIntl(<ContentWidget filterWidget={filterWidget} />).dive();
       component.find('input').simulate('change', { target: { value: 'test' } });
       expect(filterWidget).toHaveBeenCalled();
       expect(filterWidget).toHaveBeenCalledWith('test');
@@ -46,7 +46,7 @@ describe('ContentWidget', () => {
 
     it('changeViewList with card view  onClick', () => {
       const changeViewList = jest.fn().mockReturnValue('card');
-      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component = shallowWithIntl(<ContentWidget changeViewList={changeViewList} />).dive();
       component.find('.fa.fa-th-large').simulate('click');
       expect(changeViewList).toHaveBeenCalledWith('card');
       component.find('.fa.fa-th-large').simulate('keyDown');
@@ -55,21 +55,21 @@ describe('ContentWidget', () => {
 
     it('changeViewList with card view onKeydown', () => {
       const changeViewList = jest.fn().mockReturnValue('card');
-      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component = shallowWithIntl(<ContentWidget changeViewList={changeViewList} />).dive();
       component.find('.fa.fa-th-large').simulate('keyDown');
       expect(changeViewList).toHaveBeenCalledWith('card');
     });
 
     it('changeViewList with list view onClick', () => {
       const changeViewList = jest.fn().mockReturnValue('list');
-      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component = shallowWithIntl(<ContentWidget changeViewList={changeViewList} />).dive();
       component.find('.fa.fa-th-list').simulate('click');
       expect(changeViewList).toHaveBeenCalledWith('list');
     });
 
     it('changeViewList with list view onKeydown', () => {
       const changeViewList = jest.fn().mockReturnValue('list');
-      component = shallow(<ContentWidget changeViewList={changeViewList} />);
+      component = shallowWithIntl(<ContentWidget changeViewList={changeViewList} />).dive();
       component.find('.fa.fa-th-list').simulate('keyDown');
       expect(changeViewList).toHaveBeenCalledWith('list');
     });

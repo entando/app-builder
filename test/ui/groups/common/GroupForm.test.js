@@ -8,6 +8,19 @@ const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const changeEvent = { currentTarget: { value: 'changed_name' } };
 
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
+
 describe('GroupForm', () => {
   let groupForm;
   let submitting;
@@ -27,6 +40,7 @@ describe('GroupForm', () => {
       onWillMount,
       onSubmit,
       mode,
+      intl: mockIntl,
     };
 
     return shallow(<GroupFormBody {...props} />);
@@ -40,13 +54,13 @@ describe('GroupForm', () => {
   describe('test with mode = new', () => {
     it('root component renders name field', () => {
       groupForm = buildGroupForm();
-      const name = groupForm.find('[name="name"]');
+      const name = groupForm.find('Field[name="name"]');
       expect(name.exists()).toBe(true);
     });
 
     it('root component renders code field', () => {
       groupForm = buildGroupForm();
-      const code = groupForm.find('[name="code"]');
+      const code = groupForm.find('Field[name="code"]');
       expect(code.exists()).toBe(true);
     });
   });
@@ -56,14 +70,15 @@ describe('GroupForm', () => {
       const onChangeName = jest.fn();
       groupForm = buildGroupForm();
       groupForm.setProps({ onChangeName });
-      groupForm.find('[name="name"]').simulate('change', changeEvent);
+      const field = groupForm.find('Field[name="name"]').at(0);
+      field.simulate('change', changeEvent);
       expect(onChangeName).toHaveBeenCalled();
     });
 
     it('on name change do nothing if onChangeName is not defined on props', () => {
       const onChangeName = jest.fn();
       groupForm = buildGroupForm();
-      groupForm.find('[name="name"]').simulate('change', changeEvent);
+      groupForm.find('Field[name="name"]').at(0).simulate('change', changeEvent);
       expect(onChangeName).not.toHaveBeenCalled();
     });
 
@@ -71,14 +86,14 @@ describe('GroupForm', () => {
       const onFocus = jest.fn();
       groupForm = buildGroupForm();
       groupForm.setProps({ onFocus });
-      groupForm.find('[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
+      groupForm.find('Field[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
       expect(onFocus).toHaveBeenCalled();
     });
 
     it('on focus code calls onFocus if defined on props', () => {
       const onFocus = jest.fn();
       groupForm = buildGroupForm();
-      groupForm.find('[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
+      groupForm.find('Field[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
       expect(onFocus).not.toHaveBeenCalled();
     });
 

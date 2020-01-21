@@ -1,12 +1,25 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { required } from '@entando/utils';
 
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 import { CreateTextFileFormBody, maxLength50 } from 'ui/file-browser/common/CreateTextFileForm';
 
 const handleSubmit = jest.fn();
+
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
 
 describe('CreateTextFileForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -25,9 +38,10 @@ describe('CreateTextFileForm', () => {
       submitting,
       invalid,
       handleSubmit,
+      intl: mockIntl,
     };
 
-    return shallow(<CreateTextFileFormBody {...props} />);
+    return shallowWithIntl(<CreateTextFileFormBody {...props} />);
   };
 
 

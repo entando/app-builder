@@ -29,7 +29,18 @@ const GROUPS = [];
 const HANDLE_SUBMIT = jest.fn();
 const ON_RESET = jest.fn();
 const ON_WILL_MOUNT = jest.fn();
-const INTL = { formatMessage: jest.fn() };
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
 
 describe('SinglePageSettingsForm', () => {
   let component;
@@ -37,7 +48,7 @@ describe('SinglePageSettingsForm', () => {
     jest.clearAllMocks();
     component = shallow((
       <SinglePageSettingsFormBody
-        intl={INTL}
+        intl={mockIntl}
         defaultLanguage={DEFAULT_LANGUAGE}
         activeNonDefaultLanguages={ACTIVE_NON_DEFAULT_LANGUAGES}
         charsets={CHARSETS}

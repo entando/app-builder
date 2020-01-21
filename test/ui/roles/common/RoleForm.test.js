@@ -8,6 +8,19 @@ const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const changeEvent = { currentTarget: { value: 'changed_name' } };
 
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
+
 describe('RoleForm', () => {
   let roleForm;
   let submitting;
@@ -27,6 +40,7 @@ describe('RoleForm', () => {
       onWillMount,
       onSubmit,
       mode,
+      intl: mockIntl,
     };
 
     return shallow(<RoleFormBody {...props} />);

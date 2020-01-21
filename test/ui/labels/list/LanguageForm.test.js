@@ -1,9 +1,13 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { LanguageFormBody, renderSelectOptions } from 'ui/labels/list/LanguageForm';
+import { mount } from 'enzyme';
+import { mockRenderWithIntl } from 'test/testUtils';
+import LanguageForm, { renderSelectOptions } from 'ui/labels/list/LanguageForm';
 
 import { LANGUAGES_LIST } from 'test/mocks/languages';
+
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 const languages = LANGUAGES_LIST.filter(item => !item.isActive)
   .map(item => (
@@ -21,6 +25,7 @@ describe('LanguageFormBody', () => {
   beforeEach(() => {
     submitting = false;
     invalid = false;
+    jest.clearAllMocks();
   });
   const buildLanguageForm = () => {
     const props = {
@@ -31,7 +36,7 @@ describe('LanguageFormBody', () => {
       handleSubmit,
     };
 
-    return shallow(<LanguageFormBody {...props} />);
+    return mount(mockRenderWithIntl(<LanguageForm {...props} />, { modal: {} }));
   };
 
   describe('basic render tests', () => {

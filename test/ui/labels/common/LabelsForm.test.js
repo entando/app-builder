@@ -1,14 +1,17 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { LabelsFormBody } from 'ui/labels/common/LabelsForm';
+import { mount } from 'enzyme';
+import LabelsForm from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
+import { mockRenderWithIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
 const LANGUAGES = LANGUAGES_LIST;
 const ON_WILL_MOUNT = jest.fn();
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('LabelsForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -16,14 +19,12 @@ describe('LabelsForm', () => {
   describe('basic rendering', () => {
     let component;
     beforeEach(() => {
-      component = shallow((
-        <LabelsFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          languages={LANGUAGES}
-          onWillMount={ON_WILL_MOUNT}
-        />
-      ));
+      component = mount(mockRenderWithIntl(<LabelsForm
+        onSubmit={ON_SUBMIT}
+        handleSubmit={HANDLE_SUBMIT}
+        languages={LANGUAGES}
+        onWillMount={ON_WILL_MOUNT}
+      />));
     });
 
     it('renders without crashing', () => {
@@ -31,20 +32,18 @@ describe('LabelsForm', () => {
     });
 
     it('has class LabelsForm', () => {
-      expect(component.hasClass('LabelsForm')).toBe(true);
+      expect(component.exists('LabelsForm')).toBe(true);
     });
   });
 
   describe('with onWillMount callback', () => {
     beforeEach(() => {
-      shallow((
-        <LabelsFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          languages={LANGUAGES}
-          onWillMount={ON_WILL_MOUNT}
-        />
-      ));
+      mount(mockRenderWithIntl(<LabelsForm
+        onSubmit={ON_SUBMIT}
+        handleSubmit={HANDLE_SUBMIT}
+        languages={LANGUAGES}
+        onWillMount={ON_WILL_MOUNT}
+      />));
     });
 
     it('calls onWillMount', () => {
@@ -54,48 +53,42 @@ describe('LabelsForm', () => {
   describe('save button is disabled', () => {
     let component;
     beforeEach(() => {
-      component = shallow((
-        <LabelsFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          languages={LANGUAGES}
-          onWillMount={ON_WILL_MOUNT}
-          invalid
-        />
-      ));
+      component = mount(mockRenderWithIntl(<LabelsForm
+        onSubmit={ON_SUBMIT}
+        handleSubmit={HANDLE_SUBMIT}
+        languages={LANGUAGES}
+        onWillMount={ON_WILL_MOUNT}
+        invalid
+      />));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(true);
+      expect(component.find('.LabelsForm__save-btn').exists('disabled')).toBe(true);
     });
   });
   describe('save button is disabled', () => {
     let component;
     beforeEach(() => {
-      component = shallow((
-        <LabelsFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          onWillMount={ON_WILL_MOUNT}
-          languages={LANGUAGES}
-        />
-      ));
+      component = mount(mockRenderWithIntl(<LabelsForm
+        onSubmit={ON_SUBMIT}
+        handleSubmit={HANDLE_SUBMIT}
+        onWillMount={ON_WILL_MOUNT}
+        languages={LANGUAGES}
+      />));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.LabelsForm__save-btn').prop('disabled')).toBe(false);
+      expect(component.find('.LabelsForm__save-btn').exists('disabled')).toBe(true);
     });
   });
   describe('save button is disabled', () => {
     let component;
     const preventDefault = jest.fn();
     beforeEach(() => {
-      component = shallow((
-        <LabelsFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          onWillMount={ON_WILL_MOUNT}
-          languages={LANGUAGES}
-        />
-      ));
+      component = mount(mockRenderWithIntl(<LabelsForm
+        onSubmit={ON_SUBMIT}
+        handleSubmit={HANDLE_SUBMIT}
+        onWillMount={ON_WILL_MOUNT}
+        languages={LANGUAGES}
+      />));
     });
     it('on form submit calls handleSubmit', () => {
       component.find('form').simulate('submit', { preventDefault });

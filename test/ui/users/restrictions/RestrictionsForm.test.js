@@ -1,6 +1,5 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { Form } from 'patternfly-react';
 import { isNumber } from '@entando/utils';
 
@@ -9,12 +8,29 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import { shallowWithIntl } from '../../../test/testUtils';
 
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
+
 describe('RestrictionsForm', () => {
   const onWillMount = jest.fn();
   let component;
   beforeEach(() => {
     component =
-    shallowWithIntl(<RestrictionsFormBody handleSubmit={() => {}} onWillMount={onWillMount} />);
+    shallowWithIntl(<RestrictionsFormBody
+      handleSubmit={() => {}}
+      onWillMount={onWillMount}
+      intl={mockIntl}
+    />);
   });
 
   it('renders without crashing', () => {

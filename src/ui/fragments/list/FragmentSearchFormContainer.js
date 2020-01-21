@@ -26,14 +26,14 @@ const msgs = defineMessages({
   },
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { intl }) => ({
   onWillMount: () => {
     dispatch(fetchWidgetList());
     dispatch(fetchPlugins());
   },
 
   onSubmit: (values) => {
-    const queryString = values.pluginCode === msgs.formatMessage(msgs.appAll) ? '' :
+    const queryString = values.pluginCode === intl.formatMessage(msgs.appAll) ? '' :
       convertToQueryString({
         formValues: values,
         operators: FIELD_OPERATORS,

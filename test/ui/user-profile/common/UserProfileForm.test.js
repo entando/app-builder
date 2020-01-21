@@ -2,7 +2,6 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { mockRenderWithIntl } from 'test/testUtils';
 import { UserProfileFormBody } from 'ui/user-profile/common/UserProfileForm';
 
 
@@ -17,10 +16,23 @@ const profileTypesAttributes = [];
 
 beforeEach(jest.clearAllMocks);
 
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
+
 describe('UserProfileFormBody', () => {
   let component;
   beforeEach(() => {
-    component = shallow(mockRenderWithIntl(<UserProfileFormBody
+    component = shallow(<UserProfileFormBody
       onWillMount={onWillMount}
       onSubmit={onSubmit}
       handleSubmit={handleSubmit}
@@ -29,7 +41,8 @@ describe('UserProfileFormBody', () => {
       defaultLanguage={defaultLanguage}
       languages={languages}
       profileTypesAttributes={profileTypesAttributes}
-    />));
+      intl={mockIntl}
+    />);
   });
 
   it('renders without crashing', () => {
@@ -42,7 +55,7 @@ describe('UserProfileFormBody', () => {
 });
 
 
-const getFormInstance = attributes => shallow(mockRenderWithIntl(<UserProfileFormBody
+const getFormInstance = attributes => shallow(<UserProfileFormBody
   onWillMount={onWillMount}
   onSubmit={onSubmit}
   handleSubmit={handleSubmit}
@@ -51,7 +64,8 @@ const getFormInstance = attributes => shallow(mockRenderWithIntl(<UserProfileFor
   defaultLanguage={defaultLanguage}
   languages={languages}
   profileTypesAttributes={Array.isArray(attributes) ? attributes : [attributes]}
-/>));
+  intl={mockIntl}
+/>);
 
 
 const testSingleAttributeIsRendered = (attribute) => {

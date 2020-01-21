@@ -1,11 +1,10 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 
 
 import ProfileTypeListTable from 'ui/profile-types/list/ProfileTypeListTable';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 const profileTypes = PROFILE_TYPES_OK_PAGE_1.payload;
 
@@ -23,7 +22,7 @@ describe('ProfileTypeListTable', () => {
       totalItems={1}
       removeProfileType={() => {}}
       status="0"
-    />);
+    />).dive();
   });
 
   it('renders without crashing', () => {
@@ -64,7 +63,7 @@ describe('ProfileTypeListTable', () => {
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

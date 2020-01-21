@@ -2,12 +2,25 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
-import { runValidators, mockRenderWithIntl } from 'test/testUtils';
+import { runValidators } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const EDIT_MODE = 'edit';
+
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
 
 describe('UserForm', () => {
   let userForm;
@@ -31,9 +44,10 @@ describe('UserForm', () => {
       msgs: {
         username: { id: 'username', defaultMessage: 'username' },
       },
+      intl: mockIntl,
     };
 
-    return shallow(mockRenderWithIntl(<UserFormBody {...props} />));
+    return shallow(<UserFormBody {...props} />);
   };
 
   it('root component renders without crashing', () => {

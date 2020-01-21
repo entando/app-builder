@@ -1,47 +1,40 @@
 import React from 'react';
 
-import { shallow, mount } from 'enzyme';
+import 'test/enzyme-init';
+import { mount } from 'enzyme';
 import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
-// import { shallowWithIntl, mockRenderWithIntl } from '../../../../test/testUtils';
-
-import { mockRenderWithIntl, configEnzymeAdapter } from './help';
-
-configEnzymeAdapter();
-
-// console.log('\n\n\n\n\nobject', InternalServletConfigForm);
+import { mockRenderWithIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const EVENT = { preventDefault: jest.fn() };
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('InternalServletConfigForm', () => {
-  const component = mount(mockRenderWithIntl(<InternalServletConfigForm
-    widgetId="formAction"
-    handleSubmit={handleSubmit}
-  />));
-  // beforeEach(() => {
-  //   // jest.clearAllMocks();
-  //   // component = shallow(mockRenderWithIntl(<InternalServletConfigFormBody
-  //   //   widgetId="formAction"
-  //   //   handleSubmit={handleSubmit}
-  //   // />));
-  // });
+  let component;
+  beforeEach(() => {
+    component = mount(mockRenderWithIntl(<InternalServletConfigForm
+      widgetId="formAction"
+      handleSubmit={handleSubmit}
+    />));
+  });
 
-  // it('it is a form', () => {
-  //   expect(component.is('form')).toBe(true);
-  // });
+  it('it is a form', () => {
+    expect(component.find('form').exists()).toBe(true);
+  });
 
-  // it('has class InternalServletConfigForm', () => {
-  //   expect(component.hasClass('InternalServletConfigForm')).toBe(true);
-  // });
+  it('has class InternalServletConfigForm', () => {
+    expect(component.find('form').hasClass('InternalServletConfigForm')).toBe(true);
+  });
 
-  // it('on form submit, calls ev.preventDefault()', () => {
-  //   component.find('form').simulate('submit', EVENT);
-  //   expect(EVENT.preventDefault).toHaveBeenCalled();
-  // });
+  it('on form submit, calls ev.preventDefault()', () => {
+    component.find('form').simulate('submit', EVENT);
+    expect(EVENT.preventDefault).toHaveBeenCalled();
+  });
 
-  // it('on form submit, calls handleSubmit', () => {
-  //   component.find('form').simulate('submit', EVENT);
-  //   expect(handleSubmit).toHaveBeenCalled();
-  // });
+  it('on form submit, calls handleSubmit', () => {
+    component.find('form').simulate('submit', EVENT);
+    expect(handleSubmit).toHaveBeenCalled();
+  });
 });

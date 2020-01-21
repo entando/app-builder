@@ -1,7 +1,7 @@
 
 import React from 'react';
 import 'test/enzyme-init';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { NotFoundPage } from '@entando/pages';
 import { MemoryRouter, Redirect } from 'react-router-dom';
 
@@ -95,12 +95,13 @@ import {
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
 } from 'app-init/router';
+import { mountWithIntl } from '../../test/testUtils';
 
 jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
   <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />
 ));
 
-const mountWithRoute = route => mount((
+const mountWithRoute = route => mountWithIntl((
   <MemoryRouter initialEntries={[route]}>
     <App currentRoute={ROUTE_DASHBOARD} username="admin" />
   </MemoryRouter>

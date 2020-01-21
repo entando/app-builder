@@ -1,18 +1,21 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import FormLabel from 'ui/common/form/FormLabel';
+import { mockRenderWithIntl } from 'test/testUtils';
 
 const LABEL_ID = 'label.id';
 const LANG_LABEL_ID = 'lang.label.id';
 const HELP_ID = 'help.id';
+
+jest.unmock('react-redux');
 
 describe('FormLabel', () => {
   let component;
 
   describe('with labelId only', () => {
     beforeEach(() => {
-      component = shallow(<FormLabel labelId={LABEL_ID} />);
+      component = mount(mockRenderWithIntl(<FormLabel labelId={LABEL_ID} />));
     });
     it('render component without crash', () => {
       expect(component.exists()).toBe(true);
@@ -30,7 +33,10 @@ describe('FormLabel', () => {
 
   describe('with langLabelId', () => {
     beforeEach(() => {
-      component = shallow(<FormLabel labelId={LABEL_ID} langLabelId={LANG_LABEL_ID} />);
+      component = mount(mockRenderWithIntl(<FormLabel
+        labelId={LABEL_ID}
+        langLabelId={LANG_LABEL_ID}
+      />));
     });
     it('renders the language label', () => {
       expect(component.find('.FormLabel__language-label').exists()).toBe(true);
@@ -39,7 +45,10 @@ describe('FormLabel', () => {
 
   describe('with helpId', () => {
     beforeEach(() => {
-      component = shallow(<FormLabel labelId={LABEL_ID} helpId={HELP_ID} />);
+      component = mount(mockRenderWithIntl(<FormLabel
+        labelId={LABEL_ID}
+        helpId={HELP_ID}
+      />));
     });
     it('renders the help popover', () => {
       expect(component.find('FieldLevelHelp').exists()).toBe(true);
@@ -48,7 +57,7 @@ describe('FormLabel', () => {
 
   describe('with required', () => {
     beforeEach(() => {
-      component = shallow(<FormLabel labelId={LABEL_ID} required />);
+      component = mount(mockRenderWithIntl(<FormLabel labelId={LABEL_ID} required />));
     });
     it('renders the required icon', () => {
       expect(component.find('.fa-asterisk').exists()).toBe(true);

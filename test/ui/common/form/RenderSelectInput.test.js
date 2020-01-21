@@ -1,6 +1,7 @@
 import 'test/enzyme-init';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { mockRenderWithIntl } from 'test/testUtils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 const FIELD_NAME = 'test-select';
@@ -11,15 +12,17 @@ const SELECT_OPTIONS = [
   { value: 3, text: 'option 3' },
 ];
 
+jest.unmock('react-redux');
+
 describe('RenderSelectInput', () => {
   let selectInput;
   beforeEach(() => {
-    selectInput = shallow(<RenderSelectInput
+    selectInput = mount(mockRenderWithIntl(<RenderSelectInput
       options={SELECT_OPTIONS}
       labelId={LABEL_ID}
       fieldName={FIELD_NAME}
       mandatory
-    />);
+    />));
   });
 
   it('render component without crash', () => {

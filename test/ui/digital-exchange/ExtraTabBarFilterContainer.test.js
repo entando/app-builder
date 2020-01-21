@@ -11,9 +11,6 @@ import { fetchDEExtraFilters } from 'state/digital-exchange/extra-filters/action
 import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
 
 
-import { formattedText } from '@entando/utils';
-
-
 const TEST_STATE = {
   digitalExchanges: {
     list: [],
@@ -43,7 +40,7 @@ const dispatchMock = jest.fn();
 
 
 const filterTabs = Object.keys(DE_COMPONENTS_EXTRA_FILTERS).map(filterTab => ({
-  label: formattedText(`digitalExchange.extraFilters.${filterTab}`, filterTab),
+  label: undefined,
   value: filterTab,
 }));
 
@@ -67,7 +64,11 @@ describe('TabBarFilter', () => {
   });
 
   it('maps digitalExchangeExtraFilters property state', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({
+    expect(mapStateToProps(TEST_STATE, {
+      intl: {
+        formatMessage: () => {},
+      },
+    })).toEqual({
       filterTabs,
       selectedFilterTab: getSelectedDEExtraFilter(TEST_STATE) || 'explore',
       attributes: {

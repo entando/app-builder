@@ -21,6 +21,19 @@ const CHANGE_EVENT = {
   currentTarget: { value: 'test' },
 };
 
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
+
 describe('PageForm', () => {
   beforeEach(jest.clearAllMocks);
 
@@ -37,6 +50,7 @@ describe('PageForm', () => {
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
+          intl={mockIntl}
         />
       ));
     });
@@ -86,6 +100,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           onWillMount={ON_WILL_MOUNT}
+          intl={mockIntl}
         />
       ));
     });
@@ -109,6 +124,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           onChangeDefaultTitle={ON_CHANGE_EN_TITLE}
+          intl={mockIntl}
         />
       ));
     });
@@ -138,6 +154,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           invalid
+          intl={mockIntl}
         />
       ));
     });
@@ -163,6 +180,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           submitting
+          intl={mockIntl}
         />
       ));
     });
@@ -188,6 +206,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           invalid={false}
+          intl={mockIntl}
         />
       ));
     });

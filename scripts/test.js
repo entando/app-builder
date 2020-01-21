@@ -24,8 +24,4 @@ if (!process.env.CI && argv.indexOf('--coverage') < 0) {
   argv.push('--watch');
 }
 
-// argv.push('test/ui/widgets/config/forms/InternalServletConfigForm.test.js');
-argv.push('test/ui/widgets/config/forms/ContentModelSearchForm.test.js');
-
-
 jest.run(argv);

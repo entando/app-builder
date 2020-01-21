@@ -1,7 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
+import { mockRenderWithIntl } from 'test/testUtils';
 
 
 import UserRefsTable from 'ui/common/references/UserRefsTable';
@@ -10,14 +11,16 @@ jest.mock('state/roles/selectors', () => ({
   getRoleList: jest.fn(),
 }));
 
+jest.unmock('react-redux');
+
 const onWillMount = jest.fn();
 
 describe('UserRefsTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserRefsTable
+    component = mount(mockRenderWithIntl(<UserRefsTable
       onWillMount={onWillMount}
-    />);
+    />));
   });
 
   it('renders without crashing', () => {
@@ -26,9 +29,9 @@ describe('UserRefsTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<UserRefsTable
+      component = mount(mockRenderWithIntl(<UserRefsTable
         onWillMount={onWillMount}
-      />);
+      />));
     });
 
     it('renders a message instead of the table', () => {
@@ -41,9 +44,9 @@ describe('UserRefsTable', () => {
       });
 
       it('has 1 row if there is 1 reference', () => {
-        const tbody = component.find('tbody');
-        expect(tbody).toHaveLength(1);
-        expect(tbody.find('tr')).toHaveLength(1);
+        component.find('tbody').forEach((tbody) => {
+          expect(tbody.find('tr')).toHaveLength(1);
+        });
       });
 
 
@@ -60,7 +63,11 @@ describe('UserRefsTable', () => {
           status: 'disabled',
         };
 
-        component.setProps({ userReferences: [statusDisabled] });
+        component = mount(mockRenderWithIntl(<UserRefsTable
+          onWillMount={onWillMount}
+          userReferences={[statusDisabled]}
+        />));
+
         expect(component.find('UserStatus').prop('status')).toEqual('disabled');
       });
     });

@@ -3,6 +3,7 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 import { MemoryRouter } from 'react-router-dom';
+import { mockRenderWithIntl } from 'test/testUtils';
 
 const FIELDS = {
   remove: jest.fn(),
@@ -44,10 +45,13 @@ const props = {
   fields: FIELDS,
 };
 
+jest.unmock('react-redux');
+
 describe('AttributeListTableActions', () => {
   let component;
   beforeEach(() => {
-    component = mount(<MemoryRouter><AttributeListTableActions {...props} /></MemoryRouter>);
+    const memorizedUi = <MemoryRouter><AttributeListTableActions {...props} /></MemoryRouter>;
+    component = mount(mockRenderWithIntl(memorizedUi));
   });
 
   it('renders without crashing', () => {

@@ -4,7 +4,7 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { InputGroup, Button, Label } from 'patternfly-react';
 
 
-class MultiSelectRenderer extends Component {
+export class MultiSelectRendererBody extends Component {
   constructor(props) {
     super(props);
     this.pushField = this.pushField.bind(this);
@@ -97,7 +97,7 @@ class MultiSelectRenderer extends Component {
 }
 
 
-MultiSelectRenderer.propTypes = {
+MultiSelectRendererBody.propTypes = {
   intl: intlShape.isRequired,
   fields: PropTypes.shape({}).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -107,11 +107,11 @@ MultiSelectRenderer.propTypes = {
   emptyOptionTextId: PropTypes.string,
 };
 
-MultiSelectRenderer.defaultProps = {
+MultiSelectRendererBody.defaultProps = {
   selectedValues: [],
   valueKey: 'value',
   labelKey: 'label',
   emptyOptionTextId: '',
 };
 
-export default injectIntl(MultiSelectRenderer);
+export default injectIntl(MultiSelectRendererBody);

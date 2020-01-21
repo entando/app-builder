@@ -1,12 +1,15 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { IntlProvider, intlShape } from 'react-intl';
 import { config } from '@entando/apimanager';
 import { shallow, mount, configure } from 'enzyme';
 import { Provider as StateProvider } from 'react-redux';
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
-import { IntlProvider } from 'react-intl';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
+import enTranslations from 'locales/en';
 
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
@@ -45,6 +48,8 @@ export const mockApi = ({
 
 export const mockThunk = arg => () => () => new Promise(r => r(arg));
 
+export const createMockHistory = () => createMemoryHistory({ initialEntries: ['/'] });
+
 export const runValidators = (arr, value, allValues) =>
   arr.reduce((acc, func) => (acc || func(value, allValues)), undefined);
 
@@ -70,6 +75,10 @@ export const mockRenderWithIntl = (ui, state = {}) => {
   return mockRenderWithStore(<IntlProviderContainer>{ui}</IntlProviderContainer>, STATE);
 };
 
+export const mockRenderWithRouter = (ui, history = createMockHistory()) => (
+  <Router history={history}>{ui}</Router>
+);
+
 /**
  * Components using the react-intl module require access to the intl context.
  * This is not available when mounting single components in Enzyme.
@@ -78,29 +87,35 @@ export const mockRenderWithIntl = (ui, state = {}) => {
  */
 
 // You can pass your messages to the IntlProvider. Optional: remove if unneeded.
-const messages = require('../../src/locales/en'); // en.json
 
-const defaultLocale = 'en';
-const locale = defaultLocale;
+// Create the IntlProvider to retrieve context for wrapping around.
+const intlProvider = new IntlProvider(
+  { locale: enTranslations.locale, messages: enTranslations.messages },
+  {},
+);
+const { intl } = intlProvider.getChildContext();
 
-export function mountWithIntl(node) {
-  return mount(node, {
-    wrappingComponent: IntlProvider,
-    wrappingComponentProps: {
-      locale,
-      defaultLocale,
-      messages,
-    },
-  });
+function nodeWithIntlProp(node) {
+  return React.cloneElement(node, { intl });
 }
 
-export function shallowWithIntl(node) {
-  return shallow(node, {
-    wrappingComponent: IntlProvider,
-    wrappingComponentProps: {
-      locale,
-      defaultLocale,
-      messages,
+export function shallowWithIntl(node, { context, ...additionalOptions } = {}) {
+  return shallow(
+    nodeWithIntlProp(node),
+    {
+      context: Object.assign({}, context, { intl }),
+      ...additionalOptions,
     },
-  });
+  );
+}
+
+export function mountWithIntl(node, { context, childContextTypes, ...additionalOptions } = {}) {
+  return mount(
+    nodeWithIntlProp(node),
+    {
+      context: Object.assign({}, context, { intl }),
+      childContextTypes: Object.assign({}, { intl: intlShape }, childContextTypes),
+      ...additionalOptions,
+    },
+  );
 }

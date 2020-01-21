@@ -1,11 +1,10 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { USERS } from 'test/mocks/users';
 
 
 import UserListTable from 'ui/users/list/UserListTable';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 const users = USERS;
 
@@ -16,7 +15,7 @@ jest.mock('state/users/selectors', () => ({
 describe('UserListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<UserListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<UserListTable page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {
@@ -53,7 +52,7 @@ describe('UserListTable', () => {
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

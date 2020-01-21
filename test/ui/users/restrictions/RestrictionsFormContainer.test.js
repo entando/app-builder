@@ -1,12 +1,13 @@
 import { formValueSelector } from 'redux-form';
-
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/restrictions/RestrictionsFormContainer';
 
 const dispatchMock = jest.fn();
 
+jest.unmock('react-intl');
+
 jest.mock('redux-form', () => ({
   formValueSelector: jest.fn(() => jest.fn(() => false)),
-  reduxForm: jest.fn(() => jest.fn()),
+  reduxForm: jest.fn(() => jest.fn(ui => ui)),
 }));
 
 describe('RestrictionsFormContainer', () => {

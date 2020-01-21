@@ -1,16 +1,22 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { LabelSearchFormBody } from 'ui/labels/list/LabelSearchForm';
+import { mount } from 'enzyme';
+import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
+import { mockRenderWithIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
+
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('LabelSearchFormBody', () => {
   let labelSearchForm;
 
   describe('basic render tests', () => {
     beforeEach(() => {
-      labelSearchForm = shallow(<LabelSearchFormBody handleSubmit={handleSubmit} />);
+      labelSearchForm = mount(mockRenderWithIntl(<LabelSearchForm
+        handleSubmit={handleSubmit}
+      />));
     });
     it('root component renders without crashing', () => {
       expect(labelSearchForm.exists()).toEqual(true);
@@ -25,7 +31,9 @@ describe('LabelSearchFormBody', () => {
   describe('event handlers test', () => {
     const preventDefault = jest.fn();
     beforeEach(() => {
-      labelSearchForm = shallow(<LabelSearchFormBody handleSubmit={handleSubmit} />);
+      labelSearchForm = mount(mockRenderWithIntl(<LabelSearchForm
+        handleSubmit={handleSubmit}
+      />));
     });
 
     it('on form submit calls handleSubmit', () => {

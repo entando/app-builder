@@ -29,6 +29,8 @@ const toolbarButtons = [
   </Button>,
 ];
 
+jest.mock('react-intl');
+
 describe('GenericModal', () => {
   let component;
   beforeEach(() => {

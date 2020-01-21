@@ -82,6 +82,7 @@ const field = (intl, attribute) => (<Field
     attribute.enumeratorStaticItems,
     attribute.enumeratorStaticItemsSeparator,
     attribute.mandatory,
+    intl,
   )}
   optionValue="value"
   optionDisplayName="optionDisplayName"
@@ -113,12 +114,13 @@ export class UserProfileFormBody extends Component {
       attributeType={attribute.nestedAttribute.type}
       name={attributeCode}
       rows={3}
-      toggleElement={getComponentOptions(attribute.type)}
+      toggleElement={getComponentOptions(attribute.type, intl)}
       options={getEnumeratorOptions(
             attribute.nestedAttribute.type,
             attribute.nestedAttribute.enumeratorStaticItems,
             attribute.nestedAttribute.enumeratorStaticItemsSeparator,
             attribute.nestedAttribute.mandatory,
+            intl,
           )}
       optionValue="value"
       optionDisplayName="optionDisplayName"
@@ -148,7 +150,7 @@ export class UserProfileFormBody extends Component {
                 <Panel>
                   <Panel.Body>
                     <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(attribute.compositeAttributes)}
+                      { renderCompositeAttribute(intl, attribute.compositeAttributes)}
                     </FormSection>
                   </Panel.Body>
                 </Panel>

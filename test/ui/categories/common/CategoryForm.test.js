@@ -1,12 +1,25 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { CategoryFormBody } from 'ui/categories/common/CategoryForm';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const activeLanguages = [];
+
+const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};
 
 describe('CategoryForm', () => {
   let categoryForm;
@@ -28,9 +41,10 @@ describe('CategoryForm', () => {
       onWillMount,
       onSubmit,
       mode,
+      intl: mockIntl,
     };
 
-    return shallow(<CategoryFormBody {...props} />);
+    return shallowWithIntl(<CategoryFormBody {...props} />);
   };
 
   it('root component renders without crashing', () => {

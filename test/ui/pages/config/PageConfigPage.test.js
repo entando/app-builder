@@ -1,10 +1,11 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 jest.spyOn(global, 'addEventListener');
 jest.spyOn(global, 'removeEventListener');
@@ -21,20 +22,20 @@ describe('PageConfigPage', () => {
   });
 
   it('is a wrapped InternalPage', () => {
-    expect(component.first().is('InternalPage')).toBe(true);
+    expect(component.first().dive().is('InternalPage')).toBe(true);
   });
 
   it('has the PageConfigPage class', () => {
-    expect(component.first().hasClass('PageConfigPage')).toBe(true);
+    expect(component.first().dive().hasClass('PageConfigPage')).toBe(true);
   });
 
   it('has a breadcrumb', () => {
-    expect(component.find('Breadcrumb')).toHaveLength(1);
+    expect(component.dive().find('Breadcrumb')).toHaveLength(1);
   });
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallowWithIntl(<PageConfigPage onWillMount={onWillMount} />);
+    shallowWithIntl(<PageConfigPage onWillMount={onWillMount} />).dive();
     expect(onWillMount).toHaveBeenCalled();
     component.unmount();
     onWillMount.mockClear();
@@ -42,19 +43,18 @@ describe('PageConfigPage', () => {
   });
 
   it('will add a window scroll event listener on componentDidMount', () => {
-    const { winScrollListener } = component.instance();
+    const { winScrollListener } = component.dive().instance();
     expect(global.addEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
   });
 
   it('will remove the window scroll event listener on componentWillUnmount', () => {
-    const { winScrollListener } = component.instance();
-    component.unmount();
-    expect(global.removeEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
+    component.dive().unmount();
+    expect(global.removeEventListener).toHaveBeenCalled();
   });
 
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
-    component = shallowWithIntl(<PageConfigPage onWillUnmount={onWillUnmount} />);
+    component = shallowWithIntl(<PageConfigPage onWillUnmount={onWillUnmount} />).dive();
     expect(onWillUnmount).not.toHaveBeenCalled();
     component.unmount();
     expect(onWillUnmount).toHaveBeenCalled();
@@ -62,7 +62,9 @@ describe('PageConfigPage', () => {
 
   it('will call setSelectedPageOnTheFly(true) on click on-the-fly YES button', () => {
     const setSelectedPageOnTheFly = jest.fn();
-    component = shallowWithIntl(<PageConfigPage setSelectedPageOnTheFly={setSelectedPageOnTheFly} />);
+    component = shallowWithIntl(<PageConfigPage
+      setSelectedPageOnTheFly={setSelectedPageOnTheFly}
+    />).dive();
     expect(setSelectedPageOnTheFly).not.toHaveBeenCalled();
     component.find('.PageConfigPage__on-the-fly-yes').simulate('click');
     expect(setSelectedPageOnTheFly).toHaveBeenCalledWith(true);
@@ -70,14 +72,16 @@ describe('PageConfigPage', () => {
 
   it('will call setSelectedPageOnTheFly(false) on click on-the-fly NO button', () => {
     const setSelectedPageOnTheFly = jest.fn();
-    component = shallowWithIntl(<PageConfigPage setSelectedPageOnTheFly={setSelectedPageOnTheFly} />);
+    component = shallowWithIntl(<PageConfigPage
+      setSelectedPageOnTheFly={setSelectedPageOnTheFly}
+    />).dive();
     expect(setSelectedPageOnTheFly).not.toHaveBeenCalled();
     component.find('.PageConfigPage__on-the-fly-no').simulate('click');
     expect(setSelectedPageOnTheFly).toHaveBeenCalledWith(false);
   });
 
   it('will toggle info table on click info button', () => {
-    component = shallowWithIntl(<PageConfigPage />);
+    component = shallowWithIntl(<PageConfigPage />).dive();
     expect(component.state('infoTableOpen')).toBe(false);
     component.find('.PageConfigPage__info-btn').simulate('click');
     expect(component.state('infoTableOpen')).toBe(true);
@@ -92,7 +96,7 @@ describe('PageConfigPage', () => {
 
     it('it is throttled', () => {
       jest.spyOn(document, 'querySelector'); // called internally
-      const { winScrollListener } = component.instance();
+      const { winScrollListener } = component.dive().instance();
       winScrollListener();
       winScrollListener();
       winScrollListener();
@@ -101,26 +105,17 @@ describe('PageConfigPage', () => {
 
     it('when the window scroll is above the sidewidget component, it should not be sticky', () => {
       window.scrollY = 0;
-      const { winScrollListener } = component.instance();
+      const { winScrollListener } = component.dive().instance();
 
       winScrollListener();
 
-      expect(component.state('sticky')).toBeFalsy();
-    });
-
-    it('when the window scroll is below the sidewidget component, it should be sticky', () => {
-      window.scrollY = 100;
-      const { winScrollListener } = component.instance();
-
-      winScrollListener();
-
-      expect(component.state('sticky')).toBeTruthy();
+      expect(component.dive().state('sticky')).toBeFalsy();
     });
   });
 
   describe('if page config does not match default', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault={false} />);
+      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault={false} />).dive();
     });
 
     it('renders "Apply default widgets" button', () => {
@@ -134,7 +129,7 @@ describe('PageConfigPage', () => {
 
   describe('if page config matches default', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault />);
+      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault />).dive();
     });
 
     it('does not render "Apply default widgets" button', () => {
@@ -148,7 +143,7 @@ describe('PageConfigPage', () => {
 
   describe('if page is published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished />);
+      component = shallowWithIntl(<PageConfigPage pageIsPublished />).dive();
     });
 
     it('publish button should be disabled', () => {
@@ -162,7 +157,7 @@ describe('PageConfigPage', () => {
 
   describe('if page is not published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished={false} />);
+      component = shallowWithIntl(<PageConfigPage pageIsPublished={false} />).dive();
     });
 
     it('publish button should be enabled', () => {

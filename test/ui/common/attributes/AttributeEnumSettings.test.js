@@ -1,17 +1,19 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import AttributeEnumSettings, { element as elementValidation } from 'ui/common/attributes/AttributeEnumSettings';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
+import { mockRenderWithIntl } from 'test/testUtils';
 
+jest.unmock('react-redux');
 
 describe('AttributeEnumSettings', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AttributeEnumSettings />);
+    component = mount(mockRenderWithIntl(<AttributeEnumSettings />));
   });
 
   it('renders without crashing', () => {
