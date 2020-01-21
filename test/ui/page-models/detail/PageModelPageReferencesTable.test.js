@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { mockRenderWithIntl, mockRenderWithRouter } from 'test/testUtils';
 
 import PageModelPageReferencesTable from 'ui/page-models/detail/PageModelPageReferencesTable';

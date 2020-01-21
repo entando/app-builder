@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import FragmentSearchForm, { renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
 import { mockRenderWithIntl } from 'test/testUtils';
 

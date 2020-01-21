@@ -1,7 +1,6 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import { shallowWithIntl } from '../../../test/testUtils';

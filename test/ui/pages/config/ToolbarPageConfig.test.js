@@ -1,6 +1,5 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
