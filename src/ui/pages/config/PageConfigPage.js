@@ -101,7 +101,6 @@ class PageConfigPage extends Component {
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings,
     } = this.props;
-
     let defaultConfigBtn;
     if (pageConfigMatchesDefault) {
       defaultConfigBtn = (

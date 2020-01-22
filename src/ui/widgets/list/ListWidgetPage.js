@@ -20,7 +20,6 @@ class ListWidgetPage extends Component {
       onDelete,
       locale,
     } = this.props;
-
     return (
       <Spinner loading={!!this.props.loading}>
         {
