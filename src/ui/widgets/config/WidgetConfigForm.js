@@ -9,24 +9,14 @@ const widgetForms = apps.reduce((obj, app) => ({
   ...app.id === 'cms' ? app.widgetForms : {},
 }), {});
 
-const CMS_WIDGETS_CONFIG_FORM_MAPPING = {
-  // single handpicked content
-  content_viewer: widgetForms.HandpickedContentsConfigFormContainer,
-  // list of contents defined by a query
-  content_viewer_list: widgetForms.ContentsQueryContainer,
-  // more than one handpicked content
-  row_content_viewer_list: widgetForms.HandpickedContentsConfigFormContainer,
-  search_result: null,
-};
-
-const CMS_WIDGETS_CONFIG_FORMS = Object.keys(CMS_WIDGETS_CONFIG_FORM_MAPPING);
+const CMS_WIDGETS_CONFIG_FORMS = Object.keys(widgetForms);
 
 const WidgetConfigForm = ({
   onSubmit, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
   if (CMS_WIDGETS_CONFIG_FORMS.includes(widgetCode)) {
     return React.createElement(
-      CMS_WIDGETS_CONFIG_FORM_MAPPING[widgetCode],
+      widgetForms[widgetCode],
       {
         widgetConfig, widgetCode, pageCode, frameId, intl, history,
       },
