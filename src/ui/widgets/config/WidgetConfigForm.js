@@ -6,15 +6,15 @@ import apps from 'entando-apps';
 
 const widgetForms = apps.reduce((obj, app) => ({
   ...obj,
-  ...app.id === 'cms' ? app.widgetForms : {},
+  ...app.widgetForms != null ? app.widgetForms : {},
 }), {});
 
-const CMS_WIDGETS_CONFIG_FORMS = Object.keys(widgetForms);
+const INJECTED_APPS_WIDGETS_CONFIG_FORMS = Object.keys(widgetForms);
 
 const WidgetConfigForm = ({
   onSubmit, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
-  if (CMS_WIDGETS_CONFIG_FORMS.includes(widgetCode)) {
+  if (INJECTED_APPS_WIDGETS_CONFIG_FORMS.includes(widgetCode)) {
     return React.createElement(
       widgetForms[widgetCode],
       {
