@@ -32,7 +32,7 @@ describe('FragmentSearchFormContainer', () => {
   let props;
   describe('mapStateToProps', () => {
     beforeEach(() => {
-      props = mapStateToProps({});
+      props = mapStateToProps({}, { intl: { formatMessage: () => {} } });
     });
     it('maps widgetTypes and plugins property state in FragmentSearchFormContainer', () => {
       expect(props).toHaveProperty('widgetTypes');
@@ -41,7 +41,7 @@ describe('FragmentSearchFormContainer', () => {
   });
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, { intl: { formatMessage: () => {} } });
     });
     it('verify that onWillMount is defined and when called dispatch fetchWidgetList and fetchPlugins', () => {
       expect(props.onWillMount).toBeDefined();

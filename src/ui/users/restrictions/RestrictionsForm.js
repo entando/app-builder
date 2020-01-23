@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Col, Form, FormGroup, Button, ControlLabel } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { isNumber, formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { isNumber } from '@entando/utils';
 
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -14,13 +14,20 @@ export const montshSinceLogin = (value, allValues) => (
     undefined
 );
 
+const msgs = defineMessages({
+  months: {
+    id: 'user.restrictions.months',
+    defaultMessage: 'Months',
+  },
+});
+
 export class RestrictionsFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
   }
 
   render() {
-    const disabled = this.props.passwordActive;
+    const { passwordActive: disabled, intl } = this.props;
 
     return (
       <Form onSubmit={this.props.handleSubmit} horizontal className="UserRestrictionsForm">
@@ -48,7 +55,7 @@ export class RestrictionsFormBody extends Component {
           disabled={disabled}
           validate={isNumber}
           alignClass="text-left"
-          append={formattedText('user.restrictions.months')}
+          append={intl.formatMessage(msgs.months)}
         />
         <Field
           label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
@@ -58,7 +65,7 @@ export class RestrictionsFormBody extends Component {
           disabled={disabled}
           validate={[isNumber, montshSinceLogin]}
           alignClass="text-left"
-          append={formattedText('user.restrictions.months')}
+          append={intl.formatMessage(msgs.months)}
         />
         <legend>
           <FormattedMessage id="user.restrictions.avatarSection" />
@@ -89,6 +96,7 @@ export class RestrictionsFormBody extends Component {
 }
 
 RestrictionsFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
   passwordActive: PropTypes.bool,
@@ -98,6 +106,8 @@ RestrictionsFormBody.defaultProps = {
   passwordActive: false,
 };
 
-export default reduxForm({
+const RestrictionsForm = reduxForm({
   form: 'user-restrictions',
 })(RestrictionsFormBody);
+
+export default injectIntl(RestrictionsForm);

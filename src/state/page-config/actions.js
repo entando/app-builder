@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
 import { loadSelectedPageModel } from 'state/page-models/actions';
@@ -115,7 +115,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
 
     const errors = validatePageModel(pageModel);
     if (errors && errors.length) {
-      const translatedErrors = errors.map(err => formattedText(err.id, null, err.values));
+      const translatedErrors = errors.map(({ id, values }) => ({ id, values }));
       dispatch(addErrors(translatedErrors));
       return;
     }

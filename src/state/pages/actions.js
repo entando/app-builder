@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
@@ -296,7 +295,7 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast(
-        formattedText('pageSettings.success'),
+        { id: 'pageSettings.success' },
         TOAST_SUCCESS,
       ));
     } else {
@@ -335,7 +334,7 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
       dispatch(setSelectedPage(page));
       dispatch(updatePage(page));
       dispatch(addToast(
-        formattedText('singlePageSettings.updateSuccess'),
+        { id: 'singlePageSettings.updateSuccess' },
         TOAST_SUCCESS,
       ));
     } else {

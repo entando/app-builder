@@ -1,9 +1,16 @@
 import { rangeRight } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 import RatingFilterItem from 'ui/digital-exchange/RatingFilterItem';
+
+const msgs = defineMessages({
+  ratingFilterTitle: {
+    id: 'digitalExchange.sidebar.ratingFilter.title',
+    defaultMessage: 'Rating Filter Title',
+  },
+});
 
 class RatingFilter extends Component {
   toggleRatingFilter(selectedRating) {
@@ -13,8 +20,12 @@ class RatingFilter extends Component {
   }
 
   render() {
-    const { minRating, maxRating, rating } = this.props;
-    const title = formattedText('digitalExchange.sidebar.ratingFilter.title');
+    const {
+      minRating,
+      maxRating,
+      rating,
+      intl,
+    } = this.props;
 
     const ratingFilterItems = rangeRight(minRating, maxRating + 1).map(itemRating => (
       <li key={`rating-${itemRating}-filter`}>
@@ -28,7 +39,7 @@ class RatingFilter extends Component {
     ));
 
     return (
-      <SidebarFilter title={title}>
+      <SidebarFilter title={intl.formatMessage(msgs.ratingFilterTitle)}>
         <div className="RatingFilter">
           <ul>
             { ratingFilterItems }
@@ -44,6 +55,7 @@ RatingFilter.propTypes = {
   rating: PropTypes.number,
   minRating: PropTypes.number,
   maxRating: PropTypes.number,
+  intl: intlShape.isRequired,
 };
 
 RatingFilter.defaultProps = {
@@ -52,4 +64,4 @@ RatingFilter.defaultProps = {
   maxRating: 5,
 };
 
-export default RatingFilter;
+export default injectIntl(RatingFilter);

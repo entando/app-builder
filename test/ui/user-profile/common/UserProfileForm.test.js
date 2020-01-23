@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserProfileFormBody } from 'ui/user-profile/common/UserProfileForm';
+import { mockIntl } from 'test/testUtils';
 
 
 const onWillMount = jest.fn();
@@ -14,24 +15,22 @@ const defaultLanguage = 'en';
 const languages = [{ code: 'en', name: 'English' }, { code: 'it', name: 'Italian' }];
 const profileTypesAttributes = [];
 
-
 beforeEach(jest.clearAllMocks);
 
 describe('UserProfileFormBody', () => {
   let component;
   beforeEach(() => {
-    component = shallow((
-      <UserProfileFormBody
-        onWillMount={onWillMount}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-        invalid={invalid}
-        submitting={submitting}
-        defaultLanguage={defaultLanguage}
-        languages={languages}
-        profileTypesAttributes={profileTypesAttributes}
-      />
-    ));
+    component = shallow(<UserProfileFormBody
+      onWillMount={onWillMount}
+      onSubmit={onSubmit}
+      handleSubmit={handleSubmit}
+      invalid={invalid}
+      submitting={submitting}
+      defaultLanguage={defaultLanguage}
+      languages={languages}
+      profileTypesAttributes={profileTypesAttributes}
+      intl={mockIntl}
+    />);
   });
 
   it('renders without crashing', () => {
@@ -44,18 +43,17 @@ describe('UserProfileFormBody', () => {
 });
 
 
-const getFormInstance = attributes => shallow((
-  <UserProfileFormBody
-    onWillMount={onWillMount}
-    onSubmit={onSubmit}
-    handleSubmit={handleSubmit}
-    invalid={invalid}
-    submitting={submitting}
-    defaultLanguage={defaultLanguage}
-    languages={languages}
-    profileTypesAttributes={Array.isArray(attributes) ? attributes : [attributes]}
-  />
-));
+const getFormInstance = attributes => shallow(<UserProfileFormBody
+  onWillMount={onWillMount}
+  onSubmit={onSubmit}
+  handleSubmit={handleSubmit}
+  invalid={invalid}
+  submitting={submitting}
+  defaultLanguage={defaultLanguage}
+  languages={languages}
+  profileTypesAttributes={Array.isArray(attributes) ? attributes : [attributes]}
+  intl={mockIntl}
+/>);
 
 
 const testSingleAttributeIsRendered = (attribute) => {

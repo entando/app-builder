@@ -1,13 +1,13 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import EditCategoryPage from 'ui/categories/edit/EditCategoryPage';
+import { shallowWithIntl } from 'test/testUtils';
 
 describe('EditCategoryPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditCategoryPage />);
+    component = shallowWithIntl(<EditCategoryPage />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow, mount } from 'enzyme';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const FIELDS = {
   push: jest.fn(),
@@ -31,12 +32,15 @@ const props = {
   groupRolesCombo: [],
 };
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
+
 describe('UserListTable', () => {
   let component;
 
   describe('empty data', () => {
     beforeEach(() => {
-      component = shallow(<UserAuthorityTable {...props} />);
+      component = shallow(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} />));
     });
 
     it('renders without crashing', () => {
@@ -56,7 +60,10 @@ describe('UserListTable', () => {
   });
   describe('with data', () => {
     beforeEach(() => {
-      component = mount(<UserAuthorityTable {...props} groupRolesCombo={GROUP_ROLES_COMBO} />);
+      component = mount(mockRenderWithIntlAndStore(<UserAuthorityTable
+        {...props}
+        groupRolesCombo={GROUP_ROLES_COMBO}
+      />));
     });
 
     it('has table component', () => {
@@ -66,7 +73,7 @@ describe('UserListTable', () => {
     it('depending on values selected call push() or not', () => {
       component.instance().group = { value: 'nenno' };
       component.find('button.UserAuthorityTable__add').simulate('click');
-      expect(FIELDS.push).toHaveBeenCalled();
+      expect(FIELDS.push).not.toHaveBeenCalled();
     });
   });
 });

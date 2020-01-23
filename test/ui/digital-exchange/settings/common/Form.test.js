@@ -5,12 +5,20 @@ import { required, isNumber } from '@entando/utils';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-import { SettingsFormBody, maxLength50 } from 'ui/digital-exchange/settings/common/Form';
+import { SettingsFormBody as SettingsForm, maxLength50 } from 'ui/digital-exchange/settings/common/Form';
+import { mockIntl } from 'test/testUtils';
 
 const onWillMount = jest.fn();
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
+
 describe('SettingsFormBody', () => {
-  const component = shallow(<SettingsFormBody onWillMount={onWillMount} handleSubmit={() => {}} />);
+  const component = shallow(<SettingsForm
+    onWillMount={onWillMount}
+    handleSubmit={() => {}}
+    intl={mockIntl}
+  />);
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);
@@ -66,7 +74,12 @@ describe('SettingsFormBody', () => {
   });
 
   it('calls onWillMount when the id is set', () => {
-    shallow(<SettingsFormBody onWillMount={onWillMount} id={12} handleSubmit={() => {}} />);
+    shallow(<SettingsForm
+      onWillMount={onWillMount}
+      id={12}
+      handleSubmit={() => {}}
+      intl={mockIntl}
+    />);
     expect(onWillMount).toHaveBeenCalledWith(12);
   });
 });

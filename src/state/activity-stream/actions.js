@@ -1,4 +1,4 @@
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -110,7 +110,7 @@ export const sendPostActivityStreamLike = id => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(updateNotification(json.payload));
-          dispatch(addToast(formattedText('activityStream.like'), TOAST_SUCCESS));
+          dispatch(addToast({ id: 'activityStream.like' }, TOAST_SUCCESS));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
         }

@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 import moment from 'moment';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
@@ -161,7 +161,7 @@ export const sendPostProfileType = ProfileTypeObject => dispatch =>
     postProfileType(ProfileTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(addToast(formattedText('ProfileType.created'), TOAST_SUCCESS));
+          dispatch(addToast({ id: 'ProfileType.created' }, TOAST_SUCCESS));
           history.push(routeConverter(
             ROUTE_PROFILE_TYPE_EDIT,
             { profiletypeCode: json.payload.code },
@@ -197,7 +197,7 @@ export const sendDeleteProfileType = profileTypeCode => dispatch =>
         if (response.ok) {
           dispatch(removeProfileType(profileTypeCode));
           dispatch(addToast(
-            formattedText('app.deleted', null, { type: 'profile type', code: profileTypeCode }),
+            { id: 'app.deleted', values: { type: 'profile type', code: profileTypeCode } },
             TOAST_SUCCESS,
           ));
           history.push(ROUTE_PROFILE_TYPE_LIST);

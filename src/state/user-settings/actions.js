@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { getUserSettings, putUserSettings } from 'api/userSettings';
@@ -33,7 +32,7 @@ export const updateUserSettings = settings => dispatch => new Promise((resolve) 
       if (response.ok) {
         dispatch(setUserSettings(json.payload));
         dispatch(addToast(
-          formattedText('app.updateSettings.success'),
+          { id: 'app.updateSettings.success' },
           TOAST_SUCCESS,
         ));
       } else {

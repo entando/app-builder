@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/common/WidgetForm';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
@@ -29,9 +29,10 @@ describe('WidgetForm', () => {
       groups,
       mode,
       languages: LANGUAGES,
+      intl: mockIntl,
     };
 
-    return shallow(<WidgetFormBody {...props} />);
+    return shallowWithIntl(<WidgetFormBody {...props} />);
   };
 
   it('root component renders without crashing', () => {
@@ -84,14 +85,14 @@ describe('WidgetForm', () => {
   it('root component renders a Panel if defaultUi is defined on edit mode', () => {
     const input = { name: 'defaultUi', value: '<p>Default UI</p>' };
     const element = renderDefaultUIField({ input });
-    const defaultUi = shallow(element);
+    const defaultUi = shallowWithIntl(element);
     expect(defaultUi.find('Panel PanelBody pre').exists()).toBe(true);
   });
 
   it('root component renders an Alert if defaultUi is undefined on edit mode', () => {
     const input = { name: 'defaultUi', value: '' };
     const element = renderDefaultUIField({ input });
-    const defaultUi = shallow(element);
+    const defaultUi = shallowWithIntl(element);
     expect(defaultUi.find('.alert.alert-info').exists()).toBe(true);
   });
 

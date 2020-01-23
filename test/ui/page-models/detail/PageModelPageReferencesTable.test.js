@@ -1,7 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { mockRenderWithIntlAndStore, mockRenderWithRouter } from 'test/testUtils';
 
 import PageModelPageReferencesTable from 'ui/page-models/detail/PageModelPageReferencesTable';
 import { PAGE_REFS } from 'test/mocks/pageModels';
@@ -9,24 +10,24 @@ import { PAGE_REFS } from 'test/mocks/pageModels';
 
 global.console.error = jest.fn();
 
+jest.unmock('react-redux');
+
 beforeEach(jest.clearAllMocks);
 
 describe('PageModelPageReferencesTable (loading)', () => {
   let component;
   beforeEach(() => {
-    component = shallow((
-      <PageModelPageReferencesTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        pageReferences={PAGE_REFS}
-        loading
-      />
-    ));
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageModelPageReferencesTable
+      page={1}
+      pageSize={1}
+      totalItems={1}
+      pageReferences={PAGE_REFS}
+      loading
+    />)));
   });
 
   it('has class PageModelPageReferencesTable', () => {
-    expect(component).toHaveClassName('PageModelPageReferencesTable');
+    expect(component).toExist('PageModelPageReferencesTable');
   });
 
   it('renders a loading spinner (no content)', () => {
@@ -39,19 +40,17 @@ describe('PageModelPageReferencesTable (not)', () => {
   let component;
   let table;
   beforeEach(() => {
-    component = shallow((
-      <PageModelPageReferencesTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        pageReferences={PAGE_REFS}
-      />
-    ));
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageModelPageReferencesTable
+      page={1}
+      pageSize={1}
+      totalItems={1}
+      pageReferences={PAGE_REFS}
+    />)));
     table = component.find('.PageModelPageReferencesTable__table');
   });
 
   it('has class PageModelPageReferencesTable', () => {
-    expect(component).toHaveClassName('PageModelPageReferencesTable');
+    expect(component).toExist('PageModelPageReferencesTable');
   });
 
   it('renders a loading spinner (no content)', () => {

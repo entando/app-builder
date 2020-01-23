@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import throttle from 'lodash/throttle';
-import { formattedText } from '@entando/utils';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -16,9 +15,20 @@ import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTabl
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import SinglePageSettingsModalContainer from 'ui/pages/config/SinglePageSettingsModalContainer';
 
-
-const TRANSLATED_YES = formattedText('app.yes');
-const TRANSLATED_NO = formattedText('app.no');
+const msgs = defineMessages({
+  appYes: {
+    id: 'app.yes',
+    defaultMessage: 'Yes',
+  },
+  appNo: {
+    id: 'app.no',
+    defaultMessage: 'No',
+  },
+  appPreview: {
+    id: 'app.preview',
+    defaultMessage: 'Preview',
+  },
+});
 
 class PageConfigPage extends Component {
   constructor(props) {
@@ -97,10 +107,14 @@ class PageConfigPage extends Component {
 
   render() {
     const {
-      pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
+      intl, pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings,
     } = this.props;
+
+    const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
+    const TRANSLATED_NO = intl.formatMessage(msgs.appNo);
+
     let defaultConfigBtn;
     if (pageConfigMatchesDefault) {
       defaultConfigBtn = (
@@ -192,7 +206,7 @@ class PageConfigPage extends Component {
                   <ButtonToolbar className="pull-right">
                     <a
                       href={previewUri}
-                      title={formattedText('app.preview', 'Preview')}
+                      title={intl.formatMessage(msgs.appPreview)}
                       className={[
                         'btn',
                         'btn-default',
@@ -328,6 +342,7 @@ class PageConfigPage extends Component {
 }
 
 PageConfigPage.propTypes = {
+  intl: intlShape.isRequired,
   previewUri: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
@@ -368,4 +383,4 @@ PageConfigPage.defaultProps = {
   showPageSettings: null,
 };
 
-export default PageConfigPage;
+export default injectIntl(PageConfigPage);

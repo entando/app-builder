@@ -18,6 +18,8 @@ const props = {
   },
 };
 
+jest.mock('react-intl');
+
 describe('DeleteFileModal', () => {
   let component;
   beforeEach(() => {

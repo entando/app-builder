@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -94,7 +93,7 @@ export const removePageModel = pageModelCode => dispatch => (
         if (response.ok) {
           dispatch(removePageModelSync(pageModelCode));
           dispatch(addToast(
-            formattedText('app.deleted', null, { type: 'page model', code: pageModelCode }),
+            { id: 'app.deleted', values: { type: 'page model', code: pageModelCode } },
             TOAST_SUCCESS,
           ));
           resolve();
@@ -155,7 +154,7 @@ export const updatePageModel = pageModel => dispatch => new Promise((resolve) =>
       });
     } else {
       dispatch(addToast(
-        formattedText('app.updated', null, { type: 'page model', code: pageModel.code }),
+        { id: 'app.updated', values: { type: 'page model', code: pageModel.code } },
         TOAST_SUCCESS,
       ));
       history.push(ROUTE_PAGE_MODEL_LIST);
@@ -173,7 +172,7 @@ export const createPageModel = pageModel => dispatch => new Promise((resolve) =>
       });
     } else {
       dispatch(addToast(
-        formattedText('app.created', null, { type: 'page model', code: pageModel.code }),
+        { id: 'app.created', values: { type: 'page model', code: pageModel.code } },
         TOAST_SUCCESS,
       ));
       history.push(ROUTE_PAGE_MODEL_LIST);

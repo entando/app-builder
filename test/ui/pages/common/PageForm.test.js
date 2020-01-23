@@ -8,6 +8,7 @@ import { LIST_GROUPS_OK as GROUPS } from 'test/mocks/groups';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
 import { getContentTypes, getCharsets } from 'state/pages/selectors';
+import { mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
@@ -37,6 +38,7 @@ describe('PageForm', () => {
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
+          intl={mockIntl}
         />
       ));
     });
@@ -86,6 +88,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           onWillMount={ON_WILL_MOUNT}
+          intl={mockIntl}
         />
       ));
     });
@@ -109,6 +112,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           onChangeDefaultTitle={ON_CHANGE_EN_TITLE}
+          intl={mockIntl}
         />
       ));
     });
@@ -138,6 +142,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           invalid
+          intl={mockIntl}
         />
       ));
     });
@@ -163,6 +168,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           submitting
+          intl={mockIntl}
         />
       ));
     });
@@ -188,6 +194,7 @@ describe('PageForm', () => {
           charsets={CHARSETS}
           selectedJoinGroups={[]}
           invalid={false}
+          intl={mockIntl}
         />
       ));
     });

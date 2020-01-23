@@ -1,20 +1,23 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import AttributeEnumMapSettings, { elements as elementValidation } from 'ui/common/attributes/AttributeEnumMapSettings';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const DATA = { code: 'code', descr: 'descr' };
+
+jest.unmock('react-redux');
 
 describe('AttributeEnumMapSettings', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AttributeEnumMapSettings
+    component = mount(mockRenderWithIntlAndStore(<AttributeEnumMapSettings
       enumeratorMapExtractorBeans={[DATA]}
-    />);
+    />));
   });
 
   it('renders without crashing', () => {

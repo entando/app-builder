@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { formattedText, required, widgetCode, maxLength } from '@entando/utils';
+import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -32,36 +32,57 @@ export const renderDefaultUIField = (field) => {
   );
 };
 
+const msgs = defineMessages({
+  codePlaceholder: {
+    id: 'widget.page.create.code.placeholder',
+    defaultMessage: 'Code',
+  },
+  defaultUi: {
+    id: 'widget.page.tab.defaultUi',
+    defaultMessage: 'Default UI',
+  },
+  customUi: {
+    id: 'widget.page.tab.customUi',
+    defaultMessage: 'Custom UI',
+  },
+});
+
 export class WidgetFormBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
 
   renderTitleFields() {
-    const { onChangeDefaultTitle } = this.props;
+    const { intl, onChangeDefaultTitle } = this.props;
     const languages = ['en', 'it'];
     if (!isUndefined(languages)) {
       return languages
-        .map(langCode => (
-          <Field
-            key={langCode}
-            component={RenderTextInput}
-            name={`titles.${langCode}`}
-            label={<FormLabel langLabelText={langCode} labelId="app.title" required />}
-            placeholder={formattedText(`app.${langCode}Title`)}
-            validate={[required, maxLength70]}
-            onChange={(ev) => {
-              if (onChangeDefaultTitle && langCode === 'en') {
-                onChangeDefaultTitle(ev.currentTarget.value);
-              }
-            }}
-          />
-        ));
+        .map((langCode) => {
+          const msgTitle = defineMessages({
+            label: { id: `app.${langCode}Title` },
+          });
+          return (
+            <Field
+              key={langCode}
+              component={RenderTextInput}
+              name={`titles.${langCode}`}
+              label={<FormLabel langLabelText={langCode} labelId="app.title" required />}
+              placeholder={intl.formatMessage(msgTitle.label)}
+              validate={[required, maxLength70]}
+              onChange={(ev) => {
+                if (onChangeDefaultTitle && langCode === 'en') {
+                  onChangeDefaultTitle(ev.currentTarget.value);
+                }
+              }}
+            />
+          );
+        });
     }
     return null;
   }
 
   render() {
+    const { intl } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
       this.props.handleSubmit();
@@ -74,13 +95,13 @@ export class WidgetFormBody extends Component {
         label={
           <FormLabel labelId="widget.page.create.code" helpId="app.help.code" required />
         }
-        placeholder={formattedText('widget.page.create.code.placeholder')}
+        placeholder={intl.formatMessage(msgs.codePlaceholder)}
         validate={[required, widgetCode, maxLength30]}
       />
     );
 
     let defaultUITab = (
-      <Tab eventKey={2} title={formattedText('widget.page.tab.defaultUi')} >
+      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)} >
         {
           this.props.defaultUIField ? this.props.defaultUIField :
           <Alert type="info">
@@ -127,7 +148,7 @@ export class WidgetFormBody extends Component {
                   <span className="control-label col-xs-2" />
                   <Col xs={10}>
                     <Tabs id="basic-tabs" defaultActiveKey={1}>
-                      <Tab eventKey={1} title={formattedText('widget.page.tab.customUi')} >
+                      <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
                         <Field
                           name="customUi"
                           component="textarea"
@@ -164,6 +185,7 @@ export class WidgetFormBody extends Component {
 }
 
 WidgetFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
@@ -194,4 +216,4 @@ const WidgetForm = reduxForm({
   form: 'widget',
 })(WidgetFormBody);
 
-export default WidgetForm;
+export default injectIntl(WidgetForm);

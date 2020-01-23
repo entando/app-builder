@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
+const msgs = defineMessages({
+  code: {
+    id: 'pageTree.searchForm.code',
+    defaultMessage: 'Code',
+  },
+});
 
-export const PageSearchFormBody = (props) => {
-  const { handleSubmit } = props;
+export const PageSearchFormBody = ({ intl, handleSubmit }) => {
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
@@ -26,7 +30,7 @@ export const PageSearchFormBody = (props) => {
               component="input"
               className="form-control"
               name="pageCodeToken"
-              placeholder={formattedText('pageTree.searchForm.code')}
+              placeholder={intl.formatMessage(msgs.code)}
             />
           </Col>
         </Row>
@@ -50,6 +54,7 @@ export const PageSearchFormBody = (props) => {
 };
 
 PageSearchFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
@@ -57,4 +62,4 @@ const PageSearchForm = reduxForm({
   form: 'pageSearch',
 })(PageSearchFormBody);
 
-export default PageSearchForm;
+export default injectIntl(PageSearchForm);

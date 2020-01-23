@@ -1,6 +1,5 @@
 import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
-import { formattedText } from '@entando/utils';
 import { toggleLoading } from 'state/loading/actions';
 
 import {
@@ -54,7 +53,9 @@ export const fetchDigitalExchanges = (page = { page: 1, pageSize: 10 }, params =
         dispatch(toggleLoading('digital-exchange/list'));
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => {
+      dispatch(toggleLoading('digital-exchange/list'));
+    });
   })
 );
 
@@ -83,7 +84,7 @@ export const sendDeleteDigitalExchange = marketplace => dispatch => (
         if (response.ok) {
           dispatch(removeDigitalExchange(marketplace));
           dispatch(addToast(
-            formattedText('app.deleted', null, { type: 'digital exchange', code: null }),
+            { id: 'app.deleted', values: { type: 'digital exchange', code: null } },
             TOAST_SUCCESS,
           ));
         } else {
@@ -101,7 +102,7 @@ export const sendPostDigitalExchange = marketplace => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
-            formattedText('app.created', null, { type: 'digital exchange', code: data.payload.name }),
+            { id: 'app.created', values: { type: 'digital exchange', code: data.payload.name } },
             TOAST_SUCCESS,
           ));
           history.push(ROUTE_DE_CONFIG_LIST);
@@ -120,7 +121,7 @@ export const sendPutDigitalExchange = marketplace => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
-            formattedText('app.updated', null, { type: 'digital exchange', code: data.payload.name }),
+            { id: 'app.updated', values: { type: 'digital exchange', code: data.payload.name } },
             TOAST_SUCCESS,
           ));
           history.push(ROUTE_DE_CONFIG_LIST);

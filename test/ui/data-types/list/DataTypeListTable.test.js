@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 
@@ -22,7 +22,7 @@ const props = {
 describe('DataTypeListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DataTypeListTable
+    component = shallowWithIntl(<DataTypeListTable
       {...props}
       datatype={dataTypes}
       page={1}
@@ -37,7 +37,12 @@ describe('DataTypeListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable datatype={dataTypes} pageSize={1} totalItems={1} {...props} />);
+    shallowWithIntl(<DataTypeListTable
+      datatype={dataTypes}
+      pageSize={1}
+      totalItems={1}
+      {...props}
+    />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -45,7 +50,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable page={1} totalItems={1} {...props} />);
+    shallowWithIntl(<DataTypeListTable page={1} totalItems={1} {...props} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -53,7 +58,7 @@ describe('DataTypeListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<DataTypeListTable pageSize={1} page={1} {...props} />);
+    shallowWithIntl(<DataTypeListTable pageSize={1} page={1} {...props} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -61,12 +66,12 @@ describe('DataTypeListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<DataTypeListTable
+      component = shallowWithIntl(<DataTypeListTable
         page={1}
         pageSize={1}
         totalItems={1}
         {...props}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

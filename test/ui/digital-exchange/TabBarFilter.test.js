@@ -8,7 +8,7 @@ import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { navigateDECategory } from 'state/digital-exchange/actions';
-import { formattedText } from '@entando/utils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 
 const TEST_STATE = {
@@ -39,6 +39,8 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
 }));
 
+jest.unmock('react-redux');
+
 const dispatchMock = jest.fn();
 
 
@@ -48,7 +50,7 @@ describe('TabBarFilter', () => {
 
   beforeEach(() => {
     noop = jest.fn();
-    component = shallow(<TabBarFilter
+    component = shallow(mockRenderWithIntlAndStore(<TabBarFilter
       onSelect={noop}
       onWillMount={noop}
       filterTabs={[{
@@ -60,7 +62,7 @@ describe('TabBarFilter', () => {
         componentClass: 'CategoryTabs',
         componentId: 'de-category-tabs',
       }}
-    />);
+    />));
   });
 
   it('renders without crashing', () => {
@@ -72,10 +74,14 @@ describe('TabBarFilter', () => {
       ALL_CATEGORIES_CATEGORY,
       ...TEST_STATE.digitalExchangeCategories.list,
     ].map(filterTab => ({
-      label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
       value: filterTab,
     }));
-    expect(mapStateToProps(TEST_STATE)).toEqual({
+    expect(mapStateToProps(TEST_STATE, {
+      intl: {
+        formatMessage: () => {},
+        injectIntl: ui => ui,
+      },
+    })).toEqual({
       filterTabs,
       selectedFilterTab: ALL_CATEGORIES_CATEGORY,
       attributes: {

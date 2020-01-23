@@ -37,7 +37,7 @@ describe('api-form actions', () => {
       const actions = store.getActions();
       expect(actions).toHaveLength(1);
       expect(actions[0]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
-      expect(actions[0]).toHaveProperty('payload.message', 'fcc.login.errorMessage');
+      expect(actions[0]).toHaveProperty('payload.message', { defaultMessage: 'error: username or password is invalid', id: 'fcc.login.errorMessage' });
       done();
     }).catch(done.fail);
   });
@@ -51,7 +51,7 @@ describe('api-form actions', () => {
       expect(actions[0]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
       expect(actions[0]).toHaveProperty('payload.message', '');
       expect(actions[1]).toHaveProperty('type', SET_LOGIN_ERROR_MESSAGE);
-      expect(actions[1]).toHaveProperty('payload.message', 'fcc.login.errorMessage');
+      expect(actions[1]).toHaveProperty('payload.message', { defaultMessage: 'error: username or password is invalid', id: 'fcc.login.errorMessage' });
       done();
     }).catch(done.fail);
   });

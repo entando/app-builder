@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 import { required } from '@entando/utils';
 
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
@@ -25,9 +25,10 @@ describe('CreateTextFileForm', () => {
       submitting,
       invalid,
       handleSubmit,
+      intl: mockIntl,
     };
 
-    return shallow(<CreateTextFileFormBody {...props} />);
+    return shallowWithIntl(<CreateTextFileFormBody {...props} />);
   };
 
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { FragmentSearchFormBody, renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
+import { mount } from 'enzyme';
+import FragmentSearchForm, { renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 
@@ -14,6 +15,8 @@ const WIDGET_TYPES_OPTIONS = [
   },
 ];
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('FragmentSearchForm', () => {
   let fragmentSearchForm;
@@ -32,7 +35,7 @@ describe('FragmentSearchForm', () => {
       handleSubmit,
     };
 
-    return shallow(<FragmentSearchFormBody {...props} />);
+    return mount(mockRenderWithIntlAndStore(<FragmentSearchForm {...props} />));
   };
 
   describe('basic render tests', () => {

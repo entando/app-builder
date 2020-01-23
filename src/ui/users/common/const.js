@@ -1,42 +1,40 @@
-import { formattedText } from '@entando/utils';
-
 export const PROFILE_FILTER_OPTIONS = [
   {
     id: 'all',
-    label: formattedText('user.profile.all'),
+    label: 'user.profile.all',
   },
   {
     id: 'with',
-    label: formattedText('user.profile.with'),
+    label: 'user.profile.with',
   },
   {
     id: 'without',
-    label: formattedText('user.profile.without'),
+    label: 'user.profile.without',
   },
 ];
 export const BOOLEAN_OPTIONS = [
   {
     id: 'true',
-    label: formattedText('app.booleanOptions.true'),
+    label: 'app.booleanOptions.true',
   },
   {
     id: 'false',
-    label: formattedText('app.booleanOptions.false'),
+    label: 'app.booleanOptions.false',
   },
 ];
 
 export const THREE_STATE_OPTIONS = [
   {
     id: 'true',
-    label: formattedText('app.threeStateOptions.true'),
+    label: 'app.threeStateOptions.true',
   },
   {
     id: 'false',
-    label: formattedText('app.threeStateOptions.false'),
+    label: 'app.threeStateOptions.false',
   },
   {
     id: '',
-    label: formattedText('app.threeStateOptions.both'),
+    label: 'app.threeStateOptions.both',
   },
 ];
 
@@ -45,3 +43,8 @@ export const PROFILE_FILTER_VALUE_MAP = {
   without: 0,
   with: 1,
 };
+
+export const getTranslatedOptions = (intl, arr) => arr.map(item => ({
+  id: item.id,
+  label: intl.formatMessage({ id: item.label }),
+}));

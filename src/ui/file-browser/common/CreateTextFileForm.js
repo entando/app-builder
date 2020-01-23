@@ -2,14 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col, ControlLabel, Icon } from 'patternfly-react';
-import { formattedText, required, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 
 export const maxLength50 = maxLength(50);
+
+const msgs = defineMessages({
+  textFileContent: {
+    id: 'fileBrowser.textFile.content',
+    defaultMessage: 'File Content',
+  },
+  textFilePlaceholder: {
+    id: 'fileBrowser.textFile.placeholder',
+    defaultMessage: 'File Placeholder',
+  },
+});
 
 const RenderTextInput = (field) => {
   const {
@@ -38,7 +49,7 @@ export class CreateTextFileFormBody extends Component {
   }
   render() {
     const {
-      invalid, submitting, handleSubmit, mode, filename, onClickDownload,
+      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload,
     } = this.props;
 
     return (
@@ -96,8 +107,8 @@ export class CreateTextFileFormBody extends Component {
               cols={50}
               rows={20}
               name="content"
-              label={formattedText('fileBrowser.textFile.content')}
-              placeholder={formattedText('fileBrowser.textFile.placeholder')}
+              label={intl.formatMessage(msgs.textFileContent)}
+              placeholder={intl.formatMessage(msgs.textFilePlaceholder)}
               validate={[required]}
             />
 
@@ -127,6 +138,7 @@ export class CreateTextFileFormBody extends Component {
   }
 }
 CreateTextFileFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   onClickDownload: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
@@ -147,4 +159,4 @@ const CreateTextFileForm = reduxForm({
   form: 'CreateTextFileForm',
 })(CreateTextFileFormBody);
 
-export default CreateTextFileForm;
+export default injectIntl(CreateTextFileForm);

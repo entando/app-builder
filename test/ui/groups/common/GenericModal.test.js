@@ -14,6 +14,8 @@ const props = {
   children: <span />,
 };
 
+jest.mock('react-intl');
+
 const toolbarButtons = [
   <Button
     id="button1"
@@ -82,6 +84,7 @@ describe('GenericModal', () => {
     });
 
     it('renders button toolbar', () => {
+      component = shallow(<GenericModal {...props} />);
       component.setProps({ buttons: toolbarButtons });
       const footer = component.find(Modal.Footer);
       expect(footer.find('Button')).toHaveLength(3);
