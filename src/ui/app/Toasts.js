@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ToastNotificationList, TimedToastNotification } from 'patternfly-react';
-import MessageDescriptor from 'ui/common/MessageDescriptor';
+import IntlMessage from 'ui/common/IntlMessage';
 
 const Toasts = ({ toasts, onDismiss }) => {
   const notifications = Object.keys(toasts).reverse().map(key => (
@@ -11,7 +11,7 @@ const Toasts = ({ toasts, onDismiss }) => {
       onDismiss={() => onDismiss(key)}
       timerdelay={5000}
     >
-      <MessageDescriptor message={toasts[key].message} />
+      <IntlMessage message={toasts[key].message} />
     </TimedToastNotification>
   ));
 

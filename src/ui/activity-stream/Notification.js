@@ -6,7 +6,7 @@ import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import MessageDescriptor from 'ui/common/MessageDescriptor';
+import IntlMessage from 'ui/common/IntlMessage';
 
 class Notification extends Component {
   constructor(props) {
@@ -114,7 +114,7 @@ class Notification extends Component {
             </a>
             <p className="Notification__notify">
               {notification && notification.actionText ? (
-                <MessageDescriptor message={notification.actionText} />
+                <IntlMessage message={notification.actionText} />
               ) : notification}
             </p>
             <a

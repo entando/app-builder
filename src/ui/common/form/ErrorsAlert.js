@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'patternfly-react';
-import MessageDescriptor from 'ui/common/MessageDescriptor';
+import IntlMessage from 'ui/common/IntlMessage';
 
 const ErrorsAlert = ({ messages, onDismiss }) => (
   messages.length ? (
@@ -11,7 +11,7 @@ const ErrorsAlert = ({ messages, onDismiss }) => (
           <Fragment>
             <span className="icon fa fa-exclamation-circle" />
             <span className="ErrorsAlert__message">
-              <MessageDescriptor message={messages[0]} />
+              <IntlMessage message={messages[0]} />
             </span>
           </Fragment>
         ) : (
@@ -19,7 +19,7 @@ const ErrorsAlert = ({ messages, onDismiss }) => (
             <ul>
               {messages.map(msg => (
                 <li key={msg}>
-                  <MessageDescriptor message={msg} />
+                  <IntlMessage message={msg} />
                 </li>
               ))}
             </ul>
