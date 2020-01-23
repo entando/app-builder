@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { getDataModels, getDataModel, postDataModel, putDataModel, deleteDataModel } from 'api/dataModels';
@@ -53,7 +52,7 @@ export const sendPostDataModel = data => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(addToast(
-          formattedText('app.created', null, { type: 'data model', code: data.modelId }),
+          { id: 'app.created', values: { type: 'data model', code: data.modelId } },
           TOAST_SUCCESS,
         ));
         history.push(ROUTE_DATA_MODEL_LIST);
@@ -70,7 +69,7 @@ export const sendPutDataModel = data => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(addToast(
-          formattedText('app.updated', null, { type: 'data model', code: data.modelId }),
+          { id: 'app.updated', values: { type: 'data model', code: data.modelId } },
           TOAST_SUCCESS,
         ));
         history.push(ROUTE_DATA_MODEL_LIST);
@@ -89,16 +88,12 @@ export const sendDeleteDataModel = dataModelId => dispatch => (
         history.push(ROUTE_DATA_MODEL_LIST);
         dispatch(fetchDataModelListPaged());
         dispatch(addToast(
-          formattedText('dataModel.deleteDataModelSuccess', null, { id: dataModelId }),
+          { id: 'dataModel.deleteDataModelSuccess', values: { id: dataModelId } },
           TOAST_SUCCESS,
         ));
       } else {
         dispatch(addToast(
-          formattedText(
-            'dataModel.deleteDataModelError',
-            null,
-            { id: dataModelId },
-          ),
+          { id: 'dataModel.deleteDataModelError', values: { id: dataModelId } },
           TOAST_ERROR,
         ));
       }

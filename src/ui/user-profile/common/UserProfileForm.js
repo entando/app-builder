@@ -4,33 +4,41 @@ import get from 'lodash/get';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import Panel from 'react-bootstrap/lib/Panel';
-import { formattedText } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import { getComponentType } from 'helpers/entities';
 
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/form/RenderListField';
-import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS } from 'ui/users/common/const';
+import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 
-const getComponentOptions = (component) => {
+const getComponentOptions = (component, intl) => {
+  const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
+  const threeStateOptions = getTranslatedOptions(intl, THREE_STATE_OPTIONS);
   switch (component) {
     case TYPE_BOOLEAN:
-      return BOOLEAN_OPTIONS;
+      return booleanOptions;
     case TYPE_THREESTATE:
-      return THREE_STATE_OPTIONS;
+      return threeStateOptions;
     default: return null;
   }
 };
 
-const getEnumeratorOptions = (component, items, separator, mandatory) => {
+const msgs = defineMessages({
+  enumNone: {
+    id: 'app.enumerator.none',
+    defaultMessage: 'None',
+  },
+});
+
+const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
   const options = [];
   if (mandatory === false) {
-    options.push({ value: '', optionDisplayName: formattedText('app.enumerator.none') });
+    options.push({ value: '', optionDisplayName: intl.formatMessage(msgs.enumNone) });
   }
   switch (component) {
     case TYPE_ENUMERATOR:
@@ -52,37 +60,41 @@ const getEnumeratorOptions = (component, items, separator, mandatory) => {
   }
 };
 
-const getHelpMessage = (validationRules) => {
+const getHelpMessage = (validationRules, intl) => {
   if (validationRules) {
     const key = get(validationRules, 'ognlValidation.keyForHelpMessage');
-    return key ? formattedText(key) : get(validationRules, 'ognlValidation.helpMessage');
+    const msgKey = defineMessages({
+      label: { id: key },
+    });
+    return key ? intl.formatMessage(msgKey.label) : get(validationRules, 'ognlValidation.helpMessage');
   }
   return null;
 };
 
-const field = attribute => (<Field
+const field = (intl, attribute) => (<Field
   key={attribute.code}
   component={getComponentType(attribute.type)}
   name={attribute.code}
   rows={3}
-  toggleElement={getComponentOptions(attribute.type)}
+  toggleElement={getComponentOptions(attribute.type, intl)}
   options={getEnumeratorOptions(
     attribute.type,
     attribute.enumeratorStaticItems,
     attribute.enumeratorStaticItemsSeparator,
     attribute.mandatory,
+    intl,
   )}
   optionValue="value"
   optionDisplayName="optionDisplayName"
   label={<FormLabel
     labelText={attribute.name}
-    helpText={getHelpMessage(attribute.validationRules)}
+    helpText={getHelpMessage(attribute.validationRules, intl)}
     required={attribute.mandatory}
   />}
 />);
 
-const renderCompositeAttribute = compositeAttributes =>
-  compositeAttributes.map(attribute => field(attribute));
+const renderCompositeAttribute = (intl, compositeAttributes) =>
+  compositeAttributes.map(attribute => field(intl, attribute));
 
 
 export class UserProfileFormBody extends Component {
@@ -93,7 +105,7 @@ export class UserProfileFormBody extends Component {
   render() {
     const {
       onSubmit, handleSubmit, invalid, submitting, defaultLanguage, languages,
-      profileTypesAttributes,
+      profileTypesAttributes, intl,
     } = this.props;
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
@@ -102,18 +114,19 @@ export class UserProfileFormBody extends Component {
       attributeType={attribute.nestedAttribute.type}
       name={attributeCode}
       rows={3}
-      toggleElement={getComponentOptions(attribute.type)}
+      toggleElement={getComponentOptions(attribute.type, intl)}
       options={getEnumeratorOptions(
             attribute.nestedAttribute.type,
             attribute.nestedAttribute.enumeratorStaticItems,
             attribute.nestedAttribute.enumeratorStaticItemsSeparator,
             attribute.nestedAttribute.mandatory,
+            intl,
           )}
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
         labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
-        helpText={getHelpMessage(attribute.validationRules)}
+        helpText={getHelpMessage(attribute.validationRules, intl)}
         required={attribute.mandatory}
       />}
       defaultLanguage={defaultLanguage}
@@ -129,7 +142,7 @@ export class UserProfileFormBody extends Component {
               <label className="control-label col-xs-2">
                 <FormLabel
                   labelText={attribute.name}
-                  helpText={getHelpMessage(attribute.validationRules)}
+                  helpText={getHelpMessage(attribute.validationRules, intl)}
                   required={attribute.mandatory}
                 />
               </label>
@@ -137,7 +150,7 @@ export class UserProfileFormBody extends Component {
                 <Panel>
                   <Panel.Body>
                     <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(attribute.compositeAttributes)}
+                      { renderCompositeAttribute(intl, attribute.compositeAttributes)}
                     </FormSection>
                   </Panel.Body>
                 </Panel>
@@ -161,7 +174,7 @@ export class UserProfileFormBody extends Component {
             </Row>
           );
         }
-        return field(attribute);
+        return field(intl, attribute);
       })
     );
 
@@ -232,6 +245,7 @@ export class UserProfileFormBody extends Component {
 }
 
 UserProfileFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -281,4 +295,4 @@ const UserForm = reduxForm({
   form: 'UserProfile',
 })(UserProfileFormBody);
 
-export default UserForm;
+export default injectIntl(UserForm);

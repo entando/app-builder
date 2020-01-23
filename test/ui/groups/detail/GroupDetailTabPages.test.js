@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 
 import GroupDetailTabPages from 'ui/groups/detail/GroupDetailTabPages';
 import { PAGE_REFERENCES } from 'test/mocks/groups';
@@ -11,7 +11,7 @@ global.console.error = jest.fn();
 describe('GroupDetailTabPages', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<GroupDetailTabPages page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<GroupDetailTabPages page={1} pageSize={1} totalItems={1} />);
   });
 
   it('renders without crashing', () => {
@@ -19,27 +19,27 @@ describe('GroupDetailTabPages', () => {
   });
 
   it('errors without a page', () => {
-    shallow(<GroupDetailTabPages pageSize={1} totalItems={1} />);
+    shallowWithIntl(<GroupDetailTabPages pageSize={1} totalItems={1} />);
     expect(console.error).toHaveBeenCalled();
   });
 
   it('errors without a pageSize', () => {
-    shallow(<GroupDetailTabPages page={1} totalItems={1} />);
+    shallowWithIntl(<GroupDetailTabPages page={1} totalItems={1} />);
     expect(console.error).toHaveBeenCalled();
   });
 
   it('errors without totalItems', () => {
-    shallow(<GroupDetailTabPages pageSize={1} page={1} />);
+    shallowWithIntl(<GroupDetailTabPages pageSize={1} page={1} />);
     expect(console.error).toHaveBeenCalled();
   });
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<GroupDetailTabPages
+      component = shallowWithIntl(<GroupDetailTabPages
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {
@@ -49,12 +49,12 @@ describe('GroupDetailTabPages', () => {
 
   describe('with pageReferences', () => {
     beforeEach(() => {
-      component = shallow(<GroupDetailTabPages
+      component = shallowWithIntl(<GroupDetailTabPages
         pageReferences={PAGE_REFERENCES}
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has 3 rows references page', () => {

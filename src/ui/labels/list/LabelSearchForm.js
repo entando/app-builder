@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
-export const LabelSearchFormBody = ({ handleSubmit }) => {
+const msgs = defineMessages({
+  searchFormCode: {
+    id: 'label.searchForm.code',
+    defaultMessage: 'Code',
+  },
+});
+
+export const LabelSearchFormBody = ({ intl, handleSubmit }) => {
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
@@ -25,7 +31,7 @@ export const LabelSearchFormBody = ({ handleSubmit }) => {
               component="input"
               className="LabelSearchForm__text-field form-control"
               name="key"
-              placeholder={formattedText('label.searchForm.code')}
+              placeholder={intl.formatMessage(msgs.searchFormCode)}
             />
           </Col>
         </Row>
@@ -48,6 +54,7 @@ export const LabelSearchFormBody = ({ handleSubmit }) => {
 };
 
 LabelSearchFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
@@ -55,4 +62,4 @@ const LabelSearchForm = reduxForm({
   form: 'labelSearch',
 })(LabelSearchFormBody);
 
-export default LabelSearchForm;
+export default injectIntl(LabelSearchForm);

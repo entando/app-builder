@@ -1,5 +1,4 @@
 import { initialize, reset } from 'redux-form';
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -247,7 +246,7 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast(
-        formattedText('user.password.success'),
+        { id: 'user.password.success' },
         TOAST_SUCCESS,
       ));
       dispatch(clearErrors());

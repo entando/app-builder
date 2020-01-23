@@ -204,7 +204,7 @@ describe('state/file-browser/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFolderSuccess');
+          expect(actions[1].payload).toHaveProperty('message', { id: 'fileBrowser.deleteFolderSuccess', values: { path: 'path' } });
           expect(actions[1].payload).toHaveProperty('type', 'success');
           done();
         }).catch(done.fail);
@@ -219,7 +219,7 @@ describe('state/file-browser/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFolderError');
+          expect(actions[1].payload).toHaveProperty('message', { id: 'fileBrowser.deleteFolderError', values: { path: 'path' } });
           expect(actions[1].payload).toHaveProperty('type', 'error');
           expect(e).toHaveProperty('errors');
         });
@@ -240,7 +240,7 @@ describe('state/file-browser/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFileSuccess');
+          expect(actions[1].payload).toHaveProperty('message', { id: 'fileBrowser.deleteFileSuccess', values: { path: 'path' } });
           expect(actions[1].payload).toHaveProperty('type', 'success');
           done();
         }).catch(done.fail);
@@ -255,7 +255,7 @@ describe('state/file-browser/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1].payload).toHaveProperty('message', 'fileBrowser.deleteFileError');
+          expect(actions[1].payload).toHaveProperty('message', { id: 'fileBrowser.deleteFileError', values: { path: 'path' } });
           expect(actions[1].payload).toHaveProperty('type', 'error');
           expect(e).toHaveProperty('errors');
         });

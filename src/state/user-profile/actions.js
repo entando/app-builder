@@ -1,4 +1,3 @@
-import { formattedText } from '@entando/utils';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { initialize } from 'redux-form';
 import { getUserProfile, putUserProfile } from 'api/userProfile';
@@ -53,7 +52,7 @@ export const updateUserProfile = profile => (dispatch, getState) => new Promise(
       if (response.ok) {
         dispatch(setUserProfile(profile));
         dispatch(addToast(
-          formattedText('userprofile.edit.success'),
+          { id: 'userprofile.edit.success' },
           TOAST_SUCCESS,
         ));
         history.push(ROUTE_USER_LIST);

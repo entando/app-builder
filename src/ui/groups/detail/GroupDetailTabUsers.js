@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 
 import { LinkMenuItem } from '@entando/menu';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
+
+const msgs = defineMessages({
+  appEdit: {
+    id: 'app.edit',
+    defaultMessage: 'Edit',
+  },
+  manageAuth: {
+    id: 'group.action.manageAuthorization',
+    defaultMessage: 'Manage Authorization',
+  },
+});
 
 class GroupDetailTabUsers extends React.Component {
   constructor(props) {
@@ -29,11 +40,13 @@ class GroupDetailTabUsers extends React.Component {
   }
 
   renderRows() {
-    const editUser = formattedText('app.edit');
-    const authority = formattedText('group.action.manageAuthorization');
+    const { intl, userReferences } = this.props;
+
+    const editUser = intl.formatMessage(msgs.appEdit);
+    const authority = intl.formatMessage(msgs.manageAuth);
     const statusIconClass = status => (status === 'active' ? 'GroupDetailTabUsers__status-icon--active' : 'GroupDetailTabUsers__status-icon--disabled');
 
-    return this.props.userReferences.map(item => (
+    return userReferences.map(item => (
       <tr key={item.username}>
         <td>{item.profileAttributes.fullname || item.username}</td>
         <td>{item.lastLogin}</td>
@@ -114,6 +127,7 @@ class GroupDetailTabUsers extends React.Component {
 }
 
 GroupDetailTabUsers.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   userReferences: PropTypes.arrayOf(PropTypes.shape({
@@ -134,4 +148,4 @@ GroupDetailTabUsers.defaultProps = {
   userReferences: [],
 };
 
-export default GroupDetailTabUsers;
+export default injectIntl(GroupDetailTabUsers);

@@ -7,6 +7,8 @@ import { Button } from 'patternfly-react';
 
 const onConfirmDelete = jest.fn();
 
+jest.mock('react-intl');
+
 const props = {
   onConfirmDelete,
   info: {

@@ -1,11 +1,11 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import RatingFilter from 'ui/digital-exchange/RatingFilter';
 import { mapDispatchToProps } from 'ui/digital-exchange/RatingFilterContainer';
-import { fetchDEComponents } from 'state/digital-exchange/components/actions';
 import { filterByRating } from 'state/digital-exchange/actions';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 jest.mock('state/digital-exchange/actions', () => ({
   filterByRating: jest.fn(),
@@ -17,13 +17,14 @@ jest.mock('state/loading/selectors', () => ({
 
 const dispatchMock = jest.fn();
 
+jest.unmock('react-redux');
 
 describe('RatingFilter', () => {
   let component;
   let onSelect;
   beforeEach(() => {
     onSelect = jest.fn();
-    component = shallow(<RatingFilter onSelect={onSelect} />);
+    component = mount(mockRenderWithIntlAndStore(<RatingFilter onSelect={onSelect} />));
   });
 
   it('should render without crashing', () => {
@@ -35,7 +36,7 @@ describe('RatingFilter', () => {
   });
 
   it('should select a filter item', () => {
-    component.instance().toggleRatingFilter(3);
+    component.find(RatingFilter).childAt(0).instance().toggleRatingFilter(3);
     expect(onSelect).toHaveBeenCalledWith(3);
   });
 

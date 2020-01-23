@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Button, Icon } from 'patternfly-react';
+
+const msgs = defineMessages({
+  search: {
+    id: 'app.search',
+    defaultMessage: 'Search',
+  },
+});
 
 const RenderSearchFormInput = ({
   input,
+  intl,
   meta,
   onClear,
   ...others
@@ -15,7 +23,7 @@ const RenderSearchFormInput = ({
       id={input.name}
       type="text"
       className="SearchForm__textbox--base"
-      placeholder={formattedText('app.search')}
+      placeholder={intl.formatMessage(msgs.search)}
       {...others}
     />
     {input.value ? (
@@ -33,6 +41,7 @@ RenderSearchFormInput.propTypes = {
   input: PropTypes.shape({}),
   meta: PropTypes.shape({}),
   onClear: PropTypes.func,
+  intl: intlShape.isRequired,
 };
 
 RenderSearchFormInput.defaultProps = {
@@ -41,4 +50,4 @@ RenderSearchFormInput.defaultProps = {
   onClear: () => {},
 };
 
-export default RenderSearchFormInput;
+export default injectIntl(RenderSearchFormInput);

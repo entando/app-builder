@@ -1,8 +1,8 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { CreateFolderFormBody } from 'ui/file-browser/add/CreateFolderForm';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();
@@ -25,9 +25,10 @@ describe('CreateFolderForm', () => {
       invalid,
       handleSubmit,
       onWillMount,
+      intl: mockIntl,
     };
 
-    return shallow(<CreateFolderFormBody {...props} />);
+    return shallowWithIntl(<CreateFolderFormBody {...props} />);
   };
 
 

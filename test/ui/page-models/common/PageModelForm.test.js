@@ -4,11 +4,11 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import { PageModelFormBody as PageModelForm, validateJson, validatePreviewErrors } from 'ui/page-models/common/PageModelForm';
+import { mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
 const ON_WILL_MOUNT = jest.fn();
-
 
 describe('PageModelForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -21,6 +21,7 @@ describe('PageModelForm', () => {
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           previewErrors={[]}
+          intl={mockIntl}
         />
       ));
     });
@@ -63,6 +64,7 @@ describe('PageModelForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           previewErrors={[]}
           onWillMount={ON_WILL_MOUNT}
+          intl={mockIntl}
         />
       ));
     });
@@ -81,6 +83,7 @@ describe('PageModelForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           previewErrors={[]}
           invalid
+          intl={mockIntl}
         />
       ));
     });
@@ -98,6 +101,7 @@ describe('PageModelForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           previewErrors={[]}
           submitting
+          intl={mockIntl}
         />
       ));
     });
@@ -115,6 +119,7 @@ describe('PageModelForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           previewErrors={[]}
           invalid={false}
+          intl={mockIntl}
         />
       ));
     });
@@ -135,12 +140,12 @@ describe('PageModelForm', () => {
 
   describe('validatePreviewErrors function', () => {
     it('returns undefined if previewErrors are empty', () => {
-      const result = validatePreviewErrors(null, null, { previewErrors: [] });
+      const result = validatePreviewErrors()(null, null, { previewErrors: [] });
       expect(result).toBeUndefined();
     });
 
     it('returns an array of react elements if preview errors is not empty', () => {
-      const result = validatePreviewErrors(null, null, {
+      const result = validatePreviewErrors({ formatMessage: () => {} })(null, null, {
         previewErrors: [{ id: 'some_err' }],
       });
       expect(result).toBeInstanceOf(Array);

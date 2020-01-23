@@ -10,6 +10,8 @@ const MESSAGES = [
 
 const handleDismiss = jest.fn();
 
+jest.mock('react-intl');
+
 describe('ErrorsAlert', () => {
   describe('with empty messages array', () => {
     let component;
@@ -35,7 +37,7 @@ describe('ErrorsAlert', () => {
       expect(alertComponent.exists()).toBe(true);
     });
     it('passes the onDismiss prop to the Alert', () => {
-      expect(alertComponent.prop('onDismiss')).toBe(handleDismiss);
+      expect(alertComponent.prop('toggle')).toBe(handleDismiss);
     });
     it('renders a li for each message', () => {
       expect(component.find('li')).toHaveLength(MESSAGES.length);

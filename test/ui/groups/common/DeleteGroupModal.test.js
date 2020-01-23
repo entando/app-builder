@@ -15,6 +15,8 @@ const props = {
   },
 };
 
+jest.mock('react-intl');
+
 describe('DeleteGroupModal', () => {
   let component;
   beforeEach(() => {

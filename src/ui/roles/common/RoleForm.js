@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText, required, maxLength, code } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, maxLength, code } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import PermissionGrid from 'ui/roles/common/PermissionGrid';
@@ -13,6 +13,17 @@ export const maxLength20 = maxLength(20);
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
+
+const msgs = defineMessages({
+  appName: {
+    id: 'app.name',
+    defaultMessage: 'Name',
+  },
+  appCode: {
+    id: 'app.code',
+    defaultMessage: 'Code',
+  },
+});
 
 export class RoleFormBody extends Component {
   componentWillMount() {
@@ -26,7 +37,7 @@ export class RoleFormBody extends Component {
 
   render() {
     const {
-      invalid, submitting, mode, onChangeName, permissions, loading,
+      intl, invalid, submitting, mode, onChangeName, permissions, loading,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
@@ -45,7 +56,7 @@ export class RoleFormBody extends Component {
                 component={RenderTextInput}
                 name="name"
                 label={<FormLabel labelId="app.name" helpId="role.name.help" required />}
-                placeholder={formattedText('app.name')}
+                placeholder={intl.formatMessage(msgs.appName)}
                 validate={[required, maxLength50]}
                 onChange={(ev) => { if (onChangeName) onChangeName(ev.currentTarget.value); }}
               />
@@ -53,7 +64,7 @@ export class RoleFormBody extends Component {
                 component={RenderTextInput}
                 name="code"
                 label={<FormLabel labelId="app.code" helpId="role.code.help" required />}
-                placeholder={formattedText('app.code')}
+                placeholder={intl.formatMessage(msgs.appCode)}
                 validate={[required, maxLength20, code]}
                 disabled={isEdit}
               />
@@ -90,6 +101,7 @@ export class RoleFormBody extends Component {
 }
 
 RoleFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -117,4 +129,4 @@ const RoleForm = reduxForm({
   form: 'role',
 })(RoleFormBody);
 
-export default RoleForm;
+export default injectIntl(RoleForm);

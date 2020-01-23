@@ -1,7 +1,6 @@
 
 import { createSelector } from 'reselect';
 import { isNull, isUndefined, isEmpty } from 'lodash';
-import { formattedText } from '@entando/utils';
 
 export const getActivityStream = state => state.activityStream;
 const getActivityStreamList = createSelector(getActivityStream, root => root.list);
@@ -17,15 +16,15 @@ const getActionText = (notification) => {
   switch (actionName) {
     case 'POST': {
       if (isEmpty(parameters)) {
-        return formattedText('activityStream.newPage');
+        return 'activityStream.newPage';
       }
-      return formattedText('activityStream.editPage');
+      return 'activityStream.editPage';
     }
     case 'PUT': {
-      return formattedText('activityStream.editPage');
+      return 'activityStream.editPage';
     }
     case 'DELETE': {
-      return formattedText('activityStream.deletePage');
+      return 'activityStream.deletePage';
     }
     default: return '';
   }

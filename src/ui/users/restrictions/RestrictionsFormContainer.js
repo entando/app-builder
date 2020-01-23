@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { formValueSelector } from 'redux-form';
 
 import { fetchUserSettings, updateUserSettings } from 'state/user-settings/actions';
@@ -19,6 +20,8 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {
+const RestrictionsFormContainer = connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
 })(RestrictionsForm);
+
+export default injectIntl(RestrictionsFormContainer);

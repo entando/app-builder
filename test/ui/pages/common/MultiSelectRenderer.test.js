@@ -2,8 +2,9 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow, mount } from 'enzyme';
-import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
+import { shallowWithIntl } from 'test/testUtils';
+import MultiSelectRenderer, { MultiSelectRendererBody } from 'ui/pages/common/MultiSelectRenderer';
+import { mount } from 'enzyme';
 
 const FIELDS = {
   push: jest.fn(),
@@ -23,14 +24,14 @@ describe('MultiSelectRenderer', () => {
 
   describe('when nothing is selected', () => {
     beforeEach(() => {
-      component = shallow((
+      component = shallowWithIntl((
         <MultiSelectRenderer
           fields={FIELDS}
           options={OPTIONS}
           valueKey="code"
           labelKey="description"
         />
-      ));
+      )).dive();
     });
     it('renders without crashing', () => {
       expect(component.exists()).toEqual(true);
@@ -52,7 +53,7 @@ describe('MultiSelectRenderer', () => {
 
   describe('when using an empty option', () => {
     beforeEach(() => {
-      component = shallow((
+      component = shallowWithIntl((
         <MultiSelectRenderer
           fields={FIELDS}
           options={OPTIONS}
@@ -60,7 +61,7 @@ describe('MultiSelectRenderer', () => {
           labelKey="description"
           emptyOptionTextId={EMPTY_TEXT_LABEL_ID}
         />
-      ));
+      )).dive();
     });
     it('renders ad many <option> as the provided array, plus one', () => {
       expect(component.find('option')).toHaveLength(OPTIONS.length + 1);
@@ -89,7 +90,7 @@ describe('MultiSelectRenderer', () => {
 
   xdescribe('when something is selected', () => {
     beforeEach(() => {
-      component = shallow((
+      component = shallowWithIntl((
         <MultiSelectRenderer
           fields={FIELDS}
           options={OPTIONS}
@@ -97,7 +98,7 @@ describe('MultiSelectRenderer', () => {
           labelKey="description"
           selectedValues={SELECTED_VALUES}
         />
-      ));
+      )).dive();
     });
     it('renders as many <Label> as the selected options', () => {
       const labels = component.instance().renderTags();
@@ -109,13 +110,25 @@ describe('MultiSelectRenderer', () => {
     beforeEach(jest.clearAllMocks);
     beforeEach(() => {
       component = mount((
-        <MultiSelectRenderer
+        <MultiSelectRendererBody
           fields={FIELDS}
           options={OPTIONS}
           valueKey="code"
           labelKey="description"
           selectedValues={SELECTED_VALUES}
           emptyOptionTextId={EMPTY_TEXT_LABEL_ID}
+          intl={{
+            formatMessage: () => {},
+            defineMessages: () => {},
+            intlShape: () => {},
+            formatDate: () => {},
+            formatTime: () => {},
+            formatRelative: () => {},
+            formatNumber: () => {},
+            formatPlural: () => {},
+            formatHTMLMessage: () => {},
+            now: () => {},
+          }}
         />
       ));
     });

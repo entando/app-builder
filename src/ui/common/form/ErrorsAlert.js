@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { Alert } from 'patternfly-react';
+import IntlMessage from 'ui/common/IntlMessage';
 
 const ErrorsAlert = ({ messages, onDismiss }) => (
-  messages.length ?
-    (
-      <Alert onDismiss={onDismiss}>
-        <strong>
-          <FormattedMessage id="app.errors" />
-        </strong>
-        <ul>
-          {messages.map(msg => <li key={msg}>{msg}</li>)}
-        </ul>
+  messages.length ? (
+    <div className="ErrorsAlert">
+      <Alert color="danger" toggle={onDismiss}>
+        {messages.length === 1 ? (
+          <Fragment>
+            <span className="icon fa fa-exclamation-circle" />
+            <span className="ErrorsAlert__message">
+              <IntlMessage message={messages[0]} />
+            </span>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <ul>
+              {messages.map(msg => (
+                <li key={msg}>
+                  <IntlMessage message={msg} />
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        )}
       </Alert>
-    ) :
-    null
+    </div>
+  ) : null
 );
 
 ErrorsAlert.propTypes = {

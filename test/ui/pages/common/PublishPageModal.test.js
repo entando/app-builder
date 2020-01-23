@@ -15,6 +15,8 @@ const props = {
   },
 };
 
+jest.mock('react-intl');
+
 describe('PublishPageModal', () => {
   let component;
   beforeEach(() => {

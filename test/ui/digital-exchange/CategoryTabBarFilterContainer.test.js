@@ -12,9 +12,6 @@ import { navigateDECategory } from 'state/digital-exchange/actions';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 
 
-import { formattedText } from '@entando/utils';
-
-
 const TEST_STATE = {
   digitalExchanges: {
     list: [],
@@ -52,7 +49,6 @@ const dispatchMock = jest.fn();
 
 
 const filterTabs = [ALL_CATEGORIES_CATEGORY, ...LIST_DE_CATEGORIES_OK].map(filterTab => ({
-  label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
   value: filterTab,
 }));
 
@@ -76,7 +72,11 @@ describe('TabBarFilter', () => {
   });
 
   it('maps digitalExchangeCategories property state', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({
+    expect(mapStateToProps(TEST_STATE, {
+      intl: {
+        formatMessage: () => {},
+      },
+    })).toEqual({
       filterTabs,
       selectedFilterTab: getSelectedDECategory(TEST_STATE) || ALL_CATEGORIES_CATEGORY,
       attributes: {

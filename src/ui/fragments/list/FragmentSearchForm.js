@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
 
@@ -22,6 +21,21 @@ export const renderSelectOptgroup = options => (
   ))
 );
 
+const msgs = defineMessages({
+  codePlaceholder: {
+    id: 'fragment.code.placeholder',
+    defaultMessage: 'Code',
+  },
+  appAll: {
+    id: 'app.all',
+    defaultMessage: 'All Apps',
+  },
+  editPlugin: {
+    id: 'fragment.form.edit.plugin',
+    defaultMessage: 'Edit Plugin',
+  },
+});
+
 export class FragmentSearchFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount();
@@ -33,6 +47,7 @@ export class FragmentSearchFormBody extends Component {
   };
 
   render() {
+    const { intl, widgetTypes, plugins } = this.props;
     return (
       <form onSubmit={this.onSubmit} className="FragmentSearchForm form-horizontal well">
         <h3><FormattedMessage id="app.search" /></h3>
@@ -47,7 +62,7 @@ export class FragmentSearchFormBody extends Component {
                 component="input"
                 className="form-control"
                 name="code"
-                placeholder={formattedText('fragment.code.placeholder')}
+                placeholder={intl.formatMessage(msgs.codePlaceholder)}
               />
             </Col>
           </Row>
@@ -63,8 +78,8 @@ export class FragmentSearchFormBody extends Component {
                 className="form-control"
                 name="widgetType.code"
               >
-                <option>{formattedText('app.all')}</option>
-                {renderSelectOptgroup(this.props.widgetTypes)}
+                <option>{intl.formatMessage(msgs.appAll)}</option>
+                {renderSelectOptgroup(widgetTypes)}
               </Field>
             </Col>
           </Row>
@@ -79,10 +94,12 @@ export class FragmentSearchFormBody extends Component {
                 component="select"
                 className="form-control"
                 name="pluginCode"
-                placeholder={formattedText('fragment.form.edit.plugin')}
+                placeholder={intl.formatMessage(msgs.editPlugin)}
               >
-                <option value={formattedText('app.all')}>{formattedText('app.all')}</option>
-                {this.props.plugins.map(plugin =>
+                <option value={intl.formatMessage(msgs.appAll)}>
+                  {intl.formatMessage(msgs.appAll)}
+                </option>
+                {plugins.map(plugin =>
                   <option key={plugin.code} value={plugin.code}>{plugin.title}</option>)}
               </Field>
             </Col>
@@ -107,6 +124,7 @@ export class FragmentSearchFormBody extends Component {
 }
 
 FragmentSearchFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func,
   widgetTypes: PropTypes.arrayOf(PropTypes.shape({})),
@@ -123,4 +141,4 @@ const FragmentSearchForm = reduxForm({
   form: 'fragmentSearch',
 })(FragmentSearchFormBody);
 
-export default FragmentSearchForm;
+export default injectIntl(FragmentSearchForm);

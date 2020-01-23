@@ -142,7 +142,7 @@ describe('state/data-models/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[1].payload).toHaveProperty('message', 'dataModel.deleteDataModelSuccess');
+        expect(actions[1].payload).toHaveProperty('message', { id: 'dataModel.deleteDataModelSuccess', values: { id: 'modelId' } });
         expect(actions[1].payload).toHaveProperty('type', 'success');
         done();
       }).catch(done.fail);
@@ -156,7 +156,7 @@ describe('state/data-models/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
         expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[1].payload).toHaveProperty('message', 'dataModel.deleteDataModelError');
+        expect(actions[1].payload).toHaveProperty('message', { id: 'dataModel.deleteDataModelError' });
         expect(actions[1].payload).toHaveProperty('type', 'error');
         expect(e).toHaveProperty('errors');
       });

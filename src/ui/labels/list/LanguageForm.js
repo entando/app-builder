@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Col, FormGroup, InputGroup } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import FormLabel from 'ui/common/form/FormLabel';
 import ActiveLangTable from 'ui/labels/list/ActiveLangTable';
 
@@ -18,6 +17,13 @@ export const renderSelectOptions = options => (
   ))
 );
 
+const msgs = defineMessages({
+  selectChoose: {
+    id: 'form.select.chooseOne',
+    defaultMessage: 'Choose',
+  },
+});
+
 export class LanguageFormBody extends Component {
   onSubmit = (ev) => {
     ev.preventDefault();
@@ -26,7 +32,7 @@ export class LanguageFormBody extends Component {
 
   render() {
     const {
-      invalid, submitting, languages,
+      intl, invalid, submitting, languages,
     } = this.props;
 
     return (
@@ -44,7 +50,7 @@ export class LanguageFormBody extends Component {
                   label={<FormLabel labelId="label.selectLabel" />}
                   className="form-control LanguageForm__language-field"
                 >
-                  <option>{formattedText('form.select.chooseOne')}</option>
+                  <option>{intl.formatMessage(msgs.selectChoose)}</option>
                   {renderSelectOptions(languages)}
                 </Field>
                 <span className="input-group-btn">
@@ -68,6 +74,7 @@ export class LanguageFormBody extends Component {
 
 
 LanguageFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -87,4 +94,4 @@ const LanguageForm = reduxForm({
   form: 'language',
 })(LanguageFormBody);
 
-export default LanguageForm;
+export default injectIntl(LanguageForm);

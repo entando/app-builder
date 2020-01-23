@@ -16,6 +16,8 @@ const props = {
   },
 };
 
+jest.mock('react-intl');
+
 describe('DeleteSettingsModal', () => {
   let component;
   beforeEach(() => {

@@ -5,7 +5,6 @@ import {
   TOAST_ERROR,
   TOAST_WARNING,
 } from '@entando/messages';
-import { formattedText } from '@entando/utils';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
@@ -155,13 +154,13 @@ export const pollDEComponentInstallStatus = component => dispatch => (
         } = res;
         if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
           dispatch(addToast(
-            formattedText('digitalExchange.components.notifyInProgress'),
+            { id: 'digitalExchange.components.notifyInProgress' },
             TOAST_WARNING,
           ));
           dispatch(componentInstallOngoingProgress(component.id));
         } else {
           dispatch(addToast(
-            formattedText('digitalExchange.components.notifyFailedInstall'),
+            { id: 'digitalExchange.components.notifyFailedInstall' },
             TOAST_WARNING,
           ));
           dispatch(componentInstallationFailed(component.id));
@@ -223,13 +222,13 @@ export const pollDEComponentUninstallStatus = componentId => dispatch => (
         } = res;
         if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
           dispatch(addToast(
-            formattedText('digitalExchange.components.notifyInProgress'),
+            { id: 'digitalExchange.components.notifyInProgress' },
             TOAST_WARNING,
           ));
           dispatch(componentUninstallOngoingProgress(componentId));
         } else {
           dispatch(addToast(
-            formattedText('digitalExchange.components.notifyFailedUninstall'),
+            { id: 'digitalExchange.components.notifyFailedUninstall' },
             TOAST_WARNING,
           ));
           dispatch(componentUninstallFailed(componentId));

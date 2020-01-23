@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -10,7 +9,14 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import EditFormContainer from 'ui/data-types/attributes/EditFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
-const EditDataTypeAttributePage = () => (
+const msgs = defineMessages({
+  edit: {
+    id: 'app.edit',
+    defaultMessage: 'Edit',
+  },
+});
+
+const EditDataTypeAttributePage = ({ intl }) => (
 
   <InternalPage className="EditDataTypeAttributePage">
     <Grid fluid>
@@ -32,7 +38,7 @@ const EditDataTypeAttributePage = () => (
       <PageTitle
         titleId="app.attribute"
         helpId="dataType.help"
-        titleParam={{ mode: formattedText('app.edit') }}
+        titleParam={{ mode: intl.formatMessage(msgs.edit) }}
       />
       <Row>
         <Col xs={12}>
@@ -48,4 +54,8 @@ const EditDataTypeAttributePage = () => (
   </InternalPage>
 );
 
-export default EditDataTypeAttributePage;
+EditDataTypeAttributePage.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(EditDataTypeAttributePage);

@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
-import { formattedText } from '@entando/utils';
 import { Link } from 'react-router-dom';
 
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
+
+const msgs = defineMessages({
+  pageConfig: {
+    id: 'group.action.pageConfiguration',
+    defaultMessage: 'Page Configuration',
+  },
+});
 
 class GroupDetailTabPages extends React.Component {
   constructor(props) {
@@ -29,8 +35,9 @@ class GroupDetailTabPages extends React.Component {
   }
 
   renderRows() {
-    const pageConfiguration = formattedText('group.action.pageConfiguration');
-    return this.props.pageReferences.map(item => (
+    const { pageReferences, intl } = this.props;
+    const pageConfiguration = intl.formatMessage(msgs.pageConfig);
+    return pageReferences.map(item => (
       <tr key={item.code}>
         <td>{item.name}</td>
         <td className="text-center">
@@ -101,6 +108,7 @@ class GroupDetailTabPages extends React.Component {
 }
 
 GroupDetailTabPages.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   pageReferences: PropTypes.arrayOf(PropTypes.shape({
@@ -118,4 +126,4 @@ GroupDetailTabPages.defaultProps = {
   pageReferences: [],
 };
 
-export default GroupDetailTabPages;
+export default injectIntl(GroupDetailTabPages);

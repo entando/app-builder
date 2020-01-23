@@ -6,6 +6,7 @@ import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
+import IntlMessage from 'ui/common/IntlMessage';
 
 class Notification extends Component {
   constructor(props) {
@@ -111,7 +112,11 @@ class Notification extends Component {
               onClick={onClickUsernameHandler}
             >{username}
             </a>
-            <p className="Notification__notify">{notification}</p>
+            <p className="Notification__notify">
+              {notification && notification.actionText ? (
+                <IntlMessage message={notification.actionText} />
+              ) : notification}
+            </p>
             <a
               href=""
               className="Notification__link"

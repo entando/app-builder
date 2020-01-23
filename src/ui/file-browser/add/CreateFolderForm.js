@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText, required, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { ROUTE_FILE_BROWSER } from 'app-init/router';
 
 export const maxLength50 = maxLength(50);
+
+const msgs = defineMessages({
+  newFolder: {
+    id: 'fileBrowser.newFolder',
+    defaultMessage: 'New folder',
+  },
+});
 
 export class CreateFolderFormBody extends Component {
   onSubmit = (ev) => {
@@ -19,7 +26,7 @@ export class CreateFolderFormBody extends Component {
 
   render() {
     const {
-      invalid, submitting,
+      intl, invalid, submitting,
     } = this.props;
 
     return (
@@ -36,7 +43,7 @@ export class CreateFolderFormBody extends Component {
                 component={RenderTextInput}
                 name="path"
                 label={<FormLabel labelId="fileBrowser.newFolder" required />}
-                placeholder={formattedText('fileBrowser.newFolder')}
+                placeholder={intl.formatMessage(msgs.newFolder)}
                 validate={[required, maxLength50]}
               />
             </fieldset>
@@ -67,6 +74,7 @@ export class CreateFolderFormBody extends Component {
 }
 
 CreateFolderFormBody.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
@@ -76,4 +84,4 @@ const CreateFolderForm = reduxForm({
   form: 'FileBrowserCreateFolder',
 })(CreateFolderFormBody);
 
-export default CreateFolderForm;
+export default injectIntl(CreateFolderForm);

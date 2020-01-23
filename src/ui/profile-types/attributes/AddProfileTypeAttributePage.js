@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -9,7 +8,14 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/profile-types/attributes/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 
-const AddProfileTypeAttributePage = () => (
+const msgs = defineMessages({
+  appAdd: {
+    id: 'app.add',
+    defaultMessage: 'Add',
+  },
+});
+
+const AddProfileTypeAttributePage = ({ intl }) => (
   <InternalPage className="AttributePage">
     <Grid fluid>
       <Row>
@@ -30,7 +36,7 @@ const AddProfileTypeAttributePage = () => (
       <PageTitle
         titleId="app.attribute"
         helpId="profileType.help"
-        titleParam={{ mode: formattedText('app.add') }}
+        titleParam={{ mode: intl.formatMessage(msgs.appAdd) }}
       />
       <Row>
         <Col xs={12} >
@@ -41,4 +47,8 @@ const AddProfileTypeAttributePage = () => (
   </InternalPage>
 );
 
-export default AddProfileTypeAttributePage;
+AddProfileTypeAttributePage.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(AddProfileTypeAttributePage);

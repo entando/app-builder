@@ -4,6 +4,8 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PagesAddPage from 'ui/pages/add/PagesAddPage';
 
+jest.unmock('react-intl');
+
 
 describe('PagesAddPage', () => {
   beforeEach(jest.clearAllMocks);

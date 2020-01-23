@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button, Alert } from 'patternfly-react';
-import { formattedText } from '@entando/utils';
+
+const msgs = defineMessages({
+  chooseOption: {
+    id: 'app.chooseAnOption',
+    defaultMessage: 'Choose',
+  },
+});
 
 class UserAuthorityTable extends Component {
   constructor(props) {
@@ -66,12 +72,12 @@ class UserAuthorityTable extends Component {
 
   render() {
     const {
-      groupRolesCombo, groups, roles, fields,
+      intl, groupRolesCombo, groups, roles, fields,
     } = this.props;
     const groupsWithEmpty =
-          [{ code: '', name: formattedText('app.chooseAnOption') }].concat(groups);
+          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
     const rolesWithEmpty =
-          [{ code: '', name: formattedText('app.chooseAnOption') }].concat(roles);
+          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(roles);
     const groupOptions =
         groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
     const rolesOptions =
@@ -153,6 +159,7 @@ class UserAuthorityTable extends Component {
 }
 
 UserAuthorityTable.propTypes = {
+  intl: intlShape.isRequired,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -175,4 +182,4 @@ UserAuthorityTable.defaultProps = {
   groupRolesCombo: {},
 };
 
-export default UserAuthorityTable;
+export default injectIntl(UserAuthorityTable);

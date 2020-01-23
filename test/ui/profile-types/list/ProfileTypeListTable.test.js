@@ -1,10 +1,10 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 
 
 import ProfileTypeListTable from 'ui/profile-types/list/ProfileTypeListTable';
+import { shallowWithIntl } from 'test/testUtils';
 
 const profileTypes = PROFILE_TYPES_OK_PAGE_1.payload;
 
@@ -15,14 +15,14 @@ jest.mock('state/profile-types/selectors', () => ({
 describe('ProfileTypeListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ProfileTypeListTable
+    component = shallowWithIntl(<ProfileTypeListTable
       profiletype={profileTypes}
       page={1}
       pageSize={1}
       totalItems={1}
       removeProfileType={() => {}}
       status="0"
-    />);
+    />).dive();
   });
 
   it('renders without crashing', () => {
@@ -31,7 +31,11 @@ describe('ProfileTypeListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<ProfileTypeListTable profiletype={profileTypes} pageSize={1} totalItems={1} />);
+    shallowWithIntl(<ProfileTypeListTable
+      profiletype={profileTypes}
+      pageSize={1}
+      totalItems={1}
+    />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -39,7 +43,7 @@ describe('ProfileTypeListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<ProfileTypeListTable page={1} totalItems={1} />);
+    shallowWithIntl(<ProfileTypeListTable page={1} totalItems={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -47,7 +51,7 @@ describe('ProfileTypeListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<ProfileTypeListTable pageSize={1} page={1} />);
+    shallowWithIntl(<ProfileTypeListTable pageSize={1} page={1} />);
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -55,11 +59,11 @@ describe('ProfileTypeListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<ProfileTypeListTable
+      component = shallowWithIntl(<ProfileTypeListTable
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

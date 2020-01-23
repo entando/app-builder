@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -10,7 +9,14 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 
-const AddDataTypeAttributePage = () => (
+const msgs = defineMessages({
+  add: {
+    id: 'app.add',
+    defaultMessage: 'Add',
+  },
+});
+
+const AddDataTypeAttributePage = ({ intl }) => (
   <InternalPage className="AttributePage">
     <Grid fluid>
       <Row>
@@ -31,7 +37,7 @@ const AddDataTypeAttributePage = () => (
       <PageTitle
         titleId="app.attribute"
         helpId="dataType.help"
-        titleParam={{ mode: formattedText('app.add') }}
+        titleParam={{ mode: intl.formatMessage(msgs.add) }}
       />
       <Row>
         <Col xs={12}>
@@ -47,4 +53,8 @@ const AddDataTypeAttributePage = () => (
   </InternalPage>
 );
 
-export default AddDataTypeAttributePage;
+AddDataTypeAttributePage.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(AddDataTypeAttributePage);

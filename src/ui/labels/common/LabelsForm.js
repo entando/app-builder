@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Row, Col } from 'patternfly-react';
-import { formattedText, required, code } from '@entando/utils';
-import { FormattedMessage } from 'react-intl';
+import { required, code } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
+
+const msgs = defineMessages({
+  codePlaceholder: {
+    id: 'labels.code.placeholder',
+    defaultMessage: 'Code',
+  },
+});
 
 export class LabelsFormBody extends Component {
   componentWillMount() {
@@ -47,18 +54,21 @@ export class LabelsFormBody extends Component {
      );
    });
  }
- renderFieldKey = () => (
-   <div>
-     <Field
-       component={RenderTextInput}
-       name="key"
-       label={<FormLabel labelId="app.code" helpId="app.help.code" required />}
-       placeholder={formattedText('labels.code.placeholder')}
-       validate={[required, code]}
-       disabled={this.props.mode === EDIT_MODE}
-     />
-   </div>
- )
+ renderFieldKey = () => {
+   const { intl } = this.props;
+   return (
+     <div>
+       <Field
+         component={RenderTextInput}
+         name="key"
+         label={<FormLabel labelId="app.code" helpId="app.help.code" required />}
+         placeholder={intl.formatMessage(msgs.codePlaceholder)}
+         validate={[required, code]}
+         disabled={this.props.mode === EDIT_MODE}
+       />
+     </div>
+   );
+ }
 
 
  render() {
@@ -103,6 +113,7 @@ export class LabelsFormBody extends Component {
 }
 
 LabelsFormBody.propTypes = {
+  intl: intlShape.isRequired,
   labelCode: PropTypes.string,
   onWillMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -134,4 +145,4 @@ const LabelsForm = reduxForm({
   form: 'label',
 })(LabelsFormBody);
 
-export default LabelsForm;
+export default injectIntl(LabelsForm);

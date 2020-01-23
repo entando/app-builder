@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
@@ -29,26 +28,34 @@ class UserListTable extends Component {
   }
 
   renderTableRows() {
-    return this.props.users.map(user => (
-      <tr key={user.username}>
-        <td className="UserListRow__td">{user.username}</td>
-        <td className="UserListRow__td">{user.profileAttributes.fullname}</td>
-        <td className="UserListRow__td">{user.profileAttributes.email}</td>
-        <td className="UserListRow__td text-center">
-          <UserStatus
-            status={user.status}
-            title={formattedText(`user.table.status.${user.status}`)}
-          />
-        </td>
-        <td className="UserListRow__td text-center">
-          <UserListMenuActions
-            username={user.username}
-            hasProfile={!isEmpty(user.profileAttributes)}
-            {...this.props}
-          />
-        </td>
-      </tr>
-    ));
+    const { users, intl } = this.props;
+    return users.map((user) => {
+      const msgs = defineMessages({
+        userStatus: {
+          id: `user.table.status.${user.status}`,
+        },
+      });
+      return (
+        <tr key={user.username}>
+          <td className="UserListRow__td">{user.username}</td>
+          <td className="UserListRow__td">{user.profileAttributes.fullname}</td>
+          <td className="UserListRow__td">{user.profileAttributes.email}</td>
+          <td className="UserListRow__td text-center">
+            <UserStatus
+              status={user.status}
+              title={intl.formatMessage(msgs.userStatus)}
+            />
+          </td>
+          <td className="UserListRow__td text-center">
+            <UserListMenuActions
+              username={user.username}
+              hasProfile={!isEmpty(user.profileAttributes)}
+              {...this.props}
+            />
+          </td>
+        </tr>
+      );
+    });
   }
 
   renderTable() {
@@ -111,6 +118,7 @@ class UserListTable extends Component {
 }
 
 UserListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   users: PropTypes.arrayOf(PropTypes.shape({
@@ -128,4 +136,4 @@ UserListTable.defaultProps = {
   users: [],
 };
 
-export default UserListTable;
+export default injectIntl(UserListTable);

@@ -1,10 +1,18 @@
 import { range } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import StarIcon from 'ui/digital-exchange/common/StarIcon';
 
+const msgs = defineMessages({
+  itemLabel: {
+    id: 'digitalExchange.sidebar.ratingFilter.itemLabel',
+    defaultMessage: 'Item Label',
+  },
+});
+
 const RatingFilterItem = ({
+  intl,
   selected,
   rating,
   maxRating,
@@ -13,7 +21,7 @@ const RatingFilterItem = ({
   const selectedClass = selected ? ' RatingFilterItem--selected' : '';
   const className = `RatingFilterItem${selectedClass}`;
   const enterKey = 'Enter';
-  const itemLabel = formattedText('digitalExchange.sidebar.ratingFilter.itemLabel');
+  const itemLabel = intl.formatMessage(msgs.itemLabel);
   return (
     <div
       role="button"
@@ -38,6 +46,7 @@ const RatingFilterItem = ({
 };
 
 RatingFilterItem.propTypes = {
+  intl: intlShape.isRequired,
   selected: PropTypes.bool,
   rating: PropTypes.number.isRequired,
   maxRating: PropTypes.number.isRequired,
@@ -48,4 +57,4 @@ RatingFilterItem.defaultProps = {
   selected: false,
 };
 
-export default RatingFilterItem;
+export default injectIntl(RatingFilterItem);

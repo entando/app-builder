@@ -2,6 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { RoleFormBody } from 'ui/roles/common/RoleForm';
+import { mockIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
@@ -27,6 +28,7 @@ describe('RoleForm', () => {
       onWillMount,
       onSubmit,
       mode,
+      intl: mockIntl,
     };
 
     return shallow(<RoleFormBody {...props} />);

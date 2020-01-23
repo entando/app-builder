@@ -1,13 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { DropdownKebab, Spinner } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
 import UserStatus from 'ui/users/common/UserStatus';
-import { formattedText, routeConverter } from '@entando/utils';
+import { routeConverter } from '@entando/utils';
 import { LinkMenuItem } from '@entando/menu';
 
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
+
+const msgs = defineMessages({
+  edit: {
+    id: 'reference.edit',
+    defaultMessage: 'Edit - {code}',
+  },
+  manageAuth: {
+    id: 'reference.manageAuthorization',
+    defaultMessage: 'Manage Auth - {code}',
+  },
+});
 
 class UserRefsTable extends React.Component {
   componentWillMount() {
@@ -15,7 +26,9 @@ class UserRefsTable extends React.Component {
   }
 
   renderRows() {
-    return this.props.userReferences.map(reference => (
+    const { userReferences, intl } = this.props;
+
+    return userReferences.map(reference => (
       <tr key={reference.username}>
         <td>{reference.username}</td>
         <td>{reference.lastLogin}</td>
@@ -27,13 +40,13 @@ class UserRefsTable extends React.Component {
             <LinkMenuItem
               id={`edit-user-${reference.username}`}
               to={routeConverter(ROUTE_USER_EDIT, { username: reference.username })}
-              label={formattedText('reference.edit', null, { code: reference.username })}
+              label={intl.formatMessage(msgs.edit, { code: reference.username })}
               className="UserRefsTable__menu-user-edit"
             />
             <LinkMenuItem
               id={`authority-${reference.username}`}
               to={routeConverter(ROUTE_USER_AUTHORITY, { username: reference.username })}
-              label={formattedText('reference.manageAuthorization', null, { code: reference.username })}
+              label={intl.formatMessage(msgs.manageAuth, { code: reference.username })}
               className="UserRefsTable__menu-item-edit"
             />
           </DropdownKebab>
@@ -87,6 +100,7 @@ UserRefsTable.propTypes = {
     lastLogin: PropTypes.string,
     status: PropTypes.string,
   })),
+  intl: intlShape.isRequired,
 };
 
 UserRefsTable.defaultProps = {
@@ -94,4 +108,4 @@ UserRefsTable.defaultProps = {
   userReferences: [],
 };
 
-export default UserRefsTable;
+export default injectIntl(UserRefsTable);

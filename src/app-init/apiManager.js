@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { config, setApi, useMocks } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
-import { formattedText } from '@entando/utils';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
@@ -14,7 +14,7 @@ class ApiManager extends Component {
   }
 
   initApiManager() {
-    const { store, auth } = this.props;
+    const { store, auth, intl } = this.props;
     const logout = (status) => {
       auth.logout(status);
     };
@@ -40,8 +40,14 @@ class ApiManager extends Component {
     }));
 
     if (useMocks(store.getState())) {
+      const msgs = defineMessages({
+        usingMocks: {
+          id: 'app.usingMocks',
+          defaultMessage: 'Using Mocks',
+        },
+      });
       store.dispatch(addToast(
-        formattedText('app.usingMocks'),
+        intl.formatMessage(msgs.usingMocks),
         TOAST_WARNING,
       ));
     }
@@ -63,10 +69,11 @@ class ApiManager extends Component {
 ApiManager.propTypes = {
   store: PropTypes.shape({}).isRequired,
   auth: PropTypes.shape({}).isRequired,
+  intl: intlShape.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
 };
 
-export default withAuth(ApiManager);
+export default withAuth(injectIntl(ApiManager));

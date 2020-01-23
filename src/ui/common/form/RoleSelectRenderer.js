@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { formattedText } from '@entando/utils';
 import { InputGroup, Button, Col } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
 class RoleSelectRenderer extends Component {
   constructor(props) {
@@ -53,7 +52,7 @@ class RoleSelectRenderer extends Component {
 
   render() {
     const {
-      options, selectedValues, labelKey, valueKey, emptyOptionTextId,
+      options, selectedValues, labelKey, valueKey, emptyOptionTextId, intl,
     } = this.props;
 
     const filteredOptions = options
@@ -65,7 +64,13 @@ class RoleSelectRenderer extends Component {
       ));
 
     if (emptyOptionTextId) {
-      const emptyOptionText = formattedText(emptyOptionTextId);
+      const msgs = defineMessages({
+        emptyOptionText: {
+          id: emptyOptionTextId,
+        },
+      });
+
+      const emptyOptionText = intl.formatMessage(msgs.emptyOptionText);
       filteredOptions.unshift((
         <option key={emptyOptionText} value="">
           {emptyOptionText}
@@ -104,6 +109,7 @@ RoleSelectRenderer.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   emptyOptionTextId: PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 RoleSelectRenderer.defaultProps = {
@@ -113,4 +119,4 @@ RoleSelectRenderer.defaultProps = {
   emptyOptionTextId: '',
 };
 
-export default RoleSelectRenderer;
+export default injectIntl(RoleSelectRenderer);

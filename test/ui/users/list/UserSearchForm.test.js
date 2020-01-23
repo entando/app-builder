@@ -1,11 +1,15 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { UserSearchFormBody } from 'ui/users/list/UserSearchForm';
+import { mount } from 'enzyme';
+import UserSearchForm from 'ui/users/list/UserSearchForm';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const setProfileType = jest.fn();
 const onWillMount = jest.fn();
+
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('UserSearchForm', () => {
   let userSearchForm;
@@ -25,7 +29,7 @@ describe('UserSearchForm', () => {
       onWillMount,
     };
 
-    return shallow(<UserSearchFormBody {...props} />);
+    return mount(mockRenderWithIntlAndStore(<UserSearchForm {...props} />));
   };
 
   describe('basic render tests', () => {

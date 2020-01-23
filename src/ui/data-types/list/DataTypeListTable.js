@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions';
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
 import DataTypeReferenceStatusContainer from 'ui/data-types/common/DataTypeReferenceStatusContainer';
+
+const msgs = defineMessages({
+  dataTypeTableStatus: {
+    id: 'dataType.table.status',
+    defaultMessage: 'Status - {status}',
+  },
+});
 
 class DataTypeListTable extends Component {
   constructor(props) {
@@ -29,14 +35,15 @@ class DataTypeListTable extends Component {
   }
 
   renderTableRows() {
-    return this.props.datatypes.map(datatype => (
+    const { datatypes, intl } = this.props;
+    return datatypes.map(datatype => (
       <tr key={datatype.name}>
         <td className="DataTypeListRow__td">{datatype.name}</td>
         <td className="DataTypeListRow__td text-center">{datatype.code}</td>
         <td className="DataTypeListRow__td text-center">
           <DataTypeStatusIcon
             status={datatype.status}
-            title={formattedText('dataType.table.status', null, { status: datatype.status })}
+            title={intl.formatMessage(msgs.dataTypeTableStatus, { status: datatype.status })}
           />
         </td>
         <td className="DataTypeListRow__td text-center">
@@ -124,6 +131,7 @@ DataTypeListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  intl: intlShape.isRequired,
 };
 
 DataTypeListTable.defaultProps = {
@@ -132,4 +140,4 @@ DataTypeListTable.defaultProps = {
   datatypes: [],
 };
 
-export default DataTypeListTable;
+export default injectIntl(DataTypeListTable);
