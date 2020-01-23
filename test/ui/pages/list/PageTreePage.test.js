@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageTreePage from 'ui/pages/list/PageTreePage';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 const props = {
   onWillMount: jest.fn(),

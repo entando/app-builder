@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow, mount } from 'enzyme';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const FIELDS = {
   push: jest.fn(),
@@ -40,7 +40,7 @@ describe('UserListTable', () => {
 
   describe('empty data', () => {
     beforeEach(() => {
-      component = shallow(mockRenderWithIntl(<UserAuthorityTable {...props} />));
+      component = shallow(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} />));
     });
 
     it('renders without crashing', () => {
@@ -60,7 +60,7 @@ describe('UserListTable', () => {
   });
   describe('with data', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<UserAuthorityTable
+      component = mount(mockRenderWithIntlAndStore(<UserAuthorityTable
         {...props}
         groupRolesCombo={GROUP_ROLES_COMBO}
       />));

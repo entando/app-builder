@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 import React from 'react';
 import { mount } from 'enzyme';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 const FIELD_NAME = 'test-select';
@@ -17,7 +17,7 @@ jest.unmock('react-redux');
 describe('RenderSelectInput', () => {
   let selectInput;
   beforeEach(() => {
-    selectInput = mount(mockRenderWithIntl(<RenderSelectInput
+    selectInput = mount(mockRenderWithIntlAndStore(<RenderSelectInput
       options={SELECT_OPTIONS}
       labelId={LABEL_ID}
       fieldName={FIELD_NAME}

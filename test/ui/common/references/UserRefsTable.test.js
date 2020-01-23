@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import { ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 
 import UserRefsTable from 'ui/common/references/UserRefsTable';
@@ -18,7 +18,7 @@ const onWillMount = jest.fn();
 describe('UserRefsTable', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<UserRefsTable
+    component = mount(mockRenderWithIntlAndStore(<UserRefsTable
       onWillMount={onWillMount}
     />));
   });
@@ -29,7 +29,7 @@ describe('UserRefsTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<UserRefsTable
+      component = mount(mockRenderWithIntlAndStore(<UserRefsTable
         onWillMount={onWillMount}
       />));
     });
@@ -63,7 +63,7 @@ describe('UserRefsTable', () => {
           status: 'disabled',
         };
 
-        component = mount(mockRenderWithIntl(<UserRefsTable
+        component = mount(mockRenderWithIntlAndStore(<UserRefsTable
           onWillMount={onWillMount}
           userReferences={[statusDisabled]}
         />));

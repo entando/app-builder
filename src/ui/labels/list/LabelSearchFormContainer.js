@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchLabels } from 'state/labels/actions';
+import { injectIntl } from 'react-intl';
 import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
@@ -20,4 +21,4 @@ const LabelSearchFormContainer = connect(
   null,
   mapDispatchToProps,
 )(LabelSearchForm);
-export default LabelSearchFormContainer;
+export default injectIntl(LabelSearchFormContainer);

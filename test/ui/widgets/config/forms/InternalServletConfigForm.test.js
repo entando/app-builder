@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const EVENT = { preventDefault: jest.fn() };
@@ -14,7 +14,7 @@ jest.unmock('redux-form');
 describe('InternalServletConfigForm', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<InternalServletConfigForm
+    component = mount(mockRenderWithIntlAndStore(<InternalServletConfigForm
       widgetId="formAction"
       handleSubmit={handleSubmit}
     />));

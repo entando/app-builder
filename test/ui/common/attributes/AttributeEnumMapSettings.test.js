@@ -6,7 +6,7 @@ import AttributeEnumMapSettings, { elements as elementValidation } from 'ui/comm
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const DATA = { code: 'code', descr: 'descr' };
 
@@ -15,7 +15,7 @@ jest.unmock('react-redux');
 describe('AttributeEnumMapSettings', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<AttributeEnumMapSettings
+    component = mount(mockRenderWithIntlAndStore(<AttributeEnumMapSettings
       enumeratorMapExtractorBeans={[DATA]}
     />));
   });

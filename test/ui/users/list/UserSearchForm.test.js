@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import UserSearchForm from 'ui/users/list/UserSearchForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const setProfileType = jest.fn();
@@ -29,7 +29,7 @@ describe('UserSearchForm', () => {
       onWillMount,
     };
 
-    return mount(mockRenderWithIntl(<UserSearchForm {...props} />));
+    return mount(mockRenderWithIntlAndStore(<UserSearchForm {...props} />));
   };
 
   describe('basic render tests', () => {

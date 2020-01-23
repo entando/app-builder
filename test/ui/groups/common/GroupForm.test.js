@@ -2,24 +2,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { GroupFormBody } from 'ui/groups/common/GroupForm';
+import { mockIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const changeEvent = { currentTarget: { value: 'changed_name' } };
-
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('GroupForm', () => {
   let groupForm;

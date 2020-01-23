@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 
@@ -14,7 +14,7 @@ describe('LabelSearchFormBody', () => {
 
   describe('basic render tests', () => {
     beforeEach(() => {
-      labelSearchForm = mount(mockRenderWithIntl(<LabelSearchForm
+      labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
         handleSubmit={handleSubmit}
       />));
     });
@@ -31,7 +31,7 @@ describe('LabelSearchFormBody', () => {
   describe('event handlers test', () => {
     const preventDefault = jest.fn();
     beforeEach(() => {
-      labelSearchForm = mount(mockRenderWithIntl(<LabelSearchForm
+      labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
         handleSubmit={handleSubmit}
       />));
     });

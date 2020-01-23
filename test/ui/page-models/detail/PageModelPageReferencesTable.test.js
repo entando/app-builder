@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { mount } from 'enzyme';
-import { mockRenderWithIntl, mockRenderWithRouter } from 'test/testUtils';
+import { mockRenderWithIntlAndStore, mockRenderWithRouter } from 'test/testUtils';
 
 import PageModelPageReferencesTable from 'ui/page-models/detail/PageModelPageReferencesTable';
 import { PAGE_REFS } from 'test/mocks/pageModels';
@@ -17,7 +17,7 @@ beforeEach(jest.clearAllMocks);
 describe('PageModelPageReferencesTable (loading)', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithRouter(mockRenderWithIntl(<PageModelPageReferencesTable
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageModelPageReferencesTable
       page={1}
       pageSize={1}
       totalItems={1}
@@ -40,7 +40,7 @@ describe('PageModelPageReferencesTable (not)', () => {
   let component;
   let table;
   beforeEach(() => {
-    component = mount(mockRenderWithRouter(mockRenderWithIntl(<PageModelPageReferencesTable
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageModelPageReferencesTable
       page={1}
       pageSize={1}
       totalItems={1}

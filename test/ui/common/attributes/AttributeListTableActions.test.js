@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 import { MemoryRouter } from 'react-router-dom';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const FIELDS = {
   remove: jest.fn(),
@@ -51,7 +51,7 @@ describe('AttributeListTableActions', () => {
   let component;
   beforeEach(() => {
     const memorizedUi = <MemoryRouter><AttributeListTableActions {...props} /></MemoryRouter>;
-    component = mount(mockRenderWithIntl(memorizedUi));
+    component = mount(mockRenderWithIntlAndStore(memorizedUi));
   });
 
   it('renders without crashing', () => {

@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 
 const handleSubmitMock = jest.fn();
@@ -17,7 +17,9 @@ describe('PageSearchForm', () => {
 
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<PageSearchForm handleSubmit={handleSubmitMock} />));
+    component = mount(mockRenderWithIntlAndStore(<PageSearchForm
+      handleSubmit={handleSubmitMock}
+    />));
   });
   it('renders without crashing', () => {
     expect(component.exists()).toBe(true);

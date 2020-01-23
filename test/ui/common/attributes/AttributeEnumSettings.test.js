@@ -6,14 +6,14 @@ import AttributeEnumSettings, { element as elementValidation } from 'ui/common/a
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 jest.unmock('react-redux');
 
 describe('AttributeEnumSettings', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<AttributeEnumSettings />));
+    component = mount(mockRenderWithIntlAndStore(<AttributeEnumSettings />));
   });
 
   it('renders without crashing', () => {

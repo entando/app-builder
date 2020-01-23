@@ -1,25 +1,12 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 import { CategoryFormBody } from 'ui/categories/common/CategoryForm';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
 const activeLanguages = [];
-
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('CategoryForm', () => {
   let categoryForm;

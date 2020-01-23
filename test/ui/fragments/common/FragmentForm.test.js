@@ -1,22 +1,9 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/common/FragmentForm';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
-
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('FragmentForm', () => {
   let fragmentForm;

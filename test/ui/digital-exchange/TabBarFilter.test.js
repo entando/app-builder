@@ -8,7 +8,7 @@ import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
 import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { navigateDECategory } from 'state/digital-exchange/actions';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 
 const TEST_STATE = {
@@ -50,7 +50,7 @@ describe('TabBarFilter', () => {
 
   beforeEach(() => {
     noop = jest.fn();
-    component = shallow(mockRenderWithIntl(<TabBarFilter
+    component = shallow(mockRenderWithIntlAndStore(<TabBarFilter
       onSelect={noop}
       onWillMount={noop}
       filterTabs={[{
@@ -74,7 +74,6 @@ describe('TabBarFilter', () => {
       ALL_CATEGORIES_CATEGORY,
       ...TEST_STATE.digitalExchangeCategories.list,
     ].map(filterTab => ({
-      // label: formattedText(`digitalExchange.filterTabs.${filterTab}`, filterTab),
       value: filterTab,
     }));
     expect(mapStateToProps(TEST_STATE, {

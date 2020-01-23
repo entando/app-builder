@@ -70,7 +70,7 @@ export const mockRenderWithStore = (ui, state = {}) => {
   return <StateProvider store={STORE}>{ui}</StateProvider>;
 };
 
-export const mockRenderWithIntl = (ui, state = {}) => {
+export const mockRenderWithIntlAndStore = (ui, state = {}) => {
   const STATE = { ...state, locale: 'en' };
   return mockRenderWithStore(<IntlProviderContainer>{ui}</IntlProviderContainer>, STATE);
 };
@@ -119,3 +119,16 @@ export function mountWithIntl(node, { context, childContextTypes, ...additionalO
     },
   );
 }
+
+export const mockIntl = {
+  formatMessage: () => {},
+  defineMessages: () => {},
+  intlShape: () => {},
+  formatDate: () => {},
+  formatTime: () => {},
+  formatRelative: () => {},
+  formatNumber: () => {},
+  formatPlural: () => {},
+  formatHTMLMessage: () => {},
+  now: () => {},
+};

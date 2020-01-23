@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import EditCategoryPage from 'ui/categories/edit/EditCategoryPage';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 describe('EditCategoryPage', () => {
   let component;

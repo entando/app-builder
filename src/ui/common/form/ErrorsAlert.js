@@ -1,12 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { isString } from 'lodash';
-import { FormattedMessage } from 'react-intl';
 import { Alert } from 'patternfly-react';
-
-const toMessageDescriptor = message => (
-  isString(message) ? message : <FormattedMessage {...message} />
-);
+import MessageDescriptor from 'ui/common/MessageDescriptor';
 
 const ErrorsAlert = ({ messages, onDismiss }) => (
   messages.length ? (
@@ -16,7 +11,7 @@ const ErrorsAlert = ({ messages, onDismiss }) => (
           <Fragment>
             <span className="icon fa fa-exclamation-circle" />
             <span className="ErrorsAlert__message">
-              {toMessageDescriptor(messages[0])}
+              <MessageDescriptor message={messages[0]} />
             </span>
           </Fragment>
         ) : (
@@ -24,7 +19,7 @@ const ErrorsAlert = ({ messages, onDismiss }) => (
             <ul>
               {messages.map(msg => (
                 <li key={msg}>
-                  {toMessageDescriptor(msg)}
+                  <MessageDescriptor message={msg} />
                 </li>
               ))}
             </ul>

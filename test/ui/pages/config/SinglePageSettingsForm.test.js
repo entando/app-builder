@@ -7,6 +7,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
+import { mockIntl } from 'test/testUtils';
 
 const ACTIVE_NON_DEFAULT_LANGUAGES = [
   {
@@ -29,18 +30,6 @@ const GROUPS = [];
 const HANDLE_SUBMIT = jest.fn();
 const ON_RESET = jest.fn();
 const ON_WILL_MOUNT = jest.fn();
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('SinglePageSettingsForm', () => {
   let component;

@@ -4,21 +4,11 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import { PageModelFormBody as PageModelForm, validateJson, validatePreviewErrors } from 'ui/page-models/common/PageModelForm';
+import { mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
 const ON_WILL_MOUNT = jest.fn();
-
-const mockIntl = {
-  formatMessage: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('PageModelForm', () => {
   beforeEach(jest.clearAllMocks);

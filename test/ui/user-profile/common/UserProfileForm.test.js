@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserProfileFormBody } from 'ui/user-profile/common/UserProfileForm';
+import { mockIntl } from 'test/testUtils';
 
 
 const onWillMount = jest.fn();
@@ -15,19 +16,6 @@ const languages = [{ code: 'en', name: 'English' }, { code: 'it', name: 'Italian
 const profileTypesAttributes = [];
 
 beforeEach(jest.clearAllMocks);
-
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('UserProfileFormBody', () => {
   let component;

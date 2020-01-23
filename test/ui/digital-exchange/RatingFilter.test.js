@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import RatingFilter from 'ui/digital-exchange/RatingFilter';
 import { mapDispatchToProps } from 'ui/digital-exchange/RatingFilterContainer';
 import { filterByRating } from 'state/digital-exchange/actions';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 jest.mock('state/digital-exchange/actions', () => ({
   filterByRating: jest.fn(),
@@ -24,7 +24,7 @@ describe('RatingFilter', () => {
   let onSelect;
   beforeEach(() => {
     onSelect = jest.fn();
-    component = mount(mockRenderWithIntl(<RatingFilter onSelect={onSelect} />));
+    component = mount(mockRenderWithIntlAndStore(<RatingFilter onSelect={onSelect} />));
   });
 
   it('should render without crashing', () => {

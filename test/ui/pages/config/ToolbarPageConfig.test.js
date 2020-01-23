@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 global.console.error = jest.fn();
 const changeContentMock = jest.fn();

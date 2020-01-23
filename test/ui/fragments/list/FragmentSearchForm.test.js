@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import FragmentSearchForm, { renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const handleSubmit = jest.fn();
 
@@ -35,7 +35,7 @@ describe('FragmentSearchForm', () => {
       handleSubmit,
     };
 
-    return mount(mockRenderWithIntl(<FragmentSearchForm {...props} />));
+    return mount(mockRenderWithIntlAndStore(<FragmentSearchForm {...props} />));
   };
 
   describe('basic render tests', () => {

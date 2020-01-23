@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import FormLabel from 'ui/common/form/FormLabel';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const LABEL_ID = 'label.id';
 const LANG_LABEL_ID = 'lang.label.id';
@@ -15,7 +15,7 @@ describe('FormLabel', () => {
 
   describe('with labelId only', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<FormLabel labelId={LABEL_ID} />));
+      component = mount(mockRenderWithIntlAndStore(<FormLabel labelId={LABEL_ID} />));
     });
     it('render component without crash', () => {
       expect(component.exists()).toBe(true);
@@ -33,7 +33,7 @@ describe('FormLabel', () => {
 
   describe('with langLabelId', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<FormLabel
+      component = mount(mockRenderWithIntlAndStore(<FormLabel
         labelId={LABEL_ID}
         langLabelId={LANG_LABEL_ID}
       />));
@@ -45,7 +45,7 @@ describe('FormLabel', () => {
 
   describe('with helpId', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<FormLabel
+      component = mount(mockRenderWithIntlAndStore(<FormLabel
         labelId={LABEL_ID}
         helpId={HELP_ID}
       />));
@@ -57,7 +57,7 @@ describe('FormLabel', () => {
 
   describe('with required', () => {
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<FormLabel labelId={LABEL_ID} required />));
+      component = mount(mockRenderWithIntlAndStore(<FormLabel labelId={LABEL_ID} required />));
     });
     it('renders the required icon', () => {
       expect(component.find('.fa-asterisk').exists()).toBe(true);

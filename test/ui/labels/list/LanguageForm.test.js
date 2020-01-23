@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import LanguageForm, { renderSelectOptions } from 'ui/labels/list/LanguageForm';
 
 import { LANGUAGES_LIST } from 'test/mocks/languages';
@@ -36,7 +36,7 @@ describe('LanguageFormBody', () => {
       handleSubmit,
     };
 
-    return mount(mockRenderWithIntl(<LanguageForm {...props} />, { modal: {} }));
+    return mount(mockRenderWithIntlAndStore(<LanguageForm {...props} />, { modal: {} }));
   };
 
   describe('basic render tests', () => {

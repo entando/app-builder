@@ -1,9 +1,8 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
-import { shallowWithIntl } from '../../../test/testUtils';
+import { shallowWithIntl } from 'test/testUtils';
 
 describe('AddFragmentPage', () => {
   let component;

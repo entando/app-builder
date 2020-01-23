@@ -6,24 +6,12 @@ import { required, isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import { SettingsFormBody as SettingsForm, maxLength50 } from 'ui/digital-exchange/settings/common/Form';
+import { mockIntl } from 'test/testUtils';
 
 const onWillMount = jest.fn();
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');
-
-const mockIntl = {
-  formatMessage: () => {},
-  defineMessages: () => {},
-  intlShape: () => {},
-  formatDate: () => {},
-  formatTime: () => {},
-  formatRelative: () => {},
-  formatNumber: () => {},
-  formatPlural: () => {},
-  formatHTMLMessage: () => {},
-  now: () => {},
-};
 
 describe('SettingsFormBody', () => {
   const component = shallow(<SettingsForm

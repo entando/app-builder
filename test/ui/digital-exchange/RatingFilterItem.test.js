@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { shallow, mount } from 'enzyme';
 import RatingFilterItem from 'ui/digital-exchange/RatingFilterItem';
 import StarIcon from 'ui/digital-exchange/common/StarIcon';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 jest.unmock('react-redux');
 
@@ -15,7 +15,7 @@ describe('RatingFilterItem', () => {
   });
 
   it('should render without crashing', () => {
-    component = shallow(mockRenderWithIntl(<RatingFilterItem
+    component = shallow(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={0}
       rating={0}
@@ -24,7 +24,7 @@ describe('RatingFilterItem', () => {
   });
 
   it('should not be selected by default', () => {
-    component = shallow(mockRenderWithIntl(<RatingFilterItem
+    component = shallow(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={0}
       rating={0}
@@ -33,7 +33,7 @@ describe('RatingFilterItem', () => {
   });
 
   it('should render selected UI state', () => {
-    component = shallow(mockRenderWithIntl(<RatingFilterItem
+    component = shallow(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={0}
       rating={0}
@@ -43,7 +43,7 @@ describe('RatingFilterItem', () => {
   });
 
   it('should render star icons according to rating and maxRating', () => {
-    component = mount(mockRenderWithIntl(<RatingFilterItem
+    component = mount(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={5}
       rating={2}
@@ -53,7 +53,7 @@ describe('RatingFilterItem', () => {
   });
 
   it('should call onSelect if clicked', () => {
-    component = mount(mockRenderWithIntl(<RatingFilterItem
+    component = mount(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={5}
       rating={1}
@@ -64,7 +64,7 @@ describe('RatingFilterItem', () => {
 
   it('should call onSelect if selected from keyboard', () => {
     const enterKey = 'Enter';
-    component = mount(mockRenderWithIntl(<RatingFilterItem
+    component = mount(mockRenderWithIntlAndStore(<RatingFilterItem
       onSelect={onSelect}
       maxRating={5}
       rating={1}

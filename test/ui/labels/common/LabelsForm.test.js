@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import LabelsForm from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
-import { mockRenderWithIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
@@ -19,7 +19,7 @@ describe('LabelsForm', () => {
   describe('basic rendering', () => {
     let component;
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<LabelsForm
+      component = mount(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
@@ -38,7 +38,7 @@ describe('LabelsForm', () => {
 
   describe('with onWillMount callback', () => {
     beforeEach(() => {
-      mount(mockRenderWithIntl(<LabelsForm
+      mount(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
@@ -53,7 +53,7 @@ describe('LabelsForm', () => {
   describe('save button is disabled', () => {
     let component;
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<LabelsForm
+      component = mount(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
@@ -68,7 +68,7 @@ describe('LabelsForm', () => {
   describe('save button is disabled', () => {
     let component;
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<LabelsForm
+      component = mount(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         onWillMount={ON_WILL_MOUNT}
@@ -83,7 +83,7 @@ describe('LabelsForm', () => {
     let component;
     const preventDefault = jest.fn();
     beforeEach(() => {
-      component = mount(mockRenderWithIntl(<LabelsForm
+      component = mount(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         onWillMount={ON_WILL_MOUNT}

@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { Icon } from 'patternfly-react';
-import { isString } from 'lodash';
 import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ROUTE_USER_DETAIL } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-
-const toMessageDescriptor = message => (
-  isString(message) ? message : <FormattedMessage {...message} />
-);
+import MessageDescriptor from 'ui/common/MessageDescriptor';
 
 class Notification extends Component {
   constructor(props) {
@@ -118,7 +114,7 @@ class Notification extends Component {
             </a>
             <p className="Notification__notify">
               {notification && notification.actionText ? (
-                toMessageDescriptor(notification.actionText)
+                <MessageDescriptor message={notification.actionText} />
               ) : notification}
             </p>
             <a
