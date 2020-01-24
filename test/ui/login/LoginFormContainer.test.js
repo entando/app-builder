@@ -6,7 +6,7 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/login/LoginFormContainer
 jest.unmock('ui/login/LoginFormContainer');
 
 const TEST_STATE = {
-  loginForm: { loginErrorMessage: 'test' },
+  loginForm: { loginErrorMessage: { id: 'test.id', defaultMessage: 'test' } },
 };
 
 // declare a mock empty function
@@ -14,7 +14,8 @@ const dispatchMock = jest.fn();
 
 describe('LoginFormContainer', () => {
   it('maps login error message property with state.form.loginErrorMessage', () => {
-    expect(mapStateToProps(TEST_STATE)).toEqual({ loginErrorMessage: 'test' });
+    const mappedProps = mapStateToProps(TEST_STATE, { intl: { formatMessage: text => text } });
+    expect(mappedProps).toHaveProperty('loginErrorMessage', { id: 'test.id', defaultMessage: 'test' });
   });
 
 

@@ -1,12 +1,11 @@
 import 'test/enzyme-init';
-
 import { mapStateToProps, mapDispatchToProps } from 'ui/login/LoginFormContainer';
 
 // Using real react component and not LoginFormContainer in __mocks__/ui/login
 jest.unmock('ui/login/LoginFormContainer');
 
 const TEST_STATE = {
-  loginForm: { loginErrorMessage: 'test' },
+  loginForm: { loginErrorMessage: { id: 'test.id', defaultMessage: 'test' } },
   locale: 'en',
 };
 
@@ -15,8 +14,8 @@ const dispatchMock = jest.fn();
 
 
 it('maps login error message property with state.form.loginErrorMessage', () => {
-  const mappedProps = mapStateToProps(TEST_STATE);
-  expect(mappedProps).toHaveProperty('loginErrorMessage', 'test');
+  const mappedProps = mapStateToProps(TEST_STATE, { intl: { formatMessage: text => text } });
+  expect(mappedProps).toHaveProperty('loginErrorMessage', { id: 'test.id', defaultMessage: 'test' });
   expect(mappedProps).toHaveProperty('currentLanguage', 'en');
 });
 
