@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Panel, Label } from 'react-bootstrap';
 
@@ -39,7 +39,7 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widgetConfig, framePos, frameName, pageCode, onSubmit,
+      widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
     } = this.props;
     return (
       <InternalPage className="WidgetConfigPage">
@@ -73,9 +73,10 @@ class WidgetConfigPage extends Component {
             <Col xs={12}>
               <Button
                 className="WidgetConfigPage__info-btn"
-                bsStyle="default"
+                bsStyle="primary"
                 onClick={this.toggleInfoTable}
               >
+                <span className="icon fa fa-chevron-down" />
                 <FormattedMessage id="app.info" />
               </Button>
             </Col>
@@ -103,7 +104,15 @@ class WidgetConfigPage extends Component {
                   <span>{frameName}</span>
                 </Panel.Heading>
                 <Panel.Body>
-                  <WidgetConfigForm widgetConfig={widgetConfig} onSubmit={onSubmit} />
+                  <WidgetConfigForm
+                    widgetCode={widgetCode}
+                    pageCode={pageCode}
+                    frameId={framePos}
+                    widgetConfig={widgetConfig}
+                    onSubmit={onSubmit}
+                    intl={intl}
+                    history={history}
+                  />
                 </Panel.Body>
               </Panel>
             </Col>
@@ -117,11 +126,14 @@ class WidgetConfigPage extends Component {
 WidgetConfigPage.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
+  widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,
   frameName: PropTypes.string.isRequired,
   pageCode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
 WidgetConfigPage.defaultProps = {
