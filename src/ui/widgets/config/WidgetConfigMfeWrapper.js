@@ -14,7 +14,8 @@ const WidgetConfigMfeWrapper = ({ onSubmit, widget, widgetConfig }) => {
     return '';
   }
   const { bundleId, configUi } = widget;
-  const { customElement, resources } = configUi;
+  const conf = configUi || { customElement: null, resources: [] };
+  const { customElement, resources } = conf;
 
   const scriptsState = resources.map(res => useScript(getFilePath(bundleId, res)));
 
