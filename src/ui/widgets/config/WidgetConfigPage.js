@@ -39,7 +39,7 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
+      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
     } = this.props;
     return (
       <InternalPage className="WidgetConfigPage">
@@ -87,7 +87,7 @@ class WidgetConfigPage extends Component {
                 className="PageConfigPage__info-panel"
                 id="collapsible-info-table"
                 expanded={this.state.infoTableOpen}
-                onToggle={() => {}}
+                onToggle={() => { }}
               >
                 <Panel.Collapse>
                   <SelectedPageInfoTableContainer />
@@ -108,6 +108,7 @@ class WidgetConfigPage extends Component {
                     widgetCode={widgetCode}
                     pageCode={pageCode}
                     frameId={framePos}
+                    widget={widget}
                     widgetConfig={widgetConfig}
                     onSubmit={onSubmit}
                     intl={intl}
@@ -126,6 +127,7 @@ class WidgetConfigPage extends Component {
 WidgetConfigPage.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
+  widget: PropTypes.shape({}),
   widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,
@@ -137,6 +139,7 @@ WidgetConfigPage.propTypes = {
 };
 
 WidgetConfigPage.defaultProps = {
+  widget: null,
   widgetConfig: null,
   onDidMount: null,
   onWillUnmount: null,

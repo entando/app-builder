@@ -352,6 +352,7 @@ export default {
     'widget.page.tab.defaultUi': 'UI Padrão',
     'widget.page.edit.pageTitle': 'Editar Widget',
     'widget.page.alert.notAvaible': 'Indisponível',
+    'widget.page.config.error': 'Unable to load widget configuration',
     'widget.list.title': 'Widget',
     'widget.list.new': 'Novo',
     'widget.list.type': 'Widget customizado',
