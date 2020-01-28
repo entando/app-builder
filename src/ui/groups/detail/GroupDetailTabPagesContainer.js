@@ -22,8 +22,6 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
 });
 
 export default withRouter(connect(
-  mapStateToProps, mapDispatchToProps, null,
-  {
-    pure: false,
-  },
+  mapStateToProps, mapDispatchToProps,
+  null, { pure: false },
 )(GroupDetailTabPages));
