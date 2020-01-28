@@ -7,6 +7,9 @@ const TEST_STATE = {
       id: '1',
     }],
   },
+  loading: {
+    plugins: false,
+  },
 };
 
 describe('PluginsPageContainer', () => {

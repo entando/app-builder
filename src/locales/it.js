@@ -265,6 +265,7 @@ export default {
     'app.threeStateOptions.both': 'Indifferente',
     'app.enumerator.none': 'Nessuno',
     'menu.dashboard': 'Dashboard',
+    'menu.plugins': 'Plugins',
     'menu.pageTree': 'Albero delle pagine',
     'menu.uxPattern': 'UX Patterns',
     'menu.integration': 'Integrazioni',
