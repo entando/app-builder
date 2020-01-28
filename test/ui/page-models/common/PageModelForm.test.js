@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import { PageModelFormBody as PageModelForm, validateJson, validatePreviewErrors } from 'ui/page-models/common/PageModelForm';
+import { PageModelFormBody as PageModelForm, validateJson } from 'ui/page-models/common/PageModelForm';
 import { mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
@@ -139,15 +139,29 @@ describe('PageModelForm', () => {
   });
 
   describe('validatePreviewErrors function', () => {
+    let component;
+    beforeEach(() => {
+      component = shallow((
+        <PageModelForm
+          onSubmit={ON_SUBMIT}
+          handleSubmit={HANDLE_SUBMIT}
+          previewErrors={[]}
+          invalid={false}
+          intl={mockIntl}
+        />
+      ));
+    });
     it('returns undefined if previewErrors are empty', () => {
-      const result = validatePreviewErrors()(null, null, { previewErrors: [] });
+      const result = component.instance()
+        .validatePreviewErrors(null, null, { previewErrors: [] });
       expect(result).toBeUndefined();
     });
 
     it('returns an array of react elements if preview errors is not empty', () => {
-      const result = validatePreviewErrors({ formatMessage: () => {} })(null, null, {
-        previewErrors: [{ id: 'some_err' }],
-      });
+      const result = component.instance()
+        .validatePreviewErrors(null, null, {
+          previewErrors: [{ id: 'some_err' }],
+        });
       expect(result).toBeInstanceOf(Array);
     });
   });
