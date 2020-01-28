@@ -41,4 +41,7 @@ export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps,
+  {
+    pure: false,
+  },
 )(CreateTextFileForm));
