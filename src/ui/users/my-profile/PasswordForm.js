@@ -15,6 +15,14 @@ export class PasswordFormBody extends Component {
     this.submit = this.submit.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { username } = this.props;
+    if (nextProps.username === username) {
+      return false;
+    }
+    return true;
+  }
+
   submit(data) {
     this.props.onSubmit(this.props.username, data);
   }

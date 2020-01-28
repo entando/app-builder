@@ -48,6 +48,10 @@ export const mapDispatchToProps = (dispatch, { intl }) => ({
 const FragmentSearchFormContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(FragmentSearchForm);
 
 export default injectIntl(FragmentSearchFormContainer);

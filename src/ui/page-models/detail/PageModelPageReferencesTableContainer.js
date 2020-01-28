@@ -24,6 +24,10 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
 const PageModelPageReferencesTableContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(PageModelPageReferencesTable));
 
 PageModelPageReferencesTableContainer.displayName = 'PageModelPageReferencesTableContainer';
