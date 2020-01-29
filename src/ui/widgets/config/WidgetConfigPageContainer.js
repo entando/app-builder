@@ -40,4 +40,8 @@ export const mapStateToProps = (state, { match: { params } }) => {
 export default withRouter(injectIntl(connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(WidgetConfigPage)));

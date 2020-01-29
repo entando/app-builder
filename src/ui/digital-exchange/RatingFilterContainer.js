@@ -16,6 +16,10 @@ export const mapStateToProps = state => ({
 const RatingFilterContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(RatingFilter);
 
 export default RatingFilterContainer;

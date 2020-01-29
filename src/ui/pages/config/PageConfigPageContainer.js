@@ -48,5 +48,10 @@ export const mapStateToProps = (state, { match: { params } }) => {
 };
 
 
-const PageConfigPageContainer = connect(mapStateToProps, mapDispatchToProps)(PageConfigPage);
+const PageConfigPageContainer = connect(
+  mapStateToProps, mapDispatchToProps, null,
+  {
+    pure: false,
+  },
+)(PageConfigPage);
 export default PageConfigPageContainer;
