@@ -109,7 +109,7 @@ export class PageModelFormBody extends Component {
                 component={JsonCodeEditorRenderer}
                 name="configuration"
                 label={<FormLabel labelId="pageModels.jsonConfiguration" required />}
-                placeholder={intl.formatMessage(msgs.pageConfig, 13)}
+                placeholder={intl.formatMessage(msgs.pageConfig)}
                 previewErrors={previewErrors}
                 validate={[required, validateJson, this.validatePreviewErrors]}
               />
