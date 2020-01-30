@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
 
-import useScript from 'ui/widgets/config/useScript';
-
-const getFilePath = (bundleId, resource) => `${process.env.DOMAIN}/cmsresources/${bundleId}/${resource}`;
-
-const getConfigMfe = customElement => document.querySelector(customElement);
+import { getFilePath, getMfe, renderMfe } from 'helpers/microfrontends';
+import useScripts from 'helpers/useScripts';
 
 const WidgetConfigMfeWrapper = ({ onSubmit, widget, widgetConfig }) => {
   if (!widget) {
@@ -17,33 +14,23 @@ const WidgetConfigMfeWrapper = ({ onSubmit, widget, widgetConfig }) => {
   const conf = configUi || { customElement: null, resources: [] };
   const { customElement, resources } = conf;
 
-  const scriptsState = resources.map(res => useScript(getFilePath(bundleId, res)));
-
-  const everyScriptLoaded = scriptsState.every((state) => {
-    const loaded = state[0];
-    return loaded;
-  });
-
-  const someScriptError = scriptsState.some((state) => {
-    const error = state[1];
-    return error;
-  });
+  const getMfeScriptPath = res => getFilePath(bundleId, res);
+  const [everyScriptLoaded, someScriptError] = useScripts(resources.map(getMfeScriptPath));
 
   const handleSubmit = () => {
-    const configWebComponent = getConfigMfe(customElement);
+    const configWebComponent = getMfe(customElement);
     const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
     onSubmit(updatedWidgetConfig);
   };
 
   useEffect(() => {
-    const webComponent = getConfigMfe(customElement);
+    const webComponent = getMfe(customElement);
     if (webComponent && widgetConfig) {
       webComponent.config = widgetConfig;
     }
   }, [everyScriptLoaded]);
 
-  // eslint-disable-next-line react/no-danger
-  const webComponent = (<div dangerouslySetInnerHTML={{ __html: `<${customElement} />` }} />);
+  const webComponent = renderMfe(customElement);
 
   return (everyScriptLoaded && !someScriptError) ? (
     <Fragment>
