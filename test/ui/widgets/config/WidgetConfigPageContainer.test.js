@@ -4,7 +4,7 @@ import { mapDispatchToProps, mapStateToProps } from 'ui/widgets/config/WidgetCon
 // mocked
 
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
-import { updateConfiguredPageWidget, initWidgetConfigPage } from 'state/widget-config/actions';
+import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
 
 
 const FRAME_NAME = 'Frame name';
@@ -20,6 +20,7 @@ jest.mock('state/widget-config/selectors', () => ({
 jest.mock('state/widget-config/actions', () => ({
   updateConfiguredPageWidget: jest.fn().mockReturnValue('updateConfiguredPageWidget_result'),
   initWidgetConfigPage: jest.fn().mockReturnValue('initWidgetConfigPage_result'),
+  initWidgetConfigPageWithConfigData: jest.fn().mockReturnValue('initWidgetConfigPageWithConfigData_result'),
 }));
 
 const TEST_STATE = {
@@ -82,11 +83,23 @@ describe('WidgetConfigPageContainer', () => {
 
     describe('prop onDidMount', () => {
       beforeEach(() => {
-        props.onDidMount();
+        props.onDidMount({
+          widgetConfig: {},
+        });
       });
       it('dispatch initWidgetConfigPage', () => {
         expect(dispatchMock).toHaveBeenCalledWith('initWidgetConfigPage_result');
         expect(initWidgetConfigPage).toHaveBeenCalled();
+      });
+    });
+
+    describe('prop onDidMount with null widgetConfig', () => {
+      beforeEach(() => {
+        props.onDidMount({});
+      });
+      it('dispatch initWidgetConfigPage', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('initWidgetConfigPageWithConfigData_result');
+        expect(initWidgetConfigPageWithConfigData).toHaveBeenCalled();
       });
     });
 
