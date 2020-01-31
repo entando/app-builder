@@ -32,7 +32,6 @@ export const updateConfiguredPageWidget = (widgetConfig, params) =>
 
 
 export const initWidgetConfigPage = (pageCode, widgetCode) => async (dispatch) => {
-  // init selected page if not present
   const selectedPage = await dispatch(loadSelectedPage(pageCode));
   if (!selectedPage) {
     return;
@@ -47,7 +46,6 @@ export const initWidgetConfigPage = (pageCode, widgetCode) => async (dispatch) =
 };
 
 export const initWidgetConfigPageWithConfigData = (pageCode, widgetCode) => async (dispatch) => {
-  // init selected page if not present
   const selectedPage = await dispatch(loadSelectedPage(pageCode));
   if (!selectedPage) {
     return;
