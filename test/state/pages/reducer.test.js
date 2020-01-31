@@ -254,6 +254,11 @@ describe('state/pages/reducer', () => {
       const newState = reducer(state, updatePage({ ...DASHBOARD_PAYLOAD, status: 'unpublished' }));
       expect(newState.map[DASHBOARD_PAYLOAD.code]).toHaveProperty('status', 'unpublished');
     });
+
+    it('titles will be set correctly', () => {
+      const newState = reducer(state, updatePage({ ...DASHBOARD_PAYLOAD }));
+      expect(newState.titlesMap[DASHBOARD_PAYLOAD.code]).toBe(DASHBOARD_PAYLOAD.titles);
+    });
   });
 
   describe('SEARCH_PAGES', () => {
