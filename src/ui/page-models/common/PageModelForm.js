@@ -25,19 +25,6 @@ export const validateJson = (value) => {
   }
 };
 
-export const validatePreviewErrors = intl => (value, allValues, formProps) => {
-  if (formProps.previewErrors.length) {
-    return formProps.previewErrors.map(({ id, values }) => {
-      const errMsgs = defineMessages({
-        err: { id },
-      });
-      const message = intl.formatMessage(errMsgs.err, values);
-      return <div key={message}>{message}</div>;
-    });
-  }
-  return undefined;
-};
-
 const msgs = defineMessages({
   appCode: {
     id: 'app.code',
@@ -49,7 +36,7 @@ const msgs = defineMessages({
   },
   pageConfig: {
     id: 'pageModels.jsonConfiguration',
-    defaultMessage: 'JSON',
+    defaultMessage: 'JSON Configuration',
   },
   pageTemplate: {
     id: 'pageModels.template',
@@ -58,10 +45,29 @@ const msgs = defineMessages({
 });
 
 export class PageModelFormBody extends Component {
+  constructor(props) {
+    super(props);
+    this.validatePreviewErrors = this.validatePreviewErrors.bind(this);
+  }
+
   componentDidMount() {
     if (this.props.onWillMount) {
       this.props.onWillMount(this.props);
     }
+  }
+
+  validatePreviewErrors(value, allValues, formProps) {
+    const { intl } = this.props;
+    if (formProps.previewErrors.length) {
+      return formProps.previewErrors.map(({ id, values }) => {
+        const errMsgs = defineMessages({
+          err: { id },
+        });
+        const message = intl.formatMessage(errMsgs.err, values);
+        return <div key={message}>{message}</div>;
+      });
+    }
+    return undefined;
   }
 
   render() {
@@ -103,9 +109,9 @@ export class PageModelFormBody extends Component {
                 component={JsonCodeEditorRenderer}
                 name="configuration"
                 label={<FormLabel labelId="pageModels.jsonConfiguration" required />}
-                placeholder={intl.formatMessage(msgs.jsonConfig)}
+                placeholder={intl.formatMessage(msgs.pageConfig)}
                 previewErrors={previewErrors}
-                validate={[required, validateJson, validatePreviewErrors(intl)]}
+                validate={[required, validateJson, this.validatePreviewErrors]}
               />
             </FormGroup>
           </Col>

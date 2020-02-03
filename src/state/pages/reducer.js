@@ -139,6 +139,10 @@ const titlesMap = (state = {}, action = {}) => {
         ...toMap(action.payload.pages, 'titles'),
       };
     }
+    case UPDATE_PAGE: {
+      const { page } = action.payload;
+      return { ...state, ...toMap([page], 'titles') };
+    }
     case REMOVE_PAGE: {
       const { code } = action.payload.page;
       const newState = { ...state };

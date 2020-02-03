@@ -20,5 +20,9 @@ export const mapDispatchToProps = dispatch => ({
 const LabelSearchFormContainer = connect(
   null,
   mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
 )(LabelSearchForm);
 export default injectIntl(LabelSearchFormContainer);

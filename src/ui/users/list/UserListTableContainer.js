@@ -28,6 +28,11 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const UserListTableContainer = connect(mapStateToProps, mapDispatchToProps)(UserListTable);
+const UserListTableContainer = connect(
+  mapStateToProps, mapDispatchToProps, null,
+  {
+    pure: false,
+  },
+)(UserListTable);
 
 export default UserListTableContainer;

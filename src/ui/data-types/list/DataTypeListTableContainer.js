@@ -33,6 +33,9 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const DataTypeListTableContainer = connect(mapStateToProps, mapDispatchToProps)(DataTypeListTable);
+const DataTypeListTableContainer = connect(
+  mapStateToProps, mapDispatchToProps,
+  null, { pure: false },
+)(DataTypeListTable);
 
 export default DataTypeListTableContainer;

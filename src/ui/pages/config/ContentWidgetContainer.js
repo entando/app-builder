@@ -15,5 +15,10 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const ContentWidgetContainer = connect(mapStateToProps, mapDispatchToProps)(ContentWidget);
+const ContentWidgetContainer = connect(
+  mapStateToProps, mapDispatchToProps, null,
+  {
+    pure: false,
+  },
+)(ContentWidget);
 export default ContentWidgetContainer;

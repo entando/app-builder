@@ -29,6 +29,11 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 const ProfileTypeListTableContainer =
- connect(mapStateToProps, mapDispatchToProps)(ProfileTypeListTable);
+ connect(
+   mapStateToProps, mapDispatchToProps, null,
+   {
+     pure: false,
+   },
+ )(ProfileTypeListTable);
 
 export default ProfileTypeListTableContainer;
