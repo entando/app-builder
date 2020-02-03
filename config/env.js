@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
+const isValidPath = require('is-valid-path');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -83,6 +84,14 @@ function getClientEnvironment(publicUrl) {
         KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${process.env.DOMAIN}/keycloak.json`,
       },
     );
+
+  // Validate DOMAIN value
+  if (raw.DOMAIN) {
+    if (isValidPath(raw.DOMAIN)) {
+      raw.DOMAIN = raw.DOMAIN.replace(/\/+$/, '');
+    } else throw new Error('The DOMAIN env variable is an invalid path.');
+  }
+
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
     'process.env': Object.keys(raw).reduce((env, key) => {
