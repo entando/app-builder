@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { loadSelectedPage, sendPatchPage } from 'state/pages/actions';
+import { sendPatchPage } from 'state/pages/actions';
 import { getSelectedPage, getCharsets, getContentTypes } from 'state/pages/selectors';
 import SinglePageSettingsForm, { FORM_ID } from 'ui/pages/config/SinglePageSettingsForm';
 import { fetchLanguages } from 'state/languages/actions';
@@ -21,7 +21,6 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => {
-    dispatch(loadSelectedPage());
     dispatch(fetchLanguages(noPagination, activeLangQueryString));
     dispatch(fetchGroups(noPagination));
   },
