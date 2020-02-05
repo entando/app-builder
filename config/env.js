@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
-const isValidPath = require('is-valid-path');
+const { isURL } = require('validator');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -87,9 +87,15 @@ function getClientEnvironment(publicUrl) {
 
   // Validate DOMAIN value
   if (raw.DOMAIN) {
-    if (isValidPath(raw.DOMAIN)) {
+    const isValidURL = isURL(raw.DOMAIN, {
+      allow_protocol_relative_urls: true,
+      require_host: false,
+      require_tld: false,
+      require_protocol: false,
+    });
+    if (isValidURL) {
       raw.DOMAIN = raw.DOMAIN.replace(/\/+$/, '');
-    } else throw new Error('The DOMAIN env variable is an invalid path.');
+    } else throw new Error('The DOMAIN env variable is invalid.');
   }
 
   // Stringify all values so we can feed into Webpack DefinePlugin
