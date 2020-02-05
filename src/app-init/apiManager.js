@@ -25,8 +25,9 @@ class ApiManager extends Component {
           window.location.href = redirectUri;
           return;
         }
-        const goto = auth.enabled && pathname && pathname !== ROUTE_HOME
-          ? pathname
+        const route = pathname ? pathname.replace(process.env.PUBLIC_URL, '') : null;
+        const goto = auth.enabled && route !== ROUTE_HOME
+          ? route
           : ROUTE_DASHBOARD;
         history.push(goto);
       } else {

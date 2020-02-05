@@ -33,7 +33,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
 
 export const postDEComponentInstall = component => (
   makeRequest({
-    uri: `/components/${component.digitalExchangeId}/install/${component.id}`,
+    uri: `/components/install/${component.id}`,
     domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
