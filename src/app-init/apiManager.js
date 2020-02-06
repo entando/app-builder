@@ -26,7 +26,7 @@ class ApiManager extends Component {
           return;
         }
         const route = pathname ? pathname.replace(process.env.PUBLIC_URL, '') : null;
-        const goto = auth.enabled && route !== ROUTE_HOME
+        const goto = auth.enabled && route && route !== ROUTE_HOME
           ? route
           : ROUTE_DASHBOARD;
         history.push(goto);
