@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
+import { getSelectedWidget } from 'state/widgets/selectors';
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
 
@@ -33,6 +34,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
 
   return {
     widgetCode,
+    widget: getSelectedWidget(state),
     widgetConfig: getPageWidgetConfig(state),
     framePos: parseInt(framePos, 10),
     pageCode,

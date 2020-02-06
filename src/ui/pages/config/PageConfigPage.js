@@ -223,7 +223,6 @@ class PageConfigPage extends Component {
                         'PageConfigPage__btn-icon--right',
                         'btn-transparent',
                       ].join(' ')}
-                      bsStyle="warning"
                       onClick={restoreConfig}
                       disabled={!pageDiffersFromPublished}
                     >

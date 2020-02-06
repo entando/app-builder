@@ -351,6 +351,7 @@ export default {
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Modifica Widget',
     'widget.page.alert.notAvaible': 'Non disponibile',
+    'widget.page.config.error': 'Impossibile caricare la configurazione del widget',
     'widget.list.title': 'Widget',
     'widget.list.new': 'Nuovo',
     'widget.list.type': 'Custom widget',
