@@ -24,6 +24,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/dialog/dialog.css';
 import '@entando/menu/dist/css/index.css';
 import '@entando/pages/dist/css/index.css';
+import '@entando/pagetreeselector/dist/css/index.css';
 
 import 'index.scss';
 

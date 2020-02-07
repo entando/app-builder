@@ -7,9 +7,6 @@ import { handleExpandPage } from 'state/pages/actions';
 
 import { getPageTreePages } from 'state/pages/selectors';
 
-import '@entando/pagetreeselector/dist/css/index.css';
-
-
 export const mapStateToProps = state => ({
   pages: getPageTreePages(state),
 });
