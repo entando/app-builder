@@ -1,11 +1,13 @@
 
 import { connect } from 'react-redux';
 
-import PageTreeSelector from 'ui/pages/common/PageTreeSelector';
+import { PageTreeSelector } from '@entando/pagetreeselector';
 
 import { handleExpandPage } from 'state/pages/actions';
 
 import { getPageTreePages } from 'state/pages/selectors';
+
+import '@entando/pagetreeselector/dist/css/index.css';
 
 
 export const mapStateToProps = state => ({
