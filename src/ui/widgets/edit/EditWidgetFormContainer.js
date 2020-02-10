@@ -26,7 +26,11 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
   },
   onSubmit: (values) => {
-    dispatch(sendPutWidgets(values));
+    const jsonData = {
+      ...values,
+      configUi: values.configUi ? JSON.parse(values.configUi) : {},
+    };
+    dispatch(sendPutWidgets(jsonData));
   },
 });
 

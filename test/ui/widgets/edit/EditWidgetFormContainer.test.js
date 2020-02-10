@@ -5,6 +5,7 @@ import {
   mapDispatchToProps,
 } from 'ui/widgets/edit/EditWidgetFormContainer';
 import { getGroupsList } from 'state/groups/selectors';
+import { filterWidgetList } from 'state/page-config/selectors';
 import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
@@ -27,6 +28,12 @@ const ownProps = {
 };
 
 const dispatchMock = jest.fn();
+
+jest.mock('state/page-config/selectors', () => ({
+  filterWidgetList: jest.fn(),
+}));
+
+filterWidgetList.mockReturnValue([]);
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
