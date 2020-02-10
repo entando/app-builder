@@ -101,7 +101,8 @@
     "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
     "start-openshift": "npm install -g serve && serve -l 8080 -s build",
     "analyze": "source-map-explorer build/static/js/main.*",
-    "app-install": "node apps/install.js"
+    "app-install": "node apps/install.js",
+    "app-clear": "node apps/clear.js"
   },
   "jest": {
     "collectCoverageFrom": [
