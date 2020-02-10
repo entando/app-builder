@@ -20,7 +20,7 @@ const AddDatabaseListTable = ({ tables, onClickStartBackup }) => {
     tables.map(table => (
 
       <li key={table.code} className="AddDatabaseListTable__list">
-        <div className="AddDatabaseListTable__text">{table.code}</div>
+        <div className="AddDatabaseListTable__text">{table.description || table.code}</div>
         <ul className="AddDatabaseListTable__list-item">
           {renderItem(table.tableMapping)}
         </ul>

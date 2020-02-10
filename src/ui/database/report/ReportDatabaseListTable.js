@@ -9,7 +9,7 @@ class ReportDatabaseListTable extends Component {
     const { componentsHistory } = this.props.report;
     return componentsHistory && componentsHistory.map(component => (
       <tr key={component.code}>
-        <td className="ReportDatabaseListRow__td">{component.code}</td>
+        <td className="ReportDatabaseListRow__td">{component.description || component.code}</td>
         <td className="ReportDatabaseListRow__td"><code>{component.date}</code></td>
       </tr>
     ));
