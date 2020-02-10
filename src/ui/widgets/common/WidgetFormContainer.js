@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { change } from 'redux-form';
+import { change, initialize } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -16,10 +16,17 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(initialize('widget', {
+      configUi: '{\n  "customElement": "",\n  "resources": []\n}',
+    }));
   },
   onSubmit: (values) => {
+    const jsonData = {
+      ...values,
+      configUi: values.configUi ? JSON.parse(values.configUi) : {},
+    };
     dispatch(clearErrors());
-    dispatch(sendPostWidgets(values));
+    dispatch(sendPostWidgets(jsonData));
   },
   onChangeDefaultTitle: title =>
     dispatch(change('widget', 'code', title.replace(/\W/g, '_').toLowerCase())),

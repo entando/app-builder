@@ -6,11 +6,13 @@ import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
+import { validateJson } from 'ui/page-models/common/PageModelForm';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
+import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 
 const MODE_NEW = 'new';
 const maxLength30 = maxLength(30);
@@ -123,8 +125,8 @@ export class WidgetFormBody extends Component {
           <Col xs={12}>
             <fieldset className="no-padding">
               <FormSectionTitle titleId="widget.page.create.pageTitle" />
-              {codeField}
               {this.renderTitleFields()}
+              {codeField}
               <Field
                 component={RenderSelectInput}
                 name="group"
@@ -163,6 +165,18 @@ export class WidgetFormBody extends Component {
                   </Col>
                 </div>
               </Col>
+            </fieldset>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <fieldset className="no-padding">
+              <Field
+                component={JsonCodeEditorRenderer}
+                name="configUi"
+                label={<FormLabel labelId="widgets.configUi" />}
+                validate={[validateJson]}
+              />
             </fieldset>
           </Col>
         </Row>
