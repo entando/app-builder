@@ -3,15 +3,12 @@ import { useState, useEffect } from 'react';
 
 const cachedScripts = [];
 const useScript = (src) => {
-  // Keeping track of script loaded and error state
   const [state, setState] = useState({
     loaded: false,
     error: false,
   });
   useEffect(
     () => {
-      // If cachedScripts array already includes src that means another instance ...
-      // ... of this hook already loaded this script, so no need to load again.
       if (cachedScripts.includes(src)) {
         setState({
           loaded: true,
@@ -21,12 +18,10 @@ const useScript = (src) => {
       }
       cachedScripts.push(src);
 
-      // Create script
       const script = document.createElement('script');
       script.src = src;
       script.async = true;
 
-      // Script event listener callbacks for load and error
       const onScriptLoad = () => {
         setState({
           loaded: true,
@@ -35,7 +30,6 @@ const useScript = (src) => {
       };
 
       const onScriptError = () => {
-        // Remove from cachedScripts we can try loading again
         const index = cachedScripts.indexOf(src);
         if (index >= 0) cachedScripts.splice(index, 1);
         script.remove();
@@ -49,16 +43,14 @@ const useScript = (src) => {
       script.addEventListener('load', onScriptLoad);
       script.addEventListener('error', onScriptError);
 
-      // Add script to document body
       document.body.appendChild(script);
 
-      // Remove event listeners on cleanup
       return () => {
         script.removeEventListener('load', onScriptLoad);
         script.removeEventListener('error', onScriptError);
       };
     },
-    [src], // Only re-run effect if script src changes
+    [src],
   );
 
   return [state.loaded, state.error];
