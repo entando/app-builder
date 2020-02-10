@@ -1,5 +1,6 @@
 .PageConfigPage {
   &__main {
+    height: calc(100vh - 74px);
     max-height: calc(100vh - 74px);
     overflow-y: auto;
   }
