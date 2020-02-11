@@ -73,13 +73,6 @@ describe('WidgetConfigMfeWrapper', () => {
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
   });
 
-  it('does not show anything if widget is not provided', () => {
-    useScript.mockImplementation(() => [true, false]);
-    const { queryByText } = renderWithReactIntl(<WidgetConfigMfeWrapper onSubmit={onSubmit} widgetConfig={widgetConfig} />);
-    expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
-    expect(queryByText('widget.page.config.error')).not.toBeInTheDocument();
-  });
-
   it('calls onSubmit if user clicks on save button', () => {
     useScript.mockImplementation(() => [true, false]);
     const { getByText } = renderWithReactIntl(<WidgetConfigMfeWrapper onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);

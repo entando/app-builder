@@ -11,7 +11,7 @@ const widgetForms = apps.reduce((obj, app) => ({
 
 const INJECTED_APPS_WIDGETS_CONFIG_FORMS = Object.keys(widgetForms);
 
-const WidgetConfigForm = ({
+const WidgetConfigWrapper = ({
   onSubmit, widget, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => (INJECTED_APPS_WIDGETS_CONFIG_FORMS.includes(widgetCode) ? React.createElement(
   widgetForms[widgetCode],
@@ -21,7 +21,7 @@ const WidgetConfigForm = ({
   null,
 ) : <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />);
 
-WidgetConfigForm.propTypes = {
+WidgetConfigWrapper.propTypes = {
   widget: PropTypes.shape({}),
   widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
@@ -32,9 +32,9 @@ WidgetConfigForm.propTypes = {
   history: PropTypes.shape({}).isRequired,
 };
 
-WidgetConfigForm.defaultProps = {
+WidgetConfigWrapper.defaultProps = {
   widget: null,
   widgetConfig: null,
 };
 
-export default WidgetConfigForm;
+export default WidgetConfigWrapper;

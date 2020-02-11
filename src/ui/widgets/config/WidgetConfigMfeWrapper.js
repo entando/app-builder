@@ -8,10 +8,7 @@ import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
 const WidgetConfigMfeWrapper = ({ onSubmit, widget, widgetConfig }) => {
-  if (!widget) {
-    return '';
-  }
-  const { bundleId, configUi } = widget;
+  const { bundleId, configUi } = widget || { bundleId: '', configUi: {} };
   const conf = configUi || { customElement: null, resources: [] };
   const { customElement, resources } = conf;
 
@@ -33,7 +30,7 @@ const WidgetConfigMfeWrapper = ({ onSubmit, widget, widgetConfig }) => {
     if (webComponent && widgetConfig) {
       webComponent.config = widgetConfig;
     }
-  }, [everyScriptLoaded]);
+  }, [everyScriptLoaded, widgetConfig, customElement]);
 
   const webComponent = renderMfe(customElement);
 
