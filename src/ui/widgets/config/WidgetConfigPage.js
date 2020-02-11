@@ -8,7 +8,7 @@ import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import WidgetConfigForm from 'ui/widgets/config/WidgetConfigForm';
+import WidgetConfigWrapper from 'ui/widgets/config/WidgetConfigWrapper';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
@@ -104,7 +104,7 @@ class WidgetConfigPage extends Component {
                   <span>{frameName}</span>
                 </Panel.Heading>
                 <Panel.Body>
-                  <WidgetConfigForm
+                  <WidgetConfigWrapper
                     widgetCode={widgetCode}
                     pageCode={pageCode}
                     frameId={framePos}

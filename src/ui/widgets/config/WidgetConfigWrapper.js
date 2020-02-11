@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import apps from 'entando-apps';
 import WidgetConfigMfeWrapper from 'ui/widgets/config/WidgetConfigMfeWrapper';
 
@@ -9,17 +9,30 @@ const widgetForms = apps.reduce((obj, app) => ({
   ...app.widgetForms != null ? app.widgetForms : {},
 }), {});
 
-const INJECTED_APPS_WIDGETS_CONFIG_FORMS = Object.keys(widgetForms);
+const isAppBuilderAppWidget = widgetCode => Object.keys(widgetForms).includes(widgetCode);
+
+const errorComponent = (<FormattedMessage id="widget.page.config.error" />);
 
 const WidgetConfigWrapper = ({
   onSubmit, widget, widgetCode, widgetConfig, pageCode, frameId, intl, history,
-}) => (INJECTED_APPS_WIDGETS_CONFIG_FORMS.includes(widgetCode) ? React.createElement(
-  widgetForms[widgetCode],
-  {
-    widgetConfig, widgetCode, pageCode, frameId, intl, history,
-  },
-  null,
-) : <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />);
+}) => {
+  if (!widgetCode || !widgetConfig) {
+    return errorComponent;
+  }
+  if (isAppBuilderAppWidget(widgetCode)) {
+    return React.createElement(
+      widgetForms[widgetCode],
+      {
+        widgetConfig, widgetCode, pageCode, frameId, intl, history,
+      },
+      null,
+    );
+  }
+  if (!widget) {
+    return errorComponent;
+  }
+  return <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />;
+};
 
 WidgetConfigWrapper.propTypes = {
   widget: PropTypes.shape({}),
