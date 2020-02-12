@@ -484,7 +484,7 @@ export default {
     'profileType.help': 'Dalla sezione TIPI DI PROFILO l\'amministratore può creare nuovi tipi di profilo utenti o modificare quelli già esistenti.',
     'ProfileType.type': 'Tipo',
     'ProfileType.created': 'PROFILE TYPE creato con successo',
-    'ProfileType.refreshed': 'PROFILE TYPE ricaricato successo',
+    'ProfileType.refreshed': 'Tipo di profilo ricaricato con successo',
 
     'pageConfig.saveAsNewWidget': 'Salva come nuovo widget',
     'pageConfig.applyDefaultWidget': 'Applica widget di default',
