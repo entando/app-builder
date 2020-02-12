@@ -140,6 +140,9 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
     return json;
   }
   dispatch(addErrors(json.errors.map(e => e.message)));
+  if (json.errors && json.errors[0]) {
+    dispatch(addToast(json.errors[0].message, TOAST_ERROR));
+  }
   throw json;
 };
 

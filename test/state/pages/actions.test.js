@@ -747,7 +747,7 @@ describe('loadSelectedPage', () => {
     store.dispatch(loadSelectedPage(PAGE_CODE)).then(() => {
       expect(getPage).toHaveBeenCalled();
       const actionsTypes = store.getActions().map(action => action.type);
-      expect(actionsTypes).toEqual([ADD_ERRORS]);
+      expect(actionsTypes).toEqual([ADD_ERRORS, ADD_TOAST]);
       done();
     }).catch(done.fail);
   });
