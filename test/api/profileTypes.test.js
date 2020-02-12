@@ -11,6 +11,7 @@ import {
   putAttributeFromProfileType,
   getProfileTypeAttributes,
   getProfileTypeAttribute,
+  postRefreshProfileType,
 } from 'api/profileTypes';
 
 import { makeRequest, METHODS } from '@entando/apimanager';
@@ -50,6 +51,26 @@ describe('api/postProfileType', () => {
       method: 'POST',
       mockResponse: PROFILE_TYPES,
       body: PROFILE_TYPES,
+      useAuthentication: true,
+    });
+  });
+});
+
+describe('api/postRefreshProfileType', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it('returns a promise', () => {
+    expect(postRefreshProfileType(1)).toBeInstanceOf(Promise);
+  });
+
+  it('if successful, returns a mock ok response', () => {
+    postRefreshProfileType(1);
+    expect(makeRequest).toHaveBeenCalledWith({
+      uri: '/api/profileTypes/refresh/1',
+      method: 'POST',
+      mockResponse: {},
+      body: {},
       useAuthentication: true,
     });
   });

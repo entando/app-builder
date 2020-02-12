@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchProfileTypes } from 'state/profile-types/actions';
+import { fetchProfileTypes, sendPostRefreshProfileType } from 'state/profile-types/actions';
 import { getProfileTypeList } from 'state/profile-types/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLoading } from 'state/loading/selectors';
@@ -25,6 +25,9 @@ export const mapDispatchToProps = dispatch => ({
   removeProfileType: (code) => {
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'profile type', code }));
+  },
+  reloadProfileType: (code) => {
+    dispatch(sendPostRefreshProfileType(code));
   },
 });
 

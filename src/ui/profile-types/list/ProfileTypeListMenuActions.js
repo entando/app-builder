@@ -6,7 +6,7 @@ import { routeConverter } from '@entando/utils';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { ROUTE_PROFILE_TYPE_EDIT } from 'app-init/router';
 
-const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
+const ProfileTypeListMenuActions = ({ onClickDelete, onClickReload, code }) => {
   const editLabel = (
     <FormattedMessage id="app.edit" values={{ code }} />
   );
@@ -19,6 +19,12 @@ const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
         className="ProfileTypeListMenuAction__menu-item-edit"
       />
       <MenuItem
+        className="ProfileTypeListMenuAction__menu-item-reload"
+        onClick={() => (onClickReload(code))}
+      >
+        <FormattedMessage id="app.reload" />
+      </MenuItem>
+      <MenuItem
         className="ProfileTypeListMenuAction__menu-item-delete"
         onClick={() => (onClickDelete(code))}
       >
@@ -30,11 +36,13 @@ const ProfileTypeListMenuActions = ({ onClickDelete, code }) => {
 
 ProfileTypeListMenuActions.propTypes = {
   onClickDelete: PropTypes.func,
+  onClickReload: PropTypes.func,
   code: PropTypes.string.isRequired,
 };
 
 ProfileTypeListMenuActions.defaultProps = {
   onClickDelete: () => {},
+  onClickReload: () => {},
 };
 
 export default ProfileTypeListMenuActions;

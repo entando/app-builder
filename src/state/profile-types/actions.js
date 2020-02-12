@@ -20,6 +20,7 @@ import {
   getProfileTypeAttribute,
   moveAttributeUp,
   moveAttributeDown,
+  postRefreshProfileType,
 } from 'api/profileTypes';
 import {
   getProfileTypeAttributesIdList,
@@ -147,6 +148,20 @@ export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch 
       response.json().then((json) => {
         if (response.ok) {
           history.push(ROUTE_PROFILE_TYPE_LIST);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
+  }));
+
+export const sendPostRefreshProfileType = profileTypeCode => dispatch =>
+  (new Promise((resolve) => {
+    postRefreshProfileType(profileTypeCode).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(addToast({ id: 'ProfileType.refreshed' }, TOAST_SUCCESS));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
         }
