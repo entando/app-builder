@@ -11,3 +11,4 @@ export const deleteAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const getAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const postAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const putAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
+export const postRefreshProfileType = jest.fn(mockApi({ payload: {} }));

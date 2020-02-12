@@ -44,6 +44,7 @@ import {
   setSelectedAttribute,
   fetchProfileTypeAttributes,
   fetchProfileTypeAttribute,
+  sendPostRefreshProfileType,
 } from 'state/profile-types/actions';
 import {
   postProfileType,
@@ -57,6 +58,7 @@ import {
   deleteAttributeFromProfileType,
   getProfileTypeAttributes,
   getProfileTypeAttribute,
+  postRefreshProfileType,
 } from 'api/profileTypes';
 import {
   PROFILE_TYPES,
@@ -184,6 +186,30 @@ describe('state/profile-types/actions ', () => {
         putProfileType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPutProfileType(PROFILE_TYPES)).then(() => {
           expect(putProfileType).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendPostRefreshProfileType', () => {
+      it('when sendPostRefreshProfileType succeeds, should show toasts', (done) => {
+        postRefreshProfileType.mockImplementationOnce(mockApi({ payload: {} }));
+        store.dispatch(sendPostRefreshProfileType(1)).then(() => {
+          expect(postRefreshProfileType).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('when sendPostRefreshProfileType get error, should dispatch addError', (done) => {
+        postRefreshProfileType.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(sendPostRefreshProfileType(1)).then(() => {
+          expect(postRefreshProfileType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);

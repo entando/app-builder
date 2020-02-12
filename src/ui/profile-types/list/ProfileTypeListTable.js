@@ -50,6 +50,7 @@ class ProfileTypeListTable extends Component {
           <ProfileTypeListMenuActions
             code={profiletype.code}
             onClickDelete={this.props.removeProfileType}
+            onClickReload={this.props.reloadProfileType}
           />
         </td>
       </tr>
@@ -130,6 +131,7 @@ ProfileTypeListTable.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   removeProfileType: PropTypes.func.isRequired,
+  reloadProfileType: PropTypes.func.isRequired,
 };
 
 ProfileTypeListTable.defaultProps = {

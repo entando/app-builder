@@ -12,6 +12,14 @@ import {
 } from 'test/mocks/profileTypes';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
+export const postRefreshProfileType = profileTypeCode => makeRequest({
+  uri: `/api/profileTypes/refresh/${profileTypeCode}`,
+  body: {},
+  method: METHODS.POST,
+  mockResponse: {},
+  useAuthentication: true,
+});
+
 export const postProfileType = profileTypeObject => makeRequest({
   uri: '/api/profileTypes',
   body: profileTypeObject,
