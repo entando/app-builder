@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -28,7 +29,7 @@ const WidgetConfigWrapper = ({
       null,
     );
   }
-  if (!widget) {
+  if (!get(widget, 'bundleId') || !get(widget, 'configUi.resources.length') || !get(widget, 'configUi.customElement')) {
     return errorComponent;
   }
   return <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />;
