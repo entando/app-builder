@@ -170,14 +170,17 @@ export class WidgetFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-            <fieldset className="no-padding">
-              <Field
-                component={JsonCodeEditorRenderer}
-                name="configUi"
-                label={<FormLabel labelId="widgets.configUi" />}
-                validate={[validateJson]}
-              />
-            </fieldset>
+            <Field
+              component={RenderTextInput}
+              name="bundleId"
+              label={<FormLabel labelId="widgets.bundleId" />}
+            />
+            <Field
+              component={JsonCodeEditorRenderer}
+              name="configUi"
+              label={<FormLabel labelId="widgets.configUi" />}
+              validate={[validateJson]}
+            />
           </Col>
         </Row>
         <br />

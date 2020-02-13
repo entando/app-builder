@@ -14,7 +14,7 @@ const isAppBuilderAppWidget = widgetCode => Object.keys(widgetForms).includes(wi
 
 const errorComponent = (<FormattedMessage id="widget.page.config.error" />);
 
-const WidgetConfigWrapper = ({
+const WidgetConfigForm = ({
   onSubmit, widget, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
   if (!widgetCode || !widgetConfig) {
@@ -35,7 +35,7 @@ const WidgetConfigWrapper = ({
   return <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />;
 };
 
-WidgetConfigWrapper.propTypes = {
+WidgetConfigForm.propTypes = {
   widget: PropTypes.shape({}),
   widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
@@ -46,9 +46,9 @@ WidgetConfigWrapper.propTypes = {
   history: PropTypes.shape({}).isRequired,
 };
 
-WidgetConfigWrapper.defaultProps = {
+WidgetConfigForm.defaultProps = {
   widget: null,
   widgetConfig: null,
 };
 
-export default WidgetConfigWrapper;
+export default WidgetConfigForm;
