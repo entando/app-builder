@@ -17,7 +17,7 @@ const errorComponent = (<FormattedMessage id="widget.page.config.error" />);
 const WidgetConfigForm = ({
   onSubmit, widget, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
-  if (!widgetCode || !widgetConfig) {
+  if (!widgetCode) {
     return errorComponent;
   }
   if (isAppBuilderAppWidget(widgetCode)) {
