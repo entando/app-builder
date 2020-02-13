@@ -1,38 +1,33 @@
-import { get } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
-import apps from 'entando-apps';
-import WidgetConfigMfeWrapper from 'ui/widgets/config/WidgetConfigMfeWrapper';
-
-const widgetForms = apps.reduce((obj, app) => ({
-  ...obj,
-  ...app.widgetForms != null ? app.widgetForms : {},
-}), {});
-
-const isAppBuilderAppWidget = widgetCode => Object.keys(widgetForms).includes(widgetCode);
+import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
+import { isAppBuilderAppWidgetForm, getAppBuilderWidgetForm } from 'helpers/apps';
+import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 
 const errorComponent = (<FormattedMessage id="widget.page.config.error" />);
 
 const WidgetConfigForm = ({
   onSubmit, widget, widgetCode, widgetConfig, pageCode, frameId, intl, history,
 }) => {
-  if (!widgetCode) {
-    return errorComponent;
-  }
-  if (isAppBuilderAppWidget(widgetCode)) {
+  if (isAppBuilderAppWidgetForm(widgetCode)) {
     return React.createElement(
-      widgetForms[widgetCode],
+      getAppBuilderWidgetForm(widgetCode),
       {
         widgetConfig, widgetCode, pageCode, frameId, intl, history,
       },
       null,
     );
   }
-  if (!get(widget, 'bundleId') || !get(widget, 'configUi.resources.length') || !get(widget, 'configUi.customElement')) {
-    return errorComponent;
+  if (isMicrofrontendWidgetForm(widget)) {
+    return (
+      <WidgetConfigMicrofrontend
+        widget={widget}
+        widgetConfig={widgetConfig}
+        onSubmit={onSubmit}
+      />);
   }
-  return <WidgetConfigMfeWrapper widget={widget} widgetConfig={widgetConfig} onSubmit={onSubmit} />;
+  return errorComponent;
 };
 
 WidgetConfigForm.propTypes = {
