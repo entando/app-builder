@@ -2,8 +2,11 @@ const path = require('path');
 const srcPath = path.resolve(__dirname, 'src');
 
 module.exports = {
-    "parser": "babel-eslint",
     "extends": "airbnb",
+    "parser": "babel-eslint",
+    "plugins": [
+        "react-hooks"
+      ],    
     "rules": {
         "strict": 0,
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
@@ -15,7 +18,9 @@ module.exports = {
               "every": [ "id" ]
           },
           "allowChildren": true
-      }]
+      }],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
     },
     "settings": {
         "import/resolver": {

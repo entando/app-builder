@@ -8,10 +8,12 @@ import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import WidgetConfigForm from 'ui/widgets/config/WidgetConfigForm';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
+import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForrm';
+import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
+import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
 
 
 class WidgetConfigPage extends Component {
@@ -41,6 +43,29 @@ class WidgetConfigPage extends Component {
     const {
       widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
     } = this.props;
+
+    const renderWidgetConfigForm = () => {
+      const appBuilderWidgetForm = getAppBuilderWidgetForm(widgetCode);
+      if (appBuilderWidgetForm) {
+        return React.createElement(
+          appBuilderWidgetForm,
+          {
+            widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history,
+          },
+          null,
+        );
+      }
+      if (isMicrofrontendWidgetForm(widget)) {
+        return (
+          <WidgetConfigMicrofrontend
+            widget={widget}
+            widgetConfig={widgetConfig}
+            onSubmit={onSubmit}
+          />);
+      }
+      return <FormattedMessage id="widget.page.config.error" />;
+    };
+
     return (
       <InternalPage className="WidgetConfigPage">
         <Grid fluid>
@@ -104,16 +129,7 @@ class WidgetConfigPage extends Component {
                   <span>{frameName}</span>
                 </Panel.Heading>
                 <Panel.Body>
-                  <WidgetConfigForm
-                    widgetCode={widgetCode}
-                    pageCode={pageCode}
-                    frameId={framePos}
-                    widget={widget}
-                    widgetConfig={widgetConfig}
-                    onSubmit={onSubmit}
-                    intl={intl}
-                    history={history}
-                  />
+                  {renderWidgetConfigForm()}
                 </Panel.Body>
               </Panel>
             </Col>

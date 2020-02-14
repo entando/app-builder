@@ -1,8 +1,12 @@
+import { get } from 'lodash';
 import React from 'react';
 
-export const getFilePath = (bundleId, resource) => `${process.env.DOMAIN}/cmsresources/${bundleId}/${resource}`;
+export const getResourcePath = (subdir, resource) => `${process.env.DOMAIN}/cmsresources/${subdir}/${resource}`;
 
-export const getMfe = customElement => document.querySelector(customElement);
+export const isMicrofrontendWidgetForm = widget =>
+  get(widget, 'bundleId') && get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');
+
+export const getMicrofrontend = customElement => document.querySelector(customElement);
 
 // eslint-disable-next-line react/no-danger
-export const renderMfe = customElement => (<div dangerouslySetInnerHTML={{ __html: `<${customElement} />` }} />);
+export const renderMicrofrontend = customElement => (<div dangerouslySetInnerHTML={{ __html: `<${customElement} />` }} />);
