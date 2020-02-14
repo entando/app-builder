@@ -265,6 +265,7 @@ export default {
     'app.threeStateOptions.both': 'Both',
     'app.enumerator.none': 'None',
     'menu.dashboard': 'Dashboard',
+    'menu.plugins': 'Plugins',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',
     'menu.uxPattern': 'UX Patterns',
