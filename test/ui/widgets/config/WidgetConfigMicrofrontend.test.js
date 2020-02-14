@@ -46,8 +46,22 @@ const sampleWidget = {
   },
 };
 
+const widgetWithNoConfig = {
+  code: 'sample',
+  used: 0,
+  titles: {
+    en: 'Sample Widget',
+    it: 'Widget di esempio',
+  },
+  group: null,
+  pluginCode: null,
+  pluginDesc: null,
+  guiFragments: [],
+  hasConfig: false,
+  bundleId: 'sample-bundle',
+};
 
-describe('WidgetConfigMfeWrapper', () => {
+describe('WidgetConfigMicrofrontend', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -55,6 +69,13 @@ describe('WidgetConfigMfeWrapper', () => {
   it('shows microfrontend', () => {
     useScript.mockImplementation(() => [true, false]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
+    expect(getByText('Sample Widget Config')).toBeInTheDocument();
+    expect(queryByText('widget.page.config.error')).not.toBeInTheDocument();
+  });
+
+  it('shows microfrontend if no config', () => {
+    useScript.mockImplementation(() => [true, false]);
+    const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={null} />);
     expect(getByText('Sample Widget Config')).toBeInTheDocument();
     expect(queryByText('widget.page.config.error')).not.toBeInTheDocument();
   });
@@ -69,6 +90,20 @@ describe('WidgetConfigMfeWrapper', () => {
   it('shows config error if scripts are loaded with error', () => {
     useScript.mockImplementation(() => [true, true]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
+    expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
+    expect(getByText('widget.page.config.error')).toBeInTheDocument();
+  });
+
+  it('shows config error if no scripts are provided', () => {
+    useScript.mockImplementation(() => [true, false]);
+    const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={widgetWithNoConfig} widgetConfig={widgetConfig} />);
+    expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
+    expect(getByText('widget.page.config.error')).toBeInTheDocument();
+  });
+
+  it('shows config error if widget is null', () => {
+    useScript.mockImplementation(() => [true, false]);
+    const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={null} widgetConfig={widgetConfig} />);
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
   });

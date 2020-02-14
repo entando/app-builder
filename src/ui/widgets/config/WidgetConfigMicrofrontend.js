@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -8,7 +9,9 @@ import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
 const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
-  const { bundleId, configUi: { customElement, resources } } = widget;
+  const bundleId = get(widget, 'bundleId');
+  const resources = get(widget, 'configUi.resources', []);
+  const customElement = get(widget, 'configUi.customElement');
 
   const scripts = resources.filter(res => res.endsWith('.js'));
   const styleSheets = resources.filter(res => res.endsWith('.css'));
@@ -28,11 +31,11 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
     if (everyScriptLoaded && microfrontend && widgetConfig) {
       microfrontend.config = widgetConfig;
     }
-  }, [everyScriptLoaded, widgetConfig, customElement]);
+  }, [customElement, everyScriptLoaded, widgetConfig]);
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
 
-  return (everyScriptLoaded && everyStylesheetLoaded
+  return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
     && !someScriptError && !someStylesheetError) ? (
       <Fragment>
         {microfrontendMarkup}
@@ -48,13 +51,12 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
 };
 
 WidgetConfigMicrofrontend.propTypes = {
-  widget: PropTypes.shape({}),
+  widget: PropTypes.shape({}).isRequired,
   widgetConfig: PropTypes.shape({}),
   onSubmit: PropTypes.func.isRequired,
 };
 
 WidgetConfigMicrofrontend.defaultProps = {
-  widget: null,
   widgetConfig: null,
 };
 
