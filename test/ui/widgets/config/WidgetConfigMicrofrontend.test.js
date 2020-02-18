@@ -14,7 +14,7 @@ const onSubmit = jest.fn();
 jest.mock('helpers/useScript');
 
 jest.mock('helpers/microfrontends', () => ({
-  getResourcePath: () => '',
+  getResourcePath: res => res,
 
   getMicrofrontend: () => ({
     config: { name: 'John' },

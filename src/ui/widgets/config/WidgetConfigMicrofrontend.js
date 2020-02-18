@@ -9,16 +9,14 @@ import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
 const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
-  const bundleId = get(widget, 'bundleId');
-  const resources = get(widget, 'configUi.resources', []);
+  const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
   const customElement = get(widget, 'configUi.customElement');
 
   const scripts = resources.filter(res => res.endsWith('.js'));
   const styleSheets = resources.filter(res => res.endsWith('.css'));
 
-  const getFullPath = resource => getResourcePath(bundleId, resource);
-  const [everyScriptLoaded, someScriptError] = useScripts(scripts.map(getFullPath));
-  const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets.map(getFullPath));
+  const [everyScriptLoaded, someScriptError] = useScripts(scripts);
+  const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets);
 
   const handleSubmit = () => {
     const configWebComponent = getMicrofrontend(customElement);
@@ -34,6 +32,8 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
   }, [customElement, everyScriptLoaded, widgetConfig]);
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
+
+  console.log('fin qui ok', scripts);
 
   return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
     && !someScriptError && !someStylesheetError) ? (
