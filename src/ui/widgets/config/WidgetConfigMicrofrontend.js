@@ -33,8 +33,6 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
 
-  console.log('fin qui ok', scripts);
-
   return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
     && !someScriptError && !someStylesheetError) ? (
       <Fragment>
