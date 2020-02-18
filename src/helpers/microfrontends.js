@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-export const getResourcePath = resource => `${process.env.DOMAIN}/resources/${resource}`;
+export const getResourcePath = resource => `${process.env.DOMAIN}/cmsresources/${resource}`;
 
 export const isMicrofrontendWidgetForm = widget =>
   get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');
