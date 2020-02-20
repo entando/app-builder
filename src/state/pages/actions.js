@@ -248,6 +248,7 @@ export const createPage = wrapApiCall(postPage);
 export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatch)
   .then((json) => {
     dispatch(addPages([json.payload]));
+    return json;
   })
   .catch(() => { });
 
