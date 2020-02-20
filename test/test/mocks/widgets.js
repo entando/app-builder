@@ -107,6 +107,7 @@ export const WIDGET = {
   ],
   pluginCode: 'plugin_code',
   group: 'group',
+  configUi: null,
 };
 
 export const WIDGET_LIST = {
