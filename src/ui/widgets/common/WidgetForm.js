@@ -6,7 +6,6 @@ import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
-import { validateJson } from 'ui/page-models/common/PageModelForm';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
@@ -48,6 +47,17 @@ const msgs = defineMessages({
     defaultMessage: 'Custom UI',
   },
 });
+
+const validateJson = (value) => {
+  try {
+    if (value) {
+      JSON.parse(value);
+    }
+    return undefined;
+  } catch (e) {
+    return `Invalid JSON format: ${e.message}`;
+  }
+};
 
 export class WidgetFormBody extends Component {
   componentWillMount() {
