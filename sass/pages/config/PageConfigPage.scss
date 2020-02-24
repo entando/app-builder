@@ -69,6 +69,13 @@
     margin-right: 5px;
   }
 
+  &__publishing {
+    .dropdown-menu { // sass-lint:disable-line class-name-format
+      top: -60px;
+    }
+  }
+
+
   &__info-panel {
     border: 0;
   }
