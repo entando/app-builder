@@ -38,7 +38,7 @@ import {
 } from 'state/categories/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-
+import { getCategoriesMap } from 'state/categories/selectors';
 import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
 import { history, ROUTE_CATEGORY_ADD } from 'app-init/router';
 
@@ -51,7 +51,11 @@ const mockStore = configureMockStore(middlewares);
 const INITIAL_STATE = {
   categories: {
     list: [],
-    map: {},
+    map: {
+      parentCode: {
+        parentCode: '123',
+      },
+    },
     childrenMap: {},
     titlesMap: {},
     statusMap: {},
@@ -171,6 +175,7 @@ describe('state/categories/actions', () => {
   describe('sendPostCategory()', () => {
     it('when postCategory succeeds should call post action', (done) => {
       postCategory.mockImplementation(mockApi({ payload: BODY_OK }));
+      jest.mock('state/categories/selectors', () => ({ getCategoriesMap: () => ({ parentCode: { parentCode: '123' } }) }));
       store.dispatch(sendPostCategory(BODY_OK)).then(() => {
         expect(postCategory).toHaveBeenCalled();
         done();
