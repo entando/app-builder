@@ -34,8 +34,9 @@ export const performLogin = (username, password) => dispatch => (
           dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
           resolve();
         }
-      }).catch(() => {
-        dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
+      }).catch((err) => {
+        const errorId = err.message === 'app.serverError' ? 'app.coreUnreachable' : 'fcc.login.errorMessage';
+        dispatch(setLoginErrorMessage({ id: errorId, defaultMessage: ERROR_LOGIN_MESSAGE, domain: '' }));
         resolve();
       });
     } else {

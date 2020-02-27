@@ -6,6 +6,7 @@ export default {
     'app.permissionDenied': 'your session expired',
     'app.usingMocks': 'App Builder is currently using mocks',
     'app.welcome': 'Welcome to Entando, {name}!',
+    'app.coreUnreachable': 'Entando core is unreachable',
     'app.yes': 'Yes',
     'app.no': 'No',
     'app.add': 'Add',
