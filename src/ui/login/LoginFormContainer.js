@@ -10,17 +10,12 @@ import { getLocale } from 'state/locale/selectors';
 
 export const mapStateToProps = (state, { intl }) => {
   const errorMessage = getLoginErrorMessage(state);
-  let loginErrorMessage = null;
-  if (errorMessage && errorMessage.values) {
-    loginErrorMessage = intl.formatMessage(
-      { id: errorMessage.id },
-      { domain: errorMessage.values.domain },
-    );
-  } else if (errorMessage && errorMessage.id) {
-    loginErrorMessage = intl.formatMessage(errorMessage);
-  }
   return {
-    loginErrorMessage,
+    loginErrorMessage: errorMessage &&
+    intl.formatMessage(
+      { id: errorMessage.id, defaultMessage: errorMessage.defaultMessage },
+      errorMessage.values,
+    ),
     currentLanguage: getLocale(state),
   };
 };
