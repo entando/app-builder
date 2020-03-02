@@ -10,8 +10,15 @@ import { getLocale } from 'state/locale/selectors';
 
 export const mapStateToProps = (state, { intl }) => {
   const errorMessage = getLoginErrorMessage(state);
-  const loginErrorMessage = (errorMessage && errorMessage.id && intl.formatMessage(errorMessage))
-  || null;
+  let loginErrorMessage = null;
+  if (errorMessage && errorMessage.values) {
+    loginErrorMessage = intl.formatMessage(
+      { id: errorMessage.id },
+      { domain: errorMessage.values.domain },
+    );
+  } else if (errorMessage && errorMessage.id) {
+    loginErrorMessage = intl.formatMessage(errorMessage);
+  }
   return {
     loginErrorMessage,
     currentLanguage: getLocale(state),

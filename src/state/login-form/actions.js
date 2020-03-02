@@ -1,4 +1,4 @@
-import { loginUser } from '@entando/apimanager';
+import { loginUser, getApi } from '@entando/apimanager';
 
 import login from 'api/login';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
@@ -17,7 +17,7 @@ export const setLoginErrorMessage = (message) => ({
 
 const ERROR_LOGIN_MESSAGE = 'error: username or password is invalid';
 
-export const performLogin = (username, password) => dispatch => (
+export const performLogin = (username, password) => (dispatch, getState) => (
   new Promise((resolve) => {
     if (username && password) {
       dispatch(setLoginErrorMessage(''));
@@ -35,8 +35,13 @@ export const performLogin = (username, password) => dispatch => (
           resolve();
         }
       }).catch((err) => {
-        const errorId = err.message === 'app.serverError' ? 'app.coreUnreachable' : 'fcc.login.errorMessage';
-        dispatch(setLoginErrorMessage({ id: errorId, defaultMessage: ERROR_LOGIN_MESSAGE, domain: '' }));
+        const apiUnreacheableId = 'app.serverError';
+        const { domain } = getApi(getState());
+        const errorObject = err.message === apiUnreacheableId ? ({
+          id: apiUnreacheableId,
+          values: { domain },
+        }) : ({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE });
+        dispatch(setLoginErrorMessage(errorObject));
         resolve();
       });
     } else {
