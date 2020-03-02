@@ -1,21 +1,41 @@
-import { loginUser } from '@entando/apimanager';
+import { loginUser, getDomain } from '@entando/apimanager';
 
 import login from 'api/login';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
 
+export const apiUnreacheableId = 'app.serverError';
+export const incorrectCredentialsId = 'fcc.login.errorMessage';
 
-// eslint-disable-next-line
-export const setLoginErrorMessage = (message) => ({
+export const ERROR_LOGIN_MESSAGE = 'error: username or password is invalid';
+
+export const setLoginErrorMessage = message => ({
   type: SET_LOGIN_ERROR_MESSAGE,
   payload: {
     message,
   },
 });
 
+export const generateLoginErrorMessage = error => (dispatch, getState) => {
+  let intlErrorObject = null;
+  switch (error.message) {
+    case apiUnreacheableId: {
+      const domain = getDomain(getState());
+      intlErrorObject = ({
+        id: apiUnreacheableId,
+        values: { domain },
+      });
+      break;
+    }
+    default: {
+      intlErrorObject = ({ id: incorrectCredentialsId, defaultMessage: ERROR_LOGIN_MESSAGE });
+      break;
+    }
+  }
+  dispatch(setLoginErrorMessage(intlErrorObject));
+};
+
 
 // thunks
-
-const ERROR_LOGIN_MESSAGE = 'error: username or password is invalid';
 
 export const performLogin = (username, password) => dispatch => (
   new Promise((resolve) => {
@@ -31,15 +51,21 @@ export const performLogin = (username, password) => dispatch => (
             resolve();
           });
         } else {
-          dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
+          dispatch(setLoginErrorMessage({
+            id: incorrectCredentialsId,
+            defaultMessage: ERROR_LOGIN_MESSAGE,
+          }));
           resolve();
         }
-      }).catch(() => {
-        dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
+      }).catch((err) => {
+        dispatch(generateLoginErrorMessage(err));
         resolve();
       });
     } else {
-      dispatch(setLoginErrorMessage({ id: 'fcc.login.errorMessage', defaultMessage: ERROR_LOGIN_MESSAGE }));
+      dispatch(setLoginErrorMessage({
+        id: incorrectCredentialsId,
+        defaultMessage: ERROR_LOGIN_MESSAGE,
+      }));
       resolve();
     }
   })
