@@ -3,7 +3,8 @@ import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 
-const keycloak = new Keycloak(process.env.KEYCLOAK_JSON);
+const keycloak = new Keycloak((window && window.env && window.env.KEYCLOAK_JSON)
+  || process.env.KEYCLOAK_JSON);
 keycloak.enabled = true;
 
 export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
