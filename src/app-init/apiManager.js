@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { APIProvider } from '@entando/apimanager';
+import { ApiProvider } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
@@ -18,7 +18,9 @@ const ApiManager = ({
   };
 
   const goHome = (opts) => {
-    if (!auth.toRefreshToken) {
+    if (auth.enabled && auth.toRefreshToken) {
+      auth.setToRefreshToken(false);
+    } else {
       const { redirectUri, pathname } = opts;
       if (redirectUri) {
         window.location.href = redirectUri;
@@ -29,8 +31,6 @@ const ApiManager = ({
         ? route
         : ROUTE_DASHBOARD;
       history.push(goto);
-    } else {
-      // auth.toRefreshToken = false; // will make change here
     }
   };
 
@@ -50,7 +50,7 @@ const ApiManager = ({
   }
 
   return (
-    <APIProvider
+    <ApiProvider
       onLogout={logout}
       onLogin={goHome}
       store={store}
@@ -59,7 +59,7 @@ const ApiManager = ({
       plugins={pluginsArray}
     >
       {children}
-    </APIProvider>
+    </ApiProvider>
   );
 };
 
