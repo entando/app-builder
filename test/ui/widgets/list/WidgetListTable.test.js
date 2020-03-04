@@ -31,12 +31,12 @@ describe('WidgetListTable', () => {
     expect(component.find('table thead tr th')).toHaveLength(4);
   });
 
-  it('renders five WidgetListRow', () => {
+  it('renders WidgetListRows', () => {
     expect(component.find(WidgetListRow).exists()).toBe(true);
-    expect(component.find(WidgetListRow)).toHaveLength(9);
+    expect(component.find(WidgetListRow)).toHaveLength(8);
   });
 
-  it('not renders  WidgetListRow', () => {
+  it('does not render WidgetListRow', () => {
     component = shallow(<WidgetListTable title="widgets" widgetList={[]} locale="en" onDelete={onDelete} />);
     expect(component.find(WidgetListRow).exists()).toBe(false);
   });

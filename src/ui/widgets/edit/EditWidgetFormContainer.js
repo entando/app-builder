@@ -28,7 +28,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onSubmit: (values) => {
     const jsonData = {
       ...values,
-      configUi: values.configUi ? JSON.parse(values.configUi) : {},
+      configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(sendPutWidgets(jsonData));
   },

@@ -199,13 +199,14 @@ describe('state/widgets/actions', () => {
             code: WIDGET.code,
             titles: WIDGET.titles,
             group: WIDGET.group,
+            configUi: '',
             customUi: WIDGET.guiFragments[0].customUi,
           });
           done();
         }).catch(done.fail);
       });
 
-      it('if API response is ok, initializes the form with widget information', (done) => {
+      it('if API response is ok, initializes the form with widget information 2', (done) => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();

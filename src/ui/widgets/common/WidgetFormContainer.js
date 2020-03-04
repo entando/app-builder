@@ -16,14 +16,12 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
-    dispatch(initialize('widget', {
-      configUi: '{\n  "customElement": "",\n  "resources": []\n}',
-    }));
+    dispatch(initialize('widget'));
   },
   onSubmit: (values) => {
     const jsonData = {
       ...values,
-      configUi: values.configUi ? JSON.parse(values.configUi) : {},
+      configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
     dispatch(sendPostWidgets(jsonData));

@@ -7,7 +7,7 @@ import {
 } from 'api/categories';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
-import { getStatusMap, getReferenceKeyList, getSelectedRefs } from 'state/categories/selectors';
+import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap } from 'state/categories/selectors';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -101,7 +101,6 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
       const response = await fetchCategoryChildren(categoryCode)(dispatch);
       categoryTree = response.payload;
     }
-
     dispatch(setCategories(categoryTree));
   } catch (e) {
     // do nothing
@@ -130,10 +129,13 @@ export const fetchCategory = categoryCode => dispatch =>
     dispatch(initialize('category', data.payload));
   });
 
-export const sendPostCategory = categoryData => (dispatch) => {
+export const sendPostCategory = categoryData => (dispatch, getState) => {
   try {
+    const { parentCode } = categoryData;
     return dispatch(wrapApiCall(postCategory)(categoryData)).then((data) => {
       dispatch(setCategories([data.payload]));
+      const { parentCode: grandParentCode } = getCategoriesMap(getState())[parentCode];
+      dispatch(fetchCategoryTree(grandParentCode));
       history.push(ROUTE_CATEGORY_LIST);
     });
   } catch (e) {

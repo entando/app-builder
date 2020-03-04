@@ -258,7 +258,7 @@ class PageConfigPage extends Component {
                   <ButtonToolbar className="pull-left">
                     { defaultConfigBtn }
                   </ButtonToolbar>
-                  <div className="pull-right">
+                  <div className="pull-right PageConfigPage__publishing">
                     <label className="PageConfigPage__on-the-fly-label">
                       <FormattedMessage id="pageConfig.onTheFlyPage" />
                     </label>

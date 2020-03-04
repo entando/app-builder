@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-export const getResourcePath = (subdir, resource) => `${process.env.DOMAIN}/cmsresources/${subdir}/${resource}`;
+export const getResourcePath = resource => `${process.env.DOMAIN}/cmsresources/${resource}`;
 
 export const isMicrofrontendWidgetForm = widget =>
-  get(widget, 'bundleId') && get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');
+  get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');
 
 export const getMicrofrontend = customElement => document.querySelector(customElement);
 
