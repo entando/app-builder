@@ -41,8 +41,12 @@ export class PageFormBody extends Component {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
+      pageCode,
     } = this.props;
-
+    let { pages } = this.props;
+    if (pages && pages.length > 0) {
+      pages = pages.filter(p => p.code !== pageCode);
+    }
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
 
@@ -57,6 +61,7 @@ export class PageFormBody extends Component {
       (<Field
         component={PageTreeSelectorContainer}
         name="parentCode"
+        pages={pages}
         validate={[required]}
       />);
 
@@ -333,6 +338,8 @@ PageFormBody.propTypes = {
   onChangeDefaultTitle: PropTypes.func,
   parentCode: PropTypes.string,
   parentTitle: PropTypes.string,
+  pages: PropTypes.arrayOf(PropTypes.shape({})),
+  pageCode: PropTypes.string,
 };
 
 PageFormBody.defaultProps = {
@@ -343,6 +350,8 @@ PageFormBody.defaultProps = {
   onChangeDefaultTitle: null,
   parentCode: null,
   parentTitle: null,
+  pages: null,
+  pageCode: null,
 };
 
 const PageForm = reduxForm({
