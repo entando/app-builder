@@ -46,6 +46,7 @@ jest.mock('state/page-models/selectors', () => ({
 jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
+  getPageTreePages: jest.fn().mockReturnValue([]),
 }));
 
 jest.mock('state/languages/selectors', () => ({
