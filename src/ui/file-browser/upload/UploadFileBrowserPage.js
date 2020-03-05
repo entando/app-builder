@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Row, Col, Button, Breadcrumb, Icon, ButtonGroup } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
@@ -10,10 +11,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 
-const UploadFileBrowserPage = () => (
+const UploadFileBrowserPage = ({ location: { pathname } }) => (
   <InternalPage className="UploadFileBrowserPage">
     <Grid fluid>
       <Row>
@@ -68,6 +69,7 @@ const UploadFileBrowserPage = () => (
                 type="button"
                 className="pull-right UploadFileBrowserPage__uploadFile"
                 bsStyle="primary"
+                disabled={pathname === ROUTE_FILE_BROWSER_UPLOAD}
               >
                 <Icon size="lg" name="upload" />&nbsp;
                 <FormattedMessage
@@ -90,5 +92,11 @@ const UploadFileBrowserPage = () => (
     </Grid>
   </InternalPage>
 );
+
+UploadFileBrowserPage.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default UploadFileBrowserPage;
