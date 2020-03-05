@@ -11,7 +11,7 @@ import { getPlugins, getPlugin, putPluginConfig } from 'api/plugins';
 import { SET_PLUGINS, SET_SELECTED_PLUGIN } from 'state/plugins/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { ADD_ERRORS, ADD_TOAST, TOAST_SUCCESS } from '@entando/messages';
+import { ADD_TOAST, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -51,14 +51,16 @@ describe('state/plugins/thunks', () => {
       }).catch(done.fail);
     });
 
-    it('calls proper actions on error', (done) => {
+    it('calls proper actions on API error', (done) => {
       getPlugins.mockImplementation(mockApi({ errors: true }));
 
       store.dispatch(fetchPlugins()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1]).toHaveProperty('payload');
+        expect(actions[1]).toHaveProperty('payload.type', TOAST_ERROR);
         expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
@@ -83,7 +85,9 @@ describe('state/plugins/thunks', () => {
       store.dispatch(getOrFetchPlugin(PLUGIN_OK.id)).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0]).toHaveProperty('payload');
+        expect(actions[0]).toHaveProperty('payload.type', TOAST_ERROR);
         done();
       }).catch(done.fail);
     });
@@ -124,13 +128,15 @@ describe('state/plugins/thunks', () => {
       }).catch(done.fail);
     });
 
-    it('calls proper actions on error', (done) => {
+    it('calls proper actions on API error', (done) => {
       putPluginConfig.mockImplementation(mockApi({ errors: true }));
 
       store.dispatch(savePluginConfig()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0]).toHaveProperty('payload');
+        expect(actions[0]).toHaveProperty('payload.type', TOAST_ERROR);
         done();
       }).catch(done.fail);
     });
