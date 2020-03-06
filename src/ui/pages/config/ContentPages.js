@@ -5,6 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { Icon } from 'patternfly-react';
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
+import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
+import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 
 
 class ContentPages extends Component {
@@ -24,7 +27,14 @@ class ContentPages extends Component {
             <FormattedMessage id="app.add" />
           </Link>
         </div>
-        <PageTreeCompact pages={this.props.pages} onExpandPage={this.props.onExpandPage} />
+        <PageTreeCompact
+          {...this.props}
+          pages={this.props.pages}
+          onExpandPage={this.props.onExpandPage}
+        />
+        <DeletePageModalContainer />
+        <PublishPageModalContainer />
+        <UnpublishPageModalContainer />
       </div>
     );
   }
