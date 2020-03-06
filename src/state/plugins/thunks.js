@@ -14,8 +14,8 @@ const getErrorMessage = (obj) => {
   if (typeof obj === 'string') {
     return obj;
   }
-  if (Array.isArray(obj.errors) && obj.errors.length) {
-    return obj.errors.join('\n');
+  if (Array.isArray(obj) && obj.length) {
+    return obj.map(err => err.message).join('\n');
   }
   if (obj.message) {
     return obj.message;
@@ -26,9 +26,9 @@ const getErrorMessage = (obj) => {
 const handleError = error => (dispatch, getState) => {
   const domain = getDomain(getState());
   const errorMessage = getErrorMessage(error);
-  const values = errorMessage === serverErrorMessageId ? { domain } : null;
+  const values = errorMessage === serverErrorMessageId ? { domain } : undefined;
   dispatch(addToast(
-    { id: error.message, values },
+    { id: errorMessage, values },
     TOAST_ERROR,
   ));
 };
@@ -42,7 +42,7 @@ export const fetchPlugins = (params = '') => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setPlugins(json.payload));
-        } else {
+        } else if (response.status !== 401) {
           dispatch(handleError(json.errors));
         }
         dispatch(toggleLoading(feature));
