@@ -42,7 +42,7 @@ import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
 import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
-import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+import PluginListPageContainer from 'ui/plugins/PluginListPageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 // digital exchange
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
@@ -303,7 +303,7 @@ describe('App', () => {
 
   it('route to plugins page', () => {
     const component = mountWithRoute(ROUTE_PLUGINS);
-    expect(component.find(PluginsPageContainer).exists()).toBe(true);
+    expect(component.find(PluginListPageContainer).exists()).toBe(true);
   });
 
   it('route to plugin config page', () => {

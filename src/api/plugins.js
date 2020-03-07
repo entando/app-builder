@@ -2,12 +2,13 @@ import {
   PLUGIN_OK,
   PLUGINS_OK,
 } from 'test/mocks/plugins';
-import { makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeMockRequest, makeRequest, METHODS } from '@entando/apimanager';
 
 export const getPlugins = (params, page) => (
-  makeMockRequest(
+  makeRequest(
     {
-      uri: `/api/plugins${params || ''}`,
+      uri: `/plugins/info${params || ''}`,
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: PLUGINS_OK,
       useAuthentication: true,

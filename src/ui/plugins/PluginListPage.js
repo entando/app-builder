@@ -4,30 +4,30 @@ import { CardGrid, Spinner } from 'patternfly-react';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import PluginsListItem from 'ui/plugins/PluginsListItem';
-import PluginsPageEmptyState from 'ui/plugins/PluginsPageEmptyState';
+import PluginListEmptyState from 'ui/plugins/PluginListEmptyState';
 
-const PluginsPage = ({ plugins, loading }) => (
+const PluginListPage = ({ plugins, loading }) => (
 
-  <InternalPage className="PluginsPage">
+  <InternalPage className="PluginListPage">
     <Spinner loading={!!loading} className="middle">
-      <CardGrid className="SettingsListContainer" matchHeight>
+      <CardGrid className="PluginListContainer" matchHeight>
         {plugins && plugins.length
           ? plugins.map(plugin => <PluginsListItem key={plugin.id} plugin={plugin} />)
-          : <PluginsPageEmptyState />}
+          : <PluginListEmptyState />}
       </CardGrid>
     </Spinner>
   </InternalPage>
 );
 
 
-PluginsPage.propTypes = {
+PluginListPage.propTypes = {
   plugins: PropTypes.arrayOf(PropTypes.shape({})),
   loading: PropTypes.bool,
 };
 
-PluginsPage.defaultProps = {
+PluginListPage.defaultProps = {
   plugins: [],
   loading: true,
 };
 
-export default PluginsPage;
+export default PluginListPage;

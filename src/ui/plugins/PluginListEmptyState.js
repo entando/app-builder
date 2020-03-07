@@ -7,8 +7,8 @@ import {
 import { Link } from 'react-router-dom';
 import { ROUTE_DE_COMPONENT_LIST } from 'app-init/router';
 
-const PluginsPageEmptyState = () => (
-  <EmptyState className="PluginsPageEmptyState">
+const PluginListEmptyState = () => (
+  <EmptyState className="PluginListPageEmptyState">
     <EmptyStateInfo >
       <FormattedMessage id="plugins.noPlugins" />
     </EmptyStateInfo>
@@ -22,4 +22,4 @@ const PluginsPageEmptyState = () => (
   </EmptyState>
 );
 
-export default PluginsPageEmptyState;
+export default PluginListEmptyState;

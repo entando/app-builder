@@ -1,17 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import 'test/enzyme-init';
-import PluginsPageEmptyState from 'ui/plugins/PluginsPageEmptyState';
+import PluginListEmptyState from 'ui/plugins/PluginListEmptyState';
 
-describe('PluginsPageEmptyState', () => {
+describe('PluginListEmptyState', () => {
   let component;
 
   beforeEach(() => {
-    component = shallow(<PluginsPageEmptyState />);
+    component = shallow(<PluginListEmptyState />);
   });
 
   it('should render without crashing', () => {
     expect(component.exists()).toEqual(true);
-    expect(component.exists('.PluginsPageEmptyState')).toEqual(true);
+    expect(component.exists('.PluginListEmptyState')).toEqual(true);
   });
 });

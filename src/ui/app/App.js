@@ -170,7 +170,7 @@ import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage'
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
-import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+import PluginListPageContainer from 'ui/plugins/PluginListPageContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
@@ -308,7 +308,7 @@ const getRouteComponent = () => (
     />
     {/* other */}
     <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
-    <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
+    <Route exact path={ROUTE_PLUGINS} component={PluginListPageContainer} />
     <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
     <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
     <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />

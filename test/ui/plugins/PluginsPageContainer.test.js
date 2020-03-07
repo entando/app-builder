@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { mapStateToProps } from 'ui/plugins/PluginsPageContainer';
+import { mapStateToProps } from 'ui/plugins/PluginListPageContainer';
 
 const TEST_STATE = {
   plugins: {
@@ -12,7 +12,7 @@ const TEST_STATE = {
   },
 };
 
-describe('PluginsPageContainer', () => {
+describe('PluginListPageContainer', () => {
   describe('mapStateToProps', () => {
     it('properly works', () => {
       const props = mapStateToProps(TEST_STATE);
