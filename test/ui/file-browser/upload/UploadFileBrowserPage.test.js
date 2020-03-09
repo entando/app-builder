@@ -8,7 +8,7 @@ import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBro
 describe('UploadFileBrowserPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UploadFileBrowserPage />);
+    component = shallow(<UploadFileBrowserPage location={{ pathname: '' }} />);
   });
 
   it('renders without crashing', () => {

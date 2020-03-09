@@ -7,7 +7,7 @@ import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageModelsList } from 'state/page-models/selectors';
-import { getCharsets, getContentTypes } from 'state/pages/selectors';
+import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
@@ -19,6 +19,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
   pageModels: getPageModelsList(state),
+  pages: getPageTreePages(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],

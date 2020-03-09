@@ -1,0 +1,44 @@
+buildPack: javascript
+pipelineConfig:
+  agent:
+    image: entando-jx-nodejs12
+  pipelines:
+    pullRequest:
+      build:
+        replace: true
+        steps:
+          - sh: npm install
+            name: npm-install
+          - sh: CI=true DISPLAY=:99 npm test
+            name: npm-test
+    release:
+      build:
+        replace: true
+        steps:
+#        - sh: jx step credential -s npm-token -k file -f /builder/home/.npmrc --optional=true
+#          name: npmrc
+        - sh: >-
+            npm install;
+            npm rebuild node-sass;
+            npm run lint;
+          name: npm-install
+        - sh: JX=true npm run coverage
+          name: npm-test
+        - sh: >-
+            export USE_MOCKS=false;
+            export PUBLIC_URL=/app-builder;
+            export DOMAIN=/entando-de-app;
+            export DIGITAL_EXCHANGE_UI_ENABLED=true;
+            export KEYCLOAK_ENABLED=true;
+            npm run app-install cms;
+            npm run build --production;
+          name: npm-build
+        - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
+          name: container-build
+        - sh: jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)
+          name: post-build
+      promote:
+        replace: true
+        steps:
+          - sh: publish-image-info
+            name: update-image-map
