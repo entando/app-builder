@@ -17,7 +17,7 @@ describe('PageTreeSelectorContainer', () => {
 
   describe('mapStateToProps', () => {
     it('should map the correct properties', () => {
-      const props = mapStateToProps(FAKE_STATE);
+      const props = mapStateToProps(FAKE_STATE, {});
       expect(props.pages).toBeDefined();
     });
   });

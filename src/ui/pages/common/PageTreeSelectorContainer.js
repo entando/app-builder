@@ -7,8 +7,8 @@ import { handleExpandPage } from 'state/pages/actions';
 
 import { getPageTreePages } from 'state/pages/selectors';
 
-export const mapStateToProps = state => ({
-  pages: getPageTreePages(state),
+export const mapStateToProps = (state, { pages }) => ({
+  pages: pages || getPageTreePages(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

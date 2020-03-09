@@ -32,8 +32,8 @@ export const UploadFileBrowserBody = (props) => {
               className="pull-right UploadFileBrowserForm__btn-save"
               bsStyle="primary"
             >
-              <Icon size="lg" name="save" />&nbsp;
-              <FormattedMessage id="app.save" />
+              <Icon size="lg" name="upload" />&nbsp;
+              <FormattedMessage id="app.upload" />
             </Button>
             <Link to={ROUTE_FILE_BROWSER}>
               <Button
