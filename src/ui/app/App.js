@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -325,47 +325,38 @@ const getRouteComponent = () => (
   </Switch>
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.fetchPlugins();
+const App = ({
+  currentRoute,
+  auth,
+  isReady,
+  username,
+}) => {
+  if (!username && currentRoute !== ROUTE_HOME) {
+    return <Redirect to={ROUTE_HOME} />;
   }
 
-  render() {
-    const {
-      currentRoute,
-      auth,
-      isReady,
-      username,
-    } = this.props;
-    if (!username && currentRoute !== ROUTE_HOME) {
-      return <Redirect to={ROUTE_HOME} />;
-    }
+  const readyDisplay = !auth.enabled || auth.authenticated
+    ? getRouteComponent()
+    : <LoginPage />;
 
-    const readyDisplay = !auth.enabled || auth.authenticated
-      ? getRouteComponent()
-      : <LoginPage />;
-
-    return (
-      <DndProvider backend={HTML5Backend}>
-        <ToastsContainer />
-        {!isReady ? null : readyDisplay}
-      </DndProvider>
-    );
-  }
-}
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <ToastsContainer />
+      {!isReady ? null : readyDisplay}
+    </DndProvider>
+  );
+};
 
 App.propTypes = {
   currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
   auth: PropTypes.shape({ enabled: PropTypes.bool }),
   isReady: PropTypes.bool,
-  fetchPlugins: PropTypes.func,
 };
 
 App.defaultProps = {
   username: null,
   auth: { enabled: false },
-  fetchPlugins: () => {},
   isReady: false,
 };
 

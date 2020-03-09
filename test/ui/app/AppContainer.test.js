@@ -1,11 +1,5 @@
 import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps } from 'ui/app/AppContainer';
-
-jest.mock('state/plugins/thunks', () => ({
-  fetchPlugins: jest.fn().mockReturnValue('fetchPlugins_result'),
-}));
-
-const dispatchMock = jest.fn();
+import { mapStateToProps } from 'ui/app/AppContainer';
 
 const TEST_STATE = {
   currentUser: { username: 'admin' },
@@ -24,19 +18,6 @@ describe('AppContainer', () => {
         username: 'admin',
         currentRoute: 'page',
       });
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    let props;
-    beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
-    });
-
-    it('fetchPlugins method dispatches fetchPlugins thunk', () => {
-      expect(props.fetchPlugins).toBeDefined();
-      props.fetchPlugins();
-      expect(dispatchMock).toHaveBeenCalledWith('fetchPlugins_result');
     });
   });
 });

@@ -17,12 +17,14 @@ export const getPlugins = (params, page) => (
   )
 );
 
-export const getPlugin = id => makeMockRequest({
-  uri: `/api/plugins/${id}`,
-  method: METHODS.GET,
-  mockResponse: PLUGIN_OK,
-  useAuthentication: true,
-});
+export const getPlugin = id => (
+  makeMockRequest({
+    uri: `/api/plugins/${id}`,
+    method: METHODS.GET,
+    mockResponse: PLUGIN_OK,
+    useAuthentication: true,
+  })
+);
 
 export const putPluginConfig = plugin => (
   makeMockRequest({
