@@ -17,6 +17,9 @@ const CreateTextFilePage = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
+              <FormattedMessage id="menu.configuration" />
+            </BreadcrumbItem>
+            <BreadcrumbItem>
               <FormattedMessage id="menu.fileBrowser" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
