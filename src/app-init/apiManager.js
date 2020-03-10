@@ -1,75 +1,71 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { config, setApi, useMocks } from '@entando/apimanager';
+import { ApiProvider } from '@entando/apimanager';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 
-class ApiManager extends Component {
-  constructor(props) {
-    super(props);
-    this.initApiManager();
-  }
-
-  initApiManager() {
-    const { store, auth, intl } = this.props;
-    const logout = (status) => {
-      try {
-        auth.logout(status);
-      } catch (err) {
-        // can occur when keycloak is still loading
-      }
-    };
-    const goHome = (opts) => {
-      if (!auth.toRefreshToken) {
-        const { redirectUri, pathname } = opts;
-        if (redirectUri) {
-          window.location.href = redirectUri;
-          return;
-        }
-        const route = pathname ? pathname.replace(process.env.PUBLIC_URL, '') : null;
-        const goto = auth.enabled && route && route !== ROUTE_HOME
-          ? route
-          : ROUTE_DASHBOARD;
-        history.push(goto);
-      } else {
-        auth.toRefreshToken = false;
-      }
-    };
-    config(store, logout, goHome);
-    store.dispatch(setApi({
-      domain: (window && window.env && window.env.REACT_APP_DOMAIN) || process.env.DOMAIN,
-      useMocks: process.env.USE_MOCKS,
-    }));
-
-    if (useMocks(store.getState())) {
-      const msgs = defineMessages({
-        usingMocks: {
-          id: 'app.usingMocks',
-          defaultMessage: 'Using Mocks',
-        },
-      });
-      store.dispatch(addToast(
-        intl.formatMessage(msgs.usingMocks),
-        TOAST_WARNING,
-      ));
+const ApiManager = ({
+  auth,
+  intl,
+  store,
+  children,
+}) => {
+  const logout = (status) => {
+    try {
+      auth.logout(status);
+    } catch (err) {
+      // can occur when keycloak is still loading
     }
+  };
 
-    if (pluginsArray && pluginsArray.length) {
-      pluginsArray.forEach((plugin) => {
-        if (plugin.apiManagerConfig) {
-          plugin.apiManagerConfig(store, logout, goHome);
-        }
-      });
+  const goHome = (opts) => {
+    if (auth.enabled && auth.toRefreshToken) {
+      auth.setToRefreshToken(false);
+    } else {
+      const { redirectUri, pathname } = opts;
+      if (redirectUri) {
+        window.location.href = redirectUri;
+        return;
+      }
+      const route = pathname ? pathname.replace(process.env.PUBLIC_URL, '') : null;
+      const goto = auth.enabled && route && route !== ROUTE_HOME
+        ? route
+        : ROUTE_DASHBOARD;
+      history.push(goto);
     }
+  };
+
+  const useMocks = process.env.USE_MOCKS;
+
+  if (useMocks) {
+    const msgs = defineMessages({
+      usingMocks: {
+        id: 'app.usingMocks',
+        defaultMessage: 'Using Mocks',
+      },
+    });
+    store.dispatch(addToast(
+      intl.formatMessage(msgs.usingMocks),
+      TOAST_WARNING,
+    ));
   }
 
-  render() {
-    return <Fragment>{this.props.children}</Fragment>;
-  }
-}
+  return (
+    <ApiProvider
+      onLogout={logout}
+      onLogin={goHome}
+      store={store}
+      domain={(window && window.env && window.env.REACT_APP_DOMAIN) || process.env.DOMAIN}
+      useMocks={useMocks}
+      plugins={pluginsArray}
+    >
+      {children}
+    </ApiProvider>
+  );
+};
 
 ApiManager.propTypes = {
   store: PropTypes.shape({}).isRequired,

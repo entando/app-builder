@@ -7,6 +7,10 @@ import { loginUser } from '@entando/apimanager';
 const keycloakConfig = get(window, 'env.KEYCLOAK_JSON', process.env.KEYCLOAK_JSON);
 const keycloak = new Keycloak(keycloakConfig);
 keycloak.enabled = true;
+keycloak.toRefreshToken = false;
+keycloak.setToRefreshToken = (val) => {
+  keycloak.toRefreshToken = val;
+};
 
 export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
 
@@ -22,7 +26,7 @@ export const mapDispatchToProps = dispatch => ({
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshSuccess':
-        keycloak.toRefreshToken = true;
+        keycloak.setToRefreshToken(true);
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshError':
