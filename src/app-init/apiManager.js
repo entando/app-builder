@@ -14,7 +14,11 @@ const ApiManager = ({
   children,
 }) => {
   const logout = (status) => {
-    auth.logout(status);
+    try {
+      auth.logout(status);
+    } catch (err) {
+      // can occur when keycloak is still loading
+    }
   };
 
   const goHome = (opts) => {

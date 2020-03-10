@@ -16,7 +16,11 @@ export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-r
 
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event) => {
-    const { idTokenParsed: { preferred_username: username }, token } = keycloak;
+    if (!keycloak) {
+      return;
+    }
+    const username = get(keycloak, 'idTokenParsed.preferred_username');
+    const { token } = keycloak;
     switch (event) {
       case 'onAuthSuccess':
         dispatch(loginUser(username, token));
