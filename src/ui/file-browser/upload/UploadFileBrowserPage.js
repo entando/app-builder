@@ -33,6 +33,9 @@ const UploadFileBrowserPage = ({ location: { pathname } }) => {
         <Row>
           <Col xs={12}>
             <Breadcrumb>
+              <BreadcrumbItem>
+                <FormattedMessage id="menu.configuration" />
+              </BreadcrumbItem>
               <BreadcrumbItem active>
                 <FormattedMessage id="menu.fileBrowser" />
               </BreadcrumbItem>
