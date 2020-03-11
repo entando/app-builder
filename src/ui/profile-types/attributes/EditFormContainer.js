@@ -4,12 +4,15 @@ import {
   fetchAttributeFromProfileType,
   sendPutAttributeFromProfileType,
   fetchProfileTypeAttributes,
+  fetchProfileTypeAttribute,
 } from 'state/profile-types/actions';
 import { formValueSelector } from 'redux-form';
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
   getSelectedAttributeType,
   getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeIndexable,
+  getProfileTypeSelectedAttributeSearchable,
 } from 'state/profile-types/selectors';
 
 const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
@@ -20,12 +23,17 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getProfileTypeAttributesIdList(state),
+  isSearchable: getProfileTypeSelectedAttributeSearchable(state),
+  isIndexable: getProfileTypeSelectedAttributeIndexable(state),
 });
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: ({ profileTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromProfileType(profileTypeAttributeCode, attributeCode));
     dispatch(fetchProfileTypeAttributes());
+  },
+  fetchAttributeDetails: (selectedAttributeType) => {
+    dispatch(fetchProfileTypeAttribute(selectedAttributeType));
   },
   onSubmit: (values) => {
     let {

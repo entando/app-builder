@@ -38,12 +38,19 @@ export class EditAttributeFormBody extends Component {
     this.props.onWillMount(this.props);
   }
 
+  componentDidUpdate(prevProps) {
+    const { selectedAttributeType, fetchAttributeDetails } = this.props;
+    if (selectedAttributeType !== prevProps.selectedAttributeType) {
+      fetchAttributeDetails(selectedAttributeType);
+    }
+  }
+
+
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
       nestedAttributeComposite, isSearchable, isIndexable,
     } = this.props;
-
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
     const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
     const attributeType = isModeAddAttributeComposite ?
@@ -198,13 +205,12 @@ EditAttributeFormBody.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
-  indexable: PropTypes.bool,
-  listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   nestedAttributeComposite: PropTypes.string.isRequired,
   isSearchable: PropTypes.bool,
   isIndexable: PropTypes.bool,
+  fetchAttributeDetails: PropTypes.func,
 };
 
 EditAttributeFormBody.defaultProps = {
@@ -213,11 +219,10 @@ EditAttributeFormBody.defaultProps = {
   dataTypeAttributeCode: '',
   selectedAttributeType: '',
   selectedAttributeTypeForAddComposite: '',
-  indexable: false,
-  listFilter: false,
   allowedRoles: [],
   isSearchable: false,
   isIndexable: false,
+  fetchAttributeDetails: () => {},
 };
 
 const EditAttributeForm = reduxForm({
