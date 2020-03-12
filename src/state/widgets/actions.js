@@ -73,7 +73,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'bundleId']);
+        const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi']);
         newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         dispatch(initialize('widget', newPayload));

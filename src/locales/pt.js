@@ -703,7 +703,6 @@ export default {
     'singlePageSettings.generalSettings': 'Configurações Gerais',
     'singlePageSettings.pageTitle': 'Título da Página',
     'singlePageSettings.updateSuccess': 'Página atualizada com sucesso',
-    'widgets.bundleId': 'Bundle ID',
     'widgets.configUi': 'Config UI',
   },
 };
