@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { get, isEmpty, pick } from 'lodash';
+import { get, pick } from 'lodash';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { toggleLoading } from 'state/loading/actions';
@@ -74,7 +74,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
     response.json().then((json) => {
       if (response.ok) {
         const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'bundleId']);
-        newPayload.configUi = !newPayload.configUi || isEmpty(newPayload.configUi) ? '' : JSON.stringify(newPayload.configUi, null, 2);
+        newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
