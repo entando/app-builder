@@ -35,7 +35,6 @@ const sampleWidget = {
   pluginDesc: null,
   guiFragments: [],
   hasConfig: true,
-  bundleId: 'sample-bundle',
   configUi: {
     customElement: 'sample-widget',
     resources: [
@@ -58,7 +57,6 @@ const widgetWithNoConfig = {
   pluginDesc: null,
   guiFragments: [],
   hasConfig: false,
-  bundleId: 'sample-bundle',
 };
 
 describe('WidgetConfigMicrofrontend', () => {

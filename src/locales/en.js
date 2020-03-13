@@ -708,7 +708,6 @@ export default {
     'singlePageSettings.updateSuccess': 'Page successfully updated',
     'plugins.noPlugins': 'No installed plugins. See available plugins on the Digital Exchange',
     'plugins.installCallToAction': 'Go to Digital Exchange',
-    'widgets.bundleId': 'Bundle ID',
     'widgets.configUi': 'Config UI',
   },
 };

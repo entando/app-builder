@@ -9,8 +9,14 @@ pipelineConfig:
         steps:
           - sh: npm install
             name: npm-install
-          - sh: CI=true DISPLAY=:99 npm test
+          - sh: JX=true npm run precommit
             name: npm-test
+      postBuild:
+        replace: true
+        steps: []
+      promote:
+        replace: true
+        steps: []
     release:
       build:
         replace: true

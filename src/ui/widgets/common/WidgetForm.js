@@ -181,11 +181,6 @@ export class WidgetFormBody extends Component {
         <Row>
           <Col xs={12}>
             <Field
-              component={RenderTextInput}
-              name="bundleId"
-              label={<FormLabel labelId="widgets.bundleId" />}
-            />
-            <Field
               component={JsonCodeEditorRenderer}
               name="configUi"
               label={<FormLabel labelId="widgets.configUi" />}
