@@ -8,7 +8,7 @@ import { routeConverter } from '@entando/utils';
 import { LinkMenuItem } from '@entando/menu';
 
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
-import { standardFormatter } from 'helpers/dateFormatter';
+import { formatDate } from 'helpers/dateFormatter';
 
 const msgs = defineMessages({
   edit: {
@@ -32,7 +32,7 @@ class UserRefsTable extends React.Component {
     return userReferences.map(reference => (
       <tr key={reference.username}>
         <td>{reference.username}</td>
-        <td>{standardFormatter(reference.lastLogin)}</td>
+        <td>{formatDate(reference.lastLogin)}</td>
         <td className="text-center">
           <UserStatus status={reference.status === 'active' ? 'active' : 'disabled'} />
         </td>

@@ -8,7 +8,7 @@ import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
-import { standardFormatter } from 'helpers/dateFormatter';
+import { formatDate } from 'helpers/dateFormatter';
 
 class PagesList extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class PagesList extends Component {
           <td className="FragmentListRow__td text-center">
             <PageStatusIcon status={page.status} />
           </td>
-          <td className="FragmentListRow__td">{standardFormatter(page.lastModified)}</td>
+          <td className="FragmentListRow__td">{formatDate(page.lastModified)}</td>
         </tr>
       ))
     );
