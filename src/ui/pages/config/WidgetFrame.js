@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
-import { ROUTE_WIDGET_DETAIL } from 'app-init/router';
+import { ROUTE_WIDGET_DETAIL, ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
@@ -46,6 +46,15 @@ class WidgetFrame extends Component {
               to={routeConverter(ROUTE_WIDGET_DETAIL, { widgetCode: widgetId })}
             >
               <FormattedMessage id="app.details" />
+            </Link>
+          </li>
+          <li>
+            <Link
+              key={widgetId}
+              id={`edit-widget-${widgetId}`}
+              to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}
+            >
+              <FormattedMessage id="app.edit" />
             </Link>
           </li>
 
