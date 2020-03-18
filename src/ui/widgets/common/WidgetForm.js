@@ -22,7 +22,7 @@ export const renderDefaultUIField = (field) => {
   if (!input.value) {
     return (
       <Alert type="info">
-        <FormattedMessage id="widget.page.alert.notAvaible" />
+        <FormattedMessage id="widget.page.alert.notAvailable" />
       </Alert>
     );
   }
@@ -117,7 +117,7 @@ export class WidgetFormBody extends Component {
         {
           this.props.defaultUIField ? this.props.defaultUIField :
           <Alert type="info">
-            <FormattedMessage id="widget.page.alert.notAvaible" />
+            <FormattedMessage id="widget.page.alert.notAvailable" />
           </Alert>
         }
       </Tab>

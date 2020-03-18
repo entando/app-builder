@@ -23,7 +23,7 @@ const FragmentListContent = () => (
             bsStyle="primary"
           >
             <FormattedMessage
-              id="app.new"
+              id="app.add"
             />
           </Button>
         </Link>

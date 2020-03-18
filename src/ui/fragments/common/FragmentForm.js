@@ -18,7 +18,7 @@ export const renderDefaultGuiCodeField = (field) => {
   if (!input.value) {
     return (
       <Alert type="info">
-        <FormattedMessage id="app.alert.notAvaible" />
+        <FormattedMessage id="app.alert.notAvailable" />
       </Alert>
     );
   }
