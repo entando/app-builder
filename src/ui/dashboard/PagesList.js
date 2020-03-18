@@ -8,7 +8,7 @@ import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
-import { formatDate } from 'helpers/dateFormatter';
+import { formatDate } from '@entando/utils';
 
 class PagesList extends Component {
   constructor(props) {

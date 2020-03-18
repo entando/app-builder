@@ -4,11 +4,10 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { DropdownKebab, Spinner } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
 import UserStatus from 'ui/users/common/UserStatus';
-import { routeConverter } from '@entando/utils';
+import { routeConverter, formatDate } from '@entando/utils';
 import { LinkMenuItem } from '@entando/menu';
 
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
-import { formatDate } from 'helpers/dateFormatter';
 
 const msgs = defineMessages({
   edit: {
