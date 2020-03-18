@@ -15,6 +15,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
+import { formatDate } from 'helpers/dateFormatter';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -28,6 +29,8 @@ export const renderStaticField = (field) => {
   let fieldValue = input.value.title || input.value;
   if (!input.value) {
     fieldValue = <i className="icon fa fa-minus" />;
+  } else if (!Number.isNaN(Date.parse(fieldValue))) {
+    fieldValue = formatDate(fieldValue);
   }
 
   return (
