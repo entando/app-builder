@@ -8,6 +8,7 @@ import {
   minLength,
   matchPassword,
   userFormText,
+  formatDate,
 } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -15,7 +16,6 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import { formatDate } from 'helpers/dateFormatter';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';

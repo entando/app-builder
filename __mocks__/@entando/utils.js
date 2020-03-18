@@ -3,6 +3,7 @@ const real = require.requireActual('@entando/utils');
 
 utils.formattedText = jest.fn().mockImplementation(id => id);
 utils.isInteger = real.isInteger;
+utils.formatDate = real.formatDate;
 utils.isEmpty = real.isEmpty;
 utils.convertToQueryString = real.convertToQueryString;
 utils.throttle = real.throttle;
@@ -31,4 +32,5 @@ export const {
   userFormText,
   required,
   routeConverter,
+  formatDate,
 } = utils;
