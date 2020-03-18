@@ -1,8 +1,6 @@
 
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-You can find the most recent version of Create React App [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+This project was bootstrapped with [Create React App](https://create-react-app.dev/).
 
 ---
 ## Configuration
@@ -36,8 +34,30 @@ string used for the client secret during the OAUTH2 authentication process.
 #### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Digital Exchange UI should be enabled or not.
 
-#### `CMS_UI_ENABLED` (boolean, default: `false`)
-a boolean used to determine whether the CMS UI should be enabled or not.
+#### `KEYCLOAK_ENABLED` (boolean, default: `false`)
+a boolean that enables authentication through [Keycloak](https://www.keycloak.org/). Won't be used if `USE_MOCKS` is set to true.
+
+#### `KEYCLOAK_JSON` (string, default: `/keycloak.json`)
+a string containing the path for Keycloak JSON configuration.
+This is a sample keycloak.json:
+```
+{
+   "realm":"entando",
+   "auth-server-url":"http://my.entando.com/auth",
+   "ssl-required":"external",
+   "resource":"entando-web",
+   "public-client":true
+}
+```
+`KEYCLOAK_JSON` won't be used if `KEYCLOAK_ENABLED` is set to `false`.
+
+`KEYCLOAK_JSON` will be appended to `DOMAIN` as default if `DOMAIN` is set.
+
+That means, for instance, if `DOMAIN`=https://my.entando.com, `KEYCLOAK_ENABLED`=true and no `KEYCLOAK_JSON` set, then `KEYCLOAK_JSON` will fallback to `https://my.entando.com/keycloak.json`).
+
+For further information about Keycloak installation and configuration, see the [official Keycloak website](https://www.keycloak.org/archive/documentation-7.0.html).
+
+Current Keycloak supported version is **7.0.1**.
 
 ### Sample .env file
 
@@ -120,7 +140,7 @@ For more information checkout the documentation on NPM.
 
 For information on the `app-builder` apps [check its readme](./Apps.md)
 
-## Plugins
+## Legacy Plugins
 
 The easiest way to create an `app-builder` plugin is using our [sample plugin repo](https://github.com/entando/ui-component-sample).
 There are all the information on how to get started, and about plugin requirements.

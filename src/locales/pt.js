@@ -698,8 +698,6 @@ export default {
     'cms.contentModelsList.title': 'Modelos de Conteúdo',
     'cms.contentSettings.title': 'Configurações de Conteúdo',
     'singlePageSettings.title': 'Configurações de página',
-    'cms.disabled.title': 'CMS está desabilitado.',
-    'cms.disabled.help': 'Pode ser habilitado pela variável de ambiente CMS_UI_ENABLED (true) localizada no arquivo .env.',
     'singlePageSettings.generalSettings': 'Configurações Gerais',
     'singlePageSettings.pageTitle': 'Título da Página',
     'singlePageSettings.updateSuccess': 'Página atualizada com sucesso',

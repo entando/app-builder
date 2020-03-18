@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { withKeycloak as withKeycloakRaw } from 'react-keycloak';
 import withDefaultAuth from 'auth/default/withDefaultAuth';
-import useKeycloak from 'auth/useKeycloak';
+import keycloakEnabled from 'auth/keycloakEnabled';
 
 const withKeycloakAdapter = WrappedComponent => (props) => {
   // eslint-disable-next-line react/prop-types
@@ -16,7 +16,7 @@ const withKeycloakAdapter = WrappedComponent => (props) => {
   );
 };
 
-const withAuth = useKeycloak
+const withAuth = keycloakEnabled
   ? compose(
     withKeycloakRaw,
     withKeycloakAdapter,
