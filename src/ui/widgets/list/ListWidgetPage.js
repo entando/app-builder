@@ -58,7 +58,7 @@ class ListWidgetPage extends Component {
                 componentClass={Link}
                 to={ROUTE_WIDGET_ADD}
               >
-                <FormattedMessage id="widget.list.new" />
+                <FormattedMessage id="app.add" />
               </Button>
             </Col>
 
