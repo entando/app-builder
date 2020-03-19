@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import KeycloakProviderContainer from 'auth/keycloak/KeycloakProviderContainer';
 import DefaultAuthProvider from 'auth/default/DefaultAuthProvider';
-import useKeycloak from 'auth/useKeycloak';
+import keycloakEnabled from 'auth/keycloakEnabled';
 
-const Provider = useKeycloak
+const Provider = keycloakEnabled
   ? KeycloakProviderContainer
   : DefaultAuthProvider;
 
