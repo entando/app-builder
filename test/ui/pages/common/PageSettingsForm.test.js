@@ -37,7 +37,6 @@ describe('PageSettingsForm', () => {
       expect(component.exists()).toBe(true);
     });
     it('component is Spinner', () => {
-      // expect(component.hasClass('Spinner')).toBe(true);
       expect(component.type()).toBe(Spinner);
     });
     it('test if RenderSelectInput options on Field are properly valued', () => {
