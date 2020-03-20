@@ -20,12 +20,12 @@ describe('ComponentListGridView', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('renders all the digital exchange components', () => {
+  it('renders all the component repository components', () => {
     deComponents = component.find('.ComponentList__component');
     expect(deComponents).toHaveLength(LIST_DE_COMPONENTS_OK.length);
   });
 
-  describe('digital exchange component', () => {
+  describe('component repository item', () => {
     it('renders the name', () => {
       const h1 = deComponents.first().find('h1');
       expect(h1).toHaveLength(1);

@@ -147,7 +147,7 @@ import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
-// digital exchange
+// component repository
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
@@ -275,7 +275,7 @@ const getRouteComponent = () => (
     <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
     <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
     <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
-    {/* digital exchange */}
+    {/* component repository */}
     <Route
       exact
       path={ROUTE_DE_COMPONENT_LIST}

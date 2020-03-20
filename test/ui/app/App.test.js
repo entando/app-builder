@@ -44,7 +44,7 @@ import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
-// digital exchange
+// component repository
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
 import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
@@ -89,7 +89,7 @@ import {
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGINS,
   ROUTE_PLUGIN_CONFIG_PAGE,
-  // digital exchange
+  // component repository
   ROUTE_DE_COMPONENT_LIST,
   ROUTE_DE_CONFIG_LIST,
   ROUTE_DE_CONFIG_EDIT,
@@ -311,13 +311,13 @@ describe('App', () => {
     expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
   });
 
-  describe('digital exchange', () => {
+  describe('component repository', () => {
     beforeAll(() => {
       jest.resetModules();
       delete process.env.DIGITAL_EXCHANGE_UI_ENABLED;
     });
 
-    describe('digital exchange disabled', () => {
+    describe('component repository disabled', () => {
       it('routes to the disable page on ROUTE_DE_COMPONENT_LIST', () => {
         const component = mountWithRoute(ROUTE_DE_COMPONENT_LIST);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
@@ -339,7 +339,7 @@ describe('App', () => {
       });
     });
 
-    describe('digital exchange enabled', () => {
+    describe('component repository enabled', () => {
       beforeAll(() => {
         process.env.DIGITAL_EXCHANGE_UI_ENABLED = true;
       });

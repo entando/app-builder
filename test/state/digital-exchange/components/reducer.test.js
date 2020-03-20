@@ -17,7 +17,7 @@ import {
   DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
 
-describe('Digital Exchange components reducer', () => {
+describe('Component repository reducer', () => {
   describe('filter reducer', () => {
     it('should return an object', () => {
       expect(reducer()).toHaveProperty('filters', {});
