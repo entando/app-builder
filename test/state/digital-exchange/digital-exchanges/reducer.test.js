@@ -28,12 +28,12 @@ describe('digital-exchange/digital-exchanges/reducer', () => {
     });
 
     describe('after action removeDigitalExchange', () => {
-      it('should not remove the digital exchange if the ID does not match', () => {
+      it('should not remove the component repository if the ID does not match', () => {
         newState = reducer(newState, removeDigitalExchange('madeup'));
         expect(newState).toHaveProperty('selected', DIGITAL_EXCHANGE_OK);
       });
 
-      it('should remove the digital exchange if the ID matches', () => {
+      it('should remove the component repository if the ID matches', () => {
         newState = reducer(newState, removeDigitalExchange(DIGITAL_EXCHANGE_OK.id));
         expect(newState).toHaveProperty('selected', {});
       });
@@ -49,13 +49,13 @@ describe('digital-exchange/digital-exchanges/reducer', () => {
     describe('after action setDigitalExchanges', () => {
       let newState;
 
-      it('should define digital exchange list', () => {
+      it('should define component repository list', () => {
         newState = reducer({}, setDigitalExchanges(LIST_DIGITAL_EXCHANGES_OK));
         expect(newState.list).toHaveLength(3);
       });
 
       describe('after action removeDigitalExchange', () => {
-        it('should not remove the digital exchange if the ID does not match', () => {
+        it('should not remove the component repository if the ID does not match', () => {
           newState = reducer(newState, removeDigitalExchange('madeup'));
           expect(newState.list).toHaveLength(3);
           expect(newState.list[0]).toHaveProperty('id', 'entando');
@@ -63,7 +63,7 @@ describe('digital-exchange/digital-exchanges/reducer', () => {
           expect(newState.list[2]).toHaveProperty('id', 'leonardo');
         });
 
-        it('should remove the digital exchange if the ID matches', () => {
+        it('should remove the component repository if the ID matches', () => {
           newState = reducer(newState, removeDigitalExchange('redhat'));
           expect(newState.list).toHaveLength(2);
           expect(newState.list[0]).toHaveProperty('id', 'entando');

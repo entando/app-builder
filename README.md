@@ -32,7 +32,7 @@ string used for the client id during the OAUTH2 authentication process.
 string used for the client secret during the OAUTH2 authentication process.
 
 #### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
-a boolean used to determine whether the Digital Exchange UI should be enabled or not.
+a boolean used to determine whether the Component Repository (former Digital Exchange) should be enabled or not.
 
 #### `KEYCLOAK_ENABLED` (boolean, default: `false`)
 a boolean that enables authentication through [Keycloak](https://www.keycloak.org/). Won't be used if `USE_MOCKS` is set to true.
