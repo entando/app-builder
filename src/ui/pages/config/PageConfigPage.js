@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert } from 'patternfly-react';
+import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert, Spinner } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import throttle from 'lodash/throttle';
 
@@ -314,8 +314,9 @@ class PageConfigPage extends Component {
                   <SelectedPageInfoTableContainer />
                 </Panel.Collapse>
               </Panel>
-
-              <PageConfigGridContainer />
+              <Spinner loading={!!this.props.loading}>
+                <PageConfigGridContainer />
+              </Spinner>
             </Col>
             <Col
               xs={4}
@@ -361,6 +362,7 @@ PageConfigPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }).isRequired,
+  loading: PropTypes.bool,
 };
 
 PageConfigPage.defaultProps = {
@@ -380,6 +382,7 @@ PageConfigPage.defaultProps = {
   unpublishPage: null,
   applyDefaultConfig: null,
   showPageSettings: null,
+  loading: false,
 };
 
 export default injectIntl(PageConfigPage);

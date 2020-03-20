@@ -51,6 +51,10 @@ jest.mock('state/locale/selectors', () => ({
   getLocale: jest.fn(),
 }));
 
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue({}),
+}));
+
 jest.mock('state/page-models/actions', () => ({
   setSelectedPageModel: jest.fn().mockReturnValue('setSelectedPageModel_result'),
 }));
@@ -152,7 +156,7 @@ describe('PageConfigPageContainer', () => {
         props.onWillUnmount();
       });
       it('dispatch setSelectedPageModel(null)', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result',);
+        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result');
         expect(setSelectedPageModel).toHaveBeenCalledWith(null);
       });
     });

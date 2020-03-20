@@ -2,6 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
+import { Spinner } from 'patternfly-react';
 import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
 
 const ON_SUBMIT = jest.fn();
@@ -35,8 +36,9 @@ describe('PageSettingsForm', () => {
     it('renders without crashing', () => {
       expect(component.exists()).toBe(true);
     });
-    it('has class PageSettingsForm', () => {
-      expect(component.hasClass('PageSettingsForm')).toBe(true);
+    it('component is Spinner', () => {
+      // expect(component.hasClass('Spinner')).toBe(true);
+      expect(component.type()).toBe(Spinner);
     });
     it('test if RenderSelectInput options on Field are properly valued', () => {
       const selectComponent = component.find('Field').first();

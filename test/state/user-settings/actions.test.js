@@ -11,6 +11,7 @@ import {
 import { mockApi } from 'test/testUtils';
 import { getUserSettings, putUserSettings } from 'api/userSettings';
 import { SET_USER_SETTINGS } from 'state/user-settings/types';
+import { TOGGLE_LOADING } from 'state/loading/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -49,9 +50,11 @@ describe('state/user-settings/actions', () => {
         store.dispatch(fetchUserSettings()).then(() => {
           const actions = store.getActions();
           expect(getUserSettings).toHaveBeenCalled();
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', SET_USER_SETTINGS);
-          expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions).toHaveLength(4);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', SET_USER_SETTINGS);
+          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -61,10 +64,12 @@ describe('state/user-settings/actions', () => {
         store.dispatch(fetchUserSettings()).then(() => {
           expect(getUserSettings).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-          expect(actions[1].payload).toHaveProperty('type', 'error');
+          expect(actions).toHaveLength(4);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[2].payload).toHaveProperty('type', 'error');
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

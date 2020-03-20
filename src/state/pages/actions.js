@@ -20,6 +20,7 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-
 import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
+import { toggleLoading } from 'state/loading/actions';
 
 
 const HOMEPAGE_CODE = 'homepage';
@@ -281,8 +282,10 @@ export const clonePage = page => async (dispatch) => {
 
 export const fetchPageSettings = () => async (dispatch) => {
   try {
+    dispatch(toggleLoading('pageSettings'));
     const response = await getPageSettings();
     const json = await response.json();
+    dispatch(toggleLoading('pageSettings'));
     if (response.ok) {
       dispatch(initialize('settings', json.payload));
     } else {
@@ -290,6 +293,7 @@ export const fetchPageSettings = () => async (dispatch) => {
     }
   } catch (e) {
     // do nothing
+    dispatch(toggleLoading('pageSettings'));
   }
 };
 

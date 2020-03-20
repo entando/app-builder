@@ -73,7 +73,7 @@ class PageTreePage extends Component {
           <br />
           <Row>
             <Col xs={12}>
-              <PageTreeContainer />
+              <PageTreeContainer loading={this.props.loading} />
             </Col>
           </Row>
         </Grid>
@@ -86,10 +86,12 @@ PageTreePage.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   search: PropTypes.arrayOf(PropTypes.shape({})),
+  loading: PropTypes.bool,
 };
 
 PageTreePage.defaultProps = {
   search: null,
+  loading: false,
 };
 
 export default PageTreePage;

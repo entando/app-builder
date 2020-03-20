@@ -14,6 +14,7 @@ import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI 
 import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
+import { getLoading } from 'state/loading/selectors';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -44,6 +45,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageIsPublished: getSelectedPageIsPublished(state),
     pageDiffersFromPublished: makeGetSelectedPageDiffersFromPublished(params.pageCode)(state),
     pageConfigMatchesDefault: makeGetSelectedPageConfigMatchesDefault(params.pageCode)(state),
+    loading: getLoading(state).pageConfig,
   };
 };
 
