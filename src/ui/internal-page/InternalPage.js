@@ -10,6 +10,7 @@ import {
 import { routeConverter } from '@entando/utils';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
+import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
@@ -30,6 +31,7 @@ const publicUrl = process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
 
 const menuHeader = [
+  <LanguageSelectContainer key="LanguageSelect" />,
   <HomePageLinkContainer key="projectLink" />,
   <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
   <UserMenuContainer key="UserMenu" />,

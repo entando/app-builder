@@ -66,3 +66,19 @@
     text-decoration: none;
   }
 }
+
+.LanguageSelect {
+  &__dropdown {
+    padding: 4px 7px;
+    border: solid $color-pf-black-900;
+    border-width: 0 0 0 1px;
+    background: $color-pf-black;
+    font-size: 11px;
+    color: $color-pf-black-300;
+  }
+
+  &__option {
+    background: $color-pf-white;
+    color: $color-pf-black-700;
+  }
+}
