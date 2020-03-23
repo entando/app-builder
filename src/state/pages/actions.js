@@ -247,6 +247,7 @@ export const createPage = wrapApiCall(postPage);
 
 export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatch)
   .then((json) => {
+    dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
     dispatch(addPages([json.payload]));
     return json;
   })
@@ -315,6 +316,7 @@ export const sendPutPage = pageData => async (dispatch) => {
     const response = await putPage(pageData);
     const json = await response.json();
     if (response.ok) {
+      dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
       dispatch(updatePage(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));

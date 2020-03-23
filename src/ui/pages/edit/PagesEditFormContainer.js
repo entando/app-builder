@@ -29,7 +29,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (data, action) => {
+  onSubmit: (data, action) =>
     dispatch(sendPutPage(data)).then(() => {
       switch (action) {
         case ACTION_SAVE: {
@@ -42,8 +42,7 @@ export const mapDispatchToProps = dispatch => ({
         }
         default: history.push(ROUTE_PAGE_TREE);
       }
-    });
-  },
+    }),
   onWillMount: ({ pageCode }) => {
     dispatch(clearTree());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));

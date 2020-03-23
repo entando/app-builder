@@ -436,6 +436,8 @@ export default {
     'pages.status.published': 'Online',
     'pages.status.draft': 'Online ≠ Draft',
     'pages.status.unpublished': 'Draft',
+    'pages.created': 'Page successfully created',
+    'pages.updated': 'Page successfully updated',
     'pageSettings.title': 'Page Settings',
     'pageSettings.help': 'The PAGE SETTING section let the administrator specify which pages must be used for particular aims and define some general page settings.',
     'pageSettings.status.published': 'The updates to page {page} are online now!',

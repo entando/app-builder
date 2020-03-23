@@ -436,6 +436,8 @@ export default {
     'pages.status.published': 'Online',
     'pages.status.draft': 'Online ≠ Draft',
     'pages.status.unpublished': 'Draft',
+    'pages.created': 'Pagina creata con successo',
+    'pages.updated': 'Pagina aggiornata con successo',
     'pageSettings.title': 'Impostazione Pagine',
     'pageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
     'pageSettings.status.published': 'Le modifiche alla pagina {page} sono state messe online!',
