@@ -20,10 +20,9 @@ export const mapDispatchToProps = (dispatch, { mode, match: { params } }) => ({
     };
 
     if (mode === 'edit') {
-      dispatch(updatePageModel(jsonData));
-    } else {
-      dispatch(createPageModel(jsonData));
+      return dispatch(updatePageModel(jsonData));
     }
+    return dispatch(createPageModel(jsonData));
   },
   onWillMount: () => {
     dispatch(clearErrors());

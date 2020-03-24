@@ -12,9 +12,7 @@ export const mapStateToProps = () => (
 
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (fragment) => {
-    dispatch(sendPutFragment(fragment));
-  },
+  onSubmit: fragment => dispatch(sendPutFragment(fragment)),
 });
 
 
