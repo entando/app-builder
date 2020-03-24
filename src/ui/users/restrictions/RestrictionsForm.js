@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Col, Form, FormGroup, Button, ControlLabel } from 'patternfly-react';
+import { Col, Form, FormGroup, Button, ControlLabel, Spinner } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isNumber } from '@entando/utils';
 
@@ -30,67 +30,71 @@ export class RestrictionsFormBody extends Component {
     const { passwordActive: disabled, intl } = this.props;
 
     return (
-      <Form onSubmit={this.props.handleSubmit} horizontal className="UserRestrictionsForm">
-        <legend>
-          <FormattedMessage id="user.restrictions.passwordSection" />
-        </legend>
-        <FormGroup controlId="passwordAlwaysActive">
-          <Col xs={3}>
-            <ControlLabel>
-              <FormattedMessage id="user.restrictions.form.active" />
-            </ControlLabel>
-          </Col>
-          <Col xs={9}>
-            <Field
-              component={SwitchRenderer}
-              name="passwordAlwaysActive"
-            />
-          </Col>
-        </FormGroup>
-        <Field
-          label={<FormattedMessage id="user.restrictions.form.maxMonths" />}
-          labelSize={3}
-          component={RenderTextInput}
-          name="maxMonthsPasswordValid"
-          disabled={disabled}
-          validate={isNumber}
-          alignClass="text-left"
-          append={intl.formatMessage(msgs.months)}
-        />
-        <Field
-          label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
-          labelSize={3}
-          component={RenderTextInput}
-          name="lastAccessPasswordExpirationMonths"
-          disabled={disabled}
-          validate={[isNumber, montshSinceLogin]}
-          alignClass="text-left"
-          append={intl.formatMessage(msgs.months)}
-        />
-        <legend>
-          <FormattedMessage id="user.restrictions.avatarSection" />
-        </legend>
-        <FormGroup controlId="enableGravatarIntegration" disabled={false}>
-          <Col xs={3}>
-            <ControlLabel>
-              <FormattedMessage id="user.restrictions.form.gravatar" />
-            </ControlLabel>
-          </Col>
-          <Col xs={9}>
-            <Field
-              component={SwitchRenderer}
-              name="enableGravatarIntegration"
-            />
-          </Col>
-        </FormGroup>
-        <Button
-          className="pull-right"
-          type="submit"
-          bsStyle="primary"
-        >
-          <FormattedMessage id="app.save" />
-        </Button>
-      </Form>
+      <Spinner loading={!!this.props.loading}>
+
+
+        <Form onSubmit={this.props.handleSubmit} horizontal className="UserRestrictionsForm">
+          <legend>
+            <FormattedMessage id="user.restrictions.passwordSection" />
+          </legend>
+          <FormGroup controlId="passwordAlwaysActive">
+            <Col xs={3}>
+              <ControlLabel>
+                <FormattedMessage id="user.restrictions.form.active" />
+              </ControlLabel>
+            </Col>
+            <Col xs={9}>
+              <Field
+                component={SwitchRenderer}
+                name="passwordAlwaysActive"
+              />
+            </Col>
+          </FormGroup>
+          <Field
+            label={<FormattedMessage id="user.restrictions.form.maxMonths" />}
+            labelSize={3}
+            component={RenderTextInput}
+            name="maxMonthsPasswordValid"
+            disabled={disabled}
+            validate={isNumber}
+            alignClass="text-left"
+            append={intl.formatMessage(msgs.months)}
+          />
+          <Field
+            label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
+            labelSize={3}
+            component={RenderTextInput}
+            name="lastAccessPasswordExpirationMonths"
+            disabled={disabled}
+            validate={[isNumber, montshSinceLogin]}
+            alignClass="text-left"
+            append={intl.formatMessage(msgs.months)}
+          />
+          <legend>
+            <FormattedMessage id="user.restrictions.avatarSection" />
+          </legend>
+          <FormGroup controlId="enableGravatarIntegration" disabled={false}>
+            <Col xs={3}>
+              <ControlLabel>
+                <FormattedMessage id="user.restrictions.form.gravatar" />
+              </ControlLabel>
+            </Col>
+            <Col xs={9}>
+              <Field
+                component={SwitchRenderer}
+                name="enableGravatarIntegration"
+              />
+            </Col>
+          </FormGroup>
+          <Button
+            className="pull-right"
+            type="submit"
+            bsStyle="primary"
+          >
+            <FormattedMessage id="app.save" />
+          </Button>
+        </Form>
+      </Spinner>
     );
   }
 }
@@ -100,10 +104,12 @@ RestrictionsFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
   passwordActive: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 RestrictionsFormBody.defaultProps = {
   passwordActive: false,
+  loading: false,
 };
 
 const RestrictionsForm = reduxForm({

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { Form } from 'patternfly-react';
+import { Spinner } from 'patternfly-react';
 import { isNumber } from '@entando/utils';
 
 import { RestrictionsFormBody, montshSinceLogin } from 'ui/users/restrictions/RestrictionsForm';
@@ -28,8 +28,8 @@ describe('RestrictionsForm', () => {
     expect(onWillMount).toHaveBeenCalled();
   });
 
-  it('verify it is a form', () => {
-    expect(component.type()).toBe(Form);
+  it('verify it is a Spinner', () => {
+    expect(component.type()).toBe(Spinner);
   });
 
   it('has a passwordAlwaysActive toggle', () => {

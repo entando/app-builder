@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Spinner } from 'patternfly-react';
 
 import DDTable from 'ui/pages/common/dd-table/DDTable';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
@@ -103,34 +104,36 @@ class PageTree extends Component {
       return <PageListSearchTable {...this.props} />;
     }
     return (
-      <div>
-        <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
-          <table className="PageTree table table-bordered table-hover table-treegrid">
-            <thead>
-              <tr>
-                <th width="70%">
-                  <FormattedMessage id="pageTree.pageTree" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.status" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.displayedInMenu" />
-                </th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              { this.renderRows() }
-            </tbody>
-          </table>
-        </DDTable>
-        <DeletePageModalContainer />
-        <PublishPageModalContainer />
-        <UnpublishPageModalContainer />
-      </div>
+      <Spinner loading={!!this.props.loading}>
+        <div>
+          <DDTable onDrop={this.handleDrop} PreviewRenderer={PageTreePreview}>
+            <table className="PageTree table table-bordered table-hover table-treegrid">
+              <thead>
+                <tr>
+                  <th width="70%">
+                    <FormattedMessage id="pageTree.pageTree" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.status" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.displayedInMenu" />
+                  </th>
+                  <th className="text-center" width="10%">
+                    <FormattedMessage id="pageTree.actions" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.renderRows() }
+              </tbody>
+            </table>
+          </DDTable>
+          <DeletePageModalContainer />
+          <PublishPageModalContainer />
+          <UnpublishPageModalContainer />
+        </div>
+      </Spinner>
     );
   }
 }
@@ -161,6 +164,7 @@ PageTree.propTypes = {
   onDropAbovePage: PropTypes.func,
   onDropBelowPage: PropTypes.func,
   onExpandPage: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
 };
 
 PageTree.defaultProps = {

@@ -5,10 +5,13 @@ import PageTreePage from 'ui/pages/list/PageTreePage';
 import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree } from 'state/pages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
+import { toggleLoading } from 'state/loading/actions';
+import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
   search: getSearchPages(state),
+  loading: getLoading(state).pageTree,
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -16,7 +19,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearErrors());
     dispatch(clearTree());
     dispatch(clearSearchPage());
-    dispatch(handleExpandPage());
+    dispatch(toggleLoading('pageTree'));
+    dispatch(handleExpandPage())
+      .then(() => dispatch(toggleLoading('pageTree')))
+      .catch(() => dispatch(toggleLoading('pageTree')));
   },
   onClear: () => {
     dispatch(clearSearchPage());
