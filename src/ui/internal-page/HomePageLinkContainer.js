@@ -7,4 +7,6 @@ export const mapStateToProps = state => ({
   link: getDomain(state),
 });
 
-export default connect(mapStateToProps, null)(HomePageLink);
+export default connect(mapStateToProps, null, null, {
+  pure: false,
+})(HomePageLink);
