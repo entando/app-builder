@@ -1,6 +1,6 @@
 {
   "name": "app-builder",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
