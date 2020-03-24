@@ -11,6 +11,7 @@ const LanguageSelect = ({ currentLanguage, onSelect }) => (
       <option value="en" className="LanguageSelect__option">EN</option>
       <option value="it" className="LanguageSelect__option">IT</option>
     </select>
+    <span className="LanguageSelect__icon caret" />
   </li>
 );
 

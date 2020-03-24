@@ -68,17 +68,33 @@
 }
 
 .LanguageSelect {
+  position: relative;
+  border: solid $color-pf-black-900;
+  border-width: 0 0 0 1px;
+
   &__dropdown {
-    padding: 4px 7px;
-    border: solid $color-pf-black-900;
-    border-width: 0 0 0 1px;
+    appearance: none;
+    padding: 3.8px 10px;
+    padding-right: 24px;
+    border: 0;
+    outline: none;
     background: $color-pf-black;
     color: $color-pf-black-300;
+    cursor: pointer;
     font-size: 11px;
   }
 
   &__option {
     background: $color-pf-white;
     color: $color-pf-black-700;
+  }
+
+  &__icon {
+    position: absolute;
+    color: $color-pf-black-300;
+    cursor: pointer;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-52%);
   }
 }
