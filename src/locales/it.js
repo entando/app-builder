@@ -392,6 +392,8 @@ export default {
     'fragment.settings.alert.success': 'Le impostazioni sono state aggiornate',
     'fragment.settings.alert.error': 'Le impostazioni non sono state aggiornate',
     'fragment.alert.error.fileExtension': 'Estensione del file non e\' permessa',
+    'fragment.created': 'Frammento creato con successo',
+    'fragment.updated': 'Frammento aggiornato con successo',
     'fileBrowser.list.upLink': 'su..',
     'fileBrowser.list.size': 'Dimensione',
     'fileBrowser.list.lastModifiedTime': 'Ultima modifica',
@@ -477,7 +479,7 @@ export default {
     'dataType.table.status.2': 'Necessità di un ricaricamento: lancialo ora.',
     'dataType.listEmpty': 'Non ci sono DATA TYPES disponibili',
     'dataType.created': 'DATA TYPE creato con successo',
-
+    'dataType.updated': 'TIPO DI DATI aggiornato correttamente',
     'profileType.table.status': 'Status',
     'profileType.table.status.ok': 'A posto. Se vuoi, ricarica',
     'profileType.table.status.ko': 'Necessità di un ricaricamento: lancialo ora.',

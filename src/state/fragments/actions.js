@@ -173,6 +173,10 @@ export const sendPostFragment = fragment => async (dispatch) => {
   const response = await postFragment(fragment);
   const json = await response.json();
   if (response.ok) {
+    dispatch(addToast(
+      { id: 'fragment.created' },
+      TOAST_SUCCESS,
+    ));
     history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
@@ -184,6 +188,10 @@ export const sendPutFragment = fragment => async (dispatch) => {
   const response = await putFragment(fragment);
   const json = await response.json();
   if (response.ok) {
+    dispatch(addToast(
+      { id: 'fragment.updated' },
+      TOAST_SUCCESS,
+    ));
     history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
