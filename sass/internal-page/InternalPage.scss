@@ -90,6 +90,7 @@
   }
 
   &__icon {
+    pointer-events: none;
     position: absolute;
     color: $color-pf-black-300;
     cursor: pointer;
