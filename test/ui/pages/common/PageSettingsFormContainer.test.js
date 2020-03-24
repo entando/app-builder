@@ -11,6 +11,7 @@ const TEST_STATE = {
     titlesMap: {},
     freePages: OPTIONS,
   },
+  loading: {},
 };
 
 describe('PageSettingsFormContainer', () => {

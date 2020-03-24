@@ -4,9 +4,11 @@ import { formValueSelector } from 'redux-form';
 
 import { fetchUserSettings, updateUserSettings } from 'state/user-settings/actions';
 import RestrictionsForm from 'ui/users/restrictions/RestrictionsForm';
+import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = state => ({
   passwordActive: formValueSelector('user-restrictions')(state, 'passwordAlwaysActive'),
+  loading: getLoading(state).userSettings,
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -17,6 +17,7 @@ import { loadSelectedPage } from 'state/pages/actions';
 import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 import { SET_SELECTED_PAGE } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
+import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD } from 'test/mocks/pages';
 import { COMPLEX_RESPONSE } from 'test/mocks/pageModels';
@@ -186,7 +187,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(initConfigPage(CURRENT_PAGE_CODE)).then(() => {
         expect(loadSelectedPageModel).toHaveBeenCalledWith(HOMEPAGE_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([]);
+        expect(actionTypes.length).toEqual(2);
         done();
       }).catch(done.fail);
     });
@@ -207,8 +208,11 @@ describe('state/page-config/actions', () => {
         expect(loadSelectedPageModel).toHaveBeenCalledWith(CONTACTS_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([TOGGLE_LOADING, SET_PUBLISHED_PAGE_CONFIG]);
         expect(store.getActions()[0].payload).toEqual({
+          id: 'pageConfig',
+        });
+        expect(store.getActions()[1].payload).toEqual({
           pageCode: CURRENT_PAGE_CODE,
           pageConfig: null,
         });
@@ -227,7 +231,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(fetchPageConfig(CURRENT_PAGE_CODE, 'draft')).then(() => {
         expect(getPageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE, 'draft');
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_PAGE_CONFIG]);
+        expect(actionTypes).toEqual([TOGGLE_LOADING, TOGGLE_LOADING, SET_PAGE_CONFIG]);
         done();
       }).catch(done.fail);
     });
@@ -237,7 +241,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(fetchPageConfig(CURRENT_PAGE_CODE, 'published')).then(() => {
         expect(getPageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE, 'published');
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_PUBLISHED_PAGE_CONFIG]);
+        expect(actionTypes).toEqual([TOGGLE_LOADING, TOGGLE_LOADING, SET_PUBLISHED_PAGE_CONFIG]);
         done();
       }).catch(done.fail);
     });
@@ -247,7 +251,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(fetchPageConfig(CURRENT_PAGE_CODE, 'draft')).then(() => {
         expect(getPageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE, 'draft');
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([ADD_ERRORS]);
+        expect(actionTypes).toEqual([TOGGLE_LOADING, TOGGLE_LOADING, ADD_ERRORS]);
         done();
       }).catch(done.fail);
     });

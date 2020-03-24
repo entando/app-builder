@@ -8,9 +8,10 @@ const FAKE_STATE = {
     childrenMap: {},
     titlesMap: {},
   },
+  loading: {},
 };
 
-const dispatchMock = jest.fn();
+const dispatchMock = jest.fn(() => new Promise(() => {}));
 
 describe('ui/page-tree-page/PageTreePageContainer', () => {
   beforeEach(jest.clearAllMocks);

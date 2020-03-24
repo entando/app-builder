@@ -10,6 +10,10 @@ jest.mock('redux-form', () => ({
   reduxForm: jest.fn(() => jest.fn(ui => ui)),
 }));
 
+jest.mock('state/loading/selectors', () => ({
+  getLoading: jest.fn().mockReturnValue({}),
+}));
+
 describe('RestrictionsFormContainer', () => {
   it('maps passwordActive', () => {
     expect(mapStateToProps({})).toEqual({

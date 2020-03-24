@@ -22,6 +22,7 @@ import {
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
+import { toggleLoading } from 'state/loading/actions';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
@@ -85,20 +86,24 @@ export const changeViewList = view => ({
 
 
 export const fetchPageConfig = (pageCode, status) =>
-  dispatch => getPageConfig(pageCode, status)
-    .then(response => response.json()
-      .then((json) => {
-        if (response.ok) {
-          if (status === PAGE_STATUS_DRAFT) {
-            dispatch(setPageConfig(pageCode, json.payload));
-          } else {
-            dispatch(setPublishedPageConfig(pageCode, json.payload));
+  dispatch => new Promise((resolve, reject) => {
+    dispatch(toggleLoading('pageConfig'));
+    getPageConfig(pageCode, status)
+      .then(response => response.json()
+        .then((json) => {
+          dispatch(toggleLoading('pageConfig'));
+          if (response.ok) {
+            if (status === PAGE_STATUS_DRAFT) {
+              dispatch(setPageConfig(pageCode, json.payload));
+            } else {
+              dispatch(setPublishedPageConfig(pageCode, json.payload));
+            }
+            return resolve(json.payload);
           }
-          return json.payload;
-        }
-        dispatch(addErrors(json.errors.map(e => e.message)));
-        return null;
-      })).catch(() => {});
+          dispatch(addErrors(json.errors.map(e => e.message)));
+          return resolve();
+        })).catch(() => { dispatch(toggleLoading('pageConfig')); reject(); });
+  });
 
 
 export const initConfigPage = pageCode => async (dispatch) => {

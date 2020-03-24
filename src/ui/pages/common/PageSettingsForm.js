@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, OverlayTrigger, Popover } from 'patternfly-react';
+import { Row, Col, OverlayTrigger, Popover, Spinner } from 'patternfly-react';
 
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
@@ -71,147 +71,151 @@ export class PageSettingsFormBody extends Component {
     }));
 
     return (
-      <form onSubmit={onSubmit} className="PageSettingsForm form-horizontal">
-        <Row>
-          <Col xs={12}>
-            <fieldset className="no-padding">
-              <Field
-                component={RenderSelectInput}
-                options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.homepage" />
+      <Spinner loading={!!this.props.loading}>
+
+
+        <form onSubmit={onSubmit} className="PageSettingsForm form-horizontal">
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <Field
+                  component={RenderSelectInput}
+                  options={selectOptions}
+                  label={
+                    <FormLabel labelId="pageSettings.input.homepage" />
               }
-                name="homePageCode"
-                mandatory
-              />
-              <Field
-                component={RenderSelectInput}
-                options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.500" />
+                  name="homePageCode"
+                  mandatory
+                />
+                <Field
+                  component={RenderSelectInput}
+                  options={selectOptions}
+                  label={
+                    <FormLabel labelId="pageSettings.input.500" />
               }
-                name="errorPageCode"
-                mandatory
-              />
-              <Field
-                component={RenderSelectInput}
-                options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.proceed" />
+                  name="errorPageCode"
+                  mandatory
+                />
+                <Field
+                  component={RenderSelectInput}
+                  options={selectOptions}
+                  label={
+                    <FormLabel labelId="pageSettings.input.proceed" />
               }
-                name="loginPageCode"
-                mandatory
-              />
-              <Field
-                component={RenderSelectInput}
-                options={selectOptions}
-                label={
-                  <FormLabel labelId="pageSettings.input.404" />
+                  name="loginPageCode"
+                  mandatory
+                />
+                <Field
+                  component={RenderSelectInput}
+                  options={selectOptions}
+                  label={
+                    <FormLabel labelId="pageSettings.input.404" />
               }
-                name="notFoundPageCode"
-                mandatory
-              />
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.baseURL" />&nbsp;
-                  <OverlayTrigger
-                    overlay={appendBaseUrl()}
-                    placement="top"
-                    trigger={['click']}
-                    rootClose
-                  >
-                    <span className="fa fa-info-circle PageSettings__popover-icon" />
-                  </OverlayTrigger>
-                </Col>
-                <Col xs={4}>
-                  <label htmlFor="1" >
+                  name="notFoundPageCode"
+                  mandatory
+                />
+                <div className="form-group">
+                  <Col xs={2} className="text-right">
+                    <FormattedMessage id="pageSettings.input.baseURL" />&nbsp;
+                    <OverlayTrigger
+                      overlay={appendBaseUrl()}
+                      placement="top"
+                      trigger={['click']}
+                      rootClose
+                    >
+                      <span className="fa fa-info-circle PageSettings__popover-icon" />
+                    </OverlayTrigger>
+                  </Col>
+                  <Col xs={4}>
+                    <label htmlFor="1" >
+                      <Field
+                        component={RenderRadioInput}
+                        toggleElement={BASE_URL_TYPES}
+                        name="baseUrl"
+                      />
+                    </label>
+                  </Col>
+                </div>
+
+                <div className="form-group">
+                  <Col xs={2} className="text-right">
+                    <FormattedMessage id="pageSettings.input.appendBaseURL" />&nbsp;
+                    <OverlayTrigger
+                      overlay={baseUrl()}
+                      placement="top"
+                      trigger={['click']}
+                      rootClose
+                    >
+                      <span className="fa fa-info-circle PageSettings__popover-icon" />
+                    </OverlayTrigger>
+                  </Col>
+                  <Col xs={4}>
+                    <Field
+                      component={SwitchRenderer}
+                      name="baseUrlContext"
+                    />
+                  </Col>
+                  <Col xs={2} className="text-right">
+                    <FormattedMessage id="pageSettings.input.jsession" />&nbsp;
+                    <OverlayTrigger
+                      overlay={jsession()}
+                      placement="top"
+                      trigger={['click']}
+                      rootClose
+                    >
+                      <span className="fa fa-info-circle PageSettings__popover-icon" />
+                    </OverlayTrigger>
+                  </Col>
+                  <Col xs={4}>
+                    <Field
+                      component={SwitchRenderer}
+                      name="useJsessionId"
+                    />
+                  </Col>
+                </div>
+
+                <div className="form-group">
+                  <Col xs={2} className="text-right">
+                    <FormattedMessage id="pageSettings.input.languageBroswer" />&nbsp;
+                  </Col>
+                  <Col xs={4}>
+                    <Field
+                      component={SwitchRenderer}
+                      name="startLangFromBrowser"
+                    />
+                  </Col>
+                </div>
+
+                <div className="form-group">
+                  <Col xs={2} className="text-right">
+                    <FormattedMessage id="pageSettings.input.pageTreeStyle.url" />
+                  </Col>
+                  <Col xs={4}>
                     <Field
                       component={RenderRadioInput}
-                      toggleElement={BASE_URL_TYPES}
-                      name="baseUrl"
+                      toggleElement={URL_STYLE}
+                      name="urlStyle"
                     />
-                  </label>
-                </Col>
-              </div>
+                  </Col>
 
+                </div>
+              </fieldset>
               <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.appendBaseURL" />&nbsp;
-                  <OverlayTrigger
-                    overlay={baseUrl()}
-                    placement="top"
-                    trigger={['click']}
-                    rootClose
+                <Col xs={12}>
+                  <button
+                    type="submit"
+                    value="Submit"
+                    className="btn btn-primary pull-right"
                   >
-                    <span className="fa fa-info-circle PageSettings__popover-icon" />
-                  </OverlayTrigger>
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    component={SwitchRenderer}
-                    name="baseUrlContext"
-                  />
-                </Col>
-                <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.jsession" />&nbsp;
-                  <OverlayTrigger
-                    overlay={jsession()}
-                    placement="top"
-                    trigger={['click']}
-                    rootClose
-                  >
-                    <span className="fa fa-info-circle PageSettings__popover-icon" />
-                  </OverlayTrigger>
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    component={SwitchRenderer}
-                    name="useJsessionId"
-                  />
+                    <FormattedMessage id="app.save" />
+                  </button>
+
                 </Col>
               </div>
-
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.languageBroswer" />&nbsp;
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    component={SwitchRenderer}
-                    name="startLangFromBrowser"
-                  />
-                </Col>
-              </div>
-
-              <div className="form-group">
-                <Col xs={2} className="text-right">
-                  <FormattedMessage id="pageSettings.input.pageTreeStyle.url" />
-                </Col>
-                <Col xs={4}>
-                  <Field
-                    component={RenderRadioInput}
-                    toggleElement={URL_STYLE}
-                    name="urlStyle"
-                  />
-                </Col>
-
-              </div>
-            </fieldset>
-            <div className="form-group">
-              <Col xs={12}>
-                <button
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-primary pull-right"
-                >
-                  <FormattedMessage id="app.save" />
-                </button>
-
-              </Col>
-            </div>
-          </Col>
-        </Row>
-      </form>
+            </Col>
+          </Row>
+        </form>
+      </Spinner>
     );
   }
 }
@@ -223,6 +227,7 @@ PageSettingsFormBody.propTypes = {
     pageCode: PropTypes.string,
     shortFullTitle: PropTypes.string,
   })),
+  loading: PropTypes.bool,
 };
 
 PageSettingsFormBody.defaultProps = {
@@ -230,6 +235,7 @@ PageSettingsFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   options: [],
+  loading: false,
 };
 
 const PageSettingsForm = reduxForm({
