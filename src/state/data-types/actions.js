@@ -253,6 +253,7 @@ export const sendPutDataType = dataTypeObject => dispatch =>
     putDataType(dataTypeObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
+          dispatch(addToast({ id: 'dataType.updated' }, TOAST_SUCCESS));
           history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));

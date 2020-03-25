@@ -18,9 +18,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataTypes({ page: 1, pageSize: 0 }));
     dispatch(fetchDataModel(dataModelId));
   },
-  onSubmit: (values) => {
-    dispatch(sendPutDataModel(values));
-  },
+  onSubmit: values => dispatch(sendPutDataModel(values)),
 
 });
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {

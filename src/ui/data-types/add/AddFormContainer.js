@@ -14,9 +14,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchDataTypeAttributes());
   },
-  onSubmit: (values) => {
-    dispatch(sendPostDataType(values));
-  },
+  onSubmit: values => dispatch(sendPostDataType(values)),
 
 });
 export default connect(mapStateToProps, mapDispatchToProps, null, {

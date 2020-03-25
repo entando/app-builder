@@ -24,7 +24,7 @@ export const mapDispatchToProps = dispatch => ({
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
-    dispatch(sendPostWidgets(jsonData));
+    return dispatch(sendPostWidgets(jsonData));
   },
   onChangeDefaultTitle: title =>
     dispatch(change('widget', 'code', title.replace(/\W/g, '_').toLowerCase())),
