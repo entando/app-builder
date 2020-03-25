@@ -89,14 +89,14 @@ describe('FragmentForm', () => {
   it('disables submit button while submitting', () => {
     submitting = true;
     fragmentForm = buildFragmentForm();
-    const submitButton = fragmentForm.find('Button');
+    const submitButton = fragmentForm.find('Button').first();
     expect(submitButton.prop('disabled')).toEqual(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     fragmentForm = buildFragmentForm();
-    const submitButton = fragmentForm.find('Button');
+    const submitButton = fragmentForm.find('Button').first();
     expect(submitButton.prop('disabled')).toEqual(true);
   });
 

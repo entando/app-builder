@@ -160,6 +160,10 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeFragment(fragmentCode));
+          dispatch(addToast(
+            { id: 'app.deleted', values: { type: 'fragment', code: fragmentCode } },
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

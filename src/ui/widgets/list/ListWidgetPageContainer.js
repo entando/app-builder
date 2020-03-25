@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import { getLoading } from 'state/loading/selectors';
-import { fetchWidgetList, sendDeleteWidgets } from 'state/widgets/actions';
+import { fetchWidgetList } from 'state/widgets/actions';
 import { getTypologyWidgetList } from 'state/widgets/selectors';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { getLocale } from 'state/locale/selectors';
+import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 
 export const mapStateToProps = state => ({
@@ -17,7 +19,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchWidgetList());
   },
   onDelete: (widgetCode) => {
-    dispatch(sendDeleteWidgets(widgetCode));
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'widget', code: widgetCode }));
   },
 });
 

@@ -8,3 +8,9 @@
   color: $color-pf-black-300;
   font-size: 12px;
 }
+
+.FragmentForm {
+  &__save--btn {
+    margin-left: 5px;
+  }
+}

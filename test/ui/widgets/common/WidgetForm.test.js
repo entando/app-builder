@@ -100,14 +100,14 @@ describe('WidgetForm', () => {
   it('disables submit button while submitting', () => {
     submitting = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('Button');
+    const submitButton = widgetForm.find('Button').first();
     expect(submitButton.prop('disabled')).toBe(true);
   });
 
   it('disables submit button if form is invalid', () => {
     invalid = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('Button');
+    const submitButton = widgetForm.find('Button').first();
     expect(submitButton.prop('disabled')).toBe(true);
   });
 

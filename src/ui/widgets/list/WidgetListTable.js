@@ -37,7 +37,6 @@ const WidgetListTable = ({
           </tbody>
         </table>
       </Col>
-
     </div>
   );
 };
