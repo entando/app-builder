@@ -2,9 +2,10 @@ import 'test/enzyme-init';
 import { getLoading } from 'state/loading/selectors';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/list/ListWidgetPageContainer';
-import { fetchWidgetList, sendDeleteWidgets } from 'state/widgets/actions';
+import { fetchWidgetList } from 'state/widgets/actions';
 import { getTypologyWidgetList } from 'state/widgets/selectors';
-
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
 import { WIDGET, LIST, WIDGETS_MAP, WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
 jest.mock('state/loading/selectors', () => ({
@@ -24,6 +25,11 @@ jest.mock('state/widgets/actions', () => ({
 
 }));
 
+jest.mock('state/modal/actions', () => ({
+  setVisibleModal: jest.fn(),
+  setInfo: jest.fn(),
+}));
+
 
 const dispatchMock = jest.fn();
 
@@ -39,7 +45,7 @@ describe('ui/widgets/list/ListWidgetPageContainer', () => {
   let props;
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, {});
     });
 
     it('verify that onWillMount and onDelete are defined', () => {
@@ -57,7 +63,8 @@ describe('ui/widgets/list/ListWidgetPageContainer', () => {
       expect(props.onDelete).toBeDefined();
       props.onDelete(WIDGET);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(sendDeleteWidgets).toHaveBeenCalledWith(WIDGET);
+      expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'widget', code: WIDGET });
     });
   });
   describe('mapStateToProps', () => {

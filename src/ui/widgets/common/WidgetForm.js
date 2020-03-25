@@ -12,6 +12,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
 const maxLength30 = maxLength(30);
@@ -94,10 +95,21 @@ export class WidgetFormBody extends Component {
   }
 
   render() {
-    const { intl } = this.props;
+    const {
+      intl, dirty, onCancel, onDiscard, onSave,
+      invalid, submitting,
+    } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
       this.props.handleSubmit();
+    };
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
     };
 
     let codeField = (
@@ -192,13 +204,27 @@ export class WidgetFormBody extends Component {
         <Row>
           <Col xs={12}>
             <Button
-              className="pull-right"
+              className="pull-right FragmentForm__save--btn"
               type="submit"
               bsStyle="primary"
-              disabled={this.props.invalid || this.props.submitting}
+              disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
+            <Button
+              className="pull-right"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="app.cancel" />
+            </Button>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={onDiscard}
+            />
           </Col>
         </Row>
       </form>
@@ -219,6 +245,10 @@ WidgetFormBody.propTypes = {
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
+  dirty: PropTypes.bool,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 WidgetFormBody.defaultProps = {
@@ -232,6 +262,7 @@ WidgetFormBody.defaultProps = {
   mode: MODE_NEW,
   defaultUIField: '',
   onChangeDefaultTitle: null,
+  dirty: false,
 };
 
 const WidgetForm = reduxForm({

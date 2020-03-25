@@ -7,7 +7,7 @@ import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
-
+import DeleteWidgetModalContainer from 'ui/widgets/list/DeleteWidgetModalContainer';
 
 class ListWidgetPage extends Component {
   componentWillMount() {
@@ -68,6 +68,7 @@ class ListWidgetPage extends Component {
               {this.renderTable()}
             </Col>
           </Row>
+          <DeleteWidgetModalContainer />
         </Grid>
       </InternalPage>
     );

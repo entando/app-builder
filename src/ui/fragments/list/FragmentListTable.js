@@ -4,6 +4,7 @@ import { Col, Paginator, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
+import DeleteFragmentModalContainer from 'ui/fragments/list/DeleteFragmentModalContainer';
 
 class FragmentListTable extends Component {
   constructor(props) {
@@ -81,6 +82,7 @@ class FragmentListTable extends Component {
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
+        <DeleteFragmentModalContainer />
       </div>
     );
   }
