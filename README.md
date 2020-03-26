@@ -38,8 +38,8 @@ a boolean used to determine whether the Digital Exchange UI should be enabled or
 a boolean that enables authentication through [Keycloak](https://www.keycloak.org/). Won't be used if `USE_MOCKS` is set to true.
 
 #### `KEYCLOAK_JSON` (string, default: `/keycloak.json`)
-a string containing the path for Keycloak JSON configuration.
-This is a sample keycloak.json:
+a string containing the path for Keycloak JSON configuration reading endpoint.
+This is a sample response:
 ```
 {
    "realm":"entando",
