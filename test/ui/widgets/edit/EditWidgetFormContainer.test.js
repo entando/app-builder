@@ -17,6 +17,7 @@ const GROUP = {
 const TEST_STATE = {
   mode: 'edit',
   groups: [GROUP],
+  loading: {},
 };
 
 const ownProps = {
