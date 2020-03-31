@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { routeConverter } from '@entando/utils';
+import { submit } from 'redux-form';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -8,6 +10,10 @@ import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
+
+import { setVisibleModal } from 'state/modal/actions';
+import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 const EDIT_MODE = 'edit';
 
@@ -19,7 +25,7 @@ export const mapStateToProps = state => (
     languages: getActiveLanguages(state),
   });
 
-export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
+export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
@@ -32,6 +38,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     };
     return dispatch(sendPutWidgets(jsonData));
   },
+  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
+  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
+  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_WIDGET_LIST)); },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
