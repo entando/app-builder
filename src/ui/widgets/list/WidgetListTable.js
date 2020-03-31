@@ -7,7 +7,7 @@ import WidgetSectionTitle from 'ui/widgets/list/WidgetSectionTitle';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 const WidgetListTable = ({
-  title, widgetList, locale, onDelete,
+  title, widgetList, locale, onDelete, onEdit,
 }) => {
   const renderRow = widgetList
     .map(item => (
@@ -17,6 +17,7 @@ const WidgetListTable = ({
         code={item.code}
         used={item.used}
         onDelete={onDelete}
+        onEdit={onEdit}
       />));
 
   return (
@@ -46,6 +47,7 @@ WidgetListTable.propTypes = {
   widgetList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   locale: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default WidgetListTable;

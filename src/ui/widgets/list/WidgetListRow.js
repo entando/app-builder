@@ -8,11 +8,14 @@ import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 const WidgetListRow = (props) => {
   const {
-    name, code, used, onDelete,
+    name, code, used, onDelete, onEdit,
   } = props;
 
   const onClickDelete = () => {
     onDelete(code);
+  };
+  const onClickEdit = () => {
+    onEdit(code);
   };
 
   return (
@@ -28,6 +31,12 @@ const WidgetListRow = (props) => {
       <td className="WidgetListRow__td text-center">{used}</td>
       <td className="WidgetListRow__td text-center">
         <DropdownKebab pullRight id="WidgetListRow-dropown">
+          <MenuItem
+            className="WidgetListRow__menu-item-edit"
+            onClick={onClickEdit}
+          >
+            <FormattedMessage id="app.edit" />
+          </MenuItem>
           <MenuItem
             className="WidgetListRow__menu-item-delete"
             onClick={onClickDelete}
@@ -46,10 +55,12 @@ WidgetListRow.propTypes = {
   name: PropTypes.string.isRequired,
   used: PropTypes.number.isRequired,
   onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 WidgetListRow.defaultProps = {
   onDelete: () => {},
+  onEdit: () => {},
 };
 
 export default WidgetListRow;
