@@ -8,6 +8,7 @@ import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
 import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
+import { getLoading } from 'state/loading/selectors';
 
 const EDIT_MODE = 'edit';
 
@@ -17,13 +18,14 @@ export const mapStateToProps = state => (
     groups: getGroupsList(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
+    loading: getLoading(state).fetchWidget,
   });
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
+    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
   },
   onSubmit: (values) => {
     const jsonData = {

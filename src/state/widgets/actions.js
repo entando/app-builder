@@ -70,6 +70,7 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
 };
 
 export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
+  toggleLoading('fetchWidget');
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
@@ -81,9 +82,10 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
       }
+      toggleLoading('fetchWidget');
       resolve();
     });
-  }).catch(() => {});
+  }).catch(() => { toggleLoading('fetchWidget'); });
 });
 
 export const fetchWidgetInfo = widgetCode => dispatch => new Promise((resolve) => {
