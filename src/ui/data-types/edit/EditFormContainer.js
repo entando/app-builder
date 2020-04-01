@@ -56,9 +56,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'attribute', code }));
   },
-  onSubmit: (values) => {
-    dispatch(sendPutDataType(values));
-  },
+  onSubmit: values => dispatch(sendPutDataType(values)),
 
 });
 

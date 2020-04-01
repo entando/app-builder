@@ -7,6 +7,7 @@ import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -73,7 +74,16 @@ const msgs = defineMessages({
 export const FragmentFormBody = (props) => {
   const {
     intl, handleSubmit, invalid, submitting, mode,
+    dirty, onCancel, onDiscard, onSave,
   } = props;
+
+  const handleCancelClick = () => {
+    if (dirty) {
+      onCancel();
+    } else {
+      onDiscard();
+    }
+  };
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -162,13 +172,27 @@ export const FragmentFormBody = (props) => {
       <Row>
         <Col xs={12}>
           <Button
-            className="pull-right"
+            className="pull-right FragmentForm__save--btn"
             type="submit"
             bsStyle="primary"
             disabled={invalid || submitting}
           >
             <FormattedMessage id="app.save" />
           </Button>
+          <Button
+            className="pull-right"
+            bsStyle="default"
+            onClick={handleCancelClick}
+          >
+            <FormattedMessage id="app.cancel" />
+          </Button>
+          <ConfirmCancelModalContainer
+            contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+            invalid={invalid}
+            submitting={submitting}
+            onSave={onSave}
+            onDiscard={onDiscard}
+          />
         </Col>
       </Row>
     </form>
@@ -181,12 +205,17 @@ FragmentFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.string,
+  dirty: PropTypes.bool,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 FragmentFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   mode: NEW_MODE,
+  dirty: false,
 };
 
 const FragmentForm = reduxForm({

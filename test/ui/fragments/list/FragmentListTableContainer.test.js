@@ -1,9 +1,11 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/list/FragmentListTableContainer';
-import { fetchFragments, sendDeleteFragment } from 'state/fragments/actions';
+import { fetchFragments } from 'state/fragments/actions';
 import { LIST_FRAGMENTS_OK } from 'test/mocks/fragments';
 import { getLoading } from 'state/loading/selectors';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/fragments/list/DeleteFragmentModal';
 
 const TEST_STATE = {
   fragments: { list: LIST_FRAGMENTS_OK },
@@ -19,11 +21,15 @@ const TEST_STATE = {
 
 jest.mock('state/fragments/actions', () => ({
   fetchFragments: jest.fn(),
-  sendDeleteFragment: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
+}));
+
+jest.mock('state/modal/actions', () => ({
+  setVisibleModal: jest.fn(),
+  setInfo: jest.fn(),
 }));
 
 getLoading.mockReturnValue(false);
@@ -60,7 +66,8 @@ describe('FragmentListTableContainer', () => {
     it('should dispatch an action if onClickDelete is called', () => {
       props.onClickDelete({ code: 'CODE' });
       expect(dispatchMock).toHaveBeenCalled();
-      expect(sendDeleteFragment).toHaveBeenCalledWith('CODE');
+      expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({ type: 'fragment', code: 'CODE' });
     });
   });
 });

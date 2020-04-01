@@ -37,12 +37,12 @@ describe('WidgetFormContainer', () => {
 
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(TEST_STATE);
+      props = mapDispatchToProps(TEST_STATE, {});
     });
 
     it('verify that onWillMount and onSubmit is defined by mapDispatchToProps', () => {
       const dispatchMock = jest.fn();
-      const result = mapDispatchToProps(dispatchMock);
+      const result = mapDispatchToProps(dispatchMock, {});
       expect(result.onWillMount).toBeDefined();
       result.onWillMount();
       expect(dispatchMock).toHaveBeenCalled();

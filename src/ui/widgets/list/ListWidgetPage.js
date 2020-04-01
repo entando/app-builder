@@ -7,7 +7,7 @@ import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
-
+import DeleteWidgetModalContainer from 'ui/widgets/list/DeleteWidgetModalContainer';
 
 class ListWidgetPage extends Component {
   componentWillMount() {
@@ -18,6 +18,7 @@ class ListWidgetPage extends Component {
     const {
       widgetList,
       onDelete,
+      onEdit,
       locale,
     } = this.props;
     return (
@@ -30,6 +31,7 @@ class ListWidgetPage extends Component {
               widgetList={widgetList[typology]}
               locale={locale}
               onDelete={onDelete}
+              onEdit={onEdit}
             />
           ))
         }
@@ -68,6 +70,7 @@ class ListWidgetPage extends Component {
               {this.renderTable()}
             </Col>
           </Row>
+          <DeleteWidgetModalContainer />
         </Grid>
       </InternalPage>
     );
@@ -78,6 +81,7 @@ ListWidgetPage.propTypes = {
   onWillMount: PropTypes.func,
   widgetList: PropTypes.shape({}),
   onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
   locale: PropTypes.string,
   loading: PropTypes.bool,
 };
@@ -85,6 +89,7 @@ ListWidgetPage.propTypes = {
 ListWidgetPage.defaultProps = {
   onWillMount: () => {},
   onDelete: () => {},
+  onEdit: () => {},
   locale: 'en',
   widgetList: {},
   loading: false,

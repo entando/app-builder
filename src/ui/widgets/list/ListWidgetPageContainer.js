@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { getLoading } from 'state/loading/selectors';
-import { fetchWidgetList, sendDeleteWidgets } from 'state/widgets/actions';
+import { fetchWidgetList } from 'state/widgets/actions';
 import { getTypologyWidgetList } from 'state/widgets/selectors';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { getLocale } from 'state/locale/selectors';
+import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { routeConverter } from '@entando/utils/dist/routeConverter';
+import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 
 export const mapStateToProps = state => ({
@@ -12,15 +17,20 @@ export const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: () => {
     dispatch(fetchWidgetList());
   },
   onDelete: (widgetCode) => {
-    dispatch(sendDeleteWidgets(widgetCode));
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'widget', code: widgetCode }));
+  },
+  onEdit: (widgetCode) => {
+    history.push(routeConverter(ROUTE_WIDGET_EDIT, { widgetCode }));
   },
 });
 
-const ListWidgetPageContainer = connect(mapStateToProps, mapDispatchToProps)(ListWidgetPage);
+const ListWidgetPageContainer =
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(ListWidgetPage));
 
 export default ListWidgetPageContainer;

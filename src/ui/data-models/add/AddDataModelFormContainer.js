@@ -15,9 +15,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearErrors());
     dispatch(fetchDataTypes({ page: 1, pageSize: 0 }));
   },
-  onSubmit: (values) => {
-    dispatch(sendPostDataModel(values));
-  },
+  onSubmit: values => dispatch(sendPostDataModel(values)),
 });
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,

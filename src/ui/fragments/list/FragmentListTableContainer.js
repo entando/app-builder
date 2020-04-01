@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 
-import { fetchFragments, sendDeleteFragment } from 'state/fragments/actions';
+import { fetchFragments } from 'state/fragments/actions';
 import { getFragmentList } from 'state/fragments/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
+import { MODAL_ID } from 'ui/fragments/list/DeleteFragmentModal';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
 
 export const mapStateToProps = state => (
   {
@@ -20,8 +22,9 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchFragments(page));
   },
-  onClickDelete: (fragmentCode) => {
-    dispatch(sendDeleteFragment(fragmentCode.code));
+  onClickDelete: (fragment) => {
+    dispatch(setVisibleModal(MODAL_ID));
+    dispatch(setInfo({ type: 'fragment', code: fragment.code }));
   },
 });
 

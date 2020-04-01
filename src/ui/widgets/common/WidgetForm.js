@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert, Spinner } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
@@ -12,6 +12,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
 const maxLength30 = maxLength(30);
@@ -94,10 +95,21 @@ export class WidgetFormBody extends Component {
   }
 
   render() {
-    const { intl } = this.props;
+    const {
+      intl, dirty, onCancel, onDiscard, onSave,
+      invalid, submitting, loading,
+    } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
       this.props.handleSubmit();
+    };
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
     };
 
     let codeField = (
@@ -130,78 +142,94 @@ export class WidgetFormBody extends Component {
     }
 
     return (
-      <form onSubmit={onSubmit} className="form-horizontal">
-        <Row>
-          <Col xs={12}>
-            <fieldset className="no-padding">
-              <FormSectionTitle titleId="widget.page.create.pageTitle" />
-              {this.renderTitleFields()}
-              {codeField}
-              <Field
-                component={RenderSelectInput}
-                name="group"
-                label={
-                  <FormLabel labelId="widget.page.create.group" required />
+      <Spinner loading={!!loading}>
+        <form onSubmit={onSubmit} className="form-horizontal">
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <FormSectionTitle titleId="widget.page.create.pageTitle" />
+                {this.renderTitleFields()}
+                {codeField}
+                <Field
+                  component={RenderSelectInput}
+                  name="group"
+                  label={
+                    <FormLabel labelId="widget.page.create.group" required />
                 }
-                validate={required}
-                options={this.props.groups}
-                optionValue="code"
-                optionDisplayName="name"
-                defaultOptionId="app.chooseAnOption"
+                  validate={required}
+                  options={this.props.groups}
+                  optionValue="code"
+                  optionDisplayName="name"
+                  defaultOptionId="app.chooseAnOption"
+                />
+              </fieldset>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <Col xs={12}>
+                  <div className="form-group">
+                    <span className="control-label col-xs-2" />
+                    <Col xs={10}>
+                      <Tabs id="basic-tabs" defaultActiveKey={1}>
+                        <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
+                          <Field
+                            name="customUi"
+                            component="textarea"
+                            cols="50"
+                            rows="8"
+                            className="form-control"
+                            validate={[required]}
+                          />
+                        </Tab>
+                        {defaultUITab}
+                      </Tabs>
+                    </Col>
+                  </div>
+                </Col>
+              </fieldset>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <Field
+                component={JsonCodeEditorRenderer}
+                name="configUi"
+                label={<FormLabel labelId="widgets.configUi" />}
+                validate={[validateJson]}
               />
-            </fieldset>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <fieldset className="no-padding">
-              <Col xs={12}>
-                <div className="form-group">
-                  <span className="control-label col-xs-2" />
-                  <Col xs={10}>
-                    <Tabs id="basic-tabs" defaultActiveKey={1}>
-                      <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
-                        <Field
-                          name="customUi"
-                          component="textarea"
-                          cols="50"
-                          rows="8"
-                          className="form-control"
-                          validate={[required]}
-                        />
-                      </Tab>
-                      {defaultUITab}
-                    </Tabs>
-                  </Col>
-                </div>
-              </Col>
-            </fieldset>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Field
-              component={JsonCodeEditorRenderer}
-              name="configUi"
-              label={<FormLabel labelId="widgets.configUi" />}
-              validate={[validateJson]}
-            />
-          </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col xs={12}>
-            <Button
-              className="pull-right"
-              type="submit"
-              bsStyle="primary"
-              disabled={this.props.invalid || this.props.submitting}
-            >
-              <FormattedMessage id="app.save" />
-            </Button>
-          </Col>
-        </Row>
-      </form>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col xs={12}>
+              <Button
+                className="pull-right FragmentForm__save--btn"
+                type="submit"
+                bsStyle="primary"
+                disabled={invalid || submitting}
+              >
+                <FormattedMessage id="app.save" />
+              </Button>
+              <Button
+                className="pull-right"
+                bsStyle="default"
+                onClick={handleCancelClick}
+              >
+                <FormattedMessage id="app.cancel" />
+              </Button>
+              <ConfirmCancelModalContainer
+                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                invalid={invalid}
+                submitting={submitting}
+                onSave={onSave}
+                onDiscard={onDiscard}
+              />
+            </Col>
+          </Row>
+        </form>
+      </Spinner>
     );
   }
 }
@@ -219,6 +247,11 @@ WidgetFormBody.propTypes = {
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
+  dirty: PropTypes.bool,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 WidgetFormBody.defaultProps = {
@@ -232,6 +265,8 @@ WidgetFormBody.defaultProps = {
   mode: MODE_NEW,
   defaultUIField: '',
   onChangeDefaultTitle: null,
+  dirty: false,
+  loading: false,
 };
 
 const WidgetForm = reduxForm({
