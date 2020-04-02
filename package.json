@@ -8,7 +8,7 @@
     "@entando/log": "^1.0.2",
     "@entando/menu": "^2.0.0",
     "@entando/messages": "^1.0.4",
-    "@entando/pages": "^3.0.1",
+    "@entando/pages": "^3.1.2",
     "@entando/pagetreeselector": "^1.1.0",
     "@entando/utils": "^2.1.1",
     "autoprefixer": "7.1.6",
