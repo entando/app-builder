@@ -28,7 +28,7 @@ import NotificationListContainer from 'ui/activity-stream/NotificationListContai
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 
 const publicUrl = process.env.PUBLIC_URL;
-const BRAND_LOGO = <img src={`${publicUrl}/images/entando-logo.svg`} alt="" />;
+const BRAND_LOGO = <img src={`${publicUrl}/images/topbar-logo.svg`} alt="" />;
 
 const menuHeader = [
   <LanguageSelectContainer key="LanguageSelect" />,
