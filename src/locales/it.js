@@ -402,7 +402,6 @@ export default {
     'fileBrowser.list.empty': 'Questa cartella è vuota',
     'fileBrowser.createTextFile': 'Crea file di testo',
     'fileBrowser.createFolder': 'Crea cartella',
-    'fileBrowser.uploadFile': 'Upload File',
     'fileBrowser.uploadFiles': 'Upload Files',
     'fileBrowser.uploadFileComplete': 'Upload del file completato',
     'fileBrowser.uploadFileError': 'Errore nell\'upload del file - {errmsg}',
