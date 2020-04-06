@@ -37,7 +37,7 @@ const msgs = defineMessages({
 });
 
 export class FragmentSearchFormBody extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.onWillMount();
   }
 
@@ -76,7 +76,7 @@ export class FragmentSearchFormBody extends Component {
               <Field
                 component="select"
                 className="form-control"
-                name="widgetType.code"
+                name="widgetType"
               >
                 <option>{intl.formatMessage(msgs.appAll)}</option>
                 {renderSelectOptgroup(widgetTypes)}

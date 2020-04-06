@@ -1,18 +1,11 @@
 import { connect } from 'react-redux';
+import { omitBy, isEmpty } from 'lodash';
 import { defineMessages, injectIntl } from 'react-intl';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { fetchWidgetList } from 'state/widgets/actions';
 import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
-
-
-const FIELD_OPERATORS = {
-  code: FILTER_OPERATORS.EQUAL,
-  widgetType: FILTER_OPERATORS.GREATER_THAN,
-  plugin: FILTER_OPERATORS.LIKE,
-};
-
 
 export const mapStateToProps = state => ({
   widgetTypes: getWidgetTypesOptions(state),
@@ -32,15 +25,31 @@ export const mapDispatchToProps = (dispatch, { intl }) => ({
     dispatch(fetchPlugins());
   },
 
-  onSubmit: (values) => {
-    const queryString = values.pluginCode === intl.formatMessage(msgs.appAll) ? '' :
+  onSubmit: ({ code, widgetType, pluginCode }) => {
+    const formValues = omitBy({
+      code,
+      'widgetType.code': widgetType && widgetType !== intl.formatMessage(msgs.appAll) ? widgetType : null,
+      pluginCode: pluginCode && pluginCode !== intl.formatMessage(msgs.appAll) ? pluginCode : null,
+    }, isEmpty);
+
+    const operators = Object.keys(formValues).reduce((acc, curr) => {
+      if (curr === 'code') {
+        return { ...acc, [curr]: FILTER_OPERATORS.LIKE };
+      }
+      if (curr === 'widgetType.code' || curr === 'pluginCode') {
+        return { ...acc, [curr]: FILTER_OPERATORS.EQUAL };
+      }
+      return acc;
+    }, {});
+
+    const queryString = Object.keys(formValues).length ?
       convertToQueryString({
-        formValues: values,
-        operators: FIELD_OPERATORS,
+        formValues,
+        operators,
         sorting: {
           attribute: 'code',
         },
-      });
+      }) : '';
     dispatch(fetchFragments({ page: 1, pageSize: 10 }, queryString));
   },
 });
