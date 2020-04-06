@@ -403,6 +403,7 @@ export default {
     'fileBrowser.createTextFile': 'Create text file',
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFile': 'Upload File',
+    'fileBrowser.uploadFiles': 'Upload Files',
     'fileBrowser.uploadFileComplete': 'Upload file complete',
     'fileBrowser.uploadFileError': 'Error upload file - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
