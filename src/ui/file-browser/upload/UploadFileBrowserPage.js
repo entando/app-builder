@@ -24,7 +24,7 @@ const UploadFileBrowserPage = ({ location: { pathname } }) => {
     >
       <Icon size="lg" name="upload" />&nbsp;
       <FormattedMessage
-        id="fileBrowser.uploadFile"
+        id="fileBrowser.uploadFiles"
       />
     </Button>);
   return (

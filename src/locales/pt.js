@@ -400,7 +400,7 @@ export default {
     'fileBrowser.list.empty': 'Está pasta está vazia',
     'fileBrowser.createTextFile': 'Criar arquivo de texto',
     'fileBrowser.createFolder': 'Criar pasta',
-    'fileBrowser.uploadFile': 'Upload',
+    'fileBrowser.uploadFiles': 'Upload Files',
     'fileBrowser.uploadFileComplete': 'Upload de arquivo concluído',
     'fileBrowser.uploadFileError': 'Erro no upload de arquivo - {errmsg}',
     'fileBrowser.downloadFile': 'Download',

@@ -8,7 +8,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (values) => { dispatch(saveFile(values.file)); },
+  onSubmit: (values) => { values.file.files.map(f => dispatch(saveFile(f))); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {

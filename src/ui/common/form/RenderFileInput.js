@@ -7,7 +7,6 @@ const RenderFileInput = ({
   append, label, labelSize, placeholder, meta: { touched, error },
   help, disabled, acceptFile,
 }) => (
-
   <div className={(touched && error) ? 'text-right form-group has-error' : 'text-right form-group'}>
     <Col xs={labelSize}>
       <ControlLabel htmlFor={name}>
@@ -19,8 +18,9 @@ const RenderFileInput = ({
         name={name}
         type="file"
         accept={acceptFile}
-        onChange={e => onChange(e.target.files[0])}
-        onBlur={e => onBlur(e.target.files[0])}
+        multiple
+        onBlur={e => onBlur({ files: Object.values(e.target.files) })}
+        onChange={e => onChange({ files: Object.values(e.target.files) })}
         placeholder={placeholder}
         className="form-control RenderFileInput"
         disabled={disabled}
@@ -29,7 +29,6 @@ const RenderFileInput = ({
       {touched && ((error && <span className="help-block">{error}</span>))}
     </Col>
   </div>
-
 );
 
 RenderFileInput.propTypes = {
@@ -41,7 +40,7 @@ RenderFileInput.propTypes = {
   disabled: PropTypes.bool,
   labelSize: PropTypes.number,
   append: PropTypes.string,
-  acceptFile: PropTypes.string.isRequired,
+  acceptFile: PropTypes.string,
 
 };
 
@@ -54,5 +53,6 @@ RenderFileInput.defaultProps = {
   disabled: false,
   labelSize: 2,
   append: '',
+  acceptFile: '',
 };
 export default RenderFileInput;

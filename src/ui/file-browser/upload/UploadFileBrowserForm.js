@@ -21,7 +21,7 @@ export const UploadFileBrowserBody = (props) => {
         name="file"
         component={RenderFileInput}
         validate={[required]}
-        label={<FormattedMessage id="fileBrowser.uploadFile" />}
+        label={<FormattedMessage id="fileBrowser.uploadFiles" />}
       />
       <FormGroup>
         <Col xs={12}>

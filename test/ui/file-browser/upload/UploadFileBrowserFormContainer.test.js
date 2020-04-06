@@ -19,7 +19,7 @@ describe('ui/file-browser/upload/UploadFileBrowserFormContainer', () => {
     });
 
     it('should dispatch an action if onWillMount is called', () => {
-      props.onSubmit({});
+      props.onSubmit({ file: { files: [{ id: 1 }] } });
       expect(dispatchMock).toHaveBeenCalled();
       expect(saveFile).toHaveBeenCalled();
     });

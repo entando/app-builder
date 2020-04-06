@@ -44,7 +44,7 @@ class FileButtonsGroup extends Component {
           >
             <Icon size="lg" name="upload" />&nbsp;
             <FormattedMessage
-              id="fileBrowser.uploadFile"
+              id="fileBrowser.uploadFiles"
             />
           </Button>
         </ButtonGroup>);
