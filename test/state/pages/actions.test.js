@@ -436,8 +436,8 @@ describe('state/pages/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(e).toHaveProperty('errors');
-        e.errors.forEach((error, index) => {
+        expect(e).toHaveLength(1);
+        e.forEach((error, index) => {
           expect(error.message).toEqual(actions[0].payload.errors[index]);
         });
       });

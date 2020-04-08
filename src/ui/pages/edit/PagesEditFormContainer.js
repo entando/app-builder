@@ -42,7 +42,7 @@ export const mapDispatchToProps = dispatch => ({
         }
         default: history.push(ROUTE_PAGE_TREE);
       }
-    }),
+    }).catch(() => {}),
   onWillMount: ({ pageCode }) => {
     dispatch(clearTree());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));

@@ -315,20 +315,26 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
   }
 };
 
-export const sendPutPage = pageData => async (dispatch) => {
-  try {
-    const response = await putPage(pageData);
-    const json = await response.json();
-    if (response.ok) {
-      dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
-      dispatch(updatePage(json.payload));
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+export const sendPutPage = pageData => dispatch =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const response = await putPage(pageData);
+      const json = await response.json();
+      if (response.ok) {
+        dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
+        dispatch(updatePage(json.payload));
+        resolve();
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+        reject(json.errors);
+      }
+    } catch (e) {
+      const { details, defaultMessage } = e;
+      const detailMessage = details.map(er => er.message).join('; ');
+      dispatch(addErrors([[defaultMessage, detailMessage].join(' - ')]));
+      reject(e);
     }
-  } catch (e) {
-    // do nothing
-  }
-};
+  });
 
 export const sendPatchPage = pageData => async (dispatch, getState) => {
   try {
