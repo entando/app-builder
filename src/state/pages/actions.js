@@ -246,13 +246,25 @@ export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, sibli
 
 export const createPage = wrapApiCall(postPage);
 
-export const sendPostPage = pageData => dispatch => createPage(pageData)(dispatch)
-  .then((json) => {
-    dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
-    dispatch(addPages([json.payload]));
-    return json;
-  })
-  .catch(() => { });
+export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
+  try {
+    console.log('sending post page');
+    const response = await postPage(pageData);
+    console.log('response', response);
+    const json = await response.json();
+    console.log('json', json);
+    if (response.ok) {
+      dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
+      dispatch(addPages([json.payload]));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+    }
+    resolve();
+  } catch (e) {
+    console.log('resolving from catch');
+    resolve();
+  }
+});
 
 export const fetchFreePages = () => async (dispatch) => {
   try {
