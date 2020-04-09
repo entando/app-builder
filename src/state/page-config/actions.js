@@ -102,7 +102,8 @@ export const fetchPageConfig = (pageCode, status) =>
           }
           dispatch(addErrors(json.errors.map(e => e.message)));
           return resolve();
-        })).catch(() => { dispatch(toggleLoading('pageConfig')); reject(); });
+        }).catch((err) => { dispatch(toggleLoading('pageConfig')); reject(err); }))
+      .catch((err) => { dispatch(toggleLoading('pageConfig')); reject(err); });
   });
 
 
