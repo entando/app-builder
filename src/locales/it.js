@@ -662,7 +662,7 @@ export default {
     'digitalExchange.sidebar.digitalExchangeFilterTitle': 'Component Repository',
     'digitalExchange.sidebar.categoryFilterTitle': 'Categorie',
     'digitalExchange.components.latestVersion': 'Ultima versione',
-    'digitalExchange.components.notFound': 'Nessun componente disponibile negli scambi digital-exchanges',
+    'digitalExchange.components.notFound': 'Nessun componente disponibile',
     'digitalExchange.des.notFound': 'Nessun component repository è stato ancora registrato. Per aggiungere un nuovo component repository fai clic sull\'icona a forma di ingranaggio nell\'angolo in alto a destra di questa pagina',
     'digitalExchange.components.install': 'Installato',
     'digitalExchange.components.installing': 'Installando',
