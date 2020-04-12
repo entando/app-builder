@@ -23,7 +23,9 @@ const WidgetListTable = ({
   return (
     <div className="WidgetListTable">
       <Col xs={12} className="WidgetListTable__tables">
-        <WidgetSectionTitle title={title} />
+        <WidgetSectionTitle
+          title={<FormattedMessage id={`widget.list.section.${title}`} defaultMessage={title} />}
+        />
         <table className="table table-striped table-bordered table-hover">
           <thead>
             <tr>

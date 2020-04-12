@@ -11,7 +11,7 @@ const WidgetSectionTitle = ({ title }) => (
 );
 
 WidgetSectionTitle.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 WidgetSectionTitle.defaultProps = {
