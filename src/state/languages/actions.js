@@ -42,7 +42,7 @@ export const fetchLanguages = (page = { page: 1, pageSize: 10 }, params = '') =>
 
 const setLanguageActive = (langCode, active, messageId) => (dispatch, getState) => (
   new Promise((resolve) => {
-    const langObject = Object.assign({}, getLanguagesMap(getState())[langCode]);
+    const langObject = { ...getLanguagesMap(getState())[langCode] };
     if (!langObject) {
       resolve();
       return;
