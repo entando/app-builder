@@ -11,7 +11,7 @@ const WidgetSectionTitle = ({ title }) => (
 );
 
 WidgetSectionTitle.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node,
 };
 
 WidgetSectionTitle.defaultProps = {
