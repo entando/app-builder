@@ -1,4 +1,4 @@
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { getLanguages, putLanguage } from 'api/languages';
 import { toggleLoading } from 'state/loading/actions';
@@ -40,31 +40,34 @@ export const fetchLanguages = (page = { page: 1, pageSize: 10 }, params = '') =>
   })
 );
 
-const setLanguageActive = (langCode, active) => (dispatch, getState) => (
+const setLanguageActive = (langCode, active, messageId) => (dispatch, getState) => (
   new Promise((resolve) => {
-    const langObject = getLanguagesMap(getState())[langCode];
+    const langObject = Object.assign({}, getLanguagesMap(getState())[langCode]);
     if (!langObject) {
       resolve();
       return;
     }
     langObject.isActive = active;
     putLanguage(langObject).then((response) => {
-      if (response.ok) {
-        response.json().then(() => {
+      response.json().then((json) => {
+        if (response.ok) {
           dispatch(setLanguageActiveSync(langCode, active));
+          dispatch(addToast({ id: messageId }, TOAST_SUCCESS));
           resolve();
-        });
-      } else {
-        resolve();
-      }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          resolve();
+        }
+      });
     }).catch(() => {});
   })
 );
 
 export const activateLanguage = langCode => (dispatch, getState) => (
-  setLanguageActive(langCode, true)(dispatch, getState)
+  setLanguageActive(langCode, true, 'language.active.add')(dispatch, getState)
 );
 
 export const deactivateLanguage = langCode => (dispatch, getState) => (
-  setLanguageActive(langCode, false)(dispatch, getState)
+  setLanguageActive(langCode, false, 'language.active.delete')(dispatch, getState)
 );

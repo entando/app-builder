@@ -583,6 +583,8 @@ export default {
     'label.searchForm.title': 'Search for existing label',
     'language.selectLanguage': 'Select Language',
     'language.active.listEmpty': 'There are no ACTIVE LANGUAGES available',
+    'language.active.add': 'Active language added',
+    'language.active.delete': 'Active language deleted',
     'label.detail.title': 'Labels',
     'labels.code.placeholder': 'code',
     'labels.default.language': 'Default language',

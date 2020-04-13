@@ -46,7 +46,6 @@ export const mapDispatchToProps = dispatch => ({
           break;
         }
         case ACTION_SAVE_AND_CONFIGURE: {
-          console.log('pushing now to', routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
           history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
           break;
         }

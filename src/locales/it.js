@@ -584,6 +584,8 @@ export default {
     'labelsAndLanguages.help': 'Dalla sezione ETICHETTE E LINGUE è possibile gestire le lingue e le etichette di sistema. Entando supporta il multilingua, l\'amministratore può aggiungere una nuova lingua. La prima lingua configurata nel sistema è la lingua predefinita. Le etichette sono accessori di Entando, usate principalmente per gestire semplici informazioni testuali semi-statiche, non associate ad oggetti particolari.',
     'language.selectLanguage': 'Seleziona una lingua',
     'language.active.listEmpty': 'Non ci sono LINGUE ATTIVE disponibili',
+    'language.active.add': 'Lingua attiva aggiunta',
+    'language.active.delete': 'Lingua attiva cancellata',
     'label.searchForm.code': 'Cerca per codice',
     'label.searchForm.title': 'Cerca etichette esistenti',
     'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
