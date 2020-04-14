@@ -580,6 +580,8 @@ export default {
     'label.searchForm.title': 'Procucar label existente',
     'language.selectLanguage': 'Selecione o idioma',
     'language.active.listEmpty': 'Não há IDIOMAS ATIVOS disponíveis',
+    'language.active.add': 'Idioma ativo adicionado',
+    'language.active.delete': 'Idioma ativo excluído',
     'label.detail.title': 'Labels',
     'labels.code.placeholder': 'código',
     'labels.default.language': 'Idioma padrão',

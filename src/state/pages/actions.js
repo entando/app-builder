@@ -248,11 +248,8 @@ export const createPage = wrapApiCall(postPage);
 
 export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
   try {
-    console.log('sending post page');
     const response = await postPage(pageData);
-    console.log('response', response);
     const json = await response.json();
-    console.log('json', json);
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
@@ -261,7 +258,6 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     }
     resolve();
   } catch (e) {
-    console.log('resolving from catch');
     resolve();
   }
 });
