@@ -434,8 +434,9 @@ describe('state/pages/actions', () => {
       return store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).catch((e) => {
         expect(putPage).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         expect(e).toHaveLength(1);
         e.forEach((error, index) => {
           expect(error.message).toEqual(actions[0].payload.errors[index]);

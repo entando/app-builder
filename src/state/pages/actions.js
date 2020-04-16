@@ -253,10 +253,12 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
+      resolve(response);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      resolve();
     }
-    resolve();
   } catch (e) {
     resolve();
   }
@@ -334,6 +336,7 @@ export const sendPutPage = pageData => dispatch =>
         resolve();
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         reject(json.errors);
       }
     } catch (e) {
