@@ -156,7 +156,7 @@ export const removePageWidget = (frameId, pageCode) => (dispatch, getState) => (
 );
 
 export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCode) =>
-  (dispatch, getState) => {
+  async (dispatch, getState) => {
     const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
 
     // build payload
@@ -165,7 +165,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
 
     const promise = Promise.resolve();
     if (sourceFrameId != null) {
-      promise.then(() => deletePageWidget(pageCode, sourceFrameId));
+      await deletePageWidget(pageCode, sourceFrameId);
     }
 
     return promise.then(() => putPageWidget(pageCode, targetFrameId, requestBody))
