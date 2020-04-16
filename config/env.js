@@ -81,6 +81,7 @@ function getClientEnvironment(publicUrl) {
         DIGITAL_EXCHANGE_UI_ENABLED: process.env.DIGITAL_EXCHANGE_UI_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
+        APP_BUILDER_VERSION: process.env.npm_package_version,
       },
     );
 
