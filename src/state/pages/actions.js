@@ -260,6 +260,11 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       resolve();
     }
   } catch (e) {
+    const { details, defaultMessage } = e;
+    const detailMessage = details.map(er => er.message).join('; ');
+    const combinedErrors = [defaultMessage, detailMessage].join(' - ');
+    dispatch(addErrors([combinedErrors]));
+    dispatch(addToast(combinedErrors, TOAST_ERROR));
     resolve();
   }
 });
