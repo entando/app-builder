@@ -33,7 +33,7 @@ export const getDEComponents = (page = { page: 1, pageSize: 10 }, params = '') =
 
 export const postDEComponentInstall = component => (
   makeRequest({
-    uri: `/components/install/${component.id}`,
+    uri: `/components/${component.id}/install`,
     domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
@@ -47,7 +47,7 @@ export const postDEComponentInstall = component => (
 // do this the same for `getDEComponentUninstall` API
 export const getDEComponentInstall = id => (
   makeRequest({
-    uri: `/components/install/${id}`,
+    uri: `/components/${id}/install`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
@@ -57,7 +57,7 @@ export const getDEComponentInstall = id => (
 
 export const postDEComponentUninstall = id => (
   makeRequest({
-    uri: `/components/uninstall/${id}`,
+    uri: `/components/${id}/uninstall`,
     domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
@@ -68,7 +68,7 @@ export const postDEComponentUninstall = id => (
 
 export const getDEComponentUninstall = id => (
   makeRequest({
-    uri: `/components/uninstall/${id}`,
+    uri: `/components/${id}/uninstall`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
