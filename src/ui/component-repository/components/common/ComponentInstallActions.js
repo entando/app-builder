@@ -9,6 +9,7 @@ import {
   ECR_COMPONENT_UNINSTALLATION_STATUS_CREATED,
   ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/component-repository/components/const';
+import ConfirmUninstallModal from 'ui/component-repository/components/common/ConfirmUninstallModal';
 
 const jobProgressStatuses = [
   ECR_COMPONENT_INSTALLATION_STATUS_CREATED,
@@ -25,6 +26,7 @@ const ComponentInstallActions = ({
   installUninstallLoading,
   onInstall,
   onUninstall,
+  onClickUninstall,
   onRecheckStatus,
   onRetryAction,
 }) => {
@@ -68,7 +70,7 @@ const ComponentInstallActions = ({
       <Button
         bsStyle="link"
         className="ComponentList__uninstall"
-        onClick={() => onUninstall(component.id)}
+        onClick={() => onClickUninstall(component.id)}
       >
         <FormattedMessage id="componentRepository.components.uninstall" />
       </Button>
@@ -103,6 +105,10 @@ const ComponentInstallActions = ({
       <Spinner loading={installUninstallLoading}>
         {renderedButton}
       </Spinner>
+      <ConfirmUninstallModal
+        info={{ id: component.id, name: component.name }}
+        onConfirmUninstall={() => onUninstall(component.id)}
+      />
     </div>
   );
 };
@@ -113,6 +119,7 @@ ComponentInstallActions.propTypes = {
   lastInstallStatus: PropTypes.string.isRequired,
   onInstall: PropTypes.func.isRequired,
   onUninstall: PropTypes.func.isRequired,
+  onClickUninstall: PropTypes.func.isRequired,
   uninstallStatus: PropTypes.string.isRequired,
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,

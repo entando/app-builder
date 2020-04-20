@@ -681,6 +681,7 @@ export default {
     'componentRepository.components.notifyFailedInstall': 'Si è verificato un errore durante l\'installazione.',
     'componentRepository.components.notifyFailedUninstall': 'Si è verificato un errore durante la disinstallazione.',
     'componentRepository.components.uninstall': 'Disinstalla',
+    'componentRepository.components.confirmUninstall': 'Vuoi veramente disinstallare il componente {name}?',
     'componentRepository.sidebar.ratingFilter.title': 'Media voto',
     'componentRepository.sidebar.ratingFilter.itemLabel': 'e più',
     'componentRepository.categories.all': 'Tutti',

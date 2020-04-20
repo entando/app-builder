@@ -681,6 +681,7 @@ export default {
     'componentRepository.components.notifyFailedInstall': 'An error has occured during installation.',
     'componentRepository.components.notifyFailedUninstall': 'An error has occured during uninstallation.',
     'componentRepository.components.uninstall': 'Uninstall',
+    'componentRepository.components.confirmUninstall': 'Do you really want to uninstall component {name}?',
     'componentRepository.sidebar.ratingFilter.title': 'Rating',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',
     'componentRepository.categories.all': 'All',

@@ -676,6 +676,7 @@ export default {
     'componentRepository.components.notifyFailedInstall': 'Ocorreu um erro durante a instalação.',
     'componentRepository.components.notifyFailedUninstall': 'Ocorreu um erro durante a desinstalação.',
     'componentRepository.components.uninstall': 'Desinstalar',
+    'componentRepository.components.confirmUninstall': 'Deseja realmente desinstalar o componente {name}?',
     'componentRepository.sidebar.ratingFilter.title': 'Avaliação',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',
     'componentRepository.categories.all': 'Todos',

@@ -12,6 +12,7 @@ import {
   getECRComponentUninstallStatus,
 } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const mapStateToProps = (state, props) => ({
   lastInstallStatus: getECRComponentLastInstallStatus(state, props),
@@ -22,7 +23,11 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: component => dispatch(installECRComponent(component)),
-  onUninstall: componentId => dispatch(uninstallECRComponent(componentId)),
+  onUninstall: (componentId) => {
+    dispatch(setVisibleModal(''));
+    return dispatch(uninstallECRComponent(componentId));
+  },
+  onClickUninstall: componentId => dispatch(setVisibleModal(componentId)),
   recheckInstallStatus: component => dispatch(pollECRComponentInstallStatus(component)),
   recheckUninstallStatus: componentId => dispatch(pollECRComponentUninstallStatus(componentId)),
 });
