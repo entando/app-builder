@@ -29,10 +29,10 @@ import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
 import userProfile from 'state/user-profile/reducer';
-import digitalExchangeComponents from 'state/digital-exchange/components/reducer';
-import digitalExchanges from 'state/digital-exchange/digital-exchanges/reducer';
-import digitalExchangeCategories from 'state/digital-exchange/categories/reducer';
-import digitalExchangeExtraFilters from 'state/digital-exchange/extra-filters/reducer';
+import componentRepositoryComponents from 'state/component-repository/components/reducer';
+import componentRepositories from 'state/component-repository/component-repositories/reducer';
+import componentRepositoryCategories from 'state/component-repository/categories/reducer';
+import componentRepositoryExtraFilters from 'state/component-repository/extra-filters/reducer';
 import plugins from 'state/plugins/reducer';
 import entandoApps from 'entando-apps';
 
@@ -49,10 +49,10 @@ const reducerDef = {
   database,
   dataModels,
   dataTypes,
-  digitalExchangeCategories,
-  digitalExchangeComponents,
-  digitalExchangeExtraFilters,
-  digitalExchanges,
+  componentRepositoryCategories,
+  componentRepositoryComponents,
+  componentRepositoryExtraFilters,
+  componentRepositories,
   fileBrowser,
   form,
   fragments,

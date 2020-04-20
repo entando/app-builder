@@ -1,0 +1,54 @@
+import { connect } from 'react-redux';
+import ComponentInstallActions from 'ui/component-repository/components/common/ComponentInstallActions';
+import {
+  installECRComponent,
+  uninstallECRComponent,
+  pollECRComponentInstallStatus,
+  pollECRComponentUninstallStatus,
+} from 'state/component-repository/components/actions';
+import {
+  getECRComponentLastInstallStatus,
+  getECRComponentInstallationStatus,
+  getECRComponentUninstallStatus,
+} from 'state/component-repository/components/selectors';
+import { getLoading } from 'state/loading/selectors';
+
+export const mapStateToProps = (state, props) => ({
+  lastInstallStatus: getECRComponentLastInstallStatus(state, props),
+  installationStatus: getECRComponentInstallationStatus(state, props),
+  uninstallStatus: getECRComponentUninstallStatus(state, props),
+  installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.id}`],
+});
+
+export const mapDispatchToProps = dispatch => ({
+  onInstall: component => dispatch(installECRComponent(component)),
+  onUninstall: componentId => dispatch(uninstallECRComponent(componentId)),
+  recheckInstallStatus: component => dispatch(pollECRComponentInstallStatus(component)),
+  recheckUninstallStatus: componentId => dispatch(pollECRComponentUninstallStatus(componentId)),
+});
+
+export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  onRetryAction: () => {
+    if (ownProps.component && ownProps.component.installed) {
+      dispatchProps.onUninstall(ownProps.component.id);
+    } else {
+      dispatchProps.onInstall(ownProps.component);
+    }
+  },
+  onRecheckStatus: () => {
+    if (ownProps.component && ownProps.component.installed) {
+      dispatchProps.recheckUninstallStatus(ownProps.component.id);
+    } else {
+      dispatchProps.recheckInstallStatus(ownProps.component);
+    }
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(ComponentInstallActions);

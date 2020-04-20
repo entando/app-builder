@@ -81,10 +81,10 @@ export const ROUTE_FILE_BROWSER_CREATE_FOLDER = '/file-browser/create-folder';
 export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = '/file-browser/create-text-file';
 export const ROUTE_FILE_BROWSER_EDIT_TEXT_FILE = '/file-browser/edit/:filename';
 // component repository
-export const ROUTE_DE_COMPONENT_LIST = '/digital-exchange';
-export const ROUTE_DE_CONFIG_LIST = '/digital-exchange/configuration';
-export const ROUTE_DE_CONFIG_EDIT = '/digital-exchange/configuration/edit/:server';
-export const ROUTE_DE_CONFIG_ADD = '/digital-exchange/configuration/add';
+export const ROUTE_ECR_COMPONENT_LIST = '/component-repository';
+export const ROUTE_ECR_CONFIG_LIST = '/component-repository/configuration';
+export const ROUTE_ECR_CONFIG_EDIT = '/component-repository/configuration/edit/:server';
+export const ROUTE_ECR_CONFIG_ADD = '/component-repository/configuration/add';
 // plugins
 export const ROUTE_PLUGIN_CONFIG_PAGE = '/plugins/config/:id';
 export const ROUTE_PLUGINS = '/plugins';

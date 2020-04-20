@@ -45,11 +45,11 @@ import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 // component repository
-import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
-import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
-import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
-import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
-import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
+import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
 
 import {
   ROUTE_HOME,
@@ -90,10 +90,10 @@ import {
   ROUTE_PLUGINS,
   ROUTE_PLUGIN_CONFIG_PAGE,
   // component repository
-  ROUTE_DE_COMPONENT_LIST,
-  ROUTE_DE_CONFIG_LIST,
-  ROUTE_DE_CONFIG_EDIT,
-  ROUTE_DE_CONFIG_ADD,
+  ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_ECR_CONFIG_LIST,
+  ROUTE_ECR_CONFIG_EDIT,
+  ROUTE_ECR_CONFIG_ADD,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/testUtils';
 
@@ -314,53 +314,53 @@ describe('App', () => {
   describe('component repository', () => {
     beforeAll(() => {
       jest.resetModules();
-      delete process.env.DIGITAL_EXCHANGE_UI_ENABLED;
+      delete process.env.COMPONENT_REPOSITORY_UI_ENABLED;
     });
 
     describe('component repository disabled', () => {
-      it('routes to the disable page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_COMPONENT_LIST);
+      it('routes to the disable page on ROUTE_ECR_COMPONENT_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_LIST);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_EDIT);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_EDIT', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_ADD);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_ADD', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
     });
 
     describe('component repository enabled', () => {
       beforeAll(() => {
-        process.env.DIGITAL_EXCHANGE_UI_ENABLED = true;
+        process.env.COMPONENT_REPOSITORY_UI_ENABLED = true;
       });
 
-      it('routes to the component list page page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_COMPONENT_LIST);
+      it('routes to the component list page page on ROUTE_ECR_COMPONENT_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
         expect(component.find(ComponentListPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_LIST);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
         expect(component.find(SettingsListPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_EDIT);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_EDIT', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
         expect(component.find(SettingsEditPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_ADD);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_ADD', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
         expect(component.find(SettingsAddPage).exists()).toBe(true);
       });
     });

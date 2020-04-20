@@ -1,0 +1,13 @@
+export const SET_SELECTED_ECR_COMPONENT = 'component-repository/components/set-selected-component';
+export const SET_SELECTED_CATEGORY = 'component-repository/components/set-selected-category';
+export const SET_ECR_COMPONENTS = 'component-repository/components/set-components';
+export const SET_ECR_FILTER = 'component-repository/components/set-filter';
+export const SET_ECR_COMPONENT_LIST_VIEW_MODE = 'component-repository/components/set-list-view-mode';
+export const START_COMPONENT_INSTALLATION = 'component-repository/components/start-component-installation';
+export const FINISH_COMPONENT_INSTALLATION = 'component-repository/components/finish-component-installation';
+export const COMPONENT_INSTALLATION_FAILED = 'component-repository/components/component-installation-failed';
+export const START_COMPONENT_UNINSTALLATION = 'component-repository/components/start-component-uninstallation';
+export const FINISH_COMPONENT_UNINSTALLATION = 'component-repository/components/finish-component-uninstallation';
+export const COMPONENT_UNINSTALLATION_FAILED = 'component-repository/components/component-uninstallation-failed';
+export const COMPONENT_INSTALL_ONGOING_PROGRESS = 'component-repository/components/component-install-ongoing-progress';
+export const COMPONENT_UNINSTALL_ONGOING_PROGRESS = 'component-repository/components/component-uninstall-ongoing-progress';

@@ -34,7 +34,7 @@ pipelineConfig:
             export USE_MOCKS=false;
             export PUBLIC_URL=/app-builder;
             export DOMAIN=/entando-de-app;
-            export DIGITAL_EXCHANGE_UI_ENABLED=true;
+            export COMPONENT_REPOSITORY_UI_ENABLED=true;
             export KEYCLOAK_ENABLED=true;
             npm run app-install cms;
             npm run build --production;

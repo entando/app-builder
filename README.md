@@ -31,7 +31,7 @@ string used for the client id during the OAUTH2 authentication process.
 #### `CLIENT_SECRET` (string, default `client_secret`)
 string used for the client secret during the OAUTH2 authentication process.
 
-#### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
+#### `COMPONENT_REPOSITORY_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Component Repository (former Digital Exchange) should be enabled or not.
 
 #### `KEYCLOAK_ENABLED` (boolean, default: `false`)

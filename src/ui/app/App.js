@@ -83,10 +83,10 @@ import {
   ROUTE_FILE_BROWSER_CREATE_TEXT_FILE,
   ROUTE_FILE_BROWSER_EDIT_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
-  ROUTE_DE_COMPONENT_LIST,
-  ROUTE_DE_CONFIG_LIST,
-  ROUTE_DE_CONFIG_EDIT,
-  ROUTE_DE_CONFIG_ADD,
+  ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_ECR_CONFIG_LIST,
+  ROUTE_ECR_CONFIG_EDIT,
+  ROUTE_ECR_CONFIG_ADD,
   ROUTE_PLUGINS,
 } from 'app-init/router';
 
@@ -148,11 +148,11 @@ import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttrib
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 // component repository
-import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
-import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
-import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
-import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
-import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
+import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -278,31 +278,31 @@ const getRouteComponent = () => (
     {/* component repository */}
     <Route
       exact
-      path={ROUTE_DE_COMPONENT_LIST}
+      path={ROUTE_ECR_COMPONENT_LIST}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <ComponentListPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
       exact
-      path={ROUTE_DE_CONFIG_LIST}
+      path={ROUTE_ECR_CONFIG_LIST}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsListPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
-      path={ROUTE_DE_CONFIG_EDIT}
+      path={ROUTE_ECR_CONFIG_EDIT}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsEditPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
-      path={ROUTE_DE_CONFIG_ADD}
+      path={ROUTE_ECR_CONFIG_ADD}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsAddPage /> : <ComponentListPageDisabled />
       )}
     />

@@ -5,7 +5,7 @@ import {
   EmptyStateInfo,
 } from 'patternfly-react';
 import { Link } from 'react-router-dom';
-import { ROUTE_DE_COMPONENT_LIST } from 'app-init/router';
+import { ROUTE_ECR_COMPONENT_LIST } from 'app-init/router';
 
 const PluginsPageEmptyState = () => (
   <EmptyState className="PluginsPageEmptyState">
@@ -13,7 +13,7 @@ const PluginsPageEmptyState = () => (
       <FormattedMessage id="plugins.noPlugins" />
     </EmptyStateInfo>
     <EmptyStateAction>
-      <Link to={ROUTE_DE_COMPONENT_LIST}>
+      <Link to={ROUTE_ECR_COMPONENT_LIST}>
         <Button bsStyle="primary" bsSize="large">
           <FormattedMessage id="plugins.installCallToAction" />
         </Button>
