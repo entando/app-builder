@@ -1,0 +1,56 @@
+.EntBlueViewPage {
+  display: grid;
+  width: 100vw;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  grid-template-columns: 1fr minmax(auto, 653px) 1fr;
+  grid-template-rows: minmax(auto, 233px) 534px 1fr;
+
+  &__center-box {
+    display: grid;
+    max-width: 1140px;
+    background-color: $color-white;
+    font-family: "Roboto";
+    grid-row: 2/3;
+    grid-column: 2/3;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+  }
+
+  &__brand {
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 60px;
+  }
+
+  &__logo {
+    align-self: flex-start;
+    width: 223px;
+    height: 58px;
+    margin-top: 50px;
+    background-repeat: no-repeat;
+  }
+
+  &__description {
+    align-self: flex-start;
+    margin-top: 16px;
+    color: $e6-blue;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -.17px;
+    line-height: 30px;
+    text-align: center;
+    opacity: 90%;
+  }
+
+  &__values {
+    padding: 30px 50px;
+    font-size: 14px;
+  }
+}

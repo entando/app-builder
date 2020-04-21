@@ -88,6 +88,7 @@ import {
   ROUTE_DE_CONFIG_EDIT,
   ROUTE_DE_CONFIG_ADD,
   ROUTE_PLUGINS,
+  ROUTE_DEBUG_INFO,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -147,6 +148,7 @@ import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
+import DebugInfo from 'ui/debug-info/DebugInfo';
 // component repository
 import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
@@ -318,6 +320,7 @@ const getRouteComponent = () => (
     <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
     <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
     <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+    <Route exact path={ROUTE_DEBUG_INFO} component={DebugInfo} />
     { /* app routes */ }
     {appsRoutes}
     {/* 404 */}
@@ -337,11 +340,11 @@ class App extends Component {
       isReady,
       username,
     } = this.props;
-    if (!username && currentRoute !== ROUTE_HOME) {
+    if (!username && [ROUTE_HOME, ROUTE_DEBUG_INFO].indexOf(currentRoute) === -1) {
       return <Redirect to={ROUTE_HOME} />;
     }
 
-    const readyDisplay = !auth.enabled || auth.authenticated
+    const readyDisplay = !auth.enabled || auth.authenticated || currentRoute === ROUTE_DEBUG_INFO
       ? getRouteComponent()
       : <LoginPage />;
 
