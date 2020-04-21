@@ -6,6 +6,16 @@ import { setSelectedDEExtraFilter } from 'state/digital-exchange/extra-filters/a
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
 import { fetchDEComponents, setDEFilter } from 'state/digital-exchange/components/actions';
+import { getSelectedDEExtraFilter } from './extra-filters/selectors';
+
+const genFilterParams = (filter, getState) => {
+  const filters = getDEFilters(getState());
+  const selectedExtraFilter = getSelectedDEExtraFilter(getState());
+  const selectedExtraFilterParams = selectedExtraFilter ? convertToQueryString(DE_COMPONENTS_EXTRA_FILTERS[selectedExtraFilter]) : '';
+  const filterParams = filters[filter] ? convertToQueryString(filters[filter]) : '';
+  const params = `?${selectedExtraFilterParams.slice(1)}&${filterParams.slice(1)}`;
+  return params;
+};
 
 export const navigateDECategory = (category, paginationMetadata) => (dispatch, getState) => {
   dispatch(setSelectedDECategory(category));
@@ -16,24 +26,29 @@ export const navigateDECategory = (category, paginationMetadata) => (dispatch, g
     };
     dispatch(setDEFilter(filter, category));
   }
-  const filters = getDEFilters(getState());
-  const params = filters[category] ? convertToQueryString(filters[category]) : '';
-  return dispatch(fetchDEComponents(paginationMetadata, params));
+  return dispatch(fetchDEComponents(
+    paginationMetadata,
+    genFilterParams(category, getState),
+  ));
 };
 
-export const navigateDEExtraTab = (extraFilter, paginationMetadata) => (dispatch) => {
+export const navigateDEExtraTab = (extraFilter, paginationMetadata) => (dispatch, getState) => {
   dispatch(setSelectedDEExtraFilter(extraFilter));
-  const params = convertToQueryString(DE_COMPONENTS_EXTRA_FILTERS[extraFilter]);
-  return dispatch(fetchDEComponents(paginationMetadata, params));
+  const selectedCategory = getSelectedDECategory(getState());
+  return dispatch(fetchDEComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 
 const applyFilter = (filter, paginationMetadata) => (dispatch, getState) => {
   const selectedCategory = getSelectedDECategory(getState());
   dispatch(setDEFilter(filter, selectedCategory));
-  const filters = getDEFilters(getState());
-  const params = filters[selectedCategory] ? convertToQueryString(filters[selectedCategory]) : '';
-  return dispatch(fetchDEComponents(paginationMetadata, params));
+  return dispatch(fetchDEComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 export const filterByDECategories = (categories, paginationMetadata) => {
@@ -42,6 +57,14 @@ export const filterByDECategories = (categories, paginationMetadata) => {
     operators: { type: FILTER_OPERATORS.EQUAL },
   };
   return applyFilter(filter, paginationMetadata);
+};
+
+export const fetchDEComponentsFiltered = paginationMetadata => (dispatch, getState) => {
+  const selectedCategory = getSelectedDECategory(getState());
+  return dispatch(fetchDEComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 export const filterByDigitalExchanges = (digitalExchanges, paginationMetadata) => {
@@ -62,8 +85,18 @@ export const filterByRating = (rating, paginationMetadata) => {
 
 export const filterBySearch = (keyword, paginationMetadata) => {
   const filter = {
-    formValues: { name: keyword, description: keyword },
-    operators: { name: FILTER_OPERATORS.LIKE, description: FILTER_OPERATORS.LIKE },
+    formValues: {
+      name: keyword,
+      description: keyword,
+      id: keyword,
+      version: keyword,
+    },
+    operators: {
+      name: FILTER_OPERATORS.LIKE,
+      description: FILTER_OPERATORS.LIKE,
+      version: FILTER_OPERATORS.LIKE,
+      id: FILTER_OPERATORS.LIKE,
+    },
   };
   return applyFilter(filter, paginationMetadata);
 };

@@ -30,6 +30,9 @@ const INITIAL_STATE = {
     componentListViewMode: '',
     filters: {},
   },
+  digitalExchangeExtraFilters: {
+    selected: '',
+  },
 };
 
 describe('state/digital-exchange/actions', () => {

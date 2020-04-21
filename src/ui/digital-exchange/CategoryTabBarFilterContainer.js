@@ -1,24 +1,12 @@
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
-import { getDECategoryList, getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
+import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 import { navigateDECategory } from 'state/digital-exchange/actions';
-import { fetchDECategories } from 'state/digital-exchange/categories/actions';
-import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
+import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/digital-exchange/categories/const';
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
 
-
-export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => (dispatch(fetchDECategories())),
-  onSelect: (filter) => {
-    dispatch(navigateDECategory(filter));
-  },
-});
-
-export const mapStateToProps = (state, { intl }) => {
-  const filterTabs = [
-    ALL_CATEGORIES_CATEGORY,
-    ...getDECategoryList(state),
-  ].map((filterTab) => {
+export const generateCRCategoryObjects = (list, intl) => {
+  const categories = list.map((filterTab) => {
     const msgs = defineMessages({
       filterTab: {
         id: `digitalExchange.filterTabs.${filterTab}`,
@@ -30,7 +18,19 @@ export const mapStateToProps = (state, { intl }) => {
       value: filterTab,
     };
   });
+  return categories;
+};
 
+
+export const mapDispatchToProps = dispatch => ({
+  onSelect: (filter) => {
+    dispatch(navigateDECategory(filter));
+  },
+});
+
+export const mapStateToProps = (state, { intl }) => {
+  const filterTabs = generateCRCategoryObjects([
+    ALL_CATEGORIES_CATEGORY, ...COMPONENT_REPOSITORY_CATEGORIES], intl);
   return {
     filterTabs,
     selectedFilterTab: getSelectedDECategory(state) || ALL_CATEGORIES_CATEGORY,

@@ -5,9 +5,8 @@ import { shallow } from 'enzyme';
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
 import { mapDispatchToProps, mapStateToProps } from 'ui/digital-exchange/CategoryTabBarFilterContainer';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
-import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
+import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/digital-exchange/categories/const';
 
-import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { navigateDECategory } from 'state/digital-exchange/actions';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 
@@ -33,10 +32,6 @@ jest.mock('state/digital-exchange/actions', () => ({
   filterByDECategories: jest.fn(),
 }));
 
-jest.mock('state/digital-exchange/categories/actions', () => ({
-  fetchDECategories: jest.fn(),
-}));
-
 jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
 }));
@@ -48,7 +43,7 @@ jest.mock('state/digital-exchange/actions', () => ({
 const dispatchMock = jest.fn();
 
 
-const filterTabs = [ALL_CATEGORIES_CATEGORY, ...LIST_DE_CATEGORIES_OK].map(filterTab => ({
+const filterTabs = [ALL_CATEGORIES_CATEGORY, ...COMPONENT_REPOSITORY_CATEGORIES].map(filterTab => ({
   value: filterTab,
 }));
 
@@ -94,14 +89,7 @@ describe('TabBarFilter', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
       expect(props.onSelect).toBeDefined();
-    });
-
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount({});
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchDECategories).toHaveBeenCalled();
     });
 
     it('should dispatch an action if filter is checked', () => {
