@@ -37,9 +37,9 @@ import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
-import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
-import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
-import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
+import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
@@ -82,9 +82,9 @@ import {
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
-  ROUTE_PAGE_MODEL_ADD,
-  ROUTE_PAGE_MODEL_EDIT,
-  ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_PAGE_TEMPLATE_ADD,
+  ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGINS,
@@ -276,19 +276,19 @@ describe('App', () => {
     expect(component.find(LabelsAndLanguagesPageContainer).exists()).toBe(true);
   });
 
-  it('route to add page model page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_ADD);
-    expect(component.find(PageModelAddPage).exists()).toBe(true);
+  it('route to add page template page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_ADD);
+    expect(component.find(PageTemplateAddPage).exists()).toBe(true);
   });
 
-  it('route to edit page model page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_EDIT);
-    expect(component.find(PageModelEditPage).exists()).toBe(true);
+  it('route to edit page template page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_EDIT);
+    expect(component.find(PageTemplateEditPage).exists()).toBe(true);
   });
 
-  it('route to page model detail page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_DETAIL);
-    expect(component.find(PageModelDetailPageContainer).exists()).toBe(true);
+  it('route to page template detail page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_DETAIL);
+    expect(component.find(PageTemplateDetailPageContainer).exists()).toBe(true);
   });
 
   it('route to page file browser page', () => {

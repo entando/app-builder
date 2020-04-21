@@ -12,8 +12,8 @@ jest.mock('state/groups/actions', () => ({
   fetchGroups: jest.fn().mockReturnValue('fetchGroups_result'),
 }));
 
-jest.mock('state/page-models/actions', () => ({
-  fetchPageModels: jest.fn().mockReturnValue('fetchPageModels_result'),
+jest.mock('state/page-templates/actions', () => ({
+  fetchPageTemplates: jest.fn().mockReturnValue('fetchPageTemplates_result'),
 }));
 
 jest.mock('state/pages/actions', () => ({
@@ -39,8 +39,8 @@ jest.mock('state/groups/selectors', () => ({
 
 getGroupsList.mockReturnValue(GROUPS);
 
-jest.mock('state/page-models/selectors', () => ({
-  getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
+jest.mock('state/page-templates/selectors', () => ({
+  getPageTemplatesList: jest.fn().mockReturnValue('getPageTemplates_result'),
 }));
 
 jest.mock('state/pages/selectors', () => ({
@@ -76,7 +76,7 @@ describe('PagesEditFormContainer', () => {
       expect(props).toHaveProperty('pageCode', PAGE_CODE);
       expect(props).toHaveProperty('languages', LANGUAGES);
       expect(props).toHaveProperty('groups', GROUPS);
-      expect(props).toHaveProperty('pageModels', 'getPageModels_result');
+      expect(props).toHaveProperty('pageTemplates', 'getPageTemplates_result');
       expect(props).toHaveProperty('charsets', 'getCharsets_result');
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
     });
@@ -110,8 +110,8 @@ describe('PagesEditFormContainer', () => {
         expect(dispatchMock).toHaveBeenCalledWith('fetchGroups_result');
       });
 
-      it('dispatch fetchPageModels', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('fetchPageModels_result');
+      it('dispatch fetchPageTemplates', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('fetchPageTemplates_result');
       });
 
       it('dispatch handleExpandPage', () => {

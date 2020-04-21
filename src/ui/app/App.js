@@ -28,10 +28,10 @@ import {
   ROUTE_PAGE_DETAIL,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
-  ROUTE_PAGE_MODEL_LIST,
-  ROUTE_PAGE_MODEL_ADD,
-  ROUTE_PAGE_MODEL_EDIT,
-  ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_PAGE_TEMPLATE_ADD,
+  ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -109,10 +109,10 @@ import PagesClonePage from 'ui/pages/clone/PagesClonePage';
 import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
-import PageModelListPage from 'ui/page-models/list/PageModelListPage';
-import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
-import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
-import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
+import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
+import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
@@ -209,11 +209,11 @@ const getRouteComponent = () => (
     <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
     <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
     <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
-    {/* page model */}
-    <Route exact path={ROUTE_PAGE_MODEL_LIST} component={PageModelListPage} />
-    <Route path={ROUTE_PAGE_MODEL_ADD} component={PageModelAddPage} />
-    <Route path={ROUTE_PAGE_MODEL_EDIT} component={PageModelEditPage} />
-    <Route path={ROUTE_PAGE_MODEL_DETAIL} component={PageModelDetailPageContainer} />
+    {/* page template */}
+    <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
     {/* widgets */}
     <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
     <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />

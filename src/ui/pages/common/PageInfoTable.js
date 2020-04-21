@@ -28,7 +28,7 @@ const PageInfoTable = ({ page }) => {
           <td>{page.ownerGroup}</td>
         </tr>
         <tr>
-          <th><FormattedMessage id="pages.pageForm.pageModel" /></th>
+          <th><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
           <td>{page.pageModel}</td>
         </tr>
         <tr>

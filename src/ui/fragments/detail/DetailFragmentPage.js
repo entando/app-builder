@@ -8,9 +8,8 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import InternalPage from 'ui/internal-page/InternalPage';
 import DetailFragmentTable from 'ui/fragments/detail/DetailFragmentTable';
 import FragmentReferenceTable from 'ui/fragments/detail/FragmentReferenceTable';
-import PageModelReferenceTable from 'ui/fragments/detail/PageModelReferenceTable';
+import PageTemplateReferenceTable from 'ui/fragments/detail/PageTemplateReferenceTable';
 import WidgetTypeReferenceTable from 'ui/fragments/detail/WidgetTypeReferenceTable';
-
 
 class DetailFragmentPage extends Component {
   componentWillMount() {
@@ -63,12 +62,12 @@ class DetailFragmentPage extends Component {
               <hr />
               <Row>
                 <p className="col-xs-12" >
-                  <FormattedMessage id="fragment.detail.title.referencedPageModels" />
+                  <FormattedMessage id="fragment.detail.title.referencedPageTemplates" />
                 </p>
                 <Col xs={12} className="no-padding">
-                  <PageModelReferenceTable
-                    pageModel={this.props.fragment.pageModels}
-                    referencesPageModels={this.props.referencesPageModels}
+                  <PageTemplateReferenceTable
+                    pageTemplate={this.props.fragment.pageModels}
+                    referencesPageTemplates={this.props.referencesPageTemplates}
                   />
                 </Col>
               </Row>
@@ -95,7 +94,7 @@ DetailFragmentPage.propTypes = {
   onWillMount: PropTypes.func,
   handleEdit: PropTypes.func,
   referencesFragments: PropTypes.func,
-  referencesPageModels: PropTypes.func,
+  referencesPageTemplates: PropTypes.func,
   fragment: PropTypes.shape({
     code: PropTypes.string,
     pluginCode: PropTypes.string,
@@ -116,6 +115,6 @@ DetailFragmentPage.defaultProps = {
   onWillMount: () => {},
   handleEdit: () => {},
   referencesFragments: () => {},
-  referencesPageModels: () => {},
+  referencesPageTemplates: () => {},
 };
 export default DetailFragmentPage;

@@ -2,10 +2,10 @@ import { initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 import { addErrors } from '@entando/messages';
 
-import { loadSelectedPageModel } from 'state/page-models/actions';
-import { getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
+import { loadSelectedPageTemplate } from 'state/page-templates/actions';
+import { getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
 import { loadSelectedPage, setSelectedPage } from 'state/pages/actions';
-import { validatePageModel } from 'state/page-models/helpers';
+import { validatePageTemplate } from 'state/page-templates/helpers';
 import {
   getPageConfig,
   deletePageWidget,
@@ -114,12 +114,12 @@ export const initConfigPage = pageCode => async (dispatch) => {
       return;
     }
 
-    const pageModel = await dispatch(loadSelectedPageModel(selectedPage.pageModel));
-    if (!pageModel) {
+    const pageTemplate = await dispatch(loadSelectedPageTemplate(selectedPage.pageModel));
+    if (!pageTemplate) {
       return;
     }
 
-    const errors = validatePageModel(pageModel);
+    const errors = validatePageTemplate(pageTemplate);
     if (errors && errors.length) {
       const translatedErrors = errors.map(({ id, values }) => ({ id, values }));
       dispatch(addErrors(translatedErrors));
@@ -186,7 +186,7 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
 export const setSelectedPageOnTheFly = (value, pageCode) => (dispatch, getState) =>
   new Promise((resolve) => {
     const state = getState();
-    const mainFrame = getSelectedPageModelMainFrame(state);
+    const mainFrame = getSelectedPageTemplateMainFrame(state);
 
     if (!pageCode || !mainFrame) {
       resolve(null);
@@ -221,7 +221,7 @@ export const restoreSelectedPageConfig = pageCode => (dispatch, getState) => {
 export const applyDefaultConfig = pageCode => (dispatch, getState) =>
   new Promise((resolve) => {
     const state = getState();
-    const defaultConfig = getSelectedPageModelDefaultConfig(state);
+    const defaultConfig = getSelectedPageTemplateDefaultConfig(state);
 
     if (!pageCode || !defaultConfig) {
       resolve();

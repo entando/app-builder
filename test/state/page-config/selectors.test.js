@@ -10,19 +10,19 @@ import { WIDGET_LIST, WIDGET, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/wi
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
 import {
-  getSelectedPageModelCellMap,
-  getSelectedPageModelMainFrame,
-  getSelectedPageModelDefaultConfig,
-} from 'state/page-models/selectors';
-import { CELL_MAP } from 'test/mocks/page-models/complex';
+  getSelectedPageTemplateCellMap,
+  getSelectedPageTemplateMainFrame,
+  getSelectedPageTemplateDefaultConfig,
+} from 'state/page-templates/selectors';
+import { CELL_MAP } from 'test/mocks/page-templates/complex';
 import { HOMEPAGE_CONFIG } from 'test/mocks/pageConfig';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
-jest.mock('state/page-models/selectors', () => ({
-  getSelectedPageModelCellMap: jest.fn(),
-  getSelectedPageModelMainFrame: jest.fn(),
-  getSelectedPageModelDefaultConfig: jest.fn(),
+jest.mock('state/page-templates/selectors', () => ({
+  getSelectedPageTemplateCellMap: jest.fn(),
+  getSelectedPageTemplateMainFrame: jest.fn(),
+  getSelectedPageTemplateDefaultConfig: jest.fn(),
 }));
 
 jest.mock('state/widgets/selectors', () => ({
@@ -132,7 +132,7 @@ describe('state/page-config/selectors', () => {
 
   describe('makeGetPageConfigCellMap', () => {
     beforeEach(() => {
-      getSelectedPageModelCellMap.mockReturnValue(CELL_MAP);
+      getSelectedPageTemplateCellMap.mockReturnValue(CELL_MAP);
     });
 
     it('verify makeGetPageConfigCellMap selector', () => {
@@ -171,7 +171,7 @@ describe('state/page-config/selectors', () => {
   describe('makeGetPageIsOnTheFly', () => {
     const MAIN_FRAME_POS = 3;
     beforeEach(() => {
-      getSelectedPageModelMainFrame.mockReturnValue({ pos: MAIN_FRAME_POS });
+      getSelectedPageTemplateMainFrame.mockReturnValue({ pos: MAIN_FRAME_POS });
     });
 
     it('returns true if the config has a "content_viewer" with no config in the main frame', () => {
@@ -186,8 +186,8 @@ describe('state/page-config/selectors', () => {
       expect(makeGetPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
 
-    it('returns false if there is no main frame on the selected page model', () => {
-      getSelectedPageModelMainFrame.mockReturnValue(null);
+    it('returns false if there is no main frame on the selected page template', () => {
+      getSelectedPageTemplateMainFrame.mockReturnValue(null);
       MOCK_STATE.pageConfig.configMap[CURRENT_PAGE_CODE][MAIN_FRAME_POS] =
         { code: 'content_viewer', config: {} };
       expect(makeGetPageIsOnTheFly(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
@@ -223,12 +223,12 @@ describe('state/page-config/selectors', () => {
 
   describe('makeGetSelectedPageConfigMatchesDefault', () => {
     it('returns true if the draft and default configs are equal', () => {
-      getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_DRAFT_CONFIG);
+      getSelectedPageTemplateDefaultConfig.mockReturnValue(HOMEPAGE_DRAFT_CONFIG);
       expect(makeGetSelectedPageConfigMatchesDefault(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(true);
     });
 
     it('returns false if the draft and default configs are different', () => {
-      getSelectedPageModelDefaultConfig.mockReturnValue(HOMEPAGE_PUBLISHED_CONFIG);
+      getSelectedPageTemplateDefaultConfig.mockReturnValue(HOMEPAGE_PUBLISHED_CONFIG);
       expect(makeGetSelectedPageConfigMatchesDefault(CURRENT_PAGE_CODE)(MOCK_STATE)).toBe(false);
     });
   });

@@ -18,7 +18,7 @@ const TEST_STATE = {
   },
   componentRepositoryCategories: {
     list: LIST_ECR_CATEGORIES_OK,
-    selected: 'pageModel',
+    selected: 'pageTemplate',
   },
   componentRepositoryComponents: {
     list: [],

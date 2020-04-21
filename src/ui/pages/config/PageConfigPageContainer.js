@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
 import { clearErrors } from '@entando/messages';
 import { initConfigPage, setSelectedPageOnTheFly, restoreSelectedPageConfig, applyDefaultConfig } from 'state/page-config/actions';
-import { setSelectedPageModel } from 'state/page-models/actions';
+import { setSelectedPageTemplate } from 'state/page-templates/actions';
 import { publishSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
-import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
+import { getSelectedPageTemplateCanBeOnTheFly } from 'state/page-templates/selectors';
 import {
   makeGetPageIsOnTheFly,
   makeGetSelectedPageDiffersFromPublished,
@@ -21,7 +21,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(clearErrors());
     dispatch(initConfigPage(pageCode || params.pageCode));
   },
-  onWillUnmount: () => dispatch(setSelectedPageModel(null)),
+  onWillUnmount: () => dispatch(setSelectedPageTemplate(null)),
   setSelectedPageOnTheFly: value => dispatch(setSelectedPageOnTheFly(value, params.pageCode)),
   restoreConfig: () => dispatch(restoreSelectedPageConfig(params.pageCode)),
   publishPage: () => dispatch(publishSelectedPage()),
@@ -40,7 +40,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageName: selectedPage.titles[getLocale(state)],
     pageStatus: selectedPage.status,
     previewUri: getSelectedPagePreviewURI(state),
-    isOnTheFlyEnabled: getSelectedPageModelCanBeOnTheFly(state),
+    isOnTheFlyEnabled: getSelectedPageTemplateCanBeOnTheFly(state),
     pageIsOnTheFly: makeGetPageIsOnTheFly(params.pageCode)(state),
     pageIsPublished: getSelectedPageIsPublished(state),
     pageDiffersFromPublished: makeGetSelectedPageDiffersFromPublished(params.pageCode)(state),

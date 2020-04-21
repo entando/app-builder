@@ -46,10 +46,10 @@ describe('DetailFragmentPageContainer', () => {
     expect(dispatchMock).toHaveBeenCalled();
   });
 
-  it('verify that referencesPageModels is defined by mapDispatchToProps', () => {
+  it('verify that referencesPageTemplates is defined by mapDispatchToProps', () => {
     const result = mapDispatchToProps(dispatchMock);
-    expect(result.referencesPageModels).toBeDefined();
-    result.referencesPageModels();
+    expect(result.referencesPageTemplates).toBeDefined();
+    result.referencesPageTemplates();
     expect(dispatchMock).toHaveBeenCalled();
   });
 });

@@ -2,47 +2,47 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageModelReferenceTable from 'ui/fragments/detail/PageModelReferenceTable';
+import PageTemplateReferenceTable from 'ui/fragments/detail/PageTemplateReferenceTable';
 
-const PAGE_MODEL_MOCK = {
-  code: 'pageModelCode',
+const PAGE_TEMPLATE_MOCK = {
+  code: 'pageTemplateCode',
   name: 'My Page Model',
 };
 
-describe('PageModelReferenceTable', () => {
+describe('PageTemplateReferenceTable', () => {
   let component;
-  const referencesPageModels = jest.fn();
+  const referencesPageTemplates = jest.fn();
 
-  const buildPageModelReferenceTable = (pageModel) => {
+  const buildPageTemplateReferenceTable = (pageTemplate) => {
     const props = {
-      pageModel,
-      referencesPageModels,
+      pageTemplate,
+      referencesPageTemplates,
     };
-    return shallow(<PageModelReferenceTable {...props} />);
+    return shallow(<PageTemplateReferenceTable {...props} />);
   };
 
   it('renders without crashing', () => {
-    component = buildPageModelReferenceTable();
+    component = buildPageTemplateReferenceTable();
     expect(component.exists()).toEqual(true);
   });
 
-  it('verify return EmptyData if pageModels array is empty', () => {
-    component = buildPageModelReferenceTable();
+  it('verify return EmptyData if pageTemplates array is empty', () => {
+    component = buildPageTemplateReferenceTable();
     expect(component.find('EmptyData').exists()).toEqual(true);
   });
 
-  it('verify return Table with class PageModelReferenceTable if fragments array is not empty', () => {
-    const pageModel = [PAGE_MODEL_MOCK];
-    component = buildPageModelReferenceTable(pageModel);
-    expect(component.find('Table').hasClass('PageModelReferenceTable')).toEqual(true);
+  it('verify return Table with class PageTemplateReferenceTable if fragments array is not empty', () => {
+    const pageTemplate = [PAGE_TEMPLATE_MOCK];
+    component = buildPageTemplateReferenceTable(pageTemplate);
+    expect(component.find('Table').hasClass('PageTemplateReferenceTable')).toEqual(true);
   });
 
   it('verify click edit button', () => {
-    const pageModel = [PAGE_MODEL_MOCK];
-    component = buildPageModelReferenceTable(pageModel);
+    const pageTemplate = [PAGE_TEMPLATE_MOCK];
+    component = buildPageTemplateReferenceTable(pageTemplate);
     const preventDefault = jest.fn();
     component.find('MenuItem').simulate('click', { preventDefault });
-    expect(referencesPageModels).toHaveBeenCalled();
-    expect(referencesPageModels).toHaveBeenCalledWith(PAGE_MODEL_MOCK);
+    expect(referencesPageTemplates).toHaveBeenCalled();
+    expect(referencesPageTemplates).toHaveBeenCalledWith(PAGE_TEMPLATE_MOCK);
   });
 });

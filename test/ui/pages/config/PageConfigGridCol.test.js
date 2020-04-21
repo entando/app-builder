@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import PageConfigGridCol from 'ui/pages/config/PageConfigGridCol';
-import { CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
+import { CELL_MAP } from 'test/mocks/page-templates/sidebarHoles';
 
 const FRAME_KEY = 'col:0-0/1-14';
 const HOLE_CELL = CELL_MAP['col:2-6/2-6'];

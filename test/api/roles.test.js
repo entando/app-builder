@@ -39,7 +39,7 @@ describe('api/roles', () => {
       );
     });
 
-    it('resolves with a paged page models list', () => {
+    it('resolves with a paged page templates list', () => {
       getRoles({ page: 2, pageSize: 20 });
       expect(makeRequest).toHaveBeenCalledWith(
         expect.objectContaining({

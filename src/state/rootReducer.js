@@ -11,7 +11,7 @@ import groups from 'state/groups/reducer';
 import roles from 'state/roles/reducer';
 import pagination from 'state/pagination/reducer';
 import fragments from 'state/fragments/reducer';
-import pageModels from 'state/page-models/reducer';
+import pageTemplates from 'state/page-templates/reducer';
 import dataTypes from 'state/data-types/reducer';
 import profileTypes from 'state/profile-types/reducer';
 import pageConfig from 'state/page-config/reducer';
@@ -67,7 +67,7 @@ const reducerDef = {
   pages,
   pagination,
   pageConfig,
-  pageModels,
+  pageTemplates,
   permissions,
   plugins,
   profileTypes,

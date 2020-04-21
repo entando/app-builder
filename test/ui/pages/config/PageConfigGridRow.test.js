@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import PageConfigGridRow from 'ui/pages/config/PageConfigGridRow';
-import { CELL_MAP } from 'test/mocks/page-models/sidebarHoles';
+import { CELL_MAP } from 'test/mocks/page-templates/sidebarHoles';
 
 
 const ROW_CELL = CELL_MAP['row:2-6/6-6'];

@@ -14,11 +14,11 @@ export const ROUTE_PAGE_CLONE = '/page/clone';
 export const ROUTE_PAGE_DETAIL = '/page/detail/:pageCode';
 export const ROUTE_PAGE_SETTINGS = '/page/settings';
 export const ROUTE_PAGE_CONFIG = '/page/configuration/:pageCode';
-// page model
-export const ROUTE_PAGE_MODEL_LIST = '/page-model';
-export const ROUTE_PAGE_MODEL_ADD = '/page-model/add';
-export const ROUTE_PAGE_MODEL_EDIT = '/page-model/edit/:pageModelCode';
-export const ROUTE_PAGE_MODEL_DETAIL = '/page-model/view/:pageModelCode';
+// page template
+export const ROUTE_PAGE_TEMPLATE_LIST = '/page-template';
+export const ROUTE_PAGE_TEMPLATE_ADD = '/page-template/add';
+export const ROUTE_PAGE_TEMPLATE_EDIT = '/page-template/edit/:pageTemplateCode';
+export const ROUTE_PAGE_TEMPLATE_DETAIL = '/page-template/view/:pageTemplateCode';
 // widgets
 export const ROUTE_WIDGET_LIST = '/widget';
 export const ROUTE_WIDGET_ADD = '/widget/add';

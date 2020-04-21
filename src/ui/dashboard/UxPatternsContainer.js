@@ -1,22 +1,22 @@
 import { connect } from 'react-redux';
 
 import { getWidgetsTotal } from 'state/widgets/selectors';
-import { getPageModelsTotal } from 'state/page-models/selectors';
+import { getPageTemplatesTotal } from 'state/page-templates/selectors';
 import { fetchWidgetsTotal } from 'state/widgets/actions';
-import { fetchPageModelsTotal } from 'state/page-models/actions';
+import { fetchPageTemplatesTotal } from 'state/page-templates/actions';
 import UxPatterns from 'ui/dashboard/UxPatterns';
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchWidgetsTotal());
-    dispatch(fetchPageModelsTotal());
+    dispatch(fetchPageTemplatesTotal());
   },
 });
 
 export const mapStateToProps = state => (
   {
     widgets: getWidgetsTotal(state),
-    pageModels: getPageModelsTotal(state),
+    pageTemplates: getPageTemplatesTotal(state),
   }
 );
 

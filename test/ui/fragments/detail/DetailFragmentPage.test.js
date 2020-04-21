@@ -26,8 +26,8 @@ describe('DetailFragmentPage', () => {
     expect(component.find('FragmentReferenceTable').exists()).toEqual(true);
   });
 
-  it('verify if exist PageModelReferenceTable ', () => {
-    expect(component.find('PageModelReferenceTable').exists()).toEqual(true);
+  it('verify if exist PageTemplateReferenceTable ', () => {
+    expect(component.find('PageTemplateReferenceTable').exists()).toEqual(true);
   });
 
   it('verify if exist WidgetTypeReferenceTable ', () => {
