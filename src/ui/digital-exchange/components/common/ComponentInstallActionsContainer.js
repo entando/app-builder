@@ -5,11 +5,13 @@ import {
   uninstallDEComponent,
   pollDEComponentInstallStatus,
   pollDEComponentUninstallStatus,
+  fetchComponentUsage,
 } from 'state/digital-exchange/components/actions';
 import {
   getDEComponentLastInstallStatus,
   getDEComponentInstallationStatus,
   getDEComponentUninstallStatus,
+  getComponentUsageList,
 } from 'state/digital-exchange/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
@@ -19,15 +21,19 @@ export const mapStateToProps = (state, props) => ({
   installationStatus: getDEComponentInstallationStatus(state, props),
   uninstallStatus: getDEComponentUninstallStatus(state, props),
   installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.id}`],
+  componentUsageList: getComponentUsageList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: component => dispatch(installDEComponent(component)),
   onUninstall: (componentId) => {
     dispatch(setVisibleModal(''));
-    return dispatch(uninstallDEComponent(componentId));
+    dispatch(uninstallDEComponent(componentId));
   },
-  onClickUninstall: componentId => dispatch(setVisibleModal(componentId)),
+  onClickUninstall: (componentId) => {
+    dispatch(fetchComponentUsage(componentId));
+    dispatch(setVisibleModal(componentId));
+  },
   recheckInstallStatus: component => dispatch(pollDEComponentInstallStatus(component)),
   recheckUninstallStatus: componentId => dispatch(pollDEComponentUninstallStatus(componentId)),
 });

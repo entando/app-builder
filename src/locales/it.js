@@ -682,6 +682,8 @@ export default {
     'digitalExchange.components.notifyFailedUninstall': 'Si è verificato un errore durante la disinstallazione.',
     'digitalExchange.components.uninstall': 'Disinstalla',
     'digitalExchange.components.confirmUninstall': 'Vuoi veramente disinstallare il componente {name}?',
+    'digitalExchange.components.cannotUninstall': 'Impossibile disinstallare',
+    'digitalExchange.components.usage': 'Utilizzo dei componenti: {usage}',
     'digitalExchange.sidebar.ratingFilter.title': 'Media voto',
     'digitalExchange.sidebar.ratingFilter.itemLabel': 'e più',
     'digitalExchange.categories.all': 'Tutti',

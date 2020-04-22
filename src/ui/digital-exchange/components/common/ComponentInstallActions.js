@@ -9,7 +9,7 @@ import {
   DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
   DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
-import ConfirmUninstallModal from 'ui/digital-exchange/components/common/ConfirmUninstallModal';
+import ConfirmUninstallModal from './ConfirmUninstallModal';
 
 const jobProgressStatuses = [
   DE_COMPONENT_INSTALLATION_STATUS_CREATED,
@@ -24,6 +24,7 @@ const ComponentInstallActions = ({
   installationStatus,
   uninstallStatus,
   installUninstallLoading,
+  componentUsageList,
   onInstall,
   onUninstall,
   onClickUninstall,
@@ -106,7 +107,11 @@ const ComponentInstallActions = ({
         {renderedButton}
       </Spinner>
       <ConfirmUninstallModal
-        info={{ id: component.id, name: component.name }}
+        info={{
+          id: component.id,
+          name: component.name,
+          usageList: componentUsageList,
+        }}
         onConfirmUninstall={() => onUninstall(component.id)}
       />
     </div>
@@ -124,6 +129,7 @@ ComponentInstallActions.propTypes = {
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
   installUninstallLoading: PropTypes.bool.isRequired,
+  componentUsageList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ComponentInstallActions;

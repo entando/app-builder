@@ -40,6 +40,7 @@ describe('ComponentInstallActionsContainer', () => {
       installationStatus: getDEComponentInstallationStatus(MOCK_STATE, MOCK_PROPS),
       uninstallStatus: getDEComponentUninstallStatus(MOCK_STATE, MOCK_PROPS),
       installUninstallLoading: false,
+      componentUsageList: [],
     });
   });
 

@@ -17,6 +17,8 @@ import {
   finishComponentInstallation,
   startComponentUninstall,
   finishComponentUninstall,
+  fetchComponentUsage,
+  setComponentUsageList,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
@@ -25,8 +27,14 @@ import {
   COMPONENT_INSTALLATION_COMPLETED,
   COMPONENT_UNINSTALLATION_CREATED,
   COMPONENT_UNINSTALLATION_COMPLETED,
+  COMPONENT_USAGE_LIST,
 } from 'test/mocks/digital-exchange/components';
-import { getDEComponents, postDEComponentInstall, postDEComponentUninstall } from 'api/digital-exchange/components';
+import {
+  getDEComponents,
+  postDEComponentInstall,
+  postDEComponentUninstall,
+  getComponentUsage,
+} from 'api/digital-exchange/components';
 import {
   SET_DE_COMPONENTS,
   SET_SELECTED_DE_COMPONENT,
@@ -36,6 +44,7 @@ import {
   START_COMPONENT_UNINSTALLATION,
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
+  SET_COMPONENT_USAGE_LIST,
 } from 'state/digital-exchange/components/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -273,6 +282,43 @@ describe('state/digital-exchange/components/actions', () => {
         expect(action).toHaveProperty('type', SET_SELECTED_DE_COMPONENT);
         expect(action.payload).toHaveProperty('digitalExchangeComponent', GET_DE_COMPONENT_OK);
       });
+    });
+  });
+
+  describe('setComponentUsageList', () => {
+    it('should return correct action', () => {
+      action = setComponentUsageList(COMPONENT_USAGE_LIST);
+      expect(action).toHaveProperty('type', SET_COMPONENT_USAGE_LIST);
+      expect(action).toHaveProperty('payload', { usageList: COMPONENT_USAGE_LIST });
+    });
+  });
+
+  describe('fetchComponentUsage', () => {
+    beforeEach(() => {
+      getComponentUsage.mockImplementation(mockApi({ payload: COMPONENT_USAGE_LIST }));
+    });
+
+    it('should call proper actions when successful', (done) => {
+      store.dispatch(fetchComponentUsage('test-id')).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_COMPONENT_USAGE_LIST);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should call proper actions when error occurs', (done) => {
+      getComponentUsage.mockImplementation(mockApi({ errors: true }));
+      store.dispatch(fetchComponentUsage('test-id')).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
     });
   });
 });

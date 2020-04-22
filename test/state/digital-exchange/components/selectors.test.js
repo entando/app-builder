@@ -1,8 +1,12 @@
-import { LIST_DE_COMPONENTS_OK, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/digital-exchange/components';
+import {
+  LIST_DE_COMPONENTS_OK,
+  COMPONENT_INSTALLATION_IN_PROGRESS,
+  COMPONENT_USAGE_LIST,
+} from 'test/mocks/digital-exchange/components';
 import {
   getDEComponents, getDEComponentSelected,
   getDEComponentList, getDEComponentInstallationStatus,
-  getDEComponentUninstallStatus,
+  getDEComponentUninstallStatus, getComponentUsageList,
 } from 'state/digital-exchange/components/selectors';
 import { DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/digital-exchange/components/const';
 
@@ -21,6 +25,7 @@ const MOCK_STATE = {
     selected: list[0],
     installation,
     uninstallation,
+    usageList: COMPONENT_USAGE_LIST,
   },
 };
 
@@ -57,5 +62,10 @@ describe('state/digital-exchange/components/selectors', () => {
     };
     const uninstallStatus = getDEComponentUninstallStatus(MOCK_STATE, props);
     expect(uninstallStatus).toEqual(DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+  });
+
+  it('verify getComponentUsageList', () => {
+    const usageList = getComponentUsageList(MOCK_STATE);
+    expect(usageList).toEqual(MOCK_STATE.digitalExchangeComponents.usageList);
   });
 });

@@ -13,6 +13,7 @@ import {
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
+  SET_COMPONENT_USAGE_LIST,
 } from 'state/digital-exchange/components/types';
 
 import {
@@ -235,6 +236,15 @@ const uninstallation = (state = {}, action = {}) => {
   }
 };
 
+const usageList = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_COMPONENT_USAGE_LIST: {
+      return action.payload.usageList;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
@@ -242,4 +252,5 @@ export default combineReducers({
   componentListViewMode,
   installation,
   uninstallation,
+  usageList,
 });
