@@ -39,6 +39,7 @@ import {
   DE_COMPONENT_INSTALLATION_STATUS_ERROR,
   DE_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
   DE_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+  DE_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
 } from 'state/digital-exchange/components/const';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
@@ -154,6 +155,7 @@ export const pollDEComponentInstallStatus = component => dispatch => (
       }) => payload && [
         DE_COMPONENT_INSTALLATION_STATUS_COMPLETED,
         DE_COMPONENT_INSTALLATION_STATUS_ERROR,
+        DE_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
     })
@@ -162,6 +164,12 @@ export const pollDEComponentInstallStatus = component => dispatch => (
           dispatch(finishComponentInstallation(component.id));
         } else {
           dispatch(componentInstallationFailed(component.id));
+          if (res.payload.status === DE_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+            dispatch(addToast(
+              { id: 'digitalExchange.components.installRollback' },
+              TOAST_WARNING,
+            ));
+          }
         }
       })
       .catch((res) => {
@@ -176,10 +184,17 @@ export const pollDEComponentInstallStatus = component => dispatch => (
           ));
           dispatch(componentInstallOngoingProgress(component.id));
         } else {
-          dispatch(addToast(
-            { id: 'digitalExchange.components.notifyFailedInstall' },
-            TOAST_WARNING,
-          ));
+          if (payload && payload.status === DE_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+            dispatch(addToast(
+              { id: 'digitalExchange.components.installRollback' },
+              TOAST_WARNING,
+            ));
+          } else {
+            dispatch(addToast(
+              { id: 'digitalExchange.components.notifyFailedInstall' },
+              TOAST_WARNING,
+            ));
+          }
           dispatch(componentInstallationFailed(component.id));
         }
         if (errors && errors.length) {

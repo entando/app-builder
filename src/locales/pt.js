@@ -665,6 +665,7 @@ export default {
     'digitalExchange.sidebar.categoryFilterTitle': 'Categorias',
     'digitalExchange.components.latestVersion': 'Última versão',
     'digitalExchange.components.install': 'Instalar',
+    'digitalExchange.components.installRollback': 'A instalação falhou. A instalação foi revertida',
     'digitalExchange.components.installing': 'Instalando',
     'digitalExchange.components.failedInstall': 'Falha ao instalar',
     'digitalExchange.components.installed': 'Instalado',

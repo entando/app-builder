@@ -670,6 +670,7 @@ export default {
     'digitalExchange.components.notFound': 'No component available',
     'digitalExchange.des.notFound': 'No component repository have been registered yet, to add a new component repository click on the gear icon on the top-right corner of this page',
     'digitalExchange.components.install': 'Install',
+    'digitalExchange.components.installRollback': 'Installation has failed. The install has been rolled back',
     'digitalExchange.components.installing': 'Installing',
     'digitalExchange.components.failedInstall': 'Installation Failure',
     'digitalExchange.components.installed': 'Installed',
