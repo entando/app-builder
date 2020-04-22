@@ -83,5 +83,6 @@ export const getComponentUsage = id => (
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_USAGE_LIST,
+    useAuthentication: true,
   })
 );

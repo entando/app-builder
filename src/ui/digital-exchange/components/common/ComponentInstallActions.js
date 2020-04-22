@@ -129,7 +129,11 @@ ComponentInstallActions.propTypes = {
   onRecheckStatus: PropTypes.func.isRequired,
   onRetryAction: PropTypes.func.isRequired,
   installUninstallLoading: PropTypes.bool.isRequired,
-  componentUsageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  componentUsageList: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    usage: PropTypes.number.isRequired,
+  })).isRequired,
 };
 
 export default ComponentInstallActions;

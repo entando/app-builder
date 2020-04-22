@@ -57,7 +57,11 @@ ConfirmUninstallModal.propTypes = {
   info: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
-    usageList: PropTypes.arrayOf(PropTypes.object),
+    usageList: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      usage: PropTypes.number.isRequired,
+    })),
   }).isRequired,
 };
 
