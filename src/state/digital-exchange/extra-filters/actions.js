@@ -1,7 +1,6 @@
 import { SET_SELECTED_DE_EXTRA_FILTER, SET_DE_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/types';
 import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
 
-// eslint-disable-next-line import/prefer-default-export
 export const setSelectedDEExtraFilter = digitalExchangeExtraFilter => ({
   type: SET_SELECTED_DE_EXTRA_FILTER,
   payload: {

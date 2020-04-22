@@ -164,23 +164,27 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
     const requestBody = config ? { code: widgetId, config } : { code: widgetId };
 
     const promise = Promise.resolve();
+    const putPagePromise = () =>
+      promise.then(() => putPageWidget(pageCode, targetFrameId, requestBody))
+        .then(() => {
+          dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
+
+          const isPagePublished = getSelectedPageIsPublished(getState());
+          if (isPagePublished) {
+            const selectedPage = getSelectedPage(getState());
+            dispatch(setSelectedPage({
+              ...selectedPage,
+              status: PAGE_STATUS_DRAFT,
+            }));
+          }
+        }).catch(() => {});
+
     if (sourceFrameId != null) {
-      promise.then(() => deletePageWidget(pageCode, sourceFrameId));
+      return promise
+        .then(() => deletePageWidget(pageCode, sourceFrameId).then(() => putPagePromise()));
     }
 
-    return promise.then(() => putPageWidget(pageCode, targetFrameId, requestBody))
-      .then(() => {
-        dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
-
-        const isPagePublished = getSelectedPageIsPublished(getState());
-        if (isPagePublished) {
-          const selectedPage = getSelectedPage(getState());
-          dispatch(setSelectedPage({
-            ...selectedPage,
-            status: PAGE_STATUS_DRAFT,
-          }));
-        }
-      }).catch(() => {});
+    return putPagePromise();
   };
 
 export const setSelectedPageOnTheFly = (value, pageCode) => (dispatch, getState) =>
