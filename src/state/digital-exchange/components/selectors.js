@@ -61,3 +61,7 @@ export const getDEComponentInstallationStatus = (state, props) => (
 export const getDEComponentUninstallStatus = (state, props) => (
   get(state, `digitalExchangeComponents.uninstallation[${props.component.id}]`, '')
 );
+
+export const getComponentUsageList = state => (
+  get(state, 'digitalExchangeComponents.usageList', [])
+);

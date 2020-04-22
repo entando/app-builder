@@ -8,14 +8,14 @@ import {
   finishComponentInstallation,
   startComponentUninstall,
   finishComponentUninstall,
+  setComponentUsageList,
 } from 'state/digital-exchange/components/actions';
 import {
   LIST_DE_COMPONENTS_OK,
   GET_DE_COMPONENT_OK,
+  COMPONENT_USAGE_LIST,
 } from 'test/mocks/digital-exchange/components';
-import {
-  DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-} from 'state/digital-exchange/components/const';
+import { DE_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/digital-exchange/components/const';
 
 describe('Component repository reducer', () => {
   describe('filter reducer', () => {
@@ -354,5 +354,18 @@ describe('uninstallation reducer', () => {
       expect(Object.keys(state.uninstallation)).toHaveLength(1);
       expect(state).not.toHaveProperty('uninstallation.testing');
     });
+  });
+});
+
+describe('usageList reducer', () => {
+  let state = reducer();
+
+  it('should initially return empty array for usageList', () => {
+    expect(state).toHaveProperty('usageList', []);
+  });
+
+  it('should have new state equal to action payload', () => {
+    state = reducer(state, setComponentUsageList(COMPONENT_USAGE_LIST));
+    expect(state).toHaveProperty('usageList', COMPONENT_USAGE_LIST);
   });
 });

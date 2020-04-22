@@ -5,6 +5,7 @@ import {
   COMPONENT_INSTALLATION_COMPLETED,
   COMPONENT_UNINSTALLATION_CREATED,
   COMPONENT_UNINSTALLATION_COMPLETED,
+  COMPONENT_USAGE_LIST,
 } from 'test/mocks/digital-exchange/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -72,6 +73,16 @@ export const getDEComponentUninstall = id => (
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
+    useAuthentication: true,
+  })
+);
+
+export const getComponentUsage = id => (
+  makeRequest({
+    uri: `/components/${id}/usage`,
+    domain: '/digital-exchange',
+    method: METHODS.GET,
+    mockResponse: COMPONENT_USAGE_LIST,
     useAuthentication: true,
   })
 );

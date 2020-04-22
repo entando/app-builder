@@ -19,6 +19,7 @@ import {
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
+  SET_COMPONENT_USAGE_LIST,
 } from 'state/digital-exchange/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -28,6 +29,7 @@ import {
   getDEComponentInstall,
   postDEComponentUninstall,
   getDEComponentUninstall,
+  getComponentUsage,
 } from 'api/digital-exchange/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -130,6 +132,13 @@ export const finishComponentUninstall = id => ({
   type: FINISH_COMPONENT_UNINSTALLATION,
   payload: {
     id,
+  },
+});
+
+export const setComponentUsageList = usageList => ({
+  type: SET_COMPONENT_USAGE_LIST,
+  payload: {
+    usageList,
   },
 });
 
@@ -307,5 +316,25 @@ export const fetchDEComponentDetail = id => dispatch => (
         resolve();
       });
     }).catch(() => {});
+  })
+);
+
+export const fetchComponentUsage = id => dispatch => (
+  new Promise((resolve) => {
+    const loadingId = 'digital-exchange/component-usage';
+    dispatch(toggleLoading(loadingId));
+    getComponentUsage(id).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setComponentUsageList(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        dispatch(toggleLoading(loadingId));
+        resolve();
+      });
+    }).catch(() => {
+      dispatch(toggleLoading(loadingId));
+    });
   })
 );

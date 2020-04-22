@@ -12,3 +12,4 @@ export const FINISH_COMPONENT_UNINSTALLATION = 'digital-exchange/components/fini
 export const COMPONENT_UNINSTALLATION_FAILED = 'digital-exchange/components/component-uninstallation-failed';
 export const COMPONENT_INSTALL_ONGOING_PROGRESS = 'digital-exchange/components/component-install-ongoing-progress';
 export const COMPONENT_UNINSTALL_ONGOING_PROGRESS = 'digital-exchange/components/component-uninstall-ongoing-progress';
+export const SET_COMPONENT_USAGE_LIST = 'digital-exchange/components/set-component-usage-list';
