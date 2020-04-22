@@ -9,7 +9,7 @@ import {
   DE_COMPONENT_UNINSTALLATION_STATUS_CREATED,
   DE_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/digital-exchange/components/const';
-import ConfirmUninstallModal from './ConfirmUninstallModal';
+import ConfirmUninstallModal from 'ui/digital-exchange/components/common/ConfirmUninstallModal';
 
 const jobProgressStatuses = [
   DE_COMPONENT_INSTALLATION_STATUS_CREATED,
