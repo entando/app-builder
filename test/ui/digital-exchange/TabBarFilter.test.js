@@ -4,12 +4,10 @@ import { shallow } from 'enzyme';
 
 import TabBarFilter from 'ui/digital-exchange/common/TabBarFilter';
 import { mapStateToProps, mapDispatchToProps } from 'ui/digital-exchange/CategoryTabBarFilterContainer';
-import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
+import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/digital-exchange/categories/const';
 import { LIST_DE_CATEGORIES_OK } from 'test/mocks/digital-exchange/categories';
-import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import { navigateDECategory } from 'state/digital-exchange/actions';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
-
 
 const TEST_STATE = {
   digitalExchanges: {
@@ -29,10 +27,6 @@ const TEST_STATE = {
 
 jest.mock('state/digital-exchange/actions', () => ({
   navigateDECategory: jest.fn(),
-}));
-
-jest.mock('state/digital-exchange/categories/actions', () => ({
-  fetchDECategories: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
@@ -72,7 +66,7 @@ describe('TabBarFilter', () => {
   it('maps digitalExchangeCategories property state', () => {
     const filterTabs = [
       ALL_CATEGORIES_CATEGORY,
-      ...TEST_STATE.digitalExchangeCategories.list,
+      ...COMPONENT_REPOSITORY_CATEGORIES,
     ].map(filterTab => ({
       value: filterTab,
     }));
@@ -98,14 +92,7 @@ describe('TabBarFilter', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
       expect(props.onSelect).toBeDefined();
-    });
-
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount({});
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchDECategories).toHaveBeenCalled();
     });
 
     it('should dispatch an action if tab is selected', () => {

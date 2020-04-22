@@ -7,6 +7,7 @@ import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   digitalExchangeComponents: { list: LIST_DE_COMPONENTS_OK },
+  pagination: { global: {} },
 };
 
 jest.mock('state/digital-exchange/components/actions', () => ({

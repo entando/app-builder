@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { getDECategoryList } from 'state/digital-exchange/categories/selectors';
+import { injectIntl } from 'react-intl';
 import { getDECategoryFilters } from 'state/digital-exchange/components/selectors';
 import { filterByDECategories } from 'state/digital-exchange/actions';
-import { fetchDECategories } from 'state/digital-exchange/categories/actions';
 import CategoryFilter from 'ui/digital-exchange/CategoryFilter';
+import { COMPONENT_REPOSITORY_CATEGORIES } from 'state/digital-exchange/categories/const';
+import { generateCRCategoryObjects } from 'ui/digital-exchange/CategoryTabBarFilterContainer';
 
 export const mapDispatchToProps = dispatch => ({
-  onDidMount: () => dispatch(fetchDECategories()),
   onChange: (eventOrValue) => {
     const { categories } = eventOrValue;
     if (categories) {
@@ -15,16 +15,16 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export const mapStateToProps = state => ({
-  digitalExchangeCategories: getDECategoryList(state),
+export const mapStateToProps = (state, { intl }) => ({
+  digitalExchangeCategories: generateCRCategoryObjects(COMPONENT_REPOSITORY_CATEGORIES, intl),
   initialValues: { categories: getDECategoryFilters(state) },
 });
 
-export default connect(
+export default injectIntl(connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
   {
     pure: false,
   },
-)(CategoryFilter);
+)(CategoryFilter));

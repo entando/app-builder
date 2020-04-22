@@ -10,6 +10,7 @@ import {
   SET_SELECTED_DE_COMPONENT,
   SET_DE_COMPONENT_LIST_VIEW_MODE,
   SET_DE_FILTER,
+  CLEAR_DE_SEARCH_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
   COMPONENT_INSTALLATION_FAILED,
@@ -58,6 +59,13 @@ export const setDEFilter = (digitalExchangeFilter, digitalExchangeCategory) => (
   type: SET_DE_FILTER,
   payload: {
     digitalExchangeFilter,
+    digitalExchangeCategory,
+  },
+});
+
+export const clearDESearchFilter = digitalExchangeCategory => ({
+  type: CLEAR_DE_SEARCH_FILTER,
+  payload: {
     digitalExchangeCategory,
   },
 });

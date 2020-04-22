@@ -1,41 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { reduxForm } from 'redux-form';
 import CheckboxGroup from 'ui/digital-exchange/common/CheckboxGroup';
 import SidebarFilter from 'ui/digital-exchange/common/SidebarFilter';
 
-class CategoryFilterBody extends Component {
-  componentDidMount() {
-    this.props.onDidMount();
-  }
-
-  render() {
-    const { digitalExchangeCategories, intl } = this.props;
-    const formatText = id => intl.formatMessage({ id });
-    const options = digitalExchangeCategories.map(category => ({
-      label: formatText(`digitalExchange.categories.${category}`),
-      value: category,
-    }));
-
-    return (
-      <SidebarFilter
-        title={formatText('digitalExchange.sidebar.categoryFilterTitle')}
-      >
-        <CheckboxGroup
-          name="categories"
-          options={options}
-          onChange={this.props.onChange}
-        />
-      </SidebarFilter>
-    );
-  }
-}
+const CategoryFilterBody = ({ digitalExchangeCategories, intl, onChange }) => (
+  <SidebarFilter
+    title={intl.formatMessage({ id: 'digitalExchange.sidebar.categoryFilterTitle' })}
+  >
+    <CheckboxGroup
+      name="categories"
+      options={digitalExchangeCategories}
+      onChange={onChange}
+    />
+  </SidebarFilter>
+);
 
 CategoryFilterBody.propTypes = {
   intl: intlShape.isRequired,
-  digitalExchangeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onDidMount: PropTypes.func.isRequired,
+  digitalExchangeCategories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
