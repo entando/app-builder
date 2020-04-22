@@ -26,14 +26,14 @@ describe('Component repository reducer', () => {
     it('should add filter (array)', () => {
       const initialState = reducer();
       const filterToSet = {
-        formValues: { componentRepositories: ['ComponentRepository1'] },
-        operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: ['ComponentRepository1'] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { componentRepositories: ['ComponentRepository1'] },
-          operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['ComponentRepository1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -58,20 +58,20 @@ describe('Component repository reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { componentRepositories: ['ComponentRepository2'] },
-            operators: { componentRepositories: FILTER_OPERATORS.LIKE },
+            formValues: { digitalExchanges: ['ComponentRepository2'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.LIKE },
           },
         },
       };
       const filterToSet = {
-        formValues: { componentRepositories: ['ComponentRepository1'] },
-        operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: ['ComponentRepository1'] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { componentRepositories: ['ComponentRepository1'] },
-          operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['ComponentRepository1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -104,14 +104,14 @@ describe('Component repository reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { componentRepositories: ['ComponentRepository1'], otherProp: 'otherValue' },
-            operators: { componentRepositories: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['ComponentRepository1'], otherProp: 'otherValue' },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
           },
         },
       };
       const filterToSet = {
-        formValues: { componentRepositories: [] },
-        operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: [] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
@@ -127,9 +127,9 @@ describe('Component repository reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { componentRepositories: ['ComponentRepository1'], rating: 4 },
+            formValues: { digitalExchanges: ['ComponentRepository1'], rating: 4 },
             operators: {
-              componentRepositories: FILTER_OPERATORS.EQUAL,
+              digitalExchanges: FILTER_OPERATORS.EQUAL,
               rating: FILTER_OPERATORS.GREATER_THAN,
             },
           },
@@ -142,8 +142,8 @@ describe('Component repository reducer', () => {
       const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {
         category1: {
-          formValues: { componentRepositories: ['ComponentRepository1'] },
-          operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['ComponentRepository1'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
       });
     });
@@ -153,14 +153,14 @@ describe('Component repository reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { componentRepositories: ['ComponentRepository1'] },
-            operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['ComponentRepository1'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
           },
         },
       };
       const filterToSet = {
-        formValues: { componentRepositories: [] },
-        operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+        formValues: { digitalExchanges: [] },
+        operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
       };
       const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
       expect(newState).toHaveProperty('filters', {});
@@ -190,8 +190,8 @@ describe('Component repository reducer', () => {
         ...reducer(),
         filters: {
           category1: {
-            formValues: { componentRepositories: ['ComponentRepository'] },
-            operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+            formValues: { digitalExchanges: ['ComponentRepository'] },
+            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
           },
         },
       };
@@ -210,7 +210,7 @@ describe('Component repository reducer', () => {
 
       it('incomplete filter 2', () => {
         filterToSet = {
-          formValues: { componentRepositories: ['ComponentRepository'] },
+          formValues: { digitalExchanges: ['ComponentRepository'] },
         };
         const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);
@@ -218,7 +218,7 @@ describe('Component repository reducer', () => {
 
       it('incomplete filter 3', () => {
         filterToSet = {
-          operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         };
         const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);
@@ -226,8 +226,8 @@ describe('Component repository reducer', () => {
 
       it('already existing filter', () => {
         filterToSet = {
-          formValues: { componentRepositories: ['ComponentRepository'] },
-          operators: { componentRepositories: FILTER_OPERATORS.EQUAL },
+          formValues: { digitalExchanges: ['ComponentRepository'] },
+          operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         };
         const newState = reducer(initialState, setECRFilter(filterToSet, 'category1'));
         expect(newState).toEqual(initialState);

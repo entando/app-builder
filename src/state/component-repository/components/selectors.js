@@ -16,7 +16,7 @@ export const getECRCategoryFilters = createSelector(
 
 export const getComponentRepositoryFilters = createSelector(
   [getECRFilters, getSelectedECRCategory],
-  (filters, category) => get(filters, `${category}.formValues.componentRepository`, []),
+  (filters, category) => get(filters, `${category}.formValues.digitalExchange`, []),
 );
 
 export const getECRRatingFilter = createSelector(
