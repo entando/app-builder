@@ -9,7 +9,7 @@ import {
   filterBySearch,
 } from 'state/digital-exchange/actions';
 import { SET_SELECTED_DE_CATEGORY } from 'state/digital-exchange/categories/types';
-import { SET_DE_FILTER } from 'state/digital-exchange/components/types';
+import { SET_DE_FILTER, CLEAR_DE_SEARCH_FILTER } from 'state/digital-exchange/components/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -84,8 +84,8 @@ describe('state/digital-exchange/actions', () => {
   it('filterBySearch should call proper actions', (done) => {
     store.dispatch(filterBySearch()).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(8);
-      expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);
+      expect(actions).toHaveLength(5);
+      expect(actions[0]).toHaveProperty('type', CLEAR_DE_SEARCH_FILTER);
       done();
     }).catch(done.fail);
   });
