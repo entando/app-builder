@@ -12,6 +12,7 @@ import {
   getDEComponentUninstallStatus,
 } from 'state/digital-exchange/components/selectors';
 import { getLoading } from 'state/loading/selectors';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const mapStateToProps = (state, props) => ({
   lastInstallStatus: getDEComponentLastInstallStatus(state, props),
@@ -22,7 +23,11 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: component => dispatch(installDEComponent(component)),
-  onUninstall: componentId => dispatch(uninstallDEComponent(componentId)),
+  onUninstall: (componentId) => {
+    dispatch(setVisibleModal(''));
+    return dispatch(uninstallDEComponent(componentId));
+  },
+  onClickUninstall: componentId => dispatch(setVisibleModal(componentId)),
   recheckInstallStatus: component => dispatch(pollDEComponentInstallStatus(component)),
   recheckUninstallStatus: componentId => dispatch(pollDEComponentUninstallStatus(componentId)),
 });

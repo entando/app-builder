@@ -248,20 +248,23 @@ export const createPage = wrapApiCall(postPage);
 
 export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
   try {
-    console.log('sending post page');
     const response = await postPage(pageData);
-    console.log('response', response);
     const json = await response.json();
-    console.log('json', json);
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
+      resolve(response);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      resolve();
     }
-    resolve();
   } catch (e) {
-    console.log('resolving from catch');
+    const { details, defaultMessage } = e;
+    const detailMessage = details.map(er => er.message).join('; ');
+    const combinedErrors = [defaultMessage, detailMessage].join(' - ');
+    dispatch(addErrors([combinedErrors]));
+    dispatch(addToast(combinedErrors, TOAST_ERROR));
     resolve();
   }
 });
@@ -338,6 +341,7 @@ export const sendPutPage = pageData => dispatch =>
         resolve();
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         reject(json.errors);
       }
     } catch (e) {

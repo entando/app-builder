@@ -102,7 +102,7 @@ export const patchPage = (jsonPatchObject, pageCode) => makeRequest({
   body: jsonPatchObject,
   method: METHODS.PATCH,
   contentType: 'application/json-patch+json',
-  mockResponse: fetchPageResponseMap[pageCode],
+  mockResponse: fetchPageResponseMap.homepage,
   useAuthentication: true,
   errors: () => (
     fetchPageResponseMap[pageCode] ?
@@ -122,7 +122,7 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
-  mockResponse: { ...fetchPageResponseMap[pageCode], status },
+  mockResponse: { ...fetchPageResponseMap.homepage, status },
   useAuthentication: true,
   errors: () => (
     fetchPageResponseMap[pageCode] ?

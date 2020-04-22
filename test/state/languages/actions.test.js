@@ -9,7 +9,6 @@ import {
 } from 'state/languages/actions';
 import { SET_LANGUAGE_ACTIVE, SET_LANGUAGES } from 'state/languages/types';
 import { getLanguagesMap } from 'state/languages/selectors';
-import { SET_PAGE } from 'state/pagination/types';
 import { getLanguages, putLanguage } from 'api/languages';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
@@ -157,10 +156,11 @@ describe('state/languages/actions', () => {
     it('if API response is not ok, dispatch nothing', (done) => {
       putLanguage.mockImplementation(mockApi({
         ok: false,
+        errors: ERRORS,
       }));
 
       store.dispatch(activateLanguage('it')).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions()).toHaveLength(2);
         done();
       }).catch(done.fail);
     });
@@ -168,7 +168,7 @@ describe('state/languages/actions', () => {
     it('if there is no mapped language, dispatch nothing', (done) => {
       getLanguagesMap.mockReturnValue({});
       store.dispatch(activateLanguage('it')).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions()).toHaveLength(2);
         done();
       }).catch(done.fail);
     });
@@ -199,10 +199,11 @@ describe('state/languages/actions', () => {
     it('if API response is not ok, dispatch nothing', (done) => {
       putLanguage.mockImplementation(mockApi({
         ok: false,
+        errors: ERRORS,
       }));
 
       store.dispatch(deactivateLanguage('it')).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions()).toHaveLength(2);
         done();
       }).catch(done.fail);
     });
@@ -210,7 +211,7 @@ describe('state/languages/actions', () => {
     it('if there is no mapped language, dispatch nothing', (done) => {
       getLanguagesMap.mockReturnValue({});
       store.dispatch(deactivateLanguage('it')).then(() => {
-        expect(store.getActions()).toHaveLength(0);
+        expect(store.getActions()).toHaveLength(2);
         done();
       }).catch(done.fail);
     });

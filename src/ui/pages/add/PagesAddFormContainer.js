@@ -39,18 +39,19 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
   },
   onSubmit: (data, action) =>
-    dispatch(sendPostPage(data)).then(() => {
-      switch (action) {
-        case ACTION_SAVE: {
-          history.push(ROUTE_PAGE_TREE);
-          break;
+    dispatch(sendPostPage(data)).then((res) => {
+      if (res) {
+        switch (action) {
+          case ACTION_SAVE: {
+            history.push(ROUTE_PAGE_TREE);
+            break;
+          }
+          case ACTION_SAVE_AND_CONFIGURE: {
+            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+            break;
+          }
+          default: history.push(ROUTE_PAGE_TREE);
         }
-        case ACTION_SAVE_AND_CONFIGURE: {
-          console.log('pushing now to', routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
-          history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
-          break;
-        }
-        default: history.push(ROUTE_PAGE_TREE);
       }
     }),
   onChangeDefaultTitle: title =>
