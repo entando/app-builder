@@ -670,6 +670,7 @@ export default {
     'digitalExchange.components.notFound': 'Nessun componente disponibile',
     'digitalExchange.des.notFound': 'Nessun component repository è stato ancora registrato. Per aggiungere un nuovo component repository fai clic sull\'icona a forma di ingranaggio nell\'angolo in alto a destra di questa pagina',
     'digitalExchange.components.install': 'Installa',
+    'digitalExchange.components.installRollback': 'Installazione non riuscita. L\'installazione è stata ripristinata',
     'digitalExchange.components.installing': 'Installando',
     'digitalExchange.components.failedInstall': 'Installazione non riuscita',
     'digitalExchange.components.installed': 'Installato',
