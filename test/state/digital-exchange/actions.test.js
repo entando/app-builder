@@ -84,7 +84,7 @@ describe('state/digital-exchange/actions', () => {
   it('filterBySearch should call proper actions', (done) => {
     store.dispatch(filterBySearch()).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(5);
+      expect(actions).toHaveLength(8);
       expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);
       done();
     }).catch(done.fail);

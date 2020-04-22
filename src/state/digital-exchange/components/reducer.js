@@ -185,7 +185,6 @@ const filters = (state = {}, action = {}) => {
       const willAddOrUpdateFilter = Array.isArray(filterValue)
         ? filterValue.length
         : (filterValue !== null && filterValue !== undefined);
-
       return willAddOrUpdateFilter
         ? addOrUpdateFilter(filter, state, category)
         : removeFilter(filter, state, category);

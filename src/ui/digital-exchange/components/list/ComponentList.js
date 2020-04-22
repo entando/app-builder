@@ -34,12 +34,14 @@ class ComponentList extends Component {
     const {
       loading,
       viewMode,
+      page,
+      pageSize: perPage,
       digitalExchangeComponents,
     } = this.props;
 
     const pagination = {
-      page: this.props.page,
-      perPage: this.props.pageSize,
+      page,
+      perPage,
       perPageOptions: [1, 5, 10, 15, 25, 50],
     };
 
