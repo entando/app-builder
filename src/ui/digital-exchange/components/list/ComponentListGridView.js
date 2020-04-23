@@ -11,11 +11,11 @@ import { componentType } from 'models/digital-exchange/components';
 
 const ComponentListGridView = ({ components }) =>
   (
-    <Row className="ComponentListGridView equal">
+    <div className="ComponentListGridView equal">
       {components.map((component) => {
         const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
         return (
-          <Col md={6} key={component.id} className="ComponentList__component">
+          <Col md={6} key={component.id} className="ComponentList__component no-padding">
             <Row key={component.id} className="no-gutter">
               <Col md={4}>
                 <a href="#">
@@ -41,7 +41,7 @@ const ComponentListGridView = ({ components }) =>
         );
       })
       }
-    </Row>
+    </div>
   );
 ComponentListGridView.propTypes = {
   components: PropTypes.arrayOf(componentType).isRequired,

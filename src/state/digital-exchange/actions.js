@@ -1,14 +1,11 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { getDEFilters } from 'state/digital-exchange/components/selectors';
+import { getDEFilters, getECRSearchFilterType } from 'state/digital-exchange/components/selectors';
 import { getSelectedDECategory } from 'state/digital-exchange/categories/selectors';
 import { setSelectedDECategory } from 'state/digital-exchange/categories/actions';
 import { setSelectedDEExtraFilter } from 'state/digital-exchange/extra-filters/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
-import {
-  fetchDEComponents, setDEFilter, clearDESearchFilter,
-  fetchDEComponentsWithSearch,
-} from 'state/digital-exchange/components/actions';
+import { fetchDEComponents, setDEFilter, clearDESearchFilter } from 'state/digital-exchange/components/actions';
 import { getSelectedDEExtraFilter } from './extra-filters/selectors';
 
 const genFilterParams = (filter, getState) => {
@@ -28,6 +25,8 @@ const genFilterParams = (filter, getState) => {
 };
 
 export const navigateDECategory = (category, paginationMetadata) => (dispatch, getState) => {
+  const selectedCategory = getSelectedDECategory(getState());
+  dispatch(clearDESearchFilter(selectedCategory));
   dispatch(setSelectedDECategory(category));
   if (category !== ALL_CATEGORIES_CATEGORY) {
     const filter = {
@@ -77,14 +76,6 @@ export const fetchDEComponentsFiltered = paginationMetadata => (dispatch, getSta
   ));
 };
 
-export const filterByDigitalExchanges = (digitalExchanges, paginationMetadata) => {
-  const filter = {
-    formValues: { digitalExchangeId: digitalExchanges },
-    operators: { digitalExchangeId: FILTER_OPERATORS.EQUAL },
-  };
-  return applyFilter(filter, paginationMetadata);
-};
-
 export const filterByRating = (rating, paginationMetadata) => {
   const filter = {
     formValues: { rating },
@@ -102,14 +93,19 @@ export const resetSearchFilter = paginationMetadata => (dispatch, getState) => {
   ));
 };
 
-export const applySearchFilter = keyword => (dispatch, getState) => {
+export const applySearchFilter = (keyword, paginationMetadata) => (dispatch, getState) => {
+  const searchFilterType = getECRSearchFilterType(getState());
   const selectedCategory = getSelectedDECategory(getState());
   dispatch(clearDESearchFilter(selectedCategory));
-  return dispatch(fetchDEComponentsWithSearch(
-    { page: 1, pageSize: 0 },
-    keyword,
-    genFilterParams(selectedCategory, getState),
-  ));
+  const filter = {
+    formValues: {
+      [searchFilterType.id]: keyword,
+    },
+    operators: {
+      [searchFilterType.id]: FILTER_OPERATORS.LIKE,
+    },
+  };
+  return dispatch(applyFilter(filter, paginationMetadata));
 };
 
 export const filterBySearch = (keyword, paginationMetadata) => {

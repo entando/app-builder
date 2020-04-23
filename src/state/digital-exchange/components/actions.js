@@ -20,6 +20,7 @@ import {
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   SET_COMPONENT_USAGE_LIST,
+  SET_ECR_SEARCH_FILTER_TYPE,
 } from 'state/digital-exchange/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -64,6 +65,11 @@ export const setDEFilter = (digitalExchangeFilter, digitalExchangeCategory) => (
     digitalExchangeFilter,
     digitalExchangeCategory,
   },
+});
+
+export const setECRFilterType = filterType => ({
+  type: SET_ECR_SEARCH_FILTER_TYPE,
+  payload: filterType,
 });
 
 export const clearDESearchFilter = digitalExchangeCategory => ({
@@ -304,36 +310,6 @@ export const fetchDEComponents = (paginationMetadata = {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setDEComponents(data.payload));
-          dispatch(setPage(data.metaData));
-        } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          dispatch(clearErrors());
-        }
-        dispatch(toggleLoading(feature));
-        resolve();
-      });
-    }).catch(() => {
-      dispatch(toggleLoading(feature));
-    });
-  })
-);
-
-export const fetchDEComponentsWithSearch = (paginationMetadata = {
-  page: 1,
-  pageSize: 0,
-}, keyword, params = '') => dispatch => (
-  new Promise((resolve) => {
-    const feature = 'digital-exchange/components';
-    dispatch(toggleLoading(feature));
-    getDEComponents(paginationMetadata, params).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          const k = keyword.toLowerCase();
-          const filteredComponents = data.payload.filter(c =>
-            c.version.toLowerCase().includes(k) || c.name.toLowerCase().includes(k)
-            || c.description.toLowerCase().includes(k) || c.id.toLowerCase().includes(k));
-          dispatch(setDEComponents(filteredComponents));
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

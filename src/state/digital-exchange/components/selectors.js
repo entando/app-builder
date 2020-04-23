@@ -9,6 +9,11 @@ export const getDEFilters = createSelector(
   digitalExchangeComponents => digitalExchangeComponents.filters,
 );
 
+export const getECRSearchFilterType = createSelector(
+  getDEFilters,
+  filters => filters.searchFilterType,
+);
+
 export const getDECategoryFilters = createSelector(
   getDEFilters,
   filters => get(filters, 'all.formValues.type', []),

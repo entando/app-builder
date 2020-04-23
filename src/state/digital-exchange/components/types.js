@@ -13,3 +13,4 @@ export const COMPONENT_UNINSTALLATION_FAILED = 'digital-exchange/components/comp
 export const COMPONENT_INSTALL_ONGOING_PROGRESS = 'digital-exchange/components/component-install-ongoing-progress';
 export const COMPONENT_UNINSTALL_ONGOING_PROGRESS = 'digital-exchange/components/component-uninstall-ongoing-progress';
 export const SET_COMPONENT_USAGE_LIST = 'digital-exchange/components/set-component-usage-list';
+export const SET_ECR_SEARCH_FILTER_TYPE = 'digital-exchange/components/set-ecr-search-filter-type';
