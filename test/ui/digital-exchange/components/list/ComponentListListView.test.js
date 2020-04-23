@@ -18,10 +18,6 @@ describe('ComponentListListView', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('has 5 rows, 1 for each component', () => {
-    expect(component.find('Row')).toHaveLength(5);
-  });
-
   it('provided content is rendered properly', () => {
     LIST_DE_COMPONENTS_OK.forEach((componentData, index) => {
       // Checking if provided title is rendered.
