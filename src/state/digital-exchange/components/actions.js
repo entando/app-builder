@@ -319,6 +319,36 @@ export const fetchDEComponents = (paginationMetadata = {
   })
 );
 
+export const fetchDEComponentsWithSearch = (paginationMetadata = {
+  page: 1,
+  pageSize: 0,
+}, keyword, params = '') => dispatch => (
+  new Promise((resolve) => {
+    const feature = 'digital-exchange/components';
+    dispatch(toggleLoading(feature));
+    getDEComponents(paginationMetadata, params).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          const k = keyword.toLowerCase();
+          const filteredComponents = data.payload.filter(c =>
+            c.version.toLowerCase().includes(k) || c.name.toLowerCase().includes(k)
+            || c.description.toLowerCase().includes(k) || c.id.toLowerCase().includes(k));
+          dispatch(setDEComponents(filteredComponents));
+          dispatch(setPage(data.metaData));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(clearErrors());
+        }
+        dispatch(toggleLoading(feature));
+        resolve();
+      });
+    }).catch(() => {
+      dispatch(toggleLoading(feature));
+    });
+  })
+);
+
 export const fetchDEComponentDetail = id => dispatch => (
   new Promise((resolve) => {
     getDEComponent(id).then((response) => {

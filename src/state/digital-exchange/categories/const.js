@@ -4,7 +4,7 @@ export const COMPONENT_REPOSITORY_CATEGORIES = [
   'widget',
   'pageModel',
   'fragment',
-  'api',
+  'plugin',
   'contentModel',
   'contentType',
   'page',

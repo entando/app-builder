@@ -5,7 +5,10 @@ import { setSelectedDECategory } from 'state/digital-exchange/categories/actions
 import { setSelectedDEExtraFilter } from 'state/digital-exchange/extra-filters/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/digital-exchange/categories/const';
 import { DE_COMPONENTS_EXTRA_FILTERS } from 'state/digital-exchange/extra-filters/const';
-import { fetchDEComponents, setDEFilter, clearDESearchFilter } from 'state/digital-exchange/components/actions';
+import {
+  fetchDEComponents, setDEFilter, clearDESearchFilter,
+  fetchDEComponentsWithSearch,
+} from 'state/digital-exchange/components/actions';
 import { getSelectedDEExtraFilter } from './extra-filters/selectors';
 
 const genFilterParams = (filter, getState) => {
@@ -99,23 +102,19 @@ export const resetSearchFilter = paginationMetadata => (dispatch, getState) => {
   ));
 };
 
+export const applySearchFilter = keyword => (dispatch, getState) => {
+  const selectedCategory = getSelectedDECategory(getState());
+  dispatch(clearDESearchFilter(selectedCategory));
+  return dispatch(fetchDEComponentsWithSearch(
+    { page: 1, pageSize: 0 },
+    keyword,
+    genFilterParams(selectedCategory, getState),
+  ));
+};
+
 export const filterBySearch = (keyword, paginationMetadata) => {
   if (keyword) {
-    const filter = {
-      formValues: {
-        name: keyword,
-        description: keyword,
-        id: keyword,
-        version: keyword,
-      },
-      operators: {
-        name: FILTER_OPERATORS.LIKE,
-        description: FILTER_OPERATORS.LIKE,
-        version: FILTER_OPERATORS.LIKE,
-        id: FILTER_OPERATORS.LIKE,
-      },
-    };
-    return applyFilter(filter, paginationMetadata);
+    return applySearchFilter(keyword);
   }
   return resetSearchFilter(paginationMetadata);
 };
