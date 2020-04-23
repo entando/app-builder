@@ -7,6 +7,7 @@ import { getLoading } from 'state/loading/selectors';
 
 const TEST_STATE = {
   componentRepositoryComponents: { list: LIST_ECR_COMPONENTS_OK },
+  pagination: { global: {} },
 };
 
 jest.mock('state/component-repository/components/actions', () => ({

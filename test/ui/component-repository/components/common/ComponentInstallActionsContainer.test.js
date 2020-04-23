@@ -40,6 +40,7 @@ describe('ComponentInstallActionsContainer', () => {
       installationStatus: getECRComponentInstallationStatus(MOCK_STATE, MOCK_PROPS),
       uninstallStatus: getECRComponentUninstallStatus(MOCK_STATE, MOCK_PROPS),
       installUninstallLoading: false,
+      componentUsageList: [],
     });
   });
 

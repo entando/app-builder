@@ -5,11 +5,13 @@ import {
   uninstallECRComponent,
   pollECRComponentInstallStatus,
   pollECRComponentUninstallStatus,
+  fetchComponentUsage,
 } from 'state/component-repository/components/actions';
 import {
   getECRComponentLastInstallStatus,
   getECRComponentInstallationStatus,
   getECRComponentUninstallStatus,
+  getComponentUsageList,
 } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
@@ -19,6 +21,7 @@ export const mapStateToProps = (state, props) => ({
   installationStatus: getECRComponentInstallationStatus(state, props),
   uninstallStatus: getECRComponentUninstallStatus(state, props),
   installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.id}`],
+  componentUsageList: getComponentUsageList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -27,7 +30,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setVisibleModal(''));
     return dispatch(uninstallECRComponent(componentId));
   },
-  onClickUninstall: componentId => dispatch(setVisibleModal(componentId)),
+  onClickUninstall: (componentId) => {
+    dispatch(fetchComponentUsage(componentId));
+    dispatch(setVisibleModal(componentId));
+  },
   recheckInstallStatus: component => dispatch(pollECRComponentInstallStatus(component)),
   recheckUninstallStatus: componentId => dispatch(pollECRComponentUninstallStatus(componentId)),
 });

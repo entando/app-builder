@@ -10,6 +10,7 @@ import {
   SET_SELECTED_ECR_COMPONENT,
   SET_ECR_COMPONENT_LIST_VIEW_MODE,
   SET_ECR_FILTER,
+  CLEAR_ECR_SEARCH_FILTER,
   START_COMPONENT_INSTALLATION,
   FINISH_COMPONENT_INSTALLATION,
   COMPONENT_INSTALLATION_FAILED,
@@ -18,6 +19,7 @@ import {
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
+  SET_COMPONENT_USAGE_LIST,
 } from 'state/component-repository/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -27,6 +29,7 @@ import {
   getECRComponentInstall,
   postECRComponentUninstall,
   getECRComponentUninstall,
+  getComponentUsage,
 } from 'api/component-repository/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -36,6 +39,7 @@ import {
   ECR_COMPONENT_INSTALLATION_STATUS_ERROR,
   ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
   ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+  ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
 } from 'state/component-repository/components/const';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
@@ -58,6 +62,13 @@ export const setECRFilter = (componentRepositoryFilter, componentRepositoryCateg
   type: SET_ECR_FILTER,
   payload: {
     componentRepositoryFilter,
+    componentRepositoryCategory,
+  },
+});
+
+export const clearECRSearchFilter = componentRepositoryCategory => ({
+  type: CLEAR_ECR_SEARCH_FILTER,
+  payload: {
     componentRepositoryCategory,
   },
 });
@@ -125,6 +136,13 @@ export const finishComponentUninstall = id => ({
   },
 });
 
+export const setComponentUsageList = usageList => ({
+  type: SET_COMPONENT_USAGE_LIST,
+  payload: {
+    usageList,
+  },
+});
+
 // thunks
 
 export const pollECRComponentInstallStatus = component => dispatch => (
@@ -137,6 +155,7 @@ export const pollECRComponentInstallStatus = component => dispatch => (
       }) => payload && [
         ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED,
         ECR_COMPONENT_INSTALLATION_STATUS_ERROR,
+        ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
     })
@@ -145,6 +164,12 @@ export const pollECRComponentInstallStatus = component => dispatch => (
           dispatch(finishComponentInstallation(component.id));
         } else {
           dispatch(componentInstallationFailed(component.id));
+          if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+            dispatch(addToast(
+              { id: 'componentRepository.components.installRollback' },
+              TOAST_WARNING,
+            ));
+          }
         }
       })
       .catch((res) => {
@@ -159,10 +184,17 @@ export const pollECRComponentInstallStatus = component => dispatch => (
           ));
           dispatch(componentInstallOngoingProgress(component.id));
         } else {
-          dispatch(addToast(
-            { id: 'componentRepository.components.notifyFailedInstall' },
-            TOAST_WARNING,
-          ));
+          if (payload && payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+            dispatch(addToast(
+              { id: 'componentRepository.components.installRollback' },
+              TOAST_WARNING,
+            ));
+          } else {
+            dispatch(addToast(
+              { id: 'componentRepository.components.notifyFailedInstall' },
+              TOAST_WARNING,
+            ));
+          }
           dispatch(componentInstallationFailed(component.id));
         }
         if (errors && errors.length) {
@@ -299,5 +331,25 @@ export const fetchECRComponentDetail = id => dispatch => (
         resolve();
       });
     }).catch(() => {});
+  })
+);
+
+export const fetchComponentUsage = id => dispatch => (
+  new Promise((resolve) => {
+    const loadingId = 'component-repository/component-usage';
+    dispatch(toggleLoading(loadingId));
+    getComponentUsage(id).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setComponentUsageList(json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        }
+        dispatch(toggleLoading(loadingId));
+        resolve();
+      });
+    }).catch(() => {
+      dispatch(toggleLoading(loadingId));
+    });
   })
 );

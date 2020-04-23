@@ -14,8 +14,12 @@ const ConfirmUninstallModal = ({
     onConfirmUninstall();
   };
 
+  const hasUsage = info.usageList.some(componentUsage => componentUsage.usage > 0);
+
+  const usage = info.usageList.map(componentUsage => `${componentUsage.type} ${componentUsage.code}`).join(', ');
+
   const buttons = [
-    <Button bsStyle="danger" id="ConfirmUninstallModal_button" onClick={onUninstall}>
+    <Button bsStyle="danger" id="ConfirmUninstallModal_button" onClick={onUninstall} disabled={hasUsage}>
       <FormattedMessage id="componentRepository.components.uninstall" />
     </Button>,
   ];
@@ -24,15 +28,24 @@ const ConfirmUninstallModal = ({
     <Modal.Title><FormattedMessage id="componentRepository.components.uninstall" /></Modal.Title>
   );
 
+  const modalContent = (
+    !hasUsage
+      ? <FormattedMessage id="componentRepository.components.confirmUninstall" values={{ name: info.name }} />
+      : <FormattedMessage id="componentRepository.components.usage" values={{ usage }} />
+  );
+
   return (
     <GenericModalContainer modalId={info.id} buttons={buttons} modalTitle={modalTitle}>
       <EmptyState>
         <EmptyStateIcon name="exclamation" type="fa" />
         <EmptyStateTitle>
-          <FormattedMessage id="componentRepository.components.uninstall" />
+          {!hasUsage
+            ? <FormattedMessage id="componentRepository.components.uninstall" />
+            : <FormattedMessage id="componentRepository.components.cannotUninstall" />
+          }
         </EmptyStateTitle>
         <EmptyStateInfo>
-          <FormattedMessage id="componentRepository.components.confirmUninstall" values={{ name: info.name }} />
+          {modalContent}
         </EmptyStateInfo>
       </EmptyState>
     </GenericModalContainer>
@@ -44,6 +57,11 @@ ConfirmUninstallModal.propTypes = {
   info: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
+    usageList: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      usage: PropTypes.number.isRequired,
+    })),
   }).isRequired,
 };
 

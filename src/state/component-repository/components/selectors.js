@@ -61,3 +61,7 @@ export const getECRComponentInstallationStatus = (state, props) => (
 export const getECRComponentUninstallStatus = (state, props) => (
   get(state, `componentRepositoryComponents.uninstallation[${props.component.id}]`, '')
 );
+
+export const getComponentUsageList = state => (
+  get(state, 'componentRepositoryComponents.usageList', [])
+);

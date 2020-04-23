@@ -1,24 +1,12 @@
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
-import { getECRCategoryList, getSelectedECRCategory } from 'state/component-repository/categories/selectors';
+import { getSelectedECRCategory } from 'state/component-repository/categories/selectors';
 import { navigateECRCategory } from 'state/component-repository/actions';
-import { fetchECRCategories } from 'state/component-repository/categories/actions';
-import { ALL_CATEGORIES_CATEGORY } from 'state/component-repository/categories/const';
+import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/component-repository/categories/const';
 import TabBarFilter from 'ui/component-repository/common/TabBarFilter';
 
-
-export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => (dispatch(fetchECRCategories())),
-  onSelect: (filter) => {
-    dispatch(navigateECRCategory(filter));
-  },
-});
-
-export const mapStateToProps = (state, { intl }) => {
-  const filterTabs = [
-    ALL_CATEGORIES_CATEGORY,
-    ...getECRCategoryList(state),
-  ].map((filterTab) => {
+export const generateCRCategoryObjects = (list, intl) => {
+  const categories = list.map((filterTab) => {
     const msgs = defineMessages({
       filterTab: {
         id: `componentRepository.filterTabs.${filterTab}`,
@@ -30,7 +18,19 @@ export const mapStateToProps = (state, { intl }) => {
       value: filterTab,
     };
   });
+  return categories;
+};
 
+
+export const mapDispatchToProps = dispatch => ({
+  onSelect: (filter) => {
+    dispatch(navigateECRCategory(filter));
+  },
+});
+
+export const mapStateToProps = (state, { intl }) => {
+  const filterTabs = generateCRCategoryObjects([
+    ALL_CATEGORIES_CATEGORY, ...COMPONENT_REPOSITORY_CATEGORIES], intl);
   return {
     filterTabs,
     selectedFilterTab: getSelectedECRCategory(state) || ALL_CATEGORIES_CATEGORY,

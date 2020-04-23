@@ -13,6 +13,8 @@ import {
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
+  SET_COMPONENT_USAGE_LIST,
+  CLEAR_ECR_SEARCH_FILTER,
 } from 'state/component-repository/components/types';
 
 import {
@@ -189,10 +191,26 @@ const filters = (state = {}, action = {}) => {
       const willAddOrUpdateFilter = Array.isArray(filterValue)
         ? filterValue.length
         : (filterValue !== null && filterValue !== undefined);
-
       return willAddOrUpdateFilter
         ? addOrUpdateFilter(filter, state, category)
         : removeFilter(filter, state, category);
+    }
+    case CLEAR_ECR_SEARCH_FILTER: {
+      const category = action.payload.digitalExchangeCategory;
+      const stateSlice = state[category] || {};
+      const {
+        id, name, description, version, ...formValuesWithoutSearch
+      } = stateSlice.formValues;
+      const {
+        id: opId, name: opName, description: opDesc, version: opVersion, ...operatorsWithoutSearch
+      } = stateSlice.operators;
+      return {
+        ...state,
+        [category]: {
+          formValues: formValuesWithoutSearch,
+          operators: operatorsWithoutSearch,
+        },
+      };
     }
     default: return state;
   }
@@ -239,6 +257,15 @@ const uninstallation = (state = {}, action = {}) => {
   }
 };
 
+const usageList = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_COMPONENT_USAGE_LIST: {
+      return action.payload.usageList;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
@@ -246,4 +273,5 @@ export default combineReducers({
   componentListViewMode,
   installation,
   uninstallation,
+  usageList,
 });

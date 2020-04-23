@@ -8,14 +8,14 @@ import {
   finishComponentInstallation,
   startComponentUninstall,
   finishComponentUninstall,
+  setComponentUsageList,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
   GET_ECR_COMPONENT_OK,
+  COMPONENT_USAGE_LIST,
 } from 'test/mocks/component-repository/components';
-import {
-  ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-} from 'state/component-repository/components/const';
+import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
 describe('Component repository reducer', () => {
   describe('filter reducer', () => {
@@ -105,7 +105,10 @@ describe('Component repository reducer', () => {
         filters: {
           category1: {
             formValues: { digitalExchanges: ['ComponentRepository1'], otherProp: 'otherValue' },
-            operators: { digitalExchanges: FILTER_OPERATORS.EQUAL, otherProp: FILTER_OPERATORS.EQUAL },
+            operators: {
+              digitalExchanges: FILTER_OPERATORS.EQUAL,
+              otherProp: FILTER_OPERATORS.EQUAL,
+            },
           },
         },
       };
@@ -354,5 +357,18 @@ describe('uninstallation reducer', () => {
       expect(Object.keys(state.uninstallation)).toHaveLength(1);
       expect(state).not.toHaveProperty('uninstallation.testing');
     });
+  });
+});
+
+describe('usageList reducer', () => {
+  let state = reducer();
+
+  it('should initially return empty array for usageList', () => {
+    expect(state).toHaveProperty('usageList', []);
+  });
+
+  it('should have new state equal to action payload', () => {
+    state = reducer(state, setComponentUsageList(COMPONENT_USAGE_LIST));
+    expect(state).toHaveProperty('usageList', COMPONENT_USAGE_LIST);
   });
 });

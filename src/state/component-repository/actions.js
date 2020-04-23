@@ -5,7 +5,24 @@ import { setSelectedECRCategory } from 'state/component-repository/categories/ac
 import { setSelectedECRExtraFilter } from 'state/component-repository/extra-filters/actions';
 import { ALL_CATEGORIES_CATEGORY } from 'state/component-repository/categories/const';
 import { ECR_COMPONENTS_EXTRA_FILTERS } from 'state/component-repository/extra-filters/const';
-import { fetchECRComponents, setECRFilter } from 'state/component-repository/components/actions';
+import { fetchECRComponents, setECRFilter, clearECRSearchFilter } from 'state/component-repository/components/actions';
+import { getSelectedECRExtraFilter } from 'state/component-repository/extra-filters/selectors';
+
+const genFilterParams = (filter, getState) => {
+  const filters = getECRFilters(getState());
+  const selectedExtraFilter = getSelectedECRExtraFilter(getState());
+  const merge = {
+    formValues: {
+      ...(filters[filter] && filters[filter].formValues),
+      ...(selectedExtraFilter && ECR_COMPONENTS_EXTRA_FILTERS[selectedExtraFilter].formValues),
+    },
+    operators: {
+      ...(filters[filter] && filters[filter].operators),
+      ...(selectedExtraFilter && ECR_COMPONENTS_EXTRA_FILTERS[selectedExtraFilter].operators),
+    },
+  };
+  return convertToQueryString(merge);
+};
 
 export const navigateECRCategory = (category, paginationMetadata) => (dispatch, getState) => {
   dispatch(setSelectedECRCategory(category));
@@ -16,24 +33,29 @@ export const navigateECRCategory = (category, paginationMetadata) => (dispatch, 
     };
     dispatch(setECRFilter(filter, category));
   }
-  const filters = getECRFilters(getState());
-  const params = filters[category] ? convertToQueryString(filters[category]) : '';
-  return dispatch(fetchECRComponents(paginationMetadata, params));
+  return dispatch(fetchECRComponents(
+    paginationMetadata,
+    genFilterParams(category, getState),
+  ));
 };
 
-export const navigateECRExtraTab = (extraFilter, paginationMetadata) => (dispatch) => {
+export const navigateECRExtraTab = (extraFilter, paginationMetadata) => (dispatch, getState) => {
   dispatch(setSelectedECRExtraFilter(extraFilter));
-  const params = convertToQueryString(ECR_COMPONENTS_EXTRA_FILTERS[extraFilter]);
-  return dispatch(fetchECRComponents(paginationMetadata, params));
+  const selectedCategory = getSelectedECRCategory(getState());
+  return dispatch(fetchECRComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 
 const applyFilter = (filter, paginationMetadata) => (dispatch, getState) => {
   const selectedCategory = getSelectedECRCategory(getState());
   dispatch(setECRFilter(filter, selectedCategory));
-  const filters = getECRFilters(getState());
-  const params = filters[selectedCategory] ? convertToQueryString(filters[selectedCategory]) : '';
-  return dispatch(fetchECRComponents(paginationMetadata, params));
+  return dispatch(fetchECRComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 export const filterByECRCategories = (categories, paginationMetadata) => {
@@ -42,6 +64,14 @@ export const filterByECRCategories = (categories, paginationMetadata) => {
     operators: { type: FILTER_OPERATORS.EQUAL },
   };
   return applyFilter(filter, paginationMetadata);
+};
+
+export const fetchECRComponentsFiltered = paginationMetadata => (dispatch, getState) => {
+  const selectedCategory = getSelectedECRCategory(getState());
+  return dispatch(fetchECRComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
 };
 
 export const filterByComponentRepositories = (componentRepositories, paginationMetadata) => {
@@ -60,10 +90,32 @@ export const filterByRating = (rating, paginationMetadata) => {
   return applyFilter(filter, paginationMetadata);
 };
 
+export const resetSearchFilter = paginationMetadata => (dispatch, getState) => {
+  const selectedCategory = getSelectedECRCategory(getState());
+  dispatch(clearECRSearchFilter(selectedCategory));
+  return dispatch(fetchECRComponents(
+    paginationMetadata,
+    genFilterParams(selectedCategory, getState),
+  ));
+};
+
 export const filterBySearch = (keyword, paginationMetadata) => {
-  const filter = {
-    formValues: { name: keyword, description: keyword },
-    operators: { name: FILTER_OPERATORS.LIKE, description: FILTER_OPERATORS.LIKE },
-  };
-  return applyFilter(filter, paginationMetadata);
+  if (keyword) {
+    const filter = {
+      formValues: {
+        name: keyword,
+        description: keyword,
+        id: keyword,
+        version: keyword,
+      },
+      operators: {
+        name: FILTER_OPERATORS.LIKE,
+        description: FILTER_OPERATORS.LIKE,
+        version: FILTER_OPERATORS.LIKE,
+        id: FILTER_OPERATORS.LIKE,
+      },
+    };
+    return applyFilter(filter, paginationMetadata);
+  }
+  return resetSearchFilter(paginationMetadata);
 };

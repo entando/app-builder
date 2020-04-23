@@ -4,12 +4,10 @@ import { shallow } from 'enzyme';
 
 import TabBarFilter from 'ui/component-repository/common/TabBarFilter';
 import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/CategoryTabBarFilterContainer';
-import { ALL_CATEGORIES_CATEGORY } from 'state/component-repository/categories/const';
+import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/component-repository/categories/const';
 import { LIST_ECR_CATEGORIES_OK } from 'test/mocks/component-repository/categories';
-import { fetchECRCategories } from 'state/component-repository/categories/actions';
 import { navigateECRCategory } from 'state/component-repository/actions';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
-
 
 const TEST_STATE = {
   componentRepositories: {
@@ -29,10 +27,6 @@ const TEST_STATE = {
 
 jest.mock('state/component-repository/actions', () => ({
   navigateECRCategory: jest.fn(),
-}));
-
-jest.mock('state/component-repository/categories/actions', () => ({
-  fetchECRCategories: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
@@ -72,7 +66,7 @@ describe('TabBarFilter', () => {
   it('maps componentRepositoryCategories property state', () => {
     const filterTabs = [
       ALL_CATEGORIES_CATEGORY,
-      ...TEST_STATE.componentRepositoryCategories.list,
+      ...COMPONENT_REPOSITORY_CATEGORIES,
     ].map(filterTab => ({
       value: filterTab,
     }));
@@ -98,14 +92,7 @@ describe('TabBarFilter', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
       expect(props.onSelect).toBeDefined();
-    });
-
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount({});
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchECRCategories).toHaveBeenCalled();
     });
 
     it('should dispatch an action if tab is selected', () => {

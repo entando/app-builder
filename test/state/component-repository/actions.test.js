@@ -9,7 +9,7 @@ import {
   filterBySearch,
 } from 'state/component-repository/actions';
 import { SET_SELECTED_ECR_CATEGORY } from 'state/component-repository/categories/types';
-import { SET_ECR_FILTER } from 'state/component-repository/components/types';
+import { SET_ECR_FILTER, CLEAR_ECR_SEARCH_FILTER } from 'state/component-repository/components/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -29,6 +29,9 @@ const INITIAL_STATE = {
     selected: {},
     componentListViewMode: '',
     filters: {},
+  },
+  componentRepositoryExtraFilters: {
+    selected: '',
   },
 };
 
@@ -82,7 +85,7 @@ describe('state/component-repository/actions', () => {
     store.dispatch(filterBySearch()).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(5);
-      expect(actions[0]).toHaveProperty('type', SET_ECR_FILTER);
+      expect(actions[0]).toHaveProperty('type', CLEAR_ECR_SEARCH_FILTER);
       done();
     }).catch(done.fail);
   });

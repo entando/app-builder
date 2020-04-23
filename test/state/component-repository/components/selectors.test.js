@@ -1,8 +1,12 @@
-import { LIST_ECR_COMPONENTS_OK, COMPONENT_INSTALLATION_IN_PROGRESS } from 'test/mocks/component-repository/components';
+import {
+  LIST_ECR_COMPONENTS_OK,
+  COMPONENT_INSTALLATION_IN_PROGRESS,
+  COMPONENT_USAGE_LIST,
+} from 'test/mocks/component-repository/components';
 import {
   getECRComponents, getECRComponentSelected,
   getECRComponentList, getECRComponentInstallationStatus,
-  getECRComponentUninstallStatus,
+  getECRComponentUninstallStatus, getComponentUsageList,
 } from 'state/component-repository/components/selectors';
 import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
@@ -21,6 +25,7 @@ const MOCK_STATE = {
     selected: list[0],
     installation,
     uninstallation,
+    usageList: COMPONENT_USAGE_LIST,
   },
 };
 
@@ -57,5 +62,10 @@ describe('state/component-repository/components/selectors', () => {
     };
     const uninstallStatus = getECRComponentUninstallStatus(MOCK_STATE, props);
     expect(uninstallStatus).toEqual(ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+  });
+
+  it('verify getComponentUsageList', () => {
+    const usageList = getComponentUsageList(MOCK_STATE);
+    expect(usageList).toEqual(MOCK_STATE.componentRepositoryComponents.usageList);
   });
 });

@@ -132,3 +132,13 @@ export const COMPONENT_UNINSTALLATION_ERROR = {
   ...componentInstallation,
   status: ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
 };
+
+export const COMPONENT_USAGE_LIST = [{
+  code: 'test-widget',
+  type: 'widget',
+  usage: 1,
+}, {
+  code: 'test-fragment',
+  type: 'fragment',
+  usage: 0,
+}];
