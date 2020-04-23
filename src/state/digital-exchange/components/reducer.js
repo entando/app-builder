@@ -15,6 +15,7 @@ import {
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   SET_COMPONENT_USAGE_LIST,
   CLEAR_DE_SEARCH_FILTER,
+  SET_ECR_SEARCH_FILTER_TYPE,
 } from 'state/digital-exchange/components/types';
 
 import {
@@ -25,6 +26,16 @@ import {
 } from 'state/digital-exchange/components/const';
 
 import { findComponentInListById } from 'state/digital-exchange/components/selectors';
+
+const filtersDefaultState = {
+  searchFilterType: {
+    id: 'description',
+    title: 'Description',
+    placeholder: 'Filter by Description',
+    filterType: 'text',
+    value: '',
+  },
+};
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -172,7 +183,7 @@ const removeFilter = (filter, state, category) => {
   };
 };
 
-const filters = (state = {}, action = {}) => {
+const filters = (state = filtersDefaultState, action = {}) => {
   switch (action.type) {
     case SET_DE_FILTER: {
       const category = action.payload.digitalExchangeCategory;
@@ -206,6 +217,12 @@ const filters = (state = {}, action = {}) => {
           formValues: formValuesWithoutSearch,
           operators: operatorsWithoutSearch,
         },
+      };
+    }
+    case SET_ECR_SEARCH_FILTER_TYPE: {
+      return {
+        ...state,
+        searchFilterType: action.payload,
       };
     }
     default: return state;

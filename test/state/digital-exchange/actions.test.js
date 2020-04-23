@@ -4,11 +4,9 @@ import { config } from '@entando/apimanager';
 import {
   navigateDECategory,
   filterByDECategories,
-  filterByDigitalExchanges,
   filterByRating,
   filterBySearch,
 } from 'state/digital-exchange/actions';
-import { SET_SELECTED_DE_CATEGORY } from 'state/digital-exchange/categories/types';
 import { SET_DE_FILTER, CLEAR_DE_SEARCH_FILTER } from 'state/digital-exchange/components/types';
 
 const middlewares = [thunk];
@@ -47,24 +45,14 @@ describe('state/digital-exchange/actions', () => {
   it('navigateDECategory should call proper actions', (done) => {
     store.dispatch(navigateDECategory()).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(6);
-      expect(actions[0]).toHaveProperty('type', SET_SELECTED_DE_CATEGORY);
-      expect(actions[1]).toHaveProperty('type', SET_DE_FILTER);
+      expect(actions).toHaveLength(7);
+      expect(actions[0]).toHaveProperty('type', CLEAR_DE_SEARCH_FILTER);
       done();
     }).catch(done.fail);
   });
 
   it('filterByDECategories should call proper actions', (done) => {
     store.dispatch(filterByDECategories()).then(() => {
-      const actions = store.getActions();
-      expect(actions).toHaveLength(5);
-      expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('filterByDigitalExchanges should call proper actions', (done) => {
-    store.dispatch(filterByDigitalExchanges()).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(5);
       expect(actions[0]).toHaveProperty('type', SET_DE_FILTER);

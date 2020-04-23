@@ -4,6 +4,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import SidebarContainer from 'ui/digital-exchange/SidebarContainer';
 import SearchBarContainer from 'ui/digital-exchange/components/SearchBarContainer';
+import FilterTypeContainer from 'ui/digital-exchange/components/FilterTypeContainer';
 import CategoryTabBarFilterContainer from 'ui/digital-exchange/CategoryTabBarFilterContainer';
 import ComponentListContainer from 'ui/digital-exchange/components/list/ComponentListContainer';
 import ComponentListViewModeSwitcherContainer from 'ui/digital-exchange/components/common/ComponentListViewModeSwitcherContainer';
@@ -28,8 +29,13 @@ const ComponentListPage = () => (
         </Col>
       </Row>
       <Row>
-        <Col md={9} >
-          <SearchBarContainer />
+        <Col md={9} style={{ display: 'flex', flexDirection: 'row' }} >
+          <div style={{ flex: 1 }}>
+            <FilterTypeContainer />
+          </div>
+          <div style={{ flex: 10 }}>
+            <SearchBarContainer />
+          </div>
         </Col>
         <Col md={3} >
           <div className="pull-right">

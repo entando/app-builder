@@ -10,6 +10,4 @@ export const componentType = PropTypes.shape({
   description: PropTypes.string,
   image: PropTypes.string,
   rating: PropTypes.number.isRequired,
-  digitalExchangeId: PropTypes.string.isRequired,
-  digitalExchangeName: PropTypes.string.isRequired,
 });
