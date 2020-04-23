@@ -30,7 +30,7 @@ const ComponentListPage = () => (
       </Row>
       <Row>
         <Col md={9} style={{ display: 'flex', flexDirection: 'row' }} >
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 100 }}>
             <FilterTypeContainer />
           </div>
           <div style={{ flex: 10 }}>

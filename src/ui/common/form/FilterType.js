@@ -13,7 +13,7 @@ const FilterType = ({
   filterTypes, className, currentFilterType, onFilterTypeSelected, intl,
 }) => (
   <Filter.TypeSelector
-    className={className}
+    className={`FilterType ${className}`}
     filterTypes={translateTitles(intl, filterTypes)}
     currentFilterType={currentFilterType}
     onFilterTypeSelected={onFilterTypeSelected}
