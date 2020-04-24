@@ -20,7 +20,11 @@ import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-r
 describe('Component repository reducer', () => {
   describe('filter reducer', () => {
     it('should return an object', () => {
-      expect(reducer()).toHaveProperty('filters', {});
+      expect(reducer()).toHaveProperty('filters', {
+        searchFilterType: {
+          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
+        },
+      });
     });
 
     it('should add filter (array)', () => {
@@ -34,6 +38,9 @@ describe('Component repository reducer', () => {
         category1: {
           formValues: { digitalExchanges: ['ComponentRepository1'] },
           operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
+        },
+        searchFilterType: {
+          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
         },
       });
     });
@@ -49,6 +56,9 @@ describe('Component repository reducer', () => {
         category1: {
           formValues: { rating: 2 },
           operators: { rating: FILTER_OPERATORS.GREATER_THAN },
+        },
+        searchFilterType: {
+          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
         },
       });
     });

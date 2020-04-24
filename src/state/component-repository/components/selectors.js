@@ -9,6 +9,11 @@ export const getECRFilters = createSelector(
   componentRepositoryComponents => componentRepositoryComponents.filters,
 );
 
+export const getECRSearchFilterType = createSelector(
+  getECRFilters,
+  filters => filters.searchFilterType,
+);
+
 export const getECRCategoryFilters = createSelector(
   getECRFilters,
   filters => get(filters, 'all.formValues.type', []),

@@ -1,5 +1,5 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { getECRFilters } from 'state/component-repository/components/selectors';
+import { getECRFilters, getECRSearchFilterType } from 'state/component-repository/components/selectors';
 import { getSelectedECRCategory } from 'state/component-repository/categories/selectors';
 import { setSelectedECRCategory } from 'state/component-repository/categories/actions';
 import { setSelectedECRExtraFilter } from 'state/component-repository/extra-filters/actions';
@@ -25,6 +25,8 @@ const genFilterParams = (filter, getState) => {
 };
 
 export const navigateECRCategory = (category, paginationMetadata) => (dispatch, getState) => {
+  const selectedCategory = getSelectedECRCategory(getState());
+  dispatch(clearECRSearchFilter(selectedCategory));
   dispatch(setSelectedECRCategory(category));
   if (category !== ALL_CATEGORIES_CATEGORY) {
     const filter = {
@@ -74,14 +76,6 @@ export const fetchECRComponentsFiltered = paginationMetadata => (dispatch, getSt
   ));
 };
 
-export const filterByComponentRepositories = (componentRepositories, paginationMetadata) => {
-  const filter = {
-    formValues: { digitalExchangeId: componentRepositories },
-    operators: { digitalExchangeId: FILTER_OPERATORS.EQUAL },
-  };
-  return applyFilter(filter, paginationMetadata);
-};
-
 export const filterByRating = (rating, paginationMetadata) => {
   const filter = {
     formValues: { rating },
@@ -99,23 +93,24 @@ export const resetSearchFilter = paginationMetadata => (dispatch, getState) => {
   ));
 };
 
+export const applySearchFilter = (keyword, paginationMetadata) => (dispatch, getState) => {
+  const searchFilterType = getECRSearchFilterType(getState());
+  const selectedCategory = getSelectedECRCategory(getState());
+  dispatch(clearECRSearchFilter(selectedCategory));
+  const filter = {
+    formValues: {
+      [searchFilterType.id]: keyword,
+    },
+    operators: {
+      [searchFilterType.id]: FILTER_OPERATORS.LIKE,
+    },
+  };
+  return dispatch(applyFilter(filter, paginationMetadata));
+};
+
 export const filterBySearch = (keyword, paginationMetadata) => {
   if (keyword) {
-    const filter = {
-      formValues: {
-        name: keyword,
-        description: keyword,
-        id: keyword,
-        version: keyword,
-      },
-      operators: {
-        name: FILTER_OPERATORS.LIKE,
-        description: FILTER_OPERATORS.LIKE,
-        version: FILTER_OPERATORS.LIKE,
-        id: FILTER_OPERATORS.LIKE,
-      },
-    };
-    return applyFilter(filter, paginationMetadata);
+    return applySearchFilter(keyword);
   }
   return resetSearchFilter(paginationMetadata);
 };

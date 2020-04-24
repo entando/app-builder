@@ -1,0 +1,12 @@
+.FilterType {
+  display: block;
+  width: 100%;
+
+  div {
+    width: 100%;
+
+    button { // sass-lint:disable-line nesting-depth
+      width: 100%;
+    }
+  }
+}

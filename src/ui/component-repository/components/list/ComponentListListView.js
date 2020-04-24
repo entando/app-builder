@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { componentType } from 'models/component-repository/components';
 
-import { Col, Row } from 'patternfly-react';
+import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import ComponentInstallActionsContainer from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
 import ComponentImage from 'ui/component-repository/components/common/ComponentImage';
@@ -18,13 +18,13 @@ const ComponentListListView = ({ components }) => (
 
       return (
         <div key={component.id}>
-          <Row key={component.id} className="equal">
-            <Col md={2} className="no-padding">
+          <div key={component.id} className="equal">
+            <Col md={2} xs={2} className="no-padding">
               <a href="#" className="ComponentList_component-image-wrapper">
                 <ComponentImage component={component} />
               </a>
             </Col>
-            <Col md={8}>
+            <Col md={8} xs={8}>
               <div className="ComponentList__component-body">
                 <h1>{component.name}</h1>
                 <span className="ComponentList__date">{date}</span>
@@ -37,15 +37,15 @@ const ComponentListListView = ({ components }) => (
                 </span>
               </div>
             </Col>
-            <Col md={2}>
+            <Col md={2} xs={4}>
               <ComponentInstallActionsContainer component={component} />
             </Col>
-            <Col md={12} className="no-padding">
+            <Col md={12} xs={12} className="no-padding">
               <div className="ComponentList__description">
                 {component.description}
               </div>
             </Col>
-          </Row>
+          </div>
         </div>
       );
     })}

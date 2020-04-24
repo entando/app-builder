@@ -15,6 +15,7 @@ import {
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   SET_COMPONENT_USAGE_LIST,
   CLEAR_ECR_SEARCH_FILTER,
+  SET_ECR_SEARCH_FILTER_TYPE,
 } from 'state/component-repository/components/types';
 
 import {
@@ -25,6 +26,16 @@ import {
 } from 'state/component-repository/components/const';
 
 import { findComponentInListById } from 'state/component-repository/components/selectors';
+
+const filtersDefaultState = {
+  searchFilterType: {
+    id: 'description',
+    title: 'Description',
+    placeholder: 'Filter by Description',
+    filterType: 'text',
+    value: '',
+  },
+};
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -176,7 +187,7 @@ const removeFilter = (filter, state, category) => {
   };
 };
 
-const filters = (state = {}, action = {}) => {
+const filters = (state = filtersDefaultState, action = {}) => {
   switch (action.type) {
     case SET_ECR_FILTER: {
       const category = action.payload.componentRepositoryCategory;
@@ -210,6 +221,12 @@ const filters = (state = {}, action = {}) => {
           formValues: formValuesWithoutSearch,
           operators: operatorsWithoutSearch,
         },
+      };
+    }
+    case SET_ECR_SEARCH_FILTER_TYPE: {
+      return {
+        ...state,
+        searchFilterType: action.payload,
       };
     }
     default: return state;

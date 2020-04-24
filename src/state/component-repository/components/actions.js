@@ -20,6 +20,7 @@ import {
   COMPONENT_UNINSTALLATION_FAILED,
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   SET_COMPONENT_USAGE_LIST,
+  SET_ECR_SEARCH_FILTER_TYPE,
 } from 'state/component-repository/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -64,6 +65,11 @@ export const setECRFilter = (componentRepositoryFilter, componentRepositoryCateg
     componentRepositoryFilter,
     componentRepositoryCategory,
   },
+});
+
+export const setECRFilterType = filterType => ({
+  type: SET_ECR_SEARCH_FILTER_TYPE,
+  payload: filterType,
 });
 
 export const clearECRSearchFilter = componentRepositoryCategory => ({

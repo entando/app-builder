@@ -13,3 +13,4 @@ export const COMPONENT_UNINSTALLATION_FAILED = 'component-repository/components/
 export const COMPONENT_INSTALL_ONGOING_PROGRESS = 'component-repository/components/component-install-ongoing-progress';
 export const COMPONENT_UNINSTALL_ONGOING_PROGRESS = 'component-repository/components/component-uninstall-ongoing-progress';
 export const SET_COMPONENT_USAGE_LIST = 'component-repository/components/set-component-usage-list';
+export const SET_ECR_SEARCH_FILTER_TYPE = 'component-repository/components/set-ecr-search-filter-type';

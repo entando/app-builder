@@ -44,7 +44,7 @@ class ComponentList extends Component {
     const pagination = {
       page,
       perPage,
-      perPageOptions: [1, 5, 10, 15, 25, 50],
+      perPageOptions: [5, 10, 15, 25, 50],
     };
 
     const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
@@ -63,15 +63,15 @@ class ComponentList extends Component {
     return (
       <div className="ComponentList">
         <ExtraTabBarFilterContainer />
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={totalItems}
-          onPageSet={this.changePage}
-          onPerPageSelect={this.changePageSize}
-        />
         <Spinner loading={!!loading} >
           {components}
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={totalItems}
+            onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
+          />
         </Spinner>
       </div>
     );

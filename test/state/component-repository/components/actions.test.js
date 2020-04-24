@@ -265,8 +265,6 @@ describe('state/component-repository/components/actions', () => {
         expect(componentRepositoryComponent).toHaveProperty('id', 'a7233e30-e6f0-4c90-9786-e3667113be12');
         expect(componentRepositoryComponent).toHaveProperty('name', 'Avatar plugin');
         expect(componentRepositoryComponent).toHaveProperty('lastUpdate', '2018-08-22');
-        expect(componentRepositoryComponent).toHaveProperty('digitalExchangeName', 'Entando');
-        expect(componentRepositoryComponent).toHaveProperty('digitalExchangeId', 'entando');
         expect(componentRepositoryComponent).toHaveProperty('version', '5.1.0');
         expect(componentRepositoryComponent).toHaveProperty('type', 'widget');
         expect(componentRepositoryComponent).toHaveProperty('description', 'lorem ipsum');

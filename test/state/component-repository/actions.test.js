@@ -4,11 +4,9 @@ import { config } from '@entando/apimanager';
 import {
   navigateECRCategory,
   filterByECRCategories,
-  filterByComponentRepositories,
   filterByRating,
   filterBySearch,
 } from 'state/component-repository/actions';
-import { SET_SELECTED_ECR_CATEGORY } from 'state/component-repository/categories/types';
 import { SET_ECR_FILTER, CLEAR_ECR_SEARCH_FILTER } from 'state/component-repository/components/types';
 
 const middlewares = [thunk];
@@ -47,24 +45,14 @@ describe('state/component-repository/actions', () => {
   it('navigateECRCategory should call proper actions', (done) => {
     store.dispatch(navigateECRCategory()).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(6);
-      expect(actions[0]).toHaveProperty('type', SET_SELECTED_ECR_CATEGORY);
-      expect(actions[1]).toHaveProperty('type', SET_ECR_FILTER);
+      expect(actions).toHaveLength(7);
+      expect(actions[0]).toHaveProperty('type', CLEAR_ECR_SEARCH_FILTER);
       done();
     }).catch(done.fail);
   });
 
   it('filterByECRCategories should call proper actions', (done) => {
     store.dispatch(filterByECRCategories()).then(() => {
-      const actions = store.getActions();
-      expect(actions).toHaveLength(5);
-      expect(actions[0]).toHaveProperty('type', SET_ECR_FILTER);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('filterByComponentRepositories should call proper actions', (done) => {
-    store.dispatch(filterByComponentRepositories()).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(5);
       expect(actions[0]).toHaveProperty('type', SET_ECR_FILTER);
