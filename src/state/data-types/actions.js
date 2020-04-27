@@ -192,6 +192,7 @@ export const fetchDataTypeReferenceStatus = () => dispatch => new Promise((resol
         dispatch(setDataTypeReferenceStatus(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -206,6 +207,7 @@ export const sendPostDataTypeReferenceStatus = dataTypesCodes => dispatch =>
           history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -257,6 +259,7 @@ export const sendPutDataType = dataTypeObject => dispatch =>
           history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -272,6 +275,7 @@ export const sendDeleteDataType = dataTypeCode => dispatch =>
           history.push(ROUTE_DATA_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -287,6 +291,7 @@ export const fetchDataType = dataTypeCode => dispatch => (
           dispatch(initialize('DataType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -304,6 +309,7 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('dataTypes'));
         resolve();
@@ -420,6 +426,7 @@ export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode
             }
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           resolve();
         });
@@ -644,6 +651,7 @@ export const sendDeleteAttributeFromDataType = attributeCode => (dispatch, getSt
           dispatch(removeAttribute(dataTypeCode, attributeCode));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -663,6 +671,7 @@ export const fetchDataTypeAttributes = (page = { page: 1, pageSize: 0 }, params 
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('dataTypes'));
         resolve();
@@ -683,6 +692,7 @@ export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex 
           }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -703,6 +713,7 @@ export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeInde
             }));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           resolve();
         });

@@ -1,4 +1,4 @@
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
 import { putPageWidget } from 'api/pages';
@@ -26,6 +26,7 @@ export const updateConfiguredPageWidget = (widgetConfig, params) =>
             history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
         })).catch(() => {});
   };

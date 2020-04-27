@@ -49,6 +49,7 @@ export const fetchDigitalExchanges = (page = { page: 1, pageSize: 10 }, params =
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('digital-exchange/list'));
         resolve();
@@ -70,6 +71,7 @@ export const fetchDigitalExchange = (id, initForm = false) => dispatch => (
           }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

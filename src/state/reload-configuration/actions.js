@@ -1,4 +1,4 @@
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import { reloadConf } from 'api/reloadConfiguration';
 import { SET_STATUS } from 'state/reload-configuration/types';
@@ -21,6 +21,7 @@ export const sendReloadConf = () => dispatch =>
           history.push(ROUTE_RELOAD_CONFIRM);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

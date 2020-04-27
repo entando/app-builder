@@ -52,6 +52,7 @@ export const fetchFragment = fragmentCode => dispatch =>
           dispatch(initialize('fragment', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -67,6 +68,7 @@ export const fetchFragmentDetail = fragmentCode => dispatch => (
           dispatch(setSelectedFragment(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -85,6 +87,7 @@ export const fetchFragments = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('fragments'));
         }
         resolve();
@@ -126,6 +129,7 @@ export const fetchFragmentSettings = () => dispatch =>
           dispatch(initialize('fragmentSettings', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -184,6 +188,7 @@ export const sendPostFragment = fragment => async (dispatch) => {
     history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
+    json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
   }
   return json;
 };
@@ -199,6 +204,7 @@ export const sendPutFragment = fragment => async (dispatch) => {
     history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
+    json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
   }
   return json;
 };

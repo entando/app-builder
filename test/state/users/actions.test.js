@@ -84,10 +84,11 @@ describe('state/users/actions', () => {
           store.dispatch(fetchUsers()).then(() => {
             expect(getUsers).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(3);
+            expect(actions).toHaveLength(4);
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
             expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-            expect(actions[2].type).toEqual(TOGGLE_LOADING);
+            expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+            expect(actions[3].type).toEqual(TOGGLE_LOADING);
             done();
           }).catch(done.fail);
         });
@@ -109,8 +110,9 @@ describe('state/users/actions', () => {
           store.dispatch(fetchUsersTotal()).then(() => {
             expect(getUsers).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(1);
+            expect(actions).toHaveLength(2);
             expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+            expect(actions[1]).toHaveProperty('type', ADD_TOAST);
             done();
           }).catch(done.fail);
         });
@@ -135,10 +137,11 @@ describe('state/users/actions', () => {
           store.dispatch(fetchCurrentPageUserDetail(USER.username)).then(() => {
             expect(getUser).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(3);
+            expect(actions).toHaveLength(4);
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
             expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-            expect(actions[2].type).toEqual(TOGGLE_LOADING);
+            expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+            expect(actions[3].type).toEqual(TOGGLE_LOADING);
             done();
           }).catch(done.fail);
         });
@@ -158,10 +161,11 @@ describe('state/users/actions', () => {
           store.dispatch(fetchUserForm(USER.username)).then(() => {
             expect(getUser).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(3);
+            expect(actions).toHaveLength(4);
             expect(actions[0].type).toEqual(TOGGLE_LOADING);
             expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-            expect(actions[2].type).toEqual(TOGGLE_LOADING);
+            expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+            expect(actions[3].type).toEqual(TOGGLE_LOADING);
             done();
           }).catch(done.fail);
         });
@@ -227,8 +231,9 @@ describe('state/users/actions', () => {
           store.dispatch(sendDeleteUser(USER.username)).then(() => {
             expect(deleteUser).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(1);
+            expect(actions).toHaveLength(2);
             expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+            expect(actions[1]).toHaveProperty('type', ADD_TOAST);
             done();
           }).catch(done.fail);
         });

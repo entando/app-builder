@@ -111,10 +111,11 @@ describe('state/digital-exchange/digital-exchanges/actions', () => {
       getDigitalExchanges.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchDigitalExchanges()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
 
         done();
       }).catch(done.fail);
@@ -162,8 +163,9 @@ describe('state/digital-exchange/digital-exchanges/actions', () => {
       getDigitalExchange.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchDigitalExchange(12)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
 
         done();
       }).catch(done.fail);

@@ -58,6 +58,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
             dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
           } else {
             dispatch(addErrors(json.errors.map(e => e.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
             history.push(ROUTE_FILE_BROWSER);
           }
           dispatch(toggleLoading('file'));
@@ -89,6 +90,7 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
           dispatch(setPathInfo(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('files'));
         resolve();
@@ -142,6 +144,7 @@ export const saveFile = file => (dispatch, getState) => new Promise((resolve) =>
         dispatch(bodyApi(sendPutFile)(protectedFolder, currentPath, file));
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -157,6 +160,7 @@ export const downloadFile = file => (dispatch, getState) => new Promise((resolve
         resolve(json.payload.base64);
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         resolve();
       }
     });

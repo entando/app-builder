@@ -1,5 +1,5 @@
 import { SET_DE_CATEGORIES, SET_SELECTED_DE_CATEGORY } from 'state/digital-exchange/categories/types';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 
 import { getDECategories } from 'api/digital-exchange/categories';
@@ -29,6 +29,7 @@ export const fetchDECategories = () => dispatch => (
           dispatch(setDECategories(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
 
         dispatch(toggleLoading(categoryLoading));

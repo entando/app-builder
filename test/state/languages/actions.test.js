@@ -1,7 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   setLanguages, setLanguageActiveSync, fetchLanguages, activateLanguage,
@@ -125,7 +125,8 @@ describe('state/languages/actions', () => {
         expect(actions[0].type).toBe(TOGGLE_LOADING);
         expect(actions[1].type).toBe(ADD_ERRORS);
         expect(actions[1].payload.errors).toEqual(ERRORS.map(e => e.message));
-        expect(actions[2].type).toBe(TOGGLE_LOADING);
+        expect(actions[2].type).toBe(ADD_TOAST);
+        expect(actions[3].type).toBe(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

@@ -65,6 +65,7 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
           return json.payload;
         }
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         return null;
       })).catch(() => {});
 };
@@ -81,6 +82,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
         dispatch(setSelectedWidget(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       toggleLoading('fetchWidget');
       resolve();
@@ -95,6 +97,7 @@ export const fetchWidgetInfo = widgetCode => dispatch => new Promise((resolve) =
         dispatch(setWidgetInfo(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -109,6 +112,7 @@ export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') =>
         dispatch(setWidgetList(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       dispatch(toggleLoading('widgets'));
       resolve();
@@ -123,6 +127,7 @@ export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
         dispatch(setWidgetsTotal(json.metaData.totalItems));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -141,6 +146,7 @@ export const sendPostWidgets = widgetObject => dispatch =>
           ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -159,6 +165,7 @@ export const sendPutWidgets = widgetObject => dispatch =>
           ));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

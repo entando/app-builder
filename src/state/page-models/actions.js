@@ -63,6 +63,7 @@ export const fetchPageModels = (page = { page: 1, pageSize: 10 }, params = '') =
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('pageModels'));
           resolve();
         }
@@ -79,6 +80,7 @@ export const fetchPageModelsTotal = () => dispatch => (
           dispatch(setPageModelsTotal(data.metaData.totalItems));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -116,6 +118,7 @@ export const fetchPageModel = pageModelCode => dispatch => (
           resolve(data);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           reject(data);
         }
         dispatch(toggleLoading('pageModel'));
@@ -192,6 +195,7 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
             dispatch(setPage(json.metaData));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           dispatch(toggleLoading('references'));
           resolve();

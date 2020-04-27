@@ -27,6 +27,7 @@ export const fetchDataModelListPaged = (page = { page: 1, pageSize: 10 }, params
         dispatch(setPage(json.metaData));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       dispatch(toggleLoading('dataModel'));
       resolve();
@@ -41,6 +42,7 @@ export const fetchDataModel = dataModelId => dispatch => new Promise((resolve) =
         dispatch(initialize('dataModel', json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });

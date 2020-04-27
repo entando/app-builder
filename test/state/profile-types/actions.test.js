@@ -187,8 +187,9 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPutProfileType(PROFILE_TYPES)).then(() => {
           expect(putProfileType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -211,8 +212,9 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(sendPostRefreshProfileType(1)).then(() => {
           expect(postRefreshProfileType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -259,8 +261,9 @@ describe('state/profile-types/actions ', () => {
         getProfileType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchProfileType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -296,10 +299,11 @@ describe('state/profile-types/actions ', () => {
         getProfileTypes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchProfileTypes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -320,8 +324,9 @@ describe('state/profile-types/actions ', () => {
         getAttributeFromProfileType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchAttributeFromProfileType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -401,8 +406,9 @@ describe('state/profile-types/actions ', () => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendPutAttributeFromProfileTypeMonolist('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -422,8 +428,9 @@ describe('state/profile-types/actions ', () => {
         deleteAttributeFromProfileType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendDeleteAttributeFromProfileType('AAA', 'attr')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -466,10 +473,11 @@ describe('state/profile-types/actions ', () => {
         getProfileTypeAttributes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchProfileTypeAttributes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -495,8 +503,9 @@ describe('state/profile-types/actions ', () => {
         getProfileTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchProfileTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

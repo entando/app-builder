@@ -162,10 +162,11 @@ describe('state/page-models/actions', () => {
       getPageModels.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(fetchPageModels()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -194,8 +195,9 @@ describe('state/page-models/actions', () => {
       getPageModels.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(fetchPageModelsTotal()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -266,10 +268,11 @@ describe('state/page-models/actions', () => {
       getPageModel.mockImplementation(mockApi({ errors: true }));
       store.dispatch(loadSelectedPageModel(PAGE_MODEL.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -294,10 +297,11 @@ describe('state/page-models/actions', () => {
       }).catch(() => {
         expect(getPageModel).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       });
     });
@@ -325,10 +329,11 @@ describe('state/page-models/actions', () => {
       }).catch(() => {
         expect(getPageModel).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       });
     });
@@ -421,10 +426,11 @@ describe('state/page-models/actions', () => {
       getPageReferences.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchCurrentReferencePages()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
