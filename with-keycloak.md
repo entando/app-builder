@@ -17,6 +17,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - Put `*` in valid redirect URIs.
 - Put `*` in web origin.
 - Do the same for `Clients/entando-web`
+- Also, make `entando-web` client `public`.
 - Now go to `Clients/entando-core` again, and go to a tab called `Service Accounts...`
 - You should choose a client `realm-management` from dropdown and assign `realm-admin` to the right.
 - Also, choose `entando-core` in dropdown and assign `superuser` to the right.
