@@ -23,11 +23,11 @@ class ComponentList extends Component {
   }
 
   changePage(page) {
-    this.props.fetchDEComponentsFiltered({ page, pageSize: this.props.pageSize });
+    this.props.fetchECRComponentsFiltered({ page, pageSize: this.props.pageSize });
   }
 
   changePageSize(pageSize) {
-    this.props.fetchDEComponentsFiltered({ page: 1, pageSize });
+    this.props.fetchECRComponentsFiltered({ page: 1, pageSize });
   }
 
 
@@ -80,7 +80,7 @@ class ComponentList extends Component {
 
 ComponentList.propTypes = {
   onWillMount: PropTypes.func,
-  fetchDEComponentsFiltered: PropTypes.func.isRequired,
+  fetchECRComponentsFiltered: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   viewMode: PropTypes.string,
   componentRepositoryComponents: PropTypes.arrayOf(componentType),

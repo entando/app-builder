@@ -7,7 +7,7 @@ import SidebarFilter from 'ui/component-repository/common/SidebarFilter';
 
 const CategoryFilterBody = ({ componentRepositoryCategories, intl, onChange }) => (
   <SidebarFilter
-    title={intl.formatMessage({ id: 'digitalExchange.sidebar.categoryFilterTitle' })}
+    title={intl.formatMessage({ id: 'componentRepository.sidebar.categoryFilterTitle' })}
   >
     <CheckboxGroup
       name="categories"

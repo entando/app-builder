@@ -9,7 +9,7 @@ import CategoryTabBarFilterContainer from 'ui/component-repository/CategoryTabBa
 import ComponentListContainer from 'ui/component-repository/components/list/ComponentListContainer';
 import ComponentListViewModeSwitcherContainer from 'ui/component-repository/components/common/ComponentListViewModeSwitcherContainer';
 
-import { ROUTE_DE_CONFIG_LIST } from 'app-init/router';
+import { ROUTE_ECR_CONFIG_LIST } from 'app-init/router';
 
 const ComponentListPage = () => (
   <InternalPage className="ComponentListPage">
@@ -19,7 +19,7 @@ const ComponentListPage = () => (
           <PageTitle
             titleId="componentRepository.component.list.title"
             helpId="componentRepository.component.help"
-            configLink={ROUTE_DE_CONFIG_LIST}
+            configLink={ROUTE_ECR_CONFIG_LIST}
           />
         </Col>
       </Row>
