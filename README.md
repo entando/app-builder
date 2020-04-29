@@ -59,6 +59,10 @@ For further information about Keycloak installation and configuration, see the [
 
 Current Keycloak supported version is **7.0.1**.
 
+### Deploying `app-builder` with `keycloak` locally
+
+For information how to run `app-builder` locally with `keycloak` [check this readme](https://github.com/entando/app-builder/blob/master/with-keycloak.md)
+
 ### Sample .env file
 
 ```
