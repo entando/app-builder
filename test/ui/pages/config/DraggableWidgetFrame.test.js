@@ -1,6 +1,6 @@
 import { mapDispatchToProps } from 'ui/pages/config/DraggableWidgetFrame';
 
-import { updatePageWidget, removePageWidget } from 'state/page-config/actions';
+import { configOrUpdatePageWidget, removePageWidget } from 'state/page-config/actions';
 
 jest.mock('ui/pages/config/frameDragSource', () => jest.fn().mockImplementation(arg => arg));
 jest.mock('ui/pages/config/frameDropTarget', () => jest.fn().mockImplementation(arg => arg));
@@ -39,9 +39,9 @@ describe('ui/pages/config/DraggableWidgetFrame', () => {
         sourceFrameId: SOURCE_FRAME_ID,
         targetFrameId: TARGET_FRAME_ID,
       });
-      expect(updatePageWidget)
+      expect(configOrUpdatePageWidget)
         .toHaveBeenCalledWith(SOURCE_WIDGET_ID, SOURCE_FRAME_ID, TARGET_FRAME_ID, 'pageCode');
-      expect(dispatchMock).toHaveBeenCalledWith('updatePageWidget__result');
+      expect(dispatchMock).toHaveBeenCalledWith('configOrUpdatePageWidget__result');
     });
 
     it('onClickDelete will dispatch "removePageWidget" action', () => {
