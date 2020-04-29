@@ -3,7 +3,7 @@ import { cloneDeep, isEqual } from 'lodash';
 
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
-import { getSelectedPageModelCellMap, getSelectedPageModelMainFrame, getSelectedPageModelDefaultConfig } from 'state/page-models/selectors';
+import { getSelectedPageTemplateCellMap, getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
@@ -52,9 +52,9 @@ export const makeGetSelectedPagePublishedConfig = pageCode => createSelector(
 );
 
 
-// the page model struct, enriched with infos about each column (frame, widget)
+// the page template struct, enriched with infos about each column (frame, widget)
 export const makeGetPageConfigCellMap = params => createSelector(
-  [getConfigMap, getPublishedConfigMap, getWidgetsMap, getSelectedPageModelCellMap,
+  [getConfigMap, getPublishedConfigMap, getWidgetsMap, getSelectedPageTemplateCellMap,
     getLocale],
   (configMap, publishedConfigMap, widgetsMap, cellMap, locale) => {
     const { pageCode } = params;
@@ -95,7 +95,7 @@ export const makeGetPageConfigCellMap = params => createSelector(
 );
 
 export const makeGetPageIsOnTheFly = pageCode => createSelector(
-  [makeGetSelectedPageConfig(pageCode), getSelectedPageModelMainFrame],
+  [makeGetSelectedPageConfig(pageCode), getSelectedPageTemplateMainFrame],
   (draftConfig, mainFrame) => {
     if (!draftConfig || !mainFrame) {
       return false;
@@ -116,6 +116,6 @@ export const makeGetSelectedPageDiffersFromPublished = pageCode => createSelecto
 );
 
 export const makeGetSelectedPageConfigMatchesDefault = pageCode => createSelector(
-  [makeGetSelectedPageConfig(pageCode), getSelectedPageModelDefaultConfig],
+  [makeGetSelectedPageConfig(pageCode), getSelectedPageTemplateDefaultConfig],
   (draftConfig, defaultConfig) => isEqual(draftConfig, defaultConfig),
 );

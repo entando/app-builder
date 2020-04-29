@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
-import { CELL_MAP } from 'test/mocks/page-models/complex';
+import { CELL_MAP } from 'test/mocks/page-templates/complex';
 
 const ROOT_KEY = Object.keys(CELL_MAP).find(key => key.match(/^root/));
 const NO_ROOT_CELL_MAP = { ...CELL_MAP };
@@ -12,7 +12,7 @@ delete NO_ROOT_CELL_MAP[ROOT_KEY];
 describe('PageConfigGrid', () => {
   let component;
 
-  describe('with COMPLEX page model', () => {
+  describe('with COMPLEX page template', () => {
     beforeEach(() => {
       component = shallow(<PageConfigGrid cellMap={CELL_MAP} />);
     });
@@ -30,7 +30,7 @@ describe('PageConfigGrid', () => {
     });
   });
 
-  describe('with no page model', () => {
+  describe('with no page template', () => {
     beforeEach(() => {
       component = shallow(<PageConfigGrid />);
     });
@@ -40,7 +40,7 @@ describe('PageConfigGrid', () => {
     });
   });
 
-  describe('with a page model with no root (wrong)', () => {
+  describe('with a page template with no root (wrong)', () => {
     it('throws an error', () => {
       expect(() => {
         shallow(<PageConfigGrid cellMap={NO_ROOT_CELL_MAP} />);

@@ -8,7 +8,7 @@ import PageForm from 'ui/pages/common/PageForm';
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
-import { getPageModelsList } from 'state/page-models/selectors';
+import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
 import { sendPostPage, loadSelectedPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -19,7 +19,7 @@ import getSearchParam from 'helpers/getSearchParam';
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
-  pageModels: getPageModelsList(state),
+  pageTemplates: getPageTemplatesList(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],

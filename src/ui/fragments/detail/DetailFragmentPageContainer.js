@@ -19,7 +19,7 @@ export const mapDispatchToProps = dispatch => ({
     history.push(routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: code }));
   },
   referencesFragments: item => (item),
-  referencesPageModels: item => (item),
+  referencesPageTemplates: item => (item),
 
 });
 

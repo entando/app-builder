@@ -42,7 +42,7 @@ class UxPatterns extends Component {
           </AggregateStatusCount>
           <span className="separator" />
           <AggregateStatusCount>
-            <b>{this.props.pageModels}</b> <FormattedMessage id="menu.pageModels" />
+            <b>{this.props.pageTemplates}</b> <FormattedMessage id="menu.pageTemplates" />
           </AggregateStatusCount>
         </CardBody>
       </Card>
@@ -53,7 +53,7 @@ class UxPatterns extends Component {
 UxPatterns.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   widgets: PropTypes.number.isRequired,
-  pageModels: PropTypes.number.isRequired,
+  pageTemplates: PropTypes.number.isRequired,
 };
 
 export default UxPatterns;

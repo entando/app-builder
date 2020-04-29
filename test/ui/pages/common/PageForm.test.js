@@ -6,13 +6,13 @@ import { shallow } from 'enzyme';
 import { PageFormBody } from 'ui/pages/common/PageForm';
 import { LIST_GROUPS_OK as GROUPS } from 'test/mocks/groups';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
-import { GET_LIST_RESPONSE } from 'test/mocks/pageModels';
+import { GET_LIST_RESPONSE } from 'test/mocks/pageTemplates';
 import { getContentTypes, getCharsets } from 'state/pages/selectors';
 import { mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
-const PAGE_MODELS = GET_LIST_RESPONSE.payload;
+const PAGE_TEMPLATES = GET_LIST_RESPONSE.payload;
 const CONTENT_TYPES = getContentTypes();
 const CHARSETS = getCharsets();
 const ON_WILL_MOUNT = jest.fn();
@@ -34,7 +34,7 @@ describe('PageForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
@@ -83,7 +83,7 @@ describe('PageForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
@@ -107,7 +107,7 @@ describe('PageForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
@@ -137,7 +137,7 @@ describe('PageForm', () => {
           languages={LANGUAGES}
           handleSubmit={HANDLE_SUBMIT}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
@@ -163,7 +163,7 @@ describe('PageForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}
@@ -189,7 +189,7 @@ describe('PageForm', () => {
           handleSubmit={HANDLE_SUBMIT}
           languages={LANGUAGES}
           groups={GROUPS}
-          pageModels={PAGE_MODELS}
+          pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
           selectedJoinGroups={[]}

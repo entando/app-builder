@@ -29,7 +29,7 @@ describe('WidgetTypeReferenceTable', () => {
     expect(component.find('EmptyData').exists()).toEqual(true);
   });
 
-  it('verify return Table with class PageModelReferenceTable if fragments array is not empty', () => {
+  it('verify return Table with class PageTemplateReferenceTable if fragments array is not empty', () => {
     component = buildWidgetTypeReferenceTable(WIDGET_MOCK);
     expect(component.find('Table').hasClass('WidgetTypeReferenceTable')).toEqual(true);
   });

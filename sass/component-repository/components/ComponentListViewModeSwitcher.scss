@@ -1,0 +1,14 @@
+.ComponentListViewModeSwitcher__btn {
+  border: 0;
+  background: none;
+  color: $color-ecr-list-icon;
+  font-size: 20px;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &--selected {
+    outline: none;
+    color: $color-ecr-list-icon-active;
+  }
+}

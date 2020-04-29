@@ -4,7 +4,7 @@ import {
 } from 'ui/pages/config/PageConfigPageContainer';
 
 // mocked
-import { setSelectedPageModel } from 'state/page-models/actions';
+import { setSelectedPageTemplate } from 'state/page-templates/actions';
 import {
   setSelectedPageOnTheFly,
   restoreSelectedPageConfig,
@@ -15,7 +15,7 @@ import {
   unpublishSelectedPage,
 } from 'state/pages/actions';
 
-import { getSelectedPageModelCanBeOnTheFly } from 'state/page-models/selectors';
+import { getSelectedPageTemplateCanBeOnTheFly } from 'state/page-templates/selectors';
 import {
   makeGetPageIsOnTheFly,
   makeGetSelectedPageDiffersFromPublished,
@@ -29,8 +29,8 @@ import { getLocale } from 'state/locale/selectors';
 
 import { HOMEPAGE_PAYLOAD } from 'test/mocks/pages';
 
-jest.mock('state/page-models/selectors', () => ({
-  getSelectedPageModelCanBeOnTheFly: jest.fn(),
+jest.mock('state/page-templates/selectors', () => ({
+  getSelectedPageTemplateCanBeOnTheFly: jest.fn(),
 }));
 
 jest.mock('state/page-config/selectors', () => ({
@@ -55,8 +55,8 @@ jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn().mockReturnValue({}),
 }));
 
-jest.mock('state/page-models/actions', () => ({
-  setSelectedPageModel: jest.fn().mockReturnValue('setSelectedPageModel_result'),
+jest.mock('state/page-templates/actions', () => ({
+  setSelectedPageTemplate: jest.fn().mockReturnValue('setSelectedPageTemplate_result'),
 }));
 
 jest.mock('state/page-config/actions', () => ({
@@ -88,7 +88,7 @@ describe('PageConfigPageContainer', () => {
 
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
-      getSelectedPageModelCanBeOnTheFly.mockReturnValue(true);
+      getSelectedPageTemplateCanBeOnTheFly.mockReturnValue(true);
       makeGetPageIsOnTheFly.mockReturnValue(() => true);
       makeGetSelectedPageDiffersFromPublished.mockReturnValue(() => true);
       makeGetSelectedPageConfigMatchesDefault.mockReturnValue(() => true);
@@ -155,9 +155,9 @@ describe('PageConfigPageContainer', () => {
       beforeEach(() => {
         props.onWillUnmount();
       });
-      it('dispatch setSelectedPageModel(null)', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageModel_result');
-        expect(setSelectedPageModel).toHaveBeenCalledWith(null);
+      it('dispatch setSelectedPageTemplate(null)', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('setSelectedPageTemplate_result');
+        expect(setSelectedPageTemplate).toHaveBeenCalledWith(null);
       });
     });
 

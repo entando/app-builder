@@ -28,10 +28,10 @@ import {
   ROUTE_PAGE_DETAIL,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
-  ROUTE_PAGE_MODEL_LIST,
-  ROUTE_PAGE_MODEL_ADD,
-  ROUTE_PAGE_MODEL_EDIT,
-  ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_PAGE_TEMPLATE_ADD,
+  ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -83,10 +83,10 @@ import {
   ROUTE_FILE_BROWSER_CREATE_TEXT_FILE,
   ROUTE_FILE_BROWSER_EDIT_TEXT_FILE,
   ROUTE_PLUGIN_CONFIG_PAGE,
-  ROUTE_DE_COMPONENT_LIST,
-  ROUTE_DE_CONFIG_LIST,
-  ROUTE_DE_CONFIG_EDIT,
-  ROUTE_DE_CONFIG_ADD,
+  ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_ECR_CONFIG_LIST,
+  ROUTE_ECR_CONFIG_EDIT,
+  ROUTE_ECR_CONFIG_ADD,
   ROUTE_PLUGINS,
 } from 'app-init/router';
 
@@ -109,10 +109,10 @@ import PagesClonePage from 'ui/pages/clone/PagesClonePage';
 import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
-import PageModelListPage from 'ui/page-models/list/PageModelListPage';
-import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
-import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
-import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
+import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
+import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
@@ -148,11 +148,11 @@ import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttrib
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 // component repository
-import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
-import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
-import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
-import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
-import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
+import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
 // attribute type
 import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
 import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
@@ -209,11 +209,11 @@ const getRouteComponent = () => (
     <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
     <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
     <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
-    {/* page model */}
-    <Route exact path={ROUTE_PAGE_MODEL_LIST} component={PageModelListPage} />
-    <Route path={ROUTE_PAGE_MODEL_ADD} component={PageModelAddPage} />
-    <Route path={ROUTE_PAGE_MODEL_EDIT} component={PageModelEditPage} />
-    <Route path={ROUTE_PAGE_MODEL_DETAIL} component={PageModelDetailPageContainer} />
+    {/* page template */}
+    <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
+    <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
     {/* widgets */}
     <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
     <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
@@ -278,31 +278,31 @@ const getRouteComponent = () => (
     {/* component repository */}
     <Route
       exact
-      path={ROUTE_DE_COMPONENT_LIST}
+      path={ROUTE_ECR_COMPONENT_LIST}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <ComponentListPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
       exact
-      path={ROUTE_DE_CONFIG_LIST}
+      path={ROUTE_ECR_CONFIG_LIST}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsListPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
-      path={ROUTE_DE_CONFIG_EDIT}
+      path={ROUTE_ECR_CONFIG_EDIT}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsEditPage /> : <ComponentListPageDisabled />
       )}
     />
     <Route
-      path={ROUTE_DE_CONFIG_ADD}
+      path={ROUTE_ECR_CONFIG_ADD}
       render={() => (
-      (process.env.DIGITAL_EXCHANGE_UI_ENABLED) ?
+      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsAddPage /> : <ComponentListPageDisabled />
       )}
     />

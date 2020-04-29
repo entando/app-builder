@@ -1,5 +1,5 @@
 
-import { getPageForm, getPageModelForm } from 'state/forms/selectors';
+import { getPageForm, getPageTemplateForm } from 'state/forms/selectors';
 
 jest.unmock('state/forms/selectors');
 
@@ -9,8 +9,8 @@ describe('state/forms/selectors', () => {
     expect(result.form).toBe('page');
   });
 
-  it('getPageModelForm should get the "pageModel" form data', () => {
-    const result = getPageModelForm({});
-    expect(result.form).toBe('pageModel');
+  it('getPageTemplateForm should get the "pageTemplate" form data', () => {
+    const result = getPageTemplateForm({});
+    expect(result.form).toBe('pageTemplate');
   });
 });

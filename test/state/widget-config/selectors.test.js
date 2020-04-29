@@ -1,31 +1,31 @@
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 
-import { getSelectedPageModel } from 'state/page-models/selectors';
-import { PAYLOAD as PAGE_MODEL } from 'test/mocks/page-models/complex';
+import { getSelectedPageTemplate } from 'state/page-templates/selectors';
+import { PAYLOAD as PAGE_TEMPLATE } from 'test/mocks/page-templates/complex';
 
 
-jest.mock('state/page-models/selectors', () => ({
-  getSelectedPageModel: jest.fn(),
+jest.mock('state/page-templates/selectors', () => ({
+  getSelectedPageTemplate: jest.fn(),
 }));
 
 const FRAME_POS = '0';
 
 
 describe('state/widget-config/selectors', () => {
-  describe('if there is a selected page model and a framePos route parameter', () => {
+  describe('if there is a selected page template and a framePos route parameter', () => {
     beforeEach(() => {
-      getSelectedPageModel.mockReturnValue(PAGE_MODEL);
+      getSelectedPageTemplate.mockReturnValue(PAGE_TEMPLATE);
     });
 
     it('makeGetWidgetConfigFrameName(frame)(state) returns the frame name', () => {
       const result = makeGetWidgetConfigFrameName(FRAME_POS)({});
-      expect(result).toBe(PAGE_MODEL.configuration.frames[0].descr);
+      expect(result).toBe(PAGE_TEMPLATE.configuration.frames[0].descr);
     });
   });
 
   describe('if there no framePos route parameter', () => {
     beforeEach(() => {
-      getSelectedPageModel.mockReturnValue(PAGE_MODEL);
+      getSelectedPageTemplate.mockReturnValue(PAGE_TEMPLATE);
     });
 
     it('makeGetWidgetConfigFrameName(frame)(state) returns empty string', () => {
@@ -34,9 +34,9 @@ describe('state/widget-config/selectors', () => {
     });
   });
 
-  describe('if there no selected page model', () => {
+  describe('if there no selected page template', () => {
     beforeEach(() => {
-      getSelectedPageModel.mockReturnValue(null);
+      getSelectedPageTemplate.mockReturnValue(null);
     });
 
     it('makeGetWidgetConfigFrameName(frame)(state) returns empty string', () => {

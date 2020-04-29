@@ -31,7 +31,7 @@ string used for the client id during the OAUTH2 authentication process.
 #### `CLIENT_SECRET` (string, default `client_secret`)
 string used for the client secret during the OAUTH2 authentication process.
 
-#### `DIGITAL_EXCHANGE_UI_ENABLED` (boolean, default: `false`)
+#### `COMPONENT_REPOSITORY_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Component Repository (former Digital Exchange) should be enabled or not.
 
 #### `KEYCLOAK_ENABLED` (boolean, default: `false`)
@@ -58,6 +58,10 @@ That means, for instance, if `DOMAIN`=https://my.entando.com, `KEYCLOAK_ENABLED`
 For further information about Keycloak installation and configuration, see the [official Keycloak website](https://www.keycloak.org/archive/documentation-7.0.html).
 
 Current Keycloak supported version is **7.0.1**.
+
+### Deploying `app-builder` with `keycloak` locally
+
+For information how to run `app-builder` locally with `keycloak` [check this readme](https://github.com/entando/app-builder/blob/master/with-keycloak.md)
 
 ### Sample .env file
 

@@ -7,7 +7,7 @@ import { mockApi, mockThunk } from 'test/testUtils';
 import { history } from 'app-init/router';
 import { putPageWidget } from 'api/pages';
 import { loadSelectedPage } from 'state/pages/actions';
-import { loadSelectedPageModel } from 'state/page-models/actions';
+import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { loadSelectedWidget } from 'state/widgets/actions';
 
 
@@ -21,7 +21,7 @@ const WIDGET_CONFIG = {
 };
 const WIDGET = { code: 'widget_code' };
 const PAGE = { code: 'page_code', pageModel: 'page_model_code' };
-const PAGE_MODEL = { code: 'page_model_code' };
+const PAGE_TEMPLATE = { code: 'page_model_code' };
 
 jest.mock('api/pages', () => ({
   putPageWidget: jest.fn(),
@@ -31,8 +31,8 @@ jest.mock('state/pages/actions', () => ({
   loadSelectedPage: jest.fn(),
 }));
 
-jest.mock('state/page-models/actions', () => ({
-  loadSelectedPageModel: jest.fn(),
+jest.mock('state/page-templates/actions', () => ({
+  loadSelectedPageTemplate: jest.fn(),
 }));
 
 jest.mock('state/widgets/actions', () => ({
@@ -51,7 +51,7 @@ describe('state/widget-config/actions', () => {
     jest.clearAllMocks();
     putPageWidget.mockImplementation(mockApi({ payload: WIDGET_CONFIG }));
     loadSelectedPage.mockImplementation(mockThunk(PAGE));
-    loadSelectedPageModel.mockImplementation(mockThunk(PAGE_MODEL));
+    loadSelectedPageTemplate.mockImplementation(mockThunk(PAGE_TEMPLATE));
     loadSelectedWidget.mockImplementation(mockThunk(WIDGET));
     store = mockStore();
   });
@@ -82,30 +82,30 @@ describe('state/widget-config/actions', () => {
   });
 
   describe('initWidgetConfigPage', () => {
-    it('if there is no selected page, do not load selected page model and widget', (done) => {
+    it('if there is no selected page, do not load selected page template and widget', (done) => {
       loadSelectedPage.mockImplementation(mockThunk(null));
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
         expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
-        expect(loadSelectedPageModel).not.toHaveBeenCalled();
+        expect(loadSelectedPageTemplate).not.toHaveBeenCalled();
         expect(loadSelectedWidget).not.toHaveBeenCalled();
         done();
       }).catch(done.fail);
     });
 
-    it('if there is no selected page model, do not load selected widget', (done) => {
-      loadSelectedPageModel.mockImplementation(mockThunk(null));
+    it('if there is no selected page template, do not load selected widget', (done) => {
+      loadSelectedPageTemplate.mockImplementation(mockThunk(null));
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
         expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
-        expect(loadSelectedPageModel).toHaveBeenCalledWith(PAGE.pageModel);
+        expect(loadSelectedPageTemplate).toHaveBeenCalledWith(PAGE.pageModel);
         expect(loadSelectedWidget).not.toHaveBeenCalled();
         done();
       }).catch(done.fail);
     });
 
-    it('if there are selected page and page model, load selected widget', (done) => {
+    it('if there are selected page and page template, load selected widget', (done) => {
       store.dispatch(initWidgetConfigPage(pageCode, widgetCode)).then(() => {
         expect(loadSelectedPage).toHaveBeenCalledWith(pageCode);
-        expect(loadSelectedPageModel).toHaveBeenCalledWith(PAGE.pageModel);
+        expect(loadSelectedPageTemplate).toHaveBeenCalledWith(PAGE.pageModel);
         expect(loadSelectedWidget).toHaveBeenCalledWith(widgetCode);
         done();
       }).catch(done.fail);

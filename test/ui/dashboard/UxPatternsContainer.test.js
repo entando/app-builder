@@ -2,26 +2,26 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/dashboard/UxPatternsContainer';
 import { fetchWidgetsTotal } from 'state/widgets/actions';
-import { fetchPageModelsTotal } from 'state/page-models/actions';
+import { fetchPageTemplatesTotal } from 'state/page-templates/actions';
 
 const TEST_STATE = {
   widgets: { total: 5 },
-  pageModels: { total: 2 },
+  pageTemplates: { total: 2 },
 };
 
 jest.mock('state/widgets/actions', () => ({
   fetchWidgetsTotal: jest.fn(),
 }));
 
-jest.mock('state/page-models/actions', () => ({
-  fetchPageModelsTotal: jest.fn(),
+jest.mock('state/page-templates/actions', () => ({
+  fetchPageTemplatesTotal: jest.fn(),
 }));
 
 describe('UxPatternsContainer', () => {
-  it('maps widgets and pageModels properties', () => {
+  it('maps widgets and pageTemplates properties', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       widgets: 5,
-      pageModels: 2,
+      pageTemplates: 2,
     });
   });
 
@@ -39,7 +39,7 @@ describe('UxPatternsContainer', () => {
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
       expect(fetchWidgetsTotal).toHaveBeenCalled();
-      expect(fetchPageModelsTotal).toHaveBeenCalled();
+      expect(fetchPageTemplatesTotal).toHaveBeenCalled();
     });
   });
 });
