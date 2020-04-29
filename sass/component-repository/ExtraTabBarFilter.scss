@@ -1,0 +1,14 @@
+.ExtraTabBarFilter {
+  // sass-lint:disable force-element-nesting, class-name-format  
+  .nav-tabs.nav-justified > li > a,
+  .nav-tabs.nav-justified > .active > a {
+    padding: 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: $color-ecr-component-text-grey;
+  }
+
+  .nav-tabs.nav-justified > li > a:hover {
+    background-color: $color-ecr-component-tab-bar-bg-grey;
+  }
+}

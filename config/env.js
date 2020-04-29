@@ -78,7 +78,7 @@ function getClientEnvironment(publicUrl) {
         DOMAIN: process.env.DOMAIN || null,
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
-        DIGITAL_EXCHANGE_UI_ENABLED: process.env.DIGITAL_EXCHANGE_UI_ENABLED === 'true',
+        COMPONENT_REPOSITORY_UI_ENABLED: process.env.COMPONENT_REPOSITORY_UI_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
       },

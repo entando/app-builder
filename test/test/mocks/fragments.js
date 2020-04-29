@@ -10,8 +10,8 @@ export const GET_FRAGMENT_OK =
   fragments: [{
     code: 'fragmentCode',
   }],
-  pageModels: [{
-    code: 'pageModelCode',
+  pageTemplates: [{
+    code: 'pageTemplateCode',
     name: 'My Page Model',
   }],
   defaultGuiCode: '<div></div>',

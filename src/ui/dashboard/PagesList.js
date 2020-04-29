@@ -77,7 +77,7 @@ class PagesList extends Component {
           <thead>
             <tr>
               <th width="32%"><FormattedMessage id="app.name" /></th>
-              <th width="20%"><FormattedMessage id="pages.pageForm.pageModel" /></th>
+              <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
               <th><FormattedMessage id="dashboard.numberWidgets" /></th>
               <th className="text-center" width="10%">
                 <FormattedMessage id="pageTree.status" />

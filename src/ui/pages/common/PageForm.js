@@ -39,7 +39,7 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageModels,
+      intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode,
     } = this.props;
@@ -50,8 +50,8 @@ export class PageFormBody extends Component {
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
 
-    const pageModelsWithEmpty =
-      [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageModels);
+    const pageTemplatesWithEmpty =
+      [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
 
     const groupsWithEmpty =
       [{ code: '', name: intl.formatMessage(msgs.chooseAnOption) }].concat(groups);
@@ -149,12 +149,12 @@ export class PageFormBody extends Component {
                 validate={[required]}
                 label={
                   <FormLabel
-                    labelId="pages.pageForm.pageModel"
-                    helpId="pages.pageForm.pageModelHelp"
+                    labelId="pages.pageForm.pageTemplate"
+                    helpId="pages.pageForm.pageTemplateHelp"
                     required
                   />
                 }
-                options={pageModelsWithEmpty}
+                options={pageTemplatesWithEmpty}
                 optionValue="code"
                 optionDisplayName="descr"
               />
@@ -329,7 +329,7 @@ PageFormBody.propTypes = {
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
-  pageModels: PropTypes.arrayOf(PropTypes.shape({
+  pageTemplates: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     descr: PropTypes.string.isRequired,
   })).isRequired,

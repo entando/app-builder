@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 
-import { getSelectedPageModel } from 'state/page-models/selectors';
+import { getSelectedPageTemplate } from 'state/page-templates/selectors';
 
 // eslint-disable-next-line import/prefer-default-export
 export const makeGetWidgetConfigFrameName = framePos => createSelector(
-  [getSelectedPageModel],
-  (selectedPageModel) => {
-    if (selectedPageModel) {
+  [getSelectedPageTemplate],
+  (selectedPageTemplate) => {
+    if (selectedPageTemplate) {
       if (framePos) {
-        return selectedPageModel.configuration.frames[framePos].descr;
+        return selectedPageTemplate.configuration.frames[framePos].descr;
       }
     }
     return '';

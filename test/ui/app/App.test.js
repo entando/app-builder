@@ -37,19 +37,19 @@ import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
-import PageModelAddPage from 'ui/page-models/add/PageModelAddPage';
-import PageModelEditPage from 'ui/page-models/edit/PageModelEditPage';
-import PageModelDetailPageContainer from 'ui/page-models/detail/PageModelDetailPageContainer';
+import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
+import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 // component repository
-import ComponentListPage from 'ui/digital-exchange/components/list/ComponentListPage';
-import ComponentListPageDisabled from 'ui/digital-exchange/components/list/ComponentListPageDisabled';
-import SettingsListPage from 'ui/digital-exchange/settings/list/SettingsListPage';
-import SettingsEditPage from 'ui/digital-exchange/settings/edit/SettingsEditPage';
-import SettingsAddPage from 'ui/digital-exchange/settings/add/SettingsAddPage';
+import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
+import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
+import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
+import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
+import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
 
 import {
   ROUTE_HOME,
@@ -82,18 +82,18 @@ import {
   ROUTE_GROUP_ADD,
   ROUTE_GROUP_EDIT,
   ROUTE_LABELS_AND_LANGUAGES,
-  ROUTE_PAGE_MODEL_ADD,
-  ROUTE_PAGE_MODEL_EDIT,
-  ROUTE_PAGE_MODEL_DETAIL,
+  ROUTE_PAGE_TEMPLATE_ADD,
+  ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_FILE_BROWSER,
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGINS,
   ROUTE_PLUGIN_CONFIG_PAGE,
   // component repository
-  ROUTE_DE_COMPONENT_LIST,
-  ROUTE_DE_CONFIG_LIST,
-  ROUTE_DE_CONFIG_EDIT,
-  ROUTE_DE_CONFIG_ADD,
+  ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_ECR_CONFIG_LIST,
+  ROUTE_ECR_CONFIG_EDIT,
+  ROUTE_ECR_CONFIG_ADD,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/testUtils';
 
@@ -276,19 +276,19 @@ describe('App', () => {
     expect(component.find(LabelsAndLanguagesPageContainer).exists()).toBe(true);
   });
 
-  it('route to add page model page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_ADD);
-    expect(component.find(PageModelAddPage).exists()).toBe(true);
+  it('route to add page template page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_ADD);
+    expect(component.find(PageTemplateAddPage).exists()).toBe(true);
   });
 
-  it('route to edit page model page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_EDIT);
-    expect(component.find(PageModelEditPage).exists()).toBe(true);
+  it('route to edit page template page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_EDIT);
+    expect(component.find(PageTemplateEditPage).exists()).toBe(true);
   });
 
-  it('route to page model detail page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_MODEL_DETAIL);
-    expect(component.find(PageModelDetailPageContainer).exists()).toBe(true);
+  it('route to page template detail page', () => {
+    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_DETAIL);
+    expect(component.find(PageTemplateDetailPageContainer).exists()).toBe(true);
   });
 
   it('route to page file browser page', () => {
@@ -314,53 +314,53 @@ describe('App', () => {
   describe('component repository', () => {
     beforeAll(() => {
       jest.resetModules();
-      delete process.env.DIGITAL_EXCHANGE_UI_ENABLED;
+      delete process.env.COMPONENT_REPOSITORY_UI_ENABLED;
     });
 
     describe('component repository disabled', () => {
-      it('routes to the disable page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_COMPONENT_LIST);
+      it('routes to the disable page on ROUTE_ECR_COMPONENT_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_LIST);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_EDIT);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_EDIT', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
 
-      it('routes to the disable page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_ADD);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_ADD', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
         expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
       });
     });
 
     describe('component repository enabled', () => {
       beforeAll(() => {
-        process.env.DIGITAL_EXCHANGE_UI_ENABLED = true;
+        process.env.COMPONENT_REPOSITORY_UI_ENABLED = true;
       });
 
-      it('routes to the component list page page on ROUTE_DE_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_COMPONENT_LIST);
+      it('routes to the component list page page on ROUTE_ECR_COMPONENT_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
         expect(component.find(ComponentListPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_LIST);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_LIST', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
         expect(component.find(SettingsListPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_EDIT);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_EDIT', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
         expect(component.find(SettingsEditPage).exists()).toBe(true);
       });
 
-      it('routes to the component list page page on ROUTE_DE_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_DE_CONFIG_ADD);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_ADD', () => {
+        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
         expect(component.find(SettingsAddPage).exists()).toBe(true);
       });
     });

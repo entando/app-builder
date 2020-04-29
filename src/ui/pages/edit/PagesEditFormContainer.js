@@ -6,19 +6,19 @@ import { routeConverter } from '@entando/utils';
 import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
-import { getPageModelsList } from 'state/page-models/selectors';
+import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
-import { fetchPageModels } from 'state/page-models/actions';
+import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
-  pageModels: getPageModelsList(state),
+  pageTemplates: getPageTemplatesList(state),
   pages: getPageTreePages(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
@@ -47,7 +47,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearTree());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
-    dispatch(fetchPageModels({ page: 1, pageSize: 0 }));
+    dispatch(fetchPageTemplates({ page: 1, pageSize: 0 }));
     dispatch(handleExpandPage());
     dispatch(fetchPageForm(pageCode));
   },

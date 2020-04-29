@@ -3,7 +3,7 @@ import { routeConverter } from '@entando/utils';
 
 import { putPageWidget } from 'api/pages';
 import { loadSelectedPage } from 'state/pages/actions';
-import { loadSelectedPageModel } from 'state/page-models/actions';
+import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { fetchPageConfig, setPublishedPageConfig } from 'state/page-config/actions';
 import { loadSelectedWidget } from 'state/widgets/actions';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -37,8 +37,8 @@ export const initWidgetConfigPage = (pageCode, widgetCode) => async (dispatch) =
     return;
   }
 
-  const pageModel = await dispatch(loadSelectedPageModel(selectedPage.pageModel));
-  if (!pageModel) {
+  const pageTemplate = await dispatch(loadSelectedPageTemplate(selectedPage.pageModel));
+  if (!pageTemplate) {
     return;
   }
 
@@ -51,8 +51,8 @@ export const initWidgetConfigPageWithConfigData = (pageCode, widgetCode) => asyn
     return;
   }
 
-  const pageModel = await dispatch(loadSelectedPageModel(selectedPage.pageModel));
-  if (!pageModel) {
+  const pageTemplate = await dispatch(loadSelectedPageTemplate(selectedPage.pageModel));
+  if (!pageTemplate) {
     return;
   }
   dispatch(loadSelectedWidget(widgetCode));

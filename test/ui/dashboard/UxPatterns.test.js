@@ -6,7 +6,7 @@ import UxPatterns from 'ui/dashboard/UxPatterns';
 import { ROUTE_WIDGET_ADD } from 'app-init/router';
 import { Link } from 'react-router-dom';
 
-const component = shallow(<UxPatterns onWillMount={() => {}} widgets={2} pageModels={3} />);
+const component = shallow(<UxPatterns onWillMount={() => {}} widgets={2} pageTemplates={3} />);
 
 
 describe('UserManagement', () => {

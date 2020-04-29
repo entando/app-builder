@@ -7,7 +7,7 @@ import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
 import { getGroupsList } from 'state/groups/selectors';
-import { getPageModelsList } from 'state/page-models/selectors';
+import { getPageTemplatesList } from 'state/page-templates/selectors';
 import {
   getCharsets,
   getContentTypes,
@@ -28,8 +28,8 @@ jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
 }));
 
-jest.mock('state/page-models/selectors', () => ({
-  getPageModelsList: jest.fn().mockReturnValue('getPageModels_result'),
+jest.mock('state/page-templates/selectors', () => ({
+  getPageTemplatesList: jest.fn().mockReturnValue('getPageTemplates_result'),
 }));
 
 jest.mock('state/pages/selectors', () => ({
@@ -78,9 +78,9 @@ describe('PagesAddFormContainer', () => {
       expect(props.groups).toBe('getGroupsList_result');
     });
 
-    it('maps the "pageModels" prop with the getPageModels selector', () => {
-      expect(getPageModelsList).toHaveBeenCalledWith(STATE);
-      expect(props.pageModels).toBe('getPageModels_result');
+    it('maps the "pageTemplates" prop with the getPageTemplates selector', () => {
+      expect(getPageTemplatesList).toHaveBeenCalledWith(STATE);
+      expect(props.pageTemplates).toBe('getPageTemplates_result');
     });
 
     it('maps the "charsets" prop with the getCharsets selector', () => {

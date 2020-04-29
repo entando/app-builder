@@ -14,11 +14,11 @@ export const ROUTE_PAGE_CLONE = '/page/clone';
 export const ROUTE_PAGE_DETAIL = '/page/detail/:pageCode';
 export const ROUTE_PAGE_SETTINGS = '/page/settings';
 export const ROUTE_PAGE_CONFIG = '/page/configuration/:pageCode';
-// page model
-export const ROUTE_PAGE_MODEL_LIST = '/page-model';
-export const ROUTE_PAGE_MODEL_ADD = '/page-model/add';
-export const ROUTE_PAGE_MODEL_EDIT = '/page-model/edit/:pageModelCode';
-export const ROUTE_PAGE_MODEL_DETAIL = '/page-model/view/:pageModelCode';
+// page template
+export const ROUTE_PAGE_TEMPLATE_LIST = '/page-template';
+export const ROUTE_PAGE_TEMPLATE_ADD = '/page-template/add';
+export const ROUTE_PAGE_TEMPLATE_EDIT = '/page-template/edit/:pageTemplateCode';
+export const ROUTE_PAGE_TEMPLATE_DETAIL = '/page-template/view/:pageTemplateCode';
 // widgets
 export const ROUTE_WIDGET_LIST = '/widget';
 export const ROUTE_WIDGET_ADD = '/widget/add';
@@ -81,10 +81,10 @@ export const ROUTE_FILE_BROWSER_CREATE_FOLDER = '/file-browser/create-folder';
 export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = '/file-browser/create-text-file';
 export const ROUTE_FILE_BROWSER_EDIT_TEXT_FILE = '/file-browser/edit/:filename';
 // component repository
-export const ROUTE_DE_COMPONENT_LIST = '/digital-exchange';
-export const ROUTE_DE_CONFIG_LIST = '/digital-exchange/configuration';
-export const ROUTE_DE_CONFIG_EDIT = '/digital-exchange/configuration/edit/:server';
-export const ROUTE_DE_CONFIG_ADD = '/digital-exchange/configuration/add';
+export const ROUTE_ECR_COMPONENT_LIST = '/component-repository';
+export const ROUTE_ECR_CONFIG_LIST = '/component-repository/configuration';
+export const ROUTE_ECR_CONFIG_EDIT = '/component-repository/configuration/edit/:server';
+export const ROUTE_ECR_CONFIG_ADD = '/component-repository/configuration/add';
 // plugins
 export const ROUTE_PLUGIN_CONFIG_PAGE = '/plugins/config/:id';
 export const ROUTE_PLUGINS = '/plugins';
