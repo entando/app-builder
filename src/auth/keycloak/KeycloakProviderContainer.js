@@ -3,7 +3,6 @@ import Keycloak from 'keycloak-js';
 import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
-import { clearCurrentUserAuth } from 'state/current-user-auth/actions';
 
 const keycloakConfig = get(window, 'env.KEYCLOAK_JSON', process.env.KEYCLOAK_JSON);
 const keycloak = new Keycloak(keycloakConfig);
@@ -31,7 +30,6 @@ export const mapDispatchToProps = dispatch => ({
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshError':
-        dispatch(clearCurrentUserAuth());
         keycloak.logout();
         break;
       default:
