@@ -22,15 +22,18 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - You should choose a client `realm-management` from dropdown and assign `realm-admin` to the right.
 - Also, choose `entando-core` in dropdown and assign `superuser` to the right.
 - Now restart the keycloak server.
+- Go to `Users` and add a new user that you will be using during `app-builder` login.
 ### Setup entando-de-app
 - Clone: https://github.com/entando/entando-de-app
-- Open `pom.xml` file and edit lines `103`, `104` and `105`:
+- Open `pom.xml` file and edit lines `101`, `102`, `103`, `104` and `105`:
 ```
+<keycloak.enabled>true</keycloak.enabled>
+<keycloak.auth.url>http://localhost:8081/auth</keycloak.auth.url>
 <keycloak.realm>entando-development</keycloak.realm>
 <keycloak.client.id>entando-core</keycloak.client.id>
 <keycloak.client.secret>YOUR SECRET HERE from KEYCLOAK</keycloak.client.secret>
 ```
-As for secret you need to go to keycloak , then go to `Clients/entando-core` and click `Credentials` tab, there you will see a secret and put that secret into `pom.xml` . As for other two lines, you can keep them same as in the snippet above.
+As for secret you need to go to keycloak , then go to `Clients/entando-core` and click `Credentials` tab, there you will see a secret and put that secret into `pom.xml` . As for other lines, you can keep them same as in the snippet above.
 - Now run entando-de-app via running: `mvn clean package jetty:run -Pjetty-local -Pderby -Pkeycloak`
 ### Setup app-builder
 - Clone app-builder from: https://github.com/entando/app-builder
@@ -43,4 +46,4 @@ USE_MOCKS=false
 DOMAIN=http://localhost:8080/entando-de-app
 KEYCLOAK_ENABLED=true
 ```
-- Navigate to: `localhost:3000` and try to log in with user(id/pass) `admin/adminadmin` or `admin/admin`
+- Navigate to: `localhost:3000` and try to log in with user you created in the last step of `Configure clients`
