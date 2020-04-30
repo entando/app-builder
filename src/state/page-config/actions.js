@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
@@ -101,6 +101,7 @@ export const fetchPageConfig = (pageCode, status) =>
             return resolve(json.payload);
           }
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           return resolve();
         }).catch((err) => { dispatch(toggleLoading('pageConfig')); reject(err); }))
       .catch((err) => { dispatch(toggleLoading('pageConfig')); reject(err); });
@@ -123,6 +124,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
     if (errors && errors.length) {
       const translatedErrors = errors.map(({ id, values }) => ({ id, values }));
       dispatch(addErrors(translatedErrors));
+      errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       return;
     }
 

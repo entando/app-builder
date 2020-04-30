@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import {
   setStatus,
@@ -56,8 +56,9 @@ describe('state/reload-configuration/actions', () => {
       store.dispatch(sendReloadConf()).then(() => {
         expect(reloadConf).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });

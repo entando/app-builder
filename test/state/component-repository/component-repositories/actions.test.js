@@ -162,8 +162,9 @@ describe('state/component-repository/component-repositories/actions', () => {
       getComponentRepository.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchComponentRepository(12)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
 
         done();
       }).catch(done.fail);

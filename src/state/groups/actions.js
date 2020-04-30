@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
   getGroups,
@@ -63,6 +63,7 @@ export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => di
         resolve();
       } else {
         dispatch(addErrors(data.errors.map(err => err.message)));
+        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         dispatch(toggleLoading('groups'));
         resolve();
       }
@@ -78,6 +79,7 @@ export const fetchGroupsTotal = () => dispatch => (
           dispatch(setGroupsTotal(data.metaData.totalItems));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -94,6 +96,7 @@ export const fetchGroup = groupCode => dispatch => (
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
       });
@@ -110,6 +113,7 @@ export const sendPutGroup = groupData => dispatch => (
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
       });
@@ -126,6 +130,7 @@ export const sendPostGroup = groupData => dispatch => (
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
       });
@@ -142,6 +147,7 @@ export const sendDeleteGroup = groupCode => dispatch => (
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
       });
@@ -169,6 +175,7 @@ export const fetchReferences = (referenceKey, groupname, page = { page: 1, pageS
             dispatch(setPage(json.metaData));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           dispatch(toggleLoading('references'));
           resolve();
@@ -195,6 +202,7 @@ export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => 
           });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

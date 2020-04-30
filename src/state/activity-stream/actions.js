@@ -1,5 +1,5 @@
 import { routeConverter } from '@entando/utils';
-import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import {
   getActivityStream,
@@ -46,6 +46,7 @@ export const fetchNotifications = (page = { page: 1, pageSize: 10 }) => dispatch
           dispatch(addNotifications(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('activityStream'));
         resolve();
@@ -91,6 +92,7 @@ const wrapApiActivityStream = apiCall => (...params) => dispatch => (
           dispatch(updateNotification(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -113,6 +115,7 @@ export const sendPostActivityStreamLike = id => dispatch => (
           dispatch(addToast({ id: 'activityStream.like' }, TOAST_SUCCESS));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

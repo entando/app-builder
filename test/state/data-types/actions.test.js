@@ -267,8 +267,9 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchDataTypeReferenceStatus(DATA_TYPE_REFERENCES_STATUS)).then(() => {
           expect(getDataTypesStatus).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -291,8 +292,9 @@ describe('state/data-types/actions ', () => {
         store.dispatch(sendPostDataTypeReferenceStatus({ datatypesCodes })).then(() => {
           expect(postDataTypesStatus).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -364,8 +366,9 @@ describe('state/data-types/actions ', () => {
         store.dispatch(sendPutDataType(DATA_TYPES)).then(() => {
           expect(putDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -412,8 +415,9 @@ describe('state/data-types/actions ', () => {
         getDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -449,10 +453,11 @@ describe('state/data-types/actions ', () => {
         getDataTypes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -477,8 +482,9 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchAttributeFromDataType('AAA')).then(() => {
           expect(getAttributeFromDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -579,8 +585,9 @@ describe('state/data-types/actions ', () => {
         deleteAttributeFromDataType.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendDeleteAttributeFromDataType('AAA', 'attr')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -618,10 +625,11 @@ describe('state/data-types/actions ', () => {
         getDataTypeAttributes.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchDataTypeAttributes()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -712,8 +720,9 @@ describe('state/data-types/actions ', () => {
         moveAttributeUp.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendMoveAttributeUp({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -734,8 +743,9 @@ describe('state/data-types/actions ', () => {
         moveAttributeDown.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(sendMoveAttributeDown({ attributeCode: 'attr_code', attributeIndex: 1 })).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

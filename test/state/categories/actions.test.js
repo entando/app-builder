@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 import {
   setCategories,
   toggleCategoryExpanded,
@@ -249,8 +249,9 @@ describe('state/categories/actions', () => {
       const genericApi = jest.fn().mockImplementation(mockApi({ errors: true }));
       return store.dispatch(wrapApiCall(genericApi)(BODY_OK)).catch((e) => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         expect(e).toHaveProperty('errors');
         e.errors.forEach((error, index) => {
           expect(error.message).toEqual(actions[0].payload.errors[index]);

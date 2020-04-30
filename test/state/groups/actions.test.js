@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { initialize } from 'redux-form';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   setGroups,
@@ -179,10 +179,11 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchGroups()).then(() => {
         expect(getGroups).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -203,8 +204,9 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchGroupsTotal()).then(() => {
         expect(getGroups).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -225,8 +227,9 @@ describe('state/groups/actions', () => {
       store.dispatch(sendPostGroup(BODY_OK)).then(() => {
         expect(postGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -251,8 +254,9 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchGroup()).then(() => {
         expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -273,8 +277,9 @@ describe('state/groups/actions', () => {
       store.dispatch(sendPutGroup()).then(() => {
         expect(putGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -298,8 +303,9 @@ describe('state/groups/actions', () => {
       store.dispatch(sendDeleteGroup()).then(() => {
         expect(deleteGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -320,8 +326,9 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchCurrentPageGroupDetail()).then(() => {
         expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -346,10 +353,11 @@ describe('state/groups/actions', () => {
       store.dispatch(fetchReferences()).then(() => {
         expect(getReferences).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

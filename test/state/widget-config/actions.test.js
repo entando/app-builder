@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi, mockThunk } from 'test/testUtils';
 
@@ -73,8 +73,9 @@ describe('state/widget-config/actions', () => {
     it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
       putPageWidget.mockImplementation(mockApi({ errors: true }));
       store.dispatch(updateConfiguredPageWidget(WIDGET_CONFIG, { pageCode })).then(() => {
-        expect(store.getActions()).toHaveLength(1);
+        expect(store.getActions()).toHaveLength(2);
         expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(store.getActions()[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });

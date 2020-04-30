@@ -1,5 +1,5 @@
 import { initialize, reset } from 'redux-form';
-import { addToast, addErrors, clearErrors, TOAST_SUCCESS } from '@entando/messages';
+import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import {
   getUsers,
@@ -59,6 +59,7 @@ export const fetchUsers = (page = { page: 1, pageSize: 10 }, params = '') => dis
           dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('users'));
         resolve();
@@ -75,6 +76,7 @@ export const fetchUsersTotal = () => dispatch => (
           dispatch(setUsersTotal(json.metaData.totalItems));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -96,6 +98,7 @@ export const fetchCurrentPageUserDetail = username => dispatch => (
       } else {
         response.json().then((json) => {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('user'));
           resolve();
         });
@@ -118,6 +121,7 @@ export const fetchUserForm = username => dispatch => (
       } else {
         response.json().then((json) => {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('form'));
           resolve();
         });
@@ -136,6 +140,7 @@ export const sendPostUser = user => async (dispatch) => {
       history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -152,6 +157,7 @@ export const sendPutUser = user => dispatch => (
         } else {
           response.json().then((json) => {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
             resolve();
           });
         }
@@ -170,6 +176,7 @@ export const sendDeleteUser = username => dispatch => (
           dispatch(fetchUsers());
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -187,6 +194,7 @@ export const fetchUserAuthorities = username => async (dispatch) => {
       dispatch(initialize('autorityForm', { groupRolesCombo: json.payload }));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
     dispatch(toggleLoading('users'));
   } catch (e) {
@@ -205,6 +213,7 @@ export const sendPostUserAuthorities = (authorities, username) => async (dispatc
         history.push(ROUTE_USER_LIST);
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
     }
   } catch (e) {
@@ -220,6 +229,7 @@ export const sendPutUserAuthorities = (authorities, username) => async (dispatch
       history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -234,6 +244,7 @@ export const sendDeleteUserAuthorities = username => async (dispatch) => {
       history.push(ROUTE_USER_LIST);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -253,6 +264,7 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
       dispatch(reset('myprofile-password'));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing

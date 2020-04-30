@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { addToast, addErrors, TOAST_SUCCESS } from '@entando/messages';
+import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
 import {
@@ -17,7 +17,6 @@ import {
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
-import { TOAST_ERROR } from '@entando/messages/dist/state/messages/toasts/const';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
 import { toggleLoading } from 'state/loading/actions';
@@ -277,6 +276,7 @@ export const fetchFreePages = () => async (dispatch) => {
       dispatch(setFreePages(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -306,6 +306,7 @@ export const fetchPageSettings = () => async (dispatch) => {
       dispatch(initialize('settings', json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -324,6 +325,7 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
       ));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -371,6 +373,7 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
       ));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -435,6 +438,7 @@ export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') 
       dispatch(setPage(json.metaData));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing

@@ -96,10 +96,11 @@ describe('state/fragments/actions', () => {
       getFragments.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchFragments()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1].type).toEqual(ADD_ERRORS);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[2].type).toEqual(ADD_TOAST);
+        expect(actions[3].type).toEqual(TOGGLE_LOADING);
 
         done();
       }).catch(done.fail);
@@ -167,8 +168,9 @@ describe('state/fragments/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         getFragment.mockImplementation(mockApi({ errors: true }));
         store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
-          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()).toHaveLength(2);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(store.getActions()[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -214,8 +216,9 @@ describe('state/fragments/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         getFragmentSettings.mockImplementation(mockApi({ errors: true }));
         store.dispatch(fetchFragmentSettings()).then(() => {
-          expect(store.getActions()).toHaveLength(1);
+          expect(store.getActions()).toHaveLength(2);
           expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(store.getActions()[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

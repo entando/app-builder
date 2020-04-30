@@ -32,6 +32,7 @@ export const fetchLanguages = (page = { page: 1, pageSize: 10 }, params = '') =>
           dispatch(setLanguages(json.payload));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('languages'));
         resolve();

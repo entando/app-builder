@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { setPermissions, fetchPermissions } from 'state/permissions/actions';
 import { getPermissions } from 'api/permissions';
@@ -68,10 +68,11 @@ describe('state/permissions/actions', () => {
       store.dispatch(fetchPermissions()).then(() => {
         expect(getPermissions).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

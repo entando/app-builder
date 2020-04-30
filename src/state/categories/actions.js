@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
   getCategoryTree, getCategory, postCategory,
@@ -74,6 +74,7 @@ export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
     return json;
   }
   dispatch(addErrors(json.errors.map(e => e.message)));
+  json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
   throw json;
 };
 

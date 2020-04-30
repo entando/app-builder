@@ -205,6 +205,7 @@ export const pollECRComponentInstallStatus = component => dispatch => (
         }
         if (errors && errors.length) {
           dispatch(addErrors(errors.map(err => err.message)));
+          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve(res);
       })
@@ -223,6 +224,7 @@ export const installECRComponent = component => dispatch => (
             .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
         dispatch(toggleLoading(loadingId));
@@ -273,6 +275,7 @@ export const pollECRComponentUninstallStatus = componentId => dispatch => (
         }
         if (errors && errors.length) {
           dispatch(addErrors(errors.map(err => err.message)));
+          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve(res);
       })
@@ -291,6 +294,7 @@ export const uninstallECRComponent = componentId => dispatch => (
             .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
         dispatch(toggleLoading(loadingId));
@@ -333,6 +337,7 @@ export const fetchECRComponentDetail = id => dispatch => (
           dispatch(setSelectedECRComponent(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -350,6 +355,7 @@ export const fetchComponentUsage = id => dispatch => (
           dispatch(setComponentUsageList(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading(loadingId));
         resolve();

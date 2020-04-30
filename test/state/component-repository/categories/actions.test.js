@@ -10,7 +10,7 @@ import { getECRCategories } from 'api/component-repository/categories';
 import { SET_ECR_CATEGORIES, SET_SELECTED_ECR_CATEGORY } from 'state/component-repository/categories/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -65,10 +65,11 @@ describe('state/component-repository/categories/actions', () => {
       getECRCategories.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchECRCategories()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

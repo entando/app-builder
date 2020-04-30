@@ -1,4 +1,4 @@
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import { SET_PERMISSIONS } from 'state/permissions/types';
 import { getPermissions } from 'api/permissions';
@@ -24,6 +24,7 @@ export const fetchPermissions = (page = { page: 1, pageSize: 0 }, params = '') =
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           resolve();
         }
         dispatch(toggleLoading('permissions'));

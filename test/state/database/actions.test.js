@@ -1,7 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
 import {
@@ -73,8 +73,9 @@ const wrapErrorTest = done => (actionCall, apiCall) => (...args) => {
   store.dispatch(actionCall(...args)).then(() => {
     expect(apiCall).toHaveBeenCalled();
     const actions = store.getActions();
-    expect(actions).toHaveLength(1);
+    expect(actions).toHaveLength(2);
     expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+    expect(actions[1]).toHaveProperty('type', ADD_TOAST);
     done();
   }).catch(done.fail);
 };
@@ -210,10 +211,11 @@ describe('state/database/actions', () => {
         store.dispatch(fetchDatabaseReportBackup(DB_DUMP_CODE)).then(() => {
           expect(getReportBackup).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -258,10 +260,11 @@ describe('state/database/actions', () => {
         store.dispatch(fetchDatabaseDumpReport()).then(() => {
           expect(getDatabaseDumpReportList).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

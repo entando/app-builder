@@ -63,6 +63,7 @@ export const fetchPageTemplates = (page = { page: 1, pageSize: 10 }, params = ''
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('pageTemplates'));
           resolve();
         }
@@ -79,6 +80,7 @@ export const fetchPageTemplatesTotal = () => dispatch => (
           dispatch(setPageTemplatesTotal(data.metaData.totalItems));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -116,6 +118,7 @@ export const fetchPageTemplate = pageTemplateCode => dispatch => (
           resolve(data);
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           reject(data);
         }
         dispatch(toggleLoading('pageTemplate'));
@@ -150,6 +153,7 @@ export const updatePageTemplate = pageTemplate => dispatch => new Promise((resol
     if (!response.ok) {
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
+        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         resolve();
       });
     } else {
@@ -168,6 +172,7 @@ export const createPageTemplate = pageTemplate => dispatch => new Promise((resol
     if (!response.ok) {
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
+        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         resolve();
       });
     } else {
@@ -192,6 +197,7 @@ const fetchCurrentReference = (getApiCall, setActionCreator) =>
             dispatch(setPage(json.metaData));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           dispatch(toggleLoading('references'));
           resolve();

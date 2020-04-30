@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { isFSA } from 'flux-standard-action';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import {
   setApis,
@@ -107,8 +107,9 @@ describe('state/dashboard/actions', () => {
         store.dispatch(fetchIntegration()).then(() => {
           expect(getIntegration).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -130,8 +131,9 @@ describe('state/dashboard/actions', () => {
         store.dispatch(fetchPageStatus()).then(() => {
           expect(getPageStatus).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

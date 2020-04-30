@@ -1,7 +1,7 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { initialize } from 'redux-form';
-import { ADD_ERRORS } from '@entando/messages';
+import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 
@@ -178,7 +178,7 @@ describe('state/page-config/actions', () => {
       validatePageTemplate.mockImplementation(() => [{ id: 'message.id' }]);
       store.dispatch(initConfigPage()).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([ADD_ERRORS]);
+        expect(actionTypes).toEqual([ADD_ERRORS, ADD_TOAST]);
         done();
       }).catch(done.fail);
     });
@@ -251,7 +251,7 @@ describe('state/page-config/actions', () => {
       store.dispatch(fetchPageConfig(CURRENT_PAGE_CODE, 'draft')).then(() => {
         expect(getPageConfig).toHaveBeenCalledWith(CURRENT_PAGE_CODE, 'draft');
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([TOGGLE_LOADING, TOGGLE_LOADING, ADD_ERRORS]);
+        expect(actionTypes).toEqual([TOGGLE_LOADING, TOGGLE_LOADING, ADD_ERRORS, ADD_TOAST]);
         done();
       }).catch(done.fail);
     });

@@ -1,4 +1,4 @@
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -78,6 +78,7 @@ export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
           dispatch(setDumpTableData(json.payload.base64));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -94,6 +95,7 @@ export const fetchDatabaseReportBackup = dumpCode => dispatch => (
           dispatch(setReportBackup(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('database'));
         resolve();
@@ -117,6 +119,7 @@ const intervalStatusBackup = () => (dispatch) => {
                 dispatch(setPage(backup.metaData));
               } else {
                 dispatch(addErrors(backup.errors.map(e => e.message)));
+                backup.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
               }
             });
           }).catch(() => {});
@@ -135,6 +138,7 @@ export const fetchDatabaseDumpReport = (page = { page: 1, pageSize: 10 }) =>
           dispatch(intervalStatusBackup());
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('database'));
         resolve();
@@ -151,6 +155,7 @@ export const sendPostDatabaseStartBackup = () => dispatch => (
           history.push(ROUTE_DATABASE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -166,6 +171,7 @@ export const fetchDatabaseInitBackup = () => dispatch => (
           dispatch(setDatabaseInitBackup(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -180,6 +186,7 @@ export const sendDeleteDatabaseBackup = code => dispatch => (
           dispatch(fetchDatabaseDumpReport());
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

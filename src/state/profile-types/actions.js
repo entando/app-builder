@@ -136,6 +136,7 @@ export const fetchProfileTypeReferenceStatus = () => dispatch => new Promise((re
         dispatch(setProfileTypeReferenceStatus(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       resolve();
     });
@@ -150,6 +151,7 @@ export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch 
           history.push(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -164,6 +166,7 @@ export const sendPostRefreshProfileType = profileTypeCode => dispatch =>
           dispatch(addToast({ id: 'ProfileType.refreshed' }, TOAST_SUCCESS));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -199,6 +202,7 @@ export const sendPutProfileType = ProfileTypeObject => dispatch =>
           history.push(ROUTE_PROFILE_TYPE_LIST);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -234,6 +238,7 @@ export const fetchProfileType = profileTypeCode => dispatch => (
           dispatch(initialize('ProfileType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -252,6 +257,7 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
           dispatch(setPage(json.metaData));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('profileTypes'));
         resolve();
@@ -302,6 +308,7 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -369,6 +376,7 @@ export const sendPutAttributeFromProfileTypeMonolist = (
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         } else {
           history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
         }
@@ -387,6 +395,7 @@ export const sendDeleteAttributeFromProfileType = attributeCode => (dispatch, ge
           dispatch(removeAttribute(profileTypeCode, attributeCode));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       }).catch(() => {});
@@ -407,6 +416,7 @@ export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, para
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading('ProfileTypes'));
         resolve();
@@ -423,6 +433,7 @@ export const fetchProfileTypeAttribute = ProfileTypeAttributeCode => dispatch =>
           dispatch(setSelectedAttribute(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -443,6 +454,7 @@ export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex 
             }));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           resolve();
         });
@@ -463,6 +475,7 @@ export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeInde
             }));
           } else {
             dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
           resolve();
         });

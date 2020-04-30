@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
@@ -48,6 +48,7 @@ export const fetchLabels = (page = { page: 1, pageSize: 10 }, params = '') => di
           dispatch(setPage(json.metaData));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(toggleLoading('systemLabels'));
         }
         resolve();
@@ -64,6 +65,7 @@ export const fetchLabel = labelkey => dispatch => (
           dispatch(initialize('label', json.payload));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -81,6 +83,7 @@ export const updateLabel = label => dispatch => (
           history.push(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -98,6 +101,7 @@ export const createLabel = label => dispatch => (
           history.push(ROUTE_LABELS_AND_LANGUAGES);
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
@@ -113,6 +117,7 @@ export const removeLabel = labelCode => dispatch => (
           dispatch(removeLabelSync(labelCode));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

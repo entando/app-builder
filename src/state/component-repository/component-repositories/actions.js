@@ -70,6 +70,7 @@ export const fetchComponentRepository = (id, initForm = false) => dispatch => (
           }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });

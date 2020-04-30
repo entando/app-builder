@@ -1,5 +1,5 @@
 import { SET_ECR_CATEGORIES, SET_SELECTED_ECR_CATEGORY } from 'state/component-repository/categories/types';
-import { addErrors } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 
 import { getECRCategories } from 'api/component-repository/categories';
@@ -29,6 +29,7 @@ export const fetchECRCategories = () => dispatch => (
           dispatch(setECRCategories(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
 
         dispatch(toggleLoading(categoryLoading));
