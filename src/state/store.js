@@ -3,7 +3,10 @@ import thunk from 'redux-thunk';
 import rootReducer from 'state/rootReducer';
 import persistState from 'redux-localstorage';
 
-const composeParams = [applyMiddleware(thunk), persistState(['locale', 'currentUserAuth'])];
+const composeParams = [
+  applyMiddleware(thunk),
+  persistState(['locale', 'currentUserAuth']),
+];
 
 // enables Redux devtools extension if present
 // eslint-disable-next-line
