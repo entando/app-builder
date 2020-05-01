@@ -6,6 +6,7 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
+import { clearCurrentUserAuth } from 'state/current-user-auth/actions';
 
 const ApiManager = ({
   auth,
@@ -15,6 +16,7 @@ const ApiManager = ({
 }) => {
   const logout = (status) => {
     try {
+      store.dispatch(clearCurrentUserAuth());
       auth.logout(status);
     } catch (err) {
       // can occur when keycloak is still loading
