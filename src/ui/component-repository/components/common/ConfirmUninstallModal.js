@@ -16,7 +16,8 @@ const ConfirmUninstallModal = ({
 
   const hasUsage = info.usageList.some(componentUsage => componentUsage.usage > 0);
 
-  const usage = info.usageList.map(componentUsage => `${componentUsage.type} ${componentUsage.code}`).join(', ');
+  const usage = info.usageList.filter(componentUsage => componentUsage.usage > 0)
+    .map(componentUsage => `${componentUsage.type} ${componentUsage.code}`).join(', ');
 
   const buttons = [
     <Button bsStyle="danger" id="ConfirmUninstallModal_button" onClick={onUninstall} disabled={hasUsage}>
