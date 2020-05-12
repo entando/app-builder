@@ -207,6 +207,7 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
     return noopPromise();
   }
   const newChildren = getChildrenMap(state)[newParentCode];
+  dispatch(setPageLoading(page.code));
   return setPagePosition(pageCode, newChildren.length + 1, newParentCode)
     .then((response) => {
       if (response.ok) {
@@ -216,6 +217,7 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         });
       }
+      dispatch(setPageLoaded(page.code));
     }).catch(() => {});
 };
 
@@ -233,9 +235,11 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
     .filter(code => code !== pageCode);
   const newSiblingIndex = newSiblingChildren.indexOf(siblingCode);
   const newPosition = (moveAbove ? newSiblingIndex : newSiblingIndex + 1) + 1;
+  dispatch(setPageLoading(page.code));
   return setPagePosition(pageCode, newPosition, newParentCode)
     .then(() => {
       dispatch(movePageSync(pageCode, oldParentCode, newParentCode, newPosition));
+      dispatch(setPageLoaded(page.code));
     }).catch(() => {});
 };
 
@@ -404,6 +408,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
       ...page,
       status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
     };
+    dispatch(setPageLoading(page.code));
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
@@ -419,6 +424,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         });
       }
+      dispatch(setPageLoaded(page.code));
       resolve();
     }).catch(() => {});
   });
