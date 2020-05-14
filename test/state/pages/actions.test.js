@@ -14,13 +14,16 @@ import {
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
   setReferenceSelectedPage, clonePage, clearTree, sendPutPageSettings, sendPatchPage,
+  fetchPageTreeAll, setBatchExpanded,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
-  SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
+  SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED,
 } from 'state/pages/types';
+
+import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
 
@@ -217,6 +220,22 @@ describe('state/pages/actions', () => {
       oldParentCode: OLD_PARENT_CODE,
       newParentCode: NEW_PARENT_CODE,
     });
+  });
+
+  it('clearTree() should return a well formed action', () => {
+    const action = clearTree();
+    expect(action.type).toBe(CLEAR_TREE);
+  });
+
+  it('setBatchExpanded() should return a well formed action', () => {
+    const action = setBatchExpanded([1, 2, 3]);
+    expect(action.type).toBe(BATCH_TOGGLE_EXPANDED);
+    expect(action.payload).toEqual([1, 2, 3]);
+  });
+
+  it('collapseAll() should return a well formed action', () => {
+    const action = clearTree();
+    expect(action.type).toBe(CLEAR_TREE);
   });
 
   describe('handleExpandPage()', () => {
@@ -838,6 +857,26 @@ describe('clonePage', () => {
       expect(actions).toHaveLength(1);
       expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_CLONE);
       expect(initialize).toHaveBeenCalled();
+      done();
+    }).catch(done.fail);
+  });
+});
+
+describe('fetchPageTreeAll()', () => {
+  beforeEach(() => {
+    getStatusMap.mockReturnValue(INITIALIZED_STATE.pages.statusMap);
+    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+    getPageChildren.mockImplementation(mockApi({ payload: [CONTACTS_PAYLOAD] }));
+  });
+
+  it('when loading homepage, should download homepage and its children', (done) => {
+    const store = mockStore();
+    getStatusMap.mockReturnValue({});
+    store.dispatch(fetchPageTreeAll()).then(() => {
+      const actionTypes = store.getActions().map(action => action.type);
+      expect(actionTypes.includes(TOGGLE_LOADING)).toBe(true);
+      expect(actionTypes.includes(ADD_PAGES)).toBe(true);
+      expect(actionTypes.includes(BATCH_TOGGLE_EXPANDED)).toBe(true);
       done();
     }).catch(done.fail);
   });

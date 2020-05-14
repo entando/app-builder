@@ -10,6 +10,7 @@ getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
 
 const TEST_STATE = {
   pages: HOMEPAGE_PAYLOAD,
+  loading: {},
 };
 
 describe('ContentPagesContainer', () => {

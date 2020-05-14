@@ -17,16 +17,24 @@ import {
   clearSearchPage,
   handleExpandPage,
   initPageForm,
+  fetchPageTreeAll,
+  collapseAll,
+  clearTree,
 } from 'state/pages/actions';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import ContentPages from 'ui/pages/config/ContentPages';
+import { getLoading } from 'state/loading/selectors';
 
 export const mapStateToProps = state => ({
   pages: getPageTreePages(state),
+  loading: getLoading(state).pageTree,
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => dispatch(handleExpandPage()),
+  onWillMount: () => {
+    dispatch(clearTree());
+    dispatch(handleExpandPage());
+  },
   onExpandPage: pageCode =>
     dispatch(handleExpandPage(pageCode)),
   onClickAdd: (page) => {
@@ -66,7 +74,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clonePage(page));
     dispatch(clearSearchPage());
   },
-
+  onExpandAll: () => dispatch(fetchPageTreeAll()),
+  onCollapseAll: () => dispatch(collapseAll()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentPages);

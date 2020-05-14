@@ -8,6 +8,7 @@ const FAKE_STATE = {
     childrenMap: {},
     titlesMap: {},
   },
+  loading: {},
 };
 
 const dispatchMock = jest.fn();

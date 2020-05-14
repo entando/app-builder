@@ -23,6 +23,8 @@ import {
   clonePage,
   clearSearchPage,
   initPageForm,
+  fetchPageTreeAll,
+  collapseAll,
 } from 'state/pages/actions';
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
@@ -84,6 +86,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(movePageBelow(sourcePageCode, targetPageCode)),
   onExpandPage: pageCode =>
     dispatch(handleExpandPage(pageCode)),
+  onExpandAll: () => dispatch(fetchPageTreeAll()),
+  onCollapseAll: () => dispatch(collapseAll()),
 });
 
 

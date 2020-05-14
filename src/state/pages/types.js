@@ -12,3 +12,5 @@ export const UPDATE_PAGE = 'pages/update-page';
 export const SEARCH_PAGES = 'pages/search-pages';
 export const CLEAR_SEARCH = 'pages/clear-search';
 export const CLEAR_TREE = 'pages/clear-tree';
+export const BATCH_TOGGLE_EXPANDED = 'pages/set-all-pages-expanded';
+export const COLLAPSE_ALL = 'pages/collapse-all-pages';

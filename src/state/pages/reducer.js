@@ -14,6 +14,8 @@ import {
   SEARCH_PAGES,
   CLEAR_SEARCH,
   CLEAR_TREE,
+  BATCH_TOGGLE_EXPANDED,
+  COLLAPSE_ALL,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -156,6 +158,15 @@ const titlesMap = (state = {}, action = {}) => {
   }
 };
 
+const toggleBatchExpandedValues = (arr, toggleValue) => {
+  const newState = {};
+  arr.map((pg) => {
+    newState[pg] = { loaded: true, loading: false, expanded: toggleValue };
+    return pg;
+  });
+  return newState;
+};
+
 const statusMap = (state = {}, action = {}) => {
   switch (action.type) {
     case TOGGLE_PAGE_EXPANDED: {
@@ -182,6 +193,19 @@ const statusMap = (state = {}, action = {}) => {
     }
     case CLEAR_TREE: {
       return {};
+    }
+    case BATCH_TOGGLE_EXPANDED: {
+      const pageCodes = action.payload;
+      return toggleBatchExpandedValues(pageCodes, true);
+    }
+    case COLLAPSE_ALL: {
+      const newState = {};
+      const pageCodes = Object.keys(state);
+      pageCodes.map((p) => {
+        newState[p] = { expanded: false, loading: false, loaded: state[p].loaded };
+        return p;
+      });
+      return newState;
     }
     default: return state;
   }
