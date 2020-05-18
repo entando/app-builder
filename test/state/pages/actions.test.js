@@ -274,7 +274,7 @@ describe('state/pages/actions', () => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(setPageParent('contacts', 'service')).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toEqual([SET_PAGE_PARENT]);
+        expect(actionTypes).toEqual([SET_PAGE_LOADING, SET_PAGE_PARENT, SET_PAGE_LOADED]);
         expect(setPagePosition).toHaveBeenCalled();
         done();
       }).catch(done.fail);
@@ -302,7 +302,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 3, 'homepage');
-        expect(actions[0]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 3));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 3));
         done();
       }).catch(done.fail);
     });
@@ -312,7 +313,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('contacts', 2, 'homepage');
-        expect(actions[0]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 2));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 2));
         done();
       }).catch(done.fail);
     });
@@ -322,7 +324,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('dashboard', 'notfound')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, 'service');
-        expect(actions[0]).toEqual(movePageSync('dashboard', 'homepage', 'service', 2));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'service', 2));
         done();
       }).catch(done.fail);
     });
@@ -349,7 +352,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, 'homepage');
-        expect(actions[0]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 2));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 2));
         done();
       }).catch(done.fail);
     });
@@ -359,7 +363,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('contacts', 1, 'homepage');
-        expect(actions[0]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 1));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 1));
         done();
       }).catch(done.fail);
     });
@@ -369,7 +374,8 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('dashboard', 'notfound')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 1, 'service');
-        expect(actions[0]).toEqual(movePageSync('dashboard', 'homepage', 'service', 1));
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'service', 1));
         done();
       }).catch(done.fail);
     });
@@ -672,10 +678,12 @@ describe('publish/unpublish', () => {
       store.dispatch(publishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
-        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
-        expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
+        expect(actions).toHaveLength(5);
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[2]).toHaveProperty('type', UPDATE_PAGE);
+        expect(actions[3]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
+        expect(actions[4]).toHaveProperty('type', SET_PAGE_LOADED);
         done();
       }).catch(done.fail);
     });
@@ -685,7 +693,7 @@ describe('publish/unpublish', () => {
       store.dispatch(publishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actionsTypes = store.getActions().map(action => action.type);
-        expect(actionsTypes).toEqual([]);
+        expect(actionsTypes).toEqual([SET_PAGE_LOADING, SET_PAGE_LOADED]);
         done();
       }).catch(done.fail);
     });
@@ -706,10 +714,12 @@ describe('publish/unpublish', () => {
       store.dispatch(unpublishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', SET_SELECTED_PAGE);
-        expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
-        expect(actions[2]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
+        expect(actions).toHaveLength(5);
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE);
+        expect(actions[2]).toHaveProperty('type', UPDATE_PAGE);
+        expect(actions[3]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
+        expect(actions[4]).toHaveProperty('type', SET_PAGE_LOADED);
         done();
       }).catch(done.fail);
     });
@@ -719,7 +729,7 @@ describe('publish/unpublish', () => {
       store.dispatch(unpublishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actionsTypes = store.getActions().map(action => action.type);
-        expect(actionsTypes).toEqual([]);
+        expect(actionsTypes).toEqual([SET_PAGE_LOADING, SET_PAGE_LOADED]);
         done();
       }).catch(done.fail);
     });

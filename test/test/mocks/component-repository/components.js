@@ -129,4 +129,8 @@ export const COMPONENT_USAGE_LIST = [{
   code: 'test-fragment',
   type: 'fragment',
   usage: 0,
+}, {
+  code: 'test-page',
+  type: 'page',
+  usage: 2,
 }];
