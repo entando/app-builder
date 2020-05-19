@@ -158,14 +158,12 @@ const titlesMap = (state = {}, action = {}) => {
   }
 };
 
-const toggleBatchExpandedValues = (arr, toggleValue) => {
-  const newState = {};
-  arr.map((pg) => {
-    newState[pg] = { loaded: true, loading: false, expanded: toggleValue };
-    return pg;
-  });
-  return newState;
-};
+const toggleBatchExpandedValues = (arr, toggleValue) => arr.reduce((currentState, pageCode) => (
+  {
+    ...currentState,
+    [pageCode]: { loaded: true, loading: false, expanded: toggleValue },
+  }
+), {});
 
 const statusMap = (state = {}, action = {}) => {
   switch (action.type) {
@@ -199,13 +197,14 @@ const statusMap = (state = {}, action = {}) => {
       return toggleBatchExpandedValues(pageCodes, true);
     }
     case COLLAPSE_ALL: {
-      const newState = {};
       const pageCodes = Object.keys(state);
-      pageCodes.map((p) => {
-        newState[p] = { expanded: false, loading: false, loaded: state[p].loaded };
-        return p;
-      });
-      return newState;
+      return pageCodes.reduce((currentState, pageCode) => {
+        const { loaded } = state[pageCode];
+        return {
+          ...currentState,
+          [pageCode]: { expanded: false, loading: false, loaded },
+        };
+      }, {});
     }
     default: return state;
   }
