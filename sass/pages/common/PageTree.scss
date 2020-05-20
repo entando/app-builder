@@ -42,6 +42,16 @@
     padding: 0 10px;
     outline: 0;
   }
+
+  &__toggler {
+    display: inline-block;
+    margin-right: 30px;
+    cursor: pointer;
+
+    &--expand {
+      margin-left: 4em;
+    }
+  }
 }
 
 

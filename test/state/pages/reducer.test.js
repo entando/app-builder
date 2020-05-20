@@ -8,7 +8,7 @@ import {
 import {
   addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
-  setReferenceSelectedPage, clearTree,
+  setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded,
 } from 'state/pages/actions';
 
 const PAGES = [
@@ -290,6 +290,48 @@ describe('state/pages/reducer', () => {
     it('status will be update', () => {
       const newState = reducer(state, setReferenceSelectedPage(CONTENT_REFERENCES));
       expect(newState).toHaveProperty('selected.ref', CONTENT_REFERENCES);
+    });
+  });
+
+  describe('action CLEAR_TREE', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer({}, addPages(PAGES));
+    });
+
+    let newState;
+    it('should clear the tree', () => {
+      newState = reducer(state, clearTree());
+      expect(newState.statusMap).toEqual({});
+    });
+  });
+
+  describe('action COLLAPSE_ALL', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer({}, addPages(PAGES));
+    });
+
+    let newState;
+    it('should collapse all the tree', () => {
+      newState = reducer(state, togglePageExpanded('homepage'));
+      expect(newState.statusMap.homepage.expanded).toBe(true);
+      newState = reducer(newState, collapseAll());
+      Object.values(newState.statusMap).map(v => expect(v.expanded).toBe(false));
+    });
+  });
+
+  describe('action BATCH_TOGGLE_EXPANDED', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer({}, addPages(PAGES));
+    });
+
+    let newState;
+    it('should collapse all the tree', () => {
+      newState = reducer(state, setBatchExpanded(['homepage', 'dashboard']));
+      expect(newState.statusMap.homepage.expanded).toBe(true);
+      expect(newState.statusMap.dashboard.expanded).toBe(true);
     });
   });
 });

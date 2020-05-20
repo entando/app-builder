@@ -1,4 +1,5 @@
 import { initialize } from 'redux-form';
+import { flattenDeep } from 'lodash';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
@@ -13,7 +14,7 @@ import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
-  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE,
+  CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
@@ -131,6 +132,15 @@ export const updatePage = page => ({
 
 export const clearTree = () => ({
   type: CLEAR_TREE,
+});
+
+export const setBatchExpanded = pageCodes => ({
+  type: BATCH_TOGGLE_EXPANDED,
+  payload: pageCodes,
+});
+
+export const collapseAll = () => ({
+  type: COLLAPSE_ALL,
 });
 
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
@@ -460,3 +470,35 @@ export const initPageForm = pageData => (dispatch) => {
   dispatch(initialize('page', pageData));
   history.push(`${ROUTE_PAGE_ADD}?parentCode=${pageData.parentCode}`);
 };
+
+export const fetchPageTreeAll = () => dispatch => new Promise((resolve) => {
+  dispatch(toggleLoading('pageTree'));
+  dispatch(clearTree());
+  const fetchBranch = pageCode => (
+    dispatch(fetchPageChildren(pageCode)).then(response => response.payload)
+  );
+
+  const loadChildrenBranch = pgArr => (
+    Promise.all(pgArr.map((pg) => {
+      if (pg.children.length > 0) {
+        return fetchBranch(pg.code).then(res => (
+          loadChildrenBranch(res)
+        )).then(loadedres => (
+          [pg, ...loadedres]
+        ));
+      }
+      return Promise.resolve(pg);
+    }))
+  );
+  dispatch(fetchPage(HOMEPAGE_CODE)).then((rootPg) => {
+    fetchBranch(HOMEPAGE_CODE).then((catResult) => {
+      loadChildrenBranch(catResult).then((fullResult) => {
+        const allPages = [rootPg.payload, ...flattenDeep(fullResult)];
+        dispatch(addPages(allPages));
+        dispatch(setBatchExpanded(allPages.map(p => p.code)));
+        dispatch(toggleLoading('pageTree'));
+        resolve(allPages);
+      });
+    });
+  }).catch(() => {});
+});

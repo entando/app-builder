@@ -112,6 +112,26 @@ class PageTree extends Component {
                 <tr>
                   <th width="70%">
                     <FormattedMessage id="pageTree.pageTree" />
+                    <div
+                      onClick={this.props.onExpandAll}
+                      onKeyDown={this.props.onExpandAll}
+                      role="button"
+                      tabIndex={-1}
+                      className="PageTree PageTree__toggler PageTree__toggler--expand"
+                    >
+                      <span className="icon fa fa-plus-square" />
+                      <FormattedMessage id="pageTree.expand" />
+                    </div>
+                    <div
+                      onClick={this.props.onCollapseAll}
+                      onKeyDown={this.props.onCollapseAll}
+                      role="button"
+                      tabIndex={-2}
+                      className="PageTree PageTree__toggler"
+                    >
+                      <span className="icon fa fa-minus-square" />
+                      <FormattedMessage id="pageTree.collapse" />
+                    </div>
                   </th>
                   <th className="text-center" width="10%">
                     <FormattedMessage id="pageTree.status" />
@@ -164,6 +184,8 @@ PageTree.propTypes = {
   onDropAbovePage: PropTypes.func,
   onDropBelowPage: PropTypes.func,
   onExpandPage: PropTypes.func,
+  onExpandAll: PropTypes.func,
+  onCollapseAll: PropTypes.func,
   loading: PropTypes.bool.isRequired,
 };
 
@@ -174,6 +196,8 @@ PageTree.defaultProps = {
   onDropAbovePage: () => {},
   onDropBelowPage: () => {},
   onExpandPage: () => {},
+  onExpandAll: () => {},
+  onCollapseAll: () => {},
 };
 
 export default PageTree;
