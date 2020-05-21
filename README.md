@@ -1,6 +1,8 @@
+# Introduction
 
+For more information and documentation visit: http://docs.entando.com or http://forum.entando.org. Or for the latest news or product information please visit the main website: https://www.entando.com.
 
-This project was bootstrapped with [Create React App](https://create-react-app.dev/).
+Information below is for running locally or building from source. For usage information see the links above.
 
 ---
 ## Configuration
