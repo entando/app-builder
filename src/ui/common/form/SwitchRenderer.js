@@ -2,15 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 
-const switchField = (input, switchValue, trueValue, falseValue) => (<Switch
-  {...input}
-  value={switchValue}
-  onChange={(el, val) => input.onChange(val ? trueValue : falseValue)}
-/>);
+const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) => {
+  const handleChange = (el, val) => {
+    const returnVal = val ? trueValue : falseValue;
+    input.onChange(returnVal);
+    if (onToggleValue) {
+      onToggleValue(returnVal);
+    }
+  };
+
+  return (
+    <Switch
+      {...input}
+      value={switchValue}
+      onChange={handleChange}
+    />
+  );
+};
 
 const SwitchRenderer = ({
-  input, append, label, labelSize, alignClass,
-  meta: { touched, error }, help, trueValue, falseValue,
+  input, append, label, labelSize, alignClass, meta: { touched, error },
+  help, trueValue, falseValue, disabled, onToggleValue,
 }) => {
   const switchValue = input.value === 'true' || input.value === true || input.value === trueValue;
   if (label) {
@@ -22,14 +34,14 @@ const SwitchRenderer = ({
           </ControlLabel>
         </Col>
         <Col xs={12 - labelSize}>
-          {switchField(input, switchValue, trueValue, falseValue)}
+          {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span className="help-block">{error}</span>))}
         </Col>
       </div>);
   }
 
-  return switchField(input, switchValue, trueValue, falseValue);
+  return switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue);
 };
 
 SwitchRenderer.propTypes = {
@@ -50,6 +62,7 @@ SwitchRenderer.propTypes = {
   labelSize: PropTypes.number,
   append: PropTypes.string,
   alignClass: PropTypes.string,
+  onToggleValue: PropTypes.func,
 };
 
 SwitchRenderer.defaultProps = {
@@ -63,6 +76,7 @@ SwitchRenderer.defaultProps = {
   labelSize: 2,
   append: '',
   alignClass: 'text-right',
+  onToggleValue: null,
 };
 
 export default SwitchRenderer;

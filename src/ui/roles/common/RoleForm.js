@@ -26,6 +26,10 @@ const msgs = defineMessages({
 });
 
 export class RoleFormBody extends Component {
+  constructor(props) {
+    super(props);
+    this.handleToggleSuperuser = this.handleToggleSuperuser.bind(this);
+  }
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
@@ -35,9 +39,14 @@ export class RoleFormBody extends Component {
     this.props.handleSubmit();
   };
 
+  handleToggleSuperuser(superuserToggled) {
+    const { onToggleSuperuser, permissions } = this.props;
+    onToggleSuperuser({ superuserToggled, permissions });
+  }
+
   render() {
     const {
-      intl, invalid, submitting, mode, onChangeName, permissions, loading,
+      intl, invalid, submitting, mode, onChangeName, permissions, loading, superuserToggled,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
@@ -79,7 +88,12 @@ export class RoleFormBody extends Component {
                   <FormattedMessage id="app.permissions" />
                 </div>
               </legend>
-              <PermissionGrid permissions={permissions} loading={loading} />
+              <PermissionGrid
+                permissions={permissions}
+                loading={loading}
+                onToggleSuperuser={this.handleToggleSuperuser}
+                superuserToggled={superuserToggled}
+              />
             </fieldset>
           </Col>
         </Row>
@@ -108,6 +122,8 @@ RoleFormBody.propTypes = {
   mode: PropTypes.string,
   onChangeName: PropTypes.func,
   onWillMount: PropTypes.func,
+  onToggleSuperuser: PropTypes.func.isRequired,
+  superuserToggled: PropTypes.bool.isRequired,
   permissions: PropTypes.arrayOf(PropTypes.shape({
     descr: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
