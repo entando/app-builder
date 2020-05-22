@@ -3,7 +3,15 @@ import { isEmpty } from 'lodash';
 import { getGroupsMap } from 'state/groups/selectors';
 import { getRolesMap } from 'state/roles/selectors';
 
-export const getCurrentUserAuth = state => state.currentUserAuth;
+export const getCurrentUserAuthState = state => state.currentUserAuth;
+
+export const getCurrentUserAuth = (
+  createSelector([getCurrentUserAuthState], userAuth => userAuth.auth)
+);
+
+export const getCurrentUserRoles = (
+  createSelector([getCurrentUserAuthState], userAuth => userAuth.roles)
+);
 
 export const getCurrentUserAuthGroupRolesCombo =
   createSelector(
