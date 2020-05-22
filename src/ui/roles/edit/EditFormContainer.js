@@ -24,9 +24,11 @@ export const mapDispatchToProps = dispatch => ({
   },
   onToggleSuperuser: ({ superuserToggled, permissions }) => {
     if (superuserToggled) {
-      permissions.forEach(perm => (
-        dispatch(change('role', `permissions.${perm.code}`, true))
-      ));
+      permissions.forEach((permission) => {
+        if (permission.code !== 'superuser') {
+          dispatch(change('role', `permissions.${permission.code}`, true));
+        }
+      });
     }
   },
   onSubmit: values => dispatch(sendPutRole(values)),
