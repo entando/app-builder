@@ -1,10 +1,13 @@
 import { setCurrentUserAuth, clearCurrentUserAuth } from 'state/current-user-auth/actions';
 import { SET_CURRENT_USER_AUTH, CLEAR_CURRENT_USER_AUTH } from 'state/current-user-auth/types';
 
-const MOCK_AUTHDATA = [
-  { group: 'not_free', role: ['admin'] },
-  { group: 'free', role: ['not_admin'] },
-];
+const MOCK_AUTHDATA = {
+  result: [
+    { group: 'not_free', role: ['admin'] },
+    { group: 'free', role: ['not_admin'] },
+  ],
+  allPermissions: ['admin', 'not_admin'],
+};
 
 describe('state/current-user-auth/actions', () => {
   it('setCurrentUserAuth', () => {

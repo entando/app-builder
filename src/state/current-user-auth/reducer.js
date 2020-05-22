@@ -13,11 +13,12 @@ const initialState = {
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_CURRENT_USER_AUTH: {
-      const authMaps = action.payload.map(auths => (
+      const { result, allPermissions } = action.payload;
+      const authMaps = result.map(auths => (
         stringToArr(auths.permissions ? auths.permissions : get(auths, 'role', []))
       ));
       const roles = Array.from(new Set(flatten(authMaps)));
-      return { ...state, auth: [...action.payload], roles };
+      return { ...state, auth: result, roles: roles.includes('superuser') ? allPermissions : roles };
     }
     case CLEAR_CURRENT_USER_AUTH:
       return { ...state, ...initialState };
