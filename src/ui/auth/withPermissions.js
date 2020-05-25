@@ -19,7 +19,7 @@ import { getLoading } from 'state/loading/selectors';
  */
 export default function withPermissions(requiredPermissions) {
   return (WrappedComponent) => {
-    const PermissionCheckerContainer = ({
+    const AppBuilderPermissionCheck = ({
       userPermissions, gotoLogout, gotoHomepage, loading,
     }) => (
       <Spinner loading={!!loading}>
@@ -36,14 +36,14 @@ export default function withPermissions(requiredPermissions) {
       </Spinner>
     );
 
-    PermissionCheckerContainer.propTypes = {
+    AppBuilderPermissionCheck.propTypes = {
       userPermissions: PropTypes.arrayOf(PropTypes.string),
       gotoLogout: PropTypes.func.isRequired,
       gotoHomepage: PropTypes.func.isRequired,
       loading: PropTypes.bool,
     };
 
-    PermissionCheckerContainer.defaultProps = {
+    AppBuilderPermissionCheck.defaultProps = {
       userPermissions: [],
       loading: true,
     };
@@ -59,6 +59,6 @@ export default function withPermissions(requiredPermissions) {
     });
 
 
-    return withRouter(connect(mapStateToProps, mapDispatchToProps)(PermissionCheckerContainer));
+    return withRouter(connect(mapStateToProps, mapDispatchToProps)(AppBuilderPermissionCheck));
   };
 }
