@@ -3,9 +3,30 @@ import thunk from 'redux-thunk';
 import rootReducer from 'state/rootReducer';
 import persistState from 'redux-localstorage';
 
+const localStorageStates = {
+  locale: [],
+  permissions: ['loggedUser'],
+};
+
 const composeParams = [
   applyMiddleware(thunk),
-  persistState(['locale', 'currentUserAuth']),
+  persistState(
+    Object.keys(localStorageStates),
+    {
+      slicer: paths => state => (
+        paths.reduce((acc, curr) => {
+          const localState = localStorageStates[curr];
+          acc[curr] = localState.length
+            ? localState.reduce((accLocState, currLocState) => ({
+              ...accLocState,
+              [currLocState]: state[curr][currLocState],
+            }), {})
+            : state[curr];
+          return acc;
+        }, {})
+      ),
+    },
+  ),
 ];
 
 // enables Redux devtools extension if present

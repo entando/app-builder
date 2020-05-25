@@ -1,5 +1,6 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { LIST_PERMISSIONS_OK } from 'test/mocks/permissions';
+import { MY_PERMISSIONS_PAYLOAD_OK } from 'test/mocks/loggedUserPermissions';
 
 export const getPermissions = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
@@ -11,6 +12,15 @@ export const getPermissions = (page = { page: 1, pageSize: 10 }, params = '') =>
     },
     page,
   )
+);
+
+export const getMyGroupPermissions = () => (
+  makeRequest({
+    uri: '/api/users/userProfiles/myGroupPermissions',
+    method: METHODS.GET,
+    mockResponse: MY_PERMISSIONS_PAYLOAD_OK,
+    useAuthentication: true,
+  })
 );
 
 export default getPermissions;

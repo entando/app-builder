@@ -91,3 +91,9 @@ export const BODY_ERROR =
   ],
   metaData: {},
 };
+
+export const MYPERMISSIONS_STATE = {
+  permissions: {
+    loggedUser: ['role2', 'role1'],
+  },
+};
