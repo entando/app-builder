@@ -48,6 +48,7 @@ export const fetchPermissions = (page = { page: 1, pageSize: 0 }, params = '') =
   });
 
 export const fetchLoggedUserPermissions = () => (dispatch, getState) => new Promise((resolve) => {
+  dispatch(toggleLoading('loggedUserPermissions'));
   const allPermissions = getPermissionsIdList(getState());
   getMyGroupPermissions().then((res) => {
     res.json().then((json) => {
@@ -57,6 +58,7 @@ export const fetchLoggedUserPermissions = () => (dispatch, getState) => new Prom
         dispatch(addErrors(json.errors.map(e => e.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
+      dispatch(toggleLoading('loggedUserPermissions'));
       resolve();
     });
   }).catch(() => {});

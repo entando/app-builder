@@ -7,8 +7,10 @@ import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
 import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { ADMINISTRATION_AREA_PERMISSION } from 'state/permissions/const';
 
-const DashboardPage = () => (
+export const DashboardPageBody = () => (
   <InternalPage className="DashboardPage">
     <CardGrid>
       <Row>
@@ -34,4 +36,4 @@ const DashboardPage = () => (
   </InternalPage>
 );
 
-export default DashboardPage;
+export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPageBody);
