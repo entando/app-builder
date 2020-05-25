@@ -4,7 +4,6 @@ import { api, currentUser } from '@entando/apimanager';
 import { messages } from '@entando/messages';
 import loginForm from 'state/login-form/reducer';
 import activityStream from 'state/activity-stream/reducer';
-import currentUserAuth from 'state/current-user-auth/reducer';
 import locale from 'state/locale/reducer';
 import widgets from 'state/widgets/reducer';
 import pages from 'state/pages/reducer';
@@ -54,7 +53,6 @@ const reducerDef = {
   componentRepositoryComponents,
   componentRepositoryExtraFilters,
   componentRepositories,
-  currentUserAuth,
   fileBrowser,
   form,
   fragments,

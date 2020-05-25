@@ -5,24 +5,35 @@ import { FormattedMessage } from 'react-intl';
 import { Col, Alert, Spinner } from 'patternfly-react';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-const PermissionGrid = ({ permissions, loading }) => {
+const PermissionGrid = ({
+  permissions,
+  loading,
+  onToggleSuperuser,
+  superuserToggled,
+}) => {
   const renderGrid = () => {
     if (permissions.length > 0) {
       return (
         <Col xs={12}>
-          {permissions.map(permission => (
-            <Col xs={4} key={permission.code}>
-              <label className="control-label col-xs-8">
-                {permission.descr}
-              </label>
-              <Col xs={1}>
-                <Field
-                  component={SwitchRenderer}
-                  name={`permissions.${permission.code}`}
-                />
+          {permissions.map((permission) => {
+            const isSuperuser = permission.code === 'superuser';
+            const extraProps = isSuperuser ? { onToggleValue: onToggleSuperuser } : {};
+            return (
+              <Col xs={4} key={permission.code}>
+                <label className="control-label col-xs-8">
+                  {permission.descr}
+                </label>
+                <Col xs={1}>
+                  <Field
+                    component={SwitchRenderer}
+                    name={`permissions.${permission.code}`}
+                    disabled={superuserToggled && !isSuperuser}
+                    {...extraProps}
+                  />
+                </Col>
               </Col>
-            </Col>
-          ))}
+            );
+          })}
         </Col>
       );
     }
@@ -49,6 +60,8 @@ PermissionGrid.propTypes = {
     code: PropTypes.string.isRequired,
     descr: PropTypes.string.isRequired,
   })),
+  onToggleSuperuser: PropTypes.func.isRequired,
+  superuserToggled: PropTypes.bool.isRequired,
   loading: PropTypes.bool,
 };
 

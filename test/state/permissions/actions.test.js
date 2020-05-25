@@ -2,10 +2,20 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
-import { setPermissions, fetchPermissions } from 'state/permissions/actions';
+import {
+  setPermissions,
+  fetchPermissions,
+  setLoggedUserPermissions,
+  clearLoggedUserPermissions,
+} from 'state/permissions/actions';
+
 import { getPermissions } from 'api/permissions';
 import { LIST_PERMISSIONS_OK } from 'test/mocks/permissions';
-import { SET_PERMISSIONS } from 'state/permissions/types';
+import {
+  SET_PERMISSIONS,
+  SET_LOGGED_USER_PERMISSIONS,
+  CLEAR_LOGGED_USER_PERMISSIONS,
+} from 'state/permissions/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { mockApi } from 'test/testUtils';
@@ -20,6 +30,14 @@ const INITIAL_STATE = {
   },
 };
 
+const MOCK_MY_PERMISSIONS = {
+  result: [
+    { group: 'not_free', role: ['admin'] },
+    { group: 'free', role: ['not_admin'] },
+  ],
+  allPermissions: ['admin', 'not_admin'],
+};
+
 describe('state/permissions/actions', () => {
   let store;
 
@@ -31,6 +49,19 @@ describe('state/permissions/actions', () => {
     it('test setPermissions action sets the correct type', () => {
       const action = setPermissions(LIST_PERMISSIONS_OK);
       expect(action.type).toEqual(SET_PERMISSIONS);
+    });
+  });
+
+  describe('logged user permissions', () => {
+    it('setLoggedUserPermissions', () => {
+      const action = setLoggedUserPermissions(MOCK_MY_PERMISSIONS);
+      expect(action).toHaveProperty('type', SET_LOGGED_USER_PERMISSIONS);
+      expect(action).toHaveProperty('payload', MOCK_MY_PERMISSIONS);
+    });
+    it('clearLoggedUserPermissions', () => {
+      const action = clearLoggedUserPermissions();
+      expect(action).toHaveProperty('type', CLEAR_LOGGED_USER_PERMISSIONS);
+      expect(action).not.toHaveProperty('payload');
     });
   });
 

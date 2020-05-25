@@ -2,7 +2,6 @@ import { loginUser, getDomain } from '@entando/apimanager';
 
 import login from 'api/login';
 import { SET_LOGIN_ERROR_MESSAGE } from 'state/login-form/types';
-import { fetchUserAuth } from 'state/current-user-auth/actions';
 
 export const apiUnreacheableId = 'app.serverError';
 export const incorrectCredentialsId = 'fcc.login.errorMessage';
@@ -49,7 +48,6 @@ export const performLogin = (username, password) => dispatch => (
               username,
               json.access_token || json.payload.access_token,
             ));
-            dispatch(fetchUserAuth());
             resolve();
           });
         } else {

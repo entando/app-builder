@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ApiProvider } from '@entando/apimanager';
+import {
+  fetchPermissions,
+  fetchLoggedUserPermissions,
+  clearLoggedUserPermissions,
+} from 'state/permissions/actions';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
-import { clearCurrentUserAuth } from 'state/current-user-auth/actions';
 
 const ApiManager = ({
   auth,
@@ -16,7 +20,7 @@ const ApiManager = ({
 }) => {
   const logout = (status) => {
     try {
-      store.dispatch(clearCurrentUserAuth());
+      store.dispatch(clearLoggedUserPermissions());
       auth.logout(status);
     } catch (err) {
       // can occur when keycloak is still loading
@@ -28,6 +32,8 @@ const ApiManager = ({
       auth.setToRefreshToken(false);
     } else {
       const { redirectUri, pathname } = opts;
+      store.dispatch(fetchPermissions())
+        .then(() => store.dispatch(fetchLoggedUserPermissions()));
       if (redirectUri) {
         window.location.href = redirectUri;
         return;

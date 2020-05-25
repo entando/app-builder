@@ -1,11 +1,16 @@
 
-import { LIST_PERMISSIONS_OK, PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
+import {
+  LIST_PERMISSIONS_OK,
+  PERMISSIONS_NORMALIZED,
+  MYPERMISSIONS_STATE,
+} from 'test/mocks/permissions';
 
 import {
   getPermissions,
   getPermissionsIdList,
   getPermissionsMap,
   getPermissionsList,
+  getLoggedUserPermissions,
 } from 'state/permissions/selectors';
 
 describe('state/permissions/selectors', () => {
@@ -27,5 +32,10 @@ describe('state/permissions/selectors', () => {
   it('verify getPermissionsList selector', () => {
     expect(getPermissionsList(PERMISSIONS_NORMALIZED))
       .toEqual(LIST_PERMISSIONS_OK);
+  });
+
+  it('verify getLoggedUserPermissions returns correct values', () => {
+    const userAuthority = getLoggedUserPermissions(MYPERMISSIONS_STATE);
+    expect(userAuthority).toEqual(MYPERMISSIONS_STATE.permissions.loggedUser);
   });
 });
