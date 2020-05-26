@@ -17,7 +17,7 @@ describe('state/permssions/reducer', () => {
       expect(state).toHaveProperty('list');
       expect(state).toHaveProperty('map');
       expect(state).toHaveProperty('loggedUser');
-      expect(state.loggedUser).toHaveLength(0);
+      expect(state.loggedUser).toBe(null);
     });
   });
 
@@ -49,7 +49,7 @@ describe('state/permssions/reducer', () => {
 
     it('after action CLEAR_LOGGED_USER_PERMISSIONS', () => {
       state = reducer(state, clearLoggedUserPermissions());
-      expect(state.loggedUser).toHaveLength(0);
+      expect(state.loggedUser).toBe(null);
     });
   });
 });

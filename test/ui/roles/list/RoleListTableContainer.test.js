@@ -1,7 +1,6 @@
 import 'test/enzyme-init';
 import { getRolesList } from 'state/roles/selectors';
 import { getLoading } from 'state/loading/selectors';
-import { toggleLoading } from 'state/loading/actions';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/list/RoleListTableContainer';
 import { LIST_ROLES_OK, ROLES_NORMALIZED } from 'test/mocks/roles';
@@ -53,7 +52,6 @@ describe('RoleListTableContainer', () => {
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
-      expect(toggleLoading).toHaveBeenCalledWith('roles');
     });
 
     it('should dispatch an action if onClickDelete is called', () => {

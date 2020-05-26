@@ -6,8 +6,10 @@ import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ReloadConfigContainer from 'ui/reload-configuration/ReloadConfigContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ReloadConfigPage = () => (
+export const ReloadConfigPageBody = () => (
 
   <InternalPage className="ReloadConfPage">
     <Grid fluid>
@@ -37,4 +39,4 @@ const ReloadConfigPage = () => (
 );
 
 
-export default ReloadConfigPage;
+export default withPermissions(ROLE_SUPERUSER)(ReloadConfigPageBody);

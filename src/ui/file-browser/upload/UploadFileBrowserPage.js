@@ -10,11 +10,12 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
-
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 
-const UploadFileBrowserPage = ({ location: { pathname } }) => {
+export const UploadFileBrowserPageBody = ({ location: { pathname } }) => {
   const uploadFileButton = (
     <Button
       type="button"
@@ -103,10 +104,10 @@ const UploadFileBrowserPage = ({ location: { pathname } }) => {
   );
 };
 
-UploadFileBrowserPage.propTypes = {
+UploadFileBrowserPageBody.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default UploadFileBrowserPage;
+export default withPermissions(ROLE_SUPERUSER)(UploadFileBrowserPageBody);

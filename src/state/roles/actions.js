@@ -44,17 +44,17 @@ export const setUserRefs = userRefs => ({
 // thunk
 export const fetchRoles = (page = { page: 1, pageSize: 10 }, params = '') => dispatch =>
   new Promise((resolve) => {
+    dispatch(toggleLoading('roles'));
     getRoles(page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setRoles(data.payload));
-          dispatch(toggleLoading('roles'));
           dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
-          dispatch(toggleLoading('roles'));
         }
+        dispatch(toggleLoading('roles'));
         resolve();
       });
     }).catch(() => {});

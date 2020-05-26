@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import PagesClonePage from 'ui/pages/clone/PagesClonePage';
+import { PagesClonePageBody } from 'ui/pages/clone/PagesClonePage';
 import { shallowWithIntl } from 'test/testUtils';
 
 
@@ -10,7 +10,7 @@ describe('PagesClonePage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<PagesClonePage />);
+    component = shallowWithIntl(<PagesClonePageBody />);
   });
 
   it('renders without crashing', () => {

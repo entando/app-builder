@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
@@ -9,7 +10,6 @@ import { logoutUser } from '@entando/apimanager';
 import { ROUTE_DASHBOARD } from 'app-init/router';
 import { ADMINISTRATION_AREA_PERMISSION } from 'state/permissions/const';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
-import { getLoading } from 'state/loading/selectors';
 
 /**
  * HOC that Handles whether or not the user is allowed to see the page.
@@ -20,18 +20,18 @@ import { getLoading } from 'state/loading/selectors';
 export default function withPermissions(requiredPermissions) {
   return (WrappedComponent) => {
     const AppBuilderPermissionCheck = ({
-      userPermissions, gotoLogout, gotoHomepage, loading,
+      userPermissions, gotoLogout, gotoHomepage, ...rest
     }) => (
-      <Spinner loading={!!loading}>
+      <Spinner loading={!!(userPermissions === null)}>
         <PermissionCheck
           page403={<NoAccessPage
             gotoHome={requiredPermissions === ADMINISTRATION_AREA_PERMISSION
               ? gotoLogout : gotoHomepage}
           />}
           requiredPermissions={requiredPermissions}
-          userPermissions={userPermissions}
+          userPermissions={userPermissions || []}
         >
-          <WrappedComponent />
+          <WrappedComponent {...rest} />
         </PermissionCheck>
       </Spinner>
     );
@@ -40,24 +40,20 @@ export default function withPermissions(requiredPermissions) {
       userPermissions: PropTypes.arrayOf(PropTypes.string),
       gotoLogout: PropTypes.func.isRequired,
       gotoHomepage: PropTypes.func.isRequired,
-      loading: PropTypes.bool,
     };
 
     AppBuilderPermissionCheck.defaultProps = {
       userPermissions: [],
-      loading: true,
     };
 
     const mapStateToProps = state => ({
       userPermissions: getLoggedUserPermissions(state),
-      loading: getLoading(state).loggedUserPermissions,
     });
 
     const mapDispatchToProps = (dispatch, { history }) => ({
       gotoLogout: () => dispatch(logoutUser()),
       gotoHomepage: () => history.push(routeConverter(ROUTE_DASHBOARD)),
     });
-
 
     return withRouter(connect(mapStateToProps, mapDispatchToProps)(AppBuilderPermissionCheck));
   };

@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_USER_LIST } from 'app-init/router';
 import DetailUserTableContainer from 'ui/users/detail/DetailUserTableContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 
-const DetailUserPage = () => (
+export const DetailUserPageBody = () => (
   <InternalPage className="DetailUserPage">
     <Grid fluid>
       <Row>
@@ -38,4 +40,4 @@ const DetailUserPage = () => (
     </Grid>
   </InternalPage>
 );
-export default DetailUserPage;
+export default withPermissions(CRUD_USERS_PERMISSION)(DetailUserPageBody);

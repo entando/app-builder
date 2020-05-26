@@ -8,9 +8,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import WidgetFormContainer from 'ui/widgets/common/WidgetFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-
-const AddWidgetPage = () => (
+export const AddWidgetPageBody = () => (
   <InternalPage className="AddWidgetPage">
     <Grid fluid>
       <Row>
@@ -43,4 +44,4 @@ const AddWidgetPage = () => (
   </InternalPage>
 );
 
-export default AddWidgetPage;
+export default withPermissions(ROLE_SUPERUSER)(AddWidgetPageBody);

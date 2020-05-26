@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/labels/add/AddFormContainer';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const AddLabelPage = () => (
+export const AddLabelPageBody = () => (
   <InternalPage className="AddLabelPage">
     <Grid fluid>
       <Row>
@@ -47,4 +49,4 @@ const AddLabelPage = () => (
 );
 
 
-export default AddLabelPage;
+export default withPermissions(ROLE_SUPERUSER)(AddLabelPageBody);

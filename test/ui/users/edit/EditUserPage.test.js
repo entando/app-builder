@@ -2,13 +2,13 @@ import React from 'react';
 
 import 'test/enzyme-init';
 
-import EditUserPage from 'ui/users/edit/EditUserPage';
+import { EditUserPageBody } from 'ui/users/edit/EditUserPage';
 import { shallowWithIntl } from 'test/testUtils';
 
 describe('EditUserPage', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<EditUserPage />);
+    component = shallowWithIntl(<EditUserPageBody />);
   });
 
   it('renders without crashing', () => {

@@ -2,13 +2,13 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
+import { UploadFileBrowserPageBody } from 'ui/file-browser/upload/UploadFileBrowserPage';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 
 describe('UploadFileBrowserPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UploadFileBrowserPage location={{ pathname: '' }} />);
+    component = shallow(<UploadFileBrowserPageBody location={{ pathname: '' }} />);
   });
 
   it('renders without crashing', () => {

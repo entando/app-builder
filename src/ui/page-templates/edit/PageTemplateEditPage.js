@@ -8,8 +8,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import PageTemplateFormContainer from 'ui/page-templates/common/PageTemplateFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const PageTemplateEditPage = () => (
+export const PageTemplateEditPageBody = () => (
   <InternalPage className="PageTemplateEditPage">
     <Grid fluid>
       <Row>
@@ -46,4 +48,4 @@ const PageTemplateEditPage = () => (
   </InternalPage>
 );
 
-export default PageTemplateEditPage;
+export default withPermissions(ROLE_SUPERUSER)(PageTemplateEditPageBody);

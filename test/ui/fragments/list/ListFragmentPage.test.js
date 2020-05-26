@@ -1,13 +1,13 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
+import { ListFragmentPageBody } from 'ui/fragments/list/ListFragmentPage';
 import { shallowWithIntl } from 'test/testUtils';
 
 describe('ListFragmentPage', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<ListFragmentPage />);
+    component = shallowWithIntl(<ListFragmentPageBody />);
   });
 
   it('renders without crashing', () => {

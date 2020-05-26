@@ -8,6 +8,8 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AddFormContainer from 'ui/data-types/attributes/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 const msgs = defineMessages({
   add: {
@@ -57,4 +59,4 @@ AddDataTypeAttributePage.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default injectIntl(AddDataTypeAttributePage);
+export default withPermissions(ROLE_SUPERUSER)(injectIntl(AddDataTypeAttributePage));

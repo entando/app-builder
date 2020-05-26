@@ -8,8 +8,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DataTypeListTableContainer from 'ui/data-types/list/DataTypeListTableContainer';
 import { ROUTE_DATA_TYPE_ADD } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ListDataTypePage = () => (
+export const ListDataTypePageBody = () => (
   <InternalPage className="ListDataTypePage">
     <Grid fluid>
       <Row>
@@ -48,4 +50,4 @@ const ListDataTypePage = () => (
   </InternalPage>
 );
 
-export default ListDataTypePage;
+export default withPermissions(ROLE_SUPERUSER)(ListDataTypePageBody);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
+import { DropdownKebab, Paginator, Spinner, MenuItem } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
 import { routeConverter } from '@entando/utils';
 
@@ -36,20 +36,24 @@ class PageTemplatePageReferencesTable extends Component {
         <td>{item.fullTitle}</td>
         <td className="text-center">
           <DropdownKebab id={`kebab-${item.code}`} pullRight>
-            <Link
-              id={`goto-${item.code}`}
-              to={routeConverter(ROUTE_PAGE_EDIT, { pageCode: item.code })}
-              className="PageTemplatePageReferencesTable__menu-item-goto"
-            >
-              {`${goTo} ${item.title}`}
-            </Link>
-            <Link
-              id={`page-configuration-${item.code}`}
-              to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: item.code })}
-              className="PageTemplatePageReferencesTable__menu-item-config"
-            >
-              {`${pageConfiguration} ${item.title}`}
-            </Link>
+            <MenuItem>
+              <Link
+                id={`goto-${item.code}`}
+                to={routeConverter(ROUTE_PAGE_EDIT, { pageCode: item.code })}
+                className="PageTemplatePageReferencesTable__menu-item-goto"
+              >
+                {`${goTo} ${item.title}`}
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link
+                id={`page-configuration-${item.code}`}
+                to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: item.code })}
+                className="PageTemplatePageReferencesTable__menu-item-config"
+              >
+                {`${pageConfiguration} ${item.title}`}
+              </Link>
+            </MenuItem>
           </DropdownKebab>
         </td>
       </tr>

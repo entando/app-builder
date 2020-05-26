@@ -5,7 +5,7 @@ import persistState from 'redux-localstorage';
 
 const localStorageStates = {
   locale: [],
-  permissions: ['loggedUser'],
+  permissions: ['loggedUser', 'loggedUserPemissionsLoaded'],
 };
 
 const composeParams = [

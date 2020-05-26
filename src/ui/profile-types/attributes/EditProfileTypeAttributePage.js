@@ -7,6 +7,8 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/profile-types/attributes/EditFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 const msgs = defineMessages({
   appEdit: {
@@ -52,4 +54,4 @@ EditProfileTypeAttributePage.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default injectIntl(EditProfileTypeAttributePage);
+export default withPermissions(ROLE_SUPERUSER)(injectIntl(EditProfileTypeAttributePage));

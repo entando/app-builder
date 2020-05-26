@@ -3,12 +3,12 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
+import { ListCategoryPageBody } from 'ui/categories/list/ListCategoryPage';
 
 describe('ListCategoryPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListCategoryPage />);
+    component = shallow(<ListCategoryPageBody />);
   });
 
   it('renders without crashing', () => {

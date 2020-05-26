@@ -2,12 +2,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
+import { ComponentListPageBody } from 'ui/component-repository/components/list/ComponentListPage';
 
 describe('ComponentListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ComponentListPage />);
+    component = shallow(<ComponentListPageBody />);
   });
 
   it('renders without crashing', () => {

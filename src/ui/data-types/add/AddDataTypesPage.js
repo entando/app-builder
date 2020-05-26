@@ -7,7 +7,8 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/data-types/add/AddFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
-
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 const AddDataTypesPage = () => (
   <InternalPage className="AddDataTypesPage">
@@ -40,4 +41,4 @@ const AddDataTypesPage = () => (
   </InternalPage>
 );
 
-export default AddDataTypesPage;
+export default withPermissions(ROLE_SUPERUSER)(AddDataTypesPage);

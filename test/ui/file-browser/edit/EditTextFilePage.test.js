@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
+import { EditTextFilePageBody } from 'ui/file-browser/edit/EditTextFilePage';
 
 describe('EditTextFilePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditTextFilePage />);
+    component = shallow(<EditTextFilePageBody />);
   });
 
   it('renders without crashing', () => {

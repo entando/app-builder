@@ -2,12 +2,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
+import { PageTemplateListPageBody } from 'ui/page-templates/list/PageTemplateListPage';
 
 describe('PageTemplateListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<PageTemplateListPage />);
+    component = shallow(<PageTemplateListPageBody />);
   });
 
   it('renders without crashing', () => {

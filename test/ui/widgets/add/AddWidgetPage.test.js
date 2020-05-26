@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
+import { AddWidgetPageBody } from 'ui/widgets/add/AddWidgetPage';
 
 describe('AddWidgetPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AddWidgetPage />);
+    component = shallow(<AddWidgetPageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

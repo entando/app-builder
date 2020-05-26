@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
+import { CreateFolderPageBody } from 'ui/file-browser/add/CreateFolderPage';
 
 describe('CreateFolderPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<CreateFolderPage />);
+    component = shallow(<CreateFolderPageBody />);
   });
 
   it('renders without crashing', () => {

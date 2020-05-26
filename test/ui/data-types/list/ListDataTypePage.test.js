@@ -3,12 +3,12 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
+import { ListDataTypePageBody } from 'ui/data-types/list/ListDataTypePage';
 
 describe('ListDataTypePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListDataTypePage />);
+    component = shallow(<ListDataTypePageBody />);
   });
 
   it('renders without crashing', () => {

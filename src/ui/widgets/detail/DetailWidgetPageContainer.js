@@ -5,6 +5,8 @@ import { getWidgetInfo } from 'state/widgets/selectors';
 import DetailWidgetPage from 'ui/widgets/detail/DetailWidgetPage';
 import { getDefaultLanguage } from 'state/languages/selectors';
 import { fetchLanguages } from 'state/languages/actions';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   widgetInfo: getWidgetInfo(state),
@@ -18,4 +20,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailWidgetPage));
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withPermissions(ROLE_SUPERUSER)(DetailWidgetPage)));
