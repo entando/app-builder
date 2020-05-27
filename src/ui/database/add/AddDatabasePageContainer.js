@@ -9,8 +9,8 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const AddDatabasePageContainer = withPermissions(ROLE_SUPERUSER)(connect(
+const AddDatabasePageContainer = connect(
   null,
   mapDispatchToProps,
-)(AddDatabasePage));
-export default AddDatabasePageContainer;
+)(AddDatabasePage);
+export default withPermissions(ROLE_SUPERUSER)(AddDatabasePageContainer);

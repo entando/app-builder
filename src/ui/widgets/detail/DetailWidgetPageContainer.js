@@ -20,7 +20,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(
+const DetailWidgetPageContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withPermissions(ROLE_SUPERUSER)(DetailWidgetPage)));
+)(DetailWidgetPage));
+
+export default withPermissions(ROLE_SUPERUSER)(DetailWidgetPageContainer);

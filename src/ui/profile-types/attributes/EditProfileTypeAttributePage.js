@@ -54,4 +54,6 @@ EditProfileTypeAttributePage.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default withPermissions(ROLE_SUPERUSER)(injectIntl(EditProfileTypeAttributePage));
+const EditProfileTypeAttributePageWithIntl = injectIntl(EditProfileTypeAttributePage);
+
+export default withPermissions(ROLE_SUPERUSER)(EditProfileTypeAttributePageWithIntl);

@@ -18,7 +18,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(
+const ReportDatabasePageContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withPermissions(ROLE_SUPERUSER)(ReportDatabasePage)));
+)(ReportDatabasePage));
+
+export default withPermissions(ROLE_SUPERUSER)(ReportDatabasePageContainer);

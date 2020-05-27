@@ -18,7 +18,9 @@ export const mapDispatchToProps = dispatch => ({
     }),
 });
 
-export default withRouter(connect(
+const PagesDetailPageContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withPermissions(MANAGE_PAGES_PERMISSION)(PagesDetailPage)));
+)(PagesDetailPage));
+
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PagesDetailPageContainer);
