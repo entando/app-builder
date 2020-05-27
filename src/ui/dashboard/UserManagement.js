@@ -11,6 +11,7 @@ import {
 import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 
 import { ROUTE_USER_ADD } from 'app-init/router';
 
@@ -20,19 +21,22 @@ class UserManagement extends Component {
   }
 
   render() {
+    const { userPermissions } = this.props;
     return (
       <Card accented>
         <CardTitle>
           <Icon size="lg" name="user" />
           <FormattedMessage id="menu.userManagement" />
-          <Button
-            className="pull-right"
-            componentClass={Link}
-            to={ROUTE_USER_ADD}
-            bsStyle="primary"
-          >
-            <FormattedMessage id="app.new" />
-          </Button>
+          {userPermissions.includes(CRUD_USERS_PERMISSION) && (
+            <Button
+              className="pull-right"
+              componentClass={Link}
+              to={ROUTE_USER_ADD}
+              bsStyle="primary"
+            >
+              <FormattedMessage id="app.new" />
+            </Button>
+          )}
           <Clearfix />
         </CardTitle>
         <CardBody>
@@ -54,6 +58,11 @@ UserManagement.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   users: PropTypes.number.isRequired,
   groups: PropTypes.number.isRequired,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
+};
+
+UserManagement.defaultProps = {
+  userPermissions: [],
 };
 
 export default UserManagement;

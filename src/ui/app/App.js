@@ -92,7 +92,7 @@ import {
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import ToastsContainer from 'ui/app/ToastsContainer';
-import DashboardPage from 'ui/dashboard/DashboardPage';
+import DashboardPageContainer from 'ui/dashboard/DashboardPageContainer';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
@@ -200,7 +200,7 @@ const getRouteComponent = () => (
         </LoginPage>
       )}
     />
-    <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
+    <Route path={ROUTE_DASHBOARD} component={DashboardPageContainer} />
     {/* page */}
     <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
     <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
