@@ -16,18 +16,23 @@ import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 import { ROUTE_USER_ADD } from 'app-init/router';
 
 class UserManagement extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
   render() {
-    const { userPermissions } = this.props;
+    const {
+      isSuperuser,
+      canUser,
+      users,
+      groups,
+    } = this.props;
     return (
       <Card accented>
         <CardTitle>
           <Icon size="lg" name="user" />
           <FormattedMessage id="menu.userManagement" />
-          {userPermissions.includes(CRUD_USERS_PERMISSION) && (
+          {canUser(CRUD_USERS_PERMISSION) && (
             <Button
               className="pull-right"
               componentClass={Link}
@@ -42,12 +47,16 @@ class UserManagement extends Component {
         <CardBody>
           <Icon size="lg" name="user" />
           <AggregateStatusCount>
-            <b>{this.props.users}</b> <FormattedMessage id="menu.users" />
+            <b>{users}</b> <FormattedMessage id="menu.users" />
           </AggregateStatusCount>
-          <Icon size="lg" name="users" />
-          <AggregateStatusCount>
-            <b>{this.props.groups}</b> <FormattedMessage id="menu.groups" />
-          </AggregateStatusCount>
+          {isSuperuser && (
+            <React.Fragment>
+              <Icon size="lg" name="users" />
+              <AggregateStatusCount>
+                <b>{groups}</b> <FormattedMessage id="menu.groups" />
+              </AggregateStatusCount>
+            </React.Fragment>
+          )}
         </CardBody>
       </Card>
     );
@@ -55,14 +64,11 @@ class UserManagement extends Component {
 }
 
 UserManagement.propTypes = {
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
+  canUser: PropTypes.func.isRequired,
   users: PropTypes.number.isRequired,
   groups: PropTypes.number.isRequired,
-  userPermissions: PropTypes.arrayOf(PropTypes.string),
-};
-
-UserManagement.defaultProps = {
-  userPermissions: [],
+  isSuperuser: PropTypes.bool.isRequired,
 };
 
 export default UserManagement;

@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
+
+import { CRUD_USERS_PERMISSION, EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
 import {
   history,
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
@@ -36,16 +38,24 @@ class UserListMenuActions extends Component {
 
 
   render() {
-    const { onClickDelete } = this.props;
-    const manageAuthLabel = (
+    const { canUser, onClickDelete, hasProfile } = this.props;
+
+    const canEdit = canUser(CRUD_USERS_PERMISSION);
+    const canEditProfile = canUser(EDIT_USER_PROFILES_PERMISSION);
+
+    if (!hasProfile && !canEdit && !canEditProfile) {
+      return null;
+    }
+
+    const manageAuthLabel = canEdit && (
       <FormattedMessage id="user.action.manageAuth" values={{ username: this.props.username }} />
     );
-    const editUserProfileLabel = (
+    const editUserProfileLabel = canEditProfile && (
       <FormattedMessage id="user.action.editProfile" values={{ username: this.props.username }} />
     );
 
     const renderViewProfile = () => {
-      if (this.props.hasProfile) {
+      if (hasProfile) {
         return (
           <MenuItem
             className="UserListMenuAction__menu-item-view-profile"
@@ -63,32 +73,39 @@ class UserListMenuActions extends Component {
 
     return (
       <DropdownKebab pullRight id={`${this.props.username}-actions`}>
-
-        <MenuItem
-          className="UserListMenuAction__menu-item-edit"
-          onClick={this.onClickEdit}
-        >
-          <FormattedMessage id="app.edit" />
-        </MenuItem>
-        <LinkMenuItem
-          id={`manageAuth-${this.props.username}`}
-          to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
-          label={manageAuthLabel}
-          className="UserListMenuAction__menu-item-auth"
-        />
-        <LinkMenuItem
-          id={`editProfile-${this.props.username}`}
-          to={routeConverter(ROUTE_USER_PROFILE, { username: this.props.username })}
-          label={editUserProfileLabel}
-          className="UserListMenuAction__menu-item-edit-profile"
-        />
+        {canEdit && (
+          <React.Fragment>
+            <MenuItem
+              className="UserListMenuAction__menu-item-edit"
+              onClick={this.onClickEdit}
+            >
+              <FormattedMessage id="app.edit" />
+            </MenuItem>
+            <LinkMenuItem
+              id={`manageAuth-${this.props.username}`}
+              to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
+              label={manageAuthLabel}
+              className="UserListMenuAction__menu-item-auth"
+            />
+          </React.Fragment>
+        )}
+        {canEditProfile && (
+          <LinkMenuItem
+            id={`editProfile-${this.props.username}`}
+            to={routeConverter(ROUTE_USER_PROFILE, { username: this.props.username })}
+            label={editUserProfileLabel}
+            className="UserListMenuAction__menu-item-edit-profile"
+          />
+        )}
         {renderViewProfile()}
-        <MenuItem
-          className="UserListMenuAction__menu-item-delete"
-          onClick={this.handleClick(onClickDelete)}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
+        {canEdit && (
+          <MenuItem
+            className="UserListMenuAction__menu-item-delete"
+            onClick={this.handleClick(onClickDelete)}
+          >
+            <FormattedMessage id="app.delete" />
+          </MenuItem>
+        )}
       </DropdownKebab>
     );
   }
@@ -99,6 +116,7 @@ UserListMenuActions.propTypes = {
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
   hasProfile: PropTypes.bool,
+  canUser: PropTypes.func.isRequired,
 };
 
 UserListMenuActions.defaultProps = {

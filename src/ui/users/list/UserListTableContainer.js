@@ -7,16 +7,15 @@ import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/sel
 import UserListTable from 'ui/users/list/UserListTable';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/users/common/DeleteUserModal';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 
-export const mapStateToProps = state => (
-  {
-    users: getUserList(state),
-    page: getCurrentPage(state),
-    totalItems: getTotalItems(state),
-    pageSize: getPageSize(state),
-    loading: getLoading(state).users,
-  }
-);
+export const mapStateToProps = state => ({
+  users: getUserList(state),
+  page: getCurrentPage(state),
+  totalItems: getTotalItems(state),
+  pageSize: getPageSize(state),
+  loading: getLoading(state).users,
+});
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
@@ -35,4 +34,4 @@ const UserListTableContainer = connect(
   },
 )(UserListTable);
 
-export default UserListTableContainer;
+export default withPermissionValues(UserListTableContainer);

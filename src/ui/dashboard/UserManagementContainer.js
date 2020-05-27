@@ -4,23 +4,26 @@ import { getUsersTotal } from 'state/users/selectors';
 import { getGroupsTotal } from 'state/groups/selectors';
 import { fetchUsersTotal } from 'state/users/actions';
 import { fetchGroupsTotal } from 'state/groups/actions';
-import { getLoggedUserPermissions } from 'state/permissions/selectors';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 import UserManagement from 'ui/dashboard/UserManagement';
 
 export const mapStateToProps = state => ({
   users: getUsersTotal(state),
   groups: getGroupsTotal(state),
-  userPermissions: getLoggedUserPermissions(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
+export const mapDispatchToProps = (dispatch, { isSuperuser }) => ({
+  onDidMount: () => {
     dispatch(fetchUsersTotal());
-    dispatch(fetchGroupsTotal());
+    if (isSuperuser) {
+      dispatch(fetchGroupsTotal());
+    }
   },
 });
 
-export default connect(
+const UserManagementContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(UserManagement);
+
+export default withPermissionValues(UserManagementContainer);

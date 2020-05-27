@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, CardGrid } from 'patternfly-react';
 import { compact } from 'lodash';
+import withPermissions, { withPermissionValues } from 'ui/auth/withPermissions';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
@@ -11,24 +12,27 @@ import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
 import {
+  ADMINISTRATION_AREA_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION,
   CRUD_USERS_PERMISSION,
+  EDIT_USER_PROFILES_PERMISSION,
   MANAGE_PAGES_PERMISSION,
   ROLE_SUPERUSER,
 } from 'state/permissions/const';
 
 const topWidgetRequiredPermissions = [
-  [CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION],
+  [CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION, EDIT_USER_PROFILES_PERMISSION],
   [MANAGE_PAGES_PERMISSION],
   [ROLE_SUPERUSER],
 ];
 
-const DashboardPage = ({ userPermissions }) => {
+const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) => {
   const topWidgetPermissions = topWidgetRequiredPermissions.map(required => (
-    required.some(singlePermission => userPermissions.includes(singlePermission))
+    hasSomePermissions(required)
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
+  const pageListTileSize = isSuperuser ? 8 : 12;
   return (
     <InternalPage className="DashboardPage">
       <CardGrid>
@@ -49,12 +53,14 @@ const DashboardPage = ({ userPermissions }) => {
             </Col>
           )}
         </Row>
-        {userPermissions.includes(MANAGE_PAGES_PERMISSION) && (
+        {canUser(MANAGE_PAGES_PERMISSION) && (
           <Row>
-            <Col md={4}>
-              <PageStatusContainer />
-            </Col>
-            <Col md={8}>
+            {isSuperuser && (
+              <Col md={4}>
+                <PageStatusContainer />
+              </Col>
+            )}
+            <Col md={pageListTileSize}>
               <PagesListContainer />
             </Col>
           </Row>
@@ -64,12 +70,12 @@ const DashboardPage = ({ userPermissions }) => {
   );
 };
 
-DashboardPage.propTypes = {
-  userPermissions: PropTypes.arrayOf(PropTypes.string),
+DashboardPageBody.propTypes = {
+  isSuperuser: PropTypes.bool.isRequired,
+  canUser: PropTypes.func.isRequired,
+  hasSomePermissions: PropTypes.func.isRequired,
 };
 
-DashboardPage.defaultProps = {
-  userPermissions: [],
-};
+const DashboardPage = withPermissionValues(DashboardPageBody);
 
-export default DashboardPage;
+export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPage);
