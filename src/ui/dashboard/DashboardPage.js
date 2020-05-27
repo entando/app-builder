@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, CardGrid } from 'patternfly-react';
 import { compact } from 'lodash';
-import withPermissions, { withPermissionValues } from 'ui/auth/withPermissions';
+import withPermissions from 'ui/auth/withPermissions';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
@@ -26,7 +26,7 @@ const topWidgetRequiredPermissions = [
   [ROLE_SUPERUSER],
 ];
 
-const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) => {
+export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) => {
   const topWidgetPermissions = topWidgetRequiredPermissions.map(required => (
     hasSomePermissions(required)
   ));
@@ -76,6 +76,4 @@ DashboardPageBody.propTypes = {
   hasSomePermissions: PropTypes.func.isRequired,
 };
 
-const DashboardPage = withPermissionValues(DashboardPageBody);
-
-export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPage);
+export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPageBody);
