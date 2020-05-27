@@ -9,9 +9,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
-
-class PagesEditPage extends Component {
+export class PagesEditPageBody extends Component {
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
@@ -56,12 +57,12 @@ class PagesEditPage extends Component {
   }
 }
 
-PagesEditPage.propTypes = {
+PagesEditPageBody.propTypes = {
   onWillMount: PropTypes.func,
 };
 
-PagesEditPage.defaultProps = {
+PagesEditPageBody.defaultProps = {
   onWillMount: null,
 };
 
-export default PagesEditPage;
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PagesEditPageBody);

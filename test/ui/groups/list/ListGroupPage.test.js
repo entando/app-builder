@@ -3,12 +3,12 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import ListGroupPage from 'ui/groups/list/ListGroupPage';
+import { ListGroupPageBody } from 'ui/groups/list/ListGroupPage';
 
 describe('ListGroupPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListGroupPage />);
+    component = shallow(<ListGroupPageBody />);
   });
 
   it('renders without crashing', () => {

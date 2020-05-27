@@ -7,9 +7,11 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 
-const pageSettings = () => (
+export const PageSettingsPageBody = () => (
   <InternalPage className="PageSettings">
     <Grid fluid>
       <Row>
@@ -38,4 +40,4 @@ const pageSettings = () => (
 );
 
 
-export default pageSettings;
+export default withPermissions(ROLE_SUPERUSER)(PageSettingsPageBody);

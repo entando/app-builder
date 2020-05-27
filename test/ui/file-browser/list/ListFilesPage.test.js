@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import ListFilesPage from 'ui/file-browser/list/ListFilesPage';
+import { ListFilesPageBody } from 'ui/file-browser/list/ListFilesPage';
 
 describe('ListFilesPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListFilesPage />);
+    component = shallow(<ListFilesPageBody />);
   });
 
   it('renders without crashing', () => {

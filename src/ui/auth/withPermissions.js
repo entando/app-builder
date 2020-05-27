@@ -13,7 +13,6 @@ import {
   ROLE_SUPERUSER,
 } from 'state/permissions/const';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
-import { getLoading } from 'state/loading/selectors';
 
 const injectPermissionValues = WrappedComponent => (props) => {
   // eslint-disable-next-line react/prop-types
@@ -63,18 +62,18 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
     userPermissions,
     gotoLogout,
     gotoHomepage,
-    loading,
+    ...rest
   }) => (
-    <Spinner loading={!!loading}>
+    <Spinner loading={!!(userPermissions === null)}>
       <PermissionCheck
         page403={<NoAccessPage
           gotoHome={requiredPermissions === ADMINISTRATION_AREA_PERMISSION
             ? gotoLogout : gotoHomepage}
         />}
         requiredPermissions={requiredPermissions}
-        userPermissions={userPermissions}
+        userPermissions={userPermissions || []}
       >
-        <WrappedComponent />
+        <WrappedComponent {...rest} />
       </PermissionCheck>
     </Spinner>
   );
@@ -83,17 +82,11 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
     userPermissions: PropTypes.arrayOf(PropTypes.string),
     gotoLogout: PropTypes.func.isRequired,
     gotoHomepage: PropTypes.func.isRequired,
-    loading: PropTypes.bool,
   };
 
   AppBuilderPermissionCheck.defaultProps = {
     userPermissions: [],
-    loading: true,
   };
-
-  const mapStateToProps = state => ({
-    loading: getLoading(state).loggedUserPermissions,
-  });
 
   const mapDispatchToProps = (dispatch, { history }) => ({
     gotoLogout: () => dispatch(logoutUser()),
@@ -101,7 +94,7 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
   });
 
   const AppBuilderPermissionCheckContainer = connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
   )(AppBuilderPermissionCheck);
 

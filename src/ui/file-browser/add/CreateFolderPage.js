@@ -8,9 +8,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderFormContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-
-const CreateFolderPage = () => (
+export const CreateFolderPageBody = () => (
   <InternalPage className="CreateFolderPage">
     <Grid fluid>
       <Row>
@@ -56,4 +57,4 @@ const CreateFolderPage = () => (
   </InternalPage>
 );
 
-export default CreateFolderPage;
+export default withPermissions(ROLE_SUPERUSER)(CreateFolderPageBody);

@@ -69,17 +69,18 @@ describe('state/roles/actions', () => {
     it('fetchRoles calls setRoles and setPage actions', (done) => {
       store.dispatch(fetchRoles()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', SET_ROLES);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_ROLES);
         expect(actions[2]).toHaveProperty('type', SET_PAGE);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
 
     it('role is defined and properly valued', (done) => {
       store.dispatch(fetchRoles()).then(() => {
-        const actionPayload = store.getActions()[0].payload;
+        const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.roles).toHaveLength(10);
         const role = actionPayload.roles[0];
         expect(role).toHaveProperty('code', 'contentEditing');
@@ -93,10 +94,11 @@ describe('state/roles/actions', () => {
       store.dispatch(fetchRoles()).then(() => {
         expect(getRoles).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

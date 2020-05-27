@@ -9,8 +9,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import GroupListTableContainer from 'ui/groups/list/GroupListTableContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_GROUP_ADD } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ListGroupPage = () => (
+export const ListGroupPageBody = () => (
   <InternalPage className="ListGroupPage">
     <Grid fluid>
       <Row>
@@ -60,4 +62,4 @@ const ListGroupPage = () => (
   </InternalPage>
 );
 
-export default ListGroupPage;
+export default withPermissions(ROLE_SUPERUSER)(ListGroupPageBody);

@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/users/add/AddFormContainer';
 import { ROUTE_USER_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 
-const AddUserPage = () => (
+export const AddUserPageBody = () => (
 
   <InternalPage className="AddUserPage">
     <Grid fluid>
@@ -41,4 +43,4 @@ const AddUserPage = () => (
 );
 
 
-export default AddUserPage;
+export default withPermissions(CRUD_USERS_PERMISSION)(AddUserPageBody);

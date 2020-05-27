@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
+import { EditUserProfilePageBody } from 'ui/user-profile/edit/EditUserProfilePage';
 
 
 describe('EditUserProfilePage', () => {
@@ -10,7 +10,7 @@ describe('EditUserProfilePage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<EditUserProfilePage />);
+    component = shallow(<EditUserProfilePageBody />);
   });
 
   it('renders without crashing', () => {

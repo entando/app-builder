@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageSettingsPage from 'ui/pages/settings/PageSettings';
+import { PageSettingsPageBody } from 'ui/pages/settings/PageSettings';
 
 describe('WidgetEditPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<PageSettingsPage />);
+    component = shallow(<PageSettingsPageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

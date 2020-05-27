@@ -8,10 +8,11 @@ import FilterTypeContainer from 'ui/component-repository/components/FilterTypeCo
 import CategoryTabBarFilterContainer from 'ui/component-repository/CategoryTabBarFilterContainer';
 import ComponentListContainer from 'ui/component-repository/components/list/ComponentListContainer';
 import ComponentListViewModeSwitcherContainer from 'ui/component-repository/components/common/ComponentListViewModeSwitcherContainer';
-
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 import { ROUTE_ECR_CONFIG_LIST } from 'app-init/router';
 
-const ComponentListPage = () => (
+export const ComponentListPageBody = () => (
   <InternalPage className="ComponentListPage">
     <Grid>
       <Row>
@@ -55,4 +56,4 @@ const ComponentListPage = () => (
   </InternalPage>
 );
 
-export default ComponentListPage;
+export default withPermissions(ROLE_SUPERUSER)(ComponentListPageBody);

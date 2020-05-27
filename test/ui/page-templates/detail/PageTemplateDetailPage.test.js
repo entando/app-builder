@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTemplateDetailPage from 'ui/page-templates/detail/PageTemplateDetailPage';
+import { PageTemplateDetailPageBody } from 'ui/page-templates/detail/PageTemplateDetailPage';
 
 const PAGE_TEMPLATE_CODE = 'page_model_code';
 
@@ -11,7 +11,7 @@ describe('PageTemplateDetailPage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<PageTemplateDetailPage pageTemplateCode={PAGE_TEMPLATE_CODE} />);
+    component = shallow(<PageTemplateDetailPageBody pageTemplateCode={PAGE_TEMPLATE_CODE} />);
   });
 
   it('renders without crashing', () => {

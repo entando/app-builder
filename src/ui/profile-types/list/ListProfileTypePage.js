@@ -8,8 +8,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ProfileTypeListTableContainer from 'ui/profile-types/list/ProfileTypeListTableContainer';
 import { ROUTE_PROFILE_TYPE_ADD } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ListProfileTypePage = () => (
+export const ListProfileTypePageBody = () => (
   <InternalPage className="ListProfileTypePage">
     <Grid fluid>
       <Row>
@@ -49,4 +51,4 @@ const ListProfileTypePage = () => (
   </InternalPage>
 );
 
-export default ListProfileTypePage;
+export default withPermissions(ROLE_SUPERUSER)(ListProfileTypePageBody);

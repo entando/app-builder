@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-import { withPermissionValues } from 'ui/auth/withPermissions';
+import withPermissions from 'ui/auth/withPermissions';
 import UserListTableContainer from 'ui/users/list/UserListTableContainer';
 import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
 import { ROUTE_USER_ADD } from 'app-init/router';
-import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
+import { CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION } from 'state/permissions/const';
 
-const ListUserPage = ({ canUser }) => {
+const UserListPageBody = ({ canUser }) => {
   const canEditUser = canUser(CRUD_USERS_PERMISSION);
   return (
     <InternalPage className="UserListPage">
@@ -69,8 +69,8 @@ const ListUserPage = ({ canUser }) => {
   );
 };
 
-ListUserPage.propTypes = {
+UserListPageBody.propTypes = {
   canUser: PropTypes.func.isRequired,
 };
 
-export default withPermissionValues(ListUserPage);
+export default withPermissions(VIEW_USERS_AND_PROFILES_PERMISSION)(UserListPageBody);

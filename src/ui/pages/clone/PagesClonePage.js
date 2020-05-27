@@ -8,9 +8,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import CloneFormContainer from 'ui/pages/clone/CloneFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
-
-const PagesClonePage = () => (
+export const PagesClonePageBody = () => (
   <InternalPage className="PagesClonePage">
     <Grid fluid>
       <Row>
@@ -47,4 +48,4 @@ const PagesClonePage = () => (
   </InternalPage>
 );
 
-export default PagesClonePage;
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PagesClonePageBody);

@@ -2,12 +2,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
-import DatabaseListPage from 'ui/database/list/ListDatabasePage';
+import { DatabaseListPageBody } from 'ui/database/list/ListDatabasePage';
 
 describe('DatabaseListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DatabaseListPage />);
+    component = shallow(<DatabaseListPageBody />);
   });
 
   it('renders without crashing', () => {

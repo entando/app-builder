@@ -7,8 +7,10 @@ import EditFormContainer from 'ui/categories/edit/EditFormContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import { ROUTE_CATEGORY_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_CATEGORIES_PERMISSION } from 'state/permissions/const';
 
-const EditCategoryPage = () => (
+export const EditCategoryPageBody = () => (
   <InternalPage className="EditCategoryPage">
     <Grid fluid>
       <Row>
@@ -40,4 +42,4 @@ const EditCategoryPage = () => (
   </InternalPage>
 );
 
-export default EditCategoryPage;
+export default withPermissions(MANAGE_CATEGORIES_PERMISSION)(EditCategoryPageBody);

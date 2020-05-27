@@ -2,13 +2,13 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import InternalPage from 'ui/internal-page/InternalPage';
-import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
+import { ReloadConfirmPageBody } from 'ui/reload-configuration/ReloadConfirmPage';
 
 
 describe('ReloadConfirmPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ReloadConfirmPage />);
+    component = shallow(<ReloadConfirmPageBody />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

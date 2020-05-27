@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 // import the Component to be connected
 import EditWidgetPage from 'ui/widgets/edit/EditWidgetPage';
 import { formValueSelector } from 'redux-form';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 export const mapStateToProps = state => (
   {
@@ -14,4 +16,4 @@ export const mapStateToProps = state => (
 const EditWidgetPageContainer = connect(mapStateToProps, null)(EditWidgetPage);
 
 // export connected component (Container)
-export default EditWidgetPageContainer;
+export default withPermissions(ROLE_SUPERUSER)(EditWidgetPageContainer);

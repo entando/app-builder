@@ -7,10 +7,11 @@ import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import CategoryTreeContainer from 'ui/categories/list/CategoryTreeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
-
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_CATEGORIES_PERMISSION } from 'state/permissions/const';
 import { ROUTE_CATEGORY_ADD } from 'app-init/router';
 
-const ListCategoryPage = () => (
+export const ListCategoryPageBody = () => (
   <InternalPage className="ListCategoryPage">
     <Grid fluid>
       <Row>
@@ -52,4 +53,4 @@ const ListCategoryPage = () => (
   </InternalPage>
 );
 
-export default ListCategoryPage;
+export default withPermissions(MANAGE_CATEGORIES_PERMISSION)(ListCategoryPageBody);
