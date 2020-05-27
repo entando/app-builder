@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import EditRolePage from 'ui/roles/edit/EditRolePage';
+import { EditRolePageBody } from 'ui/roles/edit/EditRolePage';
 
 describe('EditRolePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditRolePage />);
+    component = shallow(<EditRolePageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

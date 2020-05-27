@@ -7,12 +7,13 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import SettingsFragmentFormContainer from 'ui/fragments/list/SettingsFragmentFormContainer';
 import FragmentListContent from 'ui/fragments/list/FragmentListContent';
-
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 const TAB_LIST = 'list';
 const TAB_SETTINGS = 'settings';
 
-class ListFragmentPage extends Component {
+export class ListFragmentPageBody extends Component {
   constructor(props) {
     super(props);
     this.setActiveTab = this.setActiveTab.bind(this);
@@ -81,4 +82,4 @@ class ListFragmentPage extends Component {
   }
 }
 
-export default ListFragmentPage;
+export default withPermissions(ROLE_SUPERUSER)(ListFragmentPageBody);

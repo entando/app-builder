@@ -8,8 +8,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AddDataModelFormContainer from 'ui/data-models/add/AddDataModelFormContainer';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const AddDataModelPage = () => (
+export const AddDataModelPageBody = () => (
   <InternalPage className="AddDataModelPage">
     <Grid fluid>
       <Row>
@@ -41,4 +43,4 @@ const AddDataModelPage = () => (
   </InternalPage>
 );
 
-export default AddDataModelPage;
+export default withPermissions(ROLE_SUPERUSER)(AddDataModelPageBody);

@@ -4,6 +4,8 @@ import { getLoading } from 'state/loading/selectors';
 import { fetchDatabaseReportBackup } from 'state/database/actions';
 import { getDatabaseReportBackup } from 'state/database/selectors';
 import ReportDatabasePage from 'ui/database/report/ReportDatabasePage';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   report: getDatabaseReportBackup(state),
@@ -16,4 +18,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReportDatabasePage));
+const ReportDatabasePageContainer = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReportDatabasePage));
+
+export default withPermissions(ROLE_SUPERUSER)(ReportDatabasePageContainer);

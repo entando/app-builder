@@ -3,12 +3,12 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import UserListPage from 'ui/users/list/UserListPage';
+import { UserListPageBody } from 'ui/users/list/UserListPage';
 
 describe('UserListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserListPage />);
+    component = shallow(<UserListPageBody />);
   });
 
   it('renders without crashing', () => {

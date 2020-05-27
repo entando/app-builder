@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
+import { AddDataModelPageBody } from 'ui/data-models/add/AddDataModelPage';
 
 describe('AddDataModelPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AddDataModelPage />);
+    component = shallow(<AddDataModelPageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

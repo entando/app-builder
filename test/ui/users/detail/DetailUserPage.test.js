@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import DetailUserPage from 'ui/users/detail/DetailUserPage';
+import { DetailUserPageBody } from 'ui/users/detail/DetailUserPage';
 
 describe('AddUserPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DetailUserPage />);
+    component = shallow(<DetailUserPageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

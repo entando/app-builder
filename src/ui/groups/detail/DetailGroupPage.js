@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import GroupDetailTableContainer from 'ui/groups/detail/GroupDetailTableContainer';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const DetailGroupPage = () => (
+export const DetailGroupPageBody = () => (
   <InternalPage className="DetailGroupPage">
     <Grid fluid>
       <Row>
@@ -43,4 +45,4 @@ const DetailGroupPage = () => (
   </InternalPage>
 );
 
-export default DetailGroupPage;
+export default withPermissions(ROLE_SUPERUSER)(DetailGroupPageBody);

@@ -7,6 +7,8 @@ import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
 import { toggleLoading } from 'state/loading/actions';
 import { getLoading } from 'state/loading/selectors';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -44,4 +46,4 @@ export const mapDispatchToProps = dispatch => ({
 const PageTreeContainer = connect(mapStateToProps, mapDispatchToProps)(PageTreePage);
 
 
-export default PageTreeContainer;
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTreeContainer);

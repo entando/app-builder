@@ -3,12 +3,12 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import InternalPage from 'ui/internal-page/InternalPage';
-import DetailCategoryPage from 'ui/categories/detail/DetailCategoryPage';
+import { DetailCategoryPageBody } from 'ui/categories/detail/DetailCategoryPage';
 
 describe('DetailCategoryPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DetailCategoryPage />);
+    component = shallow(<DetailCategoryPageBody />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

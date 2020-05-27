@@ -9,8 +9,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import UserListTableContainer from 'ui/users/list/UserListTableContainer';
 import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
 import { ROUTE_USER_ADD } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { VIEW_USERS_AND_PROFILES_PERMISSION } from 'state/permissions/const';
 
-const ListUserPage = () => (
+export const UserListPageBody = () => (
   <InternalPage className="UserListPage">
     <Grid fluid>
       <Row>
@@ -61,4 +63,4 @@ const ListUserPage = () => (
   </InternalPage>
 );
 
-export default ListUserPage;
+export default withPermissions(VIEW_USERS_AND_PROFILES_PERMISSION)(UserListPageBody);

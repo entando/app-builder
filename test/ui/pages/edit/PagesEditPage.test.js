@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PagesEditPage from 'ui/pages/edit/PagesEditPage';
+import { PagesEditPageBody } from 'ui/pages/edit/PagesEditPage';
 
 
 describe('PagesEditPage', () => {
@@ -10,7 +10,7 @@ describe('PagesEditPage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<PagesEditPage />);
+    component = shallow(<PagesEditPageBody />);
   });
 
   it('renders without crashing', () => {
@@ -27,7 +27,7 @@ describe('PagesEditPage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallow(<PagesEditPage onWillMount={onWillMount} />);
+    shallow(<PagesEditPageBody onWillMount={onWillMount} />);
     expect(onWillMount).toHaveBeenCalled();
   });
 });

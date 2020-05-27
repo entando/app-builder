@@ -9,8 +9,10 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ListFilesPage = () => (
+export const ListFilesPageBody = () => (
   <InternalPage className="ListFilesPage">
     <Grid fluid>
       <Row>
@@ -51,4 +53,4 @@ const ListFilesPage = () => (
   </InternalPage>
 );
 
-export default ListFilesPage;
+export default withPermissions(ROLE_SUPERUSER)(ListFilesPageBody);

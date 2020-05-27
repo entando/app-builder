@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { connect } from 'react-redux';
 import { formValueSelector, change } from 'redux-form';
 import { routeConverter } from '@entando/utils';

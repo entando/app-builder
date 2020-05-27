@@ -15,6 +15,8 @@ import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 import { getLoading } from 'state/loading/selectors';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -49,11 +51,10 @@ export const mapStateToProps = (state, { match: { params } }) => {
   };
 };
 
-
 const PageConfigPageContainer = connect(
   mapStateToProps, mapDispatchToProps, null,
   {
     pure: false,
   },
 )(PageConfigPage);
-export default PageConfigPageContainer;
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageConfigPageContainer);

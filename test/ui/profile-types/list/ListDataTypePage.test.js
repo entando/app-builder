@@ -1,13 +1,13 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
+import { ListProfileTypePageBody } from 'ui/profile-types/list/ListProfileTypePage';
 import { shallowWithIntl } from 'test/testUtils';
 
 describe('ListProfileTypePage', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<ListProfileTypePage />);
+    component = shallowWithIntl(<ListProfileTypePageBody />);
   });
 
   it('renders without crashing', () => {

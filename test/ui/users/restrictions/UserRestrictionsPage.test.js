@@ -3,13 +3,13 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
+import { UserRestrictionsPageBody } from 'ui/users/restrictions/UserRestrictionsPage';
 import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
 
 describe('UserRestrictionsPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserRestrictionsPage />);
+    component = shallow(<UserRestrictionsPageBody />);
   });
 
   it('renders without crashing', () => {

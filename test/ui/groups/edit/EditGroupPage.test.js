@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import EditGroupPage from 'ui/groups/edit/EditGroupPage';
+import { EditGroupPageBody } from 'ui/groups/edit/EditGroupPage';
 
 describe('EditGroupPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<EditGroupPage />);
+    component = shallow(<EditGroupPageBody />);
   });
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

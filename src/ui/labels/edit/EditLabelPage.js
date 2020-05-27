@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/labels/edit/EditFormContainer';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const EditLabelsPage = () => (
+export const EditLabelPageBody = () => (
   <InternalPage className="EditLabelsPage">
     <Grid fluid>
       <Row>
@@ -46,4 +48,4 @@ const EditLabelsPage = () => (
   </InternalPage>
 );
 
-export default EditLabelsPage;
+export default withPermissions(ROLE_SUPERUSER)(EditLabelPageBody);

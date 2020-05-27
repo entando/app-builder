@@ -8,8 +8,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';
 import { ROUTE_ROLE_ADD } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const ListRolePage = () => (
+export const ListRolePageBody = () => (
   <InternalPage className="ListRolePage">
     <Grid fluid>
       <Row>
@@ -54,4 +56,4 @@ const ListRolePage = () => (
   </InternalPage>
 );
 
-export default ListRolePage;
+export default withPermissions(ROLE_SUPERUSER)(ListRolePageBody);

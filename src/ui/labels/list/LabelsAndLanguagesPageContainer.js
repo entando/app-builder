@@ -6,6 +6,8 @@ import { fetchLabels, setActiveTab } from 'state/labels/actions';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getActiveTab } from 'state/labels/selectors';
 import { getLoading } from 'state/loading/selectors';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 const TAB_LANGUAGES = 'languages';
 
@@ -31,4 +33,4 @@ export const mapDispatchToProps = dispatch => ({
 const LabelsAndLanguagesPageContainer =
   connect(mapStateToProps, mapDispatchToProps)(LabelsAndLanguagesPage);
 
-export default LabelsAndLanguagesPageContainer;
+export default withPermissions(ROLE_SUPERUSER)(LabelsAndLanguagesPageContainer);

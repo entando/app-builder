@@ -15,6 +15,9 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_FRAGMENT_LIST)); },
 });
 
-export default withRouter(connect(null, mapDispatchToProps, null, {
-  pure: false,
-})(FragmentForm));
+export default withRouter(connect(
+  null,
+  mapDispatchToProps, null, {
+    pure: false,
+  },
+)(FragmentForm));

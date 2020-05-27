@@ -3,12 +3,12 @@ import 'test/enzyme-init';
 
 import { shallow } from 'enzyme';
 
-import ListRolePage from 'ui/roles/list/ListRolePage';
+import { ListRolePageBody } from 'ui/roles/list/ListRolePage';
 
 describe('ListRolePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ListRolePage />);
+    component = shallow(<ListRolePageBody />);
   });
 
   it('renders without crashing', () => {

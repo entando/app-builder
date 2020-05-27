@@ -2,12 +2,12 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
+import { AddCategoryPageBody } from 'ui/categories/add/AddCategoryPage';
 
 describe('AddCategoryPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<AddCategoryPage />);
+    component = shallow(<AddCategoryPageBody />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

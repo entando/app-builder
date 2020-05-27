@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import { PageTemplateEditPageBody } from 'ui/page-templates/edit/PageTemplateEditPage';
 
 
 describe('PageTemplateEditPage', () => {
@@ -10,7 +10,7 @@ describe('PageTemplateEditPage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallow(<PageTemplateEditPage />);
+    component = shallow(<PageTemplateEditPageBody />);
   });
 
   it('renders without crashing', () => {

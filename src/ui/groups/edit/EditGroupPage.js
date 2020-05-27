@@ -7,8 +7,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/groups/edit/EditFormContainer';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
+import withPermissions from 'ui/auth/withPermissions';
+import { ROLE_SUPERUSER } from 'state/permissions/const';
 
-const EditGroupPage = () => (
+export const EditGroupPageBody = () => (
 
   <InternalPage className="EditGroupPage">
     <Grid fluid>
@@ -41,4 +43,4 @@ const EditGroupPage = () => (
 );
 
 
-export default EditGroupPage;
+export default withPermissions(ROLE_SUPERUSER)(EditGroupPageBody);
