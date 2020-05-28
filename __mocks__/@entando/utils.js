@@ -15,6 +15,7 @@ utils.matchPassword = real.matchPassword;
 utils.userFormText = real.userFormText;
 utils.required = real.required;
 utils.routeConverter = real.routeConverter;
+utils.hasAccess = real.hasAccess;
 
 export const {
   formattedText,
@@ -33,4 +34,5 @@ export const {
   required,
   routeConverter,
   formatDate,
+  hasAccess,
 } = utils;

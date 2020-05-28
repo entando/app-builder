@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
-import { routeConverter } from '@entando/utils';
-import { hasAccess } from '@entando/utils/dist/permissions';
+import { routeConverter, hasAccess } from '@entando/utils';
 
 import { CRUD_USERS_PERMISSION, EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
 import {

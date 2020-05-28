@@ -28,7 +28,7 @@ const topWidgetRequiredPermissions = [
 
 export const DashboardPageBody = ({ isSuperuser, userPermissions }) => {
   const topWidgetPermissions = topWidgetRequiredPermissions.map(required => (
-    hasAccess(userPermissions, required)
+    hasAccess(required, userPermissions)
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
