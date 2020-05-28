@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Spinner } from 'patternfly-react';
-import { PermissionCheck, routeConverter } from '@entando/utils';
+import { PermissionCheck, routeConverter, hasAccess } from '@entando/utils';
 import { NoAccessPage } from '@entando/pages';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '@entando/apimanager';
 import { ROUTE_DASHBOARD } from 'app-init/router';
-import { hasAccess } from '@entando/utils/dist/permissions';
 import {
   ADMINISTRATION_AREA_PERMISSION,
   ROLE_SUPERUSER,
@@ -19,7 +18,7 @@ const injectPermissionValues = WrappedComponent => (props) => {
   // eslint-disable-next-line react/prop-types
   const { userPermissions, ...otherProps } = props;
 
-  const isSuperuser = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const isSuperuser = hasAccess(ROLE_SUPERUSER, userPermissions || []);
 
   const newProps = {
     ...otherProps,
@@ -62,7 +61,7 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
         userPermissions={userPermissions || []}
       >
         <WrappedComponent
-          userPermissions={userPermissions}
+          userPermissions={userPermissions || []}
           {...rest}
         />
       </PermissionCheck>

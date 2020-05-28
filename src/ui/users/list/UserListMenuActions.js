@@ -116,14 +116,13 @@ UserListMenuActions.propTypes = {
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
   hasProfile: PropTypes.bool,
-  userPermissions: PropTypes.arrayOf(PropTypes.string),
+  userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 UserListMenuActions.defaultProps = {
   onClickDelete: () => {},
   onClickView: () => {},
   hasProfile: false,
-  userPermissions: [],
 };
 
 export default UserListMenuActions;
