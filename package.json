@@ -10,7 +10,7 @@
     "@entando/messages": "^1.0.4",
     "@entando/pages": "^3.1.4",
     "@entando/pagetreeselector": "^2.0.0",
-    "@entando/utils": "^2.2.0",
+    "@entando/utils": "^2.3.0",
     "autoprefixer": "7.1.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "9.0.0",
