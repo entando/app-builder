@@ -71,9 +71,15 @@ export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) 
 };
 
 DashboardPageBody.propTypes = {
-  isSuperuser: PropTypes.bool.isRequired,
-  canUser: PropTypes.func.isRequired,
-  hasSomePermissions: PropTypes.func.isRequired,
+  isSuperuser: PropTypes.bool,
+  canUser: PropTypes.func,
+  hasSomePermissions: PropTypes.func,
+};
+
+DashboardPageBody.defaultProps = {
+  isSuperuser: true,
+  canUser: () => true,
+  hasSomePermissions: () => true,
 };
 
 export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPageBody);

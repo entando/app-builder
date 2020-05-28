@@ -13,7 +13,7 @@ import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
 import { ROUTE_USER_ADD } from 'app-init/router';
 import { CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION } from 'state/permissions/const';
 
-const UserListPageBody = ({ canUser }) => {
+export const UserListPageBody = ({ canUser }) => {
   const canEditUser = canUser(CRUD_USERS_PERMISSION);
   return (
     <InternalPage className="UserListPage">
@@ -70,7 +70,11 @@ const UserListPageBody = ({ canUser }) => {
 };
 
 UserListPageBody.propTypes = {
-  canUser: PropTypes.func.isRequired,
+  canUser: PropTypes.func,
+};
+
+UserListPageBody.defaultProps = {
+  canUser: () => true,
 };
 
 export default withPermissions(VIEW_USERS_AND_PROFILES_PERMISSION)(UserListPageBody);

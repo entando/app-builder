@@ -12,10 +12,10 @@ export const mapStateToProps = state => ({
   groups: getGroupsTotal(state),
 });
 
-export const mapDispatchToProps = (dispatch, { isSuperuser }) => ({
+export const mapDispatchToProps = (dispatch, props) => ({
   onDidMount: () => {
     dispatch(fetchUsersTotal());
-    if (isSuperuser) {
+    if (props && props.isSuperuser) {
       dispatch(fetchGroupsTotal());
     }
   },

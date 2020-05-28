@@ -65,10 +65,15 @@ class UserManagement extends Component {
 
 UserManagement.propTypes = {
   onDidMount: PropTypes.func.isRequired,
-  canUser: PropTypes.func.isRequired,
+  canUser: PropTypes.func,
   users: PropTypes.number.isRequired,
   groups: PropTypes.number.isRequired,
-  isSuperuser: PropTypes.bool.isRequired,
+  isSuperuser: PropTypes.bool,
+};
+
+UserManagement.defaultProps = {
+  isSuperuser: true,
+  canUser: () => true,
 };
 
 export default UserManagement;

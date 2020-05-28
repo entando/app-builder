@@ -57,12 +57,13 @@ WidgetListRow.propTypes = {
   used: PropTypes.number.isRequired,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
-  isSuperuser: PropTypes.bool.isRequired,
+  isSuperuser: PropTypes.bool,
 };
 
 WidgetListRow.defaultProps = {
   onDelete: () => {},
   onEdit: () => {},
+  isSuperuser: true,
 };
 
 export default WidgetListRow;

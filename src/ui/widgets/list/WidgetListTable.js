@@ -7,7 +7,7 @@ import WidgetSectionTitle from 'ui/widgets/list/WidgetSectionTitle';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 import { withPermissionValues } from 'ui/auth/withPermissions';
 
-const WidgetListTable = ({
+export const WidgetListTableBody = ({
   title, widgetList, locale, onDelete, onEdit, isSuperuser,
 }) => {
   const renderRow = widgetList
@@ -48,13 +48,17 @@ const WidgetListTable = ({
   );
 };
 
-WidgetListTable.propTypes = {
+WidgetListTableBody.propTypes = {
   title: PropTypes.string.isRequired,
   widgetList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   locale: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  isSuperuser: PropTypes.bool.isRequired,
+  isSuperuser: PropTypes.bool,
 };
 
-export default withPermissionValues(WidgetListTable);
+WidgetListTableBody.defaultProps = {
+  isSuperuser: true,
+};
+
+export default withPermissionValues(WidgetListTableBody);

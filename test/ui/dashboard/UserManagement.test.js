@@ -6,7 +6,7 @@ import UserManagement from 'ui/dashboard/UserManagement';
 import { ROUTE_USER_ADD } from 'app-init/router';
 import { Link } from 'react-router-dom';
 
-const component = shallow(<UserManagement onWillMount={() => {}} users={2} groups={3} />);
+const component = shallow(<UserManagement onDidMount={() => {}} users={2} groups={3} />);
 
 
 describe('UserManagement', () => {
