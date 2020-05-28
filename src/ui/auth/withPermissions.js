@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '@entando/apimanager';
 import { ROUTE_DASHBOARD } from 'app-init/router';
+import { hasAccess } from '@entando/utils/dist/permissions';
 import {
   ADMINISTRATION_AREA_PERMISSION,
   ROLE_SUPERUSER,
@@ -18,25 +19,12 @@ const injectPermissionValues = WrappedComponent => (props) => {
   // eslint-disable-next-line react/prop-types
   const { userPermissions, ...otherProps } = props;
 
-  const canUser = permission => userPermissions.includes(permission);
-
-  const hasSomePermissions = requiredPermissions => (
-    requiredPermissions.some(permission => userPermissions.includes(permission))
-  );
-
-  const hasEveryPermission = requiredPermissions => (
-    requiredPermissions.every(permission => userPermissions.includes(permission))
-  );
-
-  const isSuperuser = userPermissions.includes(ROLE_SUPERUSER);
+  const isSuperuser = hasAccess(ROLE_SUPERUSER, userPermissions);
 
   const newProps = {
     ...otherProps,
     userPermissions,
     isSuperuser,
-    canUser,
-    hasSomePermissions,
-    hasEveryPermission,
   };
 
   return (
@@ -73,7 +61,10 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
         requiredPermissions={requiredPermissions}
         userPermissions={userPermissions || []}
       >
-        <WrappedComponent {...rest} />
+        <WrappedComponent
+          userPermissions={userPermissions}
+          {...rest}
+        />
       </PermissionCheck>
     </Spinner>
   );

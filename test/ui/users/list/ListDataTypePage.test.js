@@ -8,7 +8,7 @@ import { UserListPageBody } from 'ui/users/list/UserListPage';
 describe('UserListPage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<UserListPageBody />);
+    component = shallow(<UserListPageBody userPermissions={['superuser']} />);
   });
 
   it('renders without crashing', () => {

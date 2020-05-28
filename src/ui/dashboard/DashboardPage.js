@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, CardGrid } from 'patternfly-react';
 import { compact } from 'lodash';
+import { PermissionCheck } from '@entando/utils';
+import { hasAccess } from '@entando/utils/dist/permissions';
 import withPermissions from 'ui/auth/withPermissions';
-
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
 import UxPatternsContainer from 'ui/dashboard/UxPatternsContainer';
@@ -26,9 +27,9 @@ const topWidgetRequiredPermissions = [
   [ROLE_SUPERUSER],
 ];
 
-export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) => {
+export const DashboardPageBody = ({ isSuperuser, userPermissions }) => {
   const topWidgetPermissions = topWidgetRequiredPermissions.map(required => (
-    hasSomePermissions(required)
+    hasAccess(userPermissions, required)
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
@@ -53,7 +54,10 @@ export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) 
             </Col>
           )}
         </Row>
-        {canUser(MANAGE_PAGES_PERMISSION) && (
+        <PermissionCheck
+          requiredPermissions={MANAGE_PAGES_PERMISSION}
+          userPermissions={userPermissions}
+        >
           <Row>
             {isSuperuser && (
               <Col md={4}>
@@ -64,7 +68,7 @@ export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) 
               <PagesListContainer />
             </Col>
           </Row>
-        )}
+        </PermissionCheck>
       </CardGrid>
     </InternalPage>
   );
@@ -72,14 +76,12 @@ export const DashboardPageBody = ({ isSuperuser, canUser, hasSomePermissions }) 
 
 DashboardPageBody.propTypes = {
   isSuperuser: PropTypes.bool,
-  canUser: PropTypes.func,
-  hasSomePermissions: PropTypes.func,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 DashboardPageBody.defaultProps = {
   isSuperuser: true,
-  canUser: () => true,
-  hasSomePermissions: () => true,
+  userPermissions: [],
 };
 
 export default withPermissions(ADMINISTRATION_AREA_PERMISSION)(DashboardPageBody);

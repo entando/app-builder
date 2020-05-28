@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
+import { hasAccess } from '@entando/utils/dist/permissions';
 
 import { CRUD_USERS_PERMISSION, EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
 import {
@@ -38,10 +39,9 @@ class UserListMenuActions extends Component {
 
 
   render() {
-    const { canUser, onClickDelete, hasProfile } = this.props;
-
-    const canEdit = canUser(CRUD_USERS_PERMISSION);
-    const canEditProfile = canUser(EDIT_USER_PROFILES_PERMISSION);
+    const { userPermissions, onClickDelete, hasProfile } = this.props;
+    const canEdit = hasAccess(CRUD_USERS_PERMISSION, userPermissions);
+    const canEditProfile = hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions);
 
     if (!hasProfile && !canEdit && !canEditProfile) {
       return null;
@@ -116,14 +116,14 @@ UserListMenuActions.propTypes = {
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
   hasProfile: PropTypes.bool,
-  canUser: PropTypes.func,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 UserListMenuActions.defaultProps = {
   onClickDelete: () => {},
   onClickView: () => {},
   hasProfile: false,
-  canUser: () => true,
+  userPermissions: [],
 };
 
 export default UserListMenuActions;
