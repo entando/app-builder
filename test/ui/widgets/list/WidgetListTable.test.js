@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { WIDGET_LIST } from 'test/mocks/widgets';
-import WidgetListTable from 'ui/widgets/list/WidgetListTable';
+import { WidgetListTableBody as WidgetListTable } from 'ui/widgets/list/WidgetListTable';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 const onDelete = jest.fn();

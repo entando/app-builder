@@ -8,7 +8,7 @@ import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 const WidgetListRow = (props) => {
   const {
-    name, code, used, onDelete, onEdit,
+    name, code, used, onDelete, onEdit, isSuperuser,
   } = props;
 
   const onClickDelete = () => {
@@ -29,23 +29,24 @@ const WidgetListRow = (props) => {
       </td>
       <td className="WidgetListRow__td ">{code}</td>
       <td className="WidgetListRow__td text-center">{used}</td>
-      <td className="WidgetListRow__td text-center">
-        <DropdownKebab pullRight id="WidgetListRow-dropown">
-          <MenuItem
-            className="WidgetListRow__menu-item-edit"
-            onClick={onClickEdit}
-          >
-            <FormattedMessage id="app.edit" />
-          </MenuItem>
-          <MenuItem
-            className="WidgetListRow__menu-item-delete"
-            onClick={onClickDelete}
-          >
-            <FormattedMessage id="app.delete" />
-          </MenuItem>
-        </DropdownKebab>
-
-      </td>
+      {isSuperuser && (
+        <td className="WidgetListRow__td text-center">
+          <DropdownKebab pullRight id="WidgetListRow-dropown">
+            <MenuItem
+              className="WidgetListRow__menu-item-edit"
+              onClick={onClickEdit}
+            >
+              <FormattedMessage id="app.edit" />
+            </MenuItem>
+            <MenuItem
+              className="WidgetListRow__menu-item-delete"
+              onClick={onClickDelete}
+            >
+              <FormattedMessage id="app.delete" />
+            </MenuItem>
+          </DropdownKebab>
+        </td>
+      )}
     </tr>
   );
 };
@@ -56,11 +57,13 @@ WidgetListRow.propTypes = {
   used: PropTypes.number.isRequired,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
+  isSuperuser: PropTypes.bool,
 };
 
 WidgetListRow.defaultProps = {
   onDelete: () => {},
   onEdit: () => {},
+  isSuperuser: true,
 };
 
 export default WidgetListRow;

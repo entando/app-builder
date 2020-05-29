@@ -1,13 +1,14 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import WidgetSectionTitle from 'ui/widgets/list/WidgetSectionTitle';
 import WidgetListRow from 'ui/widgets/list/WidgetListRow';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 
-const WidgetListTable = ({
-  title, widgetList, locale, onDelete, onEdit,
+export const WidgetListTableBody = ({
+  title, widgetList, locale, onDelete, onEdit, isSuperuser,
 }) => {
   const renderRow = widgetList
     .map(item => (
@@ -18,6 +19,7 @@ const WidgetListTable = ({
         used={item.used}
         onDelete={onDelete}
         onEdit={onEdit}
+        isSuperuser={isSuperuser}
       />));
 
   return (
@@ -32,7 +34,9 @@ const WidgetListTable = ({
               <th width="40%"><FormattedMessage id="app.name" /></th>
               <th width="40%"><FormattedMessage id="app.code" /></th>
               <th className="text-center" width="10%"><FormattedMessage id="app.used" /></th>
-              <th className="text-center" width="10%"><FormattedMessage id="app.actions" /></th>
+              {isSuperuser && (
+                <th className="text-center" width="10%"><FormattedMessage id="app.actions" /></th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -44,12 +48,17 @@ const WidgetListTable = ({
   );
 };
 
-WidgetListTable.propTypes = {
+WidgetListTableBody.propTypes = {
   title: PropTypes.string.isRequired,
   widgetList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   locale: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  isSuperuser: PropTypes.bool,
 };
 
-export default WidgetListTable;
+WidgetListTableBody.defaultProps = {
+  isSuperuser: true,
+};
+
+export default withPermissionValues(WidgetListTableBody);

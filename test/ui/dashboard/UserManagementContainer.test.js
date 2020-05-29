@@ -33,13 +33,13 @@ describe('UserManagementContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props).toHaveProperty('onWillMount');
+      expect(props).toHaveProperty('onDidMount');
     });
 
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount({});
+    it('should dispatch an action if onDidMount is called', () => {
+      props.onDidMount({});
       expect(fetchUsersTotal).toHaveBeenCalled();
-      expect(fetchGroupsTotal).toHaveBeenCalled();
+      expect(fetchGroupsTotal).not.toHaveBeenCalled();
     });
   });
 });

@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Spinner } from 'patternfly-react';
-import { PermissionCheck, routeConverter } from '@entando/utils';
+import { PermissionCheck, routeConverter, hasAccess } from '@entando/utils';
 import { NoAccessPage } from '@entando/pages';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '@entando/apimanager';
 import { ROUTE_DASHBOARD } from 'app-init/router';
-import { hasAccess } from '@entando/utils/dist/permissions';
 import {
   ADMINISTRATION_AREA_PERMISSION,
   ROLE_SUPERUSER,

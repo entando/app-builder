@@ -20,19 +20,22 @@ class UxPatterns extends Component {
   }
 
   render() {
+    const { isSuperuser } = this.props;
     return (
       <Card accented>
         <CardTitle>
           <Icon size="lg" name="object-ungroup" />
           <FormattedMessage id="menu.uxPattern" />
-          <Button
-            bsStyle="primary"
-            className="pull-right"
-            componentClass={Link}
-            to={ROUTE_WIDGET_ADD}
-          >
-            <FormattedMessage id="app.new" />
-          </Button>
+          {isSuperuser && (
+            <Button
+              bsStyle="primary"
+              className="pull-right"
+              componentClass={Link}
+              to={ROUTE_WIDGET_ADD}
+            >
+              <FormattedMessage id="app.new" />
+            </Button>
+          )}
           <Clearfix />
         </CardTitle>
         <CardBody>
@@ -54,6 +57,11 @@ UxPatterns.propTypes = {
   onWillMount: PropTypes.func.isRequired,
   widgets: PropTypes.number.isRequired,
   pageTemplates: PropTypes.number.isRequired,
+  isSuperuser: PropTypes.bool,
+};
+
+UxPatterns.defaultProps = {
+  isSuperuser: true,
 };
 
 export default UxPatterns;

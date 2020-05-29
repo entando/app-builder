@@ -10,8 +10,9 @@ const EVENT = {
 
 describe('UserListMenuActions', () => {
   let component;
+  const userPermissions = ['superuser', 'editUsers', 'editUserProfile'];
   beforeEach(() => {
-    component = shallow(<UserListMenuActions username="user1" />);
+    component = shallow(<UserListMenuActions userPermissions={userPermissions} username="user1" />);
   });
 
   it('errors without a code', () => {
