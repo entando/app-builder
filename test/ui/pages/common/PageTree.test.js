@@ -4,7 +4,7 @@ import { DDTable } from '@entando/ddtable';
 
 import 'test/enzyme-init';
 import PageTree from 'ui/pages/common/PageTree';
-
+import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 
 const PAGES = [
   {
@@ -56,36 +56,39 @@ describe('PageTree', () => {
 
   describe('drag and drop', () => {
     let component;
-    const handleDropIntoPage = jest.fn();
-    const handleDropAbovePage = jest.fn();
-    const handleDropBelowPage = jest.fn();
+    const handleDropPage = jest.fn();
     beforeEach(() => {
       component = shallow((
         <PageTree
           pages={PAGES}
-          onDropIntoPage={handleDropIntoPage}
-          onDropAbovePage={handleDropAbovePage}
-          onDropBelowPage={handleDropBelowPage}
+          onDropPage={handleDropPage}
           {...props}
         />));
     });
-    it('calls onDropIntoPage if a row is dropped with drop type "medium"', () => {
+    it('calls onDropPage with action of "drop into" if a row is dropped with drop type "medium"', () => {
       component.instance().handleDrop(DDTable.DROP_MEDIUM, PAGES[1], PAGES[0]);
-      expect(handleDropIntoPage).toHaveBeenCalledWith(PAGES[1].code, PAGES[0].code);
+      expect(handleDropPage).toHaveBeenCalledWith(
+        PAGES[1].code, PAGES[0].code,
+        MovePageModalContainer.INTO_PARENT,
+      );
     });
-    it('calls onDropAbovePage if a row is dropped with drop type "high"', () => {
+    it('calls onDropPage with action of "drop above" if a row is dropped with drop type "high"', () => {
       component.instance().handleDrop(DDTable.DROP_HIGH, PAGES[1], PAGES[0]);
-      expect(handleDropAbovePage).toHaveBeenCalledWith(PAGES[1].code, PAGES[0].code);
+      expect(handleDropPage).toHaveBeenCalledWith(
+        PAGES[1].code, PAGES[0].code,
+        MovePageModalContainer.ABOVE_SIBLING,
+      );
     });
-    it('calls onDropBelowPage if a row is dropped with drop type "low"', () => {
+    it('calls onDropPage with action of "drop below" if a row is dropped with drop type "low"', () => {
       component.instance().handleDrop(DDTable.DROP_LOW, PAGES[1], PAGES[0]);
-      expect(handleDropBelowPage).toHaveBeenCalledWith(PAGES[1].code, PAGES[0].code);
+      expect(handleDropPage).toHaveBeenCalledWith(
+        PAGES[1].code, PAGES[0].code,
+        MovePageModalContainer.BELOW_SIBLING,
+      );
     });
     it('calls nothing if a row is dropped with another drop type', () => {
       component.instance().handleDrop(null, PAGES[1], PAGES[0]);
-      expect(handleDropIntoPage).not.toHaveBeenCalled();
-      expect(handleDropAbovePage).not.toHaveBeenCalled();
-      expect(handleDropBelowPage).not.toHaveBeenCalled();
+      expect(handleDropPage).not.toHaveBeenCalled();
     });
   });
 

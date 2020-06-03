@@ -31,7 +31,9 @@ class PageTree extends Component {
 
   handleDrop(dropType, sourcePage, targetPage) {
     const { onDropPage } = this.props;
-    onDropPage(sourcePage.code, targetPage.code, PageTree.actionMapping[dropType]);
+    if (dropType) {
+      onDropPage(sourcePage.code, targetPage.code, PageTree.actionMapping[dropType]);
+    }
   }
 
   renderRows() {
