@@ -11,15 +11,13 @@ import { getLocale } from 'state/locale/selectors';
 import PageTree from 'ui/pages/common/PageTree';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
+import { MODAL_ID as MOVE_MODAL_ID } from 'ui/pages/common/MovePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
 
 import {
   setSelectedPage,
   handleExpandPage,
-  setPageParent,
-  movePageAbove,
-  movePageBelow,
   clonePage,
   clearSearchPage,
   initPageForm,
@@ -77,13 +75,12 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clonePage(page));
     dispatch(clearSearchPage());
   },
-
-  onDropIntoPage: (sourcePageCode, targetPageCode) =>
-    dispatch(setPageParent(sourcePageCode, targetPageCode)),
-  onDropAbovePage: (sourcePageCode, targetPageCode) =>
-    dispatch(movePageAbove(sourcePageCode, targetPageCode)),
-  onDropBelowPage: (sourcePageCode, targetPageCode) =>
-    dispatch(movePageBelow(sourcePageCode, targetPageCode)),
+  onDropPage: (sourcePageCode, targetPageCode, action) => {
+    dispatch(setVisibleModal(MOVE_MODAL_ID));
+    dispatch(setInfo({
+      type: 'page', sourcePageCode, targetPageCode, action,
+    }));
+  },
   onExpandPage: pageCode =>
     dispatch(handleExpandPage(pageCode)),
   onExpandAll: () => dispatch(fetchPageTreeAll()),

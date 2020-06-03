@@ -14,27 +14,24 @@ import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
 import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
+import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 
 
 class PageTree extends Component {
+  static actionMapping = {
+    [DDTable.DROP_MEDIUM]: MovePageModalContainer.INTO_PARENT,
+    [DDTable.DROP_HIGH]: MovePageModalContainer.ABOVE_SIBLING,
+    [DDTable.DROP_LOW]: MovePageModalContainer.BELOW_SIBLING,
+  }
+
   constructor(props) {
     super(props);
     this.handleDrop = this.handleDrop.bind(this);
   }
 
   handleDrop(dropType, sourcePage, targetPage) {
-    switch (dropType) {
-      case DDTable.DROP_MEDIUM:
-        this.props.onDropIntoPage(sourcePage.code, targetPage.code);
-        break;
-      case DDTable.DROP_HIGH:
-        this.props.onDropAbovePage(sourcePage.code, targetPage.code);
-        break;
-      case DDTable.DROP_LOW:
-        this.props.onDropBelowPage(sourcePage.code, targetPage.code);
-        break;
-      default: break;
-    }
+    const { onDropPage } = this.props;
+    onDropPage(sourcePage.code, targetPage.code, PageTree.actionMapping[dropType]);
   }
 
   renderRows() {
@@ -152,6 +149,7 @@ class PageTree extends Component {
           <DeletePageModalContainer />
           <PublishPageModalContainer />
           <UnpublishPageModalContainer />
+          <MovePageModalContainer />
         </div>
       </Spinner>
     );
@@ -180,9 +178,7 @@ PageTree.propTypes = {
   onClickClone: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
-  onDropIntoPage: PropTypes.func,
-  onDropAbovePage: PropTypes.func,
-  onDropBelowPage: PropTypes.func,
+  onDropPage: PropTypes.func,
   onExpandPage: PropTypes.func,
   onExpandAll: PropTypes.func,
   onCollapseAll: PropTypes.func,
@@ -192,9 +188,7 @@ PageTree.propTypes = {
 PageTree.defaultProps = {
   pages: [],
   searchPages: null,
-  onDropIntoPage: () => {},
-  onDropAbovePage: () => {},
-  onDropBelowPage: () => {},
+  onDropPage: () => {},
   onExpandPage: () => {},
   onExpandAll: () => {},
   onCollapseAll: () => {},
