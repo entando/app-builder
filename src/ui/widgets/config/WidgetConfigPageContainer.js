@@ -8,7 +8,7 @@ import { getSelectedWidget } from 'state/widgets/selectors';
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onDidMount: ({ widgetConfig }) => {
@@ -51,4 +51,4 @@ export default withRouter(injectIntl(connect(
   {
     pure: false,
   },
-)(withPermissions(ROLE_SUPERUSER)(WidgetConfigPage))));
+)(withPermissions(MANAGE_PAGES_PERMISSION)(WidgetConfigPage))));
