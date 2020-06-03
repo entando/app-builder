@@ -8,15 +8,14 @@ import {
   setSelectedPage,
   handleExpandPage,
   initPageForm,
-  setPageParent,
-  movePageAbove,
-  movePageBelow,
   clonePage,
   clearSearchPage,
 } from 'state/pages/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
+import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
+import { MODAL_ID as MOVE_MODAL_ID } from 'ui/pages/common/MovePageModal';
 import { history } from 'app-init/router';
 
 history.push = jest.fn();
@@ -26,9 +25,6 @@ jest.mock('state/pages/actions', () => ({
   clonePage: jest.fn(),
   unpublishSelectedPage: jest.fn(),
   handleExpandPage: jest.fn(),
-  setPageParent: jest.fn(),
-  movePageAbove: jest.fn(),
-  movePageBelow: jest.fn(),
   clearSearchPage: jest.fn(),
   fetchSearchPages: jest.fn(),
   initPageForm: jest.fn(),
@@ -81,9 +77,7 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onClickUnPublish');
       expect(props).toHaveProperty('onClickDetails');
       expect(props).toHaveProperty('onClickClone');
-      expect(props).toHaveProperty('onDropIntoPage');
-      expect(props).toHaveProperty('onDropAbovePage');
-      expect(props).toHaveProperty('onDropBelowPage');
+      expect(props).toHaveProperty('onDropPage');
       expect(props).toHaveProperty('onExpandPage');
     });
 
@@ -141,19 +135,37 @@ describe('PageTreeContainer', () => {
       expect(handleExpandPage).toHaveBeenCalled();
     });
 
-    it('should dispatch an action if onDropIntoPage is called', () => {
-      props.onDropIntoPage('a', 'b');
-      expect(setPageParent).toHaveBeenCalled();
+    it('should dispatch an action if onDropPage is called with action of "drop into"', () => {
+      props.onDropPage('a', 'b', MovePageModalContainer.INTO_PARENT);
+      expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({
+        type: 'page',
+        sourcePageCode: 'a',
+        targetPageCode: 'b',
+        action: MovePageModalContainer.INTO_PARENT,
+      });
     });
 
-    it('should dispatch an action if onDropAbovePage is called', () => {
-      props.onDropAbovePage('a', 'b');
-      expect(movePageAbove).toHaveBeenCalled();
+    it('should dispatch an action if onDropPage is called with action of "drop above"', () => {
+      props.onDropPage('a', 'b', MovePageModalContainer.ABOVE_SIBLING);
+      expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({
+        type: 'page',
+        sourcePageCode: 'a',
+        targetPageCode: 'b',
+        action: MovePageModalContainer.ABOVE_SIBLING,
+      });
     });
 
-    it('should dispatch an action if onDropBelowPage is called', () => {
-      props.onDropBelowPage('a', 'b');
-      expect(movePageBelow).toHaveBeenCalled();
+    it('should dispatch an action if onDropPage is called with action of "drop below"', () => {
+      props.onDropPage('a', 'b', MovePageModalContainer.BELOW_SIBLING);
+      expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
+      expect(setInfo).toHaveBeenCalledWith({
+        type: 'page',
+        sourcePageCode: 'a',
+        targetPageCode: 'b',
+        action: MovePageModalContainer.BELOW_SIBLING,
+      });
     });
   });
 });
