@@ -6,7 +6,7 @@ import DetailWidgetPage from 'ui/widgets/detail/DetailWidgetPage';
 import { getDefaultLanguage } from 'state/languages/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   widgetInfo: getWidgetInfo(state),
@@ -25,4 +25,4 @@ const DetailWidgetPageContainer = withRouter(connect(
   mapDispatchToProps,
 )(DetailWidgetPage));
 
-export default withPermissions(ROLE_SUPERUSER)(DetailWidgetPageContainer);
+export default withPermissions(MANAGE_PAGES_PERMISSION)(DetailWidgetPageContainer);

@@ -7,6 +7,7 @@ import { NoAccessPage } from '@entando/pages';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '@entando/apimanager';
+
 import { ROUTE_DASHBOARD } from 'app-init/router';
 import {
   ADMINISTRATION_AREA_PERMISSION,
