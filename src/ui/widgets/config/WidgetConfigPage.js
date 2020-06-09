@@ -61,7 +61,8 @@ class WidgetConfigPage extends Component {
             widget={widget}
             widgetConfig={widgetConfig}
             onSubmit={onSubmit}
-          />);
+          />
+        );
       }
       return <FormattedMessage id="widget.page.config.error" />;
     };
