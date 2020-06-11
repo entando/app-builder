@@ -35,6 +35,7 @@ export const mapDispatchToProps = dispatch => ({
         attribute: 'code',
       },
     });
+
     if (params.pageCodeToken) {
       queryString = `${queryString}&pageCodeToken=${params.pageCodeToken}`;
       dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
