@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { getApis, getPlugins } from 'state/dashboard/selectors';
 import { fetchIntegration } from 'state/dashboard/actions';
+
 import Integrations from 'ui/dashboard/Integrations';
 
 export const mapDispatchToProps = dispatch => ({
