@@ -90,6 +90,8 @@ const ComponentRepositoryMenuItem = COMPONENT_REPOSITORY_UI_ENABLED ? (<LinkMenu
   isNav
 />) : '';
 
+const adminConsoleUrl = url => `${process.env.DOMAIN}/${url}`;
+
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
   <VerticalNav
     blurDelay={700}
@@ -199,23 +201,28 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
               onClick={() => history.push(ROUTE_CMS_VERSIONING)}
             />
           </SecondaryItem>
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-          >
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.resources', defaultMessage: 'Resources' })}
-              onClick={() => {}}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.services', defaultMessage: 'Services' })}
-              onClick={() => {}}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.consumers', defaultMessage: 'Consumers' })}
-              onClick={() => {}}
-            />
-          </SecondaryItem>
+          { hasAccess(ROLE_SUPERUSER, userPermissions) &&
+            <SecondaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
+              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+            >
+              <TertiaryItem
+                title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
+                onClick={() => {}}
+                href={adminConsoleUrl('do/Api/Resource/list.action')}
+              />
+              <TertiaryItem
+                title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
+                onClick={() => {}}
+                href={adminConsoleUrl('do/Api/Service/list.action')}
+              />
+              <TertiaryItem
+                title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
+                onClick={() => {}}
+                href={adminConsoleUrl('do/Api/Consumer/list.action')}
+              />
+            </SecondaryItem>
+          }
         </Item>
       )
     }
