@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Icon, VerticalNav } from 'patternfly-react';
+import { Icon, VerticalNav, VerticalNavBrand, DropdownButton, MenuItem } from 'patternfly-react';
 import {
   // BrandMenu,
   FirstLevelMenuItem,
@@ -37,7 +37,7 @@ import {
 import { withPermissionValues } from 'ui/auth/withPermissions';
 
 const {
-  Masthead, Item, SecondaryItem, TertiaryItem,
+  Masthead, Item, SecondaryItem, TertiaryItem, Brand,
 } = VerticalNav;
 
 // const publicUrl = process.env.PUBLIC_URL;
@@ -82,13 +82,13 @@ const renderAppMenuItems = (intl, userPermissions) => Object.values(apps).map((A
 
 const { COMPONENT_REPOSITORY_UI_ENABLED } = process.env;
 
-const ComponentRepositoryMenuItem = COMPONENT_REPOSITORY_UI_ENABLED ? (<LinkMenuItem
-  id="component-repository"
-  label={<span><Icon name="cart-plus" /><FormattedMessage id="componentRepository.menuButton.title" /></span>}
-  to={ROUTE_ECR_COMPONENT_LIST}
-  pullRight
-  isNav
-/>) : '';
+const renderComponentRepositoryMenuItem = (history, intl) => (
+  COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
+    id="component-repository"
+    onClick={() => history.push(ROUTE_ECR_COMPONENT_LIST)}
+    iconClass="fa fa-cart-plus"
+    title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
+  />) : '');
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
   <VerticalNav
@@ -100,23 +100,62 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     hideMasthead={false}
     hoverDelay={500}
     hoverDisabled={false}
-    items={null}
-    masthead={null}
-    onCollapse={null}
-    onExpand={null}
-    onItemBlur={null}
-    onItemClick={null}
-    onItemHover={null}
-    onItemPin={null}
-    onMenuToggleClick={null}
-    onMobileSelection={null}
     onNavigate={e => e.onClick()}
-    persist
-    persistentSecondary
-    pinnableMenus={false}
-    showBadges
+    pinnableMenus
+    persistentSecondary={false}
   >
-    <Masthead title="Patternfly React" />
+    <Masthead>
+      <Brand
+        href=""
+        iconImg="images/entando-logo-white.svg"
+        img=""
+        onClick={null}
+        title="Admin console 6.2.0-SNAPSHOT"
+      />
+      <VerticalNav.IconBar collapse>
+        <li id="preview-portal" className="drawer-pf-trigger2 notifications dropdown">
+          <a className="nav-item-iconic" target="#" href="/entando-de-app/" title="Go to Homepage ( same window )">
+            <span className="icon fa fa-globe fa-fw" />
+            Go to Homepage
+          </a>
+        </li>
+        <li id="notification-ico" className="drawer-pf-trigger2 notifications dropdown">
+          <a className="nav-item-iconic drawer-pf-trigger-icon">
+            <span className="fa fa-bell" title="Notifications" />
+          </a>
+        </li>
+        <li className="dropdown">
+          <a className="dropdown-toggle nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span title="Info" className="fa pficon-info" />
+            <span className="caret" />
+          </a>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Licence</a></li>
+          </ul>
+        </li>
+        <li id="userDropdown" className="dropdown">
+          <a className="dropdown-toggle nav-item-iconic" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span title="Username" className="fa pficon-user" />
+                admin<span className="caret" />
+          </a>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li>
+              <a href="/entando-de-app/do/CurrentUser/editProfile.action">
+                <i className="fa fa-user" aria-hidden="true" />
+                My profile
+              </a>
+            </li>
+            <li>
+              <a href="/entando-de-app/do/logout.action">
+                <i className="fa fa-sign-out" aria-hidden="true" />
+                Sign out
+              </a>
+            </li>
+          </ul>
+        </li>
+      </VerticalNav.IconBar>
+    </Masthead>
     {
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item
@@ -229,7 +268,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-user-settings"
           onClick={() => {}}
           iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userManagement', defaultMessage: 'User Settings' })}
+          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'User Settings' })}
         >
           <SecondaryItem
             id="menu-users"
@@ -320,50 +359,50 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         )
       }
 
-    { hasAccess(ROLE_SUPERUSER, userPermissions) && ComponentRepositoryMenuItem }
-    <Item
-      className="fixed-bottom"
-      id="menu-configuration"
-      title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Settings' })}
-      onClick={() => {}}
-      iconClass="fa fa-cogs"
-    >
-      <SecondaryItem
-        id="menu-categories"
-        title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Labels & Languages' })}
-        onClick={() => history.push(ROUTE_CATEGORY_LIST)}
-      />
-      <SecondaryItem
-        id="menu-labels-languages"
-        title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Labels & Languages' })}
-        onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
-      />
-      <SecondaryItem
-        id="menu-reload-configuration"
-        title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
-        onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
-      />
-      <SecondaryItem
-        id="menu-databases"
-        title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
-        onClick={() => history.push(ROUTE_DATABASE_LIST)}
-      />
-      <SecondaryItem
-        id="menu-labels-file-browser"
-        title={intl.formatMessage({ id: 'menu.fileBrowser', defaultMessage: 'File Browser' })}
-        onClick={() => history.push(ROUTE_FILE_BROWSER)}
-      />
-      <SecondaryItem
-        id="menu-data-types"
-        title={intl.formatMessage({ id: 'menu.dataType', defaultMessage: 'Data Type' })}
-        onClick={() => history.push(ROUTE_DATA_TYPE_LIST)}
-      />
-      <SecondaryItem
-        id="menu-data-types"
-        title={intl.formatMessage({ id: 'menu.dataType', defaultMessage: 'Data Type' })}
-        onClick={() => history.push(ROUTE_DATA_TYPE_LIST)}
-      />
-    </Item>
+    { hasAccess(ROLE_SUPERUSER, userPermissions) &&
+    renderComponentRepositoryMenuItem(history, intl) }
+    {
+      hasAccess(ROLE_SUPERUSER, userPermissions) && (
+        <Item
+          className="LegacyAdminConsoleMenu__fixed-bottom"
+          id="menu-configuration"
+          title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Settings' })}
+          onClick={() => {}}
+          iconClass="fa fa-cogs"
+        >
+          <SecondaryItem
+            id="menu-categories"
+            title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Labels & Languages' })}
+            onClick={() => history.push(ROUTE_CATEGORY_LIST)}
+          />
+          <SecondaryItem
+            id="menu-labels-languages"
+            title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Labels & Languages' })}
+            onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
+          />
+          <SecondaryItem
+            id="menu-reload-configuration"
+            title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
+            onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
+          />
+          <SecondaryItem
+            id="menu-databases"
+            title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
+            onClick={() => history.push(ROUTE_DATABASE_LIST)}
+          />
+          <SecondaryItem
+            id="menu-labels-file-browser"
+            title={intl.formatMessage({ id: 'menu.fileBrowser', defaultMessage: 'File Browser' })}
+            onClick={() => history.push(ROUTE_FILE_BROWSER)}
+          />
+          <SecondaryItem
+            id="menu-groups"
+            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+            onClick={() => history.push(ROUTE_GROUP_LIST)}
+          />
+        </Item>
+      )
+    }
   </VerticalNav>
 );
 

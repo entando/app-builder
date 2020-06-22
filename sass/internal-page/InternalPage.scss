@@ -99,3 +99,35 @@
     transform: translateY(-52%);
   }
 }
+
+// Legacy menu related css
+
+.LegacyAdminConsoleMenu {
+  &__fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-bottom: 0;
+  }
+}
+
+.container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
+  margin-top: 3px;
+  margin-left: 180px;
+}
+
+.container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
+  margin-left: 55px;
+}
+
+.navbar-brand-txt { //sass-lint:disable-line class-name-format
+  margin-left: 7em;
+  line-height: 36px;
+  text-transform: capitalize;
+}
+
+.navbar-brand-icon { //sass-lint:disable-line class-name-format
+  position: absolute;
+  top: 18px;
+  height: 24px;
+}

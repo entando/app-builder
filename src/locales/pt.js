@@ -282,6 +282,7 @@ export default {
     'menu.consumers': 'Consumidores',
     'menu.services': 'Serviços',
     'menu.resources': 'Recursos',
+    'menu.userSettings': 'Configurações do Usuário',
     'menu.widgetEdit': 'Editar Widget',
     'menu.fragments': 'Fragmentos',
     'menu.pageTemplates': 'Modelos de Página',

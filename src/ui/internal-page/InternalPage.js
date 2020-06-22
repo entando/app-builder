@@ -14,7 +14,13 @@ const InternalPage = ({ className, children }) => (
     <ActivityStreamContainer >
       <NotificationListContainer />
     </ActivityStreamContainer>
-    {children}
+    {
+      process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ? (
+        <div className="container-fluid container-cards-pf container-pf-nav-pf-vertical">
+          {children}
+        </div>
+      ) : { children }
+    }
   </div>
 );
 

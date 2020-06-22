@@ -284,6 +284,7 @@ export default {
     'menu.apiManagement': 'API Management',
     'menu.consumers': 'Consumers',
     'menu.services': 'Services',
+    'menu.userSettings': 'User Settings',
     'menu.fragments': 'Fragments',
     'menu.pageTemplates': 'Page Templates',
     'menu.pageTemplateDetails': 'Page template details',
