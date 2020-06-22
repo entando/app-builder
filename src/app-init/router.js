@@ -99,3 +99,6 @@ export const ROUTE_ATTRIBUTE_MONOLIST_ADD = '/datatype/attribute/:entityCode/Mon
 export const ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD = '/profiletype/attribute/:entityCode/MonolistAdd/:attributeCode';
 export const ROUTE_RELOAD_CONFIG = '/reloadConfiguration';
 export const ROUTE_RELOAD_CONFIRM = '/reloadConfiguration/confirm';
+
+// cms versioning
+export const ROUTE_CMS_VERSIONING = '/cms/versioning';

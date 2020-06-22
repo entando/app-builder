@@ -79,6 +79,7 @@ function getClientEnvironment(publicUrl) {
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         COMPONENT_REPOSITORY_UI_ENABLED: process.env.COMPONENT_REPOSITORY_UI_ENABLED === 'true',
+        LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED: process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
       },
