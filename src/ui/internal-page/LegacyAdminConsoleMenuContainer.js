@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -62,21 +63,17 @@ const renderAppMenuItems = (intl, userPermissions) => Object.values(apps).map((A
       render = false;
     }
   }
+  console.log('App.menu', App.menu);
   return render && (
-  <Item
+  <SecondaryItem
     id={App.id}
     key={App.id}
     onClick={() => {}}
     iconClass="fa fa-file-text-o"
     title={intl.formatMessage({ id: `${App.id}.title` })}
   >
-    <SecondaryItem
-      title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'Apps' })}
-      onClick={() => {}}
-    >
-      <App.menu userPermissions={userPermissions} />
-    </SecondaryItem>
-  </Item>
+    <App.menu userPermissions={userPermissions} />
+  </SecondaryItem>
   );
 });
 
@@ -115,7 +112,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         title="Admin console 6.2.0-SNAPSHOT"
       />
       <VerticalNav.IconBar collapse>
-        <li id="preview-portal" className="drawer-pf-trigger2 notifications dropdown">
+        {/* <li id="preview-portal" className="drawer-pf-trigger2 notifications dropdown">
           <a className="nav-item-iconic" target="#" href="/entando-de-app/" title="Go to Homepage ( same window )">
             <span className="icon fa fa-globe fa-fw" />
             Go to Homepage
@@ -155,7 +152,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
               </a>
             </li>
           </ul>
-        </li>
+        </li> */}
       </VerticalNav.IconBar>
     </Masthead>
     {
@@ -300,6 +297,21 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
+
+    <Item
+      id="menu-apps"
+      iconClass="fa fa-rocket"
+      title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
+      onClick={() => {}}
+    >
+      {renderAppMenuItems(intl, userPermissions)}
+      <SecondaryItem
+        id="menu-apps-iot"
+        title={intl.formatMessage({ id: 'menu.apps.iot', defaultMessage: 'IoT' })}
+        onClick={() => {}}
+      />
+    </Item>
+
     {
       hasAccess(ROLE_SUPERUSER, userPermissions)
       && (
@@ -322,49 +334,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-
-    {renderAppMenuItems(intl, userPermissions)}
-
-    {
-        hasAccess(ROLE_SUPERUSER, userPermissions) && (
-          <FirstLevelMenuItem
-            id="menu-configuration"
-            label={<span><Icon name="cog" /> <FormattedMessage id="menu.configuration" /></span>}
-            pullRight
-          >
-            <LinkMenuItem
-              id="menu-categories"
-              label={<FormattedMessage id="menu.categories" />}
-              to={ROUTE_CATEGORY_LIST}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-labels-languages"
-              label={<FormattedMessage id="menu.labelsAndLanguages" />}
-              to={ROUTE_LABELS_AND_LANGUAGES}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-reload-configuration"
-              label={<FormattedMessage id="menu.reloadConfiguration" />}
-              to={ROUTE_RELOAD_CONFIG}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-databases"
-              label={<FormattedMessage id="menu.database" />}
-              to={ROUTE_DATABASE_LIST}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-labels-file-browser"
-              label={<FormattedMessage id="menu.fileBrowser" />}
-              to={ROUTE_FILE_BROWSER}
-              isNav
-            />
-          </FirstLevelMenuItem>
-        )
-      }
 
     { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }
