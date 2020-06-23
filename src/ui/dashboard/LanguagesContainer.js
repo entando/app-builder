@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchLanguages } from 'state/languages/actions';
+
 import Languages from 'ui/dashboard/Languages';
 
 export const mapDispatchToProps = dispatch => ({
