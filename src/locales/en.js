@@ -313,6 +313,7 @@ export default {
     'menu.reloadConfirm': 'Reload the Configuration',
     'menu.profileTypes': 'Profile Types',
     'menu.profile': 'Profile',
+    'menu.resources': 'Resources',
     'menu.apiManagement': 'API Management',
     'menu.apiManagement.resources': 'Resources',
     'menu.apiManagement.services': 'Services',

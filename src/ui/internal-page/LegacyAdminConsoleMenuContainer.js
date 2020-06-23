@@ -1,22 +1,15 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Icon, VerticalNav, VerticalNavBrand, DropdownButton, MenuItem } from 'patternfly-react';
-import {
-  // BrandMenu,
-  FirstLevelMenuItem,
-  LinkMenuItem,
-} from '@entando/menu';
+import { injectIntl, intlShape } from 'react-intl';
+import { VerticalNav } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
 import {
-  ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
+  ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
@@ -26,7 +19,6 @@ import {
 
 import apps from 'entando-apps';
 
-import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 import {
   ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION,
@@ -41,21 +33,83 @@ const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
 } = VerticalNav;
 
-// const publicUrl = process.env.PUBLIC_URL;
-// const BRAND_LOGO = <img src={`${publicUrl}/images/topbar-logo.svg`} alt="" />;
+const publicUrl = process.env.PUBLIC_URL;
 const CMS_APP_ID = 'cms';
 
-// eslint-disable-next-line no-unused-vars
-const menuHeader = [
-  <LanguageSelectContainer key="LanguageSelect" />,
-  <HomePageLinkContainer key="projectLink" />,
-  <ActivityStreamMenuContainer key="ActivityStreamMenu" />,
-  <UserMenuContainer key="UserMenu" />,
-];
+const ROUTE_CMS_CONTENTTEMPLATE_LIST = '/cms/content-templates';
+const ROUTE_CMS_CONTENTTYPE_LIST = '/cms/content-types';
+const ROUTE_CMS_CONTENTS = '/cms/contents';
+const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
+const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
 
-const renderAppMenuItems = (intl, userPermissions) => Object.values(apps).map((App) => {
+const renderCMSMenuItems = (userPermissions, intl, history) => {
+  const hasMenuContentsAccess = hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions)
+    || hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions);
+  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
+  const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  return (
+    <SecondaryItem
+      id="apps-cms"
+      key="cms"
+      onClick={() => {}}
+      iconClass="fa fa-file-text-o"
+      title={intl.formatMessage({ id: 'cms.title' })}
+    >
+      {
+      hasMenuContentsAccess && (
+      <TertiaryItem
+        id="menu-contents"
+        title={intl.formatMessage({ id: 'cms.menu.contents', defaultMessage: 'Contents' })}
+        onClick={() => history.push(ROUTE_CMS_CONTENTS)}
+      />
+      )
+      }
+      {
+        hasMenuAssetsAccess && (
+        <TertiaryItem
+          id="menu-assets"
+          title={intl.formatMessage({ id: 'cms.assets.title', defaultMessage: 'Digital Assets' })}
+          onClick={() => history.push(ROUTE_CMS_ASSETS_LIST)}
+        />
+        )
+      }
+      {
+        hasMenuContentTypeAccess && (
+        <TertiaryItem
+          id="menu-content-type"
+          title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Content Types' })}
+          onClick={() => history.push(ROUTE_CMS_CONTENTTYPE_LIST)}
+        />
+        )
+      }
+      {
+        hasMenuContentTemplatesAccess && (
+        <TertiaryItem
+          id="menu-content-template"
+          title={intl.formatMessage({ id: 'cms.menu.contenttemplates', defaultMessage: 'Content Templates' })}
+          onClick={() => history.push(ROUTE_CMS_CONTENTTEMPLATE_LIST)}
+        />
+        )
+      }
+      {
+        hasMenuContentSettingsAccess && (
+        <TertiaryItem
+          id="menu-content-settings"
+          title={intl.formatMessage({ id: 'cms.menu.contentsettings', defaultMessage: 'Content Settings' })}
+          onClick={() => history.push(ROUTE_CMS_CONTENT_SETTINGS)}
+        />
+        )
+      }
+    </SecondaryItem>
+  );
+};
+
+const renderAppMenuItems = (intl, history, userPermissions) => Object.values(apps).map((App) => {
   let render = true;
-  if (App.id === CMS_APP_ID) {
+  const isCMS = App.id === CMS_APP_ID;
+  if (isCMS) {
     if (
       !hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions) &&
       !hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions) &&
@@ -63,18 +117,7 @@ const renderAppMenuItems = (intl, userPermissions) => Object.values(apps).map((A
       render = false;
     }
   }
-  console.log('App.menu', App.menu);
-  return render && (
-  <SecondaryItem
-    id={App.id}
-    key={App.id}
-    onClick={() => {}}
-    iconClass="fa fa-file-text-o"
-    title={intl.formatMessage({ id: `${App.id}.title` })}
-  >
-    <App.menu userPermissions={userPermissions} />
-  </SecondaryItem>
-  );
+  return render && (isCMS ? renderCMSMenuItems(userPermissions, intl, history) : null);
 });
 
 const { COMPONENT_REPOSITORY_UI_ENABLED } = process.env;
@@ -90,72 +133,35 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
 const adminConsoleUrl = url => `${process.env.DOMAIN}/${url}`;
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
-  <VerticalNav
-    blurDelay={700}
-    blurDisabled={false}
-    dynamicBodyClasses
-    forceHidden={false}
-    hiddenIcons={false}
-    hideMasthead={false}
-    hoverDelay={500}
-    hoverDisabled={false}
-    onNavigate={e => e.onClick()}
-    pinnableMenus
-    persistentSecondary={false}
-  >
-    <Masthead>
-      <Brand
-        href=""
-        iconImg="images/entando-logo-white.svg"
-        img=""
-        onClick={null}
-        title="Admin console 6.2.0-SNAPSHOT"
-      />
-      <VerticalNav.IconBar collapse>
-        {/* <li id="preview-portal" className="drawer-pf-trigger2 notifications dropdown">
-          <a className="nav-item-iconic" target="#" href="/entando-de-app/" title="Go to Homepage ( same window )">
-            <span className="icon fa fa-globe fa-fw" />
-            Go to Homepage
-          </a>
-        </li>
-        <li id="notification-ico" className="drawer-pf-trigger2 notifications dropdown">
-          <a className="nav-item-iconic drawer-pf-trigger-icon">
-            <span className="fa fa-bell" title="Notifications" />
-          </a>
-        </li>
-        <li className="dropdown">
-          <a className="dropdown-toggle nav-item-iconic" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span title="Info" className="fa pficon-info" />
-            <span className="caret" />
-          </a>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Licence</a></li>
-          </ul>
-        </li>
-        <li id="userDropdown" className="dropdown">
-          <a className="dropdown-toggle nav-item-iconic" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span title="Username" className="fa pficon-user" />
-                admin<span className="caret" />
-          </a>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <li>
-              <a href="/entando-de-app/do/CurrentUser/editProfile.action">
-                <i className="fa fa-user" aria-hidden="true" />
-                My profile
-              </a>
-            </li>
-            <li>
-              <a href="/entando-de-app/do/logout.action">
-                <i className="fa fa-sign-out" aria-hidden="true" />
-                Sign out
-              </a>
-            </li>
-          </ul>
-        </li> */}
-      </VerticalNav.IconBar>
-    </Masthead>
-    {
+  <div>
+    <VerticalNav
+      blurDelay={700}
+      blurDisabled={false}
+      dynamicBodyClasses
+      forceHidden={false}
+      hiddenIcons={false}
+      hideMasthead={false}
+      hoverDelay={500}
+      hoverDisabled={false}
+      onNavigate={e => e.onClick()}
+      pinnableMenus
+      persistentSecondary={false}
+    >
+      <Masthead>
+        <Brand
+          href=""
+          iconImg={`${publicUrl}/images/entando-logo-white.svg`}
+          img=""
+          onClick={null}
+          title="Admin console 6.2.0-SNAPSHOT"
+        />
+        <VerticalNav.IconBar collapse>
+          <LanguageSelectContainer key="LanguageSelect" />
+          <HomePageLinkContainer key="projectLink" />
+          <UserMenuContainer key="UserMenu" />
+        </VerticalNav.IconBar>
+      </Masthead>
+      {
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item
           id="menu-page-creator"
@@ -185,7 +191,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-    {
+      {
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item
           id="menu-ux-pattern"
@@ -219,7 +225,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-    {
+      {
       (hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions) ||
       hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions))
       && (
@@ -262,7 +268,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-    {
+      {
       (
         hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
         hasAccess(CRUD_USERS_PERMISSION, userPermissions) ||
@@ -297,22 +303,21 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-
-    <Item
-      id="menu-apps"
-      iconClass="fa fa-rocket"
-      title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
-      onClick={() => {}}
-    >
-      {renderAppMenuItems(intl, userPermissions)}
-      <SecondaryItem
-        id="menu-apps-iot"
-        title={intl.formatMessage({ id: 'menu.apps.iot', defaultMessage: 'IoT' })}
+      <Item
+        id="menu-apps"
+        iconClass="fa fa-rocket"
+        title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
         onClick={() => {}}
-      />
-    </Item>
+      >
+        {renderAppMenuItems(intl, history, userPermissions)}
+        <SecondaryItem
+          id="menu-apps-iot"
+          title={intl.formatMessage({ id: 'menu.apps.iot', defaultMessage: 'IoT' })}
+          onClick={() => {}}
+        />
+      </Item>
 
-    {
+      {
       hasAccess(ROLE_SUPERUSER, userPermissions)
       && (
         <Item
@@ -335,9 +340,9 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       )
     }
 
-    { hasAccess(ROLE_SUPERUSER, userPermissions) &&
+      { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }
-    {
+      {
       hasAccess(ROLE_SUPERUSER, userPermissions) && (
         <Item
           className="LegacyAdminConsoleMenu__fixed-bottom"
@@ -379,7 +384,8 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-  </VerticalNav>
+    </VerticalNav>
+  </div>
 );
 
 LegacyAdminConsoleMenuBody.propTypes = {
@@ -392,4 +398,4 @@ LegacyAdminConsoleMenuBody.defaultProps = {
   userPermissions: null,
 };
 
-export default withRouter(injectIntl(withPermissionValues(LegacyAdminConsoleMenuBody)));
+export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuBody)));

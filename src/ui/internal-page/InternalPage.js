@@ -5,21 +5,26 @@ import NotificationListContainer from 'ui/activity-stream/NotificationListContai
 import BrandMenuContainer from 'ui/internal-page/BrandMenuContainer';
 import LegacyAdminConsoleMenuContainer from 'ui/internal-page/LegacyAdminConsoleMenuContainer';
 
+const { LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED } = process.env;
+
 const InternalPage = ({ className, children }) => (
-  <div className={['InternalPage', className].join(' ').trim()}>
+  <div
+    className={['InternalPage', className, LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
+    'layout-pf-fixed' : ''].join(' ').trim()}
+  >
     {
-      process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
+      LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
         <LegacyAdminConsoleMenuContainer /> : <BrandMenuContainer />
     }
     <ActivityStreamContainer >
       <NotificationListContainer />
     </ActivityStreamContainer>
     {
-      process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ? (
+      LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ? (
         <div className="container-fluid container-cards-pf container-pf-nav-pf-vertical">
           {children}
         </div>
-      ) : { children }
+      ) : children
     }
   </div>
 );
