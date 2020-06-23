@@ -6,7 +6,7 @@ export const getComponentRepositories = (page = { page: 1, pageSize: 10 }, param
   makeRequest(
     {
       uri: `/exchanges${params}`,
-      domain: '/digital-exchange',
+      domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_COMPONENT_REPOSITORIES_OK,
       useAuthentication: true,
@@ -18,7 +18,7 @@ export const getComponentRepositories = (page = { page: 1, pageSize: 10 }, param
 export const getComponentRepository = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    domain: '/digital-exchange',
+    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
     method: METHODS.GET,
     mockResponse: {},
     useAuthentication: true,
@@ -28,7 +28,7 @@ export const getComponentRepository = id => (
 export const deleteComponentRepository = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    domain: '/digital-exchange',
+    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,
@@ -38,7 +38,7 @@ export const deleteComponentRepository = id => (
 export const postComponentRepository = marketplace => (
   makeRequest({
     uri: '/exchanges',
-    domain: '/digital-exchange',
+    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
     method: METHODS.POST,
     mockResponse: {},
     useAuthentication: true,
@@ -49,7 +49,7 @@ export const postComponentRepository = marketplace => (
 export const putComponentRepository = marketplace => (
   makeRequest({
     uri: `/exchanges/${marketplace.id}`,
-    domain: '/digital-exchange',
+    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
     method: METHODS.PUT,
     mockResponse: {},
     useAuthentication: true,

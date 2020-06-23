@@ -208,7 +208,7 @@ const filters = (state = filtersDefaultState, action = {}) => {
     }
     case CLEAR_ECR_SEARCH_FILTER: {
       const category = action.payload.componentRepositoryCategory;
-      const stateSlice = state[category] || {};
+      const stateSlice = state[category] || { formValues: {}, operators: {} };
       const {
         id, name, description, version, ...formValuesWithoutSearch
       } = stateSlice.formValues;

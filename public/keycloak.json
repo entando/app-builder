@@ -1,0 +1,7 @@
+{
+  "realm": "entando",
+  "auth-server-url": "http://keb-kc-keb.apps.rd.entando.org/auth",
+  "ssl-required": "external",
+  "resource": "entando-web",
+  "public-client": true
+}

@@ -5,7 +5,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getECRCategories = () => (
   makeRequest({
     uri: '/categories',
-    domain: '/digital-exchange',
+    domain: process.env.DOMAIN_DIGITAL_EXCHANGE,
     method: METHODS.GET,
     mockResponse: LIST_ECR_CATEGORIES_OK,
     useAuthentication: true,
