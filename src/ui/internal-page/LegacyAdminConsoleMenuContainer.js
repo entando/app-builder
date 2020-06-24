@@ -312,11 +312,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         onClick={() => {}}
       >
         {renderAppMenuItems(intl, history, userPermissions)}
-        <SecondaryItem
-          id="menu-apps-iot"
-          title={intl.formatMessage({ id: 'menu.apps.iot', defaultMessage: 'IoT' })}
-          onClick={() => {}}
-        />
       </Item>
 
       {
