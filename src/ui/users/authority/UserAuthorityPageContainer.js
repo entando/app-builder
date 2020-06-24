@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import UserAuthorityPage from 'ui/users/authority/UserAuthorityPage';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = (state, { match: { params } }) =>
   ({
@@ -10,6 +10,6 @@ export const mapStateToProps = (state, { match: { params } }) =>
   });
 
 const UserAuthorityPageContainer =
-connect(mapStateToProps, null)(withPermissions(ROLE_SUPERUSER)(UserAuthorityPage));
+connect(mapStateToProps, null)(withPermissions(CRUD_USERS_PERMISSION)(UserAuthorityPage));
 
 export default withRouter(UserAuthorityPageContainer);
