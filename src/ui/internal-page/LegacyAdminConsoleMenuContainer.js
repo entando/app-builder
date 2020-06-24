@@ -153,7 +153,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
-          title="Admin console 6.2.0-SNAPSHOT"
+          title="App Builder 6.2"
         />
         <VerticalNav.IconBar collapse>
           <LanguageSelectContainer key="LanguageSelect" />
