@@ -268,6 +268,8 @@ export default {
     'app.threeStateOptions.false': 'No',
     'app.threeStateOptions.both': 'Indifferente',
     'app.enumerator.none': 'Nessuno',
+    'app.about': 'Informazioni',
+    'app.license': 'Licenza',
     'menu.dashboard': 'Dashboard',
     'menu.pageTree': 'Albero delle Pagine',
     'menu.uxPattern': 'UX Patterns',

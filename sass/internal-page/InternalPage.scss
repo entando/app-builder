@@ -73,15 +73,19 @@
   border-width: 0 0 0 1px;
 
   &__dropdown {
-    appearance: none;
     padding: 3.8px 10px;
     padding-right: 24px;
     border: 0;
     outline: none;
     background: $color-pf-black;
     color: $color-pf-black-300;
-    cursor: pointer;
     font-size: 11px;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  &__dropdown-legacy {
+    background: $color-legacy-header-bg-grey;
   }
 
   &__option {
@@ -90,13 +94,13 @@
   }
 
   &__icon {
-    pointer-events: none;
     position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-52%);
     color: $color-pf-black-300;
     cursor: pointer;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-52%);
+    pointer-events: none;
   }
 }
 
@@ -135,36 +139,37 @@
 .navbar-iconic { //sass-lint:disable-line class-name-format
   a.dropdown-toggle { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
     margin-top: 5px;
-    color: #c1c1c1;
+    background: $color-legacy-header-bg-grey;
+    color: $color-legacy-header-text-grey;
   }
 
   a.dropdown-toggle:hover { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    color: white;
+    background: $color-legacy-header-bg-grey;
+    color: $color-white;
     font-weight: bold;
-    background: none;
   }
 
   a.dropdown-toggle:focus { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    color: white;
+    background: $color-legacy-header-bg-grey;
+    color: $color-white;
     font-weight: bold;
-    background: none;
   }
 
   .HomePageLink__link {
     margin-top: 5px;
-    color: #c1c1c1;
+    color: $color-legacy-header-text-grey;
   }
 
   .HomePageLink__link:hover {
-    color: white;
+    background: $color-legacy-header-bg-grey;
+    color: $color-white;
     font-weight: bold;
-    background: none;
   }
 
   .HomePageLink__link:focus {
-    color: white;
+    background: $color-legacy-header-bg-grey;
+    color: $color-white;
     font-weight: bold;
-    background: none;
   }
 
   .LanguageSelect {

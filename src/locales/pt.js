@@ -266,6 +266,8 @@ export default {
     'app.threeStateOptions.false': 'Não',
     'app.threeStateOptions.both': 'Ambos',
     'app.enumerator.none': 'Nenhum',
+    'app.about': 'Informações',
+    'app.license': 'Licença',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Designer de Página',
     'menu.pageTree': 'Árvore de Páginas',

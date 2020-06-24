@@ -28,6 +28,7 @@ import {
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
+import InfoMenu from 'ui/internal-page/InfoMenu';
 
 const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
@@ -158,6 +159,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         <VerticalNav.IconBar collapse>
           <LanguageSelectContainer key="LanguageSelect" />
           <HomePageLinkContainer key="projectLink" />
+          <InfoMenu key="InfoMenu" />
           <UserMenuContainer key="UserMenu" />
         </VerticalNav.IconBar>
       </Masthead>

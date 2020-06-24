@@ -268,6 +268,8 @@ export default {
     'app.threeStateOptions.false': 'No',
     'app.threeStateOptions.both': 'Both',
     'app.enumerator.none': 'None',
+    'app.about': 'About',
+    'app.license': 'License',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Page Designer',
     'menu.pageTree': 'Page Tree',
