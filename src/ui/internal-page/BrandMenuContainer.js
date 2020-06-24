@@ -215,9 +215,7 @@ const BrandMenuBody = ({ userPermissions }) => (
           </FirstLevelMenuItem>
         )
       }
-
     {renderAppMenuItems(userPermissions)}
-
     {
         hasAccess(ROLE_SUPERUSER, userPermissions) && (
           <FirstLevelMenuItem
