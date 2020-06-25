@@ -7,24 +7,31 @@ import apps from 'entando-apps';
 const localStorageStates = {
   locale: [],
   permissions: ['loggedUser'],
-  apps: {},
 };
 
-apps.forEach((app) => {
-  const { persistData = {}, id } = app;
-  const appState = {};
-  Object.keys(persistData).forEach((k) => { appState[k] = persistData[k]; });
-  localStorageStates.apps[id] = appState;
-});
+export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {
+  const appsPersistedStates = {
+    apps: {},
+  };
+  applications.forEach((app) => {
+    const { persistData = {}, id } = app;
+    const appState = {};
+    Object.keys(persistData).forEach((k) => { appState[k] = persistData[k]; });
+    appsPersistedStates.apps[id] = appState;
+  });
+  return Object.assign(defaultLocalStorageStates, { apps: appsPersistedStates.apps });
+};
+
+const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
 
 const composeParams = [
   applyMiddleware(thunk),
   persistState(
-    Object.keys(localStorageStates),
+    Object.keys(enhancedLocalStorageStates),
     {
       slicer: paths => state => (
         paths.reduce((acc, curr) => {
-          const localState = localStorageStates[curr];
+          const localState = enhancedLocalStorageStates[curr];
           acc[curr] = localState.length
             ? localState.reduce((accLocState, currLocState) => ({
               ...accLocState,
