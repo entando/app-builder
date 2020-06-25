@@ -10,16 +10,16 @@ const localStorageStates = {
 };
 
 export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {
-  const appsPersistedStates = {
-    apps: {},
-  };
-  applications.forEach((app) => {
-    const { persistData = {}, id } = app;
-    const appState = {};
-    Object.keys(persistData).forEach((k) => { appState[k] = persistData[k]; });
-    appsPersistedStates.apps[id] = appState;
-  });
-  return Object.assign(defaultLocalStorageStates, { apps: appsPersistedStates.apps });
+  const appsPersistedStates = applications.reduce((acc, curr) => {
+    const { persistData = {}, id } = curr;
+
+    return {
+      ...acc,
+      [id]: { ...persistData },
+    };
+  }, {});
+
+  return { ...defaultLocalStorageStates, apps: appsPersistedStates };
 };
 
 const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
