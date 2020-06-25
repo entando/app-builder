@@ -10,8 +10,8 @@ import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
 import {
   ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
-  ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
-  ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_PAGE_CONFIG, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
+  ROUTE_LABELS_AND_LANGUAGES, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
   ROUTE_CMS_VERSIONING,
@@ -313,29 +313,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       >
         {renderAppMenuItems(intl, history, userPermissions)}
       </Item>
-
-      {
-      hasAccess(ROLE_SUPERUSER, userPermissions)
-      && (
-        <Item
-          id="menu-data"
-          onClick={() => {}}
-          iconClass="fa fa-file-text-o"
-          title={intl.formatMessage({ id: 'menu.data', defaultMessage: 'Date' })}
-        >
-          <SecondaryItem
-            id="menu-data-types"
-            title={intl.formatMessage({ id: 'menu.dataType', defaultMessage: 'Data Type' })}
-            onClick={() => history.push(ROUTE_DATA_TYPE_LIST)}
-          />
-          <SecondaryItem
-            id="menu-data-models"
-            title={intl.formatMessage({ id: 'menu.dataModels', defaultMessage: 'Data Model' })}
-            onClick={() => history.push(ROUTE_DATA_MODEL_LIST)}
-          />
-        </Item>
-      )
-    }
 
       { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }
