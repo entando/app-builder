@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import EditUserProfileFormContainer from 'ui/user-profile/edit/EditUserProfileFormContainer';
 import { ROUTE_USER_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
 
 export const EditUserProfilePageBody = () => (
   <InternalPage className="EditUserProfilePage">
@@ -41,4 +41,4 @@ export const EditUserProfilePageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(EditUserProfilePageBody);
+export default withPermissions(EDIT_USER_PROFILES_PERMISSION)(EditUserProfilePageBody);

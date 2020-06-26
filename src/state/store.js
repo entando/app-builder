@@ -2,20 +2,36 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from 'state/rootReducer';
 import persistState from 'redux-localstorage';
+import apps from 'entando-apps';
 
 const localStorageStates = {
   locale: [],
   permissions: ['loggedUser'],
 };
 
+export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {
+  const appsPersistedStates = applications.reduce((acc, curr) => {
+    const { persistData = {}, id } = curr;
+
+    return {
+      ...acc,
+      [id]: { ...persistData },
+    };
+  }, {});
+
+  return { ...defaultLocalStorageStates, apps: appsPersistedStates };
+};
+
+const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
+
 const composeParams = [
   applyMiddleware(thunk),
   persistState(
-    Object.keys(localStorageStates),
+    Object.keys(enhancedLocalStorageStates),
     {
       slicer: paths => state => (
         paths.reduce((acc, curr) => {
-          const localState = localStorageStates[curr];
+          const localState = enhancedLocalStorageStates[curr];
           acc[curr] = localState.length
             ? localState.reduce((accLocState, currLocState) => ({
               ...accLocState,
