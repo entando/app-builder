@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import PageSettingsFormContainer from 'ui/pages/common/PageSettingsFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 
 export const PageSettingsPageBody = () => (
@@ -40,4 +40,4 @@ export const PageSettingsPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(PageSettingsPageBody);
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageSettingsPageBody);
