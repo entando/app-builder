@@ -60,7 +60,7 @@ class PageTemplateDetailTable extends Component {
               <FormattedMessage id="pageTemplates.template" />
             </th>
             <td>
-              <pre>
+              <pre className="PageTemplateDetailTable__template">
                 { pageTemplate.template }
               </pre>
             </td>
