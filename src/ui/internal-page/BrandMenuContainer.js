@@ -233,6 +233,7 @@ const BrandMenuBody = ({ userPermissions }) => (
             )}
             {hasAccess(ROLE_SUPERUSER, userPermissions) && ([
               <LinkMenuItem
+                key="menu-labels-languages"
                 id="menu-labels-languages"
                 label={<FormattedMessage id="menu.labelsAndLanguages" />}
                 to={ROUTE_LABELS_AND_LANGUAGES}
@@ -240,18 +241,21 @@ const BrandMenuBody = ({ userPermissions }) => (
               />,
               <LinkMenuItem
                 id="menu-reload-configuration"
+                key="menu-reload-configuration"
                 label={<FormattedMessage id="menu.reloadConfiguration" />}
                 to={ROUTE_RELOAD_CONFIG}
                 isNav
               />,
               <LinkMenuItem
                 id="menu-databases"
+                key="menu-databases"
                 label={<FormattedMessage id="menu.database" />}
                 to={ROUTE_DATABASE_LIST}
                 isNav
               />,
               <LinkMenuItem
                 id="menu-labels-file-browser"
+                key="menu-labels-file-browser"
                 label={<FormattedMessage id="menu.fileBrowser" />}
                 to={ROUTE_FILE_BROWSER}
                 isNav
