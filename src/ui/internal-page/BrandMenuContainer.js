@@ -29,6 +29,7 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
@@ -102,7 +103,7 @@ const BrandMenuBody = ({ userPermissions }) => (
               isNav
             />
             {
-            hasAccess(ROLE_SUPERUSER, userPermissions) && <LinkMenuItem
+            hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && <LinkMenuItem
               id="menu-page-settings"
               to={ROUTE_PAGE_SETTINGS}
               label={<FormattedMessage id="menu.pageSettings" />}
@@ -131,15 +132,13 @@ const BrandMenuBody = ({ userPermissions }) => (
               label={<FormattedMessage id="menu.fragments" />}
               isNav
             />
-          }
-            {
-            hasAccess(ROLE_SUPERUSER, userPermissions) && <LinkMenuItem
+            }
+            <LinkMenuItem
               id="menu-ux-pattern-page-templates"
               label={<FormattedMessage id="menu.pageTemplates" />}
               to={ROUTE_PAGE_TEMPLATE_LIST}
               isNav
             />
-          }
           </FirstLevelMenuItem>
         )
       }
@@ -217,42 +216,47 @@ const BrandMenuBody = ({ userPermissions }) => (
       }
     {renderAppMenuItems(userPermissions)}
     {
-        hasAccess(ROLE_SUPERUSER, userPermissions) && (
+        (hasAccess(ROLE_SUPERUSER, userPermissions)
+        || hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions)) && (
           <FirstLevelMenuItem
             id="menu-configuration"
             label={<span><Icon name="cog" /> <FormattedMessage id="menu.configuration" /></span>}
             pullRight
           >
-            <LinkMenuItem
-              id="menu-categories"
-              label={<FormattedMessage id="menu.categories" />}
-              to={ROUTE_CATEGORY_LIST}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-labels-languages"
-              label={<FormattedMessage id="menu.labelsAndLanguages" />}
-              to={ROUTE_LABELS_AND_LANGUAGES}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-reload-configuration"
-              label={<FormattedMessage id="menu.reloadConfiguration" />}
-              to={ROUTE_RELOAD_CONFIG}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-databases"
-              label={<FormattedMessage id="menu.database" />}
-              to={ROUTE_DATABASE_LIST}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-labels-file-browser"
-              label={<FormattedMessage id="menu.fileBrowser" />}
-              to={ROUTE_FILE_BROWSER}
-              isNav
-            />
+            {hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions) && (
+              <LinkMenuItem
+                id="menu-categories"
+                label={<FormattedMessage id="menu.categories" />}
+                to={ROUTE_CATEGORY_LIST}
+                isNav
+              />
+            )}
+            {hasAccess(ROLE_SUPERUSER, userPermissions) && ([
+              <LinkMenuItem
+                id="menu-labels-languages"
+                label={<FormattedMessage id="menu.labelsAndLanguages" />}
+                to={ROUTE_LABELS_AND_LANGUAGES}
+                isNav
+              />,
+              <LinkMenuItem
+                id="menu-reload-configuration"
+                label={<FormattedMessage id="menu.reloadConfiguration" />}
+                to={ROUTE_RELOAD_CONFIG}
+                isNav
+              />,
+              <LinkMenuItem
+                id="menu-databases"
+                label={<FormattedMessage id="menu.database" />}
+                to={ROUTE_DATABASE_LIST}
+                isNav
+              />,
+              <LinkMenuItem
+                id="menu-labels-file-browser"
+                label={<FormattedMessage id="menu.fileBrowser" />}
+                to={ROUTE_FILE_BROWSER}
+                isNav
+              />,
+            ])}
           </FirstLevelMenuItem>
         )
       }

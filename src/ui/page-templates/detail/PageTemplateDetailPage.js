@@ -11,8 +11,6 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import SelectedPageTemplateDetailTableContainer from 'ui/page-templates/detail/SelectedPageTemplateDetailTableContainer';
 import PageTemplatePageReferencesTableContainer from 'ui/page-templates/detail/PageTemplatePageReferencesTableContainer';
 import { ROUTE_PAGE_TEMPLATE_LIST, ROUTE_PAGE_TEMPLATE_EDIT } from 'app-init/router';
-import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 export const PageTemplateDetailPageBody = ({ pageTemplateCode }) => (
   <InternalPage className="PageTemplateDetailPage">
@@ -73,4 +71,4 @@ PageTemplateDetailPageBody.propTypes = {
   pageTemplateCode: PropTypes.string.isRequired,
 };
 
-export default withPermissions(ROLE_SUPERUSER)(PageTemplateDetailPageBody);
+export default PageTemplateDetailPageBody;

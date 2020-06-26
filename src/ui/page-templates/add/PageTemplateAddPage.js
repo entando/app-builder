@@ -9,7 +9,7 @@ import PageTemplateFormContainer from 'ui/page-templates/common/PageTemplateForm
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const PageTemplateAddPageBody = () => (
   <InternalPage className="PageTemplateAddPage">
@@ -48,4 +48,4 @@ export const PageTemplateAddPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(PageTemplateAddPageBody);
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTemplateAddPageBody);

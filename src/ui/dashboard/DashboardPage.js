@@ -26,13 +26,12 @@ const topWidgetRequiredPermissions = [
   [ROLE_SUPERUSER],
 ];
 
-export const DashboardPageBody = ({ isSuperuser, userPermissions }) => {
+export const DashboardPageBody = ({ userPermissions }) => {
   const topWidgetPermissions = topWidgetRequiredPermissions.map(required => (
     hasAccess(required, userPermissions)
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
-  const pageListTileSize = isSuperuser ? 8 : 12;
   return (
     <InternalPage className="DashboardPage">
       <CardGrid>
@@ -58,12 +57,10 @@ export const DashboardPageBody = ({ isSuperuser, userPermissions }) => {
           userPermissions={userPermissions}
         >
           <Row>
-            {isSuperuser && (
-              <Col md={4}>
-                <PageStatusContainer />
-              </Col>
-            )}
-            <Col md={pageListTileSize}>
+            <Col md={4}>
+              <PageStatusContainer />
+            </Col>
+            <Col md={8}>
               <PagesListContainer />
             </Col>
           </Row>
@@ -74,12 +71,10 @@ export const DashboardPageBody = ({ isSuperuser, userPermissions }) => {
 };
 
 DashboardPageBody.propTypes = {
-  isSuperuser: PropTypes.bool,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 DashboardPageBody.defaultProps = {
-  isSuperuser: true,
   userPermissions: [],
 };
 

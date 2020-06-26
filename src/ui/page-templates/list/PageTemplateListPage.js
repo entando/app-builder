@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import PageTemplateListTableContainer from 'ui/page-templates/list/PageTemplateListTableContainer';
 import { ROUTE_PAGE_TEMPLATE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const PageTemplateListPageBody = () => (
   <InternalPage className="PageTemplateListPage">
@@ -57,4 +57,4 @@ export const PageTemplateListPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(PageTemplateListPageBody);
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTemplateListPageBody);
