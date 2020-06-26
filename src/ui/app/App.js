@@ -326,8 +326,11 @@ const getRouteComponent = () => (
 );
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchPlugins();
+  componentDidUpdate(prevProps) {
+    const { username, fetchPlugins } = this.props;
+    if (username && username !== prevProps.username) {
+      fetchPlugins();
+    }
   }
 
   render() {
