@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const className = `LanguageSelect__dropdown${process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ? ' LanguageSelect__dropdown-legacy' : ''}`;
+
 const LanguageSelect = ({ currentLanguage, onSelect }) => (
   <li className="LanguageSelect">
     <select
       onChange={e => onSelect(e.target.value)}
       defaultValue={currentLanguage}
-      className="LanguageSelect__dropdown"
+      className={className}
     >
       <option value="en" className="LanguageSelect__option">EN</option>
       <option value="it" className="LanguageSelect__option">IT</option>
