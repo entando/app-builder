@@ -47,6 +47,7 @@ const menuHeader = [
 
 const renderAppMenuItems = userPermissions => Object.values(apps).map((App) => {
   let render = true;
+
   if (App.id === CMS_APP_ID) {
     if (
       !hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions) &&
