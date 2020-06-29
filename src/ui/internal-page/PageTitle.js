@@ -41,12 +41,13 @@ const PageTitle = ({
   helpId,
   titleParam,
   configLink,
+  hideConfigLink,
 }) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
       <h1 className="PageTitle__title">
         <FormattedMessage id={titleId} values={titleParam} />
-        {configIcon(configLink)}
+        {!hideConfigLink && configIcon(configLink)}
         {helpIcon(helpId)}
       </h1>
     </div>
@@ -57,12 +58,14 @@ PageTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
   helpId: PropTypes.string,
   configLink: PropTypes.string,
+  hideConfigLink: PropTypes.bool,
   titleParam: PropTypes.shape({}),
 };
 
 PageTitle.defaultProps = {
   helpId: '',
   configLink: '',
+  hideConfigLink: false,
   titleParam: {},
 };
 

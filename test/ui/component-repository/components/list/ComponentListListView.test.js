@@ -32,10 +32,6 @@ describe('ComponentListListView', () => {
       // Checking if provided version is rendered.
       expect(component.find('.ComponentList__version').at(index).text()).toContain(componentData.version);
 
-      // // Checking if provided rating is rendered.
-      const starRatingRendered = component.find('.ComponentList__rating').at(index).render();
-      expect(starRatingRendered.find('.StarIcon')).toHaveLength(Math.ceil(componentData.rating));
-
       // Checking if provided description is rendered.
       expect(component.find('.ComponentList__description').at(index).text()).toEqual(componentData.description);
     });

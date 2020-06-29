@@ -33,7 +33,7 @@ describe('component-repository/extra-filters/reducer', () => {
     describe('after action setECRExtraFilters', () => {
       it('should define extra filter list', () => {
         const newState = reducer({}, setECRExtraFilters(Object.keys(ECR_COMPONENTS_EXTRA_FILTERS)));
-        expect(newState.list).toHaveLength(4);
+        expect(newState.list).toHaveLength(2);
       });
     });
   });
