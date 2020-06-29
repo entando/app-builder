@@ -214,7 +214,7 @@ const getCellMap = (pageTemplate) => {
     const colKey = getCellKey({ type: CELL_TYPE.COL, ...frame.sketch });
     cellsMap[colKey].framePos = frame.pos;
     cellsMap[colKey].frameDescr = frame.descr;
-    cellsMap[colKey].frameIsMainFrame = (frame.pos === pageTemplate.mainFrame);
+    cellsMap[colKey].frameIsMainFrame = frame.mainFrame || (frame.pos === pageTemplate.mainFrame);
   });
 
   return cellsMap;
