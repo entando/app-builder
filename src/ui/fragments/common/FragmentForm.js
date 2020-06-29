@@ -25,7 +25,7 @@ export const renderDefaultGuiCodeField = (field) => {
   }
   return (
     <Panel>
-      <Panel.Body><pre>{input.value}</pre></Panel.Body>
+      <Panel.Body><pre className="PageTemplateDetailTable__template">{input.value}</pre></Panel.Body>
     </Panel>
   );
 };
