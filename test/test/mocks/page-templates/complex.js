@@ -380,7 +380,7 @@ export const CELL_MAP = {
     parentKey: 'row:0-3/11-3',
     framePos: 11,
     frameDescr: 'Content 1 center',
-    frameIsMainFrame: false,
+    frameIsMainFrame: true,
   },
   'col:8-3/11-3': {
     x1: 8,
