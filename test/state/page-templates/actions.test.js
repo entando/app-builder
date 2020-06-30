@@ -351,8 +351,10 @@ describe('state/page-templates/actions', () => {
       putPageTemplate.mockImplementation(mockApi({ payload: PAGE_TEMPLATE }));
       store.dispatch(updatePageTemplate(PAGE_TEMPLATE)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE_TEMPLATE);
+        expect(actions[1]).toHaveProperty('payload.pageTemplate', PAGE_TEMPLATE);
         expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TEMPLATE_LIST);
         done();
       }).catch(done.fail);
