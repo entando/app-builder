@@ -5,7 +5,6 @@ import { Col, Row } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import ComponentInstallActionsContainer from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
 import ComponentImage from 'ui/component-repository/components/common/ComponentImage';
-import StarRating from 'ui/component-repository/common/StarRating';
 import { componentType } from 'models/component-repository/components';
 
 
@@ -30,9 +29,6 @@ const ComponentListGridView = ({ components }) =>
                   <span className="ComponentList__version">
                     <FormattedMessage id="componentRepository.components.latestVersion" />
                     : {component.version}
-                  </span>
-                  <span className="ComponentList__rating">
-                    <StarRating maxRating={5} rating={component.rating} />
                   </span>
                 </div>
               </Col>

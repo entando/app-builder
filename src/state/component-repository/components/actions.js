@@ -33,7 +33,7 @@ import {
   getComponentUsage,
 } from 'api/component-repository/components';
 import { setPage } from 'state/pagination/actions';
-import { toggleLoading } from 'state/loading/actions';
+import { toggleLoading, setLoading } from 'state/loading/actions';
 import {
   ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED,
@@ -309,7 +309,7 @@ export const fetchECRComponents = (paginationMetadata = {
 }, params = '') => dispatch => (
   new Promise((resolve) => {
     const feature = 'component-repository/components';
-    dispatch(toggleLoading(feature));
+    dispatch(setLoading(feature, true));
     getECRComponents(paginationMetadata, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -320,11 +320,11 @@ export const fetchECRComponents = (paginationMetadata = {
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           dispatch(clearErrors());
         }
-        dispatch(toggleLoading(feature));
+        dispatch(setLoading(feature, false));
         resolve();
       });
     }).catch(() => {
-      dispatch(toggleLoading(feature));
+      dispatch(setLoading(feature, false));
     });
   })
 );

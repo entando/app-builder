@@ -53,16 +53,10 @@ describe('ComponentListGridView', () => {
       expect(image.props()).toHaveProperty('component', LIST_ECR_COMPONENTS_OK[0]);
     });
 
-    it('renders the intall action', () => {
+    it('renders the install action', () => {
       const installAction = deComponents.first().find(ComponentInstallActionsContainer);
       expect(installAction).toHaveLength(1);
       expect(installAction.props()).toHaveProperty('component', LIST_ECR_COMPONENTS_OK[0]);
-    });
-
-    it('renders the star rating', () => {
-      const starRating = deComponents.first().find('StarRating');
-      expect(starRating).toHaveLength(1);
-      expect(starRating.props()).toHaveProperty('rating', LIST_ECR_COMPONENTS_OK[0].rating);
     });
   });
 });

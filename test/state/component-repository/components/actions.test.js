@@ -47,7 +47,7 @@ import {
   SET_COMPONENT_USAGE_LIST,
 } from 'state/component-repository/components/types';
 
-import { TOGGLE_LOADING } from 'state/loading/types';
+import { TOGGLE_LOADING, SET_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { ADD_ERRORS, ADD_TOAST, CLEAR_ERRORS } from '@entando/messages';
 
@@ -239,10 +239,10 @@ describe('state/component-repository/components/actions', () => {
       store.dispatch(fetchECRComponents()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
-        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[0]).toHaveProperty('type', SET_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_ECR_COMPONENTS);
         expect(actions[2]).toHaveProperty('type', SET_PAGE);
-        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', SET_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -252,11 +252,11 @@ describe('state/component-repository/components/actions', () => {
       store.dispatch(fetchECRComponents()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(5);
-        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[0]).toHaveProperty('type', SET_LOADING);
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
         expect(actions[2]).toHaveProperty('type', ADD_TOAST);
         expect(actions[3]).toHaveProperty('type', CLEAR_ERRORS);
-        expect(actions[4]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[4]).toHaveProperty('type', SET_LOADING);
         done();
       }).catch(done.fail);
     });

@@ -18,8 +18,8 @@ class ComponentList extends Component {
     this.changePageSize = this.changePageSize.bind(this);
   }
 
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
   changePage(page) {
@@ -79,7 +79,7 @@ class ComponentList extends Component {
 }
 
 ComponentList.propTypes = {
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   fetchECRComponentsFiltered: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   viewMode: PropTypes.string,
@@ -90,7 +90,7 @@ ComponentList.propTypes = {
 };
 
 ComponentList.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   loading: false,
   componentRepositoryComponents: [],
   viewMode: ECR_COMPONENTS_GRID_VIEW,
