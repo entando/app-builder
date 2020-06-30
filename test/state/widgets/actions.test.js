@@ -27,6 +27,7 @@ import {
   removeWidget,
   setWidgetInfo,
   fetchWidgetInfo,
+  FREE_ACCESS_GROUP_VALUE,
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -40,7 +41,7 @@ import {
   deleteWidgets,
   getWidgetInfo,
 } from 'api/widgets';
-import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
+import { WIDGET, WIDGET_LIST, WIDGET_INFO, WIDGET_NULL_GROUP } from 'test/mocks/widgets';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -202,6 +203,26 @@ describe('state/widgets/actions', () => {
             group: WIDGET.group,
             configUi: '',
             customUi: WIDGET.guiFragments[0].customUi,
+          });
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is ok but widget group value is null, initializes the form with widget information and - free - as group value', (done) => {
+        getWidget.mockImplementationOnce(mockApi({ payload: WIDGET_NULL_GROUP }));
+        store.dispatch(fetchWidget()).then(() => {
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(initialize).toHaveBeenCalled();
+          const initializeAction = actions[0];
+          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(initializeAction).toHaveProperty('payload');
+          expect(initializeAction.payload).toEqual({
+            code: WIDGET_NULL_GROUP.code,
+            titles: WIDGET_NULL_GROUP.titles,
+            group: FREE_ACCESS_GROUP_VALUE,
+            configUi: '',
+            customUi: WIDGET_NULL_GROUP.guiFragments[0].customUi,
           });
           done();
         }).catch(done.fail);

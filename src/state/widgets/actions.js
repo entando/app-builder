@@ -14,6 +14,8 @@ import {
 } from 'state/widgets/types';
 import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
 
+export const FREE_ACCESS_GROUP_VALUE = 'free';
+
 export const setWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
   payload: {
@@ -78,6 +80,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
         const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi']);
         newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
+        newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
         dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
       } else {

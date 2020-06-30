@@ -18,6 +18,26 @@ export const WIDGET = {
   configUi: null,
 };
 
+export const WIDGET_NULL_GROUP = {
+  code: 'login_form',
+  used: 2,
+  titles: {
+    it: 'Login',
+    en: 'Login',
+  },
+  typology: 'User Widget',
+  guiFragments: [
+    {
+      code: 'fragCode',
+      customUi: '<div></div>',
+      defaultUi: '<div></div>',
+    },
+  ],
+  pluginCode: 'plugin_code',
+  group: null,
+  configUi: null,
+};
+
 export const WIDGET_LIST = {
   payload: [
     WIDGET,
