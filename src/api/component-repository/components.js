@@ -12,7 +12,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 export const getECRComponent = id => (
   makeRequest({
     uri: `/components/${id}`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: GET_ECR_COMPONENT_OK,
     useAuthentication: true,
@@ -23,7 +23,7 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
   makeRequest(
     {
       uri: `/components${params}`,
-      domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_ECR_COMPONENTS_OK,
       useAuthentication: true,
@@ -35,7 +35,7 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
 export const postECRComponentInstall = component => (
   makeRequest({
     uri: `/components/${component.id}/install`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
@@ -49,7 +49,7 @@ export const postECRComponentInstall = component => (
 export const getECRComponentInstall = id => (
   makeRequest({
     uri: `/components/${id}/install`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
     useAuthentication: true,
@@ -59,7 +59,7 @@ export const getECRComponentInstall = id => (
 export const postECRComponentUninstall = id => (
   makeRequest({
     uri: `/components/${id}/uninstall`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_UNINSTALLATION_CREATED,
@@ -70,7 +70,7 @@ export const postECRComponentUninstall = id => (
 export const getECRComponentUninstall = id => (
   makeRequest({
     uri: `/components/${id}/uninstall`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     useAuthentication: true,
@@ -80,7 +80,7 @@ export const getECRComponentUninstall = id => (
 export const getComponentUsage = id => (
   makeRequest({
     uri: `/components/${id}/usage`,
-    domain: process.env.DOMAIN_DIGITAL_EXCHANGE || '/digital-exchange',
+    domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_USAGE_LIST,
     useAuthentication: true,
