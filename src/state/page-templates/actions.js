@@ -161,6 +161,7 @@ export const updatePageTemplate = pageTemplate => dispatch => new Promise((resol
         { id: 'app.updated', values: { type: 'page template', code: pageTemplate.code } },
         TOAST_SUCCESS,
       ));
+      dispatch(setSelectedPageTemplate(pageTemplate));
       history.push(ROUTE_PAGE_TEMPLATE_LIST);
       resolve();
     }
