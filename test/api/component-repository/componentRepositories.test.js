@@ -30,7 +30,7 @@ describe('api/component-repository/componentRepositories', () => {
       expect(makeRequest).toHaveBeenCalledWith(
         {
           uri: '/exchanges',
-          domain: '/digital-exchange',
+          domain: 'http://keb-keb.apps.rd.entando.org/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_COMPONENT_REPOSITORIES_OK,
           useAuthentication: true,
@@ -52,7 +52,7 @@ describe('api/component-repository/componentRepositories', () => {
       getComponentRepository(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        domain: '/digital-exchange',
+        domain: 'http://keb-keb.apps.rd.entando.org/digital-exchange',
         method: METHODS.GET,
         mockResponse: {},
         useAuthentication: true,
@@ -69,7 +69,7 @@ describe('api/component-repository/componentRepositories', () => {
       deleteComponentRepository(12);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        domain: '/digital-exchange',
+        domain: 'http://keb-keb.apps.rd.entando.org/digital-exchange',
         method: METHODS.DELETE,
         mockResponse: {},
         useAuthentication: true,
@@ -87,7 +87,7 @@ describe('api/component-repository/componentRepositories', () => {
       postComponentRepository(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges',
-        domain: '/digital-exchange',
+        domain: 'http://keb-keb.apps.rd.entando.org/digital-exchange',
         method: METHODS.POST,
         mockResponse: {},
         useAuthentication: true,
@@ -106,7 +106,7 @@ describe('api/component-repository/componentRepositories', () => {
       putComponentRepository(body);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/exchanges/12',
-        domain: '/digital-exchange',
+        domain: 'http://keb-keb.apps.rd.entando.org/digital-exchange',
         method: METHODS.PUT,
         mockResponse: {},
         useAuthentication: true,

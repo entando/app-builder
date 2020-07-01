@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/components/common/ComponentListViewModeSwitcherContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/components/list/ComponentListViewModeSwitcherContainer';
 import { setECRComponentListViewMode } from 'state/component-repository/components/actions';
 
 const TEST_STATE = {

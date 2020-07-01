@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import ComponentInstallActions from 'ui/component-repository/components/common/ComponentInstallActions';
+import ComponentInstallActions from 'ui/component-repository/components/item/install-controls/ComponentInstallActions';
 import {
   installECRComponent,
   uninstallECRComponent,
   pollECRComponentInstallStatus,
   pollECRComponentUninstallStatus,
   fetchComponentUsage,
+  fetchECRComponentDetail,
 } from 'state/component-repository/components/actions';
 import {
   getECRComponentLastInstallStatus,
@@ -25,7 +26,10 @@ export const mapStateToProps = (state, props) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onInstall: component => dispatch(installECRComponent(component)),
+  onInstall: (component, version) => dispatch(installECRComponent(component, version)),
+  onClickInstallDropdown: (componentId) => {
+    dispatch(fetchECRComponentDetail(componentId));
+  },
   onUninstall: (componentId) => {
     dispatch(setVisibleModal(''));
     return dispatch(uninstallECRComponent(componentId));

@@ -213,11 +213,11 @@ export const pollECRComponentInstallStatus = component => dispatch => (
   })
 );
 
-export const installECRComponent = component => dispatch => (
+export const installECRComponent = (component, version) => dispatch => (
   new Promise((resolve) => {
     const loadingId = `deComponentInstallUninstall-${component.id}`;
     dispatch(toggleLoading(loadingId));
-    postECRComponentInstall(component).then((response) => {
+    postECRComponentInstall(component, version).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(pollECRComponentInstallStatus(component))

@@ -5,8 +5,8 @@ import { componentType } from 'models/component-repository/components';
 
 import { Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import ComponentInstallActionsContainer from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
-import ComponentImage from 'ui/component-repository/components/common/ComponentImage';
+import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
+import ComponentImage from 'ui/component-repository/components/item/ComponentImage';
 
 const ComponentListListView = ({ components }) => (
   <div className="ComponentListListView">

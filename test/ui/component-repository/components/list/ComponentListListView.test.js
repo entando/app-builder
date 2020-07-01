@@ -3,9 +3,6 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { LIST_ECR_COMPONENTS_OK } from 'test/mocks/component-repository/components';
 import ComponentListListView from 'ui/component-repository/components/list/ComponentListListView';
-import ComponentImage from 'ui/component-repository/components/common/ComponentImage';
-import StarRating from 'ui/component-repository/common/StarRating';
-
 
 describe('ComponentListListView', () => {
   let component;

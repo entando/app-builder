@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { LIST_ECR_COMPONENTS_OK } from 'test/mocks/component-repository/components';
 import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
-import ComponentInstallActionsContainer from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
+import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 
 
 describe('ComponentListGridView', () => {

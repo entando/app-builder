@@ -6,7 +6,7 @@ import SidebarContainer from 'ui/component-repository/SidebarContainer';
 import SearchBarContainer from 'ui/component-repository/components/SearchBarContainer';
 import FilterTypeContainer from 'ui/component-repository/components/FilterTypeContainer';
 import ComponentListContainer from 'ui/component-repository/components/list/ComponentListContainer';
-import ComponentListViewModeSwitcherContainer from 'ui/component-repository/components/common/ComponentListViewModeSwitcherContainer';
+import ComponentListViewModeSwitcherContainer from 'ui/component-repository/components/list/ComponentListViewModeSwitcherContainer';
 import withPermissions from 'ui/auth/withPermissions';
 import { ROLE_SUPERUSER } from 'state/permissions/const';
 import { ROUTE_ECR_CONFIG_LIST } from 'app-init/router';

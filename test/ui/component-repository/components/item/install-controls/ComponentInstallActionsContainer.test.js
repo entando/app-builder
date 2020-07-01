@@ -1,4 +1,4 @@
-import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 import {
   getECRComponentLastInstallStatus,
   getECRComponentInstallationStatus,
