@@ -56,6 +56,7 @@ const renderAppMenuItems = userPermissions => Object.values(apps).map((App) => {
       render = false;
     }
   }
+
   return render && (
     <FirstLevelMenuItem
       id={App.id}
