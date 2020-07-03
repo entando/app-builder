@@ -8,7 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import withAuth from 'auth/withAuth';
-import { LoginPage, NotFoundPage } from '@entando/pages';
+import { LoginPage } from '@entando/pages';
 
 import {
   ROUTE_HOME,
@@ -171,6 +171,7 @@ import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
@@ -321,7 +322,7 @@ const getRouteComponent = () => (
     { /* app routes */ }
     {appsRoutes}
     {/* 404 */}
-    <Route component={NotFoundPage} />
+    <Route component={PageNotFoundContainer} />
   </Switch>
 );
 

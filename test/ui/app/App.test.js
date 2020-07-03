@@ -2,9 +2,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { NotFoundPage } from '@entando/pages';
 import { MemoryRouter, Redirect } from 'react-router-dom';
-
 
 import App from 'ui/app/App';
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -50,6 +48,7 @@ import ComponentListPageDisabled from 'ui/component-repository/components/list/C
 import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
+import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 
 import {
   ROUTE_HOME,
@@ -128,7 +127,7 @@ describe('App', () => {
 
   it('falls back to default route if wrong route', () => {
     const component = mountWithRoute('wrongRoute');
-    expect(component.find(NotFoundPage).exists()).toBe(true);
+    expect(component.find(PageNotFoundContainer).exists()).toBe(true);
   });
 
   it('route to dashboard', () => {
