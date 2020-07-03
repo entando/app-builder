@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import DetailCategoryTable from 'ui/categories/detail/DetailCategoryTable';
 import { MYCATEGORY1_PAYLOAD, MOCK_REFERENCES } from 'test/mocks/categories';
 
-const onWillMount = jest.fn();
+const componentDidMount = jest.fn();
 const REFERENCE_LIST = ['jacmsContentManager', 'jacmsResourceManager'];
 const REFERENCE_MAP = {
   [REFERENCE_LIST[0]]: MOCK_REFERENCES[REFERENCE_LIST[0]],
@@ -14,7 +14,7 @@ describe('DetailCategoryTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<DetailCategoryTable
-      onWillMount={onWillMount}
+      componentDidMount={componentDidMount}
       category={MYCATEGORY1_PAYLOAD}
     />);
   });
@@ -50,7 +50,7 @@ describe('DetailCategoryTable', () => {
   describe('test no titles', () => {
     beforeEach(() => {
       component = shallow(<DetailCategoryTable
-        onWillMount={onWillMount}
+        componentDidMount={componentDidMount}
         category={{ ...MYCATEGORY1_PAYLOAD, titles: {} }}
       />);
     });
@@ -64,7 +64,7 @@ describe('DetailCategoryTable', () => {
   describe('test table component', () => {
     beforeEach(() => {
       component = shallow(<DetailCategoryTable
-        onWillMount={onWillMount}
+        componentDidMount={componentDidMount}
         category={MYCATEGORY1_PAYLOAD}
       />);
     });
@@ -78,7 +78,7 @@ describe('DetailCategoryTable', () => {
       });
 
       it('renders references elements', () => {
-        const references = component.find('.DetailCategory_reference');
+        const references = component.find('.DetailCategory__reference');
         expect(references).toHaveLength(REFERENCE_LIST.length);
       });
     });

@@ -29,4 +29,8 @@
   &__collapse-trigger {
     margin: 0 0 20px 0;
   }
+
+  &__reference:last-child {
+    margin-top: 30px;
+  }
 }

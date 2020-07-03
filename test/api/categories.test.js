@@ -8,7 +8,7 @@ import {
   getReferences,
 } from 'api/categories';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { MYCATEGORY1_PAYLOAD, BODY_OK } from 'test/mocks/categories';
+import { MYCATEGORY1_PAYLOAD, BODY_OK, MOCK_REFERENCES } from 'test/mocks/categories';
 
 const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
 const REFERENCE_KEY = 'jacmsContentManager';
@@ -119,11 +119,12 @@ describe('api/categories', () => {
 
     it('if successful, returns a mock ok response', () => {
       getReferences(CATEGORY_CODE, REFERENCE_KEY);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+      expect(makeRequest).toHaveBeenCalledWith({
         uri: `/api/categories/${CATEGORY_CODE}/references/${REFERENCE_KEY}`,
         method: METHODS.GET,
+        mockResponse: MOCK_REFERENCES[REFERENCE_KEY] || [],
         useAuthentication: true,
-      }));
+      }, { page: 1, pageSize: 10 });
     });
   });
 });
