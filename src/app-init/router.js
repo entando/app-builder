@@ -102,3 +102,5 @@ export const ROUTE_RELOAD_CONFIRM = '/reloadConfiguration/confirm';
 
 // cms versioning
 export const ROUTE_CMS_VERSIONING = '/cms/versioning';
+export const ROUTE_CMS_EDIT_CONTENT = '/cms/content/edit/:id';
+export const ROUTE_CMS_DIGITAL_ASSETS = '/cms/assets';

@@ -749,5 +749,9 @@ export default {
     'app.filterTypesSelect.version': 'Version',
     'app.filterTypesSelect.name': 'Name',
     'app.filterTypesSelect.description': 'Description',
+    'category.reference.table.id': 'Code',
+    'category.reference.table.description': 'Name',
+    'category.reference.table.typeCode': 'Type',
+    'category.reference.table.lastModified': 'Last Modified',
   },
 };

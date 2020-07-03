@@ -10,6 +10,19 @@ const INITIAL_STATE = {
     statusMap: {},
     selected: {},
   },
+  pagination: {
+    jacmsContentManager: {
+      page: 1,
+      pageSize: 10,
+      totalItem: 20,
+    },
+    jacmsResourceManager: {
+      page: 1,
+      pageSize: 10,
+      totalItem: 20,
+    },
+  },
+  loading: {},
 };
 
 jest.mock('state/categories/actions', () => ({
@@ -54,9 +67,9 @@ describe('DetailCategoryTableContainer', () => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    it('maps the "onWillMount" prop a fetchCategoryDetail dispatch', () => {
-      expect(props.onWillMount).toBeDefined();
-      props.onWillMount(CATEGORY_CODE);
+    it('maps the "componentDidMount" prop a fetchCategoryDetail dispatch', () => {
+      expect(props.componentDidMount).toBeDefined();
+      props.componentDidMount(CATEGORY_CODE);
       expect(dispatchMock).toHaveBeenCalledWith('fetchCategoryDetail_result');
     });
   });

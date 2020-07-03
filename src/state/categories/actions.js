@@ -5,6 +5,8 @@ import {
   getCategoryTree, getCategory, postCategory,
   putCategory, deleteCategory, getReferences,
 } from 'api/categories';
+
+import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
 import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap } from 'state/categories/selectors';
@@ -165,12 +167,13 @@ export const sendDeleteCategory = categoryCode => (dispatch) => {
   }
 };
 
-export const fetchReferences = (categoryCode, referenceKey) => (dispatch) => {
+export const fetchReferences = (categoryCode, referenceKey, page) => (dispatch) => {
   try {
-    return dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey)).then((data) => {
+    return dispatch(wrapApiCall(getReferences)(categoryCode, referenceKey, page)).then((data) => {
       dispatch(setReferences({
         [referenceKey]: data.payload,
       }));
+      dispatch(setPage(data.metaData, referenceKey));
     });
   } catch (e) {
     return Promise.resolve();
@@ -179,6 +182,7 @@ export const fetchReferences = (categoryCode, referenceKey) => (dispatch) => {
 
 export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
   try {
+    dispatch(toggleLoading('categoryDetail'));
     return dispatch(wrapApiCall(getCategory)(categoryCode)).then((data) => {
       dispatch(setSelectedCategory(data.payload));
       const references = getReferenceKeyList(getState());
@@ -191,8 +195,10 @@ export const fetchCategoryDetail = categoryCode => (dispatch, getState) => {
           });
         }
       });
+      dispatch(toggleLoading('categoryDetail'));
     });
   } catch (e) {
+    dispatch(toggleLoading('categoryDetail'));
     return Promise.resolve();
   }
 };

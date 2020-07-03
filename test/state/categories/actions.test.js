@@ -208,8 +208,10 @@ describe('state/categories/actions', () => {
       getCategory.mockImplementation(mockApi({ payload: BODY_OK }));
       store.dispatch(fetchCategoryDetail(CATEGORY_CODE)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', SET_SELECTED_CATEGORY);
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_SELECTED_CATEGORY);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });
@@ -228,8 +230,9 @@ describe('state/categories/actions', () => {
   describe('fetchReferences()', () => {
     it('when getReferences succeeds should call post action', (done) => {
       getReferences.mockImplementation(mockApi({ payload: CONTENT_REFERENCES }));
-      store.dispatch(fetchReferences(CATEGORY_CODE, REFERENCE_KEY)).then(() => {
-        expect(getReferences).toHaveBeenCalledWith(CATEGORY_CODE, REFERENCE_KEY);
+      const page = { page: 1, pageSize: 10 };
+      store.dispatch(fetchReferences(CATEGORY_CODE, REFERENCE_KEY, page)).then(() => {
+        expect(getReferences).toHaveBeenCalledWith(CATEGORY_CODE, REFERENCE_KEY, page);
         done();
       }).catch(done.fail);
     });

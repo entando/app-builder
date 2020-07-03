@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 
 import GenericRefsTable from 'ui/common/references/GenericRefsTable';
 
-const onWillMount = jest.fn();
+const componentDidMount = jest.fn();
 
 const REFERENCE_KEY = 'genericRef';
 const REFERENCE_LIST = [
@@ -24,7 +24,8 @@ describe('GenericRefsTable', () => {
   let component;
   beforeEach(() => {
     component = shallow(<GenericRefsTable
-      onWillMount={onWillMount}
+      componentDidMount={componentDidMount}
+      pagination={{}}
     />);
   });
 
@@ -44,9 +45,21 @@ describe('GenericRefsTable', () => {
   describe('test table component', () => {
     beforeEach(() => {
       component = shallow(<GenericRefsTable
-        onWillMount={onWillMount}
+        componentDidMount={componentDidMount}
         referenceKey={REFERENCE_KEY}
         references={REFERENCE_LIST}
+        pagination={{}}
+        columns={{
+          code: {
+                    render: item => item,
+                  },
+          name: {
+                    render: item => item,
+                  },
+          type: {
+                    render: item => item,
+                  },
+        }}
       />);
     });
 

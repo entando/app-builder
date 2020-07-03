@@ -46,31 +46,33 @@ class GroupDetailTabUsers extends React.Component {
     const authority = intl.formatMessage(msgs.manageAuth);
     const statusIconClass = status => (status === 'active' ? 'GroupDetailTabUsers__status-icon--active' : 'GroupDetailTabUsers__status-icon--disabled');
 
-    return userReferences.map(item => (
-      <tr key={item.username}>
-        <td>{item.profileAttributes.fullname || item.username}</td>
-        <td>{item.lastLogin}</td>
-        <td className="text-center">
-          <i className={`${statusIconClass(item.status)}`} />
-        </td>
-        <td className="text-center">
-          <DropdownKebab id={`kebab-${item.username}`} pullRight>
-            <LinkMenuItem
-              id={`edit-user-${item.username}`}
-              to={routeConverter(ROUTE_USER_EDIT, { username: item.username })}
-              label={`${editUser} ${item.profileAttributes.fullname || item.username}`}
-              className="GroupDetailTabUsers__menu-item-edit"
-            />
-            <LinkMenuItem
-              id={`authority-${item.username}`}
-              to={routeConverter(ROUTE_USER_AUTHORITY, { username: item.username })}
-              label={`${authority} ${item.profileAttributes.fullname || item.username}`}
-              className="GroupDetailTabUsers__menu-item-edit"
-            />
-          </DropdownKebab>
-        </td>
-      </tr>
-    ));
+    return userReferences
+      .filter(item => item != null)
+      .map(item => (
+        <tr key={item.username}>
+          <td>{item.profileAttributes.fullname || item.username}</td>
+          <td>{item.lastLogin}</td>
+          <td className="text-center">
+            <i className={`${statusIconClass(item.status)}`} />
+          </td>
+          <td className="text-center">
+            <DropdownKebab id={`kebab-${item.username}`} pullRight>
+              <LinkMenuItem
+                id={`edit-user-${item.username}`}
+                to={routeConverter(ROUTE_USER_EDIT, { username: item.username })}
+                label={`${editUser} ${item.profileAttributes.fullname || item.username}`}
+                className="GroupDetailTabUsers__menu-item-edit"
+              />
+              <LinkMenuItem
+                id={`authority-${item.username}`}
+                to={routeConverter(ROUTE_USER_AUTHORITY, { username: item.username })}
+                label={`${authority} ${item.profileAttributes.fullname || item.username}`}
+                className="GroupDetailTabUsers__menu-item-edit"
+              />
+            </DropdownKebab>
+          </td>
+        </tr>
+      ));
   }
 
   renderTable() {
