@@ -733,7 +733,7 @@ export default {
     'componentRepository.filterTabs.contentModel': 'Content Templates',
     'componentRepository.filterTabs.contentType': 'Content Types',
     'componentRepository.filterTabs.page': 'Pages',
-    'componentRepository.filterTabs.plugin': 'Plugins',
+    'componentRepository.filterTabs.plugin': 'Microservices',
     'cms.contentList.title': 'Content List',
     'cms.contentTypesList.title': 'Content Types',
     'cms.contentModelsList.title': 'Content Templates',
