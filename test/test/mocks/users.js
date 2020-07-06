@@ -25,7 +25,8 @@ export const USER = {
     fullName: '',
     email: '',
   },
-
+  accountNotExpired: true,
+  credentialsNotExpired: true,
 };
 
 export const USERS = [
@@ -40,6 +41,8 @@ export const USERS = [
       fullName: 'admin',
       email: 'admin@entando.com',
     },
+    accountNotExpired: true,
+    credentialsNotExpired: true,
   },
   {
     username: 'user1',
@@ -52,6 +55,8 @@ export const USERS = [
       fullName: 'User Name',
       email: 'user1@entando.com',
     },
+    accountNotExpired: true,
+    credentialsNotExpired: true,
   },
   {
     username: 'user2',
@@ -64,6 +69,8 @@ export const USERS = [
       fullName: 'User Name2',
       email: 'user2@entando.com',
     },
+    accountNotExpired: true,
+    credentialsNotExpired: true,
   },
   {
     username: 'user3',
@@ -76,11 +83,41 @@ export const USERS = [
       fullName: 'User Name3',
       email: 'user3@entando.com',
     },
+    accountNotExpired: true,
+    credentialsNotExpired: true,
+  },
+  {
+    username: 'user4',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'active',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'User Name4',
+      email: 'user4@entando.com',
+    },
+    accountNotExpired: false,
+    credentialsNotExpired: true,
+  },
+  {
+    username: 'user5',
+    registration: '2018-01-08 00:00:00',
+    lastLogin: '2018-01-08 00:00:00',
+    lastPasswordChange: '2018-01-08 00:00:00',
+    status: 'active',
+    passwordChangeRequired: true,
+    profileAttributes: {
+      fullName: 'User Name5',
+      email: 'user5@entando.com',
+    },
+    accountNotExpired: true,
+    credentialsNotExpired: false,
   },
 ];
 
 export const USERS_NORMALIZED = {
-  list: ['admin', 'user1', 'user2', 'user3'],
+  list: ['admin', 'user1', 'user2', 'user3', 'user4', 'user5'],
   map: {
     admin: {
       username: 'admin',
@@ -93,6 +130,8 @@ export const USERS_NORMALIZED = {
         fullName: 'admin',
         email: 'admin@entando.com',
       },
+      accountNotExpired: true,
+      credentialsNotExpired: true,
     },
     user1: {
       username: 'user1',
@@ -105,6 +144,8 @@ export const USERS_NORMALIZED = {
         fullName: 'User Name',
         email: 'user1@entando.com',
       },
+      accountNotExpired: true,
+      credentialsNotExpired: true,
     },
 
     user2: {
@@ -118,6 +159,8 @@ export const USERS_NORMALIZED = {
         fullName: 'User Name2',
         email: 'user2@entando.com',
       },
+      accountNotExpired: true,
+      credentialsNotExpired: true,
     },
     user3: {
       username: 'user3',
@@ -130,6 +173,36 @@ export const USERS_NORMALIZED = {
         fullName: 'User Name3',
         email: 'user3@entando.com',
       },
+      accountNotExpired: true,
+      credentialsNotExpired: true,
+    },
+    user4: {
+      username: 'user4',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'active',
+      passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'User Name4',
+        email: 'user4@entando.com',
+      },
+      accountNotExpired: false,
+      credentialsNotExpired: true,
+    },
+    user5: {
+      username: 'user5',
+      registration: '2018-01-08 00:00:00',
+      lastLogin: '2018-01-08 00:00:00',
+      lastPasswordChange: '2018-01-08 00:00:00',
+      status: 'active',
+      passwordChangeRequired: true,
+      profileAttributes: {
+        fullName: 'User Name5',
+        email: 'user5@entando.com',
+      },
+      accountNotExpired: true,
+      credentialsNotExpired: false,
     },
   },
 };

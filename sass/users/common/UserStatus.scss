@@ -20,3 +20,12 @@
     content: $fa-ban;
   }
 }
+
+.UserStatus--passwordExpired, // sass-lint:disable-line class-name-format
+.UserStatus--accountExpired { // sass-lint:disable-line class-name-format
+  color: $color-pf-red;
+
+  .UserStatus__icon:before {
+    content: $fa-adjust;
+  }
+}
