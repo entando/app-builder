@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Col, Row } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
-import ComponentInstallActionsContainer from 'ui/component-repository/components/common/ComponentInstallActionsContainer';
-import ComponentImage from 'ui/component-repository/components/common/ComponentImage';
+import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
+import ComponentImage from 'ui/component-repository/components/item/ComponentImage';
 import { componentType } from 'models/component-repository/components';
 
 

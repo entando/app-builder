@@ -6,6 +6,7 @@ export const componentType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   lastUpdate: PropTypes.string.isRequired,
   version: PropTypes.string,
+  versions: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string.isRequired,
   description: PropTypes.string,
   image: PropTypes.string,
