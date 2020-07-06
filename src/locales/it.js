@@ -523,6 +523,8 @@ export default {
     'user.table.status.active': 'Attivo',
     'user.table.status.disabled': 'Non attivo',
     'user.table.status.inactive': 'Non attivo',
+    'user.table.status.passwordExpired': 'Password scaduta',
+    'user.table.status.accountExpired': 'Conto scaduto',
     'user.table.username': 'Username',
     'user.table.fullName': 'Nome completo',
     'user.table.email': 'Email',

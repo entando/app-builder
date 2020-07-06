@@ -520,6 +520,8 @@ export default {
     'user.table.status.active': 'Ativo',
     'user.table.status.disabled': 'Inativo',
     'user.table.status.inactive': 'Inativo',
+    'user.table.status.passwordExpired': 'Senha expirada',
+    'user.table.status.accountExpired': 'Conta expirada',
     'user.table.username': 'Nome de Usuário',
     'user.table.fullName': 'Nome Completo',
     'user.table.email': 'Email',

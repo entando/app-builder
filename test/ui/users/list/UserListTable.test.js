@@ -67,8 +67,8 @@ describe('UserListTable', () => {
       it('has four rows if there are two users', () => {
         const tbody = component.find('tbody');
         expect(tbody).toHaveLength(1);
-        expect(tbody.find('tr')).toHaveLength(4);
-        expect(tbody.find('UserListMenuActions')).toHaveLength(4);
+        expect(tbody.find('tr')).toHaveLength(USERS.length);
+        expect(tbody.find('UserListMenuActions')).toHaveLength(USERS.length);
       });
 
       it('has a menu in the action column of each row', () => {

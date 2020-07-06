@@ -30,9 +30,15 @@ class UserListTable extends Component {
   renderTableRows() {
     const { users, intl } = this.props;
     return users.map((user) => {
+      let userStatus = user.status;
+      if (!user.accountNotExpired) {
+        userStatus = 'accountExpired';
+      } else if (!user.credentialsNotExpired) {
+        userStatus = 'passwordExpired';
+      }
       const msgs = defineMessages({
         userStatus: {
-          id: `user.table.status.${user.status}`,
+          id: `user.table.status.${userStatus}`,
         },
       });
       return (
@@ -42,7 +48,7 @@ class UserListTable extends Component {
           <td className="UserListRow__td">{user.profileAttributes.email}</td>
           <td className="UserListRow__td text-center">
             <UserStatus
-              status={user.status}
+              status={userStatus}
               title={intl.formatMessage(msgs.userStatus)}
             />
           </td>
