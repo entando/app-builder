@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 
-const defaultContentType = 'application/octet-stream, application/pkcs12, application/vnd.mspowerpoint, application/xhtml+xml, application/xml, application/pdf';
+const defaultContentType = 'application/octet-stream, application/pkcs12, application/vnd.mspowerpoint, application/xhtml+xml, application/xml, application/pdf, application/octet-stream';
 
 const b64toBlob = (b64Data, contentType = defaultContentType, sliceSize = 512) => {
   const byteCharacters = atob(b64Data);

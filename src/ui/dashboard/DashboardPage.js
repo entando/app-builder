@@ -11,6 +11,8 @@ import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
+import apps from 'entando-apps';
+
 import {
   ADMINISTRATION_AREA_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION,
@@ -18,6 +20,8 @@ import {
   EDIT_USER_PROFILES_PERMISSION,
   MANAGE_PAGES_PERMISSION,
   ROLE_SUPERUSER,
+  VALIDATE_CONTENTS_PERMISSION,
+  CRUD_CONTENTS_PERMISSION,
 } from 'state/permissions/const';
 
 const topWidgetRequiredPermissions = [
@@ -32,6 +36,9 @@ export const DashboardPageBody = ({ userPermissions }) => {
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
+  const ContentsStatusCardContainer = (apps.filter(app => app.id === 'cms')[0] || {}).contentsStatusCard;
+  const canViewContentsStatus = hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions) ||
+  hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions);
   return (
     <InternalPage className="DashboardPage">
       <CardGrid>
@@ -52,19 +59,33 @@ export const DashboardPageBody = ({ userPermissions }) => {
             </Col>
           )}
         </Row>
+        <Row>
+          <PermissionCheck
+            requiredPermissions={MANAGE_PAGES_PERMISSION}
+            userPermissions={userPermissions}
+          >
+            <Col md={4}>
+              <PageStatusContainer />
+            </Col>
+          </PermissionCheck>
+          <Col md={8}>
+            {
+              (canViewContentsStatus && ContentsStatusCardContainer) ?
+                <ContentsStatusCardContainer /> : null
+            }
+          </Col>
+        </Row>
         <PermissionCheck
           requiredPermissions={MANAGE_PAGES_PERMISSION}
           userPermissions={userPermissions}
         >
           <Row>
-            <Col md={4}>
-              <PageStatusContainer />
-            </Col>
-            <Col md={8}>
+            <Col md={12}>
               <PagesListContainer />
             </Col>
           </Row>
         </PermissionCheck>
+
       </CardGrid>
     </InternalPage>
   );
