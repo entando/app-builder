@@ -37,8 +37,8 @@ export const DashboardPageBody = ({ userPermissions }) => {
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
   const ContentsStatusCardContainer = (apps.filter(app => app.id === 'cms')[0] || {}).contentsStatusCard;
-  const canViewContentsStatus = hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions) ||
-  hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions);
+  const canViewContentsStatus =
+  hasAccess([VALIDATE_CONTENTS_PERMISSION, CRUD_CONTENTS_PERMISSION], userPermissions);
   return (
     <InternalPage className="DashboardPage">
       <CardGrid>
