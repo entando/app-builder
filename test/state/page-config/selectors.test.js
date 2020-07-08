@@ -145,7 +145,7 @@ describe('state/page-config/selectors', () => {
           const item = draftItem || publishedItem;
           expect(cell.widgetCode).toBe(item.code);
           expect(cell.widgetTitle).toBe(WIDGETS_MAP[item.code].titles[CURRENT_LOCALE]);
-          expect(cell.widgetHasConfig).toBe(!!item.config);
+          expect(cell.widgetHasConfig).toBe(WIDGETS_MAP[item.code].hasConfig);
         }
 
         if (draftItem && publishedItem) {

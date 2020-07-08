@@ -11,7 +11,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForrm';
+import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
 
