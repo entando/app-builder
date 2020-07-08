@@ -16,6 +16,7 @@ export const WIDGET = {
   pluginCode: 'plugin_code',
   group: 'group',
   configUi: null,
+  hasConfig: false,
 };
 
 export const WIDGET_NULL_GROUP = {
@@ -36,6 +37,7 @@ export const WIDGET_NULL_GROUP = {
   pluginCode: 'plugin_code',
   group: null,
   configUi: null,
+  hasConfig: false,
 };
 
 export const WIDGET_LIST = {
