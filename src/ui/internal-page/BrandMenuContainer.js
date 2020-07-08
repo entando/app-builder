@@ -14,8 +14,8 @@ import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
 import {
   ROUTE_DASHBOARD, ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
-  ROUTE_PAGE_CONFIG, ROUTE_DATA_TYPE_LIST, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
-  ROUTE_LABELS_AND_LANGUAGES, ROUTE_DATA_MODEL_LIST, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_PAGE_CONFIG, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
+  ROUTE_LABELS_AND_LANGUAGES, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
 } from 'app-init/router';
@@ -139,27 +139,6 @@ const BrandMenuBody = ({ userPermissions }) => (
               id="menu-ux-pattern-page-templates"
               label={<FormattedMessage id="menu.pageTemplates" />}
               to={ROUTE_PAGE_TEMPLATE_LIST}
-              isNav
-            />
-          </FirstLevelMenuItem>
-        )
-      }
-    {
-        hasAccess(ROLE_SUPERUSER, userPermissions) && (
-          <FirstLevelMenuItem
-            id="menu-data"
-            label={<FormattedMessage id="menu.data" />}
-          >
-            <LinkMenuItem
-              id="menu-data-types"
-              label={<FormattedMessage id="menu.dataType" />}
-              to={ROUTE_DATA_TYPE_LIST}
-              isNav
-            />
-            <LinkMenuItem
-              id="menu-data-models"
-              label={<FormattedMessage id="menu.dataModels" />}
-              to={ROUTE_DATA_MODEL_LIST}
               isNav
             />
           </FirstLevelMenuItem>
