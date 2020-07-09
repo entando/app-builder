@@ -8,6 +8,8 @@ import { routeConverter, hasAccess } from '@entando/utils';
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
+import { appBuilderVersion } from 'helpers/versions';
+
 import {
   ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
@@ -154,7 +156,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
-          title="App Builder 6.2"
+          title={`App Builder ${appBuilderVersion}`}
         />
         <VerticalNav.IconBar collapse>
           <LanguageSelectContainer key="LanguageSelect" />

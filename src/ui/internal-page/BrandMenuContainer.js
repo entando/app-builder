@@ -20,6 +20,8 @@ import {
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
 } from 'app-init/router';
 
+import { appBuilderVersion } from 'helpers/versions';
+
 import apps from 'entando-apps';
 
 import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
@@ -79,7 +81,7 @@ const ComponentRepositoryMenuItem = COMPONENT_REPOSITORY_UI_ENABLED ? (<LinkMenu
 />) : '';
 
 const BrandMenuBody = ({ userPermissions }) => (
-  <BrandMenu brandLogo={BRAND_LOGO} title="App Builder 6.1" header={menuHeader} dashboardLink={ROUTE_DASHBOARD} >
+  <BrandMenu brandLogo={BRAND_LOGO} title={`App Builder ${appBuilderVersion}`} header={menuHeader} dashboardLink={ROUTE_DASHBOARD} >
     <LinkMenuItem
       id="menu-dashboard"
       to={ROUTE_DASHBOARD}

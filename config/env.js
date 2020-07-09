@@ -82,6 +82,7 @@ function getClientEnvironment(publicUrl) {
         LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED: process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
+        APP_BUILDER_VERSION: process.env.npm_package_version || '',
       },
     );
 
