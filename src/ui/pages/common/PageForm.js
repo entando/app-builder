@@ -15,9 +15,13 @@ import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
+import SeoInfo from 'ui/pages/common/SeoInfo';
+
+const seoEnabled = true;
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
+
 
 const msgs = defineMessages({
   chooseAnOption: {
@@ -65,7 +69,7 @@ export class PageFormBody extends Component {
         validate={[required]}
       />);
 
-    const renderActiveLanguages = () => {
+    const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
         return languages
           .map((lang) => {
@@ -252,7 +256,7 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
 
-            {renderActiveLanguages()}
+            {seoEnabled ? (<SeoInfo languages={languages} />) : renderActiveLanguageTitles()}
 
             <Field
               component={RenderTextInput}
