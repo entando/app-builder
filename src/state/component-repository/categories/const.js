@@ -2,10 +2,10 @@ export const ALL_CATEGORIES_CATEGORY = 'all';
 
 export const COMPONENT_REPOSITORY_CATEGORIES = [
   'widget',
-  'pageModel',
+  'pageTemplate',
   'fragment',
   'plugin',
-  'contentModel',
+  'contentTemplate',
   'contentType',
   'page',
 ];
