@@ -52,6 +52,11 @@ class ListWidgetPage extends Component {
             </Col>
           </Row>
           <Row>
+            <Col xs={12} >
+              {this.renderTable()}
+            </Col>
+          </Row>
+          <Row>
             <Col xs={12}>
               <Button
                 type="button"
@@ -62,12 +67,6 @@ class ListWidgetPage extends Component {
               >
                 <FormattedMessage id="app.add" />
               </Button>
-            </Col>
-
-          </Row>
-          <Row>
-            <Col xs={12} >
-              {this.renderTable()}
             </Col>
           </Row>
           <DeleteWidgetModalContainer />
