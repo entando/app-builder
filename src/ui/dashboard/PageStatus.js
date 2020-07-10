@@ -15,7 +15,7 @@ class PageStatus extends Component {
         <DonutChart
           id="donunt-chart-2"
           data={{
-            colors: { Online: '#6ca100', Draft: '#72767b', 'Online ≠ draft': '#f0ab00' },
+            colors: { Online: '#00A0DF', Draft: '#A6A6A6', 'Online ≠ draft': '#0066CC' },
             columns: [
               ['Online ≠ draft', draft],
               ['Draft', unpublished],

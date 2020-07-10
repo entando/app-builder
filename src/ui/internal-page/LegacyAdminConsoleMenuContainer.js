@@ -16,7 +16,7 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_CMS_VERSIONING,
+  ROUTE_CMS_VERSIONING, ROUTE_DASHBOARD,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -152,7 +152,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     >
       <Masthead>
         <Brand
-          href=""
+          href={ROUTE_DASHBOARD}
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
