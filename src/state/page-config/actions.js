@@ -268,7 +268,7 @@ export const editWidgetConfig = (frameId, pageCode) =>
 
     if (pageConfigItem) {
       const widget = getWidgetsMap(getState())[pageConfigItem.code];
-      const isConfigurableWidget = (widget && widget.hasConfig) || false;
+      const isConfigurableWidget = (widget && widget.hasConfig);
 
       if (isConfigurableWidget || pageConfigItem.config) {
         dispatch(initialize('widgetConfigForm', pageConfigItem.config));
