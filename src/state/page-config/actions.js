@@ -265,11 +265,17 @@ export const editWidgetConfig = (frameId, pageCode) =>
   (dispatch, getState) => {
     const pageConfig = makeGetSelectedPageConfig(pageCode)(getState());
     const pageConfigItem = (pageConfig && pageConfig[frameId]);
-    if (pageConfigItem && pageConfigItem.config) {
-      dispatch(initialize('widgetConfigForm', pageConfigItem.config));
-      history.push(routeConverter(
-        ROUTE_WIDGET_CONFIG,
-        { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
-      ));
+
+    if (pageConfigItem) {
+      const widget = getWidgetsMap(getState())[pageConfigItem.code];
+      const isConfigurableWidget = (widget && widget.hasConfig) || false;
+
+      if (isConfigurableWidget || pageConfigItem.config) {
+        dispatch(initialize('widgetConfigForm', pageConfigItem.config));
+        history.push(routeConverter(
+          ROUTE_WIDGET_CONFIG,
+          { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },
+        ));
+      }
     }
   };

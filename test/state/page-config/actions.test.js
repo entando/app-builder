@@ -525,9 +525,13 @@ describe('state/page-config/actions', () => {
 
   describe('editWidgetConfig', () => {
     beforeEach(() => {
+      getWidgetsMap.mockReturnValue({
+        WIDGET_NO_CONFIG: { code: 'WIDGET_NO_CONFIG' },
+        WIDGET_WITH_CONFIG: { type: 'WIDGET_WITH_CONFIG', config: { field: 'fieldValue' }, hasConfig: true },
+      });
       makeGetSelectedPageConfig.mockImplementation(() => () => [
         null,
-        { type: 'widget_code', config: {} },
+        { type: 'WIDGET_WITH_CONFIG', config: {} },
       ]);
       store = mockStore(INITIAL_STATE);
     });
@@ -548,6 +552,7 @@ describe('state/page-config/actions', () => {
     it('if there is selected page config and the frame has config, dispatch initialize', () => {
       store.dispatch(editWidgetConfig(1, CURRENT_PAGE_CODE));
       expect(initialize).toHaveBeenCalled();
+      expect(getWidgetsMap).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(1);
     });
   });
