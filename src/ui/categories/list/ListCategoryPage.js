@@ -32,6 +32,9 @@ export const ListCategoryPageBody = () => (
         </Col>
       </Row>
       <Row>
+        <CategoryTreeContainer />
+      </Row>
+      <Row>
         <Col xs={12}>
           <Link to={ROUTE_CATEGORY_ADD}>
             <Button
@@ -45,9 +48,6 @@ export const ListCategoryPageBody = () => (
             </Button>
           </Link>
         </Col>
-      </Row>
-      <Row>
-        <CategoryTreeContainer />
       </Row>
     </Grid>
   </InternalPage>
