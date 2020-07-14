@@ -40,11 +40,15 @@ const RenderSelectInput = ({
 
   return (
     <div className={containerClasses}>
-      <Col xs={labelSize} className={alignClass}>
-        <ControlLabel htmlFor={input.name}>
-          {label} {help}
-        </ControlLabel>
-      </Col>
+      {
+      labelSize > 0 ? (
+        <Col xs={labelSize} className={alignClass}>
+          <ControlLabel htmlFor={input.name}>
+            {label} {help}
+          </ControlLabel>
+        </Col>
+      ) : ''
+      }
       <Col xs={inputSize || 12 - labelSize}>
         <select
           {...input}

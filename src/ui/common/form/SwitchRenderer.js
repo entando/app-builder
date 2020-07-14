@@ -21,7 +21,7 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) =
 };
 
 const SwitchRenderer = ({
-  input, append, label, labelSize, alignClass, meta: { touched, error },
+  input, append, label, labelSize, inputSize, alignClass, meta: { touched, error },
   help, trueValue, falseValue, disabled, onToggleValue,
 }) => {
   const switchValue = input.value === 'true' || input.value === true || input.value === trueValue;
@@ -33,7 +33,7 @@ const SwitchRenderer = ({
             {label} {help}
           </ControlLabel>
         </Col>
-        <Col xs={12 - labelSize}>
+        <Col xs={inputSize || 12 - labelSize}>
           {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span className="help-block">{error}</span>))}
@@ -60,6 +60,7 @@ SwitchRenderer.propTypes = {
   disabled: PropTypes.bool,
   type: PropTypes.string,
   labelSize: PropTypes.number,
+  inputSize: PropTypes.number,
   append: PropTypes.string,
   alignClass: PropTypes.string,
   onToggleValue: PropTypes.func,
@@ -74,6 +75,7 @@ SwitchRenderer.defaultProps = {
   disabled: false,
   type: 'text',
   labelSize: 2,
+  inputSize: null,
   append: '',
   alignClass: 'text-right',
   onToggleValue: null,

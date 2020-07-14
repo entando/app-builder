@@ -396,7 +396,54 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
 
 export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
   .then((response) => {
-    dispatch(initialize('page', response.payload));
+    const pagePayload = {
+      ...response.payload,
+      seoDescription: { // mock data for SEO, to be removed
+        en: {
+          value: 'This is an SEO Description',
+        },
+        it: {
+          value: 'Lorem ipsum sit dolor',
+        },
+      },
+      seoKeywords: {
+        en: {
+          value: 'SEO, Keywords',
+        },
+        it: {
+          inherit: true,
+        },
+      },
+      seoMetatags: [
+        {
+          name: 'aa',
+          type: 'name',
+          values: {
+            en: {
+              value: 'bb',
+              inherit: true,
+            },
+            it: {
+              value: 'cca',
+              inherit: true,
+            },
+          },
+        },
+        {
+          name: 'cc',
+          type: 'property',
+          values: {
+            en: {
+              value: 'dd',
+            },
+            it: {
+              value: 'ddi',
+            },
+          },
+        },
+      ],
+    };
+    dispatch(initialize('page', pagePayload));
   })
   .catch(() => {});
 

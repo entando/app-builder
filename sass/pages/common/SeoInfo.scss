@@ -1,0 +1,42 @@
+.SeoInfo {
+  // sass-lint:disable no-qualifying-elements, nesting-depth, force-element-nesting, class-name-format
+  .nav-tabs {
+    li:first-of-type {
+      margin-left: 30px;
+    }
+
+    li.active a {
+      background-color: $color-pf-black-200;
+      color: $color-pf-black;
+      font-weight: bold;
+    }
+  }
+  // sass-lint:enable no-qualifying-elements, nesting-depth, force-element-nesting, class-name-format
+
+  &__section {
+    margin-bottom: 40px;
+    padding: 20px 0;
+    background-color: $color-pf-black-200;
+  }
+
+  &__addmetadata {
+    padding: 20px 30px 0;
+  }
+
+  &__addmetadata--head {
+    padding-top: 15px;
+    border-top: 1px solid #c3b9b9;
+    border-bottom: 0;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &__metadata--tfgroup {
+    margin: 0;
+    padding: 0 20px;
+  }
+
+  &__metadata--itemgroup {
+    margin-bottom: 0;
+  }
+}

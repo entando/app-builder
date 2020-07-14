@@ -256,7 +256,11 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
 
-            {seoEnabled ? (<SeoInfo languages={languages} />) : renderActiveLanguageTitles()}
+            {seoEnabled ? (
+              <SeoInfo languages={languages} onChangeDefaultTitle={onChangeDefaultTitle} />
+            ) : (
+              renderActiveLanguageTitles()
+            )}
 
             <Field
               component={RenderTextInput}
