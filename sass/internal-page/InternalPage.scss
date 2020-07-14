@@ -121,7 +121,11 @@
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-left: 55px;
+  margin-left: 0;
+}
+
+.container-pf-nav-pf-vertical.hidden-nav { //sass-lint:disable-line class-name-format force-element-nesting
+  margin-left: 0;
 }
 
 .navbar-brand-txt { //sass-lint:disable-line class-name-format

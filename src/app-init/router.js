@@ -104,3 +104,7 @@ export const ROUTE_RELOAD_CONFIRM = '/reloadConfiguration/confirm';
 export const ROUTE_CMS_VERSIONING = '/cms/versioning';
 export const ROUTE_CMS_EDIT_CONTENT = '/cms/content/edit/:id';
 export const ROUTE_CMS_DIGITAL_ASSETS = '/cms/assets';
+
+// static pages
+export const ROUTE_ABOUT = '/about';
+export const ROUTE_LICENSE = '/license';

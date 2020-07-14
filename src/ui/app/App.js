@@ -88,6 +88,8 @@ import {
   ROUTE_ECR_CONFIG_EDIT,
   ROUTE_ECR_CONFIG_ADD,
   ROUTE_PLUGINS,
+  ROUTE_ABOUT,
+  ROUTE_LICENSE,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -175,6 +177,8 @@ import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
+import AboutPage from 'ui/about/AboutPage';
+import LicensePage from 'ui/license/LicensePage';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -319,6 +323,9 @@ const getRouteComponent = () => (
     <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
     <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
     <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+    { /* static routes */ }
+    <Route path={ROUTE_ABOUT} component={AboutPage} />
+    <Route path={ROUTE_LICENSE} component={LicensePage} />
     { /* app routes */ }
     {appsRoutes}
     {/* 404 */}
