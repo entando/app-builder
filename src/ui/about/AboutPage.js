@@ -20,7 +20,7 @@ const AboutPage = () => (
             </p>
           </section>
           <h2 className="AboutPage__title">
-          Version: 6.2
+          Version: {process.env.APP_BUILDER_VERSION}
           </h2>
           <section>
             <p className="AboutPage__description">
