@@ -1,4 +1,8 @@
 import {
+  ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+} from 'state/component-repository/components/const';
+import {
   GET_ECR_COMPONENT_OK,
   LIST_ECR_COMPONENTS_OK,
   COMPONENT_INSTALLATION_CREATED,
@@ -85,4 +89,22 @@ export const getComponentUsage = id => (
     mockResponse: COMPONENT_USAGE_LIST,
     useAuthentication: true,
   })
+);
+
+export const getJobs = () => (
+  makeRequest(
+    {
+      uri: '/jobs',
+      domain: '/digital-exchange',
+      method: METHODS.GET,
+      mockResponse: COMPONENT_USAGE_LIST,
+      useAuthentication: true,
+    },
+    {
+      'filters[0].attribute': 'status',
+      'filters[0].operator': 'eq',
+      'filters[0].allowedValues[0]': ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+      'filters[0].allowedValues[1]': ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+    },
+  )
 );

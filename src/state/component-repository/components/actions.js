@@ -31,6 +31,7 @@ import {
   postECRComponentUninstall,
   getECRComponentUninstall,
   getComponentUsage,
+  getJobs,
 } from 'api/component-repository/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading, setLoading } from 'state/loading/actions';
@@ -38,6 +39,7 @@ import {
   ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
   ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED,
   ECR_COMPONENT_INSTALLATION_STATUS_ERROR,
+  ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
   ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
   ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
   ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
@@ -362,6 +364,32 @@ export const fetchComponentUsage = id => dispatch => (
       });
     }).catch(() => {
       dispatch(toggleLoading(loadingId));
+    });
+  })
+);
+
+export const fetchECRJobs = () => dispatch => (
+  new Promise((resolve) => {
+    getJobs().then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          if (data.payload.length) {
+            data.payload.forEach((job) => {
+              if (job.status === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
+                dispatch(pollECRComponentInstallStatus({ id: job.componentId }));
+              } else if (job.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
+                dispatch(pollECRComponentUninstallStatus({ id: job.componentId }));
+              }
+            });
+          }
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          resolve();
+        }
+      });
+    }).catch(() => {
+      // dispatch(toggleLoading(loadingId));
     });
   })
 );

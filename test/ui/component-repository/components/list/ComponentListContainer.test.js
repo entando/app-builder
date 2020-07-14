@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/components/list/ComponentListContainer';
-import { fetchECRComponents } from 'state/component-repository/components/actions';
+import { fetchECRComponents, fetchECRJobs } from 'state/component-repository/components/actions';
 import { LIST_ECR_COMPONENTS_OK } from 'test/mocks/component-repository/components';
 import { getLoading } from 'state/loading/selectors';
 
@@ -12,6 +12,7 @@ const TEST_STATE = {
 
 jest.mock('state/component-repository/components/actions', () => ({
   fetchECRComponents: jest.fn(),
+  fetchECRJobs: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
@@ -43,6 +44,7 @@ describe('ComponentListContainer', () => {
       props.onDidMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchECRComponents).toHaveBeenCalled();
+      expect(fetchECRJobs).toHaveBeenCalled();
     });
   });
 });
