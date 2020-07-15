@@ -230,8 +230,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       )
     }
       {
-      (hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions) ||
-      hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions))
+      hasAccess(ROLE_SUPERUSER, userPermissions)
       && (
         <Item
           onClick={() => {}}
@@ -243,32 +242,40 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             onClick={() => {}}
           >
             <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.mail', defaultMessage: 'Email Configuration' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Content Scheduler' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
+            />
+            <TertiaryItem
               title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
               onClick={() => history.push(ROUTE_CMS_VERSIONING)}
             />
           </SecondaryItem>
-          { hasAccess(ROLE_SUPERUSER, userPermissions) &&
-            <SecondaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-            >
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Resource/list.action')}
-              />
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Service/list.action')}
-              />
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Consumer/list.action')}
-              />
-            </SecondaryItem>
-          }
+          <SecondaryItem
+            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
+            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+          >
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Resource/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Service/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Consumer/list.action')}
+            />
+          </SecondaryItem>
         </Item>
       )
     }
