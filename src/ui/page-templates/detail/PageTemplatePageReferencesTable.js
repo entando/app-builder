@@ -32,7 +32,11 @@ class PageTemplatePageReferencesTable extends Component {
     const pageConfiguration = intl.formatMessage(msgs.pageConfig);
     return pageReferences.map(item => (
       <tr key={`ref-${item.code}-${item.lastModified}`}>
-        <td>{item.status}</td>
+        <td>
+          <FormattedMessage
+            id={`pages.status.${item.onlineInstance ? 'published' : 'unpublished'}`}
+          />
+        </td>
         <td>{item.fullTitle}</td>
         <td className="text-center">
           <DropdownKebab id={`kebab-${item.code}`} pullRight>
