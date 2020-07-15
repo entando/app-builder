@@ -115,9 +115,20 @@
   }
 }
 
+.nav-pf-vertical { //sass-lint:disable-line class-name-format
+  &,
+  .list-group-item > a { // sass-lint:disable-line force-element-nesting class-name-format
+    width: calc(#{$nav-pf-vertical-width} + 15px);
+  }
+
+  .secondary-nav-item-pf:hover > a { // sass-lint:disable-line force-element-nesting class-name-format
+    width: calc(#{$nav-pf-vertical-width} + 16px);
+  }
+}
+
 .container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
   margin-top: 65px;
-  margin-left: 180px;
+  margin-left: calc(#{$nav-pf-vertical-width} - 5px);
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
