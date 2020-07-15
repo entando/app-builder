@@ -25,7 +25,7 @@ class UxPatterns extends Component {
       <Card accented>
         <CardTitle>
           <Icon size="lg" name="object-ungroup" />
-          <FormattedMessage id="menu.uxPattern" />
+          <FormattedMessage id="menu.uxComponents" />
           {isSuperuser && (
             <Button
               bsStyle="primary"

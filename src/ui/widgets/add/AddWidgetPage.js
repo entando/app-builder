@@ -18,10 +18,10 @@ export const AddWidgetPageBody = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.uxComponents" />
             </BreadcrumbItem>
             <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-              <FormattedMessage id="menu.uxPattern.widget" />
+              <FormattedMessage id="menu.uxComponents.widget" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="app.add" />

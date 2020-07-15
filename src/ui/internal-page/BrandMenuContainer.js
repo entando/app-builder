@@ -121,7 +121,7 @@ const BrandMenuBody = ({ userPermissions }) => (
         hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
           <FirstLevelMenuItem
             id="menu-ux-pattern"
-            label={<FormattedMessage id="menu.uxPattern" />}
+            label={<FormattedMessage id="menu.uxComponents" />}
           >
             <LinkMenuItem
               id="menu-ux-pattern-widgets"
