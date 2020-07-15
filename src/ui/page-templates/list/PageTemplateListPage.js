@@ -36,6 +36,12 @@ export const PageTemplateListPageBody = () => (
       </Row>
       <Row>
         <Col xs={12}>
+          <PageTemplateListTableContainer />
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <Col xs={12}>
           <Link to={ROUTE_PAGE_TEMPLATE_ADD}>
             <Button
               type="button"
@@ -45,12 +51,6 @@ export const PageTemplateListPageBody = () => (
               <FormattedMessage id="app.add" />
             </Button>
           </Link>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col xs={12}>
-          <PageTemplateListTableContainer />
         </Col>
       </Row>
     </Grid>

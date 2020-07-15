@@ -15,6 +15,10 @@ const FragmentListContent = () => (
       </Col>
     </Row>
     <Row>
+      <FragmentListTableContainer />
+    </Row>
+    <br />
+    <Row>
       <Col xs={12}>
         <Link to={ROUTE_FRAGMENT_ADD}>
           <Button
@@ -28,9 +32,6 @@ const FragmentListContent = () => (
           </Button>
         </Link>
       </Col>
-    </Row>
-    <Row>
-      <FragmentListTableContainer />
     </Row>
   </div>
 

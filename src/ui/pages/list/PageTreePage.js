@@ -65,17 +65,25 @@ class PageTreePage extends Component {
               <PageSearchForm {...this.props} />
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              {this.renderButton()}
-            </Col>
-          </Row>
-          <br />
+          {this.props.search && (
+            <Row>
+              <Col xs={12}>
+                {this.renderButton()}
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col xs={12}>
               <PageTreeContainer loading={this.props.loading} />
             </Col>
           </Row>
+          {!this.props.search && (
+            <Row>
+              <Col xs={12}>
+                {this.renderButton()}
+              </Col>
+            </Row>
+          )}
         </Grid>
       </InternalPage>
     );

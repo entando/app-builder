@@ -32,6 +32,8 @@ $color-ecr-list-icon: #BBBBBB;
 $color-ecr-component-border: #C3C3C3;
 $color-legacy-header-bg-grey: #1D1D1D;
 $color-legacy-header-text-grey: #c1c1c1;
+$color-primary: #002F87;
+$color-primary-dark: #032a73;
 
 //FontAwesome icons
 $fa-check: "\f00c";
@@ -81,6 +83,23 @@ $fa-square-o: "\f096";
   &:disabled {
     background: transparent !important; // sass-lint:disable-line no-important
   }
+}
+
+.btn {
+  padding: 2px 12px;
+  border: 0 !important; // sass-lint:disable-line no-important
+  background-image: none;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: $color-primary;
+}
+
+.btn-primary:hover:active {
+  background-color: $color-primary-dark;
 }
 
 .CodeMirror {

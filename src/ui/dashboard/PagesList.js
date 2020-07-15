@@ -63,15 +63,6 @@ class PagesList extends Component {
       <div className="PagesList">
         <h2>
           List of Pages
-          <Button
-            bsStyle="primary"
-            className="pull-right"
-            componentClass={Link}
-            to={ROUTE_PAGE_ADD}
-          >
-            <FormattedMessage id="dashboard.newPage" />
-          </Button>
-          <Clearfix />
         </h2>
         <table className="PagesListTable__table table table-striped table-bordered">
           <thead>
@@ -95,6 +86,16 @@ class PagesList extends Component {
           itemCount={this.props.totalItems}
           onPageSet={this.changePage}
         />
+        <br />
+        <Button
+          bsStyle="primary"
+          className="pull-right"
+          componentClass={Link}
+          to={ROUTE_PAGE_ADD}
+        >
+          <FormattedMessage id="dashboard.newPage" />
+        </Button>
+        <Clearfix />
       </div>
     );
   }
