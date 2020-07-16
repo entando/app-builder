@@ -1,10 +1,22 @@
 aliases:
-- gidesan
+  - entando-jx
+
+  developers:
+  - alepintus
+  - ampie
+  - fedelocci
+  - gidesan
+  - gReis89
+  - ichalagashvili
+  - jeffgo10
+  - nicpuddu
+  - Kerruba
+  - raxkaynan 
+
 best-approvers:
-- gidesan
-- ichalagashvili
-- nicpuddu
+- developers
+- entando-jx	  
+
 best-reviewers:
-- gidesan
-- ichalagashvili
-- nicpuddu
+- developers
+- entando-jx

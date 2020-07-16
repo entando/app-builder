@@ -1,8 +1,7 @@
 approvers:
-- gidesan
-- ichalagashvili
-- nicpuddu
+- developers
+- entando-jx
+
 reviewers:
-- gidesan
-- ichalagashvili
-- nicpuddu
+- developers
+- entando-jx
