@@ -115,7 +115,9 @@ class Notification extends Component {
             <p className="Notification__notify">
               {notification && notification.actionText ? (
                 <IntlMessage message={notification.actionText} />
-              ) : notification}
+              ) : (
+                <FormattedMessage id={notification} />
+              )}
             </p>
             <a
               href=""

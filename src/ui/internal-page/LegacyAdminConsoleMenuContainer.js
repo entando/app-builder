@@ -7,6 +7,7 @@ import { routeConverter, hasAccess } from '@entando/utils';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
+import ActivityStreamMenuContainer from 'ui/activity-stream/ActivityStreamMenuContainer';
 
 import { appBuilderVersion } from 'helpers/versions';
 
@@ -162,6 +163,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           <LanguageSelectContainer key="LanguageSelect" />
           <HomePageLinkContainer key="projectLink" />
           <InfoMenu key="InfoMenu" />
+          <ActivityStreamMenuContainer key="ActivityStreamMenu" />
           <UserMenuContainer key="UserMenu" />
         </VerticalNav.IconBar>
       </Masthead>
