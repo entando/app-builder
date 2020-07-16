@@ -478,7 +478,7 @@ export default {
     'pageSettings.input.pageTreeStyle.url': 'Stile degli URL',
     'pageSettings.input.pageTreeStyle.breadcrumbs': 'A briciole di pane',
     'pageSettings.baseUrl.help': 'Gli URL vengono generati in base al BASE URL definito nel file di contesto "es. www.entando.com/site/it/codicepagina.page" RELATIVO quando nell\'URL generato viene omesso il BASE URL "es. /site /it / codicepagina,page" COSTRUITO DA PARAMETRI DI HTTP REQUEST quando l\'URL generato dalla request prende il parametro generato dalla richiesta precedente STATICO quando nell\'URL viene inserito il BASE URL definito nel file di contesto "es. www.entando.com/ site /it /codicepagina.page"',
-    'pageSettings.jsession.help': 'É un requisito di sicurezza. Evita che venga inserito il JSESSIONID nei link generati del site. É necessario avere i cookies attivati.',
+    'pageSettings.jsession.help': 'É un requisito di sicurezza. Evita che venga inserito il JSESSIONID nei link generati dall\'applicazione. É necessario avere i cookie attivati.',
     'pageSettings.appendBaseUrl.help': 'Aggiunge il nome del contesto al BASE URL (es.:/site/) (ininfluente con BASE URL statico)',
     'pageSettings.success': 'L\'Impostazione Pagine è stata aggiornata',
     'dataModel.help': 'Dalla sezione MODELLI DI DATI lamministratore può aggiungere nuovi modelli di dati o modificare quelli già esistenti. Il modello di dato è uno schema di formattazione di uno specifico tipo di contenuto. il Modello di Dato è realizzato in modo che il motore di renderizzazione di Entando lo traduca in un frammento di HTML che insieme ad opportuni fogli di stile CSS produrrá il risultato desiderato',
