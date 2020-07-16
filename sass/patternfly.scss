@@ -95,11 +95,11 @@ $fa-square-o: "\f096";
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:focus {
-  background-color: $color-primary;
+  background-color: $color-primary !important; // sass-lint:disable-line no-important
 }
 
 .btn-primary:hover:active {
-  background-color: $color-primary-dark;
+  background-color: $color-primary-dark !important; // sass-lint:disable-line no-important
 }
 
 .CodeMirror {
