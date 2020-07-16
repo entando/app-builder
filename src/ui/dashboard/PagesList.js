@@ -62,7 +62,7 @@ class PagesList extends Component {
     return (
       <div className="PagesList">
         <h2>
-          List of Pages
+          <FormattedMessage id="app.pages" />
         </h2>
         <table className="PagesListTable__table table table-striped table-bordered">
           <thead>

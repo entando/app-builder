@@ -320,6 +320,7 @@ export default {
     'menu.apiManagement.resources': 'Resources',
     'menu.apiManagement.services': 'Services',
     'menu.apiManagement.consumers': 'Consumers',
+    'dashboard.pageStatus': 'Page Status',
     'dashboard.newUser': 'New User',
     'dashboard.newWidget': 'New Widget',
     'dashboard.newPage': 'Add Page',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DonutChart } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
 
 class PageStatus extends Component {
   componentDidMount() {
@@ -11,7 +12,7 @@ class PageStatus extends Component {
     const { pageStatus: { draft, unpublished, published } } = this.props;
     return (
       <div className="PageStatus">
-        <h2>Page Status</h2>
+        <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
         <DonutChart
           id="donunt-chart-2"
           data={{
