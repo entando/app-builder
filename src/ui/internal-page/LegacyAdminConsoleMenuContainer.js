@@ -201,7 +201,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-ux-pattern"
           onClick={() => {}}
           iconClass="fa fa-object-ungroup"
-          title={intl.formatMessage({ id: 'menu.uxPattern', defaultMessage: 'UX Pattern' })}
+          title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'UX Pattern' })}
         >
           <SecondaryItem
             id="menu-ux-pattern-widgets"
