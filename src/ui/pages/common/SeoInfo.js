@@ -39,16 +39,16 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
               <div className="form-group SeoInfo__metadata--itemgroup">
                 <Col sm={2}>
                   <div className="text-right SeoInfo__metadata--itemgroup">
-                    <ControlLabel htmlFor={`seoDescription.${lang.code}.value`}>
+                    <ControlLabel htmlFor={`SEO.description.${lang.code}.value`}>
                       <FormLabel helpId="app.seo.descriptionHelp" labelId="app.seo.description" />
                     </ControlLabel>
                   </div>
                 </Col>
                 <Col sm={lang.isDefault ? 9 : 6}>
                   <Field
-                    key={`seoDescription.${lang.code}.value`}
+                    key={`SEO.description.${lang.code}.value`}
                     component={RenderTextInput}
-                    name={`seoDescription.${lang.code}.value`}
+                    name={`SEO.description.${lang.code}.value`}
                     inputSize={12}
                     labelSize={0}
                   />
@@ -57,7 +57,7 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
                   <Col sm={3} className="text-right">
                     <Field
                       component={SwitchRenderer}
-                      name={`seoDescription.${lang.code}.inherit`}
+                      name={`SEO.description.${lang.code}.inherit`}
                       label={<FormLabel labelId="app.seo.inheritLangLabel" />}
                       labelSize={7}
                     />
@@ -68,16 +68,16 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
               <div className="form-group SeoInfo__metadata--itemgroup">
                 <Col sm={2}>
                   <div className="text-right SeoInfo__metadata--itemgroup">
-                    <ControlLabel htmlFor={`seoKeywords.${lang.code}.value`}>
+                    <ControlLabel htmlFor={`SEO.keywords.${lang.code}.value`}>
                       <FormLabel helpId="app.seo.keywordsHelp" labelId="app.seo.keywords" />
                     </ControlLabel>
                   </div>
                 </Col>
                 <Col sm={lang.isDefault ? 9 : 6}>
                   <Field
-                    key={`seoKeywords.${lang.code}.value`}
+                    key={`SEO.keywords.${lang.code}.value`}
                     component={RenderTextInput}
-                    name={`seoKeywords.${lang.code}.value`}
+                    name={`SEO.keywords.${lang.code}.value`}
                     inputSize={12}
                     labelSize={0}
                   />
@@ -86,7 +86,7 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
                   <Col sm={3} className="text-right">
                     <Field
                       component={SwitchRenderer}
-                      name={`seoKeywords.${lang.code}.inherit`}
+                      name={`SEO.keywords.${lang.code}.inherit`}
                       label={<FormLabel labelId="app.seo.inheritLangLabel" />}
                       labelSize={7}
                     />
@@ -96,7 +96,7 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
 
               <FieldArray
                 component={SeoInfoMetadata}
-                name="seoMetatags"
+                name="SEO.metatags"
                 langIdx={i}
                 langCode={lang.code}
               />
