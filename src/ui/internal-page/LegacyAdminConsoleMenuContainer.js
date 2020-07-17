@@ -152,7 +152,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     >
       <Masthead>
         <Brand
-          href={ROUTE_DASHBOARD}
+          href={`${publicUrl}${ROUTE_DASHBOARD}`}
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
