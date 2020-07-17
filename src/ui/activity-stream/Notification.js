@@ -114,7 +114,7 @@ class Notification extends Component {
             </a>
             <p className="Notification__notify">
               {notification && notification.actionText ? (
-                <IntlMessage message={notification.actionText} />
+                <IntlMessage message={{ id: notification.actionText }} />
               ) : (
                 <FormattedMessage id={notification} />
               )}
@@ -191,7 +191,10 @@ Notification.defaultProps = {
 Notification.propTypes = {
   id: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
-  notification: PropTypes.string.isRequired,
+  notification: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.string,
+  ]).isRequired,
   comments: PropTypes.arrayOf(PropTypes.shape({})),
   targetName: PropTypes.string.isRequired,
   modificationDate: PropTypes.instanceOf(Date).isRequired,
