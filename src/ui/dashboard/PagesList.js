@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Button, Paginator } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { formatDate } from '@entando/utils';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class PagesList extends Component {
   constructor(props) {
@@ -59,10 +60,16 @@ class PagesList extends Component {
       perPageOptions: [5],
     };
 
+    const { intl } = this.props;
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     return (
       <div className="PagesList">
         <h2>
-          List of Pages
+          <FormattedMessage id="app.pages" />
         </h2>
         <table className="PagesListTable__table table table-striped table-bordered">
           <thead>
@@ -85,6 +92,7 @@ class PagesList extends Component {
           viewType="table"
           itemCount={this.props.totalItems}
           onPageSet={this.changePage}
+          messages={messages}
         />
         <br />
         <Button
@@ -102,6 +110,7 @@ class PagesList extends Component {
 }
 
 PagesList.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
@@ -123,4 +132,4 @@ PagesList.defaultProps = {
   pages: [],
 };
 
-export default PagesList;
+export default injectIntl(PagesList);
