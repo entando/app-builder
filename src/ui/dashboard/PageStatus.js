@@ -4,6 +4,10 @@ import { DonutChart } from 'patternfly-react';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 const pageStatusMsgs = defineMessages({
+  pages: {
+    id: 'app.pages',
+    defaultMessage: 'Pages',
+  },
   published: {
     id: 'pages.status.published',
     defaultMessage: 'Online',
@@ -54,7 +58,7 @@ class PageStatus extends Component {
             ],
             type: 'donut',
           }}
-          title={{ type: 'total', secondary: 'pages' }}
+          title={{ type: 'total', secondary: msgs.pages }}
           legend={{ show: true, position: 'right' }}
           tooltip={{
             format: {
