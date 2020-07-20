@@ -284,7 +284,7 @@ export default {
     'menu.consumers': 'Consumatori',
     'menu.services': 'Servizi',
     'menu.resources': 'Risorse',
-    'menu.userSettings': 'Impost. Utente',
+    'menu.userSettings': 'Gestione Utenti',
     'menu.widgetEdit': 'Modifica Widget',
     'menu.fragments': 'UX Fragment',
     'menu.pageTemplates': 'Template di Pagina',
