@@ -75,7 +75,7 @@ class Notification extends Component {
 
   render() {
     const {
-      id, username, notification, targetName, onClickUsername, onClickTargetName,
+      id, username, notification, targetName, onClickUsername,
       onClickLike, onSubmitComment, modificationDate,
 
     } = this.props;
@@ -89,11 +89,6 @@ class Notification extends Component {
     const onClickUsernameHandler = (ev) => {
       ev.preventDefault();
       onClickUsername(id);
-    };
-
-    const onClickTargetNameHandler = (ev) => {
-      ev.preventDefault();
-      onClickTargetName(id);
     };
 
     const onClickTargetLikeHandler = (ev) => {
@@ -119,12 +114,16 @@ class Notification extends Component {
                 <FormattedMessage id={notification} />
               )}
             </p>
-            <a
-              href=""
-              className="Notification__link"
-              onClick={onClickTargetNameHandler}
-            >{targetName}
-            </a>
+            {targetName && (
+              notification && notification.targetLink ? (
+                <Link
+                  to={notification.targetLink}
+                  className="Notification__link"
+                >
+                  {targetName}
+                </Link>
+              ) : targetName
+            )}
           </Col>
         </Row>
         <Row>
@@ -183,7 +182,6 @@ class Notification extends Component {
 
 Notification.defaultProps = {
   onClickUsername: () => {},
-  onClickTargetName: () => {},
   onClickLike: () => {},
   comments: [],
 };
@@ -198,7 +196,6 @@ Notification.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.shape({})),
   targetName: PropTypes.string.isRequired,
   modificationDate: PropTypes.instanceOf(Date).isRequired,
-  onClickTargetName: PropTypes.func,
   onClickUsername: PropTypes.func,
   onClickLike: PropTypes.func,
   onSubmitComment: PropTypes.func.isRequired,
