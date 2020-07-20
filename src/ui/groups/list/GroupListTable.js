@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import GroupListMenuActions from 'ui/groups/list/GroupListMenuActions';
 import DeleteGroupModalContainer from 'ui/groups/common/DeleteGroupModalContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class GroupListTable extends Component {
   constructor(props) {
@@ -41,12 +42,19 @@ class GroupListTable extends Component {
   }
 
   renderTable() {
-    if (this.props.groups.length > 0) {
+    const {
+      groups, page, pageSize, intl,
+    } = this.props;
+    if (groups.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
 
       return (
         <Col xs={12}>
@@ -70,6 +78,7 @@ class GroupListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
         </Col>
       );
@@ -96,6 +105,7 @@ class GroupListTable extends Component {
 }
 
 GroupListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
@@ -115,4 +125,4 @@ GroupListTable.defaultProps = {
   onClickDelete: () => {},
 };
 
-export default GroupListTable;
+export default injectIntl(GroupListTable);

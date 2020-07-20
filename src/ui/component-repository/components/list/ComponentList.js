@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
 import ComponentListListView from 'ui/component-repository/components/list/ComponentListListView';
@@ -9,7 +9,7 @@ import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilte
 
 import { ECR_COMPONENTS_GRID_VIEW } from 'state/component-repository/components/const';
 import { componentType } from 'models/component-repository/components';
-
+import paginatorMessages from 'ui/paginatorMessages';
 
 class ComponentList extends Component {
   constructor(props) {
@@ -39,6 +39,7 @@ class ComponentList extends Component {
       pageSize: perPage,
       totalItems,
       componentRepositoryComponents,
+      intl,
     } = this.props;
 
     const pagination = {
@@ -60,6 +61,11 @@ class ComponentList extends Component {
         </Alert>)
       : renderComponents;
 
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     return (
       <div className="ComponentList">
         <ExtraTabBarFilterContainer />
@@ -71,6 +77,7 @@ class ComponentList extends Component {
             itemCount={totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
         </Spinner>
       </div>
@@ -79,6 +86,7 @@ class ComponentList extends Component {
 }
 
 ComponentList.propTypes = {
+  intl: intlShape.isRequired,
   onDidMount: PropTypes.func,
   fetchECRComponentsFiltered: PropTypes.func.isRequired,
   loading: PropTypes.bool,
@@ -96,4 +104,4 @@ ComponentList.defaultProps = {
   viewMode: ECR_COMPONENTS_GRID_VIEW,
 };
 
-export default ComponentList;
+export default injectIntl(ComponentList);

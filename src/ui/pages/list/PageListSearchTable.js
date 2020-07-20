@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Paginator, Spinner, Alert } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class PageListSearchTable extends Component {
   constructor(props) {
@@ -26,7 +27,11 @@ class PageListSearchTable extends Component {
   }
 
   renderTable() {
-    if (this.props.searchPages.length === 0) {
+    const {
+      searchPages, page, pageSize, intl,
+    } = this.props;
+
+    if (searchPages.length === 0) {
       return (
         <Alert type="warning">
           <strong><FormattedMessage id="pages.noPageFound" /></strong>
@@ -34,9 +39,13 @@ class PageListSearchTable extends Component {
       );
     }
 
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     const pagination = {
-      page: this.props.page,
-      perPage: this.props.pageSize,
+      page,
+      perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50],
     };
     return (
@@ -61,6 +70,7 @@ class PageListSearchTable extends Component {
           itemCount={this.props.totalItems}
           onPageSet={this.changePage}
           onPerPageSelect={this.changePageSize}
+          messages={messages}
         />
       </div>);
   }
@@ -68,7 +78,6 @@ class PageListSearchTable extends Component {
   renderRows() {
     const { locale } = this.props;
     return (
-
       this.props.searchPages.map(page => (
         <tr key={page.code}>
           <td className="PageListSearchRow__td">{page.code}</td>
@@ -104,6 +113,7 @@ class PageListSearchTable extends Component {
 }
 
 PageListSearchTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool,
@@ -128,4 +138,4 @@ PageListSearchTable.defaultProps = {
   searchPages: [],
 };
 
-export default PageListSearchTable;
+export default injectIntl(PageListSearchTable);

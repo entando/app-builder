@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
 import DeleteFragmentModalContainer from 'ui/fragments/list/DeleteFragmentModalContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class FragmentListTable extends Component {
   constructor(props) {
@@ -27,11 +28,17 @@ class FragmentListTable extends Component {
   }
 
   renderTable() {
+    const { page, pageSize, intl } = this.props;
     const pagination = {
-      page: this.props.page,
-      perPage: this.props.pageSize,
+      page,
+      perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50, 100, 150],
     };
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     return (
       <Col xs={12}>
         <table className="FragmentListTable__table table table-striped table-bordered">
@@ -57,6 +64,7 @@ class FragmentListTable extends Component {
           itemCount={this.props.totalItems}
           onPageSet={this.changePage}
           onPerPageSelect={this.changePageSize}
+          messages={messages}
         />
       </Col>);
   }
@@ -89,6 +97,7 @@ class FragmentListTable extends Component {
 }
 
 FragmentListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   fragments: PropTypes.arrayOf(PropTypes.shape({
@@ -111,4 +120,4 @@ FragmentListTable.defaultProps = {
   fragments: [],
 };
 
-export default FragmentListTable;
+export default injectIntl(FragmentListTable);

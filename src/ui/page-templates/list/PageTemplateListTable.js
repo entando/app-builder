@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Paginator, Spinner } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import PageTemplateListMenuActions from 'ui/page-templates/list/PageTemplateListMenuActions';
 import PageTemplateDeleteModalContainer from 'ui/page-templates/common/PageTemplateDeleteModalContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class PageTemplateListTable extends Component {
   constructor(props) {
@@ -46,9 +47,14 @@ class PageTemplateListTable extends Component {
   }
 
   renderPaginator() {
+    const { page, pageSize, intl } = this.props;
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     const pagination = {
-      page: this.props.page,
-      perPage: this.props.pageSize,
+      page,
+      perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50],
     };
     return (
@@ -58,6 +64,7 @@ class PageTemplateListTable extends Component {
         itemCount={this.props.totalItems}
         onPageSet={this.changePage}
         onPerPageSelect={this.changePageSize}
+        messages={messages}
       />
     );
   }
@@ -94,6 +101,7 @@ class PageTemplateListTable extends Component {
 }
 
 PageTemplateListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   pageTemplates: PropTypes.arrayOf(PropTypes.shape({
@@ -111,4 +119,4 @@ PageTemplateListTable.defaultProps = {
   pageTemplates: [],
 };
 
-export default PageTemplateListTable;
+export default injectIntl(PageTemplateListTable);

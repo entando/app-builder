@@ -1,9 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { LIST_ROLES_OK } from 'test/mocks/roles';
-
-
 import RoleListTable from 'ui/roles/list/RoleListTable';
 
 jest.mock('state/roles/selectors', () => ({
@@ -19,12 +17,12 @@ const PAGE = 1;
 describe('RoleListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<RoleListTable
+    component = shallowWithIntl(<RoleListTable
       page={1}
       pageSize={1}
       totalItems={1}
       onWillMount={onWillMount}
-    />);
+    />).dive();
   });
 
   it('renders without crashing', () => {
@@ -33,7 +31,7 @@ describe('RoleListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<RoleListTable pageSize={1} totalItems={1} onWillMount={onWillMount} />);
+    shallowWithIntl(<RoleListTable pageSize={1} totalItems={1} onWillMount={onWillMount} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -41,7 +39,7 @@ describe('RoleListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<RoleListTable page={1} totalItems={1} onWillMount={onWillMount} />);
+    shallowWithIntl(<RoleListTable page={1} totalItems={1} onWillMount={onWillMount} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -49,7 +47,7 @@ describe('RoleListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<RoleListTable pageSize={1} page={1} onWillMount={onWillMount} />);
+    shallowWithIntl(<RoleListTable pageSize={1} page={1} onWillMount={onWillMount} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -57,12 +55,12 @@ describe('RoleListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<RoleListTable
+      component = shallowWithIntl(<RoleListTable
         page={PAGE}
         pageSize={PAGE_SIZE}
         totalItems={TOTAL_ITEMS}
         onWillMount={onWillMount}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

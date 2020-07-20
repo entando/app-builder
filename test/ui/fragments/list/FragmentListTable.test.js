@@ -1,7 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl } from 'test/testUtils';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
 
 const fragments = [
@@ -28,7 +27,7 @@ const fragments = [
 describe('FragmentListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<FragmentListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<FragmentListTable page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {
@@ -37,24 +36,24 @@ describe('FragmentListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<FragmentListTable pageSize={1} totalItems={1} />);
-    expect(consoleError).toHaveBeenCalledWith('Warning: Failed prop type: The prop `page` is marked as required in `FragmentListTable`, but its value is `undefined`.\n    in FragmentListTable (at FragmentListTable.test.js:40)');
+    shallowWithIntl(<FragmentListTable pageSize={1} totalItems={1} />).dive();
+    expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<FragmentListTable page={1} totalItems={1} />);
-    expect(consoleError).toHaveBeenCalledWith('Warning: Failed prop type: The prop `pageSize` is marked as required in `FragmentListTable`, but its value is `undefined`.\n    in FragmentListTable (at FragmentListTable.test.js:48)');
+    shallowWithIntl(<FragmentListTable page={1} totalItems={1} />).dive();
+    expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<FragmentListTable pageSize={1} page={1} />);
-    expect(consoleError).toHaveBeenCalledWith('Warning: Failed prop type: The prop `totalItems` is marked as required in `FragmentListTable`, but its value is `undefined`.\n    in FragmentListTable (at FragmentListTable.test.js:56)');
+    shallowWithIntl(<FragmentListTable pageSize={1} page={1} />).dive();
+    expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });

@@ -1,7 +1,6 @@
 import React from 'react';
-
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 
 const onWillMount = jest.fn();
@@ -22,7 +21,7 @@ describe('LabelsAndLanguagesPage', () => {
 
   describe('basic rendering', () => {
     beforeEach(() => {
-      component = shallow(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />);
+      component = shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />).dive();
     });
 
     it('renders without crashing', () => {
@@ -54,7 +53,7 @@ describe('LabelsAndLanguagesPage', () => {
 
   it('it calls onWillMount at rendering', () => {
     const onWillMountMock = jest.fn();
-    shallow(<LabelsAndLanguagesPage {...props} onWillMount={onWillMountMock} />);
+    shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMountMock} />).dive();
     expect(onWillMountMock).toHaveBeenCalled();
   });
 
