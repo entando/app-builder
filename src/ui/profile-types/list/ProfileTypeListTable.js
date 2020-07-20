@@ -6,6 +6,7 @@ import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMen
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
 import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
 import ProfileTypeReferenceStatusContainer from 'ui/profile-types/common/ProfileTypeReferenceStatusContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 const msgs = defineMessages({
   profileStatus: {
@@ -58,12 +59,20 @@ class ProfileTypeListTable extends Component {
   }
 
   renderTable() {
-    if (this.props.profiletypes.length > 0) {
+    const {
+      profiletypes, page, pageSize, intl,
+    } = this.props;
+
+    if (profiletypes.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
 
       return (
         <Col xs={12}>
@@ -93,6 +102,7 @@ class ProfileTypeListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
         </Col>
       );

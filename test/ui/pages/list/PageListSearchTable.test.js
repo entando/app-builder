@@ -1,7 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl } from 'test/testUtils';
 import { SEARCH_PAGES } from 'test/mocks/pages';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 
@@ -23,12 +22,12 @@ describe('PageListSearchTable', () => {
   describe('without searchPages', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageListSearchTable
+      component = shallowWithIntl(<PageListSearchTable
         page={1}
         pageSize={1}
         totalItems={1}
         {...props}
-      />);
+      />).dive();
     });
 
     it('renders without crashing', () => {
@@ -44,13 +43,13 @@ describe('PageListSearchTable', () => {
   describe('with searchPages', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageListSearchTable
+      component = shallowWithIntl(<PageListSearchTable
         page={1}
         pageSize={1}
         totalItems={1}
         {...props}
         searchPages={searchPages}
-      />);
+      />).dive();
     });
 
     it('has a table', () => {

@@ -4,6 +4,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import paginatorMessages from 'ui/paginatorMessages';
 
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 
@@ -36,6 +37,7 @@ class GroupDetailTabPages extends React.Component {
 
   renderRows() {
     const { pageReferences, intl } = this.props;
+
     const pageConfiguration = intl.formatMessage(msgs.pageConfig);
     return pageReferences.map(item => (
       <tr key={item.code}>
@@ -57,12 +59,21 @@ class GroupDetailTabPages extends React.Component {
   }
 
   renderTable() {
-    if (this.props.pageReferences.length > 0) {
+    const {
+      pageReferences, page, pageSize, intl,
+    } = this.props;
+
+    if (pageReferences.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
+
       return (
         <div>
           <Table className="GroupDetailTabPages__table" striped bordered condensed hover >
@@ -81,6 +92,7 @@ class GroupDetailTabPages extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            messages={messages}
           />
         </div>
       );

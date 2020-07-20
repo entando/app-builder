@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Paginator, Spinner } from 'patternfly-react';
 import DataModelListActionsMenu from 'ui/data-models/common/DataModelListActionsMenu';
 import DeleteDataModelModalContainer from 'ui/data-models/common/DeleteDataModelModalContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class DataModelListTable extends Component {
   constructor(props) {
@@ -27,6 +28,12 @@ class DataModelListTable extends Component {
   }
 
   render() {
+    const { intl } = this.props;
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     const tr = this.props.dataModels.map(item => (
       <tr key={item.modelId}>
         <td className="DataModelListRow__td">{item.descr}</td>
@@ -76,6 +83,7 @@ class DataModelListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
           <DeleteDataModelModalContainer />
         </Spinner>
@@ -84,6 +92,7 @@ class DataModelListTable extends Component {
   }
 }
 DataModelListTable.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
@@ -104,4 +113,4 @@ DataModelListTable.defaultProps = {
   dataModels: [],
 };
 
-export default DataModelListTable;
+export default injectIntl(DataModelListTable);

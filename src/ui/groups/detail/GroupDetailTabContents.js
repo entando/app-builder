@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class GroupDetailTabContents extends React.Component {
   constructor(props) {
@@ -38,10 +39,18 @@ class GroupDetailTabContents extends React.Component {
   }
 
   renderTable() {
-    if (this.props.contentReferences.length > 0) {
+    const {
+      contentReferences, page, pageSize, intl,
+    } = this.props;
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
+    if (contentReferences.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
       return (
@@ -64,6 +73,7 @@ class GroupDetailTabContents extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            messages={messages}
           />
         </div>
       );
@@ -91,6 +101,7 @@ class GroupDetailTabContents extends React.Component {
 }
 
 GroupDetailTabContents.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   contentReferences: PropTypes.arrayOf(PropTypes.shape({
@@ -110,4 +121,4 @@ GroupDetailTabContents.defaultProps = {
   contentReferences: [],
 };
 
-export default GroupDetailTabContents;
+export default injectIntl(GroupDetailTabContents);

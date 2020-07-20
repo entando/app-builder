@@ -5,6 +5,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { DropdownKebab, Paginator, Spinner, MenuItem } from 'patternfly-react';
 import { Table, Alert } from 'react-bootstrap';
 import { routeConverter } from '@entando/utils';
+import paginatorMessages from 'ui/paginatorMessages';
 
 import { ROUTE_PAGE_EDIT, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
@@ -66,14 +67,20 @@ class PageTemplatePageReferencesTable extends Component {
 
   renderTable() {
     const {
-      pageReferences, page, pageSize, totalItems,
+      pageReferences, page, pageSize, totalItems, intl,
     } = this.props;
+
     if (pageReferences && pageReferences.length) {
       const pagination = {
         page,
         perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
+
       return (
         <div>
           <Table className="PageTemplatePageReferencesTable__table" striped bordered condensed hover >
@@ -93,6 +100,7 @@ class PageTemplatePageReferencesTable extends Component {
             viewType="table"
             itemCount={totalItems}
             onPageSet={this.changePage}
+            messages={messages}
           />
         </div>
       );

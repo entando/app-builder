@@ -6,6 +6,7 @@ import DataTypeListMenuActions from 'ui/data-types/list/DataTypeListMenuActions'
 import DataTypeStatusIcon from 'ui/data-types/common/DataTypeStatusIcon';
 import DeleteDataTypeModalContainer from 'ui/data-types/common/DeleteDataTypeModalContainer';
 import DataTypeReferenceStatusContainer from 'ui/data-types/common/DataTypeReferenceStatusContainer';
+import paginatorMessages from 'ui/paginatorMessages';
 
 const msgs = defineMessages({
   dataTypeTableStatus: {
@@ -58,12 +59,20 @@ class DataTypeListTable extends Component {
   }
 
   renderTable() {
-    if (this.props.datatypes.length > 0) {
+    const {
+      datatypes, page, pageSize, intl,
+    } = this.props;
+
+    if (datatypes.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
 
       return (
         <Col xs={12}>
@@ -93,6 +102,7 @@ class DataTypeListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
         </Col>
       );

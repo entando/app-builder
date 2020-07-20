@@ -6,6 +6,7 @@ import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 import { isEmpty } from 'lodash';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class UserListTable extends Component {
   constructor(props) {
@@ -65,12 +66,20 @@ class UserListTable extends Component {
   }
 
   renderTable() {
-    if (this.props.users.length > 0) {
+    const {
+      users, page, pageSize, intl,
+    } = this.props;
+
+    if (users.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
 
       return (
         <Col xs={12}>
@@ -98,6 +107,7 @@ class UserListTable extends Component {
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
         </Col>
       );
