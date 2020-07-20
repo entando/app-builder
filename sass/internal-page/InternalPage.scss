@@ -141,7 +141,7 @@
 
 .navbar-brand-txt { //sass-lint:disable-line class-name-format
   margin-left: 7em;
-  line-height: 36px;
+  line-height: 36px !important; // sass-lint:disable-line no-important
   text-transform: capitalize;
 }
 

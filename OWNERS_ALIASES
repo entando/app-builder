@@ -1,6 +1,4 @@
 aliases:
-  - entando-jx
-
   developers:
   - alepintus
   - ampie
@@ -12,11 +10,25 @@ aliases:
   - nicpuddu
   - Kerruba
   - raxkaynan 
-
 best-approvers:
-- developers
-- entando-jx	  
-
+  - alepintus
+  - ampie
+  - fedelocci
+  - gidesan
+  - gReis89
+  - ichalagashvili
+  - jeffgo10
+  - nicpuddu
+  - Kerruba
+  - raxkaynan 
 best-reviewers:
-- developers
-- entando-jx
+  - alepintus
+  - ampie
+  - fedelocci
+  - gidesan
+  - gReis89
+  - ichalagashvili
+  - jeffgo10
+  - nicpuddu
+  - Kerruba
+  - raxkaynan 
