@@ -41,6 +41,10 @@ export const ListGroupPageBody = () => (
         </Col>
       </Row>
       <Row>
+        <GroupListTableContainer />
+      </Row>
+      <br />
+      <Row>
         <Col md={12}>
           <Link to={ROUTE_GROUP_ADD}>
             <Button
@@ -54,9 +58,6 @@ export const ListGroupPageBody = () => (
             </Button>
           </Link>
         </Col>
-      </Row>
-      <Row>
-        <GroupListTableContainer />
       </Row>
     </Grid>
   </InternalPage>
