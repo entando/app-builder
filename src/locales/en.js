@@ -671,7 +671,6 @@ export default {
     'activityStream.onlinePage': 'publish a page',
     'activityStream.offlinePage': 'unpublish a page',
     'activityStream.modifyPage': 'modified a page',
-    'activityStream.saveContent': 'edited a content',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Write a comment',
     'reference.text': 'Reload the references for these entity types. Number of type to reload: {count}. ',

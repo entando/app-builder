@@ -122,7 +122,11 @@ class Notification extends Component {
                 >
                   {targetName}
                 </Link>
-              ) : targetName
+              ) : (
+                <span className="Notification__target">
+                  {targetName}
+                </span>
+              )
             )}
           </Col>
         </Row>

@@ -671,7 +671,6 @@ export default {
     'activityStream.onlinePage': 'ha messo offline una Pagina',
     'activityStream.offlinePage': 'ha messo offline una Pagina',
     'activityStream.modifyPage': 'ha modificato una Pagina',
-    'activityStream.saveContent': 'ha modificato un contenuto',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Scrivi un commento',
     'reference.text': 'Le referenze per i seguenti Tipi di Entita\' hanno bisogno di essere ricaricate. Totale da ricaricare: {count}. ',
