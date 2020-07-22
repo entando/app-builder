@@ -5,6 +5,7 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_CATEGORY_EDIT, ROUTE_CATEGORY_DETAIL } from 'app-init/router';
+import { ROOT_CODE } from 'state/categories/const';
 
 const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
   <DropdownKebab pullRight id={`${code}-actions`}>
@@ -26,12 +27,14 @@ const CategoryListMenuActions = ({ onClickAdd, onClickDelete, code }) => (
       label={<FormattedMessage id="app.edit" />}
       className="CategoryListMenuAction__menu-item-edit"
     />
-    <MenuItem
-      className="CategoryListMenuAction__menu-item-delete"
-      onClick={() => onClickDelete(code)}
-    >
-      <FormattedMessage id="app.delete" />
-    </MenuItem>
+    {code !== ROOT_CODE &&
+      <MenuItem
+        className="CategoryListMenuAction__menu-item-delete"
+        onClick={() => onClickDelete(code)}
+      >
+        <FormattedMessage id="app.delete" />
+      </MenuItem>
+    }
   </DropdownKebab>
 );
 
