@@ -71,37 +71,38 @@ class PagesList extends Component {
         <h2>
           <FormattedMessage id="app.pages" />
         </h2>
-        <table className="PagesListTable__table table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th width="32%"><FormattedMessage id="app.name" /></th>
-              <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
-              <th><FormattedMessage id="dashboard.numberWidgets" /></th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="pageTree.status" />
-              </th>
-              <th width="19%"><FormattedMessage id="app.lastModified" /></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderRows()}
-          </tbody>
-        </table>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={this.props.totalItems}
-          onPageSet={this.changePage}
-          messages={messages}
-        />
-        <br />
+        <div className="PagesList__body">
+          <table className="PagesListTable__table table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th width="32%"><FormattedMessage id="app.name" /></th>
+                <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
+                <th><FormattedMessage id="dashboard.numberWidgets" /></th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="pageTree.status" />
+                </th>
+                <th width="19%"><FormattedMessage id="app.lastModified" /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderRows()}
+            </tbody>
+          </table>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={this.props.totalItems}
+            onPageSet={this.changePage}
+            messages={messages}
+          />
+        </div>
         <Button
           bsStyle="primary"
           className="pull-right"
           componentClass={Link}
           to={ROUTE_PAGE_ADD}
         >
-          <FormattedMessage id="dashboard.newPage" />
+          <FormattedMessage id="app.add" defaultMessage="Add" />
         </Button>
         <Clearfix />
       </div>

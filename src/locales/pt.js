@@ -744,5 +744,6 @@ export default {
     'app.filterTypesSelect.version': 'Versão',
     'app.filterTypesSelect.name': 'Nome',
     'app.filterTypesSelect.description': 'Descrição',
+    'dashboard.pageList': 'Lista de páginas',
   },
 };

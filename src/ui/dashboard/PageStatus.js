@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DonutChart } from 'patternfly-react';
+import { hasAccess } from '@entando/utils';
+import { Link } from 'react-router-dom';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
+
+import { ROUTE_PAGE_TREE } from 'app-init/router';
+import { ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 const pageStatusMsgs = defineMessages({
   pages: {
@@ -30,6 +35,7 @@ class PageStatus extends Component {
   render() {
     const {
       language,
+      userPermissions,
       intl,
       pageStatus: {
         draft, unpublished, published,
@@ -66,6 +72,15 @@ class PageStatus extends Component {
             },
           }}
         />
+        {
+          hasAccess([ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION], userPermissions) && (
+            <div className="PageStatus__bottom-link">
+              <Link to={ROUTE_PAGE_TREE}>
+                <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />
+              </Link>
+            </div>
+          )
+        }
       </div>
     );
   }
@@ -73,6 +88,7 @@ class PageStatus extends Component {
 
 PageStatus.propTypes = {
   intl: intlShape.isRequired,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
   language: PropTypes.string.isRequired,
   onWillMount: PropTypes.func.isRequired,
   pageStatus: PropTypes.shape({
@@ -80,6 +96,10 @@ PageStatus.propTypes = {
     unpublished: PropTypes.number,
     published: PropTypes.number,
   }).isRequired,
+};
+
+PageStatus.defaultProps = {
+  userPermissions: [],
 };
 
 export default injectIntl(PageStatus);

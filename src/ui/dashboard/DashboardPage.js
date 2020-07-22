@@ -20,8 +20,6 @@ import {
   EDIT_USER_PROFILES_PERMISSION,
   MANAGE_PAGES_PERMISSION,
   ROLE_SUPERUSER,
-  VALIDATE_CONTENTS_PERMISSION,
-  CRUD_CONTENTS_PERMISSION,
 } from 'state/permissions/const';
 
 const topWidgetRequiredPermissions = [
@@ -37,26 +35,29 @@ export const DashboardPageBody = ({ userPermissions }) => {
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
   const ContentsStatusCardContainer = ((apps.filter(app => app.id === 'cms')[0] || {}).dashboardCards || {}).contentsStatusCard;
+  const ContentsListCardContainer = ((apps.filter(app => app.id === 'cms')[0] || {}).dashboardCards || {}).contentsListCard;
   const canViewContentsStatus =
-  hasAccess([VALIDATE_CONTENTS_PERMISSION, CRUD_CONTENTS_PERMISSION], userPermissions);
+  hasAccess([ADMINISTRATION_AREA_PERMISSION], userPermissions);
+  const canViewContentsList =
+  hasAccess([ADMINISTRATION_AREA_PERMISSION], userPermissions);
   return (
     <InternalPage className="DashboardPage">
-      <CardGrid>
+      <CardGrid className="container-fluid">
         <Row>
           {topWidgetPermissions[0] && (
-            <Col md={tileLength}>
-              <UserManagementContainer />
-            </Col>
+          <Col md={tileLength}>
+            <UserManagementContainer />
+          </Col>
           )}
           {topWidgetPermissions[1] && (
-            <Col md={tileLength}>
-              <UxPatternsContainer />
-            </Col>
+          <Col md={tileLength}>
+            <UxPatternsContainer />
+          </Col>
           )}
           {topWidgetPermissions[2] && (
-            <Col md={tileLength}>
-              <LanguagesContainer />
-            </Col>
+          <Col md={tileLength}>
+            <LanguagesContainer />
+          </Col>
           )}
         </Row>
         <Row>
@@ -85,7 +86,14 @@ export const DashboardPageBody = ({ userPermissions }) => {
             </Col>
           </Row>
         </PermissionCheck>
-
+        <Row>
+          <Col md={12}>
+            {
+              (canViewContentsList && ContentsListCardContainer) ?
+                <ContentsListCardContainer /> : null
+            }
+          </Col>
+        </Row>
       </CardGrid>
     </InternalPage>
   );

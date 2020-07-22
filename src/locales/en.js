@@ -768,5 +768,6 @@ export default {
     'pagination.lastPage': 'Last Page',
     'pagination.perPage': 'per page',
     'pagination.of': 'of',
+    'dashboard.pageList': 'Page List',
   },
 };
