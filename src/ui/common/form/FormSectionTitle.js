@@ -2,18 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-const FormSectionTitle = ({ titleId }) => (
+const FormSectionTitle = ({ titleId, requireFields }) => (
   <legend>
     <FormattedMessage id={titleId} />
-    <div className="FormSectionTitle__required-fields text-right">
-      * <FormattedMessage id="app.fieldsRequired" />
-    </div>
+    {
+      requireFields && (
+        <div className="FormSectionTitle__required-fields text-right">
+        * <FormattedMessage id="app.fieldsRequired" />
+        </div>
+      )
+    }
   </legend>
 );
 
 
 FormSectionTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
+  requireFields: PropTypes.bool,
+};
+
+FormSectionTitle.defaultProps = {
+  requireFields: true,
 };
 
 export default FormSectionTitle;

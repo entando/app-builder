@@ -180,6 +180,8 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 
+import NavigationBarConfigFormContainer from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
+
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
     ...routes,
@@ -206,6 +208,7 @@ const getRouteComponent = () => (
       )}
     />
     <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
+    <Route path="/irakli" component={NavigationBarConfigFormContainer} />
     {/* page */}
     <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
     <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
