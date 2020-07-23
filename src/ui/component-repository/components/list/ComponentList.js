@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
 import ComponentListListView from 'ui/component-repository/components/list/ComponentListListView';

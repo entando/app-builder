@@ -28,6 +28,14 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const ComponentListContainer = connect(mapStateToProps, mapDispatchToProps)(ComponentList);
+const ComponentListContainer =
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+      pure: false,
+    },
+  )(ComponentList);
 
 export default ComponentListContainer;

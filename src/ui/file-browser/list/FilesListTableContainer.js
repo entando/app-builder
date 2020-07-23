@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 
 import { fetchFileList, downloadFile } from 'state/file-browser/actions';
 import { getFileList, getPathInfo } from 'state/file-browser/selectors';
@@ -34,4 +35,4 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilesListTable);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(FilesListTable));
