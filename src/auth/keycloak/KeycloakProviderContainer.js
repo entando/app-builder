@@ -4,9 +4,10 @@ import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 import { fetchLoggedUserPermissions } from 'state/permissions/actions';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
-const keycloakConfig = get(window, 'env.KEYCLOAK_JSON', process.env.KEYCLOAK_JSON);
-const keycloak = new Keycloak(keycloakConfig);
+const { KEYCLOAK_JSON } = getRuntimeEnv();
+const keycloak = new Keycloak(KEYCLOAK_JSON);
 keycloak.enabled = true;
 keycloak.toRefreshToken = false;
 keycloak.setToRefreshToken = (val) => {

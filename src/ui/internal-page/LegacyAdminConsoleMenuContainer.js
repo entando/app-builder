@@ -31,6 +31,7 @@ import {
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
@@ -123,7 +124,7 @@ const renderAppMenuItems = (intl, history, userPermissions) => Object.values(app
   return render && (isCMS ? renderCMSMenuItems(userPermissions, intl, history) : null);
 });
 
-const { COMPONENT_REPOSITORY_UI_ENABLED } = process.env;
+const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
 const renderComponentRepositoryMenuItem = (history, intl) => (
   COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
@@ -133,7 +134,9 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const adminConsoleUrl = url => `${process.env.DOMAIN}/${url}`;
+const { DOMAIN } = getRuntimeEnv();
+
+const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
   <div>

@@ -75,29 +75,12 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         USE_MOCKS: process.env.USE_MOCKS !== 'false',
-        DOMAIN: process.env.DOMAIN || null,
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
-        COMPONENT_REPOSITORY_UI_ENABLED: process.env.COMPONENT_REPOSITORY_UI_ENABLED === 'true',
-        LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED: process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
-        KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
         APP_BUILDER_VERSION: process.env.npm_package_version || '',
       },
     );
-
-  // Validate DOMAIN value
-  if (raw.DOMAIN) {
-    const isValidURL = isURL(raw.DOMAIN, {
-      allow_protocol_relative_urls: true,
-      require_host: false,
-      require_tld: false,
-      require_protocol: false,
-    });
-    if (isValidURL) {
-      raw.DOMAIN = raw.DOMAIN.replace(/\/+$/, '');
-    } else throw new Error('The DOMAIN env variable is invalid.');
-  }
 
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
