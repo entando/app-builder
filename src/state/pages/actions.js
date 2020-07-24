@@ -398,51 +398,51 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   .then((response) => {
     const pagePayload = {
       ...response.payload,
-      SEO: { // mock data for SEO, to be removed
-        description: {
+      seoData: { // mock data for SEO, to be removed
+        friendlyCode: 'pagina_di_login',
+        useExtraDescriptorSearch: true,
+        seoDataByLang: {
           en: {
-            value: 'This is an SEO Description',
-          },
-          it: {
-            value: 'Lorem ipsum sit dolor',
-          },
-        },
-        keywords: {
-          en: {
-            value: 'SEO, Keywords',
-          },
-          it: {
-            inherit: true,
-          },
-        },
-        metatags: [
-          {
-            name: 'aa',
-            type: 'name',
-            values: {
-              en: {
+            description: 'This is an SEO Description',
+            keywords: 'SEO, Keywords',
+            metaTags: [
+              {
+                key: 'aa',
+                type: 'name',
                 value: 'bb',
-                inherit: true,
+                useDefaultLang: false,
               },
-              it: {
-                value: 'cca',
-                inherit: true,
-              },
-            },
-          },
-          {
-            name: 'cc',
-            type: 'property',
-            values: {
-              en: {
+              {
+                key: 'cc',
+                type: 'property',
                 value: 'dd',
+                useDefaultLang: false,
               },
-              it: {
-                value: 'ddi',
-              },
-            },
+            ],
+            inheritDescriptionFromDefaultLang: false,
+            inheritKeywordsFromDefaultLang: false,
           },
-        ],
+          it: {
+            description: 'Lorem ipsum sit dolor',
+            keywords: '',
+            metaTags: [
+              {
+                key: 'aa',
+                type: 'name',
+                value: '',
+                useDefaultLang: true,
+              },
+              {
+                key: 'cc',
+                type: 'property',
+                value: 'ddi',
+                useDefaultLang: false,
+              },
+            ],
+            inheritDescriptionFromDefaultLang: false,
+            inheritKeywordsFromDefaultLang: true,
+          },
+        },
       },
     };
     dispatch(initialize('page', pagePayload));

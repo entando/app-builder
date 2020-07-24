@@ -9,7 +9,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import SeoMetadataForm from 'ui/pages/common/SeoMetadataForm';
 
-const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
+const SeoInfoMetadata = ({ fields, langIdx }) => {
   const metaTypeOptions = [
     {
       value: 'name',
@@ -26,13 +26,10 @@ const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
   ];
 
   const onPushMetadata = ({ metakey, metavalue }) => fields.push({
-    name: metakey,
+    key: metakey,
     type: 'name',
-    values: {
-      en: {
-        value: metavalue,
-      },
-    },
+    value: metavalue,
+    useDefaultLang: false,
   });
 
   const fieldTables = fields.map((name, idx) => {
@@ -42,7 +39,7 @@ const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
         <Col sm={2}>
           <div className="text-right SeoInfo__metadata--itemgroup">
             <ControlLabel htmlFor={`${name}.type`}>
-              <span>{metas.name}</span>
+              <span>{metas.key}</span>
             </ControlLabel>
           </div>
         </Col>
@@ -58,7 +55,7 @@ const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
         <Col sm={langIdx ? 3 : 4}>
           <Field
             component={RenderTextInput}
-            name={`${name}.values.${langCode}.value`}
+            name={`${name}.value`}
             labelSize={0}
             inputSize={12}
           />
@@ -67,7 +64,7 @@ const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
           {langIdx > 0 ? (
             <Field
               component={SwitchRenderer}
-              name={`${name}.values.${langCode}.inherit`}
+              name={`${name}.useDefaultLang`}
               label={<FormLabel labelId="app.seo.inheritLangLabel" />}
               labelSize={7}
             />
@@ -92,7 +89,6 @@ const SeoInfoMetadata = ({ fields, langIdx, langCode }) => {
 SeoInfoMetadata.propTypes = {
   fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired,
   langIdx: PropTypes.number.isRequired,
-  langCode: PropTypes.string.isRequired,
 };
 
 export default SeoInfoMetadata;

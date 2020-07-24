@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
@@ -284,6 +284,35 @@ export class PageFormBody extends Component {
         </Row>
 
         {renderFullForm()}
+
+        {seoEnabled && (
+          <Fragment>
+            <Row>
+              <Col xs={12}>
+                <FormSectionTitle titleId="pages.pageForm.seoconfig" />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  component={RenderTextInput}
+                  name="seoData.friendlyCode"
+                  label={<FormLabel labelId="pages.pageForm.seoFriendlyCode" />}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  component={SwitchRenderer}
+                  name="seoData.useExtraDescriptorSearch"
+                  label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
+                  labelSize={3}
+                />
+              </Col>
+            </Row>
+          </Fragment>
+        )}
 
         <Row>
           <Col xs={12}>
