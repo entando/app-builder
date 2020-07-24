@@ -11,6 +11,7 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const ApiManager = ({
   auth,
@@ -61,12 +62,14 @@ const ApiManager = ({
     ));
   }
 
+  const { DOMAIN } = getRuntimeEnv();
+
   return (
     <ApiProvider
       onLogout={logout}
       onLogin={goHome}
       store={store}
-      domain={(window && window.env && window.env.REACT_APP_DOMAIN) || process.env.DOMAIN}
+      domain={DOMAIN}
       useMocks={useMocks}
       plugins={pluginsArray}
     >
