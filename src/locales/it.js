@@ -773,7 +773,7 @@ export default {
     'widget.navigationBar.config.expressionList': 'Lista espressioni',
     'widget.navigationBar.config.page': 'Pagina',
     'widget.navigationBar.config.operator': 'Operatore',
-    'widget.navigationBar.config.specific': 'Specifica',
+    'widget.navigationBar.config.specific': 'Specifica:',
     'widget.navigationBar.config.this': 'Questa',
     'widget.navigationBar.config.parent': 'Genitore',
     'widget.navigationBar.config.fromThis': 'Distante',

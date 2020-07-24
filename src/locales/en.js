@@ -773,7 +773,7 @@ export default {
     'widget.navigationBar.config.expressionList': 'Expression list',
     'widget.navigationBar.config.page': 'Page',
     'widget.navigationBar.config.operator': 'Operator',
-    'widget.navigationBar.config.specific': 'Specific',
+    'widget.navigationBar.config.specific': 'Specific:',
     'widget.navigationBar.config.this': 'This',
     'widget.navigationBar.config.parent': 'Parent',
     'widget.navigationBar.config.fromThis': 'From this',

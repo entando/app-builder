@@ -749,7 +749,7 @@ export default {
     'widget.navigationBar.config.expressionList': 'Lista de expressões',
     'widget.navigationBar.config.page': 'Página',
     'widget.navigationBar.config.operator': 'Operador',
-    'widget.navigationBar.config.specific': 'Específico',
+    'widget.navigationBar.config.specific': 'Específico:',
     'widget.navigationBar.config.this': 'Este',
     'widget.navigationBar.config.parent': 'Pai',
     'widget.navigationBar.config.fromThis': 'Distante',
