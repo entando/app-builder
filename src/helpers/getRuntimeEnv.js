@@ -2,13 +2,13 @@ import { isURL } from 'validator';
 
 const getProcessEnvVar = envVar => process.env[envVar] || '';
 
-const getWindowEnvBar = envVar => (window && window.env && window.env[envVar] ? window.env[envVar] : '');
+const getWindowEnvVar = envVar => (window && window.env && window.env[envVar] ? window.env[envVar] : '');
 
 const getEnvVar = (envVar) => {
   if (process.env.NODE_ENV === 'development') {
     return getProcessEnvVar(envVar);
   }
-  return getWindowEnvBar(envVar) || getProcessEnvVar(envVar);
+  return getWindowEnvVar(envVar) || getProcessEnvVar(envVar);
 };
 
 const getBooleanEnvVar = envVar => String(getEnvVar(envVar)).toLowerCase() === 'true';
