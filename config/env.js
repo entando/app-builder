@@ -57,9 +57,16 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in Webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+const RUNTIME_OVERRIDABLE_VARS = [
+  'COMPONENT_REPOSITORY_UI_ENABLED',
+  'DOMAIN',
+  'KEYCLOAK_JSON',
+  'LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED',
+];
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => REACT_APP.test(key))
+    .filter(key => REACT_APP.test(key) || RUNTIME_OVERRIDABLE_VARS.includes(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
@@ -74,7 +81,7 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
-        USE_MOCKS: process.env.USE_MOCKS !== 'false',
+        USE_MOCKS: process.env.USE_MOCKS === 'true',
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',

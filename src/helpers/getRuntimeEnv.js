@@ -1,11 +1,17 @@
 import { isURL } from 'validator';
 
+const getProcessEnvVar = envVar => process.env[envVar] || '';
+
+const getWindowEnvBar = envVar => (window && window.env && window.env[envVar] ? window.env[envVar] : '');
+
 const getEnvVar = (envVar) => {
-  const nullableEnvVar = window && window.env ? window.env[envVar] : process.env[envVar];
-  return nullableEnvVar || '';
+  if (process.env.NODE_ENV === 'development') {
+    return getProcessEnvVar(envVar);
+  }
+  return getWindowEnvBar(envVar) || getProcessEnvVar(envVar);
 };
 
-const getBooleanEnvVar = envVar => getEnvVar(envVar).toLowerCase() === 'true';
+const getBooleanEnvVar = envVar => String(getEnvVar(envVar)).toLowerCase() === 'true';
 
 const validateDomain = (domain) => {
   if (domain) {
