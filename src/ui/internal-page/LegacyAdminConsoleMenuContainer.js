@@ -13,11 +13,12 @@ import { appBuilderVersion } from 'helpers/versions';
 import {
   ROUTE_PAGE_TREE, ROUTE_WIDGET_LIST, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
-  ROUTE_LABELS_AND_LANGUAGES, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_CMS_VERSIONING, ROUTE_DASHBOARD,
+  ROUTE_DASHBOARD,
 } from 'app-init/router';
+// ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING
 
 import apps from 'entando-apps';
 
@@ -171,23 +172,32 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-page-creator"
           onClick={() => {}}
           iconClass="fa fa-files-o"
-          title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Page Designer' })}
+          title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
         >
           <SecondaryItem
             id="menu-page-tree"
-            title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Page Tree' })}
+            title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Management' })}
             onClick={() => history.push(ROUTE_PAGE_TREE)}
           />
           <SecondaryItem
             id="menu-page-config"
-            title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Page Configuration' })}
+            title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
             onClick={() => history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: 'homepage' }))}
           />
           {
             hasAccess(ROLE_SUPERUSER, userPermissions) && (
               <SecondaryItem
+                id="menu-ux-pattern-page-templates"
+                title={intl.formatMessage({ id: 'menu.pageTemplates', defaultMessage: 'Templates' })}
+                onClick={() => history.push(ROUTE_PAGE_TEMPLATE_LIST)}
+              />
+            )
+          }
+          {
+            hasAccess(ROLE_SUPERUSER, userPermissions) && (
+              <SecondaryItem
                 id="menu-page-settings"
-                title={intl.formatMessage({ id: 'menu.pageSettings', defaultMessage: 'Page Settings' })}
+                title={intl.formatMessage({ id: 'menu.pageSettings', defaultMessage: 'Settings' })}
                 onClick={() => history.push(ROUTE_PAGE_SETTINGS)}
               />
             )
@@ -201,7 +211,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-ux-pattern"
           onClick={() => {}}
           iconClass="fa fa-object-ungroup"
-          title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'UX Pattern' })}
+          title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'Components' })}
         >
           <SecondaryItem
             id="menu-ux-pattern-widgets"
@@ -217,19 +227,10 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             />
           )
         }
-          {
-          hasAccess(ROLE_SUPERUSER, userPermissions) && (
-            <SecondaryItem
-              id="menu-ux-pattern-page-templates"
-              title={intl.formatMessage({ id: 'menu.pageTemplates', defaultMessage: 'Page Templates' })}
-              onClick={() => history.push(ROUTE_PAGE_TEMPLATE_LIST)}
-            />
-          )
-        }
         </Item>
       )
     }
-      {
+      {/* {
       hasAccess(ROLE_SUPERUSER, userPermissions)
       && (
         <Item
@@ -247,7 +248,8 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
               href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
             />
             <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Content Scheduler' })}
+              title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage:
+              'Content Scheduler' })}
               onClick={() => {}}
               href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
             />
@@ -256,29 +258,9 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
               onClick={() => history.push(ROUTE_CMS_VERSIONING)}
             />
           </SecondaryItem>
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-          >
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Resource/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Service/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Consumer/list.action')}
-            />
-          </SecondaryItem>
         </Item>
       )
-    }
+    } */}
       {
       (
         hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
@@ -289,12 +271,22 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-user-settings"
           onClick={() => {}}
           iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'User Settings' })}
+          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
         >
           <SecondaryItem
             id="menu-users"
-            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Users' })}
+            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
             onClick={() => history.push(ROUTE_USER_LIST)}
+          />
+          <SecondaryItem
+            id="menu-roles"
+            title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
+            onClick={() => history.push(ROUTE_ROLE_LIST)}
+          />
+          <SecondaryItem
+            id="menu-groups"
+            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+            onClick={() => history.push(ROUTE_GROUP_LIST)}
           />
           <SecondaryItem
             id="menu-profile"
@@ -303,13 +295,8 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           />
           <SecondaryItem
             id="menu-user-restrictions"
-            title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'User Restriction' })}
+            title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
             onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
-          />
-          <SecondaryItem
-            id="menu-roles"
-            title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-            onClick={() => history.push(ROUTE_ROLE_LIST)}
           />
         </Item>
       )
@@ -330,25 +317,30 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         <Item
           className="LegacyAdminConsoleMenu__fixed-bottom"
           id="menu-configuration"
-          title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Settings' })}
+          title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
           onClick={() => {}}
           iconClass="fa fa-cogs"
         >
           <SecondaryItem
-            id="menu-categories"
-            title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Labels & Languages' })}
-            onClick={() => history.push(ROUTE_CATEGORY_LIST)}
-          />
-          <SecondaryItem
-            id="menu-labels-languages"
-            title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Labels & Languages' })}
-            onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
-          />
-          <SecondaryItem
-            id="menu-reload-configuration"
-            title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
-            onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
-          />
+            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
+            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+          >
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Resource/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Service/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Consumer/list.action')}
+            />
+          </SecondaryItem>
           <SecondaryItem
             id="menu-databases"
             title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
@@ -360,9 +352,25 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             onClick={() => history.push(ROUTE_FILE_BROWSER)}
           />
           <SecondaryItem
-            id="menu-groups"
-            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-            onClick={() => history.push(ROUTE_GROUP_LIST)}
+            id="menu-labels-languages"
+            title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Languages & Labels' })}
+            onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
+          />
+          <SecondaryItem
+            id="menu-email"
+            title={intl.formatMessage({ id: 'menu.mail', defaultMessage: 'Email Configuration' })}
+            onClick={() => {}}
+            href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+          />
+          {/* <SecondaryItem
+            id="menu-categories"
+            title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
+            onClick={() => history.push(ROUTE_CATEGORY_LIST)}
+          /> */}
+          <SecondaryItem
+            id="menu-reload-configuration"
+            title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
+            onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
           />
         </Item>
       )
