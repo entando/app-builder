@@ -40,7 +40,9 @@ export const postECRComponentInstall = component => (
   makeRequest({
     uri: `/components/${component.id}/install`,
     domain: '/digital-exchange',
-    body: {},
+    body: {
+      "version": "latest"
+    },
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
     useAuthentication: true,
