@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paginator, Spinner } from 'patternfly-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { Col, Paginator, Spinner } from 'patternfly-react';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import PageTemplateListMenuActions from 'ui/page-templates/list/PageTemplateListMenuActions';
 import PageTemplateDeleteModalContainer from 'ui/page-templates/common/PageTemplateDeleteModalContainer';
@@ -28,44 +28,42 @@ class PageTemplateListTable extends Component {
   }
 
   renderTable() {
-    return (
-      <table className="PageTemplateListTable__table table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th><FormattedMessage id="app.code" /></th>
-            <th><FormattedMessage id="app.name" /></th>
-            <th className="text-center" width="10%">
-              <FormattedMessage id="app.actions" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.renderRows()}
-        </tbody>
-      </table>
-    );
-  }
-
-  renderPaginator() {
     const { page, pageSize, intl } = this.props;
-    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-    ), {});
-
     const pagination = {
       page,
       perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50],
     };
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     return (
-      <Paginator
-        pagination={pagination}
-        viewType="table"
-        itemCount={this.props.totalItems}
-        onPageSet={this.changePage}
-        onPerPageSelect={this.changePageSize}
-        messages={messages}
-      />
+      <Col xs={12}>
+        <table className="PageTemplateListTable__table table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th><FormattedMessage id="app.code" /></th>
+              <th><FormattedMessage id="app.name" /></th>
+              <th className="text-center" width="10%">
+                <FormattedMessage id="app.actions" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderRows()}
+          </tbody>
+        </table>
+        <Paginator
+          pagination={pagination}
+          viewType="table"
+          itemCount={this.props.totalItems}
+          onPageSet={this.changePage}
+          onPerPageSelect={this.changePageSize}
+          messages={messages}
+        />
+      </Col>
     );
   }
 
@@ -92,7 +90,6 @@ class PageTemplateListTable extends Component {
       <div className="PageTemplateListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
-          {this.renderPaginator()}
           <PageTemplateDeleteModalContainer />
         </Spinner>
       </div>

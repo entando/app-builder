@@ -7,6 +7,8 @@ import { getSearchPages } from 'state/pages/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 
+import { withPermissionValues } from 'ui/auth/withPermissions';
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = 1) => {
     const queryString = convertToQueryString({
@@ -29,7 +31,7 @@ export const mapStateToProps = state => (
   }
 );
 
-export default connect(
+export default withPermissionValues(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PagesList);
+)(PagesList));

@@ -5,6 +5,8 @@ import { fetchPageStatus } from 'state/dashboard/actions';
 import { getPageStatus } from 'state/dashboard/selectors';
 import { getLocale } from 'state/locale/selectors';
 
+import { withPermissionValues } from 'ui/auth/withPermissions';
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => dispatch(fetchPageStatus()),
 });
@@ -16,7 +18,7 @@ export const mapStateToProps = state => (
   }
 );
 
-export default connect(
+export default withPermissionValues(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PageStatus);
+)(PageStatus));

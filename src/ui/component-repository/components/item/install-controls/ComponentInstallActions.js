@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
+import { injectIntl } from 'react-intl';
 
 import { componentType } from 'models/component-repository/components';
 import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
@@ -77,4 +78,4 @@ ComponentInstallActions.propTypes = {
   })).isRequired,
 };
 
-export default ComponentInstallActions;
+export default injectIntl(ComponentInstallActions);

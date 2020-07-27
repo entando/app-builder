@@ -28,8 +28,8 @@ export class ListFragmentPageBody extends Component {
   }
 
   renderContent() {
-    return this.state.activeTab === TAB_LIST ?
-      <FragmentListContent />
+    return this.state.activeTab === TAB_LIST
+      ? <FragmentListContent />
       : <SettingsFragmentFormContainer />;
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { EmptyState } from 'patternfly-react';
 import ReloadConfig from 'ui/reload-configuration/ReloadConfig';
 
@@ -9,7 +9,7 @@ describe('ReloadConfig', () => {
   let component;
   const onReload = jest.fn();
   beforeEach(() => {
-    component = shallow(<ReloadConfig onReload={onReload} />);
+    component = shallowWithIntl(<ReloadConfig onReload={onReload} />);
   });
   it('renders without crashing', () => {
     expect(component).toExist();

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Spinner } from 'patternfly-react';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
 import DeleteFragmentModalContainer from 'ui/fragments/list/DeleteFragmentModalContainer';

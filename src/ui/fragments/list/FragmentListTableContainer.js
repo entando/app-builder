@@ -28,6 +28,14 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const FragmentListTableContainer = connect(mapStateToProps, mapDispatchToProps)(FragmentListTable);
+const FragmentListTableContainer =
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+      pure: false,
+    },
+  )(FragmentListTable);
 
 export default FragmentListTableContainer;
