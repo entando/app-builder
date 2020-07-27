@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import ComponentInstallActions from 'ui/component-repository/components/item/install-controls/ComponentInstallActions';
 import {
   installECRComponent,
@@ -66,4 +67,7 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps,
+  {
+    pure: false,
+  },
 )(ComponentInstallActions);

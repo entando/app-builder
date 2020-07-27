@@ -121,13 +121,17 @@
   }
 }
 
+.container-cards-pf.container-fluid.container { //sass-lint:disable-line class-name-format force-element-nesting
+  width: auto;
+}
+
 .container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
   margin-top: 65px;
   margin-left: calc(#{$nav-pf-vertical-width} - 5px);
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-left: 0;
+  margin-left: 75px;
 }
 
 .container-pf-nav-pf-vertical.hidden-nav { //sass-lint:disable-line class-name-format force-element-nesting
