@@ -770,6 +770,6 @@ export default {
     'pagination.lastPage': 'Ultima Pagina',
     'pagination.perPage': 'per pagina',
     'pagination.of': 'di',
-    'dashboard.pageList': 'Lista pagine',
+    'dashboard.pageList': 'Elenco pagine',
   },
 };
