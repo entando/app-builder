@@ -16,9 +16,8 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD,
+  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST,
 } from 'app-init/router';
-// ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING
 
 import apps from 'entando-apps';
 
@@ -284,6 +283,14 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     } */}
+      <Item
+        id="menu-apps"
+        iconClass="fa fa-rocket"
+        title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
+        onClick={() => {}}
+      >
+        {renderAppMenuItems(intl, history, userPermissions)}
+      </Item>
       {
       (
         hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
@@ -324,14 +331,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-      <Item
-        id="menu-apps"
-        iconClass="fa fa-rocket"
-        title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
-        onClick={() => {}}
-      >
-        {renderAppMenuItems(intl, history, userPermissions)}
-      </Item>
+
 
       { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }

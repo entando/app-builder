@@ -684,7 +684,7 @@ export default {
     'reference.reload': 'Click {link} to reload all data types.',
     'componentRepository.disabled.title': 'Component Repository is disabled.',
     'componentRepository.disabled.help': 'Can be enabled by setting COMPONENT_REPOSITORY_UI_ENABLED env variable value in your .env file to true.',
-    'componentRepository.menuButton.title': 'ECR',
+    'componentRepository.menuButton.title': 'Repository',
     'componentRepository.component.list.title': 'Entando Component Repository',
     'componentRepository.component.help': 'Entando Component Repository is a repository from which users can install different widgets, components, fragments, page templates, content templates and content types.',
     'componentRepository.sidebar.componentRepositoryFilterTitle': 'Component Repositories',
