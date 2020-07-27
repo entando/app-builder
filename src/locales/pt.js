@@ -469,7 +469,7 @@ export default {
     'pageSettings.input.baseURL.static': 'Estático',
     'pageSettings.input.appendBaseURL': 'Concatenar nome de contexto à URL base',
     'pageSettings.input.jsession': 'Usar JSESSIONID',
-    'pageSettings.input.languageBroswer': 'Á pagina principal seleciona o seu idioma através do navegador',
+    'pageSettings.input.languageBrowser': 'Á pagina principal seleciona o seu idioma através do navegador',
     'pageSettings.input.pageTreeStyle': 'Escolha o estilo da Árvore de Páginas',
     'pageSettings.input.pageTreeStyle.classic': 'Clássico',
     'pageSettings.input.pageTreeStyle.demand': 'Carregar nós sob demanda',
