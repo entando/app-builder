@@ -22,8 +22,6 @@ jest.useFakeTimers();
 
 const PAGE_CODE = 'page_code';
 
-global.console.info = jest.fn(); // FIXME remove when all the console.info are gone
-
 describe('api/pages', () => {
   afterEach(() => {
     jest.runOnlyPendingTimers();

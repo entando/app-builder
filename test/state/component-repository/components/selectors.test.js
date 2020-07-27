@@ -47,7 +47,7 @@ describe('state/component-repository/components/selectors', () => {
   it('verify getECRComponentInstallationStatus selector', () => {
     const props = {
       component: {
-        id: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
+        code: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
       },
     };
     const installationStatus = getECRComponentInstallationStatus(MOCK_STATE, props);
@@ -57,7 +57,7 @@ describe('state/component-repository/components/selectors', () => {
   it('verify getECRComponentUninstallStatus selector', () => {
     const props = {
       component: {
-        id: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
+        code: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
       },
     };
     const uninstallStatus = getECRComponentUninstallStatus(MOCK_STATE, props);

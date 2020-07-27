@@ -278,19 +278,20 @@ describe('Component repository reducer', () => {
 
     describe('after the finishComponentInstallation action', () => {
       it('should not update any component if no id is matching', () => {
-        state = reducer(state, finishComponentInstallation('my-test'));
+        state = reducer(state, finishComponentInstallation('non-existent-example-bundle'));
         expect(state.list).toHaveLength(5);
         expect(state).toHaveProperty('list', LIST_ECR_COMPONENTS_OK);
       });
 
       it('should update the installed property of the matching component', () => {
-        const componentId = LIST_ECR_COMPONENTS_OK[2].id;
+        const itemId = 0;
+        const componentCode = LIST_ECR_COMPONENTS_OK[itemId].code;
         expect(state.list).toHaveLength(5);
-        expect(state.list[2]).toHaveProperty('installed', false);
-        state = reducer(state, finishComponentInstallation(componentId));
+        expect(state.list[itemId]).toHaveProperty('installed', false);
+        state = reducer(state, finishComponentInstallation(componentCode));
         expect(state.list).toHaveLength(5);
-        expect(state.list[2]).toHaveProperty('id', componentId);
-        expect(state.list[2]).toHaveProperty('installed', true);
+        expect(state.list[itemId]).toHaveProperty('code', componentCode);
+        expect(state.list[itemId]).toHaveProperty('installed', true);
       });
     });
   });

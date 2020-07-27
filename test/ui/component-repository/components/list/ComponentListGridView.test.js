@@ -26,10 +26,10 @@ describe('ComponentListGridView', () => {
   });
 
   describe('component repository item', () => {
-    it('renders the name', () => {
+    it('renders the title', () => {
       const h1 = deComponents.first().find('h1');
       expect(h1).toHaveLength(1);
-      expect(h1.text()).toEqual(LIST_ECR_COMPONENTS_OK[0].name);
+      expect(h1.text()).toEqual(LIST_ECR_COMPONENTS_OK[0].title);
     });
 
     it('renders the date', () => {
@@ -38,13 +38,13 @@ describe('ComponentListGridView', () => {
       expect(date.text()).toEqual(moment(LIST_ECR_COMPONENTS_OK[0].lastUpdate).format('MMMM, D, YYYY'));
     });
 
-    it('renders the version', () => {
+    it('renders the latest version', () => {
       const version = deComponents.first().find('.ComponentList__version');
       expect(version).toHaveLength(1);
       const versionFormattedMessage = version.find('FormattedMessage');
       expect(versionFormattedMessage).toHaveLength(1);
       expect(versionFormattedMessage.props()).toHaveProperty('id', 'componentRepository.components.latestVersion');
-      expect(version.text()).toEqual(`<FormattedMessage />: ${LIST_ECR_COMPONENTS_OK[0].version}`);
+      expect(version.text()).toEqual(`<FormattedMessage />: ${LIST_ECR_COMPONENTS_OK[0].latestVersion.version}`);
     });
 
     it('renders the image', () => {

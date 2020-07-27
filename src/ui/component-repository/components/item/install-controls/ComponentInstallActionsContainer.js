@@ -22,25 +22,25 @@ export const mapStateToProps = (state, props) => ({
   lastInstallStatus: getECRComponentLastInstallStatus(state, props),
   installationStatus: getECRComponentInstallationStatus(state, props),
   uninstallStatus: getECRComponentUninstallStatus(state, props),
-  installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.id}`],
+  installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.code}`],
   componentUsageList: getComponentUsageList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onInstall: (component, version) => dispatch(installECRComponent(component, version)),
-  onClickInstallDropdown: (componentId) => {
-    dispatch(fetchECRComponentDetail(componentId));
+  onClickInstallDropdown: (componentCode) => {
+    dispatch(fetchECRComponentDetail(componentCode));
   },
-  onUninstall: (componentId) => {
+  onUninstall: (componentCode) => {
     dispatch(setVisibleModal(''));
-    return dispatch(uninstallECRComponent(componentId));
+    return dispatch(uninstallECRComponent(componentCode));
   },
-  onClickUninstall: (componentId) => {
-    dispatch(fetchComponentUsage(componentId));
-    dispatch(setVisibleModal(componentId));
+  onClickUninstall: (componentCode) => {
+    dispatch(fetchComponentUsage(componentCode));
+    dispatch(setVisibleModal(componentCode));
   },
-  recheckInstallStatus: component => dispatch(pollECRComponentInstallStatus(component)),
-  recheckUninstallStatus: componentId => dispatch(pollECRComponentUninstallStatus(componentId)),
+  recheckInstallStatus: componentCode => dispatch(pollECRComponentInstallStatus(componentCode)),
+  recheckUninstallStatus: componentCode => dispatch(pollECRComponentUninstallStatus(componentCode)),
 });
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -49,16 +49,16 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   onRetryAction: () => {
     if (ownProps.component && ownProps.component.installed) {
-      dispatchProps.onUninstall(ownProps.component.id);
+      dispatchProps.onUninstall(ownProps.component.code);
     } else {
       dispatchProps.onInstall(ownProps.component);
     }
   },
   onRecheckStatus: () => {
     if (ownProps.component && ownProps.component.installed) {
-      dispatchProps.recheckUninstallStatus(ownProps.component.id);
+      dispatchProps.recheckUninstallStatus(ownProps.component.code);
     } else {
-      dispatchProps.recheckInstallStatus(ownProps.component);
+      dispatchProps.recheckInstallStatus(ownProps.component.code);
     }
   },
 });
