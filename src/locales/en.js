@@ -477,7 +477,7 @@ export default {
     'pageSettings.input.baseURL.static': 'Static',
     'pageSettings.input.appendBaseURL': 'Append context name on BaseURL',
     'pageSettings.input.jsession': 'Use JSESSIONID',
-    'pageSettings.input.languageBroswer': 'Home page localization is selection by the requesting browser',
+    'pageSettings.input.languageBrowser': 'Home page localization is selected by the requesting browser',
     'pageSettings.input.pageTreeStyle': 'Choose the style of the page tree',
     'pageSettings.input.pageTreeStyle.classic': 'Classic',
     'pageSettings.input.pageTreeStyle.demand': 'Load nodes on demand',

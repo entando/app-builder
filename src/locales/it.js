@@ -477,7 +477,7 @@ export default {
     'pageSettings.input.baseURL.static': 'Statico',
     'pageSettings.input.appendBaseURL': 'Aggiungi nome contesto a BaseURL',
     'pageSettings.input.jsession': 'Usa JSESSIONID',
-    'pageSettings.input.languageBroswer': 'Lingua della Pagina Iniziale da configurazione del browser',
+    'pageSettings.input.languageBrowser': 'Lingua della pagina iniziale da configurazione del browser',
     'pageSettings.input.pageTreeStyle': 'Stile dell\'albero delle Pagine',
     'pageSettings.input.pageTreeStyle.classic': 'Classico',
     'pageSettings.input.pageTreeStyle.demand': 'Carica i nodi su richiesta',
