@@ -16,7 +16,7 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST,
+  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -61,62 +61,70 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
   const hasSchedulerAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   return (
-    <SecondaryItem
+    <Item
       id="apps-cms"
       key="cms"
       onClick={() => {}}
       iconClass="fa fa-file-text-o"
-      title={intl.formatMessage({ id: 'cms.title' })}
+      title={intl.formatMessage({ id: 'menu.cms' })}
     >
       {
       hasMenuContentsAccess && (
-      <TertiaryItem
+      <SecondaryItem
         id="menu-contents"
-        title={intl.formatMessage({ id: 'cms.menu.contents', defaultMessage: 'Contents' })}
+        title={intl.formatMessage({ id: 'cms.menu.contents', defaultMessage: 'Management' })}
         onClick={() => history.push(ROUTE_CMS_CONTENTS)}
       />
       )
       }
       {
         hasMenuAssetsAccess && (
-        <TertiaryItem
+        <SecondaryItem
           id="menu-assets"
-          title={intl.formatMessage({ id: 'cms.assets.title', defaultMessage: 'Digital Assets' })}
+          title={intl.formatMessage({ id: 'cms.assets.title', defaultMessage: 'Assets' })}
           onClick={() => history.push(ROUTE_CMS_ASSETS_LIST)}
         />
         )
       }
       {
         hasMenuContentTemplatesAccess && (
-        <TertiaryItem
+        <SecondaryItem
           id="menu-content-template"
-          title={intl.formatMessage({ id: 'cms.menu.contenttemplates', defaultMessage: 'Content Templates' })}
+          title={intl.formatMessage({ id: 'cms.menu.contenttemplates', defaultMessage: 'Templates' })}
           onClick={() => history.push(ROUTE_CMS_CONTENTTEMPLATE_LIST)}
         />
         )
       }
       {
         hasCategoriesAccess && (
-        <TertiaryItem
+        <SecondaryItem
           title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
           onClick={() => history.push(ROUTE_CATEGORY_LIST)}
         />
         )
       }
       {
+        hasAccess(ROLE_SUPERUSER, userPermissions) && (
+        <SecondaryItem
+          title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
+          onClick={() => history.push(ROUTE_CMS_VERSIONING)}
+        />
+        )
+      }
+      {
         hasSchedulerAccess && (
-          <TertiaryItem
-            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Content Scheduler' })}
+          <SecondaryItem
+            title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Scheduler' })}
             onClick={() => {}}
-            href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
           />
         )
       }
       {
         hasMenuContentTypeAccess && (
-        <TertiaryItem
+        <SecondaryItem
           id="menu-content-type"
-          title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Content Types' })}
+          title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Types' })}
           onClick={() => history.push(ROUTE_CMS_CONTENTTYPE_LIST)}
         />
         )
@@ -125,12 +133,12 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
         hasMenuContentSettingsAccess && (
         <TertiaryItem
           id="menu-content-settings"
-          title={intl.formatMessage({ id: 'cms.menu.contentsettings', defaultMessage: 'Content Settings' })}
+          title={intl.formatMessage({ id: 'cms.menu.contentsettings', defaultMessage: 'Settings' })}
           onClick={() => history.push(ROUTE_CMS_CONTENT_SETTINGS)}
         />
         )
       }
-    </SecondaryItem>
+    </Item>
   );
 };
 
@@ -253,45 +261,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-      {/* {
-      hasAccess(ROLE_SUPERUSER, userPermissions)
-      && (
-        <Item
-          onClick={() => {}}
-          iconClass="fa fa-cubes"
-          title={intl.formatMessage({ id: 'menu.integrations', defaultMessage: 'Integrations' })}
-        >
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.components', defaultMessage: 'Components' })}
-            onClick={() => {}}
-          >
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.mail', defaultMessage: 'Email Configuration' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage:
-              'Content Scheduler' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
-              onClick={() => history.push(ROUTE_CMS_VERSIONING)}
-            />
-          </SecondaryItem>
-        </Item>
-      )
-    } */}
-      <Item
-        id="menu-apps"
-        iconClass="fa fa-rocket"
-        title={intl.formatMessage({ id: 'menu.apps', defaultMessage: 'APPS' })}
-        onClick={() => {}}
-      >
-        {renderAppMenuItems(intl, history, userPermissions)}
-      </Item>
+      {renderAppMenuItems(intl, history, userPermissions)}
       {
       (
         hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
@@ -386,11 +356,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             onClick={() => {}}
             href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
           />
-          {/* <SecondaryItem
-            id="menu-categories"
-            title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
-            onClick={() => history.push(ROUTE_CATEGORY_LIST)}
-          /> */}
           <SecondaryItem
             id="menu-reload-configuration"
             title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
