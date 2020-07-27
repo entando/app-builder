@@ -41,7 +41,7 @@ class UxPatterns extends Component {
         <CardBody>
           <Icon size="lg" name="cube" />
           <AggregateStatusCount>
-            <b>{this.props.widgets}</b> <FormattedMessage id="menu.widgets" />
+            <b>{this.props.widgets}</b> <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
           </AggregateStatusCount>
           <span className="separator" />
           <AggregateStatusCount>
