@@ -344,3 +344,52 @@ export const MOCK_REFERENCES = {
   DataObjectManager: DATA_OBJECT_REFERENCES,
 
 };
+
+export const PAGE_SEO = {
+  seoData: {
+    friendlyCode: 'pagina_di_login',
+    useExtraDescriptorSearch: true,
+    seoDataByLang: {
+      en: {
+        description: 'This is an SEO Description',
+        keywords: 'SEO, Keywords',
+        metaTags: [
+          {
+            key: 'aa',
+            type: 'name',
+            value: 'bb',
+            useDefaultLang: false,
+          },
+          {
+            key: 'cc',
+            type: 'property',
+            value: 'dd',
+            useDefaultLang: false,
+          },
+        ],
+        inheritDescriptionFromDefaultLang: false,
+        inheritKeywordsFromDefaultLang: false,
+      },
+      it: {
+        description: 'Lorem ipsum sit dolor',
+        keywords: '',
+        metaTags: [
+          {
+            key: 'aa',
+            type: 'name',
+            value: '',
+            useDefaultLang: true,
+          },
+          {
+            key: 'cc',
+            type: 'property',
+            value: 'ddi',
+            useDefaultLang: false,
+          },
+        ],
+        inheritDescriptionFromDefaultLang: false,
+        inheritKeywordsFromDefaultLang: true,
+      },
+    },
+  },
+};

@@ -14,10 +14,8 @@ import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
-
-const seoEnabled = true;
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -256,7 +254,7 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
 
-            {seoEnabled ? (
+            {SEO_ENABLED ? (
               <SeoInfo languages={languages} onChangeDefaultTitle={onChangeDefaultTitle} />
             ) : (
               renderActiveLanguageTitles()
@@ -285,7 +283,7 @@ export class PageFormBody extends Component {
 
         {renderFullForm()}
 
-        {seoEnabled && (
+        {SEO_ENABLED && (
           <Fragment>
             <Row>
               <Col xs={12}>

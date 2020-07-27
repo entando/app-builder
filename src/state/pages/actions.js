@@ -6,8 +6,9 @@ import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages,
-  putPageSettings, patchPage,
+  putPageSettings, patchPage, getPageSEO,
 } from 'api/pages';
+import { PAGE_SEO } from 'test/mocks/pages';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
@@ -16,7 +17,7 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
@@ -158,6 +159,7 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 
 
 export const fetchPage = wrapApiCall(getPage);
+export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
 export const sendDeletePage = page => async (dispatch) => {
@@ -398,52 +400,7 @@ export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatc
   .then((response) => {
     const pagePayload = {
       ...response.payload,
-      seoData: { // mock data for SEO, to be removed
-        friendlyCode: 'pagina_di_login',
-        useExtraDescriptorSearch: true,
-        seoDataByLang: {
-          en: {
-            description: 'This is an SEO Description',
-            keywords: 'SEO, Keywords',
-            metaTags: [
-              {
-                key: 'aa',
-                type: 'name',
-                value: 'bb',
-                useDefaultLang: false,
-              },
-              {
-                key: 'cc',
-                type: 'property',
-                value: 'dd',
-                useDefaultLang: false,
-              },
-            ],
-            inheritDescriptionFromDefaultLang: false,
-            inheritKeywordsFromDefaultLang: false,
-          },
-          it: {
-            description: 'Lorem ipsum sit dolor',
-            keywords: '',
-            metaTags: [
-              {
-                key: 'aa',
-                type: 'name',
-                value: '',
-                useDefaultLang: true,
-              },
-              {
-                key: 'cc',
-                type: 'property',
-                value: 'ddi',
-                useDefaultLang: false,
-              },
-            ],
-            inheritDescriptionFromDefaultLang: false,
-            inheritKeywordsFromDefaultLang: true,
-          },
-        },
-      },
+      ...PAGE_SEO,
     };
     dispatch(initialize('page', pagePayload));
   })
