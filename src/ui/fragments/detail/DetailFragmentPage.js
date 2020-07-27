@@ -23,10 +23,10 @@ class DetailFragmentPage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxPattern" />
+                  <FormattedMessage id="menu.uxComponents" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxPattern.fragment" />
+                  <FormattedMessage id="menu.uxComponents.fragment" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   <FormattedMessage id="fragment.detail.title" />

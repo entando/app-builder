@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator, Spinner } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import LanguageFormContainer from 'ui/labels/list/LanguageFormContainer';
 import LabelsTabsContainer from 'ui/labels/list/LabelsTabsContainer';
 import { ROUTE_LABEL_ADD } from 'app-init/router';
+import paginatorMessages from 'ui/paginatorMessages';
 
 const TAB_LANGUAGES = 'languages';
 const TAB_LABELS = 'labels';
@@ -37,19 +38,27 @@ class LabelsAndLanguagesPage extends Component {
   render() {
     let pageContent;
 
+    const {
+      activeTab, loadingLangs, page, pageSize, intl,
+    } = this.props;
+
     const pagination = {
-      page: this.props.page,
-      perPage: this.props.pageSize,
+      page,
+      perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50],
     };
 
-    if (this.props.activeTab === TAB_LANGUAGES) {
+    if (activeTab === TAB_LANGUAGES) {
       pageContent = (
-        <Spinner loading={!!this.props.loadingLangs}>
+        <Spinner loading={!!loadingLangs}>
           <LanguageFormContainer />
         </Spinner>
       );
     } else {
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
+
       pageContent = (
         <Row>
           <Col xs={12}>
@@ -83,6 +92,7 @@ class LabelsAndLanguagesPage extends Component {
                     itemCount={this.props.totalItems}
                     onPageSet={this.changePage}
                     onPerPageSelect={this.changePageSize}
+                    messages={messages}
                   />
                 </Spinner>
               </Col>
@@ -143,6 +153,7 @@ class LabelsAndLanguagesPage extends Component {
 }
 
 LabelsAndLanguagesPage.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
@@ -160,4 +171,4 @@ LabelsAndLanguagesPage.defaultProps = {
   activeTab: TAB_LANGUAGES,
 };
 
-export default LabelsAndLanguagesPage;
+export default injectIntl(LabelsAndLanguagesPage);

@@ -57,9 +57,16 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in Webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+const RUNTIME_OVERRIDABLE_VARS = [
+  'COMPONENT_REPOSITORY_UI_ENABLED',
+  'DOMAIN',
+  'KEYCLOAK_JSON',
+  'LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED',
+];
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => REACT_APP.test(key))
+    .filter(key => REACT_APP.test(key) || RUNTIME_OVERRIDABLE_VARS.includes(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
@@ -74,30 +81,13 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
-        USE_MOCKS: process.env.USE_MOCKS !== 'false',
-        DOMAIN: process.env.DOMAIN || null,
+        USE_MOCKS: process.env.USE_MOCKS === 'true',
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
-        COMPONENT_REPOSITORY_UI_ENABLED: process.env.COMPONENT_REPOSITORY_UI_ENABLED === 'true',
-        LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED: process.env.LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED === 'true',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
-        KEYCLOAK_JSON: process.env.KEYCLOAK_JSON || `${(process.env.DOMAIN || '')}/keycloak.json`,
         APP_BUILDER_VERSION: process.env.npm_package_version || '',
       },
     );
-
-  // Validate DOMAIN value
-  if (raw.DOMAIN) {
-    const isValidURL = isURL(raw.DOMAIN, {
-      allow_protocol_relative_urls: true,
-      require_host: false,
-      require_tld: false,
-      require_protocol: false,
-    });
-    if (isValidURL) {
-      raw.DOMAIN = raw.DOMAIN.replace(/\/+$/, '');
-    } else throw new Error('The DOMAIN env variable is invalid.');
-  }
 
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {

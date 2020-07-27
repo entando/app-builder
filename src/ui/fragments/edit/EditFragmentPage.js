@@ -26,7 +26,7 @@ class EditFragmentPage extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxPattern" />
+                  <FormattedMessage id="menu.uxComponents" />
                 </BreadcrumbItem>
                 <BreadcrumbItem to={ROUTE_FRAGMENT_LIST}>
                   <FormattedMessage id="menu.fragments" />

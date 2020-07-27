@@ -35,6 +35,10 @@ export const ListRolePageBody = () => (
         </Col>
       </Row>
       <Row>
+        <RoleListTableContainer />
+      </Row>
+      <br />
+      <Row>
         <Col md={12}>
           <Link to={ROUTE_ROLE_ADD}>
             <Button
@@ -48,9 +52,6 @@ export const ListRolePageBody = () => (
             </Button>
           </Link>
         </Col>
-      </Row>
-      <Row>
-        <RoleListTableContainer />
       </Row>
     </Grid>
   </InternalPage>

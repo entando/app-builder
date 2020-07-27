@@ -35,6 +35,10 @@ export const ListProfileTypePageBody = () => (
         </Col>
       </Row>
       <Row>
+        <ProfileTypeListTableContainer />
+      </Row>
+      <br />
+      <Row>
         <Col md={12}>
           <Link to={ROUTE_PROFILE_TYPE_ADD} className="pull-right">
             <Button className="ProfileType__add" bsStyle="primary" >
@@ -42,9 +46,6 @@ export const ListProfileTypePageBody = () => (
             </Button>
           </Link>
         </Col>
-      </Row>
-      <Row>
-        <ProfileTypeListTableContainer />
       </Row>
       {/* Entity references placeholder */}
     </Grid>

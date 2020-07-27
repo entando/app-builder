@@ -115,18 +115,32 @@
   }
 }
 
+.nav-pf-vertical { //sass-lint:disable-line class-name-format
+  .list-group-item > a { // sass-lint:disable-line force-element-nesting class-name-format
+    padding-left: 10px;
+  }
+}
+
+.container-cards-pf.container-fluid.container { //sass-lint:disable-line class-name-format force-element-nesting
+  width: auto;
+}
+
 .container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
   margin-top: 65px;
-  margin-left: 180px;
+  margin-left: calc(#{$nav-pf-vertical-width} - 5px);
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-left: 55px;
+  margin-left: 75px;
+}
+
+.container-pf-nav-pf-vertical.hidden-nav { //sass-lint:disable-line class-name-format force-element-nesting
+  margin-left: 0;
 }
 
 .navbar-brand-txt { //sass-lint:disable-line class-name-format
   margin-left: 7em;
-  line-height: 36px;
+  line-height: 36px !important; // sass-lint:disable-line no-important
   text-transform: capitalize;
 }
 

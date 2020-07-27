@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
 import { Table } from 'react-bootstrap';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class GenericRefsTable extends Component {
   constructor(props) {
@@ -55,6 +56,10 @@ class GenericRefsTable extends Component {
 
     const renderTable = () => {
       if (references.length > 0) {
+        const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+          { ...acc, [curr]: this.props.intl.formatMessage(paginatorMessages[curr]) }
+        ), {});
+
         return (
           <div>
             <Table className="GenericRefsTable__table" striped bordered condensed hover >
@@ -86,6 +91,7 @@ class GenericRefsTable extends Component {
               itemCount={totalItems}
               onPageSet={this.changePage}
               onPerPageSelect={this.changePageSize}
+              messages={messages}
             />
           </div>
         );
@@ -108,6 +114,7 @@ class GenericRefsTable extends Component {
 }
 
 GenericRefsTable.propTypes = {
+  intl: intlShape.isRequired,
   componentDidMount: PropTypes.func,
   onPageChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
@@ -129,4 +136,4 @@ GenericRefsTable.defaultProps = {
   columns: {},
 };
 
-export default GenericRefsTable;
+export default injectIntl(GenericRefsTable);

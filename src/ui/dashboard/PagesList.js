@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Button, Paginator } from 'patternfly-react';
 import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { formatDate } from '@entando/utils';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class PagesList extends Component {
   constructor(props) {
@@ -59,48 +60,58 @@ class PagesList extends Component {
       perPageOptions: [5],
     };
 
+    const { intl } = this.props;
+
+    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+    ), {});
+
     return (
       <div className="PagesList">
         <h2>
-          List of Pages
-          <Button
-            bsStyle="primary"
-            className="pull-right"
-            componentClass={Link}
-            to={ROUTE_PAGE_ADD}
-          >
-            <FormattedMessage id="dashboard.newPage" />
-          </Button>
-          <Clearfix />
+          <FormattedMessage id="app.pages" />
         </h2>
-        <table className="PagesListTable__table table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th width="32%"><FormattedMessage id="app.name" /></th>
-              <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
-              <th><FormattedMessage id="dashboard.numberWidgets" /></th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="pageTree.status" />
-              </th>
-              <th width="19%"><FormattedMessage id="app.lastModified" /></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderRows()}
-          </tbody>
-        </table>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={this.props.totalItems}
-          onPageSet={this.changePage}
-        />
+        <div className="PagesList__body">
+          <table className="PagesListTable__table table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th width="32%"><FormattedMessage id="app.name" /></th>
+                <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
+                <th><FormattedMessage id="dashboard.numberWidgets" /></th>
+                <th className="text-center" width="10%">
+                  <FormattedMessage id="pageTree.status" />
+                </th>
+                <th width="19%"><FormattedMessage id="app.lastModified" /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderRows()}
+            </tbody>
+          </table>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={this.props.totalItems}
+            onPageSet={this.changePage}
+            messages={messages}
+          />
+        </div>
+        <Button
+          bsStyle="primary"
+          className="pull-right"
+          componentClass={Link}
+          to={ROUTE_PAGE_ADD}
+        >
+          <FormattedMessage id="app.add" defaultMessage="Add" />
+        </Button>
+        <Clearfix />
       </div>
     );
   }
 }
 
 PagesList.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
@@ -122,4 +133,4 @@ PagesList.defaultProps = {
   pages: [],
 };
 
-export default PagesList;
+export default injectIntl(PagesList);

@@ -35,6 +35,7 @@ import {
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const publicUrl = process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/topbar-logo.svg`} alt="" />;
@@ -70,7 +71,7 @@ const renderAppMenuItems = userPermissions => Object.values(apps).map((App) => {
   );
 });
 
-const { COMPONENT_REPOSITORY_UI_ENABLED } = process.env;
+const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
 const ComponentRepositoryMenuItem = COMPONENT_REPOSITORY_UI_ENABLED ? (<LinkMenuItem
   id="component-repository"
@@ -121,7 +122,7 @@ const BrandMenuBody = ({ userPermissions }) => (
         hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
           <FirstLevelMenuItem
             id="menu-ux-pattern"
-            label={<FormattedMessage id="menu.uxPattern" />}
+            label={<FormattedMessage id="menu.uxComponents" />}
           >
             <LinkMenuItem
               id="menu-ux-pattern-widgets"

@@ -43,6 +43,10 @@ export const UserListPageBody = ({ userPermissions }) => (
         </Col>
       </Row>
       <Row>
+        <UserListTableContainer />
+      </Row>
+      <br />
+      <Row>
         <Col md={12}>
           <PermissionCheck
             userPermissions={userPermissions}
@@ -61,9 +65,6 @@ export const UserListPageBody = ({ userPermissions }) => (
             </Link>
           </PermissionCheck>
         </Col>
-      </Row>
-      <Row>
-        <UserListTableContainer />
       </Row>
       {/* Entity references placeholder */}
     </Grid>

@@ -1,7 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl } from 'test/testUtils';
 import PageTemplateListTable from 'ui/page-templates/list/PageTemplateListTable';
 import { PAGE_TEMPLATES_LIST } from 'test/mocks/pageTemplates';
 
@@ -18,7 +17,7 @@ beforeEach(jest.clearAllMocks);
 describe('PageTemplateListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow((
+    component = shallowWithIntl((
       <PageTemplateListTable
         page={PAGE}
         pageSize={PAGE_SIZE}
@@ -26,7 +25,7 @@ describe('PageTemplateListTable', () => {
         onWillMount={onWillMount}
         removePageTemplate={removePageTemplate}
       />
-    ));
+    )).dive();
   });
 
   it('renders without crashing', () => {
@@ -39,17 +38,18 @@ describe('PageTemplateListTable', () => {
 
   describe('required props', () => {
     it('errors without a page', () => {
-      shallow(<PageTemplateListTable pageSize={PAGE_SIZE} totalItems={TOTAL_ITEMS} />);
+      // eslint-disable-next-line max-len
+      shallowWithIntl(<PageTemplateListTable pageSize={PAGE_SIZE} totalItems={TOTAL_ITEMS} />).dive();
       expect(global.console.error).toHaveBeenCalled();
     });
 
     it('errors without a pageSize', () => {
-      shallow(<PageTemplateListTable page={PAGE} totalItems={TOTAL_ITEMS} />);
+      shallowWithIntl(<PageTemplateListTable page={PAGE} totalItems={TOTAL_ITEMS} />).dive();
       expect(global.console.error).toHaveBeenCalled();
     });
 
     it('errors without totalItems', () => {
-      shallow(<PageTemplateListTable pageSize={PAGE_SIZE} page={PAGE} />);
+      shallowWithIntl(<PageTemplateListTable pageSize={PAGE_SIZE} page={PAGE} />).dive();
       expect(global.console.error).toHaveBeenCalled();
     });
   });

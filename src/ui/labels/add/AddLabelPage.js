@@ -17,13 +17,13 @@ export const AddLabelPageBody = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern" />
+              <FormattedMessage id="menu.uxComponents" />
             </BreadcrumbItem>
             <BreadcrumbItem to={ROUTE_LABELS_AND_LANGUAGES}>
               <FormattedMessage id="menu.labelsAndLanguages" />
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxPattern.addLabels" />
+              <FormattedMessage id="menu.uxComponents.addLabels" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="app.add" />

@@ -28,5 +28,14 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
+const PageTemplateListTableContainer =
+connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  {
+    pure: false,
+  },
+)(PageTemplateListTable);
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageTemplateListTable);
+export default PageTemplateListTableContainer;

@@ -1,9 +1,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
+import paginatorMessages from 'ui/paginatorMessages';
 
 class GroupDetailTabWidgetTypes extends React.Component {
   constructor(props) {
@@ -35,12 +36,21 @@ class GroupDetailTabWidgetTypes extends React.Component {
   }
 
   renderTable() {
-    if (this.props.widgetReferences.length > 0) {
+    const {
+      widgetReferences, page, pageSize, intl,
+    } = this.props;
+
+    if (widgetReferences.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
+
       return (
         <div>
           <Table className="GroupDetailTabWidgetTypes__table" striped bordered condensed hover >
@@ -59,6 +69,7 @@ class GroupDetailTabWidgetTypes extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            messages={messages}
           />
         </div>
       );
@@ -86,6 +97,7 @@ class GroupDetailTabWidgetTypes extends React.Component {
 }
 
 GroupDetailTabWidgetTypes.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   loading: PropTypes.bool,
   widgetReferences: PropTypes.arrayOf(PropTypes.shape({
@@ -103,4 +115,4 @@ GroupDetailTabWidgetTypes.defaultProps = {
   widgetReferences: [],
 };
 
-export default GroupDetailTabWidgetTypes;
+export default injectIntl(GroupDetailTabWidgetTypes);

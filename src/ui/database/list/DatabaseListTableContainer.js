@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
+
 import { getLoading } from 'state/loading/selectors';
 import { fetchDatabaseDumpReport } from 'state/database/actions';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
@@ -24,6 +26,7 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const DatabaseListTableContainer = connect(mapStateToProps, mapDispatchToProps)(DatabaseListTable);
+const DatabaseListTableContainer =
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(DatabaseListTable));
 
 export default DatabaseListTableContainer;

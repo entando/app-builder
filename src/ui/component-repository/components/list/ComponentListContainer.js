@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchECRComponents } from 'state/component-repository/components/actions';
+import { fetchECRComponents, fetchECRJobs } from 'state/component-repository/components/actions';
 import { getECRComponentList, getECRComponentListViewMode } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
@@ -21,12 +21,21 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onDidMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchECRComponents(page));
+    dispatch(fetchECRJobs());
   },
   fetchECRComponentsFiltered: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchECRComponentsFiltered(page));
   },
 });
 
-const ComponentListContainer = connect(mapStateToProps, mapDispatchToProps)(ComponentList);
+const ComponentListContainer =
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+      pure: false,
+    },
+  )(ComponentList);
 
 export default ComponentListContainer;

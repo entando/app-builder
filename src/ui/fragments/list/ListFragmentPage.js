@@ -28,8 +28,8 @@ export class ListFragmentPageBody extends Component {
   }
 
   renderContent() {
-    return this.state.activeTab === TAB_LIST ?
-      <FragmentListContent />
+    return this.state.activeTab === TAB_LIST
+      ? <FragmentListContent />
       : <SettingsFragmentFormContainer />;
   }
 
@@ -41,7 +41,7 @@ export class ListFragmentPageBody extends Component {
             <Col xs={12}>
               <Breadcrumb>
                 <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxPattern" />
+                  <FormattedMessage id="menu.uxComponents" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
                   <FormattedMessage id="menu.fragments" />

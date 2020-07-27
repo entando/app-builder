@@ -88,6 +88,8 @@ import {
   ROUTE_ECR_CONFIG_EDIT,
   ROUTE_ECR_CONFIG_ADD,
   ROUTE_PLUGINS,
+  ROUTE_ABOUT,
+  ROUTE_LICENSE,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -175,6 +177,9 @@ import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
+import AboutPage from 'ui/about/AboutPage';
+import LicensePage from 'ui/license/LicensePage';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -190,141 +195,147 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
   ]
 ), []);
 
-const getRouteComponent = () => (
-  <Switch>
-    <Route
-      path={ROUTE_HOME}
-      exact
-      render={() => (
-        <LoginPage>
-          <LoginFormContainer />
-        </LoginPage>
+const getRouteComponent = () => {
+  const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
+  return (
+    <Switch>
+      <Route
+        path={ROUTE_HOME}
+        exact
+        render={() => (
+          <LoginPage>
+            <LoginFormContainer />
+          </LoginPage>
       )}
-    />
-    <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
-    {/* page */}
-    <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
-    <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
-    <Route path={ROUTE_PAGE_EDIT} component={PagesEditPage} />
-    <Route path={ROUTE_PAGE_CLONE} component={PagesClonePage} />
-    <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
-    <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
-    <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
-    {/* page template */}
-    <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
-    <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
-    <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
-    <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
-    {/* widgets */}
-    <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
-    <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
-    <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
-    <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
-    <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
-    {/* fragments */}
-    <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
-    <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
-    <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
-    <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
-    {/* data models */}
-    <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
-    <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
-    <Route path={ROUTE_DATA_MODEL_EDIT} component={EditDataModelPage} />
-    {/* data type */}
-    <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
-    <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
-    <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
-    {/* user */}
-    <Route exact path={ROUTE_USER_LIST} component={UserListPage} />
-    <Route path={ROUTE_USER_ADD} component={AddUserPage} />
-    <Route path={ROUTE_USER_EDIT} component={EditUserPage} />
-    <Route path={ROUTE_USER_DETAIL} component={DetailUserPage} />
-    <Route path={ROUTE_USER_RESTRICTIONS} component={UserRestrictionsPage} />
-    <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePage} />
-    <Route path={ROUTE_USER_AUTHORITY} component={UserAuthorityPageContainer} />
-    {/* profiles */}
-    <Route exact path={ROUTE_PROFILE_TYPE_LIST} component={ListProfileTypePage} />
-    <Route path={ROUTE_PROFILE_TYPE_ADD} component={AddProfileTypesPage} />
-    <Route path={ROUTE_PROFILE_TYPE_EDIT} component={EditProfileTypesPage} />
-    {/* groups */}
-    <Route exact path={ROUTE_GROUP_LIST} component={ListGroupPage} />
-    <Route path={ROUTE_GROUP_ADD} component={AddGroupPage} />
-    <Route path={ROUTE_GROUP_EDIT} component={EditGroupPage} />
-    <Route path={ROUTE_GROUP_DETAIL} component={DetailGroupPage} />
-    {/* labels */}
-    <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
-    <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
-    <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
-    {/* categories */}
-    <Route exact path={ROUTE_CATEGORY_LIST} component={ListCategoryPage} />
-    <Route path={ROUTE_CATEGORY_ADD} component={AddCategoryPage} />
-    <Route path={ROUTE_CATEGORY_EDIT} component={EditCategoryPage} />
-    <Route path={ROUTE_CATEGORY_DETAIL} component={DetailCategoryPage} />
-    {/* roles */}
-    <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
-    <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
-    <Route path={ROUTE_ROLE_EDIT} component={EditRolePage} />
-    <Route path={ROUTE_ROLE_DETAIL} component={DetailRolePage} />
-    {/* database */}
-    <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
-    <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
-    <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
-    <Route path={ROUTE_DATABASE_DUMP_TABLE} component={DatabaseDumpTablePageContainer} />
-    {/* files */}
-    <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
-    <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />
-    <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
-    <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
-    <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
-    {/* component repository */}
-    <Route
-      exact
-      path={ROUTE_ECR_COMPONENT_LIST}
-      render={() => (
-      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
+      />
+      <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
+      {/* page */}
+      <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
+      <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
+      <Route path={ROUTE_PAGE_EDIT} component={PagesEditPage} />
+      <Route path={ROUTE_PAGE_CLONE} component={PagesClonePage} />
+      <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
+      <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
+      <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
+      {/* page template */}
+      <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
+      <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
+      <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
+      <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
+      {/* widgets */}
+      <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
+      <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
+      <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
+      <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
+      <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
+      {/* fragments */}
+      <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
+      <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
+      <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
+      <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
+      {/* data models */}
+      <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
+      <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
+      <Route path={ROUTE_DATA_MODEL_EDIT} component={EditDataModelPage} />
+      {/* data type */}
+      <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
+      <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
+      <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
+      {/* user */}
+      <Route exact path={ROUTE_USER_LIST} component={UserListPage} />
+      <Route path={ROUTE_USER_ADD} component={AddUserPage} />
+      <Route path={ROUTE_USER_EDIT} component={EditUserPage} />
+      <Route path={ROUTE_USER_DETAIL} component={DetailUserPage} />
+      <Route path={ROUTE_USER_RESTRICTIONS} component={UserRestrictionsPage} />
+      <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePage} />
+      <Route path={ROUTE_USER_AUTHORITY} component={UserAuthorityPageContainer} />
+      {/* profiles */}
+      <Route exact path={ROUTE_PROFILE_TYPE_LIST} component={ListProfileTypePage} />
+      <Route path={ROUTE_PROFILE_TYPE_ADD} component={AddProfileTypesPage} />
+      <Route path={ROUTE_PROFILE_TYPE_EDIT} component={EditProfileTypesPage} />
+      {/* groups */}
+      <Route exact path={ROUTE_GROUP_LIST} component={ListGroupPage} />
+      <Route path={ROUTE_GROUP_ADD} component={AddGroupPage} />
+      <Route path={ROUTE_GROUP_EDIT} component={EditGroupPage} />
+      <Route path={ROUTE_GROUP_DETAIL} component={DetailGroupPage} />
+      {/* labels */}
+      <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
+      <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
+      <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
+      {/* categories */}
+      <Route exact path={ROUTE_CATEGORY_LIST} component={ListCategoryPage} />
+      <Route path={ROUTE_CATEGORY_ADD} component={AddCategoryPage} />
+      <Route path={ROUTE_CATEGORY_EDIT} component={EditCategoryPage} />
+      <Route path={ROUTE_CATEGORY_DETAIL} component={DetailCategoryPage} />
+      {/* roles */}
+      <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
+      <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
+      <Route path={ROUTE_ROLE_EDIT} component={EditRolePage} />
+      <Route path={ROUTE_ROLE_DETAIL} component={DetailRolePage} />
+      {/* database */}
+      <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
+      <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
+      <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
+      <Route path={ROUTE_DATABASE_DUMP_TABLE} component={DatabaseDumpTablePageContainer} />
+      {/* files */}
+      <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
+      <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />
+      <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
+      <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
+      <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
+      {/* component repository */}
+      <Route
+        exact
+        path={ROUTE_ECR_COMPONENT_LIST}
+        render={() => (
+      (COMPONENT_REPOSITORY_UI_ENABLED) ?
         <ComponentListPage /> : <ComponentListPageDisabled />
       )}
-    />
-    <Route
-      exact
-      path={ROUTE_ECR_CONFIG_LIST}
-      render={() => (
-      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
+      />
+      <Route
+        exact
+        path={ROUTE_ECR_CONFIG_LIST}
+        render={() => (
+      (COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsListPage /> : <ComponentListPageDisabled />
       )}
-    />
-    <Route
-      path={ROUTE_ECR_CONFIG_EDIT}
-      render={() => (
-      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
+      />
+      <Route
+        path={ROUTE_ECR_CONFIG_EDIT}
+        render={() => (
+      (COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsEditPage /> : <ComponentListPageDisabled />
       )}
-    />
-    <Route
-      path={ROUTE_ECR_CONFIG_ADD}
-      render={() => (
-      (process.env.COMPONENT_REPOSITORY_UI_ENABLED) ?
+      />
+      <Route
+        path={ROUTE_ECR_CONFIG_ADD}
+        render={() => (
+      (COMPONENT_REPOSITORY_UI_ENABLED) ?
         <SettingsAddPage /> : <ComponentListPageDisabled />
       )}
-    />
-    {/* other */}
-    <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
-    <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
-    <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
-    <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
-    <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
-    <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />
-    <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT} component={EditProfileTypeAttributePage} />
-    <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
-    <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
-    <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
-    <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
-    { /* app routes */ }
-    {appsRoutes}
-    {/* 404 */}
-    <Route component={PageNotFoundContainer} />
-  </Switch>
-);
+      />
+      {/* other */}
+      <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
+      <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
+      <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
+      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
+      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
+      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />
+      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT} component={EditProfileTypeAttributePage} />
+      <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
+      <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
+      <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
+      <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+      { /* static routes */ }
+      <Route path={ROUTE_ABOUT} component={AboutPage} />
+      <Route path={ROUTE_LICENSE} component={LicensePage} />
+      { /* app routes */ }
+      {appsRoutes}
+      {/* 404 */}
+      <Route component={PageNotFoundContainer} />
+    </Switch>
+  );
+};
 
 class App extends Component {
   componentDidUpdate(prevProps) {

@@ -22,7 +22,7 @@
   }
 
   &__status-icon--active:before {
-    color: $color-pf-light-green-500;
+    color: $color-published;
     font-family: FontAwesome;
     content: $fa-check;
   }

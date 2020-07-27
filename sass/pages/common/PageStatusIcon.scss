@@ -1,11 +1,11 @@
 .PageStatusIcon--unpublished {
-  color: $color-pf-black-600;
+  color: $color-unpublished;
 }
 
 .PageStatusIcon--published {
-  color: $color-pf-light-green-500;
+  color: $color-published;
 }
 
 .PageStatusIcon--draft {
-  color: $color-pf-gold-400;
+  color: $color-draft;
 }

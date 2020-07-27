@@ -4,6 +4,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { DropdownKebab, Paginator, Spinner } from 'patternfly-react';
 import { Table, Row, Col, Alert } from 'react-bootstrap';
 import { routeConverter } from '@entando/utils';
+import paginatorMessages from 'ui/paginatorMessages';
 
 import { LinkMenuItem } from '@entando/menu';
 import { ROUTE_USER_EDIT, ROUTE_USER_AUTHORITY } from 'app-init/router';
@@ -76,12 +77,21 @@ class GroupDetailTabUsers extends React.Component {
   }
 
   renderTable() {
-    if (this.props.userReferences.length > 0) {
+    const {
+      userReferences, page, pageSize, intl,
+    } = this.props;
+
+    if (userReferences.length > 0) {
       const pagination = {
-        page: this.props.page,
-        perPage: this.props.pageSize,
+        page,
+        perPage: pageSize,
         perPageOptions: [5, 10, 15, 25, 50],
       };
+
+      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
+        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
+      ), {});
+
       return (
         <div>
           <Table className="GroupDetailTabUsers__table" striped bordered condensed hover >
@@ -102,6 +112,7 @@ class GroupDetailTabUsers extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            messages={messages}
           />
         </div>
       );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import PageStatus from 'ui/dashboard/PageStatus';
 
 const pageStatus = {
@@ -10,7 +10,7 @@ const pageStatus = {
   unpublished: 5,
 };
 
-const component = shallow(<PageStatus onWillMount={() => {}} pageStatus={pageStatus} />);
+const component = shallowWithIntl(<PageStatus onWillMount={() => {}} pageStatus={pageStatus} language="en" />);
 
 
 describe('UserManagement', () => {
@@ -19,11 +19,11 @@ describe('UserManagement', () => {
   });
 
   it('verify it contains a title', () => {
-    expect(component.find('h2')).toHaveLength(1);
+    expect(component.dive().find('h2')).toHaveLength(1);
   });
 
   it('verify it contains a DonutChart', () => {
-    const element = component.find('DonutChart');
+    const element = component.dive().find('DonutChart');
     expect(element).toHaveLength(1);
   });
 });

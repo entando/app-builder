@@ -1,14 +1,13 @@
-
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import PagesList from 'ui/dashboard/PagesList';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line
-const component = shallow(<PagesList onWillMount={() => {}} pageSize={2} page={3} totalItems={2} language="it" />);
+const component = shallowWithIntl(<PagesList onWillMount={() => {}} pageSize={2} page={3} totalItems={2} language="it" />);
 
 
 describe('PagesList', () => {
@@ -17,7 +16,7 @@ describe('PagesList', () => {
   });
 
   it('verify it contains a button', () => {
-    const element = component.find('Button');
+    const element = component.dive().find('Button');
     expect(element).toHaveLength(1);
     const props = element.props();
     expect(props).toHaveProperty('to', ROUTE_PAGE_ADD);
@@ -25,10 +24,10 @@ describe('PagesList', () => {
   });
 
   it('verify it contains a table', () => {
-    expect(component.find('table')).toHaveLength(1);
+    expect(component.dive().find('table')).toHaveLength(1);
   });
 
   it('verify it contains a Paginator', () => {
-    expect(component.find('Paginator')).toHaveLength(1);
+    expect(component.dive().find('Paginator')).toHaveLength(1);
   });
 });

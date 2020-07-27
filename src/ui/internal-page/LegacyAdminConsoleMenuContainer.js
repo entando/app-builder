@@ -16,7 +16,7 @@ import {
   ROUTE_LABELS_AND_LANGUAGES, ROUTE_CATEGORY_LIST, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_CMS_VERSIONING,
+  ROUTE_CMS_VERSIONING, ROUTE_DASHBOARD,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -31,6 +31,7 @@ import {
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
@@ -123,7 +124,7 @@ const renderAppMenuItems = (intl, history, userPermissions) => Object.values(app
   return render && (isCMS ? renderCMSMenuItems(userPermissions, intl, history) : null);
 });
 
-const { COMPONENT_REPOSITORY_UI_ENABLED } = process.env;
+const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
 const renderComponentRepositoryMenuItem = (history, intl) => (
   COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
@@ -133,7 +134,9 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const adminConsoleUrl = url => `${process.env.DOMAIN}/${url}`;
+const { DOMAIN } = getRuntimeEnv();
+
+const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
   <div>
@@ -152,7 +155,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     >
       <Masthead>
         <Brand
-          href=""
+          href={`${publicUrl}${ROUTE_DASHBOARD}`}
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
@@ -201,7 +204,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           id="menu-ux-pattern"
           onClick={() => {}}
           iconClass="fa fa-object-ungroup"
-          title={intl.formatMessage({ id: 'menu.uxPattern', defaultMessage: 'UX Pattern' })}
+          title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'UX Pattern' })}
         >
           <SecondaryItem
             id="menu-ux-pattern-widgets"
@@ -230,8 +233,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       )
     }
       {
-      (hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions) ||
-      hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions))
+      hasAccess(ROLE_SUPERUSER, userPermissions)
       && (
         <Item
           onClick={() => {}}
@@ -243,32 +245,40 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             onClick={() => {}}
           >
             <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.mail', defaultMessage: 'Email Configuration' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Content Scheduler' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
+            />
+            <TertiaryItem
               title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
               onClick={() => history.push(ROUTE_CMS_VERSIONING)}
             />
           </SecondaryItem>
-          { hasAccess(ROLE_SUPERUSER, userPermissions) &&
-            <SecondaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-            >
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Resource/list.action')}
-              />
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Service/list.action')}
-              />
-              <TertiaryItem
-                title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
-                onClick={() => {}}
-                href={adminConsoleUrl('do/Api/Consumer/list.action')}
-              />
-            </SecondaryItem>
-          }
+          <SecondaryItem
+            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
+            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+          >
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Resource/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Service/list.action')}
+            />
+            <TertiaryItem
+              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
+              onClick={() => {}}
+              href={adminConsoleUrl('do/Api/Consumer/list.action')}
+            />
+          </SecondaryItem>
         </Item>
       )
     }

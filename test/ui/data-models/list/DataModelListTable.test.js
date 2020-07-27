@@ -1,7 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl } from 'test/testUtils';
 import DataModelListTable from 'ui/data-models/list/DataModelListTable';
 
 describe('inner table errors', () => {
@@ -15,19 +14,19 @@ describe('inner table errors', () => {
   });
 
   it('errors without a page', () => {
-    shallow(<DataModelListTable pageSize={1} totalItems={1} />);
+    shallowWithIntl(<DataModelListTable pageSize={1} totalItems={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });
   it('errors without a pageSize', () => {
-    shallow(<DataModelListTable page={1} totalItems={1} />);
+    shallowWithIntl(<DataModelListTable page={1} totalItems={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
   });
   it('errors without a totalItems', () => {
-    shallow(<DataModelListTable page={1} pageSize={1} />);
+    shallowWithIntl(<DataModelListTable page={1} pageSize={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -37,7 +36,7 @@ describe('inner table errors', () => {
 describe('DataModelListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<DataModelListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<DataModelListTable page={1} pageSize={1} totalItems={1} />).dive();
   });
   it('renders component without crashing', () => {
     expect(component.exists()).toEqual(true);
@@ -50,7 +49,7 @@ describe('DataModelListTable', () => {
       expect(component.find('table thead tr th')).toHaveLength(4);
     });
     it('renders table with correct structure', () => {
-      component = shallow(<DataModelListTable pageSize={1} page={1} totalItems={1} />);
+      component = shallowWithIntl(<DataModelListTable pageSize={1} page={1} totalItems={1} />).dive();
       expect(component.find('table thead tr').exists()).toEqual(true);
       expect(component.find('table thead tr th').exists()).toEqual(true);
     });

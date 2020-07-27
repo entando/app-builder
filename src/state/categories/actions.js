@@ -16,8 +16,7 @@ import {
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
   SET_REFERENCES,
 } from 'state/categories/types';
-
-const ROOT_CODE = 'home';
+import { ROOT_CODE } from 'state/categories/const';
 
 export const setCategories = categories => ({
   type: SET_CATEGORIES,

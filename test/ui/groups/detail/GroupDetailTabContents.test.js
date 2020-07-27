@@ -1,8 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl } from 'test/testUtils';
 import GroupDetailTabContents from 'ui/groups/detail/GroupDetailTabContents';
 import { CONTENT_REFERENCES } from 'test/mocks/groups';
 
@@ -11,7 +9,7 @@ global.console.error = jest.fn();
 describe('GroupDetailTabContents', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<GroupDetailTabContents page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<GroupDetailTabContents page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {
@@ -19,27 +17,27 @@ describe('GroupDetailTabContents', () => {
   });
 
   it('errors without a page', () => {
-    shallow(<GroupDetailTabContents pageSize={1} totalItems={1} />);
+    shallowWithIntl(<GroupDetailTabContents pageSize={1} totalItems={1} />).dive();
     expect(console.error).toHaveBeenCalled();
   });
 
   it('errors without a pageSize', () => {
-    shallow(<GroupDetailTabContents page={1} totalItems={1} />);
+    shallowWithIntl(<GroupDetailTabContents page={1} totalItems={1} />).dive();
     expect(console.error).toHaveBeenCalled();
   });
 
   it('errors without totalItems', () => {
-    shallow(<GroupDetailTabContents pageSize={1} page={1} />);
+    shallowWithIntl(<GroupDetailTabContents pageSize={1} page={1} />).dive();
     expect(console.error).toHaveBeenCalled();
   });
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<GroupDetailTabContents
+      component = shallowWithIntl(<GroupDetailTabContents
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {

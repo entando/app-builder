@@ -1,9 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import { LIST_GROUPS_OK } from 'test/mocks/groups';
-
-
 import GroupListTable from 'ui/groups/list/GroupListTable';
 
 jest.mock('state/groups/selectors', () => ({
@@ -13,7 +11,7 @@ jest.mock('state/groups/selectors', () => ({
 describe('GroupListTable', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<GroupListTable page={1} pageSize={1} totalItems={1} />);
+    component = shallowWithIntl(<GroupListTable page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {
@@ -22,7 +20,7 @@ describe('GroupListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<GroupListTable pageSize={1} totalItems={1} />);
+    shallowWithIntl(<GroupListTable pageSize={1} totalItems={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -30,7 +28,7 @@ describe('GroupListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<GroupListTable page={1} totalItems={1} />);
+    shallowWithIntl(<GroupListTable page={1} totalItems={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -38,7 +36,7 @@ describe('GroupListTable', () => {
 
   it('errors without totalItems', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    shallow(<GroupListTable pageSize={1} page={1} />);
+    shallowWithIntl(<GroupListTable pageSize={1} page={1} />).dive();
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -46,11 +44,11 @@ describe('GroupListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallow(<GroupListTable
+      component = shallowWithIntl(<GroupListTable
         page={1}
         pageSize={1}
         totalItems={1}
-      />);
+      />).dive();
     });
 
     it('has an Alert', () => {
