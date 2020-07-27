@@ -28,6 +28,7 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
@@ -47,12 +48,18 @@ const ROUTE_CMS_CONTENTS = '/cms/contents';
 const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
 const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
 
+const { DOMAIN } = getRuntimeEnv();
+
+const adminConsoleUrl = url => `${DOMAIN}/${url}`;
+
 const renderCMSMenuItems = (userPermissions, intl, history) => {
   const hasMenuContentsAccess = hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions)
     || hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions);
   const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
   const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
+  const hasSchedulerAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   return (
     <SecondaryItem
@@ -81,20 +88,37 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
         )
       }
       {
-        hasMenuContentTypeAccess && (
-        <TertiaryItem
-          id="menu-content-type"
-          title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Content Types' })}
-          onClick={() => history.push(ROUTE_CMS_CONTENTTYPE_LIST)}
-        />
-        )
-      }
-      {
         hasMenuContentTemplatesAccess && (
         <TertiaryItem
           id="menu-content-template"
           title={intl.formatMessage({ id: 'cms.menu.contenttemplates', defaultMessage: 'Content Templates' })}
           onClick={() => history.push(ROUTE_CMS_CONTENTTEMPLATE_LIST)}
+        />
+        )
+      }
+      {
+        hasCategoriesAccess && (
+        <TertiaryItem
+          title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
+          onClick={() => history.push(ROUTE_CATEGORY_LIST)}
+        />
+        )
+      }
+      {
+        hasSchedulerAccess && (
+          <TertiaryItem
+            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Content Scheduler' })}
+            onClick={() => {}}
+            href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+          />
+        )
+      }
+      {
+        hasMenuContentTypeAccess && (
+        <TertiaryItem
+          id="menu-content-type"
+          title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Content Types' })}
+          onClick={() => history.push(ROUTE_CMS_CONTENTTYPE_LIST)}
         />
         )
       }
@@ -134,10 +158,6 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     iconClass="fa fa-cart-plus"
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
-
-const { DOMAIN } = getRuntimeEnv();
-
-const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
   <div>
