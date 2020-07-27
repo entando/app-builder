@@ -325,6 +325,7 @@ export default {
     'menu.versioning': 'Versioning',
     'menu.apps': 'Apps',
     'menu.settings': 'Settings',
+    'dashboard.uxComponents.mfeWidgets': 'MFEs & Widgets',
     'dashboard.pageStatus': 'Page status',
     'dashboard.newUser': 'New user',
     'dashboard.newWidget': 'New widget',
