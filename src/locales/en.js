@@ -326,6 +326,7 @@ export default {
     'menu.apps': 'Content',
     'menu.settings': 'Administration',
     'dashboard.uxComponents.mfeWidgets': 'MFEs & Widgets',
+    'dashboard.uxComponents.pageTemplates': 'Page Templates',
     'dashboard.pageStatus': 'Page Status',
     'dashboard.newUser': 'New User',
     'dashboard.newWidget': 'New Widget',

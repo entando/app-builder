@@ -326,6 +326,7 @@ export default {
     'menu.apps': 'Soddisfare',
     'menu.settings': 'Amministrazione',
     'dashboard.uxComponents.mfeWidgets': 'MFE & Widget',
+    'dashboard.uxComponents.pageTemplates': 'Template di Pagina',
     'dashboard.pageStatus': 'Stato Pagine',
     'dashboard.newUser': 'Nuovo Utente',
     'dashboard.newWidget': 'Nuovo Widget',
