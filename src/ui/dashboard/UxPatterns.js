@@ -45,7 +45,7 @@ class UxPatterns extends Component {
           </AggregateStatusCount>
           <span className="separator" />
           <AggregateStatusCount>
-            <b>{this.props.pageTemplates}</b> <FormattedMessage id="menu.pageTemplates" />
+            <b>{this.props.pageTemplates}</b> <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
           </AggregateStatusCount>
         </CardBody>
       </Card>
