@@ -176,7 +176,7 @@ export class PageSettingsFormBody extends Component {
 
                 <div className="form-group">
                   <Col xs={2} className="text-right">
-                    <FormattedMessage id="pageSettings.input.languageBroswer" />&nbsp;
+                    <FormattedMessage id="pageSettings.input.languageBrowser" />&nbsp;
                   </Col>
                   <Col xs={4}>
                     <Field
