@@ -21,4 +21,24 @@
     color: $color-mid-blue;
     box-shadow: none;
   }
+
+  // sass-lint:disable class-name-format nesting-depth no-qualifying-elements force-element-nesting
+  .btn-toolbar {
+    .btn {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+
+    .btn-default.active {
+      background-color: $color-dark-grey;
+      border-color: $color-dark-grey;
+      color: $color-white;
+    }
+
+    select {
+      margin-left: 5px;
+      color: $color-dark-grey;
+    }
+  }
+  // sass-lint:enable class-name-format nesting-depth no-qualifying-elements force-element-nesting
 }

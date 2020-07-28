@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { FieldArray } from 'redux-form';
@@ -7,6 +7,8 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarExpressionsList';
+import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
+import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -27,6 +29,7 @@ export default class NavigationBarConfigForm extends PureComponent {
       language,
       pages,
     } = this.props;
+
     const handleCancelClick = () => {
       if (dirty) {
         onCancel();
@@ -36,7 +39,7 @@ export default class NavigationBarConfigForm extends PureComponent {
     };
 
     return (
-      <Fragment>
+      <div className="NavigationBarConfigForm">
         <h5>
           <span className="icon fa fa-puzzle-piece" title="Widget" />
           {' '}
@@ -56,6 +59,37 @@ export default class NavigationBarConfigForm extends PureComponent {
                     name="expressions"
                     pages={pages}
                     language={language}
+                  />
+                </Col>
+              </fieldset>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <FormSectionTitle
+                  titleId="widget.navigationBar.config.page"
+                  requireFields={false}
+                />
+                <Col lg={6} md={10} smOffset={2} className="no-padding">
+                  <NavigationBarTargetPage
+                    // TODO: use actual data
+                    pages={[{ code: 'home', path: 'Home' }]}
+                  />
+                </Col>
+              </fieldset>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <FormSectionTitle
+                  titleId="widget.navigationBar.config.operator"
+                  requireFields={false}
+                />
+                <Col lg={12} md={12} className="no-padding">
+                  <NavigatorBarOperator
+                    onAddNewExpression={() => { /* TODO: handle add new expression */ }}
                   />
                 </Col>
               </fieldset>
@@ -88,7 +122,7 @@ export default class NavigationBarConfigForm extends PureComponent {
             </Col>
           </Row>
         </form>
-      </Fragment>
+      </div>
     );
   }
 }
