@@ -95,8 +95,8 @@ const markComponentInstalledStatus = (state, componentCode, installed, installed
   return updateComponentInfo(state, componentIndex, { installed, installedJob });
 };
 
-const markComponentAsInstalled = (state, componentCode, job) => (
-  markComponentInstalledStatus(state, componentCode, true, job)
+const markComponentAsInstalled = (state, componentCode, installedJob) => (
+  markComponentInstalledStatus(state, componentCode, true, installedJob)
 );
 const markComponentAsUninstalled = (state, componentCode) => (
   markComponentInstalledStatus(state, componentCode, false)
