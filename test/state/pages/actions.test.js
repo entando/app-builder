@@ -33,7 +33,7 @@ import {
 } from 'test/mocks/pages';
 
 import {
-  setPagePosition, postPage, putPage, getPage, getPageChildren, getPageSettings,
+  setPagePosition, postPage, putPageSEO, getPage, getPageSEO, getPageChildren, getPageSettings,
   putPageStatus, deletePage, getFreePages, getSearchPages,
   putPageSettings, patchPage,
 } from 'api/pages';
@@ -449,15 +449,15 @@ describe('state/pages/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
-        expect(putPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(putPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
         done();
       }).catch(done.fail);
     });
 
     it('if the response is not ok, dispatch add errors', async () => {
-      putPage.mockImplementation(mockApi({ errors: true }));
+      putPageSEO.mockImplementation(mockApi({ errors: true }));
       return store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).catch((e) => {
-        expect(putPage).toHaveBeenCalled();
+        expect(putPageSEO).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
@@ -555,19 +555,19 @@ describe('state/pages/actions', () => {
     });
 
     it('when getPage succeeds, should dispatch redux-form initialize', (done) => {
-      getPage.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
+      getPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
-        expect(getPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(getPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
         expect(initialize).toHaveBeenCalledWith('page', CONTACTS_PAYLOAD);
         done();
       }).catch(done.fail);
     });
 
     it('when putPage fails, should dispatch ADD_ERRORS', (done) => {
-      getPage.mockImplementation(mockApi({ errors: true }));
+      getPageSEO.mockImplementation(mockApi({ errors: true }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(getPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
+        expect(getPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
         expect(addErrorsAction).toBeDefined();
         done();
       }).catch(done.fail);

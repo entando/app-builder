@@ -303,7 +303,7 @@ export class PageFormBody extends Component {
               <Col xs={12}>
                 <Field
                   component={SwitchRenderer}
-                  name="seoData.useExtraDescriptorSearch"
+                  name="seoData.useExtraDescriptions"
                   label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
                   labelSize={3}
                 />

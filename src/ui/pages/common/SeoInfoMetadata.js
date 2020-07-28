@@ -9,7 +9,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import SeoMetadataForm from 'ui/pages/common/SeoMetadataForm';
 
-const SeoInfoMetadata = ({ fields, langIdx }) => {
+const SeoInfoMetadata = ({ fields, langIdx, onPushMetadata }) => {
   const metaTypeOptions = [
     {
       value: 'name',
@@ -24,13 +24,6 @@ const SeoInfoMetadata = ({ fields, langIdx }) => {
       text: 'property',
     },
   ];
-
-  const onPushMetadata = ({ metakey, metavalue }) => fields.push({
-    key: metakey,
-    type: 'name',
-    value: metavalue,
-    useDefaultLang: false,
-  });
 
   const fieldTables = fields.map((name, idx) => {
     const metas = fields.get(idx);
@@ -89,6 +82,7 @@ const SeoInfoMetadata = ({ fields, langIdx }) => {
 SeoInfoMetadata.propTypes = {
   fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired,
   langIdx: PropTypes.number.isRequired,
+  onPushMetadata: PropTypes.func.isRequired,
 };
 
 export default SeoInfoMetadata;

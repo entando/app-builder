@@ -111,6 +111,27 @@ export const putPage = pageObject => makeRequest({
   ),
 });
 
+export const postPageSEO = pageObject => makeRequest({
+  uri: '/api/plugins/seo/pages',
+  body: pageObject,
+  method: METHODS.POST,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
+});
+
+export const putPageSEO = pageObject => makeRequest({
+  uri: `/api/plugins/seo/pages/${pageObject.code}`,
+  body: pageObject,
+  method: METHODS.PUT,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
+  ),
+});
+
 export const patchPage = (jsonPatchObject, pageCode) => makeRequest({
   uri: `/api/pages/${pageCode}`,
   body: jsonPatchObject,

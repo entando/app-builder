@@ -7,7 +7,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
-import SeoInfoMetadata from 'ui/pages/common/SeoInfoMetadata';
+import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
 
 // const msgTitle = defineMessages({
 //   langCode: { id: `app.${lang.code}Title` },
@@ -95,9 +95,10 @@ const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages
               </div>
 
               <FieldArray
-                component={SeoInfoMetadata}
+                component={SeoInfoMetadataContainer}
                 name={`seoData.seoDataByLang.${lang.code}.metaTags`}
                 langIdx={i}
+                languages={languages}
               />
             </div>
           </div>

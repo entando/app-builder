@@ -6,9 +6,8 @@ import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages,
-  putPageSettings, patchPage, getPageSEO,
+  putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO,
 } from 'api/pages';
-import { PAGE_SEO } from 'test/mocks/pages';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
@@ -258,12 +257,20 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
 
-
-export const createPage = wrapApiCall(postPage);
-
 export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
   try {
-    const response = await postPage(pageData);
+    const { seoData, seo } = pageData;
+    const seoPayload = seoData ? {
+      seoData: {
+        ...seoData,
+        useExtraTitles: seo,
+      },
+    } : {};
+    const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
+    const response = await postPageCall({
+      ...pageData,
+      ...seoPayload,
+    });
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
@@ -351,7 +358,18 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
 export const sendPutPage = pageData => dispatch =>
   new Promise(async (resolve, reject) => {
     try {
-      const response = await putPage(pageData);
+      const { seoData, seo } = pageData;
+      const putPageFunc = SEO_ENABLED ? putPageSEO : putPage;
+      const seoPayload = seoData ? {
+        seoData: {
+          ...seoData,
+          useExtraTitles: seo,
+        },
+      } : {};
+      const response = await putPageFunc({
+        ...pageData,
+        ...seoPayload,
+      });
       const json = await response.json();
       if (response.ok) {
         dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
@@ -396,13 +414,13 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
   }
 };
 
-export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
+export const fetchPageForm = pageCode => dispatch => fetchPageInfo(pageCode)(dispatch)
   .then((response) => {
-    const pagePayload = {
-      ...response.payload,
-      ...PAGE_SEO,
-    };
-    dispatch(initialize('page', pagePayload));
+    // const pagePayload = {
+    //   ...response.payload,
+    //   ...PAGE_SEO,
+    // };
+    dispatch(initialize('page', response.payload));
   })
   .catch(() => {});
 
