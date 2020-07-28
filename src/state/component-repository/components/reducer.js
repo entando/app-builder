@@ -87,19 +87,19 @@ const markComponentLastStatusAsUninstallInProgress = (state, componentCode) => (
   )
 );
 
-const markComponentInstalledStatus = (state, componentCode, installed) => {
+const markComponentInstalledStatus = (state, componentCode, installed, installedJob = null) => {
   const componentIndex = findComponentInListById(state, componentCode);
   if (componentIndex === -1) {
     return state;
   }
-  return updateComponentInfo(state, componentIndex, { installed });
+  return updateComponentInfo(state, componentIndex, { installed, installedJob });
 };
 
-const markComponentAsInstalled = (state, componentId) => (
-  markComponentInstalledStatus(state, componentId, true)
+const markComponentAsInstalled = (state, componentCode, job) => (
+  markComponentInstalledStatus(state, componentCode, true, job)
 );
-const markComponentAsUninstalled = (state, componentId) => (
-  markComponentInstalledStatus(state, componentId, false)
+const markComponentAsUninstalled = (state, componentCode) => (
+  markComponentInstalledStatus(state, componentCode, false)
 );
 
 const list = (state = [], action = {}) => {
@@ -113,7 +113,7 @@ const list = (state = [], action = {}) => {
     }
     case FINISH_COMPONENT_INSTALLATION: {
       const newState = markComponentLastStatusAsClear(state, action.payload.code);
-      return markComponentAsInstalled(newState, action.payload.code);
+      return markComponentAsInstalled(newState, action.payload.code, action.payload.installedJob);
     }
     case FINISH_COMPONENT_UNINSTALLATION: {
       const newState = markComponentLastStatusAsClear(state, action.payload.code);
