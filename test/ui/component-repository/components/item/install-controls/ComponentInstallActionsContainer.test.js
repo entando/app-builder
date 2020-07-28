@@ -29,7 +29,7 @@ const MOCK_STATE = {
 
 const MOCK_PROPS = {
   component: {
-    id: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
+    code: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
   },
 };
 

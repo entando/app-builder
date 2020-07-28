@@ -1,8 +1,4 @@
 import {
-  ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-  ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
-} from 'state/component-repository/components/const';
-import {
   GET_ECR_COMPONENT_OK,
   LIST_ECR_COMPONENTS_OK,
   COMPONENT_INSTALLATION_CREATED,
@@ -13,9 +9,9 @@ import {
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getECRComponent = id => (
+export const getECRComponent = code => (
   makeRequest({
-    uri: `/components/${id}`,
+    uri: `/components/${code}`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: GET_ECR_COMPONENT_OK,
@@ -36,13 +32,11 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
   )
 );
 
-export const postECRComponentInstall = component => (
+export const postECRComponentInstall = (component, version = 'latest') => (
   makeRequest({
-    uri: `/components/${component.id}/install`,
+    uri: `/components/${component.code}/install`,
     domain: '/digital-exchange',
-    body: {
-      version: 'latest',
-    },
+    body: { version },
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
     useAuthentication: true,
@@ -52,9 +46,9 @@ export const postECRComponentInstall = component => (
 // should you need to test (un)installation in-progress using mock mode,
 // you can set the mockResponse to `COMPONENT_INSTALLATION_IN_PROGRESS` to fully test the process.
 // do this the same for `getECRComponentUninstall` API
-export const getECRComponentInstall = id => (
+export const getECRComponentInstall = code => (
   makeRequest({
-    uri: `/components/${id}/install`,
+    uri: `/components/${code}/install`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
@@ -62,9 +56,9 @@ export const getECRComponentInstall = id => (
   })
 );
 
-export const postECRComponentUninstall = id => (
+export const postECRComponentUninstall = code => (
   makeRequest({
-    uri: `/components/${id}/uninstall`,
+    uri: `/components/${code}/uninstall`,
     domain: '/digital-exchange',
     body: {},
     method: METHODS.POST,
@@ -73,9 +67,9 @@ export const postECRComponentUninstall = id => (
   })
 );
 
-export const getECRComponentUninstall = id => (
+export const getECRComponentUninstall = code => (
   makeRequest({
-    uri: `/components/${id}/uninstall`,
+    uri: `/components/${code}/uninstall`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
@@ -83,30 +77,12 @@ export const getECRComponentUninstall = id => (
   })
 );
 
-export const getComponentUsage = id => (
+export const getComponentUsage = code => (
   makeRequest({
-    uri: `/components/${id}/usage`,
+    uri: `/components/${code}/usage`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_USAGE_LIST,
     useAuthentication: true,
   })
-);
-
-export const getJobs = () => (
-  makeRequest(
-    {
-      uri: '/jobs',
-      domain: '/digital-exchange',
-      method: METHODS.GET,
-      mockResponse: COMPONENT_USAGE_LIST,
-      useAuthentication: true,
-    },
-    {
-      'filters[0].attribute': 'status',
-      'filters[0].operator': 'eq',
-      'filters[0].allowedValues[0]': ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-      'filters[0].allowedValues[1]': ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
-    },
-  )
 );

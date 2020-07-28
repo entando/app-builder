@@ -31,7 +31,6 @@ import {
   postECRComponentUninstall,
   getECRComponentUninstall,
   getComponentUsage,
-  getJobs,
 } from 'api/component-repository/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading, setLoading } from 'state/loading/actions';
@@ -88,59 +87,59 @@ export const setECRComponentListViewMode = componentListViewMode => ({
   },
 });
 
-export const startComponentInstallation = id => ({
+export const startComponentInstallation = code => ({
   type: START_COMPONENT_INSTALLATION,
   payload: {
-    id,
+    code,
   },
 });
 
-export const finishComponentInstallation = id => ({
+export const finishComponentInstallation = code => ({
   type: FINISH_COMPONENT_INSTALLATION,
   payload: {
-    id,
+    code,
   },
 });
 
-export const componentInstallationFailed = id => ({
+export const componentInstallationFailed = code => ({
   type: COMPONENT_INSTALLATION_FAILED,
   payload: {
-    id,
+    code,
   },
 });
 
-export const componentInstallOngoingProgress = id => ({
+export const componentInstallOngoingProgress = code => ({
   type: COMPONENT_INSTALL_ONGOING_PROGRESS,
   payload: {
-    id,
+    code,
   },
 });
 
-export const componentUninstallOngoingProgress = id => ({
+export const componentUninstallOngoingProgress = code => ({
   type: COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   payload: {
-    id,
+    code,
   },
 });
 
-export const startComponentUninstall = id => ({
+export const startComponentUninstall = code => ({
   type: START_COMPONENT_UNINSTALLATION,
   payload: {
-    id,
+    code,
   },
 });
 
-export const componentUninstallFailed = id => ({
+export const componentUninstallFailed = code => ({
   type: COMPONENT_UNINSTALLATION_FAILED,
   payload: {
-    id,
+    code,
   },
 });
 
-export const finishComponentUninstall = id => ({
+export const finishComponentUninstall = code => ({
   type: FINISH_COMPONENT_UNINSTALLATION,
   payload: {
-    id,
+    code,
   },
 });
 
@@ -153,11 +152,11 @@ export const setComponentUsageList = usageList => ({
 
 // thunks
 
-export const pollECRComponentInstallStatus = component => dispatch => (
+export const pollECRComponentInstallStatus = componentCode => dispatch => (
   new Promise((resolve) => {
-    dispatch(startComponentInstallation(component.id));
+    dispatch(startComponentInstallation(componentCode));
     pollApi({
-      apiFn: () => getECRComponentInstall(component.id),
+      apiFn: () => getECRComponentInstall(componentCode),
       stopPollingConditionFn: ({
         payload,
       }) => payload && [
@@ -169,9 +168,9 @@ export const pollECRComponentInstallStatus = component => dispatch => (
     })
       .then((res) => {
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
-          dispatch(finishComponentInstallation(component.id));
+          dispatch(finishComponentInstallation(componentCode));
         } else {
-          dispatch(componentInstallationFailed(component.id));
+          dispatch(componentInstallationFailed(componentCode));
           if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
             dispatch(addToast(
               { id: 'componentRepository.components.installRollback' },
@@ -190,7 +189,7 @@ export const pollECRComponentInstallStatus = component => dispatch => (
             { id: 'componentRepository.components.notifyInProgress' },
             TOAST_WARNING,
           ));
-          dispatch(componentInstallOngoingProgress(component.id));
+          dispatch(componentInstallOngoingProgress(componentCode));
         } else {
           if (payload && payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
             dispatch(addToast(
@@ -203,7 +202,7 @@ export const pollECRComponentInstallStatus = component => dispatch => (
               TOAST_WARNING,
             ));
           }
-          dispatch(componentInstallationFailed(component.id));
+          dispatch(componentInstallationFailed(componentCode));
         }
         if (errors && errors.length) {
           dispatch(addErrors(errors.map(err => err.message)));
@@ -217,12 +216,12 @@ export const pollECRComponentInstallStatus = component => dispatch => (
 
 export const installECRComponent = (component, version) => dispatch => (
   new Promise((resolve) => {
-    const loadingId = `deComponentInstallUninstall-${component.id}`;
+    const loadingId = `deComponentInstallUninstall-${component.code}`;
     dispatch(toggleLoading(loadingId));
     postECRComponentInstall(component, version).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(pollECRComponentInstallStatus(component))
+          dispatch(pollECRComponentInstallStatus(component.code))
             .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
@@ -235,11 +234,11 @@ export const installECRComponent = (component, version) => dispatch => (
   })
 );
 
-export const pollECRComponentUninstallStatus = componentId => dispatch => (
+export const pollECRComponentUninstallStatus = componentCode => dispatch => (
   new Promise((resolve) => {
-    dispatch(startComponentUninstall(componentId));
+    dispatch(startComponentUninstall(componentCode));
     pollApi({
-      apiFn: () => getECRComponentUninstall(componentId),
+      apiFn: () => getECRComponentUninstall(componentCode),
       stopPollingConditionFn: ({
         payload,
       }) => payload && [
@@ -252,9 +251,9 @@ export const pollECRComponentUninstallStatus = componentId => dispatch => (
         payload,
       }) => {
         if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
-          dispatch(finishComponentUninstall(componentId));
+          dispatch(finishComponentUninstall(componentCode));
         } else {
-          dispatch(componentUninstallFailed(componentId));
+          dispatch(componentUninstallFailed(componentCode));
         }
       })
       .catch((res) => {
@@ -267,13 +266,13 @@ export const pollECRComponentUninstallStatus = componentId => dispatch => (
             { id: 'componentRepository.components.notifyInProgress' },
             TOAST_WARNING,
           ));
-          dispatch(componentUninstallOngoingProgress(componentId));
+          dispatch(componentUninstallOngoingProgress(componentCode));
         } else {
           dispatch(addToast(
             { id: 'componentRepository.components.notifyFailedUninstall' },
             TOAST_WARNING,
           ));
-          dispatch(componentUninstallFailed(componentId));
+          dispatch(componentUninstallFailed(componentCode));
         }
         if (errors && errors.length) {
           dispatch(addErrors(errors.map(err => err.message)));
@@ -285,14 +284,14 @@ export const pollECRComponentUninstallStatus = componentId => dispatch => (
   })
 );
 
-export const uninstallECRComponent = componentId => dispatch => (
+export const uninstallECRComponent = componentCode => dispatch => (
   new Promise((resolve) => {
-    const loadingId = `deComponentInstallUninstall-${componentId}`;
+    const loadingId = `deComponentInstallUninstall-${componentCode}`;
     dispatch(toggleLoading(loadingId));
-    postECRComponentUninstall(componentId).then((response) => {
+    postECRComponentUninstall(componentCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(pollECRComponentUninstallStatus(componentId))
+          dispatch(pollECRComponentUninstallStatus(componentCode))
             .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
@@ -317,6 +316,18 @@ export const fetchECRComponents = (paginationMetadata = {
         if (response.ok) {
           dispatch(setECRComponents(data.payload));
           dispatch(setPage(data.metaData));
+
+          if (data.payload.length) {
+            data.payload.forEach(({ lastJob }) => {
+              if (lastJob && lastJob.status === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
+                dispatch(pollECRComponentInstallStatus(lastJob.componentId));
+              } else if (
+                lastJob && lastJob.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS
+              ) {
+                dispatch(pollECRComponentUninstallStatus(lastJob.componentId));
+              }
+            });
+          }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -331,9 +342,9 @@ export const fetchECRComponents = (paginationMetadata = {
   })
 );
 
-export const fetchECRComponentDetail = id => dispatch => (
+export const fetchECRComponentDetail = code => dispatch => (
   new Promise((resolve) => {
-    getECRComponent(id).then((response) => {
+    getECRComponent(code).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedECRComponent(json.payload));
@@ -347,11 +358,11 @@ export const fetchECRComponentDetail = id => dispatch => (
   })
 );
 
-export const fetchComponentUsage = id => dispatch => (
+export const fetchComponentUsage = code => dispatch => (
   new Promise((resolve) => {
     const loadingId = 'component-repository/component-usage';
     dispatch(toggleLoading(loadingId));
-    getComponentUsage(id).then((response) => {
+    getComponentUsage(code).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setComponentUsageList(json.payload));
@@ -364,32 +375,6 @@ export const fetchComponentUsage = id => dispatch => (
       });
     }).catch(() => {
       dispatch(toggleLoading(loadingId));
-    });
-  })
-);
-
-export const fetchECRJobs = () => dispatch => (
-  new Promise((resolve) => {
-    getJobs().then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          if (data.payload.length) {
-            data.payload.forEach((job) => {
-              if (job.status === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
-                dispatch(pollECRComponentInstallStatus({ id: job.componentId }));
-              } else if (job.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
-                dispatch(pollECRComponentUninstallStatus({ id: job.componentId }));
-              }
-            });
-          }
-        } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    }).catch(() => {
-      // dispatch(toggleLoading(loadingId));
     });
   })
 );

@@ -9,11 +9,14 @@ const UninstallButton = ({ component, onClickUninstall }) => (
   <Fragment>
     <span className="ComponentList__status">
       <FormattedMessage id="componentRepository.components.installed" />
+      { component.installedJob && (
+        <span> {component.installedJob.componentVersion}</span>
+      )}
     </span>
     <Button
       bsStyle="link"
       className="ComponentList__uninstall"
-      onClick={() => onClickUninstall(component.id)}
+      onClick={() => onClickUninstall(component.code)}
     >
       <FormattedMessage id="componentRepository.components.uninstall" />
     </Button>

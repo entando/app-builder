@@ -18,7 +18,7 @@ describe('ComponentListListView', () => {
   it('provided content is rendered properly', () => {
     LIST_ECR_COMPONENTS_OK.forEach((componentData, index) => {
       // Checking if provided title is rendered.
-      expect(component.find('h1').at(index).text()).toContain(componentData.name);
+      expect(component.find('h1').at(index).text()).toContain(componentData.title);
 
       // Checking if provided image is rendered.
       if (componentData.image) {
@@ -27,7 +27,7 @@ describe('ComponentListListView', () => {
       }
 
       // Checking if provided version is rendered.
-      expect(component.find('.ComponentList__version').at(index).text()).toContain(componentData.version);
+      expect(component.find('.ComponentList__version').at(index).text()).toContain(componentData.latestVersion.version);
 
       // Checking if provided description is rendered.
       expect(component.find('.ComponentList__description').at(index).text()).toEqual(componentData.description);

@@ -55,36 +55,40 @@ const updateComponentInfo = (listState, componentIndex, newProps) => {
   return newListState;
 };
 
-const markComponentLastInstallStatus = (state, componentId, lastInstallStatus) => {
-  const componentIndex = findComponentInListById(state, componentId);
+const markComponentLastInstallStatus = (state, componentCode, lastInstallStatus) => {
+  const componentIndex = findComponentInListById(state, componentCode);
   if (componentIndex === -1) {
     return state;
   }
   return updateComponentInfo(state, componentIndex, { lastInstallStatus });
 };
 
-const markComponentLastStatusAsClear = (state, componentId) => (
-  markComponentLastInstallStatus(state, componentId, '')
+const markComponentLastStatusAsClear = (state, componentCode) => (
+  markComponentLastInstallStatus(state, componentCode, '')
 );
 
-const markComponentLastStatusAsError = (state, componentId) => (
-  markComponentLastInstallStatus(state, componentId, ECR_COMPONENT_INSTALLATION_STATUS_ERROR)
+const markComponentLastStatusAsError = (state, componentCode) => (
+  markComponentLastInstallStatus(state, componentCode, ECR_COMPONENT_INSTALLATION_STATUS_ERROR)
 );
 
-const markComponentLastStatusAsInstallInProgress = (state, componentId) => (
-  markComponentLastInstallStatus(state, componentId, ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS)
-);
-
-const markComponentLastStatusAsUninstallInProgress = (state, componentId) => (
+const markComponentLastStatusAsInstallInProgress = (state, componentCode) => (
   markComponentLastInstallStatus(
     state,
-    componentId,
+    componentCode,
+    ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  )
+);
+
+const markComponentLastStatusAsUninstallInProgress = (state, componentCode) => (
+  markComponentLastInstallStatus(
+    state,
+    componentCode,
     ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
   )
 );
 
-const markComponentInstalledStatus = (state, componentId, installed) => {
-  const componentIndex = findComponentInListById(state, componentId);
+const markComponentInstalledStatus = (state, componentCode, installed) => {
+  const componentIndex = findComponentInListById(state, componentCode);
   if (componentIndex === -1) {
     return state;
   }
@@ -105,28 +109,28 @@ const list = (state = [], action = {}) => {
     }
     case START_COMPONENT_INSTALLATION:
     case START_COMPONENT_UNINSTALLATION: {
-      return markComponentLastStatusAsClear(state, action.payload.id);
+      return markComponentLastStatusAsClear(state, action.payload.code);
     }
     case FINISH_COMPONENT_INSTALLATION: {
-      const newState = markComponentLastStatusAsClear(state, action.payload.id);
-      return markComponentAsInstalled(newState, action.payload.id);
+      const newState = markComponentLastStatusAsClear(state, action.payload.code);
+      return markComponentAsInstalled(newState, action.payload.code);
     }
     case FINISH_COMPONENT_UNINSTALLATION: {
-      const newState = markComponentLastStatusAsClear(state, action.payload.id);
-      return markComponentAsUninstalled(newState, action.payload.id);
+      const newState = markComponentLastStatusAsClear(state, action.payload.code);
+      return markComponentAsUninstalled(newState, action.payload.code);
     }
     case COMPONENT_INSTALLATION_FAILED:
     case COMPONENT_UNINSTALLATION_FAILED:
     {
-      return markComponentLastStatusAsError(state, action.payload.id);
+      return markComponentLastStatusAsError(state, action.payload.code);
     }
     case COMPONENT_INSTALL_ONGOING_PROGRESS:
     {
-      return markComponentLastStatusAsInstallInProgress(state, action.payload.id);
+      return markComponentLastStatusAsInstallInProgress(state, action.payload.code);
     }
     case COMPONENT_UNINSTALL_ONGOING_PROGRESS:
     {
-      return markComponentLastStatusAsUninstallInProgress(state, action.payload.id);
+      return markComponentLastStatusAsUninstallInProgress(state, action.payload.code);
     }
     default: return state;
   }
@@ -247,12 +251,12 @@ const installation = (state = {}, action = {}) => {
     case START_COMPONENT_INSTALLATION: {
       return {
         ...state,
-        [action.payload.id]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+        [action.payload.code]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
       };
     }
     case FINISH_COMPONENT_INSTALLATION:
     case COMPONENT_INSTALLATION_FAILED: {
-      return { ...omit(state, action.payload.id) };
+      return { ...omit(state, action.payload.code) };
     }
     default: return state;
   }
@@ -263,12 +267,12 @@ const uninstallation = (state = {}, action = {}) => {
     case START_COMPONENT_UNINSTALLATION: {
       return {
         ...state,
-        [action.payload.id]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+        [action.payload.code]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
       };
     }
     case FINISH_COMPONENT_UNINSTALLATION:
     case COMPONENT_UNINSTALLATION_FAILED: {
-      return { ...omit(state, action.payload.id) };
+      return { ...omit(state, action.payload.code) };
     }
     default: return state;
   }
