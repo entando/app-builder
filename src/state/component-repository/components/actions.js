@@ -94,10 +94,11 @@ export const startComponentInstallation = code => ({
   },
 });
 
-export const finishComponentInstallation = code => ({
+export const finishComponentInstallation = (code, installedJob) => ({
   type: FINISH_COMPONENT_INSTALLATION,
   payload: {
     code,
+    installedJob,
   },
 });
 
@@ -168,7 +169,7 @@ export const pollECRComponentInstallStatus = componentCode => dispatch => (
     })
       .then((res) => {
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
-          dispatch(finishComponentInstallation(componentCode));
+          dispatch(finishComponentInstallation(componentCode, res.payload));
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
