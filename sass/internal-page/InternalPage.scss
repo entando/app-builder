@@ -118,6 +118,7 @@
 .nav-pf-vertical { //sass-lint:disable-line class-name-format
   .list-group-item > a { // sass-lint:disable-line force-element-nesting class-name-format
     padding-left: 10px;
+    max-width: 200px;
   }
 }
 
