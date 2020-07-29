@@ -9,10 +9,6 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
 
-// const msgTitle = defineMessages({
-//   langCode: { id: `app.${lang.code}Title` },
-// });
-
 const maxLength70 = maxLength(70);
 
 const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages.length ? (
