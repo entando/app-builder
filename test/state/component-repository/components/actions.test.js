@@ -81,7 +81,7 @@ describe('state/component-repository/components/actions', () => {
       action = startComponentInstallation('my-component');
       expect(action).toHaveProperty('type', START_COMPONENT_INSTALLATION);
       expect(action).toHaveProperty('payload');
-      expect(action).toHaveProperty('payload.id', 'my-component');
+      expect(action).toHaveProperty('payload.code', 'my-component');
     });
   });
 
@@ -90,7 +90,7 @@ describe('state/component-repository/components/actions', () => {
       action = finishComponentInstallation('my-component');
       expect(action).toHaveProperty('type', FINISH_COMPONENT_INSTALLATION);
       expect(action).toHaveProperty('payload');
-      expect(action).toHaveProperty('payload.id', 'my-component');
+      expect(action).toHaveProperty('payload.code', 'my-component');
     });
   });
 
@@ -99,7 +99,7 @@ describe('state/component-repository/components/actions', () => {
       action = startComponentUninstall('my-component');
       expect(action).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
       expect(action).toHaveProperty('payload');
-      expect(action).toHaveProperty('payload.id', 'my-component');
+      expect(action).toHaveProperty('payload.code', 'my-component');
     });
   });
 
@@ -108,7 +108,7 @@ describe('state/component-repository/components/actions', () => {
       action = finishComponentUninstall('my-component');
       expect(action).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
       expect(action).toHaveProperty('payload');
-      expect(action).toHaveProperty('payload.id', 'my-component');
+      expect(action).toHaveProperty('payload.code', 'my-component');
     });
   });
 
@@ -266,14 +266,10 @@ describe('state/component-repository/components/actions', () => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.componentRepositoryComponents).toHaveLength(5);
         const componentRepositoryComponent = actionPayload.componentRepositoryComponents[1];
-        expect(componentRepositoryComponent).toHaveProperty('id', 'a7233e30-e6f0-4c90-9786-e3667113be12');
-        expect(componentRepositoryComponent).toHaveProperty('name', 'Avatar plugin');
-        expect(componentRepositoryComponent).toHaveProperty('lastUpdate', '2018-08-22');
-        expect(componentRepositoryComponent).toHaveProperty('version', '5.1.0');
-        expect(componentRepositoryComponent).toHaveProperty('type', 'widget');
-        expect(componentRepositoryComponent).toHaveProperty('description', 'lorem ipsum');
-        expect(componentRepositoryComponent).toHaveProperty('image', '');
-        expect(componentRepositoryComponent).toHaveProperty('rating', 3.4);
+        expect(componentRepositoryComponent).toHaveProperty('code', 'installed-example-bundle');
+        expect(componentRepositoryComponent).toHaveProperty('latestVersion', { version: 'v0.0.1' });
+        expect(componentRepositoryComponent).toHaveProperty('componentTypes', ['pageTemplate', 'bundle', 'widget']);
+        expect(componentRepositoryComponent).toHaveProperty('description', 'Example bundle description');
         done();
       }).catch(done.fail);
     });

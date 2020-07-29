@@ -14,8 +14,8 @@ const ComponentListListView = ({ components }) => (
       const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
 
       return (
-        <div key={component.id}>
-          <div key={component.id} className="equal">
+        <div key={component.code}>
+          <div key={component.code} className="equal">
             <Col md={2} xs={2} className="no-padding">
               <a href="#" className="ComponentList_component-image-wrapper">
                 <ComponentImage component={component} />
@@ -23,11 +23,11 @@ const ComponentListListView = ({ components }) => (
             </Col>
             <Col md={8} xs={8}>
               <div className="ComponentList__component-body">
-                <h1>{component.name}</h1>
+                <h1>{component.title}</h1>
                 <span className="ComponentList__date">{date}</span>
                 <span className="ComponentList__version">
                   <FormattedMessage id="componentRepository.components.latestVersion" />
-                  : {component.version}
+                  : {component.latestVersion.version}
                 </span>
               </div>
             </Col>

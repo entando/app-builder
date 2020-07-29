@@ -67,7 +67,7 @@ const generateListItemString = (expression, pages, language, intl) => {
 };
 
 const NavigationBarExpressionsList = ({
-  fields, pages, language, loading, intl,
+  fields, pages, language, loading, intl, navSpec,
 }) => {
   const renderList = fields.map((_, i) => {
     const expression = fields.get(i) || {};
@@ -117,8 +117,9 @@ const NavigationBarExpressionsList = ({
     );
   });
 
+  const isLoading = (navSpec != null && navSpec.length > 0) && ((!!loading) && (loading !== null));
   return (
-    <Spinner loading={(!!loading) || (loading === null)}>
+    <Spinner loading={isLoading}>
       {
         (!fields || !fields.length) ? (
           <Alert type="info">
@@ -149,12 +150,14 @@ NavigationBarExpressionsList.propTypes = {
   }).isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string,
+  navSpec: PropTypes.string,
   loading: PropTypes.bool,
 };
 
 NavigationBarExpressionsList.defaultProps = {
   language: 'en',
   loading: null,
+  navSpec: '',
 };
 
 export default NavigationBarExpressionsList;

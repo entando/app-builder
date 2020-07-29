@@ -49,22 +49,22 @@ export const getECRComponentSelected = createSelector(
   componentRepositoryComponent => componentRepositoryComponent.selected,
 );
 
-export const findComponentInListById = (state, componentId) => (
+export const findComponentInListById = (state, componentCode) => (
   state.findIndex(objectInArray => (
-    objectInArray.id === componentId
+    objectInArray.code === componentCode
   ))
 );
 export const getECRComponentLastInstallStatus = (state, props) => {
-  const listIdx = findComponentInListById(get(state, 'componentRepositoryComponents.list', []), props.component.id);
+  const listIdx = findComponentInListById(get(state, 'componentRepositoryComponents.list', []), props.component.code);
   return get(state, `componentRepositoryComponents.list[${listIdx}].lastInstallStatus`, '');
 };
 
 export const getECRComponentInstallationStatus = (state, props) => (
-  get(state, `componentRepositoryComponents.installation[${props.component.id}]`, '')
+  get(state, `componentRepositoryComponents.installation[${props.component.code}]`, '')
 );
 
 export const getECRComponentUninstallStatus = (state, props) => (
-  get(state, `componentRepositoryComponents.uninstallation[${props.component.id}]`, '')
+  get(state, `componentRepositoryComponents.uninstallation[${props.component.code}]`, '')
 );
 
 export const getComponentUsageList = state => (

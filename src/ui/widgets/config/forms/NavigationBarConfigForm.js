@@ -44,6 +44,7 @@ export default class NavigationBarConfigForm extends PureComponent {
       addConfig,
       expressions,
       loading,
+      initialValues,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -79,6 +80,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                     language={language}
                     loading={loading}
                     intl={intl}
+                    navSpec={initialValues.navSpec}
                   />
                 </Col>
               </fieldset>

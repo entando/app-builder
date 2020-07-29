@@ -56,7 +56,7 @@ class PagesList extends Component {
   render() {
     const pagination = {
       page: this.props.page,
-      perPage: this.props.pageSize,
+      perPage: 5,
       perPageOptions: [5],
     };
 
@@ -70,6 +70,14 @@ class PagesList extends Component {
       <div className="PagesList">
         <h2>
           <FormattedMessage id="app.pages" />
+          <Button
+            bsStyle="primary"
+            className="pull-right"
+            componentClass={Link}
+            to={ROUTE_PAGE_ADD}
+          >
+            <FormattedMessage id="app.add" defaultMessage="Add" />
+          </Button>
         </h2>
         <div className="PagesList__body">
           <table className="PagesListTable__table table table-striped table-bordered">
@@ -96,14 +104,6 @@ class PagesList extends Component {
             messages={messages}
           />
         </div>
-        <Button
-          bsStyle="primary"
-          className="pull-right"
-          componentClass={Link}
-          to={ROUTE_PAGE_ADD}
-        >
-          <FormattedMessage id="app.add" defaultMessage="Add" />
-        </Button>
         <Clearfix />
       </div>
     );
@@ -124,7 +124,6 @@ PagesList.propTypes = {
     lastModified: PropTypes.string,
   })),
   page: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
 };

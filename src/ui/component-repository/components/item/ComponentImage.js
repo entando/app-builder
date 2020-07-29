@@ -7,7 +7,7 @@ const ComponentImage = ({ component }) => {
   if (component.image) {
     return (
       <img
-        alt={component.name}
+        alt={component.title}
         src={component.image}
       />);
   }

@@ -44,9 +44,10 @@ const InstallButton = ({
         className="ComponentList__install"
         onSelect={version => onInstall(component, version)}
         onClick={() => onInstall(component)}
+        id={component.code}
         title={<FormattedMessage id="componentRepository.components.install" />}
       >
-        {component.versions.map(version => (
+        {component.versions.map(({ version }) => (
           <MenuItem key={version} eventKey={version}>{version}</MenuItem>
         ))}
       </SplitButton>

@@ -36,7 +36,7 @@ const ConfirmUninstallModal = ({
   );
 
   return (
-    <GenericModalContainer modalId={info.id} buttons={buttons} modalTitle={modalTitle}>
+    <GenericModalContainer modalId={info.code} buttons={buttons} modalTitle={modalTitle}>
       <EmptyState>
         <EmptyStateIcon name="exclamation" type="fa" />
         <EmptyStateTitle>
@@ -56,7 +56,7 @@ const ConfirmUninstallModal = ({
 ConfirmUninstallModal.propTypes = {
   onConfirmUninstall: PropTypes.func.isRequired,
   info: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
     name: PropTypes.string,
     usageList: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string.isRequired,

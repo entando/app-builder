@@ -50,11 +50,11 @@ const ComponentInstallActions = ({
       </Spinner>
       <ConfirmUninstallModal
         info={{
-          id: component.id,
-          name: component.name,
+          code: component.code,
+          name: component.title,
           usageList: componentUsageList,
         }}
-        onConfirmUninstall={() => onUninstall(component.id)}
+        onConfirmUninstall={() => onUninstall(component.code)}
       />
     </div>
   );
