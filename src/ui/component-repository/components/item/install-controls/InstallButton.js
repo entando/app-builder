@@ -37,31 +37,35 @@ const InstallButton = ({
     );
   }
 
-  if (Array.isArray(component.versions) && component.versions.length > 1) {
-    return (
-      <SplitButton
-        bsStyle="primary"
-        className="ComponentList__install"
-        onSelect={version => onInstall(component, version)}
-        onClick={() => onInstall(component)}
-        id={component.code}
-        title={<FormattedMessage id="componentRepository.components.install" />}
-      >
-        {component.versions.map(({ version }) => (
-          <MenuItem key={version} eventKey={version}>{version}</MenuItem>
-        ))}
-      </SplitButton>
-    );
-  }
+  const showVersionDropdown = Array.isArray(component.versions) && component.versions.length > 1;
 
   return (
-    <Button
-      bsStyle="primary"
-      className="ComponentList__install"
-      onClick={() => onInstall(component)}
-    >
-      <FormattedMessage id="componentRepository.components.install" />
-    </Button >
+    <div className="ComponentListInstallButtons">
+      {
+        showVersionDropdown
+          ? (
+            <SplitButton
+              bsStyle="primary"
+              onSelect={version => onInstall(component, version)}
+              onClick={() => onInstall(component)}
+              id={component.code}
+              title={<FormattedMessage id="componentRepository.components.install" />}
+            >
+              {component.versions.map(({ version }) => (
+                <MenuItem key={version} eventKey={version}>{version}</MenuItem>
+              ))}
+            </SplitButton>
+          )
+          : (
+            <Button
+              bsStyle="primary"
+              onClick={() => onInstall(component)}
+            >
+              <FormattedMessage id="componentRepository.components.install" />
+            </Button >
+          )
+        }
+    </div>
   );
 };
 

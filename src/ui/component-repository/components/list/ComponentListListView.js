@@ -14,14 +14,14 @@ const ComponentListListView = ({ components }) => (
       const date = moment(component.lastUpdate).format('MMMM, D, YYYY');
 
       return (
-        <div key={component.code}>
+        <div key={component.code} className="ComponentList__list-item">
           <div key={component.code} className="equal">
-            <Col md={2} xs={2} className="no-padding">
+            <Col xs={2} md={2} sm={2} className="no-padding">
               <a href="#" className="ComponentList_component-image-wrapper">
                 <ComponentImage component={component} />
               </a>
             </Col>
-            <Col md={8} xs={8}>
+            <Col xs={7} md={8} sm={8} className="no-padding">
               <div className="ComponentList__component-body">
                 <h1>{component.title}</h1>
                 <span className="ComponentList__date">{date}</span>
@@ -31,10 +31,10 @@ const ComponentListListView = ({ components }) => (
                 </span>
               </div>
             </Col>
-            <Col md={2} xs={4}>
+            <Col xs={3} md={2} sm={2} className="no-padding">
               <ComponentInstallActionsContainer component={component} />
             </Col>
-            <Col md={12} xs={12} className="no-padding">
+            <Col xs={12} md={12} sm={12} className="no-padding">
               <div className="ComponentList__description">
                 {component.description}
               </div>
