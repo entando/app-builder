@@ -1,5 +1,8 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
+import {
+  WIDGET, WIDGET_LIST, WIDGET_INFO,
+  GET_NAVIGATOR_EXPRESSIONS_FROM_NAVSPEC, GET_NAVIGATOR_NAVSPEC_FROM_EXPRESSIONS,
+} from 'test/mocks/widgets';
 
 const getGenericError = obj => (obj || (obj === '') ? [] : [{ code: 1, message: 'object is invalid' }]);
 
@@ -65,3 +68,19 @@ export const getWidgetInfo = widgetCode => (
     useAuthentication: true,
   })
 );
+
+export const getNavigatorNavspecFromExpressions = expressions => makeRequest({
+  uri: '/api/widget/navigator/navspec',
+  method: METHODS.POST,
+  body: { expressions },
+  mockResponse: GET_NAVIGATOR_NAVSPEC_FROM_EXPRESSIONS,
+  useAuthentication: true,
+});
+
+export const getNavigatorExpressionsFromNavspec = navSpec => makeRequest({
+  uri: '/api/widget/navigator/expressions',
+  method: METHODS.POST,
+  body: { navSpec },
+  mockResponse: GET_NAVIGATOR_EXPRESSIONS_FROM_NAVSPEC,
+  useAuthentication: true,
+});

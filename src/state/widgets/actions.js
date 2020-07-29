@@ -3,7 +3,7 @@ import { get, pick } from 'lodash';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import { toggleLoading } from 'state/loading/actions';
-import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo } from 'api/widgets';
+import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo, getNavigatorNavspecFromExpressions, getNavigatorExpressionsFromNavspec } from 'api/widgets';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import {
   SET_WIDGET_LIST,
@@ -193,4 +193,44 @@ export const sendDeleteWidgets = widgetCode => dispatch =>
         resolve();
       });
     }).catch(() => {});
+  });
+
+export const sendGetNavigatorNavspecFromExpressions = expressions =>
+  dispatch => new Promise(resolve => getNavigatorNavspecFromExpressions(expressions)
+    .then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          resolve(json.payload);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          resolve();
+        }
+      }).catch(() => { resolve(); });
+    })
+    .catch(() => { resolve(); }));
+
+export const sendGetNavigatorExpressionsFromNavspec = navSpec =>
+  dispatch => new Promise((resolve) => {
+    dispatch(toggleLoading('expressionList'));
+    getNavigatorExpressionsFromNavspec(navSpec)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            resolve(json.payload);
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+            resolve();
+          }
+          dispatch(toggleLoading('expressionList'));
+        }).catch(() => {
+          dispatch(toggleLoading('expressionList'));
+          resolve();
+        });
+      })
+      .catch(() => {
+        dispatch(toggleLoading('expressionList'));
+        resolve();
+      });
   });
