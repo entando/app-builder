@@ -103,9 +103,18 @@
 }
 
 .ComponentListListView {
+  & .ComponentList__list-item {
+    padding: 5px;
+    border: 1px solid $color-ecr-component-tab-bar-bg-grey;
+  }
+
+  & .ComponentList__list-item+.ComponentList__list-item {
+    margin-top: 10px;
+  }
+
   & .ComponentList__description {
-    margin-top: 30px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     padding-top: 5px;
     border-top: 4px solid $color-ecr-component-border;
     color: $color-ecr-component-text-grey;
