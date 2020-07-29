@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
-  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES,
+  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES, PAGE_SEO,
 } from 'test/mocks/pages';
 
 import {
@@ -37,6 +37,20 @@ export const getPage = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
   uri: `/api/pages/${pageCode}?status=${status}`,
   method: METHODS.GET,
   mockResponse: fetchPageResponseMap[pageCode] || {},
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
+});
+
+export const getPageSEO = pageCode => makeRequest({
+  uri: `/api/plugins/seo/pages/${pageCode}`,
+  method: METHODS.GET,
+  mockResponse: pageCode in fetchPageResponseMap
+    ? { ...fetchPageResponseMap[pageCode], ...PAGE_SEO }
+    : {},
   useAuthentication: true,
   errors: () => (
     fetchPageResponseMap[pageCode] ?
@@ -86,6 +100,27 @@ export const postPage = pageObject => makeRequest({
 
 export const putPage = pageObject => makeRequest({
   uri: `/api/pages/${pageObject.code}`,
+  body: pageObject,
+  method: METHODS.PUT,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
+  ),
+});
+
+export const postPageSEO = pageObject => makeRequest({
+  uri: '/api/plugins/seo/pages',
+  body: pageObject,
+  method: METHODS.POST,
+  mockResponse: { ...pageObject },
+  useAuthentication: true,
+});
+
+export const putPageSEO = pageObject => makeRequest({
+  uri: `/api/plugins/seo/pages/${pageObject.code}`,
   body: pageObject,
   method: METHODS.PUT,
   mockResponse: { ...pageObject },

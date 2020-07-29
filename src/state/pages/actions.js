@@ -6,7 +6,7 @@ import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages,
-  putPageSettings, patchPage,
+  putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO,
 } from 'api/pages';
 import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
@@ -16,7 +16,7 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
@@ -158,6 +158,7 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 
 
 export const fetchPage = wrapApiCall(getPage);
+export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
 export const sendDeletePage = page => async (dispatch) => {
@@ -256,12 +257,20 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
 
-
-export const createPage = wrapApiCall(postPage);
-
 export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
   try {
-    const response = await postPage(pageData);
+    const { seoData, seo } = pageData;
+    const seoPayload = seoData ? {
+      seoData: {
+        ...seoData,
+        useExtraTitles: seo,
+      },
+    } : {};
+    const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
+    const response = await postPageCall({
+      ...pageData,
+      ...seoPayload,
+    });
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
@@ -349,7 +358,18 @@ export const sendPutPageSettings = pageSettings => async (dispatch) => {
 export const sendPutPage = pageData => dispatch =>
   new Promise(async (resolve, reject) => {
     try {
-      const response = await putPage(pageData);
+      const { seoData, seo } = pageData;
+      const putPageFunc = SEO_ENABLED ? putPageSEO : putPage;
+      const seoPayload = seoData ? {
+        seoData: {
+          ...seoData,
+          useExtraTitles: seo,
+        },
+      } : {};
+      const response = await putPageFunc({
+        ...pageData,
+        ...seoPayload,
+      });
       const json = await response.json();
       if (response.ok) {
         dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
@@ -394,10 +414,8 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
   }
 };
 
-export const fetchPageForm = pageCode => dispatch => fetchPage(pageCode)(dispatch)
-  .then((response) => {
-    dispatch(initialize('page', response.payload));
-  })
+export const fetchPageForm = pageCode => dispatch => fetchPageInfo(pageCode)(dispatch)
+  .then(response => dispatch(initialize('page', response.payload)))
   .catch(() => {});
 
 export const loadSelectedPage = pageCode => dispatch =>

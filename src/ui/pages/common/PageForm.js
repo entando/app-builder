@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
@@ -15,9 +15,11 @@ import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
+import SeoInfo from 'ui/pages/common/SeoInfo';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
+
 
 const msgs = defineMessages({
   chooseAnOption: {
@@ -41,7 +43,7 @@ export class PageFormBody extends Component {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode,
+      pageCode, seoMode,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -65,7 +67,7 @@ export class PageFormBody extends Component {
         validate={[required]}
       />);
 
-    const renderActiveLanguages = () => {
+    const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
         return languages
           .map((lang) => {
@@ -252,7 +254,11 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
 
-            {renderActiveLanguages()}
+            {seoMode ? (
+              <SeoInfo languages={languages} onChangeDefaultTitle={onChangeDefaultTitle} />
+            ) : (
+              renderActiveLanguageTitles()
+            )}
 
             <Field
               component={RenderTextInput}
@@ -276,6 +282,35 @@ export class PageFormBody extends Component {
         </Row>
 
         {renderFullForm()}
+
+        {seoMode && (
+          <Fragment>
+            <Row>
+              <Col xs={12}>
+                <FormSectionTitle titleId="pages.pageForm.seoconfig" />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  component={RenderTextInput}
+                  name="seoData.friendlyCode"
+                  label={<FormLabel labelId="pages.pageForm.seoFriendlyCode" />}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  component={SwitchRenderer}
+                  name="seoData.useExtraDescriptions"
+                  label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
+                  labelSize={3}
+                />
+              </Col>
+            </Row>
+          </Fragment>
+        )}
 
         <Row>
           <Col xs={12}>
@@ -340,6 +375,7 @@ PageFormBody.propTypes = {
   parentTitle: PropTypes.string,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   pageCode: PropTypes.string,
+  seoMode: PropTypes.bool,
 };
 
 PageFormBody.defaultProps = {
@@ -352,6 +388,7 @@ PageFormBody.defaultProps = {
   parentTitle: null,
   pages: null,
   pageCode: null,
+  seoMode: false,
 };
 
 const PageForm = reduxForm({

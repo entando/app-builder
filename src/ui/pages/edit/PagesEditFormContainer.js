@@ -8,7 +8,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
-import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
@@ -23,6 +23,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
+  seoMode: SEO_ENABLED,
   mode: 'edit',
   pageCode: params.pageCode,
 });
