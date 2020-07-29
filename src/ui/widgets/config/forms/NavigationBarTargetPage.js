@@ -1,31 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Field } from 'redux-form';
 import { ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
 import ToggleButtonGroupField from 'ui/widgets/config/forms/ToggleButtonGroupField';
 
-const NavigationBarTargetPage = ({ pages }) => (
+const NavigationBarTargetPage = ({ intl, pages, language }) => (
   <div>
     <ButtonToolbar>
-      <Field name="spec" component={ToggleButtonGroupField}>
+      <Field name="addConfig.spec" component={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }}>
         <ToggleButton
-          value={1}
+          value="current"
         >
           <FormattedMessage id="widget.navigationBar.config.this" />
         </ToggleButton>
         <ToggleButton
-          value={2}
+          value="parent"
         >
           <FormattedMessage id="widget.navigationBar.config.parent" />
         </ToggleButton>
         <ToggleButton
-          value={3}
+          value="super"
         >
           <span><FormattedMessage id="widget.navigationBar.config.fromThis" /></span>
           <Field
-            name="specSuperLevel"
+            name="addConfig.specSuperLevel"
             component="select"
           >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => (
@@ -34,11 +34,11 @@ const NavigationBarTargetPage = ({ pages }) => (
           </Field>
         </ToggleButton>
         <ToggleButton
-          value={4}
+          value="abs"
         >
           <span><FormattedMessage id="widget.navigationBar.config.fromRoot" /></span>
           <Field
-            name="specAbsLevel"
+            name="addConfig.specAbsLevel"
             component="select"
           >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => (
@@ -47,15 +47,16 @@ const NavigationBarTargetPage = ({ pages }) => (
           </Field>
         </ToggleButton>
         <ToggleButton
-          value={5}
+          value="code"
         >
           <span><FormattedMessage id="widget.navigationBar.config.specific" /></span>
           <Field
-            name="targetCode"
+            name="addConfig.targetCode"
             component="select"
           >
+            <option key="chooseOption" value="">{intl.formatMessage({ id: 'app.chooseAnOption' })}</option>
             {pages.map(page => (
-              <option key={`${page.code}`} value={page.code}>{page.path}</option>
+              <option key={`${page.code}`} value={page.code}>{page.fullTitles[language]}</option>
             ))}
           </Field>
         </ToggleButton>
@@ -65,10 +66,12 @@ const NavigationBarTargetPage = ({ pages }) => (
 );
 
 NavigationBarTargetPage.propTypes = {
+  intl: intlShape.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
+    fullTitles: PropTypes.shape({}).isRequired,
   })).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default NavigationBarTargetPage;

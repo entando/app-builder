@@ -1,5 +1,18 @@
 .NavigationBarConfigForm {
 
+  &__cancel-btn {
+    margin-right: 5px;
+  }
+
+  &__expression-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__expression-col {
+    align-self: center;
+  }
+
   &__btn-remove {
     margin-left: 5px;
     border: 0;

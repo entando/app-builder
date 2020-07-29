@@ -131,3 +131,49 @@ export const WIDGET_INFO = {
     },
   ],
 };
+
+export const GET_NAVIGATOR_EXPRESSIONS_FROM_NAVSPEC = {
+  payload: {
+    navSpec: 'expression1 + expression2',
+    expressions: [{
+      spec: 'specCode1',
+      targetCode: 'pageCode1',
+      specSuperLevel: 1,
+      specAbsLevel: 1,
+      operator: 'operatorCode1',
+      operatorSubtreeLevel: 1,
+    }, {
+      spec: 'specCode2',
+      targetCode: 'pageCode2',
+      specSuperLevel: 2,
+      specAbsLevel: 2,
+      operator: 'operatorCode2',
+      operatorSubtreeLevel: 2,
+    }],
+  },
+  errors: [],
+  metaData: {},
+};
+
+export const GET_NAVIGATOR_NAVSPEC_FROM_EXPRESSIONS = {
+  payload: {
+    navSpec: 'expression1 + expression2',
+    expressions: [{
+      spec: 'specCode',
+      targetCode: 'pageCode',
+      specSuperLevel: 0,
+      specAbsLevel: 0,
+      operator: 'operatorCode',
+      operatorSubtreeLevel: 0,
+    }, {
+      spec: 'specCode',
+      targetCode: 'pageCode',
+      specSuperLevel: 0,
+      specAbsLevel: 0,
+      operator: 'operatorCode',
+      operatorSubtreeLevel: 0,
+    }],
+  },
+  errors: [],
+  metaData: {},
+};

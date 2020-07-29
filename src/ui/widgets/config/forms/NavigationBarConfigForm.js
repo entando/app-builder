@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { FieldArray } from 'redux-form';
@@ -12,8 +13,19 @@ import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
-    const { onDidMount } = this.props;
-    onDidMount();
+    const { onDidMount, initialValues, fetchExpressions } = this.props;
+    onDidMount(this.props);
+    if (!lodash.isEmpty(initialValues)) {
+      fetchExpressions(this.props);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { initialValues, fetchExpressions } = this.props;
+    const { initialValues: prevValues } = prevProps;
+    if (JSON.stringify(initialValues) !== JSON.stringify(prevValues)) {
+      fetchExpressions(this.props);
+    }
   }
 
   render() {
@@ -28,6 +40,10 @@ export default class NavigationBarConfigForm extends PureComponent {
       onSave,
       language,
       pages,
+      onAddNewExpression,
+      addConfig,
+      expressions,
+      loading,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -37,6 +53,8 @@ export default class NavigationBarConfigForm extends PureComponent {
         onDiscard();
       }
     };
+
+    const expressionsNotAvailable = !expressions || expressions.length === 0;
 
     return (
       <div className="NavigationBarConfigForm">
@@ -59,6 +77,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                     name="expressions"
                     pages={pages}
                     language={language}
+                    loading={loading}
+                    intl={intl}
                   />
                 </Col>
               </fieldset>
@@ -71,10 +91,11 @@ export default class NavigationBarConfigForm extends PureComponent {
                   titleId="widget.navigationBar.config.page"
                   requireFields={false}
                 />
-                <Col lg={6} md={10} smOffset={2} className="no-padding">
+                <Col lg={10} md={10} smOffset={2} className="no-padding">
                   <NavigationBarTargetPage
-                    // TODO: use actual data
-                    pages={[{ code: 'home', path: 'Home' }]}
+                    pages={pages}
+                    intl={intl}
+                    language={language}
                   />
                 </Col>
               </fieldset>
@@ -89,7 +110,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                 />
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
-                    onAddNewExpression={() => { /* TODO: handle add new expression */ }}
+                    addConfig={addConfig}
+                    onAddNewExpression={() => onAddNewExpression(addConfig)}
                   />
                 </Col>
               </fieldset>
@@ -98,15 +120,15 @@ export default class NavigationBarConfigForm extends PureComponent {
           <Row>
             <Col xs={12}>
               <Button
-                className="pull-right AddContentTypeFormBody__save--btn"
+                className="pull-right NavigationBarConfigForm__save-btn"
                 type="submit"
                 bsStyle="primary"
-                disabled={invalid || submitting}
+                disabled={invalid || submitting || expressionsNotAvailable}
               >
                 <FormattedMessage id="app.save" />
               </Button>
               <Button
-                className="pull-right AddContentTypeFormBody__cancel--btn"
+                className="pull-right NavigationBarConfigForm__cancel-btn"
                 bsStyle="default"
                 onClick={handleCancelClick}
               >
@@ -134,14 +156,24 @@ NavigationBarConfigForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.string,
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onAddNewExpression: PropTypes.func.isRequired,
+  addConfig: PropTypes.shape({}),
+  expressions: PropTypes.arrayOf(PropTypes.shape({})),
+  initialValues: PropTypes.shape({}).isRequired,
+  fetchExpressions: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 NavigationBarConfigForm.defaultProps = {
   pages: [],
   dirty: false,
+  language: 'en',
+  addConfig: {},
+  expressions: [],
+  loading: null,
 };

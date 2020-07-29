@@ -785,5 +785,8 @@ export default {
     'widget.navigationBar.config.allChildren': 'All children of the page',
     'widget.navigationBar.config.fromTheRootToSelected': 'From the root to the selected page',
     'widget.navigationBar.config.subtree': 'Subtree',
+    'widget.navigationBar.config.noExpressions': 'Set some expressions..',
+    'widget.update.success': 'Widget has been updated successfully.',
+    'widget.navigationBar.config.subtreeDepthAbr': 'Subtree depth',
   },
 };

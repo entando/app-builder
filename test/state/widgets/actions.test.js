@@ -28,6 +28,8 @@ import {
   setWidgetInfo,
   fetchWidgetInfo,
   FREE_ACCESS_GROUP_VALUE,
+  sendGetNavigatorNavspecFromExpressions,
+  sendGetNavigatorExpressionsFromNavspec,
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -40,6 +42,8 @@ import {
   putWidgets,
   deleteWidgets,
   getWidgetInfo,
+  getNavigatorNavspecFromExpressions,
+  getNavigatorExpressionsFromNavspec,
 } from 'api/widgets';
 import { WIDGET, WIDGET_LIST, WIDGET_INFO, WIDGET_NULL_GROUP } from 'test/mocks/widgets';
 
@@ -400,6 +404,56 @@ describe('state/widgets/actions', () => {
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendGetNavigatorNavspecFromExpressions', () => {
+      it('toggles loading', (done) => {
+        store.dispatch(sendGetNavigatorNavspecFromExpressions([{ code: 'test' }])).then(() => {
+          expect(getNavigatorNavspecFromExpressions).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(0);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getNavigatorNavspecFromExpressions.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendGetNavigatorNavspecFromExpressions()).then(() => {
+          expect(getNavigatorNavspecFromExpressions).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('sendGetNavigatorExpressionsFromNavspec', () => {
+      it('toggles loading', (done) => {
+        store.dispatch(sendGetNavigatorExpressionsFromNavspec('navSpec')).then(() => {
+          expect(getNavigatorExpressionsFromNavspec).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
+        getNavigatorExpressionsFromNavspec.mockImplementation(mockApi({ errors: true }));
+        store.dispatch(sendGetNavigatorExpressionsFromNavspec()).then(() => {
+          expect(getNavigatorExpressionsFromNavspec).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(4);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

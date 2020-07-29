@@ -761,5 +761,8 @@ export default {
     'widget.navigationBar.config.allChildren': 'Todas as crianças na página',
     'widget.navigationBar.config.fromTheRootToSelected': 'Da raiz à página escolhida',
     'widget.navigationBar.config.subtree': 'Subárvore',
+    'widget.navigationBar.config.noExpressions': 'Configure algumas expressões..',
+    'widget.update.success': 'O widget foi atualizado com sucesso.',
+    'widget.navigationBar.config.subtreeDepthAbr': 'Profundidade da subárvore',
   },
 };

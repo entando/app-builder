@@ -1,7 +1,14 @@
 import 'test/enzyme-init';
-import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo } from 'api/widgets';
+import {
+  getWidget, getWidgets, postWidgets, putWidgets,
+  deleteWidgets, getWidgetInfo, getNavigatorNavspecFromExpressions,
+  getNavigatorExpressionsFromNavspec,
+} from 'api/widgets';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { WIDGET, WIDGET_LIST, WIDGET_INFO } from 'test/mocks/widgets';
+import {
+  WIDGET, WIDGET_LIST, WIDGET_INFO, GET_NAVIGATOR_EXPRESSIONS_FROM_NAVSPEC,
+  GET_NAVIGATOR_NAVSPEC_FROM_EXPRESSIONS,
+} from 'test/mocks/widgets';
 
 const correctRequest = {
   uri: '/api/widgets',
@@ -171,6 +178,46 @@ xdescribe('api/widgets', () => {
         uri: '/api/widgets/AAA/info',
         method: 'GET',
         mockResponse: WIDGET_INFO,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getNavigatorNavspecFromExpressions', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(getNavigatorNavspecFromExpressions()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getNavigatorNavspecFromExpressions([{ code: 'a' }]);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widget/navigator/navspec',
+        method: 'POST',
+        body: { expressions: [{ code: 'a' }] },
+        mockResponse: GET_NAVIGATOR_NAVSPEC_FROM_EXPRESSIONS,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getNavigatorExpressionsFromNavspec', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('returns a promise', () => {
+      expect(getNavigatorExpressionsFromNavspec()).toBeInstanceOf(Promise);
+    });
+
+    it('if successful, returns a mock ok response', () => {
+      getNavigatorExpressionsFromNavspec('navSpecString');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/widget/navigator/expressions',
+        method: 'POST',
+        body: { navSpec: 'navSpecString' },
+        mockResponse: GET_NAVIGATOR_EXPRESSIONS_FROM_NAVSPEC,
         useAuthentication: true,
       });
     });

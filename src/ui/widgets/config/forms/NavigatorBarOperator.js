@@ -8,24 +8,24 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
 const operatorTypeOptionIds = [
-  'widget.navigationBar.config.none',
-  'widget.navigationBar.config.allChildren',
-  'widget.navigationBar.config.fromTheRootToSelected',
-  'widget.navigationBar.config.subtree',
+  { labelId: 'widget.navigationBar.config.none', code: '' },
+  { labelId: 'widget.navigationBar.config.allChildren', code: 'children' },
+  { labelId: 'widget.navigationBar.config.fromTheRootToSelected', code: 'path' },
+  { labelId: 'widget.navigationBar.config.subtree', code: 'subtree' },
 ];
 
-const NavigatorBarOperator = ({ intl, onAddNewExpression }) => (
+const NavigatorBarOperator = ({ intl, onAddNewExpression, addConfig: { spec, targetCode } }) => (
   <div>
     <Field
       component={RenderSelectInput}
-      options={operatorTypeOptionIds.map((optionId, i) => ({
-        text: intl.formatMessage({ id: optionId }),
-        value: i,
+      options={operatorTypeOptionIds.map(({ labelId, code }) => ({
+        text: intl.formatMessage({ id: labelId }),
+        value: code,
       }))}
       label={
         <FormLabel labelId="widget.navigationBar.config.type" />
       }
-      name="operator"
+      name="addConfig.operator"
     />
     <Field
       component={RenderSelectInput}
@@ -33,10 +33,10 @@ const NavigatorBarOperator = ({ intl, onAddNewExpression }) => (
       label={
         <FormLabel labelId="widget.navigationBar.config.subtreeDepth" />
       }
-      name="operatorSubtreeLevel"
+      name="addConfig.operatorSubtreeLevel"
     />
     <Col lg={6} xs={10} smOffset={2} style={{ paddingLeft: '7px' }}>
-      <Button onClick={onAddNewExpression} bsStyle="primary">
+      <Button onClick={onAddNewExpression} bsStyle="primary" disabled={!spec || (spec === 'code' && !targetCode)}>
         <FormattedMessage
           id="widget.navigationBar.config.addNewExpression"
         />
@@ -48,6 +48,7 @@ const NavigatorBarOperator = ({ intl, onAddNewExpression }) => (
 NavigatorBarOperator.propTypes = {
   intl: intlShape.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
+  addConfig: PropTypes.shape({}).isRequired,
 };
 
 export default injectIntl(NavigatorBarOperator);

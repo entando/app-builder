@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-import { FormattedMessage } from 'react-intl';
-import { Button, Row, Col, ButtonGroup } from 'patternfly-react';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { Button, Row, Col, ButtonGroup, Alert, Spinner } from 'patternfly-react';
 
 const messages = {
   current: 'widget.navigationBar.config.this',
@@ -32,12 +32,12 @@ const getSpec = ({
   }
 };
 
-const getOperator = ({ operator, operatorSubtreeLevel }) => {
+const getOperator = ({ operator, operatorSubtreeLevel }, intl) => {
   const name = <FormattedMessage id={messages[operator] || 'operator'} />;
   switch (operator) {
     case 'subtree':
       return (
-        <abbr title="Subtree depth">
+        <abbr title={intl.formatMessage({ id: 'widget.navigationBar.config.subtreeDepthAbr' })}>
           {name}:  {operatorSubtreeLevel}
         </abbr>
       );
@@ -50,7 +50,7 @@ const getOperator = ({ operator, operatorSubtreeLevel }) => {
   }
 };
 
-const generateListItemString = (expression, pages, language) => {
+const generateListItemString = (expression, pages, language, intl) => {
   const { spec } = expression;
   return (
     <React.Fragment>
@@ -61,24 +61,26 @@ const generateListItemString = (expression, pages, language) => {
       {'  '}
       <label className="label label-default" title="Operator"><span className="icon fa fa-angle-right" /></label>
       {'  '}
-      {getOperator(expression)}
+      {getOperator(expression, intl)}
     </React.Fragment>
   );
 };
 
-const NavigationBarExpressionsList = ({ fields, pages, language }) => {
+const NavigationBarExpressionsList = ({
+  fields, pages, language, loading, intl,
+}) => {
   const renderList = fields.map((_, i) => {
     const expression = fields.get(i) || {};
     return (
       <li className="list-group-item" key={uuidv4()}>
-        <Row>
-          <Col md={8} sm={8} xs={7}>
+        <Row className="NavigationBarConfigForm__expression-row">
+          <Col md={8} sm={8} xs={7} className="NavigationBarConfigForm__expression-col">
             <span className="label label-info">{i + 1}</span>
             {' '}
             <label className="label label-default">
               <FormattedMessage id="widget.navigationBar.config.page" defaultMessage="Page" />
             </label>
-            {generateListItemString(expression, pages, language)}
+            {generateListItemString(expression, pages, language, intl)}
           </Col>
           <Col md={4} sm={4} xs={5}>
             <div className="btn-toolbar pull-right">
@@ -114,15 +116,28 @@ const NavigationBarExpressionsList = ({ fields, pages, language }) => {
       </li>
     );
   });
+
   return (
-    <ul className="list-group">
-      {renderList}
-    </ul>
+    <Spinner loading={(!!loading) || (loading === null)}>
+      {
+        (!fields || !fields.length) ? (
+          <Alert type="info">
+            <FormattedMessage id="widget.navigationBar.config.noExpressions" />
+          </Alert>
+        ) : (
+          <ul className="list-group">
+            {renderList}
+          </ul>
+        )
+      }
+
+    </Spinner>
   );
 };
 
 
 NavigationBarExpressionsList.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.shape({
     name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     push: PropTypes.func,
@@ -134,10 +149,12 @@ NavigationBarExpressionsList.propTypes = {
   }).isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 NavigationBarExpressionsList.defaultProps = {
   language: 'en',
+  loading: null,
 };
 
 export default NavigationBarExpressionsList;

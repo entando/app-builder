@@ -785,5 +785,8 @@ export default {
     'widget.navigationBar.config.allChildren': 'Tutti i figli della pagina',
     'widget.navigationBar.config.fromTheRootToSelected': 'Dalla Radice alla pagina scelta',
     'widget.navigationBar.config.subtree': 'Sottoalbero',
+    'widget.navigationBar.config.noExpressions': 'Configura qualche espressione..',
+    'widget.update.success': 'Il widget è stato aggiornato!',
+    'widget.navigationBar.config.subtreeDepthAbr': 'Profondità del sottoalbero',
   },
 };
