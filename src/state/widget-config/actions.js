@@ -11,7 +11,7 @@ import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
 
 export const updateConfiguredPageWidget = (widgetConfig, params) =>
-  (dispatch) => {
+  dispatch => new Promise((resolve) => {
     const { pageCode, widgetCode, framePos } = params;
     const framePosNum = parseInt(framePos, 10);
     // build payload
@@ -28,8 +28,9 @@ export const updateConfiguredPageWidget = (widgetConfig, params) =>
             dispatch(addErrors(json.errors.map(e => e.message)));
             json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
+          resolve(json);
         })).catch(() => {});
-  };
+  });
 
 
 export const initWidgetConfigPage = (pageCode, widgetCode) => async (dispatch) => {
