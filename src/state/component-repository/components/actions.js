@@ -229,7 +229,8 @@ export const installECRComponent = (component, version) => dispatch => (
             dispatch(addErrors(data.errors.map(err => err.message)));
             data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
           }
-          const versionUnavailable = data && data.message // when version is not available, error payload is different
+          // when version is not available, error payload is different
+          const versionUnavailable = data && data.message;
           if (versionUnavailable) {
             dispatch(addErrors([data.message]));
             dispatch(addToast(data.message, TOAST_ERROR));
