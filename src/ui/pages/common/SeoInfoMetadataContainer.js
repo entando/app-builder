@@ -7,14 +7,14 @@ export const mapDispatchToProps = (dispatch, { languages }) => ({
     const meta = {
       key: metakey,
       type: 'name',
+      value: metavalue,
       useDefaultLang: false,
     };
-    languages.forEach((lang, idx) => {
-      const value = idx === 0 ? { value: metavalue } : {};
+    languages.forEach((lang) => {
       dispatch(arrayPush(
         'page',
         `seoData.seoDataByLang.${lang.code}.metaTags`,
-        { ...meta, ...value },
+        { ...meta },
       ));
     });
   },
