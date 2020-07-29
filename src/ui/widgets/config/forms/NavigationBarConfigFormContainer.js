@@ -8,7 +8,7 @@ import { fetchSearchPages } from 'state/pages/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
-import { sendPutWidgetConfig } from 'state/page-config/actions';
+import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
@@ -56,20 +56,22 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     return dispatch(sendGetNavigatorNavspecFromExpressions(expressions)).then((res) => {
       if (res) {
         const {
-          pageCode, frameId, history,
+          pageCode, frameId, widgetCode,
         } = ownProps;
         const payload = { navSpec: res.navSpec };
-        const configItem = Object.assign({ config: payload }, { code: ownProps.widgetCode });
         dispatch(clearErrors());
-        return dispatch(sendPutWidgetConfig(pageCode, frameId, configItem)).then((data) => {
-          if (data) {
-            dispatch(addToast(
-              intl.formatMessage({ id: 'widget.update.success' }),
-              TOAST_SUCCESS,
-            ));
-            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
-          }
-        });
+        return dispatch(updateConfiguredPageWidget(
+          payload,
+          { pageCode, framePos: frameId, widgetCode },
+        ))
+          .then((data) => {
+            if (data) {
+              dispatch(addToast(
+                intl.formatMessage({ id: 'widget.update.success' }),
+                TOAST_SUCCESS,
+              ));
+            }
+          });
       }
       return dispatch(addToast(
         'Error',
