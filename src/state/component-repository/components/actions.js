@@ -225,8 +225,15 @@ export const installECRComponent = (component, version) => dispatch => (
           dispatch(pollECRComponentInstallStatus(component.code))
             .then(res => resolve(res));
         } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          if (data && data.errors) {
+            dispatch(addErrors(data.errors.map(err => err.message)));
+            data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          }
+          // ENG-954 when version is not available, error payload is different
+          if (data && data.message) {
+            dispatch(addErrors([data.message]));
+            dispatch(addToast(data.message, TOAST_ERROR));
+          }
           resolve();
         }
         dispatch(toggleLoading(loadingId));
