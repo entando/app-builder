@@ -86,6 +86,9 @@
 
   &__dropdown-legacy {
     background: $color-legacy-header-bg-grey;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
   }
 
   &__option {
