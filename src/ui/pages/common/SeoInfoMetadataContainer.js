@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { arrayPush } from 'redux-form';
+import { arrayPush, arraySplice } from 'redux-form';
 import SeoInfoMetadata from 'ui/pages/common/SeoInfoMetadata';
 
 export const mapDispatchToProps = (dispatch, { languages }) => ({
@@ -18,6 +18,16 @@ export const mapDispatchToProps = (dispatch, { languages }) => ({
       ));
     });
   },
+  onRemoveMetadata: idx => (
+    languages.forEach((lang) => {
+      dispatch(arraySplice(
+        'page',
+        `seoData.seoDataByLang.${lang.code}.metaTags`,
+        idx,
+        1,
+      ));
+    })
+  ),
 });
 
 export default connect(null, mapDispatchToProps, null, {

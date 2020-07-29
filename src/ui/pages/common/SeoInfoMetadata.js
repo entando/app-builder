@@ -9,7 +9,12 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import SeoMetadataForm from 'ui/pages/common/SeoMetadataForm';
 
-const SeoInfoMetadata = ({ fields, langIdx, onPushMetadata }) => {
+const SeoInfoMetadata = ({
+  fields,
+  langIdx,
+  onPushMetadata,
+  onRemoveMetadata,
+}) => {
   const metaTypeOptions = [
     {
       value: 'name',
@@ -62,7 +67,7 @@ const SeoInfoMetadata = ({ fields, langIdx, onPushMetadata }) => {
               labelSize={7}
             />
           ) : (
-            <Button bsStyle="danger" onClick={() => fields.remove(idx)}>
+            <Button bsStyle="danger" onClick={() => onRemoveMetadata(idx)}>
               <Icon name="trash" />
             </Button>
           )}
@@ -83,6 +88,7 @@ SeoInfoMetadata.propTypes = {
   fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired,
   langIdx: PropTypes.number.isRequired,
   onPushMetadata: PropTypes.func.isRequired,
+  onRemoveMetadata: PropTypes.func.isRequired,
 };
 
 export default SeoInfoMetadata;

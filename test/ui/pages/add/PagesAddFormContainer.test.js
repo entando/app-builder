@@ -16,6 +16,7 @@ import {
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
+import { SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import getSearchParam from 'helpers/getSearchParam';
@@ -108,6 +109,15 @@ describe('PagesAddFormContainer', () => {
         displayedInMenu: true,
         charset: 'utf-8',
         contentType: 'text/html',
+        seoData: {
+          friendlyCode: '',
+          useExtraDescriptorSearch: false,
+          seoDataByLang: {
+            en: { ...SEO_LANGDATA_BLANK },
+            it: { ...SEO_LANGDATA_BLANK },
+            nl: { ...SEO_LANGDATA_BLANK },
+          },
+        },
       });
     });
   });

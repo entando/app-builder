@@ -14,7 +14,7 @@ import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
 
 const maxLength30 = maxLength(30);
@@ -43,7 +43,7 @@ export class PageFormBody extends Component {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode,
+      pageCode, seoMode,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -254,7 +254,7 @@ export class PageFormBody extends Component {
         <Row>
           <Col xs={12}>
 
-            {SEO_ENABLED ? (
+            {seoMode ? (
               <SeoInfo languages={languages} onChangeDefaultTitle={onChangeDefaultTitle} />
             ) : (
               renderActiveLanguageTitles()
@@ -283,7 +283,7 @@ export class PageFormBody extends Component {
 
         {renderFullForm()}
 
-        {SEO_ENABLED && (
+        {seoMode && (
           <Fragment>
             <Row>
               <Col xs={12}>
@@ -375,6 +375,7 @@ PageFormBody.propTypes = {
   parentTitle: PropTypes.string,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   pageCode: PropTypes.string,
+  seoMode: PropTypes.bool,
 };
 
 PageFormBody.defaultProps = {
@@ -387,6 +388,7 @@ PageFormBody.defaultProps = {
   parentTitle: null,
   pages: null,
   pageCode: null,
+  seoMode: false,
 };
 
 const PageForm = reduxForm({

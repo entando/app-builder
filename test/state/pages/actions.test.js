@@ -33,7 +33,7 @@ import {
 } from 'test/mocks/pages';
 
 import {
-  setPagePosition, postPage, putPageSEO, getPage, getPageSEO, getPageChildren, getPageSettings,
+  setPagePosition, postPageSEO, putPageSEO, getPage, getPageSEO, getPageChildren, getPageSettings,
   putPageStatus, deletePage, getFreePages, getSearchPages,
   putPageSettings, patchPage,
 } from 'api/pages';
@@ -417,20 +417,20 @@ describe('state/pages/actions', () => {
     });
 
     it('when postPage succeeds, should dispatch ADD_PAGES', (done) => {
-      postPage.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
+      postPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addPagesAction = store.getActions().find(action => action.type === ADD_PAGES);
-        expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(postPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
         expect(addPagesAction).toBeDefined();
         done();
       }).catch(done.fail);
     });
 
     it('when postPage fails, should dispatch ADD_ERRORS', (done) => {
-      postPage.mockImplementation(mockApi({ errors: true }));
+      postPageSEO.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(postPage).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(postPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
         expect(addErrorsAction).toBeDefined();
         done();
       }).catch(done.fail);

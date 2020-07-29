@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { formValueSelector, change } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 
-import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import PageForm from 'ui/pages/common/PageForm';
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -28,6 +28,7 @@ export const mapStateToProps = (state) => {
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
     selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
+    seoMode: SEO_ENABLED,
     initialValues: {
       ...PAGE_INIT_VALUES,
       seoData: {
