@@ -1,6 +1,6 @@
 export const SEO_DATA_BLANK = {
   friendlyCode: '',
-  useExtraDescriptorSearch: false,
+  useExtraDescriptions: false,
   seoDataByLang: {},
 };
 

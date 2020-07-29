@@ -415,13 +415,7 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
 };
 
 export const fetchPageForm = pageCode => dispatch => fetchPageInfo(pageCode)(dispatch)
-  .then((response) => {
-    // const pagePayload = {
-    //   ...response.payload,
-    //   ...PAGE_SEO,
-    // };
-    dispatch(initialize('page', response.payload));
-  })
+  .then(response => dispatch(initialize('page', response.payload)))
   .catch(() => {});
 
 export const loadSelectedPage = pageCode => dispatch =>

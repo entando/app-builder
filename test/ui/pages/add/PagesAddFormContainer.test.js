@@ -111,7 +111,7 @@ describe('PagesAddFormContainer', () => {
         contentType: 'text/html',
         seoData: {
           friendlyCode: '',
-          useExtraDescriptorSearch: false,
+          useExtraDescriptions: false,
           seoDataByLang: {
             en: { ...SEO_LANGDATA_BLANK },
             it: { ...SEO_LANGDATA_BLANK },
