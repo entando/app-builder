@@ -7,5 +7,4 @@ export const COMPONENT_REPOSITORY_CATEGORIES = [
   'plugin',
   'contentTemplate',
   'contentType',
-  // 'page',
 ];
