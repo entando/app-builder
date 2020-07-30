@@ -18,3 +18,18 @@ export const PAGE_INIT_VALUES = {
   charset: 'utf-8',
   contentType: 'text/html',
 };
+
+export const METATAG_TYPE_OPTIONS = [
+  {
+    value: 'name',
+    text: 'name',
+  },
+  {
+    value: 'http-equiv',
+    text: 'http-equiv',
+  },
+  {
+    value: 'property',
+    text: 'property',
+  },
+];

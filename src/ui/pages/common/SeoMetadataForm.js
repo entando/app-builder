@@ -7,6 +7,8 @@ import { FormattedMessage } from 'react-intl';
 
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import { METATAG_TYPE_OPTIONS } from 'ui/pages/common/const';
 
 const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
   <div className="SeoInfo__addmetadata">
@@ -15,7 +17,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
     </legend>
     <Row>
       <Col sm={12}>
-        <Col sm={5}>
+        <Col sm={4}>
           <Field
             component={RenderTextInput}
             name="metakey"
@@ -23,7 +25,16 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
             validate={[required]}
           />
         </Col>
-        <Col sm={5}>
+        <Col sm={3}>
+          <Field
+            component={RenderSelectInput}
+            options={METATAG_TYPE_OPTIONS}
+            name="metatype"
+            label={<FormLabel labelId="app.seo.addMetatagType" />}
+            validate={[required]}
+          />
+        </Col>
+        <Col sm={4}>
           <Field
             component={RenderTextInput}
             name="metavalue"
