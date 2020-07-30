@@ -8,6 +8,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import SeoMetadataForm from 'ui/pages/common/SeoMetadataForm';
+import { METATAG_TYPE_OPTIONS } from 'ui/pages/common/const';
 
 const SeoInfoMetadata = ({
   fields,
@@ -15,21 +16,6 @@ const SeoInfoMetadata = ({
   onPushMetadata,
   onRemoveMetadata,
 }) => {
-  const metaTypeOptions = [
-    {
-      value: 'name',
-      text: 'name',
-    },
-    {
-      value: 'http-equiv',
-      text: 'http-equiv',
-    },
-    {
-      value: 'property',
-      text: 'property',
-    },
-  ];
-
   const fieldTables = fields.map((name, idx) => {
     const metas = fields.get(idx);
     return (
@@ -44,10 +30,11 @@ const SeoInfoMetadata = ({
         <Col sm={langIdx ? 3 : 4}>
           <Field
             component={RenderSelectInput}
-            options={metaTypeOptions}
+            options={METATAG_TYPE_OPTIONS}
             name={`${name}.type`}
             labelSize={0}
             inputSize={12}
+            disabled={metas.useDefaultLang}
           />
         </Col>
         <Col sm={langIdx ? 3 : 4}>
@@ -56,6 +43,7 @@ const SeoInfoMetadata = ({
             name={`${name}.value`}
             labelSize={0}
             inputSize={12}
+            disabled={metas.useDefaultLang}
           />
         </Col>
         <Col sm={langIdx ? 3 : 1} className="text-right">

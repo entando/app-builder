@@ -771,6 +771,7 @@ export default {
     'app.seo.keywords': 'SEO Keywords',
     'app.seo.addMetatag': 'Add Metatag',
     'app.seo.addMetatagKey': 'Key',
+    'app.seo.addMetatagType': 'Type',
     'app.seo.addMetatagValue': 'Value',
     'app.pages.titleHelp': 'This serves as the title of your page for SEO purposes',
     'app.seo.descriptionHelp': 'The meta description is a fragment of text that summarizes the content of the page',
