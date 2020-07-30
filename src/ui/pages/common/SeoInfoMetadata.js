@@ -48,6 +48,7 @@ const SeoInfoMetadata = ({
             name={`${name}.type`}
             labelSize={0}
             inputSize={12}
+            disabled={metas.useDefaultLang}
           />
         </Col>
         <Col sm={langIdx ? 3 : 4}>
@@ -56,6 +57,7 @@ const SeoInfoMetadata = ({
             name={`${name}.value`}
             labelSize={0}
             inputSize={12}
+            disabled={metas.useDefaultLang}
           />
         </Col>
         <Col sm={langIdx ? 3 : 1} className="text-right">
