@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { setECRFilterType } from 'state/component-repository/components/actions';
 import { getECRSearchFilterType } from 'state/component-repository/components/selectors';
-import FilterType from 'ui/common/form/FilterType';
+import FilterType from 'ui/component-repository/components/FilterType';
 
 export const mapStateToProps = state => ({
   currentFilterType: getECRSearchFilterType(state),

@@ -36,18 +36,13 @@ FilterType.propTypes = {
 FilterType.defaultProps = {
   filterTypes: [
     {
-      id: 'id',
-      title: 'Id',
+      id: 'name',
+      title: 'Name',
       filterType: 'text',
     },
     {
       id: 'description',
       title: 'Description',
-      filterType: 'text',
-    },
-    {
-      id: 'name',
-      title: 'Name',
       filterType: 'text',
     },
     {
