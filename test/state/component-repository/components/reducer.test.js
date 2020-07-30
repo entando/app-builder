@@ -22,7 +22,7 @@ describe('Component repository reducer', () => {
     it('should return an object', () => {
       expect(reducer()).toHaveProperty('filters', {
         searchFilterType: {
-          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
+          filterType: 'text', id: 'name', placeholder: 'Filter by Name', title: 'Name', value: '',
         },
       });
     });
@@ -40,7 +40,7 @@ describe('Component repository reducer', () => {
           operators: { digitalExchanges: FILTER_OPERATORS.EQUAL },
         },
         searchFilterType: {
-          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
+          filterType: 'text', id: 'name', placeholder: 'Filter by Name', title: 'Name', value: '',
         },
       });
     });
@@ -58,7 +58,7 @@ describe('Component repository reducer', () => {
           operators: { rating: FILTER_OPERATORS.GREATER_THAN },
         },
         searchFilterType: {
-          filterType: 'text', id: 'description', placeholder: 'Filter by Description', title: 'Description', value: '',
+          filterType: 'text', id: 'name', placeholder: 'Filter by Name', title: 'Name', value: '',
         },
       });
     });

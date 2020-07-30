@@ -29,9 +29,9 @@ import { findComponentInListById } from 'state/component-repository/components/s
 
 const filtersDefaultState = {
   searchFilterType: {
-    id: 'description',
-    title: 'Description',
-    placeholder: 'Filter by Description',
+    id: 'name',
+    title: 'Name',
+    placeholder: 'Filter by Name',
     filterType: 'text',
     value: '',
   },
