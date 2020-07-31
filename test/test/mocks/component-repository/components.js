@@ -46,7 +46,7 @@ export const LIST_ECR_COMPONENTS_OK = [
   {
     code: 'installed-example-bundle',
     title: 'Example bundle title',
-    description: 'Example bundle description',
+    description: 'Example bundle description, this bundle contains lastUpdate!',
     thumbnail: null,
     componentTypes: [
       'pageTemplate',
@@ -73,6 +73,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       status: 'INSTALL_COMPLETED',
       componentJobs: [],
     },
+    lastUpdate: '2020-07-27T11:14:56.79',
     versions: [
       {
         version: 'v0.0.1',

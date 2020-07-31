@@ -32,10 +32,14 @@ describe('ComponentListGridView', () => {
       expect(h1.text()).toEqual(LIST_ECR_COMPONENTS_OK[0].title);
     });
 
-    it('renders the date', () => {
+    it('does not render the date when lastUpdate isn ot passed', () => {
       const date = deComponents.first().find('.ComponentList__date');
+      expect(date).toHaveLength(0);
+    });
+
+    it('renders the date', () => {
+      const date = deComponents.at(1).find('.ComponentList__date');
       expect(date).toHaveLength(1);
-      expect(date.text()).toEqual(moment(LIST_ECR_COMPONENTS_OK[0].lastUpdate).format('MMMM, D, YYYY'));
     });
 
     it('renders the latest version', () => {

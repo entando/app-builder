@@ -266,10 +266,10 @@ describe('state/component-repository/components/actions', () => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.componentRepositoryComponents).toHaveLength(5);
         const componentRepositoryComponent = actionPayload.componentRepositoryComponents[1];
-        expect(componentRepositoryComponent).toHaveProperty('code', 'installed-example-bundle');
-        expect(componentRepositoryComponent).toHaveProperty('latestVersion', { version: 'v0.0.1' });
-        expect(componentRepositoryComponent).toHaveProperty('componentTypes', ['pageTemplate', 'bundle', 'widget']);
-        expect(componentRepositoryComponent).toHaveProperty('description', 'Example bundle description');
+        expect(componentRepositoryComponent).toHaveProperty('code', LIST_ECR_COMPONENTS_OK[1].code);
+        expect(componentRepositoryComponent).toHaveProperty('latestVersion', LIST_ECR_COMPONENTS_OK[1].latestVersion);
+        expect(componentRepositoryComponent).toHaveProperty('componentTypes', LIST_ECR_COMPONENTS_OK[1].componentTypes);
+        expect(componentRepositoryComponent).toHaveProperty('description', LIST_ECR_COMPONENTS_OK[1].description);
         done();
       }).catch(done.fail);
     });
