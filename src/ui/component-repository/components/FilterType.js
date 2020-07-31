@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Filter } from 'patternfly-react';
 import { injectIntl, intlShape } from 'react-intl';
 
-const translateTitles = (intl, filters) => filters.map((f) => {
-  const intlFilter = { ...f };
-  intlFilter.title = intl.formatMessage({ id: `app.filterTypesSelect.${f.id}` });
-  return intlFilter;
+const translateFilter = (intl, filter) => ({
+  ...filter,
+  title: intl.formatMessage({ id: `app.filterTypesSelect.${filter.id}` }),
 });
+
+const translateTitles = (intl, filters) =>
+  filters.map(filter => translateFilter(intl, filter));
 
 const FilterType = ({
   filterTypes, className, currentFilterType, onFilterTypeSelected, intl,
@@ -15,7 +17,7 @@ const FilterType = ({
   <Filter.TypeSelector
     className={`FilterType ${className}`}
     filterTypes={translateTitles(intl, filterTypes)}
-    currentFilterType={currentFilterType}
+    currentFilterType={translateFilter(intl, currentFilterType)}
     onFilterTypeSelected={onFilterTypeSelected}
   />
 );
