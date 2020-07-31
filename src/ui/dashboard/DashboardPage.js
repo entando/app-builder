@@ -65,11 +65,11 @@ export const DashboardPageBody = ({ userPermissions }) => {
             requiredPermissions={MANAGE_PAGES_PERMISSION}
             userPermissions={userPermissions}
           >
-            <Col md={4}>
+            <Col md={6}>
               <PageStatusContainer />
             </Col>
           </PermissionCheck>
-          <Col md={8}>
+          <Col md={6}>
             {
               (canViewContentsStatus && ContentsStatusCardContainer) ?
                 <ContentsStatusCardContainer /> : null
