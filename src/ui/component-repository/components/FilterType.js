@@ -15,7 +15,10 @@ const FilterType = ({
   <Filter.TypeSelector
     className={`FilterType ${className}`}
     filterTypes={translateTitles(intl, filterTypes)}
-    currentFilterType={currentFilterType}
+    currentFilterType={{
+      ...currentFilterType,
+      title: intl.formatMessage({ id: `app.filterTypesSelect.${currentFilterType.id}` }),
+    }}
     onFilterTypeSelected={onFilterTypeSelected}
   />
 );
