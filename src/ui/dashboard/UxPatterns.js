@@ -33,7 +33,7 @@ class UxPatterns extends Component {
               componentClass={Link}
               to={ROUTE_WIDGET_ADD}
             >
-              <FormattedMessage id="app.new" />
+              <FormattedMessage id="app.add" />
             </Button>
           )}
           <Clearfix />

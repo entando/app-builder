@@ -43,7 +43,7 @@ class UserManagement extends Component {
               to={ROUTE_USER_ADD}
               bsStyle="primary"
             >
-              <FormattedMessage id="app.new" />
+              <FormattedMessage id="app.add" />
             </Button>
           </PermissionCheck>
           <Clearfix />
