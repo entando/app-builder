@@ -212,7 +212,7 @@ export default {
     'app.error.message.key': 'Identificador da mensagem de erro',
     'app.indexable': 'Chaves de pesquisa',
     'app.attribute': 'Atributo {mode}',
-    'app.continue': 'continuar',
+    'app.continue': 'Continuar',
     'app.help.message': 'Mensagem de Ajuda',
     'app.roles': 'Papéis',
     'app.role': 'Papel',

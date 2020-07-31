@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
+import { appBuilderVersion } from 'helpers/versions';
 
 const AboutPage = () => (
   <InternalPage className="AboutPage">
@@ -8,28 +10,18 @@ const AboutPage = () => (
       <Row>
         <Col xs={12}>
           <h2 className="AboutPage__title">
-            Entando Platform
+            <FormattedMessage id="info.about.title" />
           </h2>
-          <h3>
-            About
-          </h3>
-          <section>
-            <p className="AboutPage__description">
-              Entando is a micro frontend platform that allows enterprises to build,
-              and reuse applications built with micro frontends and microservices on Kubernetes.
-            </p>
-          </section>
-          <h2 className="AboutPage__title">
-          Version: {process.env.APP_BUILDER_VERSION}
-          </h2>
-          <section>
-            <p className="AboutPage__description">
-            The documentation helps you learn about Entando Platform
-            and start exploring its features.
-            To get started using Entando Platform, visit
-              <a href="https://dev.entando.org/" target="_blank" rel="noopener noreferrer"> dev.entando.org</a>
-            </p>
-          </section>
+          <p className="AboutPage__description">
+            <FormattedMessage id="info.about.entando" />
+          </p>
+          <p className="AboutPage__description">
+            <FormattedMessage id="info.about.docs" />
+            <a href="https://dev.entando.org/" target="_blank" rel="noopener noreferrer"> dev.entando.org</a>
+          </p>
+          <p>
+            <b><FormattedMessage id="info.about.version" values={{ version: appBuilderVersion }} /></b>
+          </p>
         </Col>
       </Row>
     </Grid>
