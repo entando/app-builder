@@ -121,15 +121,15 @@
 .nav-pf-vertical { //sass-lint:disable-line class-name-format
   width: auto;
 
-  .list-group-item > a { // sass-lint:disable-line force-element-nesting class-name-format
-    padding-left: 25px;
+  .secondary-nav-item-pf > a { // sass-lint:disable-line force-element-nesting class-name-format
     width: 214px;
+    padding-left: 25px;
   }
 }
 
 .secondary-nav-item-pf { //sass-lint:disable-line class-name-format
   a::after {
-    right: 19px;
+    right: 19px !important; // sass-lint:disable-line no-important
   }
 }
 
