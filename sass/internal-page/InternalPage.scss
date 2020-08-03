@@ -202,3 +202,15 @@
     margin-top: 15px;
   }
 }
+
+// sass-lint:disable force-element-nesting class-name-format nesting-depth
+.layout-pf-fixed {
+  .AssetsList__footer {
+    left: 100px;
+
+    .container {
+      max-width: calc(100% - 214px);
+    }
+  }
+}
+// sass-lint:enable force-element-nesting class-name-format nesting-depth
