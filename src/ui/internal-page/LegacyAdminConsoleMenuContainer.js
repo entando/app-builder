@@ -167,7 +167,7 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
   />) : '');
 
 const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
-  <div>
+  <div className="safari-menu-fix">
     <VerticalNav
       blurDelay={700}
       blurDisabled={false}
