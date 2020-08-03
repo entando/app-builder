@@ -358,7 +358,7 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           />
           <SecondaryItem
             id="menu-reload-configuration"
-            title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload Configuration' })}
+            title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload configuration' })}
             onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
           />
         </Item>

@@ -669,7 +669,7 @@ export default {
     'reference.noReferenceDataObjectManager': 'There are no referenced data objects',
     'reference.noReferencejpcollaborationIdeaManager': 'There are no referenced ideas',
     'references.referencedPages': 'Referenced pages',
-    'reloadConfiguration.title': 'Reload Configuration',
+    'reloadConfiguration.title': 'Reload configuration',
     'reloadConfiguration.help': 'The RELOAD CONFIGURATION section allows users to reload the system configuration. This operation is necessary after modifying some parameters.',
     'reloadConfiguration.reload.title': 'Reload the configuration',
     'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
