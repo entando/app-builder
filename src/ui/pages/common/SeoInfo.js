@@ -12,7 +12,7 @@ import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
 const maxLength70 = maxLength(70);
 
 const SeoInfo = ({ languages, onChangeDefaultTitle }) => (languages && languages.length ? (
-  <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo" mountOnEnter>
+  <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo" mountOnEnter unmountOnExit>
     {
       languages.map((lang, i) => (
         <Tab key={lang.code} eventKey={i} title={`${lang.code.toUpperCase()}${i === 0 ? '*' : ''}`} >
