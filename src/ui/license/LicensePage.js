@@ -9,7 +9,7 @@ const LicensePage = () => (
       <Row>
         <Col xs={12}>
           <h2 className="LicensePage__title">
-            <FormattedMessage id="info.license.title" />
+            <FormattedMessage id="info.license" />
           </h2>
           <section>
             <p className="LicensePage__description">

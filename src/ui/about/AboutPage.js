@@ -10,8 +10,11 @@ const AboutPage = () => (
       <Row>
         <Col xs={12}>
           <h2 className="AboutPage__title">
-            <FormattedMessage id="info.about.title" />
+            <FormattedMessage id="info.about" />
           </h2>
+          <h3>
+            <FormattedMessage id="info.about.entandoPlatform" />
+          </h3>
           <p className="AboutPage__description">
             <FormattedMessage id="info.about.entando" />
           </p>
