@@ -45,7 +45,7 @@ class WidgetConfigPage extends Component {
     } = this.props;
 
     const renderWidgetConfigForm = () => {
-      const appBuilderWidgetForm = getAppBuilderWidgetForm(widgetCode);
+      const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
       if (appBuilderWidgetForm) {
         return React.createElement(
           appBuilderWidgetForm,
