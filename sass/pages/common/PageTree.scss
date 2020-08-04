@@ -1,9 +1,9 @@
 .PageTree {
 
   .PageTree__drag-handle {
+    width: 30px;
     height: 29px;
     padding: 0;
-    width: 30px;
   }
 
   &__drag-handle {
@@ -64,7 +64,7 @@
     line-height: 24px;
   }
 
-  .PageTree__displayedInMenu {
+  .PageTree__displayed-in-menu {
     line-height: 24px;
   }
 }
