@@ -15,15 +15,15 @@ const pageStatusMsgs = defineMessages({
   },
   published: {
     id: 'pages.status.published',
-    defaultMessage: 'Online',
-  },
-  unpublished: {
-    id: 'pages.status.unpublished',
-    defaultMessage: 'Draft',
+    defaultMessage: 'Published',
   },
   draft: {
     id: 'pages.status.draft',
-    defaultMessage: 'Online ≠ Draft',
+    defaultMessage: 'Published, with pending changes',
+  },
+  unpublished: {
+    id: 'pages.status.unpublished',
+    defaultMessage: 'Unpublished',
   },
 });
 
@@ -53,14 +53,14 @@ class PageStatus extends Component {
           key={language}
           data={{
             colors: {
-              [msgs.published]: '#00A0DF',
-              [msgs.unpublished]: '#A6A6A6',
-              [msgs.draft]: '#0066CC',
+              [msgs.published]: '#6CA100',
+              [msgs.draft]: '#F0AB00',
+              [msgs.unpublished]: '#72767B',
             },
             columns: [
               [msgs.published, published],
-              [msgs.unpublished, unpublished],
               [msgs.draft, draft],
+              [msgs.unpublished, unpublished],
             ],
             type: 'donut',
           }}
