@@ -1,0 +1,9 @@
+// sass-lint:disable class-name-format no-vendor-prefixes
+@media not all and (min-resolution: .001dpcm)
+{ @supports (-webkit-appearance: none) {
+    .safari-menu-fix > .nav-pf-vertical-with-sub-menus  {
+      overflow-y: visible;
+      overflow-x: visible;
+    }
+}}
+// sass-lint:enable class-name-format
