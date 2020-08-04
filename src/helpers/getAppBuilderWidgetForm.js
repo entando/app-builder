@@ -8,9 +8,13 @@ const appsWidgetForms = apps.reduce((obj, app) => ({
 }), {});
 
 const appBuilderNativeWidgetForms = {
-  'entando-widget-navigation_menu': NavigationBarConfigFormContainer,
+  navigatorConfig: NavigationBarConfigFormContainer,
 };
 
 const widgetForms = { ...appsWidgetForms, ...appBuilderNativeWidgetForms };
 
-export default widgetCode => (widgetForms && widgetCode ? widgetForms[widgetCode] : null);
+export default (widget) => {
+  const { widgetCode, action } = widget || {};
+  const widgetFormId = action || widgetCode;
+  return widgetForms && widgetFormId ? widgetForms[widgetFormId] : null;
+};
