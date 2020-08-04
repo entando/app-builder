@@ -38,7 +38,7 @@ class PageStatus extends Component {
       userPermissions,
       intl,
       pageStatus: {
-        draft, unpublished, published,
+        draft, unpublished, published, lastUpdate,
       },
     } = this.props;
 
@@ -49,6 +49,7 @@ class PageStatus extends Component {
     return (
       <div className="PageStatus">
         <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
+        <span>{lastUpdate}</span>
         <DonutChart
           key={language}
           data={{
