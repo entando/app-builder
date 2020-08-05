@@ -29,9 +29,11 @@ All the following would be valid values:
 
 #### `CLIENT_ID` (string, default `client_id`)
 string used for the client id during the OAUTH2 authentication process.
+Not needed if you're using Keycloak.
 
 #### `CLIENT_SECRET` (string, default `client_secret`)
 string used for the client secret during the OAUTH2 authentication process.
+Not needed if you're using Keycloak.
 
 #### `COMPONENT_REPOSITORY_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Component Repository (former Digital Exchange) should be enabled or not.
