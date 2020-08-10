@@ -15,19 +15,19 @@ const WidgetTypeReferenceTable = ({ widgetType }) => {
           <th
             width="50%"
           >
-            <FormattedMessage id="app.code" />
+            <FormattedMessage id="app.title" />
           </th>
           <th
             width="50%"
           >
-            <FormattedMessage id="app.name" />
+            <FormattedMessage id="app.code" />
           </th>
         </tr>
       </thead>
       <tbody>
         <tr key={widgetType.code} >
-          <td >{widgetType.code} </td>
           <td >{widgetType.title} </td>
+          <td >{widgetType.code} </td>
         </tr>
       </tbody>
     </Table>
