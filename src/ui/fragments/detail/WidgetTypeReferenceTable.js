@@ -8,6 +8,7 @@ const WidgetTypeReferenceTable = ({ widgetType }) => {
   if (!widgetType) {
     return (<EmptyData messageId="fragment.detail.emptyReferenceWidgetTypes" />);
   }
+
   return (
     <Table bordered hover className="WidgetTypeReferenceTable">
       <thead>
