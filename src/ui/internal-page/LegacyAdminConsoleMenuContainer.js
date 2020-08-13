@@ -12,10 +12,9 @@ import { appBuilderVersion } from 'helpers/versions';
 
 import {
   ROUTE_PAGE_TREE, ROUTE_FRAGMENT_LIST,
-  ROUTE_PAGE_CONFIG, ROUTE_USER_LIST, ROUTE_GROUP_LIST,
-  ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
-  ROUTE_ROLE_LIST, ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_USER_RESTRICTIONS, ROUTE_PAGE_SETTINGS, ROUTE_PROFILE_TYPE_LIST, ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
+  ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
   ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING,
 } from 'app-init/router';
 
@@ -277,27 +276,32 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           <SecondaryItem
             id="menu-users"
             title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
-            onClick={() => history.push(ROUTE_USER_LIST)}
+            href={adminConsoleUrl('do/User/list.action')}
+            onClick={() => {}}
           />
           <SecondaryItem
             id="menu-roles"
             title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-            onClick={() => history.push(ROUTE_ROLE_LIST)}
+            href={adminConsoleUrl('do/Role/list.action')}
+            onClick={() => {}}
           />
           <SecondaryItem
             id="menu-groups"
             title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-            onClick={() => history.push(ROUTE_GROUP_LIST)}
+            href={adminConsoleUrl('do/Group/list.action')}
+            onClick={() => {}}
           />
           <SecondaryItem
             id="menu-profile"
             title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
-            onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
+            href={adminConsoleUrl('do/Entity/initViewEntityTypes.action?entityManagerName=UserProfileManager')}
+            onClick={() => {}}
           />
           <SecondaryItem
             id="menu-user-restrictions"
             title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
-            onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
+            href={adminConsoleUrl('do/User/systemParams.action')}
+            onClick={() => {}}
           />
         </Item>
       )
