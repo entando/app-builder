@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Icon, DropdownKebab } from 'patternfly-react';
-import { Link } from 'react-router-dom';
 import { ROUTE_PAGE_DETAIL, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { LinkMenuItem } from '@entando/menu';
+import { routeConverter } from '@entando/utils';
 
 const DetailWidgetElement = ({ widgetInfo }) => {
   const renderWidgetInfo = () => {
@@ -31,22 +32,18 @@ const DetailWidgetElement = ({ widgetInfo }) => {
             <td className="DetailWidgetElement__td text-center">{data[info].frameDraft}</td>
             <td className="DetailWidgetElement__td text-center">
               <DropdownKebab pullRight id="DetailWidgetElement-dropown">
-                <Link
+                <LinkMenuItem
                   id={`go-page-detail-${info}`}
-                  to={ROUTE_PAGE_CONFIG}
-                  params={{ pageCode: info }}
+                  to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: info })}
+                  label={<FormattedMessage id="widget.detail.table.action.pageConfig" />}
                   className="DetailWidgetElement__menu-item-page-detail"
-                >
-                  <FormattedMessage id="widget.detail.table.action.pageConfig" />
-                </Link>
-                <Link
+                />
+                <LinkMenuItem
                   id={`go-page-configuration-${info}`}
-                  to={ROUTE_PAGE_DETAIL}
-                  params={{ pageCode: info }}
+                  to={routeConverter(ROUTE_PAGE_DETAIL, { pageCode: info })}
+                  label={<FormattedMessage id="widget.detail.table.action.pageDetails" />}
                   className="DetailWidgetElement__menu-item-page-configure"
-                >
-                  <FormattedMessage id="widget.detail.table.action.pageDetails" />
-                </Link>
+                />
               </DropdownKebab>
             </td>
           </tr>
