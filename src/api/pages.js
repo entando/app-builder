@@ -81,7 +81,6 @@ export const getPageChildren = pageCode => makeRequest({
   ),
 });
 
-
 export const setPagePosition = (pageCode, position, parentCode) => makeRequest({
   uri: `/api/pages/${pageCode}/position`,
   method: METHODS.PUT,
