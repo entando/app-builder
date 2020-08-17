@@ -758,6 +758,7 @@ export default {
     'plugins.noPlugins': 'No installed plugins. See available plugins in the Component Repository',
     'plugins.installCallToAction': 'Go to Component Repository',
     'widgets.configUi': 'Config UI',
+    'widgets.addWidget': 'Add Widget',
     'app.filterTypesSelect.id': 'ID',
     'app.filterTypesSelect.version': 'Version',
     'app.filterTypesSelect.name': 'Name',

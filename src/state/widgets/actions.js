@@ -72,7 +72,7 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
       })).catch(() => {});
 };
 
-export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
+export const fetchWidget = (widgetCode, mode) => dispatch => new Promise((resolve) => {
   toggleLoading('fetchWidget');
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
@@ -81,7 +81,13 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
         newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
         newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
         newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
-        dispatch(initialize('widget', newPayload));
+        if (mode === 'addWidget') {
+          dispatch(initialize('widget', {
+            parentType: newPayload,
+          }));
+        } else {
+          dispatch(initialize('widget', newPayload));
+        }
         dispatch(setSelectedWidget(json.payload));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));

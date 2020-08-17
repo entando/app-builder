@@ -8,7 +8,7 @@ import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 import { withPermissionValues } from 'ui/auth/withPermissions';
 
 export const WidgetListTableBody = ({
-  title, widgetList, locale, onDelete, onEdit, isSuperuser,
+  title, widgetList, locale, onDelete, onEdit, onNewUserWidget, isSuperuser,
 }) => {
   const renderRow = widgetList
     .map(item => (
@@ -19,6 +19,8 @@ export const WidgetListTableBody = ({
         used={item.used}
         onDelete={onDelete}
         onEdit={onEdit}
+        onNewUserWidget={onNewUserWidget}
+        hasConfig={item.hasConfig}
         isSuperuser={isSuperuser}
       />));
 
@@ -54,6 +56,7 @@ WidgetListTableBody.propTypes = {
   locale: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onNewUserWidget: PropTypes.func.isRequired,
   isSuperuser: PropTypes.bool,
 };
 

@@ -8,7 +8,7 @@ import { getLocale } from 'state/locale/selectors';
 import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { routeConverter } from '@entando/utils/dist/routeConverter';
-import { ROUTE_WIDGET_EDIT } from 'app-init/router';
+import { ROUTE_WIDGET_EDIT, ROUTE_WIDGET_NEW_USERWIDGET } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
@@ -29,6 +29,9 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   },
   onEdit: (widgetCode) => {
     history.push(routeConverter(ROUTE_WIDGET_EDIT, { widgetCode }));
+  },
+  onNewUserWidget: (widgetCode) => {
+    history.push(routeConverter(ROUTE_WIDGET_NEW_USERWIDGET, { widgetCode }));
   },
 });
 

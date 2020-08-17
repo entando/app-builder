@@ -23,6 +23,7 @@ export const ROUTE_PAGE_TEMPLATE_DETAIL = '/page-template/view/:pageTemplateCode
 export const ROUTE_WIDGET_LIST = '/widget';
 export const ROUTE_WIDGET_ADD = '/widget/add';
 export const ROUTE_WIDGET_EDIT = '/widget/edit/:widgetCode';
+export const ROUTE_WIDGET_NEW_USERWIDGET = '/widget/new-user-widget/:widgetCode';
 export const ROUTE_WIDGET_DETAIL = '/widget/detail/:widgetCode';
 export const ROUTE_WIDGET_CONFIG = '/widget/config/:widgetCode/page/:pageCode/frame/:framePos';
 // fragments
