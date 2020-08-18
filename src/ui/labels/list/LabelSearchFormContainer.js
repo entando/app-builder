@@ -6,6 +6,7 @@ import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 const FIELD_OPERATORS = {
   text: FILTER_OPERATORS.LIKE,
+  key: FILTER_OPERATORS.LIKE,
 };
 
 export const mapDispatchToProps = dispatch => ({
