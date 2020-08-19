@@ -15,7 +15,7 @@ class FilesListTable extends Component {
     this.props.onWillMount();
   }
 
-  renderTableRows() {
+  renderTableRows(isRootPath) {
     const { onClickDeleteFolder, onClickDeleteFile, onClickDownload } = this.props;
 
     const getProtectedFolder = (path) => {
@@ -62,16 +62,22 @@ class FilesListTable extends Component {
     return this.props.files.map(file => (
       <tr key={file.path}>
         <td className="FilesListRow__td">{getLinkItem(file)}</td>
-        <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
-        <td className="FilesListRow__td">{file.lastModifiedTime}</td>
-        <td className="FilesListRow__td">
-          <FilesListMenuActions
-            file={file}
-            onClickDownload={onClickDownload}
-            onClickDeleteFolder={onClickDeleteFolder}
-            onClickDeleteFile={onClickDeleteFile}
-          />
-        </td>
+        {
+          isRootPath ? null : (
+            <React.Fragment>
+              <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
+              <td className="FilesListRow__td">{file.lastModifiedTime}</td>
+              <td className="FilesListRow__td">
+                <FilesListMenuActions
+                  file={file}
+                  onClickDownload={onClickDownload}
+                  onClickDeleteFolder={onClickDeleteFolder}
+                  onClickDeleteFile={onClickDeleteFile}
+                />
+              </td>
+            </React.Fragment>
+          )
+        }
       </tr>
     ));
   }
@@ -95,22 +101,33 @@ class FilesListTable extends Component {
         </a>);
     };
 
+    const isRootPath = this.props.files.every(file =>
+      file.size === null && file.lastModifiedTime === null && (file.name === 'public' || file.name === 'protected'));
 
-    if (this.props.files.length > 0) {
+    const size = this.props.files.length;
+
+    if (size === 0) {
+      return (
+        <Col xs={12}>
+          <Alert type="warning">
+            <strong><FormattedMessage id="fileBrowser.list.empty" /></strong><br />
+          </Alert>
+        </Col>
+      );
+    }
+
+    if (isRootPath) {
       return (
         <div>
           <Col xs={12}>
-            <table className="FilesListTable__table table table-striped table-bordered table-hover">
+            <table className="FilesListTable__table table table-striped table-hover">
               <thead>
                 <tr>
                   <th className="FilesListTable__th-lg">{renderUpLink()}</th>
-                  <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.size" /></th>
-                  <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.lastModifiedTime" /></th>
-                  <th className="FilesListTable__th-lg"><FormattedMessage id="app.actions" /></th>
                 </tr>
               </thead>
               <tbody>
-                {this.renderTableRows()}
+                {this.renderTableRows(isRootPath)}
               </tbody>
             </table>
           </Col>
@@ -118,11 +135,23 @@ class FilesListTable extends Component {
       );
     }
     return (
-      <Col xs={12}>
-        <Alert type="warning">
-          <strong><FormattedMessage id="fileBrowser.list.empty" /></strong><br />
-        </Alert>
-      </Col>
+      <div>
+        <Col xs={12}>
+          <table className="FilesListTable__table table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th className="FilesListTable__th-lg">{renderUpLink()}</th>
+                <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.size" /></th>
+                <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.lastModifiedTime" /></th>
+                <th className="FilesListTable__th-lg"><FormattedMessage id="app.actions" /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderTableRows()}
+            </tbody>
+          </table>
+        </Col>
+      </div>
     );
   }
 
