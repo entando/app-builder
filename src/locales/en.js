@@ -370,6 +370,7 @@ export default {
     'widget.page.create.title.en.placeholder': 'English title',
     'widget.page.create.title.it.placeholder': 'Italian title',
     'widget.page.create.group': 'Group',
+    'widget.page.create.parameters': 'Parameters',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Edit widget',

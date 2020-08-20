@@ -9,6 +9,8 @@ import {
   SET_WIDGET_LIST,
   SET_SELECTED_WIDGET,
   REMOVE_WIDGET,
+  SET_SELECTED_PARENT_WIDGET,
+  REMOVE_PARENT_WIDGET,
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
@@ -45,6 +47,20 @@ export const removeWidget = widgetCode => ({
   },
 });
 
+export const setSelectedParentWidget = widget => ({
+  type: SET_SELECTED_PARENT_WIDGET,
+  payload: {
+    widget,
+  },
+});
+
+export const removeParentWidget = widgetCode => ({
+  type: REMOVE_PARENT_WIDGET,
+  payload: {
+    widgetCode,
+  },
+});
+
 export const setWidgetInfo = widgetInfo => ({
   type: SET_WIDGET_INFO,
   payload: {
@@ -72,30 +88,64 @@ export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
       })).catch(() => {});
 };
 
-export const fetchWidget = (widgetCode, mode) => dispatch => new Promise((resolve) => {
-  toggleLoading('fetchWidget');
+export const getSingleWidgetInfo = widgetCode => dispatch => new Promise((resolve) => {
   getWidget(widgetCode).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi']);
-        newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
-        newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
-        newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
-        if (mode === 'addWidget') {
-          dispatch(initialize('widget', {
-            parentType: newPayload,
-          }));
-        } else {
-          dispatch(initialize('widget', newPayload));
-        }
-        dispatch(setSelectedWidget(json.payload));
+        resolve({ json, ok: response.ok });
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        resolve();
       }
-      toggleLoading('fetchWidget');
-      resolve();
     });
+  }).catch(() => {});
+});
+
+export const initNewUserWidget = widgetCode => (dispatch) => {
+  toggleLoading('fetchWidget');
+  dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
+    if (ok) {
+      const parameters = get(json.payload, 'parameters', []).map(param => ({
+        key: param.code,
+        value: '',
+      }));
+      dispatch(setSelectedParentWidget(json.payload));
+      dispatch(initialize('widget', {
+        parentType: json.payload,
+        parameters,
+      }));
+    }
+  }).catch(() => { toggleLoading('fetchWidget'); });
+};
+
+export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
+  toggleLoading('fetchWidget');
+  dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
+    if (ok) {
+      const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi']);
+      newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
+      newPayload.customUi = get(json.payload, 'guiFragments[0].customUi');
+      newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
+      const parentCode = get(json, 'payload.parentType', '');
+      if (parentCode) {
+        dispatch(getSingleWidgetInfo(parentCode)).then((response) => {
+          if (response.ok) {
+            newPayload.parentType = response.json;
+            dispatch(setSelectedParentWidget(response.json));
+          }
+          dispatch(initialize('widget', newPayload));
+          toggleLoading('fetchWidget');
+        });
+      } else {
+        dispatch(initialize('widget', newPayload));
+        toggleLoading('fetchWidget');
+      }
+      dispatch(setSelectedWidget(json.payload));
+    } else {
+      toggleLoading('fetchWidget');
+    }
+    resolve();
   }).catch(() => { toggleLoading('fetchWidget'); });
 });
 

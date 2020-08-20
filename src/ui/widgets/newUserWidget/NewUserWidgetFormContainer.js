@@ -8,8 +8,8 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import { getSelectedWidgetDefaultUi } from 'state/widgets/selectors';
-import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
+import { getSelectedWidgetDefaultUi, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
+import { initNewUserWidget, sendPutWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -22,6 +22,7 @@ export const mapStateToProps = state => (
   {
     mode: ADD_WIDGET_MODE,
     groups: getGroupsList(state),
+    parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
@@ -31,7 +32,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
   onWillMount: () => {
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchWidget(params.widgetCode, ADD_WIDGET_MODE));
+    dispatch(initNewUserWidget(params.widgetCode));
   },
   onSubmit: (values) => {
     const jsonData = {

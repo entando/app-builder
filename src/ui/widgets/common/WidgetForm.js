@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert, Spinner } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
@@ -9,6 +9,7 @@ import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderWidgetParameterFields from 'ui/common/form/RenderWidgetParameterFields';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
@@ -97,7 +98,7 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading, mode,
+      invalid, submitting, loading, mode, parentWidgetParameters,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -203,6 +204,20 @@ export class WidgetFormBody extends Component {
               />
             </Col>
           </Row>
+          {parentWidgetParameters.length && (
+            <Row>
+              <Col xs={12}>
+                <fieldset className="no-padding">
+                  <FormSectionTitle titleId="widget.page.create.parameters" />
+                  <FieldArray
+                    component={RenderWidgetParameterFields}
+                    parameters={parentWidgetParameters}
+                    name="parameters"
+                  />
+                </fieldset>
+              </Col>
+            </Row>
+          )}
           <br />
           <Row>
             <Col xs={12}>
@@ -246,6 +261,9 @@ WidgetFormBody.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
   })),
+  parentWidgetParameters: PropTypes.arrayOf((
+    PropTypes.shape({})
+  )).isRequired,
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
