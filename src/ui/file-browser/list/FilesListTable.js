@@ -63,7 +63,7 @@ class FilesListTable extends Component {
       <tr key={file.path}>
         <td className="FilesListRow__td">{getLinkItem(file)}</td>
         {
-          isRootPath ? null : (
+          !isRootPath && (
             <React.Fragment>
               <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
               <td className="FilesListRow__td">{file.lastModifiedTime}</td>
