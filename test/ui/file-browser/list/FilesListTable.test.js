@@ -114,7 +114,7 @@ describe('FilesListTable', () => {
       const tbody = component.find('thead');
       const upIcon = component.find('Icon');
       expect(tbody).toHaveLength(1);
-      expect(tbody.find('th')).toHaveLength(4);
+      expect(tbody.find('th')).toHaveLength(1);
       expect(tbody.find('.FilesListTable__up-link')).toHaveLength(0);
       expect(tbody.find('Icon')).toHaveLength(0);
       expect(upIcon.find({ name: 'share' })).toHaveLength(0);
