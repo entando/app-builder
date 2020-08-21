@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert, Spinner } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
@@ -98,7 +98,8 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading, mode, parentWidgetParameters,
+      invalid, submitting, loading, mode,
+      parentWidget, parentWidgetParameters,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -163,10 +164,22 @@ export class WidgetFormBody extends Component {
                   optionDisplayName="name"
                   defaultOptionId="app.chooseAnOption"
                 />
+                {(mode === 'edit' && parentWidget) && (
+                  <div className="form-group">
+                    <Col xs={2} className="text-right">
+                      <ControlLabel>
+                        <FormLabel labelText="Parent Type" />
+                      </ControlLabel>
+                    </Col>
+                    <Col xs={10}>
+                      <FormLabel labelText={parentWidget.titles.en} />
+                    </Col>
+                  </div>
+                )}
               </fieldset>
             </Col>
           </Row>
-          {mode !== 'addWidget' && (
+          {!parentWidgetParameters.length && (
             <Row>
               <Col xs={12}>
                 <fieldset className="no-padding">
@@ -204,7 +217,7 @@ export class WidgetFormBody extends Component {
               />
             </Col>
           </Row>
-          {parentWidgetParameters.length && (
+          {!!parentWidgetParameters.length && (
             <Row>
               <Col xs={12}>
                 <fieldset className="no-padding">
@@ -264,6 +277,9 @@ WidgetFormBody.propTypes = {
   parentWidgetParameters: PropTypes.arrayOf((
     PropTypes.shape({})
   )).isRequired,
+  parentWidget: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
@@ -284,6 +300,7 @@ WidgetFormBody.defaultProps = {
   }],
   mode: MODE_NEW,
   defaultUIField: '',
+  parentWidget: null,
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,

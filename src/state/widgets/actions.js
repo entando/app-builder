@@ -54,11 +54,8 @@ export const setSelectedParentWidget = widget => ({
   },
 });
 
-export const removeParentWidget = widgetCode => ({
+export const removeParentWidget = () => ({
   type: REMOVE_PARENT_WIDGET,
-  payload: {
-    widgetCode,
-  },
 });
 
 export const setWidgetInfo = widgetInfo => ({
@@ -107,14 +104,16 @@ export const initNewUserWidget = widgetCode => (dispatch) => {
   dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     if (ok) {
       const parameters = get(json.payload, 'parameters', []).map(param => ({
-        key: param.code,
+        code: param.code,
         value: '',
       }));
       dispatch(setSelectedParentWidget(json.payload));
       dispatch(initialize('widget', {
-        parentType: json.payload,
+        parentType: json.payload.code,
         parameters,
       }));
+    } else {
+      dispatch(removeParentWidget());
     }
   }).catch(() => { toggleLoading('fetchWidget'); });
 };
@@ -131,13 +130,16 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
       if (parentCode) {
         dispatch(getSingleWidgetInfo(parentCode)).then((response) => {
           if (response.ok) {
-            newPayload.parentType = response.json;
-            dispatch(setSelectedParentWidget(response.json));
+            newPayload.parentType = response.json.code;
+            dispatch(setSelectedParentWidget(response.json.payload));
+          } else {
+            dispatch(removeParentWidget());
           }
           dispatch(initialize('widget', newPayload));
           toggleLoading('fetchWidget');
         });
       } else {
+        dispatch(removeParentWidget());
         dispatch(initialize('widget', newPayload));
         toggleLoading('fetchWidget');
       }

@@ -10,13 +10,13 @@ const RenderWidgetParameterFields = ({ fields, parameters }) => {
     return { name, ...fieldinfo };
   }).reduce((acc, curr) => ({
     ...acc,
-    [curr.key]: { ...curr },
+    [curr.code]: { ...curr },
   }), {});
 
   return parameters.map((param, idx) => {
     const fieldinfo = fieldValues[param.code] || {
       name: `parameters[${idx}]`,
-      key: param.code,
+      code: param.code,
     };
     const { name } = fieldinfo;
     return (

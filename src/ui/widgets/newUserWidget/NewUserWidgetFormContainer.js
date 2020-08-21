@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { submit } from 'redux-form';
+import { clearErrors } from '@entando/messages';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -9,24 +10,20 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
-import { initNewUserWidget, sendPutWidgets } from 'state/widgets/actions';
+import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
-const ADD_WIDGET_MODE = 'addWidget';
-
-export const mapStateToProps = state => (
-  {
-    mode: ADD_WIDGET_MODE,
-    groups: getGroupsList(state),
-    parentWidgetParameters: getSelectedParentWidgetParameters(state),
-    defaultUIField: getSelectedWidgetDefaultUi(state),
-    languages: getActiveLanguages(state),
-    loading: getLoading(state).fetchWidget,
-  });
+export const mapStateToProps = state => ({
+  groups: getGroupsList(state),
+  parentWidgetParameters: getSelectedParentWidgetParameters(state),
+  defaultUIField: getSelectedWidgetDefaultUi(state),
+  languages: getActiveLanguages(state),
+  loading: getLoading(state).fetchWidget,
+});
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
@@ -39,7 +36,8 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
-    return dispatch(sendPutWidgets(jsonData));
+    dispatch(clearErrors());
+    return dispatch(sendPostWidgets(jsonData));
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),

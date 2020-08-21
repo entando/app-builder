@@ -8,7 +8,7 @@ import {
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
-import { getSelectedWidget, getSelectedParentWidget } from 'state/widgets/selectors';
+import { getSelectedWidget } from 'state/widgets/selectors';
 
 const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -62,10 +62,7 @@ const selectedParent = (state = null, action = {}) => {
       return action.payload.widget;
     }
     case REMOVE_PARENT_WIDGET: {
-      const { widgetCode } = action.payload;
-      if (!state) return state;
-      const widget = getSelectedParentWidget(state);
-      return widget.code === widgetCode ? null : state;
+      return null;
     }
     default: return state;
   }
