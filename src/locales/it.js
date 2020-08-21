@@ -574,6 +574,7 @@ export default {
     'user.restrictions.success': 'La Restrizione Utenti è stata aggiornata',
     'user.myProfile.help': 'Dalla sezione MIO PROFILO l\'utente puó modificare la password del proprio account e i dati associati al profilo.',
     'user.myProfile.passwordSection': 'Cambia la tua password',
+    'user.myProfile.editProfileSection': 'Cambia il tuo profilo',
     'user.myProfile.oldPassword': 'Password attuale',
     'user.myProfile.newPassword': 'Nuova password',
     'user.myProfile.newPasswordConfirm': 'Ripeti la nuova password',
