@@ -566,6 +566,7 @@ export default {
     'user.restrictions.success': 'As restrições de usuários foram atualizadas',
     'user.myProfile.help': 'A seção MEU PERFIL permite que o usuário altere a senha de sua conta e gerencie a informações de seu perfil.',
     'user.myProfile.passwordSection': 'Mude sua senha',
+    'user.myProfile.editProfileSection': 'Mude o seu perfil',
     'user.myProfile.oldPassword': 'Senha atual',
     'user.myProfile.newPassword': 'Nova senha',
     'user.myProfile.newPasswordConfirm': 'Confirme a nova senha',

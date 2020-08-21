@@ -105,6 +105,19 @@ describe('updateUserProfile', () => {
     }).catch(done.fail);
   });
 
+  it('should update the user profile and set up a success toast message without redirecting', (done) => {
+    store.dispatch(updateUserProfile(USER_NAME, false)).then(() => {
+      expect(putUserProfile).toHaveBeenCalled();
+
+      const actions = store.getActions();
+      expect(actions).toHaveLength(2);
+      expect(actions[0]).toHaveProperty('type', SET_USER_PROFILE);
+      expect(actions[1]).toHaveProperty('type', 'toasts/add-toast');
+      expect(history.push).toHaveBeenCalledTimes(0);
+      done();
+    }).catch(done.fail);
+  });
+
   it('if the API returns error, should set up error messages', (done) => {
     putUserProfile.mockImplementation(mockApi({ errors: true }));
     store.dispatch(fetchUserProfile(USER_NAME)).then(() => {

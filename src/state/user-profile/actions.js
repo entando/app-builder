@@ -40,27 +40,30 @@ export const fetchUserProfile = username => (dispatch, getState) => new Promise(
   });
 });
 
-export const updateUserProfile = profile => (dispatch, getState) => new Promise((resolve) => {
-  const selectedProfile = getSelectedProfileTypeAttributes(getState());
-  putUserProfile(profile.id, getPayloadForApi(
-    profile,
-    selectedProfile,
-    getDefaultLanguage(getState()),
-    getActiveLanguages(getState()),
-  )).then((response) => {
-    response.json().then((json) => {
-      if (response.ok) {
-        dispatch(setUserProfile(profile));
-        dispatch(addToast(
-          { id: 'userprofile.edit.success' },
-          TOAST_SUCCESS,
-        ));
-        history.push(ROUTE_USER_LIST);
-      } else {
-        dispatch(addErrors(json.errors.map(err => err.message)));
-        dispatch(addToast(json.errors[0].message, TOAST_ERROR));
-      }
-      resolve();
+export const updateUserProfile = (profile, successRedirect = true) =>
+  (dispatch, getState) => new Promise((resolve) => {
+    const selectedProfile = getSelectedProfileTypeAttributes(getState());
+    putUserProfile(profile.id, getPayloadForApi(
+      profile,
+      selectedProfile,
+      getDefaultLanguage(getState()),
+      getActiveLanguages(getState()),
+    )).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setUserProfile(profile));
+          dispatch(addToast(
+            { id: 'userprofile.edit.success' },
+            TOAST_SUCCESS,
+          ));
+          if (successRedirect) {
+            history.push(ROUTE_USER_LIST);
+          }
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(addToast(json.errors[0].message, TOAST_ERROR));
+        }
+        resolve();
+      });
     });
   });
-});
