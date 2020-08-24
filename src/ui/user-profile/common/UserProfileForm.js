@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
+import { required } from '@entando/utils';
 import Panel from 'react-bootstrap/lib/Panel';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -10,6 +11,7 @@ import { getComponentType } from 'helpers/entities';
 
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/form/RenderListField';
+import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
@@ -105,7 +107,7 @@ export class UserProfileFormBody extends Component {
   render() {
     const {
       onSubmit, handleSubmit, invalid, submitting, defaultLanguage, languages,
-      profileTypesAttributes, intl,
+      profileTypesAttributes, intl, profileTypes, onProfileTypeChange,
     } = this.props;
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
@@ -220,6 +222,18 @@ export class UserProfileFormBody extends Component {
         <Row>
           <Col xs={10}>
             <fieldset className="no-padding">
+              <div>
+                <Field
+                  component={RenderSelectInput}
+                  onChange={e => onProfileTypeChange(e.target.value, profileTypes)}
+                  options={profileTypes}
+                  defaultOptionId="form.select.chooseOne"
+                  label={<FormLabel labelId="user.profileType" required />}
+                  name="typeCode"
+                  validate={[required]}
+                />
+              </div>
+              <hr />
               {typeCodeField}
               {usernameField}
               {showProfileFields}
@@ -281,6 +295,8 @@ UserProfileFormBody.propTypes = {
       type: PropTypes.string,
     })),
   })),
+  profileTypes: PropTypes.arrayOf(PropTypes.shape({})),
+  onProfileTypeChange: PropTypes.func,
 };
 
 UserProfileFormBody.defaultProps = {
@@ -288,6 +304,10 @@ UserProfileFormBody.defaultProps = {
   submitting: false,
   onWillMount: null,
   profileTypesAttributes: [],
+  profileTypes: [],
+  onProfileTypeChange: () => {},
+  selectedProfileType: '',
+  userCurrentProfileType: '',
 };
 
 

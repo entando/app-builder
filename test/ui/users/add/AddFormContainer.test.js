@@ -18,11 +18,11 @@ describe('AddFormContainer', () => {
   describe('mapDispatchToProps', () => {
     let result;
     beforeEach(() => {
-      result = mapDispatchToProps(dispatchMock);
+      result = mapDispatchToProps(dispatchMock, {});
     });
     it('verify that onSubmit is defined by mapDispatchToProps', () => {
       expect(result).toHaveProperty('onSubmit');
-      result.onSubmit();
+      result.onSubmit({});
       expect(sendPostUser).toHaveBeenCalled();
     });
 

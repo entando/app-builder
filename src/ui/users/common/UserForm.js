@@ -182,6 +182,20 @@ export class UserFormBody extends Component {
             >
               <FormattedMessage id="app.save" />
             </Button>
+            {
+              mode !== EDIT_MODE && (
+                <Button
+                  className="pull-right"
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                  saveType: 'editProfile',
+                }))}
+                >
+                  <FormattedMessage id="app.saveAndEditProfile" defaultMessage="Save and edit profile" />
+                </Button>
+              )
+            }
           </Col>
         </Row>
       </form>

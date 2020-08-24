@@ -19,7 +19,18 @@ class ProfileTypeReferenceStatus extends Component {
 
   render() {
     const { status } = this.props;
-    if (status.type === 'success') { return null; }
+    if (status.type === 'success') {
+      return (
+        <Alert type={status.type} className="ProfileTypeReferenceStatus">
+          <p>
+            <strong><FormattedMessage id="reference.status.title" /></strong>
+          </p>
+          <FormattedMessage id="reference.text.success" />
+          <span className="label label-success">
+            <FormattedMessage id="reference.label.success" />
+          </span>
+        </Alert>);
+    }
     return (
       <Alert type={status.type} className="ProfileTypeReferenceStatus">
         <FormattedMessage id="reference.text" values={{ count: status.count }} />
