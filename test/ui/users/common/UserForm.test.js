@@ -188,14 +188,14 @@ describe('UserForm', () => {
     it('disables submit button while submitting', () => {
       submitting = true;
       userForm = buildUserForm();
-      const submitButton = userForm.find('Button');
+      const submitButton = userForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 
     it('disables submit button if form is invalid', () => {
       invalid = true;
       userForm = buildUserForm();
-      const submitButton = userForm.find('Button');
+      const submitButton = userForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 

@@ -814,5 +814,8 @@ export default {
     'info.about.entando': 'Entando is a micro frontend platform that allows enterprises to build and reuse applications built with micro frontends and microservices on Kubernetes.',
     'info.about.docs': 'The documentation helps you learn about Entando Platform and start exploring its features.\n To get started using Entando Platform, visit',
     'info.about.version': 'Version {version}',
+    'reference.text.success': 'References must be reloaded whenever a profile is modified.',
+    'reference.label.success': 'Everything is fine.',
+    'reference.status.title': 'Reference status',
   },
 };

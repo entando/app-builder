@@ -15,7 +15,8 @@ import {
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { history, ROUTE_USER_LIST } from 'app-init/router';
+import { history, ROUTE_USER_LIST, ROUTE_USER_PROFILE } from 'app-init/router';
+import { routeConverter } from '@entando/utils';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 
 
@@ -130,14 +131,21 @@ export const fetchUserForm = username => dispatch => (
   })
 );
 
-export const sendPostUser = user => async (dispatch) => {
+export const sendPostUser = (user, editUserProfile) => async (dispatch) => {
   try {
     const response = await postUser(user);
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedUserDetail(json.payload));
       dispatch(fetchUsers());
-      history.push(ROUTE_USER_LIST);
+      if (editUserProfile) {
+        history.push(routeConverter(
+          ROUTE_USER_PROFILE,
+          { username: user.username },
+        ));
+      } else {
+        history.push(ROUTE_USER_LIST);
+      }
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

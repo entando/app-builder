@@ -10,7 +10,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (user) => {
-    dispatch(sendPostUser(user));
+    const { saveType } = user;
+    dispatch(sendPostUser(user, saveType === 'editProfile'));
   },
   onWillMount: () => {
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));

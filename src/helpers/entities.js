@@ -60,14 +60,13 @@ export const getPayloadForForm = (
     } = attr;
 
     const attrType = selectedProfileType.find(type => type.code === code);
-
     switch (attrType.type) {
       case TYPE_BOOLEAN:
       case TYPE_THREESTATE: {
         if (value === undefined) {
           formAttr[code] = null;
         } else {
-          formAttr[code] = value.toString();
+          formAttr[code] = value != null ? value.toString() : value;
         }
         break;
       }
@@ -143,6 +142,7 @@ export const getPayloadForApi = (
   Object.keys(profile).forEach((key) => {
     if (!key.match(/^id$|^typeCode$|^typeDescription$|_ts_hours$|_ts_minutes$|_ts_seconds$/)) {
       const attrType = selectedProfileType.find(type => type.code === key);
+      if (!attrType) return;
       switch (attrType.type) {
         case TYPE_BOOLEAN: {
           const isTrue = (profile[key] === 'true');

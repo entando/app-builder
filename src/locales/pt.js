@@ -783,5 +783,8 @@ export default {
     'widget.navigationBar.config.noExpressions': 'Configure algumas expressões..',
     'widget.update.success': 'O widget foi atualizado com sucesso.',
     'widget.navigationBar.config.subtreeDepthAbr': 'Profundidade da subárvore',
+    'reference.text.success': 'As referências devem ser recarregadas sempre que um perfil é modificado.',
+    'reference.label.success': 'Tudo está bem.',
+    'reference.status.title': 'Status de referência',
   },
 };
