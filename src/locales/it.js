@@ -817,5 +817,6 @@ export default {
     'reference.text.success': 'I riferimenti devono essere ricaricati ogni volta che viene modificato un profilo.',
     'reference.label.success': 'Va tutto bene.',
     'reference.status.title': 'Stato di riferimento',
+    'user.table.profileType': 'Tipo di profilo',
   },
 };

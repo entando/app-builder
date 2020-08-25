@@ -817,5 +817,6 @@ export default {
     'reference.text.success': 'References must be reloaded whenever a profile is modified.',
     'reference.label.success': 'Everything is fine.',
     'reference.status.title': 'Reference status',
+    'user.table.profileType': 'Profile Type',
   },
 };

@@ -42,9 +42,11 @@ class UserListTable extends Component {
           id: `user.table.status.${userStatus}`,
         },
       });
+      const profileType = user.profileType || {};
       return (
         <tr key={user.username}>
           <td className="UserListRow__td">{user.username}</td>
+          <td className="UserListRow__td">{profileType.typeDescription}{' '}<code>{profileType.typeCode}</code></td>
           <td className="UserListRow__td">{user.profileAttributes.fullname}</td>
           <td className="UserListRow__td">{user.profileAttributes.email}</td>
           <td className="UserListRow__td text-center">
@@ -87,6 +89,7 @@ class UserListTable extends Component {
             <thead>
               <tr>
                 <th><FormattedMessage id="user.table.username" /></th>
+                <th><FormattedMessage id="user.table.profileType" /></th>
                 <th><FormattedMessage id="user.table.fullName" /></th>
                 <th><FormattedMessage id="user.table.email" /></th>
                 <th className="UserListTable__th-sm text-center">
