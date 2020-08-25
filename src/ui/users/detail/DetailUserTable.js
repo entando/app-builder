@@ -19,6 +19,7 @@ class DetailUserTable extends React.Component {
       };
     }
     const { profileAttributes } = user;
+    const profileType = user.profileType || {};
     return (
       <div className="DetailUserTable">
         <table className="table table-striped table-bordered" >
@@ -47,6 +48,14 @@ class DetailUserTable extends React.Component {
                 {profileAttributes.email}
               </td>
             </tr>
+            <tr>
+              <th>
+                <FormattedMessage id="user.table.profileType" />
+              </th>
+              <td>
+                {profileType.typeDescription}{' '}<code>{profileType.typeCode}</code>
+              </td>
+            </tr>
           </tbody>
         </table>
         <Button
@@ -71,6 +80,10 @@ DetailUserTable.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string,
     profileAttributes: PropTypes.shape(profileAttributesType),
+    profileType: PropTypes.shape({
+      typeCode: PropTypes.string.isRequired,
+      typeDescription: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

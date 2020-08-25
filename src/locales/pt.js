@@ -786,5 +786,6 @@ export default {
     'reference.text.success': 'As referências devem ser recarregadas sempre que um perfil é modificado.',
     'reference.label.success': 'Tudo está bem.',
     'reference.status.title': 'Status de referência',
+    'user.table.profileType': 'Tipo de Perfil',
   },
 };
