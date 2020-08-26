@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
@@ -9,7 +9,6 @@ import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import RenderWidgetParameterFields from 'ui/common/form/RenderWidgetParameterFields';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
@@ -222,11 +221,14 @@ export class WidgetFormBody extends Component {
               <Col xs={12}>
                 <fieldset className="no-padding">
                   <FormSectionTitle titleId="widget.page.create.parameters" />
-                  <FieldArray
-                    component={RenderWidgetParameterFields}
-                    parameters={parentWidgetParameters}
-                    name="parameters"
-                  />
+                  {parentWidgetParameters.map(param => (
+                    <Field
+                      key={param.code}
+                      component={RenderTextInput}
+                      name={`config.${param.code}`}
+                      label={<FormLabel labelText={param.code} helpText={param.description} />}
+                    />
+                  ))}
                 </fieldset>
               </Col>
             </Row>
@@ -276,7 +278,7 @@ WidgetFormBody.propTypes = {
   })),
   parentWidgetParameters: PropTypes.arrayOf((
     PropTypes.shape({})
-  )).isRequired,
+  )),
   parentWidget: PropTypes.shape({
     code: PropTypes.string,
   }),
@@ -301,6 +303,7 @@ WidgetFormBody.defaultProps = {
   mode: MODE_NEW,
   defaultUIField: '',
   parentWidget: null,
+  parentWidgetParameters: [],
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,
