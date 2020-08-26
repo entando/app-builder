@@ -19,6 +19,7 @@ class ListWidgetPage extends Component {
       widgetList,
       onDelete,
       onEdit,
+      onNewUserWidget,
       locale,
     } = this.props;
     return (
@@ -32,6 +33,7 @@ class ListWidgetPage extends Component {
               locale={locale}
               onDelete={onDelete}
               onEdit={onEdit}
+              onNewUserWidget={onNewUserWidget}
             />
           ))
         }
@@ -81,6 +83,7 @@ ListWidgetPage.propTypes = {
   widgetList: PropTypes.shape({}),
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
+  onNewUserWidget: PropTypes.func,
   locale: PropTypes.string,
   loading: PropTypes.bool,
 };
@@ -89,6 +92,7 @@ ListWidgetPage.defaultProps = {
   onWillMount: () => {},
   onDelete: () => {},
   onEdit: () => {},
+  onNewUserWidget: () => {},
   locale: 'en',
   widgetList: {},
   loading: false,

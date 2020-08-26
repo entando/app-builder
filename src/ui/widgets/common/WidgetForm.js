@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert, Spinner } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
@@ -97,7 +97,8 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading,
+      invalid, submitting, loading, mode,
+      parentWidget, parentWidgetParameters,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -135,7 +136,7 @@ export class WidgetFormBody extends Component {
       </Tab>
     );
 
-    if (this.props.mode === 'edit') {
+    if (mode === 'edit') {
       codeField = null;
     } else {
       defaultUITab = null;
@@ -162,35 +163,49 @@ export class WidgetFormBody extends Component {
                   optionDisplayName="name"
                   defaultOptionId="app.chooseAnOption"
                 />
-              </fieldset>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <fieldset className="no-padding">
-                <Col xs={12}>
+                {(mode === 'edit' && parentWidget) && (
                   <div className="form-group">
-                    <span className="control-label col-xs-2" />
+                    <Col xs={2} className="text-right">
+                      <ControlLabel>
+                        <FormLabel labelText="Parent Type" />
+                      </ControlLabel>
+                    </Col>
                     <Col xs={10}>
-                      <Tabs id="basic-tabs" defaultActiveKey={1}>
-                        <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
-                          <Field
-                            name="customUi"
-                            component="textarea"
-                            cols="50"
-                            rows="8"
-                            className="form-control"
-                            validate={[required]}
-                          />
-                        </Tab>
-                        {defaultUITab}
-                      </Tabs>
+                      <FormLabel labelText={parentWidget.titles.en} />
                     </Col>
                   </div>
-                </Col>
+                )}
               </fieldset>
             </Col>
           </Row>
+          {!parentWidgetParameters.length && (
+            <Row>
+              <Col xs={12}>
+                <fieldset className="no-padding">
+                  <Col xs={12}>
+                    <div className="form-group">
+                      <span className="control-label col-xs-2" />
+                      <Col xs={10}>
+                        <Tabs id="basic-tabs" defaultActiveKey={1}>
+                          <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
+                            <Field
+                              name="customUi"
+                              component="textarea"
+                              cols="50"
+                              rows="8"
+                              className="form-control"
+                              validate={[required]}
+                            />
+                          </Tab>
+                          {defaultUITab}
+                        </Tabs>
+                      </Col>
+                    </div>
+                  </Col>
+                </fieldset>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col xs={12}>
               <Field
@@ -201,6 +216,23 @@ export class WidgetFormBody extends Component {
               />
             </Col>
           </Row>
+          {!!parentWidgetParameters.length && (
+            <Row>
+              <Col xs={12}>
+                <fieldset className="no-padding">
+                  <FormSectionTitle titleId="widget.page.create.parameters" />
+                  {parentWidgetParameters.map(param => (
+                    <Field
+                      key={param.code}
+                      component={RenderTextInput}
+                      name={`config.${param.code}`}
+                      label={<FormLabel labelText={param.code} helpText={param.description} />}
+                    />
+                  ))}
+                </fieldset>
+              </Col>
+            </Row>
+          )}
           <br />
           <Row>
             <Col xs={12}>
@@ -244,6 +276,12 @@ WidgetFormBody.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
   })),
+  parentWidgetParameters: PropTypes.arrayOf((
+    PropTypes.shape({})
+  )),
+  parentWidget: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
   onChangeDefaultTitle: PropTypes.func,
@@ -264,6 +302,8 @@ WidgetFormBody.defaultProps = {
   }],
   mode: MODE_NEW,
   defaultUIField: '',
+  parentWidget: null,
+  parentWidgetParameters: [],
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,

@@ -8,15 +8,12 @@ import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
 const WidgetListRow = (props) => {
   const {
-    name, code, used, onDelete, onEdit, isSuperuser,
+    name, code, used, hasConfig, onDelete, onEdit, onNewUserWidget, isSuperuser,
   } = props;
 
-  const onClickDelete = () => {
-    onDelete(code);
-  };
-  const onClickEdit = () => {
-    onEdit(code);
-  };
+  const onClickDelete = () => onDelete(code);
+  const onClickEdit = () => onEdit(code);
+  const onClickAddWidget = () => onNewUserWidget(code);
 
   return (
     <tr className="WidgetListRow">
@@ -32,6 +29,14 @@ const WidgetListRow = (props) => {
       {isSuperuser && (
         <td className="WidgetListRow__td text-center">
           <DropdownKebab pullRight id="WidgetListRow-dropown">
+            {hasConfig && (
+              <MenuItem
+                className="WidgetListRow__menu-item-addwidget"
+                onClick={onClickAddWidget}
+              >
+                <FormattedMessage id="widgets.addWidget" />
+              </MenuItem>
+            )}
             <MenuItem
               className="WidgetListRow__menu-item-edit"
               onClick={onClickEdit}
@@ -55,14 +60,18 @@ WidgetListRow.propTypes = {
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   used: PropTypes.number.isRequired,
+  hasConfig: PropTypes.bool,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
+  onNewUserWidget: PropTypes.func,
   isSuperuser: PropTypes.bool,
 };
 
 WidgetListRow.defaultProps = {
   onDelete: () => {},
   onEdit: () => {},
+  onNewUserWidget: () => {},
+  hasConfig: false,
   isSuperuser: true,
 };
 

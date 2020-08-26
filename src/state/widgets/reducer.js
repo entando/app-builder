@@ -2,7 +2,9 @@ import { combineReducers } from 'redux';
 import {
   SET_WIDGET_LIST,
   SET_SELECTED_WIDGET,
+  SET_SELECTED_PARENT_WIDGET,
   REMOVE_WIDGET,
+  REMOVE_PARENT_WIDGET,
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
@@ -54,6 +56,18 @@ const selected = (state = null, action = {}) => {
   }
 };
 
+const selectedParent = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_PARENT_WIDGET: {
+      return action.payload.widget;
+    }
+    case REMOVE_PARENT_WIDGET: {
+      return null;
+    }
+    default: return state;
+  }
+};
+
 const total = (state = 0, action = {}) => {
   switch (action.type) {
     case SET_WIDGETS_TOTAL:
@@ -76,6 +90,7 @@ export default combineReducers({
   list,
   map,
   selected,
+  selectedParent,
   total,
   info,
 });

@@ -17,6 +17,7 @@ import {
   ROUTE_WIDGET_LIST,
   ROUTE_WIDGET_ADD,
   ROUTE_WIDGET_EDIT,
+  ROUTE_WIDGET_NEW_USERWIDGET,
   ROUTE_WIDGET_CONFIG,
   ROUTE_WIDGET_DETAIL,
   ROUTE_FRAGMENT_LIST,
@@ -98,6 +99,7 @@ import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
+import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
 import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
 import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
 import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
@@ -226,6 +228,7 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
       <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
       <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
+      <Route path={ROUTE_WIDGET_NEW_USERWIDGET} component={NewUserWidgetPage} />
       <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
       <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
       {/* fragments */}

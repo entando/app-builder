@@ -196,9 +196,9 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(3);
           expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[0];
+          const initializeAction = actions[1];
           expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
           expect(initializeAction).toHaveProperty('payload');
           expect(initializeAction.payload).toEqual({
@@ -216,9 +216,9 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET_NULL_GROUP }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(3);
           expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[0];
+          const initializeAction = actions[1];
           expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
           expect(initializeAction).toHaveProperty('payload');
           expect(initializeAction.payload).toEqual({
@@ -236,8 +236,8 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          const selectWidgetAction = actions[1];
+          expect(actions).toHaveLength(3);
+          const selectWidgetAction = actions[2];
           expect(selectWidgetAction).toHaveProperty('type', SET_SELECTED_WIDGET);
           expect(selectWidgetAction).toHaveProperty('payload');
           expect(selectWidgetAction.payload).toMatchObject({ widget: WIDGET });

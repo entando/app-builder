@@ -44,6 +44,8 @@ getGroupsList.mockReturnValue([GROUP]);
 
 jest.mock('state/widgets/selectors', () => ({
   getSelectedWidgetDefaultUi: jest.fn(),
+  getSelectedParentWidget: jest.fn(),
+  getSelectedParentWidgetParameters: jest.fn(),
 }));
 
 getSelectedWidgetDefaultUi.mockReturnValue('');
