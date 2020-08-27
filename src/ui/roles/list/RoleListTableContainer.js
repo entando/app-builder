@@ -5,8 +5,9 @@ import { getRolesList } from 'state/roles/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import RoleListTable from 'ui/roles/list/RoleListTable';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
-import { MODAL_ID } from 'ui/roles/common/DeleteRoleModal';
+import { MODAL_ID } from 'ui/roles/common/DeleteUserRoleModal';
 
 export const mapStateToProps = state => (
   {
@@ -30,4 +31,4 @@ export const mapDispatchToProps = dispatch => ({
 
 const RoleListTableContainer = connect(mapStateToProps, mapDispatchToProps)(RoleListTable);
 
-export default RoleListTableContainer;
+export default withPermissionValues(RoleListTableContainer);

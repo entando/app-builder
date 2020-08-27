@@ -820,5 +820,6 @@ export default {
     'reference.label.success': 'Everything is fine.',
     'reference.status.title': 'Reference status',
     'user.table.profileType': 'Profile Type',
+    'app.deleteRoleImpossible': 'Role cannot be deleted until it is removed from all the following users',
   },
 };

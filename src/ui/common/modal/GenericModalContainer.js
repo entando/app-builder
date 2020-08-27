@@ -7,8 +7,14 @@ export const mapStateToProps = state => ({
   visibleModal: getVisibleModal(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  onCloseModal: () => dispatch(setVisibleModal('')),
+export const mapDispatchToProps = (dispatch, ownProps) => ({
+  onCloseModal: () => {
+    dispatch(setVisibleModal(''));
+    const { modalCloseCleanup } = ownProps || {};
+    if (modalCloseCleanup) {
+      modalCloseCleanup();
+    }
+  },
 });
 
 const GenericModalContainer = connect(mapStateToProps, mapDispatchToProps)(GenericModal);
