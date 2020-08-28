@@ -4,7 +4,7 @@ import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { mapStateToProps, mapDispatchToProps } from 'ui/roles/list/RoleListTableContainer';
 import { LIST_ROLES_OK, ROLES_NORMALIZED } from 'test/mocks/roles';
-import { MODAL_ID } from 'ui/roles/common/DeleteRoleModal';
+import { MODAL_ID } from 'ui/roles/common/DeleteUserRoleModal';
 
 const dispatchMock = jest.fn();
 

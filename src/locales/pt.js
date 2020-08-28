@@ -787,5 +787,6 @@ export default {
     'reference.label.success': 'Tudo está bem.',
     'reference.status.title': 'Status de referência',
     'user.table.profileType': 'Tipo de Perfil',
+    'app.deleteRoleImpossible': 'A função não pode ser excluída até que seja removida de todos os seguintes usuários',
   },
 };

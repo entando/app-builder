@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import RoleListMenuActions from 'ui/roles/list/RoleListMenuActions';
-import DeleteRoleModalContainer from 'ui/roles/common/DeleteRoleModalContainer';
+import DeleteUserRoleModalContainer from 'ui/roles/common/DeleteUserRoleModalContainer';
 import paginatorMessages from 'ui/paginatorMessages';
 
 class RoleListTable extends Component {
@@ -98,7 +98,7 @@ class RoleListTable extends Component {
       <div className="RoleListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
-          <DeleteRoleModalContainer />
+          <DeleteUserRoleModalContainer {...this.props} />
         </Spinner>
       </div>
     );

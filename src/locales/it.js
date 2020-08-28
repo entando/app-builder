@@ -820,5 +820,6 @@ export default {
     'reference.label.success': 'Va tutto bene.',
     'reference.status.title': 'Stato di riferimento',
     'user.table.profileType': 'Tipo di profilo',
+    'app.deleteRoleImpossible': 'Il ruolo non può essere eliminato finché non viene rimosso da tutti i seguenti utenti',
   },
 };
