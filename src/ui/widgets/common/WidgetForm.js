@@ -15,6 +15,7 @@ import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
+const MODE_EDIT = 'edit';
 const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -138,7 +139,7 @@ export class WidgetFormBody extends Component {
       </Tab>
     );
 
-    if (mode === 'edit') {
+    if (mode === MODE_EDIT) {
       codeField = null;
     } else {
       defaultUITab = null;
@@ -177,7 +178,7 @@ export class WidgetFormBody extends Component {
                   optionDisplayName="name"
                   defaultOptionId="app.chooseAnOption"
                 />
-                {((mode === 'edit' || mode === MODE_CLONE) && parentWidget) && (
+                {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                   <div className="form-group">
                     <Col xs={2} className="text-right">
                       <ControlLabel>
