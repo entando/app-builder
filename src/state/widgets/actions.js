@@ -98,7 +98,7 @@ export const getSingleWidgetInfo = widgetCode => dispatch => (
   )).catch(() => {})
 );
 
-export const initNewUserWidget = widgetCode => (dispatch) => {
+export const initNewUserWidget = (widgetCode, isCloning = false) => (dispatch) => {
   toggleLoading('fetchWidget');
   dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     if (ok) {
@@ -108,10 +108,12 @@ export const initNewUserWidget = widgetCode => (dispatch) => {
           [curr.code]: '',
         }), {});
       dispatch(setSelectedParentWidget(json.payload));
-      dispatch(initialize('widget', {
-        parentType: json.payload.code,
-        config,
-      }));
+      if (!isCloning) {
+        dispatch(initialize('widget', {
+          parentType: json.payload.code,
+          config,
+        }));
+      }
     } else {
       dispatch(removeParentWidget());
     }

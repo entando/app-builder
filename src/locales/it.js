@@ -821,5 +821,9 @@ export default {
     'reference.status.title': 'Stato di riferimento',
     'user.table.profileType': 'Tipo di profilo',
     'app.deleteRoleImpossible': 'Il ruolo non può essere eliminato finché non viene rimosso da tutti i seguenti utenti',
+    'app.saveAs': 'Salva come',
+    'menu.widgetClone': 'Clona widget',
+    'widget.page.clone.pageTitle': 'Clona widget',
+    'app.saveAndReplace': 'Salva e sostituisci',
   },
 };

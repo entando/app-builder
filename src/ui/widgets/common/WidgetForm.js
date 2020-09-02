@@ -15,6 +15,8 @@ import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
+const MODE_EDIT = 'edit';
+const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
@@ -99,6 +101,7 @@ export class WidgetFormBody extends Component {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode,
       parentWidget, parentWidgetParameters,
+      onReplaceSubmit,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -136,11 +139,23 @@ export class WidgetFormBody extends Component {
       </Tab>
     );
 
-    if (mode === 'edit') {
+    if (mode === MODE_EDIT) {
       codeField = null;
     } else {
       defaultUITab = null;
     }
+
+    const renderSaveAndReplaceButton = MODE_CLONE ? (
+      <Button
+        className="pull-right FragmentForm__save--btn"
+        type="submit"
+        bsStyle="primary"
+        disabled={invalid || submitting}
+        onClick={this.props.handleSubmit(values => onReplaceSubmit({ ...values }))}
+      >
+        <FormattedMessage id="app.saveAndReplace" />
+      </Button>
+    ) : null;
 
     return (
       <Spinner loading={!!loading}>
@@ -163,7 +178,7 @@ export class WidgetFormBody extends Component {
                   optionDisplayName="name"
                   defaultOptionId="app.chooseAnOption"
                 />
-                {(mode === 'edit' && parentWidget) && (
+                {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                   <div className="form-group">
                     <Col xs={2} className="text-right">
                       <ControlLabel>
@@ -236,6 +251,7 @@ export class WidgetFormBody extends Component {
           <br />
           <Row>
             <Col xs={12}>
+              {renderSaveAndReplaceButton}
               <Button
                 className="pull-right FragmentForm__save--btn"
                 type="submit"
@@ -290,6 +306,7 @@ WidgetFormBody.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  onReplaceSubmit: PropTypes.func,
 };
 
 WidgetFormBody.defaultProps = {
@@ -307,6 +324,7 @@ WidgetFormBody.defaultProps = {
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,
+  onReplaceSubmit: () => {},
 };
 
 const WidgetForm = reduxForm({

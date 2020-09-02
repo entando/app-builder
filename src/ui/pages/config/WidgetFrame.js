@@ -14,12 +14,13 @@ class WidgetFrame extends Component {
   render() {
     const {
       widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
-      onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings,
+      onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings, onClickSaveAs,
+      widgetAction,
     } = this.props;
 
     let actionsMenu = null;
     if (widgetStatus !== WIDGET_STATUS_REMOVED) {
-      const configMenuItems = widgetHasConfig ?
+      const configMenuItems = widgetHasConfig && widgetAction ?
         [
           (
             <MenuItem
@@ -32,6 +33,22 @@ class WidgetFrame extends Component {
           ),
         ] :
         null;
+      const cloneMenuItems = widgetHasConfig && widgetAction ? [
+        (
+          <MenuItem
+            key="menu-saveAs"
+            className="WidgetFrame__saveAs-btn"
+            onClick={() => onClickSaveAs && onClickSaveAs({
+              widgetId,
+              widgetHasConfig,
+              frameId,
+              widgetAction,
+            })}
+          >
+            <FormattedMessage id="app.saveAs" />
+          </MenuItem>
+        ),
+      ] : null;
 
       actionsMenu = (
         <DropdownKebab
@@ -59,6 +76,8 @@ class WidgetFrame extends Component {
           </li>
 
           { configMenuItems }
+
+          {cloneMenuItems}
 
           <MenuItem
             className="WidgetFrame__delete-btn"
@@ -115,6 +134,7 @@ WidgetFrame.propTypes = {
   widgetName: PropTypes.string.isRequired,
   widgetHasConfig: PropTypes.bool,
   widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),
+  widgetAction: PropTypes.string,
 
   /* eslint-disable react/no-unused-prop-types */
   frameId: PropTypes.number, // needed when it's droppable
@@ -123,6 +143,7 @@ WidgetFrame.propTypes = {
 
   onClickDelete: PropTypes.func,
   onClickSettings: PropTypes.func,
+  onClickSaveAs: PropTypes.func,
 
   // react-dnd
   connectDragSource: PropTypes.func,
@@ -133,6 +154,7 @@ WidgetFrame.propTypes = {
 WidgetFrame.defaultProps = {
   onClickDelete: null,
   onClickSettings: null,
+  onClickSaveAs: null,
   widgetHasConfig: false,
   widgetStatus: WIDGET_STATUS_MATCH,
   frameId: null,
@@ -140,6 +162,7 @@ WidgetFrame.defaultProps = {
   connectDragSource: null,
   connectDropTarget: null,
   isOver: false,
+  widgetAction: null,
 };
 
 

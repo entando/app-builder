@@ -91,6 +91,7 @@ import {
   ROUTE_PLUGINS,
   ROUTE_ABOUT,
   ROUTE_LICENSE,
+  ROUTE_CLONE_WIDGET,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -176,6 +177,7 @@ import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
+import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
@@ -231,6 +233,7 @@ const getRouteComponent = () => {
       <Route path={ROUTE_WIDGET_NEW_USERWIDGET} component={NewUserWidgetPage} />
       <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
       <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
+      <Route path={ROUTE_CLONE_WIDGET} component={CloneWidgetPage} />
       {/* fragments */}
       <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
       <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
