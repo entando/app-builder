@@ -788,5 +788,9 @@ export default {
     'reference.status.title': 'Status de referência',
     'user.table.profileType': 'Tipo de Perfil',
     'app.deleteRoleImpossible': 'A função não pode ser excluída até que seja removida de todos os seguintes usuários',
+    'app.saveAs': 'Salvar como',
+    'menu.widgetClone': 'Clone widget',
+    'widget.page.clone.pageTitle': 'Clone widget',
+    'app.saveAndReplace': 'Salvar e substituir',
   },
 };

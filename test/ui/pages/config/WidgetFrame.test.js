@@ -9,6 +9,7 @@ const FRAME_ID = 1;
 const FRAME_NAME = 'The frame descr';
 const WIDGET_ID = 'widget_code';
 const WIDGET_NAME = 'The widget name';
+const WIDGET_ACTION = 'someAction';
 
 
 const connectDropTargetMock = jest.fn().mockImplementation(arg => arg);
@@ -152,6 +153,7 @@ describe('WidgetFrame (with widget that has config)', () => {
   beforeEach(() => {
     component = shallow((
       <WidgetFrame
+        widgetAction={WIDGET_ACTION}
         frameId={FRAME_ID}
         widgetId={WIDGET_ID}
         frameName={FRAME_NAME}

@@ -14,6 +14,7 @@ export const ROUTE_PAGE_CLONE = '/page/clone';
 export const ROUTE_PAGE_DETAIL = '/page/detail/:pageCode';
 export const ROUTE_PAGE_SETTINGS = '/page/settings';
 export const ROUTE_PAGE_CONFIG = '/page/configuration/:pageCode';
+export const ROUTE_CLONE_WIDGET = '/page/:pageCode/clone/:frameId/widget/:parentCode/:widgetAction';
 // page template
 export const ROUTE_PAGE_TEMPLATE_LIST = '/page-template';
 export const ROUTE_PAGE_TEMPLATE_ADD = '/page-template/add';
