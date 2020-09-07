@@ -20,6 +20,16 @@ class DetailUserTable extends React.Component {
     }
     const { profileAttributes } = user;
     const profileType = user.profileType || {};
+    const renderProfileTypeAttributes = Object.keys(profileAttributes || {}).map(attr => (
+      <tr key={attr}>
+        <th>
+          <FormattedMessage id={`user.table.${attr}`} defaultMessage={attr} />
+        </th>
+        <td>
+          {`${profileAttributes[attr]}`}
+        </td>
+      </tr>
+    ));
     return (
       <div className="DetailUserTable">
         <table className="table table-striped table-bordered" >
@@ -32,22 +42,7 @@ class DetailUserTable extends React.Component {
                 {user.username}
               </td>
             </tr>
-            <tr>
-              <th>
-                <FormattedMessage id="user.table.fullName" />
-              </th>
-              <td>
-                {profileAttributes.fullname}
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <FormattedMessage id="user.table.email" />
-              </th>
-              <td>
-                {profileAttributes.email}
-              </td>
-            </tr>
+            {renderProfileTypeAttributes}
             <tr>
               <th>
                 <FormattedMessage id="user.table.profileType" />
