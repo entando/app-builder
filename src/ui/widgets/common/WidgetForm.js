@@ -145,7 +145,7 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
-    const renderSaveAndReplaceButton = MODE_CLONE ? (
+    const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
         className="pull-right FragmentForm__save--btn"
         type="submit"
