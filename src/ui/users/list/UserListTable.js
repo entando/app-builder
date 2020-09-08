@@ -90,7 +90,7 @@ class UserListTable extends Component {
               <tr>
                 <th><FormattedMessage id="user.table.username" /></th>
                 <th><FormattedMessage id="user.table.profileType" /></th>
-                <th><FormattedMessage id="user.table.fullName" /></th>
+                <th><FormattedMessage id="user.table.fullname" /></th>
                 <th><FormattedMessage id="user.table.email" /></th>
                 <th className="UserListTable__th-sm text-center">
                   <FormattedMessage id="user.table.status" />

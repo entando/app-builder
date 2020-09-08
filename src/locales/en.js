@@ -538,7 +538,7 @@ export default {
     'user.table.status.passwordExpired': 'Expired password',
     'user.table.status.accountExpired': 'Expired account',
     'user.table.username': 'Username',
-    'user.table.fullName': 'Full Name',
+    'user.table.fullname': 'Full Name',
     'user.table.email': 'Email',
     'user.table.status': 'Status',
     'user.listEmpty': 'There are no USERS available',
