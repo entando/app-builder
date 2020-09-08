@@ -4,6 +4,12 @@ import { shallow, mount } from 'enzyme';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
+const state = {
+  modal: {
+    visibleModal: 'AddAuthorityModal',
+  },
+};
+
 const FIELDS = {
   push: jest.fn(),
   remove: jest.fn(),
@@ -30,6 +36,7 @@ const props = {
   roles: GROUPS_MOCKS,
   fields: FIELDS,
   groupRolesCombo: [],
+  onAddNewClicked: jest.fn(),
 };
 
 jest.unmock('react-redux');
@@ -63,7 +70,8 @@ describe('UserListTable', () => {
       component = mount(mockRenderWithIntlAndStore(<UserAuthorityTable
         {...props}
         groupRolesCombo={GROUP_ROLES_COMBO}
-      />));
+        onCloseModal={jest.fn()}
+      />, state));
     });
 
     it('has table component', () => {
@@ -72,7 +80,7 @@ describe('UserListTable', () => {
 
     it('depending on values selected call push() or not', () => {
       component.instance().group = { value: 'nenno' };
-      component.find('button.UserAuthorityTable__add').simulate('click');
+      component.find('#UserAuthorityTable__add').first().simulate('click');
       expect(FIELDS.push).not.toHaveBeenCalled();
     });
   });
