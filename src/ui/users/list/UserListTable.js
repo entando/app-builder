@@ -8,6 +8,8 @@ import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 import { isEmpty } from 'lodash';
 import paginatorMessages from 'ui/paginatorMessages';
 
+const USER_INACTIVE = 'inactive';
+
 class UserListTable extends Component {
   constructor(props) {
     super(props);
@@ -32,9 +34,9 @@ class UserListTable extends Component {
     const { users, intl } = this.props;
     return users.map((user) => {
       let userStatus = user.status;
-      if (!user.accountNotExpired) {
+      if (!user.accountNotExpired && userStatus !== USER_INACTIVE) {
         userStatus = 'accountExpired';
-      } else if (!user.credentialsNotExpired) {
+      } else if (!user.credentialsNotExpired && userStatus !== USER_INACTIVE) {
         userStatus = 'passwordExpired';
       }
       const msgs = defineMessages({
