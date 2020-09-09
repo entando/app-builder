@@ -7,6 +7,7 @@ import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
+import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -145,6 +146,10 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
+    const appBuilderWidgetForm = parentWidget && getAppBuilderWidgetForm(parentWidget, true);
+
+    console.log(parentWidget, parentWidgetParameters, appBuilderWidgetForm);
+
     const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
         className="pull-right FragmentForm__save--btn"
@@ -232,21 +237,31 @@ export class WidgetFormBody extends Component {
             </Col>
           </Row>
           {!!parentWidgetParameters.length && (
-            <Row>
-              <Col xs={12}>
-                <fieldset className="no-padding">
-                  <FormSectionTitle titleId="widget.page.create.parameters" />
-                  {parentWidgetParameters.map(param => (
-                    <Field
-                      key={param.code}
-                      component={RenderTextInput}
-                      name={`config.${param.code}`}
-                      label={<FormLabel labelText={param.code} helpText={param.description} />}
-                    />
-                  ))}
-                </fieldset>
-              </Col>
-            </Row>
+            appBuilderWidgetForm ? (
+              React.createElement(
+                appBuilderWidgetForm,
+                {
+                  widgetConfig: {}, widgetCode, paramsMode: true,
+                },
+                null,
+              )
+            ) : (
+              <Row>
+                <Col xs={12}>
+                  <fieldset className="no-padding">
+                    <FormSectionTitle titleId="widget.page.create.parameters" />
+                    {parentWidgetParameters.map(param => (
+                      <Field
+                        key={param.code}
+                        component={RenderTextInput}
+                        name={`config.${param.code}`}
+                        label={<FormLabel labelText={param.code} helpText={param.description} />}
+                      />
+                    ))}
+                  </fieldset>
+                </Col>
+              </Row>
+            )
           )}
           <br />
           <Row>
