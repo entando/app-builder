@@ -12,10 +12,12 @@
     color: $color-pf-black-300;
   }
 
-  &__remove-tag-btn:hover,
-  &__remove-tag-btn:focus {
-    outline: 0;
+  &__remove-tag-btn:hover {
     color: $color-pf-black-100;
   }
 
+  &__remove-tag-btn:focus {
+    outline: $color-pf-blue auto 1px;
+    background-color: $color-row-selected;
+  }
 }
