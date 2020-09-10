@@ -14,6 +14,7 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
@@ -67,6 +68,7 @@ export const mapDispatchToProps = dispatch => ({
     }),
   onChangeDefaultTitle: title =>
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
+  onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
 });
 
 

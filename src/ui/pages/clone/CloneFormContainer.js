@@ -11,6 +11,7 @@ import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendPostPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
@@ -42,6 +43,7 @@ export const mapDispatchToProps = dispatch => ({
     }),
   onChangeDefaultTitle: title =>
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
+  onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
