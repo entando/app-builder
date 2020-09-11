@@ -1,12 +1,12 @@
 ## Guide for Running [`app-builder`](https://github.com/entando/app-builder) locally with [`entando-de-app`](https://github.com/entando/entando-de-app) and [`keycloak`](https://github.com/entando/entando-keycloak) authentication server
 
 ###  Run keycloak server:
-- Clone: https://github.com/entando/entando-keycloak
+- `git clone https://github.com/entando/entando-keycloak.git`
 - `cd entando-keycloak`
 - `docker build -t entando/keycloak:latest .`
 - `docker-compose up`
 ###  Setup keycloak realm and client
-- Clone: https://github.com/entando/entando-keycloak-plugin
+- `git clone https://github.com/entando/entando-keycloak-plugin.git`
 - Navigate to: http://localhost:8081/auth and log into keycloak admin console
 - id/pass: `admin`/`qwe123`
 - Top left corner click:  Add Realm
