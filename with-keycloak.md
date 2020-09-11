@@ -25,7 +25,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - Go to `Users` and add a new user that you will be using during `app-builder` login.
 ### Setup entando-de-app
 - Clone: https://github.com/entando/entando-de-app
-- Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update it to:
+- Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update the following values:
 ```
 <keycloak.enabled>true</keycloak.enabled>
 <keycloak.auth.url>http://localhost:8081/auth</keycloak.auth.url>
