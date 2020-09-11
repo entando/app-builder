@@ -240,15 +240,22 @@ export class WidgetFormBody extends Component {
           </Row>
           {!!parentWidgetParameters.length && (
             (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
-              <Field
-                name="config"
-                component={NativeWidgetConfigForm}
-                widgetConfig={{}}
-                widgetCode={parentWidget.code}
-                extFormName={widgetFormName}
-                pageCode={params.pageCode}
-                frameId={params.frameId}
-              />
+              <Row>
+                <Col xs={12}>
+                  <fieldset className="no-padding">
+                    <FormSectionTitle titleId="widget.page.create.config" />
+                    <Field
+                      name="config"
+                      component={NativeWidgetConfigForm}
+                      widgetConfig={{}}
+                      widgetCode={parentWidget.code}
+                      extFormName={widgetFormName}
+                      pageCode={params.pageCode}
+                      frameId={params.frameId}
+                    />
+                  </fieldset>
+                </Col>
+              </Row>
             ) : (
               <Row>
                 <Col xs={12}>
