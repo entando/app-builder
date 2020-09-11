@@ -21,6 +21,8 @@ const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
+const widgetFormName = 'widget';
+
 export const renderDefaultUIField = (field) => {
   const { input } = field;
   if (!input.value) {
@@ -102,7 +104,7 @@ export class WidgetFormBody extends Component {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode,
       parentWidget, parentWidgetParameters,
-      onReplaceSubmit,
+      onReplaceSubmit, match,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -146,9 +148,7 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
-    const appBuilderWidgetForm = parentWidget && getAppBuilderWidgetForm(parentWidget, true);
-
-    console.log(parentWidget, parentWidgetParameters, appBuilderWidgetForm);
+    const NativeWidgetConfigForm = parentWidget && mode === MODE_CLONE && getAppBuilderWidgetForm(parentWidget, true);
 
     const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
@@ -237,14 +237,16 @@ export class WidgetFormBody extends Component {
             </Col>
           </Row>
           {!!parentWidgetParameters.length && (
-            appBuilderWidgetForm ? (
-              React.createElement(
-                appBuilderWidgetForm,
-                {
-                  widgetConfig: {}, widgetCode, paramsMode: true,
-                },
-                null,
-              )
+            (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
+              <Field
+                name="config"
+                component={NativeWidgetConfigForm}
+                widgetConfig={{}}
+                widgetCode
+                extFormName={widgetFormName}
+                pageCode={match.pageCode}
+                frameId={match.frameId}
+              />
             ) : (
               <Row>
                 <Col xs={12}>
@@ -322,6 +324,7 @@ WidgetFormBody.propTypes = {
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
+  match: PropTypes.shape({}),
 };
 
 WidgetFormBody.defaultProps = {
@@ -339,11 +342,12 @@ WidgetFormBody.defaultProps = {
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,
+  match: {},
   onReplaceSubmit: () => {},
 };
 
 const WidgetForm = reduxForm({
-  form: 'widget',
+  form: widgetFormName,
 })(WidgetFormBody);
 
 export default injectIntl(WidgetForm);
