@@ -14,6 +14,7 @@ import { fetchGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
@@ -52,6 +53,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handleExpandPage());
     dispatch(fetchPageForm(pageCode));
   },
+  onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
 });
 
 
