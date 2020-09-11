@@ -1,12 +1,12 @@
 ## Guide for Running [`app-builder`](https://github.com/entando/app-builder) locally with [`entando-de-app`](https://github.com/entando/entando-de-app) and [`keycloak`](https://github.com/entando/entando-keycloak) authentication server
 
 ###  Run keycloak server:
-- Clone: https://github.com/entando/entando-keycloak
+- `git clone https://github.com/entando/entando-keycloak.git`
 - `cd entando-keycloak`
 - `docker build -t entando/keycloak:latest .`
 - `docker-compose up`
 ###  Setup keycloak realm and client
-- Clone: https://github.com/entando/entando-keycloak-plugin
+- `git clone https://github.com/entando/entando-keycloak-plugin.git`
 - Navigate to: http://localhost:8081/auth and log into keycloak admin console
 - id/pass: `admin`/`qwe123`
 - Top left corner click:  Add Realm
@@ -25,7 +25,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - Go to `Users` and add a new user that you will be using during `app-builder` login.
 ### Setup entando-de-app
 - Clone: https://github.com/entando/entando-de-app
-- Open `pom.xml` file and edit lines `101`, `102`, `103`, `104` and `105`:
+- Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update the following values:
 ```
 <keycloak.enabled>true</keycloak.enabled>
 <keycloak.auth.url>http://localhost:8081/auth</keycloak.auth.url>

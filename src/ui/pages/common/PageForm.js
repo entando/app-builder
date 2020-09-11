@@ -16,6 +16,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
+import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -43,7 +44,7 @@ export class PageFormBody extends Component {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode, seoMode,
+      pageCode, seoMode, onFindTemplateClick,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -144,22 +145,36 @@ export class PageFormBody extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Field
-                component={RenderSelectInput}
-                name="pageModel"
-                className="form-control"
-                validate={[required]}
-                label={
-                  <FormLabel
-                    labelId="pages.pageForm.pageTemplate"
-                    helpId="pages.pageForm.pageTemplateHelp"
-                    required
+              <Row>
+                <Col xs={10}>
+                  <Field
+                    component={RenderSelectInput}
+                    name="pageModel"
+                    className="form-control"
+                    validate={[required]}
+                    label={
+                      <FormLabel
+                        labelId="pages.pageForm.pageTemplate"
+                        helpId="pages.pageForm.pageTemplateHelp"
+                        required
+                      />
+                    }
+                    options={pageTemplatesWithEmpty}
+                    optionValue="code"
+                    optionDisplayName="descr"
                   />
-                }
-                options={pageTemplatesWithEmpty}
-                optionValue="code"
-                optionDisplayName="descr"
-              />
+                </Col>
+                <Col xs={2}>
+                  <Button
+                    className="PageForm__find_template"
+                    bsStyle="primary"
+                    onClick={onFindTemplateClick}
+                  >
+                    <FormattedMessage id="pages.pageForm.findTemplate" />
+                  </Button>
+                </Col>
+              </Row>
+              <FindTemplateModalContainer />
               <FormGroup>
                 <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
                   <FormLabel
@@ -371,6 +386,7 @@ PageFormBody.propTypes = {
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
   onChangeDefaultTitle: PropTypes.func,
+  onFindTemplateClick: PropTypes.func,
   parentCode: PropTypes.string,
   parentTitle: PropTypes.string,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
@@ -384,6 +400,7 @@ PageFormBody.defaultProps = {
   mode: 'add',
   onWillMount: null,
   onChangeDefaultTitle: null,
+  onFindTemplateClick: null,
   parentCode: null,
   parentTitle: null,
   pages: null,
