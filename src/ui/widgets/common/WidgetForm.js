@@ -104,7 +104,7 @@ export class WidgetFormBody extends Component {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode,
       parentWidget, parentWidgetParameters,
-      onReplaceSubmit, match,
+      onReplaceSubmit, match: { params },
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -148,7 +148,9 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
-    const NativeWidgetConfigForm = parentWidget && mode === MODE_CLONE && getAppBuilderWidgetForm(parentWidget, true);
+    const NativeWidgetConfigForm = parentWidget
+      && mode === MODE_CLONE
+      && getAppBuilderWidgetForm(parentWidget, true);
 
     const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
@@ -242,10 +244,10 @@ export class WidgetFormBody extends Component {
                 name="config"
                 component={NativeWidgetConfigForm}
                 widgetConfig={{}}
-                widgetCode
+                widgetCode={parentWidget.code}
                 extFormName={widgetFormName}
-                pageCode={match.pageCode}
-                frameId={match.frameId}
+                pageCode={params.pageCode}
+                frameId={params.frameId}
               />
             ) : (
               <Row>
@@ -324,7 +326,9 @@ WidgetFormBody.propTypes = {
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
-  match: PropTypes.shape({}),
+  match: PropTypes.shape({
+    params: PropTypes.shape({}),
+  }),
 };
 
 WidgetFormBody.defaultProps = {
@@ -342,7 +346,9 @@ WidgetFormBody.defaultProps = {
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,
-  match: {},
+  match: {
+    params: {},
+  },
   onReplaceSubmit: () => {},
 };
 
