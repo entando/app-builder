@@ -16,6 +16,7 @@ import {
   SET_COMPONENT_USAGE_LIST,
   CLEAR_ECR_SEARCH_FILTER,
   SET_ECR_SEARCH_FILTER_TYPE,
+  SET_INSTALL_UNINSTALL_PROGRESS,
 } from 'state/component-repository/components/types';
 
 import {
@@ -287,6 +288,15 @@ const usageList = (state = [], action = {}) => {
   }
 };
 
+const progressStatus = (state = 0, action = {}) => {
+  switch (action.type) {
+    case SET_INSTALL_UNINSTALL_PROGRESS: {
+      return action.payload.progress;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
@@ -295,4 +305,5 @@ export default combineReducers({
   installation,
   uninstallation,
   usageList,
+  progressStatus,
 });

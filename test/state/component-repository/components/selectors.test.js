@@ -7,6 +7,7 @@ import {
   getECRComponents, getECRComponentSelected,
   getECRComponentList, getECRComponentInstallationStatus,
   getECRComponentUninstallStatus, getComponentUsageList,
+  getInstallUninstallProgress,
 } from 'state/component-repository/components/selectors';
 import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
@@ -26,6 +27,7 @@ const MOCK_STATE = {
     installation,
     uninstallation,
     usageList: COMPONENT_USAGE_LIST,
+    progressStatus: 0.3,
   },
 };
 
@@ -42,6 +44,11 @@ describe('state/component-repository/components/selectors', () => {
 
   it('verify getECRComponentList selector', () => {
     expect(getECRComponentList(MOCK_STATE)).toEqual(MOCK_STATE.componentRepositoryComponents.list);
+  });
+
+  it('verify getInstallUninstallProgress selector', () => {
+    expect(getInstallUninstallProgress(MOCK_STATE))
+      .toEqual(MOCK_STATE.componentRepositoryComponents.progressStatus);
   });
 
   it('verify getECRComponentInstallationStatus selector', () => {

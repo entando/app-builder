@@ -19,6 +19,7 @@ import {
   finishComponentUninstall,
   fetchComponentUsage,
   setComponentUsageList,
+  setInstallUninstallProgress,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
@@ -45,6 +46,7 @@ import {
   FINISH_COMPONENT_UNINSTALLATION,
   COMPONENT_UNINSTALLATION_FAILED,
   SET_COMPONENT_USAGE_LIST,
+  SET_INSTALL_UNINSTALL_PROGRESS,
 } from 'state/component-repository/components/types';
 
 import { TOGGLE_LOADING, SET_LOADING } from 'state/loading/types';
@@ -288,6 +290,14 @@ describe('state/component-repository/components/actions', () => {
       action = setComponentUsageList(COMPONENT_USAGE_LIST);
       expect(action).toHaveProperty('type', SET_COMPONENT_USAGE_LIST);
       expect(action).toHaveProperty('payload', { usageList: COMPONENT_USAGE_LIST });
+    });
+  });
+
+  describe('setInstallUninstallProgress', () => {
+    it('should return correct action', () => {
+      action = setInstallUninstallProgress(0.5);
+      expect(action).toHaveProperty('type', SET_INSTALL_UNINSTALL_PROGRESS);
+      expect(action).toHaveProperty('payload', { progress: 0.5 });
     });
   });
 

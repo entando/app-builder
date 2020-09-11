@@ -70,3 +70,8 @@ export const getECRComponentUninstallStatus = (state, props) => (
 export const getComponentUsageList = state => (
   get(state, 'componentRepositoryComponents.usageList', [])
 );
+
+export const getInstallUninstallProgress = createSelector(
+  getECRComponents,
+  componentRepositoryComponents => componentRepositoryComponents.progressStatus,
+);

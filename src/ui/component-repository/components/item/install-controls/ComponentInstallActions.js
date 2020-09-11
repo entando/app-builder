@@ -23,6 +23,7 @@ const ComponentInstallActions = ({
   onClickUninstall,
   onRecheckStatus,
   onRetryAction,
+  progress,
 }) => {
   if (lastInstallStatus) {
     return (
@@ -33,13 +34,17 @@ const ComponentInstallActions = ({
   }
 
   const renderedButton = (component.installed && uninstallStatus === '')
-    ? <UninstallButton component={component} onClickUninstall={onClickUninstall} />
+    ? (<UninstallButton
+      component={component}
+      onClickUninstall={onClickUninstall}
+    />)
     : (
       <InstallButton
         component={component}
         onInstall={onInstall}
         uninstallStatus={uninstallStatus}
         installationStatus={installationStatus}
+        progress={progress}
       />
     );
 
@@ -76,6 +81,11 @@ ComponentInstallActions.propTypes = {
     type: PropTypes.string.isRequired,
     usage: PropTypes.number.isRequired,
   })).isRequired,
+  progress: PropTypes.number,
+};
+
+ComponentInstallActions.defaultProps = {
+  progress: 0,
 };
 
 export default injectIntl(ComponentInstallActions);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { Button, ProgressBar, SplitButton, MenuItem } from 'patternfly-react';
 
 import {
@@ -23,6 +23,8 @@ const InstallButton = ({
   uninstallStatus,
   installationStatus,
   onInstall,
+  progress,
+  intl,
 }) => {
   if (
     jobProgressStatuses.includes(installationStatus)
@@ -33,6 +35,7 @@ const InstallButton = ({
         active
         bsStyle="success"
         now={100}
+        label={`${intl.formatMessage({ id: 'app.loading' })}... ${progress * 100}%`}
       />
     );
   }
@@ -70,10 +73,12 @@ const InstallButton = ({
 };
 
 InstallButton.propTypes = {
+  intl: intlShape.isRequired,
   component: componentType.isRequired,
   onInstall: PropTypes.func.isRequired,
   installationStatus: PropTypes.string.isRequired,
   uninstallStatus: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
 };
 
-export default InstallButton;
+export default injectIntl(InstallButton);

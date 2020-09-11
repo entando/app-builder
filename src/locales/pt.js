@@ -268,6 +268,7 @@ export default {
     'app.enumerator.none': 'Nenhum',
     'app.about': 'Informações',
     'app.license': 'Licença',
+    'app.loading': 'Carregando',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Páginas',
     'menu.pageTree': 'Gerenciamento',
