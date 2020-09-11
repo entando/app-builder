@@ -1,11 +1,14 @@
 const pollApi = ({
-  apiFn, stopPollingConditionFn, timeout = 3000, interval = 500,
+  apiFn, stopPollingConditionFn, timeout = 3000, interval = 500, stepFunction,
 }) => {
   const endTime = Number(new Date()) + timeout;
   const checkCondition = (resolve, reject) => {
     apiFn().then((response) => {
       if (response.ok) {
         response.json().then((data) => {
+          if (stepFunction) {
+            stepFunction(data.payload || {});
+          }
           if (stopPollingConditionFn(data)) {
             resolve(data);
           } else if (Number(new Date()) < endTime) {

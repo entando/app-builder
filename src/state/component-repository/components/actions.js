@@ -21,6 +21,7 @@ import {
   COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   SET_COMPONENT_USAGE_LIST,
   SET_ECR_SEARCH_FILTER_TYPE,
+  SET_INSTALL_UNINSTALL_PROGRESS,
 } from 'state/component-repository/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -151,9 +152,16 @@ export const setComponentUsageList = usageList => ({
   },
 });
 
+export const setInstallUninstallProgress = progress => ({
+  type: SET_INSTALL_UNINSTALL_PROGRESS,
+  payload: {
+    progress,
+  },
+});
+
 // thunks
 
-export const pollECRComponentInstallStatus = componentCode => dispatch => (
+export const pollECRComponentInstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentInstallation(componentCode));
     pollApi({
@@ -166,6 +174,7 @@ export const pollECRComponentInstallStatus = componentCode => dispatch => (
         ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
+      stepFunction: payload => stepFunction(payload.progress),
     })
       .then((res) => {
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
@@ -215,14 +224,14 @@ export const pollECRComponentInstallStatus = componentCode => dispatch => (
   })
 );
 
-export const installECRComponent = (component, version) => dispatch => (
+export const installECRComponent = (component, version, logProgress) => dispatch => (
   new Promise((resolve) => {
     const loadingId = `deComponentInstallUninstall-${component.code}`;
     dispatch(toggleLoading(loadingId));
     postECRComponentInstall(component, version).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(pollECRComponentInstallStatus(component.code))
+          dispatch(pollECRComponentInstallStatus(component.code, logProgress))
             .then(res => resolve(res));
         } else {
           if (data && data.errors) {
@@ -239,11 +248,13 @@ export const installECRComponent = (component, version) => dispatch => (
         }
         dispatch(toggleLoading(loadingId));
       });
-    }).catch(() => {});
+      logProgress(0);
+    })
+      .catch(() => {});
   })
 );
 
-export const pollECRComponentUninstallStatus = componentCode => dispatch => (
+export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentUninstall(componentCode));
     pollApi({
@@ -255,6 +266,7 @@ export const pollECRComponentUninstallStatus = componentCode => dispatch => (
         ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
+      stepFunction: payload => stepFunction(payload.progress),
     })
       .then(({
         payload,
@@ -293,14 +305,14 @@ export const pollECRComponentUninstallStatus = componentCode => dispatch => (
   })
 );
 
-export const uninstallECRComponent = componentCode => dispatch => (
+export const uninstallECRComponent = (componentCode, logProgress) => dispatch => (
   new Promise((resolve) => {
     const loadingId = `deComponentInstallUninstall-${componentCode}`;
     dispatch(toggleLoading(loadingId));
     postECRComponentUninstall(componentCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(pollECRComponentUninstallStatus(componentCode))
+          dispatch(pollECRComponentUninstallStatus(componentCode, logProgress))
             .then(res => resolve(res));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
@@ -309,7 +321,9 @@ export const uninstallECRComponent = componentCode => dispatch => (
         }
         dispatch(toggleLoading(loadingId));
       });
-    }).catch(() => {});
+      logProgress(0);
+    })
+      .catch(() => {});
   })
 );
 

@@ -9,6 +9,7 @@ import {
   startComponentUninstall,
   finishComponentUninstall,
   setComponentUsageList,
+  setInstallUninstallProgress,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
@@ -258,6 +259,19 @@ describe('Component repository reducer', () => {
 
     it('should define the component payload', () => {
       expect(newState).toHaveProperty('selected', GET_ECR_COMPONENT_OK);
+    });
+  });
+
+  describe('after action setInstallUninstallProgress', () => {
+    const state = reducer();
+    let newState;
+
+    beforeEach(() => {
+      newState = reducer(state, setInstallUninstallProgress(0.8));
+    });
+
+    it('should define the component payload', () => {
+      expect(newState).toHaveProperty('progressStatus', 0.8);
     });
   });
 

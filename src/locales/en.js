@@ -218,6 +218,7 @@ export default {
     'app.help.message': 'Help message',
     'app.roles': 'Roles',
     'app.role': 'Role',
+    'app.loading': 'Loading',
     'app.minLength': 'Minimum length',
     'app.maxLength': 'Maximum length',
     'app.regexp': 'Regular expression',

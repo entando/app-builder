@@ -270,6 +270,7 @@ export default {
     'app.enumerator.none': 'Nessuno',
     'app.about': 'Informazioni',
     'app.license': 'Licenza',
+    'app.loading': 'Caricamento',
     'app.select': 'Selezionare',
     'menu.dashboard': 'Dashboard',
     'menu.pageTree': 'Gestione',
