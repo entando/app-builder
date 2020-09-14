@@ -1,6 +1,6 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { mount } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render } from '@testing-library/react';
 import AddAuthorityModal from 'ui/users/common/AddAuthorityModal';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
@@ -31,23 +31,20 @@ jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 describe('AddAuthorityModal', () => {
-  let component;
+  it('renders without crashing, and display all elements', () => {
+    // eslint-disable-next-line max-len
+    const { getByText } = render(mockRenderWithIntlAndStore(<AddAuthorityModal {...props} />, state));
+    expect(getByText('User Group')).toBeInTheDocument();
+    expect(getByText('User Role')).toBeInTheDocument();
+    expect(getByText('New authorizations')).toBeInTheDocument();
+    expect(getByText('Add')).toBeInTheDocument();
+    expect(getByText('Cancel')).toBeInTheDocument();
+  });
 
-  describe('empty data', () => {
-    beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<AddAuthorityModal {...props} />, state));
-    });
-
-    it('renders without crashing', () => {
-      expect(component.exists()).toBe(true);
-    });
-
-    it('renders with a BUTTON', () => {
-      expect(component.find('BUTTON').exists()).toBeDefined();
-    });
-
-    it('renders with two selects', () => {
-      expect(component.find('select').length).toBe(2);
-    });
+  it('add button to call onClickAdd', () => {
+    // eslint-disable-next-line max-len
+    const { getByText } = render(mockRenderWithIntlAndStore(<AddAuthorityModal {...props} />, state));
+    fireEvent.click(getByText('Add'));
+    expect(props.onClickAdd).toHaveBeenCalled();
   });
 });
