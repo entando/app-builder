@@ -102,7 +102,7 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading, mode,
+      invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
       onReplaceSubmit, match: { params },
     } = this.props;
@@ -247,7 +247,8 @@ export class WidgetFormBody extends Component {
                     <Field
                       name="config"
                       component={NativeWidgetConfigForm}
-                      widgetConfig={{}}
+                      cloneMode
+                      widgetConfig={config}
                       widgetCode={parentWidget.code}
                       extFormName={widgetFormName}
                       pageCode={params.pageCode}
@@ -314,6 +315,7 @@ WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  config: PropTypes.shape({}),
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -347,6 +349,7 @@ WidgetFormBody.defaultProps = {
     code: '',
   }],
   mode: MODE_NEW,
+  config: {},
   defaultUIField: '',
   parentWidget: null,
   parentWidgetParameters: [],

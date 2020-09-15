@@ -42,6 +42,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     mode: MODE_CLONE,
     groups: getGroupsList(state),
     parentWidget,
+    config,
     parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
