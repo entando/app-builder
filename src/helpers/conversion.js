@@ -1,4 +1,4 @@
-const convertJSONtoPars = (srcValue) => {
+const convertJSONtoWidgetConfigNotation = (srcValue) => {
   const isArr = t => Array.isArray(t);
   const isObj = o => typeof o === 'object';
 
@@ -45,7 +45,7 @@ export const convertConfigObject = configFields => (
     if (typeof configFields[field] === 'object') {
       return {
         ...acc,
-        [field]: convertJSONtoPars(configFields[field]),
+        [field]: convertJSONtoWidgetConfigNotation(configFields[field]),
       };
     }
     return {
