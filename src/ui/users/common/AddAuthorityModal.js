@@ -27,6 +27,7 @@ const AddAuthorityModal = ({
       buttons={buttons}
       modalTitle={modalTitle}
       className="UnpublishPageModal"
+      data-testid="addAuthorityModal"
     >
       <FormGroup>
         <Row>
@@ -38,6 +39,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="group"
               ref={setGroupRef}
+              data-testid="groups"
             >
               {groupOptions}
             </select>
@@ -54,6 +56,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="roles"
               ref={setRoleRef}
+              data-testid="roles"
             >
               {rolesOptions}
             </select>
