@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
+import { clearErrors } from '@entando/messages';
 import { submit, reduxForm } from 'redux-form';
 import { injectIntl } from 'react-intl';
 import { WidgetFormBody } from 'ui/widgets/common/WidgetForm';
@@ -18,6 +19,7 @@ import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import { convertConfigObject } from 'helpers/conversion';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 const CONFIG_SIMPLE_PARAMETER = 'configSimpleParameter';
@@ -30,8 +32,9 @@ export const mapStateToProps = (state, { match: { params } }) => {
   const parentWidget = getSelectedParentWidget(state);
   const configUi = get(parentWidget, 'configUi', '');
   const group = get(parentWidget, 'group', '');
+  const titles = get(parentWidget, 'titles', {});
   const initialValues = {
-    ...parentWidget,
+    titles,
     config,
     code: '',
     configUi: !configUi ? '' : JSON.stringify(configUi, null, 2),
@@ -69,18 +72,23 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(initNewUserWidget(parentCode, true));
   },
   onSubmit: (values) => {
+    const { config: configFields } = values;
     const jsonData = {
       ...values,
+      config: convertConfigObject(configFields),
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
+    dispatch(clearErrors());
     return dispatch(sendPostWidgets(jsonData));
   },
   onReplaceSubmit: async (values) => {
+    const { config: configFields } = values;
     const {
       pageCode, frameId,
     } = params;
     const jsonData = {
       ...values,
+      config: convertConfigObject(configFields),
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     await dispatch(sendPostWidgets(jsonData));
