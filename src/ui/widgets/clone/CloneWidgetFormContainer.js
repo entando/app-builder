@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
+import { clearErrors } from '@entando/messages';
 import { submit, reduxForm } from 'redux-form';
 import { injectIntl } from 'react-intl';
 import { WidgetFormBody } from 'ui/widgets/common/WidgetForm';
-
+import { get } from 'lodash';
 import { fetchLanguages } from 'state/languages/actions';
 import { removePageWidget, updatePageWidget } from 'state/page-config/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -12,27 +13,39 @@ import { getConfigMap } from 'state/page-config/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
-import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
-import { initWidgetConfigPageWithConfigData, updateConfiguredPageWidget } from 'state/widget-config/actions';
+import { initNewUserWidget, sendPostWidgets, FREE_ACCESS_GROUP_VALUE } from 'state/widgets/actions';
+import { initWidgetConfigPage, initWidgetConfigPageWithConfigData, updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
+import { convertConfigObject } from 'helpers/conversion';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 const CONFIG_SIMPLE_PARAMETER = 'configSimpleParameter';
 const MODE_CLONE = 'clone';
 
 export const mapStateToProps = (state, { match: { params } }) => {
-  const { pageCode, parentCode } = params;
+  const { pageCode, parentCode, frameId } = params;
   const pageConfig = getConfigMap(state) || {};
-  const targetConfig = pageConfig[pageCode] || [];
-  const widgetConfig = targetConfig[0] || {};
-  const initialValues = { config: { ...widgetConfig.config }, parentType: parentCode };
+  const config = get(pageConfig, `${pageCode}.${frameId}.config`, {});
+  const parentWidget = getSelectedParentWidget(state);
+  const configUi = get(parentWidget, 'configUi', '');
+  const group = get(parentWidget, 'group', '');
+  const titles = get(parentWidget, 'titles', {});
+  const initialValues = {
+    titles,
+    config,
+    code: '',
+    configUi: !configUi ? '' : JSON.stringify(configUi, null, 2),
+    group: group || FREE_ACCESS_GROUP_VALUE,
+    parentType: parentCode,
+  };
   return ({
     mode: MODE_CLONE,
     groups: getGroupsList(state),
-    parentWidget: getSelectedParentWidget(state),
+    parentWidget,
+    config,
     parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
@@ -42,7 +55,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
 };
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
-  onWillMount: () => {
+  onWillMount: ({ widgetConfig }) => {
     const {
       parentCode, widgetAction, pageCode, frameId,
     } = params;
@@ -51,22 +64,31 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     }
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(initWidgetConfigPageWithConfigData(pageCode, parentCode, parseInt(frameId, 10)));
+    if (widgetConfig) {
+      dispatch(initWidgetConfigPage(pageCode, parentCode, parseInt(frameId, 10)));
+    } else {
+      dispatch(initWidgetConfigPageWithConfigData(pageCode, parentCode, parseInt(frameId, 10)));
+    }
     dispatch(initNewUserWidget(parentCode, true));
   },
   onSubmit: (values) => {
+    const { config: configFields } = values;
     const jsonData = {
       ...values,
+      config: convertConfigObject(configFields),
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
+    dispatch(clearErrors());
     return dispatch(sendPostWidgets(jsonData));
   },
   onReplaceSubmit: async (values) => {
+    const { config: configFields } = values;
     const {
       pageCode, frameId,
     } = params;
     const jsonData = {
       ...values,
+      config: convertConfigObject(configFields),
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     await dispatch(sendPostWidgets(jsonData));

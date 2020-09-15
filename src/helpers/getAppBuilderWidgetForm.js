@@ -1,4 +1,5 @@
 import apps from 'entando-apps';
+import { get } from 'lodash';
 
 import NavigationBarConfigFormContainer from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
 
@@ -13,8 +14,10 @@ const appBuilderNativeWidgetForms = {
 
 const widgetForms = { ...appsWidgetForms, ...appBuilderNativeWidgetForms };
 
-export default (widget) => {
+export default (widget, baseOnly) => {
   const { widgetCode, action } = widget || {};
   const widgetFormId = action || widgetCode;
-  return widgetForms && widgetFormId ? widgetForms[widgetFormId] : null;
+  const widgetForm = widgetForms && widgetFormId ? widgetForms[widgetFormId] : null;
+  const moduleKey = baseOnly ? 'body' : 'default';
+  return get(widgetForm, moduleKey, widgetForm);
 };

@@ -9,7 +9,11 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import { getSelectedWidgetDefaultUi, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
+import {
+  getSelectedWidgetDefaultUi,
+  getSelectedParentWidget,
+  getSelectedParentWidgetParameters,
+} from 'state/widgets/selectors';
 import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
@@ -19,6 +23,7 @@ import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal'
 
 export const mapStateToProps = state => ({
   groups: getGroupsList(state),
+  parentWidget: getSelectedParentWidget(state),
   parentWidgetParameters: getSelectedParentWidgetParameters(state),
   defaultUIField: getSelectedWidgetDefaultUi(state),
   languages: getActiveLanguages(state),
