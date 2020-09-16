@@ -34,7 +34,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 <keycloak.client.secret>YOUR SECRET HERE from KEYCLOAK</keycloak.client.secret>
 ```
 As for secret you need to go to keycloak , then go to `Clients/entando-core` and click `Credentials` tab, there you will see a secret and put that secret into `pom.xml` . As for other lines, you can keep them same as in the snippet above.
-- Now run entando-de-app via running: `mvn clean package jetty:run -Pjetty-local -Pderby -Pkeycloak`
+- Now run entando-de-app via running: `mvn clean package jetty:run-war -Pjetty-local -Pderby -Pkeycloak`
 ### Setup app-builder
 - Clone app-builder from: https://github.com/entando/app-builder
 - You must have node version `10.*`
