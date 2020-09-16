@@ -9,6 +9,7 @@ import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
 import { ACTION_UPDATE } from 'state/users/const';
 import { fetchUserAuthorities, sendPostUserAuthorities, sendPutUserAuthorities, sendDeleteUserAuthorities } from 'state/users/actions';
 import { getGroupRolesCombo, getSelectedUserActionAuthorities } from 'state/users/selectors';
+import { setVisibleModal } from 'state/modal/actions';
 
 
 export const mapStateToProps = state =>
@@ -38,7 +39,8 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
       dispatch(sendPostUserAuthorities(groupRolesCombo, params.username));
     }
   },
-
+  onAddNewClicked: () => dispatch(setVisibleModal('AddAuthorityModal')),
+  onCloseModal: () => dispatch(setVisibleModal('')),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {

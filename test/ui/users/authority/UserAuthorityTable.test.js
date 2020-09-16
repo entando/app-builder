@@ -1,8 +1,15 @@
+/* eslint-disable max-len */
 import React from 'react';
-import 'test/enzyme-init';
-import { shallow, mount } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, screen } from '@testing-library/react';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
+
+const state = {
+  modal: {
+    visibleModal: 'AddAuthorityModal',
+  },
+};
 
 const FIELDS = {
   push: jest.fn(),
@@ -29,50 +36,45 @@ const props = {
   groups: ROLES_MOCKS,
   roles: GROUPS_MOCKS,
   fields: FIELDS,
-  groupRolesCombo: [],
+  groupRolesCombo: GROUP_ROLES_COMBO,
+  onCloseModal: jest.fn(),
+  onAddNewClicked: jest.fn(),
 };
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 describe('UserListTable', () => {
-  let component;
-
   describe('empty data', () => {
-    beforeEach(() => {
-      component = shallow(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} />));
-    });
+    it('renders without crashing, and display all elements', () => {
+      const { getByText } = render(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} groupRolesCombo={[]} />, state));
 
-    it('renders without crashing', () => {
-      expect(component.exists()).toBe(true);
-    });
-
-    it('renders with a BUTTON', () => {
-      expect(component.find('BUTTON').exists()).toBeDefined();
-    });
-    it('renders with a table', () => {
-      expect(component.find('table').exists()).toBeDefined();
-    });
-
-    it('is empty Alert', () => {
-      expect(component.find('Altert').exists()).toBeDefined();
+      expect(getByText('No authorizations yet')).toBeInTheDocument();
+      expect(getByText('Add new Authorization')).toBeInTheDocument();
+      expect(getByText('Cancel')).toBeInTheDocument();
+      expect(getByText('Add')).toBeInTheDocument();
     });
   });
   describe('with data', () => {
-    beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<UserAuthorityTable
-        {...props}
-        groupRolesCombo={GROUP_ROLES_COMBO}
-      />));
+    it('renders without crashing, and display all elements', () => {
+      const { getByText } = render(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} />, state));
+
+      expect(getByText('New authorizations')).toBeInTheDocument();
+      expect(getByText('Add new Authorization')).toBeInTheDocument();
+      expect(getByText('Cancel')).toBeInTheDocument();
+      expect(getByText('Add')).toBeInTheDocument();
     });
 
-    it('has table component', () => {
-      expect(component.find('table').exists()).toBe(true);
-    });
+    it('depending on values selected call push() or not', async () => {
+      render(mockRenderWithIntlAndStore(<UserAuthorityTable {...props} />, state));
 
-    it('depending on values selected call push() or not', () => {
-      component.instance().group = { value: 'nenno' };
-      component.find('button.UserAuthorityTable__add').simulate('click');
+      fireEvent.click(screen.getByText('Add new Authorization'));
+
+      fireEvent.change(screen.getByTestId('groups'), { target: { value: 'group1' } });
+      fireEvent.change(screen.getByTestId('roles'), { target: { value: 'role1' } });
+
+      fireEvent.click(screen.getByText('Add'));
+
       expect(FIELDS.push).not.toHaveBeenCalled();
     });
   });

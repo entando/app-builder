@@ -18,7 +18,9 @@ export class UserAuthorityPageFormBody extends Component {
   }
 
   render() {
-    const { invalid, submitting, handleSubmit } = this.props;
+    const {
+      invalid, submitting, handleSubmit, onAddNewClicked, onCloseModal,
+    } = this.props;
 
     return (
       <Spinner loading={!!this.props.loading}>
@@ -36,6 +38,8 @@ export class UserAuthorityPageFormBody extends Component {
                     groups={this.props.groups}
                     roles={this.props.roles}
                     groupRolesCombo={this.props.groupRolesCombo}
+                    onAddNewClicked={onAddNewClicked}
+                    onCloseModal={onCloseModal}
                   />
                 </Col>
               </Row>
@@ -61,6 +65,8 @@ UserAuthorityPageFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onWillMount: PropTypes.func.isRequired,
+  onAddNewClicked: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
   actionOnSave: PropTypes.oneOf([ACTION_SAVE, ACTION_UPDATE]),
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
