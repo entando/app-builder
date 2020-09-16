@@ -104,6 +104,10 @@ export class UserProfileFormBody extends Component {
     this.props.onWillMount(this.props);
   }
 
+  componentWillUnmount() {
+    this.props.onWillUnmount();
+  }
+
   render() {
     const {
       onSubmit, handleSubmit, invalid, submitting, defaultLanguage, languages,
@@ -297,6 +301,7 @@ UserProfileFormBody.propTypes = {
   })),
   profileTypes: PropTypes.arrayOf(PropTypes.shape({})),
   onProfileTypeChange: PropTypes.func,
+  onWillUnmount: PropTypes.func,
 };
 
 UserProfileFormBody.defaultProps = {
@@ -308,6 +313,7 @@ UserProfileFormBody.defaultProps = {
   onProfileTypeChange: () => {},
   selectedProfileType: '',
   userCurrentProfileType: '',
+  onWillUnmount: () => {},
 };
 
 

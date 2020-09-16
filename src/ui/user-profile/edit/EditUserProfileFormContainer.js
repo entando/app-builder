@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { change, formValueSelector } from 'redux-form';
+import { change, formValueSelector, destroy } from 'redux-form';
 import { getUserProfile } from 'state/user-profile/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchProfileTypes, fetchProfileType } from 'state/profile-types/actions';
@@ -28,6 +28,9 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchUserProfile(username));
+  },
+  onWillUnmount: () => {
+    dispatch(destroy('ProfileType'));
   },
   onSubmit: (userprofile) => {
     dispatch(updateUserProfile(userprofile));
