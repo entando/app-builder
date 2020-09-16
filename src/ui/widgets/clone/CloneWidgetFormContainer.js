@@ -13,7 +13,7 @@ import { getConfigMap } from 'state/page-config/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
-import { initNewUserWidget, sendPostWidgets, FREE_ACCESS_GROUP_VALUE } from 'state/widgets/actions';
+import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
 import { initWidgetConfigPage, initWidgetConfigPageWithConfigData, updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { getLoading } from 'state/loading/selectors';
 
@@ -29,22 +29,14 @@ export const mapStateToProps = (state, { match: { params } }) => {
   const { pageCode, parentCode, frameId } = params;
   const pageConfig = getConfigMap(state) || {};
   const config = get(pageConfig, `${pageCode}.${frameId}.config`, {});
-  const parentWidget = getSelectedParentWidget(state);
-  const configUi = get(parentWidget, 'configUi', '');
-  const group = get(parentWidget, 'group', '');
-  const titles = get(parentWidget, 'titles', {});
   const initialValues = {
-    titles,
     config,
-    code: '',
-    configUi: !configUi ? '' : JSON.stringify(configUi, null, 2),
-    group: group || FREE_ACCESS_GROUP_VALUE,
     parentType: parentCode,
   };
   return ({
     mode: MODE_CLONE,
     groups: getGroupsList(state),
-    parentWidget,
+    parentWidget: getSelectedParentWidget(state),
     config,
     parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
