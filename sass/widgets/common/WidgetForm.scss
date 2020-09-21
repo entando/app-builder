@@ -1,15 +1,21 @@
-.WidgetForm__language-label {
-  margin-right: 5px;
-  background-color: $color-pf-blue-400;
-}
+.WidgetForm {
+  &__maintab > .nav-tabs { // sass-lint:disable-line class-name-format, force-element-nesting
+    margin-bottom: 30px;
+  }
 
-.WidgetForm__required-icon {
-  margin-left: 3px;
-  font-size: 8px;
-  vertical-align: super;
-}
+  &__language-label {
+    margin-right: 5px;
+    background-color: $color-pf-blue-400;
+  }
 
-.WidgetForm__required-fields {
-  color: $color-pf-black-300;
-  font-size: 12px;
+  &__required-icon {
+    margin-left: 3px;
+    font-size: 8px;
+    vertical-align: super;
+  }
+
+  &__required-fields {
+    color: $color-pf-black-300;
+    font-size: 12px;
+  }
 }

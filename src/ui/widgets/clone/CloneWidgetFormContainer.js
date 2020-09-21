@@ -29,14 +29,16 @@ export const mapStateToProps = (state, { match: { params } }) => {
   const { pageCode, parentCode, frameId } = params;
   const pageConfig = getConfigMap(state) || {};
   const config = get(pageConfig, `${pageCode}.${frameId}.config`, {});
+  const parentWidget = getSelectedParentWidget(state);
   const initialValues = {
     config,
+    configUi: parentWidget && parentWidget.configUi ? JSON.parse(parentWidget.configUi) : null,
     parentType: parentCode,
   };
   return ({
     mode: MODE_CLONE,
     groups: getGroupsList(state),
-    parentWidget: getSelectedParentWidget(state),
+    parentWidget,
     config,
     parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),

@@ -21,14 +21,20 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
-export const mapStateToProps = state => ({
-  groups: getGroupsList(state),
-  parentWidget: getSelectedParentWidget(state),
-  parentWidgetParameters: getSelectedParentWidgetParameters(state),
-  defaultUIField: getSelectedWidgetDefaultUi(state),
-  languages: getActiveLanguages(state),
-  loading: getLoading(state).fetchWidget,
-});
+export const mapStateToProps = (state) => {
+  const parentWidget = getSelectedParentWidget(state);
+  return {
+    groups: getGroupsList(state),
+    parentWidget: getSelectedParentWidget(state),
+    parentWidgetParameters: getSelectedParentWidgetParameters(state),
+    defaultUIField: getSelectedWidgetDefaultUi(state),
+    languages: getActiveLanguages(state),
+    loading: getLoading(state).fetchWidget,
+    initialValues: {
+      configUi: parentWidget && parentWidget.configUi ? JSON.parse(parentWidget.configUi) : null,
+    },
+  };
+};
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {

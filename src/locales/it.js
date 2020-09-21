@@ -373,6 +373,8 @@ export default {
     'widget.page.create.title.it.placeholder': 'Titolo italiano',
     'widget.page.create.group': 'Gruppo',
     'widget.page.create.parameters': 'Parametri',
+    'widget.page.create.general': 'Generale',
+    'widget.page.create.defaultConfig': 'Configurazione Predefinita',
     'widget.page.create.config': 'Impostazioni',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
