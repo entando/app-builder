@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import RegexParser from 'regex-parser';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
-import { required } from '@entando/utils';
+import { required, minLength, maxLength, minValue, maxValue } from '@entando/utils';
 import Panel from 'react-bootstrap/lib/Panel';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -17,6 +18,9 @@ import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
+
+export const matchRegex = regex => val => ((val && regex && !regex.test(val)) ?
+  (<FormattedMessage id="validateForm.regex" values={{ regex }} />) : undefined);
 
 const getComponentOptions = (component, intl) => {
   const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
@@ -73,32 +77,6 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
-const field = (intl, attribute) => (<Field
-  key={attribute.code}
-  component={getComponentType(attribute.type)}
-  name={attribute.code}
-  rows={3}
-  toggleElement={getComponentOptions(attribute.type, intl)}
-  options={getEnumeratorOptions(
-    attribute.type,
-    attribute.enumeratorStaticItems,
-    attribute.enumeratorStaticItemsSeparator,
-    attribute.mandatory,
-    intl,
-  )}
-  optionValue="value"
-  optionDisplayName="optionDisplayName"
-  label={<FormLabel
-    labelText={attribute.name}
-    helpText={getHelpMessage(attribute.validationRules, intl)}
-    required={attribute.mandatory}
-  />}
-/>);
-
-const renderCompositeAttribute = (intl, compositeAttributes) =>
-  compositeAttributes.map(attribute => field(intl, attribute));
-
-
 export class UserProfileFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -106,6 +84,64 @@ export class UserProfileFormBody extends Component {
 
   componentWillUnmount() {
     this.props.onWillUnmount();
+  }
+
+  generatetValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
+    if (value) {
+      if (this.validatorFuncName) {
+        if (this.validatorFuncName[value]) {
+          validatorArray.push(this.validatorFuncName[value]);
+        } else {
+          this.validatorFuncName[value] =
+          validatorFunc(parseValueFunc ? parseValueFunc(value) : value);
+        }
+      } else {
+        this.validatorFuncName =
+        { [value]: validatorFunc(parseValueFunc ? parseValueFunc(value) : value) };
+      }
+    }
+  }
+
+  renderField(attribute) {
+    const { intl } = this.props;
+    const { validationRules } = attribute || {};
+    const {
+      minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
+    } = validationRules || {};
+    const validateArray = [];
+
+    this.generatetValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
+    this.generatetValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
+    this.generatetValidatorFunc(regex, 'regex', matchRegex, validateArray, RegexParser);
+    this.generatetValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
+    this.generatetValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
+
+    return (<Field
+      key={attribute.code}
+      component={getComponentType(attribute.type)}
+      name={attribute.code}
+      rows={3}
+      toggleElement={getComponentOptions(attribute.type, intl)}
+      options={getEnumeratorOptions(
+        attribute.type,
+        attribute.enumeratorStaticItems,
+        attribute.enumeratorStaticItemsSeparator,
+        attribute.mandatory,
+        intl,
+      )}
+      optionValue="value"
+      optionDisplayName="optionDisplayName"
+      label={<FormLabel
+        labelText={attribute.name}
+        helpText={getHelpMessage(attribute.validationRules, intl)}
+        required={attribute.mandatory}
+      />}
+      validate={validateArray}
+    />);
+  }
+
+  renderCompositeAttribute(compositeAttributes) {
+    return compositeAttributes.map(attribute => this.renderField(attribute));
   }
 
   render() {
@@ -156,7 +192,7 @@ export class UserProfileFormBody extends Component {
                 <Panel>
                   <Panel.Body>
                     <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(intl, attribute.compositeAttributes)}
+                      { this.renderCompositeAttribute(attribute.compositeAttributes)}
                     </FormSection>
                   </Panel.Body>
                 </Panel>
@@ -180,7 +216,7 @@ export class UserProfileFormBody extends Component {
             </Row>
           );
         }
-        return field(intl, attribute);
+        return this.renderField(attribute);
       })
     );
 
@@ -311,8 +347,6 @@ UserProfileFormBody.defaultProps = {
   profileTypesAttributes: [],
   profileTypes: [],
   onProfileTypeChange: () => {},
-  selectedProfileType: '',
-  userCurrentProfileType: '',
   onWillUnmount: () => {},
 };
 
