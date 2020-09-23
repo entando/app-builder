@@ -89,14 +89,18 @@ export class UserProfileFormBody extends Component {
   generateValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
     if (value === null || value === undefined) return;
     const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
-    if (this.validatorFuncName) {
-      if (!this.validatorFuncName[value]) {
-        this.validatorFuncName = { ...this.validatorFuncName, [value]: validatorFunc(parsedValue) };
+    this.validators = this.validators || {};
+    if (this.validators[validatorFuncName]) {
+      if (!this.validators[validatorFuncName][value]) {
+        this.validators[validatorFuncName] = {
+          ...this.validators[validatorFuncName],
+          [value]: validatorFunc(parsedValue),
+        };
       }
     } else {
-      this.validatorFuncName = { [value]: validatorFunc(parsedValue) };
+      this.validators[validatorFuncName] = { [value]: validatorFunc(parsedValue) };
     }
-    validatorArray.push(this.validatorFuncName[value]);
+    validatorArray.push(this.validators[validatorFuncName][value]);
   }
 
   renderField(attribute) {
