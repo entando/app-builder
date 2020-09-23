@@ -86,20 +86,17 @@ export class UserProfileFormBody extends Component {
     this.props.onWillUnmount();
   }
 
-  generatetValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
-    if (value) {
-      if (this.validatorFuncName) {
-        if (this.validatorFuncName[value]) {
-          validatorArray.push(this.validatorFuncName[value]);
-        } else {
-          this.validatorFuncName[value] =
-          validatorFunc(parseValueFunc ? parseValueFunc(value) : value);
-        }
-      } else {
-        this.validatorFuncName =
-        { [value]: validatorFunc(parseValueFunc ? parseValueFunc(value) : value) };
+  generateValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
+    if (value == null) return;
+    const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
+    if (this.validatorFuncName) {
+      if (this.validatorFuncName[value] == null) {
+        this.validatorFuncName[value] = validatorFunc(parsedValue);
       }
+    } else {
+      this.validatorFuncName = { [value]: validatorFunc(parsedValue) };
     }
+    validatorArray.push(this.validatorFuncName[value]);
   }
 
   renderField(attribute) {
@@ -108,13 +105,13 @@ export class UserProfileFormBody extends Component {
     const {
       minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
     } = validationRules || {};
-    const validateArray = [];
+    const validateArray = [...(attribute.mandatory ? [required] : [])];
 
-    this.generatetValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
-    this.generatetValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
-    this.generatetValidatorFunc(regex, 'regex', matchRegex, validateArray, RegexParser);
-    this.generatetValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
-    this.generatetValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
+    this.generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
+    this.generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
+    this.generateValidatorFunc(regex, 'regex', matchRegex, validateArray, RegexParser);
+    this.generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
+    this.generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
 
     return (<Field
       key={attribute.code}
