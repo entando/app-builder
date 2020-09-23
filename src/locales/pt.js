@@ -352,6 +352,7 @@ export default {
     'validateForm.number': 'Deve ser um número',
     'validateForm.minValue': 'Deve ter ao menos {min}',
     'validateForm.maxValue': 'Deve ter no máximo {max}',
+    'validateForm.regex': 'Deve corresponder a este regex: {regex}',
     'validateForm.email': 'Endereço de email inválido',
     'validateForm.alphaNumeric': 'Somente caracteres alfanuméricos',
     'validateForm.widgetCode': '{name} contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado _ são permitidos',

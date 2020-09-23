@@ -360,6 +360,7 @@ export default {
     'validateForm.number': 'Must be a number.',
     'validateForm.minValue': 'Must be at least {min}',
     'validateForm.maxValue': 'Must be at most {max}.',
+    'validateForm.regex': 'Must match this regex: {regex}',
     'validateForm.email': 'Invalid email address.',
     'validateForm.alphaNumeric': 'Alphanumeric characters only.',
     'validateForm.widgetCode': '{name} contains invalid characters. Only alphanumeric characters and the underscore are allowed',
