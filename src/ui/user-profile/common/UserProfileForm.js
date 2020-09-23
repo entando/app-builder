@@ -87,18 +87,17 @@ export class UserProfileFormBody extends Component {
   }
 
   generateValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
-    if (value === null || value === undefined) return;
+    if (value === null || value === undefined) {
+      return;
+    }
     const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
     this.validators = this.validators || {};
-    if (this.validators[validatorFuncName]) {
-      if (!this.validators[validatorFuncName][value]) {
-        this.validators[validatorFuncName] = {
-          ...this.validators[validatorFuncName],
-          [value]: validatorFunc(parsedValue),
-        };
-      }
-    } else {
-      this.validators[validatorFuncName] = { [value]: validatorFunc(parsedValue) };
+    this.validators[validatorFuncName] = this.validators[validatorFuncName] || {};
+    if (!this.validators[validatorFuncName][value]) {
+      this.validators[validatorFuncName] = {
+        ...this.validators[validatorFuncName],
+        [value]: validatorFunc(parsedValue),
+      };
     }
     validatorArray.push(this.validators[validatorFuncName][value]);
   }
