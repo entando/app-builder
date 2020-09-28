@@ -68,6 +68,7 @@ export class UserFormBody extends Component {
   render() {
     const {
       intl, onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
+      password,
     } = this.props;
 
     const showUsername = (
@@ -142,7 +143,10 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
                 placeholder={intl.formatMessage(msgs.password)}
-                validate={[required, minLength8, maxLength20, userFormText]}
+                validate={[
+                  ...(mode === NEW_MODE ? [required] : []),
+                  ...(password ? [userFormText, minLength8, maxLength20] : []),
+                  ]}
               />
               <Field
                 component={RenderTextInput}
@@ -150,7 +154,10 @@ export class UserFormBody extends Component {
                 type="password"
                 label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
                 placeholder={intl.formatMessage(msgs.passwordConfirm)}
-                validate={[required, matchPassword]}
+                validate={[
+                  ...(mode === NEW_MODE ? [required] : []),
+                  ...(password ? [matchPassword] : []),
+                ]}
               />
               {/* Insert user info and reset button on EDIT */}
               {showEdit()}
@@ -215,6 +222,7 @@ UserFormBody.propTypes = {
     value: PropTypes.string,
     text: PropTypes.string,
   })),
+  password: PropTypes.string,
 };
 
 UserFormBody.defaultProps = {
@@ -223,6 +231,7 @@ UserFormBody.defaultProps = {
   mode: NEW_MODE,
   onWillMount: null,
   profileTypes: [],
+  password: '',
 };
 
 const UserForm = reduxForm({

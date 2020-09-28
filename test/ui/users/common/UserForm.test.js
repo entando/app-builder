@@ -31,6 +31,7 @@ describe('UserForm', () => {
       msgs: {
         username: { id: 'username', defaultMessage: 'username' },
       },
+      password: 'test',
       intl: mockIntl,
     };
 
