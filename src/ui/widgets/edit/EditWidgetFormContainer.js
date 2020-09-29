@@ -13,6 +13,7 @@ import {
   getSelectedParentWidget,
   getSelectedParentWidgetParameters,
   getSelectedWidgetParameters,
+  getSelectedWidget,
 } from 'state/widgets/selectors';
 import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
@@ -29,6 +30,7 @@ export const mapStateToProps = state => (
     groups: getGroupsList(state),
     parameters: getSelectedWidgetParameters(state),
     parentWidget: getSelectedParentWidget(state),
+    selectedWidget: getSelectedWidget(state),
     parentWidgetParameters: getSelectedParentWidgetParameters(state),
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),

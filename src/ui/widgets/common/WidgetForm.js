@@ -120,6 +120,7 @@ export class WidgetFormBody extends Component {
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
       parameters, onReplaceSubmit, match: { params },
+      selectedWidget,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -167,9 +168,10 @@ export class WidgetFormBody extends Component {
     const hasParentWidget = parentWidgetParameters.length > 0;
     const hasOwnParams = !hasParentWidget && parameters.length > 0;
 
-    const NativeWidgetConfigForm = parentWidget
-      && mode === MODE_CLONE
-      && getAppBuilderWidgetForm(parentWidget, true);
+    console.log('parentWidget', parentWidget, mode, getAppBuilderWidgetForm(parentWidget, true), selectedWidget);
+    const NativeWidgetConfigForm = selectedWidget
+      && (mode === MODE_EDIT || mode === MODE_CLONE)
+      && getAppBuilderWidgetForm(selectedWidget, true);
 
     const determineFormKind = () => {
       if (NativeWidgetConfigForm) {
@@ -295,7 +297,7 @@ export class WidgetFormBody extends Component {
                           component={NativeWidgetConfigForm}
                           cloneMode
                           widgetConfig={config}
-                          widgetCode={parentWidget.code}
+                          widgetCode={selectedWidget.code}
                           extFormName={widgetFormName}
                           pageCode={params.pageCode}
                           frameId={params.frameId}
@@ -378,6 +380,9 @@ WidgetFormBody.propTypes = {
   parentWidget: PropTypes.shape({
     code: PropTypes.string,
   }),
+  selectedWidget: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   parameters: PropTypes.arrayOf(PropTypes.shape({})),
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
@@ -405,6 +410,7 @@ WidgetFormBody.defaultProps = {
   config: {},
   defaultUIField: '',
   parentWidget: null,
+  selectedWidget: null,
   parentWidgetParameters: [],
   onChangeDefaultTitle: null,
   parameters: [],
