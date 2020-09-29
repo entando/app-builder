@@ -15,7 +15,10 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ username }) => { dispatch(fetchUserForm(username)); },
-  onSubmit: (user) => { dispatch(sendPutUser(user)); },
+  onSubmit: (user) => {
+    const editUser = { ...user, profileType: (user.profileType || {}).typeCode || '' };
+    dispatch(sendPutUser(editUser));
+  },
 });
 
 
