@@ -22,10 +22,6 @@ class UserAuthorityTable extends Component {
 
   onClickAdd() {
     const { fields, groupRolesCombo, onCloseModal } = this.props;
-    if (this.group.value === this.role.value) {
-      return;
-    }
-
 
     const isPresent = Boolean(groupRolesCombo
       .find(item => (this.group.value === '' || item.group.code === this.group.value) &&
