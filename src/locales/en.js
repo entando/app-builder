@@ -830,5 +830,8 @@ export default {
     'menu.widgetClone': 'Clone widget',
     'widget.page.clone.pageTitle': 'Clone widget',
     'app.saveAndReplace': 'Save and Replace',
+    'user.myProfile.appSettingsSection': 'Change your preferences',
+    'user.myProfile.wizardToggle': 'Welcome Wizard',
+    'user.myProfile.wizardToggleHelp': 'Enable or disable Welcome Wizard that guides you through the "Create first application" process',
   },
 };
