@@ -830,5 +830,8 @@ export default {
     'menu.widgetClone': 'Clona widget',
     'widget.page.clone.pageTitle': 'Clona widget',
     'app.saveAndReplace': 'Salva e sostituisci',
+    'user.myProfile.appSettingsSection': 'Modifica le tue preferenze',
+    'user.myProfile.wizardToggle': 'Welcome Wizard',
+    'user.myProfile.wizardToggleHelp': 'Abilita o disabilita la procedura guidata di benvenuto che guida l\'utente attraverso il processo "Crea prima applicazione"',
   },
 };
