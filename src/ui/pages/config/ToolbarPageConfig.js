@@ -44,7 +44,7 @@ class ToolbarPageConfig extends Component {
               handleClick={this.props.toggleContentToolbar}
             />
             <span className="ToolbarPageConfig__title">
-              <FormattedMessage id="app.pages" />
+              <FormattedMessage id="pageTree.pageTree" />
             </span>
             <span className="ToolbarPageConfig__open-button-menu-right pull-right">
               <ToolbarContentIcon
