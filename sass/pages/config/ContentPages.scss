@@ -13,13 +13,14 @@
     margin-right: 3px;
   }
 
-  &__pagetree-actions {
+  &__pagetree-expander {
     display: flex;
+    padding: 12px 20px;
     align-items: center;
-    height: 40px;
-    padding-left: 10px;
+    justify-content: space-between;
     background: $color-widget-title-bg-color;
     color: $color-black;
+    font-size: 14px;
   }
 
   &__toggler {

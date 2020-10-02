@@ -340,6 +340,8 @@ export default {
     'pageTree.pageTree': 'Page tree',
     'pageTree.expand': 'Expand',
     'pageTree.collapse': 'Collapse',
+    'pageTree.expandAll': 'Expand all',
+    'pageTree.collapseAll': 'Collapse all',
     'pageTree.status': 'Status',
     'pageTree.displayedInMenu': 'Displayed in menu',
     'pageTree.actions': 'Actions',

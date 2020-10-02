@@ -333,6 +333,8 @@ export default {
     'pageTree.pageTree': 'Árvore de paǵinas',
     'pageTree.expand': 'Expandir',
     'pageTree.collapse': 'Retrair',
+    'pageTree.expandAll': 'Expandir todos',
+    'pageTree.collapseAll': 'Retrair todos',
     'pageTree.status': 'Status',
     'pageTree.displayedInMenu': 'Mostrado no menu',
     'pageTree.actions': 'Ações',

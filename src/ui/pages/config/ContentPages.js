@@ -11,14 +11,48 @@ import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalConta
 
 
 class ContentPages extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      expanded: false,
+    };
+
+    this.handleExpandCollapse = this.handleExpandCollapse.bind(this);
+    this.handleExpanderKeyDown = this.handleExpanderKeyDown.bind(this);
+  }
+
   componentWillMount() {
     this.props.onWillMount();
   }
 
+  handleExpandCollapse() {
+    const { onExpandAll, onCollapseAll } = this.props;
+    const { expanded } = this.state;
+    if (expanded) {
+      onCollapseAll();
+      this.setState({
+        expanded: false,
+      });
+    } else {
+      onExpandAll();
+      this.setState({
+        expanded: true,
+      });
+    }
+  }
+
+  handleExpanderKeyDown(e) {
+    // expand/collapse only upon pressing the "enter" key (keyCode 13) or "space" key (keyCode 32)
+    if (e.keyCode === 13 || e.keyCode === 32) this.handleExpandCollapse();
+  }
+
   render() {
     const {
-      loading, onExpandAll, onCollapseAll, onExpandPage, pages,
+      loading, onExpandPage, pages,
     } = this.props;
+    const { expanded } = this.state;
+
     return (
       <div className="ContentPages">
         <div className="ContentPages__content-action">
@@ -30,27 +64,15 @@ class ContentPages extends Component {
             <FormattedMessage id="app.add" />
           </Link>
         </div>
-        <div className="ContentPages__pagetree-actions">
-          <div
-            onClick={onExpandAll}
-            onKeyDown={onExpandAll}
-            role="button"
-            tabIndex={-1}
-            className="ContentPages__toggler"
-          >
-            <span className="icon fa fa-plus-square" />
-            <FormattedMessage id="pageTree.expand" />
-          </div>
-          <div
-            onClick={onCollapseAll}
-            onKeyDown={onCollapseAll}
-            role="button"
-            tabIndex={-2}
-            className="ContentPages__toggler"
-          >
-            <span className="icon fa fa-minus-square" />
-            <FormattedMessage id="pageTree.collapse" />
-          </div>
+        <div
+          className="ContentPages__pagetree-expander"
+          onClick={this.handleExpandCollapse}
+          onKeyDown={this.handleExpanderKeyDown}
+          role="button"
+          tabIndex="0"
+        >
+          <FormattedMessage id={expanded ? 'pageTree.collapseAll' : 'pageTree.expandAll'} />
+          <span className={`icon fa fa-chevron-${expanded ? 'down' : 'right'}`} />
         </div>
         <Spinner loading={!!loading}>
           <PageTreeCompact
