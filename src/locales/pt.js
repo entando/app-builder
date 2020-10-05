@@ -21,6 +21,7 @@ export default {
     'app.delete': 'Remover',
     'app.publish': 'Publicar',
     'app.unpublish': 'Despublicar',
+    'app.start': 'Começar',
     'app.en': 'en',
     'app.it': 'it',
     'app.pt': 'pt',
@@ -799,5 +800,9 @@ export default {
     'user.myProfile.appSettingsSection': 'Mude suas preferências',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
     'user.myProfile.wizardToggleHelp': 'Ative ou desative o Assistente de boas-vindas que o orienta no processo de "Criar o primeiro aplicativo"',
+    'tour.start.welcome': 'Benvenuto in Entando',
+    'tour.start.title': 'Crea la tua prima applicazione',
+    'tour.start.description': 'Usa questa procedura guidata per creare la tua prima pagina. Ti guiderà attraverso tutti i passaggi necessari per creare e progettare una pagina, inclusa l\'aggiunta di widget.',
+    'tour.start.dontShow': 'non mostrare la prossima volta',
   },
 };

@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
-import { getUsername } from '@entando/apimanager';
+import { formValueSelector } from 'redux-form';
 
 import { fetchUserForm, sendPostWizardSetting } from 'state/users/actions';
-import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
-import { formValueSelector } from 'redux-form';
+import { getUsername } from '@entando/apimanager';
+
+import AppTour from 'ui/dashboard/AppTour';
+
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
@@ -12,13 +14,12 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
-  onSubmit: (values) => {
-    dispatch(sendPostWizardSetting(values));
+  onToggleDontShow: (disableWizard, username) => {
+    dispatch(sendPostWizardSetting({ wizardEnabled: !disableWizard, username }));
   },
 });
 
-
 export default connect(
-  mapStateToProps, mapDispatchToProps,
-  null, { pure: false },
-)(AppSettingsForm);
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppTour);

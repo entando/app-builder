@@ -81,4 +81,12 @@ export const postUserPassword = (username, data) => makeRequest({
   useAuthentication: true,
 });
 
+export const postWizardSetting = (username, data) => makeRequest({
+  uri: `/api/users/${username}/wizard`,
+  method: METHODS.POST,
+  body: data,
+  mockResponse: {},
+  useAuthentication: true,
+});
+
 export default getUsers;

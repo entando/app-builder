@@ -21,6 +21,7 @@ export default {
     'app.delete': 'Delete',
     'app.publish': 'Publish',
     'app.unpublish': 'Unpublish',
+    'app.start': 'Start',
     'app.en': 'en',
     'app.it': 'it',
     'app.aaTitle': 'Afar title',
@@ -833,5 +834,9 @@ export default {
     'user.myProfile.appSettingsSection': 'Change your preferences',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
     'user.myProfile.wizardToggleHelp': 'Enable or disable Welcome Wizard that guides you through the "Create first application" process',
+    'tour.start.welcome': 'Welcome to Entando',
+    'tour.start.title': 'Create your first application',
+    'tour.start.description': 'Use this wizard to create your first page. It will guide you through all the required steps to create and design a page, including adding widgets.',
+    'tour.start.dontShow': 'don’t show next time',
   },
 };
