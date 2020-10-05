@@ -342,6 +342,7 @@ export default {
     'pageTree.collapse': 'Collapse',
     'pageTree.expandAll': 'Expand all',
     'pageTree.collapseAll': 'Collapse all',
+    'pageTree.add': 'Add a child page',
     'pageTree.status': 'Status',
     'pageTree.displayedInMenu': 'Displayed in menu',
     'pageTree.actions': 'Actions',

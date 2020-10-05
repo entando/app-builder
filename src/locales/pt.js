@@ -335,6 +335,7 @@ export default {
     'pageTree.collapse': 'Retrair',
     'pageTree.expandAll': 'Expandir todos',
     'pageTree.collapseAll': 'Retrair todos',
+    'pageTree.add': 'Adicionar uma página filha',
     'pageTree.status': 'Status',
     'pageTree.displayedInMenu': 'Mostrado no menu',
     'pageTree.actions': 'Ações',

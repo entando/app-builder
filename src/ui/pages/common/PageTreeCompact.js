@@ -97,17 +97,23 @@ class PageTreeCompact extends Component {
           <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
               <MenuItem onClick={handleClick(onClickAdd, page)}>
-                <FormattedMessage id="app.add" />
+                <FormattedMessage id="pageTree.add" />
               </MenuItem>
-              <MenuItem onClick={handleClick(onClickEdit, page)}>
-                <FormattedMessage id="app.edit" />
-              </MenuItem>
-              <MenuItem onClick={handleClick(onClickConfigure, page)}>
-                <FormattedMessage id="app.configure" />
-              </MenuItem>
-              <MenuItem onClick={handleClick(onClickDetails, page)} >
-                <FormattedMessage id="app.details" />
-              </MenuItem>
+              {onClickEdit && (
+                <MenuItem onClick={handleClick(onClickEdit, page)}>
+                  <FormattedMessage id="app.edit" />
+                </MenuItem>
+              )}
+              {onClickConfigure && (
+                <MenuItem onClick={handleClick(onClickConfigure, page)}>
+                  <FormattedMessage id="app.configure" />
+                </MenuItem>
+              )}
+              {onClickDetails && (
+                <MenuItem onClick={handleClick(onClickDetails, page)}>
+                  <FormattedMessage id="app.details" />
+                </MenuItem>
+              )}
               <MenuItem onClick={handleClick(onClickClone, page)}>
                 <FormattedMessage id="app.clone" />
               </MenuItem>
@@ -143,17 +149,20 @@ PageTreeCompact.propTypes = {
   onExpandPage: PropTypes.func,
   onClickClone: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
-  onClickDetails: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
   onClickAdd: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickConfigure: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func,
+  onClickConfigure: PropTypes.func,
+  onClickDetails: PropTypes.func,
 };
 
 PageTreeCompact.defaultProps = {
   pages: [],
   onExpandPage: () => {},
+  onClickEdit: null,
+  onClickConfigure: null,
+  onClickDetails: null,
 };
 
 export default PageTreeCompact;
