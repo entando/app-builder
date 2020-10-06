@@ -19,6 +19,7 @@ export const WidgetListTableBody = ({
         used={item.used}
         onDelete={onDelete}
         onEdit={onEdit}
+        isLocked={item.locked}
         onNewUserWidget={onNewUserWidget}
         hasConfig={item.hasConfig}
         isSuperuser={isSuperuser}
