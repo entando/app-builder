@@ -9,6 +9,7 @@ import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 const WidgetListRow = (props) => {
   const {
     name, code, used, hasConfig, onDelete, onEdit, onNewUserWidget, isSuperuser,
+    isLocked,
   } = props;
 
   const onClickDelete = () => onDelete(code);
@@ -43,12 +44,17 @@ const WidgetListRow = (props) => {
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
-            <MenuItem
-              className="WidgetListRow__menu-item-delete"
-              onClick={onClickDelete}
-            >
-              <FormattedMessage id="app.delete" />
-            </MenuItem>
+            {
+              !isLocked && (
+                <MenuItem
+                  className="WidgetListRow__menu-item-delete"
+                  onClick={onClickDelete}
+                >
+                  <FormattedMessage id="app.delete" />
+                </MenuItem>
+              )
+            }
+
           </DropdownKebab>
         </td>
       )}
@@ -65,6 +71,7 @@ WidgetListRow.propTypes = {
   onEdit: PropTypes.func,
   onNewUserWidget: PropTypes.func,
   isSuperuser: PropTypes.bool,
+  isLocked: PropTypes.bool,
 };
 
 WidgetListRow.defaultProps = {
@@ -73,6 +80,7 @@ WidgetListRow.defaultProps = {
   onNewUserWidget: () => {},
   hasConfig: false,
   isSuperuser: true,
+  isLocked: false,
 };
 
 export default WidgetListRow;
