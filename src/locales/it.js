@@ -21,6 +21,7 @@ export default {
     'app.delete': 'Elimina',
     'app.publish': 'Pubblica',
     'app.unpublish': 'Depubblica',
+    'app.start': 'Inizio',
     'app.en': 'en',
     'app.it': 'it',
     'app.aaTitle': 'Titolo Afar',
@@ -833,5 +834,9 @@ export default {
     'user.myProfile.appSettingsSection': 'Modifica le tue preferenze',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
     'user.myProfile.wizardToggleHelp': 'Abilita o disabilita la procedura guidata di benvenuto che guida l\'utente attraverso il processo "Crea prima applicazione"',
+    'tour.start.welcome': 'Benvenuto in Entando',
+    'tour.start.title': 'Crea la tua prima applicazione',
+    'tour.start.description': 'Usa questa procedura guidata per creare la tua prima pagina. Ti guiderà attraverso tutti i passaggi necessari per creare e progettare una pagina, inclusa l\'aggiunta di widget.',
+    'tour.start.dontShow': 'non mostrare la prossima volta',
   },
 };
