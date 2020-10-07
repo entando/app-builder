@@ -12,6 +12,7 @@ import {
   putUserAuthorities,
   deleteUserAuthorities,
   postUserPassword,
+  postWizardSetting,
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
@@ -271,6 +272,19 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
       dispatch(clearErrors());
       dispatch(reset('myprofile-password'));
     } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const sendPostWizardSetting = (username, data) => async (dispatch) => {
+  try {
+    const response = await postWizardSetting(username, data);
+    const json = await response.json();
+    if (!response.ok) {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }

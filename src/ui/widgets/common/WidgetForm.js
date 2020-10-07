@@ -7,6 +7,7 @@ import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
+import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -19,6 +20,8 @@ const MODE_EDIT = 'edit';
 const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
+
+const widgetFormName = 'widget';
 
 export const renderDefaultUIField = (field) => {
   const { input } = field;
@@ -99,9 +102,9 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading, mode,
+      invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
-      onReplaceSubmit,
+      onReplaceSubmit, match: { params },
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -144,6 +147,10 @@ export class WidgetFormBody extends Component {
     } else {
       defaultUITab = null;
     }
+
+    const NativeWidgetConfigForm = parentWidget
+      && mode === MODE_CLONE
+      && getAppBuilderWidgetForm(parentWidget, true);
 
     const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
@@ -232,21 +239,41 @@ export class WidgetFormBody extends Component {
             </Col>
           </Row>
           {!!parentWidgetParameters.length && (
-            <Row>
-              <Col xs={12}>
-                <fieldset className="no-padding">
-                  <FormSectionTitle titleId="widget.page.create.parameters" />
-                  {parentWidgetParameters.map(param => (
+            (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
+              <Row>
+                <Col xs={12}>
+                  <fieldset className="no-padding">
+                    <FormSectionTitle titleId="widget.page.create.config" />
                     <Field
-                      key={param.code}
-                      component={RenderTextInput}
-                      name={`config.${param.code}`}
-                      label={<FormLabel labelText={param.code} helpText={param.description} />}
+                      name="config"
+                      component={NativeWidgetConfigForm}
+                      cloneMode
+                      widgetConfig={config}
+                      widgetCode={parentWidget.code}
+                      extFormName={widgetFormName}
+                      pageCode={params.pageCode}
+                      frameId={params.frameId}
                     />
-                  ))}
-                </fieldset>
-              </Col>
-            </Row>
+                  </fieldset>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col xs={12}>
+                  <fieldset className="no-padding">
+                    <FormSectionTitle titleId="widget.page.create.parameters" />
+                    {parentWidgetParameters.map(param => (
+                      <Field
+                        key={param.code}
+                        component={RenderTextInput}
+                        name={`config.${param.code}`}
+                        label={<FormLabel labelText={param.code} helpText={param.description} />}
+                      />
+                    ))}
+                  </fieldset>
+                </Col>
+              </Row>
+            )
           )}
           <br />
           <Row>
@@ -288,6 +315,7 @@ WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  config: PropTypes.shape({}),
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -307,6 +335,9 @@ WidgetFormBody.propTypes = {
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({}),
+  }),
 };
 
 WidgetFormBody.defaultProps = {
@@ -318,17 +349,21 @@ WidgetFormBody.defaultProps = {
     code: '',
   }],
   mode: MODE_NEW,
+  config: {},
   defaultUIField: '',
   parentWidget: null,
   parentWidgetParameters: [],
   onChangeDefaultTitle: null,
   dirty: false,
   loading: false,
+  match: {
+    params: {},
+  },
   onReplaceSubmit: () => {},
 };
 
 const WidgetForm = reduxForm({
-  form: 'widget',
+  form: widgetFormName,
 })(WidgetFormBody);
 
 export default injectIntl(WidgetForm);

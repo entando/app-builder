@@ -5,7 +5,6 @@ import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { Button, Modal, Col, Row, Paginator, Spinner } from 'patternfly-react';
 import paginatorMessages from 'ui/paginatorMessages';
 import { ROUTE_PAGE_TEMPLATE_DETAIL } from 'app-init/router';
-import { routeConverter } from '@entando/utils';
 
 export const MODAL_ID = 'FindTemplateModal';
 
@@ -83,10 +82,9 @@ class FindTemplateModal extends React.Component {
               bsStyle="default"
               id="FindTemplateModal__button-detail"
               onClick={() => {
-                window.open(routeConverter(
-                    ROUTE_PAGE_TEMPLATE_DETAIL,
-                    { pageTemplateCode: pageTemplate.code },
-                ));
+                const template = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', pageTemplate.code);
+                const link = `${global.location.href.split('/page')[0]}${template}`;
+                window.open(link);
             }}
             >
               <FormattedMessage id="app.details" />

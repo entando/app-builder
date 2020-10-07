@@ -50,6 +50,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     const payload = {
       ...values,
       validationRules: {
+        ...values.validationRules,
         rangeStartDate,
         rangeEndDate,
         equalDate,

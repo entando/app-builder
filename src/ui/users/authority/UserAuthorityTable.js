@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Row, Col, FormGroup, Button, Alert } from 'patternfly-react';
+import { Row, Col, Button, Alert } from 'patternfly-react';
+
+import AddAuthorityModal from 'ui/users/common/AddAuthorityModal';
 
 const msgs = defineMessages({
   chooseOption: {
@@ -19,11 +21,7 @@ class UserAuthorityTable extends Component {
   }
 
   onClickAdd() {
-    const { fields, groupRolesCombo } = this.props;
-    if (this.group.value === this.role.value) {
-      return;
-    }
-
+    const { fields, groupRolesCombo, onCloseModal } = this.props;
 
     const isPresent = Boolean(groupRolesCombo
       .find(item => (this.group.value === '' || item.group.code === this.group.value) &&
@@ -35,6 +33,15 @@ class UserAuthorityTable extends Component {
         role: this.role.value || null,
       });
     }
+    onCloseModal();
+  }
+
+  setGroupRef = (group) => {
+    this.group = group;
+  }
+
+  setRoleRef = (role) => {
+    this.role = role;
   }
 
   renderTable(renderRow) {
@@ -72,7 +79,7 @@ class UserAuthorityTable extends Component {
 
   render() {
     const {
-      intl, groupRolesCombo, groups, roles, fields,
+      intl, groupRolesCombo, groups, roles, fields, onAddNewClicked,
     } = this.props;
     const groupsWithEmpty =
           [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
@@ -101,58 +108,26 @@ class UserAuthorityTable extends Component {
 
     return (
       <div className="UserAuthorityTable" >
-        {this.renderTable(renderRow)}
         <Row>
-          <Col xs={12}>
-            <h1><FormattedMessage id="user.authority.new" /></h1>
+          <Col xs={12} style={{ paddingBottom: 15 }}>
+            <Button
+              type="button"
+              bsStyle="primary"
+              className="pull-right UserAuthorityTable__addNew"
+              onClick={onAddNewClicked}
+            >
+                Add new Authorization
+            </Button>
           </Col>
         </Row>
-        <FormGroup>
-          <Row>
-            <label className="control-label col-xs-2" htmlFor="group">
-              <FormattedMessage id="user.authority.groups" />
-            </label>
-            <Col xs={9}>
-              <select
-                className="form-control"
-                name="group"
-                ref={(group) => { this.group = group; }}
-              >
-                {groupOptions}
-              </select>
-            </Col>
-          </Row>
-        </FormGroup>
-        <FormGroup>
-          <Row>
-            <label className="control-label col-xs-2" htmlFor="roles">
-              <FormattedMessage id="user.authority.roles" />
-            </label>
-            <Col xs={9}>
-              <select
-                className="form-control"
-                name="roles"
-                ref={(role) => { this.role = role; }}
-              >
-                {rolesOptions}
-              </select>
-            </Col>
-          </Row>
-        </FormGroup>
-        <FormGroup>
-          <Row>
-            <Col xs={11}>
-              <Button
-                type="button"
-                bsStyle="primary"
-                className="pull-right UserAuthorityTable__add"
-                onClick={this.onClickAdd}
-              >
-                <FormattedMessage id="app.add" />
-              </Button>
-            </Col>
-          </Row>
-        </FormGroup>
+        {this.renderTable(renderRow)}
+        <AddAuthorityModal
+          groupOptions={groupOptions}
+          rolesOptions={rolesOptions}
+          onClickAdd={this.onClickAdd}
+          setGroupRef={this.setGroupRef}
+          setRoleRef={this.setRoleRef}
+        />
       </div>
     );
   }
@@ -173,7 +148,8 @@ UserAuthorityTable.propTypes = {
     group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
     role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
   })),
-
+  onAddNewClicked: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
 };
 
 UserAuthorityTable.defaultProps = {

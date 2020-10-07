@@ -65,7 +65,7 @@ class DeleteRoleModal extends React.Component {
           </thead>
           <tbody>
             {
-            userReferences.map(reference => (
+            userReferences.filter(ref => ref != null).map(reference => (
               <tr key={reference.username}>
                 <td>
                   {

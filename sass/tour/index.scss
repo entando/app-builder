@@ -1,0 +1,74 @@
+.TourStart {
+  &__header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    background-color: $color-black;
+    color: $color-white;
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17.7px;
+  }
+
+  &__body {
+    padding-right: 5px;
+    padding-left: 20px;
+    background-color: $color-white;
+    color: $color-ecr-list-icon-active;
+    font-family: "Open Sans";
+  }
+
+  &__title {
+    max-width: 200px;
+    font-size: 25px;
+    line-height: 34.05px;
+  }
+
+  &__description {
+    margin-right: 8px;
+    margin-bottom: 15px;
+    color: $color-ecr-list-icon-active;
+    font-size: 12px;
+    line-height: 16.34px;
+  }
+
+  &__checkbox {
+    margin-bottom: 35px;
+  }
+
+  &__separator {
+    height: 1px;
+    margin-left: -20px;
+    background-color: $color-dark-white;
+  }
+
+  &__start-button {
+    margin-top: 23px;
+    margin-right: 20px;
+    margin-bottom: 23px;
+    margin-left: 20px;
+    background-color: $color-tour-primary;
+    color: $color-white;
+    font-size: 12px;
+
+    &:hover {
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+
+    &:focus {
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+  }
+
+  &__start-icon {
+    margin-left: 6px;
+  }
+
+  &__cancel-button {
+    margin-top: 23px;
+    margin-bottom: 20px;
+  }
+}

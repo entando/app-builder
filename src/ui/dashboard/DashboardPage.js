@@ -11,6 +11,8 @@ import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
+import AppTourContainer from 'ui/dashboard/AppTourContainer';
+
 import apps from 'entando-apps';
 
 import {
@@ -94,6 +96,7 @@ export const DashboardPageBody = ({ userPermissions }) => {
             }
           </Col>
         </Row>
+        <AppTourContainer />
       </CardGrid>
     </InternalPage>
   );
