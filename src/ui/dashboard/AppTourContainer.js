@@ -15,7 +15,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
   onToggleDontShow: (disableWizard, username) => {
-    dispatch(sendPostWizardSetting({ wizardEnabled: !disableWizard, username }));
+    dispatch(sendPostWizardSetting(username, { wizardEnabled: !disableWizard, showToast: false }));
   },
 });
 
