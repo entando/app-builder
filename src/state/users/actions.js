@@ -287,7 +287,7 @@ export const sendPostWizardSetting = (username, data) => async (dispatch) => {
     if (!response.ok) {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-    } else {
+    } else if (data.showToast !== false) {
       dispatch(addToast(
         { id: 'user.wizard.success' },
         TOAST_SUCCESS,
