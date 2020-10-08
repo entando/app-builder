@@ -14,6 +14,7 @@ import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContain
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import SinglePageSettingsModalContainer from 'ui/pages/config/SinglePageSettingsModalContainer';
+import AppTourContainer from 'ui/dashboard/AppTourContainer';
 
 const msgs = defineMessages({
   appYes: {
@@ -335,6 +336,7 @@ class PageConfigPage extends Component {
               />
             )}
           </Row>
+          <AppTourContainer lockBodyScroll={false} />
         </Grid>
       </InternalPage>
     );

@@ -22,6 +22,8 @@ import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
 import { toggleLoading } from 'state/loading/actions';
 
+import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
+
 
 const HOMEPAGE_CODE = 'homepage';
 const RESET_FOR_CLONE = {
@@ -167,10 +169,14 @@ export const sendDeletePage = page => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(removePage(page));
-      history.push(ROUTE_PAGE_TREE);
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
+      if (page.tourProgress === APP_TOUR_CANCELLED) return;
+      if (page.tourProgress === APP_TOUR_STARTED) {
+        history.push(ROUTE_PAGE_ADD);
+      } else {
+        history.push(ROUTE_PAGE_TREE);
+      }
     }
+    dispatch(addErrors(json.errors.map(e => e.message)));
   } catch (e) {
     // do nothing
   }

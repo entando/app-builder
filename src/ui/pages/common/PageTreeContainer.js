@@ -27,6 +27,7 @@ import {
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
+import { setAppTourLastStep } from 'state/app-tour/actions';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -38,6 +39,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onClickAdd: (page) => {
     dispatch(initPageForm({
       parentCode: page.code,

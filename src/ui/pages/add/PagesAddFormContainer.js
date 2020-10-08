@@ -15,6 +15,9 @@ import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/c
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
 import { setVisibleModal } from 'state/modal/actions';
+import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
@@ -22,6 +25,10 @@ export const mapStateToProps = (state) => {
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
+  const appTourProgress = getAppTourProgress(state);
+  const appTourLastPageData = getTourCreatedPage(state);
+  const mainTitleLangCode = (languages[0] || {}).code || 'en';
+  const mainTitleName = `titles.${mainTitleLangCode}`;
   return {
     languages,
     groups: getGroupsList(state),
@@ -36,11 +43,26 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
+      ...(appTourProgress === APP_TOUR_STARTED && {
+        titles: {
+          [mainTitleLangCode]: 'Hello World App',
+        },
+        code: 'hello_world_app',
+        ownerGroup: 'free',
+        parentCode: 'homepage',
+        ...appTourLastPageData,
+      }),
     },
     mode: 'add',
     locale: getLocale(state),
     parentCode: getSearchParam('parentCode'),
     parentTitle: getSelectedPageLocaleTitle(state),
+    appTourProgress,
+    mainTitleValue: formValueSelector('page')(state, mainTitleName),
+    codeValue: formValueSelector('page')(state, 'code'),
+    ownerGroupValue: formValueSelector('page')(state, 'ownerGroup'),
+    parentCodeValue: formValueSelector('page')(state, 'parentCode'),
+    pageModelValue: formValueSelector('page')(state, 'pageModel'),
   };
 };
 
@@ -59,6 +81,10 @@ export const mapDispatchToProps = dispatch => ({
             break;
           }
           case ACTION_SAVE_AND_CONFIGURE: {
+            if (data.appTourProgress === APP_TOUR_STARTED) {
+              dispatch(setAppTourLastStep(12));
+              dispatch(setTourCreatedPage(data));
+            }
             history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
             break;
           }
