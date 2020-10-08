@@ -838,5 +838,6 @@ export default {
     'tour.start.title': 'Create your first application',
     'tour.start.description': 'Use this wizard to create your first page. It will guide you through all the required steps to create and design a page, including adding widgets.',
     'tour.start.dontShow': 'don’t show next time',
+    'user.wizard.success': 'Wizard has been updated.',
   },
 };
