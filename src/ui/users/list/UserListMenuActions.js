@@ -40,7 +40,7 @@ class UserListMenuActions extends Component {
 
   render() {
     const {
-      isSuperUser,
+      isSuperuser,
       userPermissions,
       onClickDelete,
       hasProfile,
@@ -86,7 +86,7 @@ class UserListMenuActions extends Component {
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
-            {isSuperUser && (
+            {isSuperuser && (
               <LinkMenuItem
                 id={`manageAuth-${this.props.username}`}
                 to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
@@ -123,7 +123,7 @@ UserListMenuActions.propTypes = {
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
   hasProfile: PropTypes.bool,
-  isSuperUser: PropTypes.bool.isRequired,
+  isSuperuser: PropTypes.bool.isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
