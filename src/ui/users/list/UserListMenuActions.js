@@ -39,7 +39,12 @@ class UserListMenuActions extends Component {
 
 
   render() {
-    const { userPermissions, onClickDelete, hasProfile } = this.props;
+    const {
+      isSuperUser,
+      userPermissions,
+      onClickDelete,
+      hasProfile,
+    } = this.props;
     const canEdit = hasAccess(CRUD_USERS_PERMISSION, userPermissions);
     const canEditProfile = hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions);
 
@@ -81,12 +86,14 @@ class UserListMenuActions extends Component {
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
-            <LinkMenuItem
-              id={`manageAuth-${this.props.username}`}
-              to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
-              label={manageAuthLabel}
-              className="UserListMenuAction__menu-item-auth"
-            />
+            {isSuperUser && (
+              <LinkMenuItem
+                id={`manageAuth-${this.props.username}`}
+                to={routeConverter(ROUTE_USER_AUTHORITY, { username: this.props.username })}
+                label={manageAuthLabel}
+                className="UserListMenuAction__menu-item-auth"
+              />
+            )}
           </React.Fragment>
         )}
         {canEditProfile && (
@@ -116,6 +123,7 @@ UserListMenuActions.propTypes = {
   onClickView: PropTypes.func,
   username: PropTypes.string.isRequired,
   hasProfile: PropTypes.bool,
+  isSuperUser: PropTypes.bool.isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
