@@ -367,6 +367,7 @@ export default {
     'widget.page.create.title.it.placeholder': 'Título em Italiano',
     'widget.page.create.title.ptBR.placeholder': 'Título em Português do Brasil',
     'widget.page.create.group': 'Grupo',
+    'widget.page.create.readonlyDefaultConfig': 'Tornar a configuração do widget da página somente leitura',
     'widget.page.tab.customUi': 'UI Customizada',
     'widget.page.tab.defaultUi': 'UI Padrão',
     'widget.page.edit.pageTitle': 'Editar Widget',
