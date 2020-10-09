@@ -266,7 +266,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
             VIEW_USERS_AND_PROFILES_PERMISSION,
             CRUD_USERS_PERMISSION,
             EDIT_USER_PROFILES_PERMISSION,
-            ROLE_SUPERUSER,
           ]
           , userPermissions,
         )
