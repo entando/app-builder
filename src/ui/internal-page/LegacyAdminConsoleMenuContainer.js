@@ -13,7 +13,8 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING,
+  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
+  ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -259,51 +260,58 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     }
       {renderAppMenuItems(intl, history, userPermissions)}
       {
-      (
-        hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
-        hasAccess(CRUD_USERS_PERMISSION, userPermissions) ||
-        hasAccess(VIEW_USERS_AND_PROFILES_PERMISSION, userPermissions)
-      ) && (
-        <Item
-          id="menu-user-settings"
-          onClick={() => {}}
-          iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
-        >
-          <SecondaryItem
-            id="menu-users"
-            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
-            href={adminConsoleUrl('do/User/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-roles"
-            title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-            href={adminConsoleUrl('do/Role/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-groups"
-            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-            href={adminConsoleUrl('do/Group/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-profile"
-            title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
-            href={adminConsoleUrl('do/Entity/initViewEntityTypes.action?entityManagerName=UserProfileManager')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-user-restrictions"
-            title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
-            href={adminConsoleUrl('do/User/systemParams.action')}
-            onClick={() => {}}
-          />
-        </Item>
-      )
-    }
 
+        hasAccess(
+          [
+            VIEW_USERS_AND_PROFILES_PERMISSION,
+            CRUD_USERS_PERMISSION,
+            EDIT_USER_PROFILES_PERMISSION,
+          ]
+          , userPermissions,
+        )
+       && (
+       <Item
+         id="menu-user-settings"
+         onClick={() => {}}
+         iconClass="fa fa-users"
+         title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
+       >
+         <SecondaryItem
+           id="menu-users"
+           title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
+           onClick={() => history.push(ROUTE_USER_LIST)}
+         />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-roles"
+           title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
+           onClick={() => history.push(ROUTE_ROLE_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-groups"
+           title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+           onClick={() => history.push(ROUTE_GROUP_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-profile"
+           title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
+           onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-user-restrictions"
+           title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
+           onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
+         />
+          )}
+       </Item>
+      )
+      }
 
       { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }
