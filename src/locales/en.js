@@ -376,6 +376,7 @@ export default {
     'widget.page.create.group': 'Group',
     'widget.page.create.parameters': 'Parameters',
     'widget.page.create.config': 'Configuration',
+    'widget.page.create.readonlyDefaultConfig': 'Make page widget config readonly',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Edit widget',
