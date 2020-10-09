@@ -5,10 +5,15 @@
     overflow-y: auto;
   }
 
+  &__tabs {
+    margin-top: 10px;
+  }
+
   &__title {
-    color: $color-pf-blue-300;
-    font-size: 12px;
-    font-weight: normal;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: solid 1px #000;
+    padding-bottom: 10px;
   }
 
   &__toolbar-row {
@@ -19,7 +24,7 @@
     padding-bottom: 5px;
 
     .pull-right .btn {  // sass-lint:disable-line force-element-nesting class-name-format
-      margin-left: 36px;
+      margin-left: 12px;
     }
   }
 

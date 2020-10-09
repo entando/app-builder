@@ -15,6 +15,7 @@ const SeoInfoMetadata = ({
   langIdx,
   onPushMetadata,
   onRemoveMetadata,
+  readOnly,
 }) => {
   const fieldTables = fields.map((name, idx) => {
     const metas = fields.get(idx);
@@ -34,7 +35,7 @@ const SeoInfoMetadata = ({
             name={`${name}.type`}
             labelSize={0}
             inputSize={12}
-            disabled={metas.useDefaultLang}
+            disabled={metas.useDefaultLang || readOnly}
           />
         </Col>
         <Col sm={langIdx ? 3 : 4}>
@@ -43,7 +44,7 @@ const SeoInfoMetadata = ({
             name={`${name}.value`}
             labelSize={0}
             inputSize={12}
-            disabled={metas.useDefaultLang}
+            disabled={metas.useDefaultLang || readOnly}
           />
         </Col>
         <Col sm={langIdx ? 3 : 1} className="text-right">
@@ -53,9 +54,10 @@ const SeoInfoMetadata = ({
               name={`${name}.useDefaultLang`}
               label={<FormLabel labelId="app.seo.inheritLangLabel" />}
               labelSize={7}
+              disabled={readOnly}
             />
           ) : (
-            <Button bsStyle="danger" onClick={() => onRemoveMetadata(idx)}>
+            <Button bsStyle="danger" onClick={() => onRemoveMetadata(idx)} disabled={readOnly}>
               <Icon name="trash" />
             </Button>
           )}
@@ -67,7 +69,7 @@ const SeoInfoMetadata = ({
   return (
     <Fragment>
       {fieldTables}
-      {langIdx === 0 && <SeoMetadataForm onSubmit={onPushMetadata} />}
+      {langIdx === 0 && <SeoMetadataForm onSubmit={onPushMetadata} readOnly={readOnly} />}
     </Fragment>
   );
 };
@@ -77,6 +79,11 @@ SeoInfoMetadata.propTypes = {
   langIdx: PropTypes.number.isRequired,
   onPushMetadata: PropTypes.func.isRequired,
   onRemoveMetadata: PropTypes.func.isRequired,
+  readOnly: PropTypes.bool,
+};
+
+SeoInfoMetadata.defaultProps = {
+  readOnly: false,
 };
 
 export default SeoInfoMetadata;
