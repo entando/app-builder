@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
-import { Icon, Spinner } from 'patternfly-react';
+import { Spinner, Button } from 'patternfly-react';
+
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
 import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
+import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 
+const msgs = defineMessages({
+  searchPlaceholder: {
+    id: 'pageTree.searchForm.code',
+    defaultMessage: 'Page code',
+  },
+});
+
+const ENTER_KEY = 13;
+const SPACE_KEY = 32;
 
 class ContentPages extends Component {
   constructor() {
@@ -16,10 +27,14 @@ class ContentPages extends Component {
 
     this.state = {
       expanded: false,
+      searchValue: '',
     };
 
     this.handleExpandCollapse = this.handleExpandCollapse.bind(this);
     this.handleExpanderKeyDown = this.handleExpanderKeyDown.bind(this);
+    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleSearchInputKeyDown = this.handleSearchInputKeyDown.bind(this);
   }
 
   componentWillMount() {
@@ -43,43 +58,92 @@ class ContentPages extends Component {
   }
 
   handleExpanderKeyDown(e) {
-    // expand/collapse only upon pressing the "enter" key (keyCode 13) or "space" key (keyCode 32)
-    if (e.keyCode === 13 || e.keyCode === 32) this.handleExpandCollapse();
+    if (e.keyCode === ENTER_KEY || e.keyCode === SPACE_KEY) this.handleExpandCollapse();
+  }
+
+  handleSearchInputChange(e) {
+    this.setState({ searchValue: e.target.value });
+  }
+
+  handleSearchSubmit() {
+    const { onPageSearch } = this.props;
+    const { searchValue } = this.state;
+    onPageSearch(searchValue);
+  }
+
+  handleSearchInputKeyDown(e) {
+    if (e.keyCode === ENTER_KEY) {
+      this.handleSearchSubmit();
+    }
+  }
+
+  handleClearSearchKeyDown(e) {
+    const { onClear } = this.props;
+    if (e.keyCode === ENTER_KEY || e.keyCode === SPACE_KEY) onClear();
   }
 
   render() {
     const {
-      loading, onExpandPage, pages,
+      loading, onExpandPage, pages, intl, searchPages, onClear,
     } = this.props;
     const { expanded } = this.state;
 
     return (
       <div className="ContentPages">
-        <div className="ContentPages__content-action">
-          <Link
-            to={ROUTE_PAGE_ADD}
-            className="ContentPages__add-button btn btn-lg btn-primary btn-block"
-          >
-            <Icon name="plus" className="ContentPages__icon-add-button" />
-            <FormattedMessage id="app.add" />
+        <div className="ContentPages__pagetree-actions">
+          <div className="ContentPages__pagetree-searchbar">
+            <input
+              className="form-control"
+              placeholder={intl.formatMessage(msgs.searchPlaceholder)}
+              onChange={this.handleSearchInputChange}
+              onKeyDown={this.handleSearchInputKeyDown}
+            />
+            <Button
+              className="ContentPages__pagetree-searchbtn"
+              onClick={this.handleSearchSubmit}
+            >
+              <span className="icon fa fa-search" />
+            </Button>
+          </div>
+          <Link to={ROUTE_PAGE_ADD} className="pull-right">
+            <Button bsStyle="primary">
+              <FormattedMessage id="app.add" />
+            </Button>
           </Link>
         </div>
-        <div
-          className="ContentPages__pagetree-expander"
-          onClick={this.handleExpandCollapse}
-          onKeyDown={this.handleExpanderKeyDown}
-          role="button"
-          tabIndex="0"
-        >
-          <FormattedMessage id={expanded ? 'pageTree.collapseAll' : 'pageTree.expandAll'} />
-          <span className={`icon fa fa-chevron-${expanded ? 'down' : 'right'}`} />
-        </div>
+        {searchPages && searchPages.length ? (
+          <div
+            className="ContentPages__pagetree-expander"
+            onClick={onClear}
+            onKeyDown={this.handleClearSearchKeyDown}
+            role="button"
+            tabIndex="0"
+          >
+            <FormattedMessage id="pageTree.action.clear" />
+            <span className="icon fa fa-close" />
+          </div>
+        ) : (
+          <div
+            className="ContentPages__pagetree-expander"
+            onClick={this.handleExpandCollapse}
+            onKeyDown={this.handleExpanderKeyDown}
+            role="button"
+            tabIndex="0"
+          >
+            <FormattedMessage id={expanded ? 'pageTree.collapseAll' : 'pageTree.expandAll'} />
+            <span className={`icon fa fa-chevron-${expanded ? 'down' : 'right'}`} />
+          </div>
+        )}
         <Spinner loading={!!loading}>
-          <PageTreeCompact
-            {...this.props}
-            pages={pages}
-            onExpandPage={onExpandPage}
-          />
+          {searchPages && searchPages.length ? (
+            <PageListSearchTable {...this.props} />
+          ) : (
+            <PageTreeCompact
+              {...this.props}
+              pages={pages}
+              onExpandPage={onExpandPage}
+            />
+          )}
         </Spinner>
         <DeletePageModalContainer />
         <PublishPageModalContainer />
@@ -94,16 +158,23 @@ ContentPages.propTypes = {
   onExpandPage: PropTypes.func,
   onExpandAll: PropTypes.func,
   onCollapseAll: PropTypes.func,
+  onPageSearch: PropTypes.func,
+  onClear: PropTypes.func,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   loading: PropTypes.bool,
+  intl: intlShape.isRequired,
+  searchPages: PropTypes.arrayOf(PropTypes.shape({})),
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
   onExpandPage: () => {},
   onExpandAll: () => {},
   onCollapseAll: () => {},
+  onPageSearch: () => {},
+  onClear: () => {},
   pages: [],
   loading: false,
+  searchPages: null,
 };
 
-export default ContentPages;
+export default injectIntl(ContentPages);

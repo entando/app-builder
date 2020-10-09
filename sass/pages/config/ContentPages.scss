@@ -1,17 +1,24 @@
 .ContentPages {
 
-  &__add-button {
+  &__pagetree-actions {
+    display: flex;
+    column-gap: 20px;
+    padding: 16px 20px;
+  }
 
+  &__pagetree-searchbar {
+    display: flex;
     width: 100%;
-    padding: 10px 0 10px 5px;
-    border: 0;
-    font-size: 17px;
-    text-transform: capitalize;
   }
 
-  &__icon-add-button {
-    margin-right: 3px;
+  // sass-lint:disable no-important class-name-format force-element-nesting
+  &__pagetree-searchbtn.btn {
+    box-shadow: none !important;
+    outline: none !important;
+    border: 1px solid $color-border-gray !important;
+    border-left: 0 !important;
   }
+  // sass-lint:enable no-important class-name-format force-element-nesting
 
   &__pagetree-expander {
     display: flex;

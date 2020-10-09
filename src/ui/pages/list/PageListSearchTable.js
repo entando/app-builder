@@ -122,20 +122,22 @@ PageListSearchTable.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   onClickAdd: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickConfigure: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
-  onClickDetails: PropTypes.func.isRequired,
   onClickClone: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
-
+  onClickEdit: PropTypes.func,
+  onClickDetails: PropTypes.func,
+  onClickConfigure: PropTypes.func,
 };
 
 PageListSearchTable.defaultProps = {
   onWillMount: () => {},
   loading: false,
   searchPages: [],
+  onClickEdit: null,
+  onClickDetails: null,
+  onClickConfigure: null,
 };
 
 export default injectIntl(PageListSearchTable);
