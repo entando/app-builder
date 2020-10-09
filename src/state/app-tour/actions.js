@@ -1,6 +1,7 @@
 import {
   SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
+  SET_PUBLISH_STATUS,
 } from 'state/app-tour/types';
 
 export const setAppTourProgress = progressStatus => ({
@@ -20,4 +21,9 @@ export const setTourCreatedPage = page => ({
 
 export const clearAppTourProgress = () => ({
   type: CLEAR_APP_TOUR_PROGRESS,
+});
+
+export const setPublishStatus = status => ({
+  type: SET_PUBLISH_STATUS,
+  payload: status,
 });

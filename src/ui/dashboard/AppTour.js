@@ -18,16 +18,8 @@ const simulateMouseClick = (element) => {
     })));
 };
 
-// const element = document.querySelector('li[class="app-tour-step-3"]');
-// const element = document.querySelector('#menu-page-creator');
-// console.log('element', element);
-// simulateMouseClick(element);
-
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 13;
 const STEP_OFFSET = -2;
-
-// sleep time expects milliseconds
-// const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
 class AppTour extends React.Component {
   constructor(props) {
@@ -87,10 +79,10 @@ class AppTour extends React.Component {
   }
 
   setIsTourOpen(value) {
-    const { tourCreatedPageCode } = this.props;
+    const { tourCreatedPageCode, publishStatus } = this.props;
     if (value === false) {
       const { onAppTourCancel } = this.props;
-      onAppTourCancel(tourCreatedPageCode);
+      onAppTourCancel(tourCreatedPageCode, publishStatus);
     }
     this.setState({ isTourOpen: value });
   }
@@ -103,7 +95,7 @@ class AppTour extends React.Component {
       wizardEnabled, appTourLastStep, appTourProgress, mainTitleValue,
       codeValue, ownerGroupValue, parentCodeValue, pageModelValue,
       lockBodyScroll, onBackToAddPage, tourCreatedPageCode, onBackToPageTree,
-      customOffset,
+      customOffset, pageConfigValid, unpublishPage,
     } = this.props;
     if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
 
@@ -111,11 +103,13 @@ class AppTour extends React.Component {
     const step4Element = document.querySelector('.app-tour-step-4 > a');
     const step5Element = document.querySelector('.app-tour-step-5');
     const step11Element = document.querySelector('.app-tour-step-11');
+    const step13Element = document.querySelector('.app-tour-step-13');
+
     return (
       <Tour
         steps={[
           {
-            // selector: '[data-tour="my-0-CANCEL-step"]',
+            // step 0
             content: ({ goTo }) => (
               <div className="TourStart">
                 <div className="TourStart__header TourStart__header--cancel" />
@@ -153,7 +147,7 @@ class AppTour extends React.Component {
             stepInteraction: false,
           },
         {
-          // selector: '[data-tour="my-1-START-step"]',
+          // step 1
           content: ({ goTo }) => (
             <div className="TourStart">
               <div className="TourStart__header">
@@ -809,7 +803,6 @@ class AppTour extends React.Component {
                   className="pull-right TourStart__start-button TourStart__start-button--dark"
                   onClick={() => {
                     simulateMouseClick(step11Element);
-                    // this.onNextStep(12, goTo);
                   }}
                   disabled={!step11Element}
                 >
@@ -857,24 +850,34 @@ class AppTour extends React.Component {
               </div>
               <div className="TourStart__body TourStart__body--dark">
                 <h1 className="TourStart__title TourStart__title--dark">
-                  <FormattedMessage id="tour.step.12.title" />
+                  {
+                    pageConfigValid ? (
+                      <FormattedMessage id="tour.step.12.title.valid" />
+                    ) : (
+                      <FormattedMessage id="tour.step.12.title" />
+                    )
+                  }
                 </h1>
-                <span
-                  className="TourStart__description TourStart__description--dark"
-                  style={{ whiteSpace: 'pre-wrap' }}
-                >
-                  <FormattedMessage id="tour.step.12.description" />
-                </span>
+                {
+                  !pageConfigValid && (
+                  <span
+                    className="TourStart__description TourStart__description--dark"
+                    style={{ whiteSpace: 'pre-wrap' }}
+                  >
+                    <FormattedMessage id="tour.step.12.description" />
+                  </span>
+
+                  )
+                }
                 <div className="TourStart__separator TourStart__separator--dark" />
               </div>
               <div className="TourStart__footer TourStart__footer--dark clearfix">
                 <Button
                   className="pull-right TourStart__start-button TourStart__start-button--dark"
                   onClick={() => {
-                    simulateMouseClick(step11Element);
                     this.onNextStep(13, goTo);
                   }}
-                  disabled={!step11Element}
+                  disabled={!pageConfigValid}
                 >
                   <FormattedMessage id="app.next" />
                   <i className="fa fa-angle-right TourStart__start-icon" />
@@ -884,6 +887,126 @@ class AppTour extends React.Component {
                   bsStyle="default"
                   // onClick={() => this.onNextStep(11, goTo)}
                   onClick={() => onBackToAddPage(tourCreatedPageCode)}
+                >
+                  <i className="fa fa-angle-left TourStart__start-icon TourStart__start-icon--dark" />
+                  <FormattedMessage id="app.back" />
+                </Button>
+                <div className="pull-right TourStart__step-counter">
+                  {`${step + STEP_OFFSET}/${TOTAL_STEPS}`}
+                </div>
+                <Button
+                  className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
+                  bsStyle="default"
+                  onClick={() => goTo(0)}
+                >
+                  <FormattedMessage id="app.cancel" />
+                </Button>
+              </div>
+            </div>
+          ),
+          position: 'top',
+          style: {
+            backgroundColor: '#fff',
+            height: 'auto',
+            width: '446px',
+            maxWidth: '446px',
+            borderRadius: '1px',
+            padding: 0,
+          },
+          stepInteraction: true,
+        },
+        {
+          selector: '.app-tour-step-13',
+          content: ({ step, goTo }) => (
+            <div className="TourStart TourStart--dark">
+              <div className="TourStart__header">
+                <FormattedMessage id="tour.step.2.main" />
+              </div>
+              <div className="TourStart__body TourStart__body--dark">
+                <h1 className="TourStart__title TourStart__title--dark">
+                  <FormattedMessage id="tour.step.13.title" />
+                </h1>
+                <span
+                  className="TourStart__description TourStart__description--dark"
+                >
+                  <FormattedMessage id="tour.step.13.description" />
+                </span>
+                <div className="TourStart__separator TourStart__separator--dark" />
+              </div>
+              <div className="TourStart__footer TourStart__footer--dark clearfix">
+                <Button
+                  className="pull-right TourStart__start-button TourStart__start-button--dark"
+                  onClick={() => {
+                    simulateMouseClick(step13Element);
+                  }}
+                  disabled={!step13Element}
+                >
+                  <FormattedMessage id="app.next" />
+                  <i className="fa fa-angle-right TourStart__start-icon" />
+                </Button>
+                <Button
+                  className="pull-right TourStart__back-button TourStart__back-button--dark"
+                  bsStyle="default"
+                  onClick={() => this.onNextStep(12, goTo)}
+                >
+                  <i className="fa fa-angle-left TourStart__start-icon TourStart__start-icon--dark" />
+                  <FormattedMessage id="app.back" />
+                </Button>
+                <div className="pull-right TourStart__step-counter">
+                  {`${step + STEP_OFFSET}/${TOTAL_STEPS}`}
+                </div>
+                <Button
+                  className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
+                  bsStyle="default"
+                  onClick={() => goTo(0)}
+                >
+                  <FormattedMessage id="app.cancel" />
+                </Button>
+              </div>
+            </div>
+          ),
+          position: 'top',
+          style: {
+            backgroundColor: '#fff',
+            height: 'auto',
+            width: '446px',
+            maxWidth: '446px',
+            borderRadius: '1px',
+            padding: 0,
+          },
+          stepInteraction: true,
+        },
+        {
+          selector: '.app-tour-step-14',
+          content: ({ step, goTo }) => (
+            <div className="TourStart TourStart--dark">
+              <div className="TourStart__header">
+                <FormattedMessage id="tour.step.2.main" />
+              </div>
+              <div className="TourStart__body TourStart__body--dark">
+                <h1 className="TourStart__title TourStart__title--dark">
+                  <FormattedMessage id="tour.step.14.title" />
+                </h1>
+                <span
+                  className="TourStart__description TourStart__description--dark"
+                >
+                  <FormattedMessage id="tour.step.14.description" />
+                </span>
+                <div className="TourStart__separator TourStart__separator--dark" />
+              </div>
+              <div className="TourStart__footer TourStart__footer--dark clearfix">
+                <Button
+                  className="pull-right TourStart__start-button TourStart__start-button--dark"
+                  onClick={() => {
+                    this.setIsTourOpen(false);
+                  }}
+                >
+                  <FormattedMessage id="app.close" />
+                </Button>
+                <Button
+                  className="pull-right TourStart__back-button TourStart__back-button--dark"
+                  bsStyle="default"
+                  onClick={unpublishPage}
                 >
                   <i className="fa fa-angle-left TourStart__start-icon TourStart__start-icon--dark" />
                   <FormattedMessage id="app.back" />
@@ -930,7 +1053,7 @@ class AppTour extends React.Component {
         maskClassName={`${appTourLastStep === 1 || appTourLastStep === 12 ? 'Mask' : ''}`}
         className="helper"
         disableInteraction={false}
-        inViewThreshold={1000}
+        inViewThreshold={2000}
         scrollDuration={150}
         scrollOffset={customOffset}
       />
@@ -941,13 +1064,13 @@ class AppTour extends React.Component {
 AppTour.propTypes = {
   onDidMount: PropTypes.func.isRequired,
   onToggleDontShow: PropTypes.func.isRequired,
-  // history: PropTypes.shape({}).isRequired,
   wizardEnabled: PropTypes.bool,
   username: PropTypes.string,
   onAppTourStart: PropTypes.func.isRequired,
   onAppTourCancel: PropTypes.func.isRequired,
   onBackToAddPage: PropTypes.func.isRequired,
   onBackToPageTree: PropTypes.func.isRequired,
+  unpublishPage: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   appTourLastStep: PropTypes.number,
   setNextStep: PropTypes.func.isRequired,
@@ -959,6 +1082,8 @@ AppTour.propTypes = {
   tourCreatedPageCode: PropTypes.string,
   lockBodyScroll: PropTypes.bool,
   customOffset: PropTypes.number,
+  pageConfigValid: PropTypes.bool,
+  publishStatus: PropTypes.bool,
 };
 
 AppTour.defaultProps = {
@@ -974,6 +1099,8 @@ AppTour.defaultProps = {
   tourCreatedPageCode: '',
   lockBodyScroll: true,
   customOffset: 0,
+  pageConfigValid: false,
+  publishStatus: false,
 };
 
 export default AppTour;

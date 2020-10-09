@@ -15,6 +15,7 @@ import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTabl
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import SinglePageSettingsModalContainer from 'ui/pages/config/SinglePageSettingsModalContainer';
 import AppTourContainer from 'ui/dashboard/AppTourContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const msgs = defineMessages({
   appYes: {
@@ -110,7 +111,7 @@ class PageConfigPage extends Component {
     const {
       intl, pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings,
+      applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings, appTourProgress,
     } = this.props;
 
     const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
@@ -154,7 +155,7 @@ class PageConfigPage extends Component {
     }
 
     return (
-      <InternalPage className="PageConfigPage">
+      <InternalPage className="PageConfigPage app-tour-step-12">
         <Grid fluid>
           <Row>
             <Col className="PageConfigPage__main" xs={8} lg={9}>
@@ -213,6 +214,7 @@ class PageConfigPage extends Component {
                         'btn-default',
                         'btn-transparent',
                         'PageConfigPage__btn--addml',
+                        'app-tour-step-14',
                       ].join(' ')}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -294,9 +296,9 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-13"
                       bsStyle="success"
-                      onClick={publishPage}
+                      onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}
                     >
                       <FormattedMessage id="app.publish" />
@@ -365,6 +367,7 @@ PageConfigPage.propTypes = {
     params: PropTypes.shape({}),
   }).isRequired,
   loading: PropTypes.bool,
+  appTourProgress: PropTypes.string,
 };
 
 PageConfigPage.defaultProps = {
@@ -385,6 +388,7 @@ PageConfigPage.defaultProps = {
   applyDefaultConfig: null,
   showPageSettings: null,
   loading: false,
+  appTourProgress: '',
 };
 
 export default injectIntl(PageConfigPage);

@@ -862,6 +862,11 @@ export default {
     'tour.step.11.title': 'Now you can save and configure your fist page',
     'tour.step.11.description': 'Save and Configure your page',
     'tour.step.12.title': 'Now you can choose the widget for your page',
+    'tour.step.12.title.valid': 'Congratulation, your page has been created and it’s ready to go through the following steps: design and publication',
     'tour.step.12.description': 'Drag & Drop the following widgets: \n1 Header \n2 Footer \n3 Content \n4 Navigation - Bar',
+    'tour.step.13.title': 'Save & Publish your first page',
+    'tour.step.13.description': 'Save Settings and Publish you page',
+    'tour.step.14.title': 'You can use the preview to check your new page',
+    'tour.step.14.description': 'Click on Preview to see your page in the Browser',
   },
 };
