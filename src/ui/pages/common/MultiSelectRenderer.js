@@ -45,7 +45,7 @@ export class MultiSelectRendererBody extends Component {
 
   render() {
     const {
-      intl, options, selectedValues, labelKey, valueKey, emptyOptionTextId,
+      intl, options, selectedValues, labelKey, valueKey, emptyOptionTextId, disabled,
     } = this.props;
 
     const filteredOptions = options
@@ -76,6 +76,7 @@ export class MultiSelectRendererBody extends Component {
           <select
             className="form-control"
             ref={(select) => { this.select = select; }}
+            disabled={disabled}
           >
             {filteredOptions}
           </select>
@@ -84,6 +85,7 @@ export class MultiSelectRendererBody extends Component {
               className="MultiSelectRenderer__add-btn"
               bsStyle="primary"
               onClick={this.pushField}
+              disabled={disabled}
             >
               <i className="fa fa-plus" />
             </Button>
@@ -105,6 +107,7 @@ MultiSelectRendererBody.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   emptyOptionTextId: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 MultiSelectRendererBody.defaultProps = {
@@ -112,6 +115,7 @@ MultiSelectRendererBody.defaultProps = {
   valueKey: 'value',
   labelKey: 'label',
   emptyOptionTextId: '',
+  disabled: false,
 };
 
 export default injectIntl(MultiSelectRendererBody);

@@ -83,7 +83,7 @@ describe('PageConfigPage', () => {
   it('will toggle info table on click info button', () => {
     component = shallowWithIntl(<PageConfigPage />).dive();
     expect(component.state('infoTableOpen')).toBe(false);
-    component.find('.PageConfigPage__info-btn').simulate('click');
+    component.find('.PageConfigPage__info-btn').first().simulate('click');
     expect(component.state('infoTableOpen')).toBe(true);
   });
 
