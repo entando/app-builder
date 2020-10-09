@@ -260,51 +260,57 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
     }
       {renderAppMenuItems(intl, history, userPermissions)}
       {
-      (
-        hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
-        hasAccess(CRUD_USERS_PERMISSION, userPermissions) ||
-        hasAccess(VIEW_USERS_AND_PROFILES_PERMISSION, userPermissions)
-      ) && (
-        <Item
-          id="menu-user-settings"
-          onClick={() => {}}
-          iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
-        >
-          <SecondaryItem
-            id="menu-users"
-            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
-            onClick={() => history.push(ROUTE_USER_LIST)}
-          />
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
-            <SecondaryItem
-              id="menu-roles"
-              title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-              onClick={() => history.push(ROUTE_ROLE_LIST)}
-            />
+
+        hasAccess(
+          [
+            VIEW_USERS_AND_PROFILES_PERMISSION,
+            CRUD_USERS_PERMISSION,
+            EDIT_USER_PROFILES_PERMISSION,
+            ROLE_SUPERUSER,
+          ]
+          , userPermissions,
+        )
+       && (
+       <Item
+         id="menu-user-settings"
+         onClick={() => {}}
+         iconClass="fa fa-users"
+         title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
+       >
+         <SecondaryItem
+           id="menu-users"
+           title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
+           onClick={() => history.push(ROUTE_USER_LIST)}
+         />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-roles"
+           title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
+           onClick={() => history.push(ROUTE_ROLE_LIST)}
+         />
           )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
-            <SecondaryItem
-              id="menu-groups"
-              title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-              onClick={() => history.push(ROUTE_GROUP_LIST)}
-            />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-groups"
+           title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+           onClick={() => history.push(ROUTE_GROUP_LIST)}
+         />
           )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
-            <SecondaryItem
-              id="menu-profile"
-              title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
-              onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
-            />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-profile"
+           title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
+           onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
+         />
           )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
-            <SecondaryItem
-              id="menu-user-restrictions"
-              title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
-              onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
-            />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-user-restrictions"
+           title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
+           onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
+         />
           )}
-        </Item>
+       </Item>
       )
       }
 
