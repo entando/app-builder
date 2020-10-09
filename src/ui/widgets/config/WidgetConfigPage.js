@@ -94,6 +94,8 @@ class WidgetConfigPage extends Component {
       return <FormattedMessage id="widget.page.config.error" />;
     };
 
+    const isReadOnly = widget && widget.readonlyDefaultConfig;
+
     return (
       <InternalPage className="WidgetConfigPage">
         <Grid fluid>
@@ -156,8 +158,11 @@ class WidgetConfigPage extends Component {
                   &nbsp;
                   <span>{frameName}</span>
                 </Panel.Heading>
-                <Panel.Body>
+                <Panel.Body className="PageConfigPage__panel-body">
                   {renderWidgetConfigForm()}
+                  {
+                    isReadOnly && <div className="PageConfigPage__block-ui" />
+                  }
                 </Panel.Body>
               </Panel>
             </Col>

@@ -98,6 +98,20 @@
     top: 0;
     right: 0;
   }
+
+  &__panel-body {
+    position: relative;
+  }
+
+  &__block-ui {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
 }
 
 .scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
