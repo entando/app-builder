@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { destroy } from 'redux-form';
+
 import UserForm from 'ui/users/common/UserForm';
 import { fetchProfileTypes } from 'state/profile-types/actions';
 import { getProfileTypesOptions } from 'state/profile-types/selectors';
@@ -14,6 +16,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendPostUser(user, saveType === 'editProfile'));
   },
   onWillMount: () => {
+    dispatch(destroy('user'));
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
   },
 });
