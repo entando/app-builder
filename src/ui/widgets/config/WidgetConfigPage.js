@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Panel, Label } from 'react-bootstrap';
 
@@ -16,6 +16,23 @@ import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
 
 
+const msgs = defineMessages({
+  widgetConfigError: {
+    id: 'widget.page.config.error',
+    defaultMessage: 'NaUnable to load widget configurationme',
+  },
+});
+
+function setInputsDisabled(wrapper) {
+  const elements = ['input', 'select', 'button', 'textarea'];
+
+  elements.forEach((element) => {
+    const foundElements = wrapper.getElementsByTagName(element);
+    for (let i = 0; i < foundElements.length; i += 1) {
+      foundElements[i].setAttribute('disabled', true);
+    }
+  });
+}
 class WidgetConfigPage extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +44,16 @@ class WidgetConfigPage extends Component {
 
   componentDidMount() {
     if (this.props.onDidMount) this.props.onDidMount(this.props);
+  }
+
+  componentDidUpdate() {
+    const { widget, intl } = this.props;
+    const isReadOnly = widget && widget.readonlyDefaultConfig;
+    const wrapper = document.getElementsByClassName('panel-body')[0];
+    if (wrapper && wrapper.hasChildNodes()
+      && wrapper.innerText !== intl.formatMessage(msgs.widgetConfigError) && isReadOnly) {
+      setInputsDisabled(wrapper);
+    }
   }
 
   componentWillUnmount() {
