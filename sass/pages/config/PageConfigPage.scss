@@ -114,10 +114,13 @@
   }
 
   &__readonly-warning {
+    margin-bottom: 0;
     padding: 10px;
-    border: solid 1px rgba(204, 0, 0, 1);
-    background-color: rgba(204, 0, 0, .2); // sass-lint:disable-line variable-for-property
     line-height: 23px;
+  }
+
+  &__ok-button {
+    padding: 10px;
   }
 }
 

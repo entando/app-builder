@@ -160,25 +160,16 @@ class WidgetConfigPage extends Component {
                 </Panel.Heading>
                 {
                   isReadOnly &&
-                  <div className="PageConfigPage__readonly-warning">
+                  <div className="PageConfigPage__readonly-warning alert alert-warning">
                     <Row>
                       <Col xs={8}>
+                        <span className="pficon pficon-warning-triangle-o" />
+                        {' '}
                         <FormattedMessage id="widget.page.config.readOnlyMessage" />
                       </Col>
                       <Col xs={4} className="text-right">
-                        <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                          <Button
-                            className="WidgetConfigPage__info-btn"
-                            bsStyle="primary"
-                            onClick={this.toggleInfoTable}
-                          >
-                            <FormattedMessage id="app.ok" />
-                          </Button>
-                        </Link>
-                        {' '}
                         <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode })}>
                           <Button
-                            className="WidgetConfigPage__info-btn"
                             bsStyle="primary"
                             onClick={this.toggleInfoTable}
                           >
@@ -195,6 +186,19 @@ class WidgetConfigPage extends Component {
                     isReadOnly && <div className="PageConfigPage__block-ui" />
                   }
                 </Panel.Body>
+                {
+                    isReadOnly &&
+                    <div className="text-right PageConfigPage__ok-button">
+                      <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
+                        <Button
+                          bsStyle="primary"
+                          onClick={this.toggleInfoTable}
+                        >
+                          <FormattedMessage id="app.ok" />
+                        </Button>
+                      </Link>
+                    </div>
+                }
               </Panel>
             </Col>
           </Row>
