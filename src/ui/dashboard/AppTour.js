@@ -102,6 +102,7 @@ class AppTour extends React.Component {
     const step3Element = document.querySelector('.app-tour-step-3');
     const step4Element = document.querySelector('.app-tour-step-4 > a');
     const step5Element = document.querySelector('.app-tour-step-5');
+    const step8Element = document.querySelector('.PageTreeSelector__select-area');
     const step11Element = document.querySelector('.app-tour-step-11');
     const step13Element = document.querySelector('.app-tour-step-13');
 
@@ -539,6 +540,7 @@ class AppTour extends React.Component {
                   className="pull-right TourStart__start-button TourStart__start-button--dark"
                   onClick={() => {
                     this.onNextStep(8, goTo);
+                    simulateMouseClick(step8Element);
                   }}
                   disabled={!codeValue}
                 >

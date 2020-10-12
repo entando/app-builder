@@ -16,7 +16,7 @@ import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { getConfigMap } from 'state/page-config/selectors';
 
 // const REQUIRED_WIDGET_CODES = ['header', 'footer', 'navigation', 'content_viewer'];
-const REQUIRED_WIDGET_CODES = ['dsadas'];
+const REQUIRED_WIDGET_CODES = ['irakli_watches_you'];
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const languages = getActiveLanguages(state);
@@ -51,7 +51,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
   onAppTourCancel: (code, publishStatus) => {
     if (code && !publishStatus) {
-      dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_STARTED }));
+      dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_CANCELLED }));
     }
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));

@@ -95,6 +95,17 @@ export const mapDispatchToProps = dispatch => ({
   onChangeDefaultTitle: title =>
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
+  onChangePageTemplate: (newValue, appTourProgress) => {
+    if (appTourProgress === APP_TOUR_STARTED && newValue) {
+      dispatch(setAppTourLastStep(11));
+    }
+  },
+  onChangeOwnerGroup: (newValue, appTourProgress) => {
+    console.log(newValue, appTourProgress);
+    if (appTourProgress === APP_TOUR_STARTED && newValue) {
+      dispatch(setAppTourLastStep(10));
+    }
+  },
 });
 
 

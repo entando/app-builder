@@ -44,7 +44,8 @@ export class PageFormBody extends Component {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode, seoMode, onFindTemplateClick, appTourProgress,
+      pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
+      onChangeOwnerGroup,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -120,6 +121,7 @@ export class PageFormBody extends Component {
                 className="form-control"
                 tourClass="app-tour-step-9"
                 validate={[required]}
+                onChange={e => onChangeOwnerGroup(e.target.value, appTourProgress)}
                 disabled={isEditMode}
                 label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
                 options={groupsWithEmpty}
@@ -166,6 +168,7 @@ export class PageFormBody extends Component {
                         required
                       />
                     }
+                    onChange={e => onChangePageTemplate(e.target.value, appTourProgress)}
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
@@ -401,6 +404,8 @@ PageFormBody.propTypes = {
   pageCode: PropTypes.string,
   seoMode: PropTypes.bool,
   appTourProgress: PropTypes.string,
+  onChangePageTemplate: PropTypes.func,
+  onChangeOwnerGroup: PropTypes.func,
 };
 
 PageFormBody.defaultProps = {
@@ -416,6 +421,8 @@ PageFormBody.defaultProps = {
   pageCode: null,
   seoMode: false,
   appTourProgress: '',
+  onChangePageTemplate: () => {},
+  onChangeOwnerGroup: () => {},
 };
 
 const PageForm = reduxForm({
