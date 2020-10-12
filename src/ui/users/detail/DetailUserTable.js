@@ -78,7 +78,7 @@ DetailUserTable.propTypes = {
     profileType: PropTypes.shape({
       typeCode: PropTypes.string.isRequired,
       typeDescription: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
 };
 

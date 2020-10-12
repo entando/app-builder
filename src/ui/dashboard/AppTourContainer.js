@@ -46,7 +46,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
   onToggleDontShow: (disableWizard, username) => {
-    dispatch(sendPostWizardSetting({ wizardEnabled: !disableWizard, username }));
+    dispatch(sendPostWizardSetting(username, { wizardEnabled: !disableWizard, showToast: false }));
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
   onAppTourCancel: (code, publishStatus) => {

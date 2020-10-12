@@ -45,7 +45,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup,
+      onChangeOwnerGroup, readOnly,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -94,6 +94,7 @@ export class PageFormBody extends Component {
                     onChangeDefaultTitle(ev.currentTarget.value);
                   }
                 }}
+                disabled={readOnly}
               />
             );
           });
@@ -141,6 +142,7 @@ export class PageFormBody extends Component {
                     labelKey="name"
                     valueKey="code"
                     emptyOptionTextId="app.chooseAnOption"
+                    disabled={readOnly}
                   />
                 </Col>
               </FormGroup>
@@ -172,6 +174,7 @@ export class PageFormBody extends Component {
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
+                    disabled={readOnly}
                   />
                 </Col>
                 <Col xs={2}>
@@ -179,6 +182,7 @@ export class PageFormBody extends Component {
                     className="PageForm__find_template"
                     bsStyle="primary"
                     onClick={onFindTemplateClick}
+                    disabled={readOnly}
                   >
                     <FormattedMessage id="pages.pageForm.findTemplate" />
                   </Button>
@@ -196,6 +200,7 @@ export class PageFormBody extends Component {
                   <Field
                     component={SwitchRenderer}
                     name="displayedInMenu"
+                    disabled={readOnly}
                   />
                 </Col>
                 <label htmlFor="seo" className="col-xs-2 control-label">
@@ -208,6 +213,7 @@ export class PageFormBody extends Component {
                   <Field
                     component={SwitchRenderer}
                     name="seo"
+                    disabled={readOnly}
                   />
                 </Col>
               </FormGroup>
@@ -225,6 +231,7 @@ export class PageFormBody extends Component {
                     className="PageForm__charsets-select form-control"
                     size="3"
                     validate={[required]}
+                    disabled={readOnly}
                   >
                     {charsets.map(type => (
                       <option
@@ -250,6 +257,7 @@ export class PageFormBody extends Component {
                     className="PageForm__content-types-select form-control"
                     size="5"
                     validate={[required]}
+                    disabled={readOnly}
                   >
                     {contentTypes.map(type => (
                       <option
@@ -280,7 +288,11 @@ export class PageFormBody extends Component {
           <Col xs={12}>
 
             {seoMode ? (
-              <SeoInfo languages={languages} onChangeDefaultTitle={onChangeDefaultTitle} />
+              <SeoInfo
+                languages={languages}
+                onChangeDefaultTitle={onChangeDefaultTitle}
+                readOnly={readOnly}
+              />
             ) : (
               renderActiveLanguageTitles()
             )}
@@ -322,6 +334,7 @@ export class PageFormBody extends Component {
                   component={RenderTextInput}
                   name="seoData.friendlyCode"
                   label={<FormLabel labelId="pages.pageForm.seoFriendlyCode" />}
+                  disabled={readOnly}
                 />
               </Col>
             </Row>
@@ -332,41 +345,44 @@ export class PageFormBody extends Component {
                   name="seoData.useExtraDescriptions"
                   label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
                   labelSize={3}
+                  disabled={readOnly}
                 />
               </Col>
             </Row>
           </Fragment>
         )}
 
-        <Row>
-          <Col xs={12}>
-            <div className="btn-toolbar pull-right">
+        {!readOnly && (
+          <Row>
+            <Col xs={12}>
+              <div className="btn-toolbar pull-right">
 
-              <Button
-                className="PageForm__save-and-configure-btn app-tour-step-11"
-                type="submit"
-                bsStyle="success"
-                disabled={invalid || submitting}
-                onClick={handleSubmit(values =>
+                <Button
+                  className="PageForm__save-and-configure-btn app-tour-step-11"
+                  type="submit"
+                  bsStyle="success"
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values =>
                   this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
-              >
-                <FormattedMessage id="pages.pageForm.saveAndConfigure" />
+                >
+                  <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
-              </Button>
-              <Button
-                className="PageForm__save-btn"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting}
-                onClick={handleSubmit(values =>
+                </Button>
+                <Button
+                  className="PageForm__save-btn"
+                  type="submit"
+                  bsStyle="primary"
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values =>
                   this.props.onSubmit(values, ACTION_SAVE))}
-              >
-                <FormattedMessage id="app.save" />
+                >
+                  <FormattedMessage id="app.save" />
 
-              </Button>
-            </div>
-          </Col>
-        </Row>
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        ) }
       </form>
     );
   }
@@ -406,6 +422,7 @@ PageFormBody.propTypes = {
   appTourProgress: PropTypes.string,
   onChangePageTemplate: PropTypes.func,
   onChangeOwnerGroup: PropTypes.func,
+  readOnly: PropTypes.bool,
 };
 
 PageFormBody.defaultProps = {
@@ -423,6 +440,7 @@ PageFormBody.defaultProps = {
   appTourProgress: '',
   onChangePageTemplate: () => {},
   onChangeOwnerGroup: () => {},
+  readOnly: false,
 };
 
 const PageForm = reduxForm({

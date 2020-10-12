@@ -18,6 +18,6 @@ describe('HomePageLink', () => {
   });
 
   it('verify it contains the globe icon', () => {
-    expect(component.find('Icon[name="globe"]')).toHaveLength(1);
+    expect(component.find('Icon[name="home"]')).toHaveLength(1);
   });
 });

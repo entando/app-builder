@@ -101,7 +101,6 @@ export const mapDispatchToProps = dispatch => ({
     }
   },
   onChangeOwnerGroup: (newValue, appTourProgress) => {
-    console.log(newValue, appTourProgress);
     if (appTourProgress === APP_TOUR_STARTED && newValue) {
       dispatch(setAppTourLastStep(10));
     }
