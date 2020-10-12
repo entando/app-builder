@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Panel, Label } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
@@ -19,19 +20,18 @@ import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofronte
 const msgs = defineMessages({
   widgetConfigError: {
     id: 'widget.page.config.error',
-    defaultMessage: 'NaUnable to load widget configurationme',
+    defaultMessage: 'Unable to load widget configuration',
   },
 });
 
-function setInputsDisabled(wrapper) {
-  const elements = ['input', 'select', 'button', 'textarea'];
+function removeActionsButton(wrapper) {
+  const saveButton = wrapper.getElementsByClassName('NavigationBarConfigForm__save-btn')[0];
+  const cancelButton = wrapper.getElementsByClassName('NavigationBarConfigForm__cancel-btn')[0];
 
-  elements.forEach((element) => {
-    const foundElements = wrapper.getElementsByTagName(element);
-    for (let i = 0; i < foundElements.length; i += 1) {
-      foundElements[i].setAttribute('disabled', true);
-    }
-  });
+  if (saveButton && cancelButton) {
+    saveButton.remove();
+    cancelButton.remove();
+  }
 }
 class WidgetConfigPage extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class WidgetConfigPage extends Component {
     const wrapper = document.getElementsByClassName('panel-body')[0];
     if (wrapper && wrapper.hasChildNodes()
       && wrapper.innerText !== intl.formatMessage(msgs.widgetConfigError) && isReadOnly) {
-      setInputsDisabled(wrapper);
+      removeActionsButton(wrapper);
     }
   }
 
@@ -158,6 +158,37 @@ class WidgetConfigPage extends Component {
                   &nbsp;
                   <span>{frameName}</span>
                 </Panel.Heading>
+                {
+                  isReadOnly &&
+                  <div className="PageConfigPage__readonly-warning">
+                    <Row>
+                      <Col xs={8}>
+                        <FormattedMessage id="widget.page.config.readOnlyMessage" />
+                      </Col>
+                      <Col xs={4} className="text-right">
+                        <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
+                          <Button
+                            className="WidgetConfigPage__info-btn"
+                            bsStyle="primary"
+                            onClick={this.toggleInfoTable}
+                          >
+                            <FormattedMessage id="app.ok" />
+                          </Button>
+                        </Link>
+                        {' '}
+                        <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode })}>
+                          <Button
+                            className="WidgetConfigPage__info-btn"
+                            bsStyle="primary"
+                            onClick={this.toggleInfoTable}
+                          >
+                            <FormattedMessage id="widget.page.config.goToConfig" />
+                          </Button>
+                        </Link>
+                      </Col>
+                    </Row>
+                  </div>
+                }
                 <Panel.Body className="PageConfigPage__panel-body">
                   {renderWidgetConfigForm()}
                   {

@@ -10,10 +10,10 @@
   }
 
   &__title {
+    padding-bottom: 10px;
+    border-bottom: solid 1px #000;
     font-size: 16px;
     font-weight: bold;
-    border-bottom: solid 1px #000;
-    padding-bottom: 10px;
   }
 
   &__toolbar-row {
@@ -110,7 +110,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: transparent;
+    background-color: rgba(0,0,0,.1); // sass-lint:disable-line variable-for-property
+  }
+
+  &__readonly-warning {
+    padding: 10px;
+    border: solid 1px rgba(204, 0, 0, 1);
+    background-color: rgba(204, 0, 0, .2); // sass-lint:disable-line variable-for-property
+    line-height: 23px;
   }
 }
 
