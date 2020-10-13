@@ -25,11 +25,14 @@ const msgs = defineMessages({
 });
 
 function removeActionsButton(wrapper) {
-  const saveButton = wrapper.getElementsByClassName('NavigationBarConfigForm__save-btn')[0];
-  const cancelButton = wrapper.getElementsByClassName('NavigationBarConfigForm__cancel-btn')[0];
+  const saveButton = wrapper.querySelectorAll('[class*=save]')[0];
+  const cancelButton = wrapper.querySelectorAll('[class*=cancel]')[0];
 
-  if (saveButton && cancelButton) {
+  if (saveButton) {
     saveButton.remove();
+  }
+
+  if (cancelButton) {
     cancelButton.remove();
   }
 }

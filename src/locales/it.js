@@ -772,7 +772,6 @@ export default {
     'plugins.installCallToAction': 'Vai al Component Repository',
     'widgets.configUi': 'Config UI',
     'widgets.addWidget': 'Aggiungi Widget',
-    'widgets.makeConfigReadonly': 'Rendi la configurazione del widget della pagina di sola lettura',
     'app.filterTypesSelect.id': 'ID',
     'app.filterTypesSelect.version': 'Versione',
     'app.filterTypesSelect.name': 'Nome',
