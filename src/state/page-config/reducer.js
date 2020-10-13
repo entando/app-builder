@@ -25,7 +25,7 @@ export const searchFilter = (state = null, action = {}) => {
   }
 };
 
-export const viewList = (state = 'list', action = {}) => {
+export const viewList = (state = 'card', action = {}) => {
   switch (action.type) {
     case CHANGE_VIEW_LIST: {
       return action.payload.view;

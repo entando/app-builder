@@ -2,36 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
-import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
+import SectionCollapse from 'ui/common/section-collapse/SectionCollapse';
 
-
-const renderWidgetCategory = title => (
-  <div key={`cat-${title}`} className="ContentWidgetElement__widget-spacer">
-    <h2 className="ContentWidgetElement__widget-title">
-      {title}
-    </h2>
-  </div>
+const renderComponent = widgetList => (
+  Object.keys(widgetList).map((widget, idx) => (
+    <SectionCollapse
+      widgets={widgetList[widget]}
+      opened={idx === 0}
+    />
+  ))
 );
-
-const renderWidgetElement = el => (
-  <DraggableContentWidgetElement
-    key={`wdg-${el.code}`}
-    widgetName={el.name}
-    widgetId={el.code}
-  />
-);
-
-const renderComponent = widgetList =>
-  Object.keys(widgetList).map(widget =>
-    widgetList[widget].map((el, index) => {
-      const title = el.pluginDesc || el.typology;
-      const element = [];
-      if (index === 0) {
-        element.push(renderWidgetCategory(title));
-      }
-      element.push(renderWidgetElement(el));
-      return element;
-    }));
 
 const msgs = defineMessages({
   search: {
@@ -41,7 +21,7 @@ const msgs = defineMessages({
 });
 
 const ContentWidget = ({
-  intl, widgetList, filterWidget, changeViewList, viewList,
+  intl, widgetList, filterWidget, viewList,
 }) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
@@ -50,23 +30,6 @@ const ContentWidget = ({
 
     <div className="ContentWidget">
       <div className="ContentWidget__right-menu-title">
-        <FormattedMessage id="menu.widgets" />
-        <span className="pull-right ContentWidget__drawer-pf-icons-right-menu">
-          <i
-            className="fa fa-th-large ContentWidget__pointer ContentWidget__view-mode-icon"
-            role="button"
-            tabIndex={-1}
-            onKeyDown={() => changeViewList('card')}
-            onClick={() => changeViewList('card')}
-          />
-          <i
-            className="fa fa-th-list ContentWidget__pointer ContentWidget__view-mode-icon"
-            role="button"
-            tabIndex={-2}
-            onKeyDown={() => changeViewList('list')}
-            onClick={() => changeViewList('list')}
-          />
-        </span>
         <input
           className="ContentWidget__input-pf-right-menu"
           type="text"
@@ -74,7 +37,7 @@ const ContentWidget = ({
           placeholder={intl.formatMessage(msgs.search)}
         />
       </div>
-      <div className={`ContentWidgetList ContentWidgetList--${viewList}`}>
+      <div>
         {renderComponent(widgetList)}
       </div>
     </div>

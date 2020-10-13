@@ -1,0 +1,28 @@
+.SectionCollapse {
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 30px;
+    border-top: 1px solid $color-black;
+    outline: none;
+    color: $color-white;
+    font-size: 18px;
+    line-height: inherit;
+  }
+
+  &__title-collapse-button {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  &__item-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    border: 0;
+    overflow: hidden;
+  }
+}

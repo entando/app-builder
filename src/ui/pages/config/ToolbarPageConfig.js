@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Tabs, Tab, Icon } from 'patternfly-react';
 
 import { WIDGET_LIST } from 'state/page-config/const';
 import ToolbarContentIcon from 'ui/pages/config/ToolbarContentIcon';
@@ -14,7 +15,7 @@ class ToolbarPageConfig extends Component {
 
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
-    const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
+    const classScrollContainer = ['ToolbarPageConfig__tab-main'];
     if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
     }
@@ -22,46 +23,29 @@ class ToolbarPageConfig extends Component {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-fixed');
       classScrollContainer.push('ToolbarPageConfig__drawer-pf-container-fixed');
     }
-    const container = this.props.content === WIDGET_LIST ?
-      <ContentWidgetContainer /> :
-      <ContentPagesContainer />;
+    const renderedWidgetTabTitle = (
+      <Fragment>
+        <Icon name="table" />&nbsp;
+        <span>Widgets</span>
+      </Fragment>
+    );
+
+    const renderedPageTreeTabTitle = (
+      <Fragment>
+        <Icon name="list-alt" />&nbsp;
+        <span>Page Tree</span>
+      </Fragment>
+    );
     return (
       <div className={classContainer.join(' ').trim()} >
-        <span
-          role="link"
-          tabIndex={0}
-          onKeyDown={() => {}}
-          onClick={() => { this.props.changeContent(this.props.content); }}
-          className="
-          ToolbarPageConfig__drawer-pf-title
-          drawer-pf-title-right-menu"
-        >
-          <span className="ToolbarPageConfig__right-bar-title">
-            <ToolbarContentIcon
-              content={this.props.content}
-              position="left"
-              toggleExpanded={this.props.toggleExpanded}
-              handleClick={this.props.toggleContentToolbar}
-            />
-            <span className="ToolbarPageConfig__title">
-              <FormattedMessage id="app.pages" />
-            </span>
-            <span className="ToolbarPageConfig__open-button-menu-right pull-right">
-              <ToolbarContentIcon
-                content={this.props.content}
-                handleClick={this.props.changeContent}
-                position="right"
-              />
-            </span>
-          </span>
-        </span>
-        <div className="panel-group">
-          <div
-            className={classScrollContainer.join(' ')}
-          >
-            {container}
-          </div>
-        </div>
+        <Tabs id="toolbar-tab" defaultActiveKey={0} className={classScrollContainer.join(' ')} mountOnEnter unmountOnExit>
+          <Tab eventKey={0} title={renderedWidgetTabTitle}>
+            <ContentWidgetContainer />
+          </Tab>
+          <Tab eventKey={1} title={renderedPageTreeTabTitle}>
+            <ContentPagesContainer />
+          </Tab>
+        </Tabs>
       </div>
     );
   }

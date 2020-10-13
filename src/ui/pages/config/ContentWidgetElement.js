@@ -12,8 +12,7 @@ const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
         <div className="ContentWidgetElement__icon list-view-pf-left">
           <span className="
             fa fa-default
-            fa-puzzle-piece
-            list-view-pf-icon-sm
+            fa-cube
             ContentWidgetElement__widget-icon
             fa-banner-main-left"
           />

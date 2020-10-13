@@ -2,10 +2,37 @@
 
 .ToolbarPageConfig {
 
+  &__tab-main {
+    overflow: scroll;
+
+    ul.nav {
+      border-bottom-color: transparent;
+
+      li {
+        background-color: transparent;
+
+        &.active a {
+          background-color: #393F44;
+          border-color: transparent;
+        }
+
+        a {
+          border-color: transparent;
+          color: #fff;
+          padding: 13px;
+          font-weight: bold;
+
+          &:hover {
+            border-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
   &__drawer-pf-sidebar-right {
     height: calc(100vh - 71px);
-    border: 1px solid $color-pf-black-300 ;
-    background-color: $color-pf-black-100 ;
+    background-color: #292E34;
     box-shadow: 0 6px 12px rgba(3,3,3,.175);
     z-index: 10;
   }
