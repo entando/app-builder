@@ -756,6 +756,7 @@ export default {
     'singlePageSettings.pageTitle': 'Título da Página',
     'singlePageSettings.updateSuccess': 'Página atualizada com sucesso',
     'widgets.configUi': 'Config UI',
+    'widgets.makeConfigReadonly': 'Fazer a pagina de config do widget readonly',
     'app.filterTypesSelect.id': 'ID',
     'app.filterTypesSelect.version': 'Versão',
     'app.filterTypesSelect.name': 'Nome',

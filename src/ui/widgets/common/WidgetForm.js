@@ -15,6 +15,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -236,6 +237,15 @@ export class WidgetFormBody extends Component {
               </Col>
             </Row>
           )}
+          <Row>
+            <Col xs={12}>
+              <Field
+                component={SwitchRenderer}
+                name="readonlyDefaultConfig"
+                label={<FormLabel labelId="widgets.makeConfigReadonly" />}
+              />
+            </Col>
+          </Row>
           <Row>
             <Col xs={12}>
               <Field
