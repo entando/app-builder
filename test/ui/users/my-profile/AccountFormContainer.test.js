@@ -1,8 +1,8 @@
-import { mapStateToProps, mapDispatchToProps } from 'ui/users/my-profile/PasswordFormContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/users/my-profile/AccountFormContainer';
 
 const dispatchMock = jest.fn();
 
-describe('PasswordFormContainer', () => {
+describe('AccountFormContainer', () => {
   it('maps username', () => {
     expect(mapStateToProps({
       currentUser: { username: 'admin' },

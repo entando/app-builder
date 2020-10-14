@@ -8,7 +8,7 @@ import { required, matchElement } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
-export class PasswordFormBody extends Component {
+export class AccountFormBody extends Component {
   constructor(props) {
     super(props);
 
@@ -29,8 +29,8 @@ export class PasswordFormBody extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfilePasswordForm">
-        <FormSectionTitle titleId="user.myProfile.passwordSection" />
+      <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileAccountForm">
+        <FormSectionTitle titleId="user.myProfile.accountSection" />
         <Field
           label={<FormattedMessage id="user.myProfile.oldPassword" />}
           component={RenderTextInput}
@@ -67,7 +67,7 @@ export class PasswordFormBody extends Component {
   }
 }
 
-PasswordFormBody.propTypes = {
+AccountFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
@@ -75,4 +75,4 @@ PasswordFormBody.propTypes = {
 
 export default reduxForm({
   form: 'myprofile-password',
-})(PasswordFormBody);
+})(AccountFormBody);

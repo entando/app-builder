@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { getUsername } from '@entando/apimanager';
 
 import { sendPostUserPassword } from 'state/users/actions';
-import PasswordForm from 'ui/users/my-profile/PasswordForm';
+import AccountForm from 'ui/users/my-profile/AccountForm';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
@@ -24,4 +24,4 @@ export const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps, mapDispatchToProps,
   null, { pure: false },
-)(PasswordForm);
+)(AccountForm);

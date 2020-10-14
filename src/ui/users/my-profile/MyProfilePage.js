@@ -7,7 +7,7 @@ import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
+import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
 import MyProfileEditFormContainer from 'ui/users/my-profile/MyProfileEditFormContainer';
 import AppSettingsFormContainer from 'ui/users/my-profile/AppSettingsFormContainer';
 
@@ -49,7 +49,7 @@ const MyProfilePage = ({ onTabSelect }) => {
             </Row>
             <Row>
               <Col xs={12}>
-                <PasswordFormContainer />
+                <AccountFormContainer />
               </Col>
             </Row>
           </Tab>
