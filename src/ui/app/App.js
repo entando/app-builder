@@ -128,7 +128,7 @@ import EditUserPage from 'ui/users/edit/EditUserPage';
 import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
-import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
+import MyProfilePageContainer from 'ui/users/my-profile/MyProfilePageContainer';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -253,7 +253,7 @@ const getRouteComponent = () => {
       <Route path={ROUTE_USER_EDIT} component={EditUserPage} />
       <Route path={ROUTE_USER_DETAIL} component={DetailUserPage} />
       <Route path={ROUTE_USER_RESTRICTIONS} component={UserRestrictionsPage} />
-      <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePage} />
+      <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePageContainer} />
       <Route path={ROUTE_USER_AUTHORITY} component={UserAuthorityPageContainer} />
       {/* profiles */}
       <Route exact path={ROUTE_PROFILE_TYPE_LIST} component={ListProfileTypePage} />
