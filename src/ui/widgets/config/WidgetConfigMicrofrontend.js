@@ -38,7 +38,7 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
       <Fragment>
         {microfrontendMarkup}
         <Button
-          className="pull-right"
+          className="pull-right save"
           type="submit"
           bsStyle="primary"
           onClick={handleSubmit}
