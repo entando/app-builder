@@ -547,6 +547,7 @@ export default {
     'user.authority.roles': 'Papéis de Usuários',
     'user.authority.new': 'Novas autorizações',
     'user.authority.noAuthYet': 'Nenhuma autorização ainda',
+    'user.username': 'Username',
     'user.password': 'Senha',
     'user.passwordConfirm': 'Confirme a senha',
     'user.profileType': 'Tipo de Pefil',

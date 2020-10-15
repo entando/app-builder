@@ -558,6 +558,7 @@ export default {
     'user.authority.roles': 'User Role',
     'user.authority.new': 'New authorizations',
     'user.authority.noAuthYet': 'No authorizations yet',
+    'user.username': 'Username',
     'user.password': 'Password',
     'user.passwordConfirm': 'Confirm password',
     'user.profileType': 'Profile Type',

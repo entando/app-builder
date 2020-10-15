@@ -44,11 +44,6 @@ const MyProfilePage = ({ onTabSelect }) => {
           >
             <Row>
               <Col xs={12}>
-                <ErrorsAlertContainer />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
                 <AccountFormContainer />
               </Col>
             </Row>
