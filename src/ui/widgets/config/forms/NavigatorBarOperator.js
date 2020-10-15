@@ -14,7 +14,10 @@ const operatorTypeOptionIds = [
   { labelId: 'widget.navigationBar.config.subtree', code: 'subtree' },
 ];
 
-const NavigatorBarOperator = ({ intl, onAddNewExpression, addConfig: { spec, targetCode } }) => (
+const NavigatorBarOperator = ({
+  intl,
+  onAddNewExpression, addConfig: { spec, targetCode }, appTourProgress,
+}) => (
   <div>
     <Field
       component={RenderSelectInput}
@@ -36,7 +39,12 @@ const NavigatorBarOperator = ({ intl, onAddNewExpression, addConfig: { spec, tar
       name="addConfig.operatorSubtreeLevel"
     />
     <Col lg={6} xs={10} smOffset={2} style={{ paddingLeft: '7px' }}>
-      <Button onClick={onAddNewExpression} bsStyle="primary" disabled={!spec || (spec === 'code' && !targetCode)}>
+      <Button
+        className="app-tour-step-15"
+        onClick={config => onAddNewExpression(config, appTourProgress)}
+        bsStyle="primary"
+        disabled={!spec || (spec === 'code' && !targetCode)}
+      >
         <FormattedMessage
           id="widget.navigationBar.config.addNewExpression"
         />
@@ -49,6 +57,7 @@ NavigatorBarOperator.propTypes = {
   intl: intlShape.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
   addConfig: PropTypes.shape({}).isRequired,
+  appTourProgress: PropTypes.string.isRequired,
 };
 
 export default injectIntl(NavigatorBarOperator);

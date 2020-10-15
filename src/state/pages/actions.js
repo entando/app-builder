@@ -170,13 +170,12 @@ export const sendDeletePage = page => async (dispatch) => {
     if (response.ok) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
-      if (page.tourProgress === APP_TOUR_STARTED) {
-        history.push(ROUTE_PAGE_ADD);
-      } else {
+      if (page.tourProgress !== APP_TOUR_STARTED) {
         history.push(ROUTE_PAGE_TREE);
       }
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
     }
-    dispatch(addErrors(json.errors.map(e => e.message)));
   } catch (e) {
     // do nothing
   }

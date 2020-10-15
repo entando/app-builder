@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { formValueSelector, change } from 'redux-form';
+import { formValueSelector, change, initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
@@ -26,9 +26,9 @@ export const mapStateToProps = (state) => {
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
   const appTourProgress = getAppTourProgress(state);
-  const appTourLastPageData = getTourCreatedPage(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
+  const appTourLastPageData = getTourCreatedPage(state);
   return {
     languages,
     groups: getGroupsList(state),
@@ -63,6 +63,7 @@ export const mapStateToProps = (state) => {
     ownerGroupValue: formValueSelector('page')(state, 'ownerGroup'),
     parentCodeValue: formValueSelector('page')(state, 'parentCode'),
     pageModelValue: formValueSelector('page')(state, 'pageModel'),
+    appTourLastPageData,
   };
 };
 
@@ -71,6 +72,23 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (data) => {
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
+  },
+  onInitPageForm: (data) => {
+    const {
+      appTourProgress, codeValue, languages, appTourLastPageData,
+    } = data;
+    const mainTitleLangCode = (languages[0] || {}).code || 'en';
+    if (appTourProgress === APP_TOUR_STARTED && !codeValue) {
+      dispatch(initialize('page', {
+        titles: {
+          [mainTitleLangCode]: 'Hello World App',
+        },
+        code: 'hello_world_app',
+        ownerGroup: 'free',
+        parentCode: 'homepage',
+        ...appTourLastPageData,
+      }));
+    }
   },
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then((res) => {

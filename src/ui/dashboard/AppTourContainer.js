@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
+import { arrayPop, formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
 import { fetchUserForm, sendPostWizardSetting } from 'state/users/actions';
@@ -12,24 +12,23 @@ import { setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
-import { ROUTE_PAGE_TREE } from 'app-init/router';
-import { getConfigMap } from 'state/page-config/selectors';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
+import { configOrUpdatePageWidget, editWidgetConfig } from 'state/page-config/actions';
+import { NavigationBarWidgetID } from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
 
-// const REQUIRED_WIDGET_CODES = ['header', 'footer', 'navigation', 'content_viewer'];
-const REQUIRED_WIDGET_CODES = ['irakli_watches_you'];
+export const widgetNextSteps = {
+  logo: 13,
+  'navigation-menu': 14,
+};
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const languages = getActiveLanguages(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const pageCode = (getTourCreatedPage(state) || {}).code || '';
-  const configMap = getConfigMap(state)[pageCode] || [];
-  const pageConfigValid =
-  REQUIRED_WIDGET_CODES.every(widgetCode => configMap.filter(widget =>
-    widget && widget.code === widgetCode).length > 0);
   return {
     username: getUsername(state),
-    wizardEnabled: formValueSelector('user')(state, 'wizardEnabled') || true,
+    wizardEnabled: formValueSelector('user')(state, 'wizardEnabled'),
     appTourProgress: getAppTourProgress(state),
     appTourLastStep: getAppTourlastStep(state),
     mainTitleValue: formValueSelector('page')(state, mainTitleName),
@@ -39,8 +38,8 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     pageModelValue: formValueSelector('page')(state, 'pageModel'),
     lockBodyScroll,
     tourCreatedPageCode: pageCode,
-    pageConfigValid,
     publishStatus: getPublishStatus(state),
+    specificChosenPage: formValueSelector('navigationBarWidgetForm')(state, 'addConfig.targetCode'),
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
@@ -58,8 +57,9 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   },
   setNextStep: step => dispatch(setAppTourLastStep(step)),
   onBackToAddPage: (code) => {
-    dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_STARTED }));
-    dispatch(setAppTourLastStep(11));
+    history.push(ROUTE_PAGE_ADD);
+    dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_STARTED }))
+      .then(() => dispatch(setAppTourLastStep(11)));
   },
   onBackToPageTree: () => {
     history.push(ROUTE_PAGE_TREE);
@@ -69,7 +69,31 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(unpublishSelectedPage()).then(() => {
       dispatch(setPublishStatus(false));
     });
+    dispatch(setAppTourLastStep(22));
+  },
+  onAddLogo: (pageCode) => {
+    dispatch(configOrUpdatePageWidget('logo', undefined, 0, pageCode));
     dispatch(setAppTourLastStep(13));
+  },
+  onAddNavigationMenu: (pageCode) => {
+    dispatch(configOrUpdatePageWidget('navigation-menu', undefined, 1, pageCode));
+    dispatch(setAppTourLastStep(14));
+  },
+  onBackToSpecificCode: () => {
+    dispatch(arrayPop(NavigationBarWidgetID, 'expressions'));
+    dispatch(setAppTourLastStep(14));
+  },
+  onAddContent: (pageCode) => {
+    dispatch(configOrUpdatePageWidget('content_viewer', undefined, 4, pageCode));
+    dispatch(setAppTourLastStep(18));
+  },
+  onBackToNavMenuConfig: (pageCode) => {
+    dispatch(editWidgetConfig(1, pageCode));
+    dispatch(setAppTourLastStep(16));
+  },
+  onBackToContentConfig: (pageCode) => {
+    dispatch(editWidgetConfig(4, pageCode));
+    dispatch(setAppTourLastStep(21));
   },
 });
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { reduxForm, submit, formValueSelector, arrayPush } from 'redux-form';
+import { reduxForm, submit, formValueSelector, arrayPush, change } from 'redux-form';
 import { clearErrors, addToast, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 import NavigationBarConfigForm from 'ui/widgets/config/forms/NavigationBarConfigForm';
@@ -15,8 +15,11 @@ import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal'
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { sendGetNavigatorNavspecFromExpressions, sendGetNavigatorExpressionsFromNavspec } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
+import { getAppTourProgress } from 'state/app-tour/selectors';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { setAppTourLastStep } from 'state/app-tour/actions';
 
-const NavigationBarWidgetID = 'navigationBarWidgetForm';
+export const NavigationBarWidgetID = 'navigationBarWidgetForm';
 
 export const mapStateToProps = (state, ownProps) => ({
   initialValues: ownProps.widgetConfig || {},
@@ -26,6 +29,7 @@ export const mapStateToProps = (state, ownProps) => ({
   addConfig: formValueSelector(NavigationBarWidgetID)(state, 'addConfig'),
   expressions: formValueSelector(NavigationBarWidgetID)(state, 'expressions'),
   loading: getLoading(state).expressionList,
+  appTourProgress: getAppTourProgress(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -86,12 +90,21 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     const { history, pageCode } = ownProps;
     history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
   },
-  onAddNewExpression: (config) => {
+  onAddNewExpression: (config, appTourProgress) => {
     const newExpression = { ...config };
     newExpression.specSuperLevel = config.specSuperLevel || 1;
     newExpression.specAbsLevel = config.specAbsLevel || 1;
     newExpression.operatorSubtreeLevel = config.operatorSubtreeLevel || '1';
     dispatch(arrayPush(NavigationBarWidgetID, 'expressions', newExpression));
+    if (appTourProgress === APP_TOUR_STARTED) {
+      dispatch(setAppTourLastStep(16));
+    }
+  },
+  onSpecificPageChoose: (chosenPage, appTourProgress) => {
+    if (appTourProgress === APP_TOUR_STARTED && chosenPage) {
+      dispatch(change('navigationBarWidgetForm', 'addConfig.spec', 'code'));
+      dispatch(setAppTourLastStep(15));
+    }
   },
 });
 
