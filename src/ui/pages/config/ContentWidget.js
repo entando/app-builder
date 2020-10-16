@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import SectionCollapse from 'ui/common/section-collapse/SectionCollapse';
 
@@ -15,13 +15,13 @@ const renderComponent = widgetList => (
 
 const msgs = defineMessages({
   search: {
-    id: 'app.search',
+    id: 'pages.designer.searchWidgetLabel',
     defaultMessage: 'Search',
   },
 });
 
 const ContentWidget = ({
-  intl, widgetList, filterWidget, viewList,
+  intl, widgetList, filterWidget,
 }) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
@@ -48,16 +48,11 @@ ContentWidget.propTypes = {
   intl: intlShape.isRequired,
   widgetList: PropTypes.shape({}),
   filterWidget: PropTypes.func,
-  changeViewList: PropTypes.func,
-  viewList: PropTypes.string,
 };
 
 ContentWidget.defaultProps = {
   widgetList: {},
   filterWidget: PropTypes.noop,
-  changeViewList: PropTypes.noop,
-  viewList: 'list',
-
 };
 
 export default injectIntl(ContentWidget);

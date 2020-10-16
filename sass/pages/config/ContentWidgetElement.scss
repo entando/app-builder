@@ -1,5 +1,3 @@
-
-
 .ContentWidgetList {
   .ContentWidgetElement {
     border-right: 1px solid $color-pf-white;
@@ -14,15 +12,16 @@
   margin-bottom: 20px;
   border: 0;
   background-color: $color-dragitem-bg;
-  
 
+  // sass-lint:disable class-name-format nesting-depth
   &.list-group-item:last-of-type {
     margin-bottom: 20px;
 
-    &:nth-child(odd) {
-      justify-self: flex-start;
+    &:nth-child(even) + :after {
+      display: none;
     }
   }
+  // sass-lint:enable class-name-format nesting-depth
 
 
   &__widget-list {
@@ -46,6 +45,7 @@
     text-transform: capitalize;
   }
 
+  // sass-lint:disable class-name-format force-element-nesting
   &__main.list-view-pf-main-info {
     display: flex;
     flex-direction: column;
@@ -67,10 +67,11 @@
       font-size: 14px;
     }
   }
+  // sass-lint:enable class-name-format force-element-nesting
 
   &__description {
-    text-align: center;
     margin: 0;
+    text-align: center;
   }
 }
 
@@ -92,16 +93,12 @@
   border-right: 0;
   border-left: 0;
 
-  
-
   .ContentWidgetElement {
     display: flex;
     flex-basis: calc(50% - 10px);
     margin-top: 5px;
     padding: 0 15px;
   }
-
-  
 
   .ContentWidgetElement__icon {
     padding: 0;

@@ -6,9 +6,12 @@ import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidge
 import SectionCollapseTitle from 'ui/common/section-collapse/SectionCollapseTitle';
 
 const SectionCollapse = ({ widgets, opened }) => {
-  const [sectionOpened, setSectionOpened] = useState(false);
+  const [sectionOpened, setSectionOpened] = useState(opened);
   const handleTitleClicked = () => setSectionOpened(!sectionOpened);
-  console.log(widgets);
+  const itemAreaClassName = ['SectionCollapse__item-area'];
+  if (widgets.length % 2 === 1) {
+    itemAreaClassName.push('odd');
+  }
   return (
     <div>
       <SectionCollapseTitle
@@ -18,7 +21,7 @@ const SectionCollapse = ({ widgets, opened }) => {
       />
       <Collapse in={sectionOpened}>
         <div>
-          <div className="SectionCollapse__item-area">
+          <div className={itemAreaClassName.join(' ')}>
             {widgets.map(widget => (
               <DraggableContentWidgetElement
                 key={`wdg-${widget.code}`}

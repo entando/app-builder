@@ -1,5 +1,5 @@
 import {
-  toggleContent, setSearchFilter, changeViewList, setPageConfig, setPublishedPageConfig,
+  toggleContent, setSearchFilter, setPageConfig, setPublishedPageConfig,
   setPageWidget, removePageWidgetSync, toggleContentToolbarExpanded,
 } from 'state/page-config/actions';
 import reducer from 'state/page-config/reducer';
@@ -27,11 +27,6 @@ describe('state/page-config/reducer', () => {
     it('should define a searchFilter', () => {
       expect(state.searchFilter).toBeDefined();
       expect(typeof state.searchFilter).toBe('object');
-    });
-
-    it('should define a viewList', () => {
-      expect(state.viewList).toBeDefined();
-      expect(typeof state.viewList).toBe('string');
     });
 
     it('should define configMap', () => {
@@ -73,16 +68,6 @@ describe('state/page-config/reducer', () => {
 
       it('state.searchFilter should be equal to input value', () => {
         expect(newState.searchFilter).toEqual('aaa');
-      });
-    });
-    describe('on action SET_VIEW_LIST', () => {
-      let newState;
-      beforeEach(() => {
-        newState = reducer(state, changeViewList('card'));
-      });
-
-      it('state.viewList should be equal to input vlaue', () => {
-        expect(newState.viewList).toEqual('card');
       });
     });
   });

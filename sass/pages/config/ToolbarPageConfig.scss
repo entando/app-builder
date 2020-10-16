@@ -1,38 +1,119 @@
 @import "../../patternfly.scss";
 
 .ToolbarPageConfig {
+  position: relative;
+  width: calc(100% + 20px);
+
+  &__collapse-main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45px;
+    height: 45px;
+    outline: none;
+    background-color: $color-black;
+    color: $color-white;
+    text-align: center;
+    box-shadow: none;
+
+    // sass-lint:disable class-name-format nesting-depth
+    .fa {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $color-black;
+      color: $color-white;
+    }
+
+    &:hover {
+      background-color: $color-dragitem-bg;
+      color: $color-mid-blue;
+    }
+    // sass-lint:enable class-name-format nesting-depth
+  }
+
+  &__tab-container {
+    position: relative;
+    height: 100%;
+    overflow: scroll;
+  }
 
   &__tab-main {
-    overflow: scroll;
+    height: 100%;
 
+    // sass-lint:disable class-name-format force-element-nesting nesting-depth no-qualifying-elements
     ul.nav {
-      border-bottom-color: transparent;
+      border-bottom-color: $color-black;
+      background-color: $color-dragitem-bg;
+
+      &::before {
+        display: block;
+        width: 45px;
+        height: 3.215em;
+        float: left;
+      }
 
       li {
+        min-width: 128px;
+        height: 3.215em;
         background-color: transparent;
 
-        &.active a {
-          background-color: #393F44;
+        & > a {
+          width: 100%;
+          padding: 10px 13px;
           border-color: transparent;
-        }
-
-        a {
-          border-color: transparent;
-          color: #fff;
-          padding: 13px;
+          color: $color-white;
           font-weight: bold;
+          text-align: center;
+
+          .fa {
+            margin-right: 5px;
+            font-size: 21px;
+            line-height: 21px;
+            vertical-align: middle;
+          }
 
           &:hover {
             border-color: transparent;
+            color: $color-mid-blue;
+
+            .fa {
+              color: $color-mid-blue;
+            }
+          }
+        }
+
+        &.active {
+          border: 1px solid $color-black;
+          border-bottom: transparent;
+        }
+
+        &.active a {
+          height: calc(100% + 1px);
+          border-top: 0;
+          border-color: transparent;
+          background-color: $color-sidebar-dark-bg;
+          color: $color-white;
+
+          &:hover {
+            color: $color-white;
+          }
+
+          .fa {
+            color: $color-mid-blue;
           }
         }
       }
     }
+    // sass-lint:enable class-name-format force-element-nesting nesting-depth no-qualifying-elements
   }
 
   &__drawer-pf-sidebar-right {
-    height: calc(100vh - 71px);
-    background-color: #292E34;
+    height: 100%;
+    background-color: $color-sidebar-dark-bg;
     box-shadow: 0 6px 12px rgba(3,3,3,.175);
     z-index: 10;
   }
@@ -44,7 +125,8 @@
   }
 
   &__drawer-pf-sidebar-right-fixed {
-    height: 100vh;
+    width: 100%;
+    height: calc(100vh - 59px);
   }
 
   &__drawer-pf-title:focus {
@@ -92,8 +174,53 @@
   }
 
   &__drawer-pf-container-fixed {
-    height: calc(100vh - 49px);
+    height: calc(100vh - 59px);
   }
+}
+
+.ToolbarPageConfig__collapse-mode {
+  width: 48px;
+
+  // sass-lint:disable class-name-format force-element-nesting nesting-depth no-qualifying-elements
+  .ToolbarPageConfig__collapse-main {
+    width: 48px;
+
+    .fa {
+      color: $color-mid-blue;
+    }
+  }
+
+  .ToolbarPageConfig__tab-main {
+    width: 48px;
+
+    ul.nav {
+      display: flex;
+      flex-direction: column;
+      border-bottom-color: transparent;
+
+      li {
+        min-width: 45px;
+        border: transparent;
+
+        span:not([class]) {
+          display: none;
+        }
+
+        &.active a {
+          background-color: $color-dragitem-bg;
+
+          .fa {
+            color: $color-white;
+          }
+        }
+      }
+    }
+
+    .tab-content {
+      display: none;
+    }
+  }
+  // sass-lint:enable class-name-format force-element-nesting nesting-depth no-qualifying-elements
 }
 
 .ToolbarPageConfig__drawer-pf-title:hover {

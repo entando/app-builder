@@ -18,7 +18,7 @@ import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-con
 import { getWidgetsMap } from 'state/widgets/selectors';
 import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
 import {
-  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_SEARCH_FILTER, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
@@ -75,13 +75,6 @@ export const setSearchFilter = filter => ({
   type: SET_SEARCH_FILTER,
   payload: {
     filter,
-  },
-});
-
-export const changeViewList = view => ({
-  type: CHANGE_VIEW_LIST,
-  payload: {
-    view,
   },
 });
 

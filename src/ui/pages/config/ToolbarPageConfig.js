@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Tabs, Tab, Icon } from 'patternfly-react';
+import { Button, Tabs, Tab, Icon } from 'patternfly-react';
 
-import { WIDGET_LIST } from 'state/page-config/const';
-import ToolbarContentIcon from 'ui/pages/config/ToolbarContentIcon';
 import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
 import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
@@ -14,7 +12,11 @@ class ToolbarPageConfig extends Component {
   }
 
   render() {
+    const { collapsed, onToggleCollapse } = this.props;
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
+    if (collapsed) {
+      classContainer.push('ToolbarPageConfig__collapse-mode');
+    }
     const classScrollContainer = ['ToolbarPageConfig__tab-main'];
     if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
@@ -26,26 +28,31 @@ class ToolbarPageConfig extends Component {
     const renderedWidgetTabTitle = (
       <Fragment>
         <Icon name="table" />&nbsp;
-        <span>Widgets</span>
+        <FormattedMessage id="pages.designer.tabWidgetList" />
       </Fragment>
     );
 
     const renderedPageTreeTabTitle = (
       <Fragment>
         <Icon name="list-alt" />&nbsp;
-        <span>Page Tree</span>
+        <FormattedMessage id="pages.designer.tabPageTree" />
       </Fragment>
     );
     return (
-      <div className={classContainer.join(' ').trim()} >
-        <Tabs id="toolbar-tab" defaultActiveKey={0} className={classScrollContainer.join(' ')} mountOnEnter unmountOnExit>
-          <Tab eventKey={0} title={renderedWidgetTabTitle}>
-            <ContentWidgetContainer />
-          </Tab>
-          <Tab eventKey={1} title={renderedPageTreeTabTitle}>
-            <ContentPagesContainer />
-          </Tab>
-        </Tabs>
+      <div className={classContainer.join(' ').trim()}>
+        <div className="ToolbarPageConfig__tab-container">
+          <Button className="ToolbarPageConfig__collapse-main" onClick={onToggleCollapse}>
+            <Icon name={`angle-double-${collapsed ? 'left' : 'right'}`} />
+          </Button>
+          <Tabs id="toolbar-tab" defaultActiveKey={0} className={classScrollContainer.join(' ')} mountOnEnter unmountOnExit>
+            <Tab eventKey={0} title={renderedWidgetTabTitle}>
+              <ContentWidgetContainer />
+            </Tab>
+            <Tab eventKey={1} title={renderedPageTreeTabTitle}>
+              <ContentPagesContainer />
+            </Tab>
+          </Tabs>
+        </div>
       </div>
     );
   }
@@ -54,19 +61,15 @@ class ToolbarPageConfig extends Component {
 
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
-  changeContent: PropTypes.func,
-  content: PropTypes.string,
   fixedView: PropTypes.bool,
   toggleExpanded: PropTypes.bool,
-  toggleContentToolbar: PropTypes.func,
+  collapsed: PropTypes.bool.isRequired,
+  onToggleCollapse: PropTypes.func.isRequired,
 };
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
-  changeContent: PropTypes.noop,
-  content: WIDGET_LIST,
   fixedView: false,
   toggleExpanded: false,
-  toggleContentToolbar: PropTypes.noop,
 };
 export default ToolbarPageConfig;

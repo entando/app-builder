@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { isBoolean } from 'lodash';
 import {
-  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_SEARCH_FILTER, TOGGLE_CONTENT, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET,
 } from 'state/page-config/types';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
@@ -20,15 +20,6 @@ export const searchFilter = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SEARCH_FILTER: {
       return action.payload.filter;
-    }
-    default: return state;
-  }
-};
-
-export const viewList = (state = 'card', action = {}) => {
-  switch (action.type) {
-    case CHANGE_VIEW_LIST: {
-      return action.payload.view;
     }
     default: return state;
   }
@@ -118,7 +109,6 @@ export const toolbarExpanded = (state = false, action = {}) => {
 export default combineReducers({
   content,
   searchFilter,
-  viewList,
   configMap,
   publishedConfigMap,
   toolbarExpanded,
