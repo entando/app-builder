@@ -26,7 +26,7 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
-import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
+import MyProfilePageContainer from 'ui/users/my-profile/MyProfilePageContainer';
 import AddUserPage from 'ui/users/add/AddUserPage';
 import EditUserPage from 'ui/users/edit/EditUserPage';
 import DetailUserPage from 'ui/users/detail/DetailUserPage';
@@ -252,7 +252,7 @@ describe('App', () => {
 
   it('route to user restrictions page', () => {
     const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
-    expect(component.find(MyProfilePage).exists()).toBe(true);
+    expect(component.find(MyProfilePageContainer).exists()).toBe(true);
   });
 
   it('route to group list page', () => {

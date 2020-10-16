@@ -13,6 +13,7 @@ import {
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { SET_VISIBLE_MODAL } from 'state/modal/types';
 import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import {
   getUsers, getUser, putUser, postUser, deleteUser,
@@ -353,10 +354,11 @@ describe('state/users/actions', () => {
         store.dispatch(sendPostUserPassword('username', {})).then(() => {
           expect(postUserPassword).toHaveBeenCalledWith('username', {});
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(actions[1]).toHaveProperty('type', CLEAR_ERRORS);
           expect(actions[2]).toHaveProperty('type', '@@redux-form/RESET');
+          expect(actions[3]).toHaveProperty('type', SET_VISIBLE_MODAL);
           done();
         }).catch(done.fail);
       });
