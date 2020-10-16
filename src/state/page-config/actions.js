@@ -25,7 +25,7 @@ import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
 import { toggleLoading } from 'state/loading/actions';
 import { setAppTourLastStep } from 'state/app-tour/actions';
-import { widgetNextSteps } from 'ui/dashboard/AppTourContainer';
+import { widgetNextSteps } from 'ui/app-tour/AppTourContainer';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 

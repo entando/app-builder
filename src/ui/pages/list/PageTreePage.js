@@ -10,7 +10,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
 import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import AppTourContainer from 'ui/dashboard/AppTourContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 class PageTreePage extends Component {

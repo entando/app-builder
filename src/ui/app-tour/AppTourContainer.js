@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchUserForm, sendPostWizardSetting } from 'state/users/actions';
 import { getUsername } from '@entando/apimanager';
 
-import AppTour from 'ui/dashboard/AppTour';
+import AppTour from 'ui/app-tour/AppTour';
 import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage } from 'state/app-tour/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
@@ -19,6 +19,7 @@ import { NavigationBarWidgetID } from 'ui/widgets/config/forms/NavigationBarConf
 export const widgetNextSteps = {
   logo: 13,
   'navigation-menu': 14,
+  content_viewer: 18,
 };
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {

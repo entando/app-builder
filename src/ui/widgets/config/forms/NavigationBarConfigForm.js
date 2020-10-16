@@ -10,7 +10,7 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarExpressionsList';
 import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
-import AppTourContainer from 'ui/dashboard/AppTourContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {

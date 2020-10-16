@@ -5,7 +5,7 @@ import { Button } from 'patternfly-react';
 import { Checkbox } from 'react-bootstrap';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
-import { APP_TOUR_CANCELLED } from 'state/app-tour/const';
+import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
 const simulateMouseClick = (element) => {
@@ -39,27 +39,27 @@ class AppTour extends React.Component {
     onDidMount(this.props);
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const { isTourOpen } = this.state;
-  //   const { wizardEnabled, appTourProgress, onAppTourCancel } = this.props;
-  //   const tourInProgress = isTourOpen && wizardEnabled && appTourProgress === APP_TOUR_STARTED;
-  //   if (prevProps.appTourProgress !== this.props.appTourProgress) {
-  //     if (appTourProgress === APP_TOUR_CANCELLED) {
-  //       window.onbeforeunload = null;
-  //       window.onunload = null;
-  //     }
-  //     if (tourInProgress) {
-  //       window.onbeforeunload = (e) => {
-  //         e.preventDefault();
-  //         e.returnValue = '';
-  //         return e;
-  //       };
-  //       window.onunload = () => {
-  //         onAppTourCancel();
-  //       };
-  //     }
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    const { isTourOpen } = this.state;
+    const { wizardEnabled, appTourProgress, onAppTourCancel } = this.props;
+    const tourInProgress = isTourOpen && wizardEnabled && appTourProgress === APP_TOUR_STARTED;
+    if (prevProps.appTourProgress !== this.props.appTourProgress) {
+      if (appTourProgress === APP_TOUR_CANCELLED) {
+        window.onbeforeunload = null;
+        window.onunload = null;
+      }
+      if (tourInProgress) {
+        window.onbeforeunload = (e) => {
+          e.preventDefault();
+          e.returnValue = '';
+          return e;
+        };
+        window.onunload = () => {
+          onAppTourCancel();
+        };
+      }
+    }
+  }
 
   onNextStep(step, goTo) {
     const newStep = step <= 0 ? 1 : step;
@@ -427,7 +427,6 @@ class AppTour extends React.Component {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset,
     } = this.props;
     if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
-
     return (
       <Tour
         steps={this.generateSteps()}
@@ -449,7 +448,7 @@ class AppTour extends React.Component {
         className="helper"
         disableInteraction={false}
         inViewThreshold={3000}
-        scrollDuration={50}
+        scrollDuration={150}
         scrollOffset={customOffset}
       />
     );

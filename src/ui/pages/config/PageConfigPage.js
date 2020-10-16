@@ -13,7 +13,7 @@ import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import AppTourContainer from 'ui/dashboard/AppTourContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 

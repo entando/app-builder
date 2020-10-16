@@ -70,6 +70,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
         ))
           .then((data) => {
             if (data) {
+              dispatch(setAppTourLastStep(17));
               dispatch(addToast(
                 intl.formatMessage({ id: 'widget.update.success' }),
                 TOAST_SUCCESS,
@@ -83,7 +84,11 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       ));
     });
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit(NavigationBarWidgetID)); },
+  onSave: () => {
+    dispatch(setAppTourLastStep(17));
+    dispatch(setVisibleModal(''));
+    dispatch(submit(NavigationBarWidgetID));
+  },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => {
     dispatch(setVisibleModal(''));
