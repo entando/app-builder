@@ -168,3 +168,10 @@ export const getSelectedPagePreviewURI = createSelector(
     `${domain}/${PREVIEW_NAMESPACE}?pageCode=${selectedPage.code}&token=${selectedPage.token}`
   ),
 );
+
+export const getSelectedPublishedPageURI = createSelector(
+  getSelectedPage, getDomain, getLocale,
+  (selectedPage, domain, locale) => (
+    `${domain}/${locale}/${selectedPage.code}.page`
+  ),
+);

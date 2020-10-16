@@ -12,7 +12,7 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 
 const msgs = defineMessages({
@@ -28,6 +28,10 @@ const msgs = defineMessages({
     id: 'app.preview',
     defaultMessage: 'Preview',
   },
+  viewPublishedPage: {
+    id: 'pageTree.viewPublishedPage',
+    defaultMessage: 'View Published Page',
+  },
 });
 
 class PageConfigPage extends Component {
@@ -42,6 +46,7 @@ class PageConfigPage extends Component {
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
     this.toggleEnableSettings = this.toggleEnableSettings.bind(this);
+    this.openLinkPublishedPage = this.openLinkPublishedPage.bind(this);
 
     this.winScrollListener = throttle(() => {
       const sideWidget = document.querySelector('.PageConfigPage__side-widget');
@@ -111,6 +116,12 @@ class PageConfigPage extends Component {
     this.setState(state => ({ enableSettings: !state.enableSettings }));
   }
 
+  openLinkPublishedPage() {
+    if (this.props.pageStatus !== PAGE_STATUS_UNPUBLISHED) {
+      window.open(this.props.publishedPageUri, '_blank');
+    }
+  }
+
   renderPageHeader() {
     const {
       pageName, pageStatus, pageDiffersFromPublished,
@@ -150,8 +161,9 @@ class PageConfigPage extends Component {
 
   renderActionBar(tab) {
     const {
-      intl, pageDiffersFromPublished, restoreConfig, previewUri,
+      intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
     } = this.props;
+    console.log('PAGESTATUS', pageStatus);
 
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
@@ -220,6 +232,22 @@ class PageConfigPage extends Component {
                 >
                   <FormattedMessage id="app.preview" />
                 </a>
+                <Button
+                  title={intl.formatMessage(msgs.viewPublishedPage)}
+                  className={[
+                      'btn',
+                      pageStatus === PAGE_STATUS_UNPUBLISHED ? 'btn-default' : 'btn-primary',
+                      'PageConfigPage__btn--viewPublishedPage',
+                    ].join(' ')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  disabled={pageStatus === PAGE_STATUS_UNPUBLISHED}
+                  onClick={this.openLinkPublishedPage}
+                >
+                  <span>
+                    <FormattedMessage id="pageTree.viewPublishedPage" />
+                  </span>
+                </Button>
               </div>
             ) }
           </ButtonToolbar>
@@ -352,7 +380,7 @@ class PageConfigPage extends Component {
                       className="PageConfigPage__publish-btn btn-primary"
                       bsStyle="success"
                       onClick={publishPage}
-                      disabled={pageIsPublished}
+                      disabled={!pageIsPublished}
                     >
                       <FormattedMessage id="app.publish" />
                     </Button>
@@ -386,6 +414,7 @@ class PageConfigPage extends Component {
 PageConfigPage.propTypes = {
   intl: intlShape.isRequired,
   previewUri: PropTypes.string,
+  publishedPageUri: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   pageName: PropTypes.string,
@@ -408,6 +437,7 @@ PageConfigPage.propTypes = {
 
 PageConfigPage.defaultProps = {
   previewUri: '',
+  publishedPageUri: '',
   onWillMount: null,
   onWillUnmount: null,
   pageName: '',

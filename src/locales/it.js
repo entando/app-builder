@@ -350,6 +350,7 @@ export default {
     'pageTree.searchForm.title': 'Cerca una pagina esistente',
     'pageTree.searchForm.code': 'Codice Pagine',
     'pageTreePage.help': 'Dalla sezione ALBERO DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l\'albero contemporaneamente, oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni:scegliere la preview se da desktop o mobile, configurare, modificare, vsualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menú',
+    'pageTree.viewPublishedPage': 'Visualizza la pagina pubblicata',
     'pageDetails.title': 'Dettaglio Pagina',
     'pageDetails.help': 'Dalla sezione ALBERO DELLE PAGINE puoi cercare una pagina esistente, aprire tutto lalbero contemporaneamente, oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni:scegliere la preview se da desktop o mobile, configurare, modificare, vsualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menú.',
     'pageDetails.emptyContent': 'Non è ancora stato pubblicato nessun contenuto.',
