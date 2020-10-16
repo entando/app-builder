@@ -123,6 +123,7 @@
     left: initial;
   }
 
+  // sass-lint:disable bem-depth class-name-format
   &__panel-body {
     position: relative;
   }
@@ -146,6 +147,7 @@
   &__ok-button {
     padding: 10px;
   }
+  // sass-lint:enable bem-depth class-name-format
 }
 
 .scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
