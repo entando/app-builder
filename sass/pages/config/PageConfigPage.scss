@@ -10,10 +10,10 @@
   }
 
   &__title {
+    padding-bottom: 10px;
+    border-bottom: solid 1px #000;
     font-size: 16px;
     font-weight: bold;
-    border-bottom: solid 1px #000;
-    padding-bottom: 10px;
   }
 
   &__toolbar-row {
@@ -97,6 +97,30 @@
     position: fixed;
     top: 0;
     right: 0;
+  }
+
+  &__panel-body {
+    position: relative;
+  }
+
+  &__block-ui {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color-transparent-black;
+  }
+
+  &__readonly-warning {
+    margin-bottom: 0;
+    padding: 10px;
+    line-height: 23px;
+  }
+
+  &__ok-button {
+    padding: 10px;
   }
 }
 
