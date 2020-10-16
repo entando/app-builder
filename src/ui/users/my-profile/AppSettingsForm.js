@@ -61,4 +61,6 @@ AppSettingsFormBody.propTypes = {
 
 export default reduxForm({
   form: 'myprofile-appsettings',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })(AppSettingsFormBody);

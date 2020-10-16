@@ -17,7 +17,7 @@ describe('AppSettingsForm', () => {
   it('renders without crashing, and display all elements when Wizard is disabled', () => {
     const { getByText, getByLabelText } =
     render(mockRenderWithIntlAndStore(<AppSettingsForm {...props} />));
-    expect(getByText('Change your preferences')).toBeInTheDocument();
+    expect(getByText('Preferences')).toBeInTheDocument();
     expect(getByText('Save')).toBeInTheDocument();
     expect(getByLabelText('Welcome Wizard')).toBeInTheDocument();
   });

@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { CRUD_USERS_PERMISSION } from 'state/permissions/const';
 
-import { ROUTE_USER_ADD } from 'app-init/router';
+import { ROUTE_GROUP_LIST, ROUTE_USER_ADD, ROUTE_USER_LIST } from 'app-init/router';
 
 class UserManagement extends Component {
   componentDidMount() {
@@ -51,13 +51,19 @@ class UserManagement extends Component {
         <CardBody>
           <Icon size="lg" name="user" />
           <AggregateStatusCount>
-            <b>{users}</b> <FormattedMessage id="menu.users" />
+            <b>{users}</b>&nbsp;
+            <Link to={ROUTE_USER_LIST}>
+              <FormattedMessage id="menu.userManagement" />
+            </Link>
           </AggregateStatusCount>
           {isSuperuser && (
             <React.Fragment>
               <Icon size="lg" name="users" />
               <AggregateStatusCount>
-                <b>{groups}</b> <FormattedMessage id="menu.groups" />
+                <b>{groups}</b>&nbsp;
+                <Link to={ROUTE_GROUP_LIST}>
+                  <FormattedMessage id="menu.groups" />
+                </Link>
               </AggregateStatusCount>
             </React.Fragment>
           )}

@@ -7,13 +7,16 @@ import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
-  wizardEnabled: formValueSelector('user')(state, 'wizardEnabled'),
+  initialValues: {
+    wizardEnabled: formValueSelector('user')(state, 'wizardEnabled'),
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
   onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
   onSubmit: (values) => {
-    dispatch(sendPostWizardSetting(values));
+    const { username, ...data } = values;
+    dispatch(sendPostWizardSetting(username, data));
   },
 });
 

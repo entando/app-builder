@@ -10,7 +10,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { METATAG_TYPE_OPTIONS } from 'ui/pages/common/const';
 
-const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
+const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
   <div className="SeoInfo__addmetadata">
     <legend className="SeoInfo__addmetadata--head">
       <FormLabel helpId="app.seo.addMetatagHelp" labelId="app.seo.addMetatag" />
@@ -23,6 +23,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
             name="metakey"
             label={<FormLabel labelId="app.seo.addMetatagKey" />}
             validate={[required]}
+            disabled={readOnly}
           />
         </Col>
         <Col sm={3}>
@@ -32,6 +33,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
             name="metatype"
             label={<FormLabel labelId="app.seo.addMetatagType" />}
             validate={[required]}
+            disabled={readOnly}
           />
         </Col>
         <Col sm={4}>
@@ -40,6 +42,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
             name="metavalue"
             label={<FormLabel labelId="app.seo.addMetatagValue" />}
             validate={[required]}
+            disabled={readOnly}
           />
         </Col>
         <Col sm={1}>
@@ -47,7 +50,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
             className="pull-right"
             type="submit"
             bsStyle="primary"
-            disabled={invalid}
+            disabled={invalid || readOnly}
             onClick={handleSubmit}
           >
             <FormattedMessage id="app.add" />
@@ -61,10 +64,12 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid }) => (
 SeoMetadataFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
+  readOnly: PropTypes.bool,
 };
 
 SeoMetadataFormBody.defaultProps = {
   invalid: false,
+  readOnly: false,
 };
 
 const SeoMetadataForm = reduxForm({

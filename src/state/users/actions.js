@@ -19,6 +19,7 @@ import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_USER_LIST, ROUTE_USER_PROFILE } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { setVisibleModal } from 'state/modal/actions';
 
 
 export const setUsers = users => ({
@@ -270,7 +271,8 @@ export const sendPostUserPassword = (username, data) => async (dispatch) => {
         TOAST_SUCCESS,
       ));
       dispatch(clearErrors());
-      dispatch(reset('myprofile-password'));
+      dispatch(reset('myprofile-account'));
+      dispatch(setVisibleModal(''));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -287,6 +289,11 @@ export const sendPostWizardSetting = (username, data) => async (dispatch) => {
     if (!response.ok) {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    } else if (data.showToast !== false) {
+      dispatch(addToast(
+        { id: 'user.wizard.success' },
+        TOAST_SUCCESS,
+      ));
     }
   } catch (e) {
     // do nothing
