@@ -59,9 +59,9 @@ This is a sample response:
 
 That means, for instance, if `DOMAIN`=https://my.entando.com, `KEYCLOAK_ENABLED`=true and no `KEYCLOAK_JSON` set, then `KEYCLOAK_JSON` will fallback to `https://my.entando.com/keycloak.json`).
 
-For further information about Keycloak installation and configuration, see the [official Keycloak website](https://www.keycloak.org/archive/documentation-7.0.html).
+For further information about Keycloak installation and configuration, see the [official Keycloak website](https://www.keycloak.org/documentation).
 
-Current Keycloak supported version is **7.0.1**.
+Current Keycloak supported version is **11.0.x**.
 
 ### Deploying `app-builder` with `keycloak` locally
 

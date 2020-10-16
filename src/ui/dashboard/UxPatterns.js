@@ -12,7 +12,7 @@ import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { ROUTE_WIDGET_ADD } from 'app-init/router';
+import { ROUTE_PAGE_TEMPLATE_LIST, ROUTE_WIDGET_ADD, ROUTE_WIDGET_LIST } from 'app-init/router';
 
 class UxPatterns extends Component {
   componentWillMount() {
@@ -41,11 +41,17 @@ class UxPatterns extends Component {
         <CardBody>
           <Icon size="lg" name="cube" />
           <AggregateStatusCount>
-            <b>{this.props.widgets}</b> <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
+            <b>{this.props.widgets}</b>&nbsp;
+            <Link to={ROUTE_WIDGET_LIST}>
+              <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
+            </Link>
           </AggregateStatusCount>
           <span className="separator" />
           <AggregateStatusCount>
-            <b>{this.props.pageTemplates}</b> <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
+            <b>{this.props.pageTemplates}</b>&nbsp;
+            <Link to={ROUTE_PAGE_TEMPLATE_LIST}>
+              <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
+            </Link>
           </AggregateStatusCount>
         </CardBody>
       </Card>
