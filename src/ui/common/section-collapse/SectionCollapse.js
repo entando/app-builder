@@ -13,7 +13,7 @@ const SectionCollapse = ({ widgets, opened }) => {
     itemAreaClassName.push('odd');
   }
   return (
-    <div>
+    <div className="SectionCollapse">
       <SectionCollapseTitle
         name={widgets[0].pluginDesc || widgets[0].typology}
         isOpened={sectionOpened}

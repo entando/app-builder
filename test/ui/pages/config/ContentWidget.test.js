@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallowWithIntl } from 'test/testUtils';
 import ContentWidget from 'ui/pages/config/ContentWidget';
+import SectionCollapse from 'ui/common/section-collapse/SectionCollapse';
 import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
 
@@ -26,14 +27,12 @@ describe('ContentWidget', () => {
   describe('props', () => {
     it('widgetList empty data', () => {
       component = shallowWithIntl(<ContentWidget widgetList={WIDGET_LIST_MOCK_EMPTY} />);
-      expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeFalsy();
-      expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(0);
+      expect(component.find(SectionCollapse).exists()).toBe(false);
     });
 
     it('widgetList with data', () => {
       component = shallowWithIntl(<ContentWidget widgetList={WIDGET_ONE_LIST} />).dive();
-      expect(component.find('.ContentWidgetElement__widget-spacer').exists()).toBeTruthy();
-      expect(component.find('.ContentWidgetElement__widget-spacer')).toHaveLength(1);
+      expect(component.find(SectionCollapse).exists()).toBe(true);
     });
 
     it('filterWidget', () => {
