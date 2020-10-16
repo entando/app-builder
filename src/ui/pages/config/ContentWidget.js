@@ -9,6 +9,7 @@ const renderComponent = widgetList => (
     <SectionCollapse
       widgets={widgetList[widget]}
       opened={idx === 0}
+      key={widgetList[widget][0].pluginDesc || widgetList[widget][0].typology}
     />
   ))
 );
