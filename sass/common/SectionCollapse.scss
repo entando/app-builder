@@ -1,0 +1,38 @@
+.SectionCollapse {
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 10px 10px 30px;
+    border-top: 1px solid $color-black;
+    outline: none;
+    color: $color-white;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: inherit;
+    text-transform: capitalize;
+  }
+
+  &__title-collapse-button {
+    margin-left: 5px;
+    color: $color-rating-filter-star-empty;
+    cursor: pointer;
+  }
+
+  &__item-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    border: 0;
+    overflow: hidden;
+  }
+
+  &__item-area.odd::after { // sass-lint:disable-line class-name-format force-element-nesting
+    flex: auto;
+    max-width: calc(50% - 20px);
+    content: "";
+  }
+}

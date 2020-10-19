@@ -114,7 +114,7 @@ class PageTreeActionMenu extends Component {
             className="PageTreeActionMenuButton__menu-item-configure"
             onSelect={this.handleClick(onClickConfigure)}
           >
-            <FormattedMessage id="app.configure" />
+            <FormattedMessage id="app.design" />
           </MenuItem>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-clone"

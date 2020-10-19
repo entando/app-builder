@@ -1,10 +1,10 @@
 @import "../../patternfly.scss";
 
 .ContentWidget {
+  background-color: $color-sidebar-dark-bg;
 
   &__right-menu-title {
     padding: 15px 0 15px 18px;
-    background: $color-pf-black-400 ;
     font-size: 16px;
     text-transform: uppercase;
     }

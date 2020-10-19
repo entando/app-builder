@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
@@ -106,7 +105,6 @@ class PageTreeCompact extends Component {
               onKeyDown={onClickExpand}
             >
               <TreeNodeExpandedIcon expanded={page.expanded} />
-              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>
