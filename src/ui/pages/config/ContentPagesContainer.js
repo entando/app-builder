@@ -14,6 +14,7 @@ import {
   fetchSearchPages,
   collapseAll,
   clearTree,
+  clearSearch,
 } from 'state/pages/actions';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import ContentPages from 'ui/pages/config/ContentPages';
@@ -34,6 +35,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(clearTree());
+    dispatch(clearSearch());
     dispatch(handleExpandPage());
   },
   onExpandPage: pageCode =>

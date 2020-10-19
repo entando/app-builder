@@ -13,6 +13,12 @@ export const mapStateToProps = (state, ownProps) => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => { dispatch(fetchWidgetList()); },
+  onWillUnmount: (content) => {
+    if (content === PAGES) {
+      dispatch(toggleContent());
+      dispatch(toggleContentToolbarExpanded(false));
+    }
+  },
   changeContent: (content) => {
     if (content === WIDGET_LIST) {
       dispatch(toggleContent());
@@ -27,6 +33,16 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 
-const ToolbarPageConfigContainer = connect(mapStateToProps, mapDispatchToProps)(ToolbarPageConfig);
+const ToolbarPageConfigContainer = connect(
+  mapStateToProps, mapDispatchToProps,
+  (stateProps, dispatchProps, ownProps) => ({
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    onWillUnmount: () => {
+      dispatchProps.onWillUnmount(stateProps.content);
+    },
+  }),
+)(ToolbarPageConfig);
 
 export default ToolbarPageConfigContainer;

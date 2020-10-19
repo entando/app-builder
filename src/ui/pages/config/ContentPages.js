@@ -136,7 +136,7 @@ class ContentPages extends Component {
         )}
         <Spinner loading={!!loading}>
           {searchPages && searchPages.length ? (
-            <PageListSearchTable {...this.props} />
+            <PageListSearchTable {...this.props} onWillMount={() => {}} />
           ) : (
             <PageTreeCompact
               {...this.props}

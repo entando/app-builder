@@ -12,6 +12,10 @@ class ToolbarPageConfig extends Component {
     this.props.onWillMount();
   }
 
+  componentWillUnmount() {
+    this.props.onWillUnmount();
+  }
+
   render() {
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
     const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
@@ -70,6 +74,7 @@ class ToolbarPageConfig extends Component {
 
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
+  onWillUnmount: PropTypes.func,
   changeContent: PropTypes.func,
   content: PropTypes.string,
   fixedView: PropTypes.bool,
@@ -79,6 +84,7 @@ ToolbarPageConfig.propTypes = {
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
+  onWillUnmount: () => {},
   changeContent: PropTypes.noop,
   content: WIDGET_LIST,
   fixedView: false,
