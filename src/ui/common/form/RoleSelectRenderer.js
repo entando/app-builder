@@ -11,6 +11,11 @@ class RoleSelectRenderer extends Component {
     this.select = null;
   }
 
+  getLabel(role) {
+    const { labelFn, labelKey } = this.props;
+    return labelFn ? labelFn(role) : role[labelKey];
+  }
+
   pushField() {
     if (!this.select || !this.select.value) {
       return;
@@ -26,7 +31,7 @@ class RoleSelectRenderer extends Component {
 
   renderTags() {
     const {
-      selectedValues, fields, labelKey, valueKey, options,
+      selectedValues, fields, valueKey, options,
     } = this.props;
     return selectedValues.map((value, i) => (
       <div key={value}>
@@ -34,7 +39,7 @@ class RoleSelectRenderer extends Component {
         <hr />
         <Col xs={4}>
           <p>
-            {options.find(opt => opt[valueKey] === value)[labelKey]}
+            {this.getLabel(options.find(opt => opt[valueKey] === value))}
           </p>
         </Col>
         <Col xs={8}>
@@ -52,14 +57,14 @@ class RoleSelectRenderer extends Component {
 
   render() {
     const {
-      options, selectedValues, labelKey, valueKey, emptyOptionTextId, intl,
+      options, selectedValues, valueKey, emptyOptionTextId, intl,
     } = this.props;
 
     const filteredOptions = options
       .filter(opt => !selectedValues.includes(opt[valueKey]))
       .map(item => (
         <option key={`opt-${item[valueKey]}`} value={item[valueKey]}>
-          {item[labelKey]}
+          {this.getLabel(item)}
         </option>
       ));
 
@@ -108,6 +113,7 @@ RoleSelectRenderer.propTypes = {
   selectedValues: PropTypes.arrayOf(PropTypes.string),
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
+  labelFn: PropTypes.func,
   emptyOptionTextId: PropTypes.string,
   intl: intlShape.isRequired,
 };
@@ -116,6 +122,7 @@ RoleSelectRenderer.defaultProps = {
   selectedValues: [],
   valueKey: 'value',
   labelKey: 'label',
+  labelFn: null,
   emptyOptionTextId: '',
 };
 
