@@ -1,22 +1,21 @@
 import { connect } from 'react-redux';
 import { getUsername } from '@entando/apimanager';
 
-import { fetchUserForm, sendPostWizardSetting } from 'state/users/actions';
+import { updateUserPreferences } from 'state/user-preferences/actions';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
-import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
   initialValues: {
-    wizardEnabled: formValueSelector('user')(state, 'wizardEnabled'),
+    ...getUserPreferences(state),
   },
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
   onSubmit: (values) => {
-    const { username, ...data } = values;
-    dispatch(sendPostWizardSetting(username, data));
+    const { username, data } = values;
+    dispatch(updateUserPreferences(username, data));
   },
 });
 
