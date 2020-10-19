@@ -345,6 +345,7 @@ export default {
     'pageTree.searchForm.title': 'Buscar por uma página existente',
     'pageTree.searchForm.code': 'Código de Página',
     'pageTreePage.help': 'A seção ÁRVORES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
+    'pageTree.viewPublishedPage': 'Ver página publicada',
     'pageDetails.title': 'Detalhes de Página',
     'pageDetails.help': 'A seção DETALHES DE PÁGINAS permite você gerenciar uma página existente, mostrar ou esconder todas as páginas existentes na árvore ou mostrar todas/esconder todas que pertencem ao nó principal. Você pode também adicionar ou mover uma página, dentre outras ações: preview mobile ou desktop, configurar, editar, ver detalhes, clonar umá página ou removê-la. Além disso você pode visualizar o estado (rascunho ou online) se a página estiver na lista de menu.',
     'pageDetails.emptyContentLink': 'Não há conteúdo com link vinculado a essa página.',

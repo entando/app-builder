@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Button, Tabs, Tab, Icon } from 'patternfly-react';
 
-import { WIDGET_LIST } from 'state/page-config/const';
-import ToolbarContentIcon from 'ui/pages/config/ToolbarContentIcon';
 import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
 import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
@@ -17,8 +16,12 @@ class ToolbarPageConfig extends Component {
   }
 
   render() {
+    const { collapsed, onToggleCollapse } = this.props;
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
-    const classScrollContainer = ['ToolbarPageConfig__drawer-pf-container'];
+    if (collapsed) {
+      classContainer.push('ToolbarPageConfig__collapse-mode');
+    }
+    const classScrollContainer = ['ToolbarPageConfig__tab-main'];
     if (this.props.toggleExpanded) {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-expanded');
     }
@@ -26,45 +29,33 @@ class ToolbarPageConfig extends Component {
       classContainer.push('ToolbarPageConfig__drawer-pf-sidebar-right-fixed');
       classScrollContainer.push('ToolbarPageConfig__drawer-pf-container-fixed');
     }
-    const container = this.props.content === WIDGET_LIST ?
-      <ContentWidgetContainer /> :
-      <ContentPagesContainer />;
+    const renderedWidgetTabTitle = (
+      <Fragment>
+        <Icon name="table" />&nbsp;
+        <FormattedMessage id="pages.designer.tabWidgetList" />
+      </Fragment>
+    );
+
+    const renderedPageTreeTabTitle = (
+      <Fragment>
+        <Icon name="list-alt" />&nbsp;
+        <FormattedMessage id="pages.designer.tabPageTree" />
+      </Fragment>
+    );
     return (
-      <div className={classContainer.join(' ').trim()} >
-        <span
-          role="link"
-          tabIndex={0}
-          onKeyDown={() => {}}
-          onClick={() => { this.props.changeContent(this.props.content); }}
-          className="
-          ToolbarPageConfig__drawer-pf-title
-          drawer-pf-title-right-menu"
-        >
-          <span className="ToolbarPageConfig__right-bar-title">
-            <ToolbarContentIcon
-              content={this.props.content}
-              position="left"
-              toggleExpanded={this.props.toggleExpanded}
-              handleClick={this.props.toggleContentToolbar}
-            />
-            <span className="ToolbarPageConfig__title">
-              <FormattedMessage id="pageTree.pageTree" />
-            </span>
-            <span className="ToolbarPageConfig__open-button-menu-right pull-right">
-              <ToolbarContentIcon
-                content={this.props.content}
-                handleClick={this.props.changeContent}
-                position="right"
-              />
-            </span>
-          </span>
-        </span>
-        <div className="panel-group">
-          <div
-            className={classScrollContainer.join(' ')}
-          >
-            {container}
-          </div>
+      <div className={classContainer.join(' ').trim()}>
+        <div className="ToolbarPageConfig__tab-container">
+          <Button className="ToolbarPageConfig__collapse-main" onClick={onToggleCollapse}>
+            <Icon name={`angle-double-${collapsed ? 'left' : 'right'}`} />
+          </Button>
+          <Tabs id="toolbar-tab" defaultActiveKey={0} className={classScrollContainer.join(' ')} mountOnEnter unmountOnExit>
+            <Tab eventKey={0} title={renderedWidgetTabTitle}>
+              <ContentWidgetContainer />
+            </Tab>
+            <Tab eventKey={1} title={renderedPageTreeTabTitle}>
+              <ContentPagesContainer />
+            </Tab>
+          </Tabs>
         </div>
       </div>
     );
@@ -75,20 +66,16 @@ class ToolbarPageConfig extends Component {
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
-  changeContent: PropTypes.func,
-  content: PropTypes.string,
   fixedView: PropTypes.bool,
   toggleExpanded: PropTypes.bool,
-  toggleContentToolbar: PropTypes.func,
+  collapsed: PropTypes.bool.isRequired,
+  onToggleCollapse: PropTypes.func.isRequired,
 };
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
   onWillUnmount: () => {},
-  changeContent: PropTypes.noop,
-  content: WIDGET_LIST,
   fixedView: false,
   toggleExpanded: false,
-  toggleContentToolbar: PropTypes.noop,
 };
 export default ToolbarPageConfig;

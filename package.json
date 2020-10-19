@@ -1,6 +1,6 @@
 {
   "name": "app-builder",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
@@ -158,6 +158,9 @@
         "lines": 20,
         "statements": 20
       }
+    },
+    "globals": {
+      "window": {}
     },
     "resolver": "jest-webpack-resolver",
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js"

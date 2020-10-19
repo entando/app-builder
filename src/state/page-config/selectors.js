@@ -26,9 +26,6 @@ export const getToolbarExpanded = state => state.pageConfig.toolbarExpanded;
 
 export const getSearchFilter = createSelector(getPageConfig, pageConfig => pageConfig.searchFilter);
 
-export const getViewList = createSelector(getPageConfig, pageConfig => pageConfig.viewList);
-
-
 export const filterWidgetList = createSelector(
   [getListWidget, getSearchFilter, getLocale],
   (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :

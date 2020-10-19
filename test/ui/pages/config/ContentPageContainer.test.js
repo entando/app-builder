@@ -30,6 +30,7 @@ describe('ContentPagesContainer', () => {
       expect(props).toHaveProperty('page');
       expect(props).toHaveProperty('totalItems');
       expect(props).toHaveProperty('pageSize');
+      expect(props).toHaveProperty('domain');
     });
   });
 

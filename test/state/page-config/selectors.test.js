@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 
 import {
-  getGroupedWidgetList, filterWidgetList, getViewList, getSearchFilter, getPageConfig,
+  getGroupedWidgetList, filterWidgetList, getSearchFilter, getPageConfig,
   getConfigMap, makeGetPageConfigCellMap, getToolbarExpanded, getContent, makeGetSelectedPageConfig,
   makeGetSelectedPagePublishedConfig, makeGetPageIsOnTheFly,
   makeGetSelectedPageDiffersFromPublished, makeGetSelectedPageConfigMatchesDefault,
@@ -52,7 +52,6 @@ const HOMEPAGE_DRAFT_CONFIG = buildModifiedConfig(HOMEPAGE_CONFIG);
 const MOCK_DATA = {
   content: 'WIDGET_LIST',
   searchFilter: 'Login',
-  viewList: 'list',
   toolbarExpanded: true,
   configMap: {
     [CURRENT_PAGE_CODE]: HOMEPAGE_DRAFT_CONFIG,
@@ -82,10 +81,6 @@ describe('state/page-config/selectors', () => {
 
   it('verify getSearchFilter selector', () => {
     expect(getSearchFilter(MOCK_STATE)).toEqual(MOCK_DATA.searchFilter);
-  });
-
-  it('verify getViewList selector', () => {
-    expect(getViewList(MOCK_STATE)).toEqual(MOCK_DATA.viewList);
   });
 
   it('verify filterWidgetList selector', () => {

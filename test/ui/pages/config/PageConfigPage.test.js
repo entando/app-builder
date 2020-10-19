@@ -143,14 +143,16 @@ describe('PageConfigPage', () => {
 
   describe('if page is published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished />).dive();
+      component = shallowWithIntl(<PageConfigPage pageIsPublished={true} />).dive();
     });
 
     it('publish button should be disabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__publish-btn').prop('disabled')).toBe(true);
     });
 
     it('unpublish button should be enabled', () => {
+      expect(component.find('.PageConfigPage__unpublish-btn').exists());
       expect(component.find('.PageConfigPage__unpublish-btn').prop('disabled')).toBe(false);
     });
   });
@@ -161,10 +163,12 @@ describe('PageConfigPage', () => {
     });
 
     it('publish button should be enabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__publish-btn').prop('disabled')).toBe(false);
     });
 
     it('unpublish button should be disabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__unpublish-btn').prop('disabled')).toBe(true);
     });
   });

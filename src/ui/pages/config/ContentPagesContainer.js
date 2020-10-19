@@ -23,6 +23,8 @@ import { getLoading } from 'state/loading/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { getDomain } from '@entando/apimanager';
+import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).pageTree,
@@ -33,6 +35,7 @@ export const mapStateToProps = state => ({
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
+  domain: getDomain(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -65,6 +68,12 @@ export const mapDispatchToProps = dispatch => ({
   onClickClone: (page) => {
     dispatch(clonePage(page));
     dispatch(clearSearchPage());
+  },
+  onClickPreview: (page, domain) => {
+    window.open(`${domain}/${PREVIEW_NAMESPACE}?pageCode=${page.code}&token=${page.token}`, '_blank');
+  },
+  onClickViewPublishedPage: (page, domain, locale) => {
+    window.open(`${domain}/${locale}/${page.code}.page`, '_blank');
   },
   onExpandAll: () => dispatch(fetchPageTreeAll()),
   onCollapseAll: () => dispatch(collapseAll()),
