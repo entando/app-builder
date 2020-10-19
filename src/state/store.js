@@ -53,7 +53,7 @@ const composeParams = [
 // eslint-disable-next-line
 if (window.__REDUX_DEVTOOLS_EXTENSION__) {
   // eslint-disable-next-line
-  composeParams.push(window.__REDUX_DEVTOOLS_EXTENSION__({trace: true, traceLimit: 25}));
+  composeParams.push(window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
 const store = createStore(

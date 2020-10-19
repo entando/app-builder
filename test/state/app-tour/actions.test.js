@@ -1,10 +1,10 @@
 import {
-  setAppTourProgress, setAppTourLastStep,
+  setAppTourProgress, setAppTourLastStep, setWizardEnabled,
   setTourCreatedPage, clearAppTourProgress, setPublishStatus,
 } from 'state/app-tour/actions';
 
 import {
-  SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP,
+  SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP, SET_WIZARD_ENABLED,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE, SET_PUBLISH_STATUS,
 } from 'state/app-tour/types';
 
@@ -47,6 +47,14 @@ describe('state/app-tour/actions', () => {
       const action = setPublishStatus('published');
       expect(action.type).toEqual(SET_PUBLISH_STATUS);
       expect(action.payload).toEqual('published');
+    });
+  });
+
+  describe('setWizardEnabled', () => {
+    it('test setWizardEnabled action sets the correct type', () => {
+      const action = setWizardEnabled(true);
+      expect(action.type).toEqual(SET_WIZARD_ENABLED);
+      expect(action.payload).toEqual(true);
     });
   });
 });

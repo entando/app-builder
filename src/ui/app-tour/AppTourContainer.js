@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { arrayPop, formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-import { fetchUserForm, sendPostWizardSetting } from 'state/users/actions';
+import { sendPostWizardSetting } from 'state/users/actions';
 import { getUsername } from '@entando/apimanager';
 
 import AppTour from 'ui/app-tour/AppTour';
-import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage } from 'state/app-tour/selectors';
+import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage, getWizardEnabled } from 'state/app-tour/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
+import { fetchWizardEnabled, setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
@@ -29,7 +29,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const pageCode = (getTourCreatedPage(state) || {}).code || '';
   return {
     username: getUsername(state),
-    wizardEnabled: formValueSelector('user')(state, 'wizardEnabled'),
+    wizardEnabled: getWizardEnabled(state),
     appTourProgress: getAppTourProgress(state),
     appTourLastStep: getAppTourlastStep(state),
     mainTitleValue: formValueSelector('page')(state, mainTitleName),
@@ -44,8 +44,9 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onDidMount: ({ username }) => { dispatch(fetchUserForm(username)); },
+  onDidMount: ({ username }) => { dispatch(fetchWizardEnabled(username)); },
   onToggleDontShow: (disableWizard, username) => {
+    // TODO change this to new API
     dispatch(sendPostWizardSetting(username, { wizardEnabled: !disableWizard, showToast: false }));
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),

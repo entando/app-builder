@@ -1,11 +1,11 @@
 import reducer from 'state/app-tour/reducer';
 import {
-  setAppTourProgress, setAppTourLastStep,
+  setAppTourProgress, setAppTourLastStep, setWizardEnabled,
   setTourCreatedPage, clearAppTourProgress, setPublishStatus,
 } from 'state/app-tour/actions';
 import {
   getAppTourProgress, getAppTourlastStep,
-  getTourCreatedPage, getPublishStatus,
+  getTourCreatedPage, getPublishStatus, getWizardEnabled,
 } from 'state/app-tour/selectors';
 
 describe('state/permssions/reducer', () => {
@@ -59,6 +59,17 @@ describe('state/permssions/reducer', () => {
 
     it('should define the publish status payload', () => {
       expect(getPublishStatus({ appTour: newState })).toEqual('published');
+    });
+  });
+
+  describe('after action setWizardEnabled', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setWizardEnabled(true));
+    });
+
+    it('should define the publish status payload', () => {
+      expect(getWizardEnabled({ appTour: newState })).toEqual(true);
     });
   });
 

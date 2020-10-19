@@ -1,6 +1,7 @@
 import {
   getAppTourProgress, getAppTourlastStep,
   getTourCreatedPage, getPublishStatus,
+  getWizardEnabled,
 } from 'state/app-tour/selectors';
 
 const TEST_STATE = {
@@ -9,6 +10,7 @@ const TEST_STATE = {
     lastStep: 10,
     page: { code: 'tst' },
     status: 'published',
+    wizardEnabled: true,
   },
 };
 
@@ -31,5 +33,10 @@ describe('state/app-tour/selectors', () => {
   it('verify getPublishStatus selector', () => {
     expect(getPublishStatus(TEST_STATE))
       .toEqual(TEST_STATE.appTour.status);
+  });
+
+  it('verify getWizardEnabled selector', () => {
+    expect(getWizardEnabled(TEST_STATE))
+      .toEqual(TEST_STATE.appTour.wizardEnabled);
   });
 });

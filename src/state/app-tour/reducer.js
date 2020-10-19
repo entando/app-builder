@@ -1,7 +1,7 @@
 import {
   SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
-  SET_PUBLISH_STATUS,
+  SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
 } from 'state/app-tour/types';
 
 const appTour = (state = {}, action = {}) => {
@@ -28,6 +28,12 @@ const appTour = (state = {}, action = {}) => {
       return {
         ...state,
         status: action.payload,
+      };
+    }
+    case SET_WIZARD_ENABLED: {
+      return {
+        ...state,
+        wizardEnabled: action.payload,
       };
     }
     case CLEAR_APP_TOUR_PROGRESS: {
