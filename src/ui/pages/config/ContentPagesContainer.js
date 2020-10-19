@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { convertToQueryString, routeConverter } from '@entando/utils';
-import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
+import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
@@ -29,14 +29,16 @@ export const mapStateToProps = state => ({
   locale: getLocale(state),
   pages: getPageTreePages(state),
   searchPages: getSearchPages(state),
+  selectedPage: getSelectedPage(state),
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
+  onWillMount: (page) => {
     dispatch(clearTree());
+    dispatch(setSelectedPage(page));
     dispatch(clearSearch());
     dispatch(handleExpandPage());
   },
@@ -87,4 +89,15 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentPages);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  (stateProps, dispatchProps, ownProps) => ({
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+    onWillMount: () => {
+      dispatchProps.onWillMount(stateProps.selectedPage);
+    },
+  }),
+)(ContentPages);

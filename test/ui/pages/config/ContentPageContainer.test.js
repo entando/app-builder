@@ -1,10 +1,11 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentPagesContainer';
 import { HOMEPAGE_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
-import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
+import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
 
 jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
   getSearchPages: jest.fn(),
+  getSelectedPage: jest.fn(),
 }));
 
 jest.mock('state/pagination/selectors', () => ({
@@ -15,6 +16,7 @@ jest.mock('state/pagination/selectors', () => ({
 
 getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
 getSearchPages.mockReturnValue([SEARCH_PAGES]);
+getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
 
 describe('ContentPagesContainer', () => {
   describe('mapStateToProps', () => {
@@ -22,6 +24,7 @@ describe('ContentPagesContainer', () => {
       const props = mapStateToProps({ loading: {} });
       expect(props).toHaveProperty('pages');
       expect(props).toHaveProperty('searchPages');
+      expect(props).toHaveProperty('selectedPage');
       expect(props).toHaveProperty('loading');
       expect(props).toHaveProperty('locale');
       expect(props).toHaveProperty('page');
@@ -50,6 +53,7 @@ describe('ContentPagesContainer', () => {
       expect(props.onCollapseAll).toBeDefined();
       expect(props.onPageSearch).toBeDefined();
       expect(props.onClear).toBeDefined();
+      expect(props.onLoadPage).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
