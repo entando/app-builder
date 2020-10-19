@@ -196,6 +196,12 @@ const LegacyAdminConsoleMenuBody = ({
           <UserMenuContainer key="UserMenu" />
         </VerticalNav.IconBar>
       </Masthead>
+      <Item
+        id="menu-dashboard"
+        onClick={() => history.push(ROUTE_DASHBOARD)}
+        iconClass="fa fa-window-maximize"
+        title={intl.formatMessage({ id: 'menu.dashboard', defaultMessage: 'Dashboard' })}
+      />
       {
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item

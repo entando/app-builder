@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
@@ -71,7 +71,7 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
-const field = (intl, attribute) => (
+const field = (intl, attribute, disabled) => (
   <Field
     key={attribute.code}
     component={getComponentType(attribute.type)}
@@ -92,17 +92,24 @@ const field = (intl, attribute) => (
       helpText={getHelpMessage(attribute.validationRules, intl)}
       required={attribute.mandatory}
     />}
+    disabled={disabled}
   />
 );
 
-const renderCompositeAttribute = (intl, compositeAttributes) =>
-  compositeAttributes.map(attribute => field(intl, attribute));
+const renderCompositeAttribute = (intl, compositeAttributes, disabled) =>
+  compositeAttributes.map(attribute => field(intl, attribute, disabled));
 
 export class MyProfileEditFormBody extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      editMode: false,
+    };
+
     this.submit = this.submit.bind(this);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
   }
 
   componentDidMount() {
@@ -110,13 +117,32 @@ export class MyProfileEditFormBody extends Component {
   }
 
   submit(data) {
+    this.setState({
+      editMode: false,
+    });
     this.props.onSubmit(data);
+  }
+
+  handleCancelClick() {
+    const { onCancel } = this.props;
+    onCancel();
+    this.setState({
+      editMode: false,
+    });
+  }
+
+  handleEditClick() {
+    this.setState({
+      editMode: true,
+    });
   }
 
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl,
     } = this.props;
+
+    const { editMode } = this.state;
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
       key={attributeCode}
@@ -159,7 +185,7 @@ export class MyProfileEditFormBody extends Component {
               <Panel>
                 <Panel.Body>
                   <FormSection name={attribute.code}>
-                    { renderCompositeAttribute(intl, attribute.compositeAttributes)}
+                    { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
                   </FormSection>
                 </Panel.Body>
               </Panel>
@@ -183,20 +209,39 @@ export class MyProfileEditFormBody extends Component {
           </Row>
         );
       }
-      return field(intl, attribute);
+      return field(intl, attribute, !editMode);
     });
 
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.editProfileSection" />
         {renderedProfileFields}
-        <Button
-          className="pull-right"
-          type="submit"
-          bsStyle="primary"
-        >
-          <FormattedMessage id="app.save" />
-        </Button>
+        {editMode ? (
+          <Fragment>
+            <Button
+              className="pull-right"
+              type="submit"
+              bsStyle="primary"
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+            <Button
+              className="pull-right"
+              onClick={this.handleCancelClick}
+              style={{ marginRight: '12px' }}
+            >
+              <FormattedMessage id="app.cancel" />
+            </Button>
+          </Fragment>
+        ) : (
+          <Button
+            className="pull-right"
+            bsStyle="primary"
+            onClick={this.handleEditClick}
+          >
+            <FormattedMessage id="app.edit" />
+          </Button>
+        )}
       </Form>
     );
   }
@@ -206,6 +251,7 @@ MyProfileEditFormBody.propTypes = {
   onMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,

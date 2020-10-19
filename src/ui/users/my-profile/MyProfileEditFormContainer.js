@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { reset } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
 import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
@@ -21,6 +22,9 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (userprofile) => {
     dispatch(updateUserProfile(userprofile, false));
+  },
+  onCancel: () => {
+    dispatch(reset('UserProfile'));
   },
 });
 

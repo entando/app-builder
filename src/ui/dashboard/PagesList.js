@@ -57,7 +57,7 @@ class PagesList extends Component {
     const pagination = {
       page: this.props.page,
       perPage: 5,
-      perPageOptions: [5],
+      perPageOptions: [5, 10, 15],
     };
 
     const { intl } = this.props;

@@ -39,11 +39,13 @@ class PageConfigPage extends Component {
       infoTableOpen: false,
       statusChange: null,
       enableSettings: false,
+      toolbarCollapsed: false,
     };
 
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
     this.toggleEnableSettings = this.toggleEnableSettings.bind(this);
+    this.handleToggleToolbarCollapse = this.handleToggleToolbarCollapse.bind(this);
 
     this.winScrollListener = throttle(() => {
       const sideWidget = document.querySelector('.PageConfigPage__side-widget');
@@ -56,7 +58,10 @@ class PageConfigPage extends Component {
             if ('getBoundingClientRect' in sideWidget) {
               widgetSize = sideWidget.getBoundingClientRect();
               const { height } = widgetSize;
-              widgetSize = { height: `${height + 80}px` };
+              widgetSize = { height: `${height + 50}px` };
+              if (this.state.toolbarCollapsed) {
+                widgetSize = { ...widgetSize, width: '1px' };
+              }
             }
             this.setState({ widgetSize, sticky: true });
           }
@@ -95,6 +100,11 @@ class PageConfigPage extends Component {
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
     window.removeEventListener('scroll', this.winScrollListener);
+  }
+
+  handleToggleToolbarCollapse() {
+    const { toolbarCollapsed } = this.state;
+    this.setState({ toolbarCollapsed: !toolbarCollapsed });
   }
 
   removeStatusAlert() {
@@ -237,7 +247,7 @@ class PageConfigPage extends Component {
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
     } = this.props;
-    const { enableSettings } = this.state;
+    const { enableSettings, sticky, toolbarCollapsed } = this.state;
 
     const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
     const TRANSLATED_NO = intl.formatMessage(msgs.appNo);
@@ -264,15 +274,19 @@ class PageConfigPage extends Component {
     }
 
     const sideWidgetClassAr = ['PageConfigPage__side-widget'];
-    if (this.state.sticky) {
+    if (sticky) {
       sideWidgetClassAr.push('PageConfigPage__side-widget--sticky');
     }
 
     return (
       <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-13 app-tour-step-17">
-        <Grid fluid>
+        <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
-            <Col className="PageConfigPage__main" xs={8} lg={9}>
+            <Col
+              className="PageConfigPage__main"
+              xs={toolbarCollapsed ? 12 : 8}
+              lg={toolbarCollapsed ? 12 : 9}
+            >
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
@@ -283,7 +297,7 @@ class PageConfigPage extends Component {
               </Breadcrumb>
 
               <Tabs id="basic-tabs" defaultActiveKey={1} className="PageConfigPage__tabs">
-                <Tab eventKey={1} title="Designer" >
+                <Tab eventKey={1} title={<FormattedMessage id="pages.designer.tabDesigner" />} >
                   <div>
                     {this.renderPageHeader()}
                     {this.renderActionBar()}
@@ -302,7 +316,7 @@ class PageConfigPage extends Component {
                     </Spinner>
                   </div>
                 </Tab>
-                <Tab eventKey={2} title="Page Settings">
+                <Tab eventKey={2} title={<FormattedMessage id="pages.designer.tabPageSettings" />}>
                   <div>
                     {this.renderPageHeader()}
                     {this.renderActionBar('settings')}
@@ -313,7 +327,11 @@ class PageConfigPage extends Component {
 
 
               <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
-                <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
+                <Col
+                  xs={toolbarCollapsed ? 12 : 8}
+                  lg={toolbarCollapsed ? 12 : 9}
+                  className="PageConfigPage__bottom-options--tbar"
+                >
                   <ButtonToolbar className="pull-left">
                     { defaultConfigBtn }
                   </ButtonToolbar>
@@ -365,17 +383,21 @@ class PageConfigPage extends Component {
             </Col>
 
             <Col
-              xs={4}
-              lg={3}
+              xs={toolbarCollapsed ? 0 : 4}
+              lg={toolbarCollapsed ? 0 : 3}
               className={sideWidgetClassAr.join(' ')}
               ref={(el) => { this.sideWidget = el; }}
             >
-              <ToolbarPageConfigContainer fixedView={this.state.sticky} />
+              <ToolbarPageConfigContainer
+                fixedView={sticky}
+                collapsed={toolbarCollapsed}
+                onToggleCollapse={this.handleToggleToolbarCollapse}
+              />
             </Col>
-            { !this.state.sticky ? null : (
+            {!sticky ? null : (
               <Col
-                xs={4}
-                lg={3}
+                xs={toolbarCollapsed ? 0 : 4}
+                lg={toolbarCollapsed ? 0 : 3}
                 style={this.state.widgetSize}
               />
             )}

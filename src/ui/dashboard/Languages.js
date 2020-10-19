@@ -38,7 +38,10 @@ class Languages extends Component {
         <CardBody>
           <span className="separator" />
           <AggregateStatusCount>
-            <b>{this.props.activeLanguages}</b> <FormattedMessage id="dashboard.activeLanguages" />
+            <b>{this.props.activeLanguages}</b>&nbsp;
+            <Link to={ROUTE_LABELS_AND_LANGUAGES}>
+              <FormattedMessage id="dashboard.activeLanguages" />
+            </Link>
           </AggregateStatusCount>
         </CardBody>
       </Card>

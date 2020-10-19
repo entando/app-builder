@@ -4,13 +4,13 @@ import { shallow } from 'enzyme';
 import { Form } from 'patternfly-react';
 import { required } from '@entando/utils';
 
-import { PasswordFormBody } from 'ui/users/my-profile/PasswordForm';
+import { AccountFormBody } from 'ui/users/my-profile/AccountForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-describe('PasswordForm', () => {
+describe('AccountForm', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<PasswordFormBody onSubmit={() => {}} username="admin" handleSubmit={() => {}} />);
+    component = shallow(<AccountFormBody onSubmit={() => {}} username="admin" handleSubmit={() => {}} />);
   });
 
   it('renders without crashing', () => {
