@@ -64,7 +64,7 @@ class PageTreeCompact extends Component {
           <MenuItem
             disabled={false}
             className="PageTreeActionMenuButton__menu-item-preview"
-            onClick={handleClickViewPublishedPage(onClickViewPublishedPage)}
+            onClick={handleClickViewPublishedPage(onClickViewPublishedPage, page)}
           >
             <FormattedMessage id="pageTree.viewPublishedPage" />
           </MenuItem>

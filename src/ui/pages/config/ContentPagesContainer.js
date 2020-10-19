@@ -26,6 +26,7 @@ import ContentPages from 'ui/pages/config/ContentPages';
 import { getLoading } from 'state/loading/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getDomain } from '@entando/apimanager';
+import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 export const mapStateToProps = state => ({
   pages: getPageTreePages(state),
@@ -78,6 +79,9 @@ export const mapDispatchToProps = dispatch => ({
   onClickClone: (page) => {
     dispatch(clonePage(page));
     dispatch(clearSearchPage());
+  },
+  onClickPreview: (page, domain) => {
+    window.open(`${domain}/${PREVIEW_NAMESPACE}?pageCode=${page.code}&token=${page.token}`, '_blank');
   },
   onClickViewPublishedPage: (page, domain, locale) => {
     window.open(`${domain}/${locale}/${page.code}.page`, '_blank');
