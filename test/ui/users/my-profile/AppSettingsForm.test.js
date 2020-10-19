@@ -14,12 +14,14 @@ jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 describe('AppSettingsForm', () => {
-  it('renders without crashing, and display all elements when Wizard is disabled', () => {
+  it('renders without crashing, and display all elements', () => {
     const { getByText, getByLabelText } =
     render(mockRenderWithIntlAndStore(<AppSettingsForm {...props} />));
     expect(getByText('Preferences')).toBeInTheDocument();
     expect(getByText('Save')).toBeInTheDocument();
     expect(getByLabelText('Welcome Wizard')).toBeInTheDocument();
+    expect(getByLabelText('Missing Translation Warning')).toBeInTheDocument();
+    expect(getByLabelText('Load on Page Select')).toBeInTheDocument();
   });
 
   it('Verify onSubmit function is triggered when submititng form', () => {
