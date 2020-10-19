@@ -159,6 +159,9 @@
         "statements": 20
       }
     },
+    "globals": {
+      "window": {}
+    },
     "resolver": "jest-webpack-resolver",
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js"
   },
