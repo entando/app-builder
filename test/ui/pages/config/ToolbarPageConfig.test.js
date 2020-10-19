@@ -6,7 +6,6 @@ import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
 import { shallowWithIntl } from 'test/testUtils';
 
 global.console.error = jest.fn();
-const changeContentMock = jest.fn();
 
 describe('ToolbarPageConfig', () => {
   let component;
@@ -19,27 +18,13 @@ describe('ToolbarPageConfig', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('has two ToolbarContentIcon', () => {
-    expect(component.find('ToolbarContentIcon')).toHaveLength(2);
-  });
-
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
     shallowWithIntl(<ToolbarPageConfig onWillMount={onWillMount} />);
     expect(onWillMount).toHaveBeenCalled();
   });
 
-  it('when click will call changeContent ', () => {
-    component = shallowWithIntl(<ToolbarPageConfig changeContent={changeContentMock} />);
-    component.find('.ToolbarPageConfig__drawer-pf-title').simulate('click');
-    expect(changeContentMock).toHaveBeenCalled();
-  });
-
   describe('ToolbarPageConfig with props', () => {
-    it('erros with prop content wrong ', () => {
-      component = shallowWithIntl(<ToolbarPageConfig content="test" />);
-      expect(console.error).toHaveBeenCalled();
-    });
 
     it('verify with prop content WIDGET_LIST', () => {
       component = shallowWithIntl(<ToolbarPageConfig content={WIDGET_LIST} />);
