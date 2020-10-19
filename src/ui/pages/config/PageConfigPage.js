@@ -163,8 +163,6 @@ class PageConfigPage extends Component {
     const {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
     } = this.props;
-    console.log('PAGESTATUS', pageStatus);
-
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
         <Col xs={12}>
@@ -380,7 +378,7 @@ class PageConfigPage extends Component {
                       className="PageConfigPage__publish-btn btn-primary"
                       bsStyle="success"
                       onClick={publishPage}
-                      disabled={!pageIsPublished}
+                      disabled={pageIsPublished}
                     >
                       <FormattedMessage id="app.publish" />
                     </Button>
