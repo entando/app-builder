@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { convertToQueryString } from '@entando/utils';
+import { convertToQueryString, routeConverter } from '@entando/utils';
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
@@ -15,12 +15,14 @@ import {
   collapseAll,
   clearTree,
   clearSearch,
+  setSelectedPage,
 } from 'state/pages/actions';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import ContentPages from 'ui/pages/config/ContentPages';
 import { getLoading } from 'state/loading/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
+import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).pageTree,
@@ -78,6 +80,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   onClear: () => {
     dispatch(clearSearchPage());
+  },
+  onLoadPage: (page) => {
+    dispatch(setSelectedPage(page));
+    history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: page.code }));
   },
 });
 

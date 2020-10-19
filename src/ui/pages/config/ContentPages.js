@@ -35,6 +35,7 @@ class ContentPages extends Component {
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.handleSearchInputKeyDown = this.handleSearchInputKeyDown.bind(this);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
   }
 
   componentWillMount() {
@@ -80,6 +81,13 @@ class ContentPages extends Component {
   handleClearSearchKeyDown(e) {
     const { onClear } = this.props;
     if (e.keyCode === ENTER_KEY || e.keyCode === SPACE_KEY) onClear();
+  }
+
+  handlePageSelect(page) {
+    const { loadOnPageSelect, onLoadPage } = this.props;
+    if (loadOnPageSelect) {
+      onLoadPage(page);
+    }
   }
 
   render() {
@@ -142,6 +150,7 @@ class ContentPages extends Component {
               {...this.props}
               pages={pages}
               onExpandPage={onExpandPage}
+              onRowClick={this.handlePageSelect}
             />
           )}
         </Spinner>
@@ -164,6 +173,8 @@ ContentPages.propTypes = {
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   searchPages: PropTypes.arrayOf(PropTypes.shape({})),
+  loadOnPageSelect: PropTypes.bool,
+  onLoadPage: PropTypes.func,
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
@@ -175,6 +186,8 @@ ContentPages.defaultProps = {
   pages: [],
   loading: false,
   searchPages: null,
+  loadOnPageSelect: true,
+  onLoadPage: () => {},
 };
 
 export default injectIntl(ContentPages);

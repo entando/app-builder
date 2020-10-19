@@ -13,6 +13,7 @@ class PageTreeCompact extends Component {
     const {
       pages, onClickDetails, onClickAdd, onClickEdit, onClickConfigure,
       onClickClone, onClickDelete, onClickUnPublish, onClickPublish,
+      onRowClick,
     } = this.props;
     const handleClick = (handler, page) => () => handler && handler(page);
     return pages.map((page, i) => {
@@ -73,7 +74,11 @@ class PageTreeCompact extends Component {
       };
 
       return (
-        <tr key={page.code} className="PageTreeCompact__row">
+        <tr
+          key={page.code}
+          className="PageTreeCompact__row"
+          onClick={() => onRowClick(page)}
+        >
           <td className={className.join(' ').trim()}>
             <span
               role="button"
@@ -155,6 +160,7 @@ PageTreeCompact.propTypes = {
   onClickEdit: PropTypes.func,
   onClickConfigure: PropTypes.func,
   onClickDetails: PropTypes.func,
+  onRowClick: PropTypes.func,
 };
 
 PageTreeCompact.defaultProps = {
@@ -163,6 +169,7 @@ PageTreeCompact.defaultProps = {
   onClickEdit: null,
   onClickConfigure: null,
   onClickDetails: null,
+  onRowClick: () => {},
 };
 
 export default PageTreeCompact;
