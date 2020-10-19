@@ -345,10 +345,16 @@ const getRouteComponent = () => {
 
 class App extends Component {
   componentDidMount() {
-    const { username, fetchPlugins, fetchUserPreferences } = this.props;
+    const { username, fetchUserPreferences } = this.props;
 
-    fetchPlugins();
     fetchUserPreferences(username);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { username, fetchPlugins } = this.props;
+    if (username && username !== prevProps.username) {
+      fetchPlugins();
+    }
   }
 
   render() {
