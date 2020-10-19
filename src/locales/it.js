@@ -15,6 +15,7 @@ export default {
     'app.id': 'Id',
     'app.ok': 'Ok',
     'app.configure': 'Configura',
+    'app.design': 'Design',
     'app.attributes': 'Attributi',
     'app.details': 'Dettagli',
     'app.close': 'Chiudi',

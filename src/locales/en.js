@@ -16,6 +16,7 @@ export default {
     'app.ok': 'Ok',
     'app.attributes': 'Attributes',
     'app.configure': 'Configure',
+    'app.design': 'Design',
     'app.details': 'Details',
     'app.close': 'Close',
     'app.clone': 'Clone',
