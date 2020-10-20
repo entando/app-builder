@@ -12,6 +12,8 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 
@@ -235,6 +237,7 @@ class PageConfigPage extends Component {
                           'btn',
                           'btn-primary',
                           'PageConfigPage__btn--addml',
+                          'app-tour-step-23',
                         ].join(' ')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -269,7 +272,7 @@ class PageConfigPage extends Component {
     const {
       intl, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault,
+      applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
     } = this.props;
     const { enableSettings, sticky, toolbarCollapsed } = this.state;
 
@@ -303,7 +306,7 @@ class PageConfigPage extends Component {
     }
 
     return (
-      <InternalPage className="PageConfigPage">
+      <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-13 app-tour-step-17">
         <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
             <Col
@@ -394,9 +397,9 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-22"
                       bsStyle="success"
-                      onClick={publishPage}
+                      onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}
                     >
                       <FormattedMessage id="app.publish" />
@@ -426,6 +429,7 @@ class PageConfigPage extends Component {
               />
             )}
           </Row>
+          <AppTourContainer lockBodyScroll={false} />
         </Grid>
       </InternalPage>
     );
@@ -454,6 +458,7 @@ PageConfigPage.propTypes = {
     params: PropTypes.shape({}),
   }).isRequired,
   loading: PropTypes.bool,
+  appTourProgress: PropTypes.string,
 };
 
 PageConfigPage.defaultProps = {
@@ -474,6 +479,7 @@ PageConfigPage.defaultProps = {
   unpublishPage: null,
   applyDefaultConfig: null,
   loading: false,
+  appTourProgress: '',
 };
 
 export default injectIntl(PageConfigPage);

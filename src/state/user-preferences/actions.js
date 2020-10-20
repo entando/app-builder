@@ -11,6 +11,7 @@ export const setUserPreferences = preferences => ({
 
 export const fetchUserPreferences = username => dispatch => new Promise((resolve) => {
   getUserPreferences(username).then((response) => {
+    console.log('response', response);
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserPreferences(json.payload));
@@ -30,10 +31,12 @@ export const updateUserPreferences = (user, preferences) =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setUserPreferences(json.payload));
-          dispatch(addToast(
-            { id: 'userpreferences.edit.success' },
-            TOAST_SUCCESS,
-          ));
+          if (preferences.showToast !== false) {
+            dispatch(addToast(
+              { id: 'userpreferences.edit.success' },
+              TOAST_SUCCESS,
+            ));
+          }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           dispatch(addToast(json.errors[0].message, TOAST_ERROR));

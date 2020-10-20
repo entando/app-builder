@@ -6,7 +6,9 @@ import { ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
 import ToggleButtonGroupField from 'ui/widgets/config/forms/ToggleButtonGroupField';
 
-const NavigationBarTargetPage = ({ intl, pages, language }) => (
+const NavigationBarTargetPage = ({
+  intl, pages, language, onSpecificPageChoose, appTourProgress,
+}) => (
   <div>
     <ButtonToolbar>
       <Field name="addConfig.spec" component={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }}>
@@ -48,11 +50,13 @@ const NavigationBarTargetPage = ({ intl, pages, language }) => (
         </ToggleButton>
         <ToggleButton
           value="code"
+          className="app-tour-step-14"
         >
           <span><FormattedMessage id="widget.navigationBar.config.specific" /></span>
           <Field
             name="addConfig.targetCode"
             component="select"
+            onChange={e => onSpecificPageChoose(e.target.value, appTourProgress)}
           >
             <option key="chooseOption" value="">{intl.formatMessage({ id: 'app.chooseAnOption' })}</option>
             {pages.map(page => (
@@ -72,6 +76,8 @@ NavigationBarTargetPage.propTypes = {
     fullTitles: PropTypes.shape({}).isRequired,
   })).isRequired,
   language: PropTypes.string.isRequired,
+  onSpecificPageChoose: PropTypes.func.isRequired,
+  appTourProgress: PropTypes.string.isRequired,
 };
 
 export default NavigationBarTargetPage;

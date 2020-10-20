@@ -6,6 +6,7 @@ import {
   fetchLoggedUserPermissions,
   clearLoggedUserPermissions,
 } from 'state/permissions/actions';
+import { clearAppTourProgress } from 'state/app-tour/actions';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
@@ -22,6 +23,7 @@ const ApiManager = ({
   const logout = (status) => {
     try {
       store.dispatch(clearLoggedUserPermissions());
+      store.dispatch(clearAppTourProgress());
       auth.logout(status);
     } catch (err) {
       // can occur when keycloak is still loading

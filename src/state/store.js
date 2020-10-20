@@ -7,6 +7,10 @@ import apps from 'entando-apps';
 const localStorageStates = {
   locale: [],
   permissions: ['loggedUser'],
+  appTour: {
+    appTourProgress: '',
+    lastStep: '',
+  },
 };
 
 export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {
