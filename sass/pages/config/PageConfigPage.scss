@@ -152,10 +152,6 @@
   }
 
   &.collapsed-nav {
-    .container-fluid:not(.PageConfigPage__side-widget--collapsed) {
-      width: calc(calc(100vw - 74px) * .33);
-    }
-
     .PageConfigPage__bottom-options {
       left: 155px;
     }
@@ -165,12 +161,6 @@
 @media (min-width: 1200px) {
   .PageConfigPage__side-widget {
     width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .25);
-  }
-
-  .container-pf-nav-pf-vertical.collapsed-nav {
-    .container-fluid:not(.PageConfigPage__side-widget--collapsed) {
-      width: calc(calc(100vw - 74px) * .25);
-    }
   }
 }
 // sass-lint:enable force-element-nesting class-name-format
