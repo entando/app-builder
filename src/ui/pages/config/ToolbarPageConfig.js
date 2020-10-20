@@ -7,8 +7,20 @@ import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
 import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
 class ToolbarPageConfig extends Component {
+  constructor(props) {
+    super(props);
+    this.handleTabSelect = this.handleTabSelect.bind(this);
+  }
+
   componentWillMount() {
     this.props.onWillMount();
+  }
+
+  handleTabSelect() {
+    const { collapsed, onToggleCollapse } = this.props;
+    if (collapsed) {
+      onToggleCollapse();
+    }
   }
 
   render() {
@@ -27,14 +39,14 @@ class ToolbarPageConfig extends Component {
     }
     const renderedWidgetTabTitle = (
       <Fragment>
-        <Icon name="table" />&nbsp;
+        <Icon name="table" />
         <FormattedMessage id="pages.designer.tabWidgetList" />
       </Fragment>
     );
 
     const renderedPageTreeTabTitle = (
       <Fragment>
-        <Icon name="list-alt" />&nbsp;
+        <Icon name="list-alt" />
         <FormattedMessage id="pages.designer.tabPageTree" />
       </Fragment>
     );
@@ -44,7 +56,14 @@ class ToolbarPageConfig extends Component {
           <Button className="ToolbarPageConfig__collapse-main" onClick={onToggleCollapse}>
             <Icon name={`angle-double-${collapsed ? 'left' : 'right'}`} />
           </Button>
-          <Tabs id="toolbar-tab" defaultActiveKey={0} className={classScrollContainer.join(' ')} mountOnEnter unmountOnExit>
+          <Tabs
+            id="toolbar-tab"
+            defaultActiveKey={0}
+            className={classScrollContainer.join(' ')}
+            onSelect={this.handleTabSelect}
+            mountOnEnter
+            unmountOnExit
+          >
             <Tab eventKey={0} title={renderedWidgetTabTitle}>
               <ContentWidgetContainer />
             </Tab>
