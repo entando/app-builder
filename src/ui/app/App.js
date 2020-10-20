@@ -347,13 +347,17 @@ class App extends Component {
   componentDidMount() {
     const { username, fetchUserPreferences } = this.props;
 
-    fetchUserPreferences(username);
+    // prevent calling the userPreferences API on login screen
+    if (username) {
+      fetchUserPreferences(username);
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { username, fetchPlugins } = this.props;
+    const { username, fetchPlugins, fetchUserPreferences } = this.props;
     if (username && username !== prevProps.username) {
       fetchPlugins();
+      fetchUserPreferences(username);
     }
   }
 
