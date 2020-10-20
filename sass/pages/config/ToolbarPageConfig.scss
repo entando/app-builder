@@ -18,8 +18,10 @@
 
     // sass-lint:disable class-name-format nesting-depth
     .fa {
-      font-size: 21px;
+      font-size: 18px;
       font-weight: bold;
+      text-align: center;
+      vertical-align: middle;
     }
 
     &:focus {
@@ -38,7 +40,7 @@
   &__tab-container {
     position: relative;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
 
   &__tab-main {
@@ -52,26 +54,27 @@
       &::before {
         display: block;
         width: 45px;
-        height: 3.215em;
+        height: 45px;
         float: left;
       }
 
       li {
-        min-width: 128px;
-        height: 3.215em;
+        min-width: 108px;
+        height: 45px;
         background-color: transparent;
 
         & > a {
           width: 100%;
-          padding: 10px 13px;
+          padding: 13px 10px;
           border-color: transparent;
           color: $color-white;
+          font-size: 12px;
           font-weight: bold;
           text-align: center;
 
           .fa {
             margin-right: 5px;
-            font-size: 21px;
+            font-size: 18px;
             line-height: 21px;
             vertical-align: middle;
           }
@@ -190,6 +193,10 @@
     }
   }
 
+  .ToolbarPageConfig__tab-container {
+    overflow: hidden;
+  }
+
   .ToolbarPageConfig__tab-main {
     width: 48px;
 
@@ -206,12 +213,19 @@
           display: none;
         }
 
-        &.active a {
-          background-color: $color-dragitem-bg;
+        a {
+          border: 0;
 
           .fa {
+            margin-right: 0;
             color: $color-white;
+            text-align: center;
           }
+        }
+
+        &.active a {
+          background-color: $color-dragitem-bg;
+          cursor: pointer;
         }
       }
     }

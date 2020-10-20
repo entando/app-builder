@@ -87,18 +87,13 @@
 
   &__side-widget {
     // overriding bootstrap column padding
-    top: -4px;
-    height: 100vh;
-    padding: 0!important; // sass-lint:disable-line no-important
-    z-index: 12;
-  }
-
-  &__side-widget--sticky {
     position: fixed;
     top: 59px;
     right: 0;
     bottom: 0;
-    width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .25);
+    width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .33);
+    padding: 0!important; // sass-lint:disable-line no-important
+    z-index: 12;
   }
 }
 
@@ -112,15 +107,10 @@
   }
 
   .PageConfigPage__side-widget {
-    position: relative;
-    left: 20px;
-    width: 48px;
-    float: left;
-  }
-
-  .PageConfigPage__side-widget--sticky {
     position: fixed;
     left: initial;
+    width: 48px;
+    float: left;
   }
 
   // sass-lint:disable bem-depth class-name-format
@@ -162,13 +152,15 @@
   }
 
   &.collapsed-nav {
-    .container-fluid:not(.PageConfigPage__side-widget--collapsed) .PageConfigPage__side-widget--sticky {
-      width: calc(calc(100vw - 35px) * .25);
-    }
-
     .PageConfigPage__bottom-options {
       left: 155px;
     }
+  }
+}
+
+@media (min-width: 1200px) {
+  .PageConfigPage__side-widget {
+    width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .25);
   }
 }
 // sass-lint:enable force-element-nesting class-name-format

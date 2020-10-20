@@ -123,7 +123,7 @@ class PageTreeCompact extends Component {
                 <FormattedMessage id="app.edit" />
               </MenuItem>
               <MenuItem onClick={handleClick(onClickConfigure, page)}>
-                <FormattedMessage id="app.configure" />
+                <FormattedMessage id="app.design" />
               </MenuItem>
               <MenuItem onClick={handleClick(onClickDetails, page)} >
                 <FormattedMessage id="app.details" />
