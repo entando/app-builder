@@ -23,6 +23,7 @@ const SeoInfo = ({ languages, onChangeDefaultTitle, readOnly }) =>
                 key={`titles.${lang.code}`}
                 component={RenderTextInput}
                 name={`titles.${lang.code}`}
+                tourClass="app-tour-step-6"
                 label={<FormLabel helpId="app.pages.titleHelp" labelId="app.pages.title" required />}
                 validate={[required, maxLength70]}
                 inputSize={9}

@@ -131,7 +131,7 @@ class PageTreeCompact extends Component {
               )}
               {onClickConfigure && (
                 <MenuItem onClick={handleClick(onClickConfigure, page)}>
-                  <FormattedMessage id="app.configure" />
+                  <FormattedMessage id="app.design" />
                 </MenuItem>
               )}
               {onClickDetails && (

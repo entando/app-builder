@@ -16,6 +16,7 @@ import {
 } from 'state/pages/actions';
 
 import { getSelectedPageTemplateCanBeOnTheFly } from 'state/page-templates/selectors';
+import { getAppTourProgress } from 'state/app-tour/selectors';
 import {
   makeGetPageIsOnTheFly,
   makeGetSelectedPageDiffersFromPublished,
@@ -31,6 +32,10 @@ import { HOMEPAGE_PAYLOAD } from 'test/mocks/pages';
 
 jest.mock('state/page-templates/selectors', () => ({
   getSelectedPageTemplateCanBeOnTheFly: jest.fn(),
+}));
+
+jest.mock('state/app-tour/selectors', () => ({
+  getAppTourProgress: jest.fn(),
 }));
 
 jest.mock('state/page-config/selectors', () => ({
@@ -91,6 +96,7 @@ describe('PageConfigPageContainer', () => {
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
       getSelectedPageTemplateCanBeOnTheFly.mockReturnValue(true);
+      getAppTourProgress.mockReturnValue('started');
       makeGetPageIsOnTheFly.mockReturnValue(() => true);
       makeGetSelectedPageDiffersFromPublished.mockReturnValue(() => true);
       makeGetSelectedPageConfigMatchesDefault.mockReturnValue(() => true);
@@ -138,7 +144,7 @@ describe('PageConfigPageContainer', () => {
   });
 
   describe('mapDispatchToProps', () => {
-    const dispatchMock = jest.fn();
+    const dispatchMock = jest.fn(() => new Promise(res => res(jest.fn())));
     let props;
     beforeEach(() => {
       props = mapDispatchToProps(dispatchMock, ownProps);

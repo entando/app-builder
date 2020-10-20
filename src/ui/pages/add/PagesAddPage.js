@@ -8,6 +8,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import PagesAddFormContainer from 'ui/pages/add/PagesAddFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 
 
@@ -50,6 +51,7 @@ class PagesAddPage extends Component {
               <PagesAddFormContainer />
             </Col>
           </Row>
+          <AppTourContainer />
         </Grid>
       </InternalPage>
     );

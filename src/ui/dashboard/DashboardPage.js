@@ -11,7 +11,7 @@ import LanguagesContainer from 'ui/dashboard/LanguagesContainer';
 import PageStatusContainer from 'ui/dashboard/PageStatusContainer';
 import PagesListContainer from 'ui/dashboard/PagesListContainer';
 
-import AppTourContainer from 'ui/dashboard/AppTourContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 
 import apps from 'entando-apps';
 

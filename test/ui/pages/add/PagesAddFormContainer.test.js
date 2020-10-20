@@ -18,6 +18,7 @@ import { sendPostPage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
 import { SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getActiveLanguages } from 'state/languages/selectors';
+import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import getSearchParam from 'helpers/getSearchParam';
 
@@ -27,6 +28,11 @@ jest.mock('state/pages/actions', () => ({
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
+}));
+
+jest.mock('state/app-tour/selectors', () => ({
+  getAppTourProgress: jest.fn(),
+  getTourCreatedPage: jest.fn(),
 }));
 
 jest.mock('state/page-templates/selectors', () => ({
@@ -52,6 +58,9 @@ jest.mock('app-init/router', () => ({
 }));
 
 jest.mock('helpers/getSearchParam');
+
+getAppTourProgress.mockReturnValue('cancelled');
+getTourCreatedPage.mockReturnValue({});
 
 getSearchParam.mockImplementation(paramName => paramName);
 
