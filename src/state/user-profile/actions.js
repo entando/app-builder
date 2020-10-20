@@ -1,5 +1,6 @@
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { initialize } from 'redux-form';
+
 import { getUserProfile, putUserProfile } from 'api/userProfile';
 import { SET_USER_PROFILE } from 'state/user-profile/types';
 import { fetchProfileType } from 'state/profile-types/actions';
@@ -51,7 +52,7 @@ export const updateUserProfile = (profile, successRedirect = true) =>
     )).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(setUserProfile(profile));
+          dispatch(setUserProfile(json.payload));
           dispatch(addToast(
             { id: 'userprofile.edit.success' },
             TOAST_SUCCESS,
