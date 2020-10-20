@@ -15,14 +15,9 @@ export class AppSettingsFormBody extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.onDidMount(this.props);
-  }
-
   submit(data) {
     const { username } = this.props;
-    const { wizardEnabled } = data;
-    this.props.onSubmit({ wizardEnabled: wizardEnabled || false, username });
+    this.props.onSubmit({ username, data });
   }
 
   render() {
@@ -38,7 +33,19 @@ export class AppSettingsFormBody extends Component {
           label={<FormLabel helpId="user.myProfile.wizardToggleHelp" labelId="user.myProfile.wizardToggle" />}
           component={SwitchRenderer}
           data-testid="wizardSwitch"
-          name="wizardEnabled"
+          name="wizard"
+        />
+        <Field
+          label={<FormLabel helpId="user.myProfile.translationWarningHelp" labelId="user.myProfile.translationWarning" />}
+          component={SwitchRenderer}
+          data-testid="translationWarningSwitch"
+          name="translationWarning"
+        />
+        <Field
+          label={<FormLabel helpId="user.myProfile.loadOnPageSelectHelp" labelId="user.myProfile.loadOnPageSelect" />}
+          component={SwitchRenderer}
+          data-testid="loadOnPageSelectSwitch"
+          name="loadOnPageSelect"
         />
         <Button
           className="pull-right"
@@ -56,11 +63,10 @@ AppSettingsFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  onDidMount: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
-  form: 'myprofile-appsettings',
+  form: 'userPreferences',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })(AppSettingsFormBody);

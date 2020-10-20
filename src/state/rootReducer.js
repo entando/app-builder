@@ -29,6 +29,7 @@ import database from 'state/database/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
 import userProfile from 'state/user-profile/reducer';
+import userPreferences from 'state/user-preferences/reducer';
 import componentRepositoryComponents from 'state/component-repository/components/reducer';
 import componentRepositories from 'state/component-repository/component-repositories/reducer';
 import componentRepositoryCategories from 'state/component-repository/categories/reducer';
@@ -78,6 +79,7 @@ const reducerDef = {
   userSettings,
   userProfile,
   appTour,
+  userPreferences,
 };
 
 // app root reducer

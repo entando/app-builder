@@ -10,7 +10,7 @@ import {
   makeGetSelectedPageDiffersFromPublished,
   makeGetSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
+import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI, getSelectedPublishedPageURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
@@ -51,6 +51,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageName: selectedPage.titles[getLocale(state)],
     pageStatus: selectedPage.status,
     previewUri: getSelectedPagePreviewURI(state),
+    publishedPageUri: getSelectedPublishedPageURI(state),
     isOnTheFlyEnabled: getSelectedPageTemplateCanBeOnTheFly(state),
     pageIsOnTheFly: makeGetPageIsOnTheFly(params.pageCode)(state),
     pageIsPublished: getSelectedPageIsPublished(state),

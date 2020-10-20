@@ -50,6 +50,8 @@ jest.mock('state/pages/selectors', () => ({
   getSelectedPagePreviewURI: jest
     .fn()
     .mockReturnValue('getSelectedPagePreviewURI_result'),
+  getSelectedPublishedPageURI: jest.fn()
+    .mockReturnValue('getSelectedPublishedPageURI_result'),
 }));
 
 jest.mock('state/locale/selectors', () => ({

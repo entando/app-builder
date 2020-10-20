@@ -345,9 +345,10 @@ const getRouteComponent = () => {
 
 class App extends Component {
   componentDidUpdate(prevProps) {
-    const { username, fetchPlugins } = this.props;
+    const { username, fetchPlugins, fetchUserPreferences } = this.props;
     if (username && username !== prevProps.username) {
       fetchPlugins();
+      fetchUserPreferences(username);
     }
   }
 
@@ -381,12 +382,14 @@ App.propTypes = {
   auth: PropTypes.shape({ enabled: PropTypes.bool }),
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
+  fetchUserPreferences: PropTypes.func,
 };
 
 App.defaultProps = {
   username: null,
   auth: { enabled: false },
   fetchPlugins: () => {},
+  fetchUserPreferences: () => {},
   isReady: false,
 };
 

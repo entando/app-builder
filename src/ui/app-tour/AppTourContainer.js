@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { arrayPop, formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-
-import { sendPostWizardSetting } from 'state/users/actions';
 import { getUsername } from '@entando/apimanager';
 
 import AppTour from 'ui/app-tour/AppTour';
@@ -15,6 +13,7 @@ import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
 import { ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
 import { configOrUpdatePageWidget, editWidgetConfig } from 'state/page-config/actions';
 import { NavigationBarWidgetID } from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
+import { updateUserPreferences } from 'state/user-preferences/actions';
 
 export const widgetNextSteps = {
   logo: 13,
@@ -46,8 +45,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onDidMount: ({ username }) => { dispatch(fetchWizardEnabled(username)); },
   onToggleDontShow: (disableWizard, username) => {
-    // TODO change this to new API
-    dispatch(sendPostWizardSetting(username, { wizardEnabled: !disableWizard, showToast: false }));
+    dispatch(updateUserPreferences(username, { wizard: !disableWizard, showToast: false }));
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
   onAppTourCancel: (code, publishStatus) => {
