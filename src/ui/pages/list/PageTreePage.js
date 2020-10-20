@@ -10,6 +10,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
 import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 class PageTreePage extends Component {
@@ -25,13 +26,7 @@ class PageTreePage extends Component {
         </Button>
       );
     }
-    return (
-      <Link to={ROUTE_PAGE_ADD} className="pull-right PageTreePage__save">
-        <Button bsStyle="primary">
-          <FormattedMessage id="app.add" />
-        </Button>
-      </Link>
-    );
+    return null;
   }
 
   render() {
@@ -84,6 +79,20 @@ class PageTreePage extends Component {
               </Col>
             </Row>
           )}
+          <Row>
+            <Col xs={12}>
+              <Link to={ROUTE_PAGE_ADD} className="pull-right PageTreePage__save" onClick={() => this.props.onNextStep(6)}>
+                <Button
+                  bsStyle="primary"
+                  className="app-tour-step-5"
+                  onClick={() => this.props.onNextStep(6)}
+                >
+                  <FormattedMessage id="app.add" />
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+          <AppTourContainer customOffset={100} />
         </Grid>
       </InternalPage>
     );
@@ -95,11 +104,13 @@ PageTreePage.propTypes = {
   onClear: PropTypes.func.isRequired,
   search: PropTypes.arrayOf(PropTypes.shape({})),
   loading: PropTypes.bool,
+  onNextStep: PropTypes.func,
 };
 
 PageTreePage.defaultProps = {
   search: null,
   loading: false,
+  onNextStep: () => {},
 };
 
 export default PageTreePage;

@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
+import { ROUTE_WIDGET_EDIT } from 'app-init/router';
+import ContentWidgetElementIcon from 'ui/pages/config/ContentWidgetElementIcon';
 
 const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (
     <div className="ContentWidgetElement list-group-item">
       <div className="ContentWidgetElement__main list-view-pf-main-info">
         <div className="ContentWidgetElement__icon list-view-pf-left">
-          <span className="
-            fa fa-default
-            fa-puzzle-piece
-            list-view-pf-icon-sm
-            ContentWidgetElement__widget-icon
-            fa-banner-main-left"
-          />
+          <ContentWidgetElementIcon widgetId={widgetId} />
         </div>
         <div className="list-view-pf-body">
           <div className="list-view-pf-description">

@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
+
+import { setAppTourLastStep } from 'state/app-tour/actions';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
@@ -164,11 +167,12 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
+const LegacyAdminConsoleMenuBody = ({
+  userPermissions, intl, history, onNextStep,
+}) => (
   <div className="safari-menu-fix">
     <VerticalNav
-      blurDelay={700}
-      blurDisabled={false}
+      blurDisabled
       dynamicBodyClasses
       forceHidden={false}
       hiddenIcons={false}
@@ -177,7 +181,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       hoverDisabled={false}
       onNavigate={e => e.onClick()}
       pinnableMenus
-      persistentSecondary={false}
     >
       <Masthead>
         <Brand
@@ -203,14 +206,19 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item
           id="menu-page-creator"
-          onClick={() => {}}
+          className="app-tour-step-3"
+          onClick={() => onNextStep(4)}
           iconClass="fa fa-files-o"
           title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
         >
           <SecondaryItem
             id="menu-page-tree"
             title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Management' })}
-            onClick={() => history.push(ROUTE_PAGE_TREE)}
+            className="app-tour-step-4"
+            onClick={() => {
+              onNextStep(5);
+              history.push(ROUTE_PAGE_TREE);
+            }}
           />
           <SecondaryItem
             id="menu-page-config"
@@ -387,10 +395,18 @@ LegacyAdminConsoleMenuBody.propTypes = {
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
+  onNextStep: PropTypes.func.isRequired,
 };
 
 LegacyAdminConsoleMenuBody.defaultProps = {
   userPermissions: null,
 };
 
-export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuBody)));
+const mapDispatchToProps = dispatch => ({
+  onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
+});
+
+const LegacyAdminConsoleMenuContainer =
+connect(null, mapDispatchToProps)(LegacyAdminConsoleMenuBody);
+
+export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuContainer)));

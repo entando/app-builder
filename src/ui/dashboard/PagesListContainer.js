@@ -10,14 +10,14 @@ import { getLocale } from 'state/locale/selectors';
 import { withPermissionValues } from 'ui/auth/withPermissions';
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = 1) => {
+  onWillMount: (page = 1, pageSize = 5) => {
     const queryString = convertToQueryString({
       sorting: {
         attribute: 'lastModified',
         direction: 'DESC',
       },
     });
-    dispatch(fetchSearchPages({ page, pageSize: 5 }, queryString));
+    dispatch(fetchSearchPages({ page, pageSize }, queryString));
   },
 });
 

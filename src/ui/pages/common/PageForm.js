@@ -40,11 +40,17 @@ export class PageFormBody extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const { onInitPageForm } = this.props;
+    onInitPageForm(this.props);
+  }
+
   render() {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode, seoMode, onFindTemplateClick, readOnly,
+      pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
+      onChangeOwnerGroup, readOnly,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -61,12 +67,16 @@ export class PageFormBody extends Component {
 
     const parentPageComponent = parentCode ?
       <span>{parentTitle}</span> :
-      (<Field
-        component={PageTreeSelectorContainer}
-        name="parentCode"
-        pages={pages}
-        validate={[required]}
-      />);
+      (
+        <div className="app-tour-step-8">
+          <Field
+            component={PageTreeSelectorContainer}
+            name="parentCode"
+            pages={pages}
+            validate={[required]}
+          />
+        </div>
+      );
 
     const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
@@ -80,6 +90,7 @@ export class PageFormBody extends Component {
                 key={lang.code}
                 component={RenderTextInput}
                 name={`titles.${lang.code}`}
+                tourClass="app-tour-step-6"
                 label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
                 placeholder={intl.formatMessage(msgTitle.langCode)}
                 validate={[required, maxLength70]}
@@ -114,7 +125,9 @@ export class PageFormBody extends Component {
                 component={RenderSelectInput}
                 name="ownerGroup"
                 className="form-control"
+                tourClass="app-tour-step-9"
                 validate={[required]}
+                onChange={e => onChangeOwnerGroup(e.target.value, appTourProgress)}
                 disabled={isEditMode}
                 label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
                 options={groupsWithEmpty}
@@ -153,6 +166,7 @@ export class PageFormBody extends Component {
                     component={RenderSelectInput}
                     name="pageModel"
                     className="form-control"
+                    tourClass="app-tour-step-10"
                     validate={[required]}
                     label={
                       <FormLabel
@@ -161,6 +175,7 @@ export class PageFormBody extends Component {
                         required
                       />
                     }
+                    onChange={e => onChangePageTemplate(e.target.value, appTourProgress)}
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
@@ -290,6 +305,7 @@ export class PageFormBody extends Component {
             <Field
               component={RenderTextInput}
               name="code"
+              tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
               validate={[required, code, maxLength30]}
@@ -347,12 +363,12 @@ export class PageFormBody extends Component {
               <div className="btn-toolbar pull-right">
 
                 <Button
-                  className="PageForm__save-and-configure-btn"
+                  className="PageForm__save-and-configure-btn app-tour-step-11"
                   type="submit"
                   bsStyle="success"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values =>
-                  this.props.onSubmit(values, ACTION_SAVE_AND_CONFIGURE))}
+                  this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
@@ -408,6 +424,10 @@ PageFormBody.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   pageCode: PropTypes.string,
   seoMode: PropTypes.bool,
+  appTourProgress: PropTypes.string,
+  onChangePageTemplate: PropTypes.func,
+  onChangeOwnerGroup: PropTypes.func,
+  onInitPageForm: PropTypes.func,
   readOnly: PropTypes.bool,
 };
 
@@ -423,11 +443,16 @@ PageFormBody.defaultProps = {
   pages: null,
   pageCode: null,
   seoMode: false,
+  appTourProgress: '',
+  onChangePageTemplate: () => {},
+  onChangeOwnerGroup: () => {},
   readOnly: false,
+  onInitPageForm: () => {},
 };
 
 const PageForm = reduxForm({
   form: 'page',
+  enableReinitialize: true,
 })(PageFormBody);
 
 export default injectIntl(PageForm);

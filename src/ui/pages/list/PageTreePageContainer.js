@@ -9,6 +9,7 @@ import { toggleLoading } from 'state/loading/actions';
 import { getLoading } from 'state/loading/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { setAppTourLastStep } from 'state/app-tour/actions';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -41,6 +42,7 @@ export const mapDispatchToProps = dispatch => ({
       dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
     }
   },
+  onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
 });
 
 

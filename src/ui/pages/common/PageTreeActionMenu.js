@@ -8,16 +8,27 @@ class PageTreeActionMenu extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClickViewPublishedPage = this.handleClickViewPublishedPage.bind(this);
+    this.handleClickPreview = this.handleClickPreview.bind(this);
   }
 
   handleClick(handler) {
     return () => handler && handler(this.props.page);
   }
 
+  handleClickViewPublishedPage(handler) {
+    return () => handler && handler(this.props.page, this.props.domain, this.props.locale);
+  }
+
+  handleClickPreview(handler) {
+    return () => handler && handler(this.props.page, this.props.domain);
+  }
+
   render() {
     const {
       page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
+      onClickViewPublishedPage, onClickPreview,
     } = this.props;
 
     let disabled = false;
@@ -46,6 +57,25 @@ class PageTreeActionMenu extends Component {
           onSelect={this.handleClick(onClickPublish)}
         >
           <FormattedMessage id="app.publish" />
+        </MenuItem>
+      );
+
+    const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+      (
+        <MenuItem
+          disabled={false}
+          className="PageTreeActionMenuButton__menu-item-viewPublishedPage"
+          onClick={this.handleClickViewPublishedPage(onClickViewPublishedPage)}
+        >
+          <FormattedMessage id="pageTree.viewPublishedPage" />
+        </MenuItem>
+      ) :
+      (
+        <MenuItem
+          disabled
+          className="PageTreeActionMenuButton__menu-item-viewPublishedPage"
+        >
+          <FormattedMessage id="pageTree.viewPublishedPage" />
         </MenuItem>
       );
 
@@ -84,7 +114,7 @@ class PageTreeActionMenu extends Component {
             className="PageTreeActionMenuButton__menu-item-configure"
             onSelect={this.handleClick(onClickConfigure)}
           >
-            <FormattedMessage id="app.configure" />
+            <FormattedMessage id="app.design" />
           </MenuItem>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-clone"
@@ -100,6 +130,13 @@ class PageTreeActionMenu extends Component {
             <FormattedMessage id="app.details" />
           </MenuItem>
           {renderDeleteItem()}
+          <MenuItem
+            className="PageTreeActionMenuButton__menu-item-preview"
+            onClick={this.handleClickPreview(onClickPreview)}
+          >
+            <FormattedMessage id="app.preview" />
+          </MenuItem>
+          {viewPublishedPage}
         </DropdownKebab>
       </div>
     );
@@ -118,6 +155,10 @@ PageTreeActionMenu.propTypes = {
   onClickDelete: PropTypes.func,
   onClickPublish: PropTypes.func,
   onClickUnpublish: PropTypes.func,
+  onClickViewPublishedPage: PropTypes.func,
+  onClickPreview: PropTypes.func,
+  domain: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 PageTreeActionMenu.defaultProps = {
@@ -129,6 +170,8 @@ PageTreeActionMenu.defaultProps = {
   onClickDelete: null,
   onClickPublish: null,
   onClickUnpublish: null,
+  onClickViewPublishedPage: null,
+  onClickPreview: null,
 };
 
 export default PageTreeActionMenu;

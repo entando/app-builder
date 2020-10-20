@@ -79,6 +79,8 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onClickClone');
       expect(props).toHaveProperty('onDropPage');
       expect(props).toHaveProperty('onExpandPage');
+      expect(props).toHaveProperty('onClickViewPublishedPage');
+      expect(props).toHaveProperty('onClickPreview');
     });
 
     it('should dispatch an action if "onClickAdd" is called', () => {

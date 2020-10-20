@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
@@ -13,8 +12,13 @@ class PageTreeCompact extends Component {
     const {
       pages, onClickDetails, onClickAdd, onClickEdit, onClickConfigure,
       onClickClone, onClickDelete, onClickUnPublish, onClickPublish,
+      onClickViewPublishedPage, onClickPreview, domain, locale,
     } = this.props;
     const handleClick = (handler, page) => () => handler && handler(page);
+    const handleClickViewPublishedPage = (handler, page) =>
+      () => handler && handler(page, domain, locale);
+    const handleClickPreview = (handler, page) =>
+      () => handler && handler(page, domain);
     return pages.map((page, i) => {
       const onClickExpand = () => {
         if (!page.isEmpty) {
@@ -55,7 +59,24 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="app.publish" />
           </MenuItem>
         );
-
+      const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+        (
+          <MenuItem
+            disabled={false}
+            className="PageTreeActionMenuButton__menu-item-preview"
+            onClick={handleClickViewPublishedPage(onClickViewPublishedPage, page)}
+          >
+            <FormattedMessage id="pageTree.viewPublishedPage" />
+          </MenuItem>
+        ) :
+        (
+          <MenuItem
+            disabled
+            className="PageTreeActionMenuButton__menu-item-preview"
+          >
+            <FormattedMessage id="pageTree.viewPublishedPage" />
+          </MenuItem>
+        );
       const renderDeleteItem = () => {
         if (page.status === PAGE_STATUS_PUBLISHED) {
           return null;
@@ -84,7 +105,6 @@ class PageTreeCompact extends Component {
               onKeyDown={onClickExpand}
             >
               <TreeNodeExpandedIcon expanded={page.expanded} />
-              <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>
@@ -113,6 +133,10 @@ class PageTreeCompact extends Component {
               </MenuItem>
               {renderDeleteItem()}
               {changePublishStatus}
+              <MenuItem onClick={handleClickPreview(onClickPreview, page)}>
+                <FormattedMessage id="app.preview" />
+              </MenuItem>
+              {viewPublishedPage}
             </DropdownKebab>
           </td>
         </tr>
@@ -149,6 +173,10 @@ PageTreeCompact.propTypes = {
   onClickEdit: PropTypes.func.isRequired,
   onClickConfigure: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
+  onClickViewPublishedPage: PropTypes.func.isRequired,
+  onClickPreview: PropTypes.func.isRequired,
+  domain: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 PageTreeCompact.defaultProps = {
