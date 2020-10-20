@@ -22,6 +22,7 @@ import ContentPages from 'ui/pages/config/ContentPages';
 import { getLoading } from 'state/loading/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
@@ -32,6 +33,7 @@ export const mapStateToProps = state => ({
   pages: getPageTreePages(state),
   searchPages: getSearchPages(state),
   selectedPage: getSelectedPage(state),
+  loadOnPageSelect: getUserPreferences(state).loadOnPageSelect,
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),

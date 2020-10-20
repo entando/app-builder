@@ -1,6 +1,7 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentPagesContainer';
 import { HOMEPAGE_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
 import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 
 jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
@@ -14,9 +15,14 @@ jest.mock('state/pagination/selectors', () => ({
   getPageSize: jest.fn(),
 }));
 
+jest.mock('state/user-preferences/selectors', () => ({
+  getUserPreferences: jest.fn(),
+}));
+
 getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
 getSearchPages.mockReturnValue([SEARCH_PAGES]);
 getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
+getUserPreferences.mockReturnValue({});
 
 describe('ContentPagesContainer', () => {
   describe('mapStateToProps', () => {
@@ -25,6 +31,7 @@ describe('ContentPagesContainer', () => {
       expect(props).toHaveProperty('pages');
       expect(props).toHaveProperty('searchPages');
       expect(props).toHaveProperty('selectedPage');
+      expect(props).toHaveProperty('loadOnPageSelect');
       expect(props).toHaveProperty('loading');
       expect(props).toHaveProperty('locale');
       expect(props).toHaveProperty('page');
