@@ -19,8 +19,8 @@ import {
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 
-export const matchRegex = regex => val => ((val && regex && !regex.test(val)) ?
-  (<FormattedMessage id="validateForm.regex" values={{ regex }} />) : undefined);
+export const matchRegex = (regex, customErrorId) => val => ((val && regex && !regex.test(val)) ?
+  (<FormattedMessage id={customErrorId || 'validateForm.regex'} values={{ regex }} />) : undefined);
 
 const getComponentOptions = (component, intl) => {
   const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
@@ -86,7 +86,11 @@ export class UserProfileFormBody extends Component {
     this.props.onWillUnmount();
   }
 
-  generateValidatorFunc(value, validatorFuncName, validatorFunc, validatorArray, parseValueFunc) {
+  generateValidatorFunc(
+    value, validatorFuncName, validatorFunc,
+    validatorArray, parseValueFunc, customErrorId,
+  ) {
+    console.log('customErrorId', customErrorId);
     if (value === null || value === undefined) {
       return;
     }
@@ -96,7 +100,7 @@ export class UserProfileFormBody extends Component {
     if (!this.validators[validatorFuncName][value]) {
       this.validators[validatorFuncName] = {
         ...this.validators[validatorFuncName],
-        [value]: validatorFunc(parsedValue),
+        [value]: validatorFunc(parsedValue, customErrorId),
       };
     }
     validatorArray.push(this.validators[validatorFuncName][value]);
@@ -109,10 +113,12 @@ export class UserProfileFormBody extends Component {
       minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
     } = validationRules || {};
     const validateArray = [...(attribute.mandatory ? [required] : [])];
-
     this.generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
     this.generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
-    this.generateValidatorFunc(regex, 'regex', matchRegex, validateArray, RegexParser);
+    this.generateValidatorFunc(
+      regex, 'regex', matchRegex, validateArray, RegexParser,
+      attribute.type === 'Email' && 'validateForm.email',
+    );
     this.generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
     this.generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
 

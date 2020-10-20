@@ -149,6 +149,7 @@ export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch 
       response.json().then((json) => {
         if (response.ok) {
           history.push(ROUTE_PROFILE_TYPE_LIST);
+          dispatch(fetchProfileTypeReferenceStatus());
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
