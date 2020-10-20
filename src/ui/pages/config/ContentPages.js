@@ -43,7 +43,7 @@ class ContentPages extends Component {
   }
 
   handleExpandCollapse() {
-    const { onExpandAll, onCollapseAll } = this.props;
+    const { onExpandAll, onCollapseAll, selectedPage } = this.props;
     const { expanded } = this.state;
     if (expanded) {
       onCollapseAll();
@@ -51,7 +51,7 @@ class ContentPages extends Component {
         expanded: false,
       });
     } else {
-      onExpandAll();
+      onExpandAll(selectedPage);
       this.setState({
         expanded: true,
       });
@@ -92,7 +92,7 @@ class ContentPages extends Component {
 
   render() {
     const {
-      loading, onExpandPage, pages, intl, searchPages, onClear,
+      loading, onExpandPage, pages, intl, searchPages, selectedPage, onClear,
     } = this.props;
     const { expanded } = this.state;
 
@@ -114,7 +114,7 @@ class ContentPages extends Component {
             </Button>
           </div>
           <Link to={ROUTE_PAGE_ADD} className="pull-right">
-            <Button bsStyle="primary">
+            <Button className="ContentPages__pagetree-addbtn">
               <FormattedMessage id="app.add" />
             </Button>
           </Link>
@@ -144,11 +144,18 @@ class ContentPages extends Component {
         )}
         <Spinner loading={!!loading}>
           {searchPages && searchPages.length ? (
-            <PageListSearchTable {...this.props} onWillMount={() => {}} />
+            <PageListSearchTable
+              {...this.props}
+              className="ContentPages__search-table"
+              striped={false}
+              onWillMount={() => {}}
+              onRowClick={this.handlePageSelect}
+            />
           ) : (
             <PageTreeCompact
               {...this.props}
               pages={pages}
+              selectedPage={selectedPage}
               onExpandPage={onExpandPage}
               onRowClick={this.handlePageSelect}
             />
@@ -173,6 +180,7 @@ ContentPages.propTypes = {
   loading: PropTypes.bool,
   intl: intlShape.isRequired,
   searchPages: PropTypes.arrayOf(PropTypes.shape({})),
+  selectedPage: PropTypes.shape({}),
   loadOnPageSelect: PropTypes.bool,
   onLoadPage: PropTypes.func,
 };
@@ -186,6 +194,7 @@ ContentPages.defaultProps = {
   pages: [],
   loading: false,
   searchPages: null,
+  selectedPage: {},
   loadOnPageSelect: true,
   onLoadPage: () => {},
 };

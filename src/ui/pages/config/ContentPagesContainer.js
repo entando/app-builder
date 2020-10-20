@@ -75,7 +75,10 @@ export const mapDispatchToProps = dispatch => ({
   onClickViewPublishedPage: (page, domain, locale) => {
     window.open(`${domain}/${locale}/${page.code}.page`, '_blank');
   },
-  onExpandAll: () => dispatch(fetchPageTreeAll()),
+  onExpandAll: (currentPage) => {
+    dispatch(fetchPageTreeAll());
+    dispatch(setSelectedPage(currentPage));
+  },
   onCollapseAll: () => dispatch(collapseAll()),
   onPageSearch: (value) => {
     let queryString = convertToQueryString({

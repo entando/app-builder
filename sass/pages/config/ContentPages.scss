@@ -2,8 +2,8 @@
 
   &__pagetree-actions {
     display: flex;
-    column-gap: 20px;
     padding: 16px 20px;
+    column-gap: 20px;
   }
 
   &__pagetree-searchbar {
@@ -13,20 +13,21 @@
 
   // sass-lint:disable no-important class-name-format force-element-nesting
   &__pagetree-searchbtn.btn {
-    box-shadow: none !important;
-    outline: none !important;
     border: 1px solid $color-border-gray !important;
     border-left: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
   // sass-lint:enable no-important class-name-format force-element-nesting
 
   &__pagetree-expander {
     display: flex;
-    padding: 12px 20px;
     align-items: center;
     justify-content: space-between;
-    background: $color-widget-title-bg-color;
-    color: $color-black;
+    padding: 10px 20px;
+    border-top: 1px solid $color-black;
+    border-bottom: 1px solid $color-black;
+    color: $color-white;
     font-size: 14px;
   }
 
@@ -42,4 +43,51 @@
     }
   }
 
+  &__pagetree-addbtn {
+    background-color: $color-light-blue-2;
+    color: $color-white;
+
+    // sass-lint:disable nesting-depth force-elelment-nesting
+    &:hover {
+      background-color: $color-light-blue-hover;
+      color: $color-white;
+    }
+
+    &:focus,
+    &:focus:hover {
+      outline: none;
+      background-color: $color-light-blue-active;
+      color: $color-white;
+    }
+    // sass-lint:enable nesting-depth force-element-nesting
+  }
+
+  // sass-lint:disable nesting-depth no-qualifying-elements force-element-nesting class-name-format no-important
+  &__search-table {
+    & .table {
+      margin-top: 0;
+      border: 1px solid $color-black;
+      color: $color-white;
+    }
+
+    & thead,
+    & tr {
+      background: none;
+    }
+
+    & th,
+    & td {
+      border: 1px solid $color-black !important;
+    }
+
+    & .dropdown-kebab-pf .btn {
+      color: $color-white !important;
+    }
+
+    & .table-view-pf-pagination {
+      background: none;
+      color: $color-white;
+    }
+  }
+  // sass-lint:enable nesting-depth no-qualifying-elements force-element-nesting class-name-format no-important
 }
