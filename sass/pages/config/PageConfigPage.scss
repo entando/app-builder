@@ -95,23 +95,6 @@
     padding: 0!important; // sass-lint:disable-line no-important
     z-index: 12;
   }
-}
-
-.PageConfigPage__side-widget--collapsed {
-  .PageConfigPage__main {
-    width: calc(100% - 48px);
-  }
-
-  .PageConfigPage__bottom-options {
-    right: 167px;
-  }
-
-  .PageConfigPage__side-widget {
-    position: fixed;
-    left: initial;
-    width: 48px;
-    float: left;
-  }
 
   // sass-lint:disable bem-depth class-name-format
   &__panel-body {
@@ -138,6 +121,23 @@
     padding: 10px;
   }
   // sass-lint:enable bem-depth class-name-format
+}
+
+.PageConfigPage__side-widget--collapsed {
+  .PageConfigPage__main {
+    width: calc(100% - 48px);
+  }
+
+  .PageConfigPage__bottom-options {
+    right: 167px;
+  }
+
+  .PageConfigPage__side-widget {
+    position: fixed;
+    left: initial;
+    width: 48px;
+    float: left;
+  }
 }
 
 .scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
