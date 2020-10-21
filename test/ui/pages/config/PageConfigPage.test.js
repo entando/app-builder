@@ -42,16 +42,6 @@ describe('PageConfigPage', () => {
     expect(onWillMount).not.toHaveBeenCalled();
   });
 
-  it('will add a window scroll event listener on componentDidMount', () => {
-    const { winScrollListener } = component.dive().instance();
-    expect(global.addEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
-  });
-
-  it('will remove the window scroll event listener on componentWillUnmount', () => {
-    component.dive().unmount();
-    expect(global.removeEventListener).toHaveBeenCalled();
-  });
-
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
     component = shallowWithIntl(<PageConfigPage onWillUnmount={onWillUnmount} />).dive();
@@ -92,24 +82,6 @@ describe('PageConfigPage', () => {
       document.querySelector = jest.fn().mockReturnValueOnce({
         parentElement: { offsetTop: 75 },
       });
-    });
-
-    it('it is throttled', () => {
-      jest.spyOn(document, 'querySelector'); // called internally
-      const { winScrollListener } = component.dive().instance();
-      winScrollListener();
-      winScrollListener();
-      winScrollListener();
-      expect(document.querySelector).toHaveBeenCalledTimes(1);
-    });
-
-    it('when the window scroll is above the sidewidget component, it should not be sticky', () => {
-      window.scrollY = 0;
-      const { winScrollListener } = component.dive().instance();
-
-      winScrollListener();
-
-      expect(component.dive().state('sticky')).toBeFalsy();
     });
   });
 

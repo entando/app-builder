@@ -35,4 +35,8 @@
     max-width: calc(50% - 20px);
     content: "";
   }
+
+  &:last-of-type {
+    border-bottom: 1px solid $color-black;
+  }
 }

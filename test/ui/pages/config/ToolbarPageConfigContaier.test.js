@@ -35,6 +35,17 @@ describe('ToolbarPageConfigContainer', () => {
       });
     });
 
+    describe('prop onWillUnmount', () => {
+      it('should map the correct function properties', () => {
+        expect(props.onWillUnmount).toBeDefined();
+      });
+
+      it('should dispatch an action if onWillMount is called', () => {
+        props.onWillUnmount(PAGES);
+        expect(dispatchMock).toHaveBeenCalled();
+      });
+    });
+
     describe('prop changeContent', () => {
       it('should map the correct function properties', () => {
         props.changeContent();

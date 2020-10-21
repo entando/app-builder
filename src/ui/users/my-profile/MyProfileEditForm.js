@@ -292,6 +292,7 @@ MyProfileEditFormBody.defaultProps = {
 
 const MyProfileEditForm = reduxForm({
   form: 'UserProfile',
+  enableReinitialize: true,
 })(MyProfileEditFormBody);
 
 export default injectIntl(MyProfileEditForm);

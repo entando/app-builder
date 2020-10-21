@@ -28,7 +28,7 @@ class PageListSearchTable extends Component {
 
   renderTable() {
     const {
-      searchPages, page, pageSize, intl,
+      searchPages, page, pageSize, intl, striped,
     } = this.props;
 
     if (searchPages.length === 0) {
@@ -50,7 +50,7 @@ class PageListSearchTable extends Component {
     };
     return (
       <div>
-        <table className="PageListSearchTable__table table table-striped table-bordered">
+        <table className={`PageListSearchTable__table table table-bordered ${striped ? 'table-striped' : ''}`}>
           <thead>
             <tr>
               <th width="20%"><FormattedMessage id="app.code" /></th>
@@ -76,10 +76,14 @@ class PageListSearchTable extends Component {
   }
 
   renderRows() {
-    const { locale } = this.props;
+    const { selectedPage, locale, onRowClick } = this.props;
     return (
       this.props.searchPages.map(page => (
-        <tr key={page.code}>
+        <tr
+          key={page.code}
+          onClick={() => { onRowClick(page); }}
+          className={`PageListSearchTable__row ${selectedPage && selectedPage.code === page.code ? 'PageListSearchTable__row--selected' : ''}`}
+        >
           <td className="PageListSearchRow__td">{page.code}</td>
           <td className="PageListSearchRow__td">{page.titles[locale]}</td>
           <td className="PageListSearchRow__td text-center">
@@ -102,7 +106,7 @@ class PageListSearchTable extends Component {
 
   render() {
     return (
-      <div className="PageListSearchTable">
+      <div className={`PageListSearchTable ${this.props.className}`}>
         <Spinner loading={!!this.props.loading} >
           {this.renderTable()}
         </Spinner>
@@ -118,24 +122,34 @@ PageListSearchTable.propTypes = {
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   searchPages: PropTypes.arrayOf(PropTypes.shape({})),
+  selectedPage: PropTypes.shape({}),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  striped: PropTypes.bool,
   onClickAdd: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickConfigure: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
-  onClickDetails: PropTypes.func.isRequired,
   onClickClone: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
-
+  onClickEdit: PropTypes.func,
+  onClickDetails: PropTypes.func,
+  onClickConfigure: PropTypes.func,
+  onRowClick: PropTypes.func,
 };
 
 PageListSearchTable.defaultProps = {
   onWillMount: () => {},
   loading: false,
   searchPages: [],
+  selectedPage: {},
+  className: '',
+  striped: true,
+  onClickEdit: null,
+  onClickDetails: null,
+  onClickConfigure: null,
+  onRowClick: () => {},
 };
 
 export default injectIntl(PageListSearchTable);
