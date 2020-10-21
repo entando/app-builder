@@ -21,7 +21,7 @@ class AttributeRole extends Component {
       }
     ));
 
-    const getAttributeRoleLabel = item => `${item.value} - ${item.text}`;
+    const getAttributeRoleLabel = item => item && `${item.value} - ${item.text}`;
 
     const roleWrapper = () => {
       if (isEmpty(allowedRoles)) {

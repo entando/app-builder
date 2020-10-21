@@ -279,6 +279,7 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttributeProfileType(json.payload));
+          const joinRoles = json.payload.roles ? json.payload.roles.map(role => role.code) : [];
           if (json.payload.code === 'Date') {
             let {
               rangeStartDate, rangeEndDate, equalDate,
@@ -302,10 +303,11 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
                 rangeEndDateAttribute,
                 equalDateAttribute,
               },
+              joinRoles,
             };
             dispatch(initialize('attribute', payload));
           } else {
-            dispatch(initialize('attribute', json.payload));
+            dispatch(initialize('attribute', { ...json.payload, joinRoles }));
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));

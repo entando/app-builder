@@ -8,6 +8,7 @@ class RoleSelectRenderer extends Component {
     super(props);
     this.pushField = this.pushField.bind(this);
     this.renderTags = this.renderTags.bind(this);
+    this.getLabel = this.getLabel.bind(this);
     this.select = null;
   }
 
@@ -34,8 +35,8 @@ class RoleSelectRenderer extends Component {
       selectedValues, fields, valueKey, options,
     } = this.props;
     return selectedValues.map((value, i) => (
-      <div key={value}>
-        <h3><FormattedMessage id="app.assigned.roles" /></h3>
+      <div key={value} className="clearfix">
+        { i === 0 && <h3><FormattedMessage id="app.assigned.roles" /></h3>}
         <hr />
         <Col xs={4}>
           <p>
