@@ -52,7 +52,9 @@ const { DOMAIN } = getRuntimeEnv();
 
 const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
-const renderCMSMenuItems = (userPermissions, intl, history) => {
+const isCmsInstalled = apps.some((app => app.id === CMS_APP_ID));
+
+const renderCmsMenuItems = (intl, history, userPermissions) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
   const hasMenuAssetsAccess = hasAccess(
@@ -145,20 +147,6 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
     </Item>
   );
 };
-
-const renderCmsMenuItems = (intl, history, userPermissions) => Object.values(apps).map((App) => {
-  let render = true;
-  const isCMS = App.id === CMS_APP_ID;
-  if (isCMS) {
-    if (
-      !hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions) &&
-      !hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions) &&
-      !hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions)) {
-      render = false;
-    }
-  }
-  return render && (isCMS ? renderCMSMenuItems(userPermissions, intl, history) : null);
-});
 
 const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
@@ -275,7 +263,15 @@ const LegacyAdminConsoleMenuBody = ({
         </Item>
       )
     }
-      {renderCmsMenuItems(intl, history, userPermissions)}
+      {
+        isCmsInstalled &&
+        hasAccess([
+          CRUD_CONTENTS_PERMISSION,
+          MANAGE_RESOURCES_PERMISSION,
+          VALIDATE_CONTENTS_PERMISSION,
+        ], userPermissions) &&
+        renderCmsMenuItems(intl, history, userPermissions)
+      }
       {
 
         hasAccess(
