@@ -83,13 +83,12 @@ export const mapDispatchToProps = dispatch => ({
   },
   onCollapseAll: () => dispatch(collapseAll()),
   onPageSearch: (value) => {
-    let queryString = convertToQueryString({
-      sorting: {
-        attribute: 'code',
-      },
-    });
-
     if (value) {
+      let queryString = convertToQueryString({
+        sorting: {
+          attribute: 'code',
+        },
+      });
       queryString = `${queryString}&pageCodeToken=${value}`;
       dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
     }
