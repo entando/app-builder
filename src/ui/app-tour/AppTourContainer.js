@@ -89,7 +89,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   },
   onBackToNavMenuConfig: (pageCode) => {
     dispatch(editWidgetConfig(1, pageCode));
-    dispatch(setAppTourLastStep(16));
+    dispatch(setAppTourLastStep(14));
   },
   onBackToContentConfig: (pageCode) => {
     dispatch(editWidgetConfig(4, pageCode));
