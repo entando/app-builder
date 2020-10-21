@@ -9,7 +9,7 @@ import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from '
 const renameCMSPluginName = ({ typology, pluginDesc, ...widget }) => ({
   ...widget,
   typology,
-  pluginDesc: typology === 'jacms' ? 'CMS' : typology,
+  pluginDesc: typology === 'jacms' ? 'CMS' : pluginDesc,
 });
 
 const widgetGroupByCategory = (widgetList, locale) =>
