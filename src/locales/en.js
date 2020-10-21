@@ -475,7 +475,7 @@ export default {
     'pages.pageForm.charsetHelp': 'Interprets a sequence of bytes as representation of characters. The default is set to the machine in use.',
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifies the type of information (imagine, text..) that Entando gives back to the requesting browser.',
-    'pages.pageForm.saveAndConfigure': 'Save and Configure',
+    'pages.pageForm.saveAndConfigure': 'Save and Design',
     'pages.pageForm.seoFriendlyCode': 'Friendly Code',
     'pages.pageForm.useExtDescSearch': 'When available, use extra description in search',
     'pages.seoDescr': 'SEO: When available, use extra titles.',
