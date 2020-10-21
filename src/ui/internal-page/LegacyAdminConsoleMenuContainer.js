@@ -53,9 +53,12 @@ const { DOMAIN } = getRuntimeEnv();
 const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
 const renderCMSMenuItems = (userPermissions, intl, history) => {
-  const hasMenuContentsAccess = hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions)
-    || hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions);
-  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
+  const hasMenuContentsAccess = hasAccess([
+    CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
+  const hasMenuAssetsAccess = hasAccess(
+    [MANAGE_RESOURCES_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
+    userPermissions,
+  );
   const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
@@ -143,7 +146,7 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
   );
 };
 
-const renderAppMenuItems = (intl, history, userPermissions) => Object.values(apps).map((App) => {
+const renderCmsMenuItems = (intl, history, userPermissions) => Object.values(apps).map((App) => {
   let render = true;
   const isCMS = App.id === CMS_APP_ID;
   if (isCMS) {
@@ -272,7 +275,7 @@ const LegacyAdminConsoleMenuBody = ({
         </Item>
       )
     }
-      {renderAppMenuItems(intl, history, userPermissions)}
+      {renderCmsMenuItems(intl, history, userPermissions)}
       {
 
         hasAccess(
