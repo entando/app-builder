@@ -205,7 +205,7 @@ describe('AppSettingsForm', () => {
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={17} appTourProgress="started" />));
     expect(getByText('Create your first Application')).toBeInTheDocument();
     expect(getByText('Now you can choose the widgets for your page')).toBeInTheDocument();
-    expect(getByText('Drag & Drop the following widget: Entando CMS - Content')).toBeInTheDocument();
+    expect(getByText('Drag & Drop the following widget: CMS - Content')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Cancel')).toBeInTheDocument();
@@ -260,7 +260,7 @@ describe('AppSettingsForm', () => {
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={22} appTourProgress="started" />));
     expect(getByText('Create your first Application')).toBeInTheDocument();
     expect(getByText('Save & Publish your first page')).toBeInTheDocument();
-    expect(getByText('Save Settings and Publish your page')).toBeInTheDocument();
+    expect(getByText('Click on Publish Button to save and publish your first page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Cancel')).toBeInTheDocument();
