@@ -29,6 +29,7 @@ export class AccountFormBody extends Component {
 
     const modalButtons = [
       <Button
+        id="savebtn"
         bsStyle="primary"
         onClick={onModalFormSubmit}
       >

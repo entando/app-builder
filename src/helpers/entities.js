@@ -59,7 +59,8 @@ export const getPayloadForForm = (
       code, value, values, listElements, elements,
     } = attr;
 
-    const attrType = selectedProfileType.find(type => type.code === code);
+    const attrType =
+      selectedProfileType ? selectedProfileType.find(type => type.code === code) : {};
     switch (attrType.type) {
       case TYPE_BOOLEAN:
       case TYPE_THREESTATE: {
