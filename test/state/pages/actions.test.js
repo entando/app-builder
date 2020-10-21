@@ -558,7 +558,7 @@ describe('state/pages/actions', () => {
       getPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
         expect(getPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
-        expect(initialize).toHaveBeenCalledWith('page', CONTACTS_PAYLOAD);
+        expect(initialize).toHaveBeenCalledWith('pageEdit', CONTACTS_PAYLOAD);
         done();
       }).catch(done.fail);
     });

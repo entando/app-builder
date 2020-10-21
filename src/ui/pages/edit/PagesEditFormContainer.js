@@ -16,6 +16,8 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
 
+const FORM_ID = 'pageEdit';
+
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
@@ -23,10 +25,12 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   pages: getPageTreePages(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
-  selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
+  selectedJoinGroups: formValueSelector(FORM_ID)(state, 'joinGroups') || [],
   seoMode: SEO_ENABLED,
   mode: 'edit',
   pageCode: params.pageCode,
+  form: FORM_ID,
+  keepDirtyOnReinitialize: true,
 });
 
 
