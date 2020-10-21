@@ -475,7 +475,7 @@ export default {
     'pages.pageForm.charsetHelp': 'Interpreta una sequenza di byte attraverso una rappresentazione di caratteri. Di default si ha quello della macchina in uso',
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
-    'pages.pageForm.saveAndConfigure': 'Salva e Configura',
+    'pages.pageForm.saveAndConfigure': 'Salva e vai al Designer',
     'pages.pageForm.seoFriendlyCode': 'SEO friendly code (slug)',
     'pages.pageForm.useExtDescSearch': 'Se disponibile, utilizzare una descrizione aggiuntiva nella ricerca',
     'pages.seoDescr': 'SEO: Permetti la sovrascrittura del titolo di Pagina',

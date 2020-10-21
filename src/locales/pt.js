@@ -464,7 +464,7 @@ export default {
     'pages.pageForm.charsetHelp': 'Interpreta uma sequencia de bytes como representação de caracteres. O valor padrão é setado pela máquina em uso.',
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica o tipo da informação (imagem, texto, ...) que a Entando responderá para o navegador que requesitar.',
-    'pages.pageForm.saveAndConfigure': 'Salvar e Configurar',
+    'pages.pageForm.saveAndConfigure': 'Salvar e Projetar',
     'pages.pageForm.seoFriendlyCode': 'Código Amigável',
     'pages.pageForm.useExtDescSearch': 'Quando disponível, use uma descrição extra na pesquisa',
     'pages.seoDescr': 'SEO: Quando disponĩvel use títulos extras',

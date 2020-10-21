@@ -420,7 +420,7 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
 };
 
 export const fetchPageForm = pageCode => dispatch => fetchPageInfo(pageCode)(dispatch)
-  .then(response => dispatch(initialize('page', response.payload)))
+  .then(response => dispatch(initialize('pageEdit', response.payload)))
   .catch(() => {});
 
 export const loadSelectedPage = pageCode => dispatch =>

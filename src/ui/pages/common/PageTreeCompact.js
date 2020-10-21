@@ -15,7 +15,10 @@ class PageTreeCompact extends Component {
       onRowClick, onClickViewPublishedPage, onClickPreview, selectedPage,
       domain, locale,
     } = this.props;
-    const handleClick = (handler, page) => () => handler && handler(page);
+    const handleClick = (handler, page) => (e) => {
+      e.stopPropagation();
+      return handler && handler(page);
+    };
     const handleClickViewPublishedPage = (handler, page) =>
       () => handler && handler(page, domain, locale);
     const handleClickPreview = (handler, page) =>

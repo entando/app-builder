@@ -21,6 +21,7 @@ export const mapStateToProps = state => ({
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
   mode: 'clone',
+  keepDirtyOnReinitialize: true,
 });
 
 export const mapDispatchToProps = dispatch => ({
