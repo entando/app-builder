@@ -12,8 +12,17 @@ class PageTreeCompact extends Component {
     const {
       pages, onClickDetails, onClickAdd, onClickEdit, onClickConfigure,
       onClickClone, onClickDelete, onClickUnPublish, onClickPublish,
+      onRowClick, onClickViewPublishedPage, onClickPreview, selectedPage,
+      domain, locale,
     } = this.props;
-    const handleClick = (handler, page) => () => handler && handler(page);
+    const handleClick = (handler, page) => (e) => {
+      e.stopPropagation();
+      return handler && handler(page);
+    };
+    const handleClickViewPublishedPage = (handler, page) =>
+      () => handler && handler(page, domain, locale);
+    const handleClickPreview = (handler, page) =>
+      () => handler && handler(page, domain);
     return pages.map((page, i) => {
       const onClickExpand = () => {
         if (!page.isEmpty) {
@@ -54,7 +63,24 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="app.publish" />
           </MenuItem>
         );
-
+      const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+        (
+          <MenuItem
+            disabled={false}
+            className="PageTreeActionMenuButton__menu-item-preview"
+            onClick={handleClickViewPublishedPage(onClickViewPublishedPage, page)}
+          >
+            <FormattedMessage id="pageTree.viewPublishedPage" />
+          </MenuItem>
+        ) :
+        (
+          <MenuItem
+            disabled
+            className="PageTreeActionMenuButton__menu-item-preview"
+          >
+            <FormattedMessage id="pageTree.viewPublishedPage" />
+          </MenuItem>
+        );
       const renderDeleteItem = () => {
         if (page.status === PAGE_STATUS_PUBLISHED) {
           return null;
@@ -72,7 +98,11 @@ class PageTreeCompact extends Component {
       };
 
       return (
-        <tr key={page.code} className="PageTreeCompact__row">
+        <tr
+          key={page.code}
+          className={`PageTreeCompact__row ${selectedPage && selectedPage.code === page.code ? 'PageTreeCompact__row--selected' : ''}`}
+          onClick={() => onRowClick(page)}
+        >
           <td className={className.join(' ').trim()}>
             <span
               role="button"
@@ -95,22 +125,32 @@ class PageTreeCompact extends Component {
           <td className="text-center PageTreeCompact__actions-col">
             <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
               <MenuItem onClick={handleClick(onClickAdd, page)}>
-                <FormattedMessage id="app.add" />
+                <FormattedMessage id="pageTree.add" />
               </MenuItem>
-              <MenuItem onClick={handleClick(onClickEdit, page)}>
-                <FormattedMessage id="app.edit" />
-              </MenuItem>
-              <MenuItem onClick={handleClick(onClickConfigure, page)}>
-                <FormattedMessage id="app.configure" />
-              </MenuItem>
-              <MenuItem onClick={handleClick(onClickDetails, page)} >
-                <FormattedMessage id="app.details" />
-              </MenuItem>
+              {onClickEdit && (
+                <MenuItem onClick={handleClick(onClickEdit, page)}>
+                  <FormattedMessage id="app.edit" />
+                </MenuItem>
+              )}
+              {onClickConfigure && (
+                <MenuItem onClick={handleClick(onClickConfigure, page)}>
+                  <FormattedMessage id="app.design" />
+                </MenuItem>
+              )}
+              {onClickDetails && (
+                <MenuItem onClick={handleClick(onClickDetails, page)}>
+                  <FormattedMessage id="app.details" />
+                </MenuItem>
+              )}
               <MenuItem onClick={handleClick(onClickClone, page)}>
                 <FormattedMessage id="app.clone" />
               </MenuItem>
               {renderDeleteItem()}
               {changePublishStatus}
+              <MenuItem onClick={handleClickPreview(onClickPreview, page)}>
+                <FormattedMessage id="app.preview" />
+              </MenuItem>
+              {viewPublishedPage}
             </DropdownKebab>
           </td>
         </tr>
@@ -138,20 +178,31 @@ PageTreeCompact.propTypes = {
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
   })),
+  selectedPage: PropTypes.shape({}),
   onExpandPage: PropTypes.func,
   onClickClone: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
-  onClickDetails: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
   onClickAdd: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickConfigure: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func,
+  onClickConfigure: PropTypes.func,
+  onClickDetails: PropTypes.func,
+  onRowClick: PropTypes.func,
+  onClickViewPublishedPage: PropTypes.func.isRequired,
+  onClickPreview: PropTypes.func.isRequired,
+  domain: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 PageTreeCompact.defaultProps = {
   pages: [],
+  selectedPage: {},
   onExpandPage: () => {},
+  onClickEdit: null,
+  onClickConfigure: null,
+  onClickDetails: null,
+  onRowClick: () => {},
 };
 
 export default PageTreeCompact;

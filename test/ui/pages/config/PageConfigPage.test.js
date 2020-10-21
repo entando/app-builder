@@ -42,16 +42,6 @@ describe('PageConfigPage', () => {
     expect(onWillMount).not.toHaveBeenCalled();
   });
 
-  it('will add a window scroll event listener on componentDidMount', () => {
-    const { winScrollListener } = component.dive().instance();
-    expect(global.addEventListener).toHaveBeenCalledWith('scroll', winScrollListener);
-  });
-
-  it('will remove the window scroll event listener on componentWillUnmount', () => {
-    component.dive().unmount();
-    expect(global.removeEventListener).toHaveBeenCalled();
-  });
-
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
     component = shallowWithIntl(<PageConfigPage onWillUnmount={onWillUnmount} />).dive();
@@ -93,24 +83,6 @@ describe('PageConfigPage', () => {
         parentElement: { offsetTop: 75 },
       });
     });
-
-    it('it is throttled', () => {
-      jest.spyOn(document, 'querySelector'); // called internally
-      const { winScrollListener } = component.dive().instance();
-      winScrollListener();
-      winScrollListener();
-      winScrollListener();
-      expect(document.querySelector).toHaveBeenCalledTimes(1);
-    });
-
-    it('when the window scroll is above the sidewidget component, it should not be sticky', () => {
-      window.scrollY = 0;
-      const { winScrollListener } = component.dive().instance();
-
-      winScrollListener();
-
-      expect(component.dive().state('sticky')).toBeFalsy();
-    });
   });
 
   describe('if page config does not match default', () => {
@@ -143,14 +115,16 @@ describe('PageConfigPage', () => {
 
   describe('if page is published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished />).dive();
+      component = shallowWithIntl(<PageConfigPage pageIsPublished={true} />).dive();
     });
 
     it('publish button should be disabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__publish-btn').prop('disabled')).toBe(true);
     });
 
     it('unpublish button should be enabled', () => {
+      expect(component.find('.PageConfigPage__unpublish-btn').exists());
       expect(component.find('.PageConfigPage__unpublish-btn').prop('disabled')).toBe(false);
     });
   });
@@ -161,10 +135,12 @@ describe('PageConfigPage', () => {
     });
 
     it('publish button should be enabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__publish-btn').prop('disabled')).toBe(false);
     });
 
     it('unpublish button should be disabled', () => {
+      expect(component.find('.PageConfigPage__publish-btn').exists());
       expect(component.find('.PageConfigPage__unpublish-btn').prop('disabled')).toBe(true);
     });
   });

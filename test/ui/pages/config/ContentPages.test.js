@@ -1,14 +1,14 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'test/testUtils';
 import ContentPages from 'ui/pages/config/ContentPages';
 
 describe('ContentWidget', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
-    component = shallow(<ContentPages />);
+    component = shallowWithIntl(<ContentPages />).dive();
   });
 
   it('renders without crashing', () => {
@@ -19,10 +19,6 @@ describe('ContentWidget', () => {
     expect(component.hasClass('ContentPages')).toBe(true);
   });
 
-  it('has the ContentPages__content-action class', () => {
-    expect(component.find('.ContentPages__content-action').exists()).toBe(true);
-  });
-
   it('has the PageTreeCompact component', () => {
     expect(component.find('PageTreeCompact')).toHaveLength(1);
   });
@@ -30,7 +26,7 @@ describe('ContentWidget', () => {
   describe('props', () => {
     it('will call onWillMount on componentWillMount', () => {
       const onWillMount = jest.fn();
-      component = shallow(<ContentPages onWillMount={onWillMount} />);
+      component = shallowWithIntl(<ContentPages onWillMount={onWillMount} />).dive();
       expect(onWillMount).toHaveBeenCalled();
     });
   });

@@ -91,6 +91,10 @@ class PageTree extends Component {
               onClickDelete={this.props.onClickDelete}
               onClickPublish={this.props.onClickPublish}
               onClickUnpublish={this.props.onClickUnPublish}
+              onClickViewPublishedPage={this.props.onClickViewPublishedPage}
+              onClickPreview={this.props.onClickPreview}
+              locale={this.props.locale}
+              domain={this.props.domain}
             />
           </td>
         </DDTable.Tr>
@@ -180,11 +184,15 @@ PageTree.propTypes = {
   onClickClone: PropTypes.func.isRequired,
   onClickPublish: PropTypes.func.isRequired,
   onClickUnPublish: PropTypes.func.isRequired,
+  onClickViewPublishedPage: PropTypes.func.isRequired,
+  onClickPreview: PropTypes.func.isRequired,
   onDropPage: PropTypes.func,
   onExpandPage: PropTypes.func,
   onExpandAll: PropTypes.func,
   onCollapseAll: PropTypes.func,
   loading: PropTypes.bool.isRequired,
+  domain: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 PageTree.defaultProps = {

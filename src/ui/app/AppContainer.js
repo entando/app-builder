@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchPlugins } from 'state/plugins/thunks';
+import { fetchUserPreferences } from 'state/user-preferences/actions';
 import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
 import App from 'ui/app/App';
@@ -11,6 +12,7 @@ export const mapStateToProps = (state, { location: { pathname } }) => ({
 
 export const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(fetchPlugins()),
+  fetchUserPreferences: username => dispatch(fetchUserPreferences(username)),
 });
 
 const AppContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -6,14 +6,19 @@ import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getSelectedPageTemplateCellMap, getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
+const renameCMSPluginName = ({ typology, pluginDesc, ...widget }) => ({
+  ...widget,
+  typology,
+  pluginDesc: typology === 'jacms' ? 'CMS' : pluginDesc,
+});
 
 const widgetGroupByCategory = (widgetList, locale) =>
 
   widgetList.reduce((acc, widget) => {
     if (acc[widget.typology]) {
-      acc[widget.typology].push({ ...widget, name: widget.titles[locale] });
+      acc[widget.typology].push({ ...renameCMSPluginName(widget), name: widget.titles[locale] });
     } else {
-      acc[widget.typology] = [{ ...widget, name: widget.titles[locale] }];
+      acc[widget.typology] = [{ ...renameCMSPluginName(widget), name: widget.titles[locale] }];
     }
     return acc;
   }, {});

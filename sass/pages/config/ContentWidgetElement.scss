@@ -9,13 +9,14 @@
 
 .ContentWidgetElement {
   width: calc(50% - 20px);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 0;
   background-color: $color-dragitem-bg;
+  overflow: hidden;
 
   // sass-lint:disable class-name-format nesting-depth
   &.list-group-item:last-of-type {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     &:nth-child(even) + :after {
       display: none;
@@ -53,6 +54,7 @@
 
     .list-view-pf-left {
       display: block;
+      margin: 0 auto;
       padding-right: 0;
       color: $color-dark-white;
     }

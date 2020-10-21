@@ -10,6 +10,7 @@ class AttributeRole extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
   }
+
   render() {
     const { joinAllowedOptions, allowedRoles } = this.props;
 
@@ -19,6 +20,8 @@ class AttributeRole extends Component {
         text: item.descr,
       }
     ));
+
+    const getAttributeRoleLabel = item => `${item.value} - ${item.text}`;
 
     const roleWrapper = () => {
       if (isEmpty(allowedRoles)) {
@@ -42,8 +45,8 @@ class AttributeRole extends Component {
               name="joinRoles"
               options={selectAllowedOptions}
               selectedValues={joinAllowedOptions}
-              labelKey="text"
               valueKey="value"
+              labelFn={getAttributeRoleLabel}
               emptyOptionTextId="app.chooseARole"
             />
           </Col>

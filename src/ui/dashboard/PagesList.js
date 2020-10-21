@@ -16,6 +16,7 @@ class PagesList extends Component {
     super(props);
 
     this.changePage = this.changePage.bind(this);
+    this.changePageSize = this.changePageSize.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +25,10 @@ class PagesList extends Component {
 
   changePage(page) {
     this.props.onWillMount(page);
+  }
+
+  changePageSize(pageSize) {
+    this.props.onWillMount(1, pageSize);
   }
 
   renderRows() {
@@ -54,9 +59,10 @@ class PagesList extends Component {
   }
 
   render() {
+    const { page, pageSize: perPage } = this.props;
     const pagination = {
-      page: this.props.page,
-      perPage: 5,
+      page,
+      perPage,
       perPageOptions: [5, 10, 15],
     };
 
@@ -101,6 +107,7 @@ class PagesList extends Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
             messages={messages}
           />
         </div>
@@ -124,6 +131,7 @@ PagesList.propTypes = {
     lastModified: PropTypes.string,
   })),
   page: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
 };

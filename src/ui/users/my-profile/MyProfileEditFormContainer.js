@@ -7,12 +7,20 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
 import MyProfileEditForm from 'ui/users/my-profile/MyProfileEditForm';
+import { getPayloadForForm } from 'helpers/entities';
+import { getUserProfile } from 'state/user-profile/selectors';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
   profileTypesAttributes: getSelectedProfileTypeAttributes(state),
   defaultLanguage: getDefaultLanguage(state),
   languages: getActiveLanguages(state),
+  initialValues: getPayloadForForm(
+    getUsername(state), getUserProfile(state),
+    getSelectedProfileTypeAttributes(state),
+    getDefaultLanguage(state),
+    getActiveLanguages(state),
+  ),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -83,6 +83,10 @@ describe('CloneFormContainer', () => {
     it('maps the "mode" prop with the "clone" value', () => {
       expect(props.mode).toBe('clone');
     });
+
+    it('defines keepDirtyOnReinitialize with value equals true', () => {
+      expect(props.keepDirtyOnReinitialize).toBe(true);
+    });
   });
 
   describe('mapDispatchToProps', () => {
