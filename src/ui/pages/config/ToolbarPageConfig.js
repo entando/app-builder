@@ -16,6 +16,10 @@ class ToolbarPageConfig extends Component {
     this.props.onWillMount();
   }
 
+  componentWillUnmount() {
+    this.props.onWillUnmount();
+  }
+
   handleTabSelect() {
     const { collapsed, onToggleCollapse } = this.props;
     if (collapsed) {
@@ -80,6 +84,7 @@ class ToolbarPageConfig extends Component {
 
 ToolbarPageConfig.propTypes = {
   onWillMount: PropTypes.func,
+  onWillUnmount: PropTypes.func,
   fixedView: PropTypes.bool,
   toggleExpanded: PropTypes.bool,
   collapsed: PropTypes.bool.isRequired,
@@ -88,6 +93,7 @@ ToolbarPageConfig.propTypes = {
 
 ToolbarPageConfig.defaultProps = {
   onWillMount: () => {},
+  onWillUnmount: () => {},
   fixedView: false,
   toggleExpanded: false,
 };

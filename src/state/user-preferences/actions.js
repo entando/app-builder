@@ -11,7 +11,6 @@ export const setUserPreferences = preferences => ({
 
 export const fetchUserPreferences = username => dispatch => new Promise((resolve) => {
   getUserPreferences(username).then((response) => {
-    console.log('response', response);
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserPreferences(json.payload));
