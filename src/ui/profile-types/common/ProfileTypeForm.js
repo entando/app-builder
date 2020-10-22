@@ -26,7 +26,7 @@ export class ProfileTypeFormBody extends Component {
     const {
       attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
-      profileTypeCode,
+      profileTypeCode, attributeCode,
     } = this.props;
 
     const isEdit = mode === 'edit';
@@ -74,7 +74,7 @@ export class ProfileTypeFormBody extends Component {
                   className="pull-right ProfileTypeForm__add"
                   bsStyle="primary"
                   onClick={() => onAddAttribute(this.props)}
-                  disabled={invalid || submitting}
+                  disabled={invalid || submitting || !attributeCode}
                 >
                   <FormattedMessage
                     id="app.add"
@@ -151,6 +151,7 @@ ProfileTypeFormBody.propTypes = {
   submitting: PropTypes.bool,
   mode: PropTypes.string,
   profileTypeCode: PropTypes.string,
+  attributeCode: PropTypes.string,
 };
 
 ProfileTypeFormBody.defaultProps = {
@@ -160,6 +161,7 @@ ProfileTypeFormBody.defaultProps = {
   submitting: false,
   mode: 'add',
   profileTypeCode: '',
+  attributeCode: '',
 };
 
 const ProfileTypeForm = reduxForm({

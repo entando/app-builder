@@ -50,6 +50,7 @@
 @import "users/common/UserForm";
 @import "users/list/UserListTable";
 @import "users/restrictions/RestrictionsForm";
+@import "users/my-profile/MyProfilePage";
 @import "data-models/list/DataModelListTable";
 @import "groups/list/GroupListTable";
 @import "groups/common/GroupForm";
@@ -66,6 +67,7 @@
 @import "categories/common/CategoryTreeSelector";
 @import "common/form/RenderRadioInput";
 @import "common/cross-browser";
+@import "common/SectionCollapse";
 @import "common/attributes/AttributesDateSettings";
 @import "common/attributes/AttributeListTable";
 @import "common/attributes/AttributeCheckIcon";
@@ -107,3 +109,4 @@
 @import "about/AboutPage.scss";
 @import "license/LicensePage.scss";
 @import "widgets/config/forms/NavigationBarConfigForm.scss";
+@import "tour/index.scss";

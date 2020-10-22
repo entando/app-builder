@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert, Spinner } from 'patternfly-react';
+import { Icon, Grid, Row, Col, Breadcrumb, DropdownButton, MenuItem, Alert, Spinner, Tabs, Tab } from 'patternfly-react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
-import throttle from 'lodash/throttle';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -12,8 +11,10 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
-import SinglePageSettingsModalContainer from 'ui/pages/config/SinglePageSettingsModalContainer';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
 
 const msgs = defineMessages({
   appYes: {
@@ -28,6 +29,10 @@ const msgs = defineMessages({
     id: 'app.preview',
     defaultMessage: 'Preview',
   },
+  viewPublishedPage: {
+    id: 'pageTree.viewPublishedPage',
+    defaultMessage: 'View Published Page',
+  },
 });
 
 class PageConfigPage extends Component {
@@ -36,40 +41,20 @@ class PageConfigPage extends Component {
     this.state = {
       infoTableOpen: false,
       statusChange: null,
+      enableSettings: false,
+      toolbarCollapsed: false,
     };
 
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
-
-    this.winScrollListener = throttle(() => {
-      const sideWidget = document.querySelector('.PageConfigPage__side-widget');
-      if (sideWidget) {
-        const parentOffsetTop = sideWidget.parentElement.offsetTop;
-        const windowScrollTop = window.scrollY;
-        if (windowScrollTop > parentOffsetTop) {
-          if (!this.state.sticky) {
-            let widgetSize = {};
-            if ('getBoundingClientRect' in sideWidget) {
-              widgetSize = sideWidget.getBoundingClientRect();
-              const { height } = widgetSize;
-              widgetSize = { height: `${height + 80}px` };
-            }
-            this.setState({ widgetSize, sticky: true });
-          }
-        } else if (this.state.sticky) {
-          this.setState({ sticky: false });
-        }
-      }
-    }, 200);
-  }
-
-  componentWillMount() {
-    const { onWillMount } = this.props;
-    if (onWillMount) onWillMount();
+    this.toggleEnableSettings = this.toggleEnableSettings.bind(this);
+    this.openLinkPublishedPage = this.openLinkPublishedPage.bind(this);
+    this.handleToggleToolbarCollapse = this.handleToggleToolbarCollapse.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.winScrollListener);
+    const { onWillMount } = this.props;
+    if (onWillMount) onWillMount();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,7 +75,11 @@ class PageConfigPage extends Component {
 
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
-    window.removeEventListener('scroll', this.winScrollListener);
+  }
+
+  handleToggleToolbarCollapse() {
+    const { toolbarCollapsed } = this.state;
+    this.setState({ toolbarCollapsed: !toolbarCollapsed });
   }
 
   removeStatusAlert() {
@@ -105,12 +94,157 @@ class PageConfigPage extends Component {
     });
   }
 
+  toggleEnableSettings() {
+    this.setState(state => ({ enableSettings: !state.enableSettings }));
+  }
+
+  openLinkPublishedPage() {
+    if (this.props.pageStatus !== PAGE_STATUS_UNPUBLISHED) {
+      window.open(this.props.publishedPageUri, '_blank');
+    }
+  }
+
+  renderPageHeader() {
+    const {
+      pageName, pageStatus, pageDiffersFromPublished,
+    } = this.props;
+
+    const statusMessage = this.state.statusChange ?
+      (
+        <Alert type="info" onDismiss={this.removeStatusAlert}>
+          <FormattedMessage
+            id={`pageSettings.status.${this.state.statusChange}`}
+            values={{ page: pageName }}
+          />
+        </Alert>
+      ) :
+      null;
+
+    return (
+      <div>
+        <h1 className="PageConfigPage__title">
+          <PageStatusIcon
+            status={pageStatus}
+            differsFromPublished={pageDiffersFromPublished}
+          />
+          { pageName }
+        </h1>
+
+        <ErrorsAlertContainer />
+
+        <Row>
+          <Col xs={12}>
+            {statusMessage}
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
+  renderActionBar(tab) {
+    const {
+      intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
+    } = this.props;
+
+    return (
+      <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
+        <Col xs={12}>
+          <ButtonToolbar className="pull-left">
+            <Button
+              className={[
+                        'btn',
+                        'btn-primary',
+                        'PageConfigPage__info-btn',
+                        'PageConfigPage__btn-icon',
+                      ].join(' ')}
+              bsStyle="default"
+              onClick={this.toggleInfoTable}
+            >
+              <span>
+                <Icon
+                  name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
+                  className="PageConfigPage__btn-icon--svg"
+                />
+                <FormattedMessage id="app.info" />
+              </span>
+            </Button>
+          </ButtonToolbar>
+          <ButtonToolbar className="pull-right">
+            {tab === 'settings' ?
+              <Button
+                className={[
+                    'PageConfigPage__btn-icon--right',
+                    'btn',
+                    'btn-primary',
+                  ].join(' ')}
+                onClick={this.toggleEnableSettings}
+              >
+                <span>
+                  <FormattedMessage id="app.edit" />
+                </span>
+              </Button>
+            : (
+              <div>
+                <Button
+                  className={[
+                  'PageConfigPage__btn-icon--right',
+                  'btn',
+                  'btn-default',
+                ].join(' ')}
+                  onClick={restoreConfig}
+                  disabled={!pageDiffersFromPublished}
+                >
+                  <span>
+                    <FormattedMessage id="app.restore" />
+                    <Icon name="undo" className="PageConfigPage__btn-icon--svg-right" />
+                  </span>
+                </Button>
+
+                <a
+                  href={previewUri}
+                  title={intl.formatMessage(msgs.appPreview)}
+                  className={[
+                          'btn',
+                          'btn-primary',
+                          'PageConfigPage__btn--addml',
+                          'app-tour-step-23',
+                        ].join(' ')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FormattedMessage id="app.preview" />
+                </a>
+                <Button
+                  title={intl.formatMessage(msgs.viewPublishedPage)}
+                  className={[
+                      'btn',
+                      pageStatus === PAGE_STATUS_UNPUBLISHED ? 'btn-default' : 'btn-primary',
+                      'PageConfigPage__btn--viewPublishedPage',
+                    ].join(' ')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  disabled={pageStatus === PAGE_STATUS_UNPUBLISHED}
+                  onClick={this.openLinkPublishedPage}
+                >
+                  <span>
+                    <FormattedMessage id="pageTree.viewPublishedPage" />
+                  </span>
+                </Button>
+              </div>
+            ) }
+          </ButtonToolbar>
+        </Col>
+      </Row>
+    );
+  }
+
   render() {
     const {
-      intl, pageName, pageStatus, pageDiffersFromPublished, pageIsOnTheFly, isOnTheFlyEnabled,
-      setSelectedPageOnTheFly, pageIsPublished, restoreConfig, publishPage, unpublishPage,
-      applyDefaultConfig, pageConfigMatchesDefault, previewUri, showPageSettings,
+      intl, pageIsOnTheFly, isOnTheFlyEnabled,
+      setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
+      applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
     } = this.props;
+    const { enableSettings, toolbarCollapsed } = this.state;
 
     const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
     const TRANSLATED_NO = intl.formatMessage(msgs.appNo);
@@ -136,27 +270,15 @@ class PageConfigPage extends Component {
       );
     }
 
-    const statusMessage = this.state.statusChange ?
-      (
-        <Alert type="info" onDismiss={this.removeStatusAlert}>
-          <FormattedMessage
-            id={`pageSettings.status.${this.state.statusChange}`}
-            values={{ page: pageName }}
-          />
-        </Alert>
-      ) :
-      null;
-
-    const sideWidgetClassAr = ['PageConfigPage__side-widget'];
-    if (this.state.sticky) {
-      sideWidgetClassAr.push('PageConfigPage__side-widget--sticky');
-    }
-
     return (
-      <InternalPage className="PageConfigPage">
-        <Grid fluid>
+      <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-13 app-tour-step-17">
+        <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
-            <Col className="PageConfigPage__main" xs={8} lg={9}>
+            <Col
+              className="PageConfigPage__main"
+              xs={toolbarCollapsed ? 12 : 8}
+              lg={toolbarCollapsed ? 12 : 9}
+            >
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
@@ -166,95 +288,42 @@ class PageConfigPage extends Component {
                 </BreadcrumbItem>
               </Breadcrumb>
 
-              <h1 className="PageConfigPage__title">
-                <PageStatusIcon
-                  status={pageStatus}
-                  differsFromPublished={pageDiffersFromPublished}
-                />
-                { pageName }
-              </h1>
+              <Tabs id="basic-tabs" defaultActiveKey={1} className="PageConfigPage__tabs">
+                <Tab eventKey={1} title={<FormattedMessage id="pages.designer.tabDesigner" />} >
+                  <div>
+                    {this.renderPageHeader()}
+                    {this.renderActionBar()}
+                    <Panel
+                      className="PageConfigPage__info-panel"
+                      id="collapsible-info-table"
+                      expanded={this.state.infoTableOpen}
+                      onToggle={() => {}}
+                    >
+                      <Panel.Collapse>
+                        <SelectedPageInfoTableContainer />
+                      </Panel.Collapse>
+                    </Panel>
+                    <Spinner loading={!!this.props.loading}>
+                      <PageConfigGridContainer />
+                    </Spinner>
+                  </div>
+                </Tab>
+                <Tab eventKey={2} title={<FormattedMessage id="pages.designer.tabPageSettings" />}>
+                  <div>
+                    {this.renderPageHeader()}
+                    {this.renderActionBar('settings')}
+                    <PagesEditFormContainer readOnly={!enableSettings} />
+                  </div>
+                </Tab>
+              </Tabs>
 
-              <ErrorsAlertContainer />
 
-              <Row>
-                <Col xs={12}>
-                  {statusMessage}
-                </Col>
-              </Row>
-
-              <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
-                <Col xs={12}>
-                  <ButtonToolbar className="pull-left">
-                    <Button
-                      className={[
-                        'btn-transparent',
-                        'PageConfigPage__info-btn',
-                        'PageConfigPage__btn-icon',
-                      ].join(' ')}
-                      bsStyle="default"
-                      onClick={this.toggleInfoTable}
-                    >
-                      <span>
-                        <Icon
-                          name={this.state.infoTableOpen ? 'angle-down' : 'angle-right'}
-                          className="PageConfigPage__btn-icon--svg"
-                        />
-                        <FormattedMessage id="app.info" />
-                      </span>
-                    </Button>
-                  </ButtonToolbar>
-                  <ButtonToolbar className="pull-right">
-                    <a
-                      href={previewUri}
-                      title={intl.formatMessage(msgs.appPreview)}
-                      className={[
-                        'btn',
-                        'btn-default',
-                        'btn-transparent',
-                        'PageConfigPage__btn--addml',
-                      ].join(' ')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FormattedMessage id="app.preview" />
-                    </a>
-                    <Button
-                      className={[
-                        'PageConfigPage__btn-icon--right',
-                        'btn-transparent',
-                      ].join(' ')}
-                      onClick={restoreConfig}
-                      disabled={!pageDiffersFromPublished}
-                    >
-                      <span>
-                        <FormattedMessage id="app.restore" />
-                        <Icon
-                          name="undo"
-                          className="PageConfigPage__btn-icon--svg-right"
-                        />
-                      </span>
-                    </Button>
-                    <Button
-                      className={[
-                        'PageConfigPage__btn-icon--right',
-                        'btn-transparent',
-                      ].join(' ')}
-                      bsStyle="default"
-                      onClick={showPageSettings}
-                    >
-                      <span>
-                        <FormattedMessage id="pageSettings.title" />
-                        <Icon
-                          name="cogs"
-                          className="PageConfigPage__btn-icon--svg-right"
-                        />
-                      </span>
-                    </Button>
-                  </ButtonToolbar>
-                </Col>
-              </Row>
               <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
-                <Col xs={8} lg={9} className="PageConfigPage__bottom-options--tbar">
+                <Col
+                  xs={toolbarCollapsed ? 12 : 8}
+                  lg={toolbarCollapsed ? 12 : 9}
+                  className="PageConfigPage__bottom-options--tbar"
+                >
                   <ButtonToolbar className="pull-left">
                     { defaultConfigBtn }
                   </ButtonToolbar>
@@ -293,9 +362,9 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-22"
                       bsStyle="success"
-                      onClick={publishPage}
+                      onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}
                     >
                       <FormattedMessage id="app.publish" />
@@ -303,38 +372,21 @@ class PageConfigPage extends Component {
                   </div>
                 </Col>
               </Row>
+            </Col>
 
-              <Panel
-                className="PageConfigPage__info-panel"
-                id="collapsible-info-table"
-                expanded={this.state.infoTableOpen}
-                onToggle={() => {}}
-              >
-                <Panel.Collapse>
-                  <SelectedPageInfoTableContainer />
-                </Panel.Collapse>
-              </Panel>
-              <Spinner loading={!!this.props.loading}>
-                <PageConfigGridContainer />
-              </Spinner>
-            </Col>
             <Col
-              xs={4}
-              lg={3}
-              className={sideWidgetClassAr.join(' ')}
-              ref={(el) => { this.sideWidget = el; }}
+              xs={toolbarCollapsed ? 0 : 4}
+              lg={toolbarCollapsed ? 0 : 3}
+              className="PageConfigPage__side-widget"
             >
-              <ToolbarPageConfigContainer fixedView={this.state.sticky} />
-              <SinglePageSettingsModalContainer />
-            </Col>
-            { !this.state.sticky ? null : (
-              <Col
-                xs={4}
-                lg={3}
-                style={this.state.widgetSize}
+              <ToolbarPageConfigContainer
+                fixedView
+                collapsed={toolbarCollapsed}
+                onToggleCollapse={this.handleToggleToolbarCollapse}
               />
-            )}
+            </Col>
           </Row>
+          <AppTourContainer lockBodyScroll={false} />
         </Grid>
       </InternalPage>
     );
@@ -344,6 +396,7 @@ class PageConfigPage extends Component {
 PageConfigPage.propTypes = {
   intl: intlShape.isRequired,
   previewUri: PropTypes.string,
+  publishedPageUri: PropTypes.string,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   pageName: PropTypes.string,
@@ -358,15 +411,16 @@ PageConfigPage.propTypes = {
   publishPage: PropTypes.func,
   unpublishPage: PropTypes.func,
   applyDefaultConfig: PropTypes.func,
-  showPageSettings: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }).isRequired,
   loading: PropTypes.bool,
+  appTourProgress: PropTypes.string,
 };
 
 PageConfigPage.defaultProps = {
   previewUri: '',
+  publishedPageUri: '',
   onWillMount: null,
   onWillUnmount: null,
   pageName: '',
@@ -381,8 +435,8 @@ PageConfigPage.defaultProps = {
   publishPage: null,
   unpublishPage: null,
   applyDefaultConfig: null,
-  showPageSettings: null,
   loading: false,
+  appTourProgress: '',
 };
 
 export default injectIntl(PageConfigPage);

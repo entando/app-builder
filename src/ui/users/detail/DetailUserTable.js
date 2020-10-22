@@ -11,7 +11,7 @@ class DetailUserTable extends React.Component {
     this.props.onWillMount();
   }
   render() {
-    const { user } = this.props;
+    const user = this.props.user || {};
     if (isUndefined(user.profileAttributes)) {
       user.profileAttributes = {
         fullname: '',
@@ -78,7 +78,7 @@ DetailUserTable.propTypes = {
     profileType: PropTypes.shape({
       typeCode: PropTypes.string.isRequired,
       typeDescription: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
 };
 

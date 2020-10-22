@@ -1,0 +1,19 @@
+.MyProfilePage {
+  &__tab {
+    margin-top: 32px;
+  }
+}
+
+.MyProfileAccountForm {
+  &__modal {
+    top: 20%;
+
+    .form-group { // sass-lint:disable-line class-name-format force-element-nesting nesting-depth
+      overflow: hidden;
+
+      .text-right { // sass-lint:disable-line class-name-format force-element-nesting nesting-depth
+        padding-left: 0;
+      }
+    }
+  }
+}

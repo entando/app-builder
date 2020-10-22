@@ -18,12 +18,16 @@ import { getPublishedConfigMap, makeGetSelectedPageConfig } from 'state/page-con
 import { getWidgetsMap } from 'state/widgets/selectors';
 import { getSelectedPage, getSelectedPageIsPublished } from 'state/pages/selectors';
 import {
-  SET_SEARCH_FILTER, CHANGE_VIEW_LIST, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
+  SET_SEARCH_FILTER, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
 import { toggleLoading } from 'state/loading/actions';
+import { setAppTourLastStep } from 'state/app-tour/actions';
+import { widgetNextSteps } from 'ui/app-tour/AppTourContainer';
+import { getAppTourProgress } from 'state/app-tour/selectors';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 export const setPageConfig = (pageCode, pageConfig = null) => ({
   type: SET_PAGE_CONFIG,
@@ -75,13 +79,6 @@ export const setSearchFilter = filter => ({
   type: SET_SEARCH_FILTER,
   payload: {
     filter,
-  },
-});
-
-export const changeViewList = view => ({
-  type: CHANGE_VIEW_LIST,
-  payload: {
-    view,
   },
 });
 
@@ -171,6 +168,11 @@ export const updatePageWidget = (widgetId, sourceFrameId, targetFrameId, pageCod
       promise.then(() => putPageWidget(pageCode, targetFrameId, requestBody))
         .then(() => {
           dispatch(setPageWidget(pageCode, widgetId, sourceFrameId, targetFrameId));
+          const nextStep = widgetNextSteps[widgetId];
+          const appTourProgress = getAppTourProgress(getState());
+          if (nextStep && appTourProgress === APP_TOUR_STARTED) {
+            dispatch(setAppTourLastStep(nextStep));
+          }
 
           const isPagePublished = getSelectedPageIsPublished(getState());
           if (isPagePublished) {
@@ -249,12 +251,16 @@ export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFr
 
     const isAlreadyConfigured =
       !!(pageConfig && pageConfig[sourceFrameId] && pageConfig[sourceFrameId].config);
-
     if (widget.hasConfig && !isAlreadyConfigured) {
+      const nextStep = widgetNextSteps[sourceWidgetId];
+      const appTourProgress = getAppTourProgress(getState());
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: sourceWidgetId, framePos: targetFrameId },
       ));
+      if (nextStep && appTourProgress === APP_TOUR_STARTED) {
+        dispatch(setAppTourLastStep(nextStep));
+      }
       resolve();
     } else {
       dispatch(updatePageWidget(sourceWidgetId, sourceFrameId, targetFrameId, pageCode))

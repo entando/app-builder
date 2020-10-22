@@ -1,0 +1,231 @@
+.TourStart {
+
+  &--dark {
+    background-color: rgba(41, 46, 52, 1);
+    color: $color-white;
+  }
+
+  &__header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    background-color: $color-black;
+    color: $color-white;
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17.7px;
+
+    &--cancel {
+      height: 40px;
+    }
+  }
+
+  &__body {
+    padding-right: 5px;
+    padding-left: 20px;
+    background-color: $color-white;
+    color: $color-ecr-list-icon-active;
+    font-family: "Open Sans";
+
+    &--dark {
+      background-color: rgba(41, 46, 52, 1);
+      color: $color-white;
+    }
+
+    &--cancel {
+      padding-right: 20px;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    max-width: 200px;
+    font-size: 25px;
+    line-height: 34.05px;
+
+    &--dark {
+      max-width: 95%;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 21.79px;
+    }
+  }
+
+  &__description {
+    margin-right: 8px;
+    margin-bottom: 15px;
+    color: $color-ecr-list-icon-active;
+    font-size: 12px;
+    line-height: 16.34px;
+
+    &--dark {
+      padding-bottom: 20px;
+      color: $color-white;
+    }
+  }
+
+  &__checkbox {
+    margin-bottom: 35px;
+  }
+
+  &__separator {
+    height: 1px;
+    margin-left: -20px;
+    background-color: $color-dark-white;
+
+    &--dark {
+      margin-top: 20px;
+      background-color: rgba(77, 82, 88, 1);
+    }
+  }
+
+  &__start-button {
+    margin-top: 23px;
+    margin-right: 20px;
+    margin-bottom: 23px;
+    margin-left: 20px;
+    background-color: $color-tour-primary;
+    color: $color-white;
+    font-size: 12px;
+
+    &:hover {
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+
+    &--dark {
+      margin-top: 0;
+      margin-bottom: 0;
+      outline: none;
+
+      &:focus { // sass-lint:disable-line nesting-depth
+        outline: none;
+      }
+    }
+  }
+
+  &__start-icon {
+    margin-left: 6px;
+
+    &--dark {
+      margin-right: 6px;
+      margin-left: 0;
+    }
+  }
+
+  &__cancel-button {
+    margin-top: 23px;
+    margin-bottom: 20px;
+    outline: none;
+
+    &--dark {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 20px;
+      outline: none;
+
+      &:focus { // sass-lint:disable-line nesting-depth
+        outline: none;
+      }
+    }
+  }
+
+  &__footer--dark {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    background-color: rgba(41, 46, 52, 1);
+    color: $color-white;
+  }
+
+  &__footer--cancel {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  &__back-button {
+    margin-top: 23px;
+    margin-bottom: 20px;
+    outline: none;
+
+    &--dark {
+      margin-top: 0;
+      margin-bottom: 0;
+      outline: none;
+
+      &:focus { // sass-lint:disable-line nesting-depth
+        outline: none;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__step-counter {
+    margin-top: 3px;
+    margin-right: 53px;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  &__cancel-title {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 35px;
+    font-size: 25px;
+    line-height: 34.05px;
+  }
+
+
+  &__yes-button {
+    margin-left: 20px;
+    outline: none;
+    background-color: $color-tour-primary;
+    color: $color-white;
+    font-size: 12px;
+
+    &:hover {
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $color-tour-primary;
+      color: $color-white;
+    }
+
+    &--dark {
+      margin-top: 0;
+      margin-bottom: 0;
+      outline: none;
+
+      &:focus { // sass-lint:disable-line nesting-depth
+        outline: none;
+      }
+    }
+  }
+}
+
+.AppTourHighlight {
+  border: 10px solid #00A0DF;
+}
+
+.Mask {
+  color: transparent;
+}

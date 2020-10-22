@@ -10,13 +10,15 @@ import {
   makeGetSelectedPageDiffersFromPublished,
   makeGetSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI } from 'state/pages/selectors';
+import { getSelectedPage, getSelectedPageIsPublished, getSelectedPagePreviewURI, getSelectedPublishedPageURI } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 import { getLoading } from 'state/loading/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { setAppTourLastStep, setPublishStatus } from 'state/app-tour/actions';
+import { getAppTourProgress } from 'state/app-tour/selectors';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -26,7 +28,14 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillUnmount: () => dispatch(setSelectedPageTemplate(null)),
   setSelectedPageOnTheFly: value => dispatch(setSelectedPageOnTheFly(value, params.pageCode)),
   restoreConfig: () => dispatch(restoreSelectedPageConfig(params.pageCode)),
-  publishPage: () => dispatch(publishSelectedPage()),
+  publishPage: (appTourInProgress) => {
+    dispatch(publishSelectedPage()).then(() => {
+      if (appTourInProgress) {
+        dispatch(setPublishStatus(true));
+        dispatch(setAppTourLastStep(23));
+      }
+    });
+  },
   unpublishPage: () => dispatch(unpublishSelectedPage()),
   applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
   showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
@@ -42,12 +51,14 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageName: selectedPage.titles[getLocale(state)],
     pageStatus: selectedPage.status,
     previewUri: getSelectedPagePreviewURI(state),
+    publishedPageUri: getSelectedPublishedPageURI(state),
     isOnTheFlyEnabled: getSelectedPageTemplateCanBeOnTheFly(state),
     pageIsOnTheFly: makeGetPageIsOnTheFly(params.pageCode)(state),
     pageIsPublished: getSelectedPageIsPublished(state),
     pageDiffersFromPublished: makeGetSelectedPageDiffersFromPublished(params.pageCode)(state),
     pageConfigMatchesDefault: makeGetSelectedPageConfigMatchesDefault(params.pageCode)(state),
     loading: getLoading(state).pageConfig,
+    appTourProgress: getAppTourProgress(state),
   };
 };
 

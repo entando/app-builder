@@ -1,5 +1,3 @@
-
-
 .ContentWidgetList {
   .ContentWidgetElement {
     border-right: 1px solid $color-pf-white;
@@ -10,6 +8,23 @@
 }
 
 .ContentWidgetElement {
+  width: calc(50% - 20px);
+  margin-bottom: 10px;
+  border: 0;
+  background-color: $color-dragitem-bg;
+  overflow: hidden;
+
+  // sass-lint:disable class-name-format nesting-depth
+  &.list-group-item:last-of-type {
+    margin-bottom: 10px;
+
+    &:nth-child(even) + :after {
+      display: none;
+    }
+  }
+  // sass-lint:enable class-name-format nesting-depth
+
+
   &__widget-list {
     margin-bottom: 0;
     border-top: 0;
@@ -29,7 +44,37 @@
     font-weight: 600;
     line-height: 1;
     text-transform: capitalize;
-   }
+  }
+
+  // sass-lint:disable class-name-format force-element-nesting
+  &__main.list-view-pf-main-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .list-view-pf-left {
+      display: block;
+      margin: 0 auto;
+      padding-right: 0;
+      color: $color-dark-white;
+    }
+
+    .list-view-pf-description {
+      display: block;
+      margin-top: 10px;
+    }
+
+    a {
+      color: $color-dark-white;
+      font-size: 14px;
+    }
+  }
+  // sass-lint:enable class-name-format force-element-nesting
+
+  &__description {
+    margin: 0;
+    text-align: center;
+  }
 }
 
 .ContentWidgetList--list {
@@ -50,22 +95,11 @@
   border-right: 0;
   border-left: 0;
 
-  .ContentWidgetElement__main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
   .ContentWidgetElement {
     display: flex;
     flex-basis: calc(50% - 10px);
     margin-top: 5px;
     padding: 0 15px;
-  }
-
-  .ContentWidgetElement__description {
-    max-width: 115px;
-    margin: 0;
   }
 
   .ContentWidgetElement__icon {

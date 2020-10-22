@@ -13,6 +13,7 @@ import {
   getProfileTypeAttributesIdList,
   getProfileTypeSelectedAttributeIndexable,
   getProfileTypeSelectedAttributeSearchable,
+  getProfileTypeSelectedAttributeAllowedRoles,
 } from 'state/profile-types/selectors';
 
 const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
@@ -23,6 +24,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
   selectedAttributeType: getSelectedAttributeType(state),
   attributesList: getProfileTypeAttributesIdList(state),
+  allowedRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
   isSearchable: getProfileTypeSelectedAttributeSearchable(state),
   isIndexable: getProfileTypeSelectedAttributeIndexable(state),
 });
@@ -50,6 +52,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     const payload = {
       ...values,
       validationRules: {
+        ...values.validationRules,
         rangeStartDate,
         rangeEndDate,
         equalDate,

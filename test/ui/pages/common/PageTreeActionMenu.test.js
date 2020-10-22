@@ -15,7 +15,11 @@ const onClickClone = jest.fn();
 const onClickDelete = jest.fn();
 const onClickPublish = jest.fn();
 const onClickUnpublish = jest.fn();
+const onClickPreview = jest.fn();
+const onClickViewPublishedPage = jest.fn();
 
+const domain = 'domain';
+const locale = 'en';
 const PUBLISHED_PAGE = {
   code: 'publishedpage',
   status: 'published',
@@ -33,12 +37,22 @@ describe('PageTreeActionMenu', () => {
   beforeEach(jest.clearAllMocks);
 
   it('renders without crashing', () => {
-    const component = shallow(<PageTreeActionMenu page={DRAFT_PAGE} />);
+    const component = shallow((
+      <PageTreeActionMenu
+        page={DRAFT_PAGE}
+        domain={domain}
+        locale={locale}
+      />));
     expect(component.exists()).toEqual(true);
   });
 
   it('does nothing if an event handler is not passed', () => {
-    const component = shallow(<PageTreeActionMenu page={DRAFT_PAGE} />);
+    const component = shallow((
+      <PageTreeActionMenu
+        page={DRAFT_PAGE}
+        domain={domain}
+        locale={locale}
+      />));
     component.find('.PageTreeActionMenuButton__menu-item-add').simulate('click', EVENT);
     expect(onClickAdd).not.toHaveBeenCalled();
   });
@@ -46,20 +60,38 @@ describe('PageTreeActionMenu', () => {
   describe('when page status is draft', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageTreeActionMenu page={DRAFT_PAGE} />);
+      component = shallow((
+        <PageTreeActionMenu
+          page={DRAFT_PAGE}
+          domain={domain}
+          locale={locale}
+        />));
     });
     it('renders the Publish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-publish').exists()).toBe(true);
     });
     it('does not render the Unpublish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-unpublish').exists()).toBe(false);
+    });
+    it('renders the Preview menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview')).not.toBeDisabled();
+    });
+    it('renders the ViewPublishedPage menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage')).not.toBeDisabled();
     });
   });
 
   describe('when page status is unpublished', () => {
     let component;
     beforeEach(() => {
-      component = shallow(<PageTreeActionMenu page={UNPUBLISHED_PAGE} />);
+      component = shallow((
+        <PageTreeActionMenu
+          page={UNPUBLISHED_PAGE}
+          domain={domain}
+          locale={locale}
+        />));
     });
     it('renders the Publish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-publish').exists()).toBe(true);
@@ -67,18 +99,40 @@ describe('PageTreeActionMenu', () => {
     it('does not render the Unpublish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-unpublish').exists()).toBe(false);
     });
+    it('renders the Preview menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview')).not.toBeDisabled();
+    });
+    it('renders the ViewPublishedPage menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage')).toBeDisabled();
+    });
   });
 
   describe('when page status is published', () => {
     let component;
+
     beforeEach(() => {
-      component = shallow(<PageTreeActionMenu page={PUBLISHED_PAGE} />);
+      component = shallow((
+        <PageTreeActionMenu
+          page={PUBLISHED_PAGE}
+          domain={domain}
+          locale={locale}
+        />));
     });
     it('renders the Unpublish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-unpublish').exists()).toBe(true);
     });
     it('does not render the Publish menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-publish').exists()).toBe(false);
+    });
+    it('renders the Preview menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-preview')).not.toBeDisabled();
+    });
+    it('renders the ViewPublishedPage menu item', () => {
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').exists()).toBe(true);
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage')).not.toBeDisabled();
     });
   });
 
@@ -95,6 +149,10 @@ describe('PageTreeActionMenu', () => {
           onClickClone={onClickClone}
           onClickDelete={onClickDelete}
           onClickPublish={onClickPublish}
+          onClickViewPublishedPage={onClickViewPublishedPage}
+          onClickPreview={onClickPreview}
+          domain={domain}
+          locale={locale}
         />
       ));
     });
@@ -126,10 +184,22 @@ describe('PageTreeActionMenu', () => {
       component.find('.PageTreeActionMenuButton__menu-item-publish').prop('onSelect')();
       expect(onClickPublish).toHaveBeenCalled();
     });
-
+    it('Preview calls onClickPreview', () => {
+      component.find('.PageTreeActionMenuButton__menu-item-preview').prop('onClick')();
+      expect(onClickPreview).toHaveBeenCalled();
+    });
+    it('ViewPublishedPage calls onClickViewPublishedPage', () => {
+      component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').prop('onClick')();
+      expect(onClickViewPublishedPage).toHaveBeenCalled();
+    });
     it('Unpublish calls onClickUnpublish', () => {
       component = shallow((
-        <PageTreeActionMenu page={PUBLISHED_PAGE} onClickUnpublish={onClickUnpublish} />
+        <PageTreeActionMenu
+          page={PUBLISHED_PAGE}
+          onClickUnpublish={onClickUnpublish}
+          domain={domain}
+          locale={locale}
+        />
       ));
       component.find('.PageTreeActionMenuButton__menu-item-unpublish').prop('onSelect')();
       expect(onClickUnpublish).toHaveBeenCalled();

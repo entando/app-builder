@@ -8,9 +8,9 @@ const RenderSelectInput = ({
   labelSize, alignClass, label, help,
   defaultOptionId, options, optionReducer,
   optionValue, optionDisplayName, size, inputSize,
-  disabled, intl,
+  disabled, intl, tourClass,
 }) => {
-  const containerClasses = (touched && error) ? 'form-group has-error' : 'form-group';
+  const containerClasses = (touched && error) ? `form-group has-error ${tourClass}` : `form-group ${tourClass}`;
 
   const createDefaultOption = (optId) => {
     const msgs = defineMessages({
@@ -90,6 +90,7 @@ RenderSelectInput.propTypes = {
   inputSize: PropTypes.number,
   disabled: PropTypes.bool,
   intl: intlShape.isRequired,
+  tourClass: PropTypes.string,
 };
 
 RenderSelectInput.defaultProps = {
@@ -110,5 +111,6 @@ RenderSelectInput.defaultProps = {
   size: null,
   inputSize: null,
   disabled: false,
+  tourClass: '',
 };
 export default injectIntl(RenderSelectInput);

@@ -27,6 +27,9 @@ import {
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
+import { setAppTourLastStep } from 'state/app-tour/actions';
+import { getDomain } from '@entando/apimanager';
+import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -35,9 +38,11 @@ export const mapStateToProps = state => ({
   page: getCurrentPage(state),
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
+  domain: getDomain(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
+  onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onClickAdd: (page) => {
     dispatch(initPageForm({
       parentCode: page.code,
@@ -74,6 +79,12 @@ export const mapDispatchToProps = dispatch => ({
   onClickClone: (page) => {
     dispatch(clonePage(page));
     dispatch(clearSearchPage());
+  },
+  onClickViewPublishedPage: (page, domain, locale) => {
+    window.open(`${domain}/${locale}/${page.code}.page`, '_blank');
+  },
+  onClickPreview: (page, domain) => {
+    window.open(`${domain}/${PREVIEW_NAMESPACE}?pageCode=${page.code}&token=${page.token}`, '_blank');
   },
   onDropPage: (sourcePageCode, targetPageCode, action) => {
     dispatch(setVisibleModal(MOVE_MODAL_ID));

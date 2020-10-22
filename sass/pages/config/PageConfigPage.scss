@@ -5,10 +5,15 @@
     overflow-y: auto;
   }
 
+  &__tabs {
+    margin-top: 10px;
+  }
+
   &__title {
-    color: $color-pf-blue-300;
-    font-size: 12px;
-    font-weight: normal;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #000;
+    font-size: 16px;
+    font-weight: bold;
   }
 
   &__toolbar-row {
@@ -19,7 +24,7 @@
     padding-bottom: 5px;
 
     .pull-right .btn {  // sass-lint:disable-line force-element-nesting class-name-format
-      margin-left: 36px;
+      margin-left: 12px;
     }
   }
 
@@ -82,19 +87,80 @@
 
   &__side-widget {
     // overriding bootstrap column padding
-    // sass-lint:disable no-important
-    padding: 0!important;
-    // sass-lint:enable no-important
+    position: fixed;
+    top: 59px;
+    right: 0;
+    bottom: 0;
+    width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .33);
+    padding: 0!important; // sass-lint:disable-line no-important
     z-index: 12;
   }
 
-  &__side-widget--sticky {
-    position: fixed;
+  // sass-lint:disable bem-depth class-name-format
+  &__panel-body {
+    position: relative;
+  }
+
+  &__block-ui {
+    display: block;
+    position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color-transparent-black;
+  }
+
+  &__readonly-warning {
+    margin-bottom: 0;
+    padding: 10px;
+    line-height: 23px;
+  }
+
+  &__ok-button {
+    padding: 10px;
+  }
+  // sass-lint:enable bem-depth class-name-format
+}
+
+.PageConfigPage__side-widget--collapsed {
+  .PageConfigPage__main {
+    width: calc(100% - 48px);
+  }
+
+  .PageConfigPage__bottom-options {
+    right: 167px;
+  }
+
+  .PageConfigPage__side-widget {
+    position: fixed;
+    left: initial;
+    width: 48px;
+    float: left;
   }
 }
 
 .scroll-overlay .PageConfigPage__bottom-options { // sass-lint:disable-line force-element-nesting class-name-format
   margin-right: calc(-1 * (100vw - 100%));
 }
+
+// sass-lint:disable force-element-nesting class-name-format
+.container-pf-nav-pf-vertical {
+  .PageConfigPage__bottom-options {
+    right: 160px;
+    left: 270px;
+  }
+
+  &.collapsed-nav {
+    .PageConfigPage__bottom-options {
+      left: 155px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .PageConfigPage__side-widget {
+    width: calc(calc(100vw - #{$nav-pf-vertical-width - 44}) * .25);
+  }
+}
+// sass-lint:enable force-element-nesting class-name-format

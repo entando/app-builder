@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import PasswordFormContainer from 'ui/users/my-profile/PasswordFormContainer';
+import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
 
 describe('MyProfilePage', () => {
   let component;
@@ -34,6 +34,6 @@ describe('MyProfilePage', () => {
   });
 
   it('verify if has the password form', () => {
-    expect(component.find(PasswordFormContainer).exists());
+    expect(component.find(AccountFormContainer).exists());
   });
 });

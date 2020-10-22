@@ -10,6 +10,8 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarExpressionsList';
 import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
+import AppTourContainer from 'ui/app-tour/AppTourContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -45,10 +47,12 @@ export default class NavigationBarConfigForm extends PureComponent {
       expressions,
       loading,
       initialValues,
+      onSpecificPageChoose,
+      appTourProgress,
     } = this.props;
 
     const handleCancelClick = () => {
-      if (dirty) {
+      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
       } else {
         onDiscard();
@@ -98,6 +102,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                     pages={pages}
                     intl={intl}
                     language={language}
+                    onSpecificPageChoose={onSpecificPageChoose}
+                    appTourProgress={appTourProgress}
                   />
                 </Col>
               </fieldset>
@@ -113,7 +119,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
                     addConfig={addConfig}
-                    onAddNewExpression={() => onAddNewExpression(addConfig)}
+                    onAddNewExpression={() => onAddNewExpression(addConfig, appTourProgress)}
+                    appTourProgress={appTourProgress}
                   />
                 </Col>
               </fieldset>
@@ -122,7 +129,7 @@ export default class NavigationBarConfigForm extends PureComponent {
           <Row>
             <Col xs={12}>
               <Button
-                className="pull-right NavigationBarConfigForm__save-btn"
+                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
                 type="submit"
                 bsStyle="primary"
                 disabled={invalid || submitting || expressionsNotAvailable}
@@ -136,14 +143,19 @@ export default class NavigationBarConfigForm extends PureComponent {
               >
                 <FormattedMessage id="app.cancel" />
               </Button>
-              <ConfirmCancelModalContainer
-                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={onSave}
-                onDiscard={onDiscard}
-              />
+              {
+                appTourProgress !== APP_TOUR_STARTED && (
+                  <ConfirmCancelModalContainer
+                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                    invalid={invalid}
+                    submitting={submitting}
+                    onSave={onSave}
+                    onDiscard={onDiscard}
+                  />
+                )
+              }
             </Col>
+            <AppTourContainer />
           </Row>
         </form>
       </div>
@@ -169,6 +181,8 @@ NavigationBarConfigForm.propTypes = {
   initialValues: PropTypes.shape({}).isRequired,
   fetchExpressions: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  onSpecificPageChoose: PropTypes.func.isRequired,
+  appTourProgress: PropTypes.string,
 };
 
 NavigationBarConfigForm.defaultProps = {
@@ -178,4 +192,5 @@ NavigationBarConfigForm.defaultProps = {
   addConfig: {},
   expressions: [],
   loading: null,
+  appTourProgress: '',
 };

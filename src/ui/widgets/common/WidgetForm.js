@@ -12,6 +12,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
+import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
@@ -210,7 +211,7 @@ export class WidgetFormBody extends Component {
       <Spinner loading={!!loading}>
         <form onSubmit={onSubmit} className="form-horizontal">
           <Tabs id="widget-form-tab" defaultActiveKey={1} className="WidgetForm__maintab">
-            <Tab eventKey={1} title={intl.formatMessage(msgs.widgetInfoTab)} >
+            <Tab eventKey={1} title={intl.formatMessage(msgs.widgetInfoTab)}>
               <Row>
                 <Col xs={12}>
                   <fieldset className="no-padding">
@@ -227,6 +228,13 @@ export class WidgetFormBody extends Component {
                       optionValue="code"
                       optionDisplayName="name"
                       defaultOptionId="app.chooseAnOption"
+                    />
+                    <Field
+                      name="readonlyDefaultConfig"
+                      component={SwitchRenderer}
+                      label={
+                        <FormLabel labelId="widget.page.create.readonlyDefaultConfig" />
+                      }
                     />
                     {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                       <div className="form-group">
@@ -278,56 +286,58 @@ export class WidgetFormBody extends Component {
                     component={JsonCodeEditorRenderer}
                     name="configUi"
                     label={<FormLabel labelId="widgets.configUi" />}
+                    disabled={hasParentWidget}
                     validate={[validateJson]}
                   />
                 </Col>
               </Row>
             </Tab>
+
             {showSecondTab && (
               <Tab
                 eventKey={2}
                 title={intl.formatMessage(msgs[`${formKind}Tab`])}
               >
-                {NativeWidgetConfigForm ? (
-                  <Row>
-                    <Col xs={12}>
-                      <fieldset className="no-padding">
-                        <Field
-                          name="config"
-                          component={NativeWidgetConfigForm}
-                          cloneMode
-                          widgetConfig={config}
-                          widgetCode={selectedWidget.code}
-                          extFormName={widgetFormName}
-                          pageCode={params.pageCode}
-                          frameId={params.frameId}
-                        />
-                      </fieldset>
-                    </Col>
-                  </Row>
-                ) : (
-                  <Row>
-                    <Col xs={12}>
-                      <fieldset className="no-padding">
-                        {paramFields.map(param => (
+                  {NativeWidgetConfigForm ? (
+                    <Row>
+                      <Col xs={12}>
+                        <fieldset className="no-padding">
                           <Field
-                            key={param.code}
-                            component={RenderTextInput}
-                            name={`config.${param.code}`}
-                            label={(
-                              <FormLabel
-                                labelText={param.code}
-                                helpText={param.description}
-                              />
-                            )}
+                            name="config"
+                            component={NativeWidgetConfigForm}
+                            cloneMode
+                            widgetConfig={config}
+                            widgetCode={selectedWidget.code}
+                            extFormName={widgetFormName}
+                            pageCode={params.pageCode}
+                            frameId={params.frameId}
                           />
-                        ))}
-                      </fieldset>
-                    </Col>
-                  </Row>
-                )}
+                        </fieldset>
+                      </Col>
+                    </Row>
+                  ) : (
+                    <Row>
+                      <Col xs={12}>
+                        <fieldset className="no-padding">
+                          {paramFields.map(param => (
+                            <Field
+                              key={param.code}
+                              component={RenderTextInput}
+                              name={`config.${param.code}`}
+                              label={(
+                                <FormLabel
+                                  labelText={param.code}
+                                  helpText={param.description}
+                                />
+                              )}
+                            />
+                          ))}
+                        </fieldset>
+                      </Col>
+                    </Row>
+                  )}
               </Tab>
-            )}
+              )}
           </Tabs>
           <br />
           <Row>

@@ -79,10 +79,11 @@ describe('PagesEditFormContainer', () => {
       expect(props).toHaveProperty('pageTemplates', 'getPageTemplates_result');
       expect(props).toHaveProperty('charsets', 'getCharsets_result');
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
+      expect(props).toHaveProperty('keepDirtyOnReinitialize', true);
     });
 
-    it('defines "selecedJoinGroups" prop = the joinGroups value from the page form', () => {
-      expect(formValueSelector).toHaveBeenCalledWith('page');
+    it('defines "selectedJoinGroups" prop = the joinGroups value from the page form', () => {
+      expect(formValueSelector).toHaveBeenCalledWith('pageEdit');
     });
   });
 

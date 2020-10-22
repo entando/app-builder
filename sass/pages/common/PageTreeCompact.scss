@@ -6,6 +6,7 @@
   .TreeNodeFolderIcon,
   .RowSpinner {
     margin-left: 10px;
+    font-size: 14px;
   }
 
   .TreeNodeFolderIcon {
@@ -29,6 +30,15 @@
     width: 40px;
   }
 
+  // sass-lint:disable force-element-nesting nesting-depth no-qualifying-elements class-name-format
+  &.table > tbody > &__row--selected {
+    &,
+    &:hover {
+      background-color: $color-dragitem-bg;
+    }
+  }
+  // sass-lint:enable force-element-nesting nesting-depth no-qualifying-elements class-name-format
+
   .PageTreeActionMenuButton,
   .PageTreeActionMenuButton:focus {
     height: 18px;
@@ -41,6 +51,7 @@
   // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
   .dropdown-kebab-pf.btn-group > .btn:first-child {
     padding: 0 10px;
+    color: $color-rating-filter-star-empty;
   }
   // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
 
@@ -48,8 +59,15 @@
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+.PageTreeCompact.table > tbody > tr:hover,
+.PageTreeCompact.table > tbody > tr:hover > td,
+.PageTreeCompact.table > tbody > tr:hover > th {
+  background-color: $color-dragitem-bg;
+}
+
 .PageTreeCompact.table > tbody > tr > td {
-  padding: 2px 0;
+  padding: 10px 0;
   border-top: 0;
+  color: $color-white;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

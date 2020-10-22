@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
 
+import { setAppTourLastStep } from 'state/app-tour/actions';
+
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
-
-import { appBuilderVersion } from 'helpers/versions';
 
 import {
   ROUTE_PAGE_TREE, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING,
+  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
+  ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -50,10 +52,15 @@ const { DOMAIN } = getRuntimeEnv();
 
 const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
-const renderCMSMenuItems = (userPermissions, intl, history) => {
-  const hasMenuContentsAccess = hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions)
-    || hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions);
-  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
+const isCmsInstalled = apps.some((app => app.id === CMS_APP_ID));
+
+const renderCmsMenuItems = (intl, history, userPermissions) => {
+  const hasMenuContentsAccess = hasAccess([
+    CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
+  const hasMenuAssetsAccess = hasAccess(
+    [MANAGE_RESOURCES_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
+    userPermissions,
+  );
   const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
@@ -141,20 +148,6 @@ const renderCMSMenuItems = (userPermissions, intl, history) => {
   );
 };
 
-const renderAppMenuItems = (intl, history, userPermissions) => Object.values(apps).map((App) => {
-  let render = true;
-  const isCMS = App.id === CMS_APP_ID;
-  if (isCMS) {
-    if (
-      !hasAccess(CRUD_CONTENTS_PERMISSION, userPermissions) &&
-      !hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions) &&
-      !hasAccess(VALIDATE_CONTENTS_PERMISSION, userPermissions)) {
-      render = false;
-    }
-  }
-  return render && (isCMS ? renderCMSMenuItems(userPermissions, intl, history) : null);
-});
-
 const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
 const renderComponentRepositoryMenuItem = (history, intl) => (
@@ -165,11 +158,12 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
+const LegacyAdminConsoleMenuBody = ({
+  userPermissions, intl, history, onNextStep,
+}) => (
   <div className="safari-menu-fix">
     <VerticalNav
-      blurDelay={700}
-      blurDisabled={false}
+      blurDisabled
       dynamicBodyClasses
       forceHidden={false}
       hiddenIcons={false}
@@ -178,7 +172,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
       hoverDisabled={false}
       onNavigate={e => e.onClick()}
       pinnableMenus
-      persistentSecondary={false}
     >
       <Masthead>
         <Brand
@@ -186,7 +179,6 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           iconImg={`${publicUrl}/images/entando-logo-white.svg`}
           img=""
           onClick={null}
-          title={`App Builder ${appBuilderVersion}`}
         />
         <VerticalNav.IconBar collapse>
           <LanguageSelectContainer key="LanguageSelect" />
@@ -195,18 +187,29 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
           <UserMenuContainer key="UserMenu" />
         </VerticalNav.IconBar>
       </Masthead>
+      <Item
+        id="menu-dashboard"
+        onClick={() => history.push(ROUTE_DASHBOARD)}
+        iconClass="fa fa-window-maximize"
+        title={intl.formatMessage({ id: 'menu.dashboard', defaultMessage: 'Dashboard' })}
+      />
       {
       hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
         <Item
           id="menu-page-creator"
-          onClick={() => {}}
+          className="app-tour-step-3"
+          onClick={() => onNextStep(4)}
           iconClass="fa fa-files-o"
           title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
         >
           <SecondaryItem
             id="menu-page-tree"
             title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Management' })}
-            onClick={() => history.push(ROUTE_PAGE_TREE)}
+            className="app-tour-step-4"
+            onClick={() => {
+              onNextStep(5);
+              history.push(ROUTE_PAGE_TREE);
+            }}
           />
           <SecondaryItem
             id="menu-page-config"
@@ -260,53 +263,68 @@ const LegacyAdminConsoleMenuBody = ({ userPermissions, intl, history }) => (
         </Item>
       )
     }
-      {renderAppMenuItems(intl, history, userPermissions)}
       {
-      (
-        hasAccess(EDIT_USER_PROFILES_PERMISSION, userPermissions) ||
-        hasAccess(CRUD_USERS_PERMISSION, userPermissions) ||
-        hasAccess(VIEW_USERS_AND_PROFILES_PERMISSION, userPermissions)
-      ) && (
-        <Item
-          id="menu-user-settings"
-          onClick={() => {}}
-          iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
-        >
-          <SecondaryItem
-            id="menu-users"
-            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
-            href={adminConsoleUrl('do/User/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-roles"
-            title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-            href={adminConsoleUrl('do/Role/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-groups"
-            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-            href={adminConsoleUrl('do/Group/list.action')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-profile"
-            title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
-            href={adminConsoleUrl('do/Entity/initViewEntityTypes.action?entityManagerName=UserProfileManager')}
-            onClick={() => {}}
-          />
-          <SecondaryItem
-            id="menu-user-restrictions"
-            title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
-            href={adminConsoleUrl('do/User/systemParams.action')}
-            onClick={() => {}}
-          />
-        </Item>
-      )
-    }
+        isCmsInstalled &&
+        hasAccess([
+          CRUD_CONTENTS_PERMISSION,
+          MANAGE_RESOURCES_PERMISSION,
+          VALIDATE_CONTENTS_PERMISSION,
+        ], userPermissions) &&
+        renderCmsMenuItems(intl, history, userPermissions)
+      }
+      {
 
+        hasAccess(
+          [
+            VIEW_USERS_AND_PROFILES_PERMISSION,
+            CRUD_USERS_PERMISSION,
+            EDIT_USER_PROFILES_PERMISSION,
+          ]
+          , userPermissions,
+        )
+       && (
+       <Item
+         id="menu-user-settings"
+         onClick={() => {}}
+         iconClass="fa fa-users"
+         title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
+       >
+         <SecondaryItem
+           id="menu-users"
+           title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
+           onClick={() => history.push(ROUTE_USER_LIST)}
+         />
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-roles"
+           title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
+           onClick={() => history.push(ROUTE_ROLE_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-groups"
+           title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+           onClick={() => history.push(ROUTE_GROUP_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-profile"
+           title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
+           onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
+         />
+          )}
+         {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+         <SecondaryItem
+           id="menu-user-restrictions"
+           title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
+           onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
+         />
+          )}
+       </Item>
+      )
+      }
 
       { hasAccess(ROLE_SUPERUSER, userPermissions) &&
     renderComponentRepositoryMenuItem(history, intl) }
@@ -376,10 +394,18 @@ LegacyAdminConsoleMenuBody.propTypes = {
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
+  onNextStep: PropTypes.func.isRequired,
 };
 
 LegacyAdminConsoleMenuBody.defaultProps = {
   userPermissions: null,
 };
 
-export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuBody)));
+const mapDispatchToProps = dispatch => ({
+  onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
+});
+
+const LegacyAdminConsoleMenuContainer =
+connect(null, mapDispatchToProps)(LegacyAdminConsoleMenuBody);
+
+export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuContainer)));
