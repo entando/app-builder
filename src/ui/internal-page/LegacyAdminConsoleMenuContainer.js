@@ -17,7 +17,7 @@ import {
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
   ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
-  ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS,
+  ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -248,8 +248,7 @@ const LegacyAdminConsoleMenuBody = ({
           <SecondaryItem
             id="menu-ux-pattern-widgets"
             title={intl.formatMessage({ id: 'menu.widget', defaultMessage: 'Widget' })}
-            href={adminConsoleUrl('do/Portal/WidgetType/viewWidgets.action')}
-            onClick={() => {}}
+            onClick={() => history.push(ROUTE_WIDGET_LIST)}
           />
           {
           hasAccess(ROLE_SUPERUSER, userPermissions) && (
