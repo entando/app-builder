@@ -63,7 +63,7 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="app.publish" />
           </MenuItem>
         );
-      const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+      const viewPublishedPage = page.status === PAGE_STATUS_PUBLISHED ?
         (
           <MenuItem
             disabled={false}

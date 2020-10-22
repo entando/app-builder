@@ -166,7 +166,7 @@ class ContentPages extends Component {
               selectedPage={selectedPage}
               onExpandPage={onExpandPage}
               onRowClick={this.handlePageSelect}
-              onClickConfigure={!loadOnPageSelect && onLoadPage}
+              onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
             />
           )}
         </Spinner>
