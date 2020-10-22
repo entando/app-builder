@@ -156,8 +156,10 @@ class ContentPages extends Component {
               {...this.props}
               className="ContentPages__search-table"
               striped={false}
+              selectedPage={selectedPage}
               onWillMount={() => {}}
               onRowClick={this.handlePageSelect}
+              onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
             />
           ) : (
             <PageTreeCompact
