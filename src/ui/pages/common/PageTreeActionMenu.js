@@ -60,7 +60,7 @@ class PageTreeActionMenu extends Component {
         </MenuItem>
       );
 
-    const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+    const viewPublishedPage = page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
           disabled={false}
