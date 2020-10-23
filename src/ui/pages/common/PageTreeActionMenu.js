@@ -79,21 +79,15 @@ class PageTreeActionMenu extends Component {
         </MenuItem>
       );
 
-    const renderDeleteItem = () => {
-      if (page.status === PAGE_STATUS_PUBLISHED) {
-        return null;
-      }
-
-      return (
-        <MenuItem
-          disabled={!page.isEmpty}
-          className="PageTreeActionMenuButton__menu-item-delete"
-          onSelect={this.handleClick(onClickDelete)}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
-      );
-    };
+    const renderDeleteItem = () => (
+      <MenuItem
+        disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED}
+        className="PageTreeActionMenuButton__menu-item-delete"
+        onSelect={this.handleClick(onClickDelete)}
+      >
+        <FormattedMessage id="app.delete" />
+      </MenuItem>
+    );
 
     return (
       <div>
