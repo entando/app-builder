@@ -76,7 +76,9 @@ class PageListSearchTable extends Component {
   }
 
   renderRows() {
-    const { selectedPage, locale, onRowClick } = this.props;
+    const {
+      selectedPage, locale, domain, onRowClick,
+    } = this.props;
     return (
       this.props.searchPages.map(page => (
         <tr
@@ -97,6 +99,10 @@ class PageListSearchTable extends Component {
               onClickDelete={this.props.onClickDelete}
               onClickPublish={this.props.onClickPublish}
               onClickUnpublish={this.props.onClickUnPublish}
+              onClickViewPublishedPage={this.props.onClickViewPublishedPage}
+              onClickPreview={this.props.onClickPreview}
+              locale={locale}
+              domain={domain}
             />
           </td>
         </tr>
@@ -137,6 +143,9 @@ PageListSearchTable.propTypes = {
   onClickDetails: PropTypes.func,
   onClickConfigure: PropTypes.func,
   onRowClick: PropTypes.func,
+  onClickViewPublishedPage: PropTypes.func,
+  onClickPreview: PropTypes.func,
+  domain: PropTypes.string.isRequired,
 };
 
 PageListSearchTable.defaultProps = {
@@ -150,6 +159,8 @@ PageListSearchTable.defaultProps = {
   onClickDetails: null,
   onClickConfigure: null,
   onRowClick: () => {},
+  onClickViewPublishedPage: null,
+  onClickPreview: null,
 };
 
 export default injectIntl(PageListSearchTable);

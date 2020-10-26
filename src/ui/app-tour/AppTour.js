@@ -41,7 +41,9 @@ class AppTour extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { isTourOpen } = this.state;
-    const { wizardEnabled, appTourProgress, onAppTourCancel } = this.props;
+    const {
+      wizardEnabled, appTourProgress, onAppTourCancel, tourCreatedPageCode, publishStatus,
+    } = this.props;
     const tourInProgress = isTourOpen && wizardEnabled && appTourProgress === APP_TOUR_STARTED;
     if (prevProps.appTourProgress !== this.props.appTourProgress) {
       if (appTourProgress === APP_TOUR_CANCELLED) {
@@ -55,7 +57,7 @@ class AppTour extends React.Component {
           return e;
         };
         window.onunload = () => {
-          onAppTourCancel();
+          onAppTourCancel(tourCreatedPageCode, publishStatus);
         };
       }
     }

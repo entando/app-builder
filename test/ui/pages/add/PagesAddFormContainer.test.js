@@ -127,6 +127,7 @@ describe('PagesAddFormContainer', () => {
             nl: { ...SEO_LANGDATA_BLANK },
           },
         },
+        parentCode: 'parentCode',
       });
     });
   });

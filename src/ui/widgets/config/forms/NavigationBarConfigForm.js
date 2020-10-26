@@ -11,6 +11,7 @@ import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarE
 import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -51,7 +52,7 @@ export default class NavigationBarConfigForm extends PureComponent {
     } = this.props;
 
     const handleCancelClick = () => {
-      if (dirty) {
+      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
       } else {
         onDiscard();
@@ -142,13 +143,17 @@ export default class NavigationBarConfigForm extends PureComponent {
               >
                 <FormattedMessage id="app.cancel" />
               </Button>
-              <ConfirmCancelModalContainer
-                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={onSave}
-                onDiscard={onDiscard}
-              />
+              {
+                appTourProgress !== APP_TOUR_STARTED && (
+                  <ConfirmCancelModalContainer
+                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                    invalid={invalid}
+                    submitting={submitting}
+                    onSave={onSave}
+                    onDiscard={onDiscard}
+                  />
+                )
+              }
             </Col>
             <AppTourContainer />
           </Row>

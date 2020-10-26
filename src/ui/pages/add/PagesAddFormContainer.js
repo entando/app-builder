@@ -29,6 +29,7 @@ export const mapStateToProps = (state) => {
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const appTourLastPageData = getTourCreatedPage(state);
+  const parentCode = getSearchParam('parentCode');
   return {
     languages,
     groups: getGroupsList(state),
@@ -43,6 +44,7 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
+      ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
           [mainTitleLangCode]: 'Hello World App',
@@ -55,7 +57,7 @@ export const mapStateToProps = (state) => {
     },
     mode: 'add',
     locale: getLocale(state),
-    parentCode: getSearchParam('parentCode'),
+    parentCode,
     parentTitle: getSelectedPageLocaleTitle(state),
     appTourProgress,
     mainTitleValue: formValueSelector('page')(state, mainTitleName),

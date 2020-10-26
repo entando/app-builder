@@ -22,12 +22,13 @@ const ENTER_KEY = 13;
 const SPACE_KEY = 32;
 
 class ContentPages extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
       expanded: false,
       searchValue: '',
+      selectedPage: props.selectedPage,
     };
 
     this.handleExpandCollapse = this.handleExpandCollapse.bind(this);
@@ -87,14 +88,21 @@ class ContentPages extends Component {
     const { loadOnPageSelect, onLoadPage } = this.props;
     if (loadOnPageSelect) {
       onLoadPage(page);
+    } else {
+      this.setState({
+        selectedPage: page,
+      });
     }
   }
 
   render() {
     const {
-      loading, onExpandPage, pages, intl, searchPages, selectedPage, onClear,
+      loading, onExpandPage, pages, intl, searchPages,
+      onClear, loadOnPageSelect, onLoadPage,
     } = this.props;
     const { expanded } = this.state;
+
+    const selectedPage = loadOnPageSelect ? this.props.selectedPage : this.state.selectedPage;
 
     return (
       <div className="ContentPages">
@@ -148,8 +156,10 @@ class ContentPages extends Component {
               {...this.props}
               className="ContentPages__search-table"
               striped={false}
+              selectedPage={selectedPage}
               onWillMount={() => {}}
               onRowClick={this.handlePageSelect}
+              onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
             />
           ) : (
             <PageTreeCompact
@@ -158,6 +168,7 @@ class ContentPages extends Component {
               selectedPage={selectedPage}
               onExpandPage={onExpandPage}
               onRowClick={this.handlePageSelect}
+              onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
             />
           )}
         </Spinner>
