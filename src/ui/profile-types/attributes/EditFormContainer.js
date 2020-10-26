@@ -37,7 +37,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   fetchAttributeDetails: (selectedAttributeType) => {
     dispatch(fetchProfileTypeAttribute(selectedAttributeType));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, allowedRoles) => {
     let {
       rangeStartDate, rangeEndDate, equalDate,
       rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
@@ -48,7 +48,6 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     rangeStartDateAttribute = rangeStartDateAttribute && converDate(rangeStartDateAttribute);
     rangeEndDateAttribute = rangeEndDateAttribute && converDate(rangeEndDateAttribute);
     equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
-
     const payload = {
       ...values,
       validationRules: {
@@ -62,6 +61,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
       },
       code: values.code,
       type: values.type,
+      roles: values.joinRoles
+        ? values.joinRoles.map(roleId => ({ code: roleId, descr: allowedRoles[roleId] }))
+        : [],
       nestedAttribute: {
         ...values.nestedAttribute,
         code: values.code,
