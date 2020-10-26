@@ -34,7 +34,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Create your first application')).toBeInTheDocument();
     expect(getByText('don’t show next time')).toBeInTheDocument();
     expect(getByText('Start')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 2', () => {
@@ -45,7 +45,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('get familiar with the menu')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 3', () => {
@@ -56,7 +56,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on Menu Pages')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 4', () => {
@@ -67,7 +67,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on Menu Management')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
 
@@ -79,7 +79,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on Add Button to create a new page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 6', () => {
@@ -90,7 +90,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Choose a Title for your page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 7', () => {
@@ -100,7 +100,7 @@ describe('AppSettingsForm', () => {
     expect(getAllByText('Choose the code')).toHaveLength(2);
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 8', () => {
@@ -111,7 +111,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Choose a place for your page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 9', () => {
@@ -121,7 +121,7 @@ describe('AppSettingsForm', () => {
     expect(getAllByText('Choose the Owner Group')).toHaveLength(2);
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 10', () => {
@@ -131,7 +131,7 @@ describe('AppSettingsForm', () => {
     expect(getAllByText('Choose the Page Template')).toHaveLength(2);
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 11', () => {
@@ -142,7 +142,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Save and Configure your page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 12', () => {
@@ -153,7 +153,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Drag & Drop the following widget: Custom - Logo')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 13', () => {
@@ -164,7 +164,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Drag & Drop the following widget: Custom - Navigation Menu')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 14', () => {
@@ -175,7 +175,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on "Specific" and choose any page to show in the navigation bar')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 15', () => {
@@ -186,7 +186,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('This will add a new expression to navigation menu')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 16', () => {
@@ -197,7 +197,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Save the configuration and return to the page configuration screen')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 17', () => {
@@ -208,7 +208,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Drag & Drop the following widget: CMS - Content')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 18', () => {
@@ -219,7 +219,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on Add existing content button to browse available published contents')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 19', () => {
@@ -230,7 +230,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Select a published content to assign it to use it for the Content configuration')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 20', () => {
@@ -241,7 +241,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click Choose to finish assignment')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 21', () => {
@@ -252,7 +252,7 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click to save the content widget configuration')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 22', () => {
@@ -263,17 +263,16 @@ describe('AppSettingsForm', () => {
     expect(getByText('Click on Publish Button to save and publish your first page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
+    expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 23', () => {
-    const { getByText } =
+    const { getByText, getAllByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={23} appTourProgress="started" />));
     expect(getByText('Create your first Application')).toBeInTheDocument();
     expect(getByText('You can use the preview to check your new page')).toBeInTheDocument();
     expect(getByText('Click on Preview to see your page in the Browser')).toBeInTheDocument();
-    expect(getByText('Close')).toBeInTheDocument();
+    expect(getAllByText('Close')).toHaveLength(2);
     expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Cancel')).toBeInTheDocument();
   });
 });
