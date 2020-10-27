@@ -48,11 +48,13 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(updateUserPreferences(username, { wizard: !disableWizard, showToast: false }));
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
-  onAppTourCancel: (code, publishStatus) => {
+  onAppTourCancel: (code, publishStatus, noRouting) => {
     if (code && !publishStatus) {
       dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_CANCELLED }));
     }
-    history.push(ROUTE_DASHBOARD);
+    if (!noRouting) {
+      history.push(ROUTE_DASHBOARD);
+    }
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));
   },
