@@ -46,7 +46,7 @@ class PageTreeCompact extends Component {
           <MenuItem
             disabled={disabled}
             className="PageTreeActionMenuButton__menu-item-unpublish"
-            onSelect={handleClick(onClickUnPublish, page)}
+            onClick={handleClick(onClickUnPublish, page)}
           >
             <FormattedMessage id="app.unpublish" />
           </MenuItem>
@@ -58,12 +58,12 @@ class PageTreeCompact extends Component {
               && page.parentStatus === PAGE_STATUS_UNPUBLISHED
             }
             className="PageTreeActionMenuButton__menu-item-publish"
-            onSelect={handleClick(onClickPublish, page)}
+            onClick={handleClick(onClickPublish, page)}
           >
             <FormattedMessage id="app.publish" />
           </MenuItem>
         );
-      const viewPublishedPage = page.status !== PAGE_STATUS_UNPUBLISHED ?
+      const viewPublishedPage = page.status === PAGE_STATUS_PUBLISHED ?
         (
           <MenuItem
             disabled={false}
@@ -81,21 +81,15 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="pageTree.viewPublishedPage" />
           </MenuItem>
         );
-      const renderDeleteItem = () => {
-        if (page.status === PAGE_STATUS_PUBLISHED) {
-          return null;
-        }
-
-        return (
-          <MenuItem
-            disabled={!page.isEmpty}
-            className="PageTreeActionMenuButton__menu-item-delete"
-            onSelect={handleClick(onClickDelete, page)}
-          >
-            <FormattedMessage id="app.delete" />
-          </MenuItem>
-        );
-      };
+      const renderDeleteItem = () => (
+        <MenuItem
+          disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED}
+          className="PageTreeActionMenuButton__menu-item-delete"
+          onClick={handleClick(onClickDelete, page)}
+        >
+          <FormattedMessage id="app.delete" />
+        </MenuItem>
+      );
 
       return (
         <tr

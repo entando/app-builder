@@ -205,12 +205,27 @@
 }
 
 // sass-lint:disable force-element-nesting class-name-format nesting-depth
-.layout-pf-fixed {
-  .AssetsList__footer {
-    left: 100px;
+.container-pf-nav-pf-vertical {
+  .startLeftPos {
+    left: #{$nav-pf-vertical-width + 14};
 
     .container {
-      max-width: calc(100% - 214px);
+      max-width: calc(100% - #{$nav-pf-vertical-width + 14});
+    }
+  }
+
+  .startTopPos {
+    top: 58px;
+  }
+
+  &.collapsed-nav {
+    .startLeftPos {
+      left: 74px;
+
+      .container {
+        max-width: calc(100% - 74px);
+      }
+
     }
   }
 }

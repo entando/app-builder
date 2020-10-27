@@ -12,7 +12,7 @@ const renderRoles = (roles) => {
     return (
       <ul className="AttributeListTable__role-list">
         {roles.map(role => (
-          <li key={role.code}>{role.descr}</li>
+          <li key={role.code}>{role.code} - {role.descr}</li>
         ))}
       </ul>
     );

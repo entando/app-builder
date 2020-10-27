@@ -79,7 +79,7 @@ describe('PageTreeActionMenu', () => {
     });
     it('renders the ViewPublishedPage menu item', () => {
       expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').exists()).toBe(true);
-      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage')).not.toBeDisabled();
+      expect(component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage')).toBeDisabled();
     });
   });
 
@@ -188,10 +188,6 @@ describe('PageTreeActionMenu', () => {
       component.find('.PageTreeActionMenuButton__menu-item-preview').prop('onClick')();
       expect(onClickPreview).toHaveBeenCalled();
     });
-    it('ViewPublishedPage calls onClickViewPublishedPage', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').prop('onClick')();
-      expect(onClickViewPublishedPage).toHaveBeenCalled();
-    });
     it('Unpublish calls onClickUnpublish', () => {
       component = shallow((
         <PageTreeActionMenu
@@ -203,6 +199,18 @@ describe('PageTreeActionMenu', () => {
       ));
       component.find('.PageTreeActionMenuButton__menu-item-unpublish').prop('onSelect')();
       expect(onClickUnpublish).toHaveBeenCalled();
+    });
+    it('ViewPublishedPage calls onClickViewPublishedPage', () => {
+      component = shallow((
+        <PageTreeActionMenu
+          page={PUBLISHED_PAGE}
+          onClickViewPublishedPage={onClickViewPublishedPage}
+          domain={domain}
+          locale={locale}
+        />
+      ));
+      component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').prop('onClick')();
+      expect(onClickViewPublishedPage).toHaveBeenCalled();
     });
   });
 });
