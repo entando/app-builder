@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import AppTour from 'ui/app-tour/AppTour';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
@@ -27,13 +27,20 @@ jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 describe('AppSettingsForm', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing, and display all elements when Wizard is enabled: Step 1', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={1} appTourProgress="started" />));
     expect(getByText('Welcome to Entando')).toBeInTheDocument();
     expect(getByText('Create your first application')).toBeInTheDocument();
     expect(getByText('don’t show next time')).toBeInTheDocument();
-    expect(getByText('Start')).toBeInTheDocument();
+    const nextButton = getByText('Start');
+    expect(nextButton).toBeInTheDocument();
+    fireEvent.click(nextButton);
+    expect(props.setNextStep).toBeCalledWith(2);
     expect(getByText('Close')).toBeInTheDocument();
   });
 
@@ -43,20 +50,43 @@ describe('AppSettingsForm', () => {
     expect(getByText('Create your first Application')).toBeInTheDocument();
     expect(getByText('To create your first application you start creating the home page, your first page')).toBeInTheDocument();
     expect(getByText('get familiar with the menu')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
-    expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });
 
-  it('Test step 3', () => {
+  it('Test step 2 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={2} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(1);
+  });
+
+  it('Test step 2 NEXT button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={2} appTourProgress="started" />));
+    const nextButton = getByText('Next');
+    expect(nextButton).toBeInTheDocument();
+    fireEvent.click(nextButton);
+    expect(props.setNextStep).toBeCalledWith(3);
+  });
+
+  it('Test step 3', async () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={3} appTourProgress="started" />));
     expect(getByText('Create your first Application')).toBeInTheDocument();
     expect(getByText('Point to Menu Pages')).toBeInTheDocument();
     expect(getByText('Click on Menu Pages')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
-    expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 3 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={3} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(2);
   });
 
   it('Test step 4', () => {
@@ -70,6 +100,14 @@ describe('AppSettingsForm', () => {
     expect(getByText('Close')).toBeInTheDocument();
   });
 
+  it('Test step 4 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={4} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(3);
+  });
 
   it('Test step 5', () => {
     const { getByText } =
@@ -103,6 +141,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Close')).toBeInTheDocument();
   });
 
+  it('Test step 7 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={7} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(6);
+  });
+
   it('Test step 8', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={8} appTourProgress="started" />));
@@ -112,6 +159,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 8 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={8} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(7);
   });
 
   it('Test step 9', () => {
@@ -124,6 +180,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Close')).toBeInTheDocument();
   });
 
+  it('Test step 9 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={9} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(8);
+  });
+
   it('Test step 10', () => {
     const { getByText, getAllByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={10} appTourProgress="started" />));
@@ -132,6 +197,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 10 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={10} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(9);
   });
 
   it('Test step 11', () => {
@@ -143,6 +217,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 11 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={11} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(10);
   });
 
   it('Test step 12', () => {
@@ -165,6 +248,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 13 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={13} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(12);
   });
 
   it('Test step 14', () => {
@@ -198,6 +290,15 @@ describe('AppSettingsForm', () => {
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
+  });
+
+  it('Test step 16 BACK button functionality', () => {
+    const { getByText } =
+    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={16} appTourProgress="started" />));
+    const backButton = getByText('Back');
+    expect(backButton).toBeInTheDocument();
+    fireEvent.click(backButton);
+    expect(props.setNextStep).toBeCalledWith(15);
   });
 
   it('Test step 17', () => {
