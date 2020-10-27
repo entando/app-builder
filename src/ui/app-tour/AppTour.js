@@ -26,11 +26,10 @@ class AppTour extends React.Component {
     super(props);
     this.state = {
       dontShow: false,
-      isTourOpen: true,
     };
     this.onToggleWizard = this.onToggleWizard.bind(this);
     this.onNextStep = this.onNextStep.bind(this);
-    this.setIsTourOpen = this.setIsTourOpen.bind(this);
+    this.cancelTour = this.cancelTour.bind(this);
     this.generateSteps = this.generateSteps.bind(this);
   }
 
@@ -40,11 +39,10 @@ class AppTour extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isTourOpen } = this.state;
     const {
       wizardEnabled, appTourProgress, onAppTourCancel, tourCreatedPageCode, publishStatus,
     } = this.props;
-    const tourInProgress = isTourOpen && wizardEnabled && appTourProgress === APP_TOUR_STARTED;
+    const tourInProgress = wizardEnabled && appTourProgress === APP_TOUR_STARTED;
     if (prevProps.appTourProgress !== this.props.appTourProgress) {
       if (appTourProgress === APP_TOUR_CANCELLED) {
         window.onbeforeunload = null;
@@ -81,14 +79,11 @@ class AppTour extends React.Component {
     onToggleDontShow(e.target.checked, username);
   }
 
-  setIsTourOpen(value) {
+  cancelTour() {
     const { tourCreatedPageCode, publishStatus } = this.props;
-    if (value === false) {
-      const { onAppTourCancel } = this.props;
-      onAppTourCancel(tourCreatedPageCode, publishStatus);
-      document.body.style.overflow = 'auto';
-    }
-    this.setState({ isTourOpen: value });
+    const { onAppTourCancel } = this.props;
+    onAppTourCancel(tourCreatedPageCode, publishStatus);
+    document.body.style.overflow = 'auto';
   }
 
   generateSteps() {
@@ -132,7 +127,7 @@ class AppTour extends React.Component {
               </Button>
               <Button
                 className="TourStart__yes-button"
-                onClick={() => this.setIsTourOpen(false)}
+                onClick={() => this.cancelTour()}
               >
                 <FormattedMessage id="app.yes" />
               </Button>
@@ -180,7 +175,7 @@ class AppTour extends React.Component {
                 bsStyle="default"
                 onClick={() => goTo(0)}
               >
-                <FormattedMessage id="app.cancel" />
+                <FormattedMessage id="app.close" />
               </Button>
             </div>
           </div>
@@ -346,7 +341,7 @@ class AppTour extends React.Component {
       },
       {
         step: 23,
-        onNext: () => this.setIsTourOpen(false),
+        onNext: () => this.cancelTour(),
         onBack: unpublishPage,
         stepInteraction: true,
         nextButtonLabelId: 'app.close',
@@ -395,7 +390,7 @@ class AppTour extends React.Component {
                 bsStyle="default"
                 onClick={() => args.goTo(0)}
               >
-                <FormattedMessage id="app.cancel" />
+                <FormattedMessage id="app.close" />
               </Button>
             </div>
           </div>
@@ -432,7 +427,7 @@ class AppTour extends React.Component {
     return (
       <Tour
         steps={this.generateSteps()}
-        isOpen={this.state.isTourOpen}
+        isOpen
         showNumber={false}
         showNavigationNumber={false}
         showNavigation={false}

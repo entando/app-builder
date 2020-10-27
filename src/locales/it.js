@@ -908,5 +908,6 @@ export default {
     'tour.step.22.description': 'Fare clic sul pulsante Pubblica per salvare e pubblicare la prima pagina',
     'tour.step.23.title': 'Puoi usare l\'anteprima per controllare la tua nuova pagina',
     'tour.step.23.description': 'Fare clic su Anteprima per visualizzare la pagina nel browser',
+    'app.startTutorial': 'Inizia il tutorial',
   },
 };

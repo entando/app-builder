@@ -10,7 +10,7 @@ import { fetchWizardEnabled, setAppTourLastStep, setAppTourProgress, setPublishS
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
-import { ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
+import { ROUTE_DASHBOARD, ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
 import { configOrUpdatePageWidget, editWidgetConfig } from 'state/page-config/actions';
 import { NavigationBarWidgetID } from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
 import { updateUserPreferences } from 'state/user-preferences/actions';
@@ -52,6 +52,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     if (code && !publishStatus) {
       dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_CANCELLED }));
     }
+    history.push(ROUTE_DASHBOARD);
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));
   },
