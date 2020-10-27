@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
+import ContentWidgetElementIcon from 'ui/pages/config/ContentWidgetElementIcon';
+
 const WidgetListRow = (props) => {
   const {
     name, code, used, hasConfig, onDelete, onEdit, onNewUserWidget, isSuperuser,
@@ -20,7 +22,7 @@ const WidgetListRow = (props) => {
     <tr className="WidgetListRow">
       <td className="WidgetListRow__td ">
         <div className="list-view-pf-left">
-          <span className="fa fa-puzzle-piece list-view-pf-icon-sm" />
+          <ContentWidgetElementIcon widgetId={code} small />
           &nbsp;&nbsp;
           <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: code })}>{name}</Link>
         </div>

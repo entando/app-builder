@@ -24,6 +24,9 @@
   }
   // sass-lint:enable class-name-format nesting-depth
 
+  &__widget-icon-small {
+    font-size: 1.4em !important; // sass-lint:disable-line no-important
+  }
 
   &__widget-list {
     margin-bottom: 0;
