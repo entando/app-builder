@@ -79,10 +79,10 @@ class AppTour extends React.Component {
     onToggleDontShow(e.target.checked, username);
   }
 
-  cancelTour() {
+  cancelTour(noRouting) {
     const { tourCreatedPageCode, publishStatus } = this.props;
     const { onAppTourCancel } = this.props;
-    onAppTourCancel(tourCreatedPageCode, publishStatus);
+    onAppTourCancel(tourCreatedPageCode, publishStatus, noRouting);
     document.body.style.overflow = 'auto';
   }
 
@@ -341,7 +341,7 @@ class AppTour extends React.Component {
       },
       {
         step: 23,
-        onNext: () => this.cancelTour(),
+        onNext: () => this.cancelTour(true),
         onBack: unpublishPage,
         stepInteraction: true,
         nextButtonLabelId: 'app.close',
