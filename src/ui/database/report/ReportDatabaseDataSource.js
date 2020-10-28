@@ -6,7 +6,9 @@ import { routeConverter } from '@entando/utils';
 
 import { ROUTE_DATABASE_DUMP_TABLE } from 'app-init/router';
 
-const ReportDatabaseDataSource = ({ datasource, tables, onClickDump }) => {
+const ReportDatabaseDataSource = ({
+  datasource, tables, onClickDump, databaseReportCode,
+}) => {
   const renderTableRows = (
     tables.map(table => (
       <tr key={table.tableName}>
@@ -14,7 +16,10 @@ const ReportDatabaseDataSource = ({ datasource, tables, onClickDump }) => {
           {
           table.rows > 0 ?
             <Link
-              to={routeConverter(ROUTE_DATABASE_DUMP_TABLE, { dumpCode: table.tableName })}
+              to={routeConverter(
+              ROUTE_DATABASE_DUMP_TABLE,
+                { dumpCode: databaseReportCode, tableName: table.tableName, datasource },
+              )}
               onClick={() => onClickDump(datasource, table.tableName)}
             >
               <span className="icon fa fa-arrow-circle-o-down" />&nbsp;{table.tableName}
@@ -61,6 +66,7 @@ ReportDatabaseDataSource.propTypes = {
   datasource: PropTypes.string.isRequired,
   tables: PropTypes.arrayOf(PropTypes.shape({})),
   onClickDump: PropTypes.func.isRequired,
+  databaseReportCode: PropTypes.string.isRequired,
 };
 ReportDatabaseDataSource.defaultProps = {
   tables: [],

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchDatabaseDumpTable } from 'state/database/actions';
 import DatabaseDumpTablePage from 'ui/database/dump/DatabaseDumpTablePage';
 import { getTableDumpData } from 'state/database/selectors';
@@ -9,12 +10,13 @@ export const mapStateToProps = state => ({
   dumpData: getTableDumpData(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
-    dispatch(fetchDatabaseDumpTable());
+export const mapDispatchToProps = (dispatch, ownProps) => ({
+  onDidMount: () => {
+    const { match: { params: { datasource, tableName, dumpCode } = {} } = {} } = ownProps;
+    dispatch(fetchDatabaseDumpTable(dumpCode, datasource, tableName));
   },
 });
 
 const DatabaseDumpTablePageContainer =
-  connect(mapStateToProps, mapDispatchToProps)(DatabaseDumpTablePage);
+withRouter(connect(mapStateToProps, mapDispatchToProps)(DatabaseDumpTablePage));
 export default withPermissions(ROLE_SUPERUSER)(DatabaseDumpTablePageContainer);

@@ -31,12 +31,15 @@ class ReportDatabaseListTable extends Component {
     );
   }
   render() {
-    const { dataSourcesReports } = this.props.report;
+    const { dataSourcesReports, code: databaseReportCode } = this.props.report;
     return (
       <div className="ReportDatabaseListTable">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
-          <ReportDatabaseListDataSource dataSourcesReports={dataSourcesReports} />
+          <ReportDatabaseListDataSource
+            dataSourcesReports={dataSourcesReports}
+            databaseReportCode={databaseReportCode}
+          />
         </Spinner>
       </div>
     );
@@ -45,6 +48,7 @@ class ReportDatabaseListTable extends Component {
 
 ReportDatabaseListTable.propTypes = {
   report: PropTypes.shape({
+    code: PropTypes.string,
     dataSourcesReports: PropTypes.shape({}),
     componentsHistory:
       PropTypes.arrayOf(PropTypes.shape({})),
@@ -55,6 +59,7 @@ ReportDatabaseListTable.propTypes = {
 ReportDatabaseListTable.defaultProps = {
   loading: false,
   report: {
+    code: '',
     dataSourcesReports: {},
     componentsHistory: [],
   },
