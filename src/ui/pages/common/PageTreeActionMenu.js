@@ -90,7 +90,7 @@ class PageTreeActionMenu extends Component {
     );
 
     return (
-      <div>
+      <div onClick={e => e.stopPropagation()} role="none">
         <DropdownKebab pullRight id="WidgetListRow-dropown">
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-add"

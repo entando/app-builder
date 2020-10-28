@@ -353,7 +353,7 @@ export default {
     'pageTree.action.clear': 'Clear results',
     'pageTree.searchForm.title': 'Search for an existing page',
     'pageTree.searchForm.code': 'Page Code',
-    'pageTree.viewPublishedPage': 'View published page',
+    'pageTree.viewPublishedPage': 'View Published Page',
     'pageTreePage.help': 'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',
     'pageDetails.title': 'Page Details',
     'pageDetails.help': 'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',

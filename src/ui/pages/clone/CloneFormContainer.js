@@ -12,6 +12,7 @@ import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendPostPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { setVisibleModal } from 'state/modal/actions';
+import getSearchParam from 'helpers/getSearchParam';
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
@@ -30,9 +31,17 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then(() => {
+      const redirectTo = getSearchParam('redirectTo');
       switch (action) {
         case ACTION_SAVE: {
-          history.push(ROUTE_PAGE_TREE);
+          if (redirectTo) {
+            const hasPageCode = redirectTo.includes(':pageCode');
+            const redirectToUrl = hasPageCode
+              ? routeConverter(redirectTo, { pageCode: data.code }) : redirectTo;
+            history.push(redirectToUrl);
+          } else {
+            history.push(ROUTE_PAGE_TREE);
+          }
           break;
         }
         case ACTION_SAVE_AND_CONFIGURE: {
