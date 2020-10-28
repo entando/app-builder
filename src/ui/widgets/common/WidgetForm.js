@@ -165,11 +165,10 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
-    const showSecondTab = !!parentWidgetParameters.length || !!parameters.length;
+    const showConfigTab = selectedWidget && !selectedWidget.locked && selectedWidget.config;
     const hasParentWidget = parentWidgetParameters.length > 0;
     const hasOwnParams = !hasParentWidget && parameters.length > 0;
 
-    console.log('parentWidget', parentWidget, mode, getAppBuilderWidgetForm(parentWidget, true), selectedWidget);
     const NativeWidgetConfigForm = selectedWidget
       && (mode === MODE_EDIT || mode === MODE_CLONE)
       && getAppBuilderWidgetForm(selectedWidget, true);
@@ -229,13 +228,15 @@ export class WidgetFormBody extends Component {
                       optionDisplayName="name"
                       defaultOptionId="app.chooseAnOption"
                     />
-                    <Field
-                      name="readonlyDefaultConfig"
-                      component={SwitchRenderer}
-                      label={
-                        <FormLabel labelId="widget.page.create.readonlyDefaultConfig" />
-                      }
-                    />
+                    {selectedWidget && !selectedWidget.locked &&
+                      <Field
+                        name="readonlyDefaultConfig"
+                        component={SwitchRenderer}
+                        label={
+                          <FormLabel labelId="widget.page.create.readonlyDefaultConfig" />
+                        }
+                      />
+                    }
                     {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                       <div className="form-group">
                         <Col xs={2} className="text-right">
@@ -293,7 +294,7 @@ export class WidgetFormBody extends Component {
               </Row>
             </Tab>
 
-            {showSecondTab && (
+            {showConfigTab && (
               <Tab
                 eventKey={2}
                 title={intl.formatMessage(msgs[`${formKind}Tab`])}
