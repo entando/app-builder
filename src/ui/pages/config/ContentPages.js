@@ -154,7 +154,7 @@ class ContentPages extends Component {
           {searchPages && searchPages.length ? (
             <PageListSearchTable
               {...this.props}
-              className="ContentPages__search-table"
+              className={`ContentPages__search-table ${loadOnPageSelect ? 'ContentPages__search-table--loadable' : ''}`}
               striped={false}
               selectedPage={selectedPage}
               onWillMount={() => {}}
@@ -164,6 +164,7 @@ class ContentPages extends Component {
           ) : (
             <PageTreeCompact
               {...this.props}
+              className={loadOnPageSelect ? 'ContentPages__pagetree--loadable' : ''}
               pages={pages}
               selectedPage={selectedPage}
               onExpandPage={onExpandPage}

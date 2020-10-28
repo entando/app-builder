@@ -61,7 +61,7 @@ describe('PageTreeCompact', () => {
     it('does not call onExpandPage if the page is empty', () => {
       const emptyPageIndex = 1;
       component.find('.PageTreeCompact__icons-label').at(emptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
+        .simulate('click', { preventDefault: () => {}, stopPropagation: () => {} });
       expect(PAGES[emptyPageIndex].isEmpty).toBe(true);
       expect(handleExpandPage).not.toHaveBeenCalled();
     });
@@ -69,7 +69,7 @@ describe('PageTreeCompact', () => {
     it('calls onExpandPage if the page is not empty', () => {
       const notEmptyPageIndex = 0;
       component.find('.PageTreeCompact__icons-label').at(notEmptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
+        .simulate('click', { preventDefault: () => {}, stopPropagation: () => {} });
       expect(PAGES[notEmptyPageIndex].isEmpty).toBe(false);
       expect(handleExpandPage).toHaveBeenCalled();
     });
