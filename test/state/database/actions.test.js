@@ -4,11 +4,6 @@ import configureMockStore from 'redux-mock-store';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-import {
-  getDatabaseReportBackupCode,
-  getDataSourceDump,
-  getTableDump,
-} from 'state/database/selectors';
 
 import {
   DATABASE_DUMP_REPORT_LIST,
@@ -176,10 +171,7 @@ describe('state/database/actions', () => {
   describe('thunk', () => {
     describe('fetchDatabaseDumpTable', () => {
       it('calls fetchDatabaseDumpTable and calls SET_DATABASE_DUMP_TABLE_DATA', (done) => {
-        getDatabaseReportBackupCode.mockReturnValueOnce(DB_DUMP_CODE);
-        getDataSourceDump.mockReturnValueOnce('datasource');
-        getTableDump.mockReturnValueOnce('tableName');
-        store.dispatch(fetchDatabaseDumpTable()).then(() => {
+        store.dispatch(fetchDatabaseDumpTable(DB_DUMP_CODE, 'datasource', 'tableName')).then(() => {
           expect(getDatabaseTableDump).toHaveBeenCalledWith(DB_DUMP_CODE, 'datasource', 'tableName');
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
