@@ -230,10 +230,10 @@ export class WidgetFormBody extends Component {
                     />
                     {selectedWidget && !selectedWidget.locked &&
                       <Field
-                        name="readonlyDefaultConfig"
+                        name="readonlyPageWidgetConfig"
                         component={SwitchRenderer}
                         label={
-                          <FormLabel labelId="widget.page.create.readonlyDefaultConfig" />
+                          <FormLabel labelId="widget.page.create.readonlyPageWidgetConfig" />
                         }
                       />
                     }

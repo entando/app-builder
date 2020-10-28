@@ -385,7 +385,7 @@ export default {
     'widget.page.create.general': 'General',
     'widget.page.create.defaultConfig': 'Default Config',
     'widget.page.create.config': 'Configuration',
-    'widget.page.create.readonlyDefaultConfig': 'Make page widget config readonly',
+    'widget.page.create.readonlyPageWidgetConfig': 'Make page widget config readonly',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Edit widget',

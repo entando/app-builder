@@ -51,7 +51,7 @@ class WidgetConfigPage extends Component {
 
   componentDidUpdate() {
     const { widget, intl } = this.props;
-    const isReadOnly = widget && widget.readonlyDefaultConfig;
+    const isReadOnly = widget && widget.readonlyPageWidgetConfig;
     const wrapper = document.getElementsByClassName('panel-body')[0];
     if (wrapper && wrapper.hasChildNodes()
       && wrapper.innerText !== intl.formatMessage(msgs.widgetConfigError) && isReadOnly) {
@@ -97,7 +97,7 @@ class WidgetConfigPage extends Component {
       return <FormattedMessage id="widget.page.config.error" />;
     };
 
-    const isReadOnly = widget && widget.readonlyDefaultConfig;
+    const isReadOnly = widget && widget.readonlyPageWidgetConfig;
 
     return (
       <InternalPage className="WidgetConfigPage">
