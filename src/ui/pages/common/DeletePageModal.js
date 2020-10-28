@@ -13,7 +13,7 @@ const DeletePageModal = ({
   onConfirmDelete, info, page,
 }) => {
   const onDelete = () => {
-    onConfirmDelete(page);
+    onConfirmDelete(page, info.successRedirect);
   };
 
   const buttons = [

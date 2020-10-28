@@ -860,6 +860,13 @@ describe('clonePage', () => {
       done();
     }).catch(done.fail);
   });
+
+  it('should pass redirectTo as query parameter', (done) => {
+    store.dispatch(clonePage('page', 'redirectToPage')).then(() => {
+      expect(history.push).toHaveBeenCalledWith(`${ROUTE_PAGE_CLONE}?redirectTo=redirectToPage`);
+      done();
+    }).catch(done.fail);
+  });
 });
 
 describe('fetchPageTreeAll()', () => {

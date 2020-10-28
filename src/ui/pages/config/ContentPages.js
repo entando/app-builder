@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
-import { ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { Spinner, Button } from 'patternfly-react';
 
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
@@ -121,7 +121,7 @@ class ContentPages extends Component {
               <span className="icon fa fa-search" />
             </Button>
           </div>
-          <Link to={ROUTE_PAGE_ADD} className="pull-right">
+          <Link to={`${ROUTE_PAGE_ADD}?redirectTo=${ROUTE_PAGE_CONFIG}`} className="pull-right">
             <Button className="ContentPages__pagetree-addbtn">
               <FormattedMessage id="app.add" />
             </Button>
