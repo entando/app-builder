@@ -33,7 +33,10 @@ export const mapStateToProps = (state, ownProps) => ({
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onDidMount: () => {
+  onDidMount: ({ initialize, appTourProgress }) => {
+    if (appTourProgress === APP_TOUR_STARTED) {
+      dispatch(initialize({ addConfig: { spec: 'code', targetCode: 'homepage' } }));
+    }
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
   },

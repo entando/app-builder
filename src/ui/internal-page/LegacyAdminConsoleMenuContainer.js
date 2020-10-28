@@ -6,7 +6,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
 
-import { setAppTourLastStep } from 'state/app-tour/actions';
+import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
@@ -159,7 +159,7 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
   />) : '');
 
 const LegacyAdminConsoleMenuBody = ({
-  userPermissions, intl, history, onNextStep,
+  userPermissions, intl, history, onNextStep, onStartTutorial,
 }) => (
   <div className="safari-menu-fix">
     <VerticalNav
@@ -183,7 +183,7 @@ const LegacyAdminConsoleMenuBody = ({
         <VerticalNav.IconBar collapse>
           <LanguageSelectContainer key="LanguageSelect" />
           <HomePageLinkContainer key="projectLink" />
-          <InfoMenu key="InfoMenu" />
+          <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
           <UserMenuContainer key="UserMenu" />
         </VerticalNav.IconBar>
       </Masthead>
@@ -394,14 +394,21 @@ LegacyAdminConsoleMenuBody.propTypes = {
   history: PropTypes.shape({}).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   onNextStep: PropTypes.func.isRequired,
+  onStartTutorial: PropTypes.func.isRequired,
 };
 
 LegacyAdminConsoleMenuBody.defaultProps = {
   userPermissions: null,
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { history }) => ({
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
+  onStartTutorial: () => {
+    history.push(ROUTE_DASHBOARD);
+    dispatch(clearAppTourProgress());
+    dispatch(setWizardEnabled(true));
+    dispatch(setAppTourLastStep(1));
+  },
 });
 
 const LegacyAdminConsoleMenuContainer =

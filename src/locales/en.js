@@ -910,5 +910,6 @@ export default {
     'tour.step.23.title': 'You can use the preview to check your new page',
     'tour.step.23.description': 'Click on Preview to see your page in the Browser',
     'user.wizard.success': 'Wizard has been updated.',
+    'app.startTutorial': 'Begin Tutorial',
   },
 };
