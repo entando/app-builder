@@ -11,7 +11,6 @@ import {
   getReportBackup,
   getDatabaseTableDump,
 } from 'api/database';
-import { getDatabaseReportBackupCode, getDataSourceDump, getTableDump } from 'state/database/selectors';
 import {
   SET_DATABASE_DUMPS,
   SET_DATABASE_INIT_BACKUP,
@@ -67,11 +66,8 @@ export const setDumpTableData = data => ({
 
 // thunk
 
-export const fetchDatabaseDumpTable = () => (dispatch, getState) => (
+export const fetchDatabaseDumpTable = (dumpCode, datasource, tableName) => dispatch => (
   new Promise((resolve) => {
-    const dumpCode = getDatabaseReportBackupCode(getState());
-    const datasource = getDataSourceDump(getState());
-    const tableName = getTableDump(getState());
     getDatabaseTableDump(dumpCode, datasource, tableName).then((response) => {
       response.json().then((json) => {
         if (response.ok) {

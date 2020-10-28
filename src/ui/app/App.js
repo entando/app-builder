@@ -281,8 +281,8 @@ const getRouteComponent = () => {
       {/* database */}
       <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
       <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
       <Route path={ROUTE_DATABASE_DUMP_TABLE} component={DatabaseDumpTablePageContainer} />
+      <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
       {/* files */}
       <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
       <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />

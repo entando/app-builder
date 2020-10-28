@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import DatabaseDumpTablePage from 'ui/database/dump/DatabaseDumpTablePage';
 
 const props = {
-  onWillMount: jest.fn(),
+  onDidMount: jest.fn(),
   dumpData: '',
 };
 
