@@ -396,6 +396,7 @@ export default {
     'widget.detail.table.action.pageConfig': 'Configuração de Página',
     'widget.detail.table.action.pageDetails': 'Detalhes da Página',
     'widget.help': 'A seção de WIDGET permite você gerenciar um widget existente ou adicionar um novo widget. Widgets são objetos usados para mostrar informação e funcionalidade do sistema ou representam serviços de uma página da aplicação.',
+    'widget.help.readonlyPageWidgetConfig': 'Se ativado, o widget manterá a configuração padrão definida aqui quando for configurado em uma página',
     'fragment.list.title': 'UX Fragment',
     'fragment.help': 'A seção UX FRAGMENT permite você gerenciar um UX Fragment existente ou adionar novos UX Fragment. Os UX Fragment são um porção simples da interface de front-end usado nos Widgets (incluindo Plugins) e nos Modelos de Página.',
     'fragment.code': 'Código',

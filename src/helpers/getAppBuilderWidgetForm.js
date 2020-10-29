@@ -15,8 +15,8 @@ const appBuilderNativeWidgetForms = {
 const widgetForms = { ...appsWidgetForms, ...appBuilderNativeWidgetForms };
 
 export default (widget, baseOnly) => {
-  const { widgetCode, action } = widget || {};
-  const widgetFormId = action || widgetCode;
+  const { widgetCode, action, parentType } = widget || {};
+  const widgetFormId = action || widgetCode || parentType;
   const widgetForm = widgetForms && widgetFormId ? widgetForms[widgetFormId] : null;
   const moduleKey = baseOnly ? 'body' : 'default';
   return get(widgetForm, moduleKey, widgetForm);

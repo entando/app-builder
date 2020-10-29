@@ -234,7 +234,7 @@ export class WidgetFormBody extends Component {
                         name="readonlyPageWidgetConfig"
                         component={SwitchRenderer}
                         label={
-                          <FormLabel labelId="widget.page.create.readonlyPageWidgetConfig" />
+                          <FormLabel labelId="widget.page.create.readonlyPageWidgetConfig" helpText={<FormattedMessage id="widget.help.readonlyPageWidgetConfig" />} />
                         }
                       />
                     }
