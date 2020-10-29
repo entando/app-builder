@@ -409,6 +409,7 @@ export default {
     'widget.detail.table.action.pageConfig': 'Page configuration',
     'widget.detail.table.action.pageDetails': 'Page details',
     'widget.help': 'The WIDGET section allows users to manage existing or add new widgets. Widgets are objects used to display information and functionality or services on the pages of an application.',
+    'widget.help.readonlyPageWidgetConfig': 'If enabled, the widget will keep the default configuration defined here when it will be configured on a page',
     'fragment.list.title': 'UX Fragments',
     'fragment.help': 'The UX FRAGMENTS section allows users to manage existing or add new UX Fragments.  UX Fragments are single portions of a front-end interface used in Widgets (including plugins) and Page Templates.',
     'fragment.code': 'Code',
