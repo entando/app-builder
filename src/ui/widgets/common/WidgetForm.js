@@ -14,6 +14,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import SimpleWidgetConfigForm from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -316,27 +317,8 @@ export class WidgetFormBody extends Component {
                         </fieldset>
                       </Col>
                     </Row>
-                  ) : (
-                    <Row>
-                      <Col xs={12}>
-                        <fieldset className="no-padding">
-                          {paramFields.map(param => (
-                            <Field
-                              key={param.code}
-                              component={RenderTextInput}
-                              name={`config.${param.code}`}
-                              label={(
-                                <FormLabel
-                                  labelText={param.code}
-                                  helpText={param.description}
-                                />
-                              )}
-                            />
-                          ))}
-                        </fieldset>
-                      </Col>
-                    </Row>
-                  )}
+                  ) : <SimpleWidgetConfigForm parameters={paramFields} />
+                  }
               </Tab>
               )}
           </Tabs>

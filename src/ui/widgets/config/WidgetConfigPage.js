@@ -12,9 +12,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
-import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
-import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
+import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
 
 
 const msgs = defineMessages({
@@ -71,31 +69,8 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
+      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, history,
     } = this.props;
-
-    const renderWidgetConfigForm = () => {
-      const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
-      if (appBuilderWidgetForm) {
-        return React.createElement(
-          appBuilderWidgetForm,
-          {
-            widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history,
-          },
-          null,
-        );
-      }
-      if (isMicrofrontendWidgetForm(widget)) {
-        return (
-          <WidgetConfigMicrofrontend
-            widget={widget}
-            widgetConfig={widgetConfig}
-            onSubmit={onSubmit}
-          />
-        );
-      }
-      return <FormattedMessage id="widget.page.config.error" />;
-    };
 
     const isReadOnly = widget && widget.readonlyPageWidgetConfig;
 
@@ -184,7 +159,16 @@ class WidgetConfigPage extends Component {
                   </div>
                 }
                 <Panel.Body className="PageConfigPage__panel-body">
-                  {renderWidgetConfigForm()}
+                  <WidgetConfigRenderer
+                    widget={widget}
+                    widgetCode={widgetCode}
+                    widgetConfig={widgetConfig}
+                    framePos={framePos}
+                    frameName={frameName}
+                    pageCode={pageCode}
+                    onSubmit={onSubmit}
+                    history={history}
+                  />
                   {
                     isReadOnly && <div className="PageConfigPage__block-ui" />
                   }
