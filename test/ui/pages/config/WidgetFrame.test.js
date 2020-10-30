@@ -160,6 +160,7 @@ describe('WidgetFrame (with widget that has config)', () => {
         frameIsMainFrame={false}
         widgetName={WIDGET_NAME}
         widgetHasConfig
+        widgetHasConfigForm
       />
     ));
   });
