@@ -70,6 +70,10 @@ const msgs = defineMessages({
     id: 'widget.page.tab.customUi',
     defaultMessage: 'Custom UI',
   },
+  Tab: {
+    id: 'widget.page.tab',
+    defaultMessage: 'Tab',
+  },
 });
 
 const validateJson = (value) => {
@@ -122,16 +126,14 @@ export class WidgetFormBody extends Component {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
-      parameters, onReplaceSubmit, match: { params },
-      selectedWidget, history,
+      parameters, onReplaceSubmit, match: { params }, onSubmit,
+      selectedWidget, history, formId, formWidgetConfig, beforeSubmit,
+      widgetConfigDirty, widgetConfigInvalid,
     } = this.props;
-    const onSubmit = (ev) => {
-      ev.preventDefault();
-      this.props.handleSubmit();
-    };
+
 
     const handleCancelClick = () => {
-      if (dirty) {
+      if (dirty || widgetConfigDirty) {
         onCancel();
       } else {
         onDiscard();
@@ -209,7 +211,11 @@ export class WidgetFormBody extends Component {
 
     return (
       <Spinner loading={!!loading}>
-        <form onSubmit={onSubmit} className="form-horizontal">
+        <form
+          onSubmit={this.props.handleSubmit(values =>
+            onSubmit(values, formWidgetConfig, formId, beforeSubmit))}
+          className="form-horizontal"
+        >
           <Tabs id="widget-form-tab" defaultActiveKey={1} className="WidgetForm__maintab">
             <Tab eventKey={1} title={intl.formatMessage(msgs.widgetInfoTab)}>
               <Row>
@@ -308,7 +314,7 @@ export class WidgetFormBody extends Component {
                         component={WidgetConfigRenderer}
                         cloneMode
                         widgetConfig={config}
-                        widgetCode={selectedWidget.code}
+                        widgetCode={selectedWidget && selectedWidget.code}
                         extFormName={widgetFormName}
                         pageCode={params.pageCode}
                         frameId={params.frameId}
@@ -330,7 +336,7 @@ export class WidgetFormBody extends Component {
                 className="pull-right FragmentForm__save--btn"
                 type="submit"
                 bsStyle="primary"
-                disabled={invalid || submitting}
+                disabled={invalid || submitting || widgetConfigInvalid}
               >
                 <FormattedMessage id="app.save" />
               </Button>
@@ -390,6 +396,12 @@ WidgetFormBody.propTypes = {
     params: PropTypes.shape({}),
   }),
   history: PropTypes.shape({}).isRequired,
+  formId: PropTypes.string,
+  formWidgetConfig: PropTypes.shape({}),
+  beforeSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
+  widgetConfigInvalid: PropTypes.bool,
+  widgetConfigDirty: PropTypes.bool,
 };
 
 WidgetFormBody.defaultProps = {
@@ -414,6 +426,11 @@ WidgetFormBody.defaultProps = {
     params: {},
   },
   onReplaceSubmit: () => {},
+  formId: '',
+  formWidgetConfig: {},
+  beforeSubmit: null,
+  widgetConfigDirty: false,
+  widgetConfigInvalid: false,
 };
 
 const WidgetForm = reduxForm({

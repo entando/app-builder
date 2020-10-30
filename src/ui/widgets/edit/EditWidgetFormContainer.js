@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
-import { submit } from 'redux-form';
+import { submit, getFormValues, isDirty, isInvalid } from 'redux-form';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
+
+import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -21,21 +23,40 @@ import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
 
 const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => (
-  {
-    mode: EDIT_MODE,
-    groups: getGroupsList(state),
-    parameters: getSelectedWidgetParameters(state),
-    parentWidget: getSelectedParentWidget(state),
-    selectedWidget: getSelectedWidget(state),
-    parentWidgetParameters: getSelectedParentWidgetParameters(state),
-    defaultUIField: getSelectedWidgetDefaultUi(state),
-    languages: getActiveLanguages(state),
-    loading: getLoading(state).fetchWidget,
-  });
+export const mapStateToProps = (state) => {
+  const selectedWidget = getSelectedWidget(state);
+  const appBuilderForm = getAppBuilderWidgetForm(selectedWidget);
+
+  const reduxFormId = appBuilderForm && appBuilderForm.reduxFormId;
+  const widgetConfigDirty = reduxFormId && isDirty(appBuilderForm.reduxFormId)(state);
+  const widgetConfigInvalid = reduxFormId && isInvalid(appBuilderForm.reduxFormId)(state);
+  const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
+
+  // TODO also should be here microftontend form id
+  const formId = reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
+
+  return (
+    {
+      mode: EDIT_MODE,
+      groups: getGroupsList(state),
+      parameters: getSelectedWidgetParameters(state),
+      parentWidget: getSelectedParentWidget(state),
+      selectedWidget,
+      parentWidgetParameters: getSelectedParentWidgetParameters(state),
+      defaultUIField: getSelectedWidgetDefaultUi(state),
+      languages: getActiveLanguages(state),
+      loading: getLoading(state).fetchWidget,
+      formId,
+      formWidgetConfig: getFormValues(formId)(state),
+      beforeSubmit,
+      widgetConfigDirty,
+      widgetConfigInvalid,
+    });
+};
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
@@ -43,12 +64,19 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, widgetConfig, formId, beforeSubmit) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
-    return dispatch(sendPutWidgets(jsonData));
+
+    if (formId && beforeSubmit) {
+      beforeSubmit(dispatch, widgetConfig).then((res) => {
+        dispatch(sendPutWidgets({ ...jsonData, config: res }));
+      });
+    } else {
+      dispatch(sendPutWidgets(jsonData));
+    }
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),

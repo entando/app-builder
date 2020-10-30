@@ -29,9 +29,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
     }
   },
   onSubmit: (widgetConfig, formId, beforeSubmit) => {
-    // console.log('widgetConfig', widgetConfig);
-    // console.log('formId', formId);
-    // console.log('beforeSubmit', beforeSubmit);
     if (formId && beforeSubmit) {
       beforeSubmit(dispatch, widgetConfig).then((res) => {
         dispatch(updateConfiguredPageWidget(res, params));

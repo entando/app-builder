@@ -54,7 +54,7 @@ const WidgetConfigRenderer =
 WidgetConfigRenderer.propTypes = {
   intl: intlShape.isRequired,
   widget: PropTypes.shape({}),
-  widgetCode: PropTypes.string.isRequired,
+  widgetCode: PropTypes.string,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number,
   pageCode: PropTypes.string,
@@ -65,6 +65,7 @@ WidgetConfigRenderer.propTypes = {
 WidgetConfigRenderer.defaultProps = {
   widget: null,
   widgetConfig: null,
+  widgetCode: '',
   framePos: null,
   pageCode: '',
   onSubmit: () => {},
