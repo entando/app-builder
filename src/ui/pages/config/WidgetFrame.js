@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_DETAIL, ROUTE_WIDGET_EDIT } from 'app-init/router';
-
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 
 
@@ -15,12 +14,12 @@ class WidgetFrame extends Component {
     const {
       widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
       onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings, onClickSaveAs,
-      widgetAction,
+      widgetAction, widgetHasConfigForm,
     } = this.props;
 
     let actionsMenu = null;
     if (widgetStatus !== WIDGET_STATUS_REMOVED) {
-      const configMenuItems = widgetHasConfig && widgetAction ?
+      const configMenuItems = widgetHasConfig && (widgetAction || widgetHasConfigForm) ?
         [
           (
             <MenuItem
@@ -135,6 +134,7 @@ WidgetFrame.propTypes = {
   widgetHasConfig: PropTypes.bool,
   widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),
   widgetAction: PropTypes.string,
+  widgetHasConfigForm: PropTypes.bool,
 
   /* eslint-disable react/no-unused-prop-types */
   frameId: PropTypes.number, // needed when it's droppable
@@ -163,6 +163,7 @@ WidgetFrame.defaultProps = {
   connectDropTarget: null,
   isOver: false,
   widgetAction: null,
+  widgetHasConfigForm: false,
 };
 
 
