@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 
 class DatabaseDumpTablePage extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
   render() {
     return (
@@ -14,7 +14,7 @@ class DatabaseDumpTablePage extends Component {
   }
 }
 DatabaseDumpTablePage.propTypes = {
-  onWillMount: Proptypes.func.isRequired,
+  onDidMount: Proptypes.func.isRequired,
   dumpData: Proptypes.string,
 };
 

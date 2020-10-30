@@ -163,14 +163,14 @@ export const fetchPage = wrapApiCall(getPage);
 export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
-export const sendDeletePage = page => async (dispatch) => {
+export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
     const response = await deletePage(page);
     const json = await response.json();
     if (response.ok) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
-      if (page.tourProgress !== APP_TOUR_STARTED) {
+      if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
     } else {
@@ -311,14 +311,18 @@ export const fetchFreePages = () => async (dispatch) => {
   }
 };
 
-export const clonePage = page => async (dispatch) => {
+export const clonePage = (page, redirectTo = null) => async (dispatch) => {
   try {
     const json = await fetchPage(page.code)(dispatch);
     dispatch(initialize('page', {
       ...json.payload,
       ...RESET_FOR_CLONE,
     }));
-    history.push(ROUTE_PAGE_CLONE);
+    let pageCloneUrl = ROUTE_PAGE_CLONE;
+    if (redirectTo) {
+      pageCloneUrl += `?redirectTo=${redirectTo}`;
+    }
+    history.push(pageCloneUrl);
   } catch (e) {
     // do nothing
   }
@@ -489,9 +493,13 @@ export const clearSearchPage = () => (dispatch) => {
   dispatch(initialize('pageSearch', {}));
 };
 
-export const initPageForm = pageData => (dispatch) => {
+export const initPageForm = (pageData, redirectTo = null) => (dispatch) => {
   dispatch(initialize('page', pageData));
-  history.push(`${ROUTE_PAGE_ADD}?parentCode=${pageData.parentCode}`);
+  let pageAddUrl = `${ROUTE_PAGE_ADD}?parentCode=${pageData.parentCode}`;
+  if (redirectTo) {
+    pageAddUrl += `&redirectTo=${redirectTo}`;
+  }
+  history.push(pageAddUrl);
 };
 
 export const fetchPageTreeAll = () => dispatch => new Promise((resolve) => {

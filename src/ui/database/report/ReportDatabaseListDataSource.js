@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import ReportDatabaseDataSourceContainer from 'ui/database/report/ReportDatabaseDataSourceContainer';
 
-const ReportDatabaseListDataSource = ({ dataSourcesReports }) => (
+const ReportDatabaseListDataSource = ({ dataSourcesReports, databaseReportCode }) => (
   <div className="ReportDatabaseListDataSource">
     <PanelGroup accordion id="accordion-details" className="ReportDatabaseListDataSource__panel-accordion-detail">
       <Panel eventKey="1" className="ReportDatabaseListDataSource__panel-detail">
@@ -20,6 +20,7 @@ const ReportDatabaseListDataSource = ({ dataSourcesReports }) => (
               key={datasource}
               datasource={datasource}
               tables={dataSourcesReports[datasource]}
+              databaseReportCode={databaseReportCode}
             />
           ))
         }
@@ -32,6 +33,7 @@ const ReportDatabaseListDataSource = ({ dataSourcesReports }) => (
 ReportDatabaseListDataSource.propTypes = {
   dataSourcesReports: PropTypes.shape({
   }),
+  databaseReportCode: PropTypes.string.isRequired,
 };
 
 ReportDatabaseListDataSource.defaultProps = {
