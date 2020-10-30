@@ -116,11 +116,34 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
+const beforeSubmit = (dispatch, { expressions }) => new Promise((resolve, reject) => {
+  dispatch(clearErrors());
+  return dispatch(sendGetNavigatorNavspecFromExpressions(expressions)).then((res) => {
+    if (res) {
+      dispatch(setAppTourLastStep(17));
+      // const {
+      //   pageCode, frameId, widgetCode,
+      // } = ownProps;
+      const payload = { navSpec: res.navSpec };
+      dispatch(clearErrors());
+      return resolve(payload);
+      // return dispatch(updateConfiguredPageWidget(
+      //   payload,
+      //   { pageCode, framePos: frameId, widgetCode },
+      // ));
+    }
+    return reject();
+  });
+});
+
 const NavigationBarConfigFormContainer = injectIntl(reduxForm({
   form: NavigationBarWidgetID,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })(NavigationBarConfigForm));
+
+NavigationBarConfigFormContainer.reduxFormId = NavigationBarWidgetID;
+NavigationBarConfigFormContainer.beforeSubmit = beforeSubmit;
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,

@@ -3,15 +3,13 @@ import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { FieldArray } from 'redux-form';
-import { Button, Row, Col } from 'patternfly-react';
-import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { Row, Col } from 'patternfly-react';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
 import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarExpressionsList';
 import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
-import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -33,33 +31,19 @@ export default class NavigationBarConfigForm extends PureComponent {
   render() {
     const {
       handleSubmit,
-      invalid,
-      submitting,
       intl,
-      dirty,
-      onCancel,
-      onDiscard,
-      onSave,
       language,
       pages,
       onAddNewExpression,
       addConfig,
-      expressions,
       loading,
       initialValues,
       onSpecificPageChoose,
       appTourProgress,
     } = this.props;
 
-    const handleCancelClick = () => {
-      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
-        onCancel();
-      } else {
-        onDiscard();
-      }
-    };
-
-    const expressionsNotAvailable = !expressions || expressions.length === 0;
+    const expressionsNotAvailable =
+    values => (values && Array.isArray(values) && values.length > 0 ? undefined : <FormattedMessage id="validateForm.required" />);
 
     return (
       <div className="NavigationBarConfigForm">
@@ -83,6 +67,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                     pages={pages}
                     language={language}
                     loading={loading}
+                    validate={expressionsNotAvailable}
                     intl={intl}
                     navSpec={initialValues.navSpec}
                   />
@@ -126,37 +111,7 @@ export default class NavigationBarConfigForm extends PureComponent {
               </fieldset>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              <Button
-                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting || expressionsNotAvailable}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-              <Button
-                className="pull-right NavigationBarConfigForm__cancel-btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="app.cancel" />
-              </Button>
-              {
-                appTourProgress !== APP_TOUR_STARTED && (
-                  <ConfirmCancelModalContainer
-                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                    invalid={invalid}
-                    submitting={submitting}
-                    onSave={onSave}
-                    onDiscard={onDiscard}
-                  />
-                )
-              }
-            </Col>
-            <AppTourContainer />
-          </Row>
+          <AppTourContainer />
         </form>
       </div>
     );
@@ -168,16 +123,9 @@ NavigationBarConfigForm.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
   language: PropTypes.string,
-  dirty: PropTypes.bool,
-  onDiscard: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
   addConfig: PropTypes.shape({}),
-  expressions: PropTypes.arrayOf(PropTypes.shape({})),
   initialValues: PropTypes.shape({}).isRequired,
   fetchExpressions: PropTypes.func.isRequired,
   loading: PropTypes.bool,
@@ -187,10 +135,8 @@ NavigationBarConfigForm.propTypes = {
 
 NavigationBarConfigForm.defaultProps = {
   pages: [],
-  dirty: false,
   language: 'en',
   addConfig: {},
-  expressions: [],
   loading: null,
   appTourProgress: '',
 };

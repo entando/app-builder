@@ -13,6 +13,8 @@ import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTabl
 import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 
 const msgs = defineMessages({
@@ -41,6 +43,7 @@ class WidgetConfigPage extends Component {
     this.state = {
       infoTableOpen: false,
     };
+    this.configFormRef = React.createRef(null);
   }
 
   componentDidMount() {
@@ -70,9 +73,27 @@ class WidgetConfigPage extends Component {
   render() {
     const {
       widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, history,
+      appTourProgress, onCancel, onDiscard, intl, onSave, dirty, submitting, invalid,
+      beforeSubmit, formId, formWidgetConfig,
     } = this.props;
 
     const isReadOnly = widget && widget.readonlyPageWidgetConfig;
+
+    const handleCancelClick = () => {
+      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
+
+    const handleSubmit = () => {
+      onSubmit(formWidgetConfig, formId, beforeSubmit);
+    };
+
+    const handleSave = () => {
+      onSave(formId, beforeSubmit);
+    };
 
     return (
       <InternalPage className="WidgetConfigPage">
@@ -166,8 +187,8 @@ class WidgetConfigPage extends Component {
                     framePos={framePos}
                     frameName={frameName}
                     pageCode={pageCode}
-                    onSubmit={onSubmit}
                     history={history}
+                    ref={this.configFormRef}
                   />
                   {
                     isReadOnly && <div className="PageConfigPage__block-ui" />
@@ -189,6 +210,34 @@ class WidgetConfigPage extends Component {
               </Panel>
             </Col>
           </Row>
+          <br />
+          <Row>
+            <Col xs={12}>
+              <Button
+                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                type="submit"
+                bsStyle="primary"
+                disabled={invalid || submitting}
+                onClick={handleSubmit}
+              >
+                <FormattedMessage id="app.save" />
+              </Button>
+              <Button
+                className="pull-right NavigationBarConfigForm__cancel-btn"
+                bsStyle="default"
+                onClick={handleCancelClick}
+              >
+                <FormattedMessage id="app.cancel" />
+              </Button>
+              <ConfirmCancelModalContainer
+                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                invalid={invalid}
+                submitting={submitting}
+                onSave={handleSave}
+                onDiscard={onDiscard}
+              />
+            </Col>
+          </Row>
         </Grid>
       </InternalPage>
     );
@@ -207,6 +256,16 @@ WidgetConfigPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  appTourProgress: PropTypes.string,
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  dirty: PropTypes.bool,
+  beforeSubmit: PropTypes.func,
+  formId: PropTypes.string,
+  formWidgetConfig: PropTypes.shape({}),
 };
 
 WidgetConfigPage.defaultProps = {
@@ -214,6 +273,11 @@ WidgetConfigPage.defaultProps = {
   widgetConfig: null,
   onDidMount: null,
   onWillUnmount: null,
+  appTourProgress: '',
+  dirty: false,
+  beforeSubmit: null,
+  formId: '',
+  formWidgetConfig: {},
 };
 
 export default WidgetConfigPage;

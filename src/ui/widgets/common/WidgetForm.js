@@ -14,7 +14,8 @@ import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-import SimpleWidgetConfigForm from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
+// import SimpleWidgetConfigForm from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
+import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -122,7 +123,7 @@ export class WidgetFormBody extends Component {
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
       parameters, onReplaceSubmit, match: { params },
-      selectedWidget,
+      selectedWidget, history,
     } = this.props;
     const onSubmit = (ev) => {
       ev.preventDefault();
@@ -186,7 +187,6 @@ export class WidgetFormBody extends Component {
     };
 
     const formKind = determineFormKind();
-
     const paramFieldChoices = {
       widgetConfig: parentWidgetParameters,
       widgetParams: parentWidgetParameters,
@@ -300,25 +300,25 @@ export class WidgetFormBody extends Component {
                 eventKey={2}
                 title={intl.formatMessage(msgs[`${formKind}Tab`])}
               >
-                  {NativeWidgetConfigForm ? (
-                    <Row>
-                      <Col xs={12}>
-                        <fieldset className="no-padding">
-                          <Field
-                            name="config"
-                            component={NativeWidgetConfigForm}
-                            cloneMode
-                            widgetConfig={config}
-                            widgetCode={selectedWidget.code}
-                            extFormName={widgetFormName}
-                            pageCode={params.pageCode}
-                            frameId={params.frameId}
-                          />
-                        </fieldset>
-                      </Col>
-                    </Row>
-                  ) : <SimpleWidgetConfigForm parameters={paramFields} />
-                  }
+                <Row>
+                  <Col xs={12}>
+                    <fieldset className="no-padding">
+                      <Field
+                        name="config"
+                        component={WidgetConfigRenderer}
+                        cloneMode
+                        widgetConfig={config}
+                        widgetCode={selectedWidget.code}
+                        extFormName={widgetFormName}
+                        pageCode={params.pageCode}
+                        frameId={params.frameId}
+                        widget={{ ...selectedWidget, parameters: paramFields }}
+                        onSubmit={onSubmit}
+                        history={history}
+                      />
+                    </fieldset>
+                  </Col>
+                </Row>
               </Tab>
               )}
           </Tabs>
@@ -389,6 +389,7 @@ WidgetFormBody.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }),
+  history: PropTypes.shape({}).isRequired,
 };
 
 WidgetFormBody.defaultProps = {
