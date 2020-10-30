@@ -1,10 +1,14 @@
 .PageTreeCompact {
   width: 100%;
 
-  &__page-name,
+  &__page-name {
+    font-size: 14px;
+  }
+
   .TreeNodeExpandedIcon,
   .TreeNodeFolderIcon,
   .RowSpinner {
+    margin-right: 10px;
     margin-left: 10px;
     font-size: 14px;
   }
@@ -22,6 +26,12 @@
     .TreeNodeExpandedIcon {
       opacity: 0;
       visibility: hidden;
+    }
+
+    .TreeNodeExpandedIcon,
+    .PageTreeCompact__page-name,
+    [role="button"] {
+      cursor: default;
     }
   }
 

@@ -10,6 +10,7 @@ import {
   initPageForm,
   clonePage,
   clearSearchPage,
+  fetchSearchPages,
 } from 'state/pages/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
@@ -81,6 +82,7 @@ describe('PageTreeContainer', () => {
       expect(props).toHaveProperty('onExpandPage');
       expect(props).toHaveProperty('onClickViewPublishedPage');
       expect(props).toHaveProperty('onClickPreview');
+      expect(props).toHaveProperty('onSearchPageChange');
     });
 
     it('should dispatch an action if "onClickAdd" is called', () => {
@@ -135,6 +137,15 @@ describe('PageTreeContainer', () => {
     it('should dispatch an action if onExpandPage is called', () => {
       props.onExpandPage('pagecode');
       expect(handleExpandPage).toHaveBeenCalled();
+    });
+
+    it('should dispatch correct actions when onSearchPageChange is called', () => {
+      const searchPageCodeToken = 'test';
+      props = mapDispatchToProps(dispatchMock, { searchPageCodeToken });
+      const fetchSearchPagesArgs = [{ page: 1, pageSize: 10 }, `?pageCodeToken=${searchPageCodeToken}`];
+      props.onSearchPageChange();
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchSearchPages).toHaveBeenCalledWith(...fetchSearchPagesArgs);
     });
 
     it('should dispatch an action if onDropPage is called with action of "drop into"', () => {
