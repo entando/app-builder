@@ -22,12 +22,6 @@ const WidgetConfigMicrofrontend = ({
   const [everyScriptLoaded, someScriptError] = useScripts(scripts);
   const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets);
 
-  // const handleSubmitTriggered = () => {
-  //   const configWebComponent = getMicrofrontend(customElement);
-  //   const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
-  //   onSubmit({ widgetConfig: updatedWidgetConfig, isMfe: true });
-  // };
-
   useEffect(() => {
     const microfrontend = getMicrofrontend(customElement);
     if (everyScriptLoaded && microfrontend && widgetConfig) {
@@ -40,13 +34,6 @@ const WidgetConfigMicrofrontend = ({
     && !someScriptError && !someStylesheetError) ? (
       <Fragment>
         {microfrontendMarkup}
-        {/* <Button
-          className="pull-right save"
-          type="submit"
-          bsStyle="primary"
-          onClick={handleSubmitTriggered}
-        ><FormattedMessage id="app.save" />
-        </Button> */}
       </Fragment>
     ) : <FormattedMessage id="widget.page.config.error" />;
 };
@@ -54,8 +41,6 @@ const WidgetConfigMicrofrontend = ({
 WidgetConfigMicrofrontend.propTypes = {
   widget: PropTypes.shape({}).isRequired,
   widgetConfig: PropTypes.shape({}),
-  // onSubmit: PropTypes.func.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
 };
 
 WidgetConfigMicrofrontend.defaultProps = {
