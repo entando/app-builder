@@ -317,6 +317,7 @@ export class WidgetFormBody extends Component {
                         widgetCode={selectedWidget && selectedWidget.code}
                         extFormName={widgetFormName}
                         pageCode={params.pageCode}
+                        // TODO remove this unused stuff
                         frameId={params.frameId}
                         widget={{ ...selectedWidget, parameters: paramFields }}
                         onSubmit={onSubmit}

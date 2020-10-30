@@ -27,9 +27,8 @@ import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidg
 
 const EDIT_MODE = 'edit';
 
-export const mapStateToProps = (state) => {
-  const selectedWidget = getSelectedWidget(state);
-  const appBuilderForm = getAppBuilderWidgetForm(selectedWidget);
+export const getWidgetFormProperties = (widget, state) => {
+  const appBuilderForm = widget && getAppBuilderWidgetForm(widget);
 
   const reduxFormId = appBuilderForm && appBuilderForm.reduxFormId;
   const widgetConfigDirty = reduxFormId && isDirty(appBuilderForm.reduxFormId)(state);
@@ -38,6 +37,20 @@ export const mapStateToProps = (state) => {
 
   // TODO also should be here microftontend form id
   const formId = reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
+  return {
+    formId,
+    beforeSubmit,
+    widgetConfigDirty,
+    widgetConfigInvalid,
+  };
+};
+
+export const mapStateToProps = (state) => {
+  const selectedWidget = getSelectedWidget(state);
+  const {
+    formId, beforeSubmit, widgetConfigDirty, widgetConfigInvalid,
+  } =
+   getWidgetFormProperties(selectedWidget, state);
 
   return (
     {

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { clearErrors } from '@entando/messages';
-import { submit, reduxForm } from 'redux-form';
+import { submit, reduxForm, getFormValues } from 'redux-form';
 import { injectIntl } from 'react-intl';
 import { WidgetFormBody } from 'ui/widgets/common/WidgetForm';
 import { get } from 'lodash';
@@ -21,6 +21,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { convertConfigObject } from 'helpers/conversion';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+import { getWidgetFormProperties } from 'ui/widgets/edit/EditWidgetFormContainer';
 
 const CONFIG_SIMPLE_PARAMETER = 'configSimpleParameter';
 const MODE_CLONE = 'clone';
@@ -35,6 +36,10 @@ export const mapStateToProps = (state, { match: { params } }) => {
     configUi: parentWidget && parentWidget.configUi ? JSON.parse(parentWidget.configUi) : null,
     parentType: parentCode,
   };
+  const {
+    formId, beforeSubmit, widgetConfigDirty, widgetConfigInvalid,
+  } =
+   getWidgetFormProperties(parentWidget, state);
   return ({
     mode: MODE_CLONE,
     groups: getGroupsList(state),
@@ -45,6 +50,11 @@ export const mapStateToProps = (state, { match: { params } }) => {
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
     initialValues,
+    formId,
+    formWidgetConfig: getFormValues(formId)(state),
+    beforeSubmit,
+    widgetConfigDirty,
+    widgetConfigInvalid,
   });
 };
 
