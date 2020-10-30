@@ -82,6 +82,13 @@
       background: none;
     }
 
+    & tr {
+      &.selected,
+      &:hover {
+        background-color: $color-dragitem-bg;
+      }
+    }
+
     & th,
     & td {
       border: 1px solid $color-black !important;

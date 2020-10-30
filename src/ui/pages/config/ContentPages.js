@@ -37,6 +37,7 @@ class ContentPages extends Component {
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.handleSearchInputKeyDown = this.handleSearchInputKeyDown.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handleSearchPageChange = this.handleSearchPageChange.bind(this);
   }
 
   componentWillMount() {
@@ -93,6 +94,12 @@ class ContentPages extends Component {
         selectedPage: page,
       });
     }
+  }
+
+  handleSearchPageChange(pagination) {
+    const { onSearchPageChange } = this.props;
+    const { searchValue } = this.state;
+    onSearchPageChange(pagination, searchValue);
   }
 
   render() {
@@ -160,6 +167,7 @@ class ContentPages extends Component {
               onWillMount={() => {}}
               onRowClick={this.handlePageSelect}
               onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
+              onSearchPageChange={this.handleSearchPageChange}
             />
           ) : (
             <PageTreeCompact
@@ -195,6 +203,7 @@ ContentPages.propTypes = {
   selectedPage: PropTypes.shape({}),
   loadOnPageSelect: PropTypes.bool,
   onLoadPage: PropTypes.func,
+  onSearchPageChange: PropTypes.func.isRequired,
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
