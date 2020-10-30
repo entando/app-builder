@@ -12,7 +12,7 @@ export const WIDGET_FORM_ID = 'widget-irakli';
 
 const WidgetConfigRenderer =
 ({
-  widget, widgetCode, widgetConfig, framePos, pageCode, intl, history,
+  widget, widgetCode, widgetConfig, framePos, pageCode, onSubmit, intl, history,
 }) => {
   const renderWidgetConfigForm = () => {
     const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
@@ -30,6 +30,7 @@ const WidgetConfigRenderer =
         <WidgetConfigMicrofrontend
           widget={widget}
           widgetConfig={widgetConfig}
+          onSubmit={onSubmit}
         />
       );
     }
@@ -38,7 +39,7 @@ const WidgetConfigRenderer =
 
     if (parameters && parameters.length > 0) {
       return (
-        <SimpleWidgetConfigForm parameters={parameters} />
+        <SimpleWidgetConfigForm parameters={parameters} onSubmit={onSubmit} />
       );
     }
     return <FormattedMessage id="widget.page.config.error" />;
@@ -57,6 +58,7 @@ WidgetConfigRenderer.propTypes = {
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number,
   pageCode: PropTypes.string,
+  onSubmit: PropTypes.func,
   history: PropTypes.shape({}).isRequired,
 };
 
@@ -65,6 +67,7 @@ WidgetConfigRenderer.defaultProps = {
   widgetConfig: null,
   framePos: null,
   pageCode: '',
+  onSubmit: () => {},
 };
 
 export default injectIntl(WidgetConfigRenderer);

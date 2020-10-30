@@ -189,6 +189,7 @@ class WidgetConfigPage extends Component {
                     pageCode={pageCode}
                     history={history}
                     ref={this.configFormRef}
+                    onSubmit={onSubmit}
                   />
                   {
                     isReadOnly && <div className="PageConfigPage__block-ui" />
