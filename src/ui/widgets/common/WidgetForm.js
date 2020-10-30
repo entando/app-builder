@@ -213,7 +213,9 @@ export class WidgetFormBody extends Component {
       <Spinner loading={!!loading}>
         <form
           onSubmit={this.props.handleSubmit(values =>
-            onSubmit(values, formWidgetConfig, formId, beforeSubmit))}
+            onSubmit({
+            values, widgetConfig: formWidgetConfig, formId, beforeSubmit,
+            }))}
           className="form-horizontal"
         >
           <Tabs id="widget-form-tab" defaultActiveKey={1} className="WidgetForm__maintab">

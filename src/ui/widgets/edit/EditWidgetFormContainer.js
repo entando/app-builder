@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
-import { submit, getFormValues, isDirty, isInvalid } from 'redux-form';
+import { get } from 'lodash';
+import { submit, getFormValues, isDirty, isInvalid, isSubmitting } from 'redux-form';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
-
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -24,6 +24,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
+import { isMicrofrontendWidgetForm, getMicrofrontend } from 'helpers/microfrontends';
 
 const EDIT_MODE = 'edit';
 
@@ -33,6 +34,7 @@ export const getWidgetFormProperties = (widget, state) => {
   const reduxFormId = appBuilderForm && appBuilderForm.reduxFormId;
   const widgetConfigDirty = reduxFormId && isDirty(appBuilderForm.reduxFormId)(state);
   const widgetConfigInvalid = reduxFormId && isInvalid(appBuilderForm.reduxFormId)(state);
+  const widgetConfigSubmitting = reduxFormId && isSubmitting(appBuilderForm.reduxFormId)(state);
   const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
 
   // TODO also should be here microftontend form id
@@ -42,6 +44,8 @@ export const getWidgetFormProperties = (widget, state) => {
     beforeSubmit,
     widgetConfigDirty,
     widgetConfigInvalid,
+    widgetConfigSubmitting,
+    isMfe: isMicrofrontendWidgetForm(widget),
   };
 };
 
@@ -77,13 +81,20 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
   },
-  onSubmit: (values, widgetConfig, formId, beforeSubmit) => {
+  onSubmit: ({
+    values, widgetConfig, formId, beforeSubmit, isMfe, widget,
+  }) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
 
-    if (formId && beforeSubmit) {
+    if (isMfe) {
+      const customElement = get(widget, 'configUi.customElement');
+      const configWebComponent = getMicrofrontend(customElement);
+      const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
+      dispatch(sendPutWidgets({ ...jsonData, config: updatedWidgetConfig }));
+    } else if (formId && beforeSubmit) {
       beforeSubmit(dispatch, widgetConfig).then((res) => {
         dispatch(sendPutWidgets({ ...jsonData, config: res }));
       });

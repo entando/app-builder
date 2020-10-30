@@ -74,7 +74,7 @@ class WidgetConfigPage extends Component {
     const {
       widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, history,
       appTourProgress, onCancel, onDiscard, intl, onSave, dirty, submitting, invalid,
-      beforeSubmit, formId, formWidgetConfig,
+      beforeSubmit, formId, formWidgetConfig, isMfe,
     } = this.props;
 
     const isReadOnly = widget && widget.readonlyPageWidgetConfig;
@@ -88,7 +88,9 @@ class WidgetConfigPage extends Component {
     };
 
     const handleSubmit = () => {
-      onSubmit(formWidgetConfig, formId, beforeSubmit);
+      onSubmit({
+        widgetConfig: formWidgetConfig, formId, beforeSubmit, isMfe, widget,
+      });
     };
 
     const handleSave = () => {
@@ -267,6 +269,7 @@ WidgetConfigPage.propTypes = {
   beforeSubmit: PropTypes.func,
   formId: PropTypes.string,
   formWidgetConfig: PropTypes.shape({}),
+  isMfe: PropTypes.bool,
 };
 
 WidgetConfigPage.defaultProps = {
@@ -279,6 +282,7 @@ WidgetConfigPage.defaultProps = {
   beforeSubmit: null,
   formId: '',
   formWidgetConfig: {},
+  isMfe: false,
 };
 
 export default WidgetConfigPage;

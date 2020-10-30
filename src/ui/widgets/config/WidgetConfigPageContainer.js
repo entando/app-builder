@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
-// eslint-disable-next-line no-unused-vars
-import { getFormValues, isDirty, isInvalid, isSubmitting, submit } from 'redux-form';
+import { get } from 'lodash';
+import { getMicrofrontend } from 'helpers/microfrontends';
+import { getFormValues } from 'redux-form';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
@@ -16,8 +17,7 @@ import { routeConverter } from '@entando/utils';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
-import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
+import { getWidgetFormProperties } from 'ui/widgets/edit/EditWidgetFormContainer';
 
 export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
   onDidMount: ({ widgetConfig }) => {
@@ -28,8 +28,15 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
       dispatch(initWidgetConfigPageWithConfigData(pageCode, widgetCode, parseInt(framePos, 10)));
     }
   },
-  onSubmit: (widgetConfig, formId, beforeSubmit) => {
-    if (formId && beforeSubmit) {
+  onSubmit: ({
+    widgetConfig, formId, beforeSubmit, isMfe, widget,
+  }) => {
+    if (isMfe) {
+      const customElement = get(widget, 'configUi.customElement');
+      const configWebComponent = getMicrofrontend(customElement);
+      const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
+      dispatch(updateConfiguredPageWidget(updatedWidgetConfig, params));
+    } else if (formId && beforeSubmit) {
       beforeSubmit(dispatch, widgetConfig).then((res) => {
         dispatch(updateConfiguredPageWidget(res, params));
       });
@@ -60,16 +67,12 @@ export const mapStateToProps = (state, { match: { params } }) => {
   };
 
   const widget = getSelectedWidget(state);
-  const appBuilderForm = getAppBuilderWidgetForm(widget);
 
-  const reduxFormId = appBuilderForm && appBuilderForm.reduxFormId;
-  const dirty = reduxFormId && isDirty(appBuilderForm.reduxFormId)(state);
-  const invalid = reduxFormId && isInvalid(appBuilderForm.reduxFormId)(state);
-  const submitting = reduxFormId && isSubmitting(appBuilderForm.reduxFormId)(state);
-  const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
-
-  // TODO also should be here microftontend form id
-  const formId = reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
+  const {
+    formId, beforeSubmit, widgetConfigDirty: dirty, widgetConfigInvalid: invalid,
+    widgetConfigSubmitting: submitting, isMfe,
+  } =
+   getWidgetFormProperties(widget, state);
 
   return {
     widgetCode,
@@ -85,6 +88,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     beforeSubmit,
     formId,
     formWidgetConfig: getFormValues(formId)(state),
+    isMfe,
   };
 };
 

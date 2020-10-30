@@ -2,13 +2,17 @@ import { get } from 'lodash';
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Button } from 'patternfly-react';
+// import { Button } from 'patternfly-react';
 
 import { getResourcePath, getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
 import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
-const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
+export const MFE_WIDGET_FORM_ID = 'mfeWidgetForm';
+
+const WidgetConfigMicrofrontend = ({
+  widget, widgetConfig,
+}) => {
   const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
   const customElement = get(widget, 'configUi.customElement');
 
@@ -18,11 +22,11 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
   const [everyScriptLoaded, someScriptError] = useScripts(scripts);
   const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets);
 
-  const handleSubmit = () => {
-    const configWebComponent = getMicrofrontend(customElement);
-    const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
-    onSubmit(updatedWidgetConfig);
-  };
+  // const handleSubmitTriggered = () => {
+  //   const configWebComponent = getMicrofrontend(customElement);
+  //   const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
+  //   onSubmit({ widgetConfig: updatedWidgetConfig, isMfe: true });
+  // };
 
   useEffect(() => {
     const microfrontend = getMicrofrontend(customElement);
@@ -32,18 +36,17 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
   }, [customElement, everyScriptLoaded, widgetConfig]);
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
-
   return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
     && !someScriptError && !someStylesheetError) ? (
       <Fragment>
         {microfrontendMarkup}
-        <Button
+        {/* <Button
           className="pull-right save"
           type="submit"
           bsStyle="primary"
-          onClick={handleSubmit}
+          onClick={handleSubmitTriggered}
         ><FormattedMessage id="app.save" />
-        </Button>
+        </Button> */}
       </Fragment>
     ) : <FormattedMessage id="widget.page.config.error" />;
 };
@@ -51,7 +54,8 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
 WidgetConfigMicrofrontend.propTypes = {
   widget: PropTypes.shape({}).isRequired,
   widgetConfig: PropTypes.shape({}),
-  onSubmit: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
+  // handleSubmit: PropTypes.func.isRequired,
 };
 
 WidgetConfigMicrofrontend.defaultProps = {
