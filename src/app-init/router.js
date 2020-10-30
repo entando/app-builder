@@ -75,7 +75,7 @@ export const ROUTE_ROLE_DETAIL = '/role/view/:roleCode';
 export const ROUTE_DATABASE_LIST = '/database';
 export const ROUTE_DATABASE_ADD = '/database/add';
 export const ROUTE_DATABASE_REPORT = '/database/report/:dumpCode';
-export const ROUTE_DATABASE_DUMP_TABLE = '/database/report/dumpTable/:dumpCode';
+export const ROUTE_DATABASE_DUMP_TABLE = '/database/report/dumpTable/:dumpCode/:datasource/:tableName';
 // files
 export const ROUTE_FILE_BROWSER = '/file-browser';
 export const ROUTE_FILE_BROWSER_UPLOAD = '/file-browser/upload';
