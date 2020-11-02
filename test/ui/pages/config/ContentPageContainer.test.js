@@ -62,6 +62,7 @@ describe('ContentPagesContainer', () => {
       expect(props.onPageSearch).toBeDefined();
       expect(props.onClear).toBeDefined();
       expect(props.onLoadPage).toBeDefined();
+      expect(props.onSearchPageChange).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {

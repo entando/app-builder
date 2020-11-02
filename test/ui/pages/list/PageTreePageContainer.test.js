@@ -1,5 +1,9 @@
 
+import { formValueSelector } from 'redux-form';
+
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/list/PageTreePageContainer';
+
+formValueSelector.mockReturnValue(() => () => 'test');
 
 const FAKE_STATE = {
   locale: 'en',
@@ -20,6 +24,7 @@ describe('ui/page-tree-page/PageTreePageContainer', () => {
     it('should map the correct properties', () => {
       const props = mapStateToProps(FAKE_STATE);
       expect(props.locale).toBeDefined();
+      expect(props.searchPageCodeToken).toBeDefined();
     });
   });
 
