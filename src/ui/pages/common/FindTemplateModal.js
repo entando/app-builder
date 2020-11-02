@@ -106,7 +106,7 @@ class FindTemplateModal extends React.Component {
     );
 
     return (
-      <GenericModalContainer modalId={MODAL_ID} modalTitle={modalTitle} modalClassName="FindTemplateModal__modal" style={{ width: 800 }}>
+      <GenericModalContainer modalId={MODAL_ID} modalTitle={modalTitle} modalClassName="FindTemplateModal__modal">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
         </Spinner>
