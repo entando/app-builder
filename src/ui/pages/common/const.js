@@ -33,3 +33,11 @@ export const METATAG_TYPE_OPTIONS = [
     text: 'property',
   },
 ];
+
+export const TEMPLATE_THUMBNAIL = {
+  '1-2-column': `${process.env.PUBLIC_URL}/images/1-2-column.svg`,
+  '1-2x2-1-column': `${process.env.PUBLIC_URL}/images/1-2x2-1-column.svg`,
+  '1-2x4-1-column': `${process.env.PUBLIC_URL}/images/1-2x4-1-column.svg`,
+  '1-column': `${process.env.PUBLIC_URL}/images/1-column.svg`,
+  custom: `${process.env.PUBLIC_URL}/images/custom-template.svg`,
+};

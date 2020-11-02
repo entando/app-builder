@@ -466,7 +466,7 @@ export default {
     'pages.pageForm.pagePlacement': 'Posizione della pagina',
     'pages.pageForm.pageTemplate': 'Template di Pagina',
     'pages.pageForm.pageTemplateHelp': 'Seleziona un page template per la pagina',
-    'pages.pageForm.findTemplate': 'Trova Template',
+    'pages.pageForm.findTemplate': 'Seleziona un modello',
     'pages.pageForm.displayedInMenu': 'Mostra nel menù',
     'pages.pageForm.displayedInMenuHelp': 'Mostra questa pagina nel menù',
     'pages.pageForm.seo': 'SEO',
