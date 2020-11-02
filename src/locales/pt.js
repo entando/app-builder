@@ -455,7 +455,7 @@ export default {
     'pages.pageForm.pagePlacement': 'Selecionar o local da Página',
     'pages.pageForm.pageTemplate': 'Modelo de Página',
     'pages.pageForm.pageTemplateHelp': 'Selecionar um Modelo de Página',
-    'pages.pageForm.findTemplate': 'Buscar Modelo',
+    'pages.pageForm.findTemplate': 'Selecione um modelo',
     'pages.pageForm.displayedInMenu': 'Mostrado no menu',
     'pages.pageForm.displayedInMenuHelp': 'Mostrar essa Página no Menu',
     'pages.pageForm.seo': 'SEO',
