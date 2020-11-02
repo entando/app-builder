@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
 import { Panel, Label } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -16,26 +16,6 @@ import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRender
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
-
-const msgs = defineMessages({
-  widgetConfigError: {
-    id: 'widget.page.config.error',
-    defaultMessage: 'Unable to load widget configuration',
-  },
-});
-
-function removeActionsButton(wrapper) {
-  const saveButton = wrapper.querySelectorAll('[class*=save]')[0];
-  const cancelButton = wrapper.querySelectorAll('[class*=cancel]')[0];
-
-  if (saveButton) {
-    saveButton.remove();
-  }
-
-  if (cancelButton) {
-    cancelButton.remove();
-  }
-}
 class WidgetConfigPage extends Component {
   constructor(props) {
     super(props);
@@ -48,16 +28,6 @@ class WidgetConfigPage extends Component {
 
   componentDidMount() {
     if (this.props.onDidMount) this.props.onDidMount(this.props);
-  }
-
-  componentDidUpdate() {
-    const { widget, intl } = this.props;
-    const isReadOnly = widget && widget.readonlyPageWidgetConfig;
-    const wrapper = document.getElementsByClassName('panel-body')[0];
-    if (wrapper && wrapper.hasChildNodes()
-      && wrapper.innerText !== intl.formatMessage(msgs.widgetConfigError) && isReadOnly) {
-      removeActionsButton(wrapper);
-    }
   }
 
   componentWillUnmount() {
@@ -73,7 +43,7 @@ class WidgetConfigPage extends Component {
   render() {
     const {
       widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, history,
-      appTourProgress, onCancel, onDiscard, intl, onSave, dirty, submitting, invalid,
+      appTourProgress, onCancel, onDiscard, intl, dirty, submitting, invalid,
       beforeSubmit, formId, formWidgetConfig, isMfe,
     } = this.props;
 
@@ -91,10 +61,6 @@ class WidgetConfigPage extends Component {
       onSubmit({
         widgetConfig: formWidgetConfig, formId, beforeSubmit, isMfe, widget,
       });
-    };
-
-    const handleSave = () => {
-      onSave(formId, beforeSubmit);
     };
 
     return (
@@ -216,27 +182,33 @@ class WidgetConfigPage extends Component {
           <br />
           <Row>
             <Col xs={12}>
-              <Button
-                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting}
-                onClick={handleSubmit}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-              <Button
-                className="pull-right NavigationBarConfigForm__cancel-btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="app.cancel" />
-              </Button>
+              {
+                !isReadOnly && (
+                  <Fragment>
+                    <Button
+                      className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                      type="submit"
+                      bsStyle="primary"
+                      disabled={invalid || submitting}
+                      onClick={handleSubmit}
+                    >
+                      <FormattedMessage id="app.save" />
+                    </Button>
+                    <Button
+                      className="pull-right NavigationBarConfigForm__cancel-btn"
+                      bsStyle="default"
+                      onClick={handleCancelClick}
+                    >
+                      <FormattedMessage id="app.cancel" />
+                    </Button>
+                  </Fragment>
+                )
+              }
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
                 invalid={invalid}
                 submitting={submitting}
-                onSave={handleSave}
+                onSave={handleSubmit}
                 onDiscard={onDiscard}
               />
             </Col>
@@ -261,7 +233,6 @@ WidgetConfigPage.propTypes = {
   history: PropTypes.shape({}).isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,

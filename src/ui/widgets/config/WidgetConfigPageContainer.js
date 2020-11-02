@@ -18,6 +18,7 @@ import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal'
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { getWidgetFormProperties } from 'ui/widgets/edit/EditWidgetFormContainer';
+import { setAppTourLastStep } from 'state/app-tour/actions';
 
 export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
   onDidMount: ({ widgetConfig }) => {
@@ -31,23 +32,20 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
   onSubmit: ({
     widgetConfig, formId, beforeSubmit, isMfe, widget,
   }) => {
+    dispatch(setVisibleModal(''));
     if (isMfe) {
       const customElement = get(widget, 'configUi.customElement');
       const configWebComponent = getMicrofrontend(customElement);
       const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
       dispatch(updateConfiguredPageWidget(updatedWidgetConfig, params));
     } else if (formId && beforeSubmit) {
+      dispatch(setAppTourLastStep(17));
       beforeSubmit(dispatch, widgetConfig).then((res) => {
         dispatch(updateConfiguredPageWidget(res, params));
       });
     } else {
       dispatch(updateConfiguredPageWidget(widgetConfig, params));
     }
-  },
-  onSave: () => {
-    // dispatch(setAppTourLastStep(17));
-    // dispatch(setVisibleModal(''));
-    // dispatch(submit(NavigationBarWidgetID));
   },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => {

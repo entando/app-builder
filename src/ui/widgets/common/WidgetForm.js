@@ -14,7 +14,6 @@ import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-// import SimpleWidgetConfigForm from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
 import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
 
 const MODE_NEW = 'new';
@@ -123,10 +122,10 @@ export class WidgetFormBody extends Component {
 
   render() {
     const {
-      intl, dirty, onCancel, onDiscard, onSave,
+      intl, dirty, onCancel, onDiscard,
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters,
-      parameters, onReplaceSubmit, match: { params }, onSubmit,
+      parameters, onReplaceSubmit, onSubmit,
       selectedWidget, history, formId, formWidgetConfig, beforeSubmit,
       widgetConfigDirty, widgetConfigInvalid,
     } = this.props;
@@ -318,9 +317,6 @@ export class WidgetFormBody extends Component {
                         widgetConfig={config}
                         widgetCode={selectedWidget && selectedWidget.code}
                         extFormName={widgetFormName}
-                        pageCode={params.pageCode}
-                        // TODO remove this unused stuff
-                        frameId={params.frameId}
                         widget={{ ...selectedWidget, parameters: paramFields }}
                         onSubmit={onSubmit}
                         history={history}
@@ -354,7 +350,10 @@ export class WidgetFormBody extends Component {
                 contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
                 invalid={invalid}
                 submitting={submitting}
-                onSave={onSave}
+                onSave={this.props.handleSubmit(values =>
+                  onSubmit({
+                  values, widgetConfig: formWidgetConfig, formId, beforeSubmit,
+                  }))}
                 onDiscard={onDiscard}
               />
             </Col>
@@ -392,12 +391,8 @@ WidgetFormBody.propTypes = {
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
-  match: PropTypes.shape({
-    params: PropTypes.shape({}),
-  }),
   history: PropTypes.shape({}).isRequired,
   formId: PropTypes.string,
   formWidgetConfig: PropTypes.shape({}),
@@ -425,9 +420,6 @@ WidgetFormBody.defaultProps = {
   parameters: [],
   dirty: false,
   loading: false,
-  match: {
-    params: {},
-  },
   onReplaceSubmit: () => {},
   formId: '',
   formWidgetConfig: {},

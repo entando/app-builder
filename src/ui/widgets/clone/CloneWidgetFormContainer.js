@@ -75,7 +75,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     }
     dispatch(initNewUserWidget(parentCode, true));
   },
-  onSubmit: (values) => {
+  onSubmit: ({ values }) => {
     const { config: configFields } = values;
     const jsonData = {
       ...values,

@@ -121,16 +121,9 @@ const beforeSubmit = (dispatch, { expressions }) => new Promise((resolve, reject
   return dispatch(sendGetNavigatorNavspecFromExpressions(expressions)).then((res) => {
     if (res) {
       dispatch(setAppTourLastStep(17));
-      // const {
-      //   pageCode, frameId, widgetCode,
-      // } = ownProps;
       const payload = { navSpec: res.navSpec };
       dispatch(clearErrors());
       return resolve(payload);
-      // return dispatch(updateConfiguredPageWidget(
-      //   payload,
-      //   { pageCode, framePos: frameId, widgetCode },
-      // ));
     }
     return reject();
   });

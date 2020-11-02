@@ -37,7 +37,6 @@ export const getWidgetFormProperties = (widget, state) => {
   const widgetConfigSubmitting = reduxFormId && isSubmitting(appBuilderForm.reduxFormId)(state);
   const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
 
-  // TODO also should be here microftontend form id
   const formId = reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
   return {
     formId,
@@ -88,6 +87,8 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
+
+    dispatch(setVisibleModal(''));
 
     if (isMfe) {
       const customElement = get(widget, 'configUi.customElement');

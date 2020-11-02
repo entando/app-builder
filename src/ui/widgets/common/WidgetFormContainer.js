@@ -24,7 +24,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(initialize('widget'));
   },
-  onSubmit: (values) => {
+  onSubmit: ({ values }) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
