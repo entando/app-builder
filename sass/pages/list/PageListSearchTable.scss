@@ -18,11 +18,4 @@
   &__th-xs {
     width: 5%;
   }
-
-  &__table &__row {
-    &--selected,
-    &:hover {
-      background-color: $color-dragitem-bg;
-    }
-  }
 }

@@ -100,6 +100,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setSelectedPage(page));
     history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: page.code }));
   },
+  onSearchPageChange: (page = { page: 1, pageSize: 10 }, pageCodeToken) => {
+    const queryString = `?pageCodeToken=${pageCodeToken}`;
+    dispatch(fetchSearchPages(page, queryString));
+  },
 });
 
 export default connect(

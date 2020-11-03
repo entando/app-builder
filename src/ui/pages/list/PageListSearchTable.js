@@ -19,11 +19,11 @@ class PageListSearchTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    this.props.onSearchPageChange({ page, pageSize: this.props.pageSize });
   }
 
   changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
+    this.props.onSearchPageChange({ page: 1, pageSize });
   }
 
   renderTable() {
@@ -84,7 +84,7 @@ class PageListSearchTable extends Component {
         <tr
           key={page.code}
           onClick={() => { onRowClick(page); }}
-          className={`PageListSearchTable__row ${selectedPage && selectedPage.code === page.code ? 'PageListSearchTable__row--selected' : ''}`}
+          className={`PageListSearchTable__row ${selectedPage && selectedPage.code === page.code ? 'selected' : ''}`}
         >
           <td className="PageListSearchRow__td">{page.code}</td>
           <td className="PageListSearchRow__td">{page.titles[locale]}</td>
@@ -145,6 +145,7 @@ PageListSearchTable.propTypes = {
   onRowClick: PropTypes.func,
   onClickViewPublishedPage: PropTypes.func,
   onClickPreview: PropTypes.func,
+  onSearchPageChange: PropTypes.func.isRequired,
   domain: PropTypes.string.isRequired,
 };
 

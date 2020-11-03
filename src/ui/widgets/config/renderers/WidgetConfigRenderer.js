@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
+import { hasMicrofrontendConfig } from 'helpers/microfrontends';
 
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
@@ -23,7 +23,7 @@ const WidgetConfigRenderer =
         null,
       );
     }
-    if (isMicrofrontendWidgetForm(widget)) {
+    if (hasMicrofrontendConfig(widget)) {
       return (
         <WidgetConfigMicrofrontend
           widget={widget}

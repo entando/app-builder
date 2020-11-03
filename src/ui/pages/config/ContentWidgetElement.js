@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
-import ContentWidgetElementIcon from 'ui/pages/config/ContentWidgetElementIcon';
+import WidgetIcon from 'ui/pages/config/WidgetIcon';
 
 const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (
     <div className="ContentWidgetElement list-group-item">
       <div className="ContentWidgetElement__main list-view-pf-main-info">
         <div className="ContentWidgetElement__icon list-view-pf-left">
-          <ContentWidgetElementIcon widgetId={widgetId} />
+          <WidgetIcon widgetId={widgetId} />
         </div>
         <div className="list-view-pf-body">
           <div className="list-view-pf-description">

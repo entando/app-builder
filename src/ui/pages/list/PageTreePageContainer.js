@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import { convertToQueryString } from '@entando/utils';
 import { clearErrors } from '@entando/messages';
+import { formValueSelector } from 'redux-form';
+
 import PageTreePage from 'ui/pages/list/PageTreePage';
 import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree } from 'state/pages/actions';
 import { getLocale } from 'state/locale/selectors';
@@ -15,6 +17,7 @@ export const mapStateToProps = state => ({
   locale: getLocale(state),
   search: getSearchPages(state),
   loading: getLoading(state).pageTree,
+  searchPageCodeToken: formValueSelector('pageSearch')(state, 'pageCodeToken'),
 });
 
 export const mapDispatchToProps = dispatch => ({

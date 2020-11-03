@@ -13,7 +13,7 @@ class PageTreeCompact extends Component {
       pages, onClickDetails, onClickAdd, onClickEdit, onClickConfigure,
       onClickClone, onClickDelete, onClickUnPublish, onClickPublish,
       onRowClick, onClickViewPublishedPage, onClickPreview, selectedPage,
-      domain, locale,
+      domain, locale, loadOnPageSelect,
     } = this.props;
     const handleClick = (handler, page) => (e) => {
       e.stopPropagation();
@@ -104,17 +104,24 @@ class PageTreeCompact extends Component {
               className="PageTreeCompact__icons-label"
               style={{ marginLeft: page.depth * 24 }}
               onClick={(e) => {
-                e.stopPropagation();
+                if (loadOnPageSelect && !page.isEmpty) e.stopPropagation();
                 onClickExpand();
               }}
               onKeyDown={onClickExpand}
             >
               <TreeNodeExpandedIcon expanded={page.expanded} />
+              {!loadOnPageSelect && (
+                <span className="PageTreeCompact__page-name">
+                  { page.title }
+                </span>
+              )}
+              <RowSpinner loading={!!page.loading} />
+            </span>
+            {loadOnPageSelect && (
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>
-              <RowSpinner loading={!!page.loading} />
-            </span>
+            )}
           </td>
           <td className="text-center PageTreeCompact__status-col">
             <PageStatusIcon status={page.status} />
@@ -194,12 +201,14 @@ PageTreeCompact.propTypes = {
   onClickPreview: PropTypes.func.isRequired,
   domain: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  loadOnPageSelect: PropTypes.bool,
   className: PropTypes.string,
 };
 
 PageTreeCompact.defaultProps = {
   pages: [],
   selectedPage: {},
+  loadOnPageSelect: false,
   onExpandPage: () => {},
   onClickEdit: null,
   onClickConfigure: null,

@@ -64,8 +64,14 @@
 
   &__pagetree--loadable,
   &__search-table--loadable {
-    tr { // sass-lint:disable-line no-qualifying-elements
-      cursor: pointer;
+    .PageTreeCompact {
+      // sass-lint:disable nesting-depth
+      &__row,
+      &__icons-label,
+      &__page-name {
+        cursor: pointer;
+      }
+      // sass-lint:enable nesting-depth
     }
   }
 
@@ -80,6 +86,13 @@
     & thead,
     & tr {
       background: none;
+    }
+
+    & tr {
+      &.selected,
+      &:hover {
+        background-color: $color-dragitem-bg;
+      }
     }
 
     & th,

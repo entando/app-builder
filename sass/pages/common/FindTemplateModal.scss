@@ -1,0 +1,29 @@
+.FindTemplateModal {
+  &__template-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  &__template-list-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  &__template-list-li {
+    display: inline-block;
+    position: relative;
+    width: 132px;
+    margin: 10px;
+  }
+
+  &__dropdown-kebab {
+    position: absolute;
+    top: 0;
+    right: -10px;
+  }
+
+  &__modal {
+    width: 650px;
+  }
+}

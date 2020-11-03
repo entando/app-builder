@@ -9,7 +9,7 @@ const getDomain = () => {
 
 export const getResourcePath = resource => `${getDomain()}/cmsresources/${resource}`;
 
-export const isMicrofrontendWidgetForm = widget =>
+export const hasMicrofrontendConfig = widget =>
   get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');
 
 export const getMicrofrontend = customElement => document.querySelector(customElement);
