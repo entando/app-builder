@@ -1,0 +1,11 @@
+.DatabaseDumpTablePage {
+  &__code {
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    background-color: #f4f5f7;
+    padding: 10px;
+    margin-top: 10px;
+    max-height: 600px;
+    overflow: auto;
+  }
+}

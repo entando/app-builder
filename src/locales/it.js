@@ -276,6 +276,7 @@ export default {
     'app.loading': 'Caricamento',
     'app.select': 'Seleziona',
     'app.saveAndEditProfile': 'Salva e aggiorna il profilo',
+    'app.copy': 'Copia',
     'menu.dashboard': 'Dashboard',
     'menu.pageTree': 'Gestione',
     'menu.uxComponents': 'Componenti',

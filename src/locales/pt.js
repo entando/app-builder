@@ -272,6 +272,7 @@ export default {
     'app.license': 'Licença',
     'app.loading': 'Carregando',
     'app.select': 'Selecionar',
+    'app.copy': 'Copiar',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Páginas',
     'menu.pageTree': 'Gerenciamento',
