@@ -105,12 +105,4 @@ describe('WidgetConfigMicrofrontend', () => {
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
   });
-
-  it('calls onSubmit if user clicks on save button', () => {
-    useScript.mockImplementation(() => [true, false]);
-    const { getByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
-    const saveButton = getByText('app.save');
-    fireEvent.click(saveButton);
-    expect(onSubmit).toHaveBeenCalledWith(widgetConfig);
-  });
 });

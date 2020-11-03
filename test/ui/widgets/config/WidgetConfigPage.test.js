@@ -10,6 +10,10 @@ const PAGE_CODE = 'page_code';
 const FRAME_POS = 0;
 const FRAME_NAME = 'Top Bar 1';
 
+const intlMock = {
+  formatMessage: jest.fn(),
+};
+
 
 describe('WidgetConfigPage', () => {
   let component;
@@ -22,6 +26,7 @@ describe('WidgetConfigPage', () => {
         framePos={FRAME_POS}
         frameName={FRAME_NAME}
         onSubmit={() => {}}
+        intl={intlMock}
       />
     ));
   });
@@ -52,6 +57,7 @@ describe('WidgetConfigPage', () => {
         frameName={FRAME_NAME}
         onSubmit={() => {}}
         onDidMount={onDidMount}
+        intl={intlMock}
       />
     ));
     expect(onDidMount).toHaveBeenCalled();
@@ -70,6 +76,7 @@ describe('WidgetConfigPage', () => {
         frameName={FRAME_NAME}
         onSubmit={() => {}}
         onWillUnmount={onWillUnmount}
+        intl={intlMock}
       />
     ));
     expect(onWillUnmount).not.toHaveBeenCalled();
@@ -85,6 +92,7 @@ describe('WidgetConfigPage', () => {
         framePos={FRAME_POS}
         frameName={FRAME_NAME}
         onSubmit={() => {}}
+        intl={intlMock}
       />
     ));
     expect(component.state('infoTableOpen')).toBe(false);

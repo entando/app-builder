@@ -32,6 +32,7 @@ const TEST_STATE = {
   pageConfig: {
     configMap: {},
   },
+  appTour: {},
 };
 
 const ownProps = {
@@ -105,7 +106,7 @@ describe('WidgetConfigPageContainer', () => {
 
     describe('prop onSubmit', () => {
       beforeEach(() => {
-        props.onSubmit(WIDGET_CONFIG);
+        props.onSubmit({ widgetConfig: WIDGET_CONFIG });
       });
       it('dispatch updateConfiguredPageWidget()', () => {
         expect(dispatchMock).toHaveBeenCalledWith('updateConfiguredPageWidget_result');
