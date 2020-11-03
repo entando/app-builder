@@ -25,6 +25,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(initialize('widget'));
   },
   onSubmit: ({ values }) => {
+    dispatch(setVisibleModal(''));
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,

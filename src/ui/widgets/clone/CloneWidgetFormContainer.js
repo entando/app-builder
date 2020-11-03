@@ -76,6 +76,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(initNewUserWidget(parentCode, true));
   },
   onSubmit: ({ values }) => {
+    dispatch(setVisibleModal(''));
     const { config: configFields } = values;
     const jsonData = {
       ...values,

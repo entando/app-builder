@@ -8,8 +8,6 @@ import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
 import SimpleWidgetConfigForm from '../forms/SimpleWidgetConfigForm';
 
-export const WIDGET_FORM_ID = 'widget-irakli';
-
 const WidgetConfigRenderer =
 ({
   widget, widgetCode, widgetConfig, framePos, pageCode, onSubmit, intl, history,

@@ -96,7 +96,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
       dispatch(sendPutWidgets({ ...jsonData, config: updatedWidgetConfig }));
     } else if (formId && beforeSubmit) {
-      beforeSubmit(dispatch, widgetConfig).then((res) => {
+      beforeSubmit(dispatch, widgetConfig, params.widgetCode).then((res) => {
         dispatch(sendPutWidgets({ ...jsonData, config: res }));
       });
     } else {

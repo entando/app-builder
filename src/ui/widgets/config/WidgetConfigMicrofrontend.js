@@ -2,7 +2,6 @@ import { get } from 'lodash';
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-// import { Button } from 'patternfly-react';
 
 import { getResourcePath, getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
 import useScripts from 'helpers/useScripts';
