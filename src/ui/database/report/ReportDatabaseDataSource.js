@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
+import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
 
 import { ROUTE_DATABASE_DUMP_TABLE } from 'app-init/router';
 
@@ -58,6 +59,8 @@ const ReportDatabaseDataSource = ({
           {renderTableRows}
         </tbody>
       </table>
+
+      <DatabaseDumpTablePageContainer />
     </div>
   );
 };

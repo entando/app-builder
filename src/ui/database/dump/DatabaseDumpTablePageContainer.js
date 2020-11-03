@@ -13,7 +13,9 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onDidMount: () => {
     const { match: { params: { datasource, tableName, dumpCode } = {} } = {} } = ownProps;
-    dispatch(fetchDatabaseDumpTable(dumpCode, datasource, tableName));
+    if (dumpCode && datasource && tableName) {
+      dispatch(fetchDatabaseDumpTable(dumpCode, datasource, tableName));
+    }
   },
 });
 
