@@ -24,7 +24,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
-import { isMicrofrontendWidgetForm, getMicrofrontend } from 'helpers/microfrontends';
+import { hasMicrofrontendConfig, getMicrofrontend } from 'helpers/microfrontends';
 
 const EDIT_MODE = 'edit';
 
@@ -44,7 +44,6 @@ export const getWidgetFormProperties = (widget, state) => {
     widgetConfigDirty,
     widgetConfigInvalid,
     widgetConfigSubmitting,
-    isMfe: isMicrofrontendWidgetForm(widget),
   };
 };
 
@@ -81,7 +80,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchWidget(params.widgetCode));
   },
   onSubmit: ({
-    values, widgetConfig, formId, beforeSubmit, isMfe, widget,
+    values, widgetConfig, formId, beforeSubmit, widget,
   }) => {
     const jsonData = {
       ...values,
@@ -90,7 +89,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
 
     dispatch(setVisibleModal(''));
 
-    if (isMfe) {
+    if (hasMicrofrontendConfig(widget)) {
       const customElement = get(widget, 'configUi.customElement');
       const configWebComponent = getMicrofrontend(customElement);
       const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;

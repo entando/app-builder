@@ -14,6 +14,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { hasMicrofrontendConfig } from 'helpers/microfrontends';
 import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
 
 const MODE_NEW = 'new';
@@ -59,7 +60,7 @@ const msgs = defineMessages({
   },
   widgetDefaultConfigTab: {
     id: 'widget.page.create.defaultConfig',
-    default: 'Default config',
+    default: 'Default configuration',
   },
   defaultUi: {
     id: 'widget.page.tab.defaultUi',
@@ -168,9 +169,10 @@ export class WidgetFormBody extends Component {
       defaultUITab = null;
     }
 
-    const showConfigTab = selectedWidget && !selectedWidget.locked && selectedWidget.config;
     const hasParentWidget = parentWidgetParameters.length > 0;
     const hasOwnParams = !hasParentWidget && parameters.length > 0;
+    const showConfigTab = selectedWidget && !selectedWidget.locked &&
+      (hasParentWidget || hasOwnParams || hasMicrofrontendConfig(selectedWidget));
 
     const NativeWidgetConfigForm = selectedWidget
       && (mode === MODE_EDIT || mode === MODE_CLONE)
@@ -305,7 +307,7 @@ export class WidgetFormBody extends Component {
             {showConfigTab && (
               <Tab
                 eventKey={2}
-                title={intl.formatMessage(msgs[`${formKind}Tab`])}
+                title={intl.formatMessage(msgs.widgetDefaultConfigTab)}
               >
                 <Row>
                   <Col xs={12}>

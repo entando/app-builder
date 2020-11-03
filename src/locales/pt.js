@@ -763,7 +763,7 @@ export default {
     'singlePageSettings.generalSettings': 'Configurações Gerais',
     'singlePageSettings.pageTitle': 'Título da Página',
     'singlePageSettings.updateSuccess': 'Página atualizada com sucesso',
-    'widgets.configUi': 'Config UI',
+    'widgets.configUi': 'Microfrontend Config UI',
     'app.filterTypesSelect.id': 'ID',
     'app.filterTypesSelect.version': 'Versão',
     'app.filterTypesSelect.name': 'Nome',
