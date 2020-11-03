@@ -7,6 +7,7 @@ import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_DETAIL, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
+import WidgetIcon from 'ui/pages/config/WidgetIcon';
 
 
 class WidgetFrame extends Component {
@@ -108,7 +109,7 @@ class WidgetFrame extends Component {
           { actionsMenu }
 
           <div className="WidgetFrame__descriptor">
-            <i className="WidgetFrame__icon fa fa-puzzle-piece" />
+            <WidgetIcon widgetId={widgetId} />
             { widgetName }
           </div>
         </div>

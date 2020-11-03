@@ -29,7 +29,7 @@ const widgetSVGIcons = {
   jpseo_content_viewer: 'file-alt',
 };
 
-const ContentWidgetElementIcon = ({ widgetId }) => {
+const WidgetIcon = ({ widgetId }) => {
   const widgetIcon = widgetIcons[widgetId] || get(widgetSVGIcons, widgetId, widgetIcons.default);
   const isSVG = widgetIcon !== widgetIcons.default
     && Object.keys(widgetSVGIcons).includes(widgetId);
@@ -108,25 +108,25 @@ const ContentWidgetElementIcon = ({ widgetId }) => {
       <span className={`
         fa fa-default
         ${widgetIcon}
-        ContentWidgetElement__widget-icon
+        WidgetIcon
         fa-banner-main-left`}
       />
     );
   }
 
   return (
-    <span className="ContentWidgetElement__widget-icon fa-banner-main-left">
+    <span className="WidgetIcon fa-banner-main-left">
       {getSVGIcon(widgetIcon)}
     </span>
   );
 };
 
-ContentWidgetElementIcon.propTypes = {
+WidgetIcon.propTypes = {
   widgetId: PropTypes.string,
 };
 
-ContentWidgetElementIcon.defaultProps = {
+WidgetIcon.defaultProps = {
   widgetId: null,
 };
 
-export default ContentWidgetElementIcon;
+export default WidgetIcon;

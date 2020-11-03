@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
-import { Button, Modal, Col, Row, Paginator, Spinner } from 'patternfly-react';
+import { Modal, Col, Row, Paginator, Spinner, DropdownKebab, MenuItem } from 'patternfly-react';
 import paginatorMessages from 'ui/paginatorMessages';
 import { ROUTE_PAGE_TEMPLATE_DETAIL } from 'app-init/router';
+import { TEMPLATE_THUMBNAIL } from 'ui/pages/common/const';
 
 export const MODAL_ID = 'FindTemplateModal';
 
@@ -29,7 +30,9 @@ class FindTemplateModal extends React.Component {
   }
 
   renderTable() {
-    const { page, pageSize, intl } = this.props;
+    const {
+      page, pageSize, intl, pageTemplates,
+    } = this.props;
     const pagination = {
       page,
       perPage: pageSize,
@@ -43,58 +46,56 @@ class FindTemplateModal extends React.Component {
     return (
       <Row>
         <Col xs={12}>
-          <table className="PageTemplateListTable__table table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th><FormattedMessage id="app.code" /></th>
-                <th><FormattedMessage id="app.name" /></th>
-                <th className="text-center" width="180px">
-                  <FormattedMessage id="app.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderRows()}
-            </tbody>
-          </table>
-          <Paginator
-            pagination={pagination}
-            viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
-            messages={messages}
-          />
+          <ul className="FindTemplateModal__template-list">
+            {this.renderRows()}
+          </ul>
+          {
+            pageTemplates.length > pageSize && <Paginator
+              pagination={pagination}
+              viewType="table"
+              itemCount={this.props.totalItems}
+              onPageSet={this.changePage}
+              onPerPageSelect={this.changePageSize}
+              messages={messages}
+            />
+          }
         </Col>
       </Row>
     );
   }
 
   renderRows() {
-    const { onSelectClick } = this.props;
+    const { onSelectClick, pageTemplates } = this.props;
     return (
-      this.props.pageTemplates.map(pageTemplate => (
-        <tr key={pageTemplate.code}>
-          <td className="PageTemplateListTable__td">{pageTemplate.code}</td>
-          <td className="PageTemplateListTable__td">{pageTemplate.descr}</td>
-          <td className="PageTemplateListTable__td text-center">
-            <Button
-              bsStyle="default"
-              id="FindTemplateModal__button-detail"
+      pageTemplates.map(page => (
+        <li key={page.code} className="FindTemplateModal__template-list-li">
+          {
+            <button className="FindTemplateModal__template-list-button" onClick={() => { onSelectClick(page.code); }}>
+              <img
+                src={TEMPLATE_THUMBNAIL[page.code] || TEMPLATE_THUMBNAIL.custom}
+                alt={page.descr}
+              />
+            </button>
+          }
+          <DropdownKebab
+            className="FindTemplateModal__dropdown-kebab"
+            id={`${page.code}-actions`}
+            pullRight
+          >
+            <MenuItem
               onClick={() => {
-                const template = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', pageTemplate.code);
-                const link = `${global.location.href.split('/page')[0]}${template}`;
-                window.open(link);
-            }}
+                    const template = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', page.code);
+                    const link = `${global.location.href.split('/page')[0]}${template}`;
+                    window.open(link);
+                }}
             >
               <FormattedMessage id="app.details" />
-            </Button>
-            {' '}
-            <Button bsStyle="primary" id="FindTemplateModal__button-select" onClick={() => { onSelectClick(pageTemplate.code); }}>
-              <FormattedMessage id="app.select" />
-            </Button>
-          </td>
-        </tr>
+            </MenuItem>
+          </DropdownKebab>
+          <div className="text-center">
+            {page.descr}
+          </div>
+        </li>
       ))
     );
   }
@@ -105,7 +106,7 @@ class FindTemplateModal extends React.Component {
     );
 
     return (
-      <GenericModalContainer modalId={MODAL_ID} modalTitle={modalTitle} className="FindTemplateModal">
+      <GenericModalContainer modalId={MODAL_ID} modalTitle={modalTitle} modalClassName="FindTemplateModal__modal">
         <Spinner loading={!!this.props.loading}>
           {this.renderTable()}
         </Spinner>

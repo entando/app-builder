@@ -33,17 +33,17 @@
   &__descriptor {
     display: flex;
     flex-direction: column;
-  }
-
-  &__icon {
-    color: $color-pf-green-400;
-    font-size: 20px;
-    line-height: 35px;
+    justify-content: center;
+    height: 100%;
   }
 
   &--drag-hover {
     border: 1px solid $color-pf-orange-300;
     background: $color-pf-black-200;
+  }
+
+  .WidgetIcon {
+    font-size: 1.5em;
   }
 }
 
