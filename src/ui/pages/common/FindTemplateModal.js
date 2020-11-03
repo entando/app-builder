@@ -65,12 +65,12 @@ class FindTemplateModal extends React.Component {
   }
 
   renderRows() {
-    const { onSelectClick, pageTemplates } = this.props;
+    const { onSelectClick, pageTemplates, isEditMode } = this.props;
     return (
       pageTemplates.map(page => (
         <li key={page.code} className="FindTemplateModal__template-list-li">
           {
-            <button className="FindTemplateModal__template-list-button" onClick={() => { onSelectClick(page.code); }}>
+            <button className="FindTemplateModal__template-list-button" onClick={() => { onSelectClick(page.code, isEditMode); }}>
               <img
                 src={TEMPLATE_THUMBNAIL[page.code] || TEMPLATE_THUMBNAIL.custom}
                 alt={page.descr}
@@ -92,7 +92,7 @@ class FindTemplateModal extends React.Component {
               <FormattedMessage id="app.details" />
             </MenuItem>
           </DropdownKebab>
-          <div className="text-center">
+          <div className="text-center FindTemplateModal__caption">
             {page.descr}
           </div>
         </li>
@@ -126,11 +126,13 @@ FindTemplateModal.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   onSelectClick: PropTypes.func.isRequired,
+  isEditMode: PropTypes.bool,
 };
 
 FindTemplateModal.defaultProps = {
   loading: false,
   pageTemplates: [],
+  isEditMode: false,
 };
 
 export default injectIntl(FindTemplateModal);
