@@ -276,6 +276,7 @@ export default {
     'app.license': 'License',
     'app.select': 'Select',
     'app.saveAndEditProfile': 'Save and edit profile',
+    'app.copy': 'Copy',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Pages',
     'menu.pageTree': 'Management',

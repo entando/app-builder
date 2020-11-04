@@ -28,14 +28,14 @@ describe('ui/database/dump/DatabaseDumpTablePageContainer', () => {
   });
   describe('mapDispatchToProps', () => {
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock, {});
+      props = mapDispatchToProps(dispatchMock, { match: { params: { dumpCode: 'dumpCode', datasource: 'datasource', tableName: 'tableName' } } });
     });
     it('should map the correct function properties', () => {
-      expect(props.onDidMount).toBeDefined();
+      expect(props.fetchDumpTable).toBeDefined();
     });
 
-    it('should dispatch an action if onDidMount is called', () => {
-      props.onDidMount({});
+    it('should dispatch an action if fetchDumpTable is called', () => {
+      props.fetchDumpTable({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchDatabaseDumpTable).toHaveBeenCalled();
     });
