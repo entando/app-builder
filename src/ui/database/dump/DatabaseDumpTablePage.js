@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Proptypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
@@ -15,12 +15,16 @@ function copyContent() {
   window.getSelection().removeAllRanges();// to deselect
 }
 
-class DatabaseDumpTablePage extends Component {
+class DatabaseDumpTablePage extends PureComponent {
   componentDidMount() {
     this.props.fetchDumpTable();
   }
-  componentDidUpdate() {
-    this.props.fetchDumpTable();
+
+  componentDidUpdate(prevProps) {
+    const { dumpData, isModalOpen } = this.props;
+    if (!isModalOpen && dumpData.length === 0 && prevProps.dumpData !== dumpData) {
+      this.props.fetchDumpTable();
+    }
   }
 
   render() {
@@ -43,9 +47,12 @@ class DatabaseDumpTablePage extends Component {
 DatabaseDumpTablePage.propTypes = {
   fetchDumpTable: Proptypes.func.isRequired,
   dumpData: Proptypes.string,
+  isModalOpen: Proptypes.bool,
 };
 
 DatabaseDumpTablePage.defaultProps = {
   dumpData: '',
+  isModalOpen: false,
 };
+
 export default DatabaseDumpTablePage;
