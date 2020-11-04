@@ -62,6 +62,10 @@ const msgs = defineMessages({
     id: 'widget.page.create.defaultConfig',
     default: 'Default configuration',
   },
+  readonlyPageWidgetConfigHelpText: {
+    id: 'widget.help.readonlyPageWidgetConfig',
+    default: 'If enabled, the widget will keep the default configuration defined here when it will be configured on a page',
+  },
   defaultUi: {
     id: 'widget.page.tab.defaultUi',
     defaultMessage: 'Default UI',
@@ -124,13 +128,12 @@ export class WidgetFormBody extends Component {
   render() {
     const {
       intl, dirty, onCancel, onDiscard,
-      invalid, submitting, loading, mode, config,
+      invalid, submitting, loading, mode,
       parentWidget, parentWidgetParameters,
       parameters, onReplaceSubmit, onSubmit,
       selectedWidget, history, formId, formWidgetConfig, beforeSubmit,
       widgetConfigDirty, widgetConfigInvalid,
     } = this.props;
-
 
     const handleCancelClick = () => {
       if (dirty || widgetConfigDirty) {
@@ -215,7 +218,7 @@ export class WidgetFormBody extends Component {
         <form
           onSubmit={this.props.handleSubmit(values =>
             onSubmit({
-            values, widgetConfig: formWidgetConfig, formId, beforeSubmit,
+              values, widgetConfig: formWidgetConfig, formId, beforeSubmit, widget: selectedWidget,
             }))}
           className="form-horizontal"
         >
@@ -243,7 +246,7 @@ export class WidgetFormBody extends Component {
                         name="readonlyPageWidgetConfig"
                         component={SwitchRenderer}
                         label={
-                          <FormLabel labelId="widget.page.create.readonlyPageWidgetConfig" helpText={<FormattedMessage id="widget.help.readonlyPageWidgetConfig" />} />
+                          <FormLabel labelId="widget.page.create.readonlyPageWidgetConfig" helpText={intl.formatMessage(msgs.readonlyPageWidgetConfigHelpText)} />
                         }
                       />
                     }
@@ -316,7 +319,7 @@ export class WidgetFormBody extends Component {
                         name="config"
                         component={WidgetConfigRenderer}
                         cloneMode
-                        widgetConfig={config}
+                        widgetConfig={formWidgetConfig}
                         widgetCode={selectedWidget && selectedWidget.code}
                         extFormName={widgetFormName}
                         widget={{ ...selectedWidget, parameters: paramFields }}
@@ -354,7 +357,7 @@ export class WidgetFormBody extends Component {
                 submitting={submitting}
                 onSave={this.props.handleSubmit(values =>
                   onSubmit({
-                  values, widgetConfig: formWidgetConfig, formId, beforeSubmit,
+                    values, widgetConfig: formWidgetConfig, formId, beforeSubmit,
                   }))}
                 onDiscard={onDiscard}
               />
@@ -372,7 +375,6 @@ WidgetFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  config: PropTypes.shape({}),
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -413,7 +415,6 @@ WidgetFormBody.defaultProps = {
     code: '',
   }],
   mode: MODE_NEW,
-  config: {},
   defaultUIField: '',
   parentWidget: null,
   selectedWidget: null,

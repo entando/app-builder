@@ -24,6 +24,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
+import { MFE_WIDGET_FORM_ID } from 'ui/widgets/config/WidgetConfigMicrofrontend';
 import { hasMicrofrontendConfig, getMicrofrontend } from 'helpers/microfrontends';
 
 const EDIT_MODE = 'edit';
@@ -37,7 +38,8 @@ export const getWidgetFormProperties = (widget, state) => {
   const widgetConfigSubmitting = reduxFormId && isSubmitting(appBuilderForm.reduxFormId)(state);
   const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
 
-  const formId = reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
+  const formId = hasMicrofrontendConfig(widget) ?
+    MFE_WIDGET_FORM_ID : reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
   return {
     formId,
     beforeSubmit,
@@ -66,7 +68,8 @@ export const mapStateToProps = (state) => {
       languages: getActiveLanguages(state),
       loading: getLoading(state).fetchWidget,
       formId,
-      formWidgetConfig: getFormValues(formId)(state),
+      formWidgetConfig: formId === MFE_WIDGET_FORM_ID ?
+        get(selectedWidget, 'config', null) : getFormValues(formId)(state),
       beforeSubmit,
       widgetConfigDirty,
       widgetConfigInvalid,
