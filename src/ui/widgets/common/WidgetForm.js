@@ -254,7 +254,7 @@ export class WidgetFormBody extends Component {
                       <div className="form-group">
                         <Col xs={2} className="text-right">
                           <ControlLabel>
-                            <FormLabel labelText="Parent Type" />
+                            <FormLabel labelId="widget.page.create.parentWidget" />
                           </ControlLabel>
                         </Col>
                         <Col xs={10}>
