@@ -143,9 +143,9 @@ export const fetchProfileTypeReferenceStatus = () => dispatch => new Promise((re
   }).catch(() => {});
 });
 
-export const sendPostProfileTypeReferenceStatus = profileTypesCodes => dispatch =>
+export const sendPostProfileTypeReferenceStatus = profileTypeCodes => dispatch =>
   (new Promise((resolve) => {
-    postProfileTypesStatus({ profileTypesCodes }).then((response) => {
+    postProfileTypesStatus({ profileTypeCodes }).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           history.push(ROUTE_PROFILE_TYPE_LIST);

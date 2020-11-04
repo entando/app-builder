@@ -9,7 +9,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: () => dispatch(fetchProfileTypeReferenceStatus()),
-  onReload: profileTypesCodes => (dispatch(sendPostProfileTypeReferenceStatus(profileTypesCodes))),
+  onReload: profileTypeCodes => (dispatch(sendPostProfileTypeReferenceStatus(profileTypeCodes))),
 });
 
 const ProfileTypeReferenceStatusContainer =
