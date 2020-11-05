@@ -18,7 +18,7 @@ export const getListWidget = createSelector(
 export const getTypologyWidgetList = createSelector(getListWidget, widgetList =>
 
   widgetList.reduce((acc, widget) => {
-    const title = widget.pluginDesc || widget.typology;
+    const title = widget.widgetCategory || widget.pluginDesc || widget.typology;
     if (acc[title]) {
       acc[title].push(widget);
     } else {

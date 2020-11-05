@@ -24,7 +24,6 @@
   }
   // sass-lint:enable class-name-format nesting-depth
 
-
   &__widget-list {
     margin-bottom: 0;
     border-top: 0;
@@ -81,10 +80,6 @@
   .ContentWidgetElement {
     padding: 0 15px;
   }
-
-  .WidgetIcon {
-    line-height: 9px;
-  }
 }
 
 .ContentWidgetList--card {
@@ -102,7 +97,4 @@
     padding: 0 15px;
   }
 
-  .WidgetIcon {
-    padding: 0;
-  }
 }
