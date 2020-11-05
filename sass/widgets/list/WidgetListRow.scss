@@ -3,4 +3,9 @@
     height: 30px;
     line-height: 30px;
   }
+
+  &__link,
+  .WidgetIcon {
+    vertical-align: middle;
+  }
 }
