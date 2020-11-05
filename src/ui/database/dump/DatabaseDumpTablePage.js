@@ -20,9 +20,9 @@ class DatabaseDumpTablePage extends PureComponent {
     this.props.fetchDumpTable();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { dumpData, isModalOpen } = this.props;
-    if (!isModalOpen && dumpData.length === 0 && prevProps.dumpData !== dumpData) {
+    if (!isModalOpen && dumpData.length === 0) {
       this.props.fetchDumpTable();
     }
   }
