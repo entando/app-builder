@@ -109,6 +109,7 @@ const WidgetIcon = ({ widgetId, small }) => {
         fa fa-default
         ${widgetIcon}
         WidgetIcon
+        ${small ? 'WidgetIcon--small' : ''}        
         fa-banner-main-left`}
       />
     );
