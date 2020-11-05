@@ -28,7 +28,7 @@ class UserRefsTable extends React.Component {
   renderRows() {
     const { userReferences, intl } = this.props;
 
-    return userReferences.map(reference => (
+    return userReferences.filter(Boolean).map(reference => (
       <tr key={reference.username}>
         <td>{reference.username}</td>
         <td>{formatDate(reference.lastLogin)}</td>
@@ -56,7 +56,7 @@ class UserRefsTable extends React.Component {
   }
 
   renderTable() {
-    if (this.props.userReferences.length > 0) {
+    if (this.props.userReferences.filter(Boolean).length > 0) {
       return (
         <div>
           <Table className="UserRefsTable__table" striped bordered condensed hover >
