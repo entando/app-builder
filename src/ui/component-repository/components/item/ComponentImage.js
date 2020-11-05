@@ -4,11 +4,11 @@ import { componentType } from 'models/component-repository/components';
 
 
 const ComponentImage = ({ component }) => {
-  if (component.image) {
+  if (component.thumbnail) {
     return (
       <img
         alt={component.title}
-        src={component.image}
+        src={component.thumbnail}
       />);
   }
 
