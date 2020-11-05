@@ -14,7 +14,7 @@ class ProfileTypeReferenceStatus extends Component {
   }
 
   onClickReload() {
-    this.props.onReload(this.props.status.profileTypesCodes);
+    this.props.onReload(this.props.status.profileTypeCodes);
   }
 
   render() {
@@ -58,7 +58,7 @@ ProfileTypeReferenceStatus.propTypes = {
   status: PropTypes.shape({
     status: PropTypes.string,
     type: PropTypes.string,
-    profileTypesCodes: PropTypes.arrayOf(PropTypes.string),
+    profileTypeCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 

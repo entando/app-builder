@@ -55,6 +55,7 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
         widgetName={col.widgetTitle}
         widgetHasConfig={col.widgetHasConfig}
         widgetStatus={col.widgetStatus}
+        widgetHasConfigForm={col.widgetHasConfigForm}
       />
     );
   } else {

@@ -169,7 +169,6 @@ import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
-import DatabaseDumpTablePageContainer from 'ui/database/dump/DatabaseDumpTablePageContainer';
 import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
 import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
 import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
@@ -281,8 +280,8 @@ const getRouteComponent = () => {
       {/* database */}
       <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
       <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
+      <Route path={ROUTE_DATABASE_DUMP_TABLE} component={ReportDatabasePageContainer} />
       <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_DUMP_TABLE} component={DatabaseDumpTablePageContainer} />
       {/* files */}
       <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
       <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />

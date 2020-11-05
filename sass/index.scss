@@ -19,6 +19,7 @@
 @import "pages/common/PageTreePreview";
 @import "pages/common/MultiSelectRenderer";
 @import "pages/common/PageForm";
+@import "pages/common/FindTemplateModal";
 @import "pages/common/SeoInfo";
 @import "pages/common/PageSettingsForm";
 @import "pages/settings/PageSettings";
@@ -84,6 +85,7 @@
 @import "database/list/DatabaseListTable";
 @import "database/add/AddDatabaseListTable";
 @import "database/report/ReportDatabaseListDataSource";
+@import "database/report/DatabaseDumpTablePage";
 @import "file-browser/add/CreateFolderForm";
 @import "file-browser/list/FilesListTable";
 @import "file-browser/list/FileBreadcrumb";

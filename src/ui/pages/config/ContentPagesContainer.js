@@ -53,11 +53,11 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(initPageForm({
       parentCode: page.code,
       ...PAGE_INIT_VALUES,
-    }));
+    }, ROUTE_PAGE_CONFIG));
   },
   onClickDelete: (page) => {
     dispatch(setVisibleModal(MODAL_ID));
-    dispatch(setInfo({ type: 'page', code: page.code }));
+    dispatch(setInfo({ type: 'page', code: page.code, successRedirect: false }));
   },
   onClickPublish: (page) => {
     dispatch(setVisibleModal(PUBLISH_MODAL_ID));
@@ -68,7 +68,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setInfo({ type: 'page', code: page.code }));
   },
   onClickClone: (page) => {
-    dispatch(clonePage(page));
+    dispatch(clonePage(page, ROUTE_PAGE_CONFIG));
     dispatch(clearSearchPage());
   },
   onClickPreview: (page, domain) => {
@@ -99,6 +99,10 @@ export const mapDispatchToProps = dispatch => ({
   onLoadPage: (page) => {
     dispatch(setSelectedPage(page));
     history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: page.code }));
+  },
+  onSearchPageChange: (page = { page: 1, pageSize: 10 }, pageCodeToken) => {
+    const queryString = `?pageCodeToken=${pageCodeToken}`;
+    dispatch(fetchSearchPages(page, queryString));
   },
 });
 

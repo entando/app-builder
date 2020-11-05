@@ -5,6 +5,7 @@ import { Field } from 'redux-form';
 import { ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
 import ToggleButtonGroupField from 'ui/widgets/config/forms/ToggleButtonGroupField';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const NavigationBarTargetPage = ({
   intl, pages, language, onSpecificPageChoose, appTourProgress,
@@ -56,6 +57,7 @@ const NavigationBarTargetPage = ({
           <Field
             name="addConfig.targetCode"
             component="select"
+            disabled={appTourProgress === APP_TOUR_STARTED}
             onChange={e => onSpecificPageChoose(e.target.value, appTourProgress)}
           >
             <option key="chooseOption" value="">{intl.formatMessage({ id: 'app.chooseAnOption' })}</option>

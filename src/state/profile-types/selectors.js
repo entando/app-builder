@@ -44,7 +44,7 @@ export const getProfileTypeReferencesStatus = createSelector([getProfileTypeRefe
   const { status } = ref;
   if (!isEmpty(status.toRefresh)) {
     return {
-      type: 'warning', status: 'toRefresh', profileTypesCodes: status.toRefresh, count: status.toRefresh.length,
+      type: 'warning', status: 'toRefresh', profileTypeCodes: status.toRefresh, count: status.toRefresh.length,
     };
   }
   return { type: 'success', status: 'ready', profileTypesCode: [] };

@@ -272,6 +272,7 @@ export default {
     'app.license': 'Licença',
     'app.loading': 'Carregando',
     'app.select': 'Selecionar',
+    'app.copy': 'Copiar',
     'menu.dashboard': 'Dashboard',
     'menu.pageDesigner': 'Páginas',
     'menu.pageTree': 'Gerenciamento',
@@ -458,7 +459,7 @@ export default {
     'pages.pageForm.pagePlacement': 'Selecionar o local da Página',
     'pages.pageForm.pageTemplate': 'Modelo de Página',
     'pages.pageForm.pageTemplateHelp': 'Selecionar um Modelo de Página',
-    'pages.pageForm.findTemplate': 'Buscar Modelo',
+    'pages.pageForm.findTemplate': 'Selecione um modelo',
     'pages.pageForm.displayedInMenu': 'Mostrado no menu',
     'pages.pageForm.displayedInMenuHelp': 'Mostrar essa Página no Menu',
     'pages.pageForm.seo': 'SEO',
@@ -870,5 +871,6 @@ export default {
     'tour.step.22.description': 'Clique no botão Publicar para salvar e publicar sua primeira página',
     'tour.step.23.title': 'Puoi usare l\'anteprima per controllare la tua nuova pagina',
     'tour.step.23.description': 'Fare clic su Anteprima per visualizzare la pagina nel browser',
+    'app.startTutorial': 'Comece o tutorial',
   },
 };

@@ -95,9 +95,17 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then((res) => {
       if (res) {
+        const redirectTo = getSearchParam('redirectTo');
         switch (action) {
           case ACTION_SAVE: {
-            history.push(ROUTE_PAGE_TREE);
+            if (redirectTo) {
+              const hasPageCode = redirectTo.includes(':pageCode');
+              const redirectToUrl = hasPageCode
+                ? routeConverter(redirectTo, { pageCode: data.code }) : redirectTo;
+              history.push(redirectToUrl);
+            } else {
+              history.push(ROUTE_PAGE_TREE);
+            }
             break;
           }
           case ACTION_SAVE_AND_CONFIGURE: {

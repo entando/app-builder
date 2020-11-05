@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
-import ContentWidgetElementIcon from 'ui/pages/config/ContentWidgetElementIcon';
+import WidgetIcon from 'ui/pages/config/WidgetIcon';
 
 const WidgetListRow = (props) => {
   const {
@@ -22,7 +22,7 @@ const WidgetListRow = (props) => {
     <tr className="WidgetListRow">
       <td className="WidgetListRow__td ">
         <div className="list-view-pf-left">
-          <ContentWidgetElementIcon widgetId={code} small />
+          <WidgetIcon widgetId={code} small />
           &nbsp;&nbsp;
           <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: code })}>{name}</Link>
         </div>

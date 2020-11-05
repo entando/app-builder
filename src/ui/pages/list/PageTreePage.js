@@ -69,7 +69,10 @@ class PageTreePage extends Component {
           )}
           <Row>
             <Col xs={12}>
-              <PageTreeContainer loading={this.props.loading} />
+              <PageTreeContainer
+                loading={this.props.loading}
+                searchPageCodeToken={this.props.searchPageCodeToken}
+              />
             </Col>
           </Row>
           {!this.props.search && (
@@ -105,12 +108,14 @@ PageTreePage.propTypes = {
   search: PropTypes.arrayOf(PropTypes.shape({})),
   loading: PropTypes.bool,
   onNextStep: PropTypes.func,
+  searchPageCodeToken: PropTypes.string,
 };
 
 PageTreePage.defaultProps = {
   search: null,
   loading: false,
   onNextStep: () => {},
+  searchPageCodeToken: '',
 };
 
 export default PageTreePage;

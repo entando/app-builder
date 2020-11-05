@@ -47,7 +47,7 @@
     background-color: $color-light-blue-2;
     color: $color-white;
 
-    // sass-lint:disable nesting-depth force-elelment-nesting
+    // sass-lint:disable nesting-depth force-element-nesting
     &:hover {
       background-color: $color-light-blue-hover;
       color: $color-white;
@@ -62,6 +62,19 @@
     // sass-lint:enable nesting-depth force-element-nesting
   }
 
+  &__pagetree--loadable,
+  &__search-table--loadable {
+    .PageTreeCompact {
+      // sass-lint:disable nesting-depth
+      &__row,
+      &__icons-label,
+      &__page-name {
+        cursor: pointer;
+      }
+      // sass-lint:enable nesting-depth
+    }
+  }
+
   // sass-lint:disable nesting-depth no-qualifying-elements force-element-nesting class-name-format no-important
   &__search-table {
     & .table {
@@ -73,6 +86,13 @@
     & thead,
     & tr {
       background: none;
+    }
+
+    & tr {
+      &.selected,
+      &:hover {
+        background-color: $color-dragitem-bg;
+      }
     }
 
     & th,

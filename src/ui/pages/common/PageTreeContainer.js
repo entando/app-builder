@@ -23,6 +23,7 @@ import {
   initPageForm,
   fetchPageTreeAll,
   collapseAll,
+  fetchSearchPages,
 } from 'state/pages/actions';
 
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
@@ -41,7 +42,7 @@ export const mapStateToProps = state => ({
   domain: getDomain(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, ownProps) => ({
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onClickAdd: (page) => {
     dispatch(initPageForm({
@@ -96,6 +97,11 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handleExpandPage(pageCode)),
   onExpandAll: () => dispatch(fetchPageTreeAll()),
   onCollapseAll: () => dispatch(collapseAll()),
+  onSearchPageChange: (page = { page: 1, pageSize: 10 }) => {
+    const { searchPageCodeToken } = ownProps;
+    const queryString = `?pageCodeToken=${searchPageCodeToken}`;
+    dispatch(fetchSearchPages(page, queryString));
+  },
 });
 
 

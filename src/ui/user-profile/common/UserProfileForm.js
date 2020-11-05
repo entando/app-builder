@@ -90,7 +90,6 @@ export class UserProfileFormBody extends Component {
     value, validatorFuncName, validatorFunc,
     validatorArray, parseValueFunc, customErrorId,
   ) {
-    console.log('customErrorId', customErrorId);
     if (value === null || value === undefined) {
       return;
     }

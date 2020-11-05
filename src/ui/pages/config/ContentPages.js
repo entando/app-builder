@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
-import { ROUTE_PAGE_ADD } from 'app-init/router';
+import { ROUTE_PAGE_ADD, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { Spinner, Button } from 'patternfly-react';
 
 import PageTreeCompact from 'ui/pages/common/PageTreeCompact';
@@ -37,6 +37,7 @@ class ContentPages extends Component {
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.handleSearchInputKeyDown = this.handleSearchInputKeyDown.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handleSearchPageChange = this.handleSearchPageChange.bind(this);
   }
 
   componentWillMount() {
@@ -95,6 +96,12 @@ class ContentPages extends Component {
     }
   }
 
+  handleSearchPageChange(pagination) {
+    const { onSearchPageChange } = this.props;
+    const { searchValue } = this.state;
+    onSearchPageChange(pagination, searchValue);
+  }
+
   render() {
     const {
       loading, onExpandPage, pages, intl, searchPages,
@@ -121,7 +128,7 @@ class ContentPages extends Component {
               <span className="icon fa fa-search" />
             </Button>
           </div>
-          <Link to={ROUTE_PAGE_ADD} className="pull-right">
+          <Link to={`${ROUTE_PAGE_ADD}?redirectTo=${ROUTE_PAGE_CONFIG}`} className="pull-right">
             <Button className="ContentPages__pagetree-addbtn">
               <FormattedMessage id="app.add" />
             </Button>
@@ -154,16 +161,18 @@ class ContentPages extends Component {
           {searchPages && searchPages.length ? (
             <PageListSearchTable
               {...this.props}
-              className="ContentPages__search-table"
+              className={`ContentPages__search-table ${loadOnPageSelect ? 'ContentPages__search-table--loadable' : ''}`}
               striped={false}
               selectedPage={selectedPage}
               onWillMount={() => {}}
               onRowClick={this.handlePageSelect}
               onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
+              onSearchPageChange={this.handleSearchPageChange}
             />
           ) : (
             <PageTreeCompact
               {...this.props}
+              className={loadOnPageSelect ? 'ContentPages__pagetree--loadable' : ''}
               pages={pages}
               selectedPage={selectedPage}
               onExpandPage={onExpandPage}
@@ -194,6 +203,7 @@ ContentPages.propTypes = {
   selectedPage: PropTypes.shape({}),
   loadOnPageSelect: PropTypes.bool,
   onLoadPage: PropTypes.func,
+  onSearchPageChange: PropTypes.func.isRequired,
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
