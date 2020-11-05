@@ -16,7 +16,7 @@ describe('ComponentImage', () => {
   });
 
   it('renders image-unavailable when there is no image', () => {
-    GET_ECR_COMPONENT_OK.image = null;
+    GET_ECR_COMPONENT_OK.thumbnail = null;
     component = shallow(<ComponentImage component={GET_ECR_COMPONENT_OK} />);
     expect(component.prop('src')).toEqual('images/image-unavailable.png');
   });
