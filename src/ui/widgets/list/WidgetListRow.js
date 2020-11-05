@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 
-import WidgetIcon from 'ui/pages/config/WidgetIcon';
+import WidgetIcon from 'ui/widgets/common/WidgetIcon';
 
 const WidgetListRow = (props) => {
   const {
