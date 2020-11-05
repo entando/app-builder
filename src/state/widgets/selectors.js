@@ -15,17 +15,21 @@ export const getListWidget = createSelector(
   (idList, widgetsMap) => idList.map(id => widgetsMap[id]),
 );
 
-export const getTypologyWidgetList = createSelector(getListWidget, widgetList =>
-
+export const getGroupedWidgets = createSelector(getListWidget, widgetList =>
   widgetList.reduce((acc, widget) => {
-    const title = widget.widgetCategory || widget.pluginDesc || widget.typology;
-    if (acc[title]) {
-      acc[title].push(widget);
+    const groupingCriterion = widget.widgetCategory || widget.pluginDesc || widget.typology;
+    if (acc[groupingCriterion]) {
+      acc[groupingCriterion].push(widget);
     } else {
-      acc[title] = [widget];
+      acc[groupingCriterion] = [widget];
     }
     return acc;
   }, {}));
+
+export const getWidgetGroupingList = createSelector(
+  getGroupedWidgets,
+  groupedWidgets => Object.keys(groupedWidgets).sort(),
+);
 
 export const getWidgetInfo = createSelector([getWidgets], (widget) => {
   const { info } = widget;

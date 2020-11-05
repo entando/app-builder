@@ -1,12 +1,12 @@
 import { cloneDeep } from 'lodash';
 
 import {
-  getGroupedWidgetList, filterWidgetList, getSearchFilter, getPageConfig,
+  filterWidgetList, getSearchFilter, getPageConfig,
   getConfigMap, makeGetPageConfigCellMap, getToolbarExpanded, getContent, makeGetSelectedPageConfig,
   makeGetSelectedPagePublishedConfig, makeGetPageIsOnTheFly,
   makeGetSelectedPageDiffersFromPublished, makeGetSelectedPageConfigMatchesDefault,
 } from 'state/page-config/selectors';
-import { WIDGET_LIST, WIDGET, WIDGET_ONE_LIST, WIDGETS_MAP } from 'test/mocks/widgets';
+import { WIDGET_LIST, WIDGET, WIDGETS_MAP } from 'test/mocks/widgets';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getLocale } from 'state/locale/selectors';
 import {
@@ -85,10 +85,6 @@ describe('state/page-config/selectors', () => {
 
   it('verify filterWidgetList selector', () => {
     expect(filterWidgetList(MOCK_STATE)).toEqual([WIDGET]);
-  });
-
-  it('verify getGroupedWidgetList selector', () => {
-    expect(getGroupedWidgetList(MOCK_STATE)).toMatchObject(WIDGET_ONE_LIST);
   });
 
   it('verify getConfigMap selector', () => {

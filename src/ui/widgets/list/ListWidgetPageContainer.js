@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getLoading } from 'state/loading/selectors';
 import { fetchWidgetList } from 'state/widgets/actions';
-import { getTypologyWidgetList } from 'state/widgets/selectors';
+import { getGroupedWidgets, getWidgetGroupingList } from 'state/widgets/selectors';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { getLocale } from 'state/locale/selectors';
 import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
@@ -15,7 +15,8 @@ import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).widgets,
-  widgetList: getTypologyWidgetList(state),
+  groupedWidgets: getGroupedWidgets(state),
+  widgetGroupingList: getWidgetGroupingList(state),
   locale: getLocale(state),
 });
 

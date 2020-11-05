@@ -1,10 +1,13 @@
 import { connect } from 'react-redux';
 import ContentWidget from 'ui/pages/config/ContentWidget';
 import { setSearchFilter } from 'state/page-config/actions';
-import { getGroupedWidgetList } from 'state/page-config/selectors';
+import { getGroupedWidgets, getWidgetGroupingList } from 'state/widgets/selectors';
+import { getLocale } from 'state/locale/selectors';
 
 export const mapStateToProps = state => ({
-  widgetList: getGroupedWidgetList(state),
+  groupedWidgets: getGroupedWidgets(state),
+  widgetGroupingList: getWidgetGroupingList(state),
+  locale: getLocale(state),
 });
 
 

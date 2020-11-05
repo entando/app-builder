@@ -3,7 +3,7 @@ import { getLoading } from 'state/loading/selectors';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/widgets/list/ListWidgetPageContainer';
 import { fetchWidgetList } from 'state/widgets/actions';
-import { getTypologyWidgetList } from 'state/widgets/selectors';
+import { getGroupedWidgets } from 'state/widgets/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/widgets/list/DeleteWidgetModal';
 import { WIDGET, LIST, WIDGETS_MAP, WIDGET_ONE_LIST } from 'test/mocks/widgets';
@@ -14,22 +14,21 @@ jest.mock('state/loading/selectors', () => ({
 getLoading.mockReturnValue(false);
 
 jest.mock('state/widgets/selectors', () => ({
-  getTypologyWidgetList: jest.fn(),
+  getGroupedWidgets: jest.fn(),
+  getWidgetGroupingList: jest.fn(),
 }));
 
-getTypologyWidgetList.mockReturnValue(WIDGET_ONE_LIST);
+getGroupedWidgets.mockReturnValue(WIDGET_ONE_LIST);
 
 jest.mock('state/widgets/actions', () => ({
   fetchWidgetList: jest.fn(),
   sendDeleteWidgets: jest.fn(),
-
 }));
 
 jest.mock('state/modal/actions', () => ({
   setVisibleModal: jest.fn(),
   setInfo: jest.fn(),
 }));
-
 
 const dispatchMock = jest.fn();
 
@@ -74,7 +73,7 @@ describe('ui/widgets/list/ListWidgetPageContainer', () => {
 
     it('maps widgetList property from state', () => {
       props = mapStateToProps(STATE_MOCK);
-      expect(props).toHaveProperty('widgetList', WIDGET_ONE_LIST);
+      expect(props).toHaveProperty('groupedWidgets', WIDGET_ONE_LIST);
     });
   });
 });

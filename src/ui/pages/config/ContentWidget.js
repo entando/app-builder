@@ -4,12 +4,14 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import SectionCollapse from 'ui/common/section-collapse/SectionCollapse';
 
-const renderComponent = widgetList => (
-  Object.keys(widgetList).map((widget, idx) => (
+const renderComponent = (groupedWidgets, widgetGroupingList, locale) => (
+  widgetGroupingList.map((grouping, idx) => (
     <SectionCollapse
-      widgets={widgetList[widget]}
+      widgets={groupedWidgets[grouping]}
+      locale={locale}
       opened={idx === 0}
-      key={widgetList[widget][0].pluginDesc || widgetList[widget][0].typology}
+      name={grouping}
+      key={grouping}
     />
   ))
 );
@@ -22,7 +24,7 @@ const msgs = defineMessages({
 });
 
 const ContentWidget = ({
-  intl, widgetList, filterWidget,
+  intl, groupedWidgets, widgetGroupingList, filterWidget, locale,
 }) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
@@ -39,21 +41,25 @@ const ContentWidget = ({
         />
       </div>
       <div>
-        {renderComponent(widgetList)}
+        {renderComponent(groupedWidgets, widgetGroupingList, locale)}
       </div>
     </div>
   );
 };
 
 ContentWidget.propTypes = {
-  intl: intlShape.isRequired,
-  widgetList: PropTypes.shape({}),
   filterWidget: PropTypes.func,
+  groupedWidgets: PropTypes.shape({}),
+  widgetGroupingList: PropTypes.arrayOf(PropTypes.string),
+  intl: intlShape.isRequired,
+  locale: PropTypes.string,
 };
 
 ContentWidget.defaultProps = {
-  widgetList: {},
+  groupedWidgets: {},
+  widgetGroupingList: [],
   filterWidget: PropTypes.noop,
+  locale: 'en',
 };
 
 export default injectIntl(ContentWidget);
