@@ -24,7 +24,12 @@ const WidgetListRow = (props) => {
         <div className="list-view-pf-left">
           <WidgetIcon widgetId={code} small />
           &nbsp;&nbsp;
-          <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: code })}>{name}</Link>
+          <Link
+            className="WidgetListRow__link"
+            to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: code })}
+          >
+            {name}
+          </Link>
         </div>
       </td>
       <td className="WidgetListRow__td ">{code}</td>
