@@ -1,7 +1,8 @@
 import {
   getListWidget,
   getWidgets,
-  getTypologyWidgetList,
+  getGroupedWidgets,
+  getWidgetGroupingList,
   getWidgetsTotal,
   getWidgetInfo,
 } from 'state/widgets/selectors';
@@ -28,12 +29,18 @@ describe('state/widgest/selectors', () => {
     expect(result).toEqual(WIDGET_LIST.payload);
   });
 
-  it('getTypologyWidgetList selectors', () => {
-    const result = getTypologyWidgetList(MOCK_STATE);
+  it('getGroupedWidgets selector', () => {
+    const result = getGroupedWidgets(MOCK_STATE);
     expect(result).toHaveProperty('User Widget');
     expect(result['User Widget']).toHaveLength(3);
     expect(result).toHaveProperty('Custom Widget');
     expect(result['Custom Widget']).toHaveLength(2);
+  });
+
+  it('getWidgetGroupingList selector', () => {
+    const result = getWidgetGroupingList(MOCK_STATE);
+    expect(result).toHaveLength(3);
+    expect(result).toEqual(['Custom Widget', 'Entando Redhat BPM connector', 'User Widget']);
   });
 
   it('getWidgetsTotal returns the total number of widgets', () => {

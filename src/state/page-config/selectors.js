@@ -7,23 +7,6 @@ import { getSelectedPageTemplateCellMap, getSelectedPageTemplateMainFrame, getSe
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 
-const renameCMSPluginName = ({ typology, pluginDesc, ...widget }) => ({
-  ...widget,
-  typology,
-  pluginDesc: typology === 'jacms' ? 'CMS' : pluginDesc,
-});
-
-const widgetGroupByCategory = (widgetList, locale) =>
-
-  widgetList.reduce((acc, widget) => {
-    if (acc[widget.typology]) {
-      acc[widget.typology].push({ ...renameCMSPluginName(widget), name: widget.titles[locale] });
-    } else {
-      acc[widget.typology] = [{ ...renameCMSPluginName(widget), name: widget.titles[locale] }];
-    }
-    return acc;
-  }, {});
-
 export const getPageConfig = state => state.pageConfig;
 export const getConfigMap = state => state.pageConfig.configMap;
 export const getPublishedConfigMap = state => state.pageConfig.publishedConfigMap;
@@ -37,11 +20,6 @@ export const filterWidgetList = createSelector(
   (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :
     widgetList.filter(f => f.titles[locale].toLowerCase().includes(searchFilter.toLowerCase())))
   ,
-);
-
-export const getGroupedWidgetList = createSelector(
-  [filterWidgetList, getLocale],
-  (widget, locale) => widgetGroupByCategory(widget, locale),
 );
 
 export const makeGetSelectedPageConfig = pageCode => createSelector(

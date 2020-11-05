@@ -31,7 +31,10 @@ describe('ContentWidget', () => {
     });
 
     it('widgetList with data', () => {
-      component = shallowWithIntl(<ContentWidget widgetList={WIDGET_ONE_LIST} />).dive();
+      component = shallowWithIntl(<ContentWidget
+        groupedWidgets={WIDGET_ONE_LIST}
+        widgetGroupingList={['User Widget']}
+      />).dive();
       expect(component.find(SectionCollapse).exists()).toBe(true);
     });
 

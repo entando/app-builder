@@ -16,7 +16,8 @@ class ListWidgetPage extends Component {
 
   renderTable() {
     const {
-      widgetList,
+      groupedWidgets,
+      widgetGroupingList,
       onDelete,
       onEdit,
       onNewUserWidget,
@@ -25,11 +26,11 @@ class ListWidgetPage extends Component {
     return (
       <Spinner loading={!!this.props.loading}>
         {
-          Object.keys(widgetList).map(typology => (
+          widgetGroupingList.map(grouping => (
             <WidgetListTable
-              key={typology}
-              title={typology}
-              widgetList={widgetList[typology]}
+              key={grouping}
+              title={grouping}
+              widgetList={groupedWidgets[grouping]}
               locale={locale}
               onDelete={onDelete}
               onEdit={onEdit}
@@ -80,11 +81,12 @@ class ListWidgetPage extends Component {
 
 ListWidgetPage.propTypes = {
   onWillMount: PropTypes.func,
-  widgetList: PropTypes.shape({}),
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
   onNewUserWidget: PropTypes.func,
   locale: PropTypes.string,
+  groupedWidgets: PropTypes.shape({}),
+  widgetGroupingList: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
 };
 
@@ -94,7 +96,8 @@ ListWidgetPage.defaultProps = {
   onEdit: () => {},
   onNewUserWidget: () => {},
   locale: 'en',
-  widgetList: {},
+  groupedWidgets: {},
+  widgetGroupingList: [],
   loading: false,
 };
 
