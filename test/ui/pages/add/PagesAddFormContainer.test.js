@@ -1,6 +1,7 @@
 import {
   mapStateToProps,
   mapDispatchToProps,
+  getNextIncremetalPropertyName,
 } from 'ui/pages/add/PagesAddFormContainer';
 
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
@@ -33,6 +34,7 @@ jest.mock('state/groups/selectors', () => ({
 jest.mock('state/app-tour/selectors', () => ({
   getAppTourProgress: jest.fn(),
   getTourCreatedPage: jest.fn(),
+  getExistingPages: jest.fn(),
 }));
 
 jest.mock('state/page-templates/selectors', () => ({
@@ -69,6 +71,31 @@ getActiveLanguages.mockReturnValue(LANGUAGES);
 const STATE = {
   pages: {},
 };
+
+describe('Test getNextIncremetalPropertyName function', () => {
+  const nameKeyword = 'Hello World App';
+  const codeKeyword = 'hello_world_app';
+  it('verify function for name parameter', () => {
+    const pages = [{ name: 'test' }];
+    expect(getNextIncremetalPropertyName(pages, 'name', nameKeyword, ' ')).toBe(nameKeyword);
+    expect(getNextIncremetalPropertyName([{ name: nameKeyword }], 'name', nameKeyword, ' ')).toBe(`${nameKeyword} 1`);
+    expect(getNextIncremetalPropertyName([{ name: `${nameKeyword} 1` }], 'name', nameKeyword, ' ')).toBe(`${nameKeyword} 2`);
+    expect(getNextIncremetalPropertyName([{ name: `${nameKeyword} 8dsada` }], 'name', nameKeyword, ' ')).toBe(`${nameKeyword}`);
+    expect(getNextIncremetalPropertyName([{ name: `${nameKeyword} 2dsada 12` }], 'name', nameKeyword, ' ')).toBe(`${nameKeyword}`);
+    expect(getNextIncremetalPropertyName([{ name: `${nameKeyword} 2` }], 'name', nameKeyword, ' ')).toBe(`${nameKeyword} 3`);
+  });
+
+  it('verify function for code parameter', () => {
+    const pages = [{ code: 'test' }];
+    expect(getNextIncremetalPropertyName(pages, 'code', codeKeyword, ' ')).toBe(codeKeyword);
+    expect(getNextIncremetalPropertyName([{ code: codeKeyword }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}_1`);
+    expect(getNextIncremetalPropertyName([{ code: `${codeKeyword}_1` }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}_2`);
+    expect(getNextIncremetalPropertyName([{ code: `${codeKeyword}_2dsada` }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}`);
+    expect(getNextIncremetalPropertyName([{ code: `${codeKeyword}_2dsada_12` }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}`);
+    expect(getNextIncremetalPropertyName([{ code: `${codeKeyword}_2dsada_12_5` }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}`);
+    expect(getNextIncremetalPropertyName([{ code: `${codeKeyword}_2` }], 'code', codeKeyword, '_')).toBe(`${codeKeyword}_3`);
+  });
+});
 
 describe('PagesAddFormContainer', () => {
   beforeEach(jest.clearAllMocks);

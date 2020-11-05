@@ -1,11 +1,13 @@
 import {
   setAppTourProgress, setAppTourLastStep, setWizardEnabled,
   setTourCreatedPage, clearAppTourProgress, setPublishStatus,
+  setExistingPages,
 } from 'state/app-tour/actions';
 
 import {
   SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP, SET_WIZARD_ENABLED,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE, SET_PUBLISH_STATUS,
+  SET_EXISTING_PAGES,
 } from 'state/app-tour/types';
 
 describe('state/app-tour/actions', () => {
@@ -55,6 +57,15 @@ describe('state/app-tour/actions', () => {
       const action = setWizardEnabled(true);
       expect(action.type).toEqual(SET_WIZARD_ENABLED);
       expect(action.payload).toEqual(true);
+    });
+  });
+
+  describe('setExistingPages', () => {
+    it('test setExistingPages action sets the correct type', () => {
+      const pages = [{ code: '1' }];
+      const action = setExistingPages(pages);
+      expect(action.type).toEqual(SET_EXISTING_PAGES);
+      expect(action.payload).toEqual(pages);
     });
   });
 });

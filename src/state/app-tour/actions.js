@@ -4,6 +4,7 @@ import {
   SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
   SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
+  SET_EXISTING_PAGES,
 } from 'state/app-tour/types';
 import { getWizardEnabled } from 'state/app-tour/selectors';
 import { getUserPreferences } from 'api/userPreferences';
@@ -11,6 +12,11 @@ import { getUserPreferences } from 'api/userPreferences';
 export const setAppTourProgress = progressStatus => ({
   type: SET_APP_TOUR_PROGRESS,
   payload: progressStatus,
+});
+
+export const setExistingPages = pages => ({
+  type: SET_EXISTING_PAGES,
+  payload: pages,
 });
 
 export const setAppTourLastStep = lastStep => ({

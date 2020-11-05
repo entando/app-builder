@@ -15,9 +15,28 @@ import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/c
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
 import { setVisibleModal } from 'state/modal/actions';
-import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors';
+import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
+
+export const getNextIncremetalPropertyName = (pages, property, keyword, extraChar) => {
+  let max = 0;
+  pages.forEach((page) => {
+    const target = page[property];
+    if (!target) return false;
+    const splittedTarget = target.split(keyword);
+    const numberString = (splittedTarget[splittedTarget.length - 1]).replace('_', ' ').trim();
+    const number = Number(numberString);
+    // eslint-disable-next-line no-restricted-globals
+    if (!isNaN(number) && number >= max) {
+      max = number + 1;
+    } else if (numberString === '') {
+      max = 1;
+    }
+    return max;
+  });
+  return `${keyword}${max ? `${extraChar}${max}` : ''}`;
+};
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
@@ -30,6 +49,11 @@ export const mapStateToProps = (state) => {
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const appTourLastPageData = getTourCreatedPage(state);
   const parentCode = getSearchParam('parentCode');
+  const existingPages = (getExistingPages(state) || []).map(page =>
+    ({ ...page, name: page.titles[mainTitleLangCode] }));
+  const pageName = getNextIncremetalPropertyName(existingPages, 'name', 'Hello World App', ' ');
+  const pageCode = getNextIncremetalPropertyName(existingPages, 'code', 'hello_world_app', '_');
+
   return {
     languages,
     groups: getGroupsList(state),
@@ -47,9 +71,9 @@ export const mapStateToProps = (state) => {
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
-          [mainTitleLangCode]: 'Hello World App',
+          [mainTitleLangCode]: pageName,
         },
-        code: 'hello_world_app',
+        code: pageCode,
         ownerGroup: 'free',
         parentCode: 'homepage',
         ...appTourLastPageData,

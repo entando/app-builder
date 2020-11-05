@@ -2,6 +2,7 @@ import {
   SET_APP_TOUR_PROGRESS, SET_APP_TOUR_LAST_STEP,
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
   SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
+  SET_EXISTING_PAGES,
 } from 'state/app-tour/types';
 
 const appTour = (state = {}, action = {}) => {
@@ -34,6 +35,12 @@ const appTour = (state = {}, action = {}) => {
       return {
         ...state,
         wizardEnabled: action.payload,
+      };
+    }
+    case SET_EXISTING_PAGES: {
+      return {
+        ...state,
+        existingPages: action.payload,
       };
     }
     case CLEAR_APP_TOUR_PROGRESS: {
