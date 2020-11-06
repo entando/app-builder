@@ -15,9 +15,46 @@ import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/c
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
 import { setVisibleModal } from 'state/modal/actions';
-import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors';
+import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
+
+const getNextPageProperty = ({
+  pages,
+  property,
+  pattern,
+  separator,
+}) => {
+  const indexes = pages
+    .map(page => page[property])
+    .filter(Boolean)
+    .map((propertyValue) => {
+      const regex = new RegExp(`${pattern}[${separator}]*(?<currentIndex>\\d)*$`);
+      const result = propertyValue.match(regex);
+      if (!result) {
+        return null;
+      }
+      const currentIndexStr = result.groups.currentIndex;
+      return currentIndexStr ? Number(currentIndexStr) : 1;
+    })
+    .filter(Boolean);
+  const nextIndex = !indexes.length ? null : Math.max(indexes) + 1;
+  return `${pattern}${nextIndex ? `${separator}${nextIndex}` : ''}`;
+};
+
+export const getNextPageName = ({ pages, pattern, separator }) => getNextPageProperty({
+  pages,
+  property: 'name',
+  pattern,
+  separator,
+});
+
+export const getNextPageCode = ({ pages, pattern, separator }) => getNextPageProperty({
+  pages,
+  property: 'code',
+  pattern,
+  separator,
+});
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
@@ -30,6 +67,11 @@ export const mapStateToProps = (state) => {
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const appTourLastPageData = getTourCreatedPage(state);
   const parentCode = getSearchParam('parentCode');
+  const existingPages = (getExistingPages(state) || []).map(page =>
+    ({ ...page, name: page.titles[mainTitleLangCode] }));
+  const pageName = getNextPageName({ pages: existingPages, pattern: 'Hello World App', separator: ' ' });
+  const pageCode = getNextPageCode({ pages: existingPages, pattern: 'hello_world_app', separator: '_' });
+
   return {
     languages,
     groups: getGroupsList(state),
@@ -47,9 +89,9 @@ export const mapStateToProps = (state) => {
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
-          [mainTitleLangCode]: 'Hello World App',
+          [mainTitleLangCode]: pageName,
         },
-        code: 'hello_world_app',
+        code: pageCode,
         ownerGroup: 'free',
         parentCode: 'homepage',
         ...appTourLastPageData,

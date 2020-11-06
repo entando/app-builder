@@ -2,9 +2,10 @@ import reducer from 'state/app-tour/reducer';
 import {
   setAppTourProgress, setAppTourLastStep, setWizardEnabled,
   setTourCreatedPage, clearAppTourProgress, setPublishStatus,
+  setExistingPages,
 } from 'state/app-tour/actions';
 import {
-  getAppTourProgress, getAppTourlastStep,
+  getAppTourProgress, getAppTourlastStep, getExistingPages,
   getTourCreatedPage, getPublishStatus, getWizardEnabled,
 } from 'state/app-tour/selectors';
 
@@ -70,6 +71,18 @@ describe('state/permssions/reducer', () => {
 
     it('should define the publish status payload', () => {
       expect(getWizardEnabled({ appTour: newState })).toEqual(true);
+    });
+  });
+
+  describe('after action setExistingPages', () => {
+    let newState;
+    const pages = [{ code: '1' }];
+    beforeEach(() => {
+      newState = reducer(state, setExistingPages(pages));
+    });
+
+    it('should define the publish status payload', () => {
+      expect(getExistingPages({ appTour: newState })).toEqual(pages);
     });
   });
 

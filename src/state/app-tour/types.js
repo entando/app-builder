@@ -4,3 +4,4 @@ export const CLEAR_APP_TOUR_PROGRESS = 'app-tour/clear-app-tour-progress';
 export const SET_TOUR_CREATED_PAGE = 'app-tour/set-tour-created-page';
 export const SET_PUBLISH_STATUS = 'app-tour/set-publish-status';
 export const SET_WIZARD_ENABLED = 'app-tour/set-wizard-enabled';
+export const SET_EXISTING_PAGES = 'app-tour/set-existing-pages';
