@@ -19,7 +19,7 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 
-export const getNextIncremetalPropertyName = (pages, property, keyword, extraChar) => {
+const getNextIncremetalPropertyName = (pages, property, keyword, extraChar) => {
   let max = 0;
   pages.forEach((page) => {
     const target = page[property];
@@ -38,6 +38,10 @@ export const getNextIncremetalPropertyName = (pages, property, keyword, extraCha
   return `${keyword}${max ? `${extraChar}${max}` : ''}`;
 };
 
+export const getNextPageName = ({ pages, pattern, separator }) => getNextIncremetalPropertyName(pages, 'name', pattern, separator);
+
+export const getNextPageCode = ({ pages, pattern, separator }) => getNextIncremetalPropertyName(pages, 'code', pattern, separator);
+
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
   const seoDataByLang = languages.reduce((acc, curr) => ({
@@ -51,8 +55,8 @@ export const mapStateToProps = (state) => {
   const parentCode = getSearchParam('parentCode');
   const existingPages = (getExistingPages(state) || []).map(page =>
     ({ ...page, name: page.titles[mainTitleLangCode] }));
-  const pageName = getNextIncremetalPropertyName(existingPages, 'name', 'Hello World App', ' ');
-  const pageCode = getNextIncremetalPropertyName(existingPages, 'code', 'hello_world_app', '_');
+  const pageName = getNextPageName({ pages: existingPages, pattern: 'Hello World App', separator: ' ' });
+  const pageCode = getNextPageName({ pages: existingPages, pattern: 'hello_world_app', separator: '_' });
 
   return {
     languages,
