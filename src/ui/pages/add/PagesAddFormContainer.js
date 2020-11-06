@@ -19,12 +19,12 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 
-const getNextIncremetalPropertyName = (pages, property, keyword, extraChar) => {
+const getNextPageProperty = (pages, property, pattern, separator) => {
   let max = 0;
   pages.forEach((page) => {
     const target = page[property];
     if (!target) return false;
-    const splittedTarget = target.split(keyword);
+    const splittedTarget = target.split(pattern);
     const numberString = (splittedTarget[splittedTarget.length - 1]).replace('_', ' ').trim();
     const number = Number(numberString);
     // eslint-disable-next-line no-restricted-globals
@@ -35,12 +35,12 @@ const getNextIncremetalPropertyName = (pages, property, keyword, extraChar) => {
     }
     return max;
   });
-  return `${keyword}${max ? `${extraChar}${max}` : ''}`;
+  return `${pattern}${max ? `${separator}${max}` : ''}`;
 };
 
-export const getNextPageName = ({ pages, pattern, separator }) => getNextIncremetalPropertyName(pages, 'name', pattern, separator);
+export const getNextPageName = ({ pages, pattern, separator }) => getNextPageProperty(pages, 'name', pattern, separator);
 
-export const getNextPageCode = ({ pages, pattern, separator }) => getNextIncremetalPropertyName(pages, 'code', pattern, separator);
+export const getNextPageCode = ({ pages, pattern, separator }) => getNextPageProperty(pages, 'code', pattern, separator);
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
@@ -56,7 +56,7 @@ export const mapStateToProps = (state) => {
   const existingPages = (getExistingPages(state) || []).map(page =>
     ({ ...page, name: page.titles[mainTitleLangCode] }));
   const pageName = getNextPageName({ pages: existingPages, pattern: 'Hello World App', separator: ' ' });
-  const pageCode = getNextPageName({ pages: existingPages, pattern: 'hello_world_app', separator: '_' });
+  const pageCode = getNextPageCode({ pages: existingPages, pattern: 'hello_world_app', separator: '_' });
 
   return {
     languages,
