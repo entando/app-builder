@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { cloneDeep, isEqual } from 'lodash';
 
+import { groupWidgets } from 'state/widgets/helpers';
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getSelectedPageTemplateCellMap, getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
@@ -20,6 +21,16 @@ export const filterWidgetList = createSelector(
   (widgetList, searchFilter, locale) => (searchFilter === null ? widgetList :
     widgetList.filter(f => f.titles[locale].toLowerCase().includes(searchFilter.toLowerCase())))
   ,
+);
+
+export const getGroupedWidgets = createSelector(
+  filterWidgetList,
+  filteredWidgetList => groupWidgets(filteredWidgetList),
+);
+
+export const getWidgetGroupingList = createSelector(
+  getGroupedWidgets,
+  groupedWidgets => Object.keys(groupedWidgets).sort(),
 );
 
 export const makeGetSelectedPageConfig = pageCode => createSelector(

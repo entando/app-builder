@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { get, isEmpty, uniq } from 'lodash';
+import { groupWidgets } from 'state/widgets/helpers';
 
 export const getWidgets = state => state.widgets;
 export const getWidgetsTotal = state => state.widgets.total;
@@ -15,16 +16,10 @@ export const getListWidget = createSelector(
   (idList, widgetsMap) => idList.map(id => widgetsMap[id]),
 );
 
-export const getGroupedWidgets = createSelector(getListWidget, widgetList =>
-  widgetList.reduce((acc, widget) => {
-    const groupingCriterion = widget.widgetCategory || widget.pluginDesc || widget.typology;
-    if (acc[groupingCriterion]) {
-      acc[groupingCriterion].push(widget);
-    } else {
-      acc[groupingCriterion] = [widget];
-    }
-    return acc;
-  }, {}));
+export const getGroupedWidgets = createSelector(
+  getListWidget,
+  widgetList => groupWidgets(widgetList),
+);
 
 export const getWidgetGroupingList = createSelector(
   getGroupedWidgets,
