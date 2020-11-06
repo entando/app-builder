@@ -25,19 +25,20 @@ const getNextPageProperty = ({
   pattern,
   separator,
 }) => {
-  const nextIndex = pages.reduce((max, page) => {
-    const target = page[property];
-    if (!target) return null;
-    const splittedTarget = target.split(pattern);
-    const numberString = (splittedTarget[splittedTarget.length - 1]).replace('_', ' ').trim();
-    const number = Number(numberString);
-    if (!Number.isNaN(number) && number >= max) {
-      return number + 1;
-    } else if (numberString === '') {
-      return 1;
-    }
-    return null;
-  }, 0);
+  const indexes = pages
+    .map(page => page[property])
+    .filter(Boolean)
+    .map((propertyValue) => {
+      const regex = new RegExp(`${pattern}[${separator}]*(?<currentIndex>\\d)*$`);
+      const result = propertyValue.match(regex);
+      if (!result) {
+        return null;
+      }
+      const currentIndexStr = result.groups.currentIndex;
+      return currentIndexStr ? Number(currentIndexStr) : 1;
+    })
+    .filter(Boolean);
+  const nextIndex = !indexes.length ? null : Math.max(indexes) + 1;
   return `${pattern}${nextIndex ? `${separator}${nextIndex}` : ''}`;
 };
 

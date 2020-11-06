@@ -73,82 +73,105 @@ const STATE = {
   pages: {},
 };
 
-describe('Test getNextPageName and getNextPageCode functions', () => {
-  it('getNextPageName', () => {
+describe('getNextPageName', () => {
+  it('otherString', () => {
     expect(getNextPageName({
-      pages: [{ name: 'test' }],
+      pages: [{ name: 'otherString' }],
       pattern: 'Hello World App',
       separator: ' ',
     })).toBe('Hello World App');
+  });
 
+  it('Hello World App', () => {
     expect(getNextPageName({
       pages: [{ name: 'Hello World App' }],
       pattern: 'Hello World App',
       separator: ' ',
-    })).toBe('Hello World App 1');
+    })).toBe('Hello World App 2');
+  });
 
+  it('Hello World App 1', () => {
     expect(getNextPageName({
       pages: [{ name: 'Hello World App 1' }],
       pattern: 'Hello World App',
       separator: ' ',
     })).toBe('Hello World App 2');
+  });
 
+  it('Hello World App 8dsada', () => {
     expect(getNextPageName({
       pages: [{ name: 'Hello World App 8dsada' }],
       pattern: 'Hello World App',
       separator: ' ',
     })).toBe('Hello World App');
+  });
 
+  it('Hello World App 8dsada 12', () => {
     expect(getNextPageName({
       pages: [{ name: 'Hello World App 8dsada 12' }],
       pattern: 'Hello World App',
       separator: ' ',
     })).toBe('Hello World App');
+  });
 
+  it('Hello World App 2', () => {
     expect(getNextPageName({
       pages: [{ name: 'Hello World App 2' }],
       pattern: 'Hello World App',
       separator: ' ',
     })).toBe('Hello World App 3');
   });
-
-  it('getNextPageCode', () => {
+});
+describe('getNextPageCode', () => {
+  it('otherString', () => {
     expect(getNextPageCode({
-      pages: [{ code: 'test' }],
+      pages: [{ code: 'otherString' }],
       pattern: 'hello_world_app',
       separator: '_',
     })).toBe('hello_world_app');
+  });
 
+  it('hello_world_app', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app' }],
       pattern: 'hello_world_app',
       separator: '_',
-    })).toBe('hello_world_app_1');
+    })).toBe('hello_world_app_2');
+  });
 
+  it('hello_world_app_1', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app_1' }],
       pattern: 'hello_world_app',
       separator: '_',
     })).toBe('hello_world_app_2');
+  });
 
+  it('hello_world_app_2dsada', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app_2dsada' }],
       pattern: 'hello_world_app',
       separator: '_',
     })).toBe('hello_world_app');
+  });
 
+  it('hello_world_app_2dsada_12', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app_2dsada_12' }],
       pattern: 'hello_world_app',
       separator: '_',
     })).toBe('hello_world_app');
+  });
 
+  it('hello_world_app_2dsada_12_5', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app_2dsada_12_5' }],
       pattern: 'hello_world_app',
       separator: '_',
     })).toBe('hello_world_app');
+  });
 
+  it('hello_world_app_2', () => {
     expect(getNextPageCode({
       pages: [{ code: 'hello_world_app_2' }],
       pattern: 'hello_world_app',
