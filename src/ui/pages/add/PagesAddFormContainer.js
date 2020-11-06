@@ -19,28 +19,41 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 
-const getNextPageProperty = (pages, property, pattern, separator) => {
-  let max = 0;
-  pages.forEach((page) => {
+const getNextPageProperty = ({
+  pages,
+  property,
+  pattern,
+  separator,
+}) => {
+  const nextIndex = pages.reduce((max, page) => {
     const target = page[property];
-    if (!target) return false;
+    if (!target) return null;
     const splittedTarget = target.split(pattern);
     const numberString = (splittedTarget[splittedTarget.length - 1]).replace('_', ' ').trim();
     const number = Number(numberString);
-    // eslint-disable-next-line no-restricted-globals
-    if (!isNaN(number) && number >= max) {
-      max = number + 1;
+    if (!Number.isNaN(number) && number >= max) {
+      return number + 1;
     } else if (numberString === '') {
-      max = 1;
+      return 1;
     }
-    return max;
-  });
-  return `${pattern}${max ? `${separator}${max}` : ''}`;
+    return null;
+  }, 0);
+  return `${pattern}${nextIndex ? `${separator}${nextIndex}` : ''}`;
 };
 
-export const getNextPageName = ({ pages, pattern, separator }) => getNextPageProperty(pages, 'name', pattern, separator);
+export const getNextPageName = ({ pages, pattern, separator }) => getNextPageProperty({
+  pages,
+  property: 'name',
+  pattern,
+  separator,
+});
 
-export const getNextPageCode = ({ pages, pattern, separator }) => getNextPageProperty(pages, 'code', pattern, separator);
+export const getNextPageCode = ({ pages, pattern, separator }) => getNextPageProperty({
+  pages,
+  property: 'code',
+  pattern,
+  separator,
+});
 
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
