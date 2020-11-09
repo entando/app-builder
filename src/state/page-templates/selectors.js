@@ -235,14 +235,15 @@ export const getSelectedPageTemplateCellMap = createSelector(
 
 export const getSelectedPageTemplateCanBeOnTheFly = createSelector(
   [getSelectedPageTemplate],
-  pageTemplate => get(pageTemplate, 'configuration.frames', []).find(frame => frame.mainFrame),
+  pageTemplate => !!get(pageTemplate, 'configuration.frames', []).find(frame => frame.mainFrame),
 );
 
 export const getSelectedPageTemplateMainFrame = createSelector(
   [getSelectedPageTemplate],
   (pageTemplate) => {
     const frames = get(pageTemplate, 'configuration.frames', []);
-    return frames.length ? frames.find(frame => frame.mainFrame) : null;
+    const mainFrame = frames.find(frame => frame.mainFrame);
+    return mainFrame || null;
   },
 );
 

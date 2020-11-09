@@ -28,7 +28,7 @@ const CollapsibleSectionTitle = ({
 };
 
 CollapsibleSectionTitle.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   nameId: PropTypes.string,
   onClick: PropTypes.func,
   isOpened: PropTypes.bool,
