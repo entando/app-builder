@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 
 import { validatePageTemplate } from 'state/page-templates/helpers';
 import { getPageTemplateForm } from 'state/forms/selectors';
@@ -235,12 +235,7 @@ export const getSelectedPageTemplateCellMap = createSelector(
 
 export const getSelectedPageTemplateCanBeOnTheFly = createSelector(
   [getSelectedPageTemplate],
-  (pageTemplate) => {
-    if (pageTemplate) {
-      return !!pageTemplate.configuration.frames.find(frame => frame.mainFrame === true);
-    }
-    return false;
-  },
+  pageTemplate => get(pageTemplate, 'configuration.frames', []).find(frame => frame.mainFrame),
 );
 
 export const getSelectedPageTemplateMainFrame = createSelector(

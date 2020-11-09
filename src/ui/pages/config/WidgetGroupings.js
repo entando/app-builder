@@ -17,7 +17,7 @@ const WidgetGroupings = ({
     filterWidget(event.target.value);
   };
 
-  const [openGroupings, setOpenGroupings] = useState();
+  const [openGroupings, setOpenGroupings] = useState({});
   const toggleGroupingCollapse = grouping => setOpenGroupings({
     ...openGroupings,
     [grouping]: !openGroupings[grouping],
