@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
-import DraggableContentWidgetElement from 'ui/pages/config/DraggableContentWidgetElement';
+import DraggableContentWidgetElement from 'ui/pages/config/WidgetGroupingDraggableItem';
 
 import SectionCollapseTitle from 'ui/common/section-collapse/SectionCollapseTitle';
 
-const SectionCollapse = ({
-  widgets, name, opened, locale,
+const WidgetGrouping = ({
+  widgets, name, opened, locale, onToggle,
 }) => {
-  const [sectionOpened, setSectionOpened] = useState(opened);
-  const handleTitleClicked = () => setSectionOpened(!sectionOpened);
   const itemAreaClassNames = ['SectionCollapse__item-area'];
   if (widgets.length % 2 === 1) {
     itemAreaClassNames.push('odd');
@@ -20,10 +18,10 @@ const SectionCollapse = ({
     <div className="SectionCollapse">
       <SectionCollapseTitle
         name={<FormattedMessage id={`widget.list.section.${name}`} defaultMessage={name} />}
-        isOpened={sectionOpened}
-        onClick={handleTitleClicked}
+        isOpened={opened}
+        onClick={onToggle}
       />
-      <Collapse in={sectionOpened}>
+      <Collapse in={opened}>
         <div>
           <div className={itemAreaClassNames.join(' ')}>
             {widgets.map(widget => (
@@ -40,15 +38,16 @@ const SectionCollapse = ({
   );
 };
 
-SectionCollapse.propTypes = {
+WidgetGrouping.propTypes = {
   widgets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   locale: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   opened: PropTypes.bool,
+  onToggle: PropTypes.func.isRequired,
 };
 
-SectionCollapse.defaultProps = {
+WidgetGrouping.defaultProps = {
   opened: false,
 };
 
-export default SectionCollapse;
+export default WidgetGrouping;

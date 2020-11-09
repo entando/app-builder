@@ -6,7 +6,7 @@ import { routeConverter } from '@entando/utils';
 import { ROUTE_WIDGET_EDIT } from 'app-init/router';
 import WidgetIcon from 'ui/widgets/common/WidgetIcon';
 
-const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
+const WidgetGroupingItem = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (
     <div className="ContentWidgetElement list-group-item">
       <div className="ContentWidgetElement__main list-view-pf-main-info">
@@ -33,7 +33,7 @@ const ContentWidgetElement = ({ widgetId, widgetName, connectDragSource }) => {
   return component;
 };
 
-ContentWidgetElement.propTypes = {
+WidgetGroupingItem.propTypes = {
 
   widgetName: PropTypes.string.isRequired,
 
@@ -45,9 +45,9 @@ ContentWidgetElement.propTypes = {
   connectDragSource: PropTypes.func,
 };
 
-ContentWidgetElement.defaultProps = {
+WidgetGroupingItem.defaultProps = {
   widgetId: null,
   connectDragSource: null,
 };
 
-export default ContentWidgetElement;
+export default WidgetGroupingItem;

@@ -1,9 +1,8 @@
 import React from 'react';
-
 import 'test/enzyme-init';
 import { shallowWithIntl } from 'test/testUtils';
-import ContentWidget from 'ui/pages/config/ContentWidget';
-import SectionCollapse from 'ui/common/section-collapse/SectionCollapse';
+import WidgetGroupings from 'ui/pages/config/WidgetGroupings';
+import WidgetGrouping from 'ui/pages/config/WidgetGrouping';
 import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
 
@@ -13,7 +12,7 @@ describe('ContentWidget', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
-    component = shallowWithIntl(<ContentWidget />).dive();
+    component = shallowWithIntl(<WidgetGroupings />).dive();
   });
 
   it('renders without crashing', () => {
@@ -21,26 +20,26 @@ describe('ContentWidget', () => {
   });
 
   it('has the PageConfigPage class', () => {
-    expect(component.hasClass('ContentWidget')).toBe(true);
+    expect(component.hasClass('WidgetGroupings')).toBe(true);
   });
 
   describe('props', () => {
     it('widgetList empty data', () => {
-      component = shallowWithIntl(<ContentWidget widgetList={WIDGET_LIST_MOCK_EMPTY} />);
-      expect(component.find(SectionCollapse).exists()).toBe(false);
+      component = shallowWithIntl(<WidgetGroupings widgetList={WIDGET_LIST_MOCK_EMPTY} />);
+      expect(component.find(WidgetGrouping).exists()).toBe(false);
     });
 
     it('widgetList with data', () => {
-      component = shallowWithIntl(<ContentWidget
+      component = shallowWithIntl(<WidgetGroupings
         groupedWidgets={WIDGET_ONE_LIST}
         widgetGroupingList={['User Widget']}
       />).dive();
-      expect(component.find(SectionCollapse).exists()).toBe(true);
+      expect(component.find(WidgetGrouping).exists()).toBe(true);
     });
 
     it('filterWidget', () => {
       const filterWidget = jest.fn().mockReturnValue('test');
-      component = shallowWithIntl(<ContentWidget filterWidget={filterWidget} />).dive();
+      component = shallowWithIntl(<WidgetGroupings filterWidget={filterWidget} />).dive();
       component.find('input').simulate('change', { target: { value: 'test' } });
       expect(filterWidget).toHaveBeenCalled();
       expect(filterWidget).toHaveBeenCalledWith('test');
