@@ -241,19 +241,16 @@ export const getSelectedPageTemplateCanBeOnTheFly = createSelector(
 export const getSelectedPageTemplateMainFrame = createSelector(
   [getSelectedPageTemplate],
   (pageTemplate) => {
-    const mainFrame = pageTemplate &&
-      pageTemplate.configuration.frames.find(frame => frame.mainFrame === true);
-    return mainFrame || null;
+    const frames = get(pageTemplate, 'configuration.frames', []);
+    return frames.length ? frames.find(frame => frame.mainFrame) : null;
   },
 );
 
 export const getSelectedPageTemplateDefaultConfig = createSelector(
   [getSelectedPageTemplate],
   (pageTemplate) => {
-    if (!pageTemplate) {
-      return null;
-    }
-    return pageTemplate.configuration.frames.map(frame => frame.defaultWidget || null);
+    const frames = get(pageTemplate, 'configuration.frames', []);
+    return frames.length ? frames.map(frame => frame.defaultWidget || null) : null;
   },
 );
 
