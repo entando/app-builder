@@ -1,0 +1,21 @@
+.WidgetGrouping {
+  &__item-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 10px;
+    border: 0;
+    overflow: hidden;
+  }
+
+  &__item-area.odd::after { // sass-lint:disable-line class-name-format force-element-nesting
+    flex: auto;
+    max-width: calc(50% - 20px);
+    content: "";
+  }
+
+  &:last-of-type {
+    border-bottom: 1px solid $color-black;
+  }
+}

@@ -8,7 +8,7 @@ import { WIDGET_ONE_LIST } from 'test/mocks/widgets';
 
 const WIDGET_LIST_MOCK_EMPTY = {};
 
-describe('ContentWidget', () => {
+describe('WidgetGroupings', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();

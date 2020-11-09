@@ -4,19 +4,19 @@ import { Collapse } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import DraggableContentWidgetElement from 'ui/pages/config/WidgetGroupingDraggableItem';
 
-import SectionCollapseTitle from 'ui/common/section-collapse/SectionCollapseTitle';
+import CollapsibleSectionTitle from 'ui/common/CollapsibleSectionTitle';
 
 const WidgetGrouping = ({
   widgets, name, opened, locale, onToggle,
 }) => {
-  const itemAreaClassNames = ['SectionCollapse__item-area'];
+  const itemAreaClassNames = ['WidgetGrouping__item-area'];
   if (widgets.length % 2 === 1) {
     itemAreaClassNames.push('odd');
   }
 
   return (
-    <div className="SectionCollapse">
-      <SectionCollapseTitle
+    <div className="WidgetGrouping">
+      <CollapsibleSectionTitle
         name={<FormattedMessage id={`widget.list.section.${name}`} defaultMessage={name} />}
         isOpened={opened}
         onClick={onToggle}

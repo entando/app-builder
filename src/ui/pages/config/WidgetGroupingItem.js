@@ -8,14 +8,14 @@ import WidgetIcon from 'ui/widgets/common/WidgetIcon';
 
 const WidgetGroupingItem = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (
-    <div className="ContentWidgetElement list-group-item">
-      <div className="ContentWidgetElement__main list-view-pf-main-info">
-        <div className="ContentWidgetElement__icon list-view-pf-left">
+    <div className="WidgetGroupingItem list-group-item">
+      <div className="WidgetGroupingItem__main list-view-pf-main-info">
+        <div className="WidgetGroupingItem__icon list-view-pf-left">
           <WidgetIcon widgetId={widgetId} />
         </div>
         <div className="list-view-pf-body">
           <div className="list-view-pf-description">
-            <div className="ContentWidgetElement__description">
+            <div className="WidgetGroupingItem__description">
               <Link
                 to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}
               >

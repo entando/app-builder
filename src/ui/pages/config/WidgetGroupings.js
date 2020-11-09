@@ -32,10 +32,10 @@ const WidgetGroupings = ({
   }, [searchFilter, widgetGroupingList]);
 
   return (
-    <div className="ContentWidget">
-      <div className="ContentWidget__right-menu-title">
+    <div className="WidgetGroupings">
+      <div className="WidgetGroupings__right-menu-title">
         <input
-          className="ContentWidget__input-pf-right-menu"
+          className="WidgetGroupings__input-pf-right-menu"
           type="text"
           onChange={onChange}
           placeholder={intl.formatMessage(msgs.search)}

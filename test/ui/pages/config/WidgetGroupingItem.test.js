@@ -8,7 +8,7 @@ import WidgetGroupingItem from 'ui/pages/config/WidgetGroupingItem';
 const WIDGET_NAME = 'My Widget';
 
 
-describe('ContentWidgetElement', () => {
+describe('WidgetGroupingItem', () => {
   let component;
   beforeEach(() => {
     component = shallow(<WidgetGroupingItem widgetName={WIDGET_NAME} />);
