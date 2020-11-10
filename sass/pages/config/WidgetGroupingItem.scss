@@ -1,13 +1,4 @@
-.ContentWidgetList {
-  .ContentWidgetElement {
-    border-right: 1px solid $color-pf-white;
-    border-left: 1px solid $color-pf-white;
-    background-color: $color-pf-black-200;
-    cursor: pointer;
-  }
-}
-
-.ContentWidgetElement {
+.WidgetGroupingItem {
   width: calc(50% - 20px);
   margin-bottom: 10px;
   border: 0;
@@ -23,7 +14,6 @@
     }
   }
   // sass-lint:enable class-name-format nesting-depth
-
 
   &__widget-list {
     margin-bottom: 0;
@@ -74,35 +64,5 @@
   &__description {
     margin: 0;
     text-align: center;
-  }
-}
-
-.ContentWidgetList--list {
-  .ContentWidgetElement {
-    padding: 0 15px;
-  }
-
-  .WidgetIcon {
-    line-height: 9px;
-  }
-}
-
-.ContentWidgetList--card {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  border-right: 0;
-  border-left: 0;
-
-  .ContentWidgetElement {
-    display: flex;
-    flex-basis: calc(50% - 10px);
-    margin-top: 5px;
-    padding: 0 15px;
-  }
-
-  .WidgetIcon {
-    padding: 0;
   }
 }

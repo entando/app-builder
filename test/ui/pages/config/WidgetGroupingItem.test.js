@@ -2,16 +2,16 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import ContentWidgetElement from 'ui/pages/config/ContentWidgetElement';
+import WidgetGroupingItem from 'ui/pages/config/WidgetGroupingItem';
 
 
 const WIDGET_NAME = 'My Widget';
 
 
-describe('ContentWidgetElement', () => {
+describe('WidgetGroupingItem', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<ContentWidgetElement widgetName={WIDGET_NAME} />);
+    component = shallow(<WidgetGroupingItem widgetName={WIDGET_NAME} />);
   });
 
   it('renders without crashing', () => {
@@ -22,7 +22,7 @@ describe('ContentWidgetElement', () => {
     const connectDragSource = jest.fn()
       .mockImplementation(arg => <span className="connected">{arg}</span>);
     component = shallow((
-      <ContentWidgetElement
+      <WidgetGroupingItem
         widgetName={WIDGET_NAME}
         connectDragSource={connectDragSource}
       />

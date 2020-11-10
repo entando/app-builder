@@ -1,28 +1,12 @@
 import { createSelector } from 'reselect';
 import { cloneDeep, isEqual } from 'lodash';
 
+import { groupWidgets } from 'state/widgets/helpers';
 import { getLocale } from 'state/locale/selectors';
 import { getListWidget, getWidgetsMap } from 'state/widgets/selectors';
 import { getSelectedPageTemplateCellMap, getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
 import { hasMicrofrontendConfig } from 'helpers/microfrontends';
-
-const renameCMSPluginName = ({ typology, pluginDesc, ...widget }) => ({
-  ...widget,
-  typology,
-  pluginDesc: typology === 'jacms' ? 'CMS' : pluginDesc,
-});
-
-const widgetGroupByCategory = (widgetList, locale) =>
-
-  widgetList.reduce((acc, widget) => {
-    if (acc[widget.typology]) {
-      acc[widget.typology].push({ ...renameCMSPluginName(widget), name: widget.titles[locale] });
-    } else {
-      acc[widget.typology] = [{ ...renameCMSPluginName(widget), name: widget.titles[locale] }];
-    }
-    return acc;
-  }, {});
 
 export const getPageConfig = state => state.pageConfig;
 export const getConfigMap = state => state.pageConfig.configMap;
@@ -39,9 +23,14 @@ export const filterWidgetList = createSelector(
   ,
 );
 
-export const getGroupedWidgetList = createSelector(
-  [filterWidgetList, getLocale],
-  (widget, locale) => widgetGroupByCategory(widget, locale),
+export const getGroupedWidgets = createSelector(
+  filterWidgetList,
+  filteredWidgetList => groupWidgets(filteredWidgetList),
+);
+
+export const getWidgetGroupingList = createSelector(
+  getGroupedWidgets,
+  groupedWidgets => Object.keys(groupedWidgets).sort(),
 );
 
 export const makeGetSelectedPageConfig = pageCode => createSelector(

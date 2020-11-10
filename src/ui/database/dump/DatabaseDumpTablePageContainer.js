@@ -5,15 +5,23 @@ import DatabaseDumpTablePage from 'ui/database/dump/DatabaseDumpTablePage';
 import { getTableDumpData } from 'state/database/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { setVisibleModal } from 'state/modal/actions';
+import { getVisibleModal } from 'state/modal/selectors';
+
+const MODAL_ID = 'DatabaseDumpPage';
 
 export const mapStateToProps = state => ({
   dumpData: getTableDumpData(state),
+  isModalOpen: getVisibleModal(state) === MODAL_ID,
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onDidMount: () => {
+  fetchDumpTable: () => {
     const { match: { params: { datasource, tableName, dumpCode } = {} } = {} } = ownProps;
-    dispatch(fetchDatabaseDumpTable(dumpCode, datasource, tableName));
+    if (dumpCode && datasource && tableName) {
+      dispatch(fetchDatabaseDumpTable(dumpCode, datasource, tableName));
+      dispatch(setVisibleModal(MODAL_ID));
+    }
   },
 });
 

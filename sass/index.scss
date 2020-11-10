@@ -7,6 +7,7 @@
 @import "common/form/DatePicker";
 @import "common/form/SearchForm";
 @import "widgets/common/WidgetForm";
+@import "widgets/common/WidgetIcon";
 @import "widgets/list/ListWidgetPage";
 @import "widgets/list/WidgetListTable";
 @import "widgets/list/WidgetListActionToggle";
@@ -25,8 +26,9 @@
 @import "pages/settings/PageSettings";
 @import "pages/config/ToolbarPageConfig";
 @import "pages/config/ToolbarContentIcon";
-@import "pages/config/ContentWidget";
-@import "pages/config/ContentWidgetElement";
+@import "pages/config/WidgetGroupings";
+@import "pages/config/WidgetGrouping";
+@import "pages/config/WidgetGroupingItem";
 @import "pages/config/ContentPages";
 @import "fragments/common/FragmentForm";
 @import "fragments/list/ListFragmentPage";
@@ -68,7 +70,7 @@
 @import "categories/common/CategoryTreeSelector";
 @import "common/form/RenderRadioInput";
 @import "common/cross-browser";
-@import "common/SectionCollapse";
+@import "common/CollapsibleSectionTitle";
 @import "common/attributes/AttributesDateSettings";
 @import "common/attributes/AttributeListTable";
 @import "common/attributes/AttributeCheckIcon";
@@ -85,6 +87,7 @@
 @import "database/list/DatabaseListTable";
 @import "database/add/AddDatabaseListTable";
 @import "database/report/ReportDatabaseListDataSource";
+@import "database/report/DatabaseDumpTablePage";
 @import "file-browser/add/CreateFolderForm";
 @import "file-browser/list/FilesListTable";
 @import "file-browser/list/FileBreadcrumb";

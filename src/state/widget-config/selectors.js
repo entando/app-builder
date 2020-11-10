@@ -6,7 +6,8 @@ import { getSelectedPageTemplate } from 'state/page-templates/selectors';
 export const makeGetWidgetConfigFrameName = framePos => createSelector(
   [getSelectedPageTemplate],
   (selectedPageTemplate) => {
-    if (selectedPageTemplate) {
+    if (selectedPageTemplate && selectedPageTemplate.configuration
+      && selectedPageTemplate.configuration.frames) {
       if (framePos) {
         return selectedPageTemplate.configuration.frames[framePos].descr;
       }

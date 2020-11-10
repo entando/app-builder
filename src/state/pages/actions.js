@@ -23,6 +23,8 @@ import getSearchParam from 'helpers/getSearchParam';
 import { toggleLoading } from 'state/loading/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
+import { setExistingPages } from 'state/app-tour/actions';
+import { getAppTourProgress } from 'state/app-tour/selectors';
 
 
 const HOMEPAGE_CODE = 'homepage';
@@ -199,7 +201,8 @@ export const fetchPageTree = pageCode => async (dispatch) => {
  * /pages
  */
 export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getState) => {
-  const pageStatus = getStatusMap(getState())[pageCode];
+  const state = getState();
+  const pageStatus = getStatusMap(state)[pageCode];
   const toExpand = (!pageStatus || !pageStatus.expanded);
   const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
   if (toLoad) {
@@ -209,6 +212,9 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
         dispatch(addPages(pages));
         dispatch(togglePageExpanded(pageCode, true));
         dispatch(setPageLoaded(pageCode));
+        if (pageCode === HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
+          dispatch(setExistingPages(pages));
+        }
       }).catch(() => {});
   }
   dispatch(togglePageExpanded(pageCode, toExpand));

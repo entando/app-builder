@@ -29,15 +29,15 @@ const widgetSVGIcons = {
   jpseo_content_viewer: 'file-alt',
 };
 
-const WidgetIcon = ({ widgetId }) => {
+const WidgetIcon = ({ widgetId, small }) => {
   const widgetIcon = widgetIcons[widgetId] || get(widgetSVGIcons, widgetId, widgetIcons.default);
   const isSVG = widgetIcon !== widgetIcons.default
     && Object.keys(widgetSVGIcons).includes(widgetId);
   const getSVGIcon = (type) => {
     const svgprops = {
       'aria-hidden': 'true',
-      width: '24',
-      height: '24',
+      width: small ? '16' : '24',
+      height: small ? '16' : '24',
       focusable: 'false',
       viewBox: '0 0 512 512',
       role: 'img',
@@ -109,6 +109,7 @@ const WidgetIcon = ({ widgetId }) => {
         fa fa-default
         ${widgetIcon}
         WidgetIcon
+        ${small ? 'WidgetIcon--small' : ''}        
         fa-banner-main-left`}
       />
     );
@@ -123,10 +124,12 @@ const WidgetIcon = ({ widgetId }) => {
 
 WidgetIcon.propTypes = {
   widgetId: PropTypes.string,
+  small: PropTypes.bool,
 };
 
 WidgetIcon.defaultProps = {
   widgetId: null,
+  small: false,
 };
 
 export default WidgetIcon;

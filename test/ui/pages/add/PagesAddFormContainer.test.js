@@ -1,6 +1,8 @@
 import {
   mapStateToProps,
   mapDispatchToProps,
+  getNextPageName,
+  getNextPageCode,
 } from 'ui/pages/add/PagesAddFormContainer';
 
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
@@ -33,6 +35,7 @@ jest.mock('state/groups/selectors', () => ({
 jest.mock('state/app-tour/selectors', () => ({
   getAppTourProgress: jest.fn(),
   getTourCreatedPage: jest.fn(),
+  getExistingPages: jest.fn(),
 }));
 
 jest.mock('state/page-templates/selectors', () => ({
@@ -69,6 +72,113 @@ getActiveLanguages.mockReturnValue(LANGUAGES);
 const STATE = {
   pages: {},
 };
+
+describe('getNextPageName', () => {
+  it('otherString', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'otherString' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App');
+  });
+
+  it('Hello World App', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App 2');
+  });
+
+  it('Hello World App 1', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App 1' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App 2');
+  });
+
+  it('Hello World App 8dsada', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App 8dsada' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App');
+  });
+
+  it('Hello World App 8dsada 12', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App 8dsada 12' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App');
+  });
+
+  it('Hello World App 2', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App 2' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App 3');
+  });
+});
+describe('getNextPageCode', () => {
+  it('otherString', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'otherString' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app');
+  });
+
+  it('hello_world_app', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app_2');
+  });
+
+  it('hello_world_app_1', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_1' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app_2');
+  });
+
+  it('hello_world_app_2dsada', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_2dsada' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app');
+  });
+
+  it('hello_world_app_2dsada_12', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_2dsada_12' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app');
+  });
+
+  it('hello_world_app_2dsada_12_5', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_2dsada_12_5' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app');
+  });
+
+  it('hello_world_app_2', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_2' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app_3');
+  });
+});
 
 describe('PagesAddFormContainer', () => {
   beforeEach(jest.clearAllMocks);

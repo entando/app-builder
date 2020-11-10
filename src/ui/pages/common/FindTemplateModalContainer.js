@@ -19,8 +19,8 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchPageTemplates(page));
   },
-  onSelectClick: (value) => {
-    dispatch(change('page', 'pageModel', value));
+  onSelectClick: (value, isEditMode) => {
+    dispatch(change(isEditMode ? 'pageEdit' : 'page', 'pageModel', value));
     dispatch(setVisibleModal(''));
   },
 });
