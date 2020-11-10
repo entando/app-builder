@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button, Tabs, Tab, Icon } from 'patternfly-react';
 
-import ContentWidgetContainer from 'ui/pages/config/ContentWidgetContainer';
+import WidgetGroupingsContainer from 'ui/pages/config/WidgetGroupingsContainer';
 import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
 
 class ToolbarPageConfig extends Component {
@@ -69,7 +69,7 @@ class ToolbarPageConfig extends Component {
             unmountOnExit
           >
             <Tab eventKey={0} title={renderedWidgetTabTitle}>
-              <ContentWidgetContainer />
+              <WidgetGroupingsContainer />
             </Tab>
             <Tab eventKey={1} title={renderedPageTreeTabTitle}>
               <ContentPagesContainer />

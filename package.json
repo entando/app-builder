@@ -178,8 +178,10 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.2.0",
+    "@testing-library/dom": "^7.26.5",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.2.0",
     "commander": "^3.0.2",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint-plugin-react-hooks": "^2.3.0",

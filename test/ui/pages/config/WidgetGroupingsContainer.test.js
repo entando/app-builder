@@ -1,4 +1,4 @@
-import { mapDispatchToProps } from 'ui/pages/config/ContentWidgetContainer';
+import { mapDispatchToProps } from 'ui/pages/config/WidgetGroupingsContainer';
 import { getViewList } from 'state/page-config/selectors';
 
 jest.mock('state/page-config/selectors', () => (
@@ -11,8 +11,7 @@ jest.mock('state/page-config/selectors', () => (
 getViewList.mockReturnValue('list');
 const dispatchMock = jest.fn();
 
-describe('ContentWidgetContainer', () => {
-
+describe('WidgetGroupingsContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {

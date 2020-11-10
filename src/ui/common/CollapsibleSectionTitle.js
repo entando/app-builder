@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { CONFIRM_KEYS } from 'ui/common/accessibility/KeyCodes';
 
-const SectionCollapseTitle = ({
+const CollapsibleSectionTitle = ({
   name, nameId, onClick, isOpened,
 }) => {
   const handleKeyDown = (e) => {
@@ -13,7 +13,7 @@ const SectionCollapseTitle = ({
   };
   return (
     <div
-      className="SectionCollapse__title no-padding"
+      className="CollapsibleSection__title no-padding"
       onClick={onClick}
       onKeyDown={handleKeyDown}
       role="button"
@@ -22,23 +22,23 @@ const SectionCollapseTitle = ({
       {<span>{name}</span> || (
         <FormattedMessage id={nameId} defaultMessage="Info" />
       )}
-      <span className={`icon fa fa-chevron-${isOpened ? 'down' : 'right'} SectionCollapse__title-collapse-button`} />
+      <span className={`icon fa fa-chevron-${isOpened ? 'down' : 'right'} CollapsibleSection__title-collapse-button`} />
     </div>
   );
 };
 
-SectionCollapseTitle.propTypes = {
-  name: PropTypes.string,
+CollapsibleSectionTitle.propTypes = {
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   nameId: PropTypes.string,
   onClick: PropTypes.func,
   isOpened: PropTypes.bool,
 };
 
-SectionCollapseTitle.defaultProps = {
+CollapsibleSectionTitle.defaultProps = {
   name: '',
   nameId: '',
   onClick: () => {},
   isOpened: false,
 };
 
-export default SectionCollapseTitle;
+export default CollapsibleSectionTitle;
