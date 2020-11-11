@@ -250,6 +250,11 @@ export class WidgetFormBody extends Component {
                         }
                       />
                     }
+                    <Field
+                      name="widgetCategory"
+                      component="input"
+                      type="hidden"
+                    />
                     {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                       <div className="form-group">
                         <Col xs={2} className="text-right">

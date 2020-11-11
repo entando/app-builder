@@ -124,7 +124,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
   toggleLoading('fetchWidget');
   dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     if (ok) {
-      const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'parentType', 'readonlyPageWidgetConfig']);
+      const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'parentType', 'readonlyDefaultConfig', 'widgetCategory']);
       newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
       newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
       const userWidgetInitDispatches = () => {
