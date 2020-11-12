@@ -25,6 +25,7 @@ import {
 import {
   getSelectedPage,
   getSelectedPageIsPublished,
+  getSelectedPageLocaleTitle,
 } from 'state/pages/selectors';
 import { getLocale } from 'state/locale/selectors';
 
@@ -52,6 +53,7 @@ jest.mock('state/pages/selectors', () => ({
     .mockReturnValue('getSelectedPagePreviewURI_result'),
   getSelectedPublishedPageURI: jest.fn()
     .mockReturnValue('getSelectedPublishedPageURI_result'),
+  getSelectedPageLocaleTitle: jest.fn(),
 }));
 
 jest.mock('state/locale/selectors', () => ({
@@ -95,6 +97,7 @@ describe('PageConfigPageContainer', () => {
 
     beforeEach(() => {
       getSelectedPage.mockReturnValue(PAGE);
+      getSelectedPageLocaleTitle.mockReturnValue(PAGE.titles.en);
       getSelectedPageTemplateCanBeOnTheFly.mockReturnValue(true);
       getAppTourProgress.mockReturnValue('started');
       makeGetPageIsOnTheFly.mockReturnValue(() => true);

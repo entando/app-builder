@@ -48,8 +48,8 @@ PageInfoTable.propTypes = {
   page: PropTypes.shape({
     code: PropTypes.string,
     titles: PropTypes.shape({
-      en: PropTypes.string.isRequired,
-      it: PropTypes.string.isRequired,
+      en: PropTypes.string,
+      it: PropTypes.string,
     }),
     ownerGroup: PropTypes.string,
     pageModel: PropTypes.string,

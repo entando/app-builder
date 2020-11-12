@@ -52,6 +52,7 @@ getSelectedWidgetDefaultUi.mockReturnValue('');
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn(),
+  getDefaultLanguage: jest.fn(),
 }));
 
 getActiveLanguages.mockReturnValue(LANGUAGES);
