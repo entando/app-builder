@@ -13,6 +13,7 @@ import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
 const LOCALE_MOCK = 'en';
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
+jest.mock('state/languages/selectors', () => ({ getDefaultLanguage: () => 'en' }));
 
 
 const MOCK_STATE = {
