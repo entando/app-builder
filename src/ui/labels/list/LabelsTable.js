@@ -24,7 +24,7 @@ const LabelsTable = ({
             className="LabelsTable__label-row"
           >
             <td>{label.key}</td>
-            <td>{label.value}</td>
+            <td className="LabelsTable__cell-value">{label.value}</td>
             <td className="text-center">
               <LabelListMenuActions code={label.key} onClickDelete={onClickDelete} />
             </td>
