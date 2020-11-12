@@ -5,7 +5,6 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 
 import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
 import ComponentListListView from 'ui/component-repository/components/list/ComponentListListView';
-import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilterContainer';
 
 import { ECR_COMPONENTS_GRID_VIEW } from 'state/component-repository/components/const';
 import { componentType } from 'models/component-repository/components';
@@ -68,12 +67,10 @@ class ComponentList extends Component {
 
     return (
       <div className="ComponentList">
-        <ExtraTabBarFilterContainer />
         <Spinner loading={!!loading} >
           {components}
           <Paginator
             pagination={pagination}
-            viewType="table"
             itemCount={totalItems}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}

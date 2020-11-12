@@ -25,12 +25,14 @@ class SearchFormBody extends Component {
           component={RenderSearchFormInput}
           onClear={this.clearSearch}
         />
-        <Button
-          className="SearchForm__button"
-          type="submit"
-        >
-          <Icon name="search" />
-        </Button>
+        <div className="SearchForm__button-wrapper">
+          <Button
+            className="SearchForm__button"
+            type="submit"
+          >
+            <Icon name="search" />
+          </Button>
+        </div>
       </form>
     );
   }

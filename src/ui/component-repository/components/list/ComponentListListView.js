@@ -21,12 +21,12 @@ const ComponentListListView = ({ components, locale }) => (
     {components.map(component => (
       <div key={component.code} className="ComponentList__list-item">
         <div key={component.code} className="equal">
-          <Col xs={2} md={2} sm={2} className="no-padding">
+          <Col xs={4} md={2} sm={4} className="no-padding">
             <a href="#" className="ComponentList_component-image-wrapper">
               <ComponentImage component={component} />
             </a>
           </Col>
-          <Col xs={7} md={8} sm={8} className="no-padding">
+          <Col xs={8} md={10} sm={8} className="no-padding">
             <div className="ComponentList__component-body">
               <h1>{component.title}</h1>
               { component.lastUpdate && (
@@ -34,18 +34,19 @@ const ComponentListListView = ({ components, locale }) => (
                   {renderComponentDate(component.lastUpdate, locale) }
                 </span>
               )}
-              <span className="ComponentList__version">
-                <FormattedMessage id="componentRepository.components.latestVersion" />
-                  : {component.latestVersion.version}
-              </span>
-            </div>
-          </Col>
-          <Col xs={3} md={2} sm={2} className="no-padding">
-            <ComponentInstallActionsContainer component={component} />
-          </Col>
-          <Col xs={12} md={12} sm={12} className="no-padding">
-            <div className="ComponentList__description">
-              {component.description}
+              <p className="ComponentList__description">
+                {component.description}
+              </p>
+
+              <div className="ComponentList__component-footer">
+                <div>
+                  <FormattedMessage id="componentRepository.components.latestVersion" />{':'}&nbsp;
+                  <span className="ComponentList__version">
+                    {component.latestVersion.version}
+                  </span>
+                </div>
+                <ComponentInstallActionsContainer component={component} />
+              </div>
             </div>
           </Col>
         </div>

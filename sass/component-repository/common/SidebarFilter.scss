@@ -1,15 +1,33 @@
 .SidebarFilter {
+  border: solid 1px $color-light-grey-border;
+  background: $color-white;
   text-align: left;
 
   &__title {
-    padding: 15px;
-    border: 1px solid $color-sidebar-filter-border-grey;
-    background-color: $color-sidebar-filter-bg-grey;
-    color: $color-dark-grey;
+    padding: 20px 15px;
+    border-bottom: 2px solid $color-extra-light-grey-border;
+    color: $color-black;
     font-family: Open Sans;
-    font-size: 12px;
+    font-size: 22px;
     font-style: normal;
-    font-weight: bold;
     line-height: normal;
+  }
+
+  &__body {
+    .CheckboxGroup {
+      padding: 20px 15px;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: normal;
+
+      &::before {
+        margin-right: 8px !important; // sass-lint:disable-line no-important
+      }
+    }
   }
 }

@@ -22,20 +22,18 @@ const ComponentListViewModeSwitcher = ({ viewMode, changeViewMode }) => {
 
   return (
     <div className="ComponentListViewModeSwitcher">
-      <div className="">
-        <button
-          className={`${btnClass} ${(viewMode === ECR_COMPONENTS_GRID_VIEW) ? selectedClass : ''}`}
-          onClick={switchToGridView}
-        >
-          <i className="fa fa-th-large" />
-        </button>
-        <button
-          className={`${btnClass} ${(viewMode === ECR_COMPONENTS_LIST_VIEW) ? selectedClass : ''}`}
-          onClick={switchToListView}
-        >
-          <i className="fa fa-bars" />
-        </button>
-      </div>
+      <button
+        className={`${btnClass} ${(viewMode === ECR_COMPONENTS_GRID_VIEW) ? selectedClass : ''}`}
+        onClick={switchToGridView}
+      >
+        <i className="fa fa-th-large" />
+      </button>
+      <button
+        className={`${btnClass} ${(viewMode === ECR_COMPONENTS_LIST_VIEW) ? selectedClass : ''}`}
+        onClick={switchToListView}
+      >
+        <i className="fa fa-bars" />
+      </button>
     </div>
   );
 };

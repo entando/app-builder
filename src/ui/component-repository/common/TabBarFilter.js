@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Tab } from 'patternfly-react';
+import { ButtonGroup, Button } from 'patternfly-react';
+import { FormattedMessage } from 'react-intl';
 
 class TabBarFilter extends Component {
   componentWillMount() {
@@ -13,31 +14,32 @@ class TabBarFilter extends Component {
     } = this.props;
 
 
-    const handleSelect = (key) => {
-      onSelect(filterTabs[key].value);
+    const handleSelect = (value) => {
+      onSelect(value);
     };
 
-    const tabs = filterTabs.map((filterTab, index) => (
-      <Tab
+    const buttons = filterTabs.map((filterTab, index) => (
+      <Button
         key={filterTab.value}
         eventKey={index}
-        title={filterTab.label}
-      />
+        onClick={() => { handleSelect(filterTab.value); }}
+        className={filterTab.value === selectedFilterTab && 'active'}
+      >
+        {filterTab.label}
+      </Button>
     ));
 
-    const index = filterTabs.indexOf(selectedFilterTab);
-    const selectedFilterTabIndex = index !== -1 ? index : 0;
-
     return (
-      <div className={`TabBarFilter ${attributes.componentClass}`}>
-        <Tabs
+      <div className="TabBarFilter">
+        <div>
+          <FormattedMessage id="componentRepository.filterTabs.filterBy" />{':'}
+        </div>
+        <ButtonGroup
           id={attributes.componentId}
           justified
-          defaultActiveKey={selectedFilterTabIndex}
-          onSelect={key => handleSelect(key)}
         >
-          { tabs }
-        </Tabs>
+          { buttons }
+        </ButtonGroup>
       </div>
     );
   }
