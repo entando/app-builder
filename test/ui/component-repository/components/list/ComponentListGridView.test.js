@@ -43,12 +43,9 @@ describe('ComponentListGridView', () => {
     });
 
     it('renders the latest version', () => {
-      const version = deComponents.first().find('.ComponentList__version');
+      const version = deComponents.find('.ComponentList__version').first();
       expect(version).toHaveLength(1);
-      const versionFormattedMessage = version.find('FormattedMessage');
-      expect(versionFormattedMessage).toHaveLength(1);
-      expect(versionFormattedMessage.props()).toHaveProperty('id', 'componentRepository.components.latestVersion');
-      expect(version.text()).toEqual(`<FormattedMessage />: ${LIST_ECR_COMPONENTS_OK[0].latestVersion.version}`);
+      expect(version.text()).toEqual(LIST_ECR_COMPONENTS_OK[0].latestVersion.version);
     });
 
     it('renders the image', () => {
