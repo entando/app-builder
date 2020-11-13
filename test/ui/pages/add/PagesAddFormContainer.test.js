@@ -121,6 +121,14 @@ describe('getNextPageName', () => {
       separator: ' ',
     })).toBe('Hello World App 3');
   });
+
+  it('Hello World App with multiple pages', () => {
+    expect(getNextPageName({
+      pages: [{ name: 'Hello World App' }, { name: 'Hello World App 2' }],
+      pattern: 'Hello World App',
+      separator: ' ',
+    })).toBe('Hello World App 3');
+  });
 });
 describe('getNextPageCode', () => {
   it('otherString', () => {

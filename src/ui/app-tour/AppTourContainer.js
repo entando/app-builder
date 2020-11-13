@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { arrayPop, formValueSelector } from 'redux-form';
+import { formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
 
@@ -7,18 +7,18 @@ import AppTour from 'ui/app-tour/AppTour';
 import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage, getWizardEnabled } from 'state/app-tour/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchWizardEnabled, setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
+import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
 import { ROUTE_DASHBOARD, ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
-import { configOrUpdatePageWidget, editWidgetConfig } from 'state/page-config/actions';
-import { NavigationBarWidgetID } from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
+import { initConfigPage, configOrUpdatePageWidget } from 'state/page-config/actions';
 import { updateUserPreferences } from 'state/user-preferences/actions';
 
 export const widgetNextSteps = {
   logo: 13,
-  'navigation-menu': 14,
-  content_viewer: 18,
+  search_form: 15,
+  'keycloak-login': 16,
 };
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
@@ -39,7 +39,6 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     lockBodyScroll,
     tourCreatedPageCode: pageCode,
     publishStatus: getPublishStatus(state),
-    specificChosenPage: formValueSelector('navigationBarWidgetForm')(state, 'addConfig.targetCode'),
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
@@ -78,25 +77,53 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(configOrUpdatePageWidget('logo', undefined, 0, pageCode));
     dispatch(setAppTourLastStep(13));
   },
-  onAddNavigationMenu: (pageCode) => {
-    dispatch(configOrUpdatePageWidget('navigation-menu', undefined, 1, pageCode));
+  onAddNavBarWidget: (pageCode) => {
     dispatch(setAppTourLastStep(14));
+    dispatch(updateConfiguredPageWidget(
+      { navSpec: 'code(homepage_test).children' },
+      { pageCode, framePos: 1, widgetCode: 'navigation-menu' },
+    )).then(() => dispatch(initConfigPage(pageCode)));
   },
-  onBackToSpecificCode: () => {
-    dispatch(arrayPop(NavigationBarWidgetID, 'expressions'));
-    dispatch(setAppTourLastStep(14));
+  onAddSearchWidget: (pageCode) => {
+    dispatch(configOrUpdatePageWidget('search_form', undefined, 2, pageCode));
+    dispatch(setAppTourLastStep(15));
   },
-  onAddContent: (pageCode) => {
-    dispatch(configOrUpdatePageWidget('content_viewer', undefined, 4, pageCode));
+  onAddLoginWidget: (pageCode) => {
+    dispatch(configOrUpdatePageWidget('keycloak-login', undefined, 3, pageCode));
+    dispatch(setAppTourLastStep(16));
+  },
+  onAddBannerWidget: (pageCode) => {
+    dispatch(setAppTourLastStep(17));
+    dispatch(updateConfiguredPageWidget(
+      {
+        contentDescription: 'A Modern Platform for Modern UX',
+        contentId: 'BNR3',
+        joinGroups: '[]',
+        ownerGroup: 'free',
+      },
+      { pageCode, framePos: 4, widgetCode: 'content_viewer' },
+    )).then(() => dispatch(initConfigPage(pageCode)));
+  },
+  onAddContentListWidget: (pageCode) => {
     dispatch(setAppTourLastStep(18));
+    dispatch(updateConfiguredPageWidget(
+      {
+        ownerGroup: 'free',
+        joinGroups: [],
+        contents: [
+          { contentId: 'NWS5', modelId: 'default', contentDescription: 'Why You Need a Micro Frontend Platform for Kubernetes' },
+          { contentId: 'NWS6', modelId: 'default', contentDescription: 'Entando and JHipster: How It Works' },
+        ],
+      },
+      { pageCode, framePos: 5, widgetCode: 'row_content_viewer_list' },
+    )).then(() => dispatch(initConfigPage(pageCode)));
   },
-  onBackToNavMenuConfig: (pageCode) => {
-    dispatch(editWidgetConfig(1, pageCode));
-    dispatch(setAppTourLastStep(14));
-  },
-  onBackToContentConfig: (pageCode) => {
-    dispatch(editWidgetConfig(4, pageCode));
-    dispatch(setAppTourLastStep(21));
+  onAddSitemapMenu: (pageCode) => {
+    dispatch(setAppTourLastStep(19));
+    dispatch(updateConfiguredPageWidget(
+      { navSpec: 'code(sitemap)' },
+      { pageCode, framePos: 8, widgetCode: 'navigation-menu' },
+    )).then(() => dispatch(initConfigPage(pageCode)));
   },
 });
 
