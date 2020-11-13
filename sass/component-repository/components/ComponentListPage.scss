@@ -1,0 +1,90 @@
+//sass-lint:disable class-name-format nesting-depth force-element-nesting no-important
+.ComponentListPage {
+  height: 100%;
+
+  & > .container-fluid {
+    height: 100%;
+    margin: 60px auto 0 215px;
+    padding: 0;
+    background: $color-grey-background;
+
+    & > .container-fluid {
+      padding: 0;
+    }
+  }
+
+  & .PageTitle__header {
+    border-bottom: 0;
+
+    h1 {
+      margin-top: 18px;
+    }
+  }
+
+  &__header {
+    margin-bottom: 20px;
+    padding: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 2px $color-grey-border;
+    background: $color-white;
+  }
+
+  &__body {
+    padding: 0 20px 20px 20px;
+  }
+
+  &__container {
+    border: solid 1px $color-light-grey-border;
+    background: $color-white;
+  }
+
+  &__container-header {
+    display: flex;
+    justify-content: space-between;
+    height: 72px;
+    padding: 20px 15px;
+    border-bottom: 2px solid $color-extra-light-grey-border;
+  }
+
+  &__container-header-title {
+    color: $color-black;
+    font-family: Open Sans;
+    font-size: 22px;
+    font-style: normal;
+    line-height: normal;
+  }
+
+  &__container-header-actionbar {
+    display: flex;
+
+    & > div {
+      padding: 0 20px;
+      border-left: solid 1px $color-extra-light-grey-border;
+    }
+
+    & > div:first-child {
+      display: flex;
+      border-left: 0;
+    }
+
+    & > div:last-child {
+      padding-right: 0;
+    }
+
+    .FilterType button {
+      height: 30px;
+      border: solid 1px $color-ecr-list-icon !important;
+      border-right: 0 !important;
+      box-shadow: none;
+    }
+
+    .ComponentListViewModeSwitcher {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__container-body {
+    padding: 20px 15px;
+  }
+}

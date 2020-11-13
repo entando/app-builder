@@ -70,12 +70,6 @@ describe('WidgetForm', () => {
     expect(group.exists()).toBe(true);
   });
 
-  it('root component renders readonlyDefaultConfig field', () => {
-    widgetForm = buildWidgetForm();
-    const readonlyDefaultConfigField = widgetForm.find('[name="readonlyDefaultConfig"]');
-    expect(readonlyDefaultConfigField.exists()).toBe(true);
-  });
-
   it('root component renders customUi field', () => {
     widgetForm = buildWidgetForm();
     const customUi = widgetForm.find('[name="customUi"]');

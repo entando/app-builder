@@ -9,6 +9,7 @@ const widgetIcons = {
   content_viewer_list: 'fa-filter',
   search_form: 'fa-search',
   search_result: 'fa-list',
+  NWS_Search_Results: 'fa-list',
   'navigation-menu': 'fa-bars',
   sitemap: 'fa-sitemap',
   language: 'fa-language',

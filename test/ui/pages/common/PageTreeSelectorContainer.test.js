@@ -1,6 +1,10 @@
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/common/PageTreeSelectorContainer';
 
+jest.mock('state/pages/selectors', () => ({
+  getPageTreePages: jest.fn().mockReturnValue([]),
+}));
+
 const FAKE_STATE = {
   locale: 'en',
   pages: {

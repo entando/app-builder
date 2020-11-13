@@ -8,29 +8,47 @@
   &__component {
     position: relative;
     margin-bottom: 20px;
-    padding-bottom: 20px;
   }
 
-  &__component:after {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    width: 94%;
-    height: 4px;
-    background-color: $color-ecr-component-border;
-    content: " ";
+  &__component-wrapper {
+    min-height: 180px;
+    margin-right: 20px;
+    padding: 16px;
+    background: $color-light-grey-background;
+    box-shadow: 0 1px 1px rgba(51, 51, 51, .18);
+  }
+
+  &__component-wrapper-odd {
+    margin-right: 0;
   }
 
   &__install-actions {
     text-align: center;
   }
 
-  .ComponentListGridView &__install-actions {
-    margin-top: 20px;
+  &__component-body {
+    padding-left: 10px;
+
+    h1 {
+      font-family: Open Sans;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 25px;
+    }
   }
 
-  &__component-body {
-    padding-left: 4px;
+  &__component-footer {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-top: 20px;
+    border-top: solid 1px $color-grey-border;
+    vertical-align: middle;
+
+    & > div {
+      display: flex;
+    }
   }
 
   img {
@@ -46,7 +64,6 @@
     width: 100%;
     height: 100px;
   }
-
 
   &__date {
     display: block;
@@ -99,16 +116,16 @@
     text-align: center;
     text-decoration-line: underline;
   }
-
 }
 
 .ComponentListListView {
   & .ComponentList__list-item {
-    padding: 5px;
-    border: 1px solid $color-ecr-component-tab-bar-bg-grey;
+    padding: 16px;
+    background: $color-light-grey-background;
+    box-shadow: 0 1px 1px rgba(51, 51, 51, .18);
   }
 
-  & .ComponentList__list-item+.ComponentList__list-item {
+  & .ComponentList__list-item + .ComponentList__list-item {
     margin-top: 10px;
   }
 

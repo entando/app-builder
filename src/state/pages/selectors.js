@@ -5,6 +5,7 @@ import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 import { get } from 'lodash';
+import { getDefaultLanguage } from 'state/languages/selectors';
 
 export const getPages = state => state.pages;
 export const getPagesMap = state => state.pages.map;
@@ -100,8 +101,8 @@ const PAGE_STATUS_DEFAULTS = {
 };
 
 export const getPageTreePages = createSelector(
-  [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale],
-  (pages, pageChildren, pagesStatus, pagesTitles, locale) => (
+  [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale, getDefaultLanguage],
+  (pages, pageChildren, pagesStatus, pagesTitles, locale, defaultLang) => (
     getPagesOrder(pageChildren)
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
       .map((pageCode) => {
@@ -121,7 +122,7 @@ export const getPageTreePages = createSelector(
           isEmpty,
           hasPublishedChildren,
           parentStatus,
-          title: pagesTitles[pageCode][locale],
+          title: pagesTitles[pageCode][locale] || pagesTitles[pageCode][defaultLang],
         });
       })),
 );

@@ -1,9 +1,16 @@
+//sass-lint:disable class-name-format
 .TabBarFilter {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  vertical-align: middle;
 
-  // sass-lint:disable force-element-nesting, class-name-format  
-  .nav-tabs.nav-justified > li > a,
-  .nav-tabs.nav-justified > .active > a {
-    border-bottom: 0;
+  & > div {
+    margin: 0 5px;
+    line-height: 24px;
+  }
+
+  button,
+  .btn-group {
+    width: auto !important; //sass-lint:disable-line no-important
   }
 }
