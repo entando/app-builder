@@ -37,11 +37,6 @@ describe('ComponentListGridView', () => {
       expect(date).toHaveLength(0);
     });
 
-    it('renders the date', () => {
-      const date = deComponents.at(1).find('.ComponentList__date');
-      expect(date).toHaveLength(1);
-    });
-
     it('renders the latest version', () => {
       const version = deComponents.find('.ComponentList__version').first();
       expect(version).toHaveLength(1);
