@@ -207,7 +207,7 @@ class PageConfigPage extends Component {
                           'btn',
                           'btn-primary',
                           'PageConfigPage__btn--addml',
-                          'app-tour-step-23',
+                          'app-tour-step-20',
                         ].join(' ')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -271,7 +271,7 @@ class PageConfigPage extends Component {
     }
 
     return (
-      <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-13 app-tour-step-17">
+      <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-14 app-tour-step-15">
         <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
             <Col
@@ -362,7 +362,7 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary app-tour-step-22"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-19"
                       bsStyle="success"
                       onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}

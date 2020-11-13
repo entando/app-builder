@@ -38,7 +38,7 @@ const getNextPageProperty = ({
       return currentIndexStr ? Number(currentIndexStr) : 1;
     })
     .filter(Boolean);
-  const nextIndex = !indexes.length ? null : Math.max(indexes) + 1;
+  const nextIndex = !indexes.length ? null : Math.max(...indexes) + 1;
   return `${pattern}${nextIndex ? `${separator}${nextIndex}` : ''}`;
 };
 
@@ -94,6 +94,7 @@ export const mapStateToProps = (state) => {
         code: pageCode,
         ownerGroup: 'free',
         parentCode: 'homepage',
+        pageModel: '1-column',
         ...appTourLastPageData,
       }),
     },

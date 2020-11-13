@@ -8,9 +8,10 @@ import { handleExpandPage, fetchPageTreeAll, collapseAll } from 'state/pages/act
 import { getPageTreePages } from 'state/pages/selectors';
 import { getLoading } from 'state/loading/selectors';
 
-export const mapStateToProps = (state, { pages }) => ({
+export const mapStateToProps = (state, { pages, onPageSelect = null }) => ({
   pages: pages || getPageTreePages(state),
   loading: getLoading(state).pageTree,
+  onPageSelect,
 });
 
 export const mapDispatchToProps = dispatch => ({

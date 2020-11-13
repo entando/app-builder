@@ -21,6 +21,12 @@ const props = {
   onBackToNavMenuConfig: jest.fn(),
   onBackToContentConfig: jest.fn(),
   setNextStep: jest.fn(),
+  onAddNavBarWidget: jest.fn(),
+  onAddSearchWidget: jest.fn(),
+  onAddLoginWidget: jest.fn(),
+  onAddBannerWidget: jest.fn(),
+  onAddContentListWidget: jest.fn(),
+  onAddSitemapMenu: jest.fn(),
 };
 
 jest.unmock('react-redux');
@@ -35,8 +41,8 @@ describe('AppSettingsForm', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={1} appTourProgress="started" />));
     expect(getByText('Welcome to Entando')).toBeInTheDocument();
-    expect(getByText('Create your first application')).toBeInTheDocument();
-    expect(getByText('don’t show next time')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Don’t show next time')).toBeInTheDocument();
     const nextButton = getByText('Start');
     expect(nextButton).toBeInTheDocument();
     fireEvent.click(nextButton);
@@ -47,9 +53,9 @@ describe('AppSettingsForm', () => {
   it('Test step 2', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={2} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('To create your first application you start creating the home page, your first page')).toBeInTheDocument();
-    expect(getByText('get familiar with the menu')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Entando AppBuilder')).toBeInTheDocument();
+    expect(getByText('The AppBuilder is where you\'ll go to create all of your apps using web content, micro frontends, and microservices.')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });
 
@@ -74,9 +80,9 @@ describe('AppSettingsForm', () => {
   it('Test step 3', async () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={3} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Point to Menu Pages')).toBeInTheDocument();
-    expect(getByText('Click on Menu Pages')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Create the Home Page')).toBeInTheDocument();
+    expect(getByText('The first step that we’ll want to do is to create our home page. Click Pages in the left sidebar.')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });
 
@@ -92,9 +98,9 @@ describe('AppSettingsForm', () => {
   it('Test step 4', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={4} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Point to Menu Management')).toBeInTheDocument();
-    expect(getByText('Click on Menu Management')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Page Management')).toBeInTheDocument();
+    expect(getByText('Next, click Management.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -112,9 +118,9 @@ describe('AppSettingsForm', () => {
   it('Test step 5', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={5} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getByText('Create a Page')).toBeInTheDocument();
-    expect(getByText('Click on Add Button to create a new page')).toBeInTheDocument();
+    expect(getByText('Here, you\'ll see a list of pages that represent the page tree of your site. Click Add to create a new page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -123,19 +129,20 @@ describe('AppSettingsForm', () => {
   it('Test step 6', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={6} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Choose a title for your page')).toBeInTheDocument();
-    expect(getByText('Choose a Title for your page')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Enter a Page Title')).toBeInTheDocument();
+    expect(getByText('This serves as the title of your page for SEO purposes.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });
 
   it('Test step 7', () => {
-    const { getByText, getAllByText } =
+    const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={7} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getAllByText('Choose the code')).toHaveLength(2);
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Enter a Page Code')).toBeInTheDocument();
+    expect(getByText('The page code is used to uniquely identify a page, and is also used for search. In our example, we’ll use ‘hello_world_app’ for the page code.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -153,7 +160,7 @@ describe('AppSettingsForm', () => {
   it('Test step 8', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={8} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getByText('Choose a place within your site for your page')).toBeInTheDocument();
     expect(getByText('Choose a place for your page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
@@ -173,7 +180,7 @@ describe('AppSettingsForm', () => {
   it('Test step 9', () => {
     const { getByText, getAllByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={9} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getAllByText('Choose the Owner Group')).toHaveLength(2);
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
@@ -192,7 +199,7 @@ describe('AppSettingsForm', () => {
   it('Test step 10', () => {
     const { getByText, getAllByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={10} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getAllByText('Choose the Page Template')).toHaveLength(2);
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
@@ -211,9 +218,9 @@ describe('AppSettingsForm', () => {
   it('Test step 11', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={11} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Now you can save and configure your first page')).toBeInTheDocument();
-    expect(getByText('Save and Configure your page')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Save and Design')).toBeInTheDocument();
+    expect(getByText('Once we save our settings, we can start designing our page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -231,9 +238,9 @@ describe('AppSettingsForm', () => {
   it('Test step 12', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={12} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Now you can choose the widgets for your page')).toBeInTheDocument();
-    expect(getByText('Drag & Drop the following widget: Custom - Logo')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('On the right sidebar, expand the Page menu. Then drag & drop the Logo widget into the dotted grey \'Logo\' section on the page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -242,9 +249,9 @@ describe('AppSettingsForm', () => {
   it('Test step 13', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={13} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Now you can choose the widgets for your page')).toBeInTheDocument();
-    expect(getByText('Drag & Drop the following widget: Custom - Navigation Menu')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('Click Next to add pre-configured Navigation Menu widget to the page design for top level horizontal menu')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -262,9 +269,9 @@ describe('AppSettingsForm', () => {
   it('Test step 14', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={14} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Choose the navigation starting point')).toBeInTheDocument();
-    expect(getByText('Click on "Specific" and choose any page to show in the navigation bar')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('On the right sidebar, expand the CMS menu. Then drag & drop the Logo widget into the dotted grey \'Search Form\' section on the page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -273,9 +280,9 @@ describe('AppSettingsForm', () => {
   it('Test step 15', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={15} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Click Add a new expression')).toBeInTheDocument();
-    expect(getByText('This will add a new expression to navigation menu')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('On the right sidebar, expand the System menu. Then drag & drop the Logo widget into the dotted grey \'Login\' section on the page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -284,9 +291,9 @@ describe('AppSettingsForm', () => {
   it('Test step 16', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={16} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Save the navigation menu configuration')).toBeInTheDocument();
-    expect(getByText('Save the configuration and return to the page configuration screen')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('Click Next to add pre-configured Content widget to the page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -304,9 +311,9 @@ describe('AppSettingsForm', () => {
   it('Test step 17', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={17} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Now you can choose the widgets for your page')).toBeInTheDocument();
-    expect(getByText('Drag & Drop the following widget: CMS - Content')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('Click Next to add pre-configured Content List widget to the page')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -315,9 +322,9 @@ describe('AppSettingsForm', () => {
   it('Test step 18', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={18} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Click on Add existing content')).toBeInTheDocument();
-    expect(getByText('Click on Add existing content button to browse available published contents')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Add Widgets')).toBeInTheDocument();
+    expect(getByText('Click Next to add pre-configured Navigation Menu widget to add link for sitemap in the footer')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -326,9 +333,9 @@ describe('AppSettingsForm', () => {
   it('Test step 19', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={19} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Select a published content')).toBeInTheDocument();
-    expect(getByText('Select a published content to assign it to use it for the Content configuration')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Publish')).toBeInTheDocument();
+    expect(getByText('Click Publish to see your page live.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -337,43 +344,10 @@ describe('AppSettingsForm', () => {
   it('Test step 20', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={20} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Click Choose')).toBeInTheDocument();
-    expect(getByText('Click Choose to finish assignment')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
+    expect(getByText('Create Your First Application')).toBeInTheDocument();
+    expect(getByText('Preview')).toBeInTheDocument();
+    expect(getByText('Click Preview to see what your page will look like before you publish the page.')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
-  });
-
-  it('Test step 21', () => {
-    const { getByText } =
-    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={21} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Click Save')).toBeInTheDocument();
-    expect(getByText('Click to save the content widget configuration')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
-    expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Close')).toBeInTheDocument();
-  });
-
-  it('Test step 22', () => {
-    const { getByText } =
-    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={22} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('Save & Publish your first page')).toBeInTheDocument();
-    expect(getByText('Click on Publish Button to save and publish your first page')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
-    expect(getByText('Back')).toBeInTheDocument();
-    expect(getByText('Close')).toBeInTheDocument();
-  });
-
-  it('Test step 23', () => {
-    const { getByText, getAllByText } =
-    render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={23} appTourProgress="started" />));
-    expect(getByText('Create your first Application')).toBeInTheDocument();
-    expect(getByText('You can use the preview to check your new page')).toBeInTheDocument();
-    expect(getByText('Click on Preview to see your page in the Browser')).toBeInTheDocument();
-    expect(getAllByText('Close')).toHaveLength(2);
-    expect(getByText('Back')).toBeInTheDocument();
   });
 });

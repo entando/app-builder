@@ -18,7 +18,7 @@ const simulateMouseClick = (element) => {
     })));
 };
 
-const TOTAL_STEPS = 23;
+const TOTAL_STEPS = 19;
 const STEP_OFFSET = -2;
 
 class AppTour extends React.Component {
@@ -91,9 +91,9 @@ class AppTour extends React.Component {
       appTourLastStep, mainTitleValue,
       codeValue, ownerGroupValue, parentCodeValue, pageModelValue,
       onBackToAddPage, tourCreatedPageCode, onBackToPageTree,
-      onAddLogo, onAddNavigationMenu, specificChosenPage,
-      onBackToSpecificCode, onAddContent, unpublishPage,
-      onBackToNavMenuConfig, onBackToContentConfig,
+      onAddLogo, onAddNavBarWidget, onAddSearchWidget,
+      onAddLoginWidget, onAddBannerWidget, unpublishPage,
+      onAddContentListWidget, onAddSitemapMenu,
     } = this.props;
 
     const step3Element = document.querySelector('.app-tour-step-3');
@@ -101,10 +101,7 @@ class AppTour extends React.Component {
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');
     const step11Element = document.querySelector('.app-tour-step-11');
-    const step15Element = document.querySelector('.app-tour-step-15');
-    const step16Element = document.querySelector('.app-tour-step-16');
-    const step16Cancel = document.querySelector('.NavigationBarConfigForm__cancel-btn');
-    const step22Element = document.querySelector('.app-tour-step-22');
+    const step19Element = document.querySelector('.app-tour-step-19');
 
     const steps = [
       {
@@ -277,70 +274,49 @@ class AppTour extends React.Component {
       },
       {
         step: 13,
-        onNext: () => onAddNavigationMenu(tourCreatedPageCode),
+        onNext: () => onAddNavBarWidget(tourCreatedPageCode),
         onBack: ({ goTo }) => this.onNextStep(12, goTo),
         stepInteraction: true,
       },
       {
         step: 14,
-        onNext: ({ goTo }) => this.onNextStep(15, goTo),
-        onBack: ({ goTo }) => {
-          simulateMouseClick(step16Cancel);
-          this.onNextStep(13, goTo);
-        },
-        nextButtonDisabled: !specificChosenPage,
+        onNext: () => onAddSearchWidget(tourCreatedPageCode),
+        onBack: ({ goTo }) => this.onNextStep(13, goTo),
         stepInteraction: true,
       },
       {
         step: 15,
-        onNext: ({ goTo }) => {
-          simulateMouseClick(step15Element);
-          this.onNextStep(16, goTo);
-        },
-        onBack: () => onBackToSpecificCode(),
-        nextButtonDisabled: !step15Element,
+        onNext: () => onAddLoginWidget(tourCreatedPageCode),
+        onBack: ({ goTo }) => this.onNextStep(13, goTo),
         stepInteraction: true,
       },
       {
         step: 16,
-        onNext: ({ goTo }) => {
-          simulateMouseClick(step16Element);
-          this.onNextStep(17, goTo);
-        },
+        onNext: () => onAddBannerWidget(tourCreatedPageCode),
         onBack: ({ goTo }) => this.onNextStep(15, goTo),
-        nextButtonDisabled: !step16Element,
-        stepInteraction: true,
       },
       {
         step: 17,
-        onNext: () => onAddContent(tourCreatedPageCode),
-        onBack: () => onBackToNavMenuConfig(tourCreatedPageCode),
-        stepInteraction: true,
+        onNext: () => onAddContentListWidget(tourCreatedPageCode),
+        onBack: ({ goTo }) => this.onNextStep(16, goTo),
       },
       {
         step: 18,
+        onNext: () => onAddSitemapMenu(tourCreatedPageCode),
+        onBack: ({ goTo }) => this.onNextStep(17, goTo),
       },
       {
         step: 19,
-      },
-      {
-        step: 20,
-      },
-      {
-        step: 21,
-      },
-      {
-        step: 22,
         onNext: ({ goTo }) => {
-          simulateMouseClick(step22Element);
-          this.onNextStep(23, goTo);
+          simulateMouseClick(step19Element);
+          this.onNextStep(20, goTo);
         },
-        onBack: () => onBackToContentConfig(tourCreatedPageCode),
-        nextButtonDisabled: !step22Element,
+        onBack: () => ({ goTo }) => this.onNextStep(18, goTo),
+        nextButtonDisabled: !step19Element,
         stepInteraction: true,
       },
       {
-        step: 23,
+        step: 20,
         onNext: () => this.cancelTour(true),
         onBack: unpublishPage,
         stepInteraction: true,
@@ -385,13 +361,17 @@ class AppTour extends React.Component {
               <div className="pull-right TourStart__step-counter">
                 {`${args.step + STEP_OFFSET}/${TOTAL_STEPS}`}
               </div>
-              <Button
-                className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
-                bsStyle="default"
-                onClick={() => args.goTo(0)}
-              >
-                <FormattedMessage id="app.close" />
-              </Button>
+              {
+                step.step !== TOTAL_STEPS + 1 && (
+                <Button
+                  className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
+                  bsStyle="default"
+                  onClick={() => args.goTo(0)}
+                >
+                  <FormattedMessage id="app.close" />
+                </Button>
+                )
+              }
             </div>
           </div>
         )
@@ -424,6 +404,7 @@ class AppTour extends React.Component {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset,
     } = this.props;
     if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
+    const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     return (
       <Tour
         steps={this.generateSteps()}
@@ -441,7 +422,7 @@ class AppTour extends React.Component {
         highlightedMaskClassName="AppTourHighlight"
         onAfterOpen={lockBodyScroll ? this.disableBody : null}
         onBeforeClose={lockBodyScroll ? this.enableBody : null}
-        maskClassName={`${appTourLastStep === 1 || appTourLastStep === 12 || appTourLastStep === 13 || appTourLastStep === 17 ? 'Mask' : ''}`}
+        maskClassName={maskName}
         className="helper"
         disableInteraction={false}
         inViewThreshold={3000}
@@ -461,13 +442,8 @@ AppTour.propTypes = {
   onAppTourCancel: PropTypes.func.isRequired,
   onBackToAddPage: PropTypes.func.isRequired,
   onBackToPageTree: PropTypes.func.isRequired,
-  onBackToSpecificCode: PropTypes.func.isRequired,
-  onAddContent: PropTypes.func.isRequired,
   unpublishPage: PropTypes.func.isRequired,
   onAddLogo: PropTypes.func.isRequired,
-  onAddNavigationMenu: PropTypes.func.isRequired,
-  onBackToNavMenuConfig: PropTypes.func.isRequired,
-  onBackToContentConfig: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   appTourLastStep: PropTypes.number,
   setNextStep: PropTypes.func.isRequired,
@@ -480,7 +456,12 @@ AppTour.propTypes = {
   lockBodyScroll: PropTypes.bool,
   customOffset: PropTypes.number,
   publishStatus: PropTypes.bool,
-  specificChosenPage: PropTypes.string,
+  onAddNavBarWidget: PropTypes.func.isRequired,
+  onAddSearchWidget: PropTypes.func.isRequired,
+  onAddLoginWidget: PropTypes.func.isRequired,
+  onAddBannerWidget: PropTypes.func.isRequired,
+  onAddContentListWidget: PropTypes.func.isRequired,
+  onAddSitemapMenu: PropTypes.func.isRequired,
 };
 
 AppTour.defaultProps = {
@@ -497,7 +478,6 @@ AppTour.defaultProps = {
   lockBodyScroll: true,
   customOffset: 0,
   publishStatus: false,
-  specificChosenPage: '',
 };
 
 export default AppTour;

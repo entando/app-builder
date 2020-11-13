@@ -17,6 +17,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
+import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -59,6 +60,8 @@ export class PageFormBody extends Component {
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
 
+    const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED;
+
     const pageTemplatesWithEmpty =
       [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
 
@@ -73,6 +76,7 @@ export class PageFormBody extends Component {
             component={PageTreeSelectorContainer}
             name="parentCode"
             pages={pages}
+            onPageSelect={pageTemplateDisabled ? () => {} : null}
             validate={[required]}
           />
         </div>
@@ -179,7 +183,7 @@ export class PageFormBody extends Component {
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
-                    disabled={readOnly}
+                    disabled={readOnly || pageTemplateDisabled}
                   />
                 </Col>
                 <Col xs={2}>
