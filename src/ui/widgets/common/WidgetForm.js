@@ -13,7 +13,6 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const MODE_NEW = 'new';
@@ -185,13 +184,6 @@ export class WidgetFormBody extends Component {
                   optionValue="code"
                   optionDisplayName="name"
                   defaultOptionId="app.chooseAnOption"
-                />
-                <Field
-                  name="readonlyDefaultConfig"
-                  component={SwitchRenderer}
-                  label={
-                    <FormLabel labelId="widget.page.create.readonlyDefaultConfig" />
-                  }
                 />
                 <Field
                   name="widgetCategory"
