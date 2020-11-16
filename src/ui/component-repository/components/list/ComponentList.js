@@ -46,7 +46,6 @@ class ComponentList extends Component {
       perPage,
       perPageOptions: [5, 10, 15, 25, 50],
     };
-    console.log(componentRepositoryComponents);
     const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
       ? <ComponentListGridView components={componentRepositoryComponents} locale={intl.locale} />
       : <ComponentListListView components={componentRepositoryComponents} locale={intl.locale} />;
