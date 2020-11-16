@@ -392,7 +392,7 @@ export default {
     'widget.page.config.error': 'Unable to load widget configuration',
     'widget.page.config.goToConfig': 'Go to widget default configuration',
     'widget.page.config.readOnlyMessage': 'This is the default configuration for this widget. Do you want to change it?',
-    'widget.list.title': 'Micro frontends / widgets',
+    'widget.list.title': 'Micro Frontends & Widgets',
     'widget.list.new': 'New',
     'widget.list.section.cms': 'CMS',
     'widget.list.section.navigation': 'Navigation',
