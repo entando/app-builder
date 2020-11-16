@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
@@ -74,13 +75,16 @@ class WidgetConfigPage extends Component {
       widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
     } = this.props;
 
+    const parameters = get(widget, 'parameters', []);
+
     const renderWidgetConfigForm = () => {
       const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
+
       if (appBuilderWidgetForm) {
         return React.createElement(
           appBuilderWidgetForm,
           {
-            widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history,
+            widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history, parameters,
           },
           null,
         );
