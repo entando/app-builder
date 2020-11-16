@@ -744,7 +744,7 @@ export default {
     'componentRepository.sidebar.ratingFilter.title': 'Rating',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',
     'componentRepository.categories.all': 'All',
-    'componentRepository.categories.widget': 'Micro frontends / widgets',
+    'componentRepository.categories.widget': 'Micro Frontends / widgets',
     'componentRepository.categories.pageTemplate': 'Page Templates',
     'componentRepository.categories.component': 'Components',
     'componentRepository.categories.fragment': 'UX Fragment',
