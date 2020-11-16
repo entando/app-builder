@@ -744,7 +744,7 @@ export default {
     'componentRepository.sidebar.ratingFilter.title': 'Media voto',
     'componentRepository.sidebar.ratingFilter.itemLabel': 'e più',
     'componentRepository.categories.all': 'Tutti',
-    'componentRepository.categories.widget': 'Micro frontend & Widget',
+    'componentRepository.categories.widget': 'Micro Frontend & Widget',
     'componentRepository.categories.pageTemplate': 'Template di Pagina',
     'componentRepository.categories.component': 'Componenti',
     'componentRepository.categories.fragment': 'UX Fragment',
