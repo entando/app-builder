@@ -7,7 +7,7 @@ import {
   COMPONENT_UNINSTALLATION_COMPLETED,
   COMPONENT_USAGE_LIST,
 } from 'test/mocks/component-repository/components';
-import { makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
 
 export const getECRComponent = code => (
   makeRequest({
@@ -20,7 +20,7 @@ export const getECRComponent = code => (
 );
 
 export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/components${params}`,
       domain: '/digital-exchange',
