@@ -93,7 +93,7 @@ export const mapStateToProps = (state) => {
         },
         code: pageCode,
         ownerGroup: 'free',
-        parentCode: 'homepage',
+        parentCode: 'homepage_test',
         pageModel: '1-column',
         ...appTourLastPageData,
       }),
@@ -130,7 +130,7 @@ export const mapDispatchToProps = dispatch => ({
         },
         code: 'hello_world_app',
         ownerGroup: 'free',
-        parentCode: 'homepage',
+        parentCode: 'homepage_test',
         ...appTourLastPageData,
       }));
     }

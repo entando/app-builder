@@ -27,7 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearSearchPage());
     dispatch(toggleLoading('pageTree'));
     dispatch(handleExpandPage())
-      .then(() => dispatch(toggleLoading('pageTree')))
+      .then(() => dispatch(handleExpandPage('homepage_test')).finally(() => dispatch(toggleLoading('pageTree'))))
       .catch(() => dispatch(toggleLoading('pageTree')));
   },
   onClear: () => {

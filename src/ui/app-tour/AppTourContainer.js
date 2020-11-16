@@ -111,8 +111,8 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
         ownerGroup: 'free',
         joinGroups: [],
         contents: [
-          { contentId: 'NWS5', modelId: 'default', contentDescription: 'Why You Need a Micro Frontend Platform for Kubernetes' },
-          { contentId: 'NWS6', modelId: 'default', contentDescription: 'Entando and JHipster: How It Works' },
+          { contentId: 'NWS4', modelId: 'default', contentDescription: 'Why You Need a Micro Frontend Platform for Kubernetes' },
+          { contentId: 'NWS5', modelId: 'default', contentDescription: 'Entando and JHipster: How It Works' },
         ],
       },
       { pageCode, framePos: 5, widgetCode: 'row_content_viewer_list' },

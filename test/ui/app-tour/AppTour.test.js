@@ -271,7 +271,7 @@ describe('AppSettingsForm', () => {
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={14} appTourProgress="started" />));
     expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getByText('Add Widgets')).toBeInTheDocument();
-    expect(getByText('On the right sidebar, expand the CMS menu. Then drag & drop the Logo widget into the dotted grey \'Search Form\' section on the page.')).toBeInTheDocument();
+    expect(getByText('On the right sidebar, expand the CMS menu. Then drag & drop the Search Form widget into the dotted grey \'Search Form\' section on the page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
@@ -282,7 +282,7 @@ describe('AppSettingsForm', () => {
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={15} appTourProgress="started" />));
     expect(getByText('Create Your First Application')).toBeInTheDocument();
     expect(getByText('Add Widgets')).toBeInTheDocument();
-    expect(getByText('On the right sidebar, expand the System menu. Then drag & drop the Logo widget into the dotted grey \'Login\' section on the page.')).toBeInTheDocument();
+    expect(getByText('On the right sidebar, expand the System menu. Then drag & drop the Login widget into the dotted grey \'Login\' section on the page.')).toBeInTheDocument();
     expect(getByText('Next')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();

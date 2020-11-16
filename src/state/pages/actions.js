@@ -212,7 +212,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
         dispatch(addPages(pages));
         dispatch(togglePageExpanded(pageCode, true));
         dispatch(setPageLoaded(pageCode));
-        if (pageCode === HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
+        if (pageCode === 'homepage_test' && getAppTourProgress(state) === APP_TOUR_STARTED) {
           dispatch(setExistingPages(pages));
         }
       }).catch(() => {});
