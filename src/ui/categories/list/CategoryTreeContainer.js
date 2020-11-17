@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CategoryTree from 'ui/categories/list/CategoryTree';
-import { handleExpandCategory, fetchCategoryTree, initCategoryForm } from 'state/categories/actions';
+import { handleExpandCategory, fetchCategoryTree, initCategoryForm, handleExpandAll, handleCollapseAll } from 'state/categories/actions';
 import { getCategoryTree } from 'state/categories/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
@@ -24,6 +24,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(setVisibleModal(MODAL_ID));
     dispatch(setInfo({ type: 'category', code }));
   },
+  onExpandAll: () => dispatch(handleExpandAll()),
+  onCollapseAll: () => dispatch(handleCollapseAll()),
 });
 
 const CategoryTreeContainer = connect(mapStateToProps, mapDispatchToProps)(CategoryTree);

@@ -66,6 +66,26 @@ class CategoryTree extends Component {
               <tr>
                 <th>
                   <FormattedMessage id="category.tree" />
+                  <div
+                    onClick={this.props.onExpandAll}
+                    onKeyDown={this.props.onExpandAll}
+                    role="button"
+                    tabIndex={-1}
+                    className="CategoryTree CategoryTree__toggler CategoryTree__toggler--expand"
+                  >
+                    <span className="icon fa fa-plus-square" />
+                    <FormattedMessage id="pageTree.expand" />
+                  </div>
+                  <div
+                    onClick={this.props.onCollapseAll}
+                    onKeyDown={this.props.onCollapseAll}
+                    role="button"
+                    tabIndex={-2}
+                    className="CategoryTree CategoryTree__toggler"
+                  >
+                    <span className="icon fa fa-minus-square" />
+                    <FormattedMessage id="pageTree.collapse" />
+                  </div>
                 </th>
                 <th className="GroupListTable__th-xs text-center">
                   <FormattedMessage id="app.actions" />
@@ -93,6 +113,8 @@ CategoryTree.propTypes = {
   })),
   onWillMount: PropTypes.func.isRequired,
   onExpandCategory: PropTypes.func,
+  onExpandAll: PropTypes.func.isRequired,
+  onCollapseAll: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func,
   onClickAdd: PropTypes.func,
   loading: PropTypes.bool,

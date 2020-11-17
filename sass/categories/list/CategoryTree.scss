@@ -1,5 +1,4 @@
 .CategoryTree {
-
   &__table {
     margin-top: 20px;
   }
@@ -27,6 +26,20 @@
     }
   }
 
+  &__toggler {
+    display: inline-block;
+    margin-right: 30px;
+    cursor: pointer;
+
+    span {
+      margin-right: 5px;
+    }
+
+    &--expand {
+      margin-left: 4em;
+    }
+  }
+
   .CategoryTreeActionMenuButton,
   .CategoryTreeActionMenuButton:focus {
     height: 18px;
@@ -35,7 +48,6 @@
     outline: 0;
   }
 }
-
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
