@@ -1,4 +1,5 @@
 import { initialize } from 'redux-form';
+import { batch } from 'react-redux';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
@@ -9,7 +10,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
-import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap } from 'state/categories/selectors';
+import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap, getChildrenMap } from 'state/categories/selectors';
 
 import {
   SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -109,22 +110,43 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
   }
 };
 
-export const handleExpandCategory = (categoryCode = ROOT_CODE) => (dispatch, getState) =>
-  new Promise((resolve) => {
-    const categoryStatus = getStatusMap(getState())[categoryCode];
-    const toExpand = (!categoryStatus || !categoryStatus.expanded);
-    const toLoad = (toExpand && (!categoryStatus || !categoryStatus.loaded));
-    if (toLoad) {
-      dispatch(setCategoryLoading(categoryCode));
-      dispatch(fetchCategoryTree(categoryCode)).then(() => {
-        dispatch(toggleCategoryExpanded(categoryCode, true));
-        dispatch(setCategoryLoaded(categoryCode));
-      });
-    } else {
-      dispatch(toggleCategoryExpanded(categoryCode, toExpand));
-    }
-    resolve();
+export const handleExpandCategory = (categoryCode = ROOT_CODE, alwaysExpand) =>
+  (dispatch, getState) =>
+    new Promise((resolve) => {
+      const categoryStatus = getStatusMap(getState())[categoryCode];
+      const toExpand = (!categoryStatus || !categoryStatus.expanded);
+      const toLoad = (toExpand && (!categoryStatus || !categoryStatus.loaded));
+      if (toLoad) {
+        dispatch(setCategoryLoading(categoryCode));
+        dispatch(fetchCategoryTree(categoryCode)).then(() => {
+          dispatch(toggleCategoryExpanded(categoryCode, true));
+          dispatch(setCategoryLoaded(categoryCode));
+        });
+      } else {
+        dispatch(toggleCategoryExpanded(
+          categoryCode,
+          alwaysExpand !== undefined ? alwaysExpand : toExpand,
+        ));
+      }
+      resolve(categoryCode);
+    });
+
+export const handleExpandAll = () => (dispatch, getState) => {
+  const categories = getChildrenMap(getState());
+  Object.keys(categories).forEach((category) => {
+    dispatch(handleExpandCategory(category, true));
   });
+};
+
+export const handleCollapseAll = () => (dispatch, getState) => {
+  const categories = getStatusMap(getState());
+  const categoriesToCollapse = Object.keys(categories);
+
+  batch(() => {
+    categoriesToCollapse
+      .forEach(categoryCode => dispatch(toggleCategoryExpanded(categoryCode, false)));
+  });
+};
 
 export const fetchCategory = categoryCode => dispatch =>
   dispatch(fetchCategoryNode(categoryCode)).then((data) => {

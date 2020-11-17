@@ -86,11 +86,14 @@ const titlesMap = (state = {}, action = {}) => {
 const statusMap = (state = {}, action = {}) => {
   switch (action.type) {
     case TOGGLE_CATEGORY_EXPANDED: {
-      const { categoryCode } = action.payload;
-      const expanded = !(state[categoryCode] && state[categoryCode].expanded);
+      const { categoryCode, expanded } = action.payload;
+      const expand = !(state[categoryCode] && state[categoryCode].expanded);
       return {
         ...state,
-        [categoryCode]: { ...state[categoryCode], expanded },
+        [categoryCode]: {
+          ...state[categoryCode],
+          expanded: expanded !== undefined ? expanded : expand,
+        },
       };
     }
     case SET_CATEGORY_LOADING: {
