@@ -15,7 +15,7 @@ import { ROUTE_PAGE_ADD } from 'app-init/router';
 
 class PageTreePage extends Component {
   componentWillMount() {
-    this.props.onWillMount();
+    this.props.onWillMount(this.props);
   }
 
   renderButton() {

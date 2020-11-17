@@ -13,6 +13,7 @@ const FAKE_STATE = {
     titlesMap: {},
   },
   loading: {},
+  appTour: {},
 };
 
 const dispatchMock = jest.fn(() => new Promise(() => {}));
