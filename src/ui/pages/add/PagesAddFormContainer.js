@@ -9,7 +9,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
-import { sendPostPage, loadSelectedPage } from 'state/pages/actions';
+import { sendPostPage, loadSelectedPage, SAMPLE_HOMEPAGE_CODE } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getLocale } from 'state/locale/selectors';
@@ -93,7 +93,7 @@ export const mapStateToProps = (state) => {
         },
         code: pageCode,
         ownerGroup: 'free',
-        parentCode: 'homepage_test',
+        parentCode: SAMPLE_HOMEPAGE_CODE,
         pageModel: '1-column',
         ...appTourLastPageData,
       }),
@@ -130,7 +130,7 @@ export const mapDispatchToProps = dispatch => ({
         },
         code: 'hello_world_app',
         ownerGroup: 'free',
-        parentCode: 'homepage_test',
+        parentCode: SAMPLE_HOMEPAGE_CODE,
         ...appTourLastPageData,
       }));
     }

@@ -28,6 +28,7 @@ import { getAppTourProgress } from 'state/app-tour/selectors';
 
 
 const HOMEPAGE_CODE = 'homepage';
+export const SAMPLE_HOMEPAGE_CODE = 'my_homepage';
 const RESET_FOR_CLONE = {
   code: '',
   titles: '',
@@ -212,7 +213,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getStat
         dispatch(addPages(pages));
         dispatch(togglePageExpanded(pageCode, true));
         dispatch(setPageLoaded(pageCode));
-        if (pageCode === 'homepage_test' && getAppTourProgress(state) === APP_TOUR_STARTED) {
+        if (pageCode === SAMPLE_HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
           dispatch(setExistingPages(pages));
         }
       }).catch(() => {});

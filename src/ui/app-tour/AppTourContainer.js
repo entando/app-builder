@@ -10,7 +10,7 @@ import { fetchWizardEnabled, setAppTourLastStep, setAppTourProgress, setPublishS
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
-import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
+import { SAMPLE_HOMEPAGE_CODE, sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
 import { ROUTE_DASHBOARD, ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
 import { initConfigPage, configOrUpdatePageWidget } from 'state/page-config/actions';
 import { updateUserPreferences } from 'state/user-preferences/actions';
@@ -80,7 +80,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onAddNavBarWidget: (pageCode) => {
     dispatch(setAppTourLastStep(14));
     dispatch(updateConfiguredPageWidget(
-      { navSpec: 'code(homepage_test).children' },
+      { navSpec: `code(${SAMPLE_HOMEPAGE_CODE}).children` },
       { pageCode, framePos: 1, widgetCode: 'navigation-menu' },
     )).then(() => dispatch(initConfigPage(pageCode)));
   },
