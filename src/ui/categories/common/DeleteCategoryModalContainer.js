@@ -9,8 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onConfirmDelete: (categoryCode) => {
-    dispatch(sendDeleteCategory(categoryCode));
+  onConfirmDelete: (categoryCode, parentCode) => {
+    dispatch(sendDeleteCategory(categoryCode, parentCode));
     dispatch(setVisibleModal(''));
   },
 });

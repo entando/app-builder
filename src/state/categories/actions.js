@@ -55,10 +55,11 @@ export const setSelectedCategory = category => ({
   },
 });
 
-export const removeCategory = categoryCode => ({
+export const removeCategory = (categoryCode, parentCode) => ({
   type: REMOVE_CATEGORY,
   payload: {
     categoryCode,
+    parentCode,
   },
 });
 
@@ -178,10 +179,10 @@ export const sendPutCategory = categoryData => (dispatch) => {
   }
 };
 
-export const sendDeleteCategory = categoryCode => (dispatch) => {
+export const sendDeleteCategory = (categoryCode, parentCode) => (dispatch) => {
   try {
     return dispatch(wrapApiCall(deleteCategory)(categoryCode)).then(() => {
-      dispatch(removeCategory(categoryCode));
+      dispatch(removeCategory(categoryCode, parentCode));
     });
   } catch (e) {
     return Promise.resolve();
