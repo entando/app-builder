@@ -18,7 +18,7 @@ export const PageTemplateListPageBody = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.uxComponents" />
+              <FormattedMessage id="menu.pageDesigner" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="menu.pageTemplates" />

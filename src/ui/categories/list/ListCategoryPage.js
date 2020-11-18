@@ -18,7 +18,7 @@ export const ListCategoryPageBody = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.configuration" />
+              <FormattedMessage id="menu.cms" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
               <FormattedMessage id="menu.categories" />
