@@ -56,8 +56,13 @@ const childrenMap = (state = {}, action = {}) => {
       };
     }
     case REMOVE_CATEGORY: {
-      const { categoryCode } = action.payload;
-      const newState = { ...state };
+      const { categoryCode, parentCode } = action.payload;
+      const newState = {
+        ...state,
+        [parentCode]: state[parentCode] && (
+          state[parentCode].filter(child => child !== categoryCode)
+        ),
+      };
       delete newState[categoryCode];
       return newState;
     }

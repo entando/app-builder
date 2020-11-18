@@ -20,9 +20,9 @@ export const mapDispatchToProps = dispatch => ({
   onClickAdd: (code) => {
     dispatch(initCategoryForm({ parentCode: code }));
   },
-  onClickDelete: (code) => {
+  onClickDelete: ({ code, parentCode }) => {
     dispatch(setVisibleModal(MODAL_ID));
-    dispatch(setInfo({ type: 'category', code }));
+    dispatch(setInfo({ type: 'category', code, parentCode }));
   },
   onExpandAll: () => dispatch(handleExpandAll()),
   onCollapseAll: () => dispatch(handleCollapseAll()),

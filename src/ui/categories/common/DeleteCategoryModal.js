@@ -13,7 +13,7 @@ const DeleteCategoryModal = ({
   onConfirmDelete, info,
 }) => {
   const buttons = [
-    <Button bsStyle="danger" id="DeleteCategoryModal__button-delete" onClick={() => (onConfirmDelete(info.code))}>
+    <Button bsStyle="danger" id="DeleteCategoryModal__button-delete" onClick={() => (onConfirmDelete(info.code, info.parentCode))}>
       <FormattedMessage id="app.delete" />
     </Button>,
   ];
@@ -42,6 +42,7 @@ DeleteCategoryModal.propTypes = {
   info: PropTypes.shape({
     code: PropTypes.string,
     type: PropTypes.string,
+    parentCode: PropTypes.string,
   }),
 };
 
