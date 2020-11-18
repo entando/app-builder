@@ -40,7 +40,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchProfileTypeAttributes());
   },
   onAddAttribute: ({ attributeCode, profileTypeCode }) => {
-    dispatch(fetchProfileTypeAttribute(attributeCode)).then(() => {
+    dispatch(fetchProfileTypeAttribute(profileTypeCode, attributeCode)).then(() => {
       history.push(routeConverter(
         ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
         { entityCode: profileTypeCode },

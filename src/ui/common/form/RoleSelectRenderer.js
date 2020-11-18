@@ -32,7 +32,7 @@ class RoleSelectRenderer extends Component {
 
   renderTags() {
     const {
-      selectedValues, fields, valueKey, options,
+      selectedValues, fields, valueKey, allRoles,
     } = this.props;
     return selectedValues.map((value, i) => (
       <div key={value} className="clearfix">
@@ -40,7 +40,7 @@ class RoleSelectRenderer extends Component {
         <hr />
         <Col xs={4}>
           <p>
-            {this.getLabel(options.find(opt => opt[valueKey] === value))}
+            {this.getLabel(allRoles.find(opt => opt[valueKey] === value))}
           </p>
         </Col>
         <Col xs={8}>
@@ -111,6 +111,7 @@ class RoleSelectRenderer extends Component {
 RoleSelectRenderer.propTypes = {
   fields: PropTypes.shape({}).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  allRoles: PropTypes.arrayOf(PropTypes.shape({})),
   selectedValues: PropTypes.arrayOf(PropTypes.string),
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
@@ -121,6 +122,7 @@ RoleSelectRenderer.propTypes = {
 
 RoleSelectRenderer.defaultProps = {
   selectedValues: [],
+  allRoles: [],
   valueKey: 'value',
   labelKey: 'label',
   labelFn: null,

@@ -318,19 +318,19 @@ describe('api/getProfileTypes', () => {
       });
     });
   });
-  describe('api/profileTypeAttributes', () => {
+  describe('api/profileTypeAttribute', () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
-    describe('getProfileTypeAttributes', () => {
+    describe('getProfileTypeAttribute', () => {
       it('returns a promise', () => {
         expect(getProfileTypeAttribute()).toBeInstanceOf(Promise);
       });
 
       it('if successful, returns a attributes response', () => {
-        getProfileTypeAttribute('code');
+        getProfileTypeAttribute('code', 'alsoCode');
         expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-          uri: '/api/profileTypeAttributes/code',
+          uri: '/api/profileTypeAttributes/code/attribute/alsoCode',
           method: 'GET',
           mockResponse: PROFILE_TYPE_ATTRIBUTE,
           useAuthentication: true,

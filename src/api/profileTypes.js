@@ -135,9 +135,9 @@ export const getProfileTypeAttributes = (page = { page: 1, pageSize: 10 }, param
   )
 );
 
-export const getProfileTypeAttribute = attributeTypeCode => (
+export const getProfileTypeAttribute = (profileTypeCode, attributeTypeCode) => (
   makeRequest({
-    uri: `/api/profileTypeAttributes/${attributeTypeCode}`,
+    uri: `/api/profileTypeAttributes/${profileTypeCode}/attribute/${attributeTypeCode}`,
     method: METHODS.GET,
     mockResponse: PROFILE_TYPE_ATTRIBUTE,
     useAuthentication: true,
