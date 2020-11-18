@@ -80,7 +80,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onAddNavBarWidget: (pageCode) => {
     dispatch(setAppTourLastStep(14));
     dispatch(updateConfiguredPageWidget(
-      { navSpec: `code(${SAMPLE_HOMEPAGE_CODE}).children` },
+      { navSpec: `code(${SAMPLE_HOMEPAGE_CODE}) + code(${SAMPLE_HOMEPAGE_CODE}).children` },
       { pageCode, framePos: 1, widgetCode: 'navigation-menu' },
     )).then(() => dispatch(initConfigPage(pageCode)));
   },
@@ -111,8 +111,8 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
         ownerGroup: 'free',
         joinGroups: [],
         contents: [
-          { contentId: 'NWS4', modelId: 'default', contentDescription: 'Why You Need a Micro Frontend Platform for Kubernetes' },
-          { contentId: 'NWS5', modelId: 'default', contentDescription: 'Entando and JHipster: How It Works' },
+          { contentId: 'NWS4', modelId: '10021', contentDescription: 'Why You Need a Micro Frontend Platform for Kubernetes' },
+          { contentId: 'NWS5', modelId: '10021', contentDescription: 'Entando and JHipster: How It Works' },
         ],
       },
       { pageCode, framePos: 5, widgetCode: 'row_content_viewer_list' },
