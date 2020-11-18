@@ -18,7 +18,7 @@ export const ReloadConfirmPageBody = () => (
         <Col xs={12}>
           <Breadcrumb>
             <BreadcrumbItem>
-              <FormattedMessage id="menu.configuration" />
+              <FormattedMessage id="menu.settings" />
             </BreadcrumbItem>
             <BreadcrumbItem to={ROUTE_RELOAD_CONFIG}>
               <FormattedMessage id="menu.reloadConfiguration" />
