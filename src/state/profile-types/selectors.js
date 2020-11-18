@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { get, isEmpty } from 'lodash';
+import { get, isEmpty, differenceWith } from 'lodash';
 
 export const getProfileTypes = state => state.profileTypes;
 export const getProfileTypesIdList = state => state.profileTypes.list;
@@ -15,7 +15,9 @@ export const getProfileTypeSelectedAttributeSearchable = state =>
 export const getProfileTypeSelectedAttributeIndexable = state =>
   state.profileTypes.attributes.selected.indexableOptionSupported;
 export const getProfileTypeSelectedAttributeAllowedRoles = state =>
-  state.profileTypes.attributes.selected.allowedRoles;
+  state.profileTypes.attributes.selected.allowedRoles || [];
+export const getProfileTypeSelectedAttributeAssignedRoles = state =>
+  state.profileTypes.attributes.selected.assignedRoles || {};
 export const getProfileTypeSelectedAttributeallowedDisablingCodes = state =>
   state.profileTypes.attributes.selected.allowedDisablingCodes;
 export const getProfileTypeSelectedAttributeIsList = state => get(state.profileTypes.attributes.selected, 'listAttribute');
@@ -24,6 +26,15 @@ export const getSelectedAttributeType = state => get(state.profileTypes.selected
 export const getSelectedAttributeNestedType = state => get(state.profileTypes.selected, 'attributeSelected.nestedAttribute.type');
 export const getSelectedValidationRules = state => get(state.profileTypes.selected, 'attributeSelected.validationRules');
 export const getProfileTypeSelectedAttributeCode = state => get(state.profileTypes.attributes.selected, 'code');
+
+export const getProfileTypeSelectedAttributeRoleChoices = createSelector(
+  [getProfileTypeSelectedAttributeAllowedRoles, getProfileTypeSelectedAttributeAssignedRoles],
+  (allRoles, assignedRoles) => differenceWith(
+    allRoles,
+    Object.keys(assignedRoles),
+    (roleInfo, roleCode) => roleInfo && roleCode && roleInfo.code === roleCode,
+  ),
+);
 
 export const getProfileTypeList = createSelector(
   [getProfileTypesMap, getProfileTypesIdList],

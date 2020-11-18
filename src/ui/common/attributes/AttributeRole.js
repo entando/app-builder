@@ -12,9 +12,16 @@ class AttributeRole extends Component {
   }
 
   render() {
-    const { joinAllowedOptions, allowedRoles } = this.props;
+    const { joinAllowedOptions, allowedRoles, allRoles } = this.props;
 
     const selectAllowedOptions = allowedRoles.map(item => (
+      {
+        value: item.code,
+        text: item.descr,
+      }
+    ));
+
+    const allOptions = allRoles.map(item => (
       {
         value: item.code,
         text: item.descr,
@@ -44,6 +51,7 @@ class AttributeRole extends Component {
               component={RoleSelectRenderer}
               name="joinRoles"
               options={selectAllowedOptions}
+              allRoles={allOptions}
               selectedValues={joinAllowedOptions}
               valueKey="value"
               labelFn={getAttributeRoleLabel}
@@ -75,12 +83,17 @@ AttributeRole.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  allRoles: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    descr: PropTypes.string,
+  })),
   joinAllowedOptions: PropTypes.arrayOf(PropTypes.string),
 };
 
 AttributeRole.defaultProps = {
   onWillMount: () => {},
   allowedRoles: [],
+  allRoles: [],
   joinAllowedOptions: [],
 };
 

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { differenceWith, isEqual } from 'lodash';
 import {
   fetchAttributeFromProfileType,
   sendPutAttributeFromProfileType,
@@ -14,20 +15,26 @@ import {
   getProfileTypeSelectedAttributeIndexable,
   getProfileTypeSelectedAttributeSearchable,
   getProfileTypeSelectedAttributeAllowedRoles,
+  getProfileTypeSelectedAttributeRoleChoices,
 } from 'state/profile-types/selectors';
 
 const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
 
-export const mapStateToProps = (state, { match: { params } }) => ({
-  attributeCode: params.attributeCode,
-  profileTypeAttributeCode: params.entityCode,
-  joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
-  selectedAttributeType: getSelectedAttributeType(state),
-  attributesList: getProfileTypeAttributesIdList(state),
-  allowedRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
-  isSearchable: getProfileTypeSelectedAttributeSearchable(state),
-  isIndexable: getProfileTypeSelectedAttributeIndexable(state),
-});
+export const mapStateToProps = (state, { match: { params } }) => {
+  const allowedRoles = getProfileTypeSelectedAttributeRoleChoices(state);
+  const joinAllowedOptions = formValueSelector('attribute')(state, 'joinRoles');
+  return {
+    attributeCode: params.attributeCode,
+    profileTypeAttributeCode: params.entityCode,
+    joinAllowedOptions,
+    selectedAttributeType: getSelectedAttributeType(state),
+    attributesList: getProfileTypeAttributesIdList(state),
+    allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
+    allowedRoles: differenceWith(allowedRoles, joinAllowedOptions, isEqual),
+    isSearchable: getProfileTypeSelectedAttributeSearchable(state),
+    isIndexable: getProfileTypeSelectedAttributeIndexable(state),
+  };
+};
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: ({ profileTypeAttributeCode, attributeCode }) => {
@@ -35,7 +42,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(fetchProfileTypeAttributes());
   },
   fetchAttributeDetails: (selectedAttributeType) => {
-    dispatch(fetchProfileTypeAttribute(selectedAttributeType));
+    dispatch(fetchProfileTypeAttribute(params.entityCode, selectedAttributeType));
   },
   onSubmit: (values, allowedRoles) => {
     let {

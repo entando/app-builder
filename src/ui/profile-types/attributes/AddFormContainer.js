@@ -7,14 +7,18 @@ import {
   getProfileTypeSelectedAttribute,
   getProfileTypeSelectedAttributeCode,
   getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeAllowedRoles,
+  getProfileTypeSelectedAttributeRoleChoices,
 } from 'state/profile-types/selectors';
 
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   profileTypeAttributeCode: params.entityCode,
-  joinAllowedOptions: formValueSelector('attribute')(state, 'joinRoles') || [],
+  joinAllowedOptions: formValueSelector('addAttribute')(state, 'joinRoles') || [],
   selectedAttributeType: getProfileTypeSelectedAttribute(state),
   attributesList: getProfileTypeAttributesIdList(state),
+  allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
+  allowedRoles: getProfileTypeSelectedAttributeRoleChoices(state),
   initialValues: {
     type: getProfileTypeSelectedAttributeCode(state),
   },
@@ -24,7 +28,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
     dispatch(fetchProfileTypeAttributes());
   },
-  onSubmit: (values) => {
+  onSubmit: (values, allowedRoles) => {
     const payload = {
       ...values,
       code: values.code,
@@ -35,6 +39,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
         enumeratorStaticItems: 'default',
         enumeratorStaticItemsSeparator: ',',
       },
+      roles: values.joinRoles
+        ? values.joinRoles.map(roleId => ({ code: roleId, descr: allowedRoles[roleId] }))
+        : [],
     };
     dispatch(sendPostAttributeFromProfileType(payload, params.entityCode));
   },

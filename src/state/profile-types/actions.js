@@ -428,9 +428,12 @@ export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, para
   })
 );
 
-export const fetchProfileTypeAttribute = ProfileTypeAttributeCode => dispatch => (
+export const fetchProfileTypeAttribute = (
+  ProfileTypeCode,
+  ProfileTypeAttributeCode,
+) => dispatch => (
   new Promise((resolve) => {
-    getProfileTypeAttribute(ProfileTypeAttributeCode).then((response) => {
+    getProfileTypeAttribute(ProfileTypeCode, ProfileTypeAttributeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
