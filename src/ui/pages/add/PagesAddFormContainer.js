@@ -131,6 +131,7 @@ export const mapDispatchToProps = dispatch => ({
         code: 'hello_world_app',
         ownerGroup: 'free',
         parentCode: SAMPLE_HOMEPAGE_CODE,
+        pageModel: '1-column',
         ...appTourLastPageData,
       }));
     }

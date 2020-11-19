@@ -34,7 +34,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(publishSelectedPage()).then(() => {
       if (appTourInProgress) {
         dispatch(setPublishStatus(true));
-        dispatch(setAppTourLastStep(23));
+        dispatch(setAppTourLastStep(20));
       }
     });
   },
