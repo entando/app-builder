@@ -287,7 +287,7 @@ class AppTour extends React.Component {
       {
         step: 15,
         onNext: () => onAddLoginWidget(tourCreatedPageCode),
-        onBack: ({ goTo }) => this.onNextStep(13, goTo),
+        onBack: ({ goTo }) => this.onNextStep(14, goTo),
         stepInteraction: true,
       },
       {
@@ -311,7 +311,7 @@ class AppTour extends React.Component {
           simulateMouseClick(step19Element);
           this.onNextStep(20, goTo);
         },
-        onBack: () => ({ goTo }) => this.onNextStep(18, goTo),
+        onBack: ({ goTo }) => this.onNextStep(18, goTo),
         nextButtonDisabled: !step19Element,
         stepInteraction: true,
       },

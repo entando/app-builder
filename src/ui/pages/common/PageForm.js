@@ -41,11 +41,6 @@ export class PageFormBody extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const { onInitPageForm } = this.props;
-    onInitPageForm(this.props);
-  }
-
   render() {
     const {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
@@ -431,7 +426,6 @@ PageFormBody.propTypes = {
   appTourProgress: PropTypes.string,
   onChangePageTemplate: PropTypes.func,
   onChangeOwnerGroup: PropTypes.func,
-  onInitPageForm: PropTypes.func,
   readOnly: PropTypes.bool,
 };
 
@@ -451,7 +445,6 @@ PageFormBody.defaultProps = {
   onChangePageTemplate: () => {},
   onChangeOwnerGroup: () => {},
   readOnly: false,
-  onInitPageForm: () => {},
 };
 
 const PageForm = reduxForm({
