@@ -1,8 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { shallow } from 'enzyme';
-
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 import MyProfilePage from 'ui/users/my-profile/MyProfilePage';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
@@ -10,7 +9,7 @@ import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
 describe('MyProfilePage', () => {
   let component;
   beforeEach(() => {
-    component = shallow(<MyProfilePage />);
+    component = shallowWithIntl(<MyProfilePage intl={mockIntl} />).dive();
   });
 
   it('renders without crashing', () => {
