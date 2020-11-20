@@ -16,6 +16,8 @@ import {
 } from 'state/data-types/const';
 import { getComponentType } from 'helpers/entities';
 
+const defaultAttrCodes = ['fullname', 'email'];
+
 const getComponentOptions = (component, intl) => {
   const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
   const threeStateOptions = getTranslatedOptions(intl, THREE_STATE_OPTIONS);
@@ -71,30 +73,38 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
-const field = (intl, attribute, disabled) => (
-  <Field
-    key={attribute.code}
-    component={getComponentType(attribute.type)}
-    name={attribute.code}
-    rows={3}
-    toggleElement={getComponentOptions(attribute.type, intl)}
-    options={getEnumeratorOptions(
-            attribute.type,
-            attribute.enumeratorStaticItems,
-            attribute.enumeratorStaticItemsSeparator,
-            attribute.mandatory,
-            intl,
-          )}
-    optionValue="value"
-    optionDisplayName="optionDisplayName"
-    label={<FormLabel
-      labelText={attribute.name}
-      helpText={getHelpMessage(attribute.validationRules, intl)}
-      required={attribute.mandatory}
-    />}
-    disabled={disabled}
-  />
-);
+const field = (intl, attribute, disabled) => {
+  const labelProp = defaultAttrCodes.includes(attribute.code) ? ({
+    labelId: `user.table.${attribute.code}`,
+  }) : ({
+    labelText: attribute.name,
+  });
+
+  return (
+    <Field
+      key={attribute.code}
+      component={getComponentType(attribute.type)}
+      name={attribute.code}
+      rows={3}
+      toggleElement={getComponentOptions(attribute.type, intl)}
+      options={getEnumeratorOptions(
+        attribute.type,
+        attribute.enumeratorStaticItems,
+        attribute.enumeratorStaticItemsSeparator,
+        attribute.mandatory,
+        intl,
+      )}
+      optionValue="value"
+      optionDisplayName="optionDisplayName"
+      label={<FormLabel
+        {...labelProp}
+        helpText={getHelpMessage(attribute.validationRules, intl)}
+        required={attribute.mandatory}
+      />}
+      disabled={disabled}
+    />
+  );
+};
 
 const renderCompositeAttribute = (intl, compositeAttributes, disabled) =>
   compositeAttributes.map(attribute => field(intl, attribute, disabled));
