@@ -47,6 +47,12 @@ export class AppSettingsFormBody extends Component {
           data-testid="loadOnPageSelectSwitch"
           name="loadOnPageSelect"
         />
+        <Field
+          label={<FormLabel helpId="user.myProfile.displayAttributesHelp" labelId="user.myProfile.displayAttributes" />}
+          component={SwitchRenderer}
+          data-testid="displayAttributesSwitch"
+          name="displayAttributes"
+        />
         <Button
           className="pull-right"
           type="submit"

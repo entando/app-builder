@@ -3,4 +3,5 @@ export const USER_PREFERENCES = {
   wizard: true,
   translationWarning: true,
   loadOnPageSelect: true,
+  displayAttributes: true,
 };
