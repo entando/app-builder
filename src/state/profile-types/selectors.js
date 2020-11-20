@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { get, isEmpty, differenceWith } from 'lodash';
+import { get, isEmpty, difference, xor, union } from 'lodash';
 
 export const getProfileTypes = state => state.profileTypes;
 export const getProfileTypesIdList = state => state.profileTypes.list;
@@ -27,13 +27,51 @@ export const getSelectedAttributeNestedType = state => get(state.profileTypes.se
 export const getSelectedValidationRules = state => get(state.profileTypes.selected, 'attributeSelected.validationRules');
 export const getProfileTypeSelectedAttributeCode = state => get(state.profileTypes.attributes.selected, 'code');
 
-export const getProfileTypeSelectedAttributeRoleChoices = createSelector(
-  [getProfileTypeSelectedAttributeAllowedRoles, getProfileTypeSelectedAttributeAssignedRoles],
-  (allRoles, assignedRoles) => differenceWith(
+export const getProfileTypeSelectedAttributeAllowedRoleCodeList = createSelector(
+  getProfileTypeSelectedAttributeAllowedRoles,
+  allRoles => allRoles.map(role => role.code),
+);
+
+export const getProfileTypeSelectedAttributeAssignedRolesList = attributeCode => (
+  createSelector(
+    [getProfileTypeSelectedAttributeAssignedRoles],
+    assignedRoles => Object.keys(assignedRoles)
+      .filter(roleCode => assignedRoles[roleCode] === attributeCode),
+  )
+);
+
+export const getProfileTypeSelectedAttributeUnownedRoles = createSelector(
+  [
+    getProfileTypeSelectedAttributeAllowedRoleCodeList,
+    getProfileTypeSelectedAttributeAssignedRoles,
+  ],
+  (allRoles, assignedRoles) => difference(
     allRoles,
     Object.keys(assignedRoles),
-    (roleInfo, roleCode) => roleInfo && roleCode && roleInfo.code === roleCode,
   ),
+);
+
+export const getProfileTypeSelectedAttributeDeletedValues = (
+  attributeCode,
+  roleValues,
+) => createSelector(
+  getProfileTypeSelectedAttributeAssignedRolesList(attributeCode),
+  allRoles => xor(allRoles, roleValues),
+);
+
+export const getProfileTypeSelectedAttributeRoleChoices = (
+  attributeCode,
+  roleValues,
+) => createSelector(
+  [
+    getProfileTypeSelectedAttributeAllowedRoles,
+    getProfileTypeSelectedAttributeUnownedRoles,
+    getProfileTypeSelectedAttributeDeletedValues(attributeCode, roleValues),
+  ],
+  (allRoles, noOwnerRoles, deletedRoles) => {
+    const roleChoices = union(noOwnerRoles, deletedRoles);
+    return allRoles.filter(roleInfo => roleChoices.includes(roleInfo.code));
+  },
 );
 
 export const getProfileTypeList = createSelector(
