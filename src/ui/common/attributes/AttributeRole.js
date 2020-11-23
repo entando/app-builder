@@ -31,7 +31,7 @@ class AttributeRole extends Component {
     const getAttributeRoleLabel = item => item && `${item.value} - ${item.text}`;
 
     const roleWrapper = () => {
-      if (isEmpty(allowedRoles)) {
+      if (isEmpty(allowedRoles) && isEmpty(joinAllowedOptions)) {
         return (
           <FormGroup>
             <Col xs={10}>
