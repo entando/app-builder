@@ -16,7 +16,7 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
+import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
@@ -26,8 +26,6 @@ import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 
-
-const HOMEPAGE_CODE = 'homepage';
 export const SAMPLE_HOMEPAGE_CODE = 'my_homepage';
 const RESET_FOR_CLONE = {
   code: '',

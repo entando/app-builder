@@ -11,6 +11,8 @@ import {
   setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded,
 } from 'state/pages/actions';
 
+import { HOMEPAGE_CODE } from 'state/pages/const';
+
 const PAGES = [
   HOMEPAGE_PAYLOAD, DASHBOARD_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD, ERROR_PAYLOAD,
   LOGIN_PAYLOAD, NOTFOUND_PAYLOAD,
@@ -60,7 +62,7 @@ describe('state/pages/reducer', () => {
       beforeEach(() => {
         state = reducer(state, setFreePages(FREE_PAGES_PAYLOAD));
         state = reducer(state, setSelectedPage(HOMEPAGE_PAYLOAD));
-        state = reducer(state, togglePageExpanded('homepage'));
+        state = reducer(state, togglePageExpanded(HOMEPAGE_CODE));
 
         state = reducer(state, clearTree());
       });
@@ -93,7 +95,7 @@ describe('state/pages/reducer', () => {
 
     describe('after action SET_PAGE_PARENT', () => {
       let newState;
-      const OLD_PARENT_CODE = 'homepage';
+      const OLD_PARENT_CODE = HOMEPAGE_CODE;
       const NEW_PARENT_CODE = 'service';
       const PAGE_CODE = 'dashboard';
       beforeEach(() => {
@@ -118,7 +120,7 @@ describe('state/pages/reducer', () => {
 
     describe('after action MOVE_PAGE', () => {
       let newState;
-      const OLD_PARENT_CODE = 'homepage';
+      const OLD_PARENT_CODE = HOMEPAGE_CODE;
       const NEW_PARENT_CODE = 'service';
       const PAGE_CODE = 'dashboard';
       const NEW_POSITION = 2;
@@ -145,7 +147,7 @@ describe('state/pages/reducer', () => {
 
     describe('action TOGGLE_PAGE_EXPANDED', () => {
       let newState;
-      const PAGE_CODE = 'homepage';
+      const PAGE_CODE = HOMEPAGE_CODE;
       it('should toggle the page expanded flag', () => {
         newState = reducer(state, togglePageExpanded(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(true);
@@ -157,7 +159,7 @@ describe('state/pages/reducer', () => {
 
     describe('action SET_PAGE_LOADING', () => {
       let newState;
-      const PAGE_CODE = 'homepage';
+      const PAGE_CODE = HOMEPAGE_CODE;
       it('sets the page loading flag to true', () => {
         newState = reducer(state, setPageLoading(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].loading).toBe(true);
@@ -166,7 +168,7 @@ describe('state/pages/reducer', () => {
 
     describe('action SET_PAGE_LOADED', () => {
       let newState;
-      const PAGE_CODE = 'homepage';
+      const PAGE_CODE = HOMEPAGE_CODE;
       it('sets the page loaded flag to true', () => {
         newState = reducer(state, setPageLoaded(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].loaded).toBe(true);
@@ -314,7 +316,7 @@ describe('state/pages/reducer', () => {
 
     let newState;
     it('should collapse all the tree', () => {
-      newState = reducer(state, togglePageExpanded('homepage'));
+      newState = reducer(state, togglePageExpanded(HOMEPAGE_CODE));
       expect(newState.statusMap.homepage.expanded).toBe(true);
       newState = reducer(newState, collapseAll());
       Object.values(newState.statusMap).map(v => expect(v.expanded).toBe(false));
@@ -329,7 +331,7 @@ describe('state/pages/reducer', () => {
 
     let newState;
     it('should collapse all the tree', () => {
-      newState = reducer(state, setBatchExpanded(['homepage', 'dashboard']));
+      newState = reducer(state, setBatchExpanded([HOMEPAGE_CODE, 'dashboard']));
       expect(newState.statusMap.homepage.expanded).toBe(true);
       expect(newState.statusMap.dashboard.expanded).toBe(true);
     });

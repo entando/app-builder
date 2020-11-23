@@ -34,6 +34,7 @@ import {
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { HOMEPAGE_CODE } from 'state/pages/const';
 
 const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
@@ -214,7 +215,9 @@ const LegacyAdminConsoleMenuBody = ({
           <SecondaryItem
             id="menu-page-config"
             title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
-            onClick={() => history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: 'homepage' }))}
+            onClick={() =>
+              history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE }))
+            }
           />
           {
             hasAccess(ROLE_SUPERUSER, userPermissions) && (

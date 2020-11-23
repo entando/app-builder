@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { getLocale } from 'state/locale/selectors';
-import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { HOMEPAGE_CODE, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 import { get } from 'lodash';
@@ -39,7 +39,7 @@ export const getFreePages = createSelector(
 
 // relies on the children map order
 const getPagesOrder = (pagesChildren) => {
-  const fifo = ['homepage'];
+  const fifo = [HOMEPAGE_CODE];
   const sorted = [];
   while (fifo.length) {
     const curPageCode = fifo.pop();
@@ -56,7 +56,7 @@ const getPagesOrder = (pagesChildren) => {
 const isVisible = (pageCode, pages, pagesStatus) => {
   let curPageCode = pageCode;
   if (pages[curPageCode]) {
-    while (curPageCode !== 'homepage') {
+    while (curPageCode !== HOMEPAGE_CODE) {
       if (pages[curPageCode].parentCode) {
         curPageCode = pages[curPageCode].parentCode;
         if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
@@ -73,7 +73,7 @@ const getDepth = (pages, pageCode) => {
   let curPageCode = pageCode;
   let depth = 0;
   if (pages[curPageCode]) {
-    while (curPageCode !== 'homepage') {
+    while (curPageCode !== HOMEPAGE_CODE) {
       curPageCode = pages[curPageCode].parentCode;
       depth += 1;
     }

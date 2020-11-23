@@ -18,6 +18,7 @@ import { getLoading } from 'state/loading/selectors';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
+import { HOMEPAGE_CODE } from 'state/pages/const';
 
 export const NavigationBarWidgetID = 'navigationBarWidgetForm';
 
@@ -35,7 +36,7 @@ export const mapStateToProps = (state, ownProps) => ({
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onDidMount: ({ initialize, appTourProgress }) => {
     if (appTourProgress === APP_TOUR_STARTED) {
-      dispatch(initialize({ addConfig: { spec: 'code', targetCode: 'homepage' } }));
+      dispatch(initialize({ addConfig: { spec: 'code', targetCode: HOMEPAGE_CODE } }));
     }
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
