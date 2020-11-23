@@ -41,6 +41,8 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE } from 'app-init/router';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { getSelectedPage, getPagesMap, getChildrenMap, getStatusMap } from 'state/pages/selectors';
 
+import { HOMEPAGE_CODE } from 'state/pages/const';
+
 jest.mock('state/page-config/selectors', () => ({
   makeGetSelectedPageConfig: jest.fn(),
 }));
@@ -260,7 +262,7 @@ describe('state/pages/actions', () => {
     it('when loading homepage, should download homepage and its children', (done) => {
       const store = mockStore();
       getStatusMap.mockReturnValue({});
-      store.dispatch(handleExpandPage('homepage')).then(() => {
+      store.dispatch(handleExpandPage(HOMEPAGE_CODE)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.includes(SET_PAGE_LOADING)).toBe(true);
         expect(actionTypes.includes(SET_PAGE_LOADED)).toBe(true);
@@ -301,7 +303,7 @@ describe('state/pages/actions', () => {
 
     it('when setting the same parent name, should not call API nor dispatch action', (done) => {
       const store = mockStore(INITIALIZED_STATE);
-      store.dispatch(setPageParent('dashboard', 'homepage')).then(() => {
+      store.dispatch(setPageParent('dashboard', HOMEPAGE_CODE)).then(() => {
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes.length).toBe(0);
         expect(setPagePosition).not.toHaveBeenCalled();
@@ -320,9 +322,9 @@ describe('state/pages/actions', () => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageBelow('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
-        expect(setPagePosition).toHaveBeenCalledWith('dashboard', 3, 'homepage');
+        expect(setPagePosition).toHaveBeenCalledWith('dashboard', 3, HOMEPAGE_CODE);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 3));
+        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 3));
         done();
       }).catch(done.fail);
     });
@@ -331,9 +333,9 @@ describe('state/pages/actions', () => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageBelow('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
-        expect(setPagePosition).toHaveBeenCalledWith('contacts', 2, 'homepage');
+        expect(setPagePosition).toHaveBeenCalledWith('contacts', 2, HOMEPAGE_CODE);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 2));
+        expect(actions[1]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
         done();
       }).catch(done.fail);
     });
@@ -344,7 +346,7 @@ describe('state/pages/actions', () => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, 'service');
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'service', 2));
+        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 2));
         done();
       }).catch(done.fail);
     });
@@ -370,9 +372,9 @@ describe('state/pages/actions', () => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageAbove('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
-        expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, 'homepage');
+        expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, HOMEPAGE_CODE);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'homepage', 2));
+        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
         done();
       }).catch(done.fail);
     });
@@ -381,9 +383,9 @@ describe('state/pages/actions', () => {
       const store = mockStore(INITIALIZED_STATE);
       store.dispatch(movePageAbove('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
-        expect(setPagePosition).toHaveBeenCalledWith('contacts', 1, 'homepage');
+        expect(setPagePosition).toHaveBeenCalledWith('contacts', 1, HOMEPAGE_CODE);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('contacts', 'homepage', 'homepage', 1));
+        expect(actions[1]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 1));
         done();
       }).catch(done.fail);
     });
@@ -394,7 +396,7 @@ describe('state/pages/actions', () => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 1, 'service');
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', 'homepage', 'service', 1));
+        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 1));
         done();
       }).catch(done.fail);
     });

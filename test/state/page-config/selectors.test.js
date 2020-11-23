@@ -17,7 +17,7 @@ import {
 import { CELL_MAP } from 'test/mocks/page-templates/complex';
 import { HOMEPAGE_CONFIG } from 'test/mocks/pageConfig';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
-
+import { HOMEPAGE_CODE } from 'state/pages/const';
 
 jest.mock('state/page-templates/selectors', () => ({
   getSelectedPageTemplateCellMap: jest.fn(),
@@ -43,7 +43,7 @@ const buildModifiedConfig = (config) => {
   return newConfig;
 };
 
-const CURRENT_PAGE_CODE = 'homepage';
+const CURRENT_PAGE_CODE = HOMEPAGE_CODE;
 const CURRENT_LOCALE = 'en';
 const HOMEPAGE_PUBLISHED_CONFIG = HOMEPAGE_CONFIG;
 const HOMEPAGE_DRAFT_CONFIG = buildModifiedConfig(HOMEPAGE_CONFIG);

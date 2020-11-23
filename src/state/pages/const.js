@@ -5,3 +5,4 @@ export const ACTION_SAVE = 'SAVE';
 export const ACTION_SAVE_AND_CONFIGURE = 'SAVE_AND_CONFIGURE';
 
 export const SEO_ENABLED = true;
+export const HOMEPAGE_CODE = 'homepage';
