@@ -4,6 +4,8 @@ import {
 } from 'ui/pages/config/PageConfigPageContainer';
 
 // mocked
+import { reset } from 'redux-form';
+
 import { setSelectedPageTemplate } from 'state/page-templates/actions';
 import {
   setSelectedPageOnTheFly,
@@ -219,6 +221,14 @@ describe('PageConfigPageContainer', () => {
       it('dispatch applyDefaultConfig()', () => {
         expect(dispatchMock).toHaveBeenCalled();
         expect(applyDefaultConfig).toHaveBeenCalled();
+      });
+    });
+
+    describe('prop onCancelSettings', () => {
+      it('should dispatch redux-form reset()', () => {
+        props.onSettingsCancel();
+        expect(dispatchMock).toHaveBeenCalled();
+        expect(reset).toHaveBeenCalledWith('pageEdit');
       });
     });
   });

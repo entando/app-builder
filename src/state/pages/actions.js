@@ -388,6 +388,7 @@ export const sendPutPage = pageData => dispatch =>
       if (response.ok) {
         dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
         dispatch(updatePage(json.payload));
+        dispatch(initialize('pageEdit', json.payload));
         resolve();
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));

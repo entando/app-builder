@@ -446,11 +446,13 @@ describe('state/pages/actions', () => {
     });
 
     it('when putPage succeeds, should dispatch ADD_PAGES', (done) => {
+      putPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
+        expect(initialize).toHaveBeenCalledWith('pageEdit', CONTACTS_PAYLOAD);
         expect(putPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
         done();
       }).catch(done.fail);
