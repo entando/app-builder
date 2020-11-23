@@ -14,7 +14,7 @@ describe('PageConfigPage', () => {
   let component;
   beforeEach(() => {
     jest.clearAllMocks();
-    component = shallowWithIntl(<PageConfigPage />);
+    component = shallowWithIntl(<PageConfigPage match={{ params: {} }} />);
   });
 
   it('renders without crashing', () => {
@@ -35,7 +35,7 @@ describe('PageConfigPage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallowWithIntl(<PageConfigPage onWillMount={onWillMount} />).dive();
+    shallowWithIntl(<PageConfigPage onWillMount={onWillMount} match={{ params: {} }} />).dive();
     expect(onWillMount).toHaveBeenCalled();
     component.unmount();
     onWillMount.mockClear();
@@ -44,7 +44,10 @@ describe('PageConfigPage', () => {
 
   it('will call onWillUnmount on componentWillUnmount', () => {
     const onWillUnmount = jest.fn();
-    component = shallowWithIntl(<PageConfigPage onWillUnmount={onWillUnmount} />).dive();
+    component = shallowWithIntl(<PageConfigPage
+      onWillUnmount={onWillUnmount}
+      match={{ params: {} }}
+    />).dive();
     expect(onWillUnmount).not.toHaveBeenCalled();
     component.unmount();
     expect(onWillUnmount).toHaveBeenCalled();
@@ -54,6 +57,7 @@ describe('PageConfigPage', () => {
     const setSelectedPageOnTheFly = jest.fn();
     component = shallowWithIntl(<PageConfigPage
       setSelectedPageOnTheFly={setSelectedPageOnTheFly}
+      match={{ params: {} }}
     />).dive();
     expect(setSelectedPageOnTheFly).not.toHaveBeenCalled();
     component.find('.PageConfigPage__on-the-fly-yes').simulate('click');
@@ -64,6 +68,7 @@ describe('PageConfigPage', () => {
     const setSelectedPageOnTheFly = jest.fn();
     component = shallowWithIntl(<PageConfigPage
       setSelectedPageOnTheFly={setSelectedPageOnTheFly}
+      match={{ params: {} }}
     />).dive();
     expect(setSelectedPageOnTheFly).not.toHaveBeenCalled();
     component.find('.PageConfigPage__on-the-fly-no').simulate('click');
@@ -71,7 +76,7 @@ describe('PageConfigPage', () => {
   });
 
   it('will toggle info table on click info button', () => {
-    component = shallowWithIntl(<PageConfigPage />).dive();
+    component = shallowWithIntl(<PageConfigPage match={{ params: {} }} />).dive();
     expect(component.state('infoTableOpen')).toBe(false);
     component.find('.PageConfigPage__info-btn').first().simulate('click');
     expect(component.state('infoTableOpen')).toBe(true);
@@ -87,7 +92,10 @@ describe('PageConfigPage', () => {
 
   describe('if page config does not match default', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault={false} />).dive();
+      component = shallowWithIntl(<PageConfigPage
+        pageConfigMatchesDefault={false}
+        match={{ params: {} }}
+      />).dive();
     });
 
     it('renders "Apply default widgets" button', () => {
@@ -101,7 +109,10 @@ describe('PageConfigPage', () => {
 
   describe('if page config matches default', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageConfigMatchesDefault />).dive();
+      component = shallowWithIntl(<PageConfigPage
+        pageConfigMatchesDefault
+        match={{ params: {} }}
+      />).dive();
     });
 
     it('does not render "Apply default widgets" button', () => {
@@ -115,7 +126,10 @@ describe('PageConfigPage', () => {
 
   describe('if page is published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished={true} />).dive();
+      component = shallowWithIntl(<PageConfigPage
+        pageIsPublished
+        match={{ params: {} }}
+      />).dive();
     });
 
     it('publish button should be disabled', () => {
@@ -131,7 +145,10 @@ describe('PageConfigPage', () => {
 
   describe('if page is not published', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<PageConfigPage pageIsPublished={false} />).dive();
+      component = shallowWithIntl(<PageConfigPage
+        pageIsPublished={false}
+        match={{ params: {} }}
+      />).dive();
     });
 
     it('publish button should be enabled', () => {

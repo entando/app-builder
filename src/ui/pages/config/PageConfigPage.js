@@ -243,6 +243,7 @@ class PageConfigPage extends Component {
       intl, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
+      match,
     } = this.props;
     const { enableSettings, toolbarCollapsed } = this.state;
 
@@ -312,7 +313,10 @@ class PageConfigPage extends Component {
                   <div>
                     {this.renderPageHeader()}
                     {this.renderActionBar('settings')}
-                    <PagesEditFormContainer readOnly={!enableSettings} />
+                    <PagesEditFormContainer
+                      key={(match.params || {}).pageCode}
+                      readOnly={!enableSettings}
+                    />
                   </div>
                 </Tab>
               </Tabs>
