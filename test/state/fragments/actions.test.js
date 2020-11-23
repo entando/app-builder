@@ -10,12 +10,13 @@ import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
-  updateFragmentSettings, removeFragment, sendDeleteFragment, sendPostFragment, sendPutFragment,
+  updateFragmentSettings, removeFragment, sendDeleteFragment, sendPostFragment, sendPutFragment, setFilters,
 } from 'state/fragments/actions';
 import {
   PLUGINS_OK,
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK,
+  FILTERS_OK,
 } from 'test/mocks/fragments';
 
 import {
@@ -28,7 +29,7 @@ import {
   putFragment,
 } from 'api/fragments';
 
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, SET_FILTERS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 
@@ -73,6 +74,13 @@ describe('state/fragments/actions', () => {
     it('test setFragments action sets the correct type', () => {
       action = setFragments(LIST_FRAGMENTS_OK.payload);
       expect(action.type).toEqual(SET_FRAGMENTS);
+    });
+  });
+
+  describe('setFilters', () => {
+    it('test setFilters action sets the correct type', () => {
+      action = setFilters(FILTERS_OK);
+      expect(action.type).toEqual(SET_FILTERS);
     });
   });
 

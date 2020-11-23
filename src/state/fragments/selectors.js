@@ -40,7 +40,6 @@ export const getWidgetTypesOptions = createSelector(
   },
 );
 
-
 export const getPluginsOptions = createSelector(
   [getPlugins],
   plugins =>
@@ -48,4 +47,9 @@ export const getPluginsOptions = createSelector(
       code: plugin.code,
       title: plugin.title,
     })),
+);
+
+export const getFilters = createSelector(
+  getFragments,
+  fragments => fragments.filters,
 );

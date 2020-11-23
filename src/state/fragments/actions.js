@@ -13,7 +13,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -33,6 +33,13 @@ export const setPlugins = plugins => ({
   type: SET_PLUGINS,
   payload: {
     plugins,
+  },
+});
+
+export const setFilters = filters => ({
+  type: SET_FILTERS,
+  payload: {
+    filters,
   },
 });
 
