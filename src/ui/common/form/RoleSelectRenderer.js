@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { InputGroup, Button, Col } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -34,7 +34,7 @@ class RoleSelectRenderer extends Component {
     const {
       selectedValues, fields, valueKey, allRoles,
     } = this.props;
-    return selectedValues.map((value, i) => (
+    return allRoles && allRoles.length ? selectedValues.map((value, i) => (
       <div key={value} className="clearfix">
         { i === 0 && <h3><FormattedMessage id="app.assigned.roles" /></h3>}
         <hr />
@@ -53,7 +53,7 @@ class RoleSelectRenderer extends Component {
           </Button>
         </Col>
       </div>
-    ));
+    )) : [];
   }
 
   render() {
@@ -86,21 +86,25 @@ class RoleSelectRenderer extends Component {
 
     return (
       <div className="RoleSelectRenderer">
-        <InputGroup>
-          <select className="form-control" ref={(select) => { this.select = select; }} >
-            {filteredOptions}
-          </select>
-          <span className="input-group-btn">
-            <Button
-              className="RoleSelectRenderer__add-btn"
-              bsStyle="primary"
-              onClick={this.pushField}
-            >
-              <FormattedMessage id="app.add" />
-            </Button>
-          </span>
-        </InputGroup>
-        <br />
+        {filteredOptions.length && (
+          <Fragment>
+            <InputGroup>
+              <select className="form-control" ref={(select) => { this.select = select; }} >
+                {filteredOptions}
+              </select>
+              <span className="input-group-btn">
+                <Button
+                  className="RoleSelectRenderer__add-btn"
+                  bsStyle="primary"
+                  onClick={this.pushField}
+                >
+                  <FormattedMessage id="app.add" />
+                </Button>
+              </span>
+            </InputGroup>
+            <br />
+          </Fragment>
+        )}
         { this.renderTags() }
       </div>
     );
