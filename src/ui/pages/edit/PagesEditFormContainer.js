@@ -34,20 +34,23 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 });
 
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, ownProps) => ({
   onSubmit: (data, action) =>
     dispatch(sendPutPage(data)).then(() => {
-      switch (action) {
-        case ACTION_SAVE: {
-          history.push(ROUTE_PAGE_TREE);
-          break;
+      const { stayOnSave } = ownProps;
+      if (!stayOnSave) {
+        switch (action) {
+          case ACTION_SAVE: {
+            history.push(ROUTE_PAGE_TREE);
+            break;
+          }
+          case ACTION_SAVE_AND_CONFIGURE: {
+            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+            break;
+          }
+          default: history.push(ROUTE_PAGE_TREE);
         }
-        case ACTION_SAVE_AND_CONFIGURE: {
-          history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
-          break;
-        }
-        default: history.push(ROUTE_PAGE_TREE);
-      }
+      } else ownProps.onSave();
     }).catch(() => {}),
   onWillMount: ({ pageCode }) => {
     dispatch(clearTree());

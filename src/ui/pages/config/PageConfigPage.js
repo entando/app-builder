@@ -41,13 +41,13 @@ class PageConfigPage extends Component {
     this.state = {
       infoTableOpen: false,
       statusChange: null,
-      enableSettings: false,
+      editingSettings: false,
       toolbarCollapsed: false,
     };
 
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
-    this.toggleEnableSettings = this.toggleEnableSettings.bind(this);
+    this.toggleEditingSettings = this.toggleEditingSettings.bind(this);
     this.openLinkPublishedPage = this.openLinkPublishedPage.bind(this);
     this.handleToggleToolbarCollapse = this.handleToggleToolbarCollapse.bind(this);
   }
@@ -94,8 +94,15 @@ class PageConfigPage extends Component {
     });
   }
 
-  toggleEnableSettings() {
-    this.setState(state => ({ enableSettings: !state.enableSettings }));
+  toggleEditingSettings() {
+    this.setState((state) => {
+      const { editingSettings } = state;
+      if (editingSettings) {
+        const { onSettingsCancel } = this.props;
+        onSettingsCancel();
+      }
+      return ({ editingSettings: !editingSettings });
+    });
   }
 
   openLinkPublishedPage() {
@@ -146,6 +153,8 @@ class PageConfigPage extends Component {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
     } = this.props;
 
+    const { editingSettings } = this.state;
+
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
         <Col xs={12}>
@@ -177,10 +186,10 @@ class PageConfigPage extends Component {
                     'btn',
                     'btn-primary',
                   ].join(' ')}
-                onClick={this.toggleEnableSettings}
+                onClick={this.toggleEditingSettings}
               >
                 <span>
-                  <FormattedMessage id="app.edit" />
+                  <FormattedMessage id={`${editingSettings ? 'app.cancel' : 'app.edit'}`} />
                 </span>
               </Button>
             : (
@@ -245,7 +254,7 @@ class PageConfigPage extends Component {
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
       match,
     } = this.props;
-    const { enableSettings, toolbarCollapsed } = this.state;
+    const { editingSettings, toolbarCollapsed } = this.state;
 
     const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
     const TRANSLATED_NO = intl.formatMessage(msgs.appNo);
@@ -315,7 +324,9 @@ class PageConfigPage extends Component {
                     {this.renderActionBar('settings')}
                     <PagesEditFormContainer
                       key={(match.params || {}).pageCode}
-                      readOnly={!enableSettings}
+                      readOnly={!editingSettings}
+                      stayOnSave
+                      onSave={this.toggleEditingSettings}
                     />
                   </div>
                 </Tab>
@@ -420,6 +431,7 @@ PageConfigPage.propTypes = {
   }).isRequired,
   loading: PropTypes.bool,
   appTourProgress: PropTypes.string,
+  onSettingsCancel: PropTypes.func.isRequired,
 };
 
 PageConfigPage.defaultProps = {

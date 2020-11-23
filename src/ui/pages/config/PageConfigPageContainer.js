@@ -21,6 +21,7 @@ import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourLastStep, setPublishStatus } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
+import { reset } from 'redux-form';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -41,6 +42,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   unpublishPage: () => dispatch(unpublishSelectedPage()),
   applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
   showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
+  onSettingsCancel: () => dispatch(reset('pageEdit')),
 });
 
 export const mapStateToProps = (state, { match: { params } }) => {

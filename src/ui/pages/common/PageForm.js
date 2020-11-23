@@ -46,7 +46,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly,
+      onChangeOwnerGroup, readOnly, stayOnSave,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -360,18 +360,19 @@ export class PageFormBody extends Component {
           <Row>
             <Col xs={12}>
               <div className="btn-toolbar pull-right">
+                {!stayOnSave && (
+                  <Button
+                    className="PageForm__save-and-configure-btn app-tour-step-11"
+                    type="submit"
+                    bsStyle="success"
+                    disabled={invalid || submitting}
+                    onClick={handleSubmit(values =>
+                    this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
+                  >
+                    <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
-                <Button
-                  className="PageForm__save-and-configure-btn app-tour-step-11"
-                  type="submit"
-                  bsStyle="success"
-                  disabled={invalid || submitting}
-                  onClick={handleSubmit(values =>
-                  this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
-                >
-                  <FormattedMessage id="pages.pageForm.saveAndConfigure" />
-
-                </Button>
+                  </Button>
+                )}
                 <Button
                   className="PageForm__save-btn"
                   type="submit"
@@ -427,6 +428,7 @@ PageFormBody.propTypes = {
   onChangePageTemplate: PropTypes.func,
   onChangeOwnerGroup: PropTypes.func,
   readOnly: PropTypes.bool,
+  stayOnSave: PropTypes.bool,
 };
 
 PageFormBody.defaultProps = {
@@ -445,6 +447,7 @@ PageFormBody.defaultProps = {
   onChangePageTemplate: () => {},
   onChangeOwnerGroup: () => {},
   readOnly: false,
+  stayOnSave: false,
 };
 
 const PageForm = reduxForm({
