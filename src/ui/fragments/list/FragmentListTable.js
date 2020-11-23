@@ -20,11 +20,13 @@ class FragmentListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    const { filters } = this.props;
+    this.props.onWillMount({ page, pageSize: this.props.pageSize }, filters);
   }
 
   changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
+    const { filters } = this.props;
+    this.props.onWillMount({ page: 1, pageSize }, filters);
   }
 
   renderTable() {
@@ -112,12 +114,14 @@ FragmentListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  filters: PropTypes.string,
 };
 
 FragmentListTable.defaultProps = {
   onWillMount: () => {},
   loading: false,
   fragments: [],
+  filters: '',
 };
 
 export default injectIntl(FragmentListTable);

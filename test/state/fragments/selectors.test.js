@@ -1,10 +1,10 @@
-import { PLUGINS_OK, GET_FRAGMENT_OK, PLUGINS_OPTIONS } from 'test/mocks/fragments';
+import { PLUGINS_OK, GET_FRAGMENT_OK, PLUGINS_OPTIONS, FILTERS_OK } from 'test/mocks/fragments';
 import { WIDGETS_MAP } from 'test/mocks/widgets';
 import { getWidgetsMap } from 'state/widgets/selectors';
 
 import {
   getFragments, getWidgetTypes, getPlugins, getFragmentSelected,
-  getWidgetTypesOptions, getPluginsOptions, getFragmentList,
+  getWidgetTypesOptions, getPluginsOptions, getFragmentList, getFilters,
 } from 'state/fragments/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
@@ -23,6 +23,7 @@ const MOCK_STATE = {
     list,
     selected: FRAGMENT_PAYLOAD,
     plugins: PLUGINS_PAYLOAD,
+    filters: FILTERS_OK,
   },
 };
 
@@ -60,5 +61,9 @@ describe('state/fragments/selectors', () => {
   it('getPluginsOptions(state) returns a calculated pluginsOption list', () => {
     const selected = getPluginsOptions(MOCK_STATE);
     expect(selected).toEqual(PLUGINS_OPTIONS);
+  });
+  it('getFilters(state) returns the stored filters', () => {
+    const selected = getFilters(MOCK_STATE);
+    expect(selected).toEqual(FILTERS_OK);
   });
 });

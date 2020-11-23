@@ -26,6 +26,7 @@ jest.mock('state/widgets/actions', () => ({
 jest.mock('state/fragments/actions', () => ({
   fetchPlugins: jest.fn(),
   fetchFragments: jest.fn(),
+  setFilters: jest.fn(),
 }));
 
 describe('FragmentSearchFormContainer', () => {
