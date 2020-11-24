@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { required } from '@entando/utils';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, Button } from 'patternfly-react';
@@ -74,6 +75,9 @@ SeoMetadataFormBody.defaultProps = {
 
 const SeoMetadataForm = reduxForm({
   form: 'SeoMetadataForm',
+  initialValues: {
+    metatype: get(METATAG_TYPE_OPTIONS, '0.value', ''),
+  },
 })(SeoMetadataFormBody);
 
 export default SeoMetadataForm;
