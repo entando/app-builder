@@ -16,7 +16,7 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
 
-const FORM_ID = 'pageEdit';
+export const FORM_ID = 'pageEdit';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),

@@ -357,23 +357,21 @@ export class PageFormBody extends Component {
           </Fragment>
         )}
 
-        {!readOnly && (
+        {(!readOnly && !stayOnSave) && (
           <Row>
             <Col xs={12}>
               <div className="btn-toolbar pull-right">
-                {!stayOnSave && (
-                  <Button
-                    className="PageForm__save-and-configure-btn app-tour-step-11"
-                    type="submit"
-                    bsStyle="success"
-                    disabled={invalid || submitting}
-                    onClick={handleSubmit(values =>
+                <Button
+                  className="PageForm__save-and-configure-btn app-tour-step-11"
+                  type="submit"
+                  bsStyle="success"
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values =>
                     this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
-                  >
-                    <FormattedMessage id="pages.pageForm.saveAndConfigure" />
+                >
+                  <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
-                  </Button>
-                )}
+                </Button>
                 <Button
                   className="PageForm__save-btn"
                   type="submit"
