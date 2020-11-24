@@ -33,7 +33,7 @@ const plugins = (state = [], action = {}) => {
   }
 };
 
-const filters = (state = {}, action = {}) => {
+const filters = (state = '', action = {}) => {
   switch (action.type) {
     case SET_FILTERS: {
       return action.payload.filters;
