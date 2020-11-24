@@ -9,9 +9,11 @@ export const SEO_DATA_BLANK = {
 export const SEO_LANGDATA_BLANK = {
   description: '',
   keywords: '',
+  friendlyCode: '',
   metaTags: [],
   inheritDescriptionFromDefaultLang: false,
   inheritKeywordsFromDefaultLang: false,
+  inheritFriendlyCodeFromDefaultLang: false,
 };
 
 export const PAGE_INIT_VALUES = {

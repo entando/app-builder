@@ -480,7 +480,7 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
     'pages.pageForm.saveAndConfigure': 'Salva e vai al Designer',
-    'pages.pageForm.seoFriendlyCode': 'SEO friendly code (slug)',
+    'pages.pageForm.seoFriendlyCode': 'SEO-friendly Code',
     'pages.pageForm.useExtDescSearch': 'Se disponibile, utilizzare una descrizione aggiuntiva nella ricerca',
     'pages.seoDescr': 'SEO: Permetti la sovrascrittura del titolo di Pagina',
     'pages.noPageFound': 'Nessuna pagina trovata.',
@@ -909,5 +909,6 @@ export default {
     'tour.step.20.title': 'Anteprima',
     'tour.step.20.description': 'Fai clic su Anteprima per vedere come apparirà la tua pagina prima di pubblicarla.',
     'app.startTutorial': 'Inizia il tutorial',
+    'app.pages.friendlyCodeHelp': 'URL slug per la pagina',
   },
 };

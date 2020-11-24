@@ -480,7 +480,7 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifies the type of information (imagine, text..) that Entando gives back to the requesting browser.',
     'pages.pageForm.saveAndConfigure': 'Save and Design',
-    'pages.pageForm.seoFriendlyCode': 'Friendly Code',
+    'pages.pageForm.seoFriendlyCode': 'SEO-friendly Code',
     'pages.pageForm.useExtDescSearch': 'When available, use extra description in search',
     'pages.seoDescr': 'SEO: When available, use extra titles.',
     'pages.noPageFound': 'No pages found.',
@@ -909,5 +909,6 @@ export default {
     'tour.step.20.description': 'Click Preview to see what your page will look like before you publish the page.',
     'user.wizard.success': 'Wizard has been updated.',
     'app.startTutorial': 'Begin Tutorial',
+    'app.pages.friendlyCodeHelp': 'URL slug for the page',
   },
 };

@@ -469,7 +469,7 @@ export default {
     'pages.pageForm.mimeType': 'MimeType',
     'pages.pageForm.mimeTypeHelp': 'Identifica o tipo da informação (imagem, texto, ...) que a Entando responderá para o navegador que requesitar.',
     'pages.pageForm.saveAndConfigure': 'Salvar e Projetar',
-    'pages.pageForm.seoFriendlyCode': 'Código Amigável',
+    'pages.pageForm.seoFriendlyCode': 'SEO-friendly Code',
     'pages.pageForm.useExtDescSearch': 'Quando disponível, use uma descrição extra na pesquisa',
     'pages.seoDescr': 'SEO: Quando disponĩvel use títulos extras',
     'pages.noPageFound': 'Nenhuma página encontrada.',
@@ -874,5 +874,6 @@ export default {
     'tour.step.23.title': 'Puoi usare l\'anteprima per controllare la tua nuova pagina',
     'tour.step.23.description': 'Fare clic su Anteprima per visualizzare la pagina nel browser',
     'app.startTutorial': 'Comece o tutorial',
+    'app.pages.friendlyCodeHelp': 'Slug de URL para a página',
   },
 };

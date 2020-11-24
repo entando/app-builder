@@ -97,6 +97,36 @@ const SeoInfo = ({ languages, onChangeDefaultTitle, readOnly }) =>
                 )}
               </div>
 
+              <div className="form-group SeoInfo__metadata--itemgroup">
+                <Col sm={2}>
+                  <div className="text-right SeoInfo__metadata--itemgroup">
+                    <ControlLabel htmlFor={`seoData.seoDataByLang.${lang.code}.keywords`}>
+                      <FormLabel helpId="app.pages.friendlyCodeHelp" labelId="pages.pageForm.seoFriendlyCode" />
+                    </ControlLabel>
+                  </div>
+                </Col>
+                <Col sm={lang.isDefault ? 9 : 6}>
+                  <Field
+                    component={RenderTextInput}
+                    name={`seoData.friendlyCode.${lang.code}`}
+                    disabled={readOnly}
+                    inputSize={12}
+                    labelSize={0}
+                  />
+                </Col>
+                {!lang.isDefault && (
+                  <Col sm={3} className="text-right">
+                    <Field
+                      component={SwitchRenderer}
+                      name={`seoData.seoDataByLang.${lang.code}.inheritFriendlyCodeFromDefaultLang`}
+                      label={<FormLabel labelId="app.seo.inheritLangLabel" />}
+                      labelSize={7}
+                      disabled={readOnly}
+                    />
+                  </Col>
+                )}
+              </div>
+
               <FieldArray
                 component={SeoInfoMetadataContainer}
                 name={`seoData.seoDataByLang.${lang.code}.metaTags`}
