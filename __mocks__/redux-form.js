@@ -38,3 +38,5 @@ export const initialize = jest.fn().mockImplementation((form, data) => ({
 // selectors
 export const getFormValues = jest.fn(form => () => ({ form }));
 export const valueSelector = jest.fn();
+export const isSubmitting = jest.fn(form => () => ({ form }));
+export const isInvalid = jest.fn(form => () => ({ form }));

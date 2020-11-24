@@ -151,10 +151,10 @@ class PageConfigPage extends Component {
   renderActionBar(tab) {
     const {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
+      onClickSaveSettings, pageSettingsButtonInvalid, pageSettingsButtonSubmitting,
     } = this.props;
 
     const { editingSettings } = this.state;
-
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
         <Col xs={12}>
@@ -180,18 +180,37 @@ class PageConfigPage extends Component {
           </ButtonToolbar>
           <ButtonToolbar className="pull-right">
             {tab === 'settings' ?
-              <Button
-                className={[
+              <React.Fragment>
+                <Button
+                  className={[
                     'PageConfigPage__btn-icon--right',
                     'btn',
-                    'btn-primary',
+                    editingSettings ? '' : 'btn-primary',
                   ].join(' ')}
-                onClick={this.toggleEditingSettings}
-              >
-                <span>
-                  <FormattedMessage id={`${editingSettings ? 'app.cancel' : 'app.edit'}`} />
-                </span>
-              </Button>
+                  onClick={this.toggleEditingSettings}
+                >
+                  <span>
+                    <FormattedMessage id={`${editingSettings ? 'app.cancel' : 'app.edit'}`} />
+                  </span>
+                </Button>
+                {
+                editingSettings && (
+                  <Button
+                    className={[
+                      'PageConfigPage__btn-icon--right',
+                      'btn',
+                      'btn-primary',
+                    ].join(' ')}
+                    onClick={onClickSaveSettings}
+                    disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
+                  >
+                    <span>
+                      <FormattedMessage id="app.save" />
+                    </span>
+                  </Button>
+                )
+              }
+              </React.Fragment>
             : (
               <div>
                 <Button
@@ -432,6 +451,9 @@ PageConfigPage.propTypes = {
   loading: PropTypes.bool,
   appTourProgress: PropTypes.string,
   onSettingsCancel: PropTypes.func.isRequired,
+  onClickSaveSettings: PropTypes.func.isRequired,
+  pageSettingsButtonSubmitting: PropTypes.bool,
+  pageSettingsButtonInvalid: PropTypes.bool,
 };
 
 PageConfigPage.defaultProps = {
@@ -453,6 +475,8 @@ PageConfigPage.defaultProps = {
   applyDefaultConfig: null,
   loading: false,
   appTourProgress: '',
+  pageSettingsButtonSubmitting: false,
+  pageSettingsButtonInvalid: false,
 };
 
 export default injectIntl(PageConfigPage);

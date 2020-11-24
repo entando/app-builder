@@ -21,7 +21,8 @@ import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourLastStep, setPublishStatus } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import { reset } from 'redux-form';
+import { reset, submit, isInvalid, isSubmitting } from 'redux-form';
+import { FORM_ID } from 'ui/pages/edit/PagesEditFormContainer';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -43,6 +44,10 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
   showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
   onSettingsCancel: () => dispatch(reset('pageEdit')),
+  onClickSaveSettings: async () => {
+    await dispatch(submit(FORM_ID));
+    dispatch(reset('pageEdit'));
+  },
 });
 
 export const mapStateToProps = (state, { match: { params } }) => {
@@ -63,6 +68,8 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageConfigMatchesDefault: makeGetSelectedPageConfigMatchesDefault(params.pageCode)(state),
     loading: getLoading(state).pageConfig,
     appTourProgress: getAppTourProgress(state),
+    pageSettingsButtonSubmitting: isSubmitting(FORM_ID)(state),
+    pageSettingsButtonInvalid: isInvalid(FORM_ID)(state),
   };
 };
 
