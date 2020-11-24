@@ -19,6 +19,7 @@ const InfoMenu = ({ onStartTutorial }) => (
     />
     <LinkMenuItem
       id="info-menu-start-tutorial"
+      to="#"
       onClick={onStartTutorial}
       label={<FormattedMessage id="app.startTutorial" />}
     />
