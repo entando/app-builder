@@ -293,7 +293,7 @@ export class PageFormBody extends Component {
 
             {seoMode ? (
               <SeoInfo
-                pageForm={form}
+                formId={form}
                 languages={languages}
                 onChangeDefaultTitle={onChangeDefaultTitle}
                 readOnly={readOnly}

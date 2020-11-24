@@ -15,7 +15,7 @@ const SeoInfo = ({
   languages,
   onChangeDefaultTitle,
   readOnly,
-  pageForm,
+  formId,
 }) =>
   (languages && languages.length ? (
     <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo" mountOnEnter unmountOnExit>
@@ -105,7 +105,7 @@ const SeoInfo = ({
                 <FieldArray
                   component={SeoInfoMetadataContainer}
                   name="metaTags"
-                  pageForm={pageForm}
+                  formId={formId}
                   langIdx={i}
                   languages={languages}
                   readOnly={readOnly}
@@ -123,7 +123,7 @@ SeoInfo.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onChangeDefaultTitle: PropTypes.func,
   readOnly: PropTypes.bool,
-  pageForm: PropTypes.string.isRequired,
+  formId: PropTypes.string.isRequired,
 };
 
 SeoInfo.defaultProps = {
