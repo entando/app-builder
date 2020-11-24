@@ -22,6 +22,7 @@ export const destroy = jest.fn().mockReturnValue({ type: '@@redux-form/DeSTROY' 
 export const focus = jest.fn().mockReturnValue({ type: '@@redux-form/FOCUS' });
 export const reset = jest.fn().mockReturnValue({ type: '@@redux-form/RESET' });
 export const startAsyncValidation = jest.fn().mockReturnValue({ type: '@@redux-form/START_AV' });
+export const submit = jest.fn().mockReturnValue({ type: '@@redux-form/SUBMIT' });
 export const startSubmit = jest.fn().mockReturnValue({ type: '@@redux-form/START_SUBMIT' });
 export const stopSubmit = jest.fn().mockReturnValue({ type: '@@redux-form/STOP_SUBMIT' });
 export const stopAsyncValidation = jest.fn().mockReturnValue({ type: '@@redux-form/STOP_AV' });

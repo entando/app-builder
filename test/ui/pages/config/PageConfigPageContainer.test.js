@@ -4,7 +4,7 @@ import {
 } from 'ui/pages/config/PageConfigPageContainer';
 
 // mocked
-import { reset } from 'redux-form';
+import { reset, submit } from 'redux-form';
 
 import { setSelectedPageTemplate } from 'state/page-templates/actions';
 import {
@@ -227,8 +227,23 @@ describe('PageConfigPageContainer', () => {
     describe('prop onCancelSettings', () => {
       it('should dispatch redux-form reset()', () => {
         props.onSettingsCancel();
-        expect(dispatchMock).toHaveBeenCalled();
-        expect(reset).toHaveBeenCalledWith('pageEdit');
+        expect(dispatchMock.mock.calls.length).toBe(2);
+        expect(reset.mock.calls.length).toBe(2);
+        expect(reset.mock.calls[0][0]).toBe('pageEdit');
+        expect(reset.mock.calls[1][0]).toBe('SeoMetadataForm');
+      });
+    });
+
+    describe('prop onClickSaveSettings', () => {
+      it('should dispatch redux-form reset()', (done) => {
+        props.onClickSaveSettings().then(() => {
+          expect(dispatchMock.mock.calls.length).toBe(3);
+          expect(submit).toHaveBeenCalledWith('pageEdit');
+          expect(reset.mock.calls.length).toBe(2);
+          expect(reset.mock.calls[0][0]).toBe('pageEdit');
+          expect(reset.mock.calls[1][0]).toBe('SeoMetadataForm');
+          done();
+        }).catch(done.fail);
       });
     });
   });
