@@ -46,7 +46,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave,
+      onChangeOwnerGroup, readOnly, stayOnSave, form,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -293,6 +293,7 @@ export class PageFormBody extends Component {
 
             {seoMode ? (
               <SeoInfo
+                pageForm={form}
                 languages={languages}
                 onChangeDefaultTitle={onChangeDefaultTitle}
                 readOnly={readOnly}
@@ -395,6 +396,7 @@ export class PageFormBody extends Component {
 
 PageFormBody.propTypes = {
   intl: intlShape.isRequired,
+  form: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
