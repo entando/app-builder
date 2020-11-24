@@ -43,10 +43,14 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   unpublishPage: () => dispatch(unpublishSelectedPage()),
   applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
   showPageSettings: () => dispatch(setVisibleModal(MODAL_ID)),
-  onSettingsCancel: () => dispatch(reset('pageEdit')),
+  onSettingsCancel: () => {
+    dispatch(reset(FORM_ID));
+    dispatch(reset('SeoMetadataForm'));
+  },
   onClickSaveSettings: async () => {
     await dispatch(submit(FORM_ID));
-    dispatch(reset('pageEdit'));
+    dispatch(reset(FORM_ID));
+    dispatch(reset('SeoMetadataForm'));
   },
 });
 
