@@ -21,10 +21,10 @@ export const PageSearchFormBody = ({ intl, handleSubmit }) => {
       <h3><FormattedMessage id="app.search" /></h3>
       <FormGroup>
         <Row>
-          <label className="control-label col-xs-2" htmlFor="pagecode">
+          <label className="control-label col-xs-3" htmlFor="pagecode">
             <FormattedMessage id="pageTree.searchForm.code" />
           </label>
-          <Col xs={9}>
+          <Col xs={8}>
             <Field
               id="pagecode"
               component="input"

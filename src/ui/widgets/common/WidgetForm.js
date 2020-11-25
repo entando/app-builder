@@ -132,7 +132,7 @@ export class WidgetFormBody extends Component {
     );
 
     let defaultUITab = (
-      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)} >
+      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)} className="WidgetForm__default-ui">
         {
           this.props.defaultUIField ? this.props.defaultUIField :
           <Alert type="info">

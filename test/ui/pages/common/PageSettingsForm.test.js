@@ -1,9 +1,9 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { Spinner } from 'patternfly-react';
 import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
+import { shallowWithIntl, mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
@@ -25,11 +25,12 @@ describe('PageSettingsForm', () => {
   describe('basic rendering', () => {
     let component;
     beforeEach(() => {
-      component = shallow((
+      component = shallowWithIntl((
         <PageSettingsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           options={OPTIONS}
+          intl={mockIntl}
         />
       ));
     });
@@ -52,11 +53,12 @@ describe('PageSettingsForm', () => {
   describe('form fields rendering', () => {
     let component;
     beforeEach(() => {
-      component = shallow((
+      component = shallowWithIntl((
         <PageSettingsFormBody
           onSubmit={ON_SUBMIT}
           handleSubmit={HANDLE_SUBMIT}
           options={OPTIONS}
+          intl={mockIntl}
         />
       ));
     });
@@ -108,11 +110,12 @@ describe('PageSettingsForm', () => {
   });
 
   describe('test form actions', () => {
-    const component = shallow((
+    const component = shallowWithIntl((
       <PageSettingsFormBody
         onSubmit={ON_SUBMIT}
         handleSubmit={HANDLE_SUBMIT}
         options={OPTIONS}
+        intl={mockIntl}
       />
     ));
     it('on form submit calls handleSubmit', () => {
