@@ -208,13 +208,12 @@ describe('state/page-config/actions', () => {
         expect(loadSelectedPageTemplate).toHaveBeenCalledWith(CONTACTS_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([TOGGLE_LOADING, SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([TOGGLE_LOADING, TOGGLE_LOADING]);
         expect(store.getActions()[0].payload).toEqual({
           id: 'pageConfig',
         });
         expect(store.getActions()[1].payload).toEqual({
-          pageCode: CURRENT_PAGE_CODE,
-          pageConfig: null,
+          id: 'pageConfig',
         });
         done();
       }).catch(done.fail);
