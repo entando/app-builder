@@ -334,9 +334,8 @@ describe('AppSettingsForm', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={19} appTourProgress="started" />));
     expect(getByText('Create Your First Application')).toBeInTheDocument();
-    expect(getByText('Publish')).toBeInTheDocument();
-    expect(getByText('Click Publish to see your page live.')).toBeInTheDocument();
-    expect(getByText('Next')).toBeInTheDocument();
+    expect(getByText('Preview')).toBeInTheDocument();
+    expect(getByText('Click Preview to see what your page will look like before you publish the page.')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });
@@ -345,8 +344,8 @@ describe('AppSettingsForm', () => {
     const { getByText } =
     render(mockRenderWithIntlAndStore(<AppTour {...props} wizardEnabled appTourLastStep={20} appTourProgress="started" />));
     expect(getByText('Create Your First Application')).toBeInTheDocument();
-    expect(getByText('Preview')).toBeInTheDocument();
-    expect(getByText('Click Preview to see what your page will look like before you publish the page.')).toBeInTheDocument();
+    expect(getByText('Publish')).toBeInTheDocument();
+    expect(getByText('Click Publish to see your page live.')).toBeInTheDocument();
     expect(getByText('Back')).toBeInTheDocument();
     expect(getByText('Close')).toBeInTheDocument();
   });

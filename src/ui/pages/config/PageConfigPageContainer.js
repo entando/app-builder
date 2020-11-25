@@ -19,10 +19,11 @@ import { MODAL_ID } from 'ui/pages/config/SinglePageSettingsModal';
 import { getLoading } from 'state/loading/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
-import { setAppTourLastStep, setPublishStatus } from 'state/app-tour/actions';
+import { setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { reset, submit, isInvalid, isSubmitting } from 'redux-form';
 import { FORM_ID } from 'ui/pages/edit/PagesEditFormContainer';
+import { APP_TOUR_CANCELLED } from 'state/app-tour/const';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: (pageCode) => {
@@ -36,7 +37,8 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(publishSelectedPage()).then(() => {
       if (appTourInProgress) {
         dispatch(setPublishStatus(true));
-        dispatch(setAppTourLastStep(20));
+        dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
+        document.body.style.overflow = 'auto';
       }
     });
   },

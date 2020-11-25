@@ -235,7 +235,7 @@ class PageConfigPage extends Component {
                           'btn',
                           'btn-primary',
                           'PageConfigPage__btn--addml',
-                          'app-tour-step-20',
+                          'app-tour-step-19',
                         ].join(' ')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -396,7 +396,7 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary app-tour-step-19"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-20"
                       bsStyle="success"
                       onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}
