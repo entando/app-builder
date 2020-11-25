@@ -249,8 +249,9 @@ export const installECRComponent = (component, version, logProgress) => dispatch
         dispatch(toggleLoading(loadingId));
       });
       logProgress(0);
-    })
-      .catch(() => {});
+    }).catch(() => {
+      dispatch(toggleLoading(loadingId));
+    });
   })
 );
 
@@ -322,8 +323,9 @@ export const uninstallECRComponent = (componentCode, logProgress) => dispatch =>
         dispatch(toggleLoading(loadingId));
       });
       logProgress(0);
-    })
-      .catch(() => {});
+    }).catch(() => {
+      dispatch(toggleLoading(loadingId));
+    });
   })
 );
 
