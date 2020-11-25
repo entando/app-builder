@@ -2,38 +2,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, OverlayTrigger, Popover, Spinner } from 'patternfly-react';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
-const BASE_URL_TYPES = [
-  {
-    id: 'relative',
-    label: 'Relative',
+const baseUrlMessages = defineMessages({
+  relative: {
+    id: 'pageSettings.input.baseURL.relative',
+    defaultMessage: 'Relative',
   },
-  {
-    id: 'request',
-    label: 'Built by HTTP request parameters',
+  http: {
+    id: 'pageSettings.input.baseURL.http',
+    defaultMessage: 'HTTP',
   },
-  {
-    id: 'static',
-    label: 'Static',
+  static: {
+    id: 'pageSettings.input.baseURL.static',
+    defaultMessage: 'Static',
   },
-];
+});
 
-const URL_STYLE = [
-  {
-    id: 'classic',
-    label: 'Classic',
+const pageTreeMessages = defineMessages({
+  classic: {
+    id: 'pageSettings.input.pageTreeStyle.classic',
+    defaultMessage: 'Classic',
   },
-  {
-    id: 'breadcrumbs',
-    label: 'Breadcrumbs',
+  breadcrumbs: {
+    id: 'pageSettings.input.pageTreeStyle.breadcrumbs',
+    defaultMessage: 'Breadcrumb',
   },
-];
+});
 
 const HELP_TEXT_APPENDBASEURL = 'pageSettings.appendBaseUrl.help';
 const appendBaseUrl = () => (
@@ -60,18 +60,51 @@ export class PageSettingsFormBody extends Component {
   }
 
   render() {
+    const {
+      intl,
+      options,
+      loading,
+      handleSubmit,
+    } = this.props;
+
+    const BASE_URL_TYPES = [
+      {
+        id: 'relative',
+        label: intl.formatMessage(baseUrlMessages.relative),
+      },
+      {
+        id: 'request',
+        label: intl.formatMessage(baseUrlMessages.http),
+      },
+      {
+        id: 'static',
+        label: intl.formatMessage(baseUrlMessages.static),
+      },
+    ];
+
+    const URL_STYLE = [
+      {
+        id: 'classic',
+        label: intl.formatMessage(pageTreeMessages.classic),
+      },
+      {
+        id: 'breadcrumbs',
+        label: intl.formatMessage(pageTreeMessages.breadcrumbs),
+      },
+    ];
+
     const onSubmit = (ev) => {
       ev.preventDefault();
-      this.props.handleSubmit();
+      handleSubmit();
     };
 
-    const selectOptions = this.props.options.map(item => ({
+    const selectOptions = options.map(item => ({
       value: item.code,
       text: item.fullTitles,
     }));
 
     return (
-      <Spinner loading={!!this.props.loading}>
+      <Spinner loading={!!loading}>
 
 
         <form onSubmit={onSubmit} className="PageSettingsForm form-horizontal">
@@ -221,6 +254,7 @@ export class PageSettingsFormBody extends Component {
 }
 
 PageSettingsFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -242,4 +276,4 @@ const PageSettingsForm = reduxForm({
   form: 'settings',
 })(PageSettingsFormBody);
 
-export default PageSettingsForm;
+export default injectIntl(PageSettingsForm);

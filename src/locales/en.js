@@ -908,6 +908,6 @@ export default {
     'tour.step.20.title': 'Preview',
     'tour.step.20.description': 'Click Preview to see what your page will look like before you publish the page.',
     'user.wizard.success': 'Wizard has been updated.',
-    'app.startTutorial': 'Begin Tutorial',
+    'app.startTutorial': 'Start Welcome Wizard',
   },
 };
