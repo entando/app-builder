@@ -126,12 +126,10 @@ export const initConfigPage = pageCode => async (dispatch) => {
       return;
     }
 
+    // always fetch published and draft configs so we can compare
+    // and restore the published version at any time.
     dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
-    if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
-      dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
-    } else {
-      dispatch(setPublishedPageConfig(pageCode, null));
-    }
+    dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log('initConfigPage failed:', e);
