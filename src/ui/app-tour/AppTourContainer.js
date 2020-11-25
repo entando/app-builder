@@ -71,7 +71,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(unpublishSelectedPage()).then(() => {
       dispatch(setPublishStatus(false));
     });
-    dispatch(setAppTourLastStep(19));
+    dispatch(setAppTourLastStep(18));
   },
   onAddLogo: (pageCode) => {
     dispatch(configOrUpdatePageWidget('logo', undefined, 0, pageCode));

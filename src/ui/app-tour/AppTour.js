@@ -92,7 +92,7 @@ class AppTour extends React.Component {
       codeValue, ownerGroupValue, parentCodeValue, pageModelValue,
       onBackToAddPage, tourCreatedPageCode, onBackToPageTree,
       onAddLogo, onAddNavBarWidget, onAddSearchWidget,
-      onAddLoginWidget, onAddBannerWidget, unpublishPage,
+      onAddLoginWidget, onAddBannerWidget,
       onAddContentListWidget, onAddSitemapMenu,
     } = this.props;
 
@@ -101,7 +101,7 @@ class AppTour extends React.Component {
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');
     const step11Element = document.querySelector('.app-tour-step-11');
-    const step19Element = document.querySelector('.app-tour-step-19');
+    const step20Element = document.querySelector('.app-tour-step-20');
 
     const steps = [
       {
@@ -307,18 +307,18 @@ class AppTour extends React.Component {
       },
       {
         step: 19,
-        onNext: ({ goTo }) => {
-          simulateMouseClick(step19Element);
-          this.onNextStep(20, goTo);
-        },
+        onNext: ({ goTo }) => this.onNextStep(20, goTo),
         onBack: ({ goTo }) => this.onNextStep(18, goTo),
-        nextButtonDisabled: !step19Element,
         stepInteraction: true,
       },
       {
         step: 20,
-        onNext: () => this.cancelTour(true),
-        onBack: unpublishPage,
+        onNext: () => {
+          simulateMouseClick(step20Element);
+          this.cancelTour(true);
+        },
+        onBack: ({ goTo }) => this.onNextStep(19, goTo),
+        nextButtonDisabled: !step20Element,
         stepInteraction: true,
         nextButtonLabelId: 'app.close',
       },
@@ -443,7 +443,6 @@ AppTour.propTypes = {
   onAppTourCancel: PropTypes.func.isRequired,
   onBackToAddPage: PropTypes.func.isRequired,
   onBackToPageTree: PropTypes.func.isRequired,
-  unpublishPage: PropTypes.func.isRequired,
   onAddLogo: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   appTourLastStep: PropTypes.number,
