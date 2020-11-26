@@ -8,11 +8,16 @@
   &__component {
     position: relative;
     margin-bottom: 20px;
+    padding-left: 10px;
+
+    &--odd {
+      padding-right: 10px;
+      padding-left: 0;
+    }
   }
 
   &__component-wrapper {
     display: flex;
-    margin-right: 20px;
     padding: 16px;
     background: $color-light-grey-background;
     box-shadow: 0 1px 1px rgba(51, 51, 51, .18);
@@ -32,10 +37,6 @@
       height: 100%;
       object-fit: cover;
     }
-  }
-
-  &__component-wrapper-odd {
-    margin-right: 0;
   }
 
   &__install-actions {
@@ -170,5 +171,26 @@
   @media (min-width: 992px) {
     flex-direction: row;
     align-items: normal;
+  }
+
+  @media (max-width: 1536px) {
+    .ComponentList__component-footer {
+      flex-direction: column;
+
+      .ComponentListInstallButtons {
+        flex: 1;
+
+        //sass-lint:disable class-name-format nesting-depth
+        .btn-group {
+          display: flex;
+        }
+      }
+
+      .btn:first-child {
+        flex: 1;
+        max-width: 220px;
+      }
+      //sass-lint:enable class-name-format nesting-depth
+    }
   }
 }
