@@ -12,6 +12,7 @@ import {
   REMOVE_WIDGET,
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
+  REMOVE_PARENT_WIDGET,
 } from 'state/widgets/types';
 import {
   setWidgetList,
@@ -248,9 +249,11 @@ describe('state/widgets/actions', () => {
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         getWidget.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchWidget(WIDGET_CODE)).then(() => {
-          expect(store.getActions()).toHaveLength(2);
-          expect(store.getActions()[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(store.getActions()[1]).toHaveProperty('type', ADD_TOAST);
+          const actions = store.getActions();
+          expect(store.getActions()).toHaveLength(3);
+          expect(actions[0]).toHaveProperty('type', REMOVE_PARENT_WIDGET);
+          expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

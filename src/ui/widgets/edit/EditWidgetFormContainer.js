@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { get } from 'lodash';
-import { submit, getFormValues, isDirty, isInvalid, isSubmitting } from 'redux-form';
+import { submit, getFormValues, isDirty, isInvalid, isSubmitting, formValueSelector } from 'redux-form';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 
@@ -38,8 +38,10 @@ export const getWidgetFormProperties = (widget, state) => {
   const widgetConfigSubmitting = reduxFormId && isSubmitting(appBuilderForm.reduxFormId)(state);
   const beforeSubmit = reduxFormId && appBuilderForm.beforeSubmit;
 
+
   const formId = hasMicrofrontendConfig(widget) ?
     MFE_WIDGET_FORM_ID : reduxFormId || SIMPLE_WIDGET_CONFIG_FORM_ID;
+
   return {
     formId,
     beforeSubmit,
@@ -56,6 +58,15 @@ export const mapStateToProps = (state) => {
   } =
    getWidgetFormProperties(selectedWidget, state);
 
+  const getFormWidgetConfig = (theState) => {
+    if (formId === MFE_WIDGET_FORM_ID) {
+      return get(selectedWidget, 'config', null);
+    }
+
+    const selector = formValueSelector('widget');
+    return selector(theState, 'config');
+  };
+
   return (
     {
       mode: EDIT_MODE,
@@ -68,8 +79,7 @@ export const mapStateToProps = (state) => {
       languages: getActiveLanguages(state),
       loading: getLoading(state).fetchWidget,
       formId,
-      formWidgetConfig: formId === MFE_WIDGET_FORM_ID ?
-        get(selectedWidget, 'config', null) : getFormValues(formId)(state),
+      formWidgetConfig: getFormWidgetConfig(state),
       beforeSubmit,
       widgetConfigDirty,
       widgetConfigInvalid,

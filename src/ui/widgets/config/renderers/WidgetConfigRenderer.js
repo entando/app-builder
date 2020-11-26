@@ -10,19 +10,11 @@ import SimpleWidgetConfigForm from '../forms/SimpleWidgetConfigForm';
 
 const WidgetConfigRenderer =
 ({
-  widget, widgetCode, widgetConfig, framePos, pageCode, onSubmit, intl, history,
+  widget, widgetConfig, framePos, pageCode, onSubmit, intl, history,
 }) => {
+  const widgetCode = widget ? widget.code : null;
+
   const renderWidgetConfigForm = () => {
-    const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
-    if (appBuilderWidgetForm) {
-      return React.createElement(
-        appBuilderWidgetForm,
-        {
-          widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history,
-        },
-        null,
-      );
-    }
     if (hasMicrofrontendConfig(widget)) {
       return (
         <WidgetConfigMicrofrontend
@@ -33,8 +25,25 @@ const WidgetConfigRenderer =
       );
     }
 
-    const { parameters } = widget !== null && widget !== undefined && widget;
+    const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
 
+    if (appBuilderWidgetForm) {
+      const debugConfig = {
+        ...widgetConfig,
+        userFilters: [],
+        filters: [],
+      };
+
+      return React.createElement(
+        appBuilderWidgetForm,
+        {
+          widgetConfig: debugConfig, widgetCode, pageCode, frameId: framePos, intl, history,
+        },
+        null,
+      );
+    }
+
+    const { parameters } = widget !== null && widget !== undefined && widget;
     if (parameters && parameters.length > 0) {
       return (
         <SimpleWidgetConfigForm parameters={parameters} onSubmit={onSubmit} />
@@ -43,16 +52,15 @@ const WidgetConfigRenderer =
     return <FormattedMessage id="widget.page.config.error" />;
   };
   return (
-    <div>
+    <React.Fragment>
       {renderWidgetConfigForm()}
-    </div>
+    </React.Fragment>
   );
 };
 
 WidgetConfigRenderer.propTypes = {
   intl: intlShape.isRequired,
   widget: PropTypes.shape({}),
-  widgetCode: PropTypes.string,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number,
   pageCode: PropTypes.string,
@@ -63,7 +71,6 @@ WidgetConfigRenderer.propTypes = {
 WidgetConfigRenderer.defaultProps = {
   widget: null,
   widgetConfig: null,
-  widgetCode: '',
   framePos: null,
   pageCode: '',
   onSubmit: () => {},

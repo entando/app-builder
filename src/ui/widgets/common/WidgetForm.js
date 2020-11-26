@@ -174,8 +174,11 @@ export class WidgetFormBody extends Component {
 
     const hasParentWidget = parentWidgetParameters.length > 0;
     const hasOwnParams = !hasParentWidget && parameters.length > 0;
-    const showConfigTab = selectedWidget && !selectedWidget.locked &&
-      (hasParentWidget || hasOwnParams || hasMicrofrontendConfig(selectedWidget));
+
+    const showConfigTab = true;
+
+    // const showConfigTab = selectedWidget && !selectedWidget.locked &&
+    //   (hasParentWidget || hasOwnParams || hasMicrofrontendConfig(selectedWidget));
 
     const NativeWidgetConfigForm = selectedWidget
       && (mode === MODE_EDIT || mode === MODE_CLONE)
