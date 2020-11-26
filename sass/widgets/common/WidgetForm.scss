@@ -5,8 +5,13 @@
   }
 
   &__default-ui {
+    max-height: 166px;
+    margin-bottom: 0;
     padding: 2px 6px;
     border: 1px solid $color-ecr-list-icon;
+    background-color: $color-extra-light-grey-border;
+    font-family: inherit;
+    font-size: 12px;
   }
 
   &__required-icon {

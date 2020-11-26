@@ -103,7 +103,7 @@ export class WidgetFormBody extends Component {
     const {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode, config,
-      parentWidget, parentWidgetParameters,
+      parentWidget, parentWidgetParameters, defaultUIField,
       onReplaceSubmit, match: { params },
     } = this.props;
     const onSubmit = (ev) => {
@@ -132,9 +132,9 @@ export class WidgetFormBody extends Component {
     );
 
     let defaultUITab = (
-      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)} className="WidgetForm__default-ui">
+      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)}>
         {
-          this.props.defaultUIField ? this.props.defaultUIField :
+          defaultUIField ? <pre className="WidgetForm__default-ui">{defaultUIField}</pre> :
           <Alert type="info">
             <FormattedMessage id="widget.page.alert.notAvailable" />
           </Alert>
