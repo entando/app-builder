@@ -14,6 +14,8 @@ const WidgetConfigRenderer =
 }) => {
   const widgetCode = widget ? widget.code : null;
 
+  console.log({widgetConfig})
+
   const renderWidgetConfigForm = () => {
     if (hasMicrofrontendConfig(widget)) {
       return (
@@ -46,7 +48,11 @@ const WidgetConfigRenderer =
     const { parameters } = widget !== null && widget !== undefined && widget;
     if (parameters && parameters.length > 0) {
       return (
-        <SimpleWidgetConfigForm parameters={parameters} onSubmit={onSubmit} />
+        <SimpleWidgetConfigForm
+          initialValues={widgetConfig}
+          parameters={parameters}
+          onSubmit={onSubmit}
+        />
       );
     }
     return <FormattedMessage id="widget.page.config.error" />;

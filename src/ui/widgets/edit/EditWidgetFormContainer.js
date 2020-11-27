@@ -16,8 +16,10 @@ import {
   getSelectedParentWidgetParameters,
   getSelectedWidgetParameters,
   getSelectedWidget,
+  getSelectedWidgetDefaultConfig,
 } from 'state/widgets/selectors';
-import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
+import { sendPutWidgets } from 'state/widgets/actions';
+import brandNewfetchWidget from 'state/widgets/brandNewFetchWidget';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -83,6 +85,7 @@ export const mapStateToProps = (state) => {
       beforeSubmit,
       widgetConfigDirty,
       widgetConfigInvalid,
+      defaultConfig: getSelectedWidgetDefaultConfig(state),
     });
 };
 
@@ -90,7 +93,8 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
   onWillMount: () => {
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchWidget(params.widgetCode));
+    dispatch(brandNewfetchWidget(params.widgetCode));
+    // dispatch(fetchWidget(params.widgetCode));
   },
   onSubmit: ({
     values, widgetConfig, formId, beforeSubmit, widget,

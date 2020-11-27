@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -132,7 +133,7 @@ export class WidgetFormBody extends Component {
       parentWidget, parentWidgetParameters,
       parameters, onReplaceSubmit, onSubmit,
       selectedWidget, history, formId, formWidgetConfig, beforeSubmit,
-      widgetConfigDirty, widgetConfigInvalid,
+      widgetConfigDirty, widgetConfigInvalid, defaultConfig,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -175,7 +176,7 @@ export class WidgetFormBody extends Component {
     const hasParentWidget = parentWidgetParameters.length > 0;
     const hasOwnParams = !hasParentWidget && parameters.length > 0;
 
-    const showConfigTab = true;
+    const showConfigTab = !!defaultConfig;
 
     // const showConfigTab = selectedWidget && !selectedWidget.locked &&
     //   (hasParentWidget || hasOwnParams || hasMicrofrontendConfig(selectedWidget));
@@ -327,7 +328,7 @@ export class WidgetFormBody extends Component {
                         name="config"
                         component={WidgetConfigRenderer}
                         cloneMode
-                        widgetConfig={formWidgetConfig}
+                        widgetConfig={defaultConfig}
                         widgetCode={selectedWidget && selectedWidget.code}
                         extFormName={widgetFormName}
                         widget={{ ...selectedWidget, parameters: paramFields }}

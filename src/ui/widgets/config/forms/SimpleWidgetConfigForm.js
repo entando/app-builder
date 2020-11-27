@@ -8,7 +8,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 export const SIMPLE_WIDGET_CONFIG_FORM_ID = 'simpleWidgetConfigFormId';
 
-const SimpleWidgetConfigForm = ({ parameters, onSubmit }) => (
+const SimpleWidgetConfigFormBody = ({ parameters, initialValues, onSubmit }) => (
   <Row>
     <Col xs={12}>
       <form onSubmit={onSubmit} className="form-horizontal">
@@ -17,7 +17,7 @@ const SimpleWidgetConfigForm = ({ parameters, onSubmit }) => (
             <Field
               key={param.code}
               component={RenderTextInput}
-              name={`config.${param.code}`}
+              name={`${param.code}`}
               label={(
                 <FormLabel
                   labelText={param.code}
@@ -32,20 +32,22 @@ const SimpleWidgetConfigForm = ({ parameters, onSubmit }) => (
   </Row>
 );
 
-SimpleWidgetConfigForm.propTypes = {
+SimpleWidgetConfigFormBody.propTypes = {
   parameters: PropTypes.arrayOf({
     code: PropTypes.string,
     description: PropTypes.string,
   }),
+  // widgetConfig: PropTypes.shape({}),
   onSubmit: PropTypes.func.isRequired,
 };
 
-SimpleWidgetConfigForm.defaultProps = {
+SimpleWidgetConfigFormBody.defaultProps = {
   parameters: [],
+  // widgetConfig: null,
 };
 
-const SimpleWidgetConfig = reduxForm({
+const SimpleWidgetConfigForm = reduxForm({
   form: SIMPLE_WIDGET_CONFIG_FORM_ID,
-})(SimpleWidgetConfigForm);
+})(SimpleWidgetConfigFormBody);
 
-export default SimpleWidgetConfig;
+export default SimpleWidgetConfigForm;
