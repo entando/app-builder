@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
+import { Field, FormSection, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
@@ -17,6 +17,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import { hasMicrofrontendConfig } from 'helpers/microfrontends';
 import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
+import SimpleWidgetConfigForm from '../config/forms/SimpleWidgetConfigForm';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -133,7 +134,7 @@ export class WidgetFormBody extends Component {
       parentWidget, parentWidgetParameters,
       parameters, onReplaceSubmit, onSubmit,
       selectedWidget, history, formId, formWidgetConfig, beforeSubmit,
-      widgetConfigDirty, widgetConfigInvalid, defaultConfig,
+      widgetConfigDirty, widgetConfigInvalid,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -174,36 +175,11 @@ export class WidgetFormBody extends Component {
     }
 
     const hasParentWidget = parentWidgetParameters.length > 0;
-    const hasOwnParams = !hasParentWidget && parameters.length > 0;
 
-    const showConfigTab = !!defaultConfig;
+    const showConfigTab = true;
 
     // const showConfigTab = selectedWidget && !selectedWidget.locked &&
     //   (hasParentWidget || hasOwnParams || hasMicrofrontendConfig(selectedWidget));
-
-    const NativeWidgetConfigForm = selectedWidget
-      && (mode === MODE_EDIT || mode === MODE_CLONE)
-      && getAppBuilderWidgetForm(selectedWidget, true);
-
-    const determineFormKind = () => {
-      if (NativeWidgetConfigForm) {
-        return 'widgetConfig';
-      } else if (hasParentWidget) {
-        return 'widgetParams';
-      } else if (hasOwnParams) {
-        return 'widgetDefaultConfig';
-      }
-      return '';
-    };
-
-    const formKind = determineFormKind();
-    const paramFieldChoices = {
-      widgetConfig: parentWidgetParameters,
-      widgetParams: parentWidgetParameters,
-      widgetDefaultConfig: parameters,
-    };
-
-    const paramFields = paramFieldChoices[formKind] || [];
 
     const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
       <Button
@@ -324,17 +300,26 @@ export class WidgetFormBody extends Component {
                 <Row>
                   <Col xs={12}>
                     <fieldset className="no-padding">
-                      <Field
-                        name="config"
-                        component={WidgetConfigRenderer}
-                        cloneMode
-                        widgetConfig={defaultConfig}
-                        widgetCode={selectedWidget && selectedWidget.code}
-                        extFormName={widgetFormName}
-                        widget={{ ...selectedWidget, parameters: paramFields }}
-                        onSubmit={onSubmit}
-                        history={history}
-                      />
+                      <FormSection name="config">
+                        {
+                          parentWidgetParameters && parentWidgetParameters.length > 0 && (
+                            <SimpleWidgetConfigForm
+                              parameters={parentWidgetParameters}
+                            />
+                          )
+                        }
+                        {/* <Field
+                          name="config"
+                          component={WidgetConfigRenderer}
+                          cloneMode
+                          widgetConfig={defaultConfig}
+                          widgetCode={selectedWidget && selectedWidget.code}
+                          extFormName={widgetFormName}
+                          widget={{ ...selectedWidget, parameters: paramFields }}
+                          onSubmit={onSubmit}
+                          history={history}
+                        /> */}
+                      </FormSection>
                     </fieldset>
                   </Col>
                 </Row>
@@ -442,6 +427,7 @@ WidgetFormBody.defaultProps = {
 
 const WidgetForm = reduxForm({
   form: widgetFormName,
+  enableReinitialize: true,
 })(WidgetFormBody);
 
 export default injectIntl(WidgetForm);

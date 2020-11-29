@@ -16,7 +16,7 @@ import {
   getSelectedParentWidgetParameters,
   getSelectedWidgetParameters,
   getSelectedWidget,
-  getSelectedWidgetDefaultConfig,
+  getWidgetConfigParameters,
 } from 'state/widgets/selectors';
 import { sendPutWidgets } from 'state/widgets/actions';
 import brandNewfetchWidget from 'state/widgets/brandNewFetchWidget';
@@ -60,32 +60,22 @@ export const mapStateToProps = (state) => {
   } =
    getWidgetFormProperties(selectedWidget, state);
 
-  const getFormWidgetConfig = (theState) => {
-    if (formId === MFE_WIDGET_FORM_ID) {
-      return get(selectedWidget, 'config', null);
-    }
-
-    const selector = formValueSelector('widget');
-    return selector(theState, 'config');
-  };
-
   return (
     {
       mode: EDIT_MODE,
       groups: getGroupsList(state),
       parameters: getSelectedWidgetParameters(state),
       parentWidget: getSelectedParentWidget(state),
+      initialValues: selectedWidget,
       selectedWidget,
       parentWidgetParameters: getSelectedParentWidgetParameters(state),
       defaultUIField: getSelectedWidgetDefaultUi(state),
       languages: getActiveLanguages(state),
       loading: getLoading(state).fetchWidget,
       formId,
-      formWidgetConfig: getFormWidgetConfig(state),
       beforeSubmit,
       widgetConfigDirty,
       widgetConfigInvalid,
-      defaultConfig: getSelectedWidgetDefaultConfig(state),
     });
 };
 
@@ -97,7 +87,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     // dispatch(fetchWidget(params.widgetCode));
   },
   onSubmit: ({
-    values, widgetConfig, formId, beforeSubmit, widget,
+    values, // widgetConfig, formId, beforeSubmit, widget,
   }) => {
     const jsonData = {
       ...values,
@@ -106,18 +96,19 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
 
     dispatch(setVisibleModal(''));
 
-    if (hasMicrofrontendConfig(widget)) {
-      const customElement = get(widget, 'configUi.customElement');
-      const configWebComponent = getMicrofrontend(customElement);
-      const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
-      dispatch(sendPutWidgets({ ...jsonData, config: updatedWidgetConfig }));
-    } else if (formId && beforeSubmit) {
-      beforeSubmit(dispatch, widgetConfig, params.widgetCode).then((res) => {
-        dispatch(sendPutWidgets({ ...jsonData, config: res }));
-      });
-    } else {
-      dispatch(sendPutWidgets(jsonData));
-    }
+    // if (hasMicrofrontendConfig(widget)) {
+    //   const customElement = get(widget, 'configUi.customElement');
+    //   const configWebComponent = getMicrofrontend(customElement);
+    //   const updatedWidgetConfig = configWebComponent ? configWebComponent.config : null;
+    //   dispatch(sendPutWidgets({ ...jsonData, config: updatedWidgetConfig }));
+    // } else if (formId && beforeSubmit) {
+    //   beforeSubmit(dispatch, widgetConfig, params.widgetCode).then((res) => {
+    //     dispatch(sendPutWidgets({ ...jsonData, config: res }));
+    //   });
+    // } else {
+    //   dispatch(sendPutWidgets(jsonData));
+    // }
+    dispatch(sendPutWidgets(jsonData));
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),

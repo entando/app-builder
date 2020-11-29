@@ -1,5 +1,4 @@
-import { initialize } from 'redux-form';
-import { get, pick } from 'lodash';
+import { get } from 'lodash';
 
 import { toggleLoading } from 'state/loading/actions';
 import { fetchSingleWidgetInfo, removeParentWidget, setSelectedParentWidget, setSelectedWidget } from './actions';
@@ -16,34 +15,31 @@ const fetchParentWidget = widgetCode => dispatch => new Promise((resolve, reject
   });
 });
 
-const widgetToFormData = (widget) => {
-  const widgetFormData = pick(widget, ['code', 'titles', 'config', 'parentType', 'readonlyDefaultConfig', 'widgetCategory']);
-  widgetFormData.group = widget.group || FREE_ACCESS_GROUP_VALUE;
-  widgetFormData.configUi = !widget.configUi ? '' : JSON.stringify(widget.configUi, null, 2);
-  widgetFormData.customUi = get(widget, 'guiFragments[0].customUi', '');
-  return widgetFormData;
-};
+const prettyPrintJson = json => (json ? JSON.stringify(json, null, 2) : '');
+
+const widgetToFormData = widget => ({
+  ...widget,
+  group: widget.group || FREE_ACCESS_GROUP_VALUE,
+  configUi: prettyPrintJson(widget.configUi),
+  customUi: get(widget, 'guiFragments[0].customUi', ''),
+});
 
 const brandNewFetchWidget = widgetCode => dispatch => new Promise((resolve) => {
-  const FORM_ID = 'widget';
   const toggleWidgetLoading = () => toggleLoading('fetchWidget');
+  const completeWidgetInit = () => {
+    toggleWidgetLoading();
+    resolve();
+  };
 
   dispatch(removeParentWidget());
   dispatch(fetchSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     const widgetPayload = get(json, 'payload');
     if (!ok || !widgetPayload) {
-      toggleWidgetLoading();
-      resolve();
+      completeWidgetInit();
     }
 
     const widgetFormData = widgetToFormData(widgetPayload);
     dispatch(setSelectedWidget(widgetFormData));
-
-    const completeWidgetInit = () => {
-      dispatch(initialize(FORM_ID, widgetFormData));
-      toggleWidgetLoading();
-      resolve();
-    };
 
     const isChildWidget = !!widgetFormData.parentType;
     if (isChildWidget) {

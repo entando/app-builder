@@ -14,8 +14,6 @@ const WidgetConfigRenderer =
 }) => {
   const widgetCode = widget ? widget.code : null;
 
-  console.log({widgetConfig})
-
   const renderWidgetConfigForm = () => {
     if (hasMicrofrontendConfig(widget)) {
       return (
@@ -49,7 +47,6 @@ const WidgetConfigRenderer =
     if (parameters && parameters.length > 0) {
       return (
         <SimpleWidgetConfigForm
-          initialValues={widgetConfig}
           parameters={parameters}
           onSubmit={onSubmit}
         />
