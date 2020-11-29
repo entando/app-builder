@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
-import { fetchWidgetList } from 'state/widgets/thunks';
+import { fetchWidgetList } from 'state/widgets/actions';
 import { toggleContent, toggleContentToolbarExpanded } from 'state/page-config/actions';
 import { getContent, getToolbarExpanded } from 'state/page-config/selectors';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';

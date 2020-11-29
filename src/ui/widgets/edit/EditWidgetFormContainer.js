@@ -18,7 +18,7 @@ import {
   getSelectedWidget,
   getWidgetConfigParameters,
 } from 'state/widgets/selectors';
-import { fetchWidget, sendPutWidgets } from 'state/widgets/thunks';
+import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getLoading } from 'state/loading/selectors';
-import { fetchWidgetList } from 'state/widgets/thunks';
+import { fetchWidgetList } from 'state/widgets/actions';
 import { getGroupedWidgets, getWidgetGroupingList } from 'state/widgets/selectors';
 import ListWidgetPage from 'ui/widgets/list/ListWidgetPage';
 import { getLocale } from 'state/locale/selectors';

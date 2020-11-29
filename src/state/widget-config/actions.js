@@ -5,7 +5,7 @@ import { putPageWidget } from 'api/pages';
 import { loadSelectedPage } from 'state/pages/actions';
 import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { fetchPageConfig, setPublishedPageConfig } from 'state/page-config/actions';
-import { loadSelectedWidget } from 'state/widgets/thunks';
+import { loadSelectedWidget } from 'state/widgets/actions';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 
