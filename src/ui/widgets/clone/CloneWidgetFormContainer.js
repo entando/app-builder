@@ -13,7 +13,7 @@ import { getConfigMap } from 'state/page-config/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
-import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
+import { initNewUserWidget, sendPostWidgets } from 'state/widgets/thunks';
 import { initWidgetConfigPage, initWidgetConfigPageWithConfigData, updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { getLoading } from 'state/loading/selectors';
 

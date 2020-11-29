@@ -14,7 +14,7 @@ import {
   getSelectedParentWidget,
   getSelectedParentWidgetParameters,
 } from 'state/widgets/selectors';
-import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
+import { initNewUserWidget, sendPostWidgets } from 'state/widgets/thunks';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';

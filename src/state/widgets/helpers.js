@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const groupWidgets = widgetList => widgetList.reduce((acc, widget) => {
   const groupingCriterion = widget.widgetCategory || widget.pluginDesc || widget.typology;
   if (acc[groupingCriterion]) {
@@ -8,3 +7,6 @@ export const groupWidgets = widgetList => widgetList.reduce((acc, widget) => {
   }
   return acc;
 }, {});
+
+
+export const prettyPrintJson = json => (json ? JSON.stringify(json, null, 2) : '');

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchWidgetInfo } from 'state/widgets/actions';
+import { fetchWidgetInfo } from 'state/widgets/thunks';
 import { getWidgetInfo } from 'state/widgets/selectors';
 import DetailWidgetPage from 'ui/widgets/detail/DetailWidgetPage';
 import { getDefaultLanguage } from 'state/languages/selectors';

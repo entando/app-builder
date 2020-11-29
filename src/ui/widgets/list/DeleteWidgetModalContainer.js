@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { setVisibleModal } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
 import DeleteWidgetModal from 'ui/widgets/list/DeleteWidgetModal';
-import { sendDeleteWidgets } from 'state/widgets/actions';
+import { sendDeleteWidgets } from 'state/widgets/thunks';
 
 export const mapStateToProps = state => ({
   info: getInfo(state),

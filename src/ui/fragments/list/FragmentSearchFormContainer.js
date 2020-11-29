@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { omitBy, isEmpty } from 'lodash';
 import { defineMessages, injectIntl } from 'react-intl';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import { fetchWidgetList } from 'state/widgets/actions';
+import { fetchWidgetList } from 'state/widgets/thunks';
 import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';

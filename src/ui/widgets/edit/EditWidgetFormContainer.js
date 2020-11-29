@@ -18,8 +18,7 @@ import {
   getSelectedWidget,
   getWidgetConfigParameters,
 } from 'state/widgets/selectors';
-import { sendPutWidgets } from 'state/widgets/actions';
-import brandNewfetchWidget from 'state/widgets/brandNewFetchWidget';
+import { fetchWidget, sendPutWidgets } from 'state/widgets/thunks';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -83,8 +82,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
   onWillMount: () => {
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(brandNewfetchWidget(params.widgetCode));
-    // dispatch(fetchWidget(params.widgetCode));
+    dispatch(fetchWidget(params.widgetCode));
   },
   onSubmit: ({
     values, // widgetConfig, formId, beforeSubmit, widget,

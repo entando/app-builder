@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { getWidgetsTotal } from 'state/widgets/selectors';
 import { getPageTemplatesTotal } from 'state/page-templates/selectors';
-import { fetchWidgetsTotal } from 'state/widgets/actions';
+import { fetchWidgetsTotal } from 'state/widgets/thunks';
 import { fetchPageTemplatesTotal } from 'state/page-templates/actions';
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import UxPatterns from 'ui/dashboard/UxPatterns';
