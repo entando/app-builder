@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import SimpleWidgetConfigForm from '../forms/SimpleWidgetConfigForm';
 
 const WidgetConfigRenderer =
 ({
-  widget, widgetConfig, framePos, pageCode, onSubmit, intl, history,
+  widget, parentWidget, widgetConfig, framePos, pageCode, onSubmit, intl, history,
 }) => {
   const widgetCode = widget ? widget.code : null;
 
@@ -42,12 +43,11 @@ const WidgetConfigRenderer =
         null,
       );
     }
-
-    const { parameters } = widget !== null && widget !== undefined && widget;
-    if (parameters && parameters.length > 0) {
+    const widgetConfigParameters = get(widget, 'parameters', []).length > 0 ? widget.parameters : get(parentWidget, 'parameters', []);
+    if (widgetConfigParameters.length) {
       return (
         <SimpleWidgetConfigForm
-          parameters={parameters}
+          widgetConfigParameters={widgetConfigParameters}
           onSubmit={onSubmit}
         />
       );

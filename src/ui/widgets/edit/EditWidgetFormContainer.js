@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { get } from 'lodash';
-import { submit, getFormValues, isDirty, isInvalid, isSubmitting, formValueSelector } from 'redux-form';
+import { submit, isDirty, isInvalid, isSubmitting } from 'redux-form';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 
@@ -16,7 +16,6 @@ import {
   getSelectedParentWidgetParameters,
   getSelectedWidgetParameters,
   getSelectedWidget,
-  getWidgetConfigParameters,
 } from 'state/widgets/selectors';
 import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
@@ -27,6 +26,7 @@ import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal'
 import { SIMPLE_WIDGET_CONFIG_FORM_ID } from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
 import { MFE_WIDGET_FORM_ID } from 'ui/widgets/config/WidgetConfigMicrofrontend';
 import { hasMicrofrontendConfig, getMicrofrontend } from 'helpers/microfrontends';
+import { prettyPrintJson } from 'state/widgets/helpers';
 
 const EDIT_MODE = 'edit';
 
@@ -59,13 +59,22 @@ export const mapStateToProps = (state) => {
   } =
    getWidgetFormProperties(selectedWidget, state);
 
+  const FREE_ACCESS_GROUP_VALUE = 'free';
+  const widgetToFormData = widget => (widget ? {
+    ...widget,
+    group: widget.group || FREE_ACCESS_GROUP_VALUE,
+    configUi: prettyPrintJson(widget.configUi),
+    customUi: get(widget, 'guiFragments[0].customUi', ''),
+  } : null);
+  const widgetFormData = widgetToFormData(selectedWidget);
+
   return (
     {
       mode: EDIT_MODE,
       groups: getGroupsList(state),
       parameters: getSelectedWidgetParameters(state),
       parentWidget: getSelectedParentWidget(state),
-      initialValues: selectedWidget,
+      initialValues: widgetFormData,
       selectedWidget,
       parentWidgetParameters: getSelectedParentWidgetParameters(state),
       defaultUIField: getSelectedWidgetDefaultUi(state),

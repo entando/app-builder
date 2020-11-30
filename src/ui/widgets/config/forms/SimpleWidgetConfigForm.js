@@ -8,11 +8,11 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 export const SIMPLE_WIDGET_CONFIG_FORM_ID = 'simpleWidgetConfigFormId';
 
-const SimpleWidgetConfigFormBody = ({ parameters }) => (
+const SimpleWidgetConfigFormBody = ({ widgetConfigParameters }) => (
   <Row>
     <Col xs={12}>
       <fieldset className="no-padding">
-        {parameters.map(param => (
+        {widgetConfigParameters.map(param => (
           <Field
             key={param.code}
             component={RenderTextInput}
@@ -31,14 +31,14 @@ const SimpleWidgetConfigFormBody = ({ parameters }) => (
 );
 
 SimpleWidgetConfigFormBody.propTypes = {
-  parameters: PropTypes.arrayOf({
+  widgetConfigParameters: PropTypes.arrayOf({
     code: PropTypes.string,
     description: PropTypes.string,
   }),
 };
 
 SimpleWidgetConfigFormBody.defaultProps = {
-  parameters: [],
+  widgetConfigParameters: [],
 };
 
 export default SimpleWidgetConfigFormBody;

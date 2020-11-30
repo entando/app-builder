@@ -304,7 +304,7 @@ export class WidgetFormBody extends Component {
                         {
                           parentWidgetParameters && parentWidgetParameters.length > 0 && (
                             <SimpleWidgetConfigForm
-                              parameters={parentWidgetParameters}
+                              widgetConfigParameters={parentWidgetParameters}
                             />
                           )
                         }

@@ -15,11 +15,8 @@ import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messag
 import { toggleLoading } from 'state/loading/actions';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo, getNavigatorNavspecFromExpressions, getNavigatorExpressionsFromNavspec } from 'api/widgets';
 import { getSelectedWidget } from 'state/widgets/selectors';
-import { prettyPrintJson } from 'state/widgets/helpers';
 
 import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
-
-export const FREE_ACCESS_GROUP_VALUE = 'free';
 
 export const setWidgetList = widgetList => ({
   type: SET_WIDGET_LIST,
@@ -34,7 +31,6 @@ export const setWidgetsTotal = widgetsTotal => ({
     widgetsTotal,
   },
 });
-
 
 export const setSelectedWidget = widget => ({
   type: SET_SELECTED_WIDGET,
@@ -69,33 +65,7 @@ export const setWidgetInfo = widgetInfo => ({
 });
 
 // thunks
-
-const widgetToFormData = widget => ({
-  ...widget,
-  group: widget.group || FREE_ACCESS_GROUP_VALUE,
-  configUi: prettyPrintJson(widget.configUi),
-  customUi: get(widget, 'guiFragments[0].customUi', ''),
-});
-
-export const loadSelectedWidget = widgetCode => (dispatch, getState) => {
-  const selectedWidget = getSelectedWidget(getState());
-  if (selectedWidget && selectedWidget.code === widgetCode) {
-    return new Promise(r => r(selectedWidget));
-  }
-  return getWidget(widgetCode)
-    .then(response => response.json()
-      .then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedWidget(json.payload));
-          return json.payload;
-        }
-        dispatch(addErrors(json.errors.map(e => e.message)));
-        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        return null;
-      })).catch(() => {});
-};
-
-export const fetchSingleWidgetInfo = widgetCode => dispatch => (
+const fetchSingleWidgetInfo = widgetCode => dispatch => (
   getWidget(widgetCode).then(response => (
     response.json().then((json) => {
       if (response.ok) {
@@ -107,6 +77,39 @@ export const fetchSingleWidgetInfo = widgetCode => dispatch => (
     })
   )).catch(() => {})
 );
+
+const fetchParentWidget = widgetCode => dispatch => new Promise((resolve, reject) => {
+  return dispatch(fetchSingleWidgetInfo(widgetCode)).then((parentWidgetResponse) => {
+    if (parentWidgetResponse.ok) {
+      dispatch(setSelectedParentWidget(parentWidgetResponse.json.payload));
+      resolve();
+    }
+    reject();
+  });
+});
+
+export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
+  const toggleWidgetLoading = () => toggleLoading('fetchWidget');
+  const completeWidgetInit = () => {
+    toggleWidgetLoading();
+    resolve();
+  };
+
+  dispatch(removeParentWidget());
+  dispatch(fetchSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
+    const widget = get(json, 'payload');
+    if (!ok || !widget) {
+      completeWidgetInit();
+    }
+    dispatch(setSelectedWidget(widget));
+    const isChildWidget = !!widget.parentType;
+    if (isChildWidget) {
+      dispatch(fetchParentWidget(widget.parentType)).then(completeWidgetInit);
+    } else {
+      completeWidgetInit();
+    }
+  }).catch(() => { toggleWidgetLoading(); });
+});
 
 export const initNewUserWidget = (widgetCode, isCloning = false) => (dispatch) => {
   toggleLoading('fetchWidget');
@@ -271,40 +274,3 @@ export const sendGetNavigatorExpressionsFromNavspec = navSpec =>
         resolve();
       });
   });
-
-const fetchParentWidget = widgetCode => dispatch => new Promise((resolve, reject) => {
-  return dispatch(fetchSingleWidgetInfo(widgetCode)).then((parentWidgetResponse) => {
-    if (parentWidgetResponse.ok) {
-      dispatch(setSelectedParentWidget(parentWidgetResponse.json.payload));
-      resolve();
-    }
-    reject();
-  });
-});
-
-export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
-  const toggleWidgetLoading = () => toggleLoading('fetchWidget');
-  const completeWidgetInit = () => {
-    toggleWidgetLoading();
-    resolve();
-  };
-
-  dispatch(removeParentWidget());
-  dispatch(fetchSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
-    const widgetPayload = get(json, 'payload');
-    if (!ok || !widgetPayload) {
-      completeWidgetInit();
-    }
-
-    const widgetFormData = widgetToFormData(widgetPayload);
-    dispatch(setSelectedWidget(widgetFormData));
-
-    const isChildWidget = !!widgetFormData.parentType;
-    if (isChildWidget) {
-      dispatch(fetchParentWidget(widgetPayload.parentType)).then(completeWidgetInit);
-    } else {
-      completeWidgetInit();
-    }
-  }).catch(() => { toggleWidgetLoading(); });
-});
-

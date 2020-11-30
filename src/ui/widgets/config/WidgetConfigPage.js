@@ -12,9 +12,10 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
+import WidgetConfigFormSection from 'ui/widgets/config/forms/WidgetConfigFormSection';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import PageWidgetConfigForm from './forms/PageWidgetConfigForm';
 
 class WidgetConfigPage extends Component {
   constructor(props) {
@@ -42,9 +43,9 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, history,
+      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit,
       appTourProgress, onCancel, onDiscard, intl, dirty, submitting, invalid,
-      beforeSubmit, formId, formWidgetConfig, isMfe,
+      beforeSubmit, formId, formWidgetConfig, isMfe, parentWidget,
     } = this.props;
 
     const isReadOnly = widget && widget.readonlyPageWidgetConfig;
@@ -65,155 +66,151 @@ class WidgetConfigPage extends Component {
 
     return (
       <InternalPage className="WidgetConfigPage">
-        <Grid fluid>
-          <Row>
-            <Col xs={12}>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.pageDesigner" />
-                </BreadcrumbItem>
-                <BreadcrumbItem to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                  <FormattedMessage id="menu.pageConfig" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.widget" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <PageTitle titleId="menu.widget" helpId="widgetConfig.help" />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <ErrorsAlertContainer />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Button
-                className="WidgetConfigPage__info-btn"
-                bsStyle="primary"
-                onClick={this.toggleInfoTable}
-              >
-                <span className="icon fa fa-chevron-down" />
-                <FormattedMessage id="app.info" />
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Panel
-                className="PageConfigPage__info-panel"
-                id="collapsible-info-table"
-                expanded={this.state.infoTableOpen}
-                onToggle={() => { }}
-              >
-                <Panel.Collapse>
-                  <SelectedPageInfoTableContainer />
-                </Panel.Collapse>
-              </Panel>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Panel>
-                <Panel.Heading>
-                  <Label>{framePos}</Label>
-                  &nbsp;
-                  <span>{frameName}</span>
-                </Panel.Heading>
-                {
-                  isReadOnly &&
-                  <div className="PageConfigPage__readonly-warning alert alert-warning">
-                    <Row>
-                      <Col xs={8}>
-                        <span className="pficon pficon-warning-triangle-o" />
-                        {' '}
-                        <FormattedMessage id="widget.page.config.readOnlyMessage" />
-                      </Col>
-                      <Col xs={4} className="text-right">
-                        <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode })}>
+        <PageWidgetConfigForm onSubmit={handleSubmit}>
+          <Grid fluid>
+            <Row>
+              <Col xs={12}>
+                <Breadcrumb>
+                  <BreadcrumbItem>
+                    <FormattedMessage id="menu.pageDesigner" />
+                  </BreadcrumbItem>
+                  <BreadcrumbItem to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
+                    <FormattedMessage id="menu.pageConfig" />
+                  </BreadcrumbItem>
+                  <BreadcrumbItem active>
+                    <FormattedMessage id="menu.widget" />
+                  </BreadcrumbItem>
+                </Breadcrumb>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <PageTitle titleId="menu.widget" helpId="widgetConfig.help" />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <ErrorsAlertContainer />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Button
+                  className="WidgetConfigPage__info-btn"
+                  bsStyle="primary"
+                  onClick={this.toggleInfoTable}
+                >
+                  <span className="icon fa fa-chevron-down" />
+                  <FormattedMessage id="app.info" />
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Panel
+                  className="PageConfigPage__info-panel"
+                  id="collapsible-info-table"
+                  expanded={this.state.infoTableOpen}
+                  onToggle={() => { }}
+                >
+                  <Panel.Collapse>
+                    <SelectedPageInfoTableContainer />
+                  </Panel.Collapse>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Panel>
+                  <Panel.Heading>
+                    <Label>{framePos}</Label>
+                    &nbsp;
+                    <span>{frameName}</span>
+                  </Panel.Heading>
+                  {
+                    isReadOnly &&
+                    <div className="PageConfigPage__readonly-warning alert alert-warning">
+                      <Row>
+                        <Col xs={8}>
+                          <span className="pficon pficon-warning-triangle-o" />
+                          {' '}
+                          <FormattedMessage id="widget.page.config.readOnlyMessage" />
+                        </Col>
+                        <Col xs={4} className="text-right">
+                          <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode })}>
+                            <Button
+                              bsStyle="primary"
+                              onClick={this.toggleInfoTable}
+                            >
+                              <FormattedMessage id="widget.page.config.goToConfig" />
+                            </Button>
+                          </Link>
+                        </Col>
+                      </Row>
+                    </div>
+                  }
+                  <Panel.Body className="PageConfigPage__panel-body">
+                    <WidgetConfigFormSection
+                      widget={widget}
+                      parentWidget={parentWidget}
+                      config={widgetConfig}
+                    />
+                    {
+                      isReadOnly && <div className="PageConfigPage__block-ui" />
+                    }
+                  </Panel.Body>
+                  {
+                      isReadOnly &&
+                      <div className="text-right PageConfigPage__ok-button">
+                        <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
                           <Button
                             bsStyle="primary"
                             onClick={this.toggleInfoTable}
                           >
-                            <FormattedMessage id="widget.page.config.goToConfig" />
+                            <FormattedMessage id="app.ok" />
                           </Button>
                         </Link>
-                      </Col>
-                    </Row>
-                  </div>
-                }
-                <Panel.Body className="PageConfigPage__panel-body">
-                  <WidgetConfigRenderer
-                    widget={widget}
-                    widgetCode={widgetCode}
-                    widgetConfig={widgetConfig}
-                    framePos={framePos}
-                    frameName={frameName}
-                    pageCode={pageCode}
-                    history={history}
-                    ref={this.configFormRef}
-                    onSubmit={onSubmit}
-                  />
-                  {
-                    isReadOnly && <div className="PageConfigPage__block-ui" />
+                      </div>
                   }
-                </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col xs={12}>
                 {
-                    isReadOnly &&
-                    <div className="text-right PageConfigPage__ok-button">
-                      <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                        <Button
-                          bsStyle="primary"
-                          onClick={this.toggleInfoTable}
-                        >
-                          <FormattedMessage id="app.ok" />
-                        </Button>
-                      </Link>
-                    </div>
+                  !isReadOnly && (
+                    <Fragment>
+                      <Button
+                        className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                        type="submit"
+                        bsStyle="primary"
+                      >
+                        {/* disabled={invalid || submitting} */}
+                        <FormattedMessage id="app.save" />
+                      </Button>
+                      <Button
+                        className="pull-right NavigationBarConfigForm__cancel-btn"
+                        bsStyle="default"
+                        onClick={handleCancelClick}
+                      >
+                        <FormattedMessage id="app.cancel" />
+                      </Button>
+                    </Fragment>
+                  )
                 }
-              </Panel>
-            </Col>
-          </Row>
-          <br />
-          <Row>
-            <Col xs={12}>
-              {
-                !isReadOnly && (
-                  <Fragment>
-                    <Button
-                      className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                      type="submit"
-                      bsStyle="primary"
-                      disabled={invalid || submitting}
-                      onClick={handleSubmit}
-                    >
-                      <FormattedMessage id="app.save" />
-                    </Button>
-                    <Button
-                      className="pull-right NavigationBarConfigForm__cancel-btn"
-                      bsStyle="default"
-                      onClick={handleCancelClick}
-                    >
-                      <FormattedMessage id="app.cancel" />
-                    </Button>
-                  </Fragment>
-                )
-              }
-              <ConfirmCancelModalContainer
-                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={handleSubmit}
-                onDiscard={onDiscard}
-              />
-            </Col>
-          </Row>
-        </Grid>
+                <ConfirmCancelModalContainer
+                  contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                  invalid={invalid}
+                  submitting={submitting}
+                  onSave={handleSubmit}
+                  onDiscard={onDiscard}
+                />
+              </Col>
+            </Row>
+            <br />
+          </Grid>
+        </PageWidgetConfigForm>
       </InternalPage>
     );
   }
@@ -223,6 +220,7 @@ WidgetConfigPage.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   widget: PropTypes.shape({}),
+  parentWidget: PropTypes.shape({}),
   widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,
@@ -230,7 +228,6 @@ WidgetConfigPage.propTypes = {
   pageCode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  history: PropTypes.shape({}).isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
@@ -246,6 +243,7 @@ WidgetConfigPage.propTypes = {
 WidgetConfigPage.defaultProps = {
   widget: null,
   widgetConfig: null,
+  parentWidget: null,
   onDidMount: null,
   onWillUnmount: null,
   appTourProgress: '',

@@ -7,7 +7,7 @@ import { getFormValues } from 'redux-form';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
-import { getSelectedWidget } from 'state/widgets/selectors';
+import { getSelectedParentWidget, getSelectedWidget } from 'state/widgets/selectors';
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
 import withPermissions from 'ui/auth/withPermissions';
@@ -75,6 +75,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
   return {
     widgetCode,
     widget,
+    parentWidget: getSelectedParentWidget(state),
     widgetConfig: getPageWidgetConfig(state),
     framePos: parseInt(framePos, 10),
     pageCode,
