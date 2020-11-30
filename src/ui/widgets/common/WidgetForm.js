@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -8,16 +7,13 @@ import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
-import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-import { hasMicrofrontendConfig } from 'helpers/microfrontends';
-import WidgetConfigRenderer from 'ui/widgets/config/renderers/WidgetConfigRenderer';
-import SimpleWidgetConfigForm from '../config/forms/SimpleWidgetConfigForm';
+import WidgetConfigFormSection from 'ui/widgets/config/forms/WidgetConfigFormSection';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -301,13 +297,11 @@ export class WidgetFormBody extends Component {
                   <Col xs={12}>
                     <fieldset className="no-padding">
                       <FormSection name="config">
-                        {
-                          parentWidgetParameters && parentWidgetParameters.length > 0 && (
-                            <SimpleWidgetConfigForm
-                              widgetConfigParameters={parentWidgetParameters}
-                            />
-                          )
-                        }
+                        <WidgetConfigFormSection
+                          widget={selectedWidget}
+                          parentWidget={parentWidget}
+                        />
+
                         {/* <Field
                           name="config"
                           component={WidgetConfigRenderer}
