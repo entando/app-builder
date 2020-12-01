@@ -17,7 +17,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
       <FormLabel helpId="app.seo.addMetatagHelp" labelId="app.seo.addMetatag" />
     </legend>
     <Row>
-      <Col sm={12}>
+      <Col sm={12} className="no-padding">
         <Col sm={4}>
           <Field
             component={RenderTextInput}
