@@ -59,11 +59,6 @@ describe('FragmentSearchForm', () => {
       const plugin = fragmentSearchForm.find('[name="pluginCode"]');
       expect(plugin.exists()).toBe(true);
     });
-
-    it('root component renders options for select input', () => {
-      const optgroups = renderSelectOptgroup(WIDGET_TYPES_OPTIONS);
-      expect(optgroups).toHaveLength(1);
-    });
   });
 
   it('on form submit calls handleSubmit', () => {
