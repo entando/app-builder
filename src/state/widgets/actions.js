@@ -170,12 +170,20 @@ export const fetchWidgetInfo = widgetCode => dispatch => new Promise((resolve) =
   }).catch(() => {});
 });
 
+const widgetsToHide = [
+  'userprofile_editCurrentUser',
+  'userprofile_editCurrentUser_password',
+  'userprofile_editCurrentUser_profile',
+];
+
 export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('widgets'));
   getWidgets(page, params).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        dispatch(setWidgetList(json.payload));
+        // FIXME temporary FE-side filtering to hide user-related widgets
+        const widgetList = get(json, 'payload', []).filter(widget => !widgetsToHide.includes(widget.code));
+        dispatch(setWidgetList(widgetList));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

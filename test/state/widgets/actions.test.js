@@ -303,7 +303,7 @@ describe('state/widgets/actions', () => {
 
     describe('fetchWidgetList', () => {
       it('calls setWidgetList and setPage action', (done) => {
-        getWidgets.mockImplementation(mockApi({ payload: WIDGET_LIST }));
+        getWidgets.mockImplementation(mockApi(WIDGET_LIST));
         store.dispatch(fetchWidgetList()).then(() => {
           expect(getWidgets).toHaveBeenCalled();
           const actions = store.getActions();
@@ -314,7 +314,7 @@ describe('state/widgets/actions', () => {
           expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           const actionPayload = actions[1].payload;
           expect(actionPayload).toHaveProperty('widgetList');
-          expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);
+          expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST.payload);
           done();
         }).catch(done.fail);
       });
