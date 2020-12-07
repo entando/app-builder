@@ -51,9 +51,12 @@ const widgetCategoryMsgs = defineMessages({
 });
 
 const renderSelectOptgroup = (options, intl) => (
-  options.map(item => (
-    <optgroup key={item.optgroup} label={intl.formatMessage(widgetCategoryMsgs[item.optgroup])}>
-      {item.options.map(option =>
+  options.map((item) => {
+    const groupName = widgetCategoryMsgs[item.optgroup];
+    const label = groupName ? intl.formatMessage(groupName) : item.optgroup;
+    return (
+      <optgroup key={item.optgroup} label={label}>
+        {item.options.map(option =>
         (
           <option
             key={option.code}
@@ -62,8 +65,9 @@ const renderSelectOptgroup = (options, intl) => (
             {option.title}
           </option>
         ))}
-    </optgroup>
-  ))
+      </optgroup>
+    );
+  })
 );
 export class FragmentSearchFormBody extends Component {
   componentDidMount() {
