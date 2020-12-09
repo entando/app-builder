@@ -8,11 +8,14 @@ const RenderTextAreaInput = ({
 }) => (
 
   <div className={`RenderTextAreaInput ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
-    <Col xs={labelSize} className={`RenderTextAreaInput-label ${alignClass}`}>
-      <ControlLabel htmlFor={input.name}>
-        {label} {help}
-      </ControlLabel>
-    </Col>
+    {
+      (label || help) &&
+      <Col xs={labelSize} className={`RenderTextAreaInput-label ${alignClass}`}>
+        <ControlLabel htmlFor={input.name}>
+          {label} {help}
+        </ControlLabel>
+      </Col>
+    }
     <Col xs={12 - labelSize} className="RenderTextAreaInput-content">
       <textarea
         {...input}
