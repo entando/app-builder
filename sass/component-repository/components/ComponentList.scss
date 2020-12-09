@@ -142,6 +142,16 @@
     font-size: 12px;
     line-height: 20px;
   }
+
+  //sass-lint:disable class-name-format nesting-depth
+  .progress {
+    height: 24px;
+    margin-bottom: 0;
+
+    .progress-bar {
+      padding: 2px 12px;
+    }
+  }
 }
 
 .ComponentListListView {
