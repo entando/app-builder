@@ -7,10 +7,7 @@ import apps from 'entando-apps';
 const localStorageStates = {
   locale: [],
   permissions: ['loggedUser'],
-  appTour: {
-    appTourProgress: '',
-    lastStep: '',
-  },
+  appTour: ['appTourProgress', 'lastStep'],
 };
 
 export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {
@@ -28,6 +25,25 @@ export const generatePersistedPathsForApps = (applications, defaultLocalStorageS
 
 const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
 
+const getPersistedState = (state, path, localState) => {
+  const localStateKeys = Object.keys(localState);
+  const emptyObj = !localStateKeys.length;
+
+  if (emptyObj) return state[path];
+
+  if (localState instanceof Array) {
+    return localState.reduce((accState, currLocState) => ({
+      ...accState,
+      [currLocState]: state[path][currLocState],
+    }), {});
+  }
+
+  return localStateKeys.reduce((accState, currLocStateKey) => ({
+    ...accState,
+    [currLocStateKey]: getPersistedState(state[path], currLocStateKey, localState[currLocStateKey]),
+  }), {});
+};
+
 const composeParams = [
   applyMiddleware(thunk),
   persistState(
@@ -36,12 +52,7 @@ const composeParams = [
       slicer: paths => state => (
         paths.reduce((acc, curr) => {
           const localState = enhancedLocalStorageStates[curr];
-          acc[curr] = localState.length
-            ? localState.reduce((accLocState, currLocState) => ({
-              ...accLocState,
-              [currLocState]: state[curr][currLocState],
-            }), {})
-            : state[curr];
+          acc[curr] = getPersistedState(state, curr, localState);
           return acc;
         }, {})
       ),
