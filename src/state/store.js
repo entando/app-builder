@@ -25,7 +25,7 @@ export const generatePersistedPathsForApps = (applications, defaultLocalStorageS
 
 const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
 
-const getPersistedState = (state, path, localState) => {
+export const getPersistedState = (state, path, localState) => {
   const localStateKeys = Object.keys(localState);
   const emptyObj = !localStateKeys.length;
 
