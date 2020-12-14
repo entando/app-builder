@@ -1,5 +1,5 @@
 
-import store, { generatePersistedPathsForApps } from 'state/store';
+import store, { generatePersistedPathsForApps, getPersistedState } from 'state/store';
 
 describe('state/store', () => {
   let defaultState;
@@ -65,6 +65,56 @@ describe('state/store', () => {
           cms: {},
         },
       });
+    });
+  });
+
+  describe('getPersistedState', () => {
+    it('should return correct state', () => {
+      const localStorageStates = {
+        locale: [],
+        permissions: ['loggedUser'],
+        apps: {
+          cms: {
+            testParent: ['testChild1', 'testChild2'],
+          },
+        },
+      };
+      const state = {
+        locale: 'en',
+        permissions: {
+          loggedUser: ['test'],
+        },
+        apps: {
+          cms: {
+            testParent: {
+              testChild1: 'test1',
+              testChild2: 'test2',
+              testChild3: 'not included in result',
+            },
+            testNotPersisted: 'not included in result',
+          },
+        },
+      };
+      const expected = {
+        locale: 'en',
+        permissions: {
+          loggedUser: ['test'],
+        },
+        apps: {
+          cms: {
+            testParent: {
+              testChild1: 'test1',
+              testChild2: 'test2',
+            },
+          },
+        },
+      };
+      const result = {
+        locale: getPersistedState(state, 'locale', localStorageStates.locale),
+        permissions: getPersistedState(state, 'permissions', localStorageStates.permissions),
+        apps: getPersistedState(state, 'apps', localStorageStates.apps),
+      };
+      expect(result).toEqual(expected);
     });
   });
 });
