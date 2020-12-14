@@ -9,6 +9,7 @@ import { isUndefined } from 'lodash';
 
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -214,10 +215,11 @@ export class WidgetFormBody extends Component {
                       <span className="control-label col-xs-2" />
                       <Col xs={10}>
                         <Tabs id="basic-tabs" defaultActiveKey={1}>
-                          <Tab eventKey={1} title={intl.formatMessage(msgs.customUi)} >
+                          <Tab eventKey={1} title={`${intl.formatMessage(msgs.customUi)} *`} >
                             <Field
+                              labelSize={0}
                               name="customUi"
-                              component="textarea"
+                              component={RenderTextAreaInput}
                               cols="50"
                               rows="8"
                               className="form-control"
