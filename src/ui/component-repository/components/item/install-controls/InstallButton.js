@@ -30,12 +30,14 @@ const InstallButton = ({
     jobProgressStatuses.includes(installationStatus)
     || jobProgressStatuses.includes(uninstallStatus)
   ) {
+    // this is necessary for avoiding javascript's decimal handling (e.g. try to check 0.55 * 100)
+    const progressPercentage = Math.round(((progress * 100) + Number.EPSILON) * 100) / 100;
     return (
       <ProgressBar
         active
         bsStyle="success"
         now={100}
-        label={`${intl.formatMessage({ id: 'app.loading' })}... ${progress * 100}%`}
+        label={`${intl.formatMessage({ id: 'app.loading' })}... ${progressPercentage}%`}
       />
     );
   }
