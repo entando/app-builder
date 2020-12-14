@@ -607,7 +607,7 @@ export default {
     'user.myProfile.newPassword': 'Nuova password',
     'user.myProfile.newPasswordConfirm': 'Ripeti la nuova password',
     'user.myProfile.passwordMismatch': 'Le password sono diverse',
-    'user.myProfile.displayAttributes': 'Visualizzare gli attributi',
+    'user.myProfile.displayAttributes': 'Visualizza attributi',
     'user.password.success': 'La password è stata aggiornata',
     'userprofile.edit': 'Modifica profilo utente',
     'userprofile.edit.success': 'Il profilo utente è stato aggiornato',
