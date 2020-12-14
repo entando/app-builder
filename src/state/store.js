@@ -25,22 +25,27 @@ export const generatePersistedPathsForApps = (applications, defaultLocalStorageS
 
 const enhancedLocalStorageStates = generatePersistedPathsForApps(apps, localStorageStates);
 
-export const getPersistedState = (state, path, localState) => {
-  const localStateKeys = Object.keys(localState);
-  const emptyObj = !localStateKeys.length;
+export const getPersistedState = (state, path, localStorageState) => {
+  const localStorageStateKeys = Object.keys(localStorageState);
+  const emptyObj = !localStorageStateKeys.length;
 
   if (emptyObj) return state[path];
 
-  if (localState instanceof Array) {
-    return localState.reduce((accState, currLocState) => ({
+  if (localStorageState instanceof Array) {
+    return localStorageState.reduce((accState, currentLocalStorageState) => ({
       ...accState,
-      [currLocState]: state[path][currLocState],
+      [currentLocalStorageState]: state[path][currentLocalStorageState],
     }), {});
   }
 
-  return localStateKeys.reduce((accState, currLocStateKey) => ({
+  return localStorageStateKeys.reduce((accState, currentLocalStorageStateKey) => ({
     ...accState,
-    [currLocStateKey]: getPersistedState(state[path], currLocStateKey, localState[currLocStateKey]),
+    [currentLocalStorageStateKey]:
+      getPersistedState(
+        state[path],
+        currentLocalStorageStateKey,
+        localStorageState[currentLocalStorageStateKey],
+      ),
   }), {});
 };
 
@@ -51,8 +56,8 @@ const composeParams = [
     {
       slicer: paths => state => (
         paths.reduce((acc, curr) => {
-          const localState = enhancedLocalStorageStates[curr];
-          acc[curr] = getPersistedState(state, curr, localState);
+          const localStorageState = enhancedLocalStorageStates[curr];
+          acc[curr] = getPersistedState(state, curr, localStorageState);
           return acc;
         }, {})
       ),
