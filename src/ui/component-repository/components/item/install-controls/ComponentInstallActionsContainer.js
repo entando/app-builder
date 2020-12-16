@@ -29,26 +29,30 @@ export const mapStateToProps = (state, props) => ({
   progress: getInstallUninstallProgress(state),
 });
 
-export const mapDispatchToProps = dispatch => ({
-  onInstall: (component, version) => {
-    const stepFunction = progress => dispatch(setInstallUninstallProgress(progress));
-    dispatch(installECRComponent(component, version, stepFunction));
-  },
-  onClickInstallDropdown: (componentCode) => {
-    dispatch(fetchECRComponentDetail(componentCode));
-  },
-  onUninstall: (componentCode) => {
-    dispatch(setVisibleModal(''));
-    const stepFunction = progress => dispatch(setInstallUninstallProgress(progress));
-    return dispatch(uninstallECRComponent(componentCode, stepFunction));
-  },
-  onClickUninstall: (componentCode) => {
-    dispatch(fetchComponentUsage(componentCode));
-    dispatch(setVisibleModal(componentCode));
-  },
-  recheckInstallStatus: componentCode => dispatch(pollECRComponentInstallStatus(componentCode)),
-  recheckUninstallStatus: componentCode => dispatch(pollECRComponentUninstallStatus(componentCode)),
-});
+export const mapDispatchToProps = (dispatch) => {
+  const pollStepFunction = progress => dispatch(setInstallUninstallProgress(progress));
+
+  return ({
+    onInstall: (component, version) => {
+      dispatch(installECRComponent(component, version, pollStepFunction));
+    },
+    onClickInstallDropdown: (componentCode) => {
+      dispatch(fetchECRComponentDetail(componentCode));
+    },
+    onUninstall: (componentCode) => {
+      dispatch(setVisibleModal(''));
+      return dispatch(uninstallECRComponent(componentCode, pollStepFunction));
+    },
+    onClickUninstall: (componentCode) => {
+      dispatch(fetchComponentUsage(componentCode));
+      dispatch(setVisibleModal(componentCode));
+    },
+    recheckInstallStatus:
+      componentCode => dispatch(pollECRComponentInstallStatus(componentCode, pollStepFunction)),
+    recheckUninstallStatus:
+      componentCode => dispatch(pollECRComponentUninstallStatus(componentCode, pollStepFunction)),
+  });
+};
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
