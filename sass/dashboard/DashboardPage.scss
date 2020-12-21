@@ -1,0 +1,12 @@
+.DashboardPage {
+  .container-fluid { // sass-lint:disable-line class-name-format
+    @media (max-width: 426px) {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+
+    @media (max-width: 769px) {
+      padding-right: 8px;
+    }
+  }
+}

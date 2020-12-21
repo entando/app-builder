@@ -85,7 +85,7 @@ class PagesList extends Component {
             <FormattedMessage id="app.add" defaultMessage="Add" />
           </Button>
         </h2>
-        <div className="PagesList__body">
+        <div className="PagesList__wrapper">
           <table className="PagesListTable__table table table-striped table-bordered">
             <thead>
               <tr>
@@ -102,15 +102,15 @@ class PagesList extends Component {
               {this.renderRows()}
             </tbody>
           </table>
-          <Paginator
-            pagination={pagination}
-            viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
-            messages={messages}
-          />
         </div>
+        <Paginator
+          pagination={pagination}
+          viewType="table"
+          itemCount={this.props.totalItems}
+          onPageSet={this.changePage}
+          onPerPageSelect={this.changePageSize}
+          messages={messages}
+        />
         <Clearfix />
       </div>
     );
