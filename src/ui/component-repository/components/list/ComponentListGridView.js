@@ -28,7 +28,7 @@ const ComponentListGridView = ({ components }) => (
               <p className="ComponentList__component-category">
                 {component.componentTypes
                   && component.componentTypes.map((category, x) => (
-                    <React.Fragment>
+                    <React.Fragment key={category}>
                       <FormattedMessage id={`componentRepository.categories.${category}`} />
                       { x < component.componentTypes.length - 1 && ', '}
                     </React.Fragment>))

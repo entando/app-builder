@@ -22,14 +22,15 @@ const InstallButton = ({
   component,
   uninstallStatus,
   installationStatus,
+  selectedVersion,
   onInstall,
   progress,
   intl,
 }) => {
-  if (
-    jobProgressStatuses.includes(installationStatus)
-    || jobProgressStatuses.includes(uninstallStatus)
-  ) {
+  const installing = jobProgressStatuses.includes(installationStatus);
+  const uninstalling = jobProgressStatuses.includes(uninstallStatus);
+
+  if (installing || uninstalling) {
     // this is necessary for avoiding javascript's decimal handling (e.g. try to check 0.55 * 100)
     const progressPercentage = Math.round(((progress * 100) + Number.EPSILON) * 100) / 100;
     return (
@@ -37,7 +38,13 @@ const InstallButton = ({
         active
         bsStyle="success"
         now={100}
-        label={`${intl.formatMessage({ id: 'app.loading' })}... ${progressPercentage}%`}
+        label={`${intl.formatMessage({
+          id: installing
+            ? 'componentRepository.components.installing'
+            : 'componentRepository.components.uninstalling',
+        }, {
+          version: selectedVersion,
+        })}... ${progressPercentage}%`}
       />
     );
   }
@@ -81,6 +88,7 @@ InstallButton.propTypes = {
   installationStatus: PropTypes.string.isRequired,
   uninstallStatus: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
+  selectedVersion: PropTypes.string.isRequired,
 };
 
 export default injectIntl(InstallButton);
