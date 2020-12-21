@@ -58,11 +58,11 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   ...ownProps,
-  onRetryAction: () => {
+  onRetryAction: (version) => {
     if (ownProps.component && ownProps.component.installed) {
       dispatchProps.onUninstall(ownProps.component.code);
     } else {
-      dispatchProps.onInstall(ownProps.component);
+      dispatchProps.onInstall(ownProps.component, version);
     }
   },
   onRecheckStatus: () => {
