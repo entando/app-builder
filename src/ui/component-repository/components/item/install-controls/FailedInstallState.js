@@ -5,8 +5,15 @@ import { FormattedMessage } from 'react-intl';
 
 import { componentType } from 'models/component-repository/components';
 
-const FailedInstallState = ({ component, onRetryAction }) => {
+const FailedInstallState = ({
+  component, onRetryAction, selectedVersion, setSelectedVersion,
+}) => {
   const showVersionDropdown = Array.isArray(component.versions) && component.versions.length > 1;
+  const showInstallVersions = showVersionDropdown && !component.installed;
+  const handleRetry = (version) => {
+    setSelectedVersion(version);
+    onRetryAction(version);
+  };
   return (
     <div className="ComponentList__install-actions ComponentList__failed-state">
       <span className="ComponentList__status ComponentList__status-danger">
@@ -18,12 +25,15 @@ const FailedInstallState = ({ component, onRetryAction }) => {
       </span>
       <div className="ComponentListInstallButtons">
         {
+        showInstallVersions ? (
+          <React.Fragment>
+            {
           showVersionDropdown
             ? (
               <SplitButton
                 bsStyle="primary"
-                onSelect={version => onRetryAction(version)}
-                onClick={() => onRetryAction()}
+                onSelect={version => handleRetry(version)}
+                onClick={() => handleRetry(selectedVersion)}
                 id={component.code}
                 title={<FormattedMessage id="componentRepository.components.retry" />}
               >
@@ -35,12 +45,22 @@ const FailedInstallState = ({ component, onRetryAction }) => {
             : (
               <Button
                 bsStyle="primary"
-                onClick={() => onRetryAction()}
+                onClick={() => handleRetry(selectedVersion)}
               >
                 <FormattedMessage id="componentRepository.components.retry" />
               </Button >
             )
           }
+          </React.Fragment>
+        ) : (
+          <Button
+            bsStyle="primary"
+            onClick={() => handleRetry(selectedVersion)}
+          >
+            <FormattedMessage id="componentRepository.components.retry" />
+          </Button >
+        )
+      }
       </div>
     </div>
   );
@@ -49,6 +69,12 @@ const FailedInstallState = ({ component, onRetryAction }) => {
 FailedInstallState.propTypes = {
   component: componentType.isRequired,
   onRetryAction: PropTypes.func.isRequired,
+  selectedVersion: PropTypes.string,
+  setSelectedVersion: PropTypes.func.isRequired,
+};
+
+FailedInstallState.defaultProps = {
+  selectedVersion: '',
 };
 
 export default FailedInstallState;
