@@ -3,6 +3,7 @@
 ###  Run keycloak server:
 - `git clone https://github.com/entando/entando-keycloak.git`
 - `cd entando-keycloak`
+- Remove the file extension of `Dockerfile` to be used (i.e. `Dockerfile.keycloak` -> `Dockerfile`)
 - `docker build -t entando/keycloak:latest .`
 - `docker-compose up`
 ###  Setup keycloak realm and client
