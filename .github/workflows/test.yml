@@ -15,21 +15,20 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Load npm cache
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - run: npm install
+    - name: npm install and lint source code
+      run: |
+        npm install
+        npm run lint
       env:
         CI: true
-    - run: npm run lint
+    - name: lint sass code
+      run: |
+        npm run sass-lint
       env:
         CI: true
-    - run: npm run sass-lint
+    - name: test code and check coverage
+      run: |
+        npm run coverage
       env:
         CI: true
-    - run: npm run coverage
-      env:
-        CI: true
+
