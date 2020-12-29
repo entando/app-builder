@@ -1,0 +1,5 @@
+UI:
+- any: ['src/ui/**/*']
+
+actions:
+- any: ['.github/**/*']
