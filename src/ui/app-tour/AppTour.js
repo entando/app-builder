@@ -406,6 +406,7 @@ class AppTour extends React.Component {
     if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
+    const scrollLockMobile = window.innerWidth > 1000;
     return (
       <Tour
         steps={this.generateSteps()}
@@ -421,7 +422,7 @@ class AppTour extends React.Component {
         goToStep={appTourLastStep}
         disableFocusLock
         highlightedMaskClassName="AppTourHighlight"
-        onAfterOpen={lockBodyScroll ? this.disableBody : null}
+        onAfterOpen={lockBodyScroll && scrollLockMobile ? this.disableBody : null}
         onBeforeClose={lockBodyScroll ? this.enableBody : null}
         maskClassName={maskName}
         className="helper"
