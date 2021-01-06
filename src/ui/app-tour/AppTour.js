@@ -406,7 +406,7 @@ class AppTour extends React.Component {
     if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
-    const scrollLock = window.innerWidth > 1000;
+    const scrollLock = window.innerWidth > 1024;
     return (
       <Tour
         steps={this.generateSteps()}
