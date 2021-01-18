@@ -1,4 +1,4 @@
-FROM centos/nginx-112-centos7:latest
+FROM registry.access.redhat.com/ubi8/nginx-118
 EXPOSE 8081
 COPY ./build /opt/app-root/src/app-builder
 USER root
@@ -7,4 +7,8 @@ COPY ./nginx.conf ${NGINX_CONF_PATH}
 USER default
 COPY ./docker-entrypoint.sh /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ${STI_SCRIPTS_PATH}/run
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
