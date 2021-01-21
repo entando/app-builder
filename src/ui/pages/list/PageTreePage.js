@@ -88,6 +88,7 @@ class PageTreePage extends Component {
                 <Button
                   bsStyle="primary"
                   className="app-tour-step-5"
+                  data-cy="button-step-5"
                   onClick={() => this.props.onNextStep(6)}
                 >
                   <FormattedMessage id="app.add" />
