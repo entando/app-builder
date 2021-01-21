@@ -33,5 +33,9 @@ module.exports = {
         "browser": true,
         "node": true,
         "jest": true
+    },
+    "globals": {
+      "cy": true,
+      "Cypress": true
     }
 };
