@@ -16,3 +16,4 @@
 import './keycloak-oauth2';
 import './command';
 import './exception-handler';
+import './miragejs';
