@@ -340,26 +340,6 @@ const LegacyAdminConsoleMenuBody = ({
           iconClass="fa fa-cogs"
         >
           <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-          >
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Resource/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Service/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Consumer/list.action')}
-            />
-          </SecondaryItem>
-          <SecondaryItem
             id="menu-databases"
             title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
             onClick={() => history.push(ROUTE_DATABASE_LIST)}
