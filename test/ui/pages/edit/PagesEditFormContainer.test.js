@@ -100,7 +100,8 @@ describe('PagesEditFormContainer', () => {
       });
 
       it('dispatch clearTree', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
+        // should not clear the page tree
+        expect(dispatchMock).not.toHaveBeenCalledWith('clearTree_result');
       });
 
       it('dispatch fetchLanguages', () => {
@@ -113,10 +114,6 @@ describe('PagesEditFormContainer', () => {
 
       it('dispatch fetchPageTemplates', () => {
         expect(dispatchMock).toHaveBeenCalledWith('fetchPageTemplates_result');
-      });
-
-      it('dispatch handleExpandPage', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('handleExpandPage_result');
       });
 
       it('dispatch fetchPageForm', () => {

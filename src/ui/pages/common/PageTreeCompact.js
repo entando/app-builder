@@ -98,30 +98,32 @@ class PageTreeCompact extends Component {
           onClick={() => onRowClick(page)}
         >
           <td className={className.join(' ').trim()}>
-            <span
-              role="button"
-              tabIndex={i}
-              className="PageTreeCompact__icons-label"
-              style={{ marginLeft: page.depth * 24 }}
-              onClick={(e) => {
+            <div className="PageTreeCompact__column-wrapper">
+              <span
+                role="button"
+                tabIndex={i}
+                className="PageTreeCompact__icons-label"
+                style={{ marginLeft: page.depth * 16 }}
+                onClick={(e) => {
                 if (loadOnPageSelect && !page.isEmpty) e.stopPropagation();
                 onClickExpand();
               }}
-              onKeyDown={onClickExpand}
-            >
-              <TreeNodeExpandedIcon expanded={page.expanded} />
-              {!loadOnPageSelect && (
+                onKeyDown={onClickExpand}
+              >
+                <TreeNodeExpandedIcon expanded={page.expanded} />
+                {!loadOnPageSelect && (
                 <span className="PageTreeCompact__page-name">
                   { page.title }
                 </span>
               )}
-              <RowSpinner loading={!!page.loading} />
-            </span>
-            {loadOnPageSelect && (
+                <RowSpinner loading={!!page.loading} />
+              </span>
+              {loadOnPageSelect && (
               <span className="PageTreeCompact__page-name">
                 { page.title }
               </span>
             )}
+            </div>
           </td>
           <td className="text-center PageTreeCompact__status-col">
             <PageStatusIcon status={page.status} />
