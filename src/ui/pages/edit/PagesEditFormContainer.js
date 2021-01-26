@@ -9,7 +9,7 @@ import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
-import { handleExpandPage, sendPutPage, fetchPageForm, clearTree } from 'state/pages/actions';
+import { sendPutPage, fetchPageForm } from 'state/pages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -53,11 +53,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       } else ownProps.onSave();
     }).catch(() => {}),
   onWillMount: ({ pageCode }) => {
-    dispatch(clearTree());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(fetchPageTemplates({ page: 1, pageSize: 0 }));
-    dispatch(handleExpandPage());
     dispatch(fetchPageForm(pageCode));
   },
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),

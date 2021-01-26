@@ -5,6 +5,13 @@
     font-size: 14px;
   }
 
+  &__column-wrapper {
+    width: calc(calc(100vw - 250px) * .2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   .TreeNodeExpandedIcon,
   .TreeNodeFolderIcon,
   .RowSpinner {
@@ -64,7 +71,6 @@
     color: $color-rating-filter-star-empty;
   }
   // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
-
 }
 
 // Bootstrap overrides
