@@ -1,5 +1,5 @@
 const pollApi = ({
-  apiFn, stopPollingConditionFn, timeout = 3000, interval = 500, stepFunction,
+  apiFn, stopPollingConditionFn, timeout = 5000, interval = 3000, stepFunction,
 }) => {
   const endTime = Number(new Date()) + timeout;
   const checkCondition = (resolve, reject) => {
