@@ -332,6 +332,7 @@ export default {
     'menu.versioning': 'Versionamento',
     'menu.apps': 'App',
     'menu.settings': 'Amministrazione',
+    'menu.emailConfig': 'Configurazione Email',
     'dashboard.uxComponents.mfeWidgets': 'MFE & Widget',
     'dashboard.uxComponents.pageTemplates': 'Template di Pagina',
     'dashboard.pageStatus': 'Stato Pagine',
@@ -912,5 +913,7 @@ export default {
     'tour.step.20.title': 'Pubblicare',
     'tour.step.20.description': 'Fai clic su Pubblica per vedere la tua pagina dal vivo.',
     'app.startTutorial': 'Inizia il tutorial',
+    'emailConfig.smtpServer': 'SMTP Server',
+    'emailConfig.senderMgmt': 'Configura i Mittenti',
   },
 };

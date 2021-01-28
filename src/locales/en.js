@@ -332,6 +332,7 @@ export default {
     'menu.versioning': 'Versioning',
     'menu.apps': 'Apps',
     'menu.settings': 'Administration',
+    'menu.emailConfig': 'Email Configuration',
     'dashboard.uxComponents.mfeWidgets': 'MFEs & Widgets',
     'dashboard.uxComponents.pageTemplates': 'Page Templates',
     'dashboard.pageStatus': 'Page Status',
@@ -912,5 +913,7 @@ export default {
     'tour.step.20.description': 'Click Publish to see your page live.',
     'user.wizard.success': 'Wizard has been updated.',
     'app.startTutorial': 'Start Welcome Wizard',
+    'emailConfig.smtpServer': 'SMTP Server',
+    'emailConfig.senderMgmt': 'Sender Management',
   },
 };

@@ -324,6 +324,7 @@ export default {
     'menu.apiManagement.services': 'serviços',
     'menu.apiManagement.consumers': 'Consumer',
     'menu.settings': 'Administração',
+    'menu.emailConfig': 'Configuração de Email',
     'menu.apps': 'Apps',
     'menu.mail': 'Email',
     'dashboard.newUser': 'Novo Usuário',
@@ -877,5 +878,7 @@ export default {
     'tour.step.23.title': 'Puoi usare l\'anteprima per controllare la tua nuova pagina',
     'tour.step.23.description': 'Fare clic su Anteprima per visualizzare la pagina nel browser',
     'app.startTutorial': 'Comece o tutorial',
+    'emailConfig.smtpServer': 'SMTP Server',
+    'emailConfig.senderMgmt': 'Gestão do Remetente',
   },
 };

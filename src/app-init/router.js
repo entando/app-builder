@@ -90,6 +90,9 @@ export const ROUTE_ECR_CONFIG_ADD = '/component-repository/configuration/add';
 // plugins
 export const ROUTE_PLUGIN_CONFIG_PAGE = '/plugins/config/:id';
 export const ROUTE_PLUGINS = '/plugins';
+// email config
+export const ROUTE_EMAIL_CONFIG = '/email-config';
+export const ROUTE_EMAIL_CONFIG_SENDERS = '/email-config/senders';
 
 // other
 export const ROUTE_USER_PROFILE = '/userprofile/:username';
