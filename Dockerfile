@@ -1,4 +1,16 @@
-FROM centos/nginx-112-centos7:latest
+FROM registry.access.redhat.com/ubi8/nginx-118
+
+### Required OpenShift Labels
+LABEL name="Entando App Builder" \
+      maintainer="dev@entando.com" \
+      vendor="Entando Inc." \
+      version="6.3.0" \
+      release="6.3.0" \
+      summary="Entando App Builder" \
+      description="The Entando App Builder is the front end environment to interact with the micro frontends, the WCMS, and other Entando components"
+
+COPY licenses /licenses
+
 EXPOSE 8081
 COPY ./build /opt/app-root/src/app-builder
 USER root
@@ -7,4 +19,8 @@ COPY ./nginx.conf ${NGINX_CONF_PATH}
 USER default
 COPY ./docker-entrypoint.sh /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ${STI_SCRIPTS_PATH}/run
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
