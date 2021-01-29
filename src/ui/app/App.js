@@ -32,6 +32,7 @@ import {
   ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_PAGE_TEMPLATE_ADD,
   ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_CLONE,
   ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
@@ -117,6 +118,7 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
 import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
 import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
 import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
@@ -224,6 +226,7 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
       <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
       <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
+      <Route path={ROUTE_PAGE_TEMPLATE_CLONE} component={PageTemplateClonePage} />
       <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
       {/* widgets */}
       <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />

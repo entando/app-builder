@@ -48,6 +48,12 @@ describe('PageTemplateListMenuActions', () => {
       expect(history.push).toHaveBeenCalledWith('/page-template/edit/page_model_code');
     });
 
+    it('when clicking on the clone button, goes to the clone page template page', () => {
+      const onClick = component.find('.PageTemplateListMenuActions__menu-item-clone').prop('onClick');
+      onClick();
+      expect(history.push).toHaveBeenCalledWith('/page-template/clone/page_model_code');
+    });
+
     it('when clicking on the details button, goes to the page template details page', () => {
       const onClick = component.find('.PageTemplateListMenuActions__menu-item-details').prop('onClick');
       onClick();

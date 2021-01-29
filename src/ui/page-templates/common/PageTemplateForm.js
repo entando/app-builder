@@ -12,6 +12,8 @@ import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
+import { FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE } from 'state/page-templates/const';
+
 
 const maxLength50 = maxLength(50);
 const maxLength40 = maxLength(40);
@@ -75,7 +77,7 @@ export class PageTemplateFormBody extends Component {
       intl, handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
     } = this.props;
 
-    const isEditMode = mode === 'edit';
+    const isEditMode = mode === FORM_MODE_EDIT;
 
     return (
       <form onSubmit={handleSubmit} className="PageTemplateForm form-horizontal">
@@ -162,7 +164,7 @@ PageTemplateFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  mode: PropTypes.oneOf(['add', 'edit']),
+  mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   onWillMount: PropTypes.func,
   previewCellMap: PropTypes.shape({}),
   previewErrors: PropTypes.arrayOf(PropTypes.shape({
@@ -174,7 +176,7 @@ PageTemplateFormBody.propTypes = {
 PageTemplateFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  mode: 'add',
+  mode: FORM_MODE_ADD,
   onWillMount: null,
   previewCellMap: null,
 };
