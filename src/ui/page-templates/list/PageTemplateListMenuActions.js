@@ -4,7 +4,12 @@ import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { routeConverter } from '@entando/utils';
 
-import { history, ROUTE_PAGE_TEMPLATE_EDIT, ROUTE_PAGE_TEMPLATE_DETAIL } from 'app-init/router';
+import {
+  history,
+  ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_CLONE,
+  ROUTE_PAGE_TEMPLATE_DETAIL,
+} from 'app-init/router';
 
 
 const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
@@ -20,6 +25,14 @@ const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
       )}
     >
       <FormattedMessage id="app.edit" />
+    </MenuItem>
+    <MenuItem
+      className="PageTemplateListMenuActions__menu-item-clone"
+      onClick={() => (
+        history.push(routeConverter(ROUTE_PAGE_TEMPLATE_CLONE, { pageTemplateCode: code }))
+      )}
+    >
+      <FormattedMessage id="app.clone" />
     </MenuItem>
     <MenuItem
       className="PageTemplateListMenuActions__menu-item-details"

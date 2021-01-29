@@ -8,6 +8,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getSelectedPageTemplate } from 'state/page-templates/selectors';
+import { FORM_MODE_EDIT, FORM_MODE_CLONE } from 'state/page-templates/const';
 import {
   SET_PAGE_TEMPLATES, SET_SELECTED_PAGE_TEMPLATE, REMOVE_PAGE_TEMPLATE,
   SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS, SET_PAGE_TEMPLATES_TOTAL,
@@ -140,9 +141,15 @@ export const loadSelectedPageTemplate = pageTemplateCode => (dispatch, getState)
     }).catch(() => {});
 };
 
-export const initPageTemplateForm = pageTemplateCode => dispatch => (
+export const initPageTemplateForm = (pageTemplateCode, mode = FORM_MODE_EDIT) => dispatch => (
   fetchPageTemplate(pageTemplateCode)(dispatch).then((json) => {
-    const pageTemplate = json.payload;
+    const pageTemplate = {
+      ...json.payload,
+      ...(mode === FORM_MODE_CLONE ? {
+        code: '',
+        descr: '',
+      } : {}),
+    };
     pageTemplate.configuration = JSON.stringify(pageTemplate.configuration, null, 2);
     dispatch(initialize('pageTemplate', pageTemplate));
   }).catch(() => {})

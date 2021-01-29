@@ -7,6 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import PageTemplateFormContainer from 'ui/page-templates/common/PageTemplateFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
+import { FORM_MODE_EDIT } from 'state/page-templates/const';
 import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
@@ -41,7 +42,7 @@ export const PageTemplateEditPageBody = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <PageTemplateFormContainer mode="edit" />
+          <PageTemplateFormContainer mode={FORM_MODE_EDIT} />
         </Col>
       </Row>
     </Grid>
