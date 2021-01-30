@@ -2,7 +2,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
@@ -16,17 +16,18 @@ describe('PageStatusIcon', () => {
   });
 
   it('if status = draft, has class PageStatusIcon--draft', () => {
-    const component = shallow(mockRenderWithIntlAndStore(<PageStatusIcon status="draft" />));
-    expect(component.exists('PageStatusIcon--draft')).toBe(true);
+    const component = mount(mockRenderWithIntlAndStore(<PageStatusIcon status="draft" />));
+    expect(component.exists('.PageStatusIcon--draft')).toBe(true);
   });
 
   it('if status = published, has class PageStatusIcon--published', () => {
-    const component = shallow(mockRenderWithIntlAndStore(<PageStatusIcon status="published" />));
-    expect(component.exists('PageStatusIcon--published')).toBe(true);
+    const component = mount(mockRenderWithIntlAndStore(<PageStatusIcon status="published" />));
+    expect(component.exists('.PageStatusIcon--published')).toBe(true);
   });
 
   it('if status = published, has class PageStatusIcon--unpublished', () => {
-    const component = shallow(mockRenderWithIntlAndStore(<PageStatusIcon status="unpublished" />));
-    expect(component.exists('PageStatusIcon--unpublished')).toBe(true);
+    const component = mount(mockRenderWithIntlAndStore(<PageStatusIcon status="unpublished" />));
+    console.log(component.debug());
+    expect(component.exists('.PageStatusIcon--unpublished')).toBe(true);
   });
 });
