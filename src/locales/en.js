@@ -167,6 +167,7 @@ export default {
     'app.zhsTitle': 'Chinese - Simplified title',
     'app.zuTitle': 'Zulu title',
     'app.save': 'Save',
+    'app.saveAndContinue': 'Save and continue',
     'app.dontSave': 'Don\'t save',
     'app.confirmCancel': 'Save the current changes? All changes will be lost if you do not save now.',
     'app.upload': 'Upload',

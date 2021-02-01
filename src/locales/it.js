@@ -167,6 +167,7 @@ export default {
     'app.zhsTitle': 'Titolo Cinese Semplificato',
     'app.zuTitle': 'Titolo Zulu',
     'app.save': 'Salva',
+    'app.saveAndContinue': 'Salva e Continua',
     'app.dontSave': 'Non salvare',
     'app.upload': 'Upload',
     'app.search': 'Cerca',

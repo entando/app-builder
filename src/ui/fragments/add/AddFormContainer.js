@@ -9,7 +9,7 @@ import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onSubmit: fragment => dispatch(sendPostFragment(fragment)),
+  onSubmit: (fragment, saveType) => dispatch(sendPostFragment(fragment, saveType)),
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('fragment')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_FRAGMENT_LIST)); },
