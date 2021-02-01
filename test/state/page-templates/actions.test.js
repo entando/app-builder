@@ -4,8 +4,9 @@ import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
 import {
-  setPageTemplates, setSelectedPageTemplate, fetchPageTemplates, removePageTemplate, loadSelectedPageTemplate,
-  fetchPageTemplate, initPageTemplateForm, updatePageTemplate, createPageTemplate, setSelectedPageTemplatePageRefs,
+  setPageTemplates, setSelectedPageTemplate, fetchPageTemplates, removePageTemplate,
+  loadSelectedPageTemplate, fetchPageTemplate, initPageTemplateForm,
+  updatePageTemplate, createPageTemplate, setSelectedPageTemplatePageRefs,
   fetchCurrentReferencePages, setPageTemplatesTotal, fetchPageTemplatesTotal,
 } from 'state/page-templates/actions';
 import { getSelectedPageTemplate } from 'state/page-templates/selectors';

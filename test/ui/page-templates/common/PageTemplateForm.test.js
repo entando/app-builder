@@ -87,8 +87,11 @@ describe('PageTemplateForm', () => {
         />
       ));
     });
-    it('Save button is disabled', () => {
-      expect(component.find('.PageTemplateForm__save-btn')).toBeDisabled();
+    it('Save buttons are disabled', () => {
+      const regularSaveButton = component.find('#regularSaveButton');
+      expect(regularSaveButton.prop('disabled')).toEqual(true);
+      const continueSaveButton = component.find('#continueSaveButton');
+      expect(continueSaveButton.prop('disabled')).toEqual(true);
     });
   });
 
@@ -105,8 +108,11 @@ describe('PageTemplateForm', () => {
         />
       ));
     });
-    it('Save button is disabled', () => {
-      expect(component.find('.PageTemplateForm__save-btn')).toBeDisabled();
+    it('Save buttons are disabled', () => {
+      const regularSaveButton = component.find('#regularSaveButton');
+      expect(regularSaveButton.prop('disabled')).toEqual(true);
+      const continueSaveButton = component.find('#continueSaveButton');
+      expect(continueSaveButton.prop('disabled')).toEqual(true);
     });
   });
 
@@ -123,8 +129,11 @@ describe('PageTemplateForm', () => {
         />
       ));
     });
-    it('Save button is enabled', () => {
-      expect(component.find('.PageTemplateForm__save-btn')).not.toBeDisabled();
+    it('Save buttons are enabled', () => {
+      const regularSaveButton = component.find('#regularSaveButton');
+      expect(regularSaveButton.prop('disabled')).toEqual(false);
+      const continueSaveButton = component.find('#continueSaveButton');
+      expect(continueSaveButton.prop('disabled')).toEqual(false);
     });
   });
 
