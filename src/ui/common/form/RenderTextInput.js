@@ -4,7 +4,7 @@ import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextInput = ({
   input, append, label, labelSize, inputSize, alignClass, tourClass, placeholder,
-  meta: { touched, error }, help, disabled, type,
+  meta: { touched, error }, help, disabled, type, dataCy,
 }) => (
   <div className={(touched && error) ? `form-group has-error ${tourClass}` : `form-group ${tourClass}`}>
     {
@@ -21,6 +21,7 @@ const RenderTextInput = ({
         {...input}
         type={type}
         id={input.name}
+        data-cy={dataCy}
         placeholder={placeholder}
         className="form-control RenderTextInput"
         disabled={disabled}
@@ -44,6 +45,7 @@ RenderTextInput.propTypes = {
   append: PropTypes.string,
   alignClass: PropTypes.string,
   tourClass: PropTypes.string,
+  dataCy: PropTypes.string,
 };
 
 RenderTextInput.defaultProps = {
@@ -59,5 +61,6 @@ RenderTextInput.defaultProps = {
   append: '',
   tourClass: '',
   alignClass: 'text-right',
+  dataCy: '',
 };
 export default RenderTextInput;

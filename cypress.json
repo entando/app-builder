@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3000/",
   "oauth2": {
     "url": "http://localhost:8081",
-    "realm": "entando-development",
+    "realm": "entando",
     "clientId": "entando-web"
   },
   "testFiles": "**/*.spec.js",

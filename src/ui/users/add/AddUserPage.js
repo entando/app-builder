@@ -32,6 +32,7 @@ export const AddUserPageBody = () => (
       <PageTitle
         titleId="app.add"
         helpId="user.help"
+        data-cy="add-user-title"
       />
       <Row>
         <Col xs={12}>

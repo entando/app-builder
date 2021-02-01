@@ -42,10 +42,11 @@ const PageTitle = ({
   titleParam,
   configLink,
   hideConfigLink,
-}) => (
+  dataCy,
+}) => console.log('dataCy', dataCy) || (
   <div className="PageTitle">
     <div className="PageTitle__header">
-      <h1 className="PageTitle__title">
+      <h1 className="PageTitle__title" data-cy={dataCy}>
         <FormattedMessage id={titleId} values={titleParam} />
         {!hideConfigLink && configIcon(configLink)}
         {helpIcon(helpId)}
@@ -60,6 +61,7 @@ PageTitle.propTypes = {
   configLink: PropTypes.string,
   hideConfigLink: PropTypes.bool,
   titleParam: PropTypes.shape({}),
+  dataCy: PropTypes.string,
 };
 
 PageTitle.defaultProps = {
@@ -67,6 +69,7 @@ PageTitle.defaultProps = {
   configLink: '',
   hideConfigLink: false,
   titleParam: {},
+  dataCy: '',
 };
 
 export default PageTitle;
