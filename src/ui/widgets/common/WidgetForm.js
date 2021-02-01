@@ -283,14 +283,6 @@ export class WidgetFormBody extends Component {
           <Row>
             <Col xs={12}>
               {renderSaveAndReplaceButton}
-              {/* <Button
-                className="pull-right FragmentForm__save--btn"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting}
-              >
-                <FormattedMessage id="app.save" />
-              </Button> */}
               <div className="FragmentForm__dropdown">
                 <DropdownButton
                   title={intl.formatMessage({ id: 'app.save' })}

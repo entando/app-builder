@@ -14,7 +14,7 @@ import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
-import { REGULAR_SAVE_TYPE } from 'state/fragments/const';
+import { CONTINUE_SAVE_TYPE } from 'state/fragments/const';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -193,7 +193,7 @@ export const sendPostFragment = (fragment, saveType) => async (dispatch) => {
       { id: 'fragment.created' },
       TOAST_SUCCESS,
     ));
-    if (saveType === REGULAR_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
+    if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
     json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -209,7 +209,7 @@ export const sendPutFragment = (fragment, saveType) => async (dispatch) => {
       { id: 'fragment.updated' },
       TOAST_SUCCESS,
     ));
-    if (saveType === REGULAR_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
+    if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
     json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
