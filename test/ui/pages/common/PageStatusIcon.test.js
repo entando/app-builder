@@ -27,7 +27,6 @@ describe('PageStatusIcon', () => {
 
   it('if status = published, has class PageStatusIcon--unpublished', () => {
     const component = mount(mockRenderWithIntlAndStore(<PageStatusIcon status="unpublished" />));
-    console.log(component.debug());
     expect(component.exists('.PageStatusIcon--unpublished')).toBe(true);
   });
 });
