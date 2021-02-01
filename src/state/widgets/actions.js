@@ -15,6 +15,7 @@ import {
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
+import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
 
 export const FREE_ACCESS_GROUP_VALUE = 'free';
 
@@ -208,12 +209,12 @@ export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
   }).catch(() => {});
 });
 
-export const sendPostWidgets = widgetObject => dispatch =>
+export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
   new Promise((resolve) => {
     postWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          history.push(ROUTE_WIDGET_LIST);
+          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
             { id: 'app.created', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,
@@ -227,12 +228,12 @@ export const sendPostWidgets = widgetObject => dispatch =>
     }).catch(() => {});
   });
 
-export const sendPutWidgets = widgetObject => dispatch =>
+export const sendPutWidgets = (widgetObject, saveType) => dispatch =>
   new Promise((resolve) => {
     putWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          history.push(ROUTE_WIDGET_LIST);
+          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
             { id: 'app.updated', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,

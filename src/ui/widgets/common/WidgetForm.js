@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
@@ -15,6 +15,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -105,12 +106,8 @@ export class WidgetFormBody extends Component {
       intl, dirty, onCancel, onDiscard, onSave,
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters, defaultUIField,
-      onReplaceSubmit, match: { params },
+      onReplaceSubmit, match: { params }, onSubmit, handleSubmit,
     } = this.props;
-    const onSubmit = (ev) => {
-      ev.preventDefault();
-      this.props.handleSubmit();
-    };
 
     const handleCancelClick = () => {
       if (dirty) {
@@ -167,7 +164,7 @@ export class WidgetFormBody extends Component {
 
     return (
       <Spinner loading={!!loading}>
-        <form onSubmit={onSubmit} className="form-horizontal">
+        <form className="form-horizontal">
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -286,14 +283,35 @@ export class WidgetFormBody extends Component {
           <Row>
             <Col xs={12}>
               {renderSaveAndReplaceButton}
-              <Button
-                className="pull-right FragmentForm__save--btn"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
+              <div className="FragmentForm__dropdown">
+                <DropdownButton
+                  title={intl.formatMessage({ id: 'app.save' })}
+                  bsStyle="primary"
+                  id="saveopts"
+                  className="FragmentForm__saveDropdown"
+                >
+                  <MenuItem
+                    id="regularSaveButton"
+                    eventKey={REGULAR_SAVE_TYPE}
+                    disabled={invalid || submitting}
+                    onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, REGULAR_SAVE_TYPE))}
+                  >
+                    <FormattedMessage id="app.save" />
+                  </MenuItem>
+                  <MenuItem
+                    id="continueSaveButton"
+                    eventKey={CONTINUE_SAVE_TYPE}
+                    disabled={invalid || submitting}
+                    onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, CONTINUE_SAVE_TYPE))}
+                  >
+                    <FormattedMessage id="app.saveAndContinue" />
+                  </MenuItem>
+                </DropdownButton>
+              </div>
               <Button
                 className="pull-right"
                 bsStyle="default"
@@ -342,6 +360,7 @@ WidgetFormBody.propTypes = {
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }),
