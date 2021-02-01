@@ -35,12 +35,12 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, saveType) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
-    return dispatch(sendPutWidgets(jsonData));
+    return dispatch(sendPutWidgets(jsonData, saveType));
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),

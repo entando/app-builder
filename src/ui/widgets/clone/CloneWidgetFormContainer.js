@@ -63,7 +63,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     }
     dispatch(initNewUserWidget(parentCode, true));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, saveType) => {
     const { config: configFields } = values;
     const jsonData = {
       ...values,
@@ -71,7 +71,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
-    return dispatch(sendPostWidgets(jsonData));
+    return dispatch(sendPostWidgets(jsonData, saveType));
   },
   onReplaceSubmit: async (values) => {
     const { config: configFields } = values;
