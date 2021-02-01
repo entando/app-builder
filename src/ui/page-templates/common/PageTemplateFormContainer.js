@@ -15,16 +15,16 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { mode, match: { params } }) => ({
-  onSubmit: (data) => {
+  onSubmit: (data, saveType) => {
     const jsonData = {
       ...data,
       configuration: data.configuration ? JSON.parse(data.configuration) : {},
     };
 
     if (mode === FORM_MODE_EDIT) {
-      return dispatch(updatePageTemplate(jsonData));
+      return dispatch(updatePageTemplate(jsonData, saveType));
     }
-    return dispatch(createPageTemplate(jsonData));
+    return dispatch(createPageTemplate(jsonData, saveType));
   },
   onWillMount: () => {
     dispatch(clearErrors());
