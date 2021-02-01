@@ -603,6 +603,8 @@ export default {
     'user.myProfile.passwordSection': 'Change your password',
     'user.myProfile.accountSection': 'Edit my account',
     'user.myProfile.editProfileSection': 'Edit my profile',
+    'user.myProfile.uploadImageProfile': 'Upload your image profile',
+    'user.myProfile.onlyImage': 'Only image (JPG, PNG) max 1MB',
     'user.myProfile.oldPassword': 'Current password',
     'user.myProfile.newPassword': 'New password',
     'user.myProfile.newPasswordConfirm': 'Confirm the new password',

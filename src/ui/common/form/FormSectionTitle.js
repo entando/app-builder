@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-const FormSectionTitle = ({ titleId, requireFields }) => (
+const FormSectionTitle = ({ titleId, requireFields, subtitle }) => (
   <legend>
     <FormattedMessage id={titleId} />
     {
@@ -12,6 +12,9 @@ const FormSectionTitle = ({ titleId, requireFields }) => (
         </div>
       )
     }
+    {
+      subtitle && <div className="FormSectionTitle__subtitle"><FormattedMessage id={subtitle} /></div>
+    }
   </legend>
 );
 
@@ -19,10 +22,12 @@ const FormSectionTitle = ({ titleId, requireFields }) => (
 FormSectionTitle.propTypes = {
   titleId: PropTypes.string.isRequired,
   requireFields: PropTypes.bool,
+  subtitle: PropTypes.string,
 };
 
 FormSectionTitle.defaultProps = {
   requireFields: true,
+  subtitle: undefined,
 };
 
 export default FormSectionTitle;

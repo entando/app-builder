@@ -15,6 +15,7 @@ import {
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 import { getComponentType } from 'helpers/entities';
+import DropzoneUploader from 'ui/users/common/DropzoneUploader';
 
 const defaultAttrCodes = ['fullname', 'email'];
 
@@ -224,6 +225,8 @@ export class MyProfileEditFormBody extends Component {
 
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
+        <FormSectionTitle titleId="user.myProfile.uploadImageProfile" requireFields={false} subtitle="user.myProfile.onlyImage" />
+        <DropzoneUploader onUpload={files => console.log(files)} maxFiles={1} accept="image/*" />
         <FormSectionTitle titleId="user.myProfile.editProfileSection" />
         {renderedProfileFields}
         {editMode ? (

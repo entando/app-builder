@@ -65,6 +65,7 @@
     "react-dnd": "^9.4.0",
     "react-dnd-html5-backend": "^9.4.0",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^11.2.4",
     "react-ellipsis-with-tooltip": "^1.0.7",
     "react-intl": "^2.9.0",
     "react-jsonschema-form": "^1.7.0",

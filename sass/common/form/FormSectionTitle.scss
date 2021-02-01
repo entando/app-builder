@@ -1,8 +1,12 @@
 .FormSectionTitle {
-
   &__required-fields {
     color: $color-pf-black-300;
     font-size: 12px;
   }
 
+  &__subtitle {
+    padding: 8px 0;
+    color: $color-pf-black-400;
+    font-size: 12px;
+  }
 }

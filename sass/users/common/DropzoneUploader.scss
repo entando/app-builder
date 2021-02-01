@@ -1,0 +1,22 @@
+.DropzoneUploader {
+  &__wrapper {
+    margin: 40px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: $color-grey-background;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 59px;
+  }
+
+  &__text {
+    font-size: 14px;
+
+    & span {
+      color: $color-mid-blue;
+    }
+  }
+}

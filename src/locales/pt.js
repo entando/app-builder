@@ -586,6 +586,8 @@ export default {
     'user.myProfile.passwordSection': 'Mude sua senha',
     'user.myProfile.accountSection': 'Editar minha conta',
     'user.myProfile.editProfileSection': 'Edite meu perfil',
+    'user.myProfile.uploadImageProfile': 'Carregue o seu perfil de imagem',
+    'user.myProfile.onlyImage': 'Apenas imagens (JPG, PNG) max 1MB',
     'user.myProfile.oldPassword': 'Senha atual',
     'user.myProfile.newPassword': 'Nova senha',
     'user.myProfile.newPasswordConfirm': 'Confirme a nova senha',
