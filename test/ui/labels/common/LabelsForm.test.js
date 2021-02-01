@@ -1,9 +1,9 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
-import LabelsForm from 'ui/labels/common/LabelsForm';
+import { LabelsFormBody as LabelsForm } from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore, mockIntl } from 'test/testUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();
@@ -11,7 +11,6 @@ const LANGUAGES = LANGUAGES_LIST;
 const ON_WILL_MOUNT = jest.fn();
 
 jest.unmock('react-redux');
-jest.unmock('redux-form');
 
 describe('LabelsForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -24,6 +23,7 @@ describe('LabelsForm', () => {
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
         onWillMount={ON_WILL_MOUNT}
+        intl={mockIntl}
       />));
     });
 
@@ -32,7 +32,7 @@ describe('LabelsForm', () => {
     });
 
     it('has class LabelsForm', () => {
-      expect(component.exists('LabelsForm')).toBe(true);
+      expect(component.exists('.LabelsForm')).toBe(true);
     });
   });
 
@@ -43,6 +43,7 @@ describe('LabelsForm', () => {
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
         onWillMount={ON_WILL_MOUNT}
+        intl={mockIntl}
       />));
     });
 
@@ -58,28 +59,15 @@ describe('LabelsForm', () => {
         handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
         onWillMount={ON_WILL_MOUNT}
+        intl={mockIntl}
         invalid
       />));
     });
     it('Save button is disabled', () => {
-      expect(component.find('.LabelsForm__save-btn').exists('disabled')).toBe(true);
+      expect(component.find('button.LabelsForm__save-btn')).toBeDisabled();
     });
   });
-  describe('save button is disabled', () => {
-    let component;
-    beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<LabelsForm
-        onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
-        onWillMount={ON_WILL_MOUNT}
-        languages={LANGUAGES}
-      />));
-    });
-    it('Save button is disabled', () => {
-      expect(component.find('.LabelsForm__save-btn').exists('disabled')).toBe(true);
-    });
-  });
-  describe('save button is disabled', () => {
+  describe('save button submit', () => {
     let component;
     const preventDefault = jest.fn();
     beforeEach(() => {
@@ -88,6 +76,7 @@ describe('LabelsForm', () => {
         handleSubmit={HANDLE_SUBMIT}
         onWillMount={ON_WILL_MOUNT}
         languages={LANGUAGES}
+        intl={mockIntl}
       />));
     });
     it('on form submit calls handleSubmit', () => {

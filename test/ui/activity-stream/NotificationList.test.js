@@ -7,7 +7,7 @@ import NotificationList from 'ui/activity-stream/NotificationList';
 
 const NOTIFICATION_LIST_MOCK = (
   <NotificationList
-    notifications={[]}
+    notifications={[{}]}
     onClickUsername={() => jest.fn()}
     onClickTargetName={() => jest.fn()}
     onClickLike={() => jest.fn()}

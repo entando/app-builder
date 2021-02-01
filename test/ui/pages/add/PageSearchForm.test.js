@@ -25,7 +25,7 @@ describe('PageSearchForm', () => {
     expect(component.exists()).toBe(true);
   });
   it('has the PageSearchForm class', () => {
-    expect(component.exists('PageSearchForm')).toBe(true);
+    expect(component.exists('.PageSearchForm')).toBe(true);
   });
   it('form onSubmit calls handleSubmit', () => {
     component.find('form').prop('onSubmit')(EVENT);
