@@ -167,14 +167,6 @@ export const FragmentFormBody = (props) => {
       <br />
       <Row>
         <Col xs={12}>
-          {/* <Button
-            className="pull-right FragmentForm__save--btn"
-            type="submit"
-            bsStyle="primary"
-            disabled={invalid || submitting}
-          >
-            <FormattedMessage id="app.save" />
-          </Button> */}
           <div className="FragmentForm__dropdown">
             <DropdownButton
               title={intl.formatMessage({ id: 'app.save' })}
