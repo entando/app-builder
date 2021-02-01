@@ -86,18 +86,22 @@ describe('FragmentForm', () => {
     expect(defaultUi.find('Panel PanelBody pre').exists()).toEqual(true);
   });
 
-  it('disables submit button while submitting', () => {
+  it('disables submit buttons while submitting', () => {
     submitting = true;
     fragmentForm = buildFragmentForm();
-    const submitButton = fragmentForm.find('Button').first();
-    expect(submitButton.prop('disabled')).toEqual(true);
+    const regularSaveButton = fragmentForm.find('#regularSaveButton');
+    expect(regularSaveButton.prop('disabled')).toEqual(true);
+    const continueSaveButton = fragmentForm.find('#continueSaveButton');
+    expect(continueSaveButton.prop('disabled')).toEqual(true);
   });
 
-  it('disables submit button if form is invalid', () => {
+  it('disables submit buttons if form is invalid', () => {
     invalid = true;
     fragmentForm = buildFragmentForm();
-    const submitButton = fragmentForm.find('Button').first();
-    expect(submitButton.prop('disabled')).toEqual(true);
+    const regularSaveButton = fragmentForm.find('#regularSaveButton');
+    expect(regularSaveButton.prop('disabled')).toEqual(true);
+    const continueSaveButton = fragmentForm.find('#continueSaveButton');
+    expect(continueSaveButton.prop('disabled')).toEqual(true);
   });
 
   it('on form submit calls handleSubmit', () => {

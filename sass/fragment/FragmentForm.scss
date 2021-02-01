@@ -13,4 +13,21 @@
   &__save--btn {
     margin-left: 5px;
   }
+
+  &__dropdown {
+    margin-left: 5px;
+    float: right;
+  }
+
+  &__saveDropdown { //sass-lint:disable-line class-name-format
+    width: 102px;
+    margin-left: 5px;
+    text-align: left;
+
+    & > span { //sass-lint:disable-line class-name-format
+      margin-top: 6px;
+      margin-right: -3px;
+      float: right;
+    }
+  }
 }

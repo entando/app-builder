@@ -10,7 +10,8 @@ import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
-  updateFragmentSettings, removeFragment, sendDeleteFragment, sendPostFragment, sendPutFragment, setFilters,
+  updateFragmentSettings, removeFragment, sendDeleteFragment,
+  sendPostFragment, sendPutFragment, setFilters,
 } from 'state/fragments/actions';
 import {
   PLUGINS_OK,
@@ -32,6 +33,7 @@ import {
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, SET_FILTERS, REMOVE_FRAGMENT } from 'state/fragments/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
+import { REGULAR_SAVE_TYPE } from 'state/fragments/const';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -292,9 +294,14 @@ describe('state/fragments/actions', () => {
     });
     describe('sendPostFragment', () => {
       it('calls postFragment and router', () => {
-        store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
+        store.dispatch(sendPostFragment(GET_FRAGMENT_OK, REGULAR_SAVE_TYPE)).then(() => {
           expect(postFragment).toHaveBeenCalled();
           expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+        });
+      });
+      it('calls postFragment without routing', () => {
+        store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
+          expect(postFragment).toHaveBeenCalled();
         });
       });
 
@@ -314,6 +321,13 @@ describe('state/fragments/actions', () => {
     });
     describe('sendPutFragment', () => {
       it('calls putFragment and router', () => {
+        store.dispatch(sendPostFragment(GET_FRAGMENT_OK, REGULAR_SAVE_TYPE)).then(() => {
+          expect(putFragment).toHaveBeenCalled();
+          expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
+        });
+      });
+
+      it('calls putFragment without routing', () => {
         store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
           expect(putFragment).toHaveBeenCalled();
           expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);

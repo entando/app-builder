@@ -167,6 +167,7 @@ export default {
     'app.zhsTitle': 'Chinese - Simplified title',
     'app.zuTitle': 'Zulu title',
     'app.save': 'Salvar',
+    'cms.saveAndContinue': 'Salve e Continue',
     'app.search': 'Buscar',
     'app.back': 'Voltar',
     'app.submit': 'Submeter',
