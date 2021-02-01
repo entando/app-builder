@@ -5,6 +5,7 @@ import {
   mapStateToProps,
   mapDispatchToProps,
 } from 'ui/page-templates/common/PageTemplateFormContainer';
+import { FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE } from 'state/page-templates/const';
 import {
   getPageTemplateFormCellMap,
   getPageTemplateFormErrors,
@@ -51,11 +52,11 @@ describe('PageTemplateFormContainer', () => {
     });
   });
 
-  describe('mapDispatchToProps (mode = "add")', () => {
+  describe('mapDispatchToProps (mode = FORM_MODE_ADD)', () => {
     let props;
     const ownProps = {
       ...routerProps,
-      mode: 'add',
+      mode: FORM_MODE_ADD,
     };
     beforeEach(() => {
       props = mapDispatchToProps(dispatch, ownProps);
@@ -83,11 +84,11 @@ describe('PageTemplateFormContainer', () => {
     });
   });
 
-  describe('mapDispatchToProps (mode = "edit")', () => {
+  describe('mapDispatchToProps (mode = FORM_MODE_EDIT)', () => {
     let props;
     const ownProps = {
       ...routerProps,
-      mode: 'edit',
+      mode: FORM_MODE_EDIT,
     };
     beforeEach(() => {
       props = mapDispatchToProps(dispatch, ownProps);
@@ -108,7 +109,37 @@ describe('PageTemplateFormContainer', () => {
       initPageTemplateForm.mockReturnValue('initPageTemplateForm_result');
       props.onWillMount();
       expect(dispatch).toHaveBeenCalledWith('initPageTemplateForm_result');
-      expect(initPageTemplateForm).toHaveBeenCalledWith('pageTemplateCode');
+      expect(initPageTemplateForm).toHaveBeenCalledWith('pageTemplateCode', FORM_MODE_EDIT);
+      expect(clearErrors).toHaveBeenCalled();
+    });
+  });
+
+  describe('mapDispatchToProps (mode = FORM_MODE_CLONE)', () => {
+    let props;
+    const ownProps = {
+      ...routerProps,
+      mode: FORM_MODE_CLONE,
+    };
+    beforeEach(() => {
+      props = mapDispatchToProps(dispatch, ownProps);
+      jest.clearAllMocks();
+    });
+
+    it('onSubmit dispatches createPageTemplate action', () => {
+      createPageTemplate.mockReturnValue('createPageTemplate_result');
+      props.onSubmit({ data: true });
+      expect(dispatch).toHaveBeenCalledWith('createPageTemplate_result');
+      expect(createPageTemplate).toHaveBeenCalledWith({
+        data: true,
+        configuration: {},
+      });
+    });
+
+    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
+      initPageTemplateForm.mockReturnValue('initPageTemplateForm_result');
+      props.onWillMount();
+      expect(dispatch).toHaveBeenCalledWith('initPageTemplateForm_result');
+      expect(initPageTemplateForm).toHaveBeenCalledWith('pageTemplateCode', FORM_MODE_CLONE);
       expect(clearErrors).toHaveBeenCalled();
     });
   });

@@ -7,13 +7,13 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import PageTemplateFormContainer from 'ui/page-templates/common/PageTemplateFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import { FORM_MODE_ADD } from 'state/page-templates/const';
+import { FORM_MODE_CLONE } from 'state/page-templates/const';
 import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
-export const PageTemplateAddPageBody = () => (
-  <InternalPage className="PageTemplateAddPage">
+export const PageTemplateClonePageBody = () => (
+  <InternalPage className="PageTemplateClonePage">
     <Grid fluid>
       <Row>
         <Col xs={12}>
@@ -25,14 +25,14 @@ export const PageTemplateAddPageBody = () => (
               <FormattedMessage id="menu.pageTemplates" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="app.clone" />
             </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <PageTitle titleId="app.add" helpId="pageTemplates.help" />
+          <PageTitle titleId="app.clone" helpId="pageTemplates.help" />
         </Col>
       </Row>
       <Row>
@@ -42,11 +42,11 @@ export const PageTemplateAddPageBody = () => (
       </Row>
       <Row>
         <Col xs={12}>
-          <PageTemplateFormContainer mode={FORM_MODE_ADD} />
+          <PageTemplateFormContainer mode={FORM_MODE_CLONE} />
         </Col>
       </Row>
     </Grid>
   </InternalPage>
 );
 
-export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTemplateAddPageBody);
+export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTemplateClonePageBody);

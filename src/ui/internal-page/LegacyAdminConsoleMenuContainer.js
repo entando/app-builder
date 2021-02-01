@@ -66,7 +66,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
   const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
-  const hasSchedulerAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   return (
     <Item
@@ -117,15 +116,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
           onClick={() => history.push(ROUTE_CMS_VERSIONING)}
         />
-        )
-      }
-      {
-        hasSchedulerAccess && (
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Scheduler' })}
-            onClick={() => {}}
-            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
-          />
         )
       }
       {
