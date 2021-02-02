@@ -431,6 +431,7 @@ export default {
     'fragment.table.widgetType': 'Tipo di Widget',
     'fragment.table.plugin': 'Plugin',
     'fragment.table.edit': 'Modifica {code}',
+    'fragment.table.clone': 'Clona {code}',
     'fragment.table.details': 'Dettagli di: {code}',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.form.edit.widgetType': 'Tipo di Widget',

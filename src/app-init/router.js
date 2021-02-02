@@ -32,6 +32,7 @@ export const ROUTE_WIDGET_CONFIG = '/widget/config/:widgetCode/page/:pageCode/fr
 export const ROUTE_FRAGMENT_LIST = '/fragment';
 export const ROUTE_FRAGMENT_ADD = '/fragment/add';
 export const ROUTE_FRAGMENT_EDIT = '/fragment/edit/:fragmentCode';
+export const ROUTE_FRAGMENT_CLONE = '/fragment/clone/:fragmentCode';
 export const ROUTE_FRAGMENT_DETAIL = '/fragment/view/:fragmentCode';
 // data model
 export const ROUTE_DATA_MODEL_LIST = '/datamodels';

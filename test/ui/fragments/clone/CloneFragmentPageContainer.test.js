@@ -1,11 +1,11 @@
 import 'test/enzyme-init';
 
-import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/edit/EditFragmentPageContainer';
-import { FORM_MODE_EDIT } from 'state/fragments/const';
+import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/clone/CloneFragmentPageContainer';
+import { FORM_MODE_CLONE } from 'state/fragments/const';
 import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
-  mode: FORM_MODE_EDIT,
+  mode: FORM_MODE_CLONE,
   fragmentForm: GET_FRAGMENT_OK.payload,
 };
 
@@ -19,8 +19,8 @@ const ownProps = {
 
 const dispatchMock = jest.fn();
 
-describe('EditFragmentPageContainer', () => {
-  it('maps fragmentCode property state in EditFragmentPage', () => {
+describe('CloneFragmentPageContainer', () => {
+  it('maps fragmentCode property state in CloneFragmentPage', () => {
     expect(mapStateToProps(TEST_STATE, ownProps)).toEqual({ fragmentCode: 'code' });
   });
 

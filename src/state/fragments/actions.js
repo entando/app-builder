@@ -14,7 +14,7 @@ import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
-import { CONTINUE_SAVE_TYPE } from 'state/fragments/const';
+import { CONTINUE_SAVE_TYPE, FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/fragments/const';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -52,12 +52,17 @@ export const removeFragment = fragmentCode => ({
 });
 
 // thunks
-export const fetchFragment = fragmentCode => dispatch =>
+export const fetchFragment = (fragmentCode, mode = FORM_MODE_EDIT) => dispatch =>
   new Promise((resolve) => {
     getFragment(fragmentCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('fragment', json.payload));
+          dispatch(initialize('fragment', {
+            ...json.payload,
+            ...(mode === FORM_MODE_CLONE ? {
+              code: '',
+            } : {}),
+          }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

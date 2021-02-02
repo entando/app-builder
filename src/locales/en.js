@@ -432,6 +432,7 @@ export default {
     'fragment.table.widgetType': 'Widget type',
     'fragment.table.plugin': 'Plugin',
     'fragment.table.edit': 'Edit {code}',
+    'fragment.table.clone': 'Clone {code}',
     'fragment.table.details': 'Details for: {code}',
     'fragment.form.edit.widgetType': 'Widget type',
     'fragment.settings': 'Enable editing of UX fragment with empty default gui.',
