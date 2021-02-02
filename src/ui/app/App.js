@@ -23,6 +23,7 @@ import {
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_CLONE,
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
@@ -108,6 +109,7 @@ import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContain
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
+import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
@@ -240,6 +242,7 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
       <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
       <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
+      <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
       {/* data models */}
       <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />

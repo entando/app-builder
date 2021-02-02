@@ -1,14 +1,14 @@
 import 'test/enzyme-init';
 
-import { FORM_MODE_EDIT } from 'state/fragments/const';
-import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/edit/EditFormContainer';
+import { FORM_MODE_CLONE } from 'state/fragments/const';
+import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/clone/CloneFormContainer';
 
 const TEST_STATE = {
-  mode: FORM_MODE_EDIT,
+  mode: FORM_MODE_CLONE,
 };
 
-describe('EditFormContainer', () => {
-  it('verify that mode is set to edit', () => {
+describe('CloneFormContainer', () => {
+  it('verify that mode is set to clone', () => {
     expect(mapStateToProps()).toEqual(TEST_STATE);
   });
 

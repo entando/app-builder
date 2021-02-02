@@ -8,10 +8,13 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-import { REGULAR_SAVE_TYPE, CONTINUE_SAVE_TYPE } from 'state/fragments/const';
-
-const EDIT_MODE = 'edit';
-const NEW_MODE = 'new';
+import {
+  REGULAR_SAVE_TYPE,
+  CONTINUE_SAVE_TYPE,
+  FORM_MODE_ADD,
+  FORM_MODE_EDIT,
+  FORM_MODE_CLONE,
+} from 'state/fragments/const';
 
 const maxLength50 = maxLength(50);
 
@@ -102,7 +105,7 @@ export const FragmentFormBody = (props) => {
     />
   );
 
-  if (mode === NEW_MODE) {
+  if ([FORM_MODE_ADD, FORM_MODE_CLONE].includes(mode)) {
     pluginField = null;
     widgetTypeField = null;
   }
@@ -126,7 +129,7 @@ export const FragmentFormBody = (props) => {
               }
               placeholder={intl.formatMessage(msgs.codePlaceholder)}
               validate={[required, code, maxLength50]}
-              disabled={mode === EDIT_MODE}
+              disabled={mode === FORM_MODE_EDIT}
             />
             {widgetTypeField}
             {pluginField}
@@ -221,7 +224,7 @@ FragmentFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  mode: PropTypes.string,
+  mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -232,7 +235,7 @@ FragmentFormBody.propTypes = {
 FragmentFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  mode: NEW_MODE,
+  mode: FORM_MODE_ADD,
   dirty: false,
 };
 
