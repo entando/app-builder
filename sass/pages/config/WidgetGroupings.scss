@@ -4,6 +4,7 @@
   background-color: $color-sidebar-dark-bg;
 
   &__right-menu-title {
+    display: flex;
     padding: 15px 0 15px 18px;
     font-size: 16px;
     text-transform: uppercase;
@@ -18,12 +19,31 @@
   }
 
   &__input-pf-right-menu {
-    width: 94%;
+    width: 75%;
     font-size: 14px;
   }
 
   &__pointer {
     cursor: pointer;
+  }
+
+  &__view-options {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+
+  &__view-option {
+    color: $color-rating-filter-star-empty;
+
+    &.fa {  // sass-lint:disable-line class-name-format
+      margin: 8px;
+      font-size: 15px;
+    }
+
+    &--selected {
+      color: $color-white;
+    }
   }
 
 }

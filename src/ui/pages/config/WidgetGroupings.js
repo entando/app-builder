@@ -18,6 +18,7 @@ const WidgetGroupings = ({
   };
 
   const [openGroupings, setOpenGroupings] = useState({});
+  const [view, setView] = useState('grid');
   const toggleGroupingCollapse = grouping => setOpenGroupings({
     ...openGroupings,
     [grouping]: !openGroupings[grouping],
@@ -31,6 +32,17 @@ const WidgetGroupings = ({
     setOpenGroupings(newOpenGroupings);
   }, [searchFilter, widgetGroupingList]);
 
+  const optClassSel = 'WidgetGroupings__view-option--selected';
+  const gridViewClass = `fa fa-th WidgetGroupings__view-option ${
+    view === 'grid' ? optClassSel : ''
+  }`;
+  const listViewClass = `fa fa-list WidgetGroupings__view-option ${
+    view === 'list' ? optClassSel : ''
+  }`;
+
+  const setGridView = () => setView('grid');
+  const setListView = () => setView('list');
+
   return (
     <div className="WidgetGroupings">
       <div className="WidgetGroupings__right-menu-title">
@@ -40,6 +52,22 @@ const WidgetGroupings = ({
           onChange={onChange}
           placeholder={intl.formatMessage(msgs.search)}
         />
+        <div className="WidgetGroupings__view-options">
+          <span
+            className={gridViewClass}
+            onClick={setGridView}
+            onKeyDown={setGridView}
+            role="button"
+            tabIndex={-1}
+          />
+          <span
+            className={listViewClass}
+            onClick={setListView}
+            onKeyDown={setListView}
+            role="button"
+            tabIndex={-2}
+          />
+        </div>
       </div>
       <div>
         {
@@ -51,6 +79,7 @@ const WidgetGroupings = ({
               opened={openGroupings[grouping]}
               name={grouping}
               key={grouping}
+              view={view}
             />
           ))
         }

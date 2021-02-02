@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapse } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
-import DraggableContentWidgetElement from 'ui/pages/config/WidgetGroupingDraggableItem';
+import DraggableContentWidgetGridElement from 'ui/pages/config/WidgetGroupingDraggableItem';
+import DraggableContentWidgetListElement from 'ui/pages/config/WidgetGroupingDraggableListItem';
 
 import CollapsibleSectionTitle from 'ui/common/CollapsibleSectionTitle';
 
 const WidgetGrouping = ({
-  widgets, name, opened, locale, onToggle,
+  widgets, name, opened, locale, onToggle, view,
 }) => {
   const itemAreaClassNames = ['WidgetGrouping__item-area'];
   if (widgets.length % 2 === 1) {
@@ -24,13 +25,19 @@ const WidgetGrouping = ({
       <Collapse in={opened}>
         <div>
           <div className={itemAreaClassNames.join(' ')}>
-            {widgets.map(widget => (
-              <DraggableContentWidgetElement
+            {widgets.map(widget => (view === 'grid' ? (
+              <DraggableContentWidgetGridElement
                 key={`wdg-${widget.code}`}
                 widgetName={widget.titles[locale]}
                 widgetId={widget.code}
               />
-            ))}
+            ) : (
+              <DraggableContentWidgetListElement
+                key={`wdg-${widget.code}`}
+                widgetName={widget.titles[locale]}
+                widgetId={widget.code}
+              />
+            )))}
           </div>
         </div>
       </Collapse>
@@ -44,6 +51,7 @@ WidgetGrouping.propTypes = {
   name: PropTypes.string.isRequired,
   opened: PropTypes.bool,
   onToggle: PropTypes.func.isRequired,
+  view: PropTypes.string.isRequired,
 };
 
 WidgetGrouping.defaultProps = {
