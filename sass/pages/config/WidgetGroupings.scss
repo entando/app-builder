@@ -30,15 +30,17 @@
   &__view-options {
     display: flex;
     flex: 1;
+    align-items: center;
     justify-content: center;
+    margin-left: 10px;
   }
 
   &__view-option {
     color: $color-rating-filter-star-empty;
 
     &.fa {  // sass-lint:disable-line class-name-format
-      margin: 8px;
-      font-size: 15px;
+      margin-right: 10px;
+      font-size: 27px;
     }
 
     &--selected {
