@@ -163,4 +163,16 @@ $fa-square-o: "\f096";
   overflow-x: hidden;
 }
 
+.table {
+  & > thead > tr > td,
+  & > tbody > tr > td {
+    &.columnResizer,
+    &.colForResize {
+      padding: 0;
+      width: 2px;
+      border-right-color: transparent;
+    }
+  }
+}
+
 // sass-lint:enable class-name-format
