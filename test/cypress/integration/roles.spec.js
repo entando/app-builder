@@ -1,8 +1,7 @@
-function generateRandomId() {
-  return Math.floor(Math.random() * Math.floor(999999999999999));
-}
+import { generateRandomId } from '../support/utils';
 
-describe('Users', () => {
+describe('Roles', () => {
+  const roleCode = generateRandomId();
   beforeEach(() => {
     cy.getOauth2Data();
     cy.get('@oauth2Data').then((oauth2Data) => {
@@ -24,9 +23,9 @@ describe('Users', () => {
       cy.contains('Roles').click();
       cy.get('[data-cy=user-roles]').contains('Roles').should('be.visible');
 
-      cy.get('[data-cy=add-new-role]').click(); // This is a good selector
+      cy.get('[data-cy=add-new-role]').click();
       cy.get('[data-cy=add-user-role]').contains('Add').should('be.visible');
-      cy.get('[data-cy=add-role-name-input').type('irakli');
+      cy.get('[data-cy=add-role-name-input').type(roleCode);
 
       cy.get('[data-cy=save-role').contains('Save').click();
       cy.get('[data-cy=user-roles]').contains('Roles').should('be.visible');
@@ -36,15 +35,9 @@ describe('Users', () => {
 
   describe('Edit an existing role', () => {
     it('Should edit an existing role', () => {
-      cy.visit('/');
-      cy.contains('Users').click();
-      cy.contains('Roles').click();
-      cy.get('[data-cy=user-roles]').contains('Roles').should('be.visible');
-
-      cy.get('.RoleListRow__td.text-center').first().click();
-      cy.get('.RoleListMenuAction__menu-item-edit').first().click();
+      cy.visit(`/role/edit/${roleCode}`);
       cy.get('[data-cy=edit-user-role]').contains('Edit').should('be.visible');
-      cy.get('[data-cy=add-role-name-input').type('irakli');
+      cy.get('[data-cy=add-role-name-input').type('Cypress role edited');
 
       cy.get('[data-cy=save-role').contains('Save').click();
       cy.get('[data-cy=user-roles]').contains('Roles').should('be.visible');

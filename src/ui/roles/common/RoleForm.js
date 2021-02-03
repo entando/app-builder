@@ -73,6 +73,7 @@ export class RoleFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="code"
+                dataCy="add-role-code-input"
                 label={<FormLabel labelId="app.code" helpId="role.code.help" required />}
                 placeholder={intl.formatMessage(msgs.appCode)}
                 validate={[required, maxLength20, code]}

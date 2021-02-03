@@ -47,7 +47,7 @@ class PageTreePage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <PageTitle titleId="menu.pageTree" helpId="pageTreePage.help" />
+              <PageTitle titleId="menu.pageTree" helpId="pageTreePage.help" dataCy="page-tree" />
             </Col>
           </Row>
           <Row>

@@ -43,7 +43,7 @@ const PageTitle = ({
   configLink,
   hideConfigLink,
   dataCy,
-}) => console.log('dataCy', dataCy) || (
+}) => (
   <div className="PageTitle">
     <div className="PageTitle__header">
       <h1 className="PageTitle__title" data-cy={dataCy}>
