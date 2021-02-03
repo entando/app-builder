@@ -164,6 +164,9 @@ $fa-square-o: "\f096";
 }
 
 .table {
+  & > thead > th[dragOver] {
+    border-left: 5px solid red;
+  }
   & > thead > tr > td,
   & > tbody > tr > td {
     &.columnResizer,
