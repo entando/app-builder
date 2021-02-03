@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import WidgetGrouping from 'ui/pages/config/WidgetGrouping';
 
+export const GRID_VIEW = 'grid';
+export const LIST_VIEW = 'list';
+
 const msgs = defineMessages({
   search: {
     id: 'pages.designer.searchWidgetLabel',
@@ -18,7 +21,7 @@ const WidgetGroupings = ({
   };
 
   const [openGroupings, setOpenGroupings] = useState({});
-  const [view, setView] = useState('grid');
+  const [view, setView] = useState(GRID_VIEW);
   const toggleGroupingCollapse = grouping => setOpenGroupings({
     ...openGroupings,
     [grouping]: !openGroupings[grouping],
@@ -34,14 +37,14 @@ const WidgetGroupings = ({
 
   const optClassSel = 'WidgetGroupings__view-option--selected';
   const gridViewClass = `fa fa-th WidgetGroupings__view-option ${
-    view === 'grid' ? optClassSel : ''
+    view === GRID_VIEW ? optClassSel : ''
   }`;
   const listViewClass = `fa fa-list WidgetGroupings__view-option ${
-    view === 'list' ? optClassSel : ''
+    view === LIST_VIEW ? optClassSel : ''
   }`;
 
-  const setGridView = () => setView('grid');
-  const setListView = () => setView('list');
+  const setGridView = () => setView(GRID_VIEW);
+  const setListView = () => setView(LIST_VIEW);
 
   return (
     <div className="WidgetGroupings">
