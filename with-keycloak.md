@@ -13,7 +13,6 @@
 - Top left corner click:  Add Realm
 - Click import json file. Choose a file from cloned `entando-keycloak-plugin/keycloak/realm-export.json`
 Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando-web`
-- Click *Realm Settings* from left menu and change real name from `entando-development` to `entando` 
 ### Configure clients
 - Go to `Clients/entando-core` and make changes as described below:
 - Put `*` in valid redirect URIs.
