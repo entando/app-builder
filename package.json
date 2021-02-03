@@ -99,8 +99,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "cypress": "cypress open",
-    "cypress-test": "cross-env NODE_ENV=test cypress open",
     "cypress:run": "cypress run --browser chrome",
     "cypress:run:headless": "npm run cypress:run -- --headless",
     "lint": "eslint ./src",
@@ -135,7 +133,9 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "testPathIgnorePatterns": ["<rootDir>/test/cypress"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/test/cypress"
+    ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
     ],

@@ -47,7 +47,7 @@ class PageTreePage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <PageTitle titleId="menu.pageTree" helpId="pageTreePage.help" dataCy="page-tree" />
+              <PageTitle titleId="menu.pageTree" helpId="pageTreePage.help" data-testid="page-tree" />
             </Col>
           </Row>
           <Row>
@@ -88,7 +88,7 @@ class PageTreePage extends Component {
                 <Button
                   bsStyle="primary"
                   className="app-tour-step-5"
-                  data-cy="button-step-5"
+                  data-testid="button-step-5"
                   onClick={() => this.props.onNextStep(6)}
                 >
                   <FormattedMessage id="app.add" />

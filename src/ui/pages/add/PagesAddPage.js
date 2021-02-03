@@ -38,7 +38,7 @@ class PagesAddPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <PageTitle titleId="app.add" helpId="pageTreePage.help" dataCy="add-new-page" />
+              <PageTitle titleId="app.add" helpId="pageTreePage.help" data-testid="add-new-page" />
             </Col>
           </Row>
           <Row>

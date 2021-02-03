@@ -64,7 +64,7 @@ export class RoleFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="name"
-                dataCy="add-role-name-input"
+                data-testid="add-role-name-input"
                 label={<FormLabel labelId="app.name" helpId="role.name.help" required />}
                 placeholder={intl.formatMessage(msgs.appName)}
                 validate={[required, maxLength50]}
@@ -73,7 +73,7 @@ export class RoleFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="code"
-                dataCy="add-role-code-input"
+                data-testid="add-role-code-input"
                 label={<FormLabel labelId="app.code" helpId="role.code.help" required />}
                 placeholder={intl.formatMessage(msgs.appCode)}
                 validate={[required, maxLength20, code]}
@@ -105,7 +105,7 @@ export class RoleFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
-              data-cy="save-role"
+              data-testid="save-role"
               disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
