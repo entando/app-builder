@@ -31,6 +31,7 @@ export const ListRolePageBody = () => (
           <PageTitle
             titleId="menu.roles"
             helpId="role.help"
+            data-testid="user-roles"
           />
         </Col>
       </Row>
@@ -45,6 +46,7 @@ export const ListRolePageBody = () => (
               type="button"
               className="pull-right ListRolePage__add"
               bsStyle="primary"
+              data-testid="add-new-role"
             >
               <FormattedMessage
                 id="app.add"

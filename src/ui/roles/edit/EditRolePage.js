@@ -32,6 +32,7 @@ export const EditRolePageBody = () => (
       <PageTitle
         titleId="app.edit"
         helpId="role.help"
+        data-testid="edit-user-role"
       />
       <Row>
         <Col xs={12}>

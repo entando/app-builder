@@ -89,6 +89,7 @@ export class PageFormBody extends Component {
                 key={lang.code}
                 component={RenderTextInput}
                 name={`titles.${lang.code}`}
+                data-testid={`titles.${lang.code}`}
                 tourClass="app-tour-step-6"
                 label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
                 placeholder={intl.formatMessage(msgTitle.langCode)}
@@ -305,6 +306,7 @@ export class PageFormBody extends Component {
             <Field
               component={RenderTextInput}
               name="code"
+              data-testid="page-code"
               tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
@@ -375,6 +377,7 @@ export class PageFormBody extends Component {
                 <Button
                   className="PageForm__save-btn"
                   type="submit"
+                  data-testid="save-page"
                   bsStyle="primary"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values =>
