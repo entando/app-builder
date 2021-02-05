@@ -47,5 +47,7 @@ pipelineConfig:
       promote:
         replace: true
         steps:
-          - sh: publish-image-info
+          - sh: >-
+              kubectl patch configmap entando-docker-image-info-v6.3 -n entando -p \
+              "{\"data\":{\"app-builder\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"n/a\\\",\\\"registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"organization\\\":\\\"entando\\\"}\"}}"
             name: update-image-map
