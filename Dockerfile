@@ -1,10 +1,10 @@
 FROM registry.access.redhat.com/ubi8/nginx-118
-
+ARG VERSION
 ### Required OpenShift Labels
 LABEL name="Entando App Builder" \
       maintainer="dev@entando.com" \
       vendor="Entando Inc." \
-      version="6.3.0" \
+      version="v{VERSION}" \
       release="6.3.0" \
       summary="Entando App Builder" \
       description="The Entando App Builder is the front end environment to interact with the micro frontends, the WCMS, and other Entando components"
