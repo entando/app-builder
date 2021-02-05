@@ -50,10 +50,6 @@ const ROUTE_CMS_CONTENTS = '/cms/contents';
 const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
 const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
 
-const { DOMAIN } = getRuntimeEnv();
-
-const adminConsoleUrl = url => `${DOMAIN}/${url}`;
-
 const isCmsInstalled = apps.some((app => app.id === CMS_APP_ID));
 
 const renderCmsMenuItems = (intl, history, userPermissions) => {

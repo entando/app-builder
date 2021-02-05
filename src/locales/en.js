@@ -915,5 +915,6 @@ export default {
     'app.startTutorial': 'Start Welcome Wizard',
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Sender Management',
+    'emailConfig.help': 'The Email Configuration plugin provides basic functionality to send email. This plugin is a prerequisite for all plugins that require email delivery.  Administrators must configure the network configuration and create at least one sender profile.',
   },
 };

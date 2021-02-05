@@ -915,5 +915,6 @@ export default {
     'app.startTutorial': 'Inizia il tutorial',
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Configura i Mittenti',
+    'emailConfig.help': 'Il plug-in Configurazione e-mail fornisce funzionalità di base per inviare e-mail. Questo plugin è un prerequisito per tutti i plugin che richiedono la consegna di posta elettronica. Gli amministratori devono configurare la configurazione di rete e creare almeno un profilo mittente.',
   },
 };
