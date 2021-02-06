@@ -10,6 +10,7 @@ import { isUndefined } from 'lodash';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
+import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
@@ -122,6 +123,18 @@ export class PageFormBody extends Component {
           <Row>
             <Col xs={12}>
               <Field
+                component={RenderDropdownTypeaheadInput}
+                name="ownerGroup"
+                label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
+                options={groupsWithEmpty}
+                labelKey="name"
+                valueKey="code"
+                disabled={isEditMode}
+                tourClass="app-tour-step-9"
+                onChange={optionSelected => onChangeOwnerGroup(optionSelected.code, appTourProgress)}
+                validate={[required]}
+              />
+              {/* <Field
                 component={RenderSelectInput}
                 name="ownerGroup"
                 className="form-control"
@@ -133,7 +146,7 @@ export class PageFormBody extends Component {
                 options={groupsWithEmpty}
                 optionValue="code"
                 optionDisplayName="name"
-              />
+              /> */}
               <FormGroup>
                 <label htmlFor="ownerGroup" className="col-xs-2 control-label">
                   <FormLabel labelId="pages.pageForm.joinGroup" />

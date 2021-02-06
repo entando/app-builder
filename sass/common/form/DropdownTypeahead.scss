@@ -1,0 +1,32 @@
+.DropdownTypeahead {
+  .dropdown, // sass-lint:disable-line class-name-format
+  .dropdown-menu { // sass-lint:disable-line class-name-format
+    width: 100%;
+  }
+
+  &__toggle-button {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    bottom: 0;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+  }
+
+  &__dropdownbutton {
+    &.btn { // sass-lint:disable-line class-name-format
+      width: 100%;
+      text-align: left;
+    }
+
+    .caret { // sass-lint:disable-line class-name-format
+      margin-top: 5px;
+      float: right;
+    }
+  }
+
+  &__droparea {
+    width: 100%;
+  }
+}
