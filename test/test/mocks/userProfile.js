@@ -71,3 +71,29 @@ export const USER_PROFILE = {
   },
   ],
 };
+
+export const USER_PROFILE_PICTURE = {
+  username: 'admin',
+  versions: [
+    {
+      dimensions: null,
+      path: '/entando-de-app/engine/admin/profile/image_d0.jpg',
+      size: '2 Kb',
+    },
+    {
+      dimensions: '90x90 px',
+      path: '/entando-de-app/engine/admin/profile/image_d1.jpg',
+      size: '2 Kb',
+    },
+    {
+      dimensions: '130x130 px',
+      path: '/entando-de-app/engine/admin/profile/image_d2.jpg',
+      size: '2 Kb',
+    },
+    {
+      dimensions: '150x150 px',
+      path: '/entando-de-app/engine/admin/profile/image_d3.jpg',
+      size: '2 Kb',
+    },
+  ],
+};

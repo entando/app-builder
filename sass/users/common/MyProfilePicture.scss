@@ -1,0 +1,51 @@
+.MyProfilePicture {
+  display: flex;
+  margin: 20px;
+  padding: 10px;
+  border-top: solid 1px #eee;
+
+  & > div {
+    padding: 20px;
+  }
+
+  &__img {
+    width: 70px;
+  }
+
+  &__description {
+    font-size: 14px;
+  }
+
+  &__dimensions {
+    display: flex;
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      margin-right: 10px;
+      padding-right: 10px;
+      border-right: solid 1px #ccc;
+    }
+
+    & span {
+      padding: 2px 5px;
+      background-color: $color-light-blue;
+      color: $color-white;
+      font-size: 10px;
+      font-weight: bold;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  &__actions > i {
+    font-size: 16px;
+    cursor: pointer;
+  }
+}

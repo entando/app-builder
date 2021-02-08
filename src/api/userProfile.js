@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { USER_PROFILE } from 'test/mocks/userProfile';
+import { USER_PROFILE, USER_PROFILE_PICTURE } from 'test/mocks/userProfile';
 
 export const getUserProfile = username => (
   makeRequest({
@@ -29,3 +29,33 @@ export const postUserProfile = profile => (
     useAuthentication: true,
   })
 );
+
+export const getUserProfilePicture = username => (
+  makeRequest({
+    uri: `/api/userProfiles/${username}/profilePicture`,
+    method: METHODS.GET,
+    mockResponse: USER_PROFILE_PICTURE,
+    useAuthentication: true,
+  })
+);
+
+export const postUserProfilePicture = (username, picture) => (
+  makeRequest({
+    uri: `/api/userProfiles/${username}/profilePicture`,
+    method: METHODS.POST,
+    body: picture,
+    contentType: 'multipart/form-data',
+    mockResponse: USER_PROFILE_PICTURE,
+    useAuthentication: true,
+  })
+);
+
+export const deleteUserProfilePicture = username => (
+  makeRequest({
+    uri: `/api/userProfiles/${username}/profilePicture`,
+    method: METHODS.DELETE,
+    mockResponse: USER_PROFILE_PICTURE,
+    useAuthentication: true,
+  })
+);
+

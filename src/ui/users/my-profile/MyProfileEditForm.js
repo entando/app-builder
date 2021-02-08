@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
-import { Form, Button, Row, Col } from 'patternfly-react';
+import { Form, Button, Row, Col, Spinner } from 'patternfly-react';
 
 import RenderListField from 'ui/common/form/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -16,6 +16,7 @@ import {
 } from 'state/data-types/const';
 import { getComponentType } from 'helpers/entities';
 import DropzoneUploader from 'ui/users/common/DropzoneUploader';
+import MyProfilePicture from 'ui/users/common/MyProfilePicture';
 
 const defaultAttrCodes = ['fullname', 'email'];
 
@@ -150,7 +151,8 @@ export class MyProfileEditFormBody extends Component {
 
   render() {
     const {
-      profileTypesAttributes, defaultLanguage, languages, intl,
+      profileTypesAttributes, defaultLanguage, languages, intl, profilePicture,
+      onUploadProfilePicture, username, onDeleteProfilePicture, pictureIsLoading,
     } = this.props;
 
     const { editMode } = this.state;
@@ -226,7 +228,15 @@ export class MyProfileEditFormBody extends Component {
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImageProfile" requireFields={false} subtitle="user.myProfile.onlyImage" />
-        <DropzoneUploader onUpload={files => console.log(files)} maxFiles={1} accept="image/*" />
+        <DropzoneUploader onUpload={files => onUploadProfilePicture(username, files)} maxFiles={1} accept="image/*" />
+        <Spinner loading={pictureIsLoading} />
+        {
+          profilePicture && !pictureIsLoading &&
+          <MyProfilePicture
+            versions={profilePicture}
+            onDelete={() => onDeleteProfilePicture(username)}
+          />
+        }
         <FormSectionTitle titleId="user.myProfile.editProfileSection" />
         {renderedProfileFields}
         {editMode ? (
@@ -297,10 +307,20 @@ MyProfileEditFormBody.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   intl: intlShape.isRequired,
+  profilePicture: PropTypes.arrayOf(PropTypes.shape({
+    dimensions: PropTypes.string,
+    path: PropTypes.string,
+    size: PropTypes.string,
+  })),
+  onUploadProfilePicture: PropTypes.func.isRequired,
+  onDeleteProfilePicture: PropTypes.func.isRequired,
+  pictureIsLoading: PropTypes.string,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
+  profilePicture: null,
+  pictureIsLoading: null,
 };
 
 const MyProfileEditForm = reduxForm({

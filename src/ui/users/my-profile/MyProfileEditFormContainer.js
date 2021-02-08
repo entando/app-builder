@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 import { reset } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
-import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
+import { deleteProfilePicture, fetchUserProfile, updateUserProfile, uploadProfilePicture } from 'state/user-profile/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
+import { getLoading } from 'state/loading/selectors';
 import MyProfileEditForm from 'ui/users/my-profile/MyProfileEditForm';
 import { getPayloadForForm } from 'helpers/entities';
-import { getUserProfile } from 'state/user-profile/selectors';
+import { getUserProfile, getUserProfilePicture } from 'state/user-profile/selectors';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
@@ -21,6 +22,8 @@ export const mapStateToProps = state => ({
     getDefaultLanguage(state),
     getActiveLanguages(state),
   ),
+  profilePicture: getUserProfilePicture(state),
+  pictureIsLoading: getLoading('myProfilePicture'),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -33,6 +36,12 @@ export const mapDispatchToProps = dispatch => ({
   },
   onCancel: () => {
     dispatch(reset('UserProfile'));
+  },
+  onUploadProfilePicture: (username, picture) => {
+    dispatch(uploadProfilePicture(username, picture));
+  },
+  onDeleteProfilePicture: (username) => {
+    dispatch(deleteProfilePicture(username));
   },
 });
 

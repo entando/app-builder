@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
-import { getUserProfile, putUserProfile, postUserProfile } from 'api/userProfile';
+import { getUserProfile, putUserProfile, postUserProfile, getUserProfilePicture, deleteUserProfilePicture, postUserProfilePicture } from 'api/userProfile';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { USER_PROFILE } from 'test/mocks/userProfile';
+import { USER_PROFILE, USER_PROFILE_PICTURE } from 'test/mocks/userProfile';
 
 jest.unmock('api/userProfile');
 jest.mock('@entando/apimanager', () => ({
@@ -60,6 +60,56 @@ describe('api/userProfiles', () => {
         method: METHODS.PUT,
         body: USER_PROFILE,
         mockResponse: USER_PROFILE,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getUserProfilePicture', () => {
+    it('returns a promise', () => {
+      expect(getUserProfilePicture()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      getUserProfilePicture(username);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/userProfiles/${username}/profilePicture`,
+        method: METHODS.GET,
+        mockResponse: USER_PROFILE_PICTURE,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('postUserProfilePicture', () => {
+    it('returns a promise', () => {
+      expect(postUserProfilePicture()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      postUserProfilePicture(username, USER_PROFILE_PICTURE);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/userProfiles/${username}/profilePicture`,
+        method: METHODS.POST,
+        body: USER_PROFILE_PICTURE,
+        contentType: 'multipart/form-data',
+        mockResponse: USER_PROFILE_PICTURE,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('deleteUserProfilePicture', () => {
+    it('returns a promise', () => {
+      expect(deleteUserProfilePicture()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deleteUserProfilePicture(username);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/userProfiles/${username}/profilePicture`,
+        method: METHODS.DELETE,
+        mockResponse: USER_PROFILE_PICTURE,
         useAuthentication: true,
       });
     });
