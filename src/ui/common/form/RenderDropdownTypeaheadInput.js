@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Col, ControlLabel } from 'patternfly-react';
@@ -11,21 +12,25 @@ class RenderDropdownTypeaheadInput extends Component {
   }
 
   valueChanged(selected) {
-    const { input, onChange, valueKey } = this.props;
-    if (!selected.length) return;
-    const value = get(selected[0], valueKey, selected[0]);
+    const {
+      input,
+      onChange,
+      multiple,
+      valueKey,
+    } = this.props;
+    const value = multiple ? selected.map(({ code }) => code) : get(selected, `0.${valueKey}`, '');
     input.onChange(value);
     if (onChange) {
       onChange(value);
     }
-    // const btn = document.querySelector('.DropdownTypeahead__dropdownbutton');
-    // btn.click();
   }
 
   render() {
     const {
       input,
       meta: { touched, error },
+      intl,
+      multiple,
       label,
       help,
       labelSize,
@@ -41,17 +46,31 @@ class RenderDropdownTypeaheadInput extends Component {
     } = this.props;
 
     const filterBy = (option, state) => {
-      if (state.selected.length) {
+      if (!multiple && state.selected.length) {
         return true;
       }
-      return option[labelKey].toLowerCase().indexOf(state.text.toLowerCase()) > -1;
+      return option[valueKey].toLowerCase().indexOf(state.text.toLowerCase()) > -1;
     };
 
-    const ToggleButton = ({ onClick }) => (
+    const choices = multiple ? options.filter(option => (
+      !input.value.includes(get(option, valueKey, option))
+    )) : options;
+
+    const selected = options.filter((option) => {
+      const optionValue = get(option, valueKey, option);
+      if (multiple) {
+        return input.value.includes(optionValue);
+      }
+      return optionValue === input.value;
+    });
+
+    const renderToggleButton = ({ isMenuShown, onClick }) => (
       <button
-        className="DropdownTypeahead__toggle-button caret"
-        onClick={onClick}
-        onMouseDown={e => e.preventDefault()}
+        className={`DropdownTypeahead__toggle-button fa fa-angle-${isMenuShown ? 'up' : 'down'}`}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick(e);
+        }}
       />
     );
 
@@ -76,14 +95,17 @@ class RenderDropdownTypeaheadInput extends Component {
           <Typeahead
             filterBy={filterBy}
             id={input.name}
-            options={options}
+            multiple={multiple}
+            options={choices}
+            emptyLabel={intl.formatMessage({ id: options.length === selected.length ? 'app.noOptions' : 'app.noMatchOptions' })}
             labelKey={labelKey}
             placeholder={placeholder}
+            selected={selected}
             onChange={this.valueChanged}
             disabled={others.disabled}
           >
             {({ isMenuShown, toggleMenu }) => (
-              <ToggleButton isOpen={isMenuShown} onClick={() => toggleMenu()} />
+              renderToggleButton({ isMenuShown, onClick: toggleMenu })
             )}
           </Typeahead>
           {append && <span className="AppendedLabel">{append}</span>}
@@ -98,8 +120,13 @@ RenderDropdownTypeaheadInput.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func,
     name: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
   }),
+  intl: intlShape.isRequired,
+  multiple: PropTypes.bool,
   label: PropTypes.node,
   labelSize: PropTypes.number,
   labelKey: PropTypes.string,
@@ -132,6 +159,7 @@ RenderDropdownTypeaheadInput.defaultProps = {
   alignClass: 'text-right',
   onChange: null,
   valueKey: '',
+  multiple: false,
 };
 
-export default RenderDropdownTypeaheadInput;
+export default injectIntl(RenderDropdownTypeaheadInput);

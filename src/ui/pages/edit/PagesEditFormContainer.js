@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
@@ -25,7 +24,6 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   pages: getPageTreePages(state),
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
-  selectedJoinGroups: formValueSelector(FORM_ID)(state, 'joinGroups') || [],
   seoMode: SEO_ENABLED,
   mode: 'edit',
   pageCode: params.pageCode,

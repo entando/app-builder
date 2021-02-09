@@ -4,25 +4,35 @@
     width: 100%;
   }
 
+  // sass-lint:disable no-vendor-prefixes
+  input::-webkit-input-placeholder,
+  input::-moz-placeholder,
+  input:-ms-input-placeholder {
+    font-style: oblique;
+  }
+  // sass-lint:enable no-vendor-prefixes
+
   &__toggle-button {
     position: absolute;
-    top: 8px;
+    top: 0;
     right: 0;
     bottom: 0;
     padding: 0 12px;
     border: 0;
     background: transparent;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .rbt-input-multi .rbt-token { // sass-lint:disable-line force-element-nesting class-name-format
+    margin-top: 1px;
+    line-height: calc(1em + 1px);
   }
 
   &__dropdownbutton {
     &.btn { // sass-lint:disable-line class-name-format
       width: 100%;
       text-align: left;
-    }
-
-    .caret { // sass-lint:disable-line class-name-format
-      margin-top: 5px;
-      float: right;
     }
   }
 
