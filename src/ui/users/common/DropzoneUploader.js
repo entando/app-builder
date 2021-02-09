@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
+import { FormattedMessage } from 'react-intl';
 
 const DropzoneUploader = ({ onUpload, maxFiles, accept }) => (
   <Dropzone onDrop={onUpload} maxFiles={maxFiles} accept={accept} className="DropzoneUploader">
@@ -9,7 +10,10 @@ const DropzoneUploader = ({ onUpload, maxFiles, accept }) => (
         <div className="DropzoneUploader__wrapper" {...getRootProps()}>
           <input {...getInputProps()} />
           <i className="fa fa-cloud-upload DropzoneUploader__icon" />
-          <p className="DropzoneUploader__text">Drag and drop or <span>Browse your computer</span></p>
+          <p className="DropzoneUploader__text">
+            <FormattedMessage id="user.myProfile.dragAndDrop" />{' '}
+            <strong><FormattedMessage id="user.myProfile.browseComputer" /></strong>
+          </p>
         </div>
       </section>
   )}

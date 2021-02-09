@@ -15,8 +15,9 @@
   &__text {
     font-size: 14px;
 
-    & span {
+    & strong {
       color: $color-mid-blue;
+      font-weight: normal;
     }
   }
 }

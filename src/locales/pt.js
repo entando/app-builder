@@ -593,6 +593,8 @@ export default {
     'user.myProfile.newPasswordConfirm': 'Confirme a nova senha',
     'user.myProfile.passwordMismatch': 'A confirmação de senha não confere',
     'user.myProfile.displayAttributes': 'Mostrar atributos',
+    'user.myProfile.dragAndDrop': 'Arraste e solte ou',
+    'user.myProfile.browseComputer': 'Navegue em seu computador',
     'user.password.success': 'A senha foi atualizada com sucesso',
     'userprofile.edit': 'Editar o perfil de usuário',
     'userprofile.edit.success': 'Perfil de usuário atualizado com sucesso',

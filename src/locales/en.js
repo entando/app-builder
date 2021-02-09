@@ -610,6 +610,8 @@ export default {
     'user.myProfile.newPasswordConfirm': 'Confirm the new password',
     'user.myProfile.passwordMismatch': 'The passwords do not match',
     'user.myProfile.displayAttributes': 'Display attributes',
+    'user.myProfile.dragAndDrop': 'Drag and drop or',
+    'user.myProfile.browseComputer': 'Browse your computer',
     'user.password.success': 'The password has been updated',
     'userprofile.edit': 'Edit user profile',
     'userprofile.edit.success': 'User profile has been updated',
