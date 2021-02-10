@@ -25,17 +25,22 @@ jest.unmock('redux-form');
 describe('AppSettingsForm', () => {
   it('renders without crashing, and display all elements', () => {
     render(mockRenderWithIntlAndStore(<AppSettingsForm {...props} />));
-    const defaultOwnerGroupSelectView = within(screen.getByRole('combobox', { name: 'Default Owner Group' }));
-    const defaultJoinGroupsMultiSelectView = within(screen.getByTestId('multi-select'));
+    const defaultPageOwnerGroupSelectView = within(screen.getByRole('combobox', { name: 'Default Page Owner Group' }));
+    const defaultPageJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[0]);
+    const defaultContentOwnerGroupSelectView = within(screen.getByRole('combobox', { name: 'Default Content Owner Group' }));
+    const defaultContentJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[1]);
     expect(screen.getByText('Preferences')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
     expect(screen.getByLabelText('Welcome Wizard')).toBeInTheDocument();
     expect(screen.getByLabelText('Missing Translation Warning')).toBeInTheDocument();
     expect(screen.getByLabelText('Load on Page Select')).toBeInTheDocument();
     expect(screen.getByLabelText('Display attributes')).toBeInTheDocument();
-    expect(defaultOwnerGroupSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
-    expect(defaultOwnerGroupSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
-    expect(defaultJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
+    expect(defaultPageOwnerGroupSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
+    expect(defaultPageOwnerGroupSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
+    expect(defaultPageJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
+    expect(defaultContentOwnerGroupSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
+    expect(defaultContentOwnerGroupSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
+    expect(defaultContentJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
   });
 
   it('Verify onSubmit function is triggered when submitting form', () => {

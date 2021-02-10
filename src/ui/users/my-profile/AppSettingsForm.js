@@ -27,7 +27,7 @@ export class AppSettingsFormBody extends Component {
   }
 
   render() {
-    const { selectGroups, selectedJoinGroups } = this.props;
+    const { selectGroups, defaultPageJoinGroups, defaultContentJoinGroups } = this.props;
 
     return (
       <Form
@@ -58,24 +58,49 @@ export class AppSettingsFormBody extends Component {
           name="displayAttributes"
         />
         <Field
-          label={<FormLabel helpId="user.myProfile.defaultOwnerGroupHelp" labelId="user.myProfile.defaultOwnerGroup" />}
+          label={<FormLabel helpId="user.myProfile.defaultPageOwnerGroupHelp" labelId="user.myProfile.defaultPageOwnerGroup" />}
           component={RenderSelectInput}
           options={selectGroups}
-          name="defaultOwnerGroup"
+          name="defaultPageOwnerGroup"
           defaultOptionId="app.chooseAnOption"
         />
         <FormGroup>
           <Col xs={2} className="text-right">
-            <label htmlFor="defaultJoinGroups" className="control-label">
-              <FormLabel helpId="user.myProfile.defaultJoinGroupsHelp" labelId="user.myProfile.defaultJoinGroups" />
+            <label htmlFor="defaultPageJoinGroups" className="control-label">
+              <FormLabel helpId="user.myProfile.defaultPageJoinGroupsHelp" labelId="user.myProfile.defaultPageJoinGroups" />
             </label>
           </Col>
           <Col xs={10}>
             <FieldArray
               component={MultiSelectRenderer}
-              name="defaultJoinGroups"
+              name="defaultPageJoinGroups"
               options={selectGroups}
-              selectedValues={selectedJoinGroups}
+              selectedValues={defaultPageJoinGroups}
+              labelKey="text"
+              valueKey="value"
+              emptyOptionTextId="app.chooseAnOption"
+            />
+          </Col>
+        </FormGroup>
+        <Field
+          label={<FormLabel helpId="user.myProfile.defaultContentOwnerGroupHelp" labelId="user.myProfile.defaultContentOwnerGroup" />}
+          component={RenderSelectInput}
+          options={selectGroups}
+          name="defaultContentOwnerGroup"
+          defaultOptionId="app.chooseAnOption"
+        />
+        <FormGroup>
+          <Col xs={2} className="text-right">
+            <label htmlFor="defaultContentJoinGroups" className="control-label">
+              <FormLabel helpId="user.myProfile.defaultContentJoinGroupsHelp" labelId="user.myProfile.defaultContentJoinGroups" />
+            </label>
+          </Col>
+          <Col xs={10}>
+            <FieldArray
+              component={MultiSelectRenderer}
+              name="defaultContentJoinGroups"
+              options={selectGroups}
+              selectedValues={defaultContentJoinGroups}
               labelKey="text"
               valueKey="value"
               emptyOptionTextId="app.chooseAnOption"
@@ -106,7 +131,8 @@ AppSettingsFormBody.propTypes = {
     ]),
     text: PropTypes.string,
   })).isRequired,
-  selectedJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  defaultPageJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  defaultContentJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default reduxForm({

@@ -17,7 +17,8 @@ export const mapStateToProps = state => ({
     value: code,
     text: name,
   })),
-  selectedJoinGroups: formValueSelector('userPreferences')(state, 'defaultJoinGroups') || [],
+  defaultPageJoinGroups: formValueSelector('userPreferences')(state, 'defaultPageJoinGroups') || [],
+  defaultContentJoinGroups: formValueSelector('userPreferences')(state, 'defaultContentJoinGroups') || [],
 });
 
 export const mapDispatchToProps = dispatch => ({
