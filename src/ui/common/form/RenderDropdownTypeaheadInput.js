@@ -66,6 +66,7 @@ class RenderDropdownTypeaheadInput extends Component {
 
     const renderToggleButton = ({ isMenuShown, onClick }) => (
       <button
+        type="button"
         className={`DropdownTypeahead__toggle-button fa fa-angle-${isMenuShown ? 'up' : 'down'}`}
         onClick={(e) => {
           e.preventDefault();
