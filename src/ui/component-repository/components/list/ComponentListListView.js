@@ -32,7 +32,7 @@ const ComponentListListView = ({ components }) => (
               <div>
                 <FormattedMessage id="componentRepository.components.latestVersion" />{':'}&nbsp;
                 <span className="ComponentList__version">
-                  {component.latestVersion.version}
+                  {(component.latestVersion || {}).version}
                 </span>
               </div>
               <ComponentInstallActionsContainer component={component} />

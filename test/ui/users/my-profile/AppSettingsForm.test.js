@@ -35,7 +35,6 @@ describe('AppSettingsForm', () => {
     expect(screen.getByLabelText('Welcome Wizard')).toBeInTheDocument();
     expect(screen.getByLabelText('Missing Translation Warning')).toBeInTheDocument();
     expect(screen.getByLabelText('Load on Page Select')).toBeInTheDocument();
-    expect(screen.getByLabelText('Display attributes')).toBeInTheDocument();
     expect(defaultPageOwnerGroupSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
     expect(defaultPageOwnerGroupSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
     expect(defaultPageJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();

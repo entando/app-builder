@@ -53,11 +53,6 @@ export class AppSettingsFormBody extends Component {
           name="loadOnPageSelect"
         />
         <Field
-          label={<FormLabel helpId="user.myProfile.displayAttributesHelp" labelId="user.myProfile.displayAttributes" />}
-          component={SwitchRenderer}
-          name="displayAttributes"
-        />
-        <Field
           label={<FormLabel helpId="user.myProfile.defaultPageOwnerGroupHelp" labelId="user.myProfile.defaultPageOwnerGroup" />}
           component={RenderSelectInput}
           options={selectGroups}
