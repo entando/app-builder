@@ -16,7 +16,8 @@ const props = {
     value: 'free',
     text: 'Free Access',
   }],
-  selectedJoinGroups: ['free'],
+  defaultPageJoinGroups: ['free'],
+  defaultContentJoinGroups: ['admin'],
 };
 
 jest.unmock('react-redux');
@@ -40,7 +41,7 @@ describe('AppSettingsForm', () => {
     expect(defaultPageJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
     expect(defaultContentOwnerGroupSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
     expect(defaultContentOwnerGroupSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
-    expect(defaultContentJoinGroupsMultiSelectView.getByRole('option', { name: 'Administrators' })).toBeInTheDocument();
+    expect(defaultContentJoinGroupsMultiSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
   });
 
   it('Verify onSubmit function is triggered when submitting form', () => {
