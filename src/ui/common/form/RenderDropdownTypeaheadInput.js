@@ -49,7 +49,7 @@ class RenderDropdownTypeaheadInput extends Component {
       if (!multiple && state.selected.length) {
         return true;
       }
-      return option[valueKey].toLowerCase().indexOf(state.text.toLowerCase()) > -1;
+      return option[labelKey].toLowerCase().indexOf(state.text.toLowerCase()) > -1;
     };
 
     const choices = multiple ? options.filter(option => (
