@@ -1,7 +1,6 @@
 const publicUrl = process.env.PUBLIC_URL;
 
 export const SEO_DATA_BLANK = {
-  friendlyCode: '',
   useExtraDescriptions: false,
   seoDataByLang: {},
 };

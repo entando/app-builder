@@ -108,7 +108,7 @@ const SeoInfo = ({ languages, onChangeDefaultTitle, readOnly }) =>
                 <Col sm={lang.isDefault ? 9 : 6}>
                   <Field
                     component={RenderTextInput}
-                    name={`seoData.friendlyCode.${lang.code}`}
+                    name={`seoData.seoDataByLang.${lang.code}.friendlyCode`}
                     disabled={readOnly}
                     inputSize={12}
                     labelSize={0}
