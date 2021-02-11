@@ -12,17 +12,23 @@ import {
 } from 'state/profile-types/selectors';
 
 
-export const mapStateToProps = (state, { match: { params } }) => ({
-  profileTypeAttributeCode: params.entityCode,
-  joinAllowedOptions: formValueSelector('addAttribute')(state, 'joinRoles') || [],
-  selectedAttributeType: getProfileTypeSelectedAttribute(state),
-  attributesList: getProfileTypeAttributesIdList(state),
-  allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
-  allowedRoles: getProfileTypeSelectedAttributeRoleChoices(state),
-  initialValues: {
-    type: getProfileTypeSelectedAttributeCode(state),
-  },
-});
+export const mapStateToProps = (state, { match: { params } }) => {
+  const joinAllowedOptions = formValueSelector('addAttribute')(state, 'joinRoles') || [];
+  return {
+    profileTypeAttributeCode: params.entityCode,
+    joinAllowedOptions,
+    selectedAttributeType: getProfileTypeSelectedAttribute(state),
+    attributesList: getProfileTypeAttributesIdList(state),
+    allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
+    allowedRoles: getProfileTypeSelectedAttributeRoleChoices(
+      params.attributeCode,
+      joinAllowedOptions,
+    )(state),
+    initialValues: {
+      type: getProfileTypeSelectedAttributeCode(state),
+    },
+  };
+};
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {

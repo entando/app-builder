@@ -19,6 +19,7 @@ export const ROUTE_CLONE_WIDGET = '/page/:pageCode/clone/:frameId/widget/:parent
 export const ROUTE_PAGE_TEMPLATE_LIST = '/page-template';
 export const ROUTE_PAGE_TEMPLATE_ADD = '/page-template/add';
 export const ROUTE_PAGE_TEMPLATE_EDIT = '/page-template/edit/:pageTemplateCode';
+export const ROUTE_PAGE_TEMPLATE_CLONE = '/page-template/clone/:pageTemplateCode';
 export const ROUTE_PAGE_TEMPLATE_DETAIL = '/page-template/view/:pageTemplateCode';
 // widgets
 export const ROUTE_WIDGET_LIST = '/widget';
@@ -31,6 +32,7 @@ export const ROUTE_WIDGET_CONFIG = '/widget/config/:widgetCode/page/:pageCode/fr
 export const ROUTE_FRAGMENT_LIST = '/fragment';
 export const ROUTE_FRAGMENT_ADD = '/fragment/add';
 export const ROUTE_FRAGMENT_EDIT = '/fragment/edit/:fragmentCode';
+export const ROUTE_FRAGMENT_CLONE = '/fragment/clone/:fragmentCode';
 export const ROUTE_FRAGMENT_DETAIL = '/fragment/view/:fragmentCode';
 // data model
 export const ROUTE_DATA_MODEL_LIST = '/datamodels';

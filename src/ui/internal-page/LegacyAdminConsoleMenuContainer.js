@@ -34,6 +34,7 @@ import {
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { HOMEPAGE_CODE } from 'state/pages/const';
 
 const {
   Masthead, Item, SecondaryItem, TertiaryItem, Brand,
@@ -64,7 +65,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
   const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
-  const hasSchedulerAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
   return (
     <Item
@@ -115,15 +115,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
           onClick={() => history.push(ROUTE_CMS_VERSIONING)}
         />
-        )
-      }
-      {
-        hasSchedulerAccess && (
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.scheduler', defaultMessage: 'Scheduler' })}
-            onClick={() => {}}
-            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
-          />
         )
       }
       {
@@ -214,7 +205,9 @@ const LegacyAdminConsoleMenuBody = ({
           <SecondaryItem
             id="menu-page-config"
             title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
-            onClick={() => history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: 'homepage' }))}
+            onClick={() =>
+              history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE }))
+            }
           />
           {
             hasAccess(ROLE_SUPERUSER, userPermissions) && (
@@ -336,26 +329,6 @@ const LegacyAdminConsoleMenuBody = ({
           onClick={() => {}}
           iconClass="fa fa-cogs"
         >
-          <SecondaryItem
-            title={intl.formatMessage({ id: 'menu.apiManagement', defaultMessage: 'API Management' })}
-            onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-          >
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.resources', defaultMessage: 'Resources' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Resource/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.services', defaultMessage: 'Services' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Service/list.action')}
-            />
-            <TertiaryItem
-              title={intl.formatMessage({ id: 'menu.apiManagement.consumers', defaultMessage: 'Consumers' })}
-              onClick={() => {}}
-              href={adminConsoleUrl('do/Api/Consumer/list.action')}
-            />
-          </SecondaryItem>
           <SecondaryItem
             id="menu-databases"
             title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}

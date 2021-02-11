@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import WidgetGrouping from 'ui/pages/config/WidgetGrouping';
 
+export const GRID_VIEW = 'grid';
+export const LIST_VIEW = 'list';
+
 const msgs = defineMessages({
   search: {
     id: 'pages.designer.searchWidgetLabel',
@@ -18,6 +21,7 @@ const WidgetGroupings = ({
   };
 
   const [openGroupings, setOpenGroupings] = useState({});
+  const [view, setView] = useState(GRID_VIEW);
   const toggleGroupingCollapse = grouping => setOpenGroupings({
     ...openGroupings,
     [grouping]: !openGroupings[grouping],
@@ -31,6 +35,17 @@ const WidgetGroupings = ({
     setOpenGroupings(newOpenGroupings);
   }, [searchFilter, widgetGroupingList]);
 
+  const optClassSel = 'WidgetGroupings__view-option--selected';
+  const gridViewClass = `fa fa-th WidgetGroupings__view-option ${
+    view === GRID_VIEW ? optClassSel : ''
+  }`;
+  const listViewClass = `fa fa-list WidgetGroupings__view-option ${
+    view === LIST_VIEW ? optClassSel : ''
+  }`;
+
+  const setGridView = () => setView(GRID_VIEW);
+  const setListView = () => setView(LIST_VIEW);
+
   return (
     <div className="WidgetGroupings">
       <div className="WidgetGroupings__right-menu-title">
@@ -40,6 +55,22 @@ const WidgetGroupings = ({
           onChange={onChange}
           placeholder={intl.formatMessage(msgs.search)}
         />
+        <div className="WidgetGroupings__view-options">
+          <span
+            className={gridViewClass}
+            onClick={setGridView}
+            onKeyDown={setGridView}
+            role="button"
+            tabIndex={-1}
+          />
+          <span
+            className={listViewClass}
+            onClick={setListView}
+            onKeyDown={setListView}
+            role="button"
+            tabIndex={-2}
+          />
+        </div>
       </div>
       <div>
         {
@@ -51,6 +82,7 @@ const WidgetGroupings = ({
               opened={openGroupings[grouping]}
               name={grouping}
               key={grouping}
+              view={view}
             />
           ))
         }

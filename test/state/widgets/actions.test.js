@@ -46,6 +46,7 @@ import {
   getNavigatorExpressionsFromNavspec,
 } from 'api/widgets';
 import { WIDGET, WIDGET_LIST, WIDGET_INFO, WIDGET_NULL_GROUP } from 'test/mocks/widgets';
+import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -303,7 +304,7 @@ describe('state/widgets/actions', () => {
 
     describe('fetchWidgetList', () => {
       it('calls setWidgetList and setPage action', (done) => {
-        getWidgets.mockImplementation(mockApi({ payload: WIDGET_LIST }));
+        getWidgets.mockImplementation(mockApi(WIDGET_LIST));
         store.dispatch(fetchWidgetList()).then(() => {
           expect(getWidgets).toHaveBeenCalled();
           const actions = store.getActions();
@@ -314,7 +315,7 @@ describe('state/widgets/actions', () => {
           expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           const actionPayload = actions[1].payload;
           expect(actionPayload).toHaveProperty('widgetList');
-          expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST);
+          expect(actionPayload.widgetList).toMatchObject(WIDGET_LIST.payload);
           done();
         }).catch(done.fail);
       });
@@ -346,6 +347,16 @@ describe('state/widgets/actions', () => {
         }).catch(done.fail);
       });
 
+      it('does not call router', (done) => {
+        store.dispatch(sendPostWidgets({ code: 'test' }, CONTINUE_SAVE_TYPE)).then(() => {
+          expect(postWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+          done();
+        }).catch(done.fail);
+      });
+
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         postWidgets.mockImplementation(mockApi({ errors: true }));
         store.dispatch(sendPostWidgets()).then(() => {
@@ -367,6 +378,16 @@ describe('state/widgets/actions', () => {
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(history.push).toHaveBeenCalledWith(ROUTE_WIDGET_LIST);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('does not call router', (done) => {
+        store.dispatch(sendPutWidgets(WIDGET), CONTINUE_SAVE_TYPE).then(() => {
+          expect(putWidgets).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

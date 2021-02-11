@@ -1,0 +1,22 @@
+{
+  "baseUrl": "http://localhost:3000/",
+  "oauth2": {
+    "url": "http://localhost:8081",
+    "realm": "entando",
+    "clientId": "entando-web"
+  },
+  "testFiles": "**/*.spec.js",
+  "supportFile": "test/cypress/support/index.js",
+  "video": false,
+  "integrationFolder": "test/cypress/integration",
+  "fixturesFolder": "test/cypress/fixtures",
+  "pluginsFile": "test/cypress/plugins/index.js",
+  "screenshotsFolder": "target/cypress/screenshots",
+  "chromeWebSecurity": false,
+  "viewportWidth": 1200,
+  "viewportHeight": 720,
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
+  }
+}

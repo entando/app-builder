@@ -78,7 +78,6 @@ export const mapStateToProps = (state) => {
     pageTemplates: getPageTemplatesList(state),
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
-    selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
     seoMode: SEO_ENABLED,
     initialValues: {
       ...PAGE_INIT_VALUES,
@@ -131,6 +130,7 @@ export const mapDispatchToProps = dispatch => ({
         code: 'hello_world_app',
         ownerGroup: 'free',
         parentCode: SAMPLE_HOMEPAGE_CODE,
+        pageModel: '1-column',
         ...appTourLastPageData,
       }));
     }

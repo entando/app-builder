@@ -48,7 +48,7 @@ class CategoryTree extends Component {
           <td className="text-center">
             <CategoryListMenuActions
               code={category.code}
-              onClickDelete={onClickDelete}
+              onClickDelete={() => onClickDelete(category)}
               onClickAdd={onClickAdd}
             />
           </td>

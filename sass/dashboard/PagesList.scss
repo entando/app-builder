@@ -4,11 +4,14 @@
   height: auto;
   margin: 0 -10px;
   margin-bottom: 20px;
-  padding: 0 20px 0;
+  padding: 0 20px 20px 20px;
   border: $color-pf-black-300 solid 1px;
 
-  &__body {
-    padding-bottom: 20px;
+  &__wrapper {
+    @media (max-width: 769px) {
+      width: 100%;
+      overflow-x: auto;
+    }
   }
 
   @media (max-width: 1499px) {

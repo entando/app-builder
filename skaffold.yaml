@@ -4,7 +4,10 @@ build:
   artifacts:
   - image: entando/app-builder
     context: .
-    docker: {}
+    docker:
+      buildArgs:
+        VERSION: "{{ .VERSION}}"
+
   tagPolicy:
     envTemplate:
       template: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}:{{.VERSION}}'

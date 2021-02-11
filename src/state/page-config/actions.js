@@ -21,7 +21,7 @@ import {
   SET_SEARCH_FILTER, TOGGLE_CONTENT_TOOLBAR_EXPANDED,
   SET_PAGE_WIDGET, SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, REMOVE_PAGE_WIDGET, TOGGLE_CONTENT,
 } from 'state/page-config/types';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { history, ROUTE_WIDGET_CONFIG } from 'app-init/router';
 import { toggleLoading } from 'state/loading/actions';
 import { setAppTourLastStep } from 'state/app-tour/actions';
@@ -127,7 +127,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
     }
 
     dispatch(fetchPageConfig(pageCode, PAGE_STATUS_DRAFT));
-    if (selectedPage.status === PAGE_STATUS_PUBLISHED) {
+    if (selectedPage.status !== PAGE_STATUS_UNPUBLISHED) {
       dispatch(fetchPageConfig(pageCode, PAGE_STATUS_PUBLISHED));
     } else {
       dispatch(setPublishedPageConfig(pageCode, null));

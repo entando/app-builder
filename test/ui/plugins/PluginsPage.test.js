@@ -23,11 +23,11 @@ describe('PluginConfigPage', () => {
 
   it('should render empty state when no plugins 1', () => {
     component = shallow(<PluginsPage plugins={[]} />);
-    expect(component.exists('.PluginsPageEmptyState')).toEqual(true);
+    expect(component.exists('PluginsPageEmptyState')).toEqual(true);
   });
 
   it('should render empty state when no plugins 2', () => {
     component = shallow(<PluginsPage plugins={null} />);
-    expect(component.exists('.PluginsPageEmptyState')).toEqual(true);
+    expect(component.exists('PluginsPageEmptyState')).toEqual(true);
   });
 });

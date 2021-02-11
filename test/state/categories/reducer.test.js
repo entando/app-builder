@@ -91,12 +91,15 @@ describe('state/categories/reducer', () => {
 
     describe('after action REMOVE_CATEGORY', () => {
       const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
+      const PARENT_CODE = MYCATEGORY1_PAYLOAD.parentCode;
       const newState = reducer(state, setCategories(CATEGORIES));
 
       it('should remove the group from map and list', () => {
-        const stateAfterRemove = reducer(newState, removeCategory(CATEGORY_CODE));
+        const stateAfterRemove = reducer(newState, removeCategory(CATEGORY_CODE, PARENT_CODE));
         expect(newState.map).not.toEqual(stateAfterRemove.map);
         expect(stateAfterRemove.map[CATEGORY_CODE]).toBeUndefined();
+        expect(stateAfterRemove.childrenMap[CATEGORY_CODE]).toBeUndefined();
+        expect(stateAfterRemove.childrenMap[PARENT_CODE]).not.toContain(CATEGORY_CODE);
 
         expect(newState.list).not.toBe(stateAfterRemove.list);
         expect(stateAfterRemove.list.includes(CATEGORY_CODE)).toBe(false);

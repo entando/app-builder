@@ -3,6 +3,7 @@
 ###  Run keycloak server:
 - `git clone https://github.com/entando/entando-keycloak.git`
 - `cd entando-keycloak`
+- Remove the file extension of `Dockerfile` to be used (i.e. `Dockerfile.keycloak` -> `Dockerfile`)
 - `docker build -t entando/keycloak:latest .`
 - `docker-compose up`
 ###  Setup keycloak realm and client
@@ -24,7 +25,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - Now restart the keycloak server.
 - Go to `Users` and add a new user that you will be using during `app-builder` login.
 ### Setup entando-de-app
-- Clone: https://github.com/entando/entando-de-app
+- Clone: https://github.com/entando-k8s/entando-de-app/
 - Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update the following values:
 ```
 <keycloak.enabled>true</keycloak.enabled>

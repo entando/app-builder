@@ -4,9 +4,13 @@
 
   & > .container-fluid {
     height: 100%;
-    margin: 60px auto 0 215px;
+    margin-top: 60px;
     padding: 0;
     background: $color-grey-background;
+
+    &:not(.collapsed-nav) {
+      margin-left: 215px;
+    }
 
     & > .container-fluid {
       padding: 0;

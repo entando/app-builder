@@ -147,10 +147,3 @@ For more information checkout the [documentation on NPM](https://www.npmjs.com/p
 ## Apps
 
 For information on the `app-builder` apps [check its readme](./Apps.md)
-
-## Legacy Plugins
-
-The easiest way to create an `app-builder` plugin is using our [sample plugin repo](https://github.com/entando/ui-component-sample).
-There are all the information on how to get started, and about plugin requirements.
-
-Here are some more information on [plugins and how they work](entando-plugins-config/README.md)

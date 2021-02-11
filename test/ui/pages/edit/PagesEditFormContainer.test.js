@@ -81,10 +81,6 @@ describe('PagesEditFormContainer', () => {
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
       expect(props).toHaveProperty('keepDirtyOnReinitialize', true);
     });
-
-    it('defines "selectedJoinGroups" prop = the joinGroups value from the page form', () => {
-      expect(formValueSelector).toHaveBeenCalledWith('pageEdit');
-    });
   });
 
   describe('mapDispatchToProps', () => {
@@ -100,7 +96,8 @@ describe('PagesEditFormContainer', () => {
       });
 
       it('dispatch clearTree', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
+        // should not clear the page tree
+        expect(dispatchMock).not.toHaveBeenCalledWith('clearTree_result');
       });
 
       it('dispatch fetchLanguages', () => {
@@ -113,10 +110,6 @@ describe('PagesEditFormContainer', () => {
 
       it('dispatch fetchPageTemplates', () => {
         expect(dispatchMock).toHaveBeenCalledWith('fetchPageTemplates_result');
-      });
-
-      it('dispatch handleExpandPage', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('handleExpandPage_result');
       });
 
       it('dispatch fetchPageForm', () => {

@@ -4,11 +4,13 @@ import {
   setFragments,
   setPlugins,
   removeFragment,
+  setFilters,
 } from 'state/fragments/actions';
 import {
   GET_FRAGMENT_OK,
   LIST_FRAGMENTS_OK as FRAGMENT_PAYLOAD,
   PLUGINS_OK,
+  FILTERS_OK,
 } from 'test/mocks/fragments';
 
 const PLUGINS_PAYLOAD = PLUGINS_OK.payload;
@@ -53,6 +55,16 @@ describe('fragments/reducer', () => {
     });
     it('should define the plugins payload', () => {
       expect(newState.plugins).toEqual(PLUGINS_PAYLOAD);
+    });
+  });
+
+  describe('after action SET_FILTERS', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setFilters(FILTERS_OK));
+    });
+    it('should define the filters payload', () => {
+      expect(newState.filters).toEqual(FILTERS_OK);
     });
   });
 

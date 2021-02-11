@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
 import { injectIntl } from 'react-intl';
@@ -25,11 +25,30 @@ const ComponentInstallActions = ({
   onRetryAction,
   progress,
 }) => {
+  const latestVersion = (component.latestVersion || {}).version;
+
+  const [selectedVersion, setSelectedVersion] = useState(latestVersion);
+
+  const handleInstall = (componentToInstall, version) => {
+    setSelectedVersion(version || latestVersion);
+    onInstall(componentToInstall, version);
+  };
+
+  const handleUninstall = () => {
+    setSelectedVersion(component.installedJob.componentVersion);
+    onUninstall(component.code);
+  };
+
   if (lastInstallStatus) {
     return (
       (lastInstallStatus === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS)
         ? <InProgressInstallState onRecheckStatus={onRecheckStatus} />
-        : <FailedInstallState component={component} onRetryAction={onRetryAction} />
+        : <FailedInstallState
+          component={component}
+          selectedVersion={selectedVersion}
+          setSelectedVersion={setSelectedVersion}
+          onRetryAction={onRetryAction}
+        />
     );
   }
 
@@ -41,10 +60,11 @@ const ComponentInstallActions = ({
     : (
       <InstallButton
         component={component}
-        onInstall={onInstall}
+        onInstall={handleInstall}
         uninstallStatus={uninstallStatus}
         installationStatus={installationStatus}
         progress={progress}
+        selectedVersion={selectedVersion}
       />
     );
 
@@ -59,7 +79,7 @@ const ComponentInstallActions = ({
           name: component.title,
           usageList: componentUsageList,
         }}
-        onConfirmUninstall={() => onUninstall(component.code)}
+        onConfirmUninstall={handleUninstall}
       />
     </div>
   );

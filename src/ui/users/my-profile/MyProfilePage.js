@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Tabs, Tab } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
@@ -11,7 +11,18 @@ import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
 import MyProfileEditFormContainer from 'ui/users/my-profile/MyProfileEditFormContainer';
 import AppSettingsFormContainer from 'ui/users/my-profile/AppSettingsFormContainer';
 
-const MyProfilePage = ({ onTabSelect }) => {
+const msgs = defineMessages({
+  profile: {
+    id: 'menu.profile',
+    defaultMessage: 'Profile',
+  },
+  preferences: {
+    id: 'user.myProfile.appSettingsSection',
+    defaultMessage: 'Preferences',
+  },
+});
+
+const MyProfilePage = ({ onTabSelect, intl }) => {
   const handleTabSelect = () => {
     onTabSelect();
   };
@@ -51,7 +62,7 @@ const MyProfilePage = ({ onTabSelect }) => {
           <Tab
             className="MyProfilePage__tab"
             eventKey="profile"
-            title="Profile"
+            title={intl.formatMessage(msgs.profile)}
           >
             <Row>
               <Col xs={12}>
@@ -67,7 +78,7 @@ const MyProfilePage = ({ onTabSelect }) => {
           <Tab
             className="MyProfilePage__tab"
             eventKey="preferences"
-            title="Preferences"
+            title={intl.formatMessage(msgs.preferences)}
           >
             <Row>
               <Col xs={12}>
@@ -88,6 +99,7 @@ const MyProfilePage = ({ onTabSelect }) => {
 
 MyProfilePage.propTypes = {
   onTabSelect: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default MyProfilePage;
+export default injectIntl(MyProfilePage);

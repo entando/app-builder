@@ -7,27 +7,29 @@ import { getPageTemplateFormCellMap, getPageTemplateFormErrors } from 'state/pag
 import { initPageTemplateForm, updatePageTemplate, createPageTemplate } from 'state/page-templates/actions';
 import PageTemplateForm from 'ui/page-templates/common/PageTemplateForm';
 
+import { FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/page-templates/const';
+
 export const mapStateToProps = state => ({
   previewCellMap: getPageTemplateFormCellMap(state),
   previewErrors: getPageTemplateFormErrors(state),
 });
 
 export const mapDispatchToProps = (dispatch, { mode, match: { params } }) => ({
-  onSubmit: (data) => {
+  onSubmit: (data, saveType) => {
     const jsonData = {
       ...data,
       configuration: data.configuration ? JSON.parse(data.configuration) : {},
     };
 
-    if (mode === 'edit') {
-      return dispatch(updatePageTemplate(jsonData));
+    if (mode === FORM_MODE_EDIT) {
+      return dispatch(updatePageTemplate(jsonData, saveType));
     }
-    return dispatch(createPageTemplate(jsonData));
+    return dispatch(createPageTemplate(jsonData, saveType));
   },
   onWillMount: () => {
     dispatch(clearErrors());
-    if (mode === 'edit') {
-      dispatch(initPageTemplateForm(params.pageTemplateCode));
+    if ([FORM_MODE_EDIT, FORM_MODE_CLONE].includes(mode)) {
+      dispatch(initPageTemplateForm(params.pageTemplateCode, mode));
     } else {
       dispatch(initialize('pageTemplate', {
         configuration: '{\n  "frames": []\n}',

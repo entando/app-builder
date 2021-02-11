@@ -16,7 +16,7 @@ import { loadSelectedPage } from 'state/pages/actions';
 
 import { SET_PAGE_CONFIG, SET_PUBLISHED_PAGE_CONFIG, SET_PAGE_WIDGET, REMOVE_PAGE_WIDGET } from 'state/page-config/types';
 import { SET_SELECTED_PAGE } from 'state/pages/types';
-import { PAGE_STATUS_DRAFT } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, HOMEPAGE_CODE } from 'state/pages/const';
 import { TOGGLE_LOADING } from 'state/loading/types';
 
 import { HOMEPAGE_PAYLOAD, CONTACTS_PAYLOAD } from 'test/mocks/pages';
@@ -86,7 +86,7 @@ history.push = jest.fn();
 const mockStore = configureStore([thunk]);
 const INITIAL_STATE = rootReducer();
 
-const CURRENT_PAGE_CODE = 'homepage';
+const CURRENT_PAGE_CODE = HOMEPAGE_CODE;
 
 
 const resolveRespOk = () => new Promise(r => r({ ok: true }));
@@ -208,13 +208,12 @@ describe('state/page-config/actions', () => {
         expect(loadSelectedPageTemplate).toHaveBeenCalledWith(CONTACTS_PAYLOAD.pageModel);
         const actionTypes = store.getActions().map(action => action.type);
         expect(actionTypes)
-          .toEqual([TOGGLE_LOADING, SET_PUBLISHED_PAGE_CONFIG]);
+          .toEqual([TOGGLE_LOADING, TOGGLE_LOADING]);
         expect(store.getActions()[0].payload).toEqual({
           id: 'pageConfig',
         });
         expect(store.getActions()[1].payload).toEqual({
-          pageCode: CURRENT_PAGE_CODE,
-          pageConfig: null,
+          id: 'pageConfig',
         });
         done();
       }).catch(done.fail);

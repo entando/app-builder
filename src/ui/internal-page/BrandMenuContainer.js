@@ -36,6 +36,7 @@ import {
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { HOMEPAGE_CODE } from 'state/pages/const';
 
 const publicUrl = process.env.PUBLIC_URL;
 const BRAND_LOGO = <img src={`${publicUrl}/images/topbar-logo.svg`} alt="" />;
@@ -103,7 +104,7 @@ const BrandMenuBody = ({ userPermissions }) => (
             />
             <LinkMenuItem
               id="menu-page-config"
-              to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: 'homepage' })}
+              to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE })}
               label={<FormattedMessage id="menu.pageConfig" />}
               isNav
             />

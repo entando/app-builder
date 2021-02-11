@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert } from 'patternfly-react';
+import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-
-const EDIT_MODE = 'edit';
-const NEW_MODE = 'new';
+import {
+  REGULAR_SAVE_TYPE,
+  CONTINUE_SAVE_TYPE,
+  FORM_MODE_ADD,
+  FORM_MODE_EDIT,
+  FORM_MODE_CLONE,
+} from 'state/fragments/const';
 
 const maxLength50 = maxLength(50);
 
@@ -74,7 +78,7 @@ const msgs = defineMessages({
 export const FragmentFormBody = (props) => {
   const {
     intl, handleSubmit, invalid, submitting, mode,
-    dirty, onCancel, onDiscard, onSave,
+    dirty, onCancel, onDiscard, onSave, onSubmit,
   } = props;
 
   const handleCancelClick = () => {
@@ -83,11 +87,6 @@ export const FragmentFormBody = (props) => {
     } else {
       onDiscard();
     }
-  };
-
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    handleSubmit();
   };
 
   let widgetTypeField = (
@@ -106,13 +105,13 @@ export const FragmentFormBody = (props) => {
     />
   );
 
-  if (mode === NEW_MODE) {
+  if ([FORM_MODE_ADD, FORM_MODE_CLONE].includes(mode)) {
     pluginField = null;
     widgetTypeField = null;
   }
 
   return (
-    <form onSubmit={onSubmit} className="form-horizontal">
+    <form className="form-horizontal">
       <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
@@ -130,7 +129,7 @@ export const FragmentFormBody = (props) => {
               }
               placeholder={intl.formatMessage(msgs.codePlaceholder)}
               validate={[required, code, maxLength50]}
-              disabled={mode === EDIT_MODE}
+              disabled={mode === FORM_MODE_EDIT}
             />
             {widgetTypeField}
             {pluginField}
@@ -171,14 +170,35 @@ export const FragmentFormBody = (props) => {
       <br />
       <Row>
         <Col xs={12}>
-          <Button
-            className="pull-right FragmentForm__save--btn"
-            type="submit"
-            bsStyle="primary"
-            disabled={invalid || submitting}
-          >
-            <FormattedMessage id="app.save" />
-          </Button>
+          <div className="FragmentForm__dropdown">
+            <DropdownButton
+              title={intl.formatMessage({ id: 'app.save' })}
+              bsStyle="primary"
+              id="saveopts"
+              className="FragmentForm__saveDropdown"
+            >
+              <MenuItem
+                id="regularSaveButton"
+                eventKey={REGULAR_SAVE_TYPE}
+                disabled={invalid || submitting}
+                onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, REGULAR_SAVE_TYPE))}
+              >
+                <FormattedMessage id="app.save" />
+              </MenuItem>
+              <MenuItem
+                id="continueSaveButton"
+                eventKey={CONTINUE_SAVE_TYPE}
+                disabled={invalid || submitting}
+                onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, CONTINUE_SAVE_TYPE))}
+              >
+                <FormattedMessage id="app.saveAndContinue" />
+              </MenuItem>
+            </DropdownButton>
+          </div>
           <Button
             className="pull-right"
             bsStyle="default"
@@ -204,17 +224,18 @@ FragmentFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  mode: PropTypes.string,
+  mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 FragmentFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  mode: NEW_MODE,
+  mode: FORM_MODE_ADD,
   dirty: false,
 };
 

@@ -3,7 +3,7 @@ import { omitBy, isEmpty } from 'lodash';
 import { defineMessages, injectIntl } from 'react-intl';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { fetchWidgetList } from 'state/widgets/actions';
-import { fetchPlugins, fetchFragments } from 'state/fragments/actions';
+import { fetchPlugins, fetchFragments, setFilters } from 'state/fragments/actions';
 import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { getWidgetTypesOptions, getPluginsOptions } from 'state/fragments/selectors';
 
@@ -50,6 +50,7 @@ export const mapDispatchToProps = (dispatch, { intl }) => ({
           attribute: 'code',
         },
       }) : '';
+    dispatch(setFilters(queryString));
     dispatch(fetchFragments({ page: 1, pageSize: 10 }, queryString));
   },
 });

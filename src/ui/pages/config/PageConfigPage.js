@@ -41,13 +41,13 @@ class PageConfigPage extends Component {
     this.state = {
       infoTableOpen: false,
       statusChange: null,
-      enableSettings: false,
+      editingSettings: false,
       toolbarCollapsed: false,
     };
 
     this.removeStatusAlert = this.removeStatusAlert.bind(this);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
-    this.toggleEnableSettings = this.toggleEnableSettings.bind(this);
+    this.toggleEditingSettings = this.toggleEditingSettings.bind(this);
     this.openLinkPublishedPage = this.openLinkPublishedPage.bind(this);
     this.handleToggleToolbarCollapse = this.handleToggleToolbarCollapse.bind(this);
   }
@@ -94,8 +94,15 @@ class PageConfigPage extends Component {
     });
   }
 
-  toggleEnableSettings() {
-    this.setState(state => ({ enableSettings: !state.enableSettings }));
+  toggleEditingSettings() {
+    this.setState((state) => {
+      const { editingSettings } = state;
+      if (editingSettings) {
+        const { onSettingsCancel } = this.props;
+        onSettingsCancel();
+      }
+      return ({ editingSettings: !editingSettings });
+    });
   }
 
   openLinkPublishedPage() {
@@ -144,8 +151,10 @@ class PageConfigPage extends Component {
   renderActionBar(tab) {
     const {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
+      onClickSaveSettings, pageSettingsButtonInvalid, pageSettingsButtonSubmitting,
     } = this.props;
 
+    const { editingSettings } = this.state;
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
         <Col xs={12}>
@@ -171,18 +180,37 @@ class PageConfigPage extends Component {
           </ButtonToolbar>
           <ButtonToolbar className="pull-right">
             {tab === 'settings' ?
-              <Button
-                className={[
+              <React.Fragment>
+                <Button
+                  className={[
                     'PageConfigPage__btn-icon--right',
                     'btn',
-                    'btn-primary',
+                    editingSettings ? '' : 'btn-primary',
                   ].join(' ')}
-                onClick={this.toggleEnableSettings}
-              >
-                <span>
-                  <FormattedMessage id="app.edit" />
-                </span>
-              </Button>
+                  onClick={this.toggleEditingSettings}
+                >
+                  <span>
+                    <FormattedMessage id={`${editingSettings ? 'app.cancel' : 'app.edit'}`} />
+                  </span>
+                </Button>
+                {
+                editingSettings && (
+                  <Button
+                    className={[
+                      'PageConfigPage__btn-icon--right',
+                      'btn',
+                      'btn-primary',
+                    ].join(' ')}
+                    onClick={onClickSaveSettings}
+                    disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
+                  >
+                    <span>
+                      <FormattedMessage id="app.save" />
+                    </span>
+                  </Button>
+                )
+              }
+              </React.Fragment>
             : (
               <div>
                 <Button
@@ -207,7 +235,7 @@ class PageConfigPage extends Component {
                           'btn',
                           'btn-primary',
                           'PageConfigPage__btn--addml',
-                          'app-tour-step-20',
+                          'app-tour-step-19',
                         ].join(' ')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -243,8 +271,9 @@ class PageConfigPage extends Component {
       intl, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
+      match,
     } = this.props;
-    const { enableSettings, toolbarCollapsed } = this.state;
+    const { editingSettings, toolbarCollapsed } = this.state;
 
     const TRANSLATED_YES = intl.formatMessage(msgs.appYes);
     const TRANSLATED_NO = intl.formatMessage(msgs.appNo);
@@ -312,7 +341,12 @@ class PageConfigPage extends Component {
                   <div>
                     {this.renderPageHeader()}
                     {this.renderActionBar('settings')}
-                    <PagesEditFormContainer readOnly={!enableSettings} />
+                    <PagesEditFormContainer
+                      key={(match.params || {}).pageCode}
+                      readOnly={!editingSettings}
+                      stayOnSave
+                      onSave={this.toggleEditingSettings}
+                    />
                   </div>
                 </Tab>
               </Tabs>
@@ -362,7 +396,7 @@ class PageConfigPage extends Component {
                       <FormattedMessage id="app.unpublish" />
                     </Button>
                     <Button
-                      className="PageConfigPage__publish-btn btn-primary app-tour-step-19"
+                      className="PageConfigPage__publish-btn btn-primary app-tour-step-20"
                       bsStyle="success"
                       onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
                       disabled={pageIsPublished}
@@ -416,6 +450,10 @@ PageConfigPage.propTypes = {
   }).isRequired,
   loading: PropTypes.bool,
   appTourProgress: PropTypes.string,
+  onSettingsCancel: PropTypes.func.isRequired,
+  onClickSaveSettings: PropTypes.func.isRequired,
+  pageSettingsButtonSubmitting: PropTypes.bool,
+  pageSettingsButtonInvalid: PropTypes.bool,
 };
 
 PageConfigPage.defaultProps = {
@@ -437,6 +475,8 @@ PageConfigPage.defaultProps = {
   applyDefaultConfig: null,
   loading: false,
   appTourProgress: '',
+  pageSettingsButtonSubmitting: false,
+  pageSettingsButtonInvalid: false,
 };
 
 export default injectIntl(PageConfigPage);

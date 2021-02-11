@@ -141,6 +141,7 @@
 .container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
   margin-top: 65px;
   margin-left: #{$nav-pf-vertical-width - 5};
+  padding-bottom: 50px;
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting

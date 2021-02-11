@@ -8,6 +8,7 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getSelectedPageTemplate } from 'state/page-templates/selectors';
+import { FORM_MODE_EDIT, FORM_MODE_CLONE, CONTINUE_SAVE_TYPE } from 'state/page-templates/const';
 import {
   SET_PAGE_TEMPLATES, SET_SELECTED_PAGE_TEMPLATE, REMOVE_PAGE_TEMPLATE,
   SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS, SET_PAGE_TEMPLATES_TOTAL,
@@ -140,15 +141,21 @@ export const loadSelectedPageTemplate = pageTemplateCode => (dispatch, getState)
     }).catch(() => {});
 };
 
-export const initPageTemplateForm = pageTemplateCode => dispatch => (
+export const initPageTemplateForm = (pageTemplateCode, mode = FORM_MODE_EDIT) => dispatch => (
   fetchPageTemplate(pageTemplateCode)(dispatch).then((json) => {
-    const pageTemplate = json.payload;
+    const pageTemplate = {
+      ...json.payload,
+      ...(mode === FORM_MODE_CLONE ? {
+        code: '',
+        descr: '',
+      } : {}),
+    };
     pageTemplate.configuration = JSON.stringify(pageTemplate.configuration, null, 2);
     dispatch(initialize('pageTemplate', pageTemplate));
   }).catch(() => {})
 );
 
-export const updatePageTemplate = pageTemplate => dispatch => new Promise((resolve) => {
+export const updatePageTemplate = (pageTemplate, saveType) => dispatch => new Promise((resolve) => {
   putPageTemplate(pageTemplate).then((response) => {
     if (!response.ok) {
       response.json().then((data) => {
@@ -162,13 +169,13 @@ export const updatePageTemplate = pageTemplate => dispatch => new Promise((resol
         TOAST_SUCCESS,
       ));
       dispatch(setSelectedPageTemplate(pageTemplate));
-      history.push(ROUTE_PAGE_TEMPLATE_LIST);
+      if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_PAGE_TEMPLATE_LIST);
       resolve();
     }
   }).catch(() => {});
 });
 
-export const createPageTemplate = pageTemplate => dispatch => new Promise((resolve) => {
+export const createPageTemplate = (pageTemplate, saveType) => dispatch => new Promise((resolve) => {
   postPageTemplate(pageTemplate).then((response) => {
     if (!response.ok) {
       response.json().then((data) => {
@@ -181,7 +188,7 @@ export const createPageTemplate = pageTemplate => dispatch => new Promise((resol
         { id: 'app.created', values: { type: 'page template', code: pageTemplate.code } },
         TOAST_SUCCESS,
       ));
-      history.push(ROUTE_PAGE_TEMPLATE_LIST);
+      if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_PAGE_TEMPLATE_LIST);
       resolve();
     }
   }).catch(() => {});

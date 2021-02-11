@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { required } from '@entando/utils';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, Button } from 'patternfly-react';
@@ -16,7 +17,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
       <FormLabel helpId="app.seo.addMetatagHelp" labelId="app.seo.addMetatag" />
     </legend>
     <Row>
-      <Col sm={12}>
+      <Col sm={12} className="no-padding">
         <Col sm={4}>
           <Field
             component={RenderTextInput}
@@ -74,6 +75,9 @@ SeoMetadataFormBody.defaultProps = {
 
 const SeoMetadataForm = reduxForm({
   form: 'SeoMetadataForm',
+  initialValues: {
+    metatype: get(METATAG_TYPE_OPTIONS, '0.value', ''),
+  },
 })(SeoMetadataFormBody);
 
 export default SeoMetadataForm;

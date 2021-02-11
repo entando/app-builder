@@ -96,6 +96,8 @@ export const PLUGINS_OK = {
   metaData: {},
 };
 
+export const FILTERS_OK = '?sort=code&direction=ASC&filters[0].attribute=code&filters[0].operator=like&filters[0].value=jacms';
+
 export const PLUGINS_OPTIONS = [{ code: 'jacms', title: 'CMS' }];
 
 export const BODY_ERROR =

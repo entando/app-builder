@@ -23,6 +23,7 @@ import {
   ROUTE_FRAGMENT_LIST,
   ROUTE_FRAGMENT_ADD,
   ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_CLONE,
   ROUTE_FRAGMENT_DETAIL,
   ROUTE_PAGE_ADD,
   ROUTE_PAGE_EDIT,
@@ -32,6 +33,7 @@ import {
   ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_PAGE_TEMPLATE_ADD,
   ROUTE_PAGE_TEMPLATE_EDIT,
+  ROUTE_PAGE_TEMPLATE_CLONE,
   ROUTE_PAGE_TEMPLATE_DETAIL,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
@@ -107,6 +109,7 @@ import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContain
 import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
 import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
+import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
@@ -117,6 +120,7 @@ import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
 import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
 import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
 import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
+import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
 import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
@@ -224,6 +228,7 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
       <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
       <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
+      <Route path={ROUTE_PAGE_TEMPLATE_CLONE} component={PageTemplateClonePage} />
       <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
       {/* widgets */}
       <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
@@ -237,6 +242,7 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
       <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
       <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
+      <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
       {/* data models */}
       <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />

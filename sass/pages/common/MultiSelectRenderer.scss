@@ -20,4 +20,10 @@
     outline: $color-pf-blue auto 1px;
     background-color: $color-row-selected;
   }
+
+  &__add-btn {
+    outline: $color-primary;
+    outline-style: solid;
+    outline-width: thin;
+  }
 }

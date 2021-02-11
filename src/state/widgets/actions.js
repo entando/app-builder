@@ -15,6 +15,7 @@ import {
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
 import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
+import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
 
 export const FREE_ACCESS_GROUP_VALUE = 'free';
 
@@ -170,12 +171,20 @@ export const fetchWidgetInfo = widgetCode => dispatch => new Promise((resolve) =
   }).catch(() => {});
 });
 
+const widgetsToHide = [
+  'userprofile_editCurrentUser',
+  'userprofile_editCurrentUser_password',
+  'userprofile_editCurrentUser_profile',
+];
+
 export const fetchWidgetList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('widgets'));
   getWidgets(page, params).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
-        dispatch(setWidgetList(json.payload));
+        // FIXME temporary FE-side filtering to hide user-related widgets
+        const widgetList = get(json, 'payload', []).filter(widget => !widgetsToHide.includes(widget.code));
+        dispatch(setWidgetList(widgetList));
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -200,12 +209,12 @@ export const fetchWidgetsTotal = () => dispatch => new Promise((resolve) => {
   }).catch(() => {});
 });
 
-export const sendPostWidgets = widgetObject => dispatch =>
+export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
   new Promise((resolve) => {
     postWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          history.push(ROUTE_WIDGET_LIST);
+          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
             { id: 'app.created', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,
@@ -219,12 +228,12 @@ export const sendPostWidgets = widgetObject => dispatch =>
     }).catch(() => {});
   });
 
-export const sendPutWidgets = widgetObject => dispatch =>
+export const sendPutWidgets = (widgetObject, saveType) => dispatch =>
   new Promise((resolve) => {
     putWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          history.push(ROUTE_WIDGET_LIST);
+          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
             { id: 'app.updated', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,

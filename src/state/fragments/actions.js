@@ -13,7 +13,8 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
+import { CONTINUE_SAVE_TYPE, FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/fragments/const';
 
 export const setSelectedFragment = fragment => ({
   type: SET_SELECTED,
@@ -36,6 +37,13 @@ export const setPlugins = plugins => ({
   },
 });
 
+export const setFilters = filters => ({
+  type: SET_FILTERS,
+  payload: {
+    filters,
+  },
+});
+
 export const removeFragment = fragmentCode => ({
   type: REMOVE_FRAGMENT,
   payload: {
@@ -44,12 +52,17 @@ export const removeFragment = fragmentCode => ({
 });
 
 // thunks
-export const fetchFragment = fragmentCode => dispatch =>
+export const fetchFragment = (fragmentCode, mode = FORM_MODE_EDIT) => dispatch =>
   new Promise((resolve) => {
     getFragment(fragmentCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('fragment', json.payload));
+          dispatch(initialize('fragment', {
+            ...json.payload,
+            ...(mode === FORM_MODE_CLONE ? {
+              code: '',
+            } : {}),
+          }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -177,7 +190,7 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
     }).catch(() => {});
   });
 
-export const sendPostFragment = fragment => async (dispatch) => {
+export const sendPostFragment = (fragment, saveType) => async (dispatch) => {
   const response = await postFragment(fragment);
   const json = await response.json();
   if (response.ok) {
@@ -185,7 +198,7 @@ export const sendPostFragment = fragment => async (dispatch) => {
       { id: 'fragment.created' },
       TOAST_SUCCESS,
     ));
-    history.push(ROUTE_FRAGMENT_LIST);
+    if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
     json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -193,7 +206,7 @@ export const sendPostFragment = fragment => async (dispatch) => {
   return json;
 };
 
-export const sendPutFragment = fragment => async (dispatch) => {
+export const sendPutFragment = (fragment, saveType) => async (dispatch) => {
   const response = await putFragment(fragment);
   const json = await response.json();
   if (response.ok) {
@@ -201,7 +214,7 @@ export const sendPutFragment = fragment => async (dispatch) => {
       { id: 'fragment.updated' },
       TOAST_SUCCESS,
     ));
-    history.push(ROUTE_FRAGMENT_LIST);
+    if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
     json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

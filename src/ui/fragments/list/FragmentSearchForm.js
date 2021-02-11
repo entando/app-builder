@@ -4,23 +4,6 @@ import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 
-
-export const renderSelectOptgroup = options => (
-  options.map(item => (
-    <optgroup key={item.optgroup} label={item.optgroup}>
-      {item.options.map(option =>
-        (
-          <option
-            key={option.code}
-            value={option.code}
-          >
-            {option.title}
-          </option>
-        ))}
-    </optgroup>
-  ))
-);
-
 const msgs = defineMessages({
   codePlaceholder: {
     id: 'fragment.code.placeholder',
@@ -36,6 +19,56 @@ const msgs = defineMessages({
   },
 });
 
+const widgetCategoryMsgs = defineMessages({
+  cms: {
+    id: 'widget.list.section.cms',
+    defaultMessage: 'CMS',
+  },
+  navigation: {
+    id: 'widget.list.section.navigation',
+    defaultMessage: 'Navigation',
+  },
+  system: {
+    id: 'widget.list.section.system',
+    defaultMessage: 'System',
+  },
+  seo: {
+    id: 'widget.list.section.seo',
+    defaultMessage: 'SEO',
+  },
+  page: {
+    id: 'widget.list.section.page',
+    defaultMessage: 'Page',
+  },
+  user: {
+    id: 'widget.list.section.user',
+    defaultMessage: 'User',
+  },
+  custom: {
+    id: 'widget.list.section.custom',
+    defaultMessage: 'Custom',
+  },
+});
+
+const renderSelectOptgroup = (options, intl) => (
+  options.map((item) => {
+    const groupName = widgetCategoryMsgs[item.optgroup];
+    const label = groupName ? intl.formatMessage(groupName) : item.optgroup;
+    return (
+      <optgroup key={item.optgroup} label={label}>
+        {item.options.map(option =>
+        (
+          <option
+            key={option.code}
+            value={option.code}
+          >
+            {option.title}
+          </option>
+        ))}
+      </optgroup>
+    );
+  })
+);
 export class FragmentSearchFormBody extends Component {
   componentDidMount() {
     this.props.onWillMount();
@@ -79,7 +112,7 @@ export class FragmentSearchFormBody extends Component {
                 name="widgetType"
               >
                 <option>{intl.formatMessage(msgs.appAll)}</option>
-                {renderSelectOptgroup(widgetTypes)}
+                {renderSelectOptgroup(widgetTypes, intl)}
               </Field>
             </Col>
           </Row>
