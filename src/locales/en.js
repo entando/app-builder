@@ -923,5 +923,9 @@ export default {
     'tour.step.20.description': 'Click Publish to see your page live.',
     'user.wizard.success': 'Wizard has been updated.',
     'app.startTutorial': 'Start Welcome Wizard',
+    'pageTree.searchForm.searchPageBy': 'Search page by',
+    'pageTree.searchForm.name': 'Page Name',
+    'pageTree.searchForm.search.name': 'Search by Name',
+    'pageTree.searchForm.search.code': 'Search by Code',
   },
 };

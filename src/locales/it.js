@@ -923,5 +923,9 @@ export default {
     'tour.step.20.title': 'Pubblicare',
     'tour.step.20.description': 'Fai clic su Pubblica per vedere la tua pagina dal vivo.',
     'app.startTutorial': 'Inizia il tutorial',
+    'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
+    'pageTree.searchForm.name': 'Nome pagina',
+    'pageTree.searchForm.search.name': 'Ricerca per nome',
+    'pageTree.searchForm.search.code': 'Cerca per codice',
   },
 };
