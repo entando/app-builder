@@ -916,5 +916,9 @@ export default {
     'user.wizard.success': 'Wizard has been updated.',
     'app.pages.friendlyCodeHelp': 'URL slug for the page',
     'app.startTutorial': 'Start Welcome Wizard',
+    'pageTree.searchForm.searchPageBy': 'Search page by',
+    'pageTree.searchForm.name': 'Page Name',
+    'pageTree.searchForm.search.name': 'Search by Name',
+    'pageTree.searchForm.search.code': 'Search by Code',
   },
 };

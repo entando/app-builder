@@ -1,0 +1,35 @@
+.PageSearchForm {
+  &__filter-searchby {
+    position: relative;
+    margin-left: 20px;
+    padding-right: 0;
+
+    .dropdown { // sass-lint:disable-line class-name-format nesting-depth
+      width: 100%;
+    }
+  }
+
+  &__filter-searchby-label.label.label-default { // sass-lint:disable-line class-name-format force-element-nesting
+    display: block;
+    position: absolute;
+    top: 0;
+    padding: 0;
+    background: none;
+    color: $color-dark-grey;
+    font-weight: 300;
+    text-align: left;
+    z-index: 1;
+  }
+
+  &__filter-searchby-dropdown.btn { // sass-lint:disable-line class-name-format force-element-nesting
+    width: calc(100% - 1px);
+    height: 25px;
+    margin-right: 5px;
+    text-align: left;
+
+    .caret { // sass-lint:disable-line class-name-format
+      margin-top: 5px;
+      float: right;
+    }
+  }
+}

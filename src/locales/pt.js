@@ -877,5 +877,9 @@ export default {
     'tour.step.23.description': 'Fare clic su Anteprima per visualizzare la pagina nel browser',
     'app.startTutorial': 'Comece o tutorial',
     'app.pages.friendlyCodeHelp': 'Slug de URL para a página',
+    'pageTree.searchForm.searchPageBy': 'Página de pesquisa por',
+    'pageTree.searchForm.name': 'Nome da página',
+    'pageTree.searchForm.search.name': 'Procura por nome',
+    'pageTree.searchForm.search.code': 'Pesquisa por Código',
   },
 };
