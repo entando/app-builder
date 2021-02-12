@@ -52,6 +52,7 @@ const RenderSelectInput = ({
       <Col xs={inputSize || 12 - labelSize}>
         <select
           {...input}
+          id={input.name}
           size={size}
           className="form-control RenderSelectInput"
           disabled={disabled}

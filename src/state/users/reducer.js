@@ -39,7 +39,7 @@ export const selected = (state = {}, action = {}) => {
 export const authorities = (state = [], action = {}) => {
   switch (action.type) {
     case SET_SELECTED_USER_AUTHORITIES: {
-      let result = { username: action.payload.username };
+      let result = { username: action.payload.username, list: action.payload.authorities };
       if (action.payload.authorities.length > 0) {
         result = { ...result, action: ACTION_UPDATE };
       } else {
