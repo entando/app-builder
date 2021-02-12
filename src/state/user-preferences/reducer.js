@@ -4,7 +4,6 @@ const initialState = {
   wizard: true,
   translationWarning: true,
   loadOnPageSelect: true,
-  displayAttributes: true,
 };
 
 const reducer = (state = initialState, action = {}) => {

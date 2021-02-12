@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
 import { required, code, maxLength } from '@entando/utils';
@@ -10,7 +10,7 @@ import { isUndefined } from 'lodash';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
+import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
@@ -28,6 +28,10 @@ const msgs = defineMessages({
     id: 'app.chooseAnOption',
     defaultMessage: 'Choose',
   },
+  chooseOptions: {
+    id: 'app.chooseOptions',
+    defaultMessage: 'Choose',
+  },
   appCode: {
     id: 'app.code',
     defaultMessage: 'Code',
@@ -43,7 +47,7 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl, handleSubmit, invalid, submitting, selectedJoinGroups, groups, pageTemplates,
+      intl, handleSubmit, invalid, submitting, groups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
       onChangeOwnerGroup, readOnly, stayOnSave, form,
@@ -59,9 +63,6 @@ export class PageFormBody extends Component {
 
     const pageTemplatesWithEmpty =
       [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
-
-    const groupsWithEmpty =
-      [{ code: '', name: intl.formatMessage(msgs.chooseAnOption) }].concat(groups);
 
     const parentPageComponent = parentCode ?
       <span>{parentTitle}</span> :
@@ -89,6 +90,7 @@ export class PageFormBody extends Component {
                 key={lang.code}
                 component={RenderTextInput}
                 name={`titles.${lang.code}`}
+                data-testid={`titles.${lang.code}`}
                 tourClass="app-tour-step-6"
                 label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
                 placeholder={intl.formatMessage(msgTitle.langCode)}
@@ -121,35 +123,31 @@ export class PageFormBody extends Component {
           <Row>
             <Col xs={12}>
               <Field
-                component={RenderSelectInput}
+                component={RenderDropdownTypeaheadInput}
                 name="ownerGroup"
-                className="form-control"
-                tourClass="app-tour-step-9"
-                validate={[required]}
-                onChange={e => onChangeOwnerGroup(e.target.value, appTourProgress)}
-                disabled={isEditMode}
                 label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
-                options={groupsWithEmpty}
-                optionValue="code"
-                optionDisplayName="name"
+                options={groups}
+                labelKey="name"
+                valueKey="code"
+                disabled={isEditMode}
+                placeholder={intl.formatMessage(msgs.chooseAnOption)}
+                tourClass="app-tour-step-9"
+                onChange={optionSelected => (
+                  onChangeOwnerGroup(optionSelected.code, appTourProgress)
+                )}
+                validate={[required]}
               />
-              <FormGroup>
-                <label htmlFor="ownerGroup" className="col-xs-2 control-label">
-                  <FormLabel labelId="pages.pageForm.joinGroup" />
-                </label>
-                <Col xs={10}>
-                  <FieldArray
-                    component={MultiSelectRenderer}
-                    name="joinGroups"
-                    options={groups}
-                    selectedValues={selectedJoinGroups}
-                    labelKey="name"
-                    valueKey="code"
-                    emptyOptionTextId="app.chooseAnOption"
-                    disabled={readOnly}
-                  />
-                </Col>
-              </FormGroup>
+              <Field
+                component={RenderDropdownTypeaheadInput}
+                name="joinGroups"
+                label={<FormLabel labelId="pages.pageForm.joinGroup" />}
+                options={groups}
+                labelKey="name"
+                valueKey="code"
+                placeholder={intl.formatMessage(msgs.chooseOptions)}
+                multiple
+                disabled={readOnly}
+              />
             </Col>
           </Row>
           <Row>
@@ -305,6 +303,7 @@ export class PageFormBody extends Component {
             <Field
               component={RenderTextInput}
               name="code"
+              data-testid="page-code"
               tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
@@ -375,6 +374,7 @@ export class PageFormBody extends Component {
                 <Button
                   className="PageForm__save-btn"
                   type="submit"
+                  data-testid="save-page"
                   bsStyle="primary"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values =>
@@ -399,7 +399,6 @@ PageFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
-  selectedJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
   charsets: PropTypes.arrayOf(PropTypes.string).isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({

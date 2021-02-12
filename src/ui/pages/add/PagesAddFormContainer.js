@@ -78,7 +78,6 @@ export const mapStateToProps = (state) => {
     pageTemplates: getPageTemplatesList(state),
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
-    selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
     seoMode: SEO_ENABLED,
     initialValues: {
       ...PAGE_INIT_VALUES,

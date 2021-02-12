@@ -25,7 +25,7 @@ const ComponentInstallActions = ({
   onRetryAction,
   progress,
 }) => {
-  const latestVersion = component.latestVersion.version;
+  const latestVersion = (component.latestVersion || {}).version;
 
   const [selectedVersion, setSelectedVersion] = useState(latestVersion);
 
