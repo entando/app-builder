@@ -97,18 +97,22 @@ describe('WidgetForm', () => {
   });
 
 
-  it('disables submit button while submitting', () => {
+  it('disables submit buttons while submitting', () => {
     submitting = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('Button').first();
-    expect(submitButton.prop('disabled')).toBe(true);
+    const regularSaveButton = widgetForm.find('#regularSaveButton');
+    expect(regularSaveButton.prop('disabled')).toEqual(true);
+    const continueSaveButton = widgetForm.find('#continueSaveButton');
+    expect(continueSaveButton.prop('disabled')).toEqual(true);
   });
 
-  it('disables submit button if form is invalid', () => {
+  it('disables submit buttons if form is invalid', () => {
     invalid = true;
     widgetForm = buildWidgetForm();
-    const submitButton = widgetForm.find('Button').first();
-    expect(submitButton.prop('disabled')).toBe(true);
+    const regularSaveButton = widgetForm.find('#regularSaveButton');
+    expect(regularSaveButton.prop('disabled')).toEqual(true);
+    const continueSaveButton = widgetForm.find('#continueSaveButton');
+    expect(continueSaveButton.prop('disabled')).toEqual(true);
   });
 
   it('on form submit calls handleSubmit', () => {

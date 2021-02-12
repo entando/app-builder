@@ -5,7 +5,11 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
 
-import { ROUTE_FRAGMENT_EDIT, ROUTE_FRAGMENT_DETAIL } from 'app-init/router';
+import {
+  ROUTE_FRAGMENT_EDIT,
+  ROUTE_FRAGMENT_CLONE,
+  ROUTE_FRAGMENT_DETAIL,
+} from 'app-init/router';
 
 class FragmentListMenuActions extends Component {
   constructor(props) {
@@ -25,6 +29,9 @@ class FragmentListMenuActions extends Component {
     const editLabel = (
       <FormattedMessage id="fragment.table.edit" values={{ code: this.props.code }} />
     );
+    const cloneLabel = (
+      <FormattedMessage id="fragment.table.clone" values={{ code: this.props.code }} />
+    );
     const detailLabel = (
       <FormattedMessage id="fragment.table.details" values={{ code: this.props.code }} />
     );
@@ -35,6 +42,12 @@ class FragmentListMenuActions extends Component {
           to={routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: this.props.code })}
           label={editLabel}
           className="FragmentListMenuAction__menu-item-edit"
+        />
+        <LinkMenuItem
+          id={`clone-${this.props.code}`}
+          to={routeConverter(ROUTE_FRAGMENT_CLONE, { fragmentCode: this.props.code })}
+          label={cloneLabel}
+          className="FragmentListMenuAction__menu-item-clone"
         />
         <LinkMenuItem
           id={`edit-${this.props.code}`}

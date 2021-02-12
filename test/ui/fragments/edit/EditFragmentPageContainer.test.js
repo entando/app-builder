@@ -1,10 +1,11 @@
 import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/edit/EditFragmentPageContainer';
+import { FORM_MODE_EDIT } from 'state/fragments/const';
 import { GET_FRAGMENT_OK } from 'test/mocks/fragments';
 
 const TEST_STATE = {
-  mode: 'edit',
+  mode: FORM_MODE_EDIT,
   fragmentForm: GET_FRAGMENT_OK.payload,
 };
 

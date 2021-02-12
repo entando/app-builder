@@ -36,13 +36,13 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(initNewUserWidget(params.widgetCode));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, saveType) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
-    return dispatch(sendPostWidgets(jsonData));
+    return dispatch(sendPostWidgets(jsonData, saveType));
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),

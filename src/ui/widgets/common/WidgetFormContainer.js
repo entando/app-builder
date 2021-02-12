@@ -24,13 +24,13 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(initialize('widget'));
   },
-  onSubmit: (values) => {
+  onSubmit: (values, saveType) => {
     const jsonData = {
       ...values,
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
-    return dispatch(sendPostWidgets(jsonData));
+    return dispatch(sendPostWidgets(jsonData, saveType));
   },
   onChangeDefaultTitle: title =>
     dispatch(change('widget', 'code', title.replace(/\W/g, '_').toLowerCase())),

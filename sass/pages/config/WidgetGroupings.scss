@@ -4,6 +4,7 @@
   background-color: $color-sidebar-dark-bg;
 
   &__right-menu-title {
+    display: flex;
     padding: 15px 0 15px 18px;
     font-size: 16px;
     text-transform: uppercase;
@@ -18,12 +19,33 @@
   }
 
   &__input-pf-right-menu {
-    width: 94%;
+    width: 75%;
     font-size: 14px;
   }
 
   &__pointer {
     cursor: pointer;
+  }
+
+  &__view-options {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+  }
+
+  &__view-option {
+    color: $color-rating-filter-star-empty;
+
+    &.fa {  // sass-lint:disable-line class-name-format
+      margin-right: 10px;
+      font-size: 27px;
+    }
+
+    &--selected {
+      color: $color-white;
+    }
   }
 
 }

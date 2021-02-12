@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
-import { Button } from 'react-bootstrap';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { required, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
@@ -12,7 +12,10 @@ import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 
-import { FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE } from 'state/page-templates/const';
+import {
+  FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE,
+  REGULAR_SAVE_TYPE, CONTINUE_SAVE_TYPE,
+} from 'state/page-templates/const';
 
 
 const maxLength50 = maxLength(50);
@@ -75,12 +78,13 @@ export class PageTemplateFormBody extends Component {
   render() {
     const {
       intl, handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
+      onSubmit,
     } = this.props;
 
     const isEditMode = mode === FORM_MODE_EDIT;
 
     return (
-      <form onSubmit={handleSubmit} className="PageTemplateForm form-horizontal">
+      <form className="PageTemplateForm form-horizontal">
         <Row>
           <Col xs={12}>
             <fieldset>
@@ -142,15 +146,34 @@ export class PageTemplateFormBody extends Component {
         <Row>
           <br />
           <Col xs={12}>
-            <div className="btn-toolbar pull-right">
-              <Button
-                className="PageTemplateForm__save-btn"
-                type="submit"
+            <div className="btn-toolbar pull-right FragmentForm__dropdown">
+              <DropdownButton
+                title={intl.formatMessage({ id: 'app.save' })}
                 bsStyle="primary"
-                disabled={invalid || submitting}
+                id="saveopts"
+                className="FragmentForm__saveDropdown"
               >
-                <FormattedMessage id="app.save" />
-              </Button>
+                <MenuItem
+                  id="regularSaveButton"
+                  eventKey={REGULAR_SAVE_TYPE}
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, REGULAR_SAVE_TYPE))}
+                >
+                  <FormattedMessage id="app.save" />
+                </MenuItem>
+                <MenuItem
+                  id="continueSaveButton"
+                  eventKey={CONTINUE_SAVE_TYPE}
+                  disabled={invalid || submitting}
+                  onClick={handleSubmit(values => onSubmit({
+                  ...values,
+                }, CONTINUE_SAVE_TYPE))}
+                >
+                  <FormattedMessage id="app.saveAndContinue" />
+                </MenuItem>
+              </DropdownButton>
             </div>
           </Col>
         </Row>
@@ -171,6 +194,7 @@ PageTemplateFormBody.propTypes = {
     id: PropTypes.string.isRequired,
     values: PropTypes.shape({}),
   })).isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 PageTemplateFormBody.defaultProps = {

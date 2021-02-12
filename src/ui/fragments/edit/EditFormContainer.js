@@ -8,17 +8,16 @@ import { routeConverter } from '@entando/utils';
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
-
-export const EDIT_MODE = 'edit';
+import { FORM_MODE_EDIT } from 'state/fragments/const';
 
 export const mapStateToProps = () => (
   {
-    mode: EDIT_MODE,
+    mode: FORM_MODE_EDIT,
   });
 
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onSubmit: fragment => dispatch(sendPutFragment(fragment)),
+  onSubmit: (fragment, saveType) => dispatch(sendPutFragment(fragment, saveType)),
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('fragment')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_FRAGMENT_LIST)); },
