@@ -923,7 +923,6 @@ export default {
     'tour.step.20.title': 'Pubblicare',
     'tour.step.20.description': 'Fai clic su Pubblica per vedere la tua pagina dal vivo.',
     'app.startTutorial': 'Inizia il tutorial',
-    'app.pages.friendlyCodeHelp': 'URL slug per la pagina',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
     'pageTree.searchForm.name': 'Nome pagina',
     'pageTree.searchForm.search.name': 'Ricerca per nome',
