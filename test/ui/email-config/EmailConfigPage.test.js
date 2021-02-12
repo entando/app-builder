@@ -1,13 +1,11 @@
 import React from 'react';
-import { render as rtlRender, within } from '@testing-library/react';
+import { within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
-import { IntlProvider } from 'react-intl';
 
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
-import { MemoryRouter } from 'react-router-dom';
 import { ROUTE_EMAIL_CONFIG } from 'app-init/router';
-import enTranslations from 'locales/en';
+import { renderWithIntlAndRouter as render } from 'test/testUtils';
 
 jest.unmock('ui/common/BreadcrumbItem');
 
@@ -16,21 +14,6 @@ const mockEmailConfigSmtpServerText = 'Email Config Smtp Server';
 jest.mock('ui/email-config/EmailConfigSenderMgmtContainer', () => () => (<div>{mockEmailConfigSenderMgmtText}</div>));
 jest.mock('ui/email-config/EmailConfigSmtpServerContainer', () => () => (<div>{mockEmailConfigSmtpServerText}</div>));
 
-const { locale: enLocale, messages: enMessages } = enTranslations;
-
-const render = (ui, {
-  route = '/', locale = enLocale, messages = enMessages, ...renderOptions
-} = {}) => {
-  // eslint-disable-next-line react/prop-types
-  const Wrapper = ({ children }) => (
-    <MemoryRouter initialEntries={[route]}>
-      <IntlProvider locale={locale} messages={messages}>
-        {children}
-      </IntlProvider>
-    </MemoryRouter>
-  );
-  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
-};
 
 describe('EmailConfigPage', () => {
   it('should have internal page layout', () => {
@@ -42,7 +25,7 @@ describe('EmailConfigPage', () => {
     const { getByTestId } = render(
       (
         <EmailConfigPage />
-      ), { route: ROUTE_EMAIL_CONFIG },
+      ), { initialRoute: ROUTE_EMAIL_CONFIG },
     );
     const breadcrumbView = within(getByTestId('breadcrumb'));
     expect(breadcrumbView.getByText('Administration')).toBeInTheDocument();

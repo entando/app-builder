@@ -7,9 +7,10 @@ import { shallow, mount, configure } from 'enzyme';
 import { Provider as StateProvider } from 'react-redux';
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router, MemoryRouter } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import enTranslations from 'locales/en';
+import { render } from '@testing-library/react';
 
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
@@ -132,3 +133,57 @@ export const mockIntl = {
   formatHTMLMessage: () => {},
   now: () => {},
 };
+
+// React Testing Library utils
+
+export const renderWithWrapper = (ui, {
+  wrapperComp: WrapperComp, wrapperProps, ...renderOptions
+}) => {
+  // eslint-disable-next-line react/prop-types
+  const Wrapper = ({ children }) => (
+    <WrapperComp {...wrapperProps}>
+      {children}
+    </WrapperComp>
+  );
+  return render(ui, { wrapper: Wrapper, ...renderOptions });
+};
+
+const { locale: enLocale, messages: enMessages } = enTranslations;
+
+export const renderWithIntl = (ui, {
+  locale = enLocale, messages = enMessages, ...renderOptions
+} = {}) => renderWithWrapper(ui, {
+  wrapperComp: IntlProvider,
+  wrapperProps: { locale, messages },
+  ...renderOptions,
+});
+
+export const renderWithRouter = (ui, {
+  initialRoute = '/', ...renderOptions
+} = {}) => renderWithWrapper(ui, {
+  wrapperComp: MemoryRouter,
+  wrapperProps: { initialEntries: [initialRoute] },
+  ...renderOptions,
+});
+
+export const renderWithState = (ui, {
+  state, store = createMockStore(state), ...renderOptions
+} = {}) => renderWithWrapper(ui, {
+  wrapperComp: StateProvider,
+  wrapperProps: { store },
+  ...renderOptions,
+});
+
+export const renderWithIntlAndRouter = (ui, {
+  locale = enLocale, messages = enMessages, initialRoute = '/', ...renderOptions
+} = {}) => renderWithRouter(
+  <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>,
+  { initialRoute, ...renderOptions },
+);
+
+export const renderWithIntlAndState = (ui, {
+  locale = enLocale, messages = enMessages, state, store = createMockStore(state), ...renderOptions
+} = {}) => renderWithState(
+  <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>,
+  { state, store, ...renderOptions },
+);
