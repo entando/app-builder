@@ -114,7 +114,8 @@ const SeoInfo = ({
                   <Col sm={lang.isDefault ? 9 : 6}>
                     <Field
                       component={RenderTextInput}
-                      name={`seoData.seoDataByLang.${lang.code}.friendlyCode`}
+                      key={`seoData.seoDataByLang.${lang.code}.friendlyCode`}
+                      name="friendlyCode"
                       disabled={readOnly}
                       inputSize={12}
                       labelSize={0}
@@ -124,7 +125,8 @@ const SeoInfo = ({
                   <Col sm={3} className="text-right">
                     <Field
                       component={SwitchRenderer}
-                      name={`seoData.seoDataByLang.${lang.code}.inheritFriendlyCodeFromDefaultLang`}
+                      key={`seoData.seoDataByLang.${lang.code}.inheritFriendlyCodeFromDefaultLang`}
+                      name="inheritFriendlyCodeFromDefaultLang"
                       label={<FormLabel labelId="app.seo.inheritLangLabel" />}
                       labelSize={7}
                       disabled={readOnly}
