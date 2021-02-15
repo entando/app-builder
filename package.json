@@ -71,6 +71,7 @@
     "react-jsonschema-form": "^1.7.0",
     "react-keycloak": "^6.0.4",
     "react-loadable": "^5.4.0",
+    "react-quill-2": "^2.0.2",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.2.0",
     "react-test-renderer": "^16.2.0",
