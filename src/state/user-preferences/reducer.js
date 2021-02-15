@@ -4,6 +4,10 @@ const initialState = {
   wizard: true,
   translationWarning: true,
   loadOnPageSelect: true,
+  defaultPageOwnerGroup: null,
+  defaultPageJoinGroups: [],
+  defaultContentOwnerGroup: null,
+  defaultContentJoinGroups: [],
 };
 
 const reducer = (state = initialState, action = {}) => {
