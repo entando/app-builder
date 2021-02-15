@@ -18,6 +18,9 @@ import { setVisibleModal } from 'state/modal/actions';
 import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
+import { getUserPreferences } from 'state/user-preferences/selectors';
+import { fetchCurrentUserAuthorities } from 'state/users/actions';
+import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
 
 const getNextPageProperty = ({
   pages,
@@ -62,6 +65,11 @@ export const mapStateToProps = (state) => {
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
+  const userPreferences = getUserPreferences(state);
+  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
+  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
+  const ownerGroup = userPreferences.defaultPageOwnerGroup || authorityWithAdmin.group;
+  const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
@@ -85,6 +93,8 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
+      ownerGroup,
+      joinGroups,
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
@@ -116,6 +126,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (data) => {
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
+    dispatch(fetchCurrentUserAuthorities());
   },
   onInitPageForm: (data) => {
     const {

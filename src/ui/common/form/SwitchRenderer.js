@@ -29,12 +29,14 @@ const SwitchRenderer = ({
     return (
       <div className={`SwitchRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
         <Col xs={labelSize} className={alignClass}>
-          <ControlLabel htmlFor={input.name}>
+          <ControlLabel id={`switch-${input.name}`} htmlFor={input.name}>
             {label} {help}
           </ControlLabel>
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
-          {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
+          <div aria-labelledby={`switch-${input.name}`}>
+            {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
+          </div>
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span className="help-block">{error}</span>))}
         </Col>
