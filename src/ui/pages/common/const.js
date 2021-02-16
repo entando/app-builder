@@ -1,7 +1,6 @@
 const publicUrl = process.env.PUBLIC_URL;
 
 export const SEO_DATA_BLANK = {
-  friendlyCode: '',
   useExtraDescriptions: false,
   seoDataByLang: {},
 };
@@ -9,9 +8,11 @@ export const SEO_DATA_BLANK = {
 export const SEO_LANGDATA_BLANK = {
   description: '',
   keywords: '',
+  friendlyCode: '',
   metaTags: [],
   inheritDescriptionFromDefaultLang: false,
   inheritKeywordsFromDefaultLang: false,
+  inheritFriendlyCodeFromDefaultLang: false,
 };
 
 export const PAGE_INIT_VALUES = {
