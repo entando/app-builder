@@ -929,6 +929,8 @@ export default {
     'emailConfig.help': 'Il plug-in Configurazione e-mail fornisce funzionalità di base per inviare e-mail. Questo plugin è un prerequisito per tutti i plugin che richiedono la consegna di posta elettronica. Gli amministratori devono configurare la configurazione di rete e creare almeno un profilo mittente.',
     'emailConfig.smtpServer.panelMsg': 'Host è obbligatorio. Port e Timeout se vuoti, verranno impostati per impostazione predefinita su 25 e 10000. Lasciare il campo Nome utente e password vuoti se il server SMTP non richiede l\'autenticazione.',
     'emailConfig.smtpServer.generalSettings': 'Impostazioni Generali',
+    'emailConfig.smtpServer.active': 'Attivo',
+    'emailConfig.smtpServer.debugMode': 'Debug Mode',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
     'pageTree.searchForm.name': 'Nome pagina',
     'pageTree.searchForm.search.name': 'Ricerca per nome',

@@ -890,6 +890,8 @@ export default {
     'emailConfig.help': 'O plug-in de configuração de email fornece funcionalidade básica para enviar email. Este plug-in é um pré-requisito para todos os plug-ins que requerem entrega de e-mail. Os administradores devem definir a configuração da rede e criar pelo menos um perfil de remetente.',
     'emailConfig.smtpServer.panelMsg': 'O host é obrigatório. Porta e tempo limite se em branco, o padrão será 25 e 10000. Deixe o nome de usuário e a senha em branco se o servidor SMTP não exigir autenticação.',
     'emailConfig.smtpServer.generalSettings': 'Configurações gerais',
+    'emailConfig.smtpServer.active': 'Ativo',
+    'emailConfig.smtpServer.debugMode': 'Debug Mode',
     'pageTree.searchForm.searchPageBy': 'Página de pesquisa por',
     'pageTree.searchForm.name': 'Nome da página',
     'pageTree.searchForm.search.name': 'Procura por nome',
