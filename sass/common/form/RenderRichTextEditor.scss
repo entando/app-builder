@@ -1,0 +1,46 @@
+.RenderRichTextEditor__content {
+  // duplicate base class selector to increase specificity
+  &.RenderRichTextEditor__content--maximize {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 1100;
+    padding: 0;
+
+    .ql-toolbar { // sass-lint:disable-line class-name-format nesting-depth
+      background: #FFFFFF;
+    }
+
+    .ql-editor { // sass-lint:disable-line class-name-format nesting-depth
+      background: #FFFFFF;
+      height: calc(100vh - 40px);
+    }
+  }
+
+  .html-editor { // sass-lint:disable-line class-name-format
+    box-sizing: border-box;
+    bottom: 0;
+    border: 0;
+    color: #363636;
+    font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0;
+    outline: none;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .ql-specialChar { // sass-lint:disable-line class-name-format
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .ql-viewSource:after { // sass-lint:disable-line class-name-format
+    content: "Source";
+  }
+}
