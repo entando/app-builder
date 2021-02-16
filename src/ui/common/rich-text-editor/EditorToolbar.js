@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 import { compact } from 'lodash';
 
 const enlinkIcon = (
@@ -187,50 +188,50 @@ const renderToolbarButton = (format, value, icon, tooltipText) => (
   </button>
 );
 
-const EditorToolbar = ({ name, extraOptions }) => (
+const EditorToolbar = ({ intl, name, extraOptions }) => (
   <div id={name} style={{ borderBottom: 'none' }}>
     <ToolbarGroup>
-      {renderToolbarButton('history', 'undo', undoIcon, 'Undo (Ctrl + Z)')}
-      {renderToolbarButton('history', 'redo', redoIcon, 'Redo (Ctrl + Y)')}
+      {renderToolbarButton('history', 'undo', undoIcon, intl.formatMessage({ id: 'rte.undoWithExample' }))}
+      {renderToolbarButton('history', 'redo', redoIcon, intl.formatMessage({ id: 'rte.redoWithExample' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('entable', 'table', tableIcon, 'Insert Table')}
-      {renderToolbarButton('entable', 'table-insert-row', tableInsertRowIcon, 'Insert Table Row')}
-      {renderToolbarButton('entable', 'table-insert-column', tableInsertColumnIcon, 'Insert Table Column')}
-      {renderToolbarButton('entable', 'table-delete-row', tableDeleteRowIcon, 'Delete Table Row')}
-      {renderToolbarButton('entable', 'table-delete-column', tableDeleteColumnIcon, 'Delete Table Column')}
-      {renderToolbarButton('entable', 'table-delete', tableDeleteIcon, 'Delete Table')}
-      {renderToolbarButton('divider', undefined, hrIcon, 'Insert Horizontal Line')}
-      {renderToolbarButton('specialChar', undefined, 'Ω', 'Insert Special Character')}
+      {renderToolbarButton('entable', 'table', tableIcon, intl.formatMessage({ id: 'rte.insertTable' }))}
+      {renderToolbarButton('entable', 'table-insert-row', tableInsertRowIcon, intl.formatMessage({ id: 'rte.insertTableRow' }))}
+      {renderToolbarButton('entable', 'table-insert-column', tableInsertColumnIcon, intl.formatMessage({ id: 'rte.insertTableColumn' }))}
+      {renderToolbarButton('entable', 'table-delete-row', tableDeleteRowIcon, intl.formatMessage({ id: 'rte.deleteTableRow' }))}
+      {renderToolbarButton('entable', 'table-delete-column', tableDeleteColumnIcon, intl.formatMessage({ id: 'rte.deleteTableColumn' }))}
+      {renderToolbarButton('entable', 'table-delete', tableDeleteIcon, intl.formatMessage({ id: 'rte.deleteTable' }))}
+      {renderToolbarButton('divider', undefined, hrIcon, intl.formatMessage({ id: 'rte.insertHorizontalLine' }))}
+      {renderToolbarButton('specialChar', undefined, 'Ω', intl.formatMessage({ id: 'rte.insertSpecialChar' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('maximize', undefined, maximizeIcon, 'Maximize')}
+      {renderToolbarButton('maximize', undefined, maximizeIcon, intl.formatMessage({ id: 'rte.maximize' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('bold', undefined, undefined, 'Bold (Ctrl + B)')}
-      {renderToolbarButton('italic', undefined, undefined, 'Italic (Ctrl + I)')}
-      {renderToolbarButton('strike', undefined, undefined, 'Strikethrough')}
+      {renderToolbarButton('bold', undefined, undefined, intl.formatMessage({ id: 'rte.boldWithExample' }))}
+      {renderToolbarButton('italic', undefined, undefined, intl.formatMessage({ id: 'rte.italicWithExample' }))}
+      {renderToolbarButton('strike', undefined, undefined, intl.formatMessage({ id: 'rte.strikethrough' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('clean', undefined, undefined, 'Remove Format')}
+      {renderToolbarButton('clean', undefined, undefined, intl.formatMessage({ id: 'rte.removeFormat' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('list', 'ordered', undefined, 'Insert/Remove Numbered List')}
-      {renderToolbarButton('list', 'bullet', undefined, 'Insert/Remove Bulleted List')}
+      {renderToolbarButton('list', 'ordered', undefined, intl.formatMessage({ id: 'rte.toggleNumberList' }))}
+      {renderToolbarButton('list', 'bullet', undefined, intl.formatMessage({ id: 'rte.toggleBulletedList' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('indent', '-1', undefined, 'Decrease Indent')}
-      {renderToolbarButton('indent', '+1', undefined, 'Increase Indent')}
+      {renderToolbarButton('indent', '-1', undefined, intl.formatMessage({ id: 'rte.decreaseIndent' }))}
+      {renderToolbarButton('indent', '+1', undefined, intl.formatMessage({ id: 'rte.increaseIndent' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('blockquote', undefined, undefined, 'Block Quote')}
+      {renderToolbarButton('blockquote', undefined, undefined, intl.formatMessage({ id: 'rte.blockQuote' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('enlink', 'link', enlinkIcon, 'Link')}
-      {renderToolbarButton('enlink', 'unlink', enunlinkIcon, 'Unlink')}
+      {renderToolbarButton('enlink', 'link', enlinkIcon, intl.formatMessage({ id: 'rte.link' }))}
+      {renderToolbarButton('enlink', 'unlink', enunlinkIcon, intl.formatMessage({ id: 'rte.unlink' }))}
     </ToolbarGroup>
     <ToolbarGroup>
-      {renderToolbarButton('viewSource', undefined, undefined, 'Source')}
+      {renderToolbarButton('viewSource', undefined, undefined, intl.formatMessage({ id: 'rte.source' }))}
     </ToolbarGroup>
     {extraOptions && (
       <ToolbarGroup className="pull-right">{extraOptions}</ToolbarGroup>
@@ -239,6 +240,7 @@ const EditorToolbar = ({ name, extraOptions }) => (
 );
 
 EditorToolbar.propTypes = {
+  intl: intlShape.isRequired,
   name: PropTypes.string,
   extraOptions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -251,4 +253,4 @@ EditorToolbar.defaultProps = {
   extraOptions: null,
 };
 
-export default EditorToolbar;
+export default injectIntl(EditorToolbar);
