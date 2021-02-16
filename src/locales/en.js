@@ -951,5 +951,9 @@ export default {
     'rte.link': 'Link',
     'rte.unlink': 'Unlink',
     'rte.source': 'Source',
+    'linkconfig.attributes.heading': 'Additional attributes',
+    'linkconfig.title': 'Configure link content',
+    'specialcharModal.title': 'Insert special character',
+    'linkconfig.linkToUrl': 'Link to an URL',
   },
 };

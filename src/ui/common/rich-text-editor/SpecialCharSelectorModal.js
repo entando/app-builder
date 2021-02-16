@@ -155,7 +155,7 @@ const ID = 'SpecialCharSelectorModal';
 const SpecialCharSelectorModal = ({ isVisible, onSelect, onClose }) => {
   const renderedModalTitle = (
     <Modal.Title>
-      <FormattedMessage id="cms.specialcharModal.title" />
+      <FormattedMessage id="specialcharModal.title" />
     </Modal.Title>
   );
 
@@ -165,7 +165,7 @@ const SpecialCharSelectorModal = ({ isVisible, onSelect, onClose }) => {
       visibleModal={isVisible ? ID : null}
       modalId={ID}
       modalTitle={renderedModalTitle}
-      // modalFooter={<></>}
+      modalFooter={<React.Fragment />}
       onCloseModal={onClose}
     >
       {SPECIAL_CHARS.map(char => (
