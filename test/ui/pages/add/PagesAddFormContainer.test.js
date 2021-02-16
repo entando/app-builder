@@ -246,7 +246,6 @@ describe('PagesAddFormContainer', () => {
         charset: 'utf-8',
         contentType: 'text/html',
         seoData: {
-          friendlyCode: '',
           useExtraDescriptions: false,
           seoDataByLang: {
             en: { ...SEO_LANGDATA_BLANK },

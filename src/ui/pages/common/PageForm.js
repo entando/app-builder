@@ -335,16 +335,6 @@ export class PageFormBody extends Component {
             <Row>
               <Col xs={12}>
                 <Field
-                  component={RenderTextInput}
-                  name="seoData.friendlyCode"
-                  label={<FormLabel labelId="pages.pageForm.seoFriendlyCode" />}
-                  disabled={readOnly}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <Field
                   component={SwitchRenderer}
                   name="seoData.useExtraDescriptions"
                   label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
