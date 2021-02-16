@@ -586,7 +586,7 @@ export default {
     'user.profileType': 'Profile Type',
     'user.status': 'Status',
     'user.searchForm.users': 'Users',
-    'user.username.help': 'You can insert at least 4 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters.',
+    'user.username.help': 'You can insert at least 4 - max 20 characters, lowercase letters, including numbers, \'.\' and  \'_\' special characters.',
     'user.password.help': 'You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters. ',
     'user.validate.text': 'Contains invalid characters. You can use only alphanumeric characters, the dot \'.\' and the underscore \'_\'.',
     'user.registration': 'Registration',
