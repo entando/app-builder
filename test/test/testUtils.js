@@ -138,7 +138,7 @@ export const mockIntl = {
 
 export const renderWithWrapper = (ui, {
   wrapperComp: WrapperComp, wrapperProps, ...renderOptions
-}) => {
+} = {}) => {
   // eslint-disable-next-line react/prop-types
   const Wrapper = ({ children }) => (
     <WrapperComp {...wrapperProps}>

@@ -927,6 +927,8 @@ export default {
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Sender Management',
     'emailConfig.help': 'The Email Configuration plugin provides basic functionality to send email. This plugin is a prerequisite for all plugins that require email delivery.  Administrators must configure the network configuration and create at least one sender profile.',
+    'emailConfig.smtpServer.panelMsg': 'Host is mandatory. Port and Timeout if blank, will default to 25 and 10000. Please leave Username and Password blank if the SMTP server does not require authentication.',
+    'emailConfig.smtpServer.generalSettings': 'General Settings',
     'pageTree.searchForm.searchPageBy': 'Search page by',
     'pageTree.searchForm.name': 'Page Name',
     'pageTree.searchForm.search.name': 'Search by Name',
