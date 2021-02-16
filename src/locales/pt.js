@@ -912,5 +912,9 @@ export default {
     'rte.link': 'Link',
     'rte.unlink': 'Unlink',
     'rte.source': 'Fonte',
+    'linkconfig.attributes.heading': 'Atributos adicionais',
+    'linkconfig.title': 'Configurar o conteúdo do link',
+    'specialcharModal.title': 'Inserir caractere especial',
+    'linkconfig.linkToUrl': 'Link para um URL',
   },
 };

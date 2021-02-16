@@ -5,6 +5,7 @@ import 'react-quill-2/dist/quill.snow.css';
 
 import EditorToolbar from 'ui/common/rich-text-editor/EditorToolbar';
 import SpecialCharSelectorModal from 'ui/common/rich-text-editor/SpecialCharSelectorModal';
+import LinkConfigModal from 'ui/common/modal/LinkConfigModal';
 
 const BlockEmbed = Quill.import('blots/block/embed');
 
@@ -229,6 +230,11 @@ class RichTextEditor extends Component {
           modules={this.modules}
           formats={this.formats}
           readOnly={!editorCanWrite}
+        />
+        <LinkConfigModal
+          isVisible={modal === 'enlink'}
+          onSave={this.handleLinkConfigSave}
+          onClose={this.handleModalClose}
         />
         <SpecialCharSelectorModal
           isVisible={modal === 'specialChar'}
