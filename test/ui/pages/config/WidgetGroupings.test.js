@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Router } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
+import { useSelector } from 'react-redux';
 
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
@@ -11,6 +12,11 @@ import userEvent from '@testing-library/user-event';
 import { createMockHistory } from 'test/testUtils';
 
 import WidgetGroupings from 'ui/pages/config/WidgetGroupings';
+
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+}));
 
 const CONTENT_WIDGET = {
   code: 'content_widget',
@@ -68,6 +74,13 @@ function render(ui, { locale = 'en', ...renderOptions } = {}) {
 describe('WidgetGroupings', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    useSelector.mockImplementation(callback => callback({
+      widgets: {
+        map: {
+          test: {},
+        },
+      },
+    }));
   });
 
   it('has the root class', () => {

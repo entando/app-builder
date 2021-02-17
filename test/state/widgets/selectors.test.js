@@ -5,8 +5,10 @@ import {
   getWidgetGroupingList,
   getWidgetsTotal,
   getWidgetInfo,
+  getWidgetIcon,
 } from 'state/widgets/selectors';
 import { WIDGET_LIST, LIST, WIDGETS_MAP, WIDGET_INFO } from 'test/mocks/widgets';
+import { set } from 'lodash';
 
 
 const MOCK_STATE = {
@@ -52,5 +54,16 @@ describe('state/widgest/selectors', () => {
     expect(result).toHaveProperty('code', WIDGET_INFO.code);
     expect(result).toHaveProperty('titles', WIDGET_INFO.titles);
     expect(result).toHaveProperty('data');
+  });
+
+  it('getWidgetIcon return the widget icon', () => {
+    const result = getWidgetIcon('login_form')(MOCK_STATE);
+    expect(result).toBe('asset:my_asset');
+  });
+
+  it('getWidgetIcon return puzzle icon if not defined', () => {
+    set(MOCK_STATE, 'widgets.map.login_form.icon', undefined);
+    const result = getWidgetIcon('login_form')(MOCK_STATE);
+    expect(result).toBe('font-awesome:fa-puzzle-piece');
   });
 });

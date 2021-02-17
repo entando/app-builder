@@ -15,6 +15,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import IconUploader from 'ui/widgets/common/IconUploader';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
 
 const MODE_NEW = 'new';
@@ -188,6 +189,14 @@ export class WidgetFormBody extends Component {
                   component="input"
                   type="hidden"
                 />
+                <Field
+                  component={IconUploader}
+                  name="icon"
+                  label={
+                    <FormLabel labelId="widget.page.create.icon" required />
+                  }
+                />
+
                 {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
                   <div className="form-group">
                     <Col xs={2} className="text-right">

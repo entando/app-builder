@@ -321,14 +321,14 @@ describe('state/fragments/actions', () => {
     });
     describe('sendPutFragment', () => {
       it('calls putFragment and router', () => {
-        store.dispatch(sendPostFragment(GET_FRAGMENT_OK)).then(() => {
+        store.dispatch(sendPutFragment(GET_FRAGMENT_OK)).then(() => {
           expect(putFragment).toHaveBeenCalled();
           expect(history.push).toHaveBeenCalledWith(ROUTE_FRAGMENT_LIST);
         });
       });
 
       it('calls putFragment without routing', () => {
-        store.dispatch(sendPostFragment(GET_FRAGMENT_OK, CONTINUE_SAVE_TYPE)).then(() => {
+        store.dispatch(sendPutFragment(GET_FRAGMENT_OK, CONTINUE_SAVE_TYPE)).then(() => {
           expect(putFragment).toHaveBeenCalled();
         });
       });

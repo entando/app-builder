@@ -1,8 +1,10 @@
 .WidgetIcon {
+  height: 22px;
   padding: 0;
   font-size: 1.5em;
 
   &--small {
+    height: 18px;
     font-size: 1.4em !important; // sass-lint:disable-line no-important
   }
 }
