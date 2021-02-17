@@ -81,10 +81,6 @@ describe('PagesEditFormContainer', () => {
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
       expect(props).toHaveProperty('keepDirtyOnReinitialize', true);
     });
-
-    it('defines "selectedJoinGroups" prop = the joinGroups value from the page form', () => {
-      expect(formValueSelector).toHaveBeenCalledWith('pageEdit');
-    });
   });
 
   describe('mapDispatchToProps', () => {

@@ -28,8 +28,7 @@ describe('PageSearchForm', () => {
     expect(component.exists('.PageSearchForm')).toBe(true);
   });
   it('form onSubmit calls handleSubmit', () => {
-    component.find('form').prop('onSubmit')(EVENT);
-    expect(EVENT.preventDefault).toHaveBeenCalled();
+    component.find('form').simulate('submit', EVENT);
     expect(handleSubmitMock).toHaveBeenCalled();
   });
 });

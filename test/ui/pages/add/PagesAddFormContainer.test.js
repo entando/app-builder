@@ -24,6 +24,7 @@ import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import getSearchParam from 'helpers/getSearchParam';
 
+
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
 }));
@@ -52,6 +53,14 @@ jest.mock('state/pages/selectors', () => ({
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn(),
+}));
+
+jest.mock('state/user-preferences/selectors', () => ({
+  getUserPreferences: jest.fn(() => ({ defaultPageOwnerGroup: 'free', defaultPageJoinGroups: ['free'] })),
+}));
+
+jest.mock('state/users/selectors', () => ({
+  getSelectedUserAuthoritiesList: jest.fn(),
 }));
 
 jest.mock('app-init/router', () => ({
@@ -237,7 +246,6 @@ describe('PagesAddFormContainer', () => {
         charset: 'utf-8',
         contentType: 'text/html',
         seoData: {
-          friendlyCode: '',
           useExtraDescriptions: false,
           seoDataByLang: {
             en: { ...SEO_LANGDATA_BLANK },
@@ -246,6 +254,8 @@ describe('PagesAddFormContainer', () => {
           },
         },
         parentCode: 'parentCode',
+        ownerGroup: 'free',
+        joinGroups: ['free'],
       });
     });
   });
