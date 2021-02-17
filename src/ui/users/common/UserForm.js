@@ -23,6 +23,7 @@ const NEW_MODE = 'new';
 const minLength4 = minLength(4);
 const minLength8 = minLength(8);
 const maxLength20 = maxLength(20);
+const maxLength80 = maxLength(80);
 
 export const renderStaticField = (field) => {
   const { input, label, name } = field;
@@ -78,7 +79,7 @@ export class UserFormBody extends Component {
         label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
         placeholder={intl.formatMessage(msgs.username)}
         validate={mode !== EDIT_MODE ?
-          [required, minLength4, maxLength20, userFormText] : undefined}
+          [required, minLength4, maxLength80, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
       />
     );

@@ -565,7 +565,7 @@ export default {
     'user.profileType': 'Tipo de Pefil',
     'user.status': 'Status',
     'user.searchForm.users': 'Usuários',
-    'user.username.help': 'Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (minúsculo, números), além de caracteres especiais como \'.\' e  \'_\'.',
+    'user.username.help': 'Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 80 caractéres alfanúmericos (minúsculo, números), além de caracteres especiais como \'.\' e  \'_\'.',
     'user.password.help': 'Você pode inserir ao menos 4 caracteres maiúsculos. Máximo de 20 caractéres alfanúmericos (maiúsculo, minúsculo, números), além de caracteres especiais como \'.\' e  \'_\'. ',
     'user.validate.text': 'Contém caracteres inválidos. Você pode usar apenas caractéres alfanúmericos e os caracteres especiais \'.\' e  \'_\'.',
     'user.registration': 'Cadastro',
