@@ -9,7 +9,7 @@ import { isUndefined } from 'lodash';
 
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
+import RenderRichTextEditor from 'ui/common/form/RenderRichTextEditor';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -216,7 +216,7 @@ export class WidgetFormBody extends Component {
                             <Field
                               labelSize={0}
                               name="customUi"
-                              component={RenderTextAreaInput}
+                              component={RenderRichTextEditor}
                               cols="50"
                               rows="8"
                               className="form-control"
