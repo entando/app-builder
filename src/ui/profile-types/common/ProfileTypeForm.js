@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { InputGroup, Button, Row, Col } from 'patternfly-react';
 
 import { required, maxLength } from '@entando/utils';
@@ -10,6 +10,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 import DeleteAttributeModalContainer from 'ui/profile-types/attributes/DeleteAttributeModalContainer';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const uppercaseThreeLetters = value =>
   (value && !/^[A-Z]{1,3}$/i.test(value)
@@ -26,10 +27,19 @@ export class ProfileTypeFormBody extends Component {
     const {
       attributesType, mode, handleSubmit,
       onAddAttribute, invalid, submitting,
-      profileTypeCode, attributeCode,
+      profileTypeCode, attributeCode, intl,
+      dirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEdit = mode === 'edit';
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
 
     const selectOptions = attributesType.map(item => ({
       value: item,
@@ -125,6 +135,13 @@ export class ProfileTypeFormBody extends Component {
         <br />
         <Row>
           <Col xs={12}>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={onDiscard}
+            />
             <Button
               className="pull-right ProfileTypeForm__save-btn"
               type="submit"
@@ -132,6 +149,13 @@ export class ProfileTypeFormBody extends Component {
               disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
+            </Button>
+            <Button
+              className="pull-right UserForm__action-button"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="app.cancel" />
             </Button>
           </Col>
         </Row>
@@ -142,6 +166,7 @@ export class ProfileTypeFormBody extends Component {
 }
 
 ProfileTypeFormBody.propTypes = {
+  intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -152,6 +177,10 @@ ProfileTypeFormBody.propTypes = {
   mode: PropTypes.string,
   profileTypeCode: PropTypes.string,
   attributeCode: PropTypes.string,
+  dirty: PropTypes.bool,
+  onSave: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 ProfileTypeFormBody.defaultProps = {
@@ -162,10 +191,11 @@ ProfileTypeFormBody.defaultProps = {
   mode: 'add',
   profileTypeCode: '',
   attributeCode: '',
+  dirty: false,
 };
 
-const ProfileTypeForm = reduxForm({
+const ProfileTypeForm = injectIntl(reduxForm({
   form: 'ProfileType',
-})(ProfileTypeFormBody);
+})(ProfileTypeFormBody));
 
 export default ProfileTypeForm;

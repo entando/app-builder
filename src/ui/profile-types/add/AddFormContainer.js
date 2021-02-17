@@ -1,8 +1,15 @@
 import { connect } from 'react-redux';
+import { routeConverter } from '@entando/utils';
+import { formValueSelector, submit } from 'redux-form';
+import { withRouter } from 'react-router-dom';
+
 import { fetchProfileTypeAttributes, sendPostProfileType } from 'state/profile-types/actions';
 import { getProfileTypeAttributesIdList } from 'state/profile-types/selectors';
+import { setVisibleModal } from 'state/modal/actions';
+import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
+import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+
 import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
-import { formValueSelector } from 'redux-form';
 
 export const mapStateToProps = state => ({
   mode: 'add',
@@ -10,7 +17,7 @@ export const mapStateToProps = state => ({
   attributeCode: formValueSelector('ProfileType')(state, 'type'),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: () => {
     dispatch(fetchProfileTypeAttributes());
   },
@@ -20,8 +27,13 @@ export const mapDispatchToProps = dispatch => ({
       code: values.code && values.code.toUpperCase(),
     }));
   },
-
+  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('ProfileType')); },
+  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
+  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PROFILE_TYPE_LIST)); },
 });
-export default connect(mapStateToProps, mapDispatchToProps, null, {
+const AddFormContainer = connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
 })(ProfileTypeForm);
+
+
+export default withRouter(AddFormContainer);

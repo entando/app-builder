@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { Row, Col, FormGroup } from 'patternfly-react';
+import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { required, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -11,6 +11,7 @@ import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 import {
   FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE,
@@ -78,10 +79,18 @@ export class PageTemplateFormBody extends Component {
   render() {
     const {
       intl, handleSubmit, invalid, submitting, mode, previewCellMap, previewErrors,
-      onSubmit,
+      onSubmit, dirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEditMode = mode === FORM_MODE_EDIT;
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
 
     return (
       <form className="PageTemplateForm form-horizontal">
@@ -147,6 +156,13 @@ export class PageTemplateFormBody extends Component {
           <br />
           <Col xs={12}>
             <div className="btn-toolbar pull-right FragmentForm__dropdown">
+              <Button
+                className="pull-right UserForm__action-button"
+                bsStyle="default"
+                onClick={handleCancelClick}
+              >
+                <FormattedMessage id="app.cancel" />
+              </Button>
               <DropdownButton
                 title={intl.formatMessage({ id: 'app.save' })}
                 bsStyle="primary"
@@ -174,6 +190,13 @@ export class PageTemplateFormBody extends Component {
                   <FormattedMessage id="app.saveAndContinue" />
                 </MenuItem>
               </DropdownButton>
+              <ConfirmCancelModalContainer
+                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                invalid={invalid}
+                submitting={submitting}
+                onSave={onSave}
+                onDiscard={onDiscard}
+              />
             </div>
           </Col>
         </Row>
@@ -195,6 +218,10 @@ PageTemplateFormBody.propTypes = {
     values: PropTypes.shape({}),
   })).isRequired,
   onSubmit: PropTypes.func.isRequired,
+  dirty: PropTypes.bool,
+  onSave: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 PageTemplateFormBody.defaultProps = {
@@ -203,6 +230,7 @@ PageTemplateFormBody.defaultProps = {
   mode: FORM_MODE_ADD,
   onWillMount: null,
   previewCellMap: null,
+  dirty: false,
 };
 
 const PageTemplateForm = reduxForm({

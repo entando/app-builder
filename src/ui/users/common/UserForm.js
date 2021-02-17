@@ -16,6 +16,7 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -68,8 +69,16 @@ export class UserFormBody extends Component {
   render() {
     const {
       intl, onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
-      password,
+      password, dirty, onCancel, onDiscard, onSave,
     } = this.props;
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
 
     const showUsername = (
       <Field
@@ -181,6 +190,13 @@ export class UserFormBody extends Component {
         <br />
         <Row>
           <Col xs={12}>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={onDiscard}
+            />
             <Button
               className="pull-right"
               type="submit"
@@ -192,7 +208,7 @@ export class UserFormBody extends Component {
             {
               mode !== EDIT_MODE && (
                 <Button
-                  className="pull-right"
+                  className="pull-right UserForm__action-button"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values => onSubmit({
                   ...values,
@@ -203,6 +219,13 @@ export class UserFormBody extends Component {
                 </Button>
               )
             }
+            <Button
+              className="pull-right UserForm__action-button"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="app.cancel" />
+            </Button>
           </Col>
         </Row>
       </form>
@@ -223,6 +246,10 @@ UserFormBody.propTypes = {
     text: PropTypes.string,
   })),
   password: PropTypes.string,
+  dirty: PropTypes.bool,
+  onSave: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 UserFormBody.defaultProps = {
@@ -232,6 +259,7 @@ UserFormBody.defaultProps = {
   onWillMount: null,
   profileTypes: [],
   password: '',
+  dirty: false,
 };
 
 const UserForm = reduxForm({

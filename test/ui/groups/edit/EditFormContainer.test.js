@@ -23,6 +23,10 @@ const ownProps = {
   },
 };
 
+const dispatchProps = {
+  history: {},
+};
+
 describe('EditFormContainer', () => {
   describe('mapStateToProps', () => {
     it('maps groupCode property state in GroupForm', () => {
@@ -35,7 +39,7 @@ describe('EditFormContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, dispatchProps);
     });
 
     it('verify that the "onSubmit" is defined by and dispatch sendPutGroup', () => {
