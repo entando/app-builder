@@ -4,7 +4,7 @@ import { ToggleButtonGroup, ToggleButton, ButtonToolbar } from 'react-bootstrap'
 import { Col, ControlLabel } from 'patternfly-react';
 
 const buttonToolbar = (input, toggleElement, defaultValue) => (
-  <ButtonToolbar className="RenderRadioInput">
+  <ButtonToolbar className="RenderRadioInput" aria-labelledby={`radiogroup-${input.name}`}>
     <ToggleButtonGroup
       type="radio"
       {...input}
@@ -32,7 +32,7 @@ const RenderRadioInput = ({
     return (
       <div className={`RadioInputRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
         <Col xs={labelSize} className={alignClass}>
-          <ControlLabel htmlFor={input.name}>
+          <ControlLabel htmlFor={input.name} id={`radiogroup-${input.name}`}>
             {label} {help}
           </ControlLabel>
         </Col>
@@ -50,7 +50,7 @@ const RenderRadioInput = ({
 RenderRadioInput.propTypes = {
   toggleElement: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   })),
   input: PropTypes.shape({}).isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
