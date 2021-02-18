@@ -30,6 +30,7 @@ import {
   FREE_ACCESS_GROUP_VALUE,
   sendGetNavigatorNavspecFromExpressions,
   sendGetNavigatorExpressionsFromNavspec,
+  uploadIcon,
 } from 'state/widgets/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -45,6 +46,7 @@ import {
   getNavigatorNavspecFromExpressions,
   getNavigatorExpressionsFromNavspec,
 } from 'api/widgets';
+import { getFile } from 'api/fileBrowser';
 import { WIDGET, WIDGET_LIST, WIDGET_INFO, WIDGET_NULL_GROUP } from 'test/mocks/widgets';
 import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
 
@@ -208,6 +210,7 @@ describe('state/widgets/actions', () => {
             group: WIDGET.group,
             configUi: '',
             customUi: WIDGET.guiFragments[0].customUi,
+            icon: WIDGET.icon,
           });
           done();
         }).catch(done.fail);
@@ -228,6 +231,7 @@ describe('state/widgets/actions', () => {
             group: FREE_ACCESS_GROUP_VALUE,
             configUi: '',
             customUi: WIDGET_NULL_GROUP.guiFragments[0].customUi,
+            icon: WIDGET.icon,
           });
           done();
         }).catch(done.fail);
@@ -475,6 +479,30 @@ describe('state/widgets/actions', () => {
           expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
           expect(actions[2]).toHaveProperty('type', ADD_TOAST);
           expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          done();
+        }).catch(done.fail);
+      });
+    });
+
+    describe('uploadIcon', () => {
+      const file = new File([''], 'filename.svg');
+      it('uploadIcon calls getFile', (done) => {
+        store.dispatch(uploadIcon(file)).then(() => {
+          expect(getFile).toHaveBeenCalled();
+          done();
+        }).catch(done.fail);
+      });
+
+      it('if the response is not ok, dispatch add errors', (done) => {
+        getFile.mockImplementationOnce(mockApi({ errors: true }));
+        store.dispatch(uploadIcon(file)).then(() => {
+          expect(getFile).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions).toHaveLength(4);
+          expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', ADD_ERRORS);
+          expect(actions[3]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
