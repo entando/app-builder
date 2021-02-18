@@ -586,7 +586,7 @@ export default {
     'user.profileType': 'Tipo di Profilo',
     'user.status': 'Stato',
     'user.searchForm.users': 'Utenti',
-    'user.username.help': 'Inserire tra 4 e 20 caratteri, lettere minuscole, numeri \'.\' e  \'_\'.',
+    'user.username.help': 'Inserire tra 4 e 80 caratteri, lettere minuscole, numeri \'.\' e  \'_\'.',
     'user.password.help': 'Inserire tra 8 e 20 caratteri, lettere maiuscole e minuscole, numeri \'.\' e  \'_\'.',
     'user.validate.text': 'Contiene caratteri non consentiti. Usare solo caratteri alfanumerici, il punto \'.\' o l\'undescore \'_\'.',
     'user.registration': 'Registrazione',
