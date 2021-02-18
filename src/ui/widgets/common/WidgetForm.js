@@ -10,12 +10,12 @@ import { isUndefined } from 'lodash';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderRichTextEditor from 'ui/common/form/RenderRichTextEditor';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import IconUploader from 'ui/widgets/common/IconUploader';
+import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
 
 const MODE_NEW = 'new';
@@ -43,6 +43,10 @@ export const renderDefaultUIField = (field) => {
 };
 
 const msgs = defineMessages({
+  chooseAnOption: {
+    id: 'app.chooseAnOption',
+    defaultMessage: 'Choose',
+  },
   codePlaceholder: {
     id: 'widget.page.create.code.placeholder',
     defaultMessage: 'Code',
@@ -108,6 +112,7 @@ export class WidgetFormBody extends Component {
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters, defaultUIField,
       onReplaceSubmit, match: { params }, onSubmit, handleSubmit,
+      groups,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -173,16 +178,14 @@ export class WidgetFormBody extends Component {
                 {this.renderTitleFields()}
                 {codeField}
                 <Field
-                  component={RenderSelectInput}
+                  component={RenderDropdownTypeaheadInput}
                   name="group"
-                  label={
-                    <FormLabel labelId="widget.page.create.group" required />
-                }
-                  validate={required}
-                  options={this.props.groups}
-                  optionValue="code"
-                  optionDisplayName="name"
-                  defaultOptionId="app.chooseAnOption"
+                  label={<FormLabel labelId="widget.page.create.group" required />}
+                  options={groups}
+                  labelKey="name"
+                  valueKey="code"
+                  placeholder={intl.formatMessage(msgs.chooseAnOption)}
+                  validate={[required]}
                 />
                 <Field
                   name="widgetCategory"
