@@ -401,6 +401,7 @@ export default {
     'widget.icon.iconLibrary': 'Icon Library',
     'widget.icon.upload': 'Upload',
     'widget.icon.insert': 'Insert',
+    'widget.icon.helpText': 'The allowed formats are: {formats}',
     'widget.list.title': 'Micro Frontends & Widgets',
     'widget.list.new': 'New',
     'widget.list.section.cms': 'CMS',

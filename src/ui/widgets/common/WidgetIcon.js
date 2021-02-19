@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { getWidgetIcon } from 'state/widgets/selectors';
 
 const imageProvider = `${process.env.DOMAIN}/resources/static/widget-icons`;
+const publicUrl = process.env.PUBLIC_URL;
+const fallbackIcon = `${publicUrl}/images/puzzle-piece-solid.svg`;
 
 const WidgetIcon = ({
   widgetId, small, icon, className,
@@ -15,7 +17,12 @@ const WidgetIcon = ({
 
   return iconType === 'font-awesome'
     ? <span className={cx('fa', iconName, 'WidgetIcon', small && 'WidgetIcon--small', className)} />
-    : (<img src={`${imageProvider}/${iconName}.svg`} alt="icon" className={cx('WidgetIcon', small && 'WidgetIcon--small', className)} />);
+    : <img
+      src={`${imageProvider}/${iconName}.svg`}
+      alt={`icon ${iconName}`}
+      className={cx('WidgetIcon', small && 'WidgetIcon--small', className)}
+      onError={(e) => { e.target.onerror = null; e.target.src = fallbackIcon; }}
+    />;
 };
 
 WidgetIcon.propTypes = {

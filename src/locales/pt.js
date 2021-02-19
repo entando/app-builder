@@ -387,6 +387,7 @@ export default {
     'widget.icon.iconLibrary': 'Biblioteca de ícones',
     'widget.icon.upload': 'Upload',
     'widget.icon.insert': 'Inserir',
+    'widget.icon.helpText': 'Os formatos permitidos são: {formats}',
     'widget.list.title': 'Micro frontends / Widgets',
     'widget.list.new': 'Novo',
     'widget.list.section.cms': 'CMS',
