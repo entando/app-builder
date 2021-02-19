@@ -196,7 +196,11 @@ export class WidgetFormBody extends Component {
                   component={IconUploader}
                   name="icon"
                   label={
-                    <FormLabel labelId="widget.page.create.icon" required />
+                    <FormLabel
+                      labelId="widget.page.create.icon"
+                      helpText={intl.formatMessage({ id: 'widget.icon.helpText' }, { formats: 'SVG' })}
+                      required
+                    />
                   }
                 />
 
