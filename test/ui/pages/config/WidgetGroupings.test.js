@@ -1,6 +1,5 @@
 import React from 'react';
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DDProvider } from '@entando/ddtable';
 import { Router } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 
@@ -54,11 +53,11 @@ function render(ui, { locale = 'en', ...renderOptions } = {}) {
   function Wrapper({ children }) {
     return (
       <Router history={createMockHistory()}>
-        <DndProvider backend={HTML5Backend}>
+        <DDProvider>
           <IntlProvider locale={locale}>
             {children}
           </IntlProvider>
-        </DndProvider>
+        </DDProvider>
       </Router>
     );
   }
