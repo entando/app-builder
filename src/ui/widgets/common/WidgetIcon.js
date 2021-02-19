@@ -19,7 +19,7 @@ const WidgetIcon = ({
     ? <span className={cx('fa', iconName, 'WidgetIcon', small && 'WidgetIcon--small', className)} />
     : <img
       src={`${imageProvider}/${iconName}.svg`}
-      alt="icon"
+      alt={`icon ${iconName}`}
       className={cx('WidgetIcon', small && 'WidgetIcon--small', className)}
       onError={(e) => { e.target.onerror = null; e.target.src = fallbackIcon; }}
     />;
