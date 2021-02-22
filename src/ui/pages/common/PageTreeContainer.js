@@ -26,6 +26,9 @@ import {
   fetchSearchPages,
 } from 'state/pages/actions';
 
+import { setColumnOrder } from 'state/table-column-order/actions';
+import { getColumnOrder } from 'state/table-column-order/selectors';
+
 import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
@@ -40,9 +43,11 @@ export const mapStateToProps = state => ({
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
   domain: getDomain(state),
+  columnOrder: getColumnOrder(state, 'pageList'),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'pageList')),
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onClickAdd: (page) => {
     dispatch(initPageForm({

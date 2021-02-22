@@ -58,6 +58,7 @@ class PageTemplateListTable extends Component {
       intl,
       pageTemplates,
       removePageTemplate,
+      onSetColumnOrder,
     } = this.props;
 
     const columns = this.getColumnDefs() || [];
@@ -74,6 +75,9 @@ class PageTemplateListTable extends Component {
         className: 'text-center',
         width: '10%',
       },
+      cellAttributes: {
+        className: 'text-center',
+      },
       Cell: ({ values }) => (
         <PageTemplateListMenuActions
           code={values.code}
@@ -88,10 +92,10 @@ class PageTemplateListTable extends Component {
           columns={columns}
           data={pageTemplates}
           rowAction={rowAction}
-          canReorder
-          canResize
+          columnResizable
+          onColumnReorder={onSetColumnOrder}
           classNames={{
-            table: 'PageTemplateListTable__table',
+            table: 'PageTemplateListTable__table table-striped',
           }}
         />
         <Paginator
