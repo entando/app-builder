@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { routeConverter } from '@entando/utils';
 
 import {
   getPageTemplates, getPageTemplate, deletePageTemplate, postPageTemplate, putPageTemplate,
@@ -13,7 +14,7 @@ import {
   SET_PAGE_TEMPLATES, SET_SELECTED_PAGE_TEMPLATE, REMOVE_PAGE_TEMPLATE,
   SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS, SET_PAGE_TEMPLATES_TOTAL,
 } from 'state/page-templates/types';
-import { history, ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
+import { history, ROUTE_PAGE_TEMPLATE_EDIT, ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 
 
 export const setPageTemplates = pageTemplates => ({
@@ -189,6 +190,12 @@ export const createPageTemplate = (pageTemplate, saveType) => dispatch => new Pr
         TOAST_SUCCESS,
       ));
       if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_PAGE_TEMPLATE_LIST);
+      else {
+        history.push(routeConverter(
+          ROUTE_PAGE_TEMPLATE_EDIT,
+          { pageTemplateCode: pageTemplate.code },
+        ));
+      }
       resolve();
     }
   }).catch(() => {});

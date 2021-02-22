@@ -44,6 +44,7 @@ jest.mock('app-init/router', () => ({
   history: {
     push: jest.fn(),
   },
+  ROUTE_FRAGMENT_EDIT: '/fragment/edit/:fragmentCode',
 }));
 
 const GET_FRAGMENT_PAYLOAD = GET_FRAGMENT_OK.payload;
