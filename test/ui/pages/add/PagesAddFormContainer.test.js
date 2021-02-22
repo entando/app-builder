@@ -8,7 +8,6 @@ import {
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
-import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import {
   getCharsets,
@@ -29,8 +28,8 @@ jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
 }));
 
-jest.mock('state/groups/selectors', () => ({
-  getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
+jest.mock('state/groups/selectors/', () => ({
+  currentUserGroupsPermissionsFilter: jest.fn(() => () => 'filteredCurrentUserGroups_result'),
 }));
 
 jest.mock('state/app-tour/selectors', () => ({
@@ -210,9 +209,8 @@ describe('PagesAddFormContainer', () => {
       expect(props).toHaveProperty('languages', LANGUAGES);
     });
 
-    it('maps the "groups" prop with the getGroupsList selector', () => {
-      expect(getGroupsList).toHaveBeenCalledWith(STATE);
-      expect(props.groups).toBe('getGroupsList_result');
+    it('maps the "groups" prop with the filtered current user groups', () => {
+      expect(props.groups).toBe('filteredCurrentUserGroups_result');
     });
 
     it('maps the "pageTemplates" prop with the getPageTemplates selector', () => {

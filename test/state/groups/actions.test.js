@@ -15,6 +15,7 @@ import {
   fetchCurrentPageGroupDetail,
   fetchReferences,
   removeGroupSync,
+  fetchCurrentUserGroups,
 } from 'state/groups/actions';
 import {
   putGroup,
@@ -24,8 +25,10 @@ import {
   deleteGroup,
   getReferences,
 } from 'api/groups';
+import { getMyGroupPermissions } from 'api/permissions';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
+import { LIST_MY_GROUP_PERMISSIONS_OK } from 'test/mocks/permissions';
 
 import {
   SET_GROUPS,
@@ -33,6 +36,7 @@ import {
   SET_SELECTED_GROUP,
   SET_REFERENCES,
   REMOVE_GROUP,
+  SET_CURRENT_USER_GROUPS,
 } from 'state/groups/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -58,13 +62,15 @@ jest.mock('api/groups', () => ({
   getReferences: jest.fn(),
 }));
 
+jest.mock('api/permissions', () => ({
+  getMyGroupPermissions: jest.fn(),
+}));
+
 jest.mock('app-init/router', () => ({
   history: {
     push: jest.fn(),
   },
 }));
-
-const GROUPNAME = 'test';
 
 const GET_GROUPS_PROMISE = {
   ok: true,
@@ -358,6 +364,51 @@ describe('state/groups/actions', () => {
         expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
         expect(actions[2]).toHaveProperty('type', ADD_TOAST);
         expect(actions[3].type).toEqual(TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchCurrentUserGroups', () => {
+    const GET_MY_GROUP_PERMISSIONS_RESPONSE = {
+      ok: true,
+      json: () => new Promise(res => res({
+        payload: LIST_MY_GROUP_PERMISSIONS_OK, metaData: { totalItems: 3 },
+      })),
+    };
+
+    const CURRENT_USER_GROUPS = [{
+      code: 'administrators', name: 'Administrators', permissions: ['superuser'],
+    }, {
+      code: 'account_executive', name: 'Account Executive', permissions: ['managePages'],
+    }, {
+      code: 'bpm_admin', name: 'Bpm Admin', permissions: ['editContents'],
+    }, {
+      code: 'free', name: 'Free Access',
+    }];
+
+    it('should call the correct actions with the correct payloads on success', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
+      getMyGroupPermissions.mockReturnValueOnce(new Promise(resolve =>
+        resolve(GET_MY_GROUP_PERMISSIONS_RESPONSE)));
+
+      store.dispatch(fetchCurrentUserGroups()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toEqual({
+          type: SET_CURRENT_USER_GROUPS, payload: { groups: CURRENT_USER_GROUPS },
+        });
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should call the correct actions with messages on error', (done) => {
+      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchCurrentUserGroups()).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
