@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Spinner } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { DataTable } from '@entando/datatable';
 
 import FragmentListMenuActions from 'ui/fragments/list/FragmentListMenuActions';
 import DeleteFragmentModalContainer from 'ui/fragments/list/DeleteFragmentModalContainer';
@@ -16,7 +17,43 @@ class FragmentListTable extends Component {
   }
 
   componentWillMount() {
-    this.props.onWillMount();
+    const { onWillMount, columnOrder, onSetColumnOrder } = this.props;
+    if (!columnOrder.length) {
+      onSetColumnOrder(['code', 'widgetType', 'pluginCode']);
+    }
+    onWillMount();
+  }
+
+  getColumnDefs() {
+    const { columnOrder } = this.props;
+
+    const columnDefs = {
+      code: {
+        Header: <FormattedMessage id="app.code" />,
+      },
+      widgetType: {
+        Header: <FormattedMessage id="fragment.table.widgetType" />,
+        attributes: {
+          className: 'text-center',
+          style: { width: '10%' },
+        },
+        Cell: ({ row: { original: fragment } }) => (
+          fragment.widgetType ? fragment.widgetType.title : ''
+        ),
+      },
+      pluginCode: {
+        Header: <FormattedMessage id="fragment.table.plugin" />,
+        attributes: {
+          className: 'text-center',
+          style: { width: '10%' },
+        },
+      },
+    };
+
+    return columnOrder.map(column => ({
+      ...columnDefs[column],
+      accessor: column,
+    }));
   }
 
   changePage(page) {
@@ -30,36 +67,52 @@ class FragmentListTable extends Component {
   }
 
   renderTable() {
-    const { page, pageSize, intl } = this.props;
+    const {
+      page,
+      pageSize,
+      intl,
+      fragments,
+      onSetColumnOrder,
+    } = this.props;
     const pagination = {
       page,
       perPage: pageSize,
       perPageOptions: [5, 10, 15, 25, 50, 100, 150],
     };
 
+    const columns = this.getColumnDefs() || [];
+
     const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
       { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
     ), {});
 
+    const rowAction = {
+      Header: <FormattedMessage id="app.actions" />,
+      attributes: {
+        className: 'text-center',
+        style: { width: '10%' },
+      },
+      cellAttributes: {
+        className: 'text-center',
+      },
+      Cell: ({ values }) => (
+        <FragmentListMenuActions code={values.code} {...this.props} />
+      ),
+    };
+
     return (
       <Col xs={12}>
-        <table className="FragmentListTable__table table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th><FormattedMessage id="app.code" /></th>
-              <th><FormattedMessage id="fragment.table.widgetType" /></th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="fragment.table.plugin" />
-              </th>
-              <th className="text-center" width="10%">
-                <FormattedMessage id="app.actions" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderRows()}
-          </tbody>
-        </table>
+        <DataTable
+          columns={columns}
+          data={fragments}
+          rowAction={rowAction}
+          columnResizable
+          onColumnReorder={onSetColumnOrder}
+          classNames={{
+            table: 'FragmentListTable__table table-striped',
+            cell: 'FragmentListRow__td',
+          }}
+        />
         <Paginator
           pagination={pagination}
           viewType="table"
@@ -69,21 +122,6 @@ class FragmentListTable extends Component {
           messages={messages}
         />
       </Col>);
-  }
-
-  renderRows() {
-    return (
-      this.props.fragments.map(fragment => (
-        <tr key={fragment.code}>
-          <td className="FragmentListRow__td">{fragment.code}</td>
-          <td className="FragmentListRow__td">{fragment.widgetType ? fragment.widgetType.title : ''}</td>
-          <td className="FragmentListRow__td text-center">{fragment.pluginCode}</td>
-          <td className="FragmentListRow__td text-center">
-            <FragmentListMenuActions code={fragment.code} {...this.props} />
-          </td>
-        </tr>
-      ))
-    );
   }
 
   render() {
@@ -115,6 +153,8 @@ FragmentListTable.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   filters: PropTypes.string,
+  columnOrder: PropTypes.arrayOf(PropTypes.string),
+  onSetColumnOrder: PropTypes.func,
 };
 
 FragmentListTable.defaultProps = {
@@ -122,6 +162,8 @@ FragmentListTable.defaultProps = {
   loading: false,
   fragments: [],
   filters: '',
+  onSetColumnOrder: () => {},
+  columnOrder: [],
 };
 
 export default injectIntl(FragmentListTable);

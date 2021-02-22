@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Spinner } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { DataTable } from '@entando/datatable';
 
 import PageTemplateListMenuActions from 'ui/page-templates/list/PageTemplateListMenuActions';
 import PageTemplateDeleteModalContainer from 'ui/page-templates/common/PageTemplateDeleteModalContainer';
 import paginatorMessages from 'ui/paginatorMessages';
-import { DataTable } from '@entando/datatable';
 
 const perPageOptions = [5, 10, 15, 25, 50];
 class PageTemplateListTable extends Component {
@@ -73,7 +73,7 @@ class PageTemplateListTable extends Component {
       Header: <FormattedMessage id="app.actions" />,
       attributes: {
         className: 'text-center',
-        width: '10%',
+        style: { width: '10%' },
       },
       cellAttributes: {
         className: 'text-center',
