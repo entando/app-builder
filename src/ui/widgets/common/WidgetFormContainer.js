@@ -11,18 +11,35 @@ import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal'
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import WidgetForm from 'ui/widgets/common/WidgetForm';
 import { sendPostWidgets } from 'state/widgets/actions';
+import { fetchCurrentUserAuthorities } from 'state/users/actions';
+import { getUserPreferences } from 'state/user-preferences/selectors';
+import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
 
-export const mapStateToProps = state => ({
-  groups: getGroupsList(state),
-});
+import WidgetForm from 'ui/widgets/common/WidgetForm';
+
+export const mapStateToProps = (state) => {
+  const userPreferences = getUserPreferences(state);
+  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
+  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
+  const defaultOwnerGroup = userPreferences.defaultWidgetOwnerGroup || authorityWithAdmin.group;
+  const defaultJoinGroups = userPreferences.defaultWidgetJoinGroups;
+  return ({
+    groups: getGroupsList(state),
+    group: defaultOwnerGroup,
+    initialValues: {
+      group: defaultOwnerGroup,
+      joinGroups: defaultJoinGroups,
+    },
+  });
+};
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onWillMount: () => {
+  onWillMount: (props) => {
+    dispatch(fetchCurrentUserAuthorities());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
-    dispatch(initialize('widget'));
+    dispatch(initialize('widget', { group: props.group || '' }));
   },
   onSubmit: (values, saveType) => {
     const jsonData = {

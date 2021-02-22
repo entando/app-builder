@@ -13,7 +13,7 @@ const WidgetIcon = ({
   widgetId, small, icon, className,
 }) => {
   const storeIcon = useSelector(getWidgetIcon(widgetId));
-  const [iconType, iconName] = (icon || storeIcon).split(':');
+  const [iconType, iconName] = (icon || storeIcon || '').split(':');
 
   return iconType === 'font-awesome'
     ? <span className={cx('fa', iconName, 'WidgetIcon', small && 'WidgetIcon--small', className)} />

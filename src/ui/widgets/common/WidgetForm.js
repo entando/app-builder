@@ -202,6 +202,7 @@ export class WidgetFormBody extends Component {
                       required
                     />
                   }
+                  validate={[required]}
                 />
 
                 {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
@@ -406,6 +407,8 @@ WidgetFormBody.defaultProps = {
 
 const WidgetForm = reduxForm({
   form: widgetFormName,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })(WidgetFormBody);
 
 export default injectIntl(WidgetForm);
