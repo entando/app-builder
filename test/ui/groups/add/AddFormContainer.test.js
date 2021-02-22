@@ -6,12 +6,16 @@ jest.mock('state/groups/actions', () => ({
   sendPostGroup: jest.fn().mockReturnValue('sendPostGroup_result'),
 }));
 
+const dispatchProps = {
+  history: {},
+};
+
 describe('AddFormContainer', () => {
   describe('mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, dispatchProps);
     });
 
     it('maps the "onSubmit" prop a sendPostGroup dispatch', () => {

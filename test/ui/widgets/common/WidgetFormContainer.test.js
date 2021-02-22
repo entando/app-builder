@@ -12,11 +12,18 @@ const TEST_STATE = {
   groups: [
     GROUP,
   ],
-
 };
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
+}));
+
+jest.mock('state/users/selectors', () => ({
+  getSelectedUserAuthoritiesList: jest.fn().mockReturnValue([]),
+}));
+
+jest.mock('state/user-preferences/selectors', () => ({
+  getUserPreferences: jest.fn().mockReturnValue({}),
 }));
 
 getGroupsList.mockReturnValue([GROUP]);
@@ -44,7 +51,7 @@ describe('WidgetFormContainer', () => {
       const dispatchMock = jest.fn();
       const result = mapDispatchToProps(dispatchMock, {});
       expect(result.onWillMount).toBeDefined();
-      result.onWillMount();
+      result.onWillMount({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(result.onSubmit).toBeDefined();
     });

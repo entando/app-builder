@@ -24,6 +24,10 @@ const ownProps = {
   },
 };
 
+const dispatchProps = {
+  history: {},
+};
+
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
 
@@ -44,7 +48,7 @@ describe('EditFormContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, dispatchProps);
     });
 
     it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {

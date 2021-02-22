@@ -1,0 +1,23 @@
+.IconUploader {
+  &__container {
+    padding: 15px;
+    background: $color-grey-background;
+    text-align: center;
+  }
+
+  &__icon {
+    color: $color-rating-filter-star-empty;
+    font-size: 46px;
+  }
+
+  &__uploaded-icon {
+    height: 46px;
+    font-size: 46px;
+    filter: brightness(0) saturate(100%) invert(37%) sepia(63%) saturate(3306%) hue-rotate(177deg)
+    brightness(93%) contrast(101%); // hack to match the $color-mid-blue on svg rendered through img tag
+  }
+
+  &__description {
+    margin: 10px 0 26px 0;
+  }
+}

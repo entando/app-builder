@@ -61,3 +61,8 @@ export const getSelectedParentWidgetParameters = createSelector(
   getSelectedParentWidget,
   selectedParentWidget => get(selectedParentWidget, 'parameters', []),
 );
+
+export const getWidgetIcon = widgetCode => createSelector(
+  getWidgetsMap,
+  widgetMap => get(widgetMap[widgetCode], 'icon', 'font-awesome:fa-puzzle-piece'),
+);
