@@ -88,14 +88,14 @@ describe('GroupForm', () => {
     it('disables submit button while submitting', () => {
       submitting = true;
       groupForm = buildGroupForm();
-      const submitButton = groupForm.find('Button');
+      const submitButton = groupForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 
     it('disables submit button if form is invalid', () => {
       invalid = true;
       groupForm = buildGroupForm();
-      const submitButton = groupForm.find('Button');
+      const submitButton = groupForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 

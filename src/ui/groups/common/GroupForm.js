@@ -6,6 +6,7 @@ import { required, maxLength, code } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 export const maxLength50 = maxLength(50);
 export const maxLength20 = maxLength(20);
@@ -37,9 +38,18 @@ export class GroupFormBody extends Component {
   render() {
     const {
       intl, invalid, submitting, mode, onChangeName, onFocus,
+      dirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
 
     return (
       <form onSubmit={this.onSubmit} className="GroupForm form-horizontal">
@@ -73,6 +83,13 @@ export class GroupFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={onDiscard}
+            />
             <Button
               className="pull-right"
               type="submit"
@@ -80,6 +97,13 @@ export class GroupFormBody extends Component {
               disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
+            </Button>
+            <Button
+              className="pull-right UserForm__action-button"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="app.cancel" />
             </Button>
           </Col>
         </Row>
@@ -97,6 +121,10 @@ GroupFormBody.propTypes = {
   onChangeName: PropTypes.func,
   onFocus: PropTypes.func,
   onWillMount: PropTypes.func,
+  dirty: PropTypes.bool,
+  onSave: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 GroupFormBody.defaultProps = {
@@ -106,6 +134,7 @@ GroupFormBody.defaultProps = {
   onChangeName: null,
   onFocus: null,
   onWillMount: () => {},
+  dirty: false,
 };
 
 const GroupForm = reduxForm({

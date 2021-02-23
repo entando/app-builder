@@ -6,6 +6,10 @@
     border: 1px solid $color-pf-black-300;
     background-color: $color-pf-black-150;
   }
+
+  &__action-button {
+    margin-right: 5px;
+  }
 }
 
 .UserSearchForm {

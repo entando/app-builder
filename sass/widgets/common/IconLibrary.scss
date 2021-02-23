@@ -1,0 +1,33 @@
+.IconLibrary {
+  width: 800px;
+
+  &__icon-list {
+    height: 310px;
+    margin-top: 10px;
+    padding: 15px;
+    overflow: auto;
+  }
+
+  &__ul {
+    display: grid;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  &__li {
+    padding: 5px;
+    border: solid 1px transparent;
+    cursor: pointer;
+  }
+
+  &__li:hover {
+    border: solid 1px $color-mid-blue;
+    background: $color-grey-background;
+  }
+
+  &__selected {
+    border: solid 1px $color-mid-blue;
+    background: $color-grey-background;
+  }
+}

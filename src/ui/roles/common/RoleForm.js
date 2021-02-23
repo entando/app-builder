@@ -7,6 +7,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import PermissionGrid from 'ui/roles/common/PermissionGrid';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 export const maxLength50 = maxLength(50);
 export const maxLength20 = maxLength(20);
@@ -47,9 +48,18 @@ export class RoleFormBody extends Component {
   render() {
     const {
       intl, invalid, submitting, mode, onChangeName, permissions, loading, superuserToggled,
+      dirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEdit = mode === EDIT_MODE;
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard();
+      }
+    };
 
     return (
       <form onSubmit={this.onSubmit} className="RoleForm form-horizontal">
@@ -101,6 +111,13 @@ export class RoleFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={onDiscard}
+            />
             <Button
               className="pull-right"
               type="submit"
@@ -109,6 +126,13 @@ export class RoleFormBody extends Component {
               disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
+            </Button>
+            <Button
+              className="pull-right UserForm__action-button"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="app.cancel" />
             </Button>
           </Col>
         </Row>
@@ -132,6 +156,10 @@ RoleFormBody.propTypes = {
     code: PropTypes.string.isRequired,
   })),
   loading: PropTypes.bool,
+  dirty: PropTypes.bool,
+  onSave: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 RoleFormBody.defaultProps = {
@@ -142,6 +170,7 @@ RoleFormBody.defaultProps = {
   onWillMount: null,
   permissions: [],
   loading: false,
+  dirty: false,
 };
 
 const RoleForm = reduxForm({

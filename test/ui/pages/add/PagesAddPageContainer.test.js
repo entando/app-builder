@@ -1,10 +1,5 @@
-
 import { mapDispatchToProps } from 'ui/pages/add/PagesAddPageContainer';
 
-
-jest.mock('state/groups/actions', () => ({
-  fetchGroups: jest.fn().mockReturnValue('fetchGroups_result'),
-}));
 jest.mock('state/page-templates/actions', () => ({
   fetchPageTemplates: jest.fn().mockReturnValue('fetchPageTemplates_result'),
 }));
@@ -31,10 +26,6 @@ describe('PagesAddPageContainer', () => {
 
       it('dispatch clearTree', () => {
         expect(dispatchMock).toHaveBeenCalledWith('clearTree_result');
-      });
-
-      it('dispatch fetchGroups', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('fetchGroups_result');
       });
 
       it('dispatch fetchPageTemplates', () => {

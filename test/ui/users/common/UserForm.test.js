@@ -86,9 +86,9 @@ describe('UserForm', () => {
         expect(runValidators(validatorArray, '1234')).toBeFalsy();
       });
 
-      it('is invalid if input is longer than 20 chars', () => {
+      it('is invalid if input is longer than 80 chars', () => {
         expect(runValidators(validatorArray, '123456789abcdefghijk')).toBeFalsy();
-        expect(runValidators(validatorArray, '123456789abcdefghijkl').props.id)
+        expect(runValidators(validatorArray, '123456789abcdefghijk123456789abcdefghijk123456789abcdefghijk123456789abcdefghijkl').props.id)
           .toBe('validateForm.maxLength');
       });
     });

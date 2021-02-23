@@ -102,6 +102,28 @@ export const GROUPS_NORMALIZED = {
         code: 'knowledge_worker',
       },
     },
+    currentUserGroups: [
+      {
+        code: 'administrators',
+        name: 'Administrators',
+        permissions: ['superuser'],
+      },
+      {
+        code: 'free',
+        name: 'Free Access',
+        permissions: [],
+      },
+      {
+        code: 'bpm_admin',
+        name: 'Bpm Admin',
+        permissions: ['managePages'],
+      },
+      {
+        code: 'client_manager',
+        name: 'Client Onboarding Manager',
+        permissions: ['editContents'],
+      },
+    ],
   },
   pagination: {
     global: {
