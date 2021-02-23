@@ -63,6 +63,7 @@ jest.mock('app-init/router', () => ({
   history: {
     push: jest.fn(),
   },
+  ROUTE_WIDGET_EDIT: '/widget/edit/:widgetCode',
 }));
 
 describe('state/widgets/actions', () => {

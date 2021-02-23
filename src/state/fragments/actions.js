@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { routeConverter } from '@entando/utils';
 
 import {
   getFragment,
@@ -12,7 +13,7 @@ import {
 } from 'api/fragments';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { history, ROUTE_FRAGMENT_LIST } from 'app-init/router';
+import { history, ROUTE_FRAGMENT_EDIT, ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
 import { CONTINUE_SAVE_TYPE, FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/fragments/const';
 
@@ -199,6 +200,12 @@ export const sendPostFragment = (fragment, saveType) => async (dispatch) => {
       TOAST_SUCCESS,
     ));
     if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
+    else {
+      history.push(routeConverter(
+        ROUTE_FRAGMENT_EDIT,
+        { fragmentCode: fragment.code },
+      ));
+    }
   } else {
     dispatch(addErrors(json.errors.map(e => e.message)));
     json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
