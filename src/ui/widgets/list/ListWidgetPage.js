@@ -12,7 +12,11 @@ import DeleteWidgetModalContainer from 'ui/widgets/list/DeleteWidgetModalContain
 
 class ListWidgetPage extends Component {
   componentWillMount() {
-    this.props.onWillMount(this.props);
+    const { onWillMount, columnOrder, onSetColumnOrder } = this.props;
+    if (!columnOrder.length) {
+      onSetColumnOrder(['titles', 'code', 'used']);
+    }
+    onWillMount(this.props);
   }
 
   renderTable() {
@@ -23,6 +27,8 @@ class ListWidgetPage extends Component {
       onEdit,
       onNewUserWidget,
       locale,
+      columnOrder,
+      onSetColumnOrder,
     } = this.props;
     return (
       <Spinner loading={!!this.props.loading}>
@@ -32,6 +38,8 @@ class ListWidgetPage extends Component {
               key={grouping}
               title={grouping}
               widgetList={groupedWidgets[grouping]}
+              columnOrder={columnOrder}
+              onSetColumnOrder={onSetColumnOrder}
               locale={locale}
               onDelete={onDelete}
               onEdit={onEdit}
@@ -101,6 +109,8 @@ ListWidgetPage.propTypes = {
   groupedWidgets: PropTypes.shape({}),
   widgetGroupingList: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
+  columnOrder: PropTypes.arrayOf(PropTypes.string),
+  onSetColumnOrder: PropTypes.func,
 };
 
 ListWidgetPage.defaultProps = {
@@ -112,6 +122,8 @@ ListWidgetPage.defaultProps = {
   groupedWidgets: {},
   widgetGroupingList: [],
   loading: false,
+  onSetColumnOrder: () => {},
+  columnOrder: [],
 };
 
 
