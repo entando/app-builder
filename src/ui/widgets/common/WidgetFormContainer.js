@@ -23,13 +23,11 @@ export const mapStateToProps = (state) => {
   const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
   const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
   const defaultOwnerGroup = userPreferences.defaultWidgetOwnerGroup || authorityWithAdmin.group;
-  const defaultJoinGroups = userPreferences.defaultWidgetJoinGroups;
   return ({
     groups: getGroupsList(state),
     group: defaultOwnerGroup,
     initialValues: {
       group: defaultOwnerGroup,
-      joinGroups: defaultJoinGroups,
     },
   });
 };
