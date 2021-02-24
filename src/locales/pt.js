@@ -913,6 +913,7 @@ export default {
     'emailConfig.smtpServer.password': 'Senha',
     'emailConfig.smtpServer.testConfig': 'Configuração de teste',
     'emailConfig.smtpServer.sendTestEmail': 'Enviar e-mail de teste',
+    'emailConfig.senderMgmt.email': 'Email',
     'app.pages.friendlyCodeHelp': 'Slug de URL para a página',
     'pageTree.searchForm.searchPageBy': 'Página de pesquisa por',
     'pageTree.searchForm.name': 'Nome da página',

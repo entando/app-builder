@@ -187,3 +187,13 @@ export const renderWithIntlAndState = (ui, {
   <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>,
   { state, store, ...renderOptions },
 );
+
+export const renderWithIntlRouterState = (ui, {
+  locale = enLocale, messages = enMessages, initialRoute = '/',
+  state, store = createMockStore(state), ...renderOptions
+} = {}) => renderWithState(
+  <MemoryRouter initialEntries={[initialRoute]}>
+    <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>
+  </MemoryRouter>,
+  { state, store, ...renderOptions },
+);

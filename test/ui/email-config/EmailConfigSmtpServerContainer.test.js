@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import * as reactRedux from 'react-redux';
 
-import { renderWithIntlAndState as render } from 'test/testUtils';
+import { renderWithIntlAndState } from 'test/testUtils';
 import EmailConfigSmtpServerContainer from 'ui/email-config/EmailConfigSmtpServerContainer';
 
 jest.unmock('react-redux');
@@ -20,12 +20,12 @@ useDispatchSpy.mockReturnValue(mockDispatch);
 
 describe('EmailConfigSmtpServerContainer', () => {
   it('should fetch relevant data on initial render', () => {
-    render(<EmailConfigSmtpServerContainer />);
+    renderWithIntlAndState(<EmailConfigSmtpServerContainer />);
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchSMTPServerSettings' });
   });
 
   it('should have a panel message', () => {
-    render(<EmailConfigSmtpServerContainer />);
+    renderWithIntlAndState(<EmailConfigSmtpServerContainer />);
     const panelMsg = 'Host is mandatory. Port and Timeout if blank, will default to 25 and 10000. Please leave Username and Password blank if the SMTP server does not require authentication.';
     expect(screen.getByText(panelMsg)).toBeInTheDocument();
   });
@@ -50,7 +50,7 @@ describe('EmailConfigSmtpServerContainer', () => {
       },
     };
 
-    beforeEach(() => render(<EmailConfigSmtpServerContainer />, { state }));
+    beforeEach(() => renderWithIntlAndState(<EmailConfigSmtpServerContainer />, { state }));
 
     const getFormView = () => within(screen.getByRole('form'));
     const getHeadings = view => view.getAllByRole('heading');

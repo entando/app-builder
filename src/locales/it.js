@@ -952,6 +952,7 @@ export default {
     'emailConfig.smtpServer.password': 'Password',
     'emailConfig.smtpServer.testConfig': 'Configurazione di prova',
     'emailConfig.smtpServer.sendTestEmail': 'Invia un\'email di prova',
+    'emailConfig.senderMgmt.email': 'Email',
     'app.pages.friendlyCodeHelp': 'URL slug per la pagina',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
     'pageTree.searchForm.name': 'Nome pagina',
