@@ -28,7 +28,7 @@ export class AppSettingsFormBody extends Component {
 
   render() {
     const {
-      selectGroups, defaultPageJoinGroups, defaultContentJoinGroups, defaultWidgetJoinGroups,
+      selectGroups, defaultPageJoinGroups, defaultContentJoinGroups,
     } = this.props;
 
     return (
@@ -111,24 +111,6 @@ export class AppSettingsFormBody extends Component {
           name="defaultWidgetOwnerGroup"
           defaultOptionId="app.chooseAnOption"
         />
-        <FormGroup>
-          <Col xs={2} className="text-right">
-            <label htmlFor="defaultContentJoinGroups" className="control-label">
-              <FormLabel helpId="user.myProfile.defaultWidgetJoinGroupsHelp" labelId="user.myProfile.defaultWidgetJoinGroups" />
-            </label>
-          </Col>
-          <Col xs={10}>
-            <FieldArray
-              component={MultiSelectRenderer}
-              name="defaultWidgetJoinGroups"
-              options={selectGroups}
-              selectedValues={defaultWidgetJoinGroups}
-              labelKey="text"
-              valueKey="value"
-              emptyOptionTextId="app.chooseAnOption"
-            />
-          </Col>
-        </FormGroup>
         <Button
           className="pull-right"
           type="submit"
@@ -155,7 +137,6 @@ AppSettingsFormBody.propTypes = {
   })).isRequired,
   defaultPageJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
   defaultContentJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  defaultWidgetJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default reduxForm({

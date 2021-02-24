@@ -884,8 +884,6 @@ export default {
     'user.myProfile.defaultContentJoinGroupsHelp': 'Sets the default join groups when creating a content.',
     'user.myProfile.defaultWidgetOwnerGroup': 'Default Widget Owner Group',
     'user.myProfile.defaultWidgetOwnerGroupHelp': 'Sets the default owner group when creating a widget or MFE.',
-    'user.myProfile.defaultWidgetJoinGroups': 'Default Widget Join Groups',
-    'user.myProfile.defaultWidgetJoinGroupsHelp': 'Sets the default join groups when creating a widget or MFE.',
     'tour.start.welcome': 'Welcome to Entando',
     'tour.start.title': 'Create Your First Application',
     'tour.start.description': 'Use this wizard to create your first page. It will guide you through all the required steps to create and design a page',

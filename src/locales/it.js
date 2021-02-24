@@ -884,8 +884,6 @@ export default {
     'user.myProfile.defaultContentJoinGroupsHelp': 'Imposta i gruppi di partecipazione predefiniti durante la creazione di un contenuto.',
     'user.myProfile.defaultWidgetOwnerGroup': 'Gruppo proprietario widget predefinito',
     'user.myProfile.defaultWidgetOwnerGroupHelp': 'Imposta il gruppo proprietario predefinito quando si crea un widget o un MFE.',
-    'user.myProfile.defaultWidgetJoinGroups': 'Widget predefinito Unisciti a gruppi',
-    'user.myProfile.defaultWidgetJoinGroupsHelp': 'Imposta i gruppi di partecipazione predefiniti durante la creazione di un widget o MFE.',
     'tour.start.welcome': 'Benvenuto in Entando',
     'user.wizard.success': 'Wizard è stato aggiornato.',
     'app.next': 'Avanti',
