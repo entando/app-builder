@@ -4,8 +4,10 @@ import cx from 'classnames';
 import { useSelector } from 'react-redux';
 
 import { getWidgetIcon } from 'state/widgets/selectors';
+import { getResourcePath } from 'helpers/microfrontends';
 
-const imageProvider = `${process.env.DOMAIN}/resources/static/widget-icons`;
+// const imageProvider = `${process.env.DOMAIN}/resources/static/widget-icons`;
+const imageProvider = getResourcePath('static/widget-icons');
 const publicUrl = process.env.PUBLIC_URL;
 const fallbackIcon = `${publicUrl}/images/puzzle-piece-solid.svg`;
 
