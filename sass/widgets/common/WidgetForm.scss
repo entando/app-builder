@@ -1,4 +1,50 @@
+// sass-lint:disable class-name-format
 .WidgetForm {
+  &__body {
+    display: flex;
+    height: 100%;
+  }
+
+  &__info {
+    width: 350px;
+    margin-left: auto;
+    padding: 21px;
+    border-left: solid 1px $color-grey-border;
+    background: $color-white;
+
+    & .form-group > .text-right {
+      margin-bottom: 10px;
+      float: none;
+      text-align: left;
+    }
+
+    & .form-group > div {
+      width: 100%;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    margin: 21px;
+    border: solid 1px $color-grey-border;
+    background: $color-white;
+
+    & .tab-content {
+      padding: 20px;
+    }
+  }
+
+  &__tabs {
+    & > ul {
+      margin-top: 15px;
+      padding: 0 10px;
+    }
+
+    & .ql-editor {
+      height: 300px;
+    }
+  }
+
   &__language-label {
     margin-right: 5px;
     background-color: $color-pf-blue-400;
