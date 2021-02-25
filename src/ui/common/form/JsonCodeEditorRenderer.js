@@ -10,10 +10,13 @@ const JsonCodeEditorRenderer = ({
 }) => (
 
   <div className={(touched && error) ? 'form-group has-error' : 'form-group'}>
-    <label htmlFor={name} className="col-xs-2 control-label">
-      {label} {help}
-    </label>
-    <Col xs={10}>
+    {
+      label &&
+      <label htmlFor={name} className="col-xs-2 control-label">
+        {label} {help}
+      </label>
+    }
+    <Col xs={label ? 10 : 12}>
       <LoadableCodeMirror
         value={input.value}
         autoCursor={false}

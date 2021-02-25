@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Tabs, Tab, Row, Col, Alert, Spinner, ControlLabel, DropdownButton, MenuItem } from 'patternfly-react';
+import { Button, Tabs, Tab, Col, Alert, Spinner, ControlLabel, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, widgetCode, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
@@ -59,6 +60,18 @@ const msgs = defineMessages({
     id: 'widget.page.tab.customUi',
     defaultMessage: 'Custom UI',
   },
+  configUi: {
+    id: 'widget.page.tab.configUi',
+    defaultMessage: 'Config UI',
+  },
+  config: {
+    id: 'widget.page.create.config',
+    defaultMessage: 'Configuration',
+  },
+  parameters: {
+    id: 'widget.page.create.parameters',
+    defaultMessage: 'Parameters',
+  },
 });
 
 const validateJson = (value) => {
@@ -73,8 +86,17 @@ const validateJson = (value) => {
 };
 
 export class WidgetFormBody extends Component {
+  constructor() {
+    super();
+    this.portalContainer = null;
+  }
+
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
+  }
+
+  componentDidMount() {
+    this.portalContainer = document.getElementById('widget-button-holder');
   }
 
   renderTitleFields() {
@@ -106,13 +128,11 @@ export class WidgetFormBody extends Component {
     return null;
   }
 
-  render() {
+  renderButtons() {
     const {
-      intl, dirty, onCancel, onDiscard, onSave,
-      invalid, submitting, loading, mode, config,
-      parentWidget, parentWidgetParameters, defaultUIField,
-      onReplaceSubmit, match: { params }, onSubmit, handleSubmit,
-      groups,
+      intl, dirty, onCancel, onDiscard,
+      invalid, submitting, mode,
+      onReplaceSubmit, onSubmit, handleSubmit,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -122,6 +142,67 @@ export class WidgetFormBody extends Component {
         onDiscard();
       }
     };
+
+    return (
+      <div>
+        {
+          mode === MODE_CLONE &&
+          <Button
+            className="pull-right FragmentForm__save--btn"
+            type="submit"
+            bsStyle="primary"
+            disabled={invalid || submitting}
+            onClick={this.props.handleSubmit(values => onReplaceSubmit({ ...values }))}
+          >
+            <FormattedMessage id="app.saveAndReplace" />
+          </Button>
+        }
+        <div className="FragmentForm__dropdown">
+          <DropdownButton
+            title={intl.formatMessage({ id: 'app.save' })}
+            bsStyle="primary"
+            id="saveopts"
+            className="FragmentForm__saveDropdown"
+          >
+            <MenuItem
+              id="regularSaveButton"
+              eventKey={REGULAR_SAVE_TYPE}
+              disabled={invalid || submitting}
+              onClick={handleSubmit(values => onSubmit({
+          ...values,
+        }, REGULAR_SAVE_TYPE))}
+            >
+              <FormattedMessage id="app.save" />
+            </MenuItem>
+            <MenuItem
+              id="continueSaveButton"
+              eventKey={CONTINUE_SAVE_TYPE}
+              disabled={invalid || submitting}
+              onClick={handleSubmit(values => onSubmit({
+          ...values,
+        }, CONTINUE_SAVE_TYPE))}
+            >
+              <FormattedMessage id="app.saveAndContinue" />
+            </MenuItem>
+          </DropdownButton>
+        </div>
+        <Button
+          className="pull-right"
+          bsStyle="default"
+          onClick={handleCancelClick}
+        >
+          <FormattedMessage id="app.cancel" />
+        </Button>
+      </div>);
+  }
+
+  render() {
+    const {
+      intl, onDiscard, onSave,
+      invalid, submitting, loading, mode, config,
+      parentWidget, parentWidgetParameters, defaultUIField,
+      match: { params }, groups, noPortal,
+    } = this.props;
 
     let codeField = (
       <Field
@@ -136,7 +217,7 @@ export class WidgetFormBody extends Component {
     );
 
     let defaultUITab = (
-      <Tab eventKey={2} title={intl.formatMessage(msgs.defaultUi)}>
+      <Tab eventKey={3} title={intl.formatMessage(msgs.defaultUi)}>
         {
           defaultUIField ? <pre className="WidgetForm__default-ui">{defaultUIField}</pre> :
           <Alert type="info">
@@ -156,23 +237,75 @@ export class WidgetFormBody extends Component {
       && mode === MODE_CLONE
       && getAppBuilderWidgetForm(parentWidget, true);
 
-    const renderSaveAndReplaceButton = mode === MODE_CLONE ? (
-      <Button
-        className="pull-right FragmentForm__save--btn"
-        type="submit"
-        bsStyle="primary"
-        disabled={invalid || submitting}
-        onClick={this.props.handleSubmit(values => onReplaceSubmit({ ...values }))}
-      >
-        <FormattedMessage id="app.saveAndReplace" />
-      </Button>
-    ) : null;
-
     return (
       <Spinner loading={!!loading}>
         <form className="form-horizontal">
-          <Row>
-            <Col xs={12}>
+          <div className="WidgetForm__body">
+            <div className="WidgetForm__container">
+              <fieldset className="no-padding">
+                <Tabs className="WidgetForm__tabs" id="basic-tabs">
+                  {!parentWidgetParameters.length &&
+                    <Tab eventKey={1} title={`${intl.formatMessage(msgs.customUi)} *`} >
+                      <Field
+                        labelSize={0}
+                        name="customUi"
+                        component={RenderRichTextEditor}
+                        cols="50"
+                        rows="8"
+                        className="form-control"
+                        validate={[required]}
+                      />
+                    </Tab>
+                  }
+                  {!parentWidgetParameters.length && defaultUITab}
+                  <Tab eventKey={2} title={`${intl.formatMessage(msgs.configUi)}`} >
+                    <Field
+                      component={JsonCodeEditorRenderer}
+                      name="configUi"
+                      validate={[validateJson]}
+                    />
+                  </Tab>
+
+                  {!!parentWidgetParameters.length && (
+                      (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
+                        <Tab eventKey={4} title={`${intl.formatMessage(msgs.config)} *`} >
+                          <fieldset className="no-padding">
+                            <Field
+                              name="config"
+                              component={NativeWidgetConfigForm}
+                              cloneMode
+                              widgetConfig={config}
+                              widgetCode={parentWidget.code}
+                              extFormName={widgetFormName}
+                              pageCode={params.pageCode}
+                              frameId={params.frameId}
+                            />
+                          </fieldset>
+                        </Tab>
+                      ) : (
+                        <Tab eventKey={4} title={`${intl.formatMessage(msgs.parameters)}`} >
+                          <fieldset className="no-padding">
+                            {parentWidgetParameters.map(param => (
+                              <Field
+                                key={param.code}
+                                component={RenderTextInput}
+                                name={`config.${param.code}`}
+                                label={<FormLabel
+                                  labelText={param.code}
+                                  helpText={param.description}
+                                />}
+                              />
+                            ))}
+                          </fieldset>
+                        </Tab>
+                        )
+                      )}
+
+                </Tabs>
+              </fieldset>
+            </div>
+
+            <div className="WidgetForm__info">
               <fieldset className="no-padding">
                 <FormSectionTitle titleId="widget.page.create.pageTitle" />
                 {this.renderTitleFields()}
@@ -218,133 +351,21 @@ export class WidgetFormBody extends Component {
                   </div>
                 )}
               </fieldset>
-            </Col>
-          </Row>
-          {!parentWidgetParameters.length && (
-            <Row>
-              <Col xs={12}>
-                <fieldset className="no-padding">
-                  <Col xs={12}>
-                    <div className="form-group">
-                      <span className="control-label col-xs-2" />
-                      <Col xs={10}>
-                        <Tabs id="basic-tabs" defaultActiveKey={1}>
-                          <Tab eventKey={1} title={`${intl.formatMessage(msgs.customUi)} *`} >
-                            <Field
-                              labelSize={0}
-                              name="customUi"
-                              component={RenderRichTextEditor}
-                              cols="50"
-                              rows="8"
-                              className="form-control"
-                              validate={[required]}
-                            />
-                          </Tab>
-                          {defaultUITab}
-                        </Tabs>
-                      </Col>
-                    </div>
-                  </Col>
-                </fieldset>
-              </Col>
-            </Row>
-          )}
-          <Row>
-            <Col xs={12}>
-              <Field
-                component={JsonCodeEditorRenderer}
-                name="configUi"
-                label={<FormLabel labelId="widgets.configUi" />}
-                validate={[validateJson]}
-              />
-            </Col>
-          </Row>
-          {!!parentWidgetParameters.length && (
-            (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
-              <Row>
-                <Col xs={12}>
-                  <fieldset className="no-padding">
-                    <FormSectionTitle titleId="widget.page.create.config" />
-                    <Field
-                      name="config"
-                      component={NativeWidgetConfigForm}
-                      cloneMode
-                      widgetConfig={config}
-                      widgetCode={parentWidget.code}
-                      extFormName={widgetFormName}
-                      pageCode={params.pageCode}
-                      frameId={params.frameId}
-                    />
-                  </fieldset>
-                </Col>
-              </Row>
-            ) : (
-              <Row>
-                <Col xs={12}>
-                  <fieldset className="no-padding">
-                    <FormSectionTitle titleId="widget.page.create.parameters" />
-                    {parentWidgetParameters.map(param => (
-                      <Field
-                        key={param.code}
-                        component={RenderTextInput}
-                        name={`config.${param.code}`}
-                        label={<FormLabel labelText={param.code} helpText={param.description} />}
-                      />
-                    ))}
-                  </fieldset>
-                </Col>
-              </Row>
-            )
-          )}
-          <br />
-          <Row>
-            <Col xs={12}>
-              {renderSaveAndReplaceButton}
-              <div className="FragmentForm__dropdown">
-                <DropdownButton
-                  title={intl.formatMessage({ id: 'app.save' })}
-                  bsStyle="primary"
-                  id="saveopts"
-                  className="FragmentForm__saveDropdown"
-                >
-                  <MenuItem
-                    id="regularSaveButton"
-                    eventKey={REGULAR_SAVE_TYPE}
-                    disabled={invalid || submitting}
-                    onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, REGULAR_SAVE_TYPE))}
-                  >
-                    <FormattedMessage id="app.save" />
-                  </MenuItem>
-                  <MenuItem
-                    id="continueSaveButton"
-                    eventKey={CONTINUE_SAVE_TYPE}
-                    disabled={invalid || submitting}
-                    onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, CONTINUE_SAVE_TYPE))}
-                  >
-                    <FormattedMessage id="app.saveAndContinue" />
-                  </MenuItem>
-                </DropdownButton>
-              </div>
-              <Button
-                className="pull-right"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="app.cancel" />
-              </Button>
-              <ConfirmCancelModalContainer
-                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={onSave}
-                onDiscard={onDiscard}
-              />
-            </Col>
-          </Row>
+            </div>
+          </div>
+
+          {
+            noPortal ? this.renderButtons() : this.portalContainer
+              && ReactDOM.createPortal(this.renderButtons(), this.portalContainer)
+          }
+
+          <ConfirmCancelModalContainer
+            contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+            invalid={invalid}
+            submitting={submitting}
+            onSave={onSave}
+            onDiscard={onDiscard}
+          />
         </form>
       </Spinner>
     );
@@ -381,6 +402,7 @@ WidgetFormBody.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }),
+  noPortal: PropTypes.bool,
 };
 
 WidgetFormBody.defaultProps = {
@@ -403,6 +425,7 @@ WidgetFormBody.defaultProps = {
     params: {},
   },
   onReplaceSubmit: () => {},
+  noPortal: false,
 };
 
 const WidgetForm = reduxForm({

@@ -30,6 +30,7 @@ describe('WidgetForm', () => {
       mode,
       languages: LANGUAGES,
       intl: mockIntl,
+      noPortal: true,
     };
 
     return shallowWithIntl(<WidgetFormBody {...props} />);
