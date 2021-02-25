@@ -28,6 +28,7 @@ class PageTree extends Component {
   constructor(props) {
     super(props);
     this.handleDrop = this.handleDrop.bind(this);
+    this.renderActionCell = this.renderActionCell.bind(this);
   }
 
   componentDidMount() {
@@ -147,6 +148,26 @@ class PageTree extends Component {
     }
   }
 
+  renderActionCell({ original: page }) {
+    return (
+      <PageTreeActionMenu
+        page={page}
+        onClickAdd={this.props.onClickAdd}
+        onClickEdit={this.props.onClickEdit}
+        onClickConfigure={this.props.onClickConfigure}
+        onClickDetails={this.props.onClickDetails}
+        onClickClone={this.props.onClickClone}
+        onClickDelete={this.props.onClickDelete}
+        onClickPublish={this.props.onClickPublish}
+        onClickUnpublish={this.props.onClickUnPublish}
+        onClickViewPublishedPage={this.props.onClickViewPublishedPage}
+        onClickPreview={this.props.onClickPreview}
+        locale={this.props.locale}
+        domain={this.props.domain}
+      />
+    );
+  }
+
   render() {
     const {
       searchPages,
@@ -154,9 +175,6 @@ class PageTree extends Component {
       loading,
       onSetColumnOrder,
     } = this.props;
-    if (searchPages) {
-      return <PageListSearchTable {...this.props} />;
-    }
 
     const columns = this.getColumnDefs() || [];
 
@@ -166,30 +184,15 @@ class PageTree extends Component {
         className: 'text-center',
         width: '10%',
       },
-      Cell: (row) => {
-        const { original: page } = row;
-        return (
-          <PageTreeActionMenu
-            page={page}
-            onClickAdd={this.props.onClickAdd}
-            onClickEdit={this.props.onClickEdit}
-            onClickConfigure={this.props.onClickConfigure}
-            onClickDetails={this.props.onClickDetails}
-            onClickClone={this.props.onClickClone}
-            onClickDelete={this.props.onClickDelete}
-            onClickPublish={this.props.onClickPublish}
-            onClickUnpublish={this.props.onClickUnPublish}
-            onClickViewPublishedPage={this.props.onClickViewPublishedPage}
-            onClickPreview={this.props.onClickPreview}
-            locale={this.props.locale}
-            domain={this.props.domain}
-          />
-        );
-      },
+      Cell: this.renderActionCell,
       cellAttributes: {
         className: 'text-center',
       },
     };
+
+    if (searchPages) {
+      return <PageListSearchTable rowAction={rowAction} {...this.props} />;
+    }
 
     return (
       <Spinner loading={!!loading}>

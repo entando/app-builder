@@ -44,10 +44,12 @@ export const mapStateToProps = state => ({
   pageSize: getPageSize(state),
   domain: getDomain(state),
   columnOrder: getColumnOrder(state, 'pageList'),
+  pageSearchColumnOrder: getColumnOrder(state, 'pageSearch'),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'pageList')),
+  onSetColumnOrderPageSearch: columnOrder => dispatch(setColumnOrder(columnOrder, 'pageSearch')),
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onClickAdd: (page) => {
     dispatch(initPageForm({

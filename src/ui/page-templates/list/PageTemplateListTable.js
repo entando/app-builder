@@ -17,7 +17,7 @@ class PageTemplateListTable extends Component {
     this.changePageSize = this.changePageSize.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { onWillMount, columnOrder, onSetColumnOrder } = this.props;
     if (!columnOrder.length) {
       onSetColumnOrder(['code', 'descr']);
