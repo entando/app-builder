@@ -8,6 +8,7 @@ const localStorageStates = {
   locale: [],
   permissions: ['loggedUser'],
   appTour: ['appTourProgress', 'lastStep'],
+  tableColumnOrder: [],
 };
 
 export const generatePersistedPathsForApps = (applications, defaultLocalStorageStates) => {

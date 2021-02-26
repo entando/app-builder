@@ -4,6 +4,8 @@ import { convertToQueryString } from '@entando/utils';
 import PagesList from 'ui/dashboard/PagesList';
 import { fetchSearchPages } from 'state/pages/actions';
 import { getSearchPages } from 'state/pages/selectors';
+import { setColumnOrder } from 'state/table-column-order/actions';
+import { getColumnOrder } from 'state/table-column-order/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { getLocale } from 'state/locale/selectors';
 
@@ -19,6 +21,7 @@ export const mapDispatchToProps = dispatch => ({
     });
     dispatch(fetchSearchPages({ page, pageSize }, queryString));
   },
+  onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'dashboardPageList')),
 });
 
 export const mapStateToProps = state => (
@@ -28,6 +31,7 @@ export const mapStateToProps = state => (
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
     language: getLocale(state),
+    columnOrder: getColumnOrder(state, 'dashboardPageList'),
   }
 );
 

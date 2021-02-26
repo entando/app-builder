@@ -23,24 +23,29 @@ export const WidgetListTableBody = ({
   onNewUserWidget,
   isSuperuser,
 }) => {
+  const nameCell = (cellinfo) => {
+    const { row: { original: item } } = cellinfo;
+    return (
+      <div className="list-view-pf-left">
+        <WidgetIcon widgetId={item.code} small />
+        &nbsp;&nbsp;
+        <Link
+          className="WidgetListRow__link"
+          to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: item.code })}
+        >
+          {item.titles[locale]}
+        </Link>
+      </div>
+    );
+  };
+
   const columnDefs = {
     titles: {
       Header: <FormattedMessage id="app.name" />,
       attributes: {
         style: { width: '40%' },
       },
-      Cell: ({ row: { original: item } }) => (
-        <div className="list-view-pf-left">
-          <WidgetIcon widgetId={item.code} small />
-          &nbsp;&nbsp;
-          <Link
-            className="WidgetListRow__link"
-            to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: item.code })}
-          >
-            {item.titles[locale]}
-          </Link>
-        </div>
-      ),
+      Cell: nameCell,
     },
     code: {
       Header: <FormattedMessage id="app.code" />,
@@ -71,32 +76,35 @@ export const WidgetListTableBody = ({
     cellAttributes: {
       className: 'text-center',
     },
-    Cell: ({ values: { code, locked, hasConfig } }) => (
-      <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>
-        {hasConfig && (
+    Cell: (cellinfo) => {
+      const { values: { code, locked, hasConfig } } = cellinfo;
+      return (
+        <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>
+          {hasConfig && (
+            <MenuItem
+              className="WidgetListRow__menu-item-addwidget"
+              onClick={() => onNewUserWidget(code)}
+            >
+              <FormattedMessage id="widgets.addWidget" />
+            </MenuItem>
+          )}
           <MenuItem
-            className="WidgetListRow__menu-item-addwidget"
-            onClick={() => onNewUserWidget(code)}
+            className="WidgetListRow__menu-item-edit"
+            onClick={() => onEdit(code)}
           >
-            <FormattedMessage id="widgets.addWidget" />
+            <FormattedMessage id="app.edit" />
           </MenuItem>
-        )}
-        <MenuItem
-          className="WidgetListRow__menu-item-edit"
-          onClick={() => onEdit(code)}
-        >
-          <FormattedMessage id="app.edit" />
-        </MenuItem>
-        {!locked && (
-          <MenuItem
-            className="WidgetListRow__menu-item-delete"
-            onClick={() => onDelete(code)}
-          >
-            <FormattedMessage id="app.delete" />
-          </MenuItem>
-        )}
-      </DropdownKebab>
-    ),
+          {!locked && (
+            <MenuItem
+              className="WidgetListRow__menu-item-delete"
+              onClick={() => onDelete(code)}
+            >
+              <FormattedMessage id="app.delete" />
+            </MenuItem>
+          )}
+        </DropdownKebab>
+      );
+    },
   }) : null;
 
   return (

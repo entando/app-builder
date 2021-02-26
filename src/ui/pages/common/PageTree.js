@@ -46,12 +46,6 @@ class PageTree extends Component {
       onExpandPage,
     } = this.props;
 
-    const onClickExpand = (page) => {
-      if (!page.isEmpty) {
-        onExpandPage(page.code);
-      }
-    };
-
     const columnDefs = {
       title: {
         Header: (
@@ -83,23 +77,30 @@ class PageTree extends Component {
           className: 'PageTree__thead-title',
           style: { width: '70%' },
         },
-        Cell: ({ row: { original: page, index } }) => (
-          <span
-            role="button"
-            tabIndex={index}
-            className="PageTree__icons-label"
-            style={{ marginLeft: page.depth * 24 }}
-            onClick={onClickExpand}
-            onKeyDown={onClickExpand}
-          >
-            <TreeNodeExpandedIcon expanded={page.expanded} />
-            <TreeNodeFolderIcon empty={page.isEmpty} />
-            <span className="PageTree__page-name">
-              { page.title }
+        Cell: ({ row: { original: page, index } }) => {
+          const onClickExpand = () => {
+            if (!page.isEmpty) {
+              onExpandPage(page.code);
+            }
+          };
+          return (
+            <span
+              role="button"
+              tabIndex={index}
+              className="PageTree__icons-label"
+              style={{ marginLeft: page.depth * 24 }}
+              onClick={onClickExpand}
+              onKeyDown={onClickExpand}
+            >
+              <TreeNodeExpandedIcon expanded={page.expanded} />
+              <TreeNodeFolderIcon empty={page.isEmpty} />
+              <span className="PageTree__page-name">
+                { page.title }
+              </span>
+              <RowSpinner loading={!!page.loading} />
             </span>
-            <RowSpinner loading={!!page.loading} />
-          </span>
-        ),
+          );
+        },
         cellAttributes: ({ row: page }) => {
           const className = ['PageTree__tree-column-td'];
           if (page.isEmpty) {
@@ -176,8 +177,6 @@ class PageTree extends Component {
       onSetColumnOrder,
     } = this.props;
 
-    const columns = this.getColumnDefs() || [];
-
     const rowAction = {
       Header: <FormattedMessage id="pageTree.actions" />,
       attributes: {
@@ -193,6 +192,8 @@ class PageTree extends Component {
     if (searchPages) {
       return <PageListSearchTable rowAction={rowAction} {...this.props} />;
     }
+
+    const columns = this.getColumnDefs() || [];
 
     return (
       <Spinner loading={!!loading}>

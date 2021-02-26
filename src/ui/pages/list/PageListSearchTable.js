@@ -158,7 +158,7 @@ PageListSearchTable.defaultProps = {
   striped: true,
   onRowClick: () => {},
   onSetColumnOrderPageSearch: () => {},
-  pageSearchColumnOrder: [],
+  pageSearchColumnOrder: ['code', 'titles'],
   rowAction: null,
 };
 
