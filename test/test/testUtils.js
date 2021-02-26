@@ -10,6 +10,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import enTranslations from 'locales/en';
+import { render as rtlRender } from '@testing-library/react';
 
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
@@ -119,6 +120,18 @@ export function mountWithIntl(node, { context, childContextTypes, ...additionalO
     },
   );
 }
+
+export const renderWithIntl = (ui, { locale = 'en', ...renderOptions } = {}) => {
+  // eslint-disable-next-line react/prop-types
+  function Wrapper({ children }) {
+    return (
+      <IntlProvider locale={locale} messages={enTranslations.messages}>
+        {children}
+      </IntlProvider>
+    );
+  }
+  return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
+};
 
 export const mockIntl = {
   formatMessage: () => {},

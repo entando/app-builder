@@ -8,7 +8,6 @@ import {
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
 import { formValueSelector, change } from 'redux-form';
-import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import {
   getCharsets,
@@ -24,12 +23,13 @@ import { getAppTourProgress, getTourCreatedPage } from 'state/app-tour/selectors
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import getSearchParam from 'helpers/getSearchParam';
 
+
 jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
 }));
 
-jest.mock('state/groups/selectors', () => ({
-  getGroupsList: jest.fn().mockReturnValue('getGroupsList_result'),
+jest.mock('state/groups/selectors/', () => ({
+  currentUserGroupsPermissionsFilter: jest.fn(() => () => 'filteredCurrentUserGroups_result'),
 }));
 
 jest.mock('state/app-tour/selectors', () => ({
@@ -52,6 +52,14 @@ jest.mock('state/pages/selectors', () => ({
 
 jest.mock('state/languages/selectors', () => ({
   getActiveLanguages: jest.fn(),
+}));
+
+jest.mock('state/user-preferences/selectors', () => ({
+  getUserPreferences: jest.fn(() => ({ defaultPageOwnerGroup: 'free', defaultPageJoinGroups: ['free'] })),
+}));
+
+jest.mock('state/users/selectors', () => ({
+  getSelectedUserAuthoritiesList: jest.fn(),
 }));
 
 jest.mock('app-init/router', () => ({
@@ -201,9 +209,8 @@ describe('PagesAddFormContainer', () => {
       expect(props).toHaveProperty('languages', LANGUAGES);
     });
 
-    it('maps the "groups" prop with the getGroupsList selector', () => {
-      expect(getGroupsList).toHaveBeenCalledWith(STATE);
-      expect(props.groups).toBe('getGroupsList_result');
+    it('maps the "groups" prop with the filtered current user groups', () => {
+      expect(props.groups).toBe('filteredCurrentUserGroups_result');
     });
 
     it('maps the "pageTemplates" prop with the getPageTemplates selector', () => {
@@ -237,7 +244,6 @@ describe('PagesAddFormContainer', () => {
         charset: 'utf-8',
         contentType: 'text/html',
         seoData: {
-          friendlyCode: '',
           useExtraDescriptions: false,
           seoDataByLang: {
             en: { ...SEO_LANGDATA_BLANK },
@@ -246,6 +252,8 @@ describe('PagesAddFormContainer', () => {
           },
         },
         parentCode: 'parentCode',
+        ownerGroup: 'free',
+        joinGroups: ['free'],
       });
     });
   });

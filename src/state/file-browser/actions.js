@@ -98,24 +98,25 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
     }).catch(() => {});
   });
 
-const sendPostFile = fileObject => new Promise((resolve, reject) => {
+export const sendPostFile = fileObject => new Promise((resolve, reject) => {
   postFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
     reject(error);
   });
 });
 
-const sendPutFile = fileObject => new Promise((resolve, reject) => {
+export const sendPutFile = fileObject => new Promise((resolve, reject) => {
   putFile(fileObject).then(response => (response.ok ? resolve() : reject())).catch((error) => {
     reject(error);
   });
 });
 
-const createFileObject = (protectedFolder, currentPath, file) => getBase64(file).then(base64 => ({
-  protectedFolder,
-  path: `${currentPath}/${file.name}`,
-  filename: file.name,
-  base64,
-}));
+export const createFileObject = (protectedFolder, currentPath, file) =>
+  getBase64(file).then(base64 => ({
+    protectedFolder,
+    path: `${currentPath}/${file.name}`,
+    filename: file.name,
+    base64,
+  }));
 
 const bodyApi = apiFunc => (...args) => (dispatch) => {
   createFileObject(...args).then((obj) => {

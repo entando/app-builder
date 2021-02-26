@@ -80,14 +80,14 @@ describe('RoleForm', () => {
     it('disables submit button while submitting', () => {
       submitting = true;
       roleForm = buildRoleForm();
-      const submitButton = roleForm.find('Button');
+      const submitButton = roleForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 
     it('disables submit button if form is invalid', () => {
       invalid = true;
       roleForm = buildRoleForm();
-      const submitButton = roleForm.find('Button');
+      const submitButton = roleForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 

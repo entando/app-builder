@@ -71,7 +71,7 @@ export class MultiSelectRendererBody extends Component {
     }
 
     return (
-      <div className="MultiSelectRenderer">
+      <div className="MultiSelectRenderer" data-testid="multi-select">
         <InputGroup>
           <select
             className="form-control"

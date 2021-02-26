@@ -17,6 +17,7 @@ export const WIDGET = {
   group: 'group',
   configUi: null,
   hasConfig: false,
+  icon: 'asset:my_asset',
 };
 
 export const WIDGET_NULL_GROUP = {
@@ -38,6 +39,7 @@ export const WIDGET_NULL_GROUP = {
   group: null,
   configUi: null,
   hasConfig: false,
+  icon: 'asset:my_asset',
 };
 
 export const WIDGET_LIST = {

@@ -6,7 +6,6 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages
 import PageForm from 'ui/pages/common/PageForm';
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
 import { sendPostPage, loadSelectedPage, SAMPLE_HOMEPAGE_CODE } from 'state/pages/actions';
@@ -18,6 +17,12 @@ import { setVisibleModal } from 'state/modal/actions';
 import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
+import { getUserPreferences } from 'state/user-preferences/selectors';
+import { fetchCurrentUserAuthorities } from 'state/users/actions';
+import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
+import { fetchCurrentUserGroups } from 'state/groups/actions';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
 
 const getNextPageProperty = ({
   pages,
@@ -56,12 +61,21 @@ export const getNextPageCode = ({ pages, pattern, separator }) => getNextPagePro
   separator,
 });
 
+const getCurrentUserGroupsWithManagePages =
+  currentUserGroupsPermissionsFilter([MANAGE_PAGES_PERMISSION]);
+
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
+  const groups = getCurrentUserGroupsWithManagePages(state);
   const seoDataByLang = languages.reduce((acc, curr) => ({
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
+  const userPreferences = getUserPreferences(state);
+  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
+  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
+  const ownerGroup = userPreferences.defaultPageOwnerGroup || authorityWithAdmin.group;
+  const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
@@ -74,7 +88,7 @@ export const mapStateToProps = (state) => {
 
   return {
     languages,
-    groups: getGroupsList(state),
+    groups,
     pageTemplates: getPageTemplatesList(state),
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
@@ -85,6 +99,8 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
+      ownerGroup,
+      joinGroups,
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
@@ -116,6 +132,8 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (data) => {
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
+    dispatch(fetchCurrentUserAuthorities());
+    dispatch(fetchCurrentUserGroups());
   },
   onInitPageForm: (data) => {
     const {

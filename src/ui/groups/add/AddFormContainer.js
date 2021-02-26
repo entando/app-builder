@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
+import { routeConverter } from '@entando/utils';
 import GroupForm from 'ui/groups/common/GroupForm';
-import { change, touch } from 'redux-form';
+import { change, touch, submit } from 'redux-form';
 import { sendPostGroup } from 'state/groups/actions';
+import { withRouter } from 'react-router-dom';
+import { setVisibleModal } from 'state/modal/actions';
+import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+import { ROUTE_GROUP_LIST } from 'app-init/router';
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, { history }) => ({
   // calls post api
   onSubmit: values => dispatch(sendPostGroup(values)),
   onChangeName: (name) => {
@@ -13,8 +18,13 @@ export const mapDispatchToProps = dispatch => ({
   onFocus: (name) => {
     dispatch(touch('group', name));
   },
+  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('group')); },
+  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
+  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_GROUP_LIST)); },
 });
 
-export default connect(null, mapDispatchToProps, null, {
+const AddFormContainer = connect(null, mapDispatchToProps, null, {
   pure: false,
 })(GroupForm);
+
+export default withRouter(AddFormContainer);

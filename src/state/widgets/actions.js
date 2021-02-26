@@ -1,9 +1,12 @@
 import { initialize } from 'redux-form';
 import { get, pick } from 'lodash';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { routeConverter } from '@entando/utils';
 
 import { toggleLoading } from 'state/loading/actions';
 import { getWidget, getWidgets, postWidgets, putWidgets, deleteWidgets, getWidgetInfo, getNavigatorNavspecFromExpressions, getNavigatorExpressionsFromNavspec } from 'api/widgets';
+import { getFile } from 'api/fileBrowser';
+import { sendPostFile, sendPutFile, createFileObject } from 'state/file-browser/actions';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import {
   SET_WIDGET_LIST,
@@ -14,7 +17,7 @@ import {
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
-import { history, ROUTE_WIDGET_LIST } from 'app-init/router';
+import { history, ROUTE_WIDGET_EDIT, ROUTE_WIDGET_LIST } from 'app-init/router';
 import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
 
 export const FREE_ACCESS_GROUP_VALUE = 'free';
@@ -125,7 +128,7 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
   toggleLoading('fetchWidget');
   dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     if (ok) {
-      const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'parentType', 'readonlyDefaultConfig', 'widgetCategory']);
+      const newPayload = pick(json.payload, ['code', 'titles', 'group', 'configUi', 'parentType', 'readonlyDefaultConfig', 'widgetCategory', 'icon']);
       newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
       newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
       const userWidgetInitDispatches = () => {
@@ -214,11 +217,14 @@ export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
     postWidgets(widgetObject).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
           dispatch(addToast(
             { id: 'app.created', values: { type: 'widget', code: widgetObject.code } },
             TOAST_SUCCESS,
           ));
+          if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
+          else {
+            history.push(routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetObject.code }));
+          }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -305,4 +311,39 @@ export const sendGetNavigatorExpressionsFromNavspec = navSpec =>
         dispatch(toggleLoading('expressionList'));
         resolve();
       });
+  });
+
+const bodyApi = apiFunc => (...args) => (dispatch) => {
+  createFileObject(...args).then((obj) => {
+    apiFunc(obj).then(() => {
+      dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
+      dispatch(toggleLoading('iconUpload'));
+    }).catch((error) => {
+      dispatch(toggleLoading('iconUpload'));
+      const message = { id: 'fileBrowser.uploadFileError', values: { errmsg: error } };
+      dispatch(message, TOAST_ERROR);
+    });
+  });
+};
+
+export const uploadIcon = file =>
+  dispatch => new Promise((resolve) => {
+    const protectedFolder = 'false';
+    const currentPath = 'static/widget-icons';
+    const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}/${file.name}`;
+    dispatch(toggleLoading('iconUpload'));
+    getFile(queryString).then((response) => {
+      response.json().then((json) => {
+        if (response.status === 404) {
+          dispatch(bodyApi(sendPostFile)(protectedFolder, currentPath, file));
+        } else if (response.ok) {
+          dispatch(bodyApi(sendPutFile)(protectedFolder, currentPath, file));
+        } else {
+          dispatch(toggleLoading('iconUpload'));
+          dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
   });

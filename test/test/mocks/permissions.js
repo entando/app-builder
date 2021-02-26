@@ -97,3 +97,18 @@ export const MYPERMISSIONS_STATE = {
     loggedUser: ['role2', 'role1'],
   },
 };
+
+export const LIST_MY_GROUP_PERMISSIONS_OK = [
+  {
+    group: 'administrators',
+    permissions: ['superuser'],
+  },
+  {
+    group: 'account_executive',
+    permissions: ['managePages'],
+  },
+  {
+    group: 'bpm_admin',
+    permissions: ['editContents'],
+  },
+];

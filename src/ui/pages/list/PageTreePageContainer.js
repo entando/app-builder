@@ -42,15 +42,15 @@ export const mapDispatchToProps = dispatch => ({
   onClear: () => {
     dispatch(clearSearchPage());
   },
-  onSubmit: (params) => {
+  onSubmit: ({ pageCodeToken, searchType }) => {
     let queryString = convertToQueryString({
       sorting: {
         attribute: 'code',
       },
     });
 
-    if (params.pageCodeToken) {
-      queryString = `${queryString}&pageCodeToken=${params.pageCodeToken}`;
+    if (pageCodeToken) {
+      queryString = `${queryString}&${searchType}=${pageCodeToken}`;
       dispatch(fetchSearchPages({ page: 1, pageSize: 100 }, queryString));
     }
   },

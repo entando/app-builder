@@ -9,12 +9,16 @@ const ownProps = {
   },
 };
 
+const dispatchProps = {
+  history: {},
+};
+
 describe('EditFormContainer', () => {
   const dispatchMock = jest.fn();
   let props;
   beforeEach(() => {
     jest.clearAllMocks();
-    props = mapDispatchToProps(dispatchMock);
+    props = mapDispatchToProps(dispatchMock, dispatchProps);
   });
 
   describe('mapDispatchToProps', () => {

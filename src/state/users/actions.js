@@ -1,5 +1,6 @@
 import { initialize, reset } from 'redux-form';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
+import { getUsername } from '@entando/apimanager';
 
 import {
   getUsers,
@@ -210,6 +211,11 @@ export const fetchUserAuthorities = username => async (dispatch) => {
   } catch (e) {
     // do nothing
   }
+};
+
+export const fetchCurrentUserAuthorities = () => (dispatch, getState) => {
+  const username = getUsername(getState());
+  dispatch(fetchUserAuthorities(username));
 };
 
 export const sendPostUserAuthorities = (authorities, username) => async (dispatch) => {

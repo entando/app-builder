@@ -15,6 +15,10 @@ jest.mock('state/loading/actions', () => ({
   toggleLoading: jest.fn(),
 }));
 
+const dispatchProps = {
+  history: {},
+};
+
 describe('AddFormContainer', () => {
   const dispatchMock = jest.fn();
 
@@ -34,7 +38,7 @@ describe('AddFormContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, dispatchProps);
     });
 
     it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {

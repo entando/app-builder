@@ -1,13 +1,5 @@
 import { get } from 'lodash';
 import React from 'react';
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
-
-const getDomain = () => {
-  const { DOMAIN } = getRuntimeEnv();
-  return DOMAIN;
-};
-
-export const getResourcePath = resource => `${getDomain()}/cmsresources/${resource}`;
 
 export const isMicrofrontendWidgetForm = widget =>
   get(widget, 'configUi.resources.length') && get(widget, 'configUi.customElement');

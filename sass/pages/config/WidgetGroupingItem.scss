@@ -49,6 +49,11 @@
       color: $color-dark-white;
     }
 
+    .list-view-pf-left img {
+      // hack to turn svgs inside img tag to $color-dark-white
+      filter: invert(81%) sepia(0%) saturate(429%) hue-rotate(152deg) brightness(103%) contrast(95%);
+    }
+
     .list-view-pf-description {
       display: block;
       margin-top: 10px;

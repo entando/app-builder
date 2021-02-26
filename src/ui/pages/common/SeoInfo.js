@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Tabs, Tab, Col, ControlLabel } from 'patternfly-react';
 import { Field, FieldArray, FormSection } from 'redux-form';
 import { required, maxLength } from '@entando/utils';
+import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
@@ -10,6 +11,10 @@ import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
 
 const maxLength70 = maxLength(70);
+const maxLength100 = maxLength(100);
+
+const friendlyCodeValidation = value => (value && !/^[0-9a-z_]+$/g.test(value) ?
+  <FormattedMessage id="validateForm.friendlyCode" /> : undefined);
 
 const SeoInfo = ({
   languages,
@@ -103,6 +108,38 @@ const SeoInfo = ({
                   )}
                 </div>
 
+                <div className="form-group SeoInfo__metadata--itemgroup">
+                  <Col sm={2}>
+                    <div className="text-right SeoInfo__metadata--itemgroup">
+                      <ControlLabel htmlFor={`seoData.seoDataByLang.${lang.code}.keywords`}>
+                        <FormLabel helpId="app.pages.friendlyCodeHelp" labelId="pages.pageForm.seoFriendlyCode" />
+                      </ControlLabel>
+                    </div>
+                  </Col>
+                  <Col sm={lang.isDefault ? 9 : 6}>
+                    <Field
+                      component={RenderTextInput}
+                      key={`seoData.seoDataByLang.${lang.code}.friendlyCode`}
+                      name="friendlyCode"
+                      disabled={readOnly}
+                      inputSize={12}
+                      validate={[friendlyCodeValidation, maxLength100]}
+                      labelSize={0}
+                    />
+                  </Col>
+                  {!lang.isDefault && (
+                  <Col sm={3} className="text-right">
+                    <Field
+                      component={SwitchRenderer}
+                      key={`seoData.seoDataByLang.${lang.code}.inheritFriendlyCodeFromDefaultLang`}
+                      name="inheritFriendlyCodeFromDefaultLang"
+                      label={<FormLabel labelId="app.seo.inheritLangLabel" />}
+                      labelSize={7}
+                      disabled={readOnly}
+                    />
+                  </Col>
+                )}
+                </div>
                 <FieldArray
                   component={SeoInfoMetadataContainer}
                   name="metaTags"

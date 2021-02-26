@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Breadcrumb, Grid, Row, Col } from 'patternfly-react';
+import { Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -16,10 +16,10 @@ class EditWidgetPage extends Component {
 
   render() {
     return (
-      <InternalPage className="EditWidgetPage">
-        <Grid fluid>
-          <Row>
-            <Col xs={12}>
+      <InternalPage className="EditWidgetPage WidgetPage">
+        <div className="WidgetPage__header">
+          <div className="WidgetPage__top">
+            <div>
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.uxComponents" />
@@ -34,15 +34,19 @@ class EditWidgetPage extends Component {
                   {this.props.widgetName}
                 </BreadcrumbItem>
               </Breadcrumb>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help" />
-            </Col>
-          </Row>
+            </div>
+            <div>
+              <div id="widget-button-holder" />
+            </div>
+          </div>
+          <div>
+            <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help" />
+          </div>
+        </div>
+
+        <div className="WidgetPage__body">
           <EditWidgetFormContainer />
-        </Grid>
+        </div>
       </InternalPage>
     );
   }
