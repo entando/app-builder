@@ -31,6 +31,10 @@ jest.mock('state/pages/actions', () => ({
   initPageForm: jest.fn(),
 }));
 
+jest.mock('state/table-column-order/selectors', () => ({
+  getColumnOrder: jest.fn(),
+}));
+
 jest.mock('state/pagination/selectors', () => ({
   getCurrentPage: jest.fn(),
   getTotalItems: jest.fn(),

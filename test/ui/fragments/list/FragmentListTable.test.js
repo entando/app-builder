@@ -58,39 +58,8 @@ describe('FragmentListTable', () => {
     consoleError.mockRestore();
   });
 
-  it('has a table', () => {
-    expect(component.find('table')).toHaveLength(1);
-  });
-
-  it('has a table header', () => {
-    const thead = component.find('thead');
-    expect(thead).toHaveLength(1);
-    expect(thead.find('th')).toHaveLength(4);
-  });
-
-  it('has no rows', () => {
-    const tbody = component.find('tbody');
-    expect(tbody).toHaveLength(1);
-    expect(tbody.find('tr')).toHaveLength(0);
-  });
-
-  describe('with fragments', () => {
-    beforeEach(() => {
-      component.setProps({ fragments });
-    });
-
-    it('has two rows if there are two fragments', () => {
-      const tbody = component.find('tbody');
-      expect(tbody).toHaveLength(1);
-      expect(tbody.find('tr')).toHaveLength(2);
-      expect(tbody.find('FragmentListMenuActions')).toHaveLength(2);
-    });
-
-    it('has a menu in the action column of each row', () => {
-      component.find('tbody tr').forEach((tr) => {
-        expect(tr.find('FragmentListMenuActions')).toHaveLength(1);
-      });
-    });
+  it('has a DataTable', () => {
+    expect(component.find('DataTable')).toHaveLength(1);
   });
 
   it('has a paginator', () => {

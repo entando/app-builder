@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
 import { shallowWithIntl } from 'test/testUtils';
 
-jest.unmock('react-redux');
+// jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 jest.spyOn(global, 'addEventListener');

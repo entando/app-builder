@@ -23,6 +23,7 @@ describe('PageTemplateListTable', () => {
         pageSize={PAGE_SIZE}
         totalItems={TOTAL_ITEMS}
         onWillMount={onWillMount}
+        columnOrder={[]}
         removePageTemplate={removePageTemplate}
       />
     )).dive();
@@ -55,20 +56,8 @@ describe('PageTemplateListTable', () => {
   });
 
 
-  it('has a table', () => {
-    expect(component.find('table')).toHaveLength(1);
-  });
-
-  it('has a table header', () => {
-    const thead = component.find('thead');
-    expect(thead).toHaveLength(1);
-    expect(thead.find('th')).toHaveLength(3);
-  });
-
-  it('has no rows', () => {
-    const tbody = component.find('tbody');
-    expect(tbody).toHaveLength(1);
-    expect(tbody.find('tr')).toHaveLength(0);
+  it('has DataTable', () => {
+    expect(component.find('DataTable')).toHaveLength(1);
   });
 
   it('has a paginator', () => {
@@ -103,25 +92,5 @@ describe('PageTemplateListTable', () => {
       component.update();
     });
 
-    it('has as many rows as the page templates count', () => {
-      const tbody = component.find('tbody');
-      expect(tbody).toHaveLength(1);
-      expect(tbody.find('tr')).toHaveLength(PAGE_TEMPLATES_LIST.length);
-    });
-
-    it('has a menu in the action column of each row', () => {
-      component.find('tbody tr').forEach((tr) => {
-        expect(tr.find('PageTemplateListMenuActions')).toHaveLength(1);
-      });
-    });
-
-    it('calls removePageTemplate(pageTemplateCode) if calling a menu onClickDelete prop', () => {
-      component.find('tbody tr').forEach((tr, i) => {
-        const deleteFunc = tr.find('PageTemplateListMenuActions').prop('onClickDelete');
-        deleteFunc();
-        expect(removePageTemplate).toHaveBeenCalledWith(PAGE_TEMPLATES_LIST[i].code);
-        removePageTemplate.mockClear();
-      });
-    });
   });
 });

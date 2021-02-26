@@ -10,6 +10,9 @@ const TEST_STATE = {
       totalItems: 7,
     },
   },
+  tableColumnOrder: {
+    dashboardPageList: [],
+  },
   pages: {
     search: [],
   },

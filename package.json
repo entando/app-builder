@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@entando/apimanager": "6.6.4",
-    "@entando/ddtable": "^1.0.4",
+    "@entando/ddtable": "^1.0.5",
     "@entando/datatable": "^1.0.0",
     "@entando/log": "^1.0.2",
     "@entando/menu": "^2.1.1",
@@ -66,7 +66,6 @@
     "react-column-resizer": "^1.1.9",
     "react-datepicker": "^1.4.1",
     "react-dev-utils-for-webpack4": "^5.0.0-webpack4",
-    "react-dnd": "^9.4.0",
     "react-dom": "^16.8.6",
     "react-ellipsis-with-tooltip": "^1.0.7",
     "react-intl": "^2.9.0",

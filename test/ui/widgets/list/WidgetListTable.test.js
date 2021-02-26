@@ -4,7 +4,6 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { WIDGET_LIST } from 'test/mocks/widgets';
 import { WidgetListTableBody as WidgetListTable } from 'ui/widgets/list/WidgetListTable';
-import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 const onDelete = jest.fn();
 const WIDGETS = WIDGET_LIST.payload;
@@ -23,21 +22,7 @@ describe('WidgetListTable', () => {
     expect(component.hasClass('WidgetListTable')).toBe(true);
   });
 
-  it('renders WidgetSectionTitle sub component', () => {
-    expect(component.find('WidgetSectionTitle').exists()).toBe(true);
-  });
-
-  it('renders table header with 4 cols', () => {
-    expect(component.find('table thead tr th')).toHaveLength(4);
-  });
-
-  it('renders WidgetListRows', () => {
-    expect(component.find(WidgetListRow).exists()).toBe(true);
-    expect(component.find(WidgetListRow)).toHaveLength(8);
-  });
-
-  it('does not render WidgetListRow', () => {
-    component = shallow(<WidgetListTable title="widgets" widgetList={[]} locale="en" onDelete={onDelete} />);
-    expect(component.find(WidgetListRow).exists()).toBe(false);
+  it('renders DataTable component', () => {
+    expect(component.find('DataTable').exists()).toBe(true);
   });
 });

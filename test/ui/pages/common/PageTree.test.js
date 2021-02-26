@@ -49,9 +49,6 @@ describe('PageTree', () => {
     it('renders without crashing', () => {
       expect(component.exists()).toBe(true);
     });
-    it('renders a table row for each page', () => {
-      expect(component.find('.PageTree__row')).toHaveLength(PAGES.length);
-    });
   });
 
   describe('drag and drop', () => {
@@ -89,104 +86,6 @@ describe('PageTree', () => {
     it('calls nothing if a row is dropped with another drop type', () => {
       component.instance().handleDrop(null, PAGES[1], PAGES[0]);
       expect(handleDropPage).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('when expanding a page', () => {
-    let component;
-    const handleExpandPage = jest.fn();
-    beforeEach(() => {
-      component = shallow((
-        <PageTree
-          pages={PAGES}
-          onExpandPage={handleExpandPage}
-          {...props}
-        />));
-    });
-    it('does not call onExpandPage if the page is empty', () => {
-      const emptyPageIndex = 1;
-      component.find('.PageTree__icons-label').at(emptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
-      expect(PAGES[emptyPageIndex].isEmpty).toBe(true);
-      expect(handleExpandPage).not.toHaveBeenCalled();
-    });
-    it('calls onExpandPage if the page is not empty', () => {
-      const notEmptyPageIndex = 0;
-      component.find('.PageTree__icons-label').at(notEmptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
-      expect(PAGES[notEmptyPageIndex].isEmpty).toBe(false);
-      expect(handleExpandPage).toHaveBeenCalled();
-    });
-  });
-
-  describe('on menu action', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow(<PageTree pages={PAGES} {...props} />);
-    });
-
-    describe('add', () => {
-      it('redirects to the "add page" route', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickAdd')();
-        expect(props.onClickAdd).toHaveBeenCalled();
-      });
-    });
-
-    describe('edit', () => {
-      it('redirects to the "edit page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickEdit')();
-        expect(props.onClickEdit).toHaveBeenCalled();
-      });
-    });
-
-    describe('config', () => {
-      it('redirects to the "config page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickConfigure')();
-        expect(props.onClickConfigure).toHaveBeenCalled();
-      });
-    });
-
-    describe('detail', () => {
-      it('redirects to the "config page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDetails')();
-        expect(props.onClickDetails).toHaveBeenCalled();
-      });
-    });
-
-    describe('clone', () => {
-      it('redirects to the clone Page', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickClone')();
-        expect(props.onClickClone).toHaveBeenCalled();
-      });
-    });
-
-    describe('delete', () => {
-      it('open delete Page modal', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDelete')();
-        expect(props.onClickDelete).toHaveBeenCalled();
-      });
-    });
-
-    describe('publish', () => {
-      it('call publish action', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickPublish')();
-        expect(props.onClickPublish).toHaveBeenCalled();
-      });
-    });
-
-    describe('unpublish', () => {
-      it('call unpublish action', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickUnpublish')();
-        expect(props.onClickUnPublish).toHaveBeenCalled();
-      });
     });
   });
 });

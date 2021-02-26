@@ -53,26 +53,7 @@ describe('PageListSearchTable', () => {
     });
 
     it('has a table', () => {
-      expect(component.find('table')).toHaveLength(1);
-    });
-
-    it('has a table header', () => {
-      const thead = component.find('thead');
-      expect(thead).toHaveLength(1);
-      expect(thead.find('th')).toHaveLength(3);
-    });
-
-    it('has one row if there is one searchPage ', () => {
-      const tbody = component.find('tbody');
-      expect(tbody).toHaveLength(1);
-      expect(tbody.find('tr')).toHaveLength(1);
-      expect(tbody.find('PageTreeActionMenu')).toHaveLength(1);
-    });
-
-    it('has a menu in the action column of each row', () => {
-      component.find('tbody tr').forEach((tr) => {
-        expect(tr.find('PageTreeActionMenu')).toHaveLength(1);
-      });
+      expect(component.find('DataTable')).toHaveLength(1);
     });
 
     it('has a paginator', () => {

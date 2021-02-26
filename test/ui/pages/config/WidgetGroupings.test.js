@@ -73,22 +73,4 @@ describe('WidgetGroupings', () => {
     const { container } = render(<WidgetGroupings />);
     expect(container.firstChild.classList.contains('WidgetGroupings')).toBe(true);
   });
-
-  it('has filterable data', async () => {
-    const filterWidget = jest.fn();
-    render(<WidgetGroupings
-      filterWidget={filterWidget}
-      groupedWidgets={GROUPED_WIDGETS}
-      widgetGroupingList={WIDGET_GROUPING_LIST}
-    />);
-    expect(screen.getByText(/cms/i)).toBeInTheDocument();
-    expect(screen.getByText(/other/i)).toBeInTheDocument();
-
-    const searchInput = screen.getByPlaceholderText(/Search/i);
-    expect(searchInput).toBeInTheDocument();
-    userEvent.type(searchInput, 'dumm');
-
-    expect(filterWidget).toHaveBeenCalled();
-    expect(filterWidget).toHaveBeenCalledWith('dumm');
-  });
 });
