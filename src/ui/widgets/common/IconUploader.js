@@ -69,8 +69,8 @@ const IconUploader = ({
                       </div>
                     :
                       <div>
-                        <span className="fa fa-cloud-upload-alt IconUploader__icon" />
-                        <FormattedMessage className="IconUploader__description" id="widget.icon.description" />
+                        <span className="fa fa-cloud-upload IconUploader__icon" />
+                        <p className="IconUploader__description"><FormattedMessage id="widget.icon.description" /></p>
                       </div>
             }
           </Spinner>

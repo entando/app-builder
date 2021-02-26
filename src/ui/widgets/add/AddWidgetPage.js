@@ -24,7 +24,7 @@ export const AddWidgetPageBody = () => (
               <FormattedMessage id="menu.uxComponents.widget" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="widgets.addWidget" />
             </BreadcrumbItem>
           </Breadcrumb>
         </div>
@@ -33,7 +33,7 @@ export const AddWidgetPageBody = () => (
         </div>
       </div>
       <div>
-        <PageTitle titleId="app.add" helpId="widget.help" />
+        <PageTitle titleId="widgets.addWidget" helpId="widget.help" />
       </div>
     </div>
 
