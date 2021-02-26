@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
 
-import { getResourcePath, getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
+import { getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
+import { getResourcePath } from 'helpers/resourcePath';
 import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
