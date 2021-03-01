@@ -79,4 +79,5 @@ UserListPageBody.defaultProps = {
   userPermissions: [],
 };
 
-export default withPermissions(VIEW_USERS_AND_PROFILES_PERMISSION)(UserListPageBody);
+export default
+withPermissions([VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_USERS_PERMISSION])(UserListPageBody);
