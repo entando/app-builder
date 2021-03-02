@@ -234,12 +234,17 @@ export const fetchCurrentUserGroups = () => async (dispatch) => {
           ...acc,
           [group.code]: group,
         }), {});
+        const hasFreeAccessGroupPermissions = myGroupPermissions.some(({ group: groupCode }) => (
+          groupCode === FREE_ACCESS_GROUP.code
+        ));
         const currentUserGroups = myGroupPermissions
           .map(({ group: groupCode, permissions }) => ({
             ...groupsMap[groupCode],
             permissions,
-          }))
-          .concat(FREE_ACCESS_GROUP);
+          }));
+        if (!hasFreeAccessGroupPermissions) {
+          currentUserGroups.push(FREE_ACCESS_GROUP);
+        }
         dispatch(setCurrentUserGroups(currentUserGroups));
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));

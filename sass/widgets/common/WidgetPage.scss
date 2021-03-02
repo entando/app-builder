@@ -1,0 +1,56 @@
+// sass-lint:disable class-name-format no-important
+.WidgetPage {
+  height: 100%;
+  min-height: 700px;
+  margin-bottom: 0;
+  background-color: $color-grey-background;
+
+  &__header {
+    padding: 20px;
+    border-bottom: solid 2px $color-grey-border;
+    background-color: $color-white;
+  }
+
+  &__body {
+    height: calc(100% - 132px);
+
+    & .form-horizontal {
+      height: 100%;
+    }
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & .breadcrumb {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  & > .container-pf-nav-pf-vertical {
+    height: 100%;
+    margin-top: 60px;
+    margin-left: 216px;
+    padding: 0;
+  }
+
+  & .PageTitle__header {
+    border: 0;
+  }
+
+  & .PageTitle__header {
+    margin-bottom: 0;
+  }
+
+  & .PageTitle__title {
+    margin-top: 40px;
+    margin-bottom: 0;
+
+    & .pull-right {
+      margin-left: 22px;
+      float: none !important;
+    }
+  }
+}

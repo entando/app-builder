@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
+import { Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import PageTitle from 'ui/internal-page/PageTitle';
@@ -12,10 +12,10 @@ import withPermissions from 'ui/auth/withPermissions';
 import { ROLE_SUPERUSER } from 'state/permissions/const';
 
 export const AddWidgetPageBody = () => (
-  <InternalPage className="AddWidgetPage">
-    <Grid fluid>
-      <Row>
-        <Col xs={12}>
+  <InternalPage className="AddWidgetPage WidgetPage">
+    <div className="WidgetPage__header">
+      <div className="WidgetPage__top">
+        <div>
           <Breadcrumb>
             <BreadcrumbItem>
               <FormattedMessage id="menu.uxComponents" />
@@ -24,23 +24,23 @@ export const AddWidgetPageBody = () => (
               <FormattedMessage id="menu.uxComponents.widget" />
             </BreadcrumbItem>
             <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
+              <FormattedMessage id="widgets.addWidget" />
             </BreadcrumbItem>
           </Breadcrumb>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <PageTitle titleId="app.add" helpId="widget.help" />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <ErrorsAlertContainer />
-          <WidgetFormContainer />
-        </Col>
-      </Row>
-    </Grid>
+        </div>
+        <div>
+          <div id="widget-button-holder" />
+        </div>
+      </div>
+      <div>
+        <PageTitle titleId="widgets.addWidget" helpId="widget.help" />
+      </div>
+    </div>
+
+    <div className="WidgetPage__body">
+      <ErrorsAlertContainer />
+      <WidgetFormContainer />
+    </div>
   </InternalPage>
 );
 
