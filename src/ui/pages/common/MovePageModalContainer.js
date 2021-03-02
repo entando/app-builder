@@ -32,9 +32,10 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const MovePageModalContainer = {
-  ...connect(mapStateToProps, mapDispatchToProps)(MovePageModal),
-  ...pageMoveOptions,
-};
+const MovePageModalContainer = connect(mapStateToProps, mapDispatchToProps)(MovePageModal);
+
+Object.keys(pageMoveOptions).forEach((option) => {
+  MovePageModalContainer[option] = option;
+});
 
 export default MovePageModalContainer;

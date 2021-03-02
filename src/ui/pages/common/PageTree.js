@@ -266,7 +266,7 @@ PageTree.defaultProps = {
   onExpandAll: () => {},
   onCollapseAll: () => {},
   onSetColumnOrder: () => {},
-  columnOrder: [],
+  columnOrder: ['title', 'status', 'displayedInMenu'],
 };
 
 export default PageTree;
