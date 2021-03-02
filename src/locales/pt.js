@@ -912,6 +912,8 @@ export default {
     'emailConfig.smtpServer.testConfig': 'Configuração de teste',
     'emailConfig.smtpServer.sendTestEmail': 'Enviar e-mail de teste',
     'emailConfig.senderMgmt.email': 'Email',
+    'emailConfig.senderMgmt.new': 'Novo Remetente',
+    'emailConfig.senderMgmt.edit': 'Editar Remetente: {code}',
     'app.pages.friendlyCodeHelp': 'Slug de URL para a página. Você pode inserir no máximo 100 caracteres (minúsculo, numeros e \'_\') ',
     'validateForm.friendlyCode': 'O código amigável deve ter letras minúsculas, incluindo números ou o caractere especial \'_\'.',
     'pageTree.searchForm.searchPageBy': 'Página de pesquisa por',

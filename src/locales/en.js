@@ -953,6 +953,8 @@ export default {
     'emailConfig.smtpServer.testConfig': 'Test configuration',
     'emailConfig.smtpServer.sendTestEmail': 'Send test email',
     'emailConfig.senderMgmt.email': 'Email',
+    'emailConfig.senderMgmt.new': 'New Sender',
+    'emailConfig.senderMgmt.edit': 'Edit Sender: {code}',
     'pageTree.searchForm.searchPageBy': 'Search page by',
     'pageTree.searchForm.name': 'Page Name',
     'pageTree.searchForm.search.name': 'Search by Name',

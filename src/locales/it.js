@@ -951,6 +951,8 @@ export default {
     'emailConfig.smtpServer.testConfig': 'Configurazione di prova',
     'emailConfig.smtpServer.sendTestEmail': 'Invia un\'email di prova',
     'emailConfig.senderMgmt.email': 'Email',
+    'emailConfig.senderMgmt.new': 'Nuovo mittente',
+    'emailConfig.senderMgmt.edit': 'Modifica mittente: {code}',
     'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciale underscore ',
     'validateForm.friendlyCode': 'Il Friendly Code deve contenere lettere minuscole, inclusi numeri o caratteri speciali \'_\'.',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
