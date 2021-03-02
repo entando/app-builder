@@ -1,13 +1,14 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import { SEARCH_PAGES } from 'test/mocks/pages';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
+import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 
 const searchPages = SEARCH_PAGES;
 
-const props = {
-  locale: 'en',
+const eventMocks = {
   onClickAdd: jest.fn(),
   onClickEdit: jest.fn(),
   onClickConfigure: jest.fn(),
@@ -18,46 +19,84 @@ const props = {
   onClickUnPublish: jest.fn(),
 };
 
+const props = {
+  locale: 'en',
+  rowAction: {
+    Header: 'Actions',
+    attributes: { className: 'text-center' },
+    Cell: (cellinfo) => {
+      const { original: page } = cellinfo;
+      return (
+        <PageTreeActionMenu
+          {...eventMocks}
+          page={page}
+          locale="en"
+        />
+      );
+    },
+  },
+};
+
+jest.unmock('react-redux');
+
+const requiredState = {
+  modal: { info: {}, visibleModal: '' },
+  pages: { map: {} },
+};
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlAndStore(
+    <PageListSearchTable page={1} pageSize={1} totalItems={1} {...props} {...addProps} />,
+    requiredState,
+  ),
+);
+
 describe('PageListSearchTable', () => {
   describe('without searchPages', () => {
-    let component;
-    beforeEach(() => {
-      component = shallowWithIntl(<PageListSearchTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        {...props}
-      />).dive();
-    });
-
     it('renders without crashing', () => {
-      expect(component).toExist();
+      const { container } = renderComponent();
+      expect(container.querySelector('.PageListSearchTable')).toBeInTheDocument();
+      expect(container.querySelector('.PageListSearchTable__table')).not.toBeInTheDocument();
     });
 
     it('renders an Alert', () => {
-      const alert = component.find('Alert');
-      expect(alert).toExist();
+      const { container } = renderComponent();
+      const alert = container.querySelector('.alert');
+      expect(alert).toBeInTheDocument();
     });
   });
 
   describe('with searchPages', () => {
-    let component;
-    beforeEach(() => {
-      component = shallowWithIntl(<PageListSearchTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        {...props}
-        searchPages={searchPages}
-      />).dive();
+    it('has a table', () => {
+      const { container } = renderComponent({ searchPages });
+      expect(container.querySelectorAll('table')).toHaveLength(1);
     });
 
-    it('has a table', () => {
-      expect(component.find('DataTable')).toHaveLength(1);
+    it('has a table header', () => {
+      const { container } = renderComponent({ searchPages });
+      const thead = container.querySelectorAll('thead');
+      expect(thead).toHaveLength(1);
+    });
+
+    it('has one row if there is one searchPage ', () => {
+      const { container } = renderComponent({ searchPages });
+      const tbody = container.querySelector('tbody');
+      expect(tbody).toBeInTheDocument();
+      const tr = tbody.querySelector('tr');
+      expect(tbody.querySelector('tr')).toBeInTheDocument();
+      expect(tr.querySelector('.dropdown.dropdown-kebab-pf')).toBeInTheDocument();
+    });
+
+    it('has a menu in the action column of each row', () => {
+      const { container } = renderComponent({ searchPages });
+      container.querySelectorAll('tbody tr').forEach((tr) => {
+        expect(tr.querySelector('.dropdown.dropdown-kebab-pf')).toBeInTheDocument();
+      });
     });
 
     it('has a paginator', () => {
-      expect(component.find('Paginator')).toExist();
+      const { container } = renderComponent({ searchPages });
+      expect(container.querySelector('.table-view-pf-pagination')).toBeInTheDocument();
     });
   });
 });

@@ -1,28 +1,53 @@
 import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
-import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { WIDGET_LIST } from 'test/mocks/widgets';
 import { WidgetListTableBody as WidgetListTable } from 'ui/widgets/list/WidgetListTable';
 
 const onDelete = jest.fn();
 const WIDGETS = WIDGET_LIST.payload;
 
+const props = {
+  title: 'widgets',
+  widgetList: WIDGETS,
+  locale: 'en',
+  onDelete,
+};
+
+jest.unmock('react-redux');
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlAndStore(
+    <WidgetListTable {...props} {...addProps} />,
+  ),
+);
+
 describe('WidgetListTable', () => {
-  let component;
-  beforeEach(() => {
-    component = shallow(<WidgetListTable title="widgets" widgetList={WIDGETS} locale="en" onDelete={onDelete} />);
-  });
-
   it('renders component without crashing', () => {
-    expect(component.exists()).toBe(true);
+    const { container } = renderComponent();
+    expect(container.querySelector('.WidgetListTable')).toBeInTheDocument();
   });
 
-  it('root component has class WidgetListTable', () => {
-    expect(component.hasClass('WidgetListTable')).toBe(true);
+  it('renders WidgetSectionTitle sub component', () => {
+    const { container } = renderComponent();
+    expect(container.querySelector('.WidgetSectionTitle')).toBeInTheDocument();
   });
 
-  it('renders DataTable component', () => {
-    expect(component.find('DataTable').exists()).toBe(true);
+  it('renders table header', () => {
+    const { container } = renderComponent();
+    expect(container.querySelector('table thead tr th')).toBeInTheDocument();
+  });
+
+  it('renders WidgetListRows', () => {
+    const { container } = renderComponent();
+    expect(container.querySelector('.WidgetListRow')).toBeInTheDocument();
+    expect(container.querySelectorAll('.WidgetListRow')).toHaveLength(8);
+  });
+
+  it('does not render WidgetListRow', () => {
+    const { container } = renderComponent({ widgetList: [] });
+    expect(container.querySelector('.WidgetListRow')).not.toBeInTheDocument();
   });
 });
