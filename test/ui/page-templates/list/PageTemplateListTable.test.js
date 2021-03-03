@@ -35,7 +35,6 @@ const renderComponent = (addProps = {}) => render(
   ),
 );
 
-
 beforeEach(jest.clearAllMocks);
 afterEach(cleanup);
 describe('PageTemplateListTable', () => {
@@ -47,7 +46,6 @@ describe('PageTemplateListTable', () => {
 
   describe('required props', () => {
     it('errors without a page', () => {
-      // eslint-disable-next-line max-len
       render(mockRenderWithIntlAndStore(
         <PageTemplateListTable pageSize={PAGE_SIZE} totalItems={TOTAL_ITEMS} />,
         requiredState,

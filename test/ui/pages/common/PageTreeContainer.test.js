@@ -15,7 +15,7 @@ import {
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as PUBLISH_MODAL_ID } from 'ui/pages/common/PublishPageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
-import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 import { MODAL_ID as MOVE_MODAL_ID } from 'ui/pages/common/MovePageModal';
 import { history } from 'app-init/router';
 
@@ -153,35 +153,35 @@ describe('PageTreeContainer', () => {
     });
 
     it('should dispatch an action if onDropPage is called with action of "drop into"', () => {
-      props.onDropPage('a', 'b', MovePageModalContainer.INTO_PARENT);
+      props.onDropPage('a', 'b', PAGE_MOVEMENT_OPTIONS.INTO_PARENT);
       expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
       expect(setInfo).toHaveBeenCalledWith({
         type: 'page',
         sourcePageCode: 'a',
         targetPageCode: 'b',
-        action: MovePageModalContainer.INTO_PARENT,
+        action: PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
       });
     });
 
     it('should dispatch an action if onDropPage is called with action of "drop above"', () => {
-      props.onDropPage('a', 'b', MovePageModalContainer.ABOVE_SIBLING);
+      props.onDropPage('a', 'b', PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING);
       expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
       expect(setInfo).toHaveBeenCalledWith({
         type: 'page',
         sourcePageCode: 'a',
         targetPageCode: 'b',
-        action: MovePageModalContainer.ABOVE_SIBLING,
+        action: PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING,
       });
     });
 
     it('should dispatch an action if onDropPage is called with action of "drop below"', () => {
-      props.onDropPage('a', 'b', MovePageModalContainer.BELOW_SIBLING);
+      props.onDropPage('a', 'b', PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING);
       expect(setVisibleModal).toHaveBeenCalledWith(MOVE_MODAL_ID);
       expect(setInfo).toHaveBeenCalledWith({
         type: 'page',
         sourcePageCode: 'a',
         targetPageCode: 'b',
-        action: MovePageModalContainer.BELOW_SIBLING,
+        action: PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING,
       });
     });
   });

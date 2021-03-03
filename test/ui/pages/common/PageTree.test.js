@@ -4,7 +4,7 @@ import { screen, render, within, fireEvent, cleanup } from '@testing-library/rea
 import { mockRenderWithIntlDDStoreRouter } from 'test/testUtils';
 
 import PageTree from 'ui/pages/common/PageTree';
-import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
 const PAGES = [
   {
@@ -88,7 +88,7 @@ describe('PageTree', () => {
       fireEvent.drop(secondItem);
       expect(handleDropPage).toHaveBeenCalledWith(
         PAGES[0].code, PAGES[1].code,
-        MovePageModalContainer.INTO_PARENT,
+        PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
       );
     });
   });

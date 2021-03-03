@@ -16,13 +16,14 @@ import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
 
 class PageTree extends Component {
   static actionMapping = {
-    [DDTable.DROP_MEDIUM]: MovePageModalContainer.INTO_PARENT,
-    [DDTable.DROP_HIGH]: MovePageModalContainer.ABOVE_SIBLING,
-    [DDTable.DROP_LOW]: MovePageModalContainer.BELOW_SIBLING,
+    [DDTable.DROP_MEDIUM]: PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
+    [DDTable.DROP_HIGH]: PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING,
+    [DDTable.DROP_LOW]: PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING,
   }
 
   constructor(props) {
