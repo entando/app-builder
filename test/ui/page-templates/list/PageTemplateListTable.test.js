@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, cleanup, screen, within } from '@testing-library/react';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import PageTemplateListTable from 'ui/page-templates/list/PageTemplateListTable';
 import { PAGE_TEMPLATES_LIST } from 'test/mocks/pageTemplates';
@@ -37,10 +37,11 @@ const renderComponent = (addProps = {}) => render(
 
 
 beforeEach(jest.clearAllMocks);
+afterEach(cleanup);
 describe('PageTemplateListTable', () => {
   it('renders without crashing & it calls onWillMount', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.PageTemplateListTable')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('Actions')).toBeInTheDocument();
     expect(onWillMount).toHaveBeenCalled();
   });
 
@@ -72,26 +73,25 @@ describe('PageTemplateListTable', () => {
   });
 
   it('has a table', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('table')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
-  it('has a table header', () => {
-    const { container } = renderComponent();
-    const thead = container.querySelector('thead');
-    expect(thead).toBeInTheDocument();
+  it('has a table header and body', () => {
+    renderComponent();
+    const rowgroups = screen.queryAllByRole('rowgroup');
+    expect(rowgroups).toHaveLength(2);
   });
 
   it('has no rows', () => {
-    const { container } = renderComponent();
-    const tbody = container.querySelector('tbody');
-    expect(tbody).toBeInTheDocument();
-    expect(tbody.querySelector('tr')).not.toBeInTheDocument();
+    renderComponent();
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeEmptyDOMElement();
   });
 
   it('has a paginator', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.table-view-pf-pagination')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('per page')).toBeInTheDocument();
   });
 
   it('on change page, it calls onWillMount with new page data', () => {
@@ -105,18 +105,19 @@ describe('PageTemplateListTable', () => {
   });
 
   describe('with page templates', () => {
+    beforeEach(() => {
+      renderComponent({ pageTemplates: PAGE_TEMPLATES_LIST });
+    });
 
     it('has as many rows as the page templates count', () => {
-      const { container } = renderComponent({ pageTemplates: PAGE_TEMPLATES_LIST });
-      const tbody = container.querySelector('tbody');
-      expect(tbody).toBeInTheDocument();
-      expect(tbody.querySelectorAll('tr')).toHaveLength(PAGE_TEMPLATES_LIST.length);
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      expect(within(tbody).queryAllByRole('row')).toHaveLength(PAGE_TEMPLATES_LIST.length);
     });
 
     it('has a menu in the action column of each row', () => {
-      const { container } = renderComponent({ pageTemplates: PAGE_TEMPLATES_LIST });
-      container.querySelectorAll('tbody tr').forEach((tr) => {
-        expect(tr.querySelector('.dropdown.dropdown-kebab-pf')).toBeInTheDocument();
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      within(tbody).queryAllByRole('row').forEach((tr) => {
+        expect(within(tr).getByRole('menu')).toBeInTheDocument();
       });
     });
   });

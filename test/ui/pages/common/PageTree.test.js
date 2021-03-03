@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
+import { screen, render, within, fireEvent, cleanup } from '@testing-library/react';
 import { mockRenderWithIntlDDStoreRouter } from 'test/testUtils';
 
 import PageTree from 'ui/pages/common/PageTree';
@@ -60,15 +60,18 @@ const renderComponent = (addProps = {}) => render(
 
 describe('PageTree', () => {
   beforeEach(jest.clearAllMocks);
+  afterEach(cleanup);
 
   describe('basic rendering', () => {
+    beforeEach(renderComponent);
+
     it('renders without crashing', () => {
-      const { container } = renderComponent();
-      expect(container.querySelector('.PageTree')).toBeInTheDocument();
+      expect(screen.getByRole('table')).toBeInTheDocument();
     });
     it('renders pages', () => {
-      const { container } = renderComponent();
-      expect(container.querySelectorAll('tbody tr')).toHaveLength(PAGES.length);
+      const resultSet = within(screen.queryAllByRole('rowgroup')[1]);
+      const rows = resultSet.getAllByRole('row');
+      expect(rows).toHaveLength(PAGES.length);
     });
   });
 
@@ -76,10 +79,10 @@ describe('PageTree', () => {
     const handleDropPage = jest.fn();
 
     it('calls onDropPage with action of "dropping"', () => {
-      const { container } = renderComponent({ onDropPage: handleDropPage });
-      const firstItem = container.querySelector('tbody tr.DDTable__tr');
-      const secondItem = container.querySelector('tbody tr.DDTable__tr:nth-child(2)');
-      const firstItemHandle = firstItem.querySelector('.PageTree__drag-handle');
+      renderComponent({ onDropPage: handleDropPage });
+      const firstItem = screen.getByText(PAGES[0].title).closest('tr');
+      const secondItem = screen.getByText(PAGES[1].title).closest('tr');
+      const firstItemHandle = firstItem.querySelector('button');
       fireEvent.dragStart(firstItemHandle);
       fireEvent.dragOver(secondItem);
       fireEvent.drop(secondItem);
@@ -93,15 +96,15 @@ describe('PageTree', () => {
   describe('when expanding a page', () => {
     const handleExpandPage = jest.fn();
     it('does not call onExpandPage if the page is empty', () => {
-      const { container } = renderComponent({ onExpandPage: handleExpandPage });
-      const expbutton = container.querySelector('tbody tr:nth-child(2) .PageTree__icons-label');
+      renderComponent({ onExpandPage: handleExpandPage });
+      const expbutton = screen.getByText(PAGES[1].title).closest('[role=button]');
       fireEvent.click(expbutton);
       expect(PAGES[1].isEmpty).toBe(true);
       expect(handleExpandPage).not.toHaveBeenCalled();
     });
     it('calls onExpandPage if the page is not empty', () => {
-      const { container } = renderComponent({ onExpandPage: handleExpandPage });
-      const expbutton = container.querySelector('tbody tr:nth-child(1) .PageTree__icons-label');
+      renderComponent({ onExpandPage: handleExpandPage });
+      const expbutton = screen.getByText(PAGES[0].title).closest('[role=button]');
       fireEvent.click(expbutton);
       expect(PAGES[0].isEmpty).toBe(false);
       expect(handleExpandPage).toHaveBeenCalled();
@@ -109,12 +112,12 @@ describe('PageTree', () => {
   });
 
   describe('on menu action', () => {
+    beforeEach(renderComponent);
 
     describe('add', () => {
       it('redirects to the "add page" route', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-add a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Add');
         fireEvent.click(rowActionMenu);
         expect(props.onClickAdd).toHaveBeenCalled();
       });
@@ -122,9 +125,8 @@ describe('PageTree', () => {
 
     describe('edit', () => {
       it('redirects to the "edit page" route with pageCode = the page code', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-edit a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Edit');
         fireEvent.click(rowActionMenu);
         expect(props.onClickEdit).toHaveBeenCalled();
       });
@@ -132,9 +134,8 @@ describe('PageTree', () => {
 
     describe('design', () => {
       it('redirects to the "design page" route with pageCode = the page code', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-configure a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Design');
         fireEvent.click(rowActionMenu);
         expect(props.onClickConfigure).toHaveBeenCalled();
       });
@@ -142,9 +143,8 @@ describe('PageTree', () => {
 
     describe('detail', () => {
       it('redirects to the "config page" route with pageCode = the page code', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-details a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Details');
         fireEvent.click(rowActionMenu);
         expect(props.onClickDetails).toHaveBeenCalled();
       });
@@ -152,9 +152,8 @@ describe('PageTree', () => {
 
     describe('clone', () => {
       it('redirects to the clone Page', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-clone a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Clone');
         fireEvent.click(rowActionMenu);
         expect(props.onClickClone).toHaveBeenCalled();
       });
@@ -162,9 +161,8 @@ describe('PageTree', () => {
 
     describe('delete', () => {
       it('open delete Page modal', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(2)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-delete a');
+        const rowChosen = within(screen.getByText(PAGES[1].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Delete');
         fireEvent.click(rowActionMenu);
         expect(props.onClickDelete).toHaveBeenCalled();
       });
@@ -172,9 +170,8 @@ describe('PageTree', () => {
 
     describe('publish', () => {
       it('call publish action', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(2)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-publish a');
+        const rowChosen = within(screen.getByText(PAGES[1].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Publish');
         fireEvent.click(rowActionMenu);
         expect(props.onClickPublish).toHaveBeenCalled();
       });
@@ -182,9 +179,8 @@ describe('PageTree', () => {
 
     describe('unpublish', () => {
       it('call unpublish action', () => {
-        const { container } = renderComponent();
-        const rowChosen = container.querySelector('tbody tr:nth-child(1)');
-        const rowActionMenu = rowChosen.querySelector('.PageTreeActionMenuButton__menu-item-unpublish a');
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Unpublish');
         fireEvent.click(rowActionMenu);
         expect(props.onClickUnPublish).toHaveBeenCalled();
       });

@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { screen, render, within, cleanup } from '@testing-library/react';
 
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
@@ -40,9 +40,11 @@ const renderComponent = (addProps = {}) => render(
 );
 
 describe('FragmentListTable', () => {
+  afterEach(cleanup);
+
   it('renders without crashing', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.FragmentListTable')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('Actions')).toBeInTheDocument();
   });
 
   it('errors without a page', () => {
@@ -70,42 +72,44 @@ describe('FragmentListTable', () => {
   });
 
   it('has a table', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('table')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
   it('has a table header', () => {
-    const { container } = renderComponent();
-    const thead = container.querySelector('thead');
+    renderComponent();
+    const thead = screen.queryByRole('columnheader').closest('thead');
     expect(thead).toBeInTheDocument();
   });
 
   it('has no rows', () => {
-    const { container } = renderComponent();
-    const tbody = container.querySelector('tbody');
+    renderComponent();
+    const tbody = screen.queryAllByRole('rowgroup')[1];
     expect(tbody).toBeInTheDocument();
-    expect(tbody.querySelectorAll('tr')).toHaveLength(0);
+    expect(within(tbody).queryByRole('menu')).not.toBeInTheDocument();
   });
 
   describe('with fragments', () => {
+    beforeEach(() => {
+      renderComponent({ fragments });
+    });
+
     it('has two rows if there are two fragments', () => {
-      const { container } = renderComponent({ fragments });
-      const tbody = container.querySelector('tbody');
+      const tbody = screen.queryAllByRole('rowgroup')[1];
       expect(tbody).toBeInTheDocument();
-      expect(tbody.querySelectorAll('tr')).toHaveLength(2);
-      expect(tbody.querySelectorAll('.dropdown.btn-group.dropdown-kebab-pf')).toHaveLength(2);
+      expect(within(tbody).queryAllByRole('row')).toHaveLength(fragments.length);
     });
 
     it('has a menu in the action column of each row', () => {
-      const { container } = renderComponent({ fragments });
-      container.querySelectorAll('tbody tr').forEach((tr) => {
-        expect(tr.querySelector('.dropdown.dropdown-kebab-pf')).toBeInTheDocument();
+      const tbody = screen.queryAllByRole('rowgroup')[1];
+      within(tbody).queryAllByRole('row').forEach((tr) => {
+        expect(within(tr).getByRole('menu')).toBeInTheDocument();
       });
     });
   });
 
   it('has a paginator', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.table-view-pf-pagination')).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('per page')).toBeInTheDocument();
   });
 });

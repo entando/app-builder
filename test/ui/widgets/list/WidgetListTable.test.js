@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { render, screen, within, cleanup } from '@testing-library/react';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
 import { WIDGET_LIST } from 'test/mocks/widgets';
@@ -24,30 +24,34 @@ const renderComponent = (addProps = {}) => render(
   ),
 );
 
+afterEach(cleanup);
+
 describe('WidgetListTable', () => {
+  beforeEach(renderComponent);
   it('renders component without crashing', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.WidgetListTable')).toBeInTheDocument();
+    expect(screen.getByText('Actions')).toBeInTheDocument();
   });
 
   it('renders WidgetSectionTitle sub component', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.WidgetSectionTitle')).toBeInTheDocument();
+    expect(screen.getByText(props.title)).toBeInTheDocument();
   });
 
   it('renders table header', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('table thead tr th')).toBeInTheDocument();
+    const [thead] = screen.queryAllByRole('rowgroup');
+    expect(thead).toBeInTheDocument();
   });
 
   it('renders WidgetListRows', () => {
-    const { container } = renderComponent();
-    expect(container.querySelector('.WidgetListRow')).toBeInTheDocument();
-    expect(container.querySelectorAll('.WidgetListRow')).toHaveLength(8);
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeInTheDocument();
+    expect(within(tbody).queryAllByRole('row')).toHaveLength(WIDGETS.length);
   });
 
   it('does not render WidgetListRow', () => {
-    const { container } = renderComponent({ widgetList: [] });
-    expect(container.querySelector('.WidgetListRow')).not.toBeInTheDocument();
+    cleanup();
+    renderComponent({ widgetList: [] });
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeInTheDocument();
+    expect(tbody).toBeEmptyDOMElement();
   });
 });
