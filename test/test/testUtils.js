@@ -7,7 +7,7 @@ import { shallow, mount, configure } from 'enzyme';
 import { Provider as StateProvider } from 'react-redux';
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 import { createMemoryHistory } from 'history';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { Router, MemoryRouter, Route } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import enTranslations from 'locales/en';
 import { render } from '@testing-library/react';
@@ -159,12 +159,16 @@ export const renderWithIntl = (ui, {
 });
 
 export const renderWithRouter = (ui, {
-  initialRoute = '/', ...renderOptions
-} = {}) => renderWithWrapper(ui, {
-  wrapperComp: MemoryRouter,
-  wrapperProps: { initialEntries: [initialRoute] },
-  ...renderOptions,
-});
+  initialRoute = '/', path = '/', ...renderOptions
+} = {}) => renderWithWrapper(
+  (
+    <Route path={path}>{ui}</Route>
+  ), {
+    wrapperComp: MemoryRouter,
+    wrapperProps: { initialEntries: [initialRoute] },
+    ...renderOptions,
+  },
+);
 
 export const renderWithState = (ui, {
   state, store = createMockStore(state), ...renderOptions
@@ -175,10 +179,10 @@ export const renderWithState = (ui, {
 });
 
 export const renderWithIntlAndRouter = (ui, {
-  locale = enLocale, messages = enMessages, initialRoute = '/', ...renderOptions
+  locale = enLocale, messages = enMessages, initialRoute = '/', path = '/', ...renderOptions
 } = {}) => renderWithRouter(
   <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>,
-  { initialRoute, ...renderOptions },
+  { initialRoute, path, ...renderOptions },
 );
 
 export const renderWithIntlAndState = (ui, {
@@ -189,11 +193,13 @@ export const renderWithIntlAndState = (ui, {
 );
 
 export const renderWithIntlRouterState = (ui, {
-  locale = enLocale, messages = enMessages, initialRoute = '/',
+  locale = enLocale, messages = enMessages, initialRoute = '/', path = '/',
   state, store = createMockStore(state), ...renderOptions
 } = {}) => renderWithState(
   <MemoryRouter initialEntries={[initialRoute]}>
-    <IntlProvider locale={locale} messages={messages}>{ui}</IntlProvider>
+    <IntlProvider locale={locale} messages={messages}>
+      <Route path={path}>{ui}</Route>
+    </IntlProvider>
   </MemoryRouter>,
   { state, store, ...renderOptions },
 );

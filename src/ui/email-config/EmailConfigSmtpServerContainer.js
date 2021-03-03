@@ -7,21 +7,21 @@ const EmailConfigSmtpServerContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'fetchSMTPServerSettings' });
+    dispatch({ type: 'fetchSMTPServerSettings_test' });
   }, [dispatch]);
 
   const handleSubmit = useCallback(
-    () => dispatch({ type: 'saveEmailConfig' }),
+    values => dispatch({ type: 'saveEmailConfig_test', payload: values }),
     [dispatch],
   );
 
   const handleTestConfig = useCallback(
-    () => dispatch({ type: 'testEmailConfig' }),
+    values => dispatch({ type: 'testEmailConfig_test', payload: values }),
     [dispatch],
   );
 
   const handleSendTestEmail = useCallback(
-    () => dispatch({ type: 'sendTestEmail' }),
+    () => dispatch({ type: 'sendTestEmail_test' }),
     [dispatch],
   );
 

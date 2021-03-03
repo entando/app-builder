@@ -9,7 +9,7 @@ const EmailConfigSenderMgmtContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'fetchEmailSenders' });
+    dispatch({ type: 'fetchEmailSenders_test' });
   }, [dispatch]);
 
   const senders = useSelector(state => state.emailConfig.senders);

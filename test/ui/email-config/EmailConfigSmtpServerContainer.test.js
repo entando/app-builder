@@ -11,7 +11,7 @@ jest.unmock('react-redux');
 jest.unmock('redux-form');
 
 // jest.mock('state/email-config/actions', () => ({
-//   fetchSMTPServerSettings: jest.fn(() => 'fetchSMTPServerSettings'),
+//   fetchSMTPServerSettings: jest.fn(() => 'fetchSMTPServerSettings_test'),
 // }));
 
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
@@ -19,12 +19,17 @@ const mockDispatch = jest.fn();
 useDispatchSpy.mockReturnValue(mockDispatch);
 
 describe('EmailConfigSmtpServerContainer', () => {
-  it('should fetch relevant data on initial render', () => {
-    renderWithIntlAndState(<EmailConfigSmtpServerContainer />);
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchSMTPServerSettings' });
+  afterEach(() => {
+    mockDispatch.mockClear();
   });
 
-  it('should have a panel message', () => {
+  it('should fetch relevant data on initial render', () => {
+    renderWithIntlAndState(<EmailConfigSmtpServerContainer />);
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchSMTPServerSettings_test' });
+  });
+
+  it('should render a panel message', () => {
     renderWithIntlAndState(<EmailConfigSmtpServerContainer />);
     const panelMsg = 'Host is mandatory. Port and Timeout if blank, will default to 25 and 10000. Please leave Username and Password blank if the SMTP server does not require authentication.';
     expect(screen.getByText(panelMsg)).toBeInTheDocument();
@@ -50,19 +55,21 @@ describe('EmailConfigSmtpServerContainer', () => {
       },
     };
 
-    beforeEach(() => renderWithIntlAndState(<EmailConfigSmtpServerContainer />, { state }));
+    beforeEach(() => {
+      renderWithIntlAndState(<EmailConfigSmtpServerContainer />, { state });
+    });
 
     const getFormView = () => within(screen.getByRole('form'));
     const getHeadings = view => view.getAllByRole('heading');
 
-    it('should have General Settings section', () => {
+    it('should render General Settings section', () => {
       const formView = getFormView();
       expect(getHeadings(formView)[0]).toHaveTextContent('General Settings');
       expect(formView.getByLabelText('Active')).toHaveTextContent('ON');
       expect(formView.getByLabelText('Debug Mode')).toHaveTextContent('OFF');
     });
 
-    it('should have Connection section', () => {
+    it('should render Connection section', () => {
       const formView = getFormView();
       const securityRadioGroupView = within(formView.getByLabelText('Security'));
       expect(getHeadings(formView)[1]).toHaveTextContent('Connection');
@@ -73,7 +80,7 @@ describe('EmailConfigSmtpServerContainer', () => {
       expect(formView.getByRole('textbox', { name: 'Timeout (in milliseconds)' })).toHaveDisplayValue(formValues.timeout);
     });
 
-    it('should have Authentication section', () => {
+    it('should render Authentication section', () => {
       const formView = getFormView();
       expect(getHeadings(formView)[2]).toHaveTextContent('Authentication');
       expect(formView.getByRole('textbox', { name: 'Username' })).toHaveDisplayValue(formValues.username);
@@ -81,21 +88,32 @@ describe('EmailConfigSmtpServerContainer', () => {
       expect(formView.getByLabelText('Password')).toHaveAttribute('type', 'password');
     });
 
-    it('should have correct buttons that work properly', () => {
+    it('should render "Test configuration" button that calls the correct action when clicked', () => {
       const formView = getFormView();
-
       const testConfigBtn = formView.getByRole('button', { name: 'Test configuration' });
+      mockDispatch.mockClear();
       userEvent.click(testConfigBtn);
-      expect(mockDispatch).toHaveBeenCalledWith({ type: 'testEmailConfig' });
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({ type: 'testEmailConfig_test', payload: formValues });
+    });
 
+    it('should render "Send test email" button that calls the correct action when clicked', () => {
+      const formView = getFormView();
       const sendTestEmailBtn = formView.getByRole('button', { name: 'Send test email' });
+      mockDispatch.mockClear();
       userEvent.click(sendTestEmailBtn);
-      expect(mockDispatch).toHaveBeenCalledWith({ type: 'sendTestEmail' });
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({ type: 'sendTestEmail_test' });
+    });
 
+    it('should render "Save" button that calls the correct action when clicked', () => {
+      const formView = getFormView();
       const saveBtn = formView.getByRole('button', { name: 'Save' });
       expect(saveBtn).toHaveAttribute('type', 'submit');
+      mockDispatch.mockClear();
       userEvent.click(saveBtn);
-      expect(mockDispatch).toHaveBeenCalledWith({ type: 'saveEmailConfig' });
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith({ type: 'saveEmailConfig_test', payload: formValues });
     });
   });
 });

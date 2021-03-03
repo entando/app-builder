@@ -4,6 +4,7 @@ import { Panel } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Button } from 'patternfly-react';
+import { required } from '@entando/utils';
 
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
@@ -43,6 +44,7 @@ const EmailConfigSmtpServerBody = ({
       component={RenderTextInput}
       name="host"
       label={<FormLabel labelId="emailConfig.smtpServer.host" required />}
+      validate={required}
     />
     <Field
       component={RenderTextInput}
@@ -84,7 +86,7 @@ const EmailConfigSmtpServerBody = ({
     <div>
       <div className="btn-toolbar pull-right">
         <Button
-          onClick={onTestConfig}
+          onClick={handleSubmit(onTestConfig)}
           bsStyle="success"
         >
           <FormattedMessage id="emailConfig.smtpServer.testConfig" />

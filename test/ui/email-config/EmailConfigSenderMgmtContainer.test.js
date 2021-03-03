@@ -43,10 +43,10 @@ describe('EmailConfigSenderMgmtContainer', () => {
   });
 
   it('should fetch relevant data on initial render', () => {
-    expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchEmailSenders' });
+    expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchEmailSenders_test' });
   });
 
-  it('should have a table of senders', () => {
+  it('should render a table of senders', () => {
     const tableView = within(screen.getByRole('table'));
     const colHeaders = tableView.getAllByRole('columnheader');
     const rows = tableView.getAllByRole('row');
@@ -65,13 +65,13 @@ describe('EmailConfigSenderMgmtContainer', () => {
     expect(within(row2Cells[2]).getByRole('menu')).toBeInTheDocument();
   });
 
-  it('should have a button that links to the add sender page', () => {
+  it('should render a button that links to the add sender page', () => {
     const addBtn = screen.getByRole('link', { name: 'Add' });
     expect(addBtn).toHaveAttribute('href', ROUTE_EMAIL_CONFIG_SENDERS_ADD);
   });
 
   describe('table row actions', () => {
-    it('should have the correct dropdown menu items and corresponding actions', () => {
+    it('should render the correct dropdown menu items and corresponding actions', () => {
       const tableView = within(screen.getByRole('table'));
       const dropdownMenus = tableView.getAllByRole('menu');
       const dropdownMenu1View = within(dropdownMenus[0]);

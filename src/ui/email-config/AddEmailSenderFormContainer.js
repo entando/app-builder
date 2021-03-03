@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
-const AddEmailSenderFormContainer = () => <div />;
+import EmailSenderForm from 'ui/email-config/EmailSenderForm';
+
+const AddEmailSenderFormContainer = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(
+    values => dispatch({ type: 'addEmailSender_test', payload: values }),
+    [dispatch],
+  );
+
+  return (
+    <EmailSenderForm onSubmit={handleSubmit} />
+  );
+};
 
 export default AddEmailSenderFormContainer;

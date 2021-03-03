@@ -25,12 +25,12 @@ jest.mock('ui/email-config/EditEmailSenderFormContainer', () => () => (<div>{moc
 describe('EmailConfigPage', () => {
   const getBreadcrumbView = () => within(screen.getByTestId('breadcrumb'));
 
-  it('should have internal page layout', () => {
+  it('should render internal page layout', () => {
     const { getByTestId, container } = renderWithIntlAndRouter(<EmailConfigPage />);
     expect(getByTestId('internal-page')).toBe(container.firstChild);
   });
 
-  it('should have breadcrumb', () => {
+  it('should render breadcrumbs', () => {
     renderWithIntlAndRouter(
       (
         <EmailConfigPage />
@@ -45,11 +45,11 @@ describe('EmailConfigPage', () => {
   describe('default route', () => {
     beforeEach(() => renderWithIntlAndRouter(<EmailConfigPage />));
 
-    it('should have correct heading', () => {
+    it('should render the correct heading', () => {
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Email Configuration');
     });
 
-    it('should have Sender Management and SMTP Server tabs', () => {
+    it('should render Sender Management and SMTP Server tabs', () => {
       const tabsView = within(screen.getByRole('tablist'));
       const tabs = tabsView.getAllByRole('menuitem');
       const tab1View = within(tabs[0]);
@@ -81,7 +81,7 @@ describe('EmailConfigPage', () => {
       });
     });
 
-    it('should have correct breadcrumb', () => {
+    it('should render the correct breadcrumb', () => {
       const breadcrumbView = getBreadcrumbView();
       expect(breadcrumbView.getByText('New Sender')).toBeInTheDocument();
     });
@@ -101,7 +101,7 @@ describe('EmailConfigPage', () => {
       });
     });
 
-    it('should have correct breadcrumb', () => {
+    it('should render the correct breadcrumb', () => {
       const breadcrumbView = getBreadcrumbView();
       expect(breadcrumbView.getByText(`Edit Sender: ${testCode}`)).toBeInTheDocument();
     });
