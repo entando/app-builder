@@ -3,12 +3,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
 import MovePageModal from 'ui/pages/common/MovePageModal';
 import { setPageParent, movePageAbove, movePageBelow } from 'state/pages/actions';
-
-const pageMoveOptions = {
-  INTO_PARENT: 'INTO_PARENT',
-  ABOVE_SIBLING: 'ABOVE_SIBLING',
-  BELOW_SIBLING: 'BELOW_SIBLING',
-};
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
 export const mapStateToProps = state => ({
   info: getInfo(state),
@@ -17,13 +12,13 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   onConfirmMove: (sourcePageCode, targetPageCode, action) => {
     switch (action) {
-      case pageMoveOptions.INTO_PARENT:
+      case PAGE_MOVEMENT_OPTIONS.INTO_PARENT:
         dispatch(setPageParent(sourcePageCode, targetPageCode));
         break;
-      case pageMoveOptions.ABOVE_SIBLING:
+      case PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING:
         dispatch(movePageAbove(sourcePageCode, targetPageCode));
         break;
-      case pageMoveOptions.BELOW_SIBLING:
+      case PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING:
         dispatch(movePageBelow(sourcePageCode, targetPageCode));
         break;
       default: break;
@@ -32,9 +27,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-const MovePageModalContainer = {
-  ...connect(mapStateToProps, mapDispatchToProps)(MovePageModal),
-  ...pageMoveOptions,
-};
+const MovePageModalContainer = connect(mapStateToProps, mapDispatchToProps)(MovePageModal);
 
 export default MovePageModalContainer;

@@ -10,6 +10,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import enTranslations from 'locales/en';
+import { DDProvider } from '@entando/ddtable';
 import { render as rtlRender } from '@testing-library/react';
 
 export const configEnzymeAdapter = () => {
@@ -79,6 +80,12 @@ export const mockRenderWithIntlAndStore = (ui, state = {}) => {
 export const mockRenderWithRouter = (ui, history = createMockHistory()) => (
   <Router history={history}>{ui}</Router>
 );
+
+export const mockRenderWithIntlDDStoreRouter = (ui, state = {}) => {
+  const STATE = { ...state, locale: 'en' };
+  const intlStore = mockRenderWithIntlAndStore(ui, STATE);
+  return mockRenderWithRouter(<DDProvider>{intlStore}</DDProvider>);
+};
 
 /**
  * Components using the react-intl module require access to the intl context.

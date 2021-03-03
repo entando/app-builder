@@ -1,43 +1,57 @@
 import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, within, cleanup } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 
-import 'test/enzyme-init';
-import { shallow } from 'enzyme';
 import { WIDGET_LIST } from 'test/mocks/widgets';
 import { WidgetListTableBody as WidgetListTable } from 'ui/widgets/list/WidgetListTable';
-import WidgetListRow from 'ui/widgets/list/WidgetListRow';
 
 const onDelete = jest.fn();
 const WIDGETS = WIDGET_LIST.payload;
 
+const props = {
+  title: 'widgets',
+  widgetList: WIDGETS,
+  locale: 'en',
+  onDelete,
+};
+
+jest.unmock('react-redux');
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlAndStore(
+    <WidgetListTable {...props} {...addProps} />,
+  ),
+);
+
+afterEach(cleanup);
+
 describe('WidgetListTable', () => {
-  let component;
-  beforeEach(() => {
-    component = shallow(<WidgetListTable title="widgets" widgetList={WIDGETS} locale="en" onDelete={onDelete} />);
-  });
-
+  beforeEach(renderComponent);
   it('renders component without crashing', () => {
-    expect(component.exists()).toBe(true);
-  });
-
-  it('root component has class WidgetListTable', () => {
-    expect(component.hasClass('WidgetListTable')).toBe(true);
+    expect(screen.getByText('Actions')).toBeInTheDocument();
   });
 
   it('renders WidgetSectionTitle sub component', () => {
-    expect(component.find('WidgetSectionTitle').exists()).toBe(true);
+    expect(screen.getByText(props.title)).toBeInTheDocument();
   });
 
-  it('renders table header with 4 cols', () => {
-    expect(component.find('table thead tr th')).toHaveLength(4);
+  it('renders table header', () => {
+    const [thead] = screen.queryAllByRole('rowgroup');
+    expect(thead).toBeInTheDocument();
   });
 
   it('renders WidgetListRows', () => {
-    expect(component.find(WidgetListRow).exists()).toBe(true);
-    expect(component.find(WidgetListRow)).toHaveLength(8);
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeInTheDocument();
+    expect(within(tbody).queryAllByRole('row')).toHaveLength(WIDGETS.length);
   });
 
   it('does not render WidgetListRow', () => {
-    component = shallow(<WidgetListTable title="widgets" widgetList={[]} locale="en" onDelete={onDelete} />);
-    expect(component.find(WidgetListRow).exists()).toBe(false);
+    cleanup();
+    renderComponent({ widgetList: [] });
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeInTheDocument();
+    expect(tbody).toBeEmptyDOMElement();
   });
 });

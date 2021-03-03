@@ -18,6 +18,10 @@ jest.mock('state/widgets/selectors', () => ({
   getWidgetGroupingList: jest.fn(),
 }));
 
+jest.mock('state/table-column-order/selectors', () => ({
+  getColumnOrder: jest.fn(),
+}));
+
 getGroupedWidgets.mockReturnValue(WIDGET_ONE_LIST);
 
 jest.mock('state/widgets/actions', () => ({

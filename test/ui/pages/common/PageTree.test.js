@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { DDTable } from '@entando/ddtable';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render, within, fireEvent, cleanup } from '@testing-library/react';
+import { mockRenderWithIntlDDStoreRouter } from 'test/testUtils';
 
-import 'test/enzyme-init';
 import PageTree from 'ui/pages/common/PageTree';
-import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
 const PAGES = [
   {
@@ -18,7 +18,7 @@ const PAGES = [
   },
   {
     code: 'services',
-    status: 'published',
+    status: 'unpublished',
     displayedInMenu: false,
     title: 'Services',
     depth: 0,
@@ -36,155 +36,152 @@ const props = {
   onClickClone: jest.fn(),
   onClickPublish: jest.fn(),
   onClickUnPublish: jest.fn(),
+  onClickViewPublishedPage: jest.fn(),
+  onClickPreview: jest.fn(),
+  domain: '',
+  loading: false,
+  pages: PAGES,
+  locale: 'en',
 };
+
+jest.unmock('react-redux');
+
+const requiredState = {
+  modal: { info: {}, visibleModal: '' },
+  pages: { map: {} },
+};
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlDDStoreRouter(
+    <PageTree {...props} {...addProps} />,
+    requiredState,
+  ),
+);
 
 describe('PageTree', () => {
   beforeEach(jest.clearAllMocks);
+  afterEach(cleanup);
 
   describe('basic rendering', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow(<PageTree pages={PAGES} locale="en" {...props} />);
-    });
+    beforeEach(renderComponent);
+
     it('renders without crashing', () => {
-      expect(component.exists()).toBe(true);
+      expect(screen.getByRole('table')).toBeInTheDocument();
     });
-    it('renders a table row for each page', () => {
-      expect(component.find('.PageTree__row')).toHaveLength(PAGES.length);
+    it('renders pages', () => {
+      const resultSet = within(screen.queryAllByRole('rowgroup')[1]);
+      const rows = resultSet.getAllByRole('row');
+      expect(rows).toHaveLength(PAGES.length);
     });
   });
 
   describe('drag and drop', () => {
-    let component;
     const handleDropPage = jest.fn();
-    beforeEach(() => {
-      component = shallow((
-        <PageTree
-          pages={PAGES}
-          onDropPage={handleDropPage}
-          {...props}
-        />));
-    });
-    it('calls onDropPage with action of "drop into" if a row is dropped with drop type "medium"', () => {
-      component.instance().handleDrop(DDTable.DROP_MEDIUM, PAGES[1], PAGES[0]);
+
+    it('calls onDropPage with action of "dropping"', () => {
+      renderComponent({ onDropPage: handleDropPage });
+      const firstItem = screen.getByText(PAGES[0].title).closest('tr');
+      const secondItem = screen.getByText(PAGES[1].title).closest('tr');
+      const firstItemHandle = firstItem.querySelector('button');
+      fireEvent.dragStart(firstItemHandle);
+      fireEvent.dragOver(secondItem);
+      fireEvent.drop(secondItem);
       expect(handleDropPage).toHaveBeenCalledWith(
-        PAGES[1].code, PAGES[0].code,
-        MovePageModalContainer.INTO_PARENT,
+        PAGES[0].code, PAGES[1].code,
+        PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
       );
-    });
-    it('calls onDropPage with action of "drop above" if a row is dropped with drop type "high"', () => {
-      component.instance().handleDrop(DDTable.DROP_HIGH, PAGES[1], PAGES[0]);
-      expect(handleDropPage).toHaveBeenCalledWith(
-        PAGES[1].code, PAGES[0].code,
-        MovePageModalContainer.ABOVE_SIBLING,
-      );
-    });
-    it('calls onDropPage with action of "drop below" if a row is dropped with drop type "low"', () => {
-      component.instance().handleDrop(DDTable.DROP_LOW, PAGES[1], PAGES[0]);
-      expect(handleDropPage).toHaveBeenCalledWith(
-        PAGES[1].code, PAGES[0].code,
-        MovePageModalContainer.BELOW_SIBLING,
-      );
-    });
-    it('calls nothing if a row is dropped with another drop type', () => {
-      component.instance().handleDrop(null, PAGES[1], PAGES[0]);
-      expect(handleDropPage).not.toHaveBeenCalled();
     });
   });
 
   describe('when expanding a page', () => {
-    let component;
     const handleExpandPage = jest.fn();
-    beforeEach(() => {
-      component = shallow((
-        <PageTree
-          pages={PAGES}
-          onExpandPage={handleExpandPage}
-          {...props}
-        />));
-    });
     it('does not call onExpandPage if the page is empty', () => {
-      const emptyPageIndex = 1;
-      component.find('.PageTree__icons-label').at(emptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
-      expect(PAGES[emptyPageIndex].isEmpty).toBe(true);
+      renderComponent({ onExpandPage: handleExpandPage });
+      const expbutton = screen.getByText(PAGES[1].title).closest('[role=button]');
+      fireEvent.click(expbutton);
+      expect(PAGES[1].isEmpty).toBe(true);
       expect(handleExpandPage).not.toHaveBeenCalled();
     });
     it('calls onExpandPage if the page is not empty', () => {
-      const notEmptyPageIndex = 0;
-      component.find('.PageTree__icons-label').at(notEmptyPageIndex)
-        .simulate('click', { preventDefault: () => {} });
-      expect(PAGES[notEmptyPageIndex].isEmpty).toBe(false);
+      renderComponent({ onExpandPage: handleExpandPage });
+      const expbutton = screen.getByText(PAGES[0].title).closest('[role=button]');
+      fireEvent.click(expbutton);
+      expect(PAGES[0].isEmpty).toBe(false);
       expect(handleExpandPage).toHaveBeenCalled();
     });
   });
 
   describe('on menu action', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow(<PageTree pages={PAGES} {...props} />);
-    });
+    beforeEach(renderComponent);
 
     describe('add', () => {
       it('redirects to the "add page" route', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickAdd')();
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Add');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickAdd).toHaveBeenCalled();
       });
     });
 
     describe('edit', () => {
       it('redirects to the "edit page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickEdit')();
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Edit');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickEdit).toHaveBeenCalled();
       });
     });
 
-    describe('config', () => {
-      it('redirects to the "config page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickConfigure')();
+    describe('design', () => {
+      it('redirects to the "design page" route with pageCode = the page code', () => {
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Design');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickConfigure).toHaveBeenCalled();
       });
     });
 
     describe('detail', () => {
       it('redirects to the "config page" route with pageCode = the page code', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDetails')();
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Details');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickDetails).toHaveBeenCalled();
       });
     });
 
     describe('clone', () => {
       it('redirects to the clone Page', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickClone')();
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Clone');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickClone).toHaveBeenCalled();
       });
     });
 
     describe('delete', () => {
       it('open delete Page modal', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickDelete')();
+        const rowChosen = within(screen.getByText(PAGES[1].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Delete');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickDelete).toHaveBeenCalled();
       });
     });
 
     describe('publish', () => {
       it('call publish action', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickPublish')();
+        const rowChosen = within(screen.getByText(PAGES[1].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Publish');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickPublish).toHaveBeenCalled();
       });
     });
 
     describe('unpublish', () => {
       it('call unpublish action', () => {
-        const pageIndex = 1;
-        component.find('PageTreeActionMenu').at(pageIndex).prop('onClickUnpublish')();
+        const rowChosen = within(screen.getByText(PAGES[0].title).closest('tr'));
+        const rowActionMenu = within(rowChosen.getByRole('menu')).getByText('Unpublish');
+        fireEvent.click(rowActionMenu);
         expect(props.onClickUnPublish).toHaveBeenCalled();
       });
     });

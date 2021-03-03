@@ -1,4 +1,4 @@
-import { DropTarget } from 'react-dnd';
+import { DropTarget } from '@entando/ddtable';
 
 import { DND_TYPE_PAGE_CONFIG } from 'ui/pages/config/const';
 
