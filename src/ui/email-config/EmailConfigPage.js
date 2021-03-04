@@ -16,45 +16,68 @@ const EmailConfigPage = () => {
   const { pathname } = useLocation();
   const history = useHistory();
 
+  const breadcrumb = (
+    <Breadcrumb data-testid="breadcrumb">
+      <BreadcrumbItem>
+        <FormattedMessage id="menu.settings" />
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <FormattedMessage id="menu.emailConfig" />
+      </BreadcrumbItem>
+      <Switch>
+        <Route exact path={ROUTE_EMAIL_CONFIG}>
+          <BreadcrumbItem>
+            <FormattedMessage id="emailConfig.smtpServer" />
+          </BreadcrumbItem>
+        </Route>
+        <Route path={ROUTE_EMAIL_CONFIG_SENDERS}>
+          <BreadcrumbItem>
+            <FormattedMessage id="emailConfig.senderMgmt" />
+          </BreadcrumbItem>
+          <Switch>
+            <Route exact path={ROUTE_EMAIL_CONFIG_SENDERS_ADD}>
+              <BreadcrumbItem>
+                <FormattedMessage id="emailConfig.senderMgmt.new" />
+              </BreadcrumbItem>
+            </Route>
+            <Route
+              exact
+              path={ROUTE_EMAIL_CONFIG_SENDERS_EDIT}
+              render={({ match: { params } }) => (
+                <BreadcrumbItem>
+                  <FormattedMessage id="emailConfig.senderMgmt.editWithCode" values={{ code: params.code }} />
+                </BreadcrumbItem>
+              )}
+            />
+          </Switch>
+        </Route>
+      </Switch>
+    </Breadcrumb>
+  );
+
+  const tabs = (
+    <ul role="tablist" className="nav nav-tabs nav-justified nav-tabs-pattern">
+      <MenuItem
+        className="EmailConfigPage__tab"
+        active={pathname === ROUTE_EMAIL_CONFIG_SENDERS}
+        onClick={() => history.push(ROUTE_EMAIL_CONFIG_SENDERS)}
+      >
+        <FormattedMessage id="emailConfig.senderMgmt" />
+      </MenuItem>
+      <MenuItem
+        className="EmailConfigPage__tab"
+        active={pathname === ROUTE_EMAIL_CONFIG}
+        onClick={() => history.push(ROUTE_EMAIL_CONFIG)}
+      >
+        <FormattedMessage id="emailConfig.smtpServer" />
+      </MenuItem>
+    </ul>
+  );
+
   return (
     <InternalPage className="EmailConfigPage">
       <Grid fluid>
-        <Breadcrumb data-testid="breadcrumb">
-          <BreadcrumbItem>
-            <FormattedMessage id="menu.settings" />
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <FormattedMessage id="menu.emailConfig" />
-          </BreadcrumbItem>
-          <Switch>
-            <Route exact path={ROUTE_EMAIL_CONFIG}>
-              <BreadcrumbItem>
-                <FormattedMessage id="emailConfig.smtpServer" />
-              </BreadcrumbItem>
-            </Route>
-            <Route path={ROUTE_EMAIL_CONFIG_SENDERS}>
-              <BreadcrumbItem>
-                <FormattedMessage id="emailConfig.senderMgmt" />
-              </BreadcrumbItem>
-              <Switch>
-                <Route exact path={ROUTE_EMAIL_CONFIG_SENDERS_ADD}>
-                  <BreadcrumbItem>
-                    <FormattedMessage id="emailConfig.senderMgmt.new" />
-                  </BreadcrumbItem>
-                </Route>
-                <Route
-                  exact
-                  path={ROUTE_EMAIL_CONFIG_SENDERS_EDIT}
-                  render={({ match: { params } }) => (
-                    <BreadcrumbItem>
-                      <FormattedMessage id="emailConfig.senderMgmt.editWithCode" values={{ code: params.code }} />
-                    </BreadcrumbItem>
-                  )}
-                />
-              </Switch>
-            </Route>
-          </Switch>
-        </Breadcrumb>
+        {breadcrumb}
         <Switch>
           <Route
             exact
@@ -72,22 +95,7 @@ const EmailConfigPage = () => {
                 <PageTitle titleId="menu.emailConfig" helpId="emailConfig.help" />
               </Col>
               <Col sm={12} md={6}>
-                <ul role="tablist" className="nav nav-tabs nav-justified nav-tabs-pattern">
-                  <MenuItem
-                    className="EmailConfigPage__tab"
-                    active={pathname === ROUTE_EMAIL_CONFIG_SENDERS}
-                    onClick={() => history.push(ROUTE_EMAIL_CONFIG_SENDERS)}
-                  >
-                    <FormattedMessage id="emailConfig.senderMgmt" />
-                  </MenuItem>
-                  <MenuItem
-                    className="EmailConfigPage__tab"
-                    active={pathname === ROUTE_EMAIL_CONFIG}
-                    onClick={() => history.push(ROUTE_EMAIL_CONFIG)}
-                  >
-                    <FormattedMessage id="emailConfig.smtpServer" />
-                  </MenuItem>
-                </ul>
+                {tabs}
               </Col>
             </Row>
             <Switch>
