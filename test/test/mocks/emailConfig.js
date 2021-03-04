@@ -3,7 +3,7 @@ export const MOCK_SMTP_SERVER_SETTINGS = {
   debugMode: false,
   host: 'localhost',
   port: '25000',
-  security: 'none',
+  protocol: 'STD',
   checkServerIdentity: true,
   timeout: 41331973,
   username: 'testuser',
@@ -20,3 +20,8 @@ export const MOCK_EMAIL_SENDER_LIST = [
     email: 'testemail2@test.com',
   },
 ];
+
+export const MOCK_EMAIL_SENDER = {
+  code: 'testcode',
+  email: 'testemail@test.com',
+};

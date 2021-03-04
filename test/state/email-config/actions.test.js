@@ -10,6 +10,7 @@ import {
   sendTestEmail,
   fetchEmailSenders,
   setEmailSenders,
+  deleteEmailSender,
 } from 'state/email-config/actions';
 import {
   getSMTPServerSettings,
@@ -17,8 +18,9 @@ import {
   postTestEmailConfig,
   postSendTestEmail,
   getEmailSenders,
+  deleteEmailSender as deleteEmailSenderRequest,
 } from 'api/emailConfig';
-import { SET_EMAIL_SENDERS } from 'state/email-config/types';
+import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
 import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
 import { mockApi } from 'test/testUtils';
 
@@ -28,6 +30,7 @@ jest.mock('api/emailConfig', () => ({
   postTestEmailConfig: jest.fn(),
   postSendTestEmail: jest.fn(),
   getEmailSenders: jest.fn(),
+  deleteEmailSender: jest.fn(),
 }));
 
 const middlewares = [thunk];
@@ -113,6 +116,7 @@ describe('state/email-config/actions', () => {
 
       const expectedActions = [
         initialize('emailConfig', MOCK_SMTP_SERVER_SETTINGS),
+        { type: ADD_TOAST, payload: { message: { id: 'emailConfig.saveSuccessful' }, type: TOAST_SUCCESS } },
       ];
 
       dispatch(saveEmailConfig(MOCK_SMTP_SERVER_SETTINGS)).then(() => {
@@ -212,6 +216,36 @@ describe('state/email-config/actions', () => {
       const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
 
       dispatch(fetchEmailSenders()).then(() => {
+        const actions = getActions();
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('deleteEmailSender', () => {
+    it('should remove email sender on success', (done) => {
+      setupMockResponseFromParams(deleteEmailSenderRequest);
+
+      const testCode = 'testcode';
+      const expectedActions = [
+        { type: REMOVE_EMAIL_SENDER, payload: testCode },
+        { type: ADD_TOAST, payload: { message: { id: 'app.deleted', values: { type: 'sender', code: testCode } }, type: TOAST_SUCCESS } },
+      ];
+
+      dispatch(deleteEmailSender(testCode)).then(() => {
+        const actions = getActions();
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should dispatch the correct actions on error', (done) => {
+      setupMockError(deleteEmailSenderRequest);
+
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
+
+      dispatch(deleteEmailSender()).then(() => {
         const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();

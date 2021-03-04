@@ -6,6 +6,7 @@ import {
   postTestEmailConfig,
   postSendTestEmail,
   getEmailSenders,
+  deleteEmailSender,
 } from 'api/emailConfig';
 import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
 
@@ -92,6 +93,22 @@ describe('api/emailConfig', () => {
         uri: '/api/plugins/emailSettings/senders',
         method: METHODS.GET,
         mockResponse: MOCK_EMAIL_SENDER_LIST,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('deleteEmailSender', () => {
+    it('should return a promise', () => {
+      expect(deleteEmailSender()).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      deleteEmailSender('testcode');
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/plugins/emailSettings/senders/testcode',
+        method: METHODS.DELETE,
+        mockResponse: {},
         useAuthentication: true,
       });
     });

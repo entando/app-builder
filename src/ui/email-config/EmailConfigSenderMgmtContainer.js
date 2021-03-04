@@ -18,7 +18,7 @@ const EmailConfigSenderMgmtContainer = () => {
   const handleDeleteClick = useCallback(
     (sender) => {
       dispatch(setVisibleModal(DELETE_SENDER_MODAL_ID));
-      dispatch(setInfo({ type: 'sender', sender }));
+      dispatch(setInfo({ type: 'sender', code: sender.code }));
     },
     [dispatch],
   );

@@ -45,7 +45,7 @@ describe('EmailConfigSmtpServerContainer', () => {
         debugMode: false,
         host: 'localhost',
         port: '25000',
-        security: 'none',
+        protocol: 'STD',
         checkServerIdentity: true,
         timeout: 41331973,
         username: 'testuser',

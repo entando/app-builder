@@ -17,6 +17,9 @@ jest.mock('state/email-config/actions', () => ({
   fetchEmailSenders: jest.fn(() => ({ type: 'fetchEmailSenders_test' })),
 }));
 
+const mockDeleteSenderModalText = 'Delete Sender Modal';
+jest.mock('ui/email-config/DeleteSenderModalContainer', () => () => (<div>{mockDeleteSenderModalText}</div>));
+
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
 const mockDispatch = jest.fn();
 useDispatchSpy.mockReturnValue(mockDispatch);
@@ -74,6 +77,10 @@ describe('EmailConfigSenderMgmtContainer', () => {
     expect(addBtn).toHaveAttribute('href', ROUTE_EMAIL_CONFIG_SENDERS_ADD);
   });
 
+  it('should render the delete modal', () => {
+    expect(screen.getByText(mockDeleteSenderModalText)).toBeInTheDocument();
+  });
+
   describe('table row actions', () => {
     it('should render the correct dropdown menu items and corresponding actions', () => {
       const tableView = within(screen.getByRole('table'));
@@ -89,7 +96,7 @@ describe('EmailConfigSenderMgmtContainer', () => {
         type: SET_VISIBLE_MODAL, payload: { visibleModal: DELETE_SENDER_MODAL_ID },
       });
       expect(mockDispatch).toHaveBeenNthCalledWith(2, {
-        type: SET_INFO, payload: { info: { type: 'sender', sender: senders[0] } },
+        type: SET_INFO, payload: { info: { type: 'sender', code: senders[0].code } },
       });
 
       expect(dropdownMenu2View.getByRole('link', { name: 'Edit' })).toHaveAttribute('href', `/email-config/senders/edit/${senders[1].code}`);
@@ -100,7 +107,7 @@ describe('EmailConfigSenderMgmtContainer', () => {
         type: SET_VISIBLE_MODAL, payload: { visibleModal: DELETE_SENDER_MODAL_ID },
       });
       expect(mockDispatch).toHaveBeenNthCalledWith(2, {
-        type: SET_INFO, payload: { info: { type: 'sender', sender: senders[1] } },
+        type: SET_INFO, payload: { info: { type: 'sender', code: senders[1].code } },
       });
     });
   });

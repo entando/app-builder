@@ -8,9 +8,31 @@ import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
 
 import { ROUTE_EMAIL_CONFIG_SENDERS_ADD, ROUTE_EMAIL_CONFIG_SENDERS_EDIT } from 'app-init/router';
+import DeleteSenderModalContainer from 'ui/email-config/DeleteSenderModalContainer';
 
-const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => (
-  <div>
+const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => {
+  const renderSenderRow = sender => (
+    <tr key={sender.code}>
+      <td>{sender.code}</td>
+      <td>{sender.email}</td>
+      <td>
+        <DropdownKebab id={`sender-actions-${sender.code}`} pullRight>
+          <LinkMenuItem
+            id={`sender-edit-link-${sender.code}`}
+            to={routeConverter(ROUTE_EMAIL_CONFIG_SENDERS_EDIT, { code: sender.code })}
+            label={<FormattedMessage id="app.edit" />}
+          />
+          <MenuItem
+            onClick={() => onDeleteClick(sender)}
+          >
+            <FormattedMessage id="app.delete" />
+          </MenuItem>
+        </DropdownKebab>
+      </td>
+    </tr>
+  );
+
+  return (
     <div>
       <Button
         bsStyle="primary"
@@ -20,40 +42,22 @@ const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => (
       >
         <FormattedMessage id="app.add" />
       </Button>
-    </div>
-    <Table striped bordered condensed hover>
-      <thead>
-        <tr>
-          <th><FormattedMessage id="app.code" /></th>
-          <th><FormattedMessage id="emailConfig.senderMgmt.email" /></th>
-          <th><FormattedMessage id="app.actions" /></th>
-        </tr>
-      </thead>
-      <tbody>
-        {senders.map(sender => (
-          <tr key={sender.code}>
-            <td>{sender.code}</td>
-            <td>{sender.email}</td>
-            <td>
-              <DropdownKebab id={`sender-actions-${sender.code}`} pullRight>
-                <LinkMenuItem
-                  id={`sender-edit-link-${sender.code}`}
-                  to={routeConverter(ROUTE_EMAIL_CONFIG_SENDERS_EDIT, { code: sender.code })}
-                  label={<FormattedMessage id="app.edit" />}
-                />
-                <MenuItem
-                  onClick={() => onDeleteClick(sender)}
-                >
-                  <FormattedMessage id="app.delete" />
-                </MenuItem>
-              </DropdownKebab>
-            </td>
+      <Table striped bordered condensed hover>
+        <thead>
+          <tr>
+            <th><FormattedMessage id="app.code" /></th>
+            <th><FormattedMessage id="emailConfig.senderMgmt.email" /></th>
+            <th><FormattedMessage id="app.actions" /></th>
           </tr>
-          ))}
-      </tbody>
-    </Table>
-  </div>
-);
+        </thead>
+        <tbody>
+          {senders.map(renderSenderRow)}
+        </tbody>
+      </Table>
+      <DeleteSenderModalContainer />
+    </div>
+  );
+};
 
 EmailConfigSenderMgmt.propTypes = {
   senders: PropTypes.arrayOf(PropTypes.shape({
