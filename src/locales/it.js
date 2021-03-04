@@ -954,6 +954,7 @@ export default {
     'emailConfig.senderMgmt.new': 'Nuovo mittente',
     'emailConfig.senderMgmt.edit': 'Modifica mittente',
     'emailConfig.senderMgmt.editWithCode': 'Modifica mittente: {code}',
+    'emailConfig.valid': 'La configurazione dell\'email è valida.',
     'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciale underscore ',
     'validateForm.friendlyCode': 'Il Friendly Code deve contenere lettere minuscole, inclusi numeri o caratteri speciali \'_\'.',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',

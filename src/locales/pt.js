@@ -915,6 +915,7 @@ export default {
     'emailConfig.senderMgmt.new': 'Novo Remetente',
     'emailConfig.senderMgmt.edit': 'Editar Remetente',
     'emailConfig.senderMgmt.editWithCode': 'Editar Remetente: {code}',
+    'emailConfig.valid': 'A configuração do email é válida.',
     'app.pages.friendlyCodeHelp': 'Slug de URL para a página. Você pode inserir no máximo 100 caracteres (minúsculo, numeros e \'_\') ',
     'validateForm.friendlyCode': 'O código amigável deve ter letras minúsculas, incluindo números ou o caractere especial \'_\'.',
     'pageTree.searchForm.searchPageBy': 'Página de pesquisa por',

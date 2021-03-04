@@ -12,6 +12,9 @@ jest.unmock('redux-form');
 
 jest.mock('state/email-config/actions', () => ({
   fetchSMTPServerSettings: jest.fn(() => ({ type: 'fetchSMTPServerSettings_test' })),
+  saveEmailConfig: jest.fn(payload => ({ type: 'saveEmailConfig_test', payload })),
+  testEmailConfig: jest.fn(payload => ({ type: 'testEmailConfig_test', payload })),
+  sendTestEmail: jest.fn(() => ({ type: 'sendTestEmail_test' })),
 }));
 
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');

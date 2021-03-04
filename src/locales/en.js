@@ -956,6 +956,7 @@ export default {
     'emailConfig.senderMgmt.new': 'New Sender',
     'emailConfig.senderMgmt.edit': 'Edit Sender',
     'emailConfig.senderMgmt.editWithCode': 'Edit Sender: {code}',
+    'emailConfig.valid': 'Email configuration is valid.',
     'pageTree.searchForm.searchPageBy': 'Search page by',
     'pageTree.searchForm.name': 'Page Name',
     'pageTree.searchForm.search.name': 'Search by Name',
