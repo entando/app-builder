@@ -12,7 +12,7 @@ const AddEmailSenderFormContainer = () => {
   );
 
   return (
-    <EmailSenderForm onSubmit={handleSubmit} />
+    <EmailSenderForm titleId="emailConfig.senderMgmt.new" onSubmit={handleSubmit} />
   );
 };
 

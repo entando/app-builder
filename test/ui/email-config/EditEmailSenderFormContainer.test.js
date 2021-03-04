@@ -1,11 +1,9 @@
 import React from 'react';
-import { fireEvent, screen, within } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import '@testing-library/jest-dom/extend-expect';
 import * as reactRedux from 'react-redux';
-import { combineReducers, createStore } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
-import { renderWithIntlRouterState } from 'test/testUtils';
+import { renderWithIntlRouterState, setupForm } from 'test/testUtils';
 import userEvent from '@testing-library/user-event';
 import EditEmailSenderFormContainer from 'ui/email-config/EditEmailSenderFormContainer';
 import { ROUTE_EMAIL_CONFIG_SENDERS_EDIT } from 'app-init/router';
@@ -36,38 +34,26 @@ describe('EditEmailSenderFormContainer', () => {
 
   it('should render the correct heading', () => {
     renderWithIntlRouterState(<EditEmailSenderFormContainer />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('New Sender');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Edit Sender');
   });
 
   describe('form', () => {
-    const setupForm = () => {
+    const setupEmailSenderForm = () => {
       const formValues = {
-        code: testCode,
+        code: 'testcode',
         email: 'testemail@test.com',
       };
-      const state = {
-        form: {
-          emailSender: {
-            values: formValues,
-          },
-        },
-      };
-      const store = createStore(combineReducers({
-        form: formReducer,
-      }), state);
-      const utils = renderWithIntlRouterState(<EditEmailSenderFormContainer />, { store });
-      const formView = within(screen.getByRole('form'));
-      return { formView, formValues, ...utils };
+      return setupForm('emailSender', formValues, renderWithIntlRouterState, <EditEmailSenderFormContainer />);
     };
 
     it('should render code and email fields', () => {
-      const { formView, formValues } = setupForm();
+      const { formView, formValues } = setupEmailSenderForm();
       expect(formView.getByRole('textbox', { name: 'Code' })).toHaveDisplayValue(formValues.code);
       expect(formView.getByRole('textbox', { name: 'Email' })).toHaveDisplayValue(formValues.email);
     });
 
     it('should render "Save" button that calls the correct action when clicked', () => {
-      const { formView, formValues } = setupForm();
+      const { formView, formValues } = setupEmailSenderForm();
       const saveBtn = formView.getByRole('button', { name: 'Save' });
       expect(saveBtn).toHaveAttribute('type', 'submit');
       mockDispatch.mockClear();
@@ -77,7 +63,7 @@ describe('EditEmailSenderFormContainer', () => {
     });
 
     it('should render a disabled "Save" button when code field is empty', () => {
-      const { formView } = setupForm();
+      const { formView } = setupEmailSenderForm();
       const codeField = formView.getByRole('textbox', { name: 'Code' });
       fireEvent.change(codeField, { target: { value: '' } });
       const saveBtn = formView.getByRole('button', { name: 'Save' });
@@ -85,7 +71,7 @@ describe('EditEmailSenderFormContainer', () => {
     });
 
     it('should render a disabled "Save" button when email field is empty', () => {
-      const { formView } = setupForm();
+      const { formView } = setupEmailSenderForm();
       const emailField = formView.getByRole('textbox', { name: 'Email' });
       fireEvent.change(emailField, { target: { value: '' } });
       const saveBtn = formView.getByRole('button', { name: 'Save' });

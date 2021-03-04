@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import * as reactRedux from 'react-redux';
 
-import { renderWithIntlAndState } from 'test/testUtils';
+import { renderWithIntlAndState, setupForm } from 'test/testUtils';
 import EmailConfigSmtpServerContainer from 'ui/email-config/EmailConfigSmtpServerContainer';
 
 jest.unmock('react-redux');
@@ -36,41 +36,32 @@ describe('EmailConfigSmtpServerContainer', () => {
   });
 
   describe('form', () => {
-    const formValues = {
-      active: true,
-      debugMode: false,
-      host: 'localhost',
-      port: '25000',
-      security: 'none',
-      checkServerIdentity: true,
-      timeout: 41331973,
-      username: 'testuser',
-      password: 'testpassword',
-    };
-    const state = {
-      form: {
-        emailConfig: {
-          values: formValues,
-        },
-      },
+    const setupEmailConfigForm = () => {
+      const formValues = {
+        active: true,
+        debugMode: false,
+        host: 'localhost',
+        port: '25000',
+        security: 'none',
+        checkServerIdentity: true,
+        timeout: 41331973,
+        username: 'testuser',
+        password: 'testpassword',
+      };
+      return setupForm('emailConfig', formValues, renderWithIntlAndState, <EmailConfigSmtpServerContainer />);
     };
 
-    beforeEach(() => {
-      renderWithIntlAndState(<EmailConfigSmtpServerContainer />, { state });
-    });
-
-    const getFormView = () => within(screen.getByRole('form'));
     const getHeadings = view => view.getAllByRole('heading');
 
     it('should render General Settings section', () => {
-      const formView = getFormView();
+      const { formView } = setupEmailConfigForm();
       expect(getHeadings(formView)[0]).toHaveTextContent('General Settings');
       expect(formView.getByLabelText('Active')).toHaveTextContent('ON');
       expect(formView.getByLabelText('Debug Mode')).toHaveTextContent('OFF');
     });
 
     it('should render Connection section', () => {
-      const formView = getFormView();
+      const { formView, formValues } = setupEmailConfigForm();
       const securityRadioGroupView = within(formView.getByLabelText('Security'));
       expect(getHeadings(formView)[1]).toHaveTextContent('Connection');
       expect(formView.getByRole('textbox', { name: 'Host' })).toHaveDisplayValue(formValues.host);
@@ -81,7 +72,7 @@ describe('EmailConfigSmtpServerContainer', () => {
     });
 
     it('should render Authentication section', () => {
-      const formView = getFormView();
+      const { formView, formValues } = setupEmailConfigForm();
       expect(getHeadings(formView)[2]).toHaveTextContent('Authentication');
       expect(formView.getByRole('textbox', { name: 'Username' })).toHaveDisplayValue(formValues.username);
       expect(formView.getByLabelText('Password')).toHaveDisplayValue(formValues.password);
@@ -89,7 +80,7 @@ describe('EmailConfigSmtpServerContainer', () => {
     });
 
     it('should render "Test configuration" button that calls the correct action when clicked', () => {
-      const formView = getFormView();
+      const { formView, formValues } = setupEmailConfigForm();
       const testConfigBtn = formView.getByRole('button', { name: 'Test configuration' });
       mockDispatch.mockClear();
       userEvent.click(testConfigBtn);
@@ -98,7 +89,7 @@ describe('EmailConfigSmtpServerContainer', () => {
     });
 
     it('should render "Send test email" button that calls the correct action when clicked', () => {
-      const formView = getFormView();
+      const { formView } = setupEmailConfigForm();
       const sendTestEmailBtn = formView.getByRole('button', { name: 'Send test email' });
       mockDispatch.mockClear();
       userEvent.click(sendTestEmailBtn);
@@ -107,7 +98,7 @@ describe('EmailConfigSmtpServerContainer', () => {
     });
 
     it('should render "Save" button that calls the correct action when clicked', () => {
-      const formView = getFormView();
+      const { formView, formValues } = setupEmailConfigForm();
       const saveBtn = formView.getByRole('button', { name: 'Save' });
       expect(saveBtn).toHaveAttribute('type', 'submit');
       mockDispatch.mockClear();

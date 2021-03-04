@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, FormattedMessage, intlShape } from 'react-intl';
+import { injectIntl, FormattedMessage, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Button } from 'patternfly-react';
 import { required } from '@entando/utils';
@@ -9,19 +9,12 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
-const msgs = defineMessages({
-  formLabel: {
-    id: 'emailConfig.senderMgmt.new',
-    defaultMessage: 'New Sender',
-  },
-});
-
-const AddEmailSenderFormBody = ({
-  intl, handleSubmit, invalid, submitting,
+const EmailSenderFormBody = ({
+  intl, titleId, handleSubmit, invalid, submitting,
 }) => (
   <div>
-    <PageTitle titleId="emailConfig.senderMgmt.new" helpId="emailConfig.help" />
-    <Form aria-label={intl.formatMessage(msgs.formLabel)} onSubmit={handleSubmit} horizontal>
+    <PageTitle titleId={titleId} helpId="emailConfig.help" />
+    <Form aria-label={intl.formatMessage({ id: titleId })} onSubmit={handleSubmit} horizontal>
       <Field
         component={RenderTextInput}
         name="code"
@@ -46,16 +39,17 @@ const AddEmailSenderFormBody = ({
   </div>
 );
 
-AddEmailSenderFormBody.propTypes = {
+EmailSenderFormBody.propTypes = {
   intl: intlShape.isRequired,
+  titleId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
 };
 
-const AddEmailSenderForm = injectIntl(reduxForm({
+const EmailSenderForm = injectIntl(reduxForm({
   form: 'emailSender',
   enableReinitialize: true,
-})(AddEmailSenderFormBody));
+})(EmailSenderFormBody));
 
-export default AddEmailSenderForm;
+export default EmailSenderForm;

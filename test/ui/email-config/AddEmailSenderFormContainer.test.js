@@ -1,11 +1,9 @@
 import React from 'react';
-import { fireEvent, screen, within } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import '@testing-library/jest-dom/extend-expect';
 import * as reactRedux from 'react-redux';
-import { combineReducers, createStore } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
-import { renderWithIntlAndState } from 'test/testUtils';
+import { renderWithIntlAndState, setupForm } from 'test/testUtils';
 import userEvent from '@testing-library/user-event';
 import AddEmailSenderFormContainer from 'ui/email-config/AddEmailSenderFormContainer';
 
@@ -23,34 +21,22 @@ describe('AddEmailSenderFormContainer', () => {
   });
 
   describe('form', () => {
-    const setupForm = () => {
+    const setupEmailSenderForm = () => {
       const formValues = {
         code: 'testcode',
         email: 'testemail@test.com',
       };
-      const state = {
-        form: {
-          emailSender: {
-            values: formValues,
-          },
-        },
-      };
-      const store = createStore(combineReducers({
-        form: formReducer,
-      }), state);
-      const utils = renderWithIntlAndState(<AddEmailSenderFormContainer />, { store });
-      const formView = within(screen.getByRole('form'));
-      return { formView, formValues, ...utils };
+      return setupForm('emailSender', formValues, renderWithIntlAndState, <AddEmailSenderFormContainer />);
     };
 
     it('should render code and email fields', () => {
-      const { formView, formValues } = setupForm();
+      const { formView, formValues } = setupEmailSenderForm();
       expect(formView.getByRole('textbox', { name: 'Code' })).toHaveDisplayValue(formValues.code);
       expect(formView.getByRole('textbox', { name: 'Email' })).toHaveDisplayValue(formValues.email);
     });
 
     it('should render "Save" button that calls the correct action when clicked', () => {
-      const { formView, formValues } = setupForm();
+      const { formView, formValues } = setupEmailSenderForm();
       const saveBtn = formView.getByRole('button', { name: 'Save' });
       expect(saveBtn).toHaveAttribute('type', 'submit');
       mockDispatch.mockClear();
@@ -60,7 +46,7 @@ describe('AddEmailSenderFormContainer', () => {
     });
 
     it('should render a disabled "Save" button when code field is empty', () => {
-      const { formView } = setupForm();
+      const { formView } = setupEmailSenderForm();
       const codeField = formView.getByRole('textbox', { name: 'Code' });
       fireEvent.change(codeField, { target: { value: '' } });
       const saveBtn = formView.getByRole('button', { name: 'Save' });
@@ -68,7 +54,7 @@ describe('AddEmailSenderFormContainer', () => {
     });
 
     it('should render a disabled "Save" button when email field is empty', () => {
-      const { formView } = setupForm();
+      const { formView } = setupEmailSenderForm();
       const emailField = formView.getByRole('textbox', { name: 'Email' });
       fireEvent.change(emailField, { target: { value: '' } });
       const saveBtn = formView.getByRole('button', { name: 'Save' });

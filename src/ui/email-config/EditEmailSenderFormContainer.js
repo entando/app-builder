@@ -18,7 +18,7 @@ const EditEmailSenderFormContainer = () => {
   );
 
   return (
-    <EmailSenderForm onSubmit={handleSubmit} />
+    <EmailSenderForm titleId="emailConfig.senderMgmt.edit" onSubmit={handleSubmit} />
   );
 };
 

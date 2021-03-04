@@ -10,7 +10,9 @@ import { createMemoryHistory } from 'history';
 import { Router, MemoryRouter, Route } from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import enTranslations from 'locales/en';
-import { render } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import { combineReducers, createStore } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
@@ -203,3 +205,22 @@ export const renderWithIntlRouterState = (ui, {
   </MemoryRouter>,
   { state, store, ...renderOptions },
 );
+
+/**
+ * This requires the `ui` to have a form with an `aria-label` attribute defined.
+ */
+export const setupForm = (formName, formValues, renderWithStateFunc, ui) => {
+  const state = {
+    form: {
+      [formName]: {
+        values: formValues,
+      },
+    },
+  };
+  const store = createStore(combineReducers({
+    form: formReducer,
+  }), state);
+  const utils = renderWithStateFunc(ui, { store });
+  const formView = within(screen.getByRole('form'));
+  return { formView, formValues, ...utils };
+};

@@ -47,7 +47,7 @@ const EmailConfigPage = () => {
                   path={ROUTE_EMAIL_CONFIG_SENDERS_EDIT}
                   render={({ match: { params } }) => (
                     <BreadcrumbItem>
-                      <FormattedMessage id="emailConfig.senderMgmt.edit" values={{ code: params.code }} />
+                      <FormattedMessage id="emailConfig.senderMgmt.editWithCode" values={{ code: params.code }} />
                     </BreadcrumbItem>
                   )}
                 />
