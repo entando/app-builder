@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const MOCK_SMTP_SERVER_SETTINGS = {
   active: true,
   debugMode: false,
@@ -10,3 +9,14 @@ export const MOCK_SMTP_SERVER_SETTINGS = {
   username: 'testuser',
   password: 'testpassword',
 };
+
+export const MOCK_EMAIL_SENDER_LIST = [
+  {
+    code: 'testcode1',
+    email: 'testemail1@test.com',
+  },
+  {
+    code: 'testcode2',
+    email: 'testemail2@test.com',
+  },
+];

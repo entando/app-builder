@@ -13,6 +13,10 @@ import { MODAL_ID as DELETE_SENDER_MODAL_ID } from 'ui/email-config/DeleteSender
 jest.unmock('react-redux');
 jest.unmock('@entando/menu');
 
+jest.mock('state/email-config/actions', () => ({
+  fetchEmailSenders: jest.fn(() => ({ type: 'fetchEmailSenders_test' })),
+}));
+
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
 const mockDispatch = jest.fn();
 useDispatchSpy.mockReturnValue(mockDispatch);

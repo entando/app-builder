@@ -8,14 +8,18 @@ import {
   saveEmailConfig,
   testEmailConfig,
   sendTestEmail,
+  fetchEmailSenders,
+  setEmailSenders,
 } from 'state/email-config/actions';
 import {
   getSMTPServerSettings,
   putSMTPServerSettings,
   postTestEmailConfig,
   postSendTestEmail,
+  getEmailSenders,
 } from 'api/emailConfig';
-import { MOCK_SMTP_SERVER_SETTINGS } from 'test/mocks/emailConfig';
+import { SET_EMAIL_SENDERS } from 'state/email-config/types';
+import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
 import { mockApi } from 'test/testUtils';
 
 jest.mock('api/emailConfig', () => ({
@@ -23,6 +27,7 @@ jest.mock('api/emailConfig', () => ({
   putSMTPServerSettings: jest.fn(),
   postTestEmailConfig: jest.fn(),
   postSendTestEmail: jest.fn(),
+  getEmailSenders: jest.fn(),
 }));
 
 const middlewares = [thunk];
@@ -57,8 +62,21 @@ const setupMockError = (apiFunc) => {
 describe('state/email-config/actions', () => {
   let store;
 
+  const dispatch = action => store.dispatch(action);
+
+  const getActions = () => store.getActions();
+
   beforeEach(() => {
     store = createMockStore({});
+  });
+
+  describe('setEmailSenders', () => {
+    it('should create the correct action object', () => {
+      expect(setEmailSenders(MOCK_EMAIL_SENDER_LIST)).toEqual({
+        type: SET_EMAIL_SENDERS,
+        payload: MOCK_EMAIL_SENDER_LIST,
+      });
+    });
   });
 
   describe('fetchSMTPServerSettings', () => {
@@ -69,8 +87,8 @@ describe('state/email-config/actions', () => {
         initialize('emailConfig', MOCK_SMTP_SERVER_SETTINGS),
       ];
 
-      store.dispatch(fetchSMTPServerSettings()).then(() => {
-        const actions = store.getActions();
+      dispatch(fetchSMTPServerSettings()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -79,13 +97,10 @@ describe('state/email-config/actions', () => {
     it('should dispatch the correct actions on error', (done) => {
       setupMockError(getSMTPServerSettings);
 
-      const expectedActions = [
-        MOCK_ADD_ERRORS_ACTION,
-        MOCK_ADD_TOAST_ERROR_ACTION,
-      ];
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
 
-      store.dispatch(fetchSMTPServerSettings()).then(() => {
-        const actions = store.getActions();
+      dispatch(fetchSMTPServerSettings()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -100,8 +115,8 @@ describe('state/email-config/actions', () => {
         initialize('emailConfig', MOCK_SMTP_SERVER_SETTINGS),
       ];
 
-      store.dispatch(saveEmailConfig(MOCK_SMTP_SERVER_SETTINGS)).then(() => {
-        const actions = store.getActions();
+      dispatch(saveEmailConfig(MOCK_SMTP_SERVER_SETTINGS)).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -110,13 +125,10 @@ describe('state/email-config/actions', () => {
     it('should dispatch the correct actions on error', (done) => {
       setupMockError(putSMTPServerSettings);
 
-      const expectedActions = [
-        MOCK_ADD_ERRORS_ACTION,
-        MOCK_ADD_TOAST_ERROR_ACTION,
-      ];
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
 
-      store.dispatch(saveEmailConfig()).then(() => {
-        const actions = store.getActions();
+      dispatch(saveEmailConfig()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -131,8 +143,8 @@ describe('state/email-config/actions', () => {
         { type: ADD_TOAST, payload: { message: { id: 'emailConfig.valid' }, type: TOAST_SUCCESS } },
       ];
 
-      store.dispatch(testEmailConfig(MOCK_SMTP_SERVER_SETTINGS)).then(() => {
-        const actions = store.getActions();
+      dispatch(testEmailConfig(MOCK_SMTP_SERVER_SETTINGS)).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -141,13 +153,10 @@ describe('state/email-config/actions', () => {
     it('should dispatch the correct actions on error', (done) => {
       setupMockError(postTestEmailConfig);
 
-      const expectedActions = [
-        MOCK_ADD_ERRORS_ACTION,
-        MOCK_ADD_TOAST_ERROR_ACTION,
-      ];
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
 
-      store.dispatch(testEmailConfig()).then(() => {
-        const actions = store.getActions();
+      dispatch(testEmailConfig()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -162,8 +171,8 @@ describe('state/email-config/actions', () => {
         { type: ADD_TOAST, payload: { message: { id: 'emailConfig.sendTestSuccess' }, type: TOAST_SUCCESS } },
       ];
 
-      store.dispatch(sendTestEmail()).then(() => {
-        const actions = store.getActions();
+      dispatch(sendTestEmail()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);
@@ -172,13 +181,38 @@ describe('state/email-config/actions', () => {
     it('should dispatch the correct actions on error', (done) => {
       setupMockError(postSendTestEmail);
 
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
+
+      dispatch(sendTestEmail()).then(() => {
+        const actions = getActions();
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('fetchEmailSenders', () => {
+    it('should set email sender list on success', (done) => {
+      setupMockResponse(getEmailSenders, MOCK_EMAIL_SENDER_LIST);
+
       const expectedActions = [
-        MOCK_ADD_ERRORS_ACTION,
-        MOCK_ADD_TOAST_ERROR_ACTION,
+        { type: SET_EMAIL_SENDERS, payload: MOCK_EMAIL_SENDER_LIST },
       ];
 
-      store.dispatch(sendTestEmail()).then(() => {
-        const actions = store.getActions();
+      dispatch(fetchEmailSenders()).then(() => {
+        const actions = getActions();
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should dispatch the correct actions on error', (done) => {
+      setupMockError(getEmailSenders);
+
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
+
+      dispatch(fetchEmailSenders()).then(() => {
+        const actions = getActions();
         expect(actions).toEqual(expectedActions);
         done();
       }).catch(done.fail);

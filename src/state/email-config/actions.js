@@ -6,7 +6,14 @@ import {
   putSMTPServerSettings,
   postTestEmailConfig,
   postSendTestEmail,
+  getEmailSenders,
 } from 'api/emailConfig';
+import { SET_EMAIL_SENDERS } from 'state/email-config/types';
+
+export const setEmailSenders = emailSenders => ({
+  type: SET_EMAIL_SENDERS,
+  payload: emailSenders,
+});
 
 export const fetchSMTPServerSettings = () => async (dispatch) => {
   try {
@@ -60,6 +67,21 @@ export const sendTestEmail = () => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'emailConfig.sendTestSuccess' }, TOAST_SUCCESS));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const fetchEmailSenders = () => async (dispatch) => {
+  try {
+    const response = await getEmailSenders();
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setEmailSenders(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

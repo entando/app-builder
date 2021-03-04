@@ -5,8 +5,9 @@ import {
   putSMTPServerSettings,
   postTestEmailConfig,
   postSendTestEmail,
+  getEmailSenders,
 } from 'api/emailConfig';
-import { MOCK_SMTP_SERVER_SETTINGS } from 'test/mocks/emailConfig';
+import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
 
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
@@ -75,6 +76,22 @@ describe('api/emailConfig', () => {
         uri: '/api/plugins/emailSettings/SMTPServer/sendTestEmail',
         method: METHODS.POST,
         mockResponse: {},
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getEmailSenders', () => {
+    it('should return a promise', () => {
+      expect(getEmailSenders()).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      getEmailSenders();
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/plugins/emailSettings/senders',
+        method: METHODS.GET,
+        mockResponse: MOCK_EMAIL_SENDER_LIST,
         useAuthentication: true,
       });
     });
