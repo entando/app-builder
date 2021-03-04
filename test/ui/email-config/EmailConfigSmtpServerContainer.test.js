@@ -10,9 +10,9 @@ import EmailConfigSmtpServerContainer from 'ui/email-config/EmailConfigSmtpServe
 jest.unmock('react-redux');
 jest.unmock('redux-form');
 
-// jest.mock('state/email-config/actions', () => ({
-//   fetchSMTPServerSettings: jest.fn(() => 'fetchSMTPServerSettings_test'),
-// }));
+jest.mock('state/email-config/actions', () => ({
+  fetchSMTPServerSettings: jest.fn(() => ({ type: 'fetchSMTPServerSettings_test' })),
+}));
 
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
 const mockDispatch = jest.fn();

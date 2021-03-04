@@ -2,12 +2,13 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import EmailConfigSmtpServer from 'ui/email-config/EmailConfigSmtpServer';
+import { fetchSMTPServerSettings } from 'state/email-config/actions';
 
 const EmailConfigSmtpServerContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'fetchSMTPServerSettings_test' });
+    dispatch(fetchSMTPServerSettings());
   }, [dispatch]);
 
   const handleSubmit = useCallback(
