@@ -112,3 +112,6 @@ export const ROUTE_CMS_DIGITAL_ASSETS = '/cms/assets';
 // static pages
 export const ROUTE_ABOUT = '/about';
 export const ROUTE_LICENSE = '/license';
+
+// next gen page designer page
+export const ROUTE_NEXT_GEN_PAGE_DESIGNER = '/next';

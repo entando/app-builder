@@ -93,6 +93,7 @@ import {
   ROUTE_ABOUT,
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
+  ROUTE_NEXT_GEN_PAGE_DESIGNER,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -186,6 +187,8 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+import NextGenPageConfig from 'ui/pages/next-config/NextGenPageConfig';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -339,6 +342,7 @@ const getRouteComponent = () => {
       { /* static routes */ }
       <Route path={ROUTE_ABOUT} component={AboutPage} />
       <Route path={ROUTE_LICENSE} component={LicensePage} />
+      <Route path={ROUTE_NEXT_GEN_PAGE_DESIGNER} component={NextGenPageConfig} />
       { /* app routes */ }
       {appsRoutes}
       {/* 404 */}

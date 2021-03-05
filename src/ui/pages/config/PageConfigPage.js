@@ -15,6 +15,7 @@ import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
+import NextGenPageConfig from '../next-config/NextGenPageConfig';
 
 const msgs = defineMessages({
   appYes: {
@@ -271,7 +272,7 @@ class PageConfigPage extends Component {
       intl, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
-      match,
+      match, pageType,
     } = this.props;
     const { editingSettings, toolbarCollapsed } = this.state;
 
@@ -301,6 +302,7 @@ class PageConfigPage extends Component {
 
     return (
       <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-14 app-tour-step-15">
+        { pageType === 'next' ? <NextGenPageConfig /> :
         <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
             <Col
@@ -422,6 +424,7 @@ class PageConfigPage extends Component {
           </Row>
           <AppTourContainer lockBodyScroll={false} />
         </Grid>
+      }
       </InternalPage>
     );
   }
@@ -454,6 +457,7 @@ PageConfigPage.propTypes = {
   onClickSaveSettings: PropTypes.func.isRequired,
   pageSettingsButtonSubmitting: PropTypes.bool,
   pageSettingsButtonInvalid: PropTypes.bool,
+  pageType: PropTypes.string,
 };
 
 PageConfigPage.defaultProps = {
@@ -477,6 +481,7 @@ PageConfigPage.defaultProps = {
   appTourProgress: '',
   pageSettingsButtonSubmitting: false,
   pageSettingsButtonInvalid: false,
+  pageType: '',
 };
 
 export default injectIntl(PageConfigPage);

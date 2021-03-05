@@ -76,6 +76,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     appTourProgress: getAppTourProgress(state),
     pageSettingsButtonSubmitting: isSubmitting(FORM_ID)(state),
     pageSettingsButtonInvalid: isInvalid(FORM_ID)(state),
+    pageType: selectedPage.pageType,
   };
 };
 
