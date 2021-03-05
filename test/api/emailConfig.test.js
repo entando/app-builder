@@ -8,6 +8,8 @@ import {
   getEmailSenders,
   deleteEmailSender,
   postEmailSender,
+  getEmailSender,
+  putEmailSender,
 } from 'api/emailConfig';
 import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST, MOCK_EMAIL_SENDER } from 'test/mocks/emailConfig';
 
@@ -79,6 +81,7 @@ describe('api/emailConfig', () => {
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/plugins/emailSettings/SMTPServer/sendTestEmail',
         method: METHODS.POST,
+        body: {},
         mockResponse: {},
         useAuthentication: true,
       });
@@ -127,6 +130,56 @@ describe('api/emailConfig', () => {
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/plugins/emailSettings/senders',
         method: METHODS.POST,
+        body: MOCK_EMAIL_SENDER,
+        mockResponse: MOCK_EMAIL_SENDER,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('postEmailSender', () => {
+    it('should return a promise', () => {
+      expect(postEmailSender()).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      postEmailSender(MOCK_EMAIL_SENDER);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/plugins/emailSettings/senders',
+        method: METHODS.POST,
+        body: MOCK_EMAIL_SENDER,
+        mockResponse: MOCK_EMAIL_SENDER,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('getEmailSender', () => {
+    it('should return a promise', () => {
+      expect(getEmailSender()).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      getEmailSender(MOCK_EMAIL_SENDER.code);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/plugins/emailSettings/senders/${MOCK_EMAIL_SENDER.code}`,
+        method: METHODS.GET,
+        mockResponse: MOCK_EMAIL_SENDER,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('putEmailSender', () => {
+    it('should return a promise', () => {
+      expect(putEmailSender(MOCK_EMAIL_SENDER)).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      putEmailSender(MOCK_EMAIL_SENDER);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: `/api/plugins/emailSettings/senders/${MOCK_EMAIL_SENDER.code}`,
+        method: METHODS.PUT,
         body: MOCK_EMAIL_SENDER,
         mockResponse: MOCK_EMAIL_SENDER,
         useAuthentication: true,

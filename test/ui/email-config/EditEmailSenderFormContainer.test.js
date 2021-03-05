@@ -6,10 +6,14 @@ import * as reactRedux from 'react-redux';
 import { renderWithIntlRouterState, setupForm } from 'test/testUtils';
 import userEvent from '@testing-library/user-event';
 import EditEmailSenderFormContainer from 'ui/email-config/EditEmailSenderFormContainer';
-import { ROUTE_EMAIL_CONFIG_SENDERS_EDIT } from 'app-init/router';
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');
+
+jest.mock('state/email-config/actions', () => ({
+  fetchEmailSender: jest.fn(payload => ({ type: 'fetchEmailSender_test', payload })),
+  updateEmailSender: jest.fn(payload => ({ type: 'updateEmailSender_test', payload })),
+}));
 
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
 const mockDispatch = jest.fn();
@@ -23,10 +27,10 @@ describe('EditEmailSenderFormContainer', () => {
   const testCode = 'testcode';
 
   it('should fetch the relevant data on initial render', () => {
-    const ROUTE_EMAIL_CONFIG_SENDERS_EDIT_TESTCODE = ROUTE_EMAIL_CONFIG_SENDERS_EDIT.replace(':code', testCode);
+    const ROUTE_EMAIL_CONFIG_SENDERS_EDIT_TESTCODE = `/email-config/senders/edit/${testCode}`;
     renderWithIntlRouterState(<EditEmailSenderFormContainer />, {
       initialRoute: ROUTE_EMAIL_CONFIG_SENDERS_EDIT_TESTCODE,
-      path: ROUTE_EMAIL_CONFIG_SENDERS_EDIT,
+      path: '/email-config/senders/edit/:code',
     });
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchEmailSender_test', payload: testCode });
@@ -46,10 +50,11 @@ describe('EditEmailSenderFormContainer', () => {
       return setupForm('emailSender', formValues, renderWithIntlRouterState, <EditEmailSenderFormContainer />);
     };
 
-    it('should render code and email fields', () => {
+    it('should render code and email fields with code field disabled', () => {
       const { formView, formValues } = setupEmailSenderForm();
       expect(formView.getByRole('textbox', { name: 'Code' })).toHaveDisplayValue(formValues.code);
       expect(formView.getByRole('textbox', { name: 'Email' })).toHaveDisplayValue(formValues.email);
+      expect(formView.getByRole('textbox', { name: 'Code' })).toBeDisabled();
     });
 
     it('should render "Save" button that calls the correct action when clicked', () => {

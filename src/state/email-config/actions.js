@@ -9,6 +9,8 @@ import {
   getEmailSenders,
   deleteEmailSender as deleteEmailSenderRequest,
   postEmailSender,
+  getEmailSender,
+  putEmailSender,
 } from 'api/emailConfig';
 import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
 import { history, ROUTE_EMAIL_CONFIG_SENDERS } from 'app-init/router';
@@ -123,6 +125,37 @@ export const addEmailSender = sender => async (dispatch) => {
     if (response.ok) {
       history.push(ROUTE_EMAIL_CONFIG_SENDERS);
       dispatch(addToast({ id: 'app.created', values: { type: 'sender', code: sender.code } }, TOAST_SUCCESS));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const fetchEmailSender = code => async (dispatch) => {
+  try {
+    const response = await getEmailSender(code);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(initialize('emailSender', json.payload));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const updateEmailSender = sender => async (dispatch) => {
+  try {
+    const response = await putEmailSender(sender);
+    const json = await response.json();
+    if (response.ok) {
+      history.push(ROUTE_EMAIL_CONFIG_SENDERS);
+      dispatch(addToast({ id: 'app.updated', values: { type: 'sender', code: sender.code } }, TOAST_SUCCESS));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

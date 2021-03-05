@@ -30,8 +30,13 @@ const EmailConfigPage = () => {
             <FormattedMessage id="emailConfig.smtpServer" />
           </BreadcrumbItem>
         </Route>
-        <Route path={ROUTE_EMAIL_CONFIG_SENDERS}>
+        <Route exact path={ROUTE_EMAIL_CONFIG_SENDERS}>
           <BreadcrumbItem>
+            <FormattedMessage id="emailConfig.senderMgmt" />
+          </BreadcrumbItem>
+        </Route>
+        <Route path={ROUTE_EMAIL_CONFIG_SENDERS}>
+          <BreadcrumbItem to={ROUTE_EMAIL_CONFIG_SENDERS}>
             <FormattedMessage id="emailConfig.senderMgmt" />
           </BreadcrumbItem>
           <Switch>

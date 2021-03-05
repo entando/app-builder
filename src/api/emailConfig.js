@@ -28,6 +28,7 @@ export const postTestEmailConfig = config => makeRequest({
 export const postSendTestEmail = () => makeRequest({
   uri: '/api/plugins/emailSettings/SMTPServer/sendTestEmail',
   method: METHODS.POST,
+  body: {},
   mockResponse: {},
   useAuthentication: true,
 });
@@ -49,6 +50,21 @@ export const deleteEmailSender = code => makeRequest({
 export const postEmailSender = sender => makeRequest({
   uri: '/api/plugins/emailSettings/senders',
   method: METHODS.POST,
+  body: sender,
+  mockResponse: MOCK_EMAIL_SENDER,
+  useAuthentication: true,
+});
+
+export const getEmailSender = code => makeRequest({
+  uri: `/api/plugins/emailSettings/senders/${code}`,
+  method: METHODS.GET,
+  mockResponse: MOCK_EMAIL_SENDER,
+  useAuthentication: true,
+});
+
+export const putEmailSender = sender => makeRequest({
+  uri: `/api/plugins/emailSettings/senders/${sender.code}`,
+  method: METHODS.PUT,
   body: sender,
   mockResponse: MOCK_EMAIL_SENDER,
   useAuthentication: true,

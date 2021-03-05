@@ -10,7 +10,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 
 const EmailSenderFormBody = ({
-  intl, titleId, handleSubmit, invalid, submitting,
+  intl, titleId, handleSubmit, invalid, submitting, editing,
 }) => (
   <div>
     <PageTitle titleId={titleId} helpId="emailConfig.help" />
@@ -20,6 +20,7 @@ const EmailSenderFormBody = ({
         name="code"
         label={<FormLabel labelId="app.code" required />}
         validate={required}
+        disabled={editing}
       />
       <Field
         component={RenderTextInput}
@@ -45,11 +46,17 @@ EmailSenderFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  editing: PropTypes.bool,
+};
+
+EmailSenderFormBody.defaultProps = {
+  editing: false,
 };
 
 const EmailSenderForm = injectIntl(reduxForm({
   form: 'emailSender',
   enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })(EmailSenderFormBody));
 
 export default EmailSenderForm;

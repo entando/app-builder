@@ -15,7 +15,7 @@ const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => {
     <tr key={sender.code}>
       <td>{sender.code}</td>
       <td>{sender.email}</td>
-      <td>
+      <td className="text-center">
         <DropdownKebab id={`sender-actions-${sender.code}`} pullRight>
           <LinkMenuItem
             id={`sender-edit-link-${sender.code}`}
@@ -33,10 +33,10 @@ const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => {
   );
 
   return (
-    <div>
+    <div className="EmailConfigSenderMgmt">
       <Button
         bsStyle="primary"
-        className="pull-right"
+        className="pull-right EmailConfigSenderMgmt__add-btn"
         componentClass={Link}
         to={ROUTE_EMAIL_CONFIG_SENDERS_ADD}
       >
@@ -47,7 +47,7 @@ const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => {
           <tr>
             <th><FormattedMessage id="app.code" /></th>
             <th><FormattedMessage id="emailConfig.senderMgmt.email" /></th>
-            <th><FormattedMessage id="app.actions" /></th>
+            <th width="10%"><FormattedMessage id="app.actions" /></th>
           </tr>
         </thead>
         <tbody>
