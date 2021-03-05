@@ -6,7 +6,6 @@ import * as reactRedux from 'react-redux';
 
 import { renderWithIntlRouterState } from 'test/testUtils';
 import EmailConfigSenderMgmtContainer from 'ui/email-config/EmailConfigSenderMgmtContainer';
-import { ROUTE_EMAIL_CONFIG_SENDERS_ADD } from 'app-init/router';
 import { SET_VISIBLE_MODAL, SET_INFO } from 'state/modal/types';
 import { MODAL_ID as DELETE_SENDER_MODAL_ID } from 'ui/email-config/DeleteSenderModal';
 
@@ -74,7 +73,7 @@ describe('EmailConfigSenderMgmtContainer', () => {
 
   it('should render a button that links to the add sender page', () => {
     const addBtn = screen.getByRole('link', { name: 'Add' });
-    expect(addBtn).toHaveAttribute('href', ROUTE_EMAIL_CONFIG_SENDERS_ADD);
+    expect(addBtn).toHaveAttribute('href', '/email-config/senders/add');
   });
 
   it('should render the delete modal', () => {

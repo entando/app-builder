@@ -4,11 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
-import {
-  ROUTE_EMAIL_CONFIG,
-  ROUTE_EMAIL_CONFIG_SENDERS_ADD,
-  ROUTE_EMAIL_CONFIG_SENDERS_EDIT,
-} from 'app-init/router';
 import { renderWithIntlAndRouter } from 'test/testUtils';
 
 jest.unmock('ui/common/BreadcrumbItem');
@@ -34,7 +29,7 @@ describe('EmailConfigPage', () => {
     renderWithIntlAndRouter(
       (
         <EmailConfigPage />
-      ), { initialRoute: ROUTE_EMAIL_CONFIG },
+      ), { initialRoute: '/email-config' },
     );
     const breadcrumbView = getBreadcrumbView();
     expect(breadcrumbView.getByText('Administration')).toBeInTheDocument();
@@ -77,7 +72,7 @@ describe('EmailConfigPage', () => {
   describe('add sender route', () => {
     beforeEach(() => {
       renderWithIntlAndRouter(<EmailConfigPage />, {
-        initialRoute: ROUTE_EMAIL_CONFIG_SENDERS_ADD,
+        initialRoute: '/email-config/senders/add',
       });
     });
 
@@ -93,7 +88,7 @@ describe('EmailConfigPage', () => {
 
   describe('edit sender route', () => {
     const testCode = 'testcode';
-    const ROUTE_EMAIL_CONFIG_SENDERS_EDIT_TESTCODE = ROUTE_EMAIL_CONFIG_SENDERS_EDIT.replace(':code', testCode);
+    const ROUTE_EMAIL_CONFIG_SENDERS_EDIT_TESTCODE = `/email-config/senders/edit/${testCode}`;
 
     beforeEach(() => {
       renderWithIntlAndRouter(<EmailConfigPage />, {
