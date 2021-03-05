@@ -26,6 +26,7 @@ import permissions from 'state/permissions/reducer';
 import configuration from 'state/reload-configuration/reducer';
 import dashboard from 'state/dashboard/reducer';
 import database from 'state/database/reducer';
+import tableColumnOrder from 'state/table-column-order/reducer';
 import fileBrowser from 'state/file-browser/reducer';
 import userSettings from 'state/user-settings/reducer';
 import userProfile from 'state/user-profile/reducer';
@@ -75,6 +76,7 @@ const reducerDef = {
   plugins,
   profileTypes,
   roles,
+  tableColumnOrder,
   users,
   widgets,
   userSettings,

@@ -23,6 +23,10 @@ jest.mock('state/fragments/actions', () => ({
   fetchFragments: jest.fn(),
 }));
 
+jest.mock('state/table-column-order/selectors', () => ({
+  getColumnOrder: jest.fn(),
+}));
+
 jest.mock('state/loading/selectors', () => ({
   getLoading: jest.fn(),
 }));

@@ -1,13 +1,14 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render, within, cleanup } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import { SEARCH_PAGES } from 'test/mocks/pages';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
+import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
 
 const searchPages = SEARCH_PAGES;
 
-const props = {
-  locale: 'en',
+const eventMocks = {
   onClickAdd: jest.fn(),
   onClickEdit: jest.fn(),
   onClickConfigure: jest.fn(),
@@ -18,65 +19,87 @@ const props = {
   onClickUnPublish: jest.fn(),
 };
 
+const props = {
+  locale: 'en',
+  rowAction: {
+    Header: 'Actions',
+    attributes: { className: 'text-center' },
+    Cell: (cellinfo) => {
+      const { original: page } = cellinfo;
+      return (
+        <PageTreeActionMenu
+          {...eventMocks}
+          page={page}
+          locale="en"
+        />
+      );
+    },
+  },
+};
+
+jest.unmock('react-redux');
+
+const requiredState = {
+  modal: { info: {}, visibleModal: '' },
+  pages: { map: {} },
+};
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlAndStore(
+    <PageListSearchTable page={1} pageSize={1} totalItems={1} {...props} {...addProps} />,
+    requiredState,
+  ),
+);
+
+afterEach(cleanup);
+
 describe('PageListSearchTable', () => {
   describe('without searchPages', () => {
-    let component;
-    beforeEach(() => {
-      component = shallowWithIntl(<PageListSearchTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        {...props}
-      />).dive();
-    });
-
     it('renders without crashing', () => {
-      expect(component).toExist();
+      const { container } = renderComponent();
+      expect(container.firstChild).toBeInTheDocument();
+      expect(screen.queryByRole('table')).not.toBeTruthy();
     });
 
     it('renders an Alert', () => {
-      const alert = component.find('Alert');
-      expect(alert).toExist();
+      renderComponent();
+      const alert = screen.getByText('No pages found.');
+      expect(alert).toBeInTheDocument();
     });
   });
 
   describe('with searchPages', () => {
-    let component;
-    beforeEach(() => {
-      component = shallowWithIntl(<PageListSearchTable
-        page={1}
-        pageSize={1}
-        totalItems={1}
-        {...props}
-        searchPages={searchPages}
-      />).dive();
-    });
-
     it('has a table', () => {
-      expect(component.find('table')).toHaveLength(1);
+      renderComponent({ searchPages });
+      expect(screen.queryByRole('table')).toBeInTheDocument();
     });
 
     it('has a table header', () => {
-      const thead = component.find('thead');
-      expect(thead).toHaveLength(1);
-      expect(thead.find('th')).toHaveLength(3);
+      renderComponent({ searchPages });
+      const [thead] = screen.queryAllByRole('rowgroup');
+      expect(thead).toBeTruthy();
     });
 
     it('has one row if there is one searchPage ', () => {
-      const tbody = component.find('tbody');
-      expect(tbody).toHaveLength(1);
-      expect(tbody.find('tr')).toHaveLength(1);
-      expect(tbody.find('PageTreeActionMenu')).toHaveLength(1);
+      renderComponent({ searchPages });
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      expect(tbody).toBeInTheDocument();
+      const tr = within(tbody).queryByRole('row');
+      expect(tr).toBeInTheDocument();
+      expect(within(tr).queryByRole('menu')).toBeInTheDocument();
     });
 
     it('has a menu in the action column of each row', () => {
-      component.find('tbody tr').forEach((tr) => {
-        expect(tr.find('PageTreeActionMenu')).toHaveLength(1);
+      renderComponent({ searchPages });
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      within(tbody).queryAllByRole('row').forEach((tr) => {
+        expect(within(tr).queryByRole('menu')).toBeInTheDocument();
       });
     });
 
     it('has a paginator', () => {
-      expect(component.find('Paginator')).toExist();
+      renderComponent({ searchPages });
+      expect(screen.getByText('per page')).toBeInTheDocument();
     });
   });
 });

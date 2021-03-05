@@ -23,8 +23,8 @@ describe('PagesList', () => {
     expect(props).toHaveProperty('componentClass', Link);
   });
 
-  it('verify it contains a table', () => {
-    expect(component.dive().find('table')).toHaveLength(1);
+  it('verify it contains DataTable', () => {
+    expect(component.dive().find('DataTable')).toHaveLength(1);
   });
 
   it('verify it contains a Paginator', () => {

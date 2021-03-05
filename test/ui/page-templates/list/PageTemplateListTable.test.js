@@ -1,6 +1,7 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, cleanup, screen, within } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/testUtils';
 import PageTemplateListTable from 'ui/page-templates/list/PageTemplateListTable';
 import { PAGE_TEMPLATES_LIST } from 'test/mocks/pageTemplates';
 
@@ -9,118 +10,112 @@ const onWillMount = jest.fn();
 const removePageTemplate = jest.fn();
 
 const TOTAL_ITEMS = 100;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 const PAGE = 1;
 
+const props = {
+  page: PAGE,
+  pageSize: PAGE_SIZE,
+  totalItems: TOTAL_ITEMS,
+  onWillMount,
+  columnOrder: [],
+  removePageTemplate,
+};
+
+const requiredState = {
+  modal: { info: {}, visibleModal: '' },
+};
+
+jest.unmock('react-redux');
+
+const renderComponent = (addProps = {}) => render(
+  mockRenderWithIntlAndStore(
+    <PageTemplateListTable {...props} {...addProps} />,
+    requiredState,
+  ),
+);
 
 beforeEach(jest.clearAllMocks);
+afterEach(cleanup);
 describe('PageTemplateListTable', () => {
-  let component;
-  beforeEach(() => {
-    component = shallowWithIntl((
-      <PageTemplateListTable
-        page={PAGE}
-        pageSize={PAGE_SIZE}
-        totalItems={TOTAL_ITEMS}
-        onWillMount={onWillMount}
-        removePageTemplate={removePageTemplate}
-      />
-    )).dive();
-  });
-
-  it('renders without crashing', () => {
-    expect(component.exists()).toEqual(true);
-  });
-
-  it('on mount, it calls onWillMount', () => {
+  it('renders without crashing & it calls onWillMount', () => {
+    renderComponent();
+    expect(screen.getByText('Actions')).toBeInTheDocument();
     expect(onWillMount).toHaveBeenCalled();
   });
 
   describe('required props', () => {
     it('errors without a page', () => {
-      // eslint-disable-next-line max-len
-      shallowWithIntl(<PageTemplateListTable pageSize={PAGE_SIZE} totalItems={TOTAL_ITEMS} />).dive();
+      render(mockRenderWithIntlAndStore(
+        <PageTemplateListTable pageSize={PAGE_SIZE} totalItems={TOTAL_ITEMS} />,
+        requiredState,
+      ));
       expect(global.console.error).toHaveBeenCalled();
     });
 
     it('errors without a pageSize', () => {
-      shallowWithIntl(<PageTemplateListTable page={PAGE} totalItems={TOTAL_ITEMS} />).dive();
+      render(mockRenderWithIntlAndStore(
+        <PageTemplateListTable page={PAGE} totalItems={TOTAL_ITEMS} />,
+        requiredState,
+      ));
       expect(global.console.error).toHaveBeenCalled();
     });
 
     it('errors without totalItems', () => {
-      shallowWithIntl(<PageTemplateListTable pageSize={PAGE_SIZE} page={PAGE} />).dive();
+      render(mockRenderWithIntlAndStore(
+        <PageTemplateListTable pageSize={PAGE_SIZE} page={PAGE} />,
+        requiredState,
+      ));
       expect(global.console.error).toHaveBeenCalled();
     });
   });
 
-
   it('has a table', () => {
-    expect(component.find('table')).toHaveLength(1);
+    renderComponent();
+    expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
-  it('has a table header', () => {
-    const thead = component.find('thead');
-    expect(thead).toHaveLength(1);
-    expect(thead.find('th')).toHaveLength(3);
+  it('has a table header and body', () => {
+    renderComponent();
+    const rowgroups = screen.queryAllByRole('rowgroup');
+    expect(rowgroups).toHaveLength(2);
   });
 
   it('has no rows', () => {
-    const tbody = component.find('tbody');
-    expect(tbody).toHaveLength(1);
-    expect(tbody.find('tr')).toHaveLength(0);
+    renderComponent();
+    const [, tbody] = screen.queryAllByRole('rowgroup');
+    expect(tbody).toBeEmptyDOMElement();
   });
 
   it('has a paginator', () => {
-    expect(component.find('Paginator')).toHaveLength(1);
-  });
-
-  it('has a delete page-template modal', () => {
-    expect(component.find('PageTemplateDeleteModalContainer')).toHaveLength(1);
+    renderComponent();
+    expect(screen.getByText('per page')).toBeInTheDocument();
   });
 
   it('on change page, it calls onWillMount with new page data', () => {
     onWillMount.mockClear();
-    component.instance().changePage(3);
+    const { getByTitle } = renderComponent({ pageTemplates: PAGE_TEMPLATES_LIST });
+    fireEvent.click(getByTitle('Next page'));
     expect(onWillMount).toHaveBeenCalledWith({
-      page: 3,
+      page: 2,
       pageSize: PAGE_SIZE,
-    });
-  });
-
-  it('on change page size, it calls onWillMount with new page data', () => {
-    onWillMount.mockClear();
-    component.instance().changePageSize(20);
-    expect(onWillMount).toHaveBeenCalledWith({
-      page: PAGE,
-      pageSize: 20,
     });
   });
 
   describe('with page templates', () => {
     beforeEach(() => {
-      component.setProps({ pageTemplates: PAGE_TEMPLATES_LIST });
-      component.update();
+      renderComponent({ pageTemplates: PAGE_TEMPLATES_LIST });
     });
 
     it('has as many rows as the page templates count', () => {
-      const tbody = component.find('tbody');
-      expect(tbody).toHaveLength(1);
-      expect(tbody.find('tr')).toHaveLength(PAGE_TEMPLATES_LIST.length);
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      expect(within(tbody).queryAllByRole('row')).toHaveLength(PAGE_TEMPLATES_LIST.length);
     });
 
     it('has a menu in the action column of each row', () => {
-      component.find('tbody tr').forEach((tr) => {
-        expect(tr.find('PageTemplateListMenuActions')).toHaveLength(1);
-      });
-    });
-
-    it('calls removePageTemplate(pageTemplateCode) if calling a menu onClickDelete prop', () => {
-      component.find('tbody tr').forEach((tr, i) => {
-        const deleteFunc = tr.find('PageTemplateListMenuActions').prop('onClickDelete');
-        deleteFunc();
-        expect(removePageTemplate).toHaveBeenCalledWith(PAGE_TEMPLATES_LIST[i].code);
-        removePageTemplate.mockClear();
+      const [, tbody] = screen.queryAllByRole('rowgroup');
+      within(tbody).queryAllByRole('row').forEach((tr) => {
+        expect(within(tr).getByRole('menu')).toBeInTheDocument();
       });
     });
   });

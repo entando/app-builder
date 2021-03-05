@@ -5,6 +5,7 @@ import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import { DataTable } from '@entando/datatable';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
@@ -20,7 +21,78 @@ class PagesList extends Component {
   }
 
   componentDidMount() {
-    this.props.onWillMount();
+    const { onWillMount, columnOrder, onSetColumnOrder } = this.props;
+    if (!columnOrder.length) {
+      onSetColumnOrder(['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified']);
+    }
+    onWillMount();
+  }
+
+  getColumnDefs() {
+    const { columnOrder, language } = this.props;
+
+    const columnDefs = {
+      fullTitles: {
+        Header: <FormattedMessage id="app.name" />,
+        attributes: {
+          style: { width: '32%' },
+        },
+        Cell: (cellInfo) => {
+          const { row: { original: page } } = cellInfo;
+          return (
+            <EllipsisWithTooltip style={{ maxWidth: 208 }} placement="bottom">
+              {page.fullTitles[language]}
+            </EllipsisWithTooltip>
+          );
+        },
+      },
+      pageModel: {
+        Header: <FormattedMessage id="pages.pageForm.pageTemplate" />,
+        attributes: {
+          style: { width: '20%' },
+        },
+        Cell: (cellInfo) => {
+          const { row: { original: page } } = cellInfo;
+          return (
+            <EllipsisWithTooltip style={{ maxWidth: 120 }} placement="bottom">
+              {page.pageModel}
+            </EllipsisWithTooltip>
+          );
+        },
+      },
+      numWidget: {
+        Header: <FormattedMessage id="dashboard.numberWidgets" />,
+        Cell: ({ value }) => `${value} widget(s)`,
+      },
+      status: {
+        Header: <FormattedMessage id="pageTree.status" />,
+        attributes: {
+          className: 'text-center',
+          style: { width: '10%' },
+        },
+        Cell: (cellInfo) => {
+          const { row: { original: page } } = cellInfo;
+          return (
+            <PageStatusIcon status={page.status} />
+          );
+        },
+        cellAttributes: {
+          className: 'text-center',
+        },
+      },
+      lastModified: {
+        Header: <FormattedMessage id="app.lastModified" />,
+        attributes: {
+          style: { width: '19%' },
+        },
+        Cell: ({ value }) => formatDate(value),
+      },
+    };
+
+    return columnOrder.map(column => ({
+      ...columnDefs[column],
+      accessor: column,
+    }));
   }
 
   changePage(page) {
@@ -31,35 +103,13 @@ class PagesList extends Component {
     this.props.onWillMount(1, pageSize);
   }
 
-  renderRows() {
-    if (!this.props.pages) {
-      return null;
-    }
-    return (
-      this.props.pages.map(page => (
-        <tr key={page.code}>
-          <td className="FragmentListRow__td">
-            <EllipsisWithTooltip style={{ maxWidth: 208 }} placement="bottom">
-              {page.fullTitles[this.props.language]}
-            </EllipsisWithTooltip>
-          </td>
-          <td className="FragmentListRow__td">
-            <EllipsisWithTooltip style={{ maxWidth: 120 }} placement="bottom">
-              {page.pageModel}
-            </EllipsisWithTooltip>
-          </td>
-          <td className="FragmentListRow__td">{page.numWidget} widget(s)</td>
-          <td className="FragmentListRow__td text-center">
-            <PageStatusIcon status={page.status} />
-          </td>
-          <td className="FragmentListRow__td">{formatDate(page.lastModified)}</td>
-        </tr>
-      ))
-    );
-  }
-
   render() {
-    const { page, pageSize: perPage } = this.props;
+    const {
+      pages,
+      onSetColumnOrder,
+      page,
+      pageSize: perPage,
+    } = this.props;
     const pagination = {
       page,
       perPage,
@@ -71,6 +121,8 @@ class PagesList extends Component {
     const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
       { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
     ), {});
+
+    const columns = this.getColumnDefs() || [];
 
     return (
       <div className="PagesList">
@@ -86,22 +138,16 @@ class PagesList extends Component {
           </Button>
         </h2>
         <div className="PagesList__wrapper">
-          <table className="PagesListTable__table table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th width="32%"><FormattedMessage id="app.name" /></th>
-                <th width="20%"><FormattedMessage id="pages.pageForm.pageTemplate" /></th>
-                <th><FormattedMessage id="dashboard.numberWidgets" /></th>
-                <th className="text-center" width="10%">
-                  <FormattedMessage id="pageTree.status" />
-                </th>
-                <th width="19%"><FormattedMessage id="app.lastModified" /></th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderRows()}
-            </tbody>
-          </table>
+          <DataTable
+            columns={columns}
+            data={pages}
+            columnResizable
+            onColumnReorder={onSetColumnOrder}
+            classNames={{
+              table: 'PageTemplateListTable__table table-striped',
+              cell: 'FragmentListRow__td',
+            }}
+          />
         </div>
         <Paginator
           pagination={pagination}
@@ -134,10 +180,14 @@ PagesList.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   language: PropTypes.string.isRequired,
+  columnOrder: PropTypes.arrayOf(PropTypes.string),
+  onSetColumnOrder: PropTypes.func,
 };
 
 PagesList.defaultProps = {
   pages: [],
+  columnOrder: ['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified'],
+  onSetColumnOrder: () => {},
 };
 
 export default injectIntl(PagesList);

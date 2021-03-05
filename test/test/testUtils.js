@@ -13,6 +13,7 @@ import enTranslations from 'locales/en';
 import { render, screen, within } from '@testing-library/react';
 import { combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { DDProvider } from '@entando/ddtable';
 
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
@@ -81,6 +82,12 @@ export const mockRenderWithIntlAndStore = (ui, state = {}) => {
 export const mockRenderWithRouter = (ui, history = createMockHistory()) => (
   <Router history={history}>{ui}</Router>
 );
+
+export const mockRenderWithIntlDDStoreRouter = (ui, state = {}) => {
+  const STATE = { ...state, locale: 'en' };
+  const intlStore = mockRenderWithIntlAndStore(ui, STATE);
+  return mockRenderWithRouter(<DDProvider>{intlStore}</DDProvider>);
+};
 
 /**
  * Components using the react-intl module require access to the intl context.

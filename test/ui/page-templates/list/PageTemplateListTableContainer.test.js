@@ -3,6 +3,7 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/page-templates/list/PageTemplateListTableContainer';
 import { fetchPageTemplates } from 'state/page-templates/actions';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
+import { getColumnOrder } from 'state/table-column-order/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { PAGE_TEMPLATES_LIST } from 'test/mocks/pageTemplates';
@@ -19,6 +20,10 @@ jest.mock('state/page-templates/actions', () => ({
 
 jest.mock('state/page-templates/selectors', () => ({
   getPageTemplatesList: jest.fn(),
+}));
+
+jest.mock('state/table-column-order/selectors', () => ({
+  getColumnOrder: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({

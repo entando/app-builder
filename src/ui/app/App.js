@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DDProvider } from '@entando/ddtable';
 import {
   Route,
   Switch,
@@ -386,10 +385,10 @@ class App extends Component {
       : <LoginPage />;
 
     return (
-      <DndProvider backend={HTML5Backend}>
+      <DDProvider>
         <ToastsContainer />
         {!isReady ? null : readyDisplay}
-      </DndProvider>
+      </DDProvider>
     );
   }
 }
