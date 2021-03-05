@@ -1,6 +1,6 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
+import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST, MOCK_EMAIL_SENDER } from 'test/mocks/emailConfig';
 
 export const getSMTPServerSettings = () => makeRequest({
   uri: '/api/plugins/emailSettings/SMTPServer',
@@ -43,5 +43,13 @@ export const deleteEmailSender = code => makeRequest({
   uri: `/api/plugins/emailSettings/senders/${code}`,
   method: METHODS.DELETE,
   mockResponse: {},
+  useAuthentication: true,
+});
+
+export const postEmailSender = sender => makeRequest({
+  uri: '/api/plugins/emailSettings/senders',
+  method: METHODS.POST,
+  body: sender,
+  mockResponse: MOCK_EMAIL_SENDER,
   useAuthentication: true,
 });

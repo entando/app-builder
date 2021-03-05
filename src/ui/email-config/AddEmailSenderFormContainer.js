@@ -2,12 +2,13 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import EmailSenderForm from 'ui/email-config/EmailSenderForm';
+import { addEmailSender } from 'state/email-config/actions';
 
 const AddEmailSenderFormContainer = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(
-    values => dispatch({ type: 'addEmailSender_test', payload: values }),
+    values => dispatch(addEmailSender(values)),
     [dispatch],
   );
 

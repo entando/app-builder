@@ -11,6 +11,7 @@ import {
   fetchEmailSenders,
   setEmailSenders,
   deleteEmailSender,
+  addEmailSender,
 } from 'state/email-config/actions';
 import {
   getSMTPServerSettings,
@@ -19,10 +20,12 @@ import {
   postSendTestEmail,
   getEmailSenders,
   deleteEmailSender as deleteEmailSenderRequest,
+  postEmailSender,
 } from 'api/emailConfig';
 import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
 import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
 import { mockApi } from 'test/testUtils';
+import { history } from 'app-init/router';
 
 jest.mock('api/emailConfig', () => ({
   getSMTPServerSettings: jest.fn(),
@@ -31,7 +34,10 @@ jest.mock('api/emailConfig', () => ({
   postSendTestEmail: jest.fn(),
   getEmailSenders: jest.fn(),
   deleteEmailSender: jest.fn(),
+  postEmailSender: jest.fn(),
 }));
+
+history.push = jest.fn();
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -224,7 +230,7 @@ describe('state/email-config/actions', () => {
   });
 
   describe('deleteEmailSender', () => {
-    it('should remove email sender on success', (done) => {
+    it('should remove email sender and dispatch a toast action on success', (done) => {
       setupMockResponseFromParams(deleteEmailSenderRequest);
 
       const testCode = 'testcode';
@@ -242,6 +248,37 @@ describe('state/email-config/actions', () => {
 
     it('should dispatch the correct actions on error', (done) => {
       setupMockError(deleteEmailSenderRequest);
+
+      const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
+
+      dispatch(deleteEmailSender()).then(() => {
+        const actions = getActions();
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('addEmailSender', () => {
+    it('should redirect to email senders on success', (done) => {
+      setupMockResponseFromParams(postEmailSender);
+
+      const sender = { code: 'testcode', email: 'testemail@test.com' };
+      const expectedActions = [
+        { type: ADD_TOAST, payload: { message: { id: 'app.created', values: { type: 'sender', code: sender.code } }, type: TOAST_SUCCESS } },
+      ];
+
+      dispatch(addEmailSender(sender)).then(() => {
+        const actions = getActions();
+        expect(postEmailSender).toHaveBeenCalledWith(sender);
+        expect(history.push).toHaveBeenCalledWith('/email-config/senders');
+        expect(actions).toEqual(expectedActions);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should dispatch the correct actions on error', (done) => {
+      setupMockError(postEmailSender);
 
       const expectedActions = [MOCK_ADD_ERRORS_ACTION, MOCK_ADD_TOAST_ERROR_ACTION];
 

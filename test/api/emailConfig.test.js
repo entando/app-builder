@@ -7,12 +7,15 @@ import {
   postSendTestEmail,
   getEmailSenders,
   deleteEmailSender,
+  postEmailSender,
 } from 'api/emailConfig';
-import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST } from 'test/mocks/emailConfig';
+import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST, MOCK_EMAIL_SENDER } from 'test/mocks/emailConfig';
 
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  METHODS: { GET: 'GET', POST: 'POST', PUT: 'PUT' },
+  METHODS: {
+    GET: 'GET', POST: 'POST', PUT: 'PUT', DELETE: 'DELETE',
+  },
 }));
 
 describe('api/emailConfig', () => {
@@ -109,6 +112,23 @@ describe('api/emailConfig', () => {
         uri: '/api/plugins/emailSettings/senders/testcode',
         method: METHODS.DELETE,
         mockResponse: {},
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('postEmailSender', () => {
+    it('should return a promise', () => {
+      expect(postEmailSender()).toBeInstanceOf(Promise);
+    });
+
+    it('should make a request with the correct parametsrs', () => {
+      postEmailSender(MOCK_EMAIL_SENDER);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/plugins/emailSettings/senders',
+        method: METHODS.POST,
+        body: MOCK_EMAIL_SENDER,
+        mockResponse: MOCK_EMAIL_SENDER,
         useAuthentication: true,
       });
     });

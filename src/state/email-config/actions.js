@@ -8,8 +8,10 @@ import {
   postSendTestEmail,
   getEmailSenders,
   deleteEmailSender as deleteEmailSenderRequest,
+  postEmailSender,
 } from 'api/emailConfig';
 import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
+import { history, ROUTE_EMAIL_CONFIG_SENDERS } from 'app-init/router';
 
 export const setEmailSenders = emailSenders => ({
   type: SET_EMAIL_SENDERS,
@@ -105,6 +107,22 @@ export const deleteEmailSender = code => async (dispatch) => {
     if (response.ok) {
       dispatch(removeEmailSender(code));
       dispatch(addToast({ id: 'app.deleted', values: { type: 'sender', code } }, TOAST_SUCCESS));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
+};
+
+export const addEmailSender = sender => async (dispatch) => {
+  try {
+    const response = await postEmailSender(sender);
+    const json = await response.json();
+    if (response.ok) {
+      history.push(ROUTE_EMAIL_CONFIG_SENDERS);
+      dispatch(addToast({ id: 'app.created', values: { type: 'sender', code: sender.code } }, TOAST_SUCCESS));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

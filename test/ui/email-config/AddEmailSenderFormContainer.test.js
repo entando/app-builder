@@ -10,6 +10,10 @@ import AddEmailSenderFormContainer from 'ui/email-config/AddEmailSenderFormConta
 jest.unmock('react-redux');
 jest.unmock('redux-form');
 
+jest.mock('state/email-config/actions', () => ({
+  addEmailSender: jest.fn(payload => ({ type: 'addEmailSender_test', payload })),
+}));
+
 const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
 const mockDispatch = jest.fn();
 useDispatchSpy.mockReturnValue(mockDispatch);
