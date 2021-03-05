@@ -46,7 +46,7 @@ class UserListMenuActions extends Component {
     } = this.props;
     const canEdit = hasAccess(CRUD_USERS_PERMISSION, userPermissions);
     const canEditProfile =
-    hasAccess([EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION], userPermissions);
+    hasAccess([EDIT_USER_PROFILES_PERMISSION], userPermissions);
 
     if (!hasProfile && !canEdit && !canEditProfile) {
       return null;
