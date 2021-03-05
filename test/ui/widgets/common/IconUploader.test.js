@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { renderWithIntl } from 'test/testUtils';
+import { renderWithIntl } from 'test/rtlTestUtils';
 import IconUploader from 'ui/widgets/common/IconUploader';
 import { useSelector } from 'react-redux';
 

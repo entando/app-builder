@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
-import { renderWithIntlAndRouter } from 'test/testUtils';
+import { renderWithIntlAndRouter } from 'test/rtlTestUtils';
 
 jest.unmock('ui/common/BreadcrumbItem');
 

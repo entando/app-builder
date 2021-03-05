@@ -1,11 +1,11 @@
 import React from 'react';
 import * as reactRedux from 'react-redux';
-import { screen, within } from '@testing-library/dom';
+import { screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
 import DeleteSenderModalContainer from 'ui/email-config/DeleteSenderModalContainer';
-import { renderWithIntlAndState } from 'test/testUtils';
+import { renderWithIntlAndState } from 'test/rtlTestUtils';
 import { SET_VISIBLE_MODAL } from 'state/modal/types';
 
 jest.unmock('react-redux');
