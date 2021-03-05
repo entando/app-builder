@@ -10,13 +10,14 @@ const InternalPage = ({ className, children }) => {
   const { LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED } = getRuntimeEnv();
   return (
     <div
+      data-testid="internal-page"
       className={['InternalPage', className, LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
-    'layout-pf-fixed' : ''].join(' ').trim()}
+      'layout-pf-fixed' : ''].join(' ').trim()}
     >
       {
       LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
         <LegacyAdminConsoleMenuContainer /> : <BrandMenuContainer />
-    }
+      }
       <ActivityStreamContainer >
         <NotificationListContainer />
       </ActivityStreamContainer>
@@ -26,7 +27,7 @@ const InternalPage = ({ className, children }) => {
           {children}
         </div>
       ) : children
-    }
+      }
     </div>
   );
 };

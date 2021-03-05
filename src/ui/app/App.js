@@ -93,6 +93,7 @@ import {
   ROUTE_ABOUT,
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
+  ROUTE_EMAIL_CONFIG,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -180,6 +181,7 @@ import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
+import EmailConfigPage from 'ui/email-config/EmailConfigPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
@@ -324,6 +326,8 @@ const getRouteComponent = () => {
         <SettingsAddPage /> : <ComponentListPageDisabled />
       )}
       />
+      {/* email config */}
+      <Route path={ROUTE_EMAIL_CONFIG} component={EmailConfigPage} />
       {/* other */}
       <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
       <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
