@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { getUserProfile, putUserProfile, postUserProfile } from 'api/userProfile';
+import { getUserProfile, putUserProfile, postUserProfile, putMyUserProfile } from 'api/userProfile';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { USER_PROFILE } from 'test/mocks/userProfile';
 
@@ -57,6 +57,23 @@ describe('api/userProfiles', () => {
       putUserProfile(username, USER_PROFILE);
       expect(makeRequest).toHaveBeenCalledWith({
         uri: `/api/userProfiles/${username}`,
+        method: METHODS.PUT,
+        body: USER_PROFILE,
+        mockResponse: USER_PROFILE,
+        useAuthentication: true,
+      });
+    });
+  });
+
+  describe('putMyUserProfile', () => {
+    it('returns a promise', () => {
+      expect(putMyUserProfile(username, USER_PROFILE)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      putMyUserProfile(username, USER_PROFILE);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/api/myUserProfile',
         method: METHODS.PUT,
         body: USER_PROFILE,
         mockResponse: USER_PROFILE,

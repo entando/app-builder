@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { reset } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
-import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
+import { fetchMyUserProfile, updateMyUserProfile } from 'state/user-profile/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
@@ -24,12 +24,12 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onMount: (username) => {
+  onMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchUserProfile(username));
+    dispatch(fetchMyUserProfile());
   },
   onSubmit: (userprofile) => {
-    dispatch(updateUserProfile(userprofile, false));
+    dispatch(updateMyUserProfile(userprofile, false));
   },
   onCancel: () => {
     dispatch(reset('UserProfile'));
