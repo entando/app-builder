@@ -11,18 +11,6 @@ LABEL name="Entando App Builder" \
 
 COPY licenses /licenses
 
-USER root
-RUN yum --disableplugin=subscription-manager -y update-minimal --security --sec-severity=Important --sec-severity=Critical
-
-# These are for https://access.redhat.com/errata/RHSA-2021:0670 which are not automatically installing vai the command above
-RUN yum update -y python3-bind
-RUN yum update -y bind-utils
-RUN yum update -y bind-license
-RUN yum update -y bind-libs-lite
-RUN yum update -y bind-libs
-USER default
-
-
 EXPOSE 8081
 COPY ./build /opt/app-root/src/app-builder
 USER root
