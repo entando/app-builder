@@ -24,9 +24,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onMount: (username) => {
+  onMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchMyUserProfile(username));
+    dispatch(fetchMyUserProfile());
   },
   onSubmit: (userprofile) => {
     dispatch(updateMyUserProfile(userprofile, false));
