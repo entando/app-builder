@@ -52,6 +52,13 @@ export const getProfileType = profileTypeCode => makeRequest({
 });
 
 
+export const getMyProfileType = () => makeRequest({
+  uri: '/api/myProfileType',
+  method: METHODS.GET,
+  mockResponse: PROFILE_TYPES,
+  useAuthentication: true,
+});
+
 export const getProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
