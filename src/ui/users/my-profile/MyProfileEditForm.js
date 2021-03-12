@@ -10,6 +10,7 @@ import RenderListField from 'ui/common/form/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
+import ProfileImageUploader from 'ui/users/common/ProfileImageUploader';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
@@ -149,7 +150,8 @@ export class MyProfileEditFormBody extends Component {
 
   render() {
     const {
-      profileTypesAttributes, defaultLanguage, languages, intl,
+      profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
+      userProfileForm,
     } = this.props;
 
     const { editMode } = this.state;
@@ -222,10 +224,22 @@ export class MyProfileEditFormBody extends Component {
       return field(intl, attribute, !editMode);
     });
 
+    const { profilePicture } = userProfileForm;
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
-        <FormSectionTitle titleId="user.myProfile.editProfileSection" />
-        {renderedProfileFields}
+        <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
+        <input type="hidden" name="profilePicture" />
+        <ProfileImageUploader
+          image={profilePicture}
+          onChange={onChangeProfilePicture}
+          gravatarEmail={userEmail}
+        />
+
+        <div className="MyProfileEditForm__attributes">
+          <FormSectionTitle titleId="user.myProfile.editProfileSection" />
+          {renderedProfileFields}
+        </div>
+
         {editMode ? (
           <Fragment>
             <Button
@@ -294,10 +308,22 @@ MyProfileEditFormBody.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   intl: intlShape.isRequired,
+  userEmail: PropTypes.string,
+  userProfileForm: PropTypes.shape({
+    email: PropTypes.string,
+    fullname: PropTypes.string,
+    id: PropTypes.string,
+    typeCode: PropTypes.string,
+    typeDescription: PropTypes.string,
+    profilePicture: PropTypes.string,
+  }),
+  onChangeProfilePicture: PropTypes.func.isRequired,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
+  userEmail: undefined,
+  userProfileForm: {},
 };
 
 const MyProfileEditForm = reduxForm({
