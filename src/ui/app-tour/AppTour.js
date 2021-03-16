@@ -119,12 +119,14 @@ class AppTour extends React.Component {
                 className="TourStart__no-button"
                 bsStyle="default"
                 onClick={() => goTo(appTourLastStep)}
+                data-testid="AppTout__TourStart__NoButton"
               >
                 <FormattedMessage id="app.no" />
               </Button>
               <Button
                 className="TourStart__yes-button"
                 onClick={() => this.cancelTour()}
+                data-testid="AppTour__TourStart__YesButton"
               >
                 <FormattedMessage id="app.yes" />
               </Button>
@@ -171,6 +173,7 @@ class AppTour extends React.Component {
                 className="pull-right TourStart__cancel-button"
                 bsStyle="default"
                 onClick={() => goTo(0)}
+                data-testid="AppTour__TourStart__CancelButton"
               >
                 <FormattedMessage id="app.close" />
               </Button>

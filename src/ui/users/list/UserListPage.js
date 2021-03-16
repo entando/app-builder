@@ -57,6 +57,7 @@ export const UserListPageBody = ({ userPermissions }) => (
                 type="button"
                 className="pull-right ListUserPage__add"
                 bsStyle="primary"
+                data-testid="UserListPage__AddUserButton"
               >
                 <FormattedMessage
                   id="app.add"

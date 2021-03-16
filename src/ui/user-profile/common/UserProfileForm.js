@@ -142,6 +142,7 @@ export class UserProfileFormBody extends Component {
         required={attribute.mandatory}
       />}
       validate={validateArray}
+      data-testid={`UserProfileForm__${attribute.code}Field`}
     />);
   }
 
@@ -256,6 +257,7 @@ export class UserProfileFormBody extends Component {
                 labelId="user.table.username"
                 required
               />}
+              data-testid="UserProfileForm__UsernameField"
             />
           </fieldset>
         </Col>
@@ -276,6 +278,7 @@ export class UserProfileFormBody extends Component {
                   label={<FormLabel labelId="user.profileType" required />}
                   name="typeCode"
                   validate={[required]}
+                  data-testid="UserProfileForm__ProfileTypeField"
                 />
               </div>
               <hr />
@@ -293,6 +296,7 @@ export class UserProfileFormBody extends Component {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
+              data-testid="UserProfileForm__SaveButton"
             >
               <FormattedMessage id="app.save" />
             </Button>

@@ -58,6 +58,7 @@ class DetailUserTable extends React.Component {
           type="button"
           onClick={() => { history.push(ROUTE_USER_LIST); }}
           bsStyle="primary"
+          data-testid="DetailUserTable__BackButton"
         >
           <FormattedMessage id="app.back" />
         </Button>

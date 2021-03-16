@@ -9,6 +9,7 @@ const RenderSelectInput = ({
   defaultOptionId, options, optionReducer,
   optionValue, optionDisplayName, size, inputSize,
   disabled, intl, tourClass,
+  'data-testid': dataTestId,
 }) => {
   const containerClasses = (touched && error) ? `form-group has-error ${tourClass}` : `form-group ${tourClass}`;
 
@@ -56,6 +57,7 @@ const RenderSelectInput = ({
           size={size}
           className="form-control RenderSelectInput"
           disabled={disabled}
+          data-testid={dataTestId}
         >
           {defaultOption}
           {optionsList}
@@ -92,6 +94,7 @@ RenderSelectInput.propTypes = {
   disabled: PropTypes.bool,
   intl: intlShape.isRequired,
   tourClass: PropTypes.string,
+  'data-testid': PropTypes.string,
 };
 
 RenderSelectInput.defaultProps = {
@@ -113,5 +116,6 @@ RenderSelectInput.defaultProps = {
   inputSize: null,
   disabled: false,
   tourClass: '',
+  'data-testid': '',
 };
 export default injectIntl(RenderSelectInput);

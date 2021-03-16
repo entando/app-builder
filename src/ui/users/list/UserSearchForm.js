@@ -45,7 +45,7 @@ export class UserSearchFormBody extends Component {
     const { intl } = this.props;
     const profileFilterOptions = getTranslatedOptions(intl, PROFILE_FILTER_OPTIONS);
     return (
-      <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well">
+      <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well" data-testid="UserSearchForm_Form">
         <h3><FormattedMessage id="app.search" /></h3>
         <FormGroup>
           <Row>
@@ -59,6 +59,7 @@ export class UserSearchFormBody extends Component {
                 className="form-control UserSearchForm__username"
                 name="username"
                 placeholder={intl.formatMessage(msgs.username)}
+                data-testid="UserSearchForm__UsernameField"
               />
             </Col>
           </Row>
@@ -76,6 +77,7 @@ export class UserSearchFormBody extends Component {
                   defaultValue={profileFilterOptions[0].id}
                   name="withProfile"
                   className="UserSearchForm__withProfile"
+                  data-testid="UserSearchForm__WithProfileField"
                 />
               </label>
             </Col>
@@ -90,6 +92,7 @@ export class UserSearchFormBody extends Component {
                 type="submit"
                 bsStyle="primary"
                 className="pull-right"
+                data-testid="UserSearchForm__SearchButton"
               >
                 <FormattedMessage id="app.search" />
               </Button>

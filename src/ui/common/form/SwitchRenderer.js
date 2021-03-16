@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 
-const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) => {
+const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
     input.onChange(returnVal);
@@ -10,19 +10,24 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) =
       onToggleValue(returnVal);
     }
   };
-
-  return (
-    <Switch
-      {...input}
-      value={switchValue}
-      onChange={handleChange}
-    />
-  );
+  const switchComponent = (<Switch
+    {...input}
+    value={switchValue}
+    onChange={handleChange}
+  />);
+  if (dataTestId) {
+    return (
+      <div data-testid={dataTestId}>
+        {switchComponent}
+      </div>);
+  }
+  return (switchComponent);
 };
 
 const SwitchRenderer = ({
   input, append, label, labelSize, inputSize, alignClass, meta: { touched, error },
   help, trueValue, falseValue, disabled, onToggleValue,
+  'data-testid': dataTestId,
 }) => {
   const switchValue = input.value === 'true' || input.value === true || input.value === trueValue;
   if (label) {
@@ -35,7 +40,10 @@ const SwitchRenderer = ({
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
           <div aria-labelledby={`switch-${input.name}`}>
-            {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
+            {switchField(
+                { ...input, disabled }, switchValue, trueValue, falseValue,
+                onToggleValue, dataTestId,
+            )}
           </div>
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span className="help-block">{error}</span>))}
@@ -43,7 +51,10 @@ const SwitchRenderer = ({
       </div>);
   }
 
-  return switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue);
+  return switchField(
+    { ...input, disabled },
+    switchValue, trueValue, falseValue, onToggleValue, dataTestId,
+  );
 };
 
 SwitchRenderer.propTypes = {
@@ -66,6 +77,7 @@ SwitchRenderer.propTypes = {
   append: PropTypes.string,
   alignClass: PropTypes.string,
   onToggleValue: PropTypes.func,
+  'data-testid': PropTypes.string,
 };
 
 SwitchRenderer.defaultProps = {
@@ -81,6 +93,7 @@ SwitchRenderer.defaultProps = {
   append: '',
   alignClass: 'text-right',
   onToggleValue: null,
+  'data-testid': '',
 };
 
 export default SwitchRenderer;
