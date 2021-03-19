@@ -11,6 +11,7 @@ import {
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
   ROUTE_USER_EDIT, ROUTE_USER_PROFILE,
 } from 'app-init/router';
+import { TEST_ID_USER_LIST_TABLE } from '../../test-const';
 
 class UserListMenuActions extends Component {
   constructor(props) {
@@ -68,6 +69,7 @@ class UserListMenuActions extends Component {
               ROUTE_USER_DETAIL,
               { username: this.props.username },
             ))}
+            data-testid={TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE}
           >
             <FormattedMessage id="user.action.viewProfile" values={{ username: this.props.username }} />
           </MenuItem>
@@ -83,6 +85,7 @@ class UserListMenuActions extends Component {
             <MenuItem
               className="UserListMenuAction__menu-item-edit"
               onClick={this.onClickEdit}
+              data-testid={TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER}
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
@@ -109,6 +112,7 @@ class UserListMenuActions extends Component {
           <MenuItem
             className="UserListMenuAction__menu-item-delete"
             onClick={this.handleClick(onClickDelete)}
+            data-testid={TEST_ID_USER_LIST_TABLE.ACTION_DELETE_USER}
           >
             <FormattedMessage id="app.delete" />
           </MenuItem>

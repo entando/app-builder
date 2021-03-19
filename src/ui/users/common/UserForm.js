@@ -17,6 +17,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { TEST_ID_USER_FORM } from '../../test-const';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -90,7 +91,6 @@ export class UserFormBody extends Component {
         validate={mode !== EDIT_MODE ?
           [required, minLength4, maxLength80, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
-        data-testid="UserForm__UsernameField"
       />
     );
     const showEdit = () => {
@@ -122,7 +122,6 @@ export class UserFormBody extends Component {
               <Field
                 component={SwitchRenderer}
                 name="reset"
-                data-testid="UserForm__ResetField"
               />
             </Col>
           </FormGroup>
@@ -139,7 +138,6 @@ export class UserFormBody extends Component {
           label={<FormLabel labelId="user.profileType" required />}
           name="profileType"
           validate={required}
-          data-testid="UserForm__ProfileTypeField"
         />) : null
     );
 
@@ -160,7 +158,6 @@ export class UserFormBody extends Component {
                   ...(mode === NEW_MODE ? [required] : []),
                   ...(password ? [userFormText, minLength8, maxLength20] : []),
                   ]}
-                data-testid="UserForm__PasswordField"
               />
               <Field
                 component={RenderTextInput}
@@ -172,7 +169,6 @@ export class UserFormBody extends Component {
                   ...(mode === NEW_MODE ? [required] : []),
                   ...(password ? [matchPassword] : []),
                 ]}
-                data-testid="UserForm__PasswordConfirmField"
               />
               {/* Insert user info and reset button on EDIT */}
               {showEdit()}
@@ -187,7 +183,6 @@ export class UserFormBody extends Component {
                     name="status"
                     trueValue="active"
                     falseValue="inactive"
-                    data-testid="UserForm__StatusField"
                   />
                 </Col>
               </FormGroup>
@@ -209,7 +204,7 @@ export class UserFormBody extends Component {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
-              data-testid="UserForm__SaveButton"
+              data-testid={TEST_ID_USER_FORM.SAVE_BUTTON}
             >
               <FormattedMessage id="app.save" />
             </Button>

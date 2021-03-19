@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button } from 'react-bootstrap';
 
 import { history, ROUTE_USER_LIST } from 'app-init/router';
+import { TEST_ID_DETAIL_USER_TABLE } from '../../test-const';
 
 class DetailUserTable extends React.Component {
   componentWillMount() {
@@ -32,7 +33,7 @@ class DetailUserTable extends React.Component {
     ));
     return (
       <div className="DetailUserTable">
-        <table className="table table-striped table-bordered" >
+        <table className="table table-striped table-bordered" data-testid={TEST_ID_DETAIL_USER_TABLE.TABLE} >
           <tbody>
             <tr>
               <th width="10%">
@@ -58,7 +59,7 @@ class DetailUserTable extends React.Component {
           type="button"
           onClick={() => { history.push(ROUTE_USER_LIST); }}
           bsStyle="primary"
-          data-testid="DetailUserTable__BackButton"
+          data-testid={TEST_ID_DETAIL_USER_TABLE.BACK_BUTTON}
         >
           <FormattedMessage id="app.back" />
         </Button>

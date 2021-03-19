@@ -7,6 +7,7 @@ import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 import { isEmpty } from 'lodash';
 import paginatorMessages from 'ui/paginatorMessages';
+import { TEST_ID_USER_LIST_TABLE } from '../../test-const';
 
 const USER_INACTIVE = 'inactive';
 
@@ -87,7 +88,7 @@ class UserListTable extends Component {
 
       return (
         <Col xs={12}>
-          <table className="UserListTable__table table table-striped table-bordered">
+          <table className="UserListTable__table table table-striped table-bordered" data-testid={TEST_ID_USER_LIST_TABLE.TABLE}>
             <thead>
               <tr>
                 <th><FormattedMessage id="user.table.username" /></th>

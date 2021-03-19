@@ -27,9 +27,9 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, d
 const SwitchRenderer = ({
   input, append, label, labelSize, inputSize, alignClass, meta: { touched, error },
   help, trueValue, falseValue, disabled, onToggleValue,
-  'data-testid': dataTestId,
 }) => {
   const switchValue = input.value === 'true' || input.value === true || input.value === trueValue;
+  const dataTestId = `${input.name}-switchField`;
   if (label) {
     return (
       <div className={`SwitchRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
@@ -39,7 +39,7 @@ const SwitchRenderer = ({
           </ControlLabel>
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
-          <div aria-labelledby={`switch-${input.name}`}>
+          <div aria-labelledby={`switch-${input.name}`} >
             {switchField(
                 { ...input, disabled }, switchValue, trueValue, falseValue,
                 onToggleValue, dataTestId,
@@ -77,7 +77,6 @@ SwitchRenderer.propTypes = {
   append: PropTypes.string,
   alignClass: PropTypes.string,
   onToggleValue: PropTypes.func,
-  'data-testid': PropTypes.string,
 };
 
 SwitchRenderer.defaultProps = {
@@ -93,7 +92,6 @@ SwitchRenderer.defaultProps = {
   append: '',
   alignClass: 'text-right',
   onToggleValue: null,
-  'data-testid': '',
 };
 
 export default SwitchRenderer;

@@ -50,6 +50,7 @@ export class UserAuthorityPageFormBody extends Component {
                 bsStyle="primary"
                 className="pull-right"
                 disabled={invalid || submitting}
+                data-testid="UserAuthorityPageForm__saveButton"
               >
                 <FormattedMessage id="app.save" />
               </Button>

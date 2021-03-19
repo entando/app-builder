@@ -56,7 +56,7 @@ class UserAuthorityTable extends Component {
       );
     }
     return (
-      <table className="table table-striped table-bordered">
+      <table className="table table-striped table-bordered" data-testid="UserAuthorityTable__table">
         <thead>
           <tr>
             <th>
@@ -99,6 +99,7 @@ class UserAuthorityTable extends Component {
             bsStyle="link"
             className="UserAuthorityTable__delete-tag-btn"
             onClick={() => fields.remove(index)}
+            data-testid="UserAuthorityTable__deleteButton"
           >
             <i className="fa fa-trash-o" />
           </Button>
@@ -115,6 +116,7 @@ class UserAuthorityTable extends Component {
               bsStyle="primary"
               className="pull-right UserAuthorityTable__addNew"
               onClick={onAddNewClicked}
+              data-testid="UserAuthorityTable__addButton"
             >
                 Add new Authorization
             </Button>

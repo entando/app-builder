@@ -10,7 +10,7 @@ const AddAuthorityModal = ({
   groupOptions, rolesOptions, onClickAdd, setGroupRef, setRoleRef,
 }) => {
   const buttons = [
-    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd}>
+    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd} data-testid="UserAuthorityModal__addButton">
       <FormattedMessage id="app.add" />
     </Button>,
   ];
@@ -39,7 +39,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="group"
               ref={setGroupRef}
-              data-testid="groups"
+              data-testid="UserAuthorityModal__groupsField"
             >
               {groupOptions}
             </select>
@@ -56,7 +56,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="roles"
               ref={setRoleRef}
-              data-testid="roles"
+              data-testid="UserAuthorityModal__rolesField"
             >
               {rolesOptions}
             </select>

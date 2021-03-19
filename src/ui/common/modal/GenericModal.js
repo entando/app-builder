@@ -12,6 +12,7 @@ const GenericModal = ({
         bsStyle="default"
         className="btn-cancel"
         onClick={onCloseModal}
+        data-testid="cancelModalButton"
       >
         <FormattedMessage id="app.cancel" />
       </Button>

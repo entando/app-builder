@@ -27,11 +27,10 @@ const buttonToolbar = (input, toggleElement, defaultValue) => (
 const RenderRadioInput = ({
   input, append, label, labelSize, alignClass,
   meta: { touched, error }, help, toggleElement, defaultValue,
-  'data-testid': dataTestId,
 }) => {
   if (label) {
     return (
-      <div className={`RadioInputRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`} data-testid={dataTestId}>
+      <div className={`RadioInputRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
         <Col xs={labelSize} className={alignClass}>
           <ControlLabel htmlFor={input.name} id={`radiogroup-${input.name}`}>
             {label} {help}
@@ -46,7 +45,7 @@ const RenderRadioInput = ({
     );
   }
   return (
-    <div data-testid={dataTestId}>
+    <div data-testid={`${input.name}-field`}>
       {buttonToolbar(input, toggleElement, defaultValue)}
     </div>
   );
@@ -61,8 +60,6 @@ RenderRadioInput.propTypes = {
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   alignClass: PropTypes.string,
   labelSize: PropTypes.number,
-  'data-testid': PropTypes.string,
-
 };
 RenderRadioInput.defaultProps = {
   toggleElement: [{
@@ -72,7 +69,6 @@ RenderRadioInput.defaultProps = {
   defaultValue: '',
   alignClass: 'text-right',
   labelSize: 2,
-  'data-testid': '',
 };
 
 export default RenderRadioInput;

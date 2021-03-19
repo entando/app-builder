@@ -18,6 +18,7 @@ import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
+import { TEST_ID_USER_PROFILE_FORM } from '../../test-const';
 
 export const matchRegex = (regex, customErrorId) => val => ((val && regex && !regex.test(val)) ?
   (<FormattedMessage id={customErrorId || 'validateForm.regex'} values={{ regex }} />) : undefined);
@@ -296,7 +297,7 @@ export class UserProfileFormBody extends Component {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
-              data-testid="UserProfileForm__SaveButton"
+              data-testid={TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON}
             >
               <FormattedMessage id="app.save" />
             </Button>
