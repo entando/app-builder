@@ -140,7 +140,7 @@ class PagesList extends Component {
         <div className="PagesList__wrapper">
           <DataTable
             columns={columns}
-            data={pages}
+            data={pages || []}
             columnResizable
             onColumnReorder={onSetColumnOrder}
             classNames={{
