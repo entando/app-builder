@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import * as reactRedux from 'react-redux';
 
-import { renderWithIntlAndState, setupForm } from 'test/rtlTestUtils';
+import { renderWithIntlAndState, setupForm } from 'test/testUtils';
 import userEvent from '@testing-library/user-event';
 import AddEmailSenderFormContainer from 'ui/email-config/AddEmailSenderFormContainer';
 
