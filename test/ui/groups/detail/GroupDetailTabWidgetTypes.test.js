@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import GroupDetailTabWidgetTypes from 'ui/groups/detail/GroupDetailTabWidgetTypes';
 import { WIDGETTYPE_REFERENCES } from 'test/mocks/groups';
 

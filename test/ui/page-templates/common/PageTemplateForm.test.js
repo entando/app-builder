@@ -4,7 +4,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 
 import { PageTemplateFormBody as PageTemplateForm, validateJson } from 'ui/page-templates/common/PageTemplateForm';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();

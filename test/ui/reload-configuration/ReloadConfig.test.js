@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import { EmptyState } from 'patternfly-react';
 import ReloadConfig from 'ui/reload-configuration/ReloadConfig';
 

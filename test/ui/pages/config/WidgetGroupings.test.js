@@ -8,7 +8,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/dom';
 import { render as rtlRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMockHistory } from 'test/testUtils';
+import { createMockHistory } from 'test/legacyTestUtils';
 
 import WidgetGroupings from 'ui/pages/config/WidgetGroupings';
 

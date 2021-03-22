@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import PagesList from 'ui/dashboard/PagesList';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { Link } from 'react-router-dom';

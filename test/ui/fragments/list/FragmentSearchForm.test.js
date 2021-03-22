@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import FragmentSearchForm, { renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 

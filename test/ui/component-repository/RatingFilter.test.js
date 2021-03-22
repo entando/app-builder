@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import RatingFilter from 'ui/component-repository/RatingFilter';
 import { mapDispatchToProps } from 'ui/component-repository/RatingFilterContainer';
 import { filterByRating } from 'state/component-repository/actions';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 jest.mock('state/component-repository/actions', () => ({
   filterByRating: jest.fn(),

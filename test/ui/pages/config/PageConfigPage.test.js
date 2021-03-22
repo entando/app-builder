@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import PageConfigPage from 'ui/pages/config/PageConfigPage';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 jest.unmock('redux-form');
 

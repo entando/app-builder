@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import ContentPages from 'ui/pages/config/ContentPages';
 
 describe('ContentWidget', () => {

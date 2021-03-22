@@ -94,7 +94,7 @@ import {
   ROUTE_ECR_CONFIG_EDIT,
   ROUTE_ECR_CONFIG_ADD,
 } from 'app-init/router';
-import { mountWithIntl } from 'test/testUtils';
+import { mountWithIntl } from 'test/legacyTestUtils';
 
 jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
   <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />

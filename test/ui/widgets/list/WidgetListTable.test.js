@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within, cleanup } from '@testing-library/react';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import { WIDGET_LIST } from 'test/mocks/widgets';
 import { WidgetListTableBody as WidgetListTable } from 'ui/widgets/list/WidgetListTable';
@@ -18,11 +18,7 @@ const props = {
 
 jest.unmock('react-redux');
 
-const renderComponent = (addProps = {}) => render(
-  mockRenderWithIntlAndStore(
-    <WidgetListTable {...props} {...addProps} />,
-  ),
-);
+const renderComponent = (addProps = {}) => render(mockRenderWithIntlAndStore(<WidgetListTable {...props} {...addProps} />));
 
 afterEach(cleanup);
 

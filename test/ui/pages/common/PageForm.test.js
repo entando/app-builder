@@ -8,7 +8,7 @@ import { LIST_GROUPS_OK as GROUPS } from 'test/mocks/groups';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 import { GET_LIST_RESPONSE } from 'test/mocks/pageTemplates';
 import { getContentTypes, getCharsets } from 'state/pages/selectors';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();

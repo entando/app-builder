@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import PageSearchForm from 'ui/pages/list/PageSearchForm';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 
 const handleSubmitMock = jest.fn();

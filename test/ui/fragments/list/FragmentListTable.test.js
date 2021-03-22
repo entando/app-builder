@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { screen, render, within, cleanup } from '@testing-library/react';
 
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
 
 const fragments = [
@@ -32,12 +32,10 @@ const requiredState = {
   modal: { info: {}, visibleModal: '' },
 };
 
-const renderComponent = (addProps = {}) => render(
-  mockRenderWithIntlAndStore(
-    <FragmentListTable page={1} pageSize={1} totalItems={1} {...addProps} />,
-    requiredState,
-  ),
-);
+const renderComponent = (addProps = {}) => render(mockRenderWithIntlAndStore(
+  <FragmentListTable page={1} pageSize={1} totalItems={1} {...addProps} />,
+  requiredState,
+));
 
 describe('FragmentListTable', () => {
   afterEach(cleanup);

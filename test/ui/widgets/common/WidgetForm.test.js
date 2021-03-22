@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl, mockIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/common/WidgetForm';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
