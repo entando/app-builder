@@ -14,5 +14,6 @@
 // ***********************************************************
 
 import './keycloak-oauth2';
-import './command';
+import './command/command';
+import './command/user-command';
 import './exception-handler';

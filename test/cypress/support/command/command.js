@@ -1,13 +1,6 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="cypress" />
 
-import {
-  TEST_ID_USER_FORM,
-  TEST_ID_USER_LIST_TABLE,
-  TEST_ID_USER_PROFILE_FORM,
-  TEST_ID_USER_SEARCH_FORM,
-} from '../../../src/ui/test-const';
-
 const TEST_ID_KEY = 'data-testid';
 
 Cypress.Commands.add('getByTestId', (selector, ...args) => cy.get(`[${TEST_ID_KEY}=${selector}]`, ...args));
@@ -33,8 +26,16 @@ Cypress.Commands.add('getTableRowsByTestId', selector => cy.getByTestId(selector
 
 Cypress.Commands.add('getTableColsByTestId', selector => cy.getByTestId(selector).find('thead > tr > th'));
 
-Cypress.Commands.add('getTableActions', selector => cy.getById(`${selector}-actions`));
+Cypress.Commands.add('getTableActions', (selector) => {
+  cy.log(`getById ${selector}-actions`);
+  cy.getById(`${selector}-actions`);
+});
 
+Cypress.Commands.add('clickTableActions', (selector) => {
+  cy.log(`click actions by selector ${selector}-actions`);
+  cy.getTableActions(selector).click();
+  cy.wait(500);
+});
 Cypress.Commands.add('getVisibleActionItemByTestID', selector => cy.getByTestId(selector).filter(':visible'));
 
 Cypress.Commands.add('getVisibleActionItemByClass', className => cy.get(`li.${className} > a`).filter(':visible'));
@@ -87,62 +88,19 @@ Cypress.Commands.add('closeWizardAppTour', () => {
   }
 });
 
-
 Cypress.Commands.add('openPageFromMenu', (menuLinks) => {
   cy.log('Open a page from menu');
   cy.contains('Dashboard').click();
+  cy.wait(500);
   cy.closeWizardAppTour();
   cy.log('Click Menu Group', menuLinks[0]);
-  cy.contains(menuLinks[0]).trigger('mouseover');
-  cy.wait(200);
+  cy.contains(menuLinks[0]).click();
+  cy.wait(500);
   if (menuLinks[1]) {
     cy.log('Click Page Menu Item', menuLinks[1]);
     cy.get('li.secondary-nav-item-pf.is-hover.list-group-item').contains(menuLinks[1]).click();
   }
 });
-
-Cypress.Commands.add('addUser', (username, password, profileTypeCode, button) => {
-  cy.log(`Add the new user  ${username}`);
-  cy.openPageFromMenu(['Users', 'Management']);
-  cy.getButtonByText('Add').click();
-  cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).type(username);
-  cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(password);
-  cy.getByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).type(password);
-  cy.getByName(TEST_ID_USER_FORM.PROFILE_TYPE_FIELD).select(profileTypeCode);
-  if (button) {
-    cy.getByTestId(button).click();
-  } else {
-    cy.getByTestId(TEST_ID_USER_FORM.SAVE_BUTTON).click();
-  }
-});
-
-Cypress.Commands.add('searchUser', (username) => {
-  cy.log(`Search User ${username}`);
-  cy.openPageFromMenu(['Users', 'Management']);
-  cy.getByTestId(TEST_ID_USER_SEARCH_FORM.USERNAME_FIELD).clear();
-  cy.getByTestId(TEST_ID_USER_SEARCH_FORM.USERNAME_FIELD).type(username);
-  cy.getByTestId(TEST_ID_USER_SEARCH_FORM.SEARCH_BUTTON).click();
-});
-
-Cypress.Commands.add('deleteUser', (username) => {
-  cy.log(`Delete user ${username}`);
-  cy.searchUser(username);
-  cy.getTableActions(username).click();
-  cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_DELETE_USER).click();
-  cy.getModalDialogByTitle('Delete user').should('be.visible');
-  cy.getButtonByText('Delete').click();
-});
-
-Cypress.Commands.add('editUserProfile', (username, fullname, email) => {
-  cy.searchUser(username);
-  cy.getTableActions(username).click();
-  cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
-  cy.validateUrlChanged(`/userprofile/${username}`);
-  cy.getByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).type(fullname);
-  cy.getByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).type(email);
-  cy.getByTestId(TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON).click();
-});
-
 
 // Convert this to a module instead of script (allows import/export)
 export {};

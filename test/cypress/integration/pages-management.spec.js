@@ -9,7 +9,7 @@ describe('Pages', () => {
     cy.appBuilderLogout();
   });
 
-
+/*
   describe('Add a new one with all default values', () => {
     it('Should create a new page', () => {
       cy.openPageFromMenu(['Pages', 'Management'], true);
@@ -29,5 +29,7 @@ describe('Pages', () => {
       cy.getByTestId('save-page').contains('Save').click();
     });
   });
+
+ */
 });
 

@@ -15,14 +15,17 @@ describe('Users Management', () => {
   const PROFILE_TYPE_CODE = 'PFL';
   const FULL_NAME = 'Test Test';
   const EMAIL = 'email-user-test@entando.com';
+
   const group = {
     ID: 'free',
     DESCRIPTION: 'Free Access',
   };
+
   const role = {
     ID: 'admin',
     DESCRIPTION: 'Administrator',
   };
+
   beforeEach(() => {
     cy.appBuilderLogin();
     cy.closeWizardAppTour();
@@ -50,7 +53,7 @@ describe('Users Management', () => {
       const newPassword = 'new_password_tests';
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).contains('Not active').should('be.visible');
-      cy.getTableActions(username).click();
+      cy.clickTableActions(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
       cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('have.value', username);
       cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(newPassword);
@@ -76,7 +79,8 @@ describe('Users Management', () => {
       cy.getTableRowsBySelector(FULL_NAME).should('be.visible');
       cy.getTableRowsBySelector(EMAIL).should('be.visible');
       cy.getTableRowsBySelector(`Default user profile ${PROFILE_TYPE_CODE}`).should('be.visible');
-      cy.getTableActions(username).click();
+      cy.clickTableActions(username);//.click();
+      //cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${username}`);
       cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('have.value', username);
@@ -90,7 +94,8 @@ describe('Users Management', () => {
       // View User Profile
       cy.log('Should view the user profile');
       cy.searchUser(username);
-      cy.getTableActions(username).click();
+      cy.clickTableActions(username);
+      // cy.wait(500);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${username}`);
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.TABLE).contains(username).should('be.visible');
@@ -104,13 +109,13 @@ describe('Users Management', () => {
     });
   });
 
-
   describe('User authorizations', () => {
     it('Should edit the user authorizations', () => {
       cy.log('Should edit the user authorizations');
       // Edit Authorizations
       cy.searchUser(username);
-      cy.getTableActions(username).click();
+      cy.clickTableActions(username);
+      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${username}`);
       cy.contains('No authorizations yet').should('be.visible');

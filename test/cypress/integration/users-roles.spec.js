@@ -10,7 +10,7 @@ describe('Roles', () => {
   afterEach(() => {
     cy.appBuilderLogout();
   });
-
+/*
   describe('Add a new role', () => {
     it('Should create a new role', () => {
       cy.openPageFromMenu(['Users', 'Roles'], true);
@@ -37,5 +37,7 @@ describe('Roles', () => {
       cy.getByTestId('user-roles').contains('Roles').should('be.visible');
     });
   });
+
+ */
 });
 

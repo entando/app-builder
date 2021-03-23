@@ -54,7 +54,8 @@ describe('Users Management', () => {
     it('User edit page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.getTableActions(USERNAME).click();
+      cy.clickTableActions(USERNAME);
+      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
       cy.validateUrlChanged(`/user/edit/${USERNAME}`);
       // Page breadcrumb
@@ -83,7 +84,8 @@ describe('Users Management', () => {
     it('User management edit profile page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.getTableActions(USERNAME).click();
+      cy.clickTableActions(USERNAME);
+      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${USERNAME}`);
       // Page breadcrumb
@@ -107,7 +109,8 @@ describe('Users Management', () => {
     it('User management view profile page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.getTableActions(USERNAME).click();
+      cy.clickTableActions(USERNAME);
+      // cy.wait(500);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${USERNAME}`);
       // Page breadcrumb
@@ -128,7 +131,8 @@ describe('Users Management', () => {
       cy.log('Should edit the user authorizations');
       // Edit Authorizations
       cy.searchUser(USERNAME);
-      cy.getTableActions(USERNAME).click();
+      cy.clickTableActions(USERNAME);
+      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${USERNAME}`);
       // Page title
