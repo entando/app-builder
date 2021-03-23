@@ -10,18 +10,16 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, d
       onToggleValue(returnVal);
     }
   };
-  const switchComponent = (<Switch
-    {...input}
-    value={switchValue}
-    onChange={handleChange}
-  />);
-  if (dataTestId) {
-    return (
-      <div data-testid={dataTestId}>
-        {switchComponent}
-      </div>);
-  }
-  return (switchComponent);
+
+  return (
+    <div data-testid={dataTestId}>
+      <Switch
+        {...input}
+        value={switchValue}
+        onChange={handleChange}
+      />
+    </div>
+  );
 };
 
 const SwitchRenderer = ({

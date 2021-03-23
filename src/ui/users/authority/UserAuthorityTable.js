@@ -4,6 +4,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { Row, Col, Button, Alert } from 'patternfly-react';
 
 import AddAuthorityModal from 'ui/users/common/AddAuthorityModal';
+import { TEST_ID_USER_AUTHORITY_TABLE } from 'ui/test-const/user-test-const';
 
 const msgs = defineMessages({
   chooseOption: {
@@ -56,7 +57,7 @@ class UserAuthorityTable extends Component {
       );
     }
     return (
-      <table className="table table-striped table-bordered" data-testid="UserAuthorityTable__table">
+      <table className="table table-striped table-bordered" data-testid={TEST_ID_USER_AUTHORITY_TABLE.TABLE}>
         <thead>
           <tr>
             <th>
@@ -99,7 +100,7 @@ class UserAuthorityTable extends Component {
             bsStyle="link"
             className="UserAuthorityTable__delete-tag-btn"
             onClick={() => fields.remove(index)}
-            data-testid="UserAuthorityTable__deleteButton"
+            data-testid={TEST_ID_USER_AUTHORITY_TABLE.DELETE_BUTTON}
           >
             <i className="fa fa-trash-o" />
           </Button>
@@ -116,7 +117,7 @@ class UserAuthorityTable extends Component {
               bsStyle="primary"
               className="pull-right UserAuthorityTable__addNew"
               onClick={onAddNewClicked}
-              data-testid="UserAuthorityTable__addButton"
+              data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
             >
                 Add new Authorization
             </Button>

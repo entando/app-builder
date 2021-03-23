@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { Button } from 'react-bootstrap';
 
 import { history, ROUTE_USER_LIST } from 'app-init/router';
-import { TEST_ID_DETAIL_USER_TABLE } from '../../test-const';
+import { TEST_ID_DETAIL_USER_TABLE } from 'ui/test-const/user-test-const';
 
 class DetailUserTable extends React.Component {
   componentWillMount() {

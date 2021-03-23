@@ -58,7 +58,7 @@ Cypress.Commands.add('appBuilderLogout', () => {
 
 Cypress.Commands.add('validateBreadcrumbItems', (items) => {
   items.forEach((item) => {
-    cy.log('validate item', item);
+    cy.log('validate breadcrumb item', item);
     cy.get('li.BreadcrumbItem').contains(item).should('be.visible');
   });
 });

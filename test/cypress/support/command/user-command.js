@@ -3,7 +3,7 @@ import {
   TEST_ID_USER_LIST_TABLE,
   TEST_ID_USER_PROFILE_FORM,
   TEST_ID_USER_SEARCH_FORM,
-} from '../../../../src/ui/test-const';
+} from '../../../../src/ui/test-const/user-test-const';
 
 Cypress.Commands.add('addUser', (username, password, profileTypeCode, button) => {
   cy.log(`Add the new user  ${username}`);

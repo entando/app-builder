@@ -7,7 +7,7 @@ import {
   TEST_ID_DETAIL_USER_TABLE,
   TEST_ID_USER_PROFILE_FORM,
   TEST_ID_USER_LIST_TABLE,
-} from '../../../src/ui/test-const';
+} from '../../../src/ui/test-const/user-test-const';
 
 describe('Users Management', () => {
   const username = generateRandomId();
@@ -79,8 +79,7 @@ describe('Users Management', () => {
       cy.getTableRowsBySelector(FULL_NAME).should('be.visible');
       cy.getTableRowsBySelector(EMAIL).should('be.visible');
       cy.getTableRowsBySelector(`Default user profile ${PROFILE_TYPE_CODE}`).should('be.visible');
-      cy.clickTableActions(username);//.click();
-      //cy.wait(500);
+      cy.clickTableActions(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${username}`);
       cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('have.value', username);
@@ -95,7 +94,6 @@ describe('Users Management', () => {
       cy.log('Should view the user profile');
       cy.searchUser(username);
       cy.clickTableActions(username);
-      // cy.wait(500);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${username}`);
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.TABLE).contains(username).should('be.visible');
@@ -115,7 +113,6 @@ describe('Users Management', () => {
       // Edit Authorizations
       cy.searchUser(username);
       cy.clickTableActions(username);
-      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${username}`);
       cy.contains('No authorizations yet').should('be.visible');

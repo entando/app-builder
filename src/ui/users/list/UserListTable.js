@@ -7,7 +7,7 @@ import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 import { isEmpty } from 'lodash';
 import paginatorMessages from 'ui/paginatorMessages';
-import { TEST_ID_USER_LIST_TABLE } from '../../test-const';
+import { TEST_ID_USER_LIST_TABLE } from 'ui/test-const/user-test-const';
 
 const USER_INACTIVE = 'inactive';
 

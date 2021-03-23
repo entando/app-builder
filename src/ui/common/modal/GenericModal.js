@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Icon, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import TEST_ID_GENERIC_MODAL from 'ui/test-const/test-const';
 
 const GenericModal = ({
   visibleModal, modalId, modalClassName, onCloseModal, children, buttons, modalFooter, modalTitle,
@@ -12,7 +13,7 @@ const GenericModal = ({
         bsStyle="default"
         className="btn-cancel"
         onClick={onCloseModal}
-        data-testid="cancelModalButton"
+        data-testid={TEST_ID_GENERIC_MODAL.CANCEL_BUTTON}
       >
         <FormattedMessage id="app.cancel" />
       </Button>

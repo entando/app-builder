@@ -5,7 +5,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import { PROFILE_FILTER_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
-import { TEST_ID_USER_SEARCH_FORM } from '../../test-const';
+import { TEST_ID_USER_SEARCH_FORM } from 'ui/test-const/user-test-const';
 
 export const renderSelectOptions = options => (
   options.map(option => (

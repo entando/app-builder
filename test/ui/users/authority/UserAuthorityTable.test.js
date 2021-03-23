@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, screen } from '@testing-library/react';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 import { mockRenderWithIntlAndStore } from 'test/testUtils';
-import { TEST_ID_USER_AUTHORITY_MODAL } from '../../../../src/ui/test-const';
+import { TEST_ID_USER_AUTHORITY_MODAL } from 'ui/test-const/user-test-const';
 
 const state = {
   modal: {

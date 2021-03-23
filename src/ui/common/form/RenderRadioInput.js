@@ -4,24 +4,26 @@ import { ToggleButtonGroup, ToggleButton, ButtonToolbar } from 'react-bootstrap'
 import { Col, ControlLabel } from 'patternfly-react';
 
 const buttonToolbar = (input, toggleElement, defaultValue) => (
-  <ButtonToolbar className="RenderRadioInput" aria-labelledby={`radiogroup-${input.name}`}>
-    <ToggleButtonGroup
-      type="radio"
-      {...input}
-      value={input.value ? input.value : defaultValue}
-    >
-      { toggleElement.map(item => (
-        <ToggleButton
-          key={item.id}
-          value={item.id}
-          className="RenderRadioInput__toggle-btn"
-        >
-          {item.label}
-        </ToggleButton>
+  <div data-testid={`${input.name}-field`}>
+    <ButtonToolbar className="RenderRadioInput" aria-labelledby={`radiogroup-${input.name}`}>
+      <ToggleButtonGroup
+        type="radio"
+        {...input}
+        value={input.value ? input.value : defaultValue}
+      >
+        { toggleElement.map(item => (
+          <ToggleButton
+            key={item.id}
+            value={item.id}
+            className="RenderRadioInput__toggle-btn"
+          >
+            {item.label}
+          </ToggleButton>
       ))
       }
-    </ToggleButtonGroup>
-  </ButtonToolbar>
+      </ToggleButtonGroup>
+    </ButtonToolbar>
+  </div>
 );
 
 const RenderRadioInput = ({
@@ -44,11 +46,7 @@ const RenderRadioInput = ({
       </div>
     );
   }
-  return (
-    <div data-testid={`${input.name}-field`}>
-      {buttonToolbar(input, toggleElement, defaultValue)}
-    </div>
-  );
+  return buttonToolbar(input, toggleElement, defaultValue);
 };
 
 RenderRadioInput.propTypes = {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { Button, FormGroup, Modal, Row, Col } from 'patternfly-react';
+import { TEST_ID_USER_AUTHORITY_MODAL } from 'ui/test-const/user-test-const';
 
 export const MODAL_ID = 'AddAuthorityModal';
 
@@ -10,7 +11,7 @@ const AddAuthorityModal = ({
   groupOptions, rolesOptions, onClickAdd, setGroupRef, setRoleRef,
 }) => {
   const buttons = [
-    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd} data-testid="UserAuthorityModal__addButton">
+    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd} data-testid={TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON}>
       <FormattedMessage id="app.add" />
     </Button>,
   ];
@@ -39,7 +40,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="group"
               ref={setGroupRef}
-              data-testid="UserAuthorityModal__groupsField"
+              data-testid={TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD}
             >
               {groupOptions}
             </select>
@@ -56,7 +57,7 @@ const AddAuthorityModal = ({
               className="form-control"
               name="roles"
               ref={setRoleRef}
-              data-testid="UserAuthorityModal__rolesField"
+              data-testid={TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD}
             >
               {rolesOptions}
             </select>

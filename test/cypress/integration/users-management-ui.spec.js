@@ -7,7 +7,8 @@ import {
   TEST_ID_USER_FORM,
   TEST_ID_USER_AUTHORITY_TABLE,
   TEST_ID_USER_AUTHORITY_PAGE_FORM, TEST_ID_USER_AUTHORITY_MODAL,
-} from '../../../src/ui/test-const';
+} from '../../../src/ui/test-const/user-test-const';
+import TEST_ID_GENERIC_MODAL from '../../../src/ui/test-const/test-const';
 
 describe('Users Management', () => {
   const USERNAME = 'admin';
@@ -25,10 +26,10 @@ describe('Users Management', () => {
     it('User management page', () => {
       cy.log('Should have all defined page components');
       cy.openPageFromMenu(['Users', 'Management']);
-      // Page breadcrumb
-      cy.validateBreadcrumbItems(['Users', 'Management']);
       // Page title
       cy.getPageTitle().should('be.visible').and('have.text', 'Users');
+      // Page breadcrumb
+      cy.validateBreadcrumbItems(['Users', 'Management']);
       // Search box title
       cy.getByTestId(TEST_ID_USER_SEARCH_FORM.FORM).within(() => {
         cy.get('h3').contains('Search').should('be.visible');
@@ -55,13 +56,12 @@ describe('Users Management', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
       cy.clickTableActions(USERNAME);
-      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
       cy.validateUrlChanged(`/user/edit/${USERNAME}`);
-      // Page breadcrumb
-      cy.validateBreadcrumbItems(['Users', 'Management', 'Edit']);
       // Page title
       cy.getPageTitle().should('be.visible').and('have.text', 'Edit');
+      // Page breadcrumb
+      cy.validateBreadcrumbItems(['Users', 'Management', 'Edit']);
       // Form Fields
       cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('be.visible');
       cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).should('be.visible');
@@ -85,13 +85,12 @@ describe('Users Management', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
       cy.clickTableActions(USERNAME);
-      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${USERNAME}`);
-      // Page breadcrumb
-      cy.validateBreadcrumbItems(['Users', 'Management', 'Edit user profile']);
       // Page title
       cy.getPageTitle().should('be.visible').and('have.text', 'Edit');
+      // Page breadcrumb
+      cy.validateBreadcrumbItems(['Users', 'Management', 'Edit user profile']);
       // Form Fields
       cy.getByName(TEST_ID_USER_PROFILE_FORM.PROFILE_TYPE_FIELD).should('be.visible');
       cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('be.visible').and('be.disabled');
@@ -110,13 +109,12 @@ describe('Users Management', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
       cy.clickTableActions(USERNAME);
-      // cy.wait(500);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${USERNAME}`);
-      // Page breadcrumb
-      cy.validateBreadcrumbItems(['Users', 'Management', 'Details']);
       // Page title
       cy.getPageTitle().should('be.visible').and('have.text', 'Details');
+      // Page breadcrumb
+      cy.validateBreadcrumbItems(['Users', 'Management', 'Details']);
       // Table
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.TABLE).should('be.visible');
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.TABLE).contains('Username').should('be.visible');
@@ -132,11 +130,12 @@ describe('Users Management', () => {
       // Edit Authorizations
       cy.searchUser(USERNAME);
       cy.clickTableActions(USERNAME);
-      // cy.wait(500);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${USERNAME}`);
       // Page title
       cy.getPageTitle().should('be.visible').and('have.text', `Authorizations for ${USERNAME}`);
+      // Page breadcrumb
+      cy.validateBreadcrumbItems(['Users', 'Management', 'Authorizations']);
       // Table
       cy.getByTestId(TEST_ID_USER_AUTHORITY_TABLE.TABLE).should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_TABLE.TABLE).contains('User Group').should('be.visible');
@@ -152,7 +151,7 @@ describe('Users Management', () => {
       cy.getModalDialogByTitle('New authorizations').should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD).should('be.visible');
-      cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.CANCEL_BUTTON).should('be.visible');
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.CANCEL_BUTTON).should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON).should('be.visible');
     });
   });

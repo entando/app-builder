@@ -11,7 +11,7 @@ import {
   ROUTE_USER_AUTHORITY, ROUTE_USER_DETAIL,
   ROUTE_USER_EDIT, ROUTE_USER_PROFILE,
 } from 'app-init/router';
-import { TEST_ID_USER_LIST_TABLE } from '../../test-const';
+import { TEST_ID_USER_LIST_TABLE } from 'ui/test-const/user-test-const';
 
 class UserListMenuActions extends Component {
   constructor(props) {

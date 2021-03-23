@@ -56,5 +56,4 @@ export const TEST_ID_USER_AUTHORITY_MODAL = {
   GROUP_FIELD: 'UserAuthorityModal__groupsField',
   ROLE_FIELD: 'UserAuthorityModal__rolesField',
   ADD_BUTTON: 'UserAuthorityModal__addButton',
-  CANCEL_BUTTON: 'cancelModalButton',
 };

@@ -13,7 +13,7 @@ import UserListTableContainer from 'ui/users/list/UserListTableContainer';
 import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
 import { ROUTE_USER_ADD } from 'app-init/router';
 import { CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION } from 'state/permissions/const';
-import { TEST_ID_USER_LIST_PAGE } from '../../test-const';
+import { TEST_ID_USER_LIST_PAGE } from 'ui/test-const/user-test-const';
 
 export const UserListPageBody = ({ userPermissions }) => (
   <InternalPage className="UserListPage">
