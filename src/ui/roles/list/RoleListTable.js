@@ -5,6 +5,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import RoleListMenuActions from 'ui/roles/list/RoleListMenuActions';
 import DeleteUserRoleModalContainer from 'ui/roles/common/DeleteUserRoleModalContainer';
 import paginatorMessages from 'ui/paginatorMessages';
+import { TEST_ID_ROLE_LIST_TABLE } from 'ui/test-const/role-test-const';
 
 class RoleListTable extends Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class RoleListTable extends Component {
 
       return (
         <Col xs={12}>
-          <table className="RoleListTable__table table table-striped table-bordered">
+          <table className="RoleListTable__table table table-striped table-bordered" data-testid={TEST_ID_ROLE_LIST_TABLE.TABLE}>
             <thead>
               <tr>
                 <th className="RoleListTable__th-lg"><FormattedMessage id="app.name" /></th>

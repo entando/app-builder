@@ -8,6 +8,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import PermissionGrid from 'ui/roles/common/PermissionGrid';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { TEST_ID_ROLE_FORM } from 'ui/test-const/role-test-const';
 
 export const maxLength50 = maxLength(50);
 export const maxLength20 = maxLength(20);
@@ -74,7 +75,6 @@ export class RoleFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="name"
-                data-testid="add-role-name-input"
                 label={<FormLabel labelId="app.name" helpId="role.name.help" required />}
                 placeholder={intl.formatMessage(msgs.appName)}
                 validate={[required, maxLength50]}
@@ -83,7 +83,6 @@ export class RoleFormBody extends Component {
               <Field
                 component={RenderTextInput}
                 name="code"
-                data-testid="add-role-code-input"
                 label={<FormLabel labelId="app.code" helpId="role.code.help" required />}
                 placeholder={intl.formatMessage(msgs.appCode)}
                 validate={[required, maxLength20, code]}
@@ -122,7 +121,7 @@ export class RoleFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
-              data-testid="save-role"
+              data-testid={TEST_ID_ROLE_FORM.SAVE_BUTTON}
               disabled={invalid || submitting}
             >
               <FormattedMessage id="app.save" />
@@ -130,6 +129,7 @@ export class RoleFormBody extends Component {
             <Button
               className="pull-right UserForm__action-button"
               bsStyle="default"
+              data-testid={TEST_ID_ROLE_FORM.CANCEL_BUTTON}
               onClick={handleCancelClick}
             >
               <FormattedMessage id="app.cancel" />
