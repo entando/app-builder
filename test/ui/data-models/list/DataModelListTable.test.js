@@ -49,7 +49,8 @@ describe('DataModelListTable', () => {
       expect(component.find('table thead tr th')).toHaveLength(4);
     });
     it('renders table with correct structure', () => {
-      component = shallowWithIntl(<DataModelListTable pageSize={1} page={1} totalItems={1} />).dive();
+      component =
+        shallowWithIntl(<DataModelListTable pageSize={1} page={1} totalItems={1} />).dive();
       expect(component.find('table thead tr').exists()).toEqual(true);
       expect(component.find('table thead tr th').exists()).toEqual(true);
     });

@@ -18,7 +18,8 @@ const props = {
 
 jest.unmock('react-redux');
 
-const renderComponent = (addProps = {}) => render(mockRenderWithIntlAndStore(<WidgetListTable {...props} {...addProps} />));
+const renderComponent = (addProps = {}) =>
+  render(mockRenderWithIntlAndStore(<WidgetListTable {...props} {...addProps} />));
 
 afterEach(cleanup);
 

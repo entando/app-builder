@@ -47,7 +47,11 @@ describe('FragmentListTable', () => {
 
   it('errors without a page', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    render(mockRenderWithIntlAndStore(<FragmentListTable pageSize={1} totalItems={1} />, requiredState));
+    render(mockRenderWithIntlAndStore(
+      (
+        <FragmentListTable pageSize={1} totalItems={1} />
+      ), requiredState,
+    ));
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();
@@ -55,7 +59,11 @@ describe('FragmentListTable', () => {
 
   it('errors without a pageSize', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    render(mockRenderWithIntlAndStore(<FragmentListTable page={1} totalItems={1} />, requiredState));
+    render(mockRenderWithIntlAndStore(
+      (
+        <FragmentListTable page={1} totalItems={1} />
+      ), requiredState,
+    ));
     expect(consoleError).toHaveBeenCalled();
     consoleError.mockReset();
     consoleError.mockRestore();

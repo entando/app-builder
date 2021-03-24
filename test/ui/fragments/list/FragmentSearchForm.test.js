@@ -1,19 +1,10 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
-import FragmentSearchForm, { renderSelectOptgroup } from 'ui/fragments/list/FragmentSearchForm';
+import FragmentSearchForm from 'ui/fragments/list/FragmentSearchForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
-
-const WIDGET_TYPES_OPTIONS = [
-  {
-    optgroup: 'User Widget',
-    options: [
-      { code: 'code1', title: 'title1' },
-    ],
-  },
-];
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');

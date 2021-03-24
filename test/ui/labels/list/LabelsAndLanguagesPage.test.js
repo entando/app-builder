@@ -21,7 +21,8 @@ describe('LabelsAndLanguagesPage', () => {
 
   describe('basic rendering', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />).dive();
+      component =
+        shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />).dive();
     });
 
     it('renders without crashing', () => {

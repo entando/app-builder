@@ -9,7 +9,8 @@ global.console.error = jest.fn();
 describe('GroupDetailTabWidgetTypes', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<GroupDetailTabWidgetTypes page={1} pageSize={1} totalItems={1} />).dive();
+    component =
+      shallowWithIntl(<GroupDetailTabWidgetTypes page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {
