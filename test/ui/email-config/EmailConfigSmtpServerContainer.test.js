@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import * as reactRedux from 'react-redux';
 
-import { renderWithIntlAndState, setupForm } from 'test/rtlTestUtils';
+import { renderWithIntlAndState, setupForm } from 'test/testUtils';
 import EmailConfigSmtpServerContainer from 'ui/email-config/EmailConfigSmtpServerContainer';
 
 jest.unmock('react-redux');

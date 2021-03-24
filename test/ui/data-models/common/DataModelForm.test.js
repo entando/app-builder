@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { DataModelFormBody } from 'ui/data-models/common/DataModelForm';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();

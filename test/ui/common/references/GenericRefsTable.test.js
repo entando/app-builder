@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import GenericRefsTable from 'ui/common/references/GenericRefsTable';
 
 const componentDidMount = jest.fn();

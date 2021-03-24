@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import FormLabel from 'ui/common/form/FormLabel';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const LABEL_ID = 'label.id';
 const LANG_LABEL_ID = 'lang.label.id';

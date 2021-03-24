@@ -7,7 +7,7 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/component-repository/Cat
 import { ALL_CATEGORIES_CATEGORY, COMPONENT_REPOSITORY_CATEGORIES } from 'state/component-repository/categories/const';
 import { LIST_ECR_CATEGORIES_OK } from 'test/mocks/component-repository/categories';
 import { navigateECRCategory } from 'state/component-repository/actions';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const TEST_STATE = {
   componentRepositories: {

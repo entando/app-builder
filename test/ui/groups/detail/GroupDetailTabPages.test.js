@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 import GroupDetailTabPages from 'ui/groups/detail/GroupDetailTabPages';
 import { PAGE_REFERENCES } from 'test/mocks/groups';

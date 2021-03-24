@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import LabelsAndLanguagesPage from 'ui/labels/list/LabelsAndLanguagesPage';
 
 const onWillMount = jest.fn();
@@ -21,7 +21,8 @@ describe('LabelsAndLanguagesPage', () => {
 
   describe('basic rendering', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />).dive();
+      component =
+        shallowWithIntl(<LabelsAndLanguagesPage {...props} onWillMount={onWillMount} />).dive();
     });
 
     it('renders without crashing', () => {

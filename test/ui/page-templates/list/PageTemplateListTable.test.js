@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, cleanup, screen, within } from '@testing-library/react';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import PageTemplateListTable from 'ui/page-templates/list/PageTemplateListTable';
 import { PAGE_TEMPLATES_LIST } from 'test/mocks/pageTemplates';
 
@@ -28,12 +28,10 @@ const requiredState = {
 
 jest.unmock('react-redux');
 
-const renderComponent = (addProps = {}) => render(
-  mockRenderWithIntlAndStore(
-    <PageTemplateListTable {...props} {...addProps} />,
-    requiredState,
-  ),
-);
+const renderComponent = (addProps = {}) => render(mockRenderWithIntlAndStore(
+  <PageTemplateListTable {...props} {...addProps} />,
+  requiredState,
+));
 
 beforeEach(jest.clearAllMocks);
 afterEach(cleanup);

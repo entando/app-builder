@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import { LabelsFormBody as LabelsForm } from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
-import { mockRenderWithIntlAndStore, mockIntl } from 'test/testUtils';
+import { mockRenderWithIntlAndStore, mockIntl } from 'test/legacyTestUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();

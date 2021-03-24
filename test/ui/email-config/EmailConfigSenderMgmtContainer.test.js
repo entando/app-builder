@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import * as reactRedux from 'react-redux';
 
-import { renderWithIntlRouterState } from 'test/rtlTestUtils';
+import { renderWithIntlRouterState } from 'test/testUtils';
 import EmailConfigSenderMgmtContainer from 'ui/email-config/EmailConfigSenderMgmtContainer';
 import { SET_VISIBLE_MODAL, SET_INFO } from 'state/modal/types';
 import { MODAL_ID as DELETE_SENDER_MODAL_ID } from 'ui/email-config/DeleteSenderModal';

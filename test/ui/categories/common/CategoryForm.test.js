@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl, mockIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 import { CategoryFormBody } from 'ui/categories/common/CategoryForm';
 
 const handleSubmit = jest.fn();

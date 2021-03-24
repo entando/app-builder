@@ -4,7 +4,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 jest.unmock('react-redux');
 

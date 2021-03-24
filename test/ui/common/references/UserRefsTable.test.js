@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import { ROLE_USER_REFERENCES_PAYLOAD } from 'test/mocks/roles';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 
 import UserRefsTable from 'ui/common/references/UserRefsTable';

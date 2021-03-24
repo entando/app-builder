@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
-import { runValidators, mockIntl } from 'test/testUtils';
+import { runValidators, mockIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();

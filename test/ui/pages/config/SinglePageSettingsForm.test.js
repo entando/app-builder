@@ -7,7 +7,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 const ACTIVE_NON_DEFAULT_LANGUAGES = [
   {

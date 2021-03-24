@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { mount } from 'enzyme';
-import { mockRenderWithIntlAndStore, mockRenderWithRouter } from 'test/testUtils';
+import { mockRenderWithIntlAndStore, mockRenderWithRouter } from 'test/legacyTestUtils';
 
 import PageTemplatePageReferencesTable from 'ui/page-templates/detail/PageTemplatePageReferencesTable';
 import { PAGE_REFS } from 'test/mocks/pageTemplates';
@@ -17,13 +17,15 @@ beforeEach(jest.clearAllMocks);
 describe('PageTemplatePageReferencesTable (loading)', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageTemplatePageReferencesTable
-      page={1}
-      pageSize={1}
-      totalItems={1}
-      pageReferences={PAGE_REFS}
-      loading
-    />)));
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore((
+      <PageTemplatePageReferencesTable
+        page={1}
+        pageSize={1}
+        totalItems={1}
+        pageReferences={PAGE_REFS}
+        loading
+      />
+    ))));
   });
 
   it('has class PageTemplatePageReferencesTable', () => {
@@ -40,12 +42,14 @@ describe('PageTemplatePageReferencesTable (not)', () => {
   let component;
   let table;
   beforeEach(() => {
-    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore(<PageTemplatePageReferencesTable
-      page={1}
-      pageSize={1}
-      totalItems={1}
-      pageReferences={PAGE_REFS}
-    />)));
+    component = mount(mockRenderWithRouter(mockRenderWithIntlAndStore((
+      <PageTemplatePageReferencesTable
+        page={1}
+        pageSize={1}
+        totalItems={1}
+        pageReferences={PAGE_REFS}
+      />
+    ))));
     table = component.find('.PageTemplatePageReferencesTable__table');
   });
 

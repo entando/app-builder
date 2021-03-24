@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, within } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const props = {
   onDidMount: jest.fn(),

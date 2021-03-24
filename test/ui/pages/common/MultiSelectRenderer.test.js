@@ -2,7 +2,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import MultiSelectRenderer, { MultiSelectRendererBody } from 'ui/pages/common/MultiSelectRenderer';
 import { mount } from 'enzyme';
 

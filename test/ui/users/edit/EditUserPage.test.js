@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 
 import { EditUserPageBody } from 'ui/users/edit/EditUserPage';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 describe('EditUserPage', () => {
   let component;

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import { LIST_ROLES_OK } from 'test/mocks/roles';
 import RoleListTable from 'ui/roles/list/RoleListTable';
 

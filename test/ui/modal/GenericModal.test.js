@@ -86,10 +86,11 @@ describe('GenericModal', () => {
     it('renders button toolbar', () => {
       component.setProps({ buttons: toolbarButtons });
       const footer = component.find(Modal.Footer);
+      const renderedFooter = footer.render();
       expect(footer.find('Button')).toHaveLength(3);
-      expect(footer.render().find('Button.btn-primary')).toHaveLength(1);
-      expect(footer.render().find('Button.btn-default')).toHaveLength(2);
-      expect(footer.render().find('Button.btn-cancel')).toHaveLength(1);
+      expect(renderedFooter.find('Button.btn-primary')).toHaveLength(1);
+      expect(renderedFooter.find('Button.btn-default')).toHaveLength(2);
+      expect(renderedFooter.find('Button.btn-cancel')).toHaveLength(1);
     });
   });
 });

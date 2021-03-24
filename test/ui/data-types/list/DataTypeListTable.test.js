@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import { DATA_TYPES_OK_PAGE_1 } from 'test/mocks/dataTypes';
 
 

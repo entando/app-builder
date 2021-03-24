@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { shallow, mount } from 'enzyme';
 import RatingFilterItem from 'ui/component-repository/RatingFilterItem';
 import StarIcon from 'ui/component-repository/common/StarIcon';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 jest.unmock('react-redux');
 

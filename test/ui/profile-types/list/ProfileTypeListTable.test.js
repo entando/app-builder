@@ -4,7 +4,7 @@ import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 
 
 import ProfileTypeListTable from 'ui/profile-types/list/ProfileTypeListTable';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 const profileTypes = PROFILE_TYPES_OK_PAGE_1.payload;
 

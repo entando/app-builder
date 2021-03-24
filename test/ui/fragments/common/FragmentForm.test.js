@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/common/FragmentForm';
-import { shallowWithIntl, mockIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 

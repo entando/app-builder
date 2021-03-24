@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { AddFragmentPageBody } from 'ui/fragments/add/AddFragmentPage';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 describe('AddFragmentPage', () => {
   let component;

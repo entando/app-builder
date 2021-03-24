@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import ComponentInstallActions from 'ui/component-repository/components/item/install-controls/ComponentInstallActions';
 
 import { GET_ECR_COMPONENT_OK } from 'test/mocks/component-repository/components';
