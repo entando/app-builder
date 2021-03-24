@@ -5,6 +5,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import RenderRadioInput from 'ui/common/form/RenderRadioInput';
 import { PROFILE_FILTER_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
+import { TEST_ID_USER_SEARCH_FORM } from 'ui/test-const/user-test-const';
 
 export const renderSelectOptions = options => (
   options.map(option => (
@@ -45,7 +46,7 @@ export class UserSearchFormBody extends Component {
     const { intl } = this.props;
     const profileFilterOptions = getTranslatedOptions(intl, PROFILE_FILTER_OPTIONS);
     return (
-      <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well">
+      <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well" data-testid={TEST_ID_USER_SEARCH_FORM.FORM}>
         <h3><FormattedMessage id="app.search" /></h3>
         <FormGroup>
           <Row>
@@ -59,6 +60,7 @@ export class UserSearchFormBody extends Component {
                 className="form-control UserSearchForm__username"
                 name="username"
                 placeholder={intl.formatMessage(msgs.username)}
+                data-testid={TEST_ID_USER_SEARCH_FORM.USERNAME_FIELD}
               />
             </Col>
           </Row>
@@ -90,6 +92,7 @@ export class UserSearchFormBody extends Component {
                 type="submit"
                 bsStyle="primary"
                 className="pull-right"
+                data-testid={TEST_ID_USER_SEARCH_FORM.SEARCH_BUTTON}
               >
                 <FormattedMessage id="app.search" />
               </Button>

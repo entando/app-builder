@@ -5,6 +5,7 @@ import { reduxForm, FieldArray } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
 import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
+import { TEST_ID_USER_AUTHORITY_PAGE_FORM } from 'ui/test-const/user-test-const';
 
 export class UserAuthorityPageFormBody extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ export class UserAuthorityPageFormBody extends Component {
                 bsStyle="primary"
                 className="pull-right"
                 disabled={invalid || submitting}
+                data-testid={TEST_ID_USER_AUTHORITY_PAGE_FORM.SAVE_BUTTON}
               >
                 <FormattedMessage id="app.save" />
               </Button>

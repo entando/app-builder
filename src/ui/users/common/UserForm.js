@@ -17,6 +17,7 @@ import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { TEST_ID_USER_FORM } from 'ui/test-const/user-test-const';
 
 const EDIT_MODE = 'edit';
 const NEW_MODE = 'new';
@@ -203,6 +204,7 @@ export class UserFormBody extends Component {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
+              data-testid={TEST_ID_USER_FORM.SAVE_BUTTON}
             >
               <FormattedMessage id="app.save" />
             </Button>
