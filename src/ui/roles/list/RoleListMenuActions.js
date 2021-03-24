@@ -5,6 +5,7 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { LinkMenuItem } from '@entando/menu';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_ROLE_EDIT, ROUTE_ROLE_DETAIL } from 'app-init/router';
+import { TEST_ID_ROLE_LIST_TABLE } from 'ui/test-const/role-test-const';
 
 const RoleListMenuActions = ({ onClickDelete, code }) => {
   const editLabel = <FormattedMessage id="app.edit" />;
@@ -27,6 +28,7 @@ const RoleListMenuActions = ({ onClickDelete, code }) => {
       <MenuItem
         className="RoleListMenuAction__menu-item-delete"
         onClick={() => onClickDelete(code)}
+        data-testid={TEST_ID_ROLE_LIST_TABLE.ACTION_DELETE_ROLE}
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>
