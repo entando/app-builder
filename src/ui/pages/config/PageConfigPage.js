@@ -15,7 +15,7 @@ import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
-import NextGenPageConfig from '../next-config/NextGenPageConfig';
+import MonacoEditorContainer from 'ui/monaco/editor/MonacoEditorContainer';
 
 const msgs = defineMessages({
   appYes: {
@@ -302,7 +302,6 @@ class PageConfigPage extends Component {
 
     return (
       <InternalPage className="PageConfigPage app-tour-step-12 app-tour-step-14 app-tour-step-15">
-        { pageType === 'next' ? <NextGenPageConfig /> :
         <Grid fluid {...(toolbarCollapsed ? { className: 'PageConfigPage__side-widget--collapsed' } : {})}>
           <Row>
             <Col
@@ -321,23 +320,29 @@ class PageConfigPage extends Component {
 
               <Tabs id="basic-tabs" defaultActiveKey={1} className="PageConfigPage__tabs">
                 <Tab eventKey={1} title={<FormattedMessage id="pages.designer.tabDesigner" />} >
-                  <div>
-                    {this.renderPageHeader()}
-                    {this.renderActionBar()}
-                    <Panel
-                      className="PageConfigPage__info-panel"
-                      id="collapsible-info-table"
-                      expanded={this.state.infoTableOpen}
-                      onToggle={() => {}}
-                    >
-                      <Panel.Collapse>
-                        <SelectedPageInfoTableContainer />
-                      </Panel.Collapse>
-                    </Panel>
-                    <Spinner loading={!!this.props.loading}>
-                      <PageConfigGridContainer />
-                    </Spinner>
-                  </div>
+                  {
+                    pageType === 'next' ? (
+                      <MonacoEditorContainer pageName="test" />
+                    ) : (
+                      <div>
+                        {this.renderPageHeader()}
+                        {this.renderActionBar()}
+                        <Panel
+                          className="PageConfigPage__info-panel"
+                          id="collapsible-info-table"
+                          expanded={this.state.infoTableOpen}
+                          onToggle={() => {}}
+                        >
+                          <Panel.Collapse>
+                            <SelectedPageInfoTableContainer />
+                          </Panel.Collapse>
+                        </Panel>
+                        <Spinner loading={!!this.props.loading}>
+                          <PageConfigGridContainer />
+                        </Spinner>
+                      </div>
+                      )
+                  }
                 </Tab>
                 <Tab eventKey={2} title={<FormattedMessage id="pages.designer.tabPageSettings" />}>
                   <div>
@@ -353,61 +358,64 @@ class PageConfigPage extends Component {
                 </Tab>
               </Tabs>
 
-
-              <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
-                <Col
-                  xs={toolbarCollapsed ? 12 : 8}
-                  lg={toolbarCollapsed ? 12 : 9}
-                  className="PageConfigPage__bottom-options--tbar"
-                >
-                  <ButtonToolbar className="pull-left">
-                    { defaultConfigBtn }
-                  </ButtonToolbar>
-                  <div className="pull-right PageConfigPage__publishing">
-                    <label className="PageConfigPage__on-the-fly-label">
-                      <FormattedMessage id="pageConfig.onTheFlyPage" />
-                    </label>
-                    <DropdownButton
-                      id="dropdown-on-the-fly"
-                      bsStyle="default"
-                      title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
-                      pullRight
-                      disabled={!isOnTheFlyEnabled}
-                    >
-                      <MenuItem
-                        eventKey="1"
-                        className="PageConfigPage__on-the-fly-yes"
-                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
+              {
+                pageType !== 'next' && (
+                <Row className="PageConfigPage__toolbar-row PageConfigPage__bottom-options">
+                  <Col
+                    xs={toolbarCollapsed ? 12 : 8}
+                    lg={toolbarCollapsed ? 12 : 9}
+                    className="PageConfigPage__bottom-options--tbar"
+                  >
+                    <ButtonToolbar className="pull-left">
+                      { defaultConfigBtn }
+                    </ButtonToolbar>
+                    <div className="pull-right PageConfigPage__publishing">
+                      <label className="PageConfigPage__on-the-fly-label">
+                        <FormattedMessage id="pageConfig.onTheFlyPage" />
+                      </label>
+                      <DropdownButton
+                        id="dropdown-on-the-fly"
+                        bsStyle="default"
+                        title={pageIsOnTheFly ? TRANSLATED_YES : TRANSLATED_NO}
+                        pullRight
+                        disabled={!isOnTheFlyEnabled}
                       >
-                        {TRANSLATED_YES}
-                      </MenuItem>
-                      <MenuItem
-                        eventKey="2"
-                        className="PageConfigPage__on-the-fly-no"
-                        onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
+                        <MenuItem
+                          eventKey="1"
+                          className="PageConfigPage__on-the-fly-yes"
+                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(true)}
+                        >
+                          {TRANSLATED_YES}
+                        </MenuItem>
+                        <MenuItem
+                          eventKey="2"
+                          className="PageConfigPage__on-the-fly-no"
+                          onClick={() => setSelectedPageOnTheFly && setSelectedPageOnTheFly(false)}
+                        >
+                          {TRANSLATED_NO}
+                        </MenuItem>
+                      </DropdownButton>
+                      <Button
+                        className="PageConfigPage__unpublish-btn"
+                        bsStyle="default"
+                        onClick={unpublishPage}
+                        disabled={!pageIsPublished}
                       >
-                        {TRANSLATED_NO}
-                      </MenuItem>
-                    </DropdownButton>
-                    <Button
-                      className="PageConfigPage__unpublish-btn"
-                      bsStyle="default"
-                      onClick={unpublishPage}
-                      disabled={!pageIsPublished}
-                    >
-                      <FormattedMessage id="app.unpublish" />
-                    </Button>
-                    <Button
-                      className="PageConfigPage__publish-btn btn-primary app-tour-step-20"
-                      bsStyle="success"
-                      onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
-                      disabled={pageIsPublished}
-                    >
-                      <FormattedMessage id="app.publish" />
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
+                        <FormattedMessage id="app.unpublish" />
+                      </Button>
+                      <Button
+                        className="PageConfigPage__publish-btn btn-primary app-tour-step-20"
+                        bsStyle="success"
+                        onClick={() => publishPage(appTourProgress === APP_TOUR_STARTED)}
+                        disabled={pageIsPublished}
+                      >
+                        <FormattedMessage id="app.publish" />
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+                )
+              }
             </Col>
 
             <Col
@@ -416,6 +424,7 @@ class PageConfigPage extends Component {
               className="PageConfigPage__side-widget"
             >
               <ToolbarPageConfigContainer
+                pageType={pageType}
                 fixedView
                 collapsed={toolbarCollapsed}
                 onToggleCollapse={this.handleToggleToolbarCollapse}
@@ -424,7 +433,6 @@ class PageConfigPage extends Component {
           </Row>
           <AppTourContainer lockBodyScroll={false} />
         </Grid>
-      }
       </InternalPage>
     );
   }

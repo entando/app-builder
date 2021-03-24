@@ -1,0 +1,28 @@
+.MonacoEditor {
+  &__content {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: row;
+    height: 100%;
+    outline: none;
+    overflow: visible;
+    user-select: text;
+  }
+
+  &__editor {
+    position: relative;
+    flex: 3 1 0%;
+    min-width: 100px;
+    outline: none;
+  }
+
+  &__preview {
+    position: relative;
+    flex: 1 1 0%;
+    width: 100%;
+    max-width: 100%;
+    outline: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+}

@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
-const simulateMouseClick = (element) => {
+export const simulateMouseClick = (element) => {
   mouseClickEvents.forEach(mouseEventType =>
     element.dispatchEvent(new MouseEvent(mouseEventType, {
       view: window,

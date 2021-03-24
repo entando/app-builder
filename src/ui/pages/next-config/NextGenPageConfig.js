@@ -42,7 +42,6 @@ function NextGenPageConfig() {
       <Editor
         height="80vh"
         theme="vs-dark"
-        // theme="light"
         path={file.name}
         defaultLanguage={file.language}
         defaultValue={file.value}

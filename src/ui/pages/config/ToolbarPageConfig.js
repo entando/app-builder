@@ -5,6 +5,7 @@ import { Button, Tabs, Tab, Icon } from 'patternfly-react';
 
 import WidgetGroupingsContainer from 'ui/pages/config/WidgetGroupingsContainer';
 import ContentPagesContainer from 'ui/pages/config/ContentPagesContainer';
+import MonacoFileTreeContainer from 'ui/monaco/file-tree/MonacoFileTreeContainer';
 
 class ToolbarPageConfig extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ToolbarPageConfig extends Component {
   }
 
   render() {
-    const { collapsed, onToggleCollapse } = this.props;
+    const { collapsed, onToggleCollapse, pageType } = this.props;
     const classContainer = ['ToolbarPageConfig', 'ToolbarPageConfig__drawer-pf-sidebar-right'];
     if (collapsed) {
       classContainer.push('ToolbarPageConfig__collapse-mode');
@@ -54,6 +55,13 @@ class ToolbarPageConfig extends Component {
         <FormattedMessage id="pages.designer.tabPageTree" />
       </Fragment>
     );
+
+    const renderedFileTreeTitle = (
+      <Fragment>
+        <Icon name="list-alt" />
+        <FormattedMessage id="pages.designer.tabFileTree" defaultMessage="File Tree" />
+      </Fragment>
+    );
     return (
       <div className={classContainer.join(' ').trim()}>
         <div className="ToolbarPageConfig__tab-container">
@@ -62,17 +70,24 @@ class ToolbarPageConfig extends Component {
           </Button>
           <Tabs
             id="toolbar-tab"
-            defaultActiveKey={0}
+            defaultActiveKey={pageType === 'next' ? 1 : 0}
             className={classScrollContainer.join(' ')}
             onSelect={this.handleTabSelect}
             mountOnEnter
             unmountOnExit
           >
-            <Tab eventKey={0} title={renderedWidgetTabTitle}>
-              <WidgetGroupingsContainer />
-            </Tab>
+            {
+              pageType !== 'next' && (
+                <Tab eventKey={0} title={renderedWidgetTabTitle}>
+                  <WidgetGroupingsContainer />
+                </Tab>
+              )
+            }
             <Tab eventKey={1} title={renderedPageTreeTabTitle}>
               <ContentPagesContainer />
+            </Tab>
+            <Tab eventKey={2} title={renderedFileTreeTitle}>
+              <MonacoFileTreeContainer />
             </Tab>
           </Tabs>
         </div>
@@ -89,6 +104,7 @@ ToolbarPageConfig.propTypes = {
   toggleExpanded: PropTypes.bool,
   collapsed: PropTypes.bool.isRequired,
   onToggleCollapse: PropTypes.func.isRequired,
+  pageType: PropTypes.string,
 };
 
 ToolbarPageConfig.defaultProps = {
@@ -96,5 +112,6 @@ ToolbarPageConfig.defaultProps = {
   onWillUnmount: () => {},
   fixedView: false,
   toggleExpanded: false,
+  pageType: '',
 };
 export default ToolbarPageConfig;

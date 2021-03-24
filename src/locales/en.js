@@ -964,5 +964,12 @@ export default {
     'linkconfig.title': 'Configure link content',
     'specialcharModal.title': 'Insert special character',
     'linkconfig.linkToUrl': 'Link to an URL',
+    'app.create': 'Create',
+    'modal.confirm.create.file': 'Input the name of a new file',
+    'modal.confirm.create.folder': 'Input the name of a new folder',
+    'monacoEditor.showPreview': 'Show Preview',
+    'monacoEditor.hidePreview': 'Hide Preview',
+    'app.refresh': 'Refresh',
+    'monacoEditor.openInNewTab': 'Open in a tab',
   },
 };

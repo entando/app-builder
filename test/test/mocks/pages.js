@@ -79,6 +79,7 @@ export const DASHBOARD_PAYLOAD = {
 
 export const SERVICE_PAYLOAD = {
   code: 'service',
+  correspondingJsFilePath: '',
   status: 'published',
   displayedInMenu: false,
   pageModel: 'single_cell_model',
@@ -104,6 +105,7 @@ export const SERVICE_PAYLOAD = {
     'error',
     'login',
   ],
+  pageType: 'next',
 };
 
 export const NOTFOUND_PAYLOAD = {
