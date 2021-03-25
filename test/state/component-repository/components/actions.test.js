@@ -33,7 +33,6 @@ import {
 } from 'test/mocks/component-repository/components';
 import {
   getECRComponents,
-  postECRComponentInstall,
   postECRComponentUninstall,
   getComponentUsage,
   postECRComponentInstallPlan,

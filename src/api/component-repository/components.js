@@ -33,17 +33,6 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
   )
 );
 
-export const postECRComponentInstall = (component, version = 'latest') => (
-  makeRequest({
-    uri: `/components/${component.code}/install`,
-    domain: '/digital-exchange',
-    body: { version },
-    method: METHODS.POST,
-    mockResponse: COMPONENT_INSTALLATION_CREATED,
-    useAuthentication: true,
-  })
-);
-
 // should you need to test (un)installation in-progress using mock mode,
 // you can set the mockResponse to `COMPONENT_INSTALLATION_IN_PROGRESS` to fully test the process.
 // do this the same for `getECRComponentUninstall` API
