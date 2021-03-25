@@ -76,6 +76,6 @@ export const getInstallUninstallProgress = createSelector(
   componentRepositoryComponents => componentRepositoryComponents.progressStatus,
 );
 
-export const getInstallPlan = state => get(state, 'componentRepositoryComponents.conflictsModal.installPlan', {});
-export const getComponent = state => get(state, 'componentRepositoryComponents.conflictsModal.component', {});
-export const getComponentVersion = state => get(state, 'componentRepositoryComponents.conflictsModal.version', null);
+export const getInstallPlan = state => get(state, 'componentRepositoryComponents.installConflicts.installPlan', {});
+export const getComponent = state => get(state, 'componentRepositoryComponents.installConflicts.component', {});
+export const getComponentVersion = state => get(state, 'componentRepositoryComponents.installConflicts.version', null);

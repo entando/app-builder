@@ -300,7 +300,7 @@ const progressStatus = (state = 0, action = {}) => {
   }
 };
 
-const initialConflictsModalState = {
+const initialInstallConflictsState = {
   open: false, installPlan: null, component: {}, version: null,
 };
 
@@ -328,7 +328,7 @@ const updateAllActions = (installPlan, type) =>
     };
   }, {});
 
-const conflictsModal = (state = initialConflictsModalState, action = {}) => {
+const installConflicts = (state = initialInstallConflictsState, action = {}) => {
   switch (action.type) {
     case TOGGLE_CONFLICTS_MODAL: {
       if (action.payload.open) {
@@ -337,7 +337,7 @@ const conflictsModal = (state = initialConflictsModalState, action = {}) => {
           installPlan: updateAllActions(action.payload.installPlan, ''),
         };
       }
-      return initialConflictsModalState;
+      return initialInstallConflictsState;
     }
     case UPDATE_INSTALL_PLAN: {
       const { category, name, action: type } = action.payload;
@@ -378,5 +378,5 @@ export default combineReducers({
   uninstallation,
   usageList,
   progressStatus,
-  conflictsModal,
+  installConflicts,
 });
