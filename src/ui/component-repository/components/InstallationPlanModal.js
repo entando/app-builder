@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
-import cx from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
-import { Button, Modal, DropdownButton, MenuItem, ButtonGroup } from 'patternfly-react';
-import { Table } from 'react-bootstrap';
+import { Button, Modal, ButtonGroup } from 'patternfly-react';
 
 import { getInstallPlan, getComponent, getComponentVersion } from 'state/component-repository/components/selectors';
-import { updateInstallPlan, updateAllInstallPlan, installECRComponent, setInstallUninstallProgress } from 'state/component-repository/components/actions';
+import { updateAllInstallPlan, installECRComponent, setInstallUninstallProgress } from 'state/component-repository/components/actions';
 import { setVisibleModal } from 'state/modal/actions';
+
+import InstallationPlanTable from 'ui/component-repository/components/InstallationPlanTable';
 
 export const MODAL_ID = 'InstallationPlanModal';
 const IGNORED_KEYS = ['version', 'conflictStrategy', 'hasConflicts'];
-const ACTIONS = {
-  SKIP: 'skip',
-  OVERRIDE: 'update',
-  CREATE: 'install',
-};
 
-const InstallationPlanModal = ({
-  intl,
-}) => {
+const normalizeList = installPlan =>
+  Object.keys(installPlan)
+    .filter(key => !IGNORED_KEYS.includes(key))
+    .reduce((acc, category) => ([
+      ...acc,
+      ...Object.keys(installPlan[category])
+        .map(component =>
+          ({
+            category,
+            component,
+            status: installPlan[category][component].status,
+            action: installPlan[category][component].action,
+          })),
+    ]), []);
+
+const InstallationPlanModal = () => {
   const installPlan = useSelector(getInstallPlan);
   const selectedComponent = useSelector(getComponent);
   const version = useSelector(getComponentVersion);
@@ -28,36 +36,12 @@ const InstallationPlanModal = ({
   const [filterType, setFilterType] = useState('all');
   const [requiredList, setRequiredList] = useState([]);
 
-  const componentList = [];
-
-  if (installPlan) {
-    Object.keys(installPlan)
-      .filter(key => !IGNORED_KEYS.includes(key))
-      .forEach(category => Object.keys(installPlan[category])
-        .forEach((component) => {
-          componentList.push({
-            category,
-            component,
-            status: installPlan[category][component].status,
-            action: installPlan[category][component].action,
-          });
-        }));
-  }
-
+  const componentList = installPlan ? normalizeList(installPlan) : [];
   const filteredList = filterType === 'conflicts' ? componentList.filter(comp => comp.status !== 'NEW') : componentList;
-
-  const handleSelect = (category, component, action) => {
-    dispatch(updateInstallPlan(category, component, action));
-  };
 
   const handleSave = () => {
     // check for completed install plan
-    const newList = [];
-    componentList.forEach((item) => {
-      if (!item.action) {
-        newList.push(item.component);
-      }
-    });
+    const newList = componentList.filter(item => !item.action).map(item => item.component);
 
     setRequiredList(newList);
 
@@ -124,64 +108,10 @@ const InstallationPlanModal = ({
             </ul>
           </div>
         </div>
-        <Table className="InstallationPlanModal__table" striped bordered condensed hover >
-          <thead>
-            <tr>
-              <th><FormattedMessage id="componentRepository.category" /></th>
-              <th><FormattedMessage id="componentRepository.componentName" /></th>
-              <th><FormattedMessage id="componentRepository.status" /></th>
-              <th style={{ width: '110px' }}><FormattedMessage id="componentRepository.actions" /></th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              filteredList &&
-              filteredList.map(({
-                component,
-                category,
-                status,
-                action,
-                }) => (
-                  <tr key={component} className={cx(requiredList.includes(component) && 'InstallationPlanModal__is-required')}>
-                    <td>{category}</td>
-                    <td>{component}</td>
-                    <td style={{ textAlign: 'center' }}>
-                      {status === 'NEW'
-                        ? <i className="fa fa-check-circle InstallationPlanModal__ok" />
-                        : <i className="fa fa-exclamation-circle InstallationPlanModal__warning" />}
-                    </td>
-                    <td>
-                      <DropdownButton
-                        id="InstallationPlanModal__dropdown-button"
-                        onSelect={(key) => {
-                          handleSelect(category, component, key);
-                        }}
-                        title={ACTIONS[action] ? intl.formatMessage({ id: `componentRepository.${ACTIONS[action]}` }) : 'Select'}
-                        className="InstallationPlanModal__dropdown-button"
-                        disabled={status === 'NEW'}
-                      >
-                        {
-                          Object.keys(ACTIONS)
-                          .filter(act => act !== 'CREATE')
-                          .map(act => (
-                            <MenuItem key={act} eventKey={act}>
-                              <FormattedMessage id={`componentRepository.${ACTIONS[act]}`} />
-                            </MenuItem>
-                          ))
-                        }
-                      </DropdownButton>
-                    </td>
-                  </tr>))
-            }
-          </tbody>
-        </Table>
+        <InstallationPlanTable tableRows={filteredList} requiredList={requiredList} />
       </div>
     </GenericModalContainer>
   );
 };
 
-InstallationPlanModal.propTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default injectIntl(InstallationPlanModal);
+export default InstallationPlanModal;
