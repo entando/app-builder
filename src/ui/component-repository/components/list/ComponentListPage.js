@@ -13,6 +13,7 @@ import { FormattedMessage } from 'react-intl';
 import { ROLE_SUPERUSER } from 'state/permissions/const';
 import { ROUTE_ECR_COMPONENT_LIST, ROUTE_ECR_CONFIG_LIST } from 'app-init/router';
 import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilterContainer';
+import InstallationPlanModal from 'ui/component-repository/components/InstallationPlanModal';
 
 export const ComponentListPageBody = () => (
   <InternalPage className="ComponentListPage">
@@ -66,6 +67,7 @@ export const ComponentListPageBody = () => (
         </Row>
       </div>
     </Grid>
+    <InstallationPlanModal />
   </InternalPage>
 );
 

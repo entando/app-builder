@@ -15,3 +15,6 @@ export const COMPONENT_UNINSTALL_ONGOING_PROGRESS = 'component-repository/compon
 export const SET_COMPONENT_USAGE_LIST = 'component-repository/components/set-component-usage-list';
 export const SET_ECR_SEARCH_FILTER_TYPE = 'component-repository/components/set-ecr-search-filter-type';
 export const SET_INSTALL_UNINSTALL_PROGRESS = 'component-repository/components/set-install-uninstall-progress';
+export const TOGGLE_CONFLICTS_MODAL = 'component-repository/components/toggle-install-plan';
+export const UPDATE_INSTALL_PLAN = 'component-repository/components/update-install-plan';
+export const UPDATE_ALL_INSTALL_PLAN = 'component-repository/components/update-all-install-plan';

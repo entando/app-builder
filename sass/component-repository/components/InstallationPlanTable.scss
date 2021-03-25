@@ -1,0 +1,24 @@
+.InstallationPlanTable {
+
+  &__dropdown-button,
+  &__dropdown-button:hover {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &__ok {
+    color: $color-ecr-component-installed-button;
+    font-size: 22px;
+  }
+
+  &__warning {
+    color: $color-draft;
+    font-size: 22px;
+  }
+
+  &__is-required {
+    & td:last-child {
+      border: solid 2px $color-ecr-component-failed-button;
+    }
+  }
+}
