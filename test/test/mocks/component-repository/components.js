@@ -266,3 +266,143 @@ export const COMPONENT_USAGE_LIST = [{
   type: 'page',
   usage: 2,
 }];
+
+export const COMPONENT_INSTALL_PLAN = {
+  hasConflicts: true,
+  widgets: {
+    'conference-form-widget': {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+    'conference-details-widget': {
+      status: 'NEW',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  fragments: {
+    jacms_content_viewer_list_userfilter_ent_text: {
+      status: 'EQUAL',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+    jacms_content_viewer_list_userfilter_met_category: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+    jacms_content_viewer_list_userfilter_ent_checkbox: {
+      status: 'NEW',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  pages: {
+    news: {
+      status: 'NEW',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  pageTemplates: {
+    'content-page': {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  contents: {
+    NWS5: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  contentTemplates: {
+    10003: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  contentTypes: {
+    TCL: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  assets: {
+    entandoAtPlan: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  directories: {},
+  resources: {
+    '/extract-bundle': {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  plugins: {
+    'lcorsettientando-xmasbundle': {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  categories: {},
+  groups: {
+    free: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+    administrators: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  labels: {
+    ENTANDO_API_GOTO_DETAILS: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+  languages: {
+    en: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+    it: {
+      status: 'DIFF',
+      updateTime: '1997-07-16T19:20:30+01:00',
+      hash: 'sadklsadjlkdjaskldjskaljdsakljdalks',
+      action: null,
+    },
+  },
+};

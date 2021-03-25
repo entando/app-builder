@@ -6,6 +6,7 @@ import {
   COMPONENT_UNINSTALLATION_CREATED,
   COMPONENT_UNINSTALLATION_COMPLETED,
   COMPONENT_USAGE_LIST,
+  COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -83,6 +84,41 @@ export const getComponentUsage = code => (
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_USAGE_LIST,
+    useAuthentication: true,
+  })
+);
+
+// INSTALL PLAN API
+// new install endpoint
+export const putECRComponentInstallPlan = (component, body) => (
+  makeRequest({
+    uri: `/components/${component.code}/installplans`,
+    domain: '/digital-exchange',
+    body,
+    method: METHODS.PUT,
+    mockResponse: COMPONENT_INSTALLATION_CREATED,
+    useAuthentication: true,
+  })
+);
+
+// request the install plan for a component
+export const postECRComponentInstallPlan = (component, version = 'latest') => (
+  makeRequest({
+    uri: `/components/${component.code}/installplans`,
+    domain: '/digital-exchange',
+    body: { version },
+    method: METHODS.POST,
+    mockResponse: COMPONENT_INSTALL_PLAN,
+    useAuthentication: true,
+  })
+);
+
+export const getECRComponentInstallPlan = code => (
+  makeRequest({
+    uri: `/components/${code}/installplans`,
+    domain: '/digital-exchange',
+    method: METHODS.GET,
+    mockResponse: COMPONENT_INSTALLATION_COMPLETED,
     useAuthentication: true,
   })
 );
