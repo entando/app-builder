@@ -1,6 +1,4 @@
-import { generateRandomId } from '../support/utils';
-
-describe('Pages', () => {
+describe('Pages Management', () => {
   beforeEach(() => {
     cy.appBuilderLogin();
   });
@@ -10,6 +8,15 @@ describe('Pages', () => {
   });
 
   describe('Add a new one with all default values', () => {
+    it('Should move a page in the page tree', () => {
+      cy.openPageFromMenu(['Pages', 'Management']);
+      cy.contains('Sitemap').parentsUntil('tr').get('.PageTree__drag-handle')
+        .drag(cy.contains('My Homepage').parentsUntil('tr'));
+      cy.wait(5000);
+    });
+
+
+    /*
     it('Should create a new page', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
       cy.getByTestId('page-tree').contains('Management').should('be.visible');
@@ -24,6 +31,7 @@ describe('Pages', () => {
       cy.log('Validate the creation');
       cy.getByTestId('save-page').contains('Save').click();
     });
+    */
   });
 });
 
