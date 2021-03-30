@@ -5,9 +5,18 @@ Cypress.Commands.add('dragAndDropWidgetToFirstEmptyFrame', (widgetName) => {
     .drag(`[data-testid=${TEST_ID_WIDGET_FRAME.EMPTY_FRAME}]`, { position: 'center', force: true });
 });
 
-Cypress.Commands.add('dragAndDropWidgetToFrame', (widgetName, frameName) => {
+Cypress.Commands.add('addWidget', (widgetName, frameName) => {
+  cy.log(`Add a new widget ${widgetName} to ${frameName}`);
   cy.getByTestId(TEST_ID_PAGE_DESIGNER.WIDGET_LIST_ITEM).contains(widgetName)
     .drag(`[data-testid=WidgetFrame__${frameName.replace(/\s/g, '_')}]`, { position: 'center', force: true });
+  cy.wait(500);
+});
+
+Cypress.Commands.add('moveWidget', (fromFrameName, toFrameName) => {
+  cy.log(`Move the widget from frame ${fromFrameName} to ${toFrameName}`);
+  cy.getByTestId(`WidgetFrame__${fromFrameName.replace(/\s/g, '_')}`)
+    .drag(`[data-testid=WidgetFrame__${toFrameName.replace(/\s/g, '_')}]`, { position: 'center', force: true });
+  cy.wait(500);
 });
 
 Cypress.Commands.add('getPageStatus', () => {
