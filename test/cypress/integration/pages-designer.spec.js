@@ -1,4 +1,7 @@
+import { TEST_ID_PAGE_DESIGNER } from '../../../src/ui/test-const/page-designer-test-const';
+
 describe('Pages Designer', () => {
+
   beforeEach(() => {
     cy.appBuilderLogin();
   });
@@ -9,25 +12,21 @@ describe('Pages Designer', () => {
 
   describe('Drag and drop a widget', () => {
     it('Should add a widget to an empty frame in a page', () => {
+      const FRAME = 'Frame 3';
+      const WIDGET = 'News Latest';
+      const PAGE = 'My Homepage';
       cy.openPageFromMenu(['Pages', 'Designer']);
-      cy.getByTestId('config_ToolbarPageConfig_Tabs').contains('Page Tree').click();
-      cy.getByTestId('common_PageTreeCompact_span').contains('My Homepage').click();
+      cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Page Tree').click();
+      cy.getByTestId(TEST_ID_PAGE_DESIGNER.PAGE_TREE).contains(PAGE).click();
       cy.log('Select the widget');
-      cy.getByTestId('config_ToolbarPageConfig_Tabs').contains('Widgets').click();
-      // cy.getByTestId('config_WidgetGroupingItem_div').contains('News Latest')
-      //  .drag('[data-testid=config_EmptyFrame_div]', { force: true });
-      cy.dragAndDropWidgetToEmptyFrame('News Latest');
+      cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Widgets').click();
+      cy.log('Add the widget to the page in the first empty frame');
+      cy.dragAndDropWidgetToFrame(WIDGET, FRAME);
       cy.getPageStatus().should('contain', 'Published, with pending changes');
-      // Use a regex to exactly match the "Publish" string
-      cy.getByTestId('config_PageConfigPage_Button').contains(new RegExp('^Publish$')).click();
-      cy.wait(1000);
+      cy.publishPageClick();
       cy.getPageStatus().should('contain', 'Published');
-
-      cy.deletePageWidget('News Latest');
-
-
-      cy.wait(1000);
-      // cy.
+      cy.deletePageWidgetByFrame(FRAME);
+      cy.publishPageClick();
     });
   });
 });

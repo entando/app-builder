@@ -104,10 +104,11 @@ class WidgetFrame extends Component {
     }
     let component = (
       <div className={classNameAr.join(' ')}>
-        <div className="WidgetFrame__content">
-          <div className="WidgetFrame__frame-name">{frameName}</div>
+        <div className="WidgetFrame__content" data-testid={`WidgetFrame__${frameName.replace(/\s/g, '_')}`}>
+          <div className="WidgetFrame__frame-name">
+            {frameName}
+          </div>
           { actionsMenu }
-
           <div className="WidgetFrame__descriptor">
             <WidgetIcon widgetId={widgetId} />
             { widgetName }

@@ -13,8 +13,8 @@ const EmptyFrame = ({
     classNameAr.push('EmptyFrame--main-frame');
   }
   const component = (
-    <div className={classNameAr.join(' ')}>
-      <span className="EmptyFrame__frame-name">{ frameName }</span>
+    <div className={classNameAr.join(' ')} data-testid={`WidgetFrame__${frameName.replace(/\s/g, '_')}`}>
+      <span className="EmptyFrame__frame-name" >{ frameName }</span>
     </div>
   );
   if (connectDropTarget) {

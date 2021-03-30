@@ -1,5 +1,3 @@
-// USER
-
 export const TEST_ID_DETAIL_USER_TABLE = {
   TABLE: 'DetailUserTable__table',
   BACK_BUTTON: 'DetailUserTable__backButton',
