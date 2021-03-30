@@ -1,7 +1,7 @@
 import 'test/enzyme-init';
 import React from 'react';
 import { mount } from 'enzyme';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 
 const FIELD_NAME = 'test-select';

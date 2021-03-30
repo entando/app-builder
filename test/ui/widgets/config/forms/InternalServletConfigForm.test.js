@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const EVENT = { preventDefault: jest.fn() };

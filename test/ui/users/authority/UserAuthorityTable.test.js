@@ -3,7 +3,8 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, screen } from '@testing-library/react';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import { TEST_ID_USER_AUTHORITY_MODAL } from 'ui/test-const/user-test-const';
 
 const state = {
   modal: {
@@ -70,8 +71,8 @@ describe('UserListTable', () => {
 
       fireEvent.click(screen.getByText('Add new Authorization'));
 
-      fireEvent.change(screen.getByTestId('groups'), { target: { value: 'group1' } });
-      fireEvent.change(screen.getByTestId('roles'), { target: { value: 'role1' } });
+      fireEvent.change(screen.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD), { target: { value: 'group1' } });
+      fireEvent.change(screen.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD), { target: { value: 'role1' } });
 
       fireEvent.click(screen.getByText('Add'));
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { CreateFolderFormBody } from 'ui/file-browser/add/CreateFolderForm';
-import { shallowWithIntl, mockIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();

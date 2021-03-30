@@ -21,6 +21,7 @@ import {
   moveAttributeUp,
   moveAttributeDown,
   postRefreshProfileType,
+  getMyProfileType,
 } from 'api/profileTypes';
 import {
   getProfileTypeAttributesIdList,
@@ -247,6 +248,23 @@ export const fetchProfileType = profileTypeCode => dispatch => (
   })
 );
 
+
+export const fetchMyProfileType = () => dispatch => (
+  new Promise((resolve) => {
+    getMyProfileType().then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setSelectedProfileType(json.payload));
+          dispatch(initialize('ProfileType', json.payload));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        resolve();
+      });
+    }).catch(() => {});
+  })
+);
 
 export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {

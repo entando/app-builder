@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { UserProfileFormBody } from 'ui/user-profile/common/UserProfileForm';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 
 const onWillMount = jest.fn();

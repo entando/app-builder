@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { screen, render, within, cleanup } from '@testing-library/react';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import { SEARCH_PAGES } from 'test/mocks/pages';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import PageTreeActionMenu from 'ui/pages/common/PageTreeActionMenu';
@@ -44,12 +44,10 @@ const requiredState = {
   pages: { map: {} },
 };
 
-const renderComponent = (addProps = {}) => render(
-  mockRenderWithIntlAndStore(
-    <PageListSearchTable page={1} pageSize={1} totalItems={1} {...props} {...addProps} />,
-    requiredState,
-  ),
-);
+const renderComponent = (addProps = {}) => render(mockRenderWithIntlAndStore(
+  <PageListSearchTable page={1} pageSize={1} totalItems={1} {...props} {...addProps} />,
+  requiredState,
+));
 
 afterEach(cleanup);
 

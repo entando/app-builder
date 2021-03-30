@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 import { MemoryRouter } from 'react-router-dom';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const FIELDS = {
   remove: jest.fn(),

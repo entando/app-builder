@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 const FormSectionTitle = ({ titleId, requireFields }) => (
-  <legend>
+  <legend role="heading">
     <FormattedMessage id={titleId} />
     {
       requireFields && (

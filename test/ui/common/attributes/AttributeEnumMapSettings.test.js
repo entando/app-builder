@@ -6,7 +6,7 @@ import AttributeEnumMapSettings, { elements as elementValidation } from 'ui/comm
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const DATA = { code: 'code', descr: 'descr' };
 

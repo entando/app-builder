@@ -18,6 +18,7 @@ import {
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
   ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
   ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
+  ROUTE_EMAIL_CONFIG,
 } from 'app-init/router';
 
 import apps from 'entando-apps';
@@ -48,10 +49,6 @@ const ROUTE_CMS_CONTENTTYPE_LIST = '/cms/content-types';
 const ROUTE_CMS_CONTENTS = '/cms/contents';
 const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
 const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
-
-const { DOMAIN } = getRuntimeEnv();
-
-const adminConsoleUrl = url => `${DOMAIN}/${url}`;
 
 const isCmsInstalled = apps.some((app => app.id === CMS_APP_ID));
 
@@ -346,9 +343,8 @@ const LegacyAdminConsoleMenuBody = ({
           />
           <SecondaryItem
             id="menu-email"
-            title={intl.formatMessage({ id: 'menu.mail', defaultMessage: 'Email Configuration' })}
-            onClick={() => {}}
-            href={adminConsoleUrl('do/jpmail/MailConfig/editSmtp.action')}
+            title={intl.formatMessage({ id: 'menu.emailConfig', defaultMessage: 'Email Configuration' })}
+            onClick={() => history.push(ROUTE_EMAIL_CONFIG)}
           />
           <SecondaryItem
             id="menu-reload-configuration"

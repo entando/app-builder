@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import CloneFragmentPage from 'ui/fragments/clone/CloneFragmentPage';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 describe('CloneFragmentPage', () => {
   let component;

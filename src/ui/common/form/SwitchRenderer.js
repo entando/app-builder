@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 
-const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) => {
+const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
     input.onChange(returnVal);
@@ -12,11 +12,13 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue) =
   };
 
   return (
-    <Switch
-      {...input}
-      value={switchValue}
-      onChange={handleChange}
-    />
+    <div data-testid={dataTestId}>
+      <Switch
+        {...input}
+        value={switchValue}
+        onChange={handleChange}
+      />
+    </div>
   );
 };
 
@@ -25,6 +27,7 @@ const SwitchRenderer = ({
   help, trueValue, falseValue, disabled, onToggleValue,
 }) => {
   const switchValue = input.value === 'true' || input.value === true || input.value === trueValue;
+  const dataTestId = `${input.name}-switchField`;
   if (label) {
     return (
       <div className={`SwitchRenderer ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
@@ -34,8 +37,11 @@ const SwitchRenderer = ({
           </ControlLabel>
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
-          <div aria-labelledby={`switch-${input.name}`}>
-            {switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue)}
+          <div aria-labelledby={`switch-${input.name}`} >
+            {switchField(
+                { ...input, disabled }, switchValue, trueValue, falseValue,
+                onToggleValue, dataTestId,
+            )}
           </div>
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span className="help-block">{error}</span>))}
@@ -43,7 +49,10 @@ const SwitchRenderer = ({
       </div>);
   }
 
-  return switchField({ ...input, disabled }, switchValue, trueValue, falseValue, onToggleValue);
+  return switchField(
+    { ...input, disabled },
+    switchValue, trueValue, falseValue, onToggleValue, dataTestId,
+  );
 };
 
 SwitchRenderer.propTypes = {

@@ -3,7 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { Spinner } from 'patternfly-react';
 import { PageSettingsFormBody } from 'ui/pages/common/PageSettingsForm';
-import { shallowWithIntl, mockIntl } from 'test/testUtils';
+import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 
 const ON_SUBMIT = jest.fn();
 const HANDLE_SUBMIT = jest.fn();

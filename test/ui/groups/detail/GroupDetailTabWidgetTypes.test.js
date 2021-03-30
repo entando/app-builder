@@ -1,6 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import GroupDetailTabWidgetTypes from 'ui/groups/detail/GroupDetailTabWidgetTypes';
 import { WIDGETTYPE_REFERENCES } from 'test/mocks/groups';
 
@@ -9,7 +9,8 @@ global.console.error = jest.fn();
 describe('GroupDetailTabWidgetTypes', () => {
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<GroupDetailTabWidgetTypes page={1} pageSize={1} totalItems={1} />).dive();
+    component =
+      shallowWithIntl(<GroupDetailTabWidgetTypes page={1} pageSize={1} totalItems={1} />).dive();
   });
 
   it('renders without crashing', () => {

@@ -112,6 +112,8 @@
 @import "component-repository/components/ComponentList";
 @import "component-repository/components/ComponentListPage";
 @import "component-repository/components/ComponentListViewModeSwitcher";
+@import "component-repository/components/InstallationPlanModal";
+@import "component-repository/components/InstallationPlanTable";
 @import "component-repository/settings/SettingsList";
 @import "ddtable/DDTable";
 @import "common/form/FilterType.scss";
@@ -121,6 +123,8 @@
 @import "license/LicensePage.scss";
 @import "widgets/config/forms/NavigationBarConfigForm.scss";
 @import "tour/index.scss";
+@import "email-config/EmailConfigPage";
+@import "email-config/EmailConfigSenderMgmt";
 @import "pages/config/WidgetGroupingListItem.scss";
 @import "pages/list/PageSearchForm.scss";
 @import "common/form/RenderRichTextEditor.scss";

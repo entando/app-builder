@@ -22,16 +22,20 @@ import {
   SET_COMPONENT_USAGE_LIST,
   SET_ECR_SEARCH_FILTER_TYPE,
   SET_INSTALL_UNINSTALL_PROGRESS,
+  TOGGLE_CONFLICTS_MODAL,
+  UPDATE_INSTALL_PLAN,
+  UPDATE_ALL_INSTALL_PLAN,
 } from 'state/component-repository/components/types';
 import pollApi from 'helpers/pollApi';
 import {
   getECRComponent,
   getECRComponents,
-  postECRComponentInstall,
-  getECRComponentInstall,
   postECRComponentUninstall,
   getECRComponentUninstall,
   getComponentUsage,
+  getECRComponentInstallPlan,
+  putECRComponentInstallPlan,
+  postECRComponentInstallPlan,
 } from 'api/component-repository/components';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading, setLoading } from 'state/loading/actions';
@@ -44,6 +48,8 @@ import {
   ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
   ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
 } from 'state/component-repository/components/const';
+import { setVisibleModal } from 'state/modal/actions';
+import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
 
@@ -159,13 +165,37 @@ export const setInstallUninstallProgress = progress => ({
   },
 });
 
+export const toggleConflictsModal = (open, installPlan, component, version) => ({
+  type: TOGGLE_CONFLICTS_MODAL,
+  payload: {
+    open,
+    installPlan,
+    component,
+    version,
+  },
+});
+
+export const updateInstallPlan = (category, name, action) => ({
+  type: UPDATE_INSTALL_PLAN,
+  payload: {
+    category, name, action,
+  },
+});
+
+export const updateAllInstallPlan = action => ({
+  type: UPDATE_ALL_INSTALL_PLAN,
+  payload: {
+    action,
+  },
+});
+
 // thunks
 
 export const pollECRComponentInstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {
     dispatch(startComponentInstallation(componentCode));
     pollApi({
-      apiFn: () => getECRComponentInstall(componentCode),
+      apiFn: () => getECRComponentInstallPlan(componentCode),
       stopPollingConditionFn: ({
         payload,
       }) => payload && [
@@ -224,36 +254,55 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
   })
 );
 
-export const installECRComponent = (component, version, logProgress) => dispatch => (
-  new Promise((resolve) => {
-    const loadingId = `deComponentInstallUninstall-${component.code}`;
-    dispatch(toggleLoading(loadingId));
-    postECRComponentInstall(component, version).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          dispatch(pollECRComponentInstallStatus(component.code, logProgress))
-            .then(res => resolve(res));
-        } else {
-          if (data && data.errors) {
-            dispatch(addErrors(data.errors.map(err => err.message)));
-            data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          }
-          // when version is not available, error payload is different
-          const versionUnavailable = data && data.message;
-          if (versionUnavailable) {
-            dispatch(addErrors([data.message]));
-            dispatch(addToast(data.message, TOAST_ERROR));
-          }
-          resolve();
-        }
-        dispatch(toggleLoading(loadingId));
-      });
-      logProgress(0);
-    }).catch(() => {
+export const installECRComponent = (component, version, logProgress, resolvedInstallPlan) =>
+  dispatch => (
+    new Promise((resolve) => {
+      const loadingId = `deComponentInstallUninstall-${component.code}`;
       dispatch(toggleLoading(loadingId));
-    });
-  })
-);
+      // check for conflicts on install plan before install
+      postECRComponentInstallPlan(component, version)
+        .then((response) => {
+          response.json().then(({ payload: installPlan }) => {
+            if (!installPlan.hasConflicts || resolvedInstallPlan) {
+            // no conflicts or the install plan has been resolved, proceed with component install
+              putECRComponentInstallPlan(component, resolvedInstallPlan || { version })
+                .then((res) => {
+                  res.json().then((data) => {
+                    if (res.ok) {
+                      dispatch(pollECRComponentInstallStatus(component.code, logProgress))
+                        .then(payload => resolve(payload));
+                      dispatch(toggleLoading(loadingId));
+                    } else {
+                      if (data && data.errors) {
+                        dispatch(addErrors(data.errors.map(err => err.message)));
+                        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+                      }
+                      // when version is not available, error payload is different
+                      const versionUnavailable = data && data.message;
+                      if (versionUnavailable) {
+                        dispatch(addErrors([data.message]));
+                        dispatch(addToast(data.message, TOAST_ERROR));
+                      }
+                      dispatch(toggleLoading(loadingId));
+                      resolve();
+                    }
+                  });
+                  if (logProgress) {
+                    logProgress(0);
+                  }
+                });
+            } else {
+              // show conflict modal
+              dispatch(toggleLoading(loadingId));
+              dispatch(setVisibleModal(MODAL_ID));
+              dispatch(toggleConflictsModal(true, installPlan, component, version));
+            }
+          });
+        }).catch(() => {
+          dispatch(toggleLoading(loadingId));
+        });
+    })
+  );
 
 export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {

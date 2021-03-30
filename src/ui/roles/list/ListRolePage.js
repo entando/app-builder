@@ -10,6 +10,7 @@ import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';
 import { ROUTE_ROLE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
 import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { TEST_ID_ROLE_LIST_PAGE } from 'ui/test-const/role-test-const';
 
 export const ListRolePageBody = () => (
   <InternalPage className="ListRolePage">
@@ -46,7 +47,7 @@ export const ListRolePageBody = () => (
               type="button"
               className="pull-right ListRolePage__add"
               bsStyle="primary"
-              data-testid="add-new-role"
+              data-testid={TEST_ID_ROLE_LIST_PAGE.ADD_ROLE_BUTTON}
             >
               <FormattedMessage
                 id="app.add"

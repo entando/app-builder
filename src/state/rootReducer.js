@@ -36,6 +36,7 @@ import componentRepositories from 'state/component-repository/component-reposito
 import componentRepositoryCategories from 'state/component-repository/categories/reducer';
 import componentRepositoryExtraFilters from 'state/component-repository/extra-filters/reducer';
 import appTour from 'state/app-tour/reducer';
+import emailConfig from 'state/email-config/reducer';
 import plugins from 'state/plugins/reducer';
 import entandoApps from 'entando-apps';
 
@@ -82,6 +83,7 @@ const reducerDef = {
   userProfile,
   appTour,
   userPreferences,
+  emailConfig,
 };
 
 // app root reducer

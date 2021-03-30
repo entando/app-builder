@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { PagesClonePageBody } from 'ui/pages/clone/PagesClonePage';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 
 describe('PagesClonePage', () => {

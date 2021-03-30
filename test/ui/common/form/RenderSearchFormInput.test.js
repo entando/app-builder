@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import RenderSearchFormInput from 'ui/common/form/RenderSearchFormInput';
 

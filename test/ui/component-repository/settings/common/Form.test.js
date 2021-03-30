@@ -6,7 +6,7 @@ import { required, isNumber } from '@entando/utils';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import { SettingsFormBody as SettingsForm, maxLength50 } from 'ui/component-repository/settings/common/Form';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 const onWillMount = jest.fn();
 

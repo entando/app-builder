@@ -4,7 +4,7 @@ import { USERS } from 'test/mocks/users';
 
 
 import UserListTable from 'ui/users/list/UserListTable';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 const users = USERS;
 

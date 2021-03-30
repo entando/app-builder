@@ -2,7 +2,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { RoleFormBody } from 'ui/roles/common/RoleForm';
-import { mockIntl } from 'test/testUtils';
+import { mockIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();

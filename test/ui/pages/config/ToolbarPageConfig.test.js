@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { WIDGET_LIST, PAGES } from 'state/page-config/const';
 
 import ToolbarPageConfig from 'ui/pages/config/ToolbarPageConfig';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 
 global.console.error = jest.fn();
 
@@ -25,7 +25,6 @@ describe('ToolbarPageConfig', () => {
   });
 
   describe('ToolbarPageConfig with props', () => {
-
     it('verify with prop content WIDGET_LIST', () => {
       component = shallowWithIntl(<ToolbarPageConfig content={WIDGET_LIST} />);
       expect(console.error).not.toHaveBeenCalled();

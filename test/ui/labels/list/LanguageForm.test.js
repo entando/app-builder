@@ -1,7 +1,7 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
-import { mockRenderWithIntlAndStore } from 'test/testUtils';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import LanguageForm, { renderSelectOptions } from 'ui/labels/list/LanguageForm';
 
 import { LANGUAGES_LIST } from 'test/mocks/languages';

@@ -1,0 +1,50 @@
+.InstallationPlanModal {
+  width: 800px;
+
+  &__title {
+    margin: 10px 0 30px 0;
+  }
+
+  &__dropdown-button,
+  &__dropdown-button:hover {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &__filters-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+
+  &__ok {
+    color: $color-ecr-component-installed-button;
+    font-size: 22px;
+  }
+
+  &__warning {
+    color: $color-draft;
+    font-size: 22px;
+  }
+
+  &__bulk-actions {
+    display: flex;
+    list-style: none;
+
+    & li {
+      padding: 0 15px;
+      border-right: solid 2px $color-grey-border;
+    }
+
+    & li:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+  }
+
+  &__is-required {
+    & td:last-child {
+      border: solid 2px $color-ecr-component-failed-button;
+    }
+  }
+}

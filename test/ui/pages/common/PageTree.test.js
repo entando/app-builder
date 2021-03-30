@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { screen, render, within, fireEvent, cleanup } from '@testing-library/react';
-import { mockRenderWithIntlDDStoreRouter } from 'test/testUtils';
+import { mockRenderWithIntlDDStoreRouter } from 'test/legacyTestUtils';
 
 import PageTree from 'ui/pages/common/PageTree';
 import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
@@ -51,12 +51,10 @@ const requiredState = {
   pages: { map: {} },
 };
 
-const renderComponent = (addProps = {}) => render(
-  mockRenderWithIntlDDStoreRouter(
-    <PageTree {...props} {...addProps} />,
-    requiredState,
-  ),
-);
+const renderComponent = (addProps = {}) => render(mockRenderWithIntlDDStoreRouter(
+  <PageTree {...props} {...addProps} />,
+  requiredState,
+));
 
 describe('PageTree', () => {
   beforeEach(jest.clearAllMocks);

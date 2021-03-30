@@ -29,3 +29,22 @@ export const postUserProfile = profile => (
     useAuthentication: true,
   })
 );
+
+export const getMyUserProfile = () => (
+  makeRequest({
+    uri: '/api/myUserProfile',
+    method: METHODS.GET,
+    mockResponse: USER_PROFILE,
+    useAuthentication: true,
+  })
+);
+
+export const putMyUserProfile = (username, profile) => (
+  makeRequest({
+    uri: '/api/myUserProfile',
+    method: METHODS.PUT,
+    body: profile,
+    mockResponse: USER_PROFILE,
+    useAuthentication: true,
+  })
+);

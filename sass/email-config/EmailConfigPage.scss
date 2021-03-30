@@ -1,0 +1,15 @@
+.EmailConfigPage {
+  .PageTitle__title {
+    margin-bottom: 20px;
+  }
+
+  &__tab {
+    // sass-lint:disable class-name-format nesting-depth no-important
+    &.active {
+      a {
+        border-bottom-color: $color-light-grey-border !important;
+      }
+    }
+    // sass-lint:enable class-name-format nesting-depth no-important
+  }
+}

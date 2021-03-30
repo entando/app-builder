@@ -1,7 +1,7 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { shallowWithIntl } from 'test/testUtils';
+import { shallowWithIntl } from 'test/legacyTestUtils';
 import PageStatus from 'ui/dashboard/PageStatus';
 
 const pageStatus = {
