@@ -151,8 +151,8 @@ describe('Users Management', () => {
       cy.getModalDialogByTitle('New authorizations').should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD).should('be.visible');
-      cy.getByTestId(TEST_ID_GENERIC_MODAL.CANCEL_BUTTON).should('be.visible');
-      cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON).should('be.visible');
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Cancel').should('be.visible');
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Add').should('be.visible');
     });
   });
 });

@@ -1,7 +1,6 @@
 import { TEST_ID_PAGE_DESIGNER } from '../../../src/ui/test-const/page-designer-test-const';
 
 describe('Pages Designer', () => {
-
   beforeEach(() => {
     cy.appBuilderLogin();
   });
@@ -12,8 +11,8 @@ describe('Pages Designer', () => {
 
   describe('Drag and drop a widget', () => {
     it('Should add a widget to an empty frame in a page', () => {
-      const FRAME = 'Frame 3';
       const WIDGET = 'News Latest';
+      const FRAME = 'Frame 3';
       const PAGE = 'My Homepage';
       cy.openPageFromMenu(['Pages', 'Designer']);
       cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Page Tree').click();

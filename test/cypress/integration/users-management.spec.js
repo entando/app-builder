@@ -8,6 +8,7 @@ import {
   TEST_ID_USER_PROFILE_FORM,
   TEST_ID_USER_LIST_TABLE,
 } from '../../../src/ui/test-const/user-test-const';
+import TEST_ID_GENERIC_MODAL from "../../../src/ui/test-const/test-const";
 
 describe('Users Management', () => {
   const username = generateRandomId();
@@ -121,7 +122,7 @@ describe('Users Management', () => {
       cy.getByTestId(TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON).click();
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD).select(group.ID);
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD).select(role.ID);
-      cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON).click();
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Add').click();
       cy.contains(group.DESCRIPTION).should('be.visible');
       cy.contains(role.DESCRIPTION).should('be.visible');
       cy.getTableRowsByTestId(TEST_ID_USER_AUTHORITY_TABLE.TABLE).should('have.length', 1);
