@@ -75,3 +75,7 @@ export const getInstallUninstallProgress = createSelector(
   getECRComponents,
   componentRepositoryComponents => componentRepositoryComponents.progressStatus,
 );
+
+export const getInstallPlan = state => get(state, 'componentRepositoryComponents.installConflicts.installPlan', {});
+export const getComponent = state => get(state, 'componentRepositoryComponents.installConflicts.component', {});
+export const getComponentVersion = state => get(state, 'componentRepositoryComponents.installConflicts.version', null);

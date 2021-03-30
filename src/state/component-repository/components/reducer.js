@@ -1,4 +1,4 @@
-import { get, head, omit } from 'lodash';
+import { get, head, isEmpty, isPlainObject, omit } from 'lodash';
 import { combineReducers } from 'redux';
 import {
   SET_SELECTED_ECR_COMPONENT,
@@ -17,6 +17,9 @@ import {
   CLEAR_ECR_SEARCH_FILTER,
   SET_ECR_SEARCH_FILTER_TYPE,
   SET_INSTALL_UNINSTALL_PROGRESS,
+  TOGGLE_CONFLICTS_MODAL,
+  UPDATE_INSTALL_PLAN,
+  UPDATE_ALL_INSTALL_PLAN,
 } from 'state/component-repository/components/types';
 
 import {
@@ -297,6 +300,75 @@ const progressStatus = (state = 0, action = {}) => {
   }
 };
 
+const initialInstallConflictsState = {
+  open: false, installPlan: null, component: {}, version: null,
+};
+
+const updateAllActions = (installPlan, type) =>
+  Object.keys(installPlan).reduce((acc, key) => {
+    if (isPlainObject(installPlan[key]) && !isEmpty(installPlan[key])) {
+      // map through component names
+      const newComp = Object.keys(installPlan[key]).reduce((acc2, key2) => ({
+        ...acc2,
+        [key2]: {
+          ...installPlan[key][key2],
+          action: installPlan[key][key2].status === 'NEW' ? 'CREATE' : type,
+        },
+      }), {});
+
+      return {
+        ...acc,
+        [key]: newComp,
+      };
+    }
+
+    return {
+      ...acc,
+      [key]: installPlan[key],
+    };
+  }, {});
+
+const installConflicts = (state = initialInstallConflictsState, action = {}) => {
+  switch (action.type) {
+    case TOGGLE_CONFLICTS_MODAL: {
+      if (action.payload.open) {
+        return {
+          ...action.payload,
+          installPlan: updateAllActions(action.payload.installPlan, ''),
+        };
+      }
+      return initialInstallConflictsState;
+    }
+    case UPDATE_INSTALL_PLAN: {
+      const { category, name, action: type } = action.payload;
+      const { installPlan } = state;
+
+      return {
+        ...state,
+        installPlan: {
+          ...installPlan,
+          [category]: {
+            ...installPlan[category],
+            [name]: {
+              ...installPlan[category][name],
+              action: type,
+            },
+          },
+        },
+      };
+    }
+    case UPDATE_ALL_INSTALL_PLAN: {
+      const { installPlan } = state;
+      const { action: type } = action.payload;
+      return {
+        ...state,
+        installPlan: updateAllActions(installPlan, type),
+      };
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
@@ -306,4 +378,5 @@ export default combineReducers({
   uninstallation,
   usageList,
   progressStatus,
+  installConflicts,
 });
