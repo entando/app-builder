@@ -41,6 +41,7 @@ class GroupListMenuActions extends Component {
         <MenuItem
           className="GroupListMenuAction__menu-item-delete"
           onClick={this.handleClick(onClickDelete)}
+          data-testid="group-delete-action"
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>

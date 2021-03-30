@@ -52,7 +52,7 @@ export class GroupFormBody extends Component {
     };
 
     return (
-      <form onSubmit={this.onSubmit} className="GroupForm form-horizontal">
+      <form onSubmit={this.onSubmit} className="GroupForm form-horizontal" data-testid="group-form">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
@@ -95,6 +95,7 @@ export class GroupFormBody extends Component {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting}
+              data-testid="group-form-save"
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -102,6 +103,7 @@ export class GroupFormBody extends Component {
               className="pull-right UserForm__action-button"
               bsStyle="default"
               onClick={handleCancelClick}
+              data-testid="group-form-cancel"
             >
               <FormattedMessage id="app.cancel" />
             </Button>

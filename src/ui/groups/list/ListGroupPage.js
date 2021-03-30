@@ -51,6 +51,7 @@ export const ListGroupPageBody = () => (
               type="button"
               className="pull-right ListGroupPage__add"
               bsStyle="primary"
+              role="button"
             >
               <FormattedMessage
                 id="app.add"
