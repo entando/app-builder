@@ -5,6 +5,7 @@ import {
   TEST_ID_SEARCH_DROPDOWN_MENU_ITEM,
   TEST_ID_SEARCH_FIELD,
   TEST_ID_SEARCH_BUTTON,
+  TEST_ID_LIST_PAGE_TREE_BUTTON,
 } from '../../../../src/ui/test-const/page-management-test-const';
 
 function doDragAndDrop(dragPageName, targetPageName, position) {
@@ -99,6 +100,13 @@ Cypress.Commands.add('searchBy', (filterName, value) => {
       });
     });
   });
+});
+
+/**
+ * Clear all the results after a research.
+ */
+Cypress.Commands.add('clearResults', () => {
+  cy.getByTestId(TEST_ID_LIST_PAGE_TREE_BUTTON).contains('Clear results').click();
 });
 
 export {};

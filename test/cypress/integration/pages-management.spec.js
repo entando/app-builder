@@ -26,6 +26,7 @@ describe('Pages Management', () => {
 
     it('Should search the element by', () => {
       cy.searchBy('Page Name', 'toto');
+      cy.clearResults();
     });
   });
 
