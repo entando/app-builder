@@ -61,18 +61,22 @@ Cypress.Commands.add('collapse', (folderName) => {
   expandOrCollapse(folderName);
 });
 
+function expandOrCollapseAll(label) {
+  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains(label).click();
+}
+
 /**
  * Expand all folders by clicking on the "Expand" main button above the page tree.
  */
 Cypress.Commands.add('expandAll', () => {
-  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains('Expand').click();
+  expandOrCollapseAll('Expand');
 });
 
 /**
  * Collapse all folders by clicking on the "Collapse" main button above the page tree.
  */
 Cypress.Commands.add('collapseAll', () => {
-  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains('Collapse').click();
+  expandOrCollapseAll('Collapse');
 });
 
 export {};
