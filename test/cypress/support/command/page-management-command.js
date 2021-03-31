@@ -1,4 +1,11 @@
-import { TEST_ID_PAGE_TREE, TEST_ID_MODAL_BUTTON } from '../../../../src/ui/test-const/page-management-test-const';
+import {
+  TEST_ID_PAGE_TREE,
+  TEST_ID_MODAL_BUTTON,
+  TEST_ID_SEARCH_DROPDOWN_BUTTON,
+  TEST_ID_SEARCH_DROPDOWN_MENU_ITEM,
+  TEST_ID_SEARCH_FIELD,
+  TEST_ID_SEARCH_BUTTON,
+} from '../../../../src/ui/test-const/page-management-test-const';
 
 function doDragAndDrop(dragPageName, targetPageName, position) {
   cy.getByTestId(TEST_ID_PAGE_TREE).contains(targetPageName).then(($el) => {
@@ -77,6 +84,21 @@ Cypress.Commands.add('expandAll', () => {
  */
 Cypress.Commands.add('collapseAll', () => {
   expandOrCollapseAll('Collapse');
+});
+
+/**
+ * Select the element we want to filter with and the value.
+ * @param filterName the name in the UI dropdown list
+ * @param value the value we want to search the page with
+ */
+Cypress.Commands.add('searchBy', (filterName, value) => {
+  cy.getByTestId(TEST_ID_SEARCH_DROPDOWN_BUTTON).click().then(() => {
+    cy.getByTestId(TEST_ID_SEARCH_DROPDOWN_MENU_ITEM).contains(filterName).click().then(() => {
+      cy.getByTestId(TEST_ID_SEARCH_FIELD).type(value).then(() => {
+        cy.getByTestId(TEST_ID_SEARCH_BUTTON).click();
+      });
+    });
+  });
 });
 
 export {};

@@ -23,6 +23,10 @@ describe('Pages Management', () => {
       cy.expandAll();
       cy.collapseAll();
     });
+
+    it('Should search the element by', () => {
+      cy.searchBy('Page Name', 'toto');
+    });
   });
 
   describe('Add a new one with all default values', () => {
