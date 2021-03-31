@@ -11,16 +11,32 @@ function doDragAndDrop(dragPageName, targetPageName, position) {
   });
 }
 
-Cypress.Commands.add('dragAndDropPageAbove', (dragPageName, targetPageName) => {
-  doDragAndDrop(dragPageName, targetPageName, 'top');
+/**
+ * Drag the page above the target page by clicking on the drag button on the left of the row.
+ * @param draggedPageName the exact displayed page name in the UI e.g. "Sitemap"
+ * @param targetPageName the exact displayed page name in the UI e.g. "Home"
+ */
+Cypress.Commands.add('dragAndDropPageAbove', (draggedPageName, targetPageName) => {
+  doDragAndDrop(draggedPageName, targetPageName, 'top');
 });
 
-Cypress.Commands.add('dragAndDropPageInto', (dragPageName, targetPageName) => {
-  doDragAndDrop(dragPageName, targetPageName, 'center');
+/**
+ * Drag the page into the target page by clicking on the drag button on the left of the row.
+ * This is intended to be used to target a folder.
+ * @param draggedPageName the exact displayed page name in the UI e.g. "Sitemap"
+ * @param targetPageName the exact displayed page name in the UI e.g. "Home"
+ */
+Cypress.Commands.add('dragAndDropPageInto', (draggedPageName, targetPageName) => {
+  doDragAndDrop(draggedPageName, targetPageName, 'center');
 });
 
-Cypress.Commands.add('dragAndDropPageBelow', (dragPageName, targetPageName) => {
-  doDragAndDrop(dragPageName, targetPageName, 'bottom');
+/**
+ *  Drag the page below the target page by clicking on the drag button on the left of the row.
+ * @param draggedPageName the exact displayed page name in the UI e.g. "Sitemap"
+ * @param targetPageName the exact displayed page name in the UI e.g. "Home"
+ */
+Cypress.Commands.add('dragAndDropPageBelow', (draggedPageName, targetPageName) => {
+  doDragAndDrop(draggedPageName, targetPageName, 'bottom');
 });
 
 function expandOrCollapse(folderName, isExpand) {
@@ -29,20 +45,34 @@ function expandOrCollapse(folderName, isExpand) {
   cy.wait(500);
 }
 
+/**
+ * Expand one folder by click on the arrow aside the name.
+ * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
+ */
 Cypress.Commands.add('expand', (folderName) => {
   expandOrCollapse(folderName, true);
 });
 
+/**
+ * Collapse one folder by click on the arrow aside the name.
+ * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
+ */
 Cypress.Commands.add('collapse', (folderName) => {
   expandOrCollapse(folderName);
 });
 
-Cypress.Commands.add('collapseAll', () => {
-  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains('Collapse').click();
-});
-
+/**
+ * Expand all folders by clicking on the "Expand" main button above the page tree.
+ */
 Cypress.Commands.add('expandAll', () => {
   cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains('Expand').click();
+});
+
+/**
+ * Collapse all folders by clicking on the "Collapse" main button above the page tree.
+ */
+Cypress.Commands.add('collapseAll', () => {
+  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains('Collapse').click();
 });
 
 export {};
