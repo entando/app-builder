@@ -1,4 +1,4 @@
-import TEST_ID_PAGE_TREE from '../../../../src/ui/test-const/page-management-test-const';
+import { TEST_ID_PAGE_TREE, TEST_ID_MODAL_BUTTON } from '../../../../src/ui/test-const/page-management-test-const';
 
 function doDragAndDrop(dragPageName, targetPageName, position) {
   cy.getByTestId(TEST_ID_PAGE_TREE).contains(targetPageName).then(($el) => {
@@ -6,7 +6,7 @@ function doDragAndDrop(dragPageName, targetPageName, position) {
       .siblings('button')
       .drag($el, { force: true, position })
       .then(() => {
-        cy.getByTestId('modal_GenericModal_Button').contains('Move').click();
+        cy.getByTestId(TEST_ID_MODAL_BUTTON).contains('Move').click();
       });
   });
 }
