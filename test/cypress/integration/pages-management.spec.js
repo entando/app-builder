@@ -28,6 +28,12 @@ describe('Pages Management', () => {
       cy.searchBy('Page Name', 'toto');
       cy.clearResults();
     });
+
+    it('Should open kebab and open the add page screen', () => {
+      cy.openTableActionsByTestId('homepage').then(() => {
+        cy.clickOnTableActionMenu('Add');
+      });
+    });
   });
 
   describe('Add a new one with all default values', () => {

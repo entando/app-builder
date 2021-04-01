@@ -6,6 +6,7 @@ import {
   TEST_ID_SEARCH_FIELD,
   TEST_ID_SEARCH_BUTTON,
   TEST_ID_LIST_PAGE_TREE_BUTTON,
+  TEST_ID_LIST_PAGE_TREE_ACTION_MENU,
 } from '../../../../src/ui/test-const/page-management-test-const';
 
 function doDragAndDrop(dragPageName, targetPageName, position) {
@@ -107,6 +108,14 @@ Cypress.Commands.add('searchBy', (filterName, value) => {
  */
 Cypress.Commands.add('clearResults', () => {
   cy.getByTestId(TEST_ID_LIST_PAGE_TREE_BUTTON).contains('Clear results').click();
+});
+
+/**
+ * Click on the action menu table if the kebab menu is open (@see command.openTableActionsByTestId)
+ * @param the action name displayed in the UI
+ */
+Cypress.Commands.add('clickOnTableActionMenu', (action) => {
+  cy.getByTestId(TEST_ID_LIST_PAGE_TREE_ACTION_MENU).contains(action).click();
 });
 
 export {};
