@@ -38,6 +38,12 @@ Cypress.Commands.add('clickTableActions', (selector) => {
   cy.getTableActions(selector).click();
   cy.wait(500);
 });
+
+Cypress.Commands.add('openTableActionsByTestId', (selector) => {
+  cy.log(`click actions by selector ${selector}-actions`);
+  cy.getByTestId(`${selector}-actions`).click();
+});
+
 Cypress.Commands.add('getVisibleActionItemByTestID', selector => cy.getByTestId(selector).filter(':visible'));
 
 Cypress.Commands.add('getVisibleActionItemByClass', className => cy.get(`li.${className} > a`).filter(':visible'));
