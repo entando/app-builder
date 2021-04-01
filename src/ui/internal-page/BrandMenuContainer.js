@@ -31,7 +31,7 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
-  MANAGE_CATEGORIES_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION, ENTER_ECR_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
@@ -60,7 +60,6 @@ const renderAppMenuItems = userPermissions => Object.values(apps).map((App) => {
       render = false;
     }
   }
-
   return render && (
     <FirstLevelMenuItem
       id={App.id}
@@ -250,7 +249,9 @@ const BrandMenuBody = ({ userPermissions }) => (
         )
       }
 
-    { hasAccess(ROLE_SUPERUSER, userPermissions) && ComponentRepositoryMenuItem }
+    { (hasAccess(ROLE_SUPERUSER, userPermissions)
+      || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
+      && ComponentRepositoryMenuItem }
 
   </BrandMenu>
 );

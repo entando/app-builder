@@ -29,7 +29,7 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
-  MANAGE_CATEGORIES_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION, ENTER_ECR_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
@@ -315,8 +315,11 @@ const LegacyAdminConsoleMenuBody = ({
       )
       }
 
-      { hasAccess(ROLE_SUPERUSER, userPermissions) &&
-    renderComponentRepositoryMenuItem(history, intl) }
+      {
+        (hasAccess(ROLE_SUPERUSER, userPermissions)
+        || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
+        && renderComponentRepositoryMenuItem(history, intl)
+      }
       {
       hasAccess(ROLE_SUPERUSER, userPermissions) && (
         <Item
