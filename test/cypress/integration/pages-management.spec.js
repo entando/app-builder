@@ -9,11 +9,13 @@ describe('Pages Management', () => {
   });
 
   describe('Move a page into the tree', () => {
-    it('Should move the page in the right place according the place chosen in the tree', () => {
+    it('Should move the page in the right place according the place chosen in the tree (Above)', () => {
       cy.expand('Service');
       cy.dragAndDropPageAbove('Sitemap', 'Error page');
       cy.collapse('Service');
+    });
 
+    it('Should move the page in the right place according the place chosen in the tree (Below)', () => {
       cy.expand('Service');
       cy.dragAndDropPageBelow('Sitemap', 'My Homepage');
       cy.collapse('Service');
