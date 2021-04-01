@@ -58,7 +58,7 @@ class UserListTable extends Component {
               title={intl.formatMessage(msgs.userStatus)}
             />
           </td>
-          <td className="UserListRow__td text-center">
+          <td className="UserListRow__td text-center" data-testid={`${user.username}-actions`}>
             <UserListMenuActions
               username={user.username}
               hasProfile={!isEmpty(user.profileAttributes)}

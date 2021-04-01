@@ -17,6 +17,7 @@ export const TEST_ID_USER_LIST_TABLE = {
   ACTION_MANAGE_AUTHORIZATIONS: 'UserListMenuAction__menu-item-auth',
   ACTION_VIEW_PROFILE: 'UserListMenuAction__menu-item-view-profile',
   ACTION_EDIT_PROFILE: 'UserListMenuAction__menu-item-edit-profile',
+  ALERT: 'list_UserListTable_Alert',
 };
 
 export const TEST_ID_USER_FORM = {

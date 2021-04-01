@@ -34,7 +34,7 @@ describe('User Roles', () => {
       cy.log('Validate user changes');
       cy.openPageFromMenu(['Users', 'Roles']);
       cy.getTableRowsBySelector(roleCode).contains(newRoleName).should('be.visible');
-      cy.clickTableActions(roleCode);
+      cy.openTableActionsByTestId(roleCode);
       cy.getVisibleActionItemByClass(TEST_ID_ROLE_LIST_TABLE.ACTION_DETAIL_ROLE).click();
       cy.validateUrlChanged(`/role/view/${roleCode}`);
       cy.contains(newRoleName).should('be.visible');
@@ -53,7 +53,7 @@ describe('User Roles', () => {
       const adminRoleCode = 'admin';
       cy.openPageFromMenu(['Users', 'Roles']);
       cy.contains(adminRoleCode).should('be.visible');
-      cy.clickTableActions(adminRoleCode);
+      cy.openTableActionsByTestId(adminRoleCode);
       cy.getVisibleActionItemByTestID(TEST_ID_ROLE_LIST_TABLE.ACTION_DELETE_ROLE).click();
       cy.getModalDialogByTitle('Delete role').should('not.be.visible');
     });

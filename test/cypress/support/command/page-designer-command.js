@@ -49,3 +49,5 @@ Cypress.Commands.add('pageInfoClick', () => {
 Cypress.Commands.add('restorePageClick', () => {
   cy.getByTestId(TEST_ID_PAGE_DESIGNER.BUTTON).contains(new RegExp('^Restore$')).click();
 });
+
+export {};

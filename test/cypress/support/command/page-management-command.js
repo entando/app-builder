@@ -1,23 +1,21 @@
 import {
+  TEST_ID_LIST_PAGE_TREE,
   TEST_ID_PAGE_TREE,
-  TEST_ID_MODAL_BUTTON,
-  TEST_ID_SEARCH_DROPDOWN_BUTTON,
-  TEST_ID_SEARCH_DROPDOWN_MENU_ITEM,
-  TEST_ID_SEARCH_FIELD,
-  TEST_ID_SEARCH_BUTTON,
-  TEST_ID_LIST_PAGE_TREE_BUTTON,
-  TEST_ID_LIST_PAGE_TREE_ACTION_MENU,
+  TEST_ID_PAGE_TREE_SEARCH_FORM,
 } from '../../../../src/ui/test-const/page-management-test-const';
 
+import TEST_ID_GENERIC_MODAL from '../../../../src/ui/test-const/test-const';
+
 function doDragAndDrop(dragPageName, targetPageName, position) {
-  cy.getByTestId(TEST_ID_PAGE_TREE).contains(targetPageName).then(($el) => {
-    cy.getByTestId(TEST_ID_PAGE_TREE).contains(dragPageName).parent()
+  cy.getByTestId(TEST_ID_PAGE_TREE.PAGE_NAME).contains(targetPageName).then(($el) => {
+    cy.getByTestId(TEST_ID_PAGE_TREE.PAGE_NAME).contains(dragPageName).parent()
       .siblings('button')
       .drag($el, { force: true, position })
       .then(() => {
-        cy.getByTestId(TEST_ID_MODAL_BUTTON).contains('Move').click();
+        cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Move').click();
       });
   });
+  cy.wait(500);
 }
 
 /**
@@ -50,7 +48,7 @@ Cypress.Commands.add('dragAndDropPageBelow', (draggedPageName, targetPageName) =
 
 function expandOrCollapse(folderName, isExpand) {
   const selectedClass = isExpand ? 'fa-angle-right' : 'fa-angle-down';
-  cy.getByTestId(TEST_ID_PAGE_TREE).contains(folderName).siblings(`i.${selectedClass}`).click();
+  cy.getByTestId(TEST_ID_PAGE_TREE.PAGE_NAME).contains(folderName).siblings(`i.${selectedClass}`).click();
   cy.wait(500);
 }
 
@@ -71,7 +69,7 @@ Cypress.Commands.add('collapse', (folderName) => {
 });
 
 function expandOrCollapseAll(label) {
-  cy.getByTestId(TEST_ID_PAGE_TREE).siblings().contains(label).click();
+  cy.getByTestId(TEST_ID_PAGE_TREE.PAGE_NAME).siblings().contains(label).click();
 }
 
 /**
@@ -94,12 +92,13 @@ Cypress.Commands.add('collapseAll', () => {
  * @param value the value we want to search the page with
  */
 Cypress.Commands.add('searchBy', (filterName, value) => {
-  cy.getByTestId(TEST_ID_SEARCH_DROPDOWN_BUTTON).click().then(() => {
-    cy.getByTestId(TEST_ID_SEARCH_DROPDOWN_MENU_ITEM).contains(filterName).click().then(() => {
-      cy.getByTestId(TEST_ID_SEARCH_FIELD).type(value).then(() => {
-        cy.getByTestId(TEST_ID_SEARCH_BUTTON).click();
+  cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.DROPDOWN_BUTTON).click().then(() => {
+    cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.DROPDOWN_MENU_ITEM).contains(filterName)
+      .click().then(() => {
+        cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.SEARCH_FIELD).type(value).then(() => {
+          cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.SEARCH_BUTTON).click();
+        });
       });
-    });
   });
 });
 
@@ -107,7 +106,7 @@ Cypress.Commands.add('searchBy', (filterName, value) => {
  * Clear all the results after a research.
  */
 Cypress.Commands.add('clearResults', () => {
-  cy.getByTestId(TEST_ID_LIST_PAGE_TREE_BUTTON).contains('Clear results').click();
+  cy.getByTestId(TEST_ID_LIST_PAGE_TREE.BUTTON).contains('Clear results').click();
 });
 
 /**
@@ -115,7 +114,7 @@ Cypress.Commands.add('clearResults', () => {
  * @param the action name displayed in the UI
  */
 Cypress.Commands.add('clickOnTableActionMenu', (action) => {
-  cy.getByTestId(TEST_ID_LIST_PAGE_TREE_ACTION_MENU).contains(action).click();
+  cy.getByTestId(TEST_ID_LIST_PAGE_TREE.ACTION_MENU).contains(action).click();
 });
 
 export {};

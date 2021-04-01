@@ -1,8 +1,3 @@
-import '@4tw/cypress-drag-drop';
-
-// eslint-disable-next-line spaced-comment
-/// <reference types="cypress" />
-
 const TEST_ID_KEY = 'data-testid';
 
 Cypress.Commands.add('getByTestId', (selector, ...args) => cy.get(`[${TEST_ID_KEY}=${selector}]`, ...args));
@@ -28,15 +23,9 @@ Cypress.Commands.add('getTableRowsByTestId', selector => cy.getByTestId(selector
 
 Cypress.Commands.add('getTableColsByTestId', selector => cy.getByTestId(selector).find('thead > tr > th'));
 
-Cypress.Commands.add('getTableActions', (selector) => {
-  cy.log(`getById ${selector}-actions`);
-  cy.getById(`${selector}-actions`);
-});
-
-Cypress.Commands.add('clickTableActions', (selector) => {
-  cy.log(`click actions by selector ${selector}-actions`);
-  cy.getTableActions(selector).click();
-  cy.wait(500);
+Cypress.Commands.add('getTableActionsByTestId', (selector) => {
+  cy.log(`getTableActionsByTestId ${selector}-actions`);
+  cy.getByTestId(`${selector}-actions`);
 });
 
 Cypress.Commands.add('openTableActionsByTestId', (selector) => {
@@ -80,10 +69,9 @@ Cypress.Commands.add('validateToastNotificationOk', (text) => {
   cy.get('div.toast-notifications-list-pf > div').contains(text);
 });
 
-Cypress.Commands.add('pageTreeMovePage', (pageName, pageDest) => {
-  cy.log(`start drag ${pageName}`);
-  cy.getByTestId('table > tbody > tr').contains(pageName).trigger('mousedown');
-  cy.log(`start drop ${pageDest}`);
+Cypress.Commands.add('validateToastNotificationError', (text) => {
+  cy.get('div.toast-notifications-list-pf > div > span.pficon.pficon-error-circle-o').should('be.visible');
+  cy.get('div.toast-notifications-list-pf > div').contains(text);
 });
 
 Cypress.Commands.add('closeWizardAppTour', () => {
@@ -105,7 +93,7 @@ Cypress.Commands.add('closeWizardAppTour', () => {
 Cypress.Commands.add('openPageFromMenu', (menuLinks) => {
   cy.log('Open a page from menu');
   cy.contains('Dashboard').click();
-  cy.wait(500);
+  cy.wait(1000);
   cy.closeWizardAppTour();
   cy.log('Click Menu Group', menuLinks[0]);
   cy.contains(menuLinks[0]).click();
