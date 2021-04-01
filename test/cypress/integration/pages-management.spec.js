@@ -1,21 +1,42 @@
 describe('Pages Management', () => {
   beforeEach(() => {
     cy.appBuilderLogin();
+    cy.openPageFromMenu(['Pages', 'Management']);
   });
 
   afterEach(() => {
     cy.appBuilderLogout();
   });
 
-  describe('Add a new one with all default values', () => {
-    it('Should move a page in the page tree', () => {
-      cy.openPageFromMenu(['Pages', 'Management']);
-      cy.contains('Sitemap').parentsUntil('tr').get('.PageTree__drag-handle')
-        .drag(cy.contains('My Homepage').parentsUntil('tr'));
-      cy.wait(5000);
+  describe('Move a page into the tree', () => {
+    it('Should move the page in the right place according the place chosen in the tree', () => {
+      cy.expand('Service');
+      cy.dragAndDropPageAbove('Sitemap', 'Error page');
+      cy.collapse('Service');
+
+      cy.expand('Service');
+      cy.dragAndDropPageBelow('Sitemap', 'My Homepage');
+      cy.collapse('Service');
     });
 
+    it('Should expand and collapse all', () => {
+      cy.expandAll();
+      cy.collapseAll();
+    });
 
+    it('Should search the element by', () => {
+      cy.searchBy('Page Name', 'toto');
+      cy.clearResults();
+    });
+
+    it('Should open kebab and open the add page screen', () => {
+      cy.openTableActionsByTestId('homepage').then(() => {
+        cy.clickOnTableActionMenu('Add');
+      });
+    });
+  });
+
+  describe('Add a new one with all default values', () => {
     /*
     it('Should create a new page', () => {
       cy.openPageFromMenu(['Pages', 'Management']);

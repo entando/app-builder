@@ -18,4 +18,5 @@ import './command/command';
 import './command/user-command';
 import './command/role-command';
 import './command/page-designer-command';
+import './command/page-management-command';
 import './exception-handler';
