@@ -12,6 +12,7 @@ describe('Pages', () => {
     cy.appBuilderLogout();
   });
 
+  // TODO add assertions to have real tests
   describe('Add a new widget with upload a file', () => {
     it('Should create the widget and upload the icon', () => {
       cy.openPageFromMenu(['Components', 'Micro Frontends & Widgets']);
