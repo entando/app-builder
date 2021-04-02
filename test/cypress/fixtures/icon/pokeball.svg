@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="674.71478"
+   height="672.0556"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="G:\upload\wikipedia"
+   sodipodi:docname="Poké Ball.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="148.5065"
+     inkscape:cy="528.83678"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="800px"
+     height="800px"
+     inkscape:window-width="1024"
+     inkscape:window-height="712"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-10.15551,-175.0227)">
+    <path
+       sodipodi:type="arc"
+       style="fill:maroon;fill-opacity:1;stroke:black;stroke-width:7.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2774"
+       sodipodi:cx="373.75644"
+       sodipodi:cy="387.68182"
+       sodipodi:rx="127.27922"
+       sodipodi:ry="127.27922"
+       d="M 501.03566,387.68182 A 127.27922,127.27922 0 1 1 246.47722,387.68182"
+       sodipodi:start="0"
+       sodipodi:end="3.1415927"
+       transform="matrix(2.578609,0,0,-2.578609,-616.2588,1512.06)"
+       sodipodi:open="true" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#f2f2f2;fill-opacity:1;stroke:black;stroke-width:7.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2784"
+       sodipodi:cx="373.75644"
+       sodipodi:cy="387.68182"
+       sodipodi:rx="127.27922"
+       sodipodi:ry="127.27922"
+       d="M 501.03566,387.68182 A 127.27922,127.27922 0 1 1 246.47722,387.68182"
+       sodipodi:start="0"
+       sodipodi:end="3.1415927"
+       transform="matrix(2.577502,0,0,2.577502,-615.9308,-489.3849)"
+       sodipodi:open="true" />
+    <rect
+       style="fill:black;fill-opacity:1;stroke:black;stroke-width:18.30812073;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2796"
+       width="640.96844"
+       height="54.334965"
+       x="27.916542"
+       y="-543.58405"
+       transform="scale(1,-1)" />
+    <path
+       transform="matrix(0,-4.180021,-4.179929,0,2511.532,1956.897)"
+       sodipodi:end="7.7984207"
+       sodipodi:start="1.5158726"
+       d="M 346.66304,536.97405 A 20.535715,20.535715 0 1 1 346.6761,536.97333"
+       sodipodi:ry="20.535715"
+       sodipodi:rx="20.535715"
+       sodipodi:cy="516.4693"
+       sodipodi:cx="345.53571"
+       id="path2798"
+       style="fill:#f2f2f2;fill-opacity:1;stroke:black;stroke-width:4.33016944;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc"
+       sodipodi:open="true" />
+    <path
+       transform="matrix(0,-2.251635,-2.251585,0,1515.508,1288.684)"
+       sodipodi:open="true"
+       sodipodi:end="7.7853262"
+       sodipodi:start="1.5158726"
+       d="M 346.66304,536.97405 A 20.535715,20.535715 0 1 1 346.94449,536.95664"
+       sodipodi:ry="20.535715"
+       sodipodi:rx="20.535715"
+       sodipodi:cy="516.4693"
+       sodipodi:cx="345.53571"
+       id="path2802"
+       style="fill:#999;fill-opacity:1;stroke:none;stroke-width:7.0999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc" />
+  </g>
+</svg>
