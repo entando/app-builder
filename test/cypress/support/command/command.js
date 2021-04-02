@@ -1,6 +1,8 @@
 // eslint-disable-next-line spaced-comment
 /// <reference types="cypress" />
 
+import 'cypress-file-upload';
+
 const TEST_ID_KEY = 'data-testid';
 
 Cypress.Commands.add('getByTestId', (selector, ...args) => cy.get(`[${TEST_ID_KEY}=${selector}]`, ...args));
