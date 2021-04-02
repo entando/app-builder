@@ -78,7 +78,7 @@ Cypress.Commands.add('closeWizardAppTour', () => {
   cy.log('Close App Tour Wizard');
   const status = JSON.parse(localStorage.getItem('redux')).appTour.appTourProgress;
   cy.log(`AppTourWizardDialog status ${status}`);
-  if (status !== 'cancelled') {
+  if (status && status !== 'cancelled') {
     cy.log('AppTourWizardDialog is active');
     cy.get('.reactour__helper--is-open').then(() => {
       cy.wait(500); // Wait until the animation of the App Tour dialog is completed

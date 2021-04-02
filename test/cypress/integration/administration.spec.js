@@ -14,6 +14,7 @@ describe('Pages', () => {
     cy.appBuilderLogout();
   });
 
+  // TODO add assertions to have real tests
   describe('Upload file in the administration', () => {
     it('Should upload one file', () => {
       cy.openPageFromMenu(['Administration', 'File browser']);
