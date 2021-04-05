@@ -6,11 +6,11 @@
  */
 import 'cypress-file-upload';
 
-Cypress.Commands.add('attachFile', (selector, fixture) => {
+Cypress.Commands.add('addAttachFile', (selector, fixture) => {
   cy.getByTestId(selector).attachFile(fixture);
 });
 
-Cypress.Commands.add('attachFileByDragAndDrop', (selector, fixture) => {
+Cypress.Commands.add('addAttachFileByDragAndDrop', (selector, fixture) => {
   cy.getByTestId(selector).attachFile(fixture, { subjectType: 'drag-n-drop' });
 });
 
