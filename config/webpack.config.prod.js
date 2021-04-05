@@ -174,7 +174,7 @@ module.exports = {
             include: [paths.appSrc, paths.appTestResources],
             loader: require.resolve('babel-loader'),
             options: {
-
+              plugins: [['react-remove-properties', { properties: ['data-testid'] }]],
               compact: true,
             },
           },
