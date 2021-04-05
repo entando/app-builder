@@ -10,7 +10,7 @@ import ComponentListViewModeSwitcherContainer from 'ui/component-repository/comp
 import withPermissions from 'ui/auth/withPermissions';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import { FormattedMessage } from 'react-intl';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { ENTER_ECR_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
 import { ROUTE_ECR_COMPONENT_LIST, ROUTE_ECR_CONFIG_LIST } from 'app-init/router';
 import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilterContainer';
 import InstallationPlanModal from 'ui/component-repository/components/InstallationPlanModal';
@@ -71,4 +71,4 @@ export const ComponentListPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(ComponentListPageBody);
+export default withPermissions([ROLE_SUPERUSER, ENTER_ECR_PERMISSION])(ComponentListPageBody);

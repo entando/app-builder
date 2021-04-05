@@ -8,3 +8,4 @@ export const MANAGE_CATEGORIES_PERMISSION = 'manageCategories';
 export const CRUD_CONTENTS_PERMISSION = 'editContents';
 export const VALIDATE_CONTENTS_PERMISSION = 'validateContents';
 export const MANAGE_RESOURCES_PERMISSION = 'manageResources';
+export const ENTER_ECR_PERMISSION = 'enterECR';

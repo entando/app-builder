@@ -124,7 +124,7 @@ class AppTour extends React.Component {
               </Button>
               <Button
                 className="TourStart__yes-button"
-                onClick={() => this.cancelTour()}
+                onClick={() => this.cancelTour(true)}
               >
                 <FormattedMessage id="app.yes" />
               </Button>
