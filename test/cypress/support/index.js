@@ -15,6 +15,7 @@
 
 import './keycloak-oauth2';
 import './command/command';
+import './command/upload-command';
 import './command/user-command';
 import './command/role-command';
 import './exception-handler';

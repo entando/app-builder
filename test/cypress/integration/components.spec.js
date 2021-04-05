@@ -17,13 +17,13 @@ describe('Pages', () => {
     it('Should create the widget and upload the icon', () => {
       cy.openPageFromMenu(['Components', 'Micro Frontends & Widgets']);
       cy.getByTestId(TEST_ID_COMPONENT_LIST_BUTTON).contains('Add').click();
-      cy.getByTestId(TEST_ID_ICON_UPLOADER_INPUT).attachFile('icon/pokeball.svg');
+      cy.attachFile(TEST_ID_ICON_UPLOADER_INPUT, 'icon/pokeball.svg');
     });
 
     it('Should create the widget and drag and drop the icon', () => {
       cy.openPageFromMenu(['Components', 'Micro Frontends & Widgets']);
       cy.getByTestId(TEST_ID_COMPONENT_LIST_BUTTON).contains('Add').click();
-      cy.getByTestId(TEST_ID_ICON_UPLOADER_INPUT).attachFile('icon/pokeball.svg', { subjectType: 'drag-n-drop' });
+      cy.attachFileByDragAndDrop(TEST_ID_ICON_UPLOADER_INPUT, 'icon/pokeball.svg');
     });
   });
 });

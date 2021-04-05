@@ -20,7 +20,7 @@ describe('Pages', () => {
       cy.openPageFromMenu(['Administration', 'File browser']);
       cy.getByTestId(TEST_ID_FOLDER_FILE_BROWSER).contains('public').click();
       cy.getByTestId(TEST_ID_BUTTON_FILE_BROWSER).contains('Upload files').click();
-      cy.getByTestId(TEST_ID_UPLOAD_FIELD_FILE_BROWSER).attachFile('upload/data1.json');
+      cy.attachFile(TEST_ID_UPLOAD_FIELD_FILE_BROWSER, 'upload/data1.json');
       cy.getByTestId(TEST_ID_ACTION_BUTTON_FILE_BROWSER).contains('Upload').click();
     });
 
@@ -28,7 +28,7 @@ describe('Pages', () => {
       cy.openPageFromMenu(['Administration', 'File browser']);
       cy.getByTestId(TEST_ID_FOLDER_FILE_BROWSER).contains('public').click();
       cy.getByTestId(TEST_ID_BUTTON_FILE_BROWSER).contains('Upload files').click();
-      cy.getByTestId(TEST_ID_UPLOAD_FIELD_FILE_BROWSER).attachFile(['upload/data2.json', 'upload/data3.json']);
+      cy.attachFile(TEST_ID_UPLOAD_FIELD_FILE_BROWSER, ['upload/data2.json', 'upload/data3.json']);
       cy.getByTestId(TEST_ID_ACTION_BUTTON_FILE_BROWSER).contains('Upload').click();
     });
 
@@ -36,7 +36,7 @@ describe('Pages', () => {
       cy.openPageFromMenu(['Administration', 'File browser']);
       cy.getByTestId(TEST_ID_FOLDER_FILE_BROWSER).contains('public').click();
       cy.getByTestId(TEST_ID_BUTTON_FILE_BROWSER).contains('Upload files').click();
-      cy.getByTestId(TEST_ID_UPLOAD_FIELD_FILE_BROWSER).attachFile('upload/data4.json', { subjectType: 'drag-n-drop' });
+      cy.attachFileByDragAndDrop(TEST_ID_UPLOAD_FIELD_FILE_BROWSER, 'upload/data4.json');
       cy.getByTestId(TEST_ID_ACTION_BUTTON_FILE_BROWSER).contains('Upload').click();
     });
   });
