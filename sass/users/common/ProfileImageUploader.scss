@@ -9,6 +9,10 @@
     box-shadow: none !important;
   }
 
+  & button:disabled {
+    background-color: transparent !important;
+  }
+
   & .caret {
     display: none;
   }

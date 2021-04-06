@@ -15,7 +15,9 @@ const imageProvider = getResourcePath(FILE_BROWSER_PATH);
 
 const toMd5 = string => md5(string.trim().toLowerCase());
 
-const ProfileImageUploader = ({ image, onChange, gravatarEmail }) => {
+const ProfileImageUploader = ({
+  image, onChange, gravatarEmail, editable,
+}) => {
   const [edit, setEdit] = useState(false);
   const inputFileRef = useRef(null);
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ const ProfileImageUploader = ({ image, onChange, gravatarEmail }) => {
 
   return (
     <div className="ProfileImageUploader">
-      <Dropdown onToggle={() => setEdit(!edit)}>
+      <Dropdown onToggle={() => setEdit(!edit)} disabled={!editable}>
         <Dropdown.Toggle>
           <input
             ref={inputFileRef}
@@ -66,11 +68,13 @@ ProfileImageUploader.propTypes = {
   image: PropTypes.string,
   gravatarEmail: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
 };
 
 ProfileImageUploader.defaultProps = {
   image: '',
   gravatarEmail: '',
+  editable: false,
 };
 
 export default ProfileImageUploader;

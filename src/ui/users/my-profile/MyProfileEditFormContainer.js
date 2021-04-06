@@ -37,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
   onCancel: () => {
     dispatch(reset('UserProfile'));
   },
-  onChangeProfilePicture: picture => dispatch(change('UserProfile', 'profilePicture', picture)),
+  onChangeProfilePicture: picture => dispatch(change('UserProfile', 'profilepicture', picture)),
 });
 
 export default connect(
