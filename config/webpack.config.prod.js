@@ -36,9 +36,9 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 
 const mapToFolder = (dependencies, folder) =>
   dependencies.reduce((acc, dependency) => ({
-      [dependency]: path.resolve(`${folder}/${dependency}`),
-      ...acc
-    }), {});
+    [dependency]: path.resolve(`${folder}/${dependency}`),
+    ...acc,
+  }), {});
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -84,7 +84,7 @@ module.exports = {
 
     ].concat(
       // It is guaranteed to exist because we tweak it in `env.js`
-      process.env.NODE_PATH.split(path.delimiter).filter(Boolean),),
+      process.env.NODE_PATH.split(path.delimiter).filter(Boolean)),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
@@ -174,7 +174,7 @@ module.exports = {
             include: [paths.appSrc, paths.appTestResources],
             loader: require.resolve('babel-loader'),
             options: {
-              plugins: [['react-remove-properties', { properties: ['data-testid'] }]],
+
               compact: true,
             },
           },
@@ -315,7 +315,7 @@ module.exports = {
       },
       minify: true,
       // For unknown URLs, fallback to the index page
-      navigateFallback: `${publicUrl  }/index.html`,
+      navigateFallback: `${publicUrl}/index.html`,
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [/^(?!\/__).*/],

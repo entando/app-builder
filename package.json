@@ -179,9 +179,26 @@
     "webpackConfig": "./config/webpack.config.dev.js"
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "env": {
+      "development": {
+        "presets": [
+          "react-app"
+        ]
+      },
+      "test": {
+        "presets": [
+          "react-app"
+        ]
+      },
+      "production": {
+        "plugins": [
+          ["react-remove-properties", { "properties": ["data-testid"] }]
+        ],
+        "presets": [
+          "react-app"
+        ]
+      }
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
