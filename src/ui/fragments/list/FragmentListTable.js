@@ -125,6 +125,7 @@ class FragmentListTable extends Component {
   }
 
   render() {
+    console.log('FragmentListTable rendered');
     return (
       <div className="FragmentListTable">
         <Spinner loading={!!this.props.loading} >
