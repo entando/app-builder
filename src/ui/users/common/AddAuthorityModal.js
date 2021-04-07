@@ -11,7 +11,7 @@ const AddAuthorityModal = ({
   groupOptions, rolesOptions, onClickAdd, setGroupRef, setRoleRef,
 }) => {
   const buttons = [
-    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd} data-testid={TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON}>
+    <Button bsStyle="primary" id="UserAuthorityTable__add" onClick={onClickAdd}>
       <FormattedMessage id="app.add" />
     </Button>,
   ];

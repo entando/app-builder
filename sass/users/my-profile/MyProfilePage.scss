@@ -1,6 +1,63 @@
+// sass-lint:disable class-name-format force-element-nesting nesting-depth no-important
 .MyProfilePage {
+  height: 100%;
+  margin-bottom: 0;
+  background-color: $color-grey-background;
+
   &__tab {
     margin-top: 32px;
+    padding: 0 20px;
+  }
+
+  &__header {
+    padding: 20px;
+    border-bottom: solid 2px $color-grey-border;
+    background-color: $color-white;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & .breadcrumb {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  & .PageTitle__header {
+    border: 0;
+  }
+
+  & .PageTitle__header {
+    margin-bottom: 0;
+  }
+
+  & .PageTitle__title {
+    margin-top: 40px;
+    margin-bottom: 0;
+
+    & .pull-right {
+      margin-left: 22px;
+      float: none !important;
+    }
+  }
+
+  & > .container-pf-nav-pf-vertical {
+    margin-top: 60px;
+    margin-left: 216px;
+    padding: 0;
+  }
+
+  &__body {
+    margin: 21px;
+    padding: 29px 21px;
+    border: solid 1px $color-grey-border;
+    background: $color-white;
+
+    & .form-horizontal {
+      height: 100%;
+    }
   }
 }
 
@@ -8,12 +65,18 @@
   &__modal {
     top: 20%;
 
-    .form-group { // sass-lint:disable-line class-name-format force-element-nesting nesting-depth
+    .form-group {
       overflow: hidden;
 
-      .text-right { // sass-lint:disable-line class-name-format force-element-nesting nesting-depth
+      .text-right {
         padding-left: 0;
       }
     }
+  }
+}
+
+.MyProfileEditForm {
+  &__attributes {
+    margin-top: 80px;
   }
 }

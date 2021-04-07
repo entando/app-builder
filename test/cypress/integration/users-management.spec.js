@@ -8,10 +8,9 @@ import {
   TEST_ID_USER_PROFILE_FORM,
   TEST_ID_USER_LIST_TABLE,
 } from '../../../src/ui/test-const/user-test-const';
+import TEST_ID_GENERIC_MODAL from '../../../src/ui/test-const/test-const';
 
 describe('Users Management', () => {
-  const username = generateRandomId();
-  const password = generateRandomId();
   const PROFILE_TYPE_CODE = 'PFL';
   const FULL_NAME = 'Test Test';
   const EMAIL = 'email-user-test@entando.com';
@@ -29,31 +28,38 @@ describe('Users Management', () => {
   beforeEach(() => {
     cy.appBuilderLogin();
     cy.closeWizardAppTour();
-    cy.addUser(username, password, PROFILE_TYPE_CODE);
   });
 
   afterEach(() => {
-    cy.deleteUser(username);
-    cy.log('Validate user deletion');
-    cy.openPageFromMenu(['Users', 'Management']);
-    cy.contains(password).should('not.exist');
     cy.appBuilderLogout();
   });
 
   describe('User ', () => {
-    it('Should add a new user', () => {
+    it('Should add and delete a new user', () => {
       cy.log('Validate user creation');
+      const username = generateRandomId();
+      const password = generateRandomId();
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).should('be.visible');
       cy.getTableRowsByTestId(TEST_ID_USER_LIST_TABLE.TABLE).should('have.length', 1);
+      cy.deleteUser(username);
+      cy.log('Validate user deletion');
+      cy.openPageFromMenu(['Users', 'Management']);
+      cy.searchUser(username);
+      cy.contains(username).should('not.exist');
+      cy.getByTestId(TEST_ID_USER_LIST_TABLE.ALERT).contains('There are no USERS available').should('be.visible');
     });
 
     it('Should update a user', () => {
       cy.log('Update the user');
+      const username = generateRandomId();
+      const password = generateRandomId();
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
       const newPassword = 'new_password_tests';
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).contains('Not active').should('be.visible');
-      cy.clickTableActions(username);
+      cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
       cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('have.value', username);
       cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(newPassword);
@@ -64,22 +70,44 @@ describe('Users Management', () => {
       cy.log('Validate user changes');
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).contains('Active').should('be.visible');
+      cy.deleteUser(username);
+    });
+
+    it('Delete admin user should not be possible', () => {
+      cy.log('Delete admin user should not be possible');
+      cy.deleteUser('admin');
+      cy.validateToastNotificationError('Sorry. You can\'t delete the administrator user');
+    });
+
+    it('Add user with username that already exists should not be possible', () => {
+      const username = generateRandomId();
+      const password = generateRandomId();
+      cy.log('Delete admin user should not be possible');
+      cy.log('Add the  first user');
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
+      cy.log('Add a new user with username that already exists');
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
+      cy.validateToastNotificationError(`The user '${username}' already exists`);
     });
   });
 
   describe('User profile', () => {
     it('Should edit the user profile', () => {
       cy.log('Should edit and view the user profile');
+      const username = generateRandomId();
+      const password = generateRandomId();
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
       // Edit User Profile
       cy.editUserProfile(username, FULL_NAME, EMAIL);
       cy.validateToastNotificationOk('User profile has been updated');
+      cy.wait(2000);
       cy.log('Check edited user profile');
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).should('be.visible');
       cy.getTableRowsBySelector(FULL_NAME).should('be.visible');
       cy.getTableRowsBySelector(EMAIL).should('be.visible');
       cy.getTableRowsBySelector(`Default user profile ${PROFILE_TYPE_CODE}`).should('be.visible');
-      cy.clickTableActions(username);
+      cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${username}`);
       cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('have.value', username);
@@ -93,7 +121,7 @@ describe('Users Management', () => {
       // View User Profile
       cy.log('Should view the user profile');
       cy.searchUser(username);
-      cy.clickTableActions(username);
+      cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${username}`);
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.TABLE).contains(username).should('be.visible');
@@ -104,15 +132,19 @@ describe('Users Management', () => {
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.BACK_BUTTON).should('be.visible');
       cy.getByTestId(TEST_ID_DETAIL_USER_TABLE.BACK_BUTTON).click();
       cy.validateUrlChanged('/user');
+      cy.deleteUser(username);
     });
   });
 
   describe('User authorizations', () => {
     it('Should edit the user authorizations', () => {
       cy.log('Should edit the user authorizations');
+      const username = generateRandomId();
+      const password = generateRandomId();
+      cy.addUser(username, password, PROFILE_TYPE_CODE);
       // Edit Authorizations
       cy.searchUser(username);
-      cy.clickTableActions(username);
+      cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${username}`);
       cy.contains('No authorizations yet').should('be.visible');
@@ -121,13 +153,14 @@ describe('Users Management', () => {
       cy.getByTestId(TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON).click();
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD).select(group.ID);
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD).select(role.ID);
-      cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON).click();
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Add').click();
       cy.contains(group.DESCRIPTION).should('be.visible');
       cy.contains(role.DESCRIPTION).should('be.visible');
       cy.getTableRowsByTestId(TEST_ID_USER_AUTHORITY_TABLE.TABLE).should('have.length', 1);
       // Delete Authorizations
       cy.getByTestId(TEST_ID_USER_AUTHORITY_TABLE.DELETE_BUTTON).click();
       cy.contains('No authorizations yet').should('be.visible');
+      cy.deleteUser(username);
     });
   });
 });

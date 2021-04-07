@@ -1,5 +1,3 @@
-// ROLE
-
 export const TEST_ID_ROLE_LIST_TABLE = {
   TABLE: 'RoleListTable__table',
   ACTION_EDIT_ROLE: 'RoleListMenuAction__menu-item-edit',

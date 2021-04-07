@@ -32,7 +32,7 @@ class RoleListTable extends Component {
       <tr key={role.code}>
         <td className="RoleListRow__td">{role.name}</td>
         <td className="RoleListRow__td">{role.code}</td>
-        <td className="RoleListRow__td text-center">
+        <td className="RoleListRow__td text-center" data-testid={`${role.code}-actions`}>
           <RoleListMenuActions
             code={role.code}
             onClickDelete={this.props.onClickDelete}

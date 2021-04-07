@@ -1,0 +1,37 @@
+//sass-lint:disable class-name-format no-important
+.ProfileImageUploader {
+  & button {
+    padding: 0;
+    float: none;
+    border: 0;
+    outline: none;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  & button:disabled {
+    background-color: transparent !important;
+  }
+
+  & .caret {
+    display: none;
+  }
+
+  & ul {
+    margin-top: 3px !important;
+  }
+
+  & button:hover {
+    background-color: transparent;
+  }
+
+  &__file-upload {
+    display: none !important;
+  }
+
+  &__picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+}

@@ -55,7 +55,7 @@ describe('Users Management', () => {
     it('User edit page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.clickTableActions(USERNAME);
+      cy.openTableActionsByTestId(USERNAME);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
       cy.validateUrlChanged(`/user/edit/${USERNAME}`);
       // Page title
@@ -84,7 +84,7 @@ describe('Users Management', () => {
     it('User management edit profile page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.clickTableActions(USERNAME);
+      cy.openTableActionsByTestId(USERNAME);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${USERNAME}`);
       // Page title
@@ -108,7 +108,7 @@ describe('Users Management', () => {
     it('User management view profile page', () => {
       cy.log('Should have all defined page components');
       cy.searchUser(USERNAME);
-      cy.clickTableActions(USERNAME);
+      cy.openTableActionsByTestId(USERNAME);
       cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_VIEW_PROFILE).click();
       cy.validateUrlChanged(`/user/view/${USERNAME}`);
       // Page title
@@ -129,7 +129,7 @@ describe('Users Management', () => {
       cy.log('Should edit the user authorizations');
       // Edit Authorizations
       cy.searchUser(USERNAME);
-      cy.clickTableActions(USERNAME);
+      cy.openTableActionsByTestId(USERNAME);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_MANAGE_AUTHORIZATIONS).click();
       cy.validateUrlChanged(`/authority/${USERNAME}`);
       // Page title
@@ -151,8 +151,8 @@ describe('Users Management', () => {
       cy.getModalDialogByTitle('New authorizations').should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ROLE_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.GROUP_FIELD).should('be.visible');
-      cy.getByTestId(TEST_ID_GENERIC_MODAL.CANCEL_BUTTON).should('be.visible');
-      cy.getByTestId(TEST_ID_USER_AUTHORITY_MODAL.ADD_BUTTON).should('be.visible');
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Cancel').should('be.visible');
+      cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Add').should('be.visible');
     });
   });
 });
