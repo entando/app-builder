@@ -1,5 +1,3 @@
-// USER
-
 export const TEST_ID_DETAIL_USER_TABLE = {
   TABLE: 'DetailUserTable__table',
   BACK_BUTTON: 'DetailUserTable__backButton',
@@ -19,6 +17,7 @@ export const TEST_ID_USER_LIST_TABLE = {
   ACTION_MANAGE_AUTHORIZATIONS: 'UserListMenuAction__menu-item-auth',
   ACTION_VIEW_PROFILE: 'UserListMenuAction__menu-item-view-profile',
   ACTION_EDIT_PROFILE: 'UserListMenuAction__menu-item-edit-profile',
+  ALERT: 'list_UserListTable_Alert',
 };
 
 export const TEST_ID_USER_FORM = {
@@ -55,5 +54,4 @@ export const TEST_ID_USER_AUTHORITY_PAGE_FORM = {
 export const TEST_ID_USER_AUTHORITY_MODAL = {
   GROUP_FIELD: 'UserAuthorityModal__groupsField',
   ROLE_FIELD: 'UserAuthorityModal__rolesField',
-  ADD_BUTTON: 'UserAuthorityModal__addButton',
 };
