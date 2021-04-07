@@ -10,6 +10,7 @@ import RenderListField from 'ui/common/form/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
+import ProfileImageUploader from 'ui/users/common/ProfileImageUploader';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
@@ -149,7 +150,8 @@ export class MyProfileEditFormBody extends Component {
 
   render() {
     const {
-      profileTypesAttributes, defaultLanguage, languages, intl,
+      profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
+      userProfileForm,
     } = this.props;
 
     const { editMode } = this.state;
@@ -180,52 +182,67 @@ export class MyProfileEditFormBody extends Component {
       language={language && language.code}
     />);
 
-    const renderedProfileFields = profileTypesAttributes.map((attribute) => {
-      if (attribute.type === TYPE_COMPOSITE) {
-        return (
-          <Row key={attribute.code}>
-            <label className="control-label col-xs-2">
-              <FormLabel
-                labelText={attribute.name}
-                helpText={getHelpMessage(attribute.validationRules, intl)}
-                required={attribute.mandatory}
-              />
-            </label>
-            <Col xs={10}>
-              <Panel>
-                <Panel.Body>
-                  <FormSection name={attribute.code}>
-                    { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
-                  </FormSection>
-                </Panel.Body>
-              </Panel>
-            </Col>
-          </Row>
-        );
-      }
-      if (attribute.type === TYPE_LIST) {
-        return languages.map(lang => (
-          <div key={lang.code}>
-            {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
-          </div>
-        ));
-      }
-      if (attribute.type === TYPE_MONOLIST) {
-        return (
-          <Row key={attribute.code}>
-            <Col xs={12}>
-              {renderFieldArray(attribute.code, attribute, RenderListField)}
-            </Col>
-          </Row>
-        );
-      }
-      return field(intl, attribute, !editMode);
-    });
+    const renderedProfileFields = profileTypesAttributes
+      .filter(attribute => attribute.code !== 'profilepicture')
+      .map((attribute) => {
+        if (attribute.type === TYPE_COMPOSITE) {
+          return (
+            <Row key={attribute.code}>
+              <label className="control-label col-xs-2">
+                <FormLabel
+                  labelText={attribute.name}
+                  helpText={getHelpMessage(attribute.validationRules, intl)}
+                  required={attribute.mandatory}
+                />
+              </label>
+              <Col xs={10}>
+                <Panel>
+                  <Panel.Body>
+                    <FormSection name={attribute.code}>
+                      { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
+                    </FormSection>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
+          );
+        }
+        if (attribute.type === TYPE_LIST) {
+          return languages.map(lang => (
+            <div key={lang.code}>
+              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
+            </div>
+          ));
+        }
+        if (attribute.type === TYPE_MONOLIST) {
+          return (
+            <Row key={attribute.code}>
+              <Col xs={12}>
+                {renderFieldArray(attribute.code, attribute, RenderListField)}
+              </Col>
+            </Row>
+          );
+        }
+        return field(intl, attribute, !editMode);
+      });
 
+    const { profilepicture } = userProfileForm;
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
-        <FormSectionTitle titleId="user.myProfile.editProfileSection" />
-        {renderedProfileFields}
+        <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
+        <input type="hidden" name="profilepicture" value={profilepicture} />
+        <ProfileImageUploader
+          image={profilepicture}
+          onChange={onChangeProfilePicture}
+          gravatarEmail={userEmail}
+          editable={editMode}
+        />
+
+        <div className="MyProfileEditForm__attributes">
+          <FormSectionTitle titleId="user.myProfile.editProfileSection" />
+          {renderedProfileFields}
+        </div>
+
         {editMode ? (
           <Fragment>
             <Button
@@ -294,10 +311,22 @@ MyProfileEditFormBody.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   intl: intlShape.isRequired,
+  userEmail: PropTypes.string,
+  userProfileForm: PropTypes.shape({
+    email: PropTypes.string,
+    fullname: PropTypes.string,
+    id: PropTypes.string,
+    typeCode: PropTypes.string,
+    typeDescription: PropTypes.string,
+    profilepicture: PropTypes.string,
+  }),
+  onChangeProfilePicture: PropTypes.func.isRequired,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
+  userEmail: undefined,
+  userProfileForm: {},
 };
 
 const MyProfileEditForm = reduxForm({

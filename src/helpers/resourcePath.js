@@ -6,4 +6,11 @@ const getDomain = () => {
   return DOMAIN;
 };
 
-export const getResourcePath = resource => `${getDomain()}/cmsresources/${resource}`;
+const getResource = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return 'cmsresources';
+  }
+  return 'resources';
+};
+
+export const getResourcePath = resource => `${getDomain()}/${getResource()}/${resource}`;

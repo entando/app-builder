@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, Tabs, Tab } from 'patternfly-react';
+import { Row, Col, Breadcrumb, Tabs, Tab } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -29,20 +29,28 @@ const MyProfilePage = ({ onTabSelect, intl }) => {
 
   return (
     <InternalPage className="MyProfilePage">
-      <Grid fluid>
-        <Row>
-          <Col xs={12}>
+      <div className="MyProfilePage__header">
+        <div className="MyProfilePage__top">
+          <div>
             <Breadcrumb>
               <BreadcrumbItem active>
                 <FormattedMessage id="app.myProfile" />
               </BreadcrumbItem>
             </Breadcrumb>
-          </Col>
-        </Row>
-        <PageTitle
-          titleId="app.myProfile"
-          helpId="user.myProfile.help"
-        />
+          </div>
+          <div>
+            <div id="widget-button-holder" />
+          </div>
+        </div>
+        <div>
+          <PageTitle
+            titleId="app.myProfile"
+            helpId="user.myProfile.help"
+          />
+        </div>
+      </div>
+
+      <div className="MyProfilePage__body">
         <Tabs
           id="my-profile-tabs"
           defaultActiveKey="account"
@@ -92,7 +100,7 @@ const MyProfilePage = ({ onTabSelect, intl }) => {
             </Row>
           </Tab>
         </Tabs>
-      </Grid>
+      </div>
     </InternalPage>
   );
 };
