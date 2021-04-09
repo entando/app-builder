@@ -48,22 +48,6 @@ describe('state/groups/selectors', () => {
 
   it('verify currentUserGroupsPermissionsFilter', () => {
     const getCurrentUserGroupsWithManagePages = currentUserGroupsPermissionsFilter(['managePages']);
-    expect(getCurrentUserGroupsWithManagePages(GROUPS_NORMALIZED)).toEqual([
-      {
-        code: 'administrators',
-        name: 'Administrators',
-        permissions: ['superuser'],
-      },
-      {
-        code: 'free',
-        name: 'Free Access',
-        permissions: [],
-      },
-      {
-        code: 'bpm_admin',
-        name: 'Bpm Admin',
-        permissions: ['managePages'],
-      },
-    ]);
+    expect(getCurrentUserGroupsWithManagePages(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
   });
 });
