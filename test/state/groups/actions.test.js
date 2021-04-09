@@ -394,8 +394,11 @@ describe('state/groups/actions', () => {
 
       store.dispatch(fetchCurrentUserGroups()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toEqual({
+          type: SET_GROUPS, payload: { groups: LIST_GROUPS_OK },
+        });
+        expect(actions[1]).toEqual({
           type: SET_CURRENT_USER_GROUPS, payload: { groups: CURRENT_USER_GROUPS },
         });
         done();
