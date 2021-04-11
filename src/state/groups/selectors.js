@@ -115,8 +115,17 @@ export const getCurrentUserGroups = createSelector(
 export const currentUserGroupsPermissionsFilter = permissions =>
   createSelector(
     getCurrentUserGroups,
-    groups => groups.filter(group =>
-      group.code === FREE_ACCESS_GROUP.code
-      || group.permissions.includes(ROLE_SUPERUSER)
-      || permissions.every(permission => group.permissions.includes(permission))),
+    getGroupsList,
+    (currentUserGroups, allGroups) => {
+      const isAdmin = currentUserGroups.some(group => group.permissions
+        && group.permissions.includes(ROLE_SUPERUSER));
+      if (isAdmin) {
+        return allGroups;
+      }
+      return currentUserGroups.filter(group => (
+        group.code === FREE_ACCESS_GROUP.code
+        || group.permissions.includes(ROLE_SUPERUSER)
+        || permissions.every(permission => group.permissions.includes(permission))
+      ));
+    },
   );

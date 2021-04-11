@@ -226,6 +226,7 @@ export const fetchCurrentUserGroups = () => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       const groups = json.payload;
+      dispatch(setGroups(groups));
       const myGroupPermissionsResponse = await getMyGroupPermissions();
       const myGroupPermissionsJson = await myGroupPermissionsResponse.json();
       if (myGroupPermissionsResponse.ok) {
