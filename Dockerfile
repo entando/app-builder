@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nginx-118
+FROM registry.access.redhat.com/ubi8/nginx-118:1-25
 ARG VERSION
 ### Required OpenShift Labels
 LABEL name="Entando App Builder" \
