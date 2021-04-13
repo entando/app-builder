@@ -2,35 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
-import BrandMenuContainer from 'ui/internal-page/BrandMenuContainer';
-import LegacyAdminConsoleMenuContainer from 'ui/internal-page/LegacyAdminConsoleMenuContainer';
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import VerticalMenuContainer from 'ui/internal-page/VerticalMenuContainer';
 
-const InternalPage = ({ className, children }) => {
-  const { LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED } = getRuntimeEnv();
-  return (
-    <div
-      data-testid="internal-page"
-      className={['InternalPage', className, LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
-      'layout-pf-fixed' : ''].join(' ').trim()}
-    >
-      {
-      LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ?
-        <LegacyAdminConsoleMenuContainer /> : <BrandMenuContainer />
-      }
-      <ActivityStreamContainer >
-        <NotificationListContainer />
-      </ActivityStreamContainer>
-      {
-      LEGACY_ADMINCONSOLE_INTEGRATION_ENABLED ? (
-        <div className="container-fluid container-cards-pf container-pf-nav-pf-vertical">
-          {children}
-        </div>
-      ) : children
-      }
+const InternalPage = ({ className, children }) => (
+  <div
+    data-testid="internal-page"
+    className={['InternalPage', className, 'layout-pf-fixed'].join(' ').trim()}
+  >
+    <VerticalMenuContainer />
+    <ActivityStreamContainer >
+      <NotificationListContainer />
+    </ActivityStreamContainer>
+    <div className="container-fluid container-cards-pf container-pf-nav-pf-vertical">
+      {children}
     </div>
-  );
-};
+  </div>
+);
 
 InternalPage.propTypes = {
   children: PropTypes.node,

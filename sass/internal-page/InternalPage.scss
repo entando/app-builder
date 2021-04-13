@@ -15,25 +15,6 @@
   }
 }
 
-.BrandMenu__navbar-brand.navbar-brand { // sass-lint:disable-line force-element-nesting class-name-format
-  img {
-    display: inline-block;
-    height: 15px;
-    margin: 2px auto;
-    vertical-align: top;
-  }
-}
-
-// sass-lint:disable force-element-nesting class-name-format nesting-depth
-.BrandMenu__first-level-menu {
-  &.nav.persistent-secondary {
-    .LinkMenuItem.active {
-      margin-bottom: 0;
-    }
-  }
-}
-// sass-lint:enable force-element-nesting class-name-format nesting-depth
-
 .FirstLevelMenuItem {
   span .fa { // sass-lint:disable-line force-element-nesting class-name-format
     padding-right: 8px;
@@ -85,10 +66,10 @@
     appearance: none;
   }
 
-  &__dropdown-legacy {
-    background: $color-legacy-header-bg-grey;
+  &__dropdown-vmenu {
     padding-top: 5px;
     padding-bottom: 5px;
+    background: $color-vmenu-header-bg-grey;
     font-size: 12px;
   }
 
@@ -108,9 +89,9 @@
   }
 }
 
-// Legacy menu related css
+// Vertical menu related css
 
-.LegacyAdminConsoleMenu {
+.VerticalAdminConsoleMenu {
   &__fixed-bottom {
     position: fixed;
     bottom: 0;
@@ -167,35 +148,35 @@
 .navbar-iconic { //sass-lint:disable-line class-name-format
   a.dropdown-toggle { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
     margin-top: 5px;
-    background: $color-legacy-header-bg-grey;
-    color: $color-legacy-header-text-grey;
+    background: $color-vmenu-header-bg-grey;
+    color: $color-vmenu-header-text-grey;
   }
 
   a.dropdown-toggle:hover { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    background: $color-legacy-header-bg-grey;
+    background: $color-vmenu-header-bg-grey;
     color: $color-white;
     font-weight: bold;
   }
 
   a.dropdown-toggle:focus { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    background: $color-legacy-header-bg-grey;
+    background: $color-vmenu-header-bg-grey;
     color: $color-white;
     font-weight: bold;
   }
 
   .HomePageLink__link {
     margin-top: 5px;
-    color: $color-legacy-header-text-grey;
+    color: $color-vmenu-header-text-grey;
   }
 
   .HomePageLink__link:hover {
-    background: $color-legacy-header-bg-grey;
+    background: $color-vmenu-header-bg-grey;
     color: $color-white;
     font-weight: bold;
   }
 
   .HomePageLink__link:focus {
-    background: $color-legacy-header-bg-grey;
+    background: $color-vmenu-header-bg-grey;
     color: $color-white;
     font-weight: bold;
   }
