@@ -38,7 +38,7 @@ import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
 
 const {
-  Masthead, Item, SecondaryItem, TertiaryItem, Brand,
+  Masthead, Item, SecondaryItem, Brand,
 } = VerticalNav;
 
 const publicUrl = process.env.PUBLIC_URL;
@@ -125,7 +125,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
       }
       {
         hasMenuContentSettingsAccess && (
-        <TertiaryItem
+        <SecondaryItem
           id="menu-content-settings"
           title={intl.formatMessage({ id: 'cms.menu.contentsettings', defaultMessage: 'Settings' })}
           onClick={() => history.push(ROUTE_CMS_CONTENT_SETTINGS)}
@@ -146,7 +146,7 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const LegacyAdminConsoleMenuBody = ({
+const VerticalMenu = ({
   userPermissions, intl, history, onNextStep, onStartTutorial,
 }) => (
   <div className="safari-menu-fix">
@@ -323,7 +323,7 @@ const LegacyAdminConsoleMenuBody = ({
       {
       hasAccess(ROLE_SUPERUSER, userPermissions) && (
         <Item
-          className="LegacyAdminConsoleMenu__fixed-bottom"
+          className="VerticalAdminConsoleMenu__fixed-bottom"
           id="menu-configuration"
           title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
           onClick={() => {}}
@@ -361,7 +361,7 @@ const LegacyAdminConsoleMenuBody = ({
   </div>
 );
 
-LegacyAdminConsoleMenuBody.propTypes = {
+VerticalMenu.propTypes = {
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
@@ -369,7 +369,7 @@ LegacyAdminConsoleMenuBody.propTypes = {
   onStartTutorial: PropTypes.func.isRequired,
 };
 
-LegacyAdminConsoleMenuBody.defaultProps = {
+VerticalMenu.defaultProps = {
   userPermissions: null,
 };
 
@@ -383,7 +383,7 @@ const mapDispatchToProps = (dispatch, { history }) => ({
   },
 });
 
-const LegacyAdminConsoleMenuContainer =
-connect(null, mapDispatchToProps)(LegacyAdminConsoleMenuBody);
+const VerticalMenuContainer =
+connect(null, mapDispatchToProps)(VerticalMenu);
 
-export default withPermissionValues(injectIntl(withRouter(LegacyAdminConsoleMenuContainer)));
+export default withPermissionValues(injectIntl(withRouter(VerticalMenuContainer)));
