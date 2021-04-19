@@ -31,7 +31,7 @@ Cypress.Commands.add('searchUser', (username) => {
 Cypress.Commands.add('deleteUser', (username) => {
   cy.log(`Delete user ${username}`);
   cy.searchUser(username);
-  cy.clickTableActions(username);
+  cy.openTableActionsByTestId(username);
   cy.getVisibleActionItemByTestID(TEST_ID_USER_LIST_TABLE.ACTION_DELETE_USER).click();
   cy.getModalDialogByTitle('Delete user').should('be.visible');
   cy.getButtonByText('Delete').click();
@@ -39,7 +39,7 @@ Cypress.Commands.add('deleteUser', (username) => {
 
 Cypress.Commands.add('editUserProfile', (username, fullname, email) => {
   cy.searchUser(username);
-  cy.clickTableActions(username);
+  cy.openTableActionsByTestId(username);
   cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
   cy.validateUrlChanged(`/userprofile/${username}`);
   cy.getByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).type(fullname);
@@ -47,6 +47,4 @@ Cypress.Commands.add('editUserProfile', (username, fullname, email) => {
   cy.getByTestId(TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON).click();
 });
 
-
-// Convert this to a module instead of script (allows import/export)
 export {};

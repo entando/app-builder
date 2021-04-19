@@ -1,0 +1,45 @@
+//sass-lint:disable class-name-format no-important
+.ProfileImageUploader {
+  & button {
+    padding: 0;
+    float: none;
+    border: 0;
+    border-radius: 50%;
+    outline: none;
+    background-color: $color-ecr-component-border;
+    box-shadow: none !important;
+    border: solid 2px $color-ecr-component-border !important;
+  }
+
+  & > button {
+    border: solid 2px $color-ecr-component-border !important;
+  }
+
+  & button:disabled {
+    img {
+      opacity: .5;
+    }
+  }
+
+  & .caret {
+    display: none;
+  }
+
+  & ul {
+    margin-top: 3px !important;
+  }
+
+  & button:hover {
+    background-color: $color-ecr-component-border;
+  }
+
+  &__file-upload {
+    display: none !important;
+  }
+
+  &__picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+}

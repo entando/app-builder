@@ -227,3 +227,42 @@ export const sendDeleteFile = values => (dispatch, getState) => (
     });
   })
 );
+
+const generalBodyApi = (apiFunc, loader) => (...args) => dispatch =>
+  new Promise((resolve, reject) => {
+    createFileObject(...args).then((obj) => {
+      dispatch(toggleLoading(loader));
+      apiFunc(obj).then(() => {
+        dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
+        dispatch(toggleLoading(loader));
+        resolve();
+      }).catch((error) => {
+        dispatch(toggleLoading(loader));
+        const message = { id: 'fileBrowser.uploadFileError', values: { errmsg: error } };
+        dispatch(message, TOAST_ERROR);
+        reject();
+      });
+    });
+  });
+
+export const uploadFile = (file, currentPath, loader = 'uploadFile', protectedFolder = false) =>
+  dispatch => new Promise((resolve) => {
+    const queryString = `?protectedFolder=${protectedFolder}&currentPath=${currentPath}/${file.name}`;
+    dispatch(toggleLoading(loader));
+    getFile(queryString).then((response) => {
+      response.json().then((json) => {
+        if (response.status === 404) {
+          dispatch(generalBodyApi(sendPostFile, loader)(protectedFolder, currentPath, file))
+            .then(resolve);
+        } else if (response.ok) {
+          dispatch(generalBodyApi(sendPutFile, loader)(protectedFolder, currentPath, file))
+            .then(resolve);
+        } else {
+          dispatch(toggleLoading(loader));
+          dispatch(addErrors(json.errors.map(e => e.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          resolve();
+        }
+      });
+    }).catch(() => {});
+  });

@@ -1,6 +1,5 @@
 import React from 'react';
 
-export const BrandMenu = () => (<span />);
 export const ProjectLink = () => (<span />);
 export const UserDropdown = () => (<span />);
 export const HelpMenu = () => (<span />);

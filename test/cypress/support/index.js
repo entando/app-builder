@@ -13,9 +13,13 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+import '@4tw/cypress-drag-drop';
 import './keycloak-oauth2';
 import './command/command';
+import './command/upload-command';
 import './command/user-command';
 import './command/role-command';
 import './command/group-command';
+import './command/page-designer-command';
+import './command/page-management-command';
 import './exception-handler';

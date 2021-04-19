@@ -52,8 +52,11 @@ const widgetCategoryMsgs = defineMessages({
 
 const renderSelectOptgroup = (options, intl) => (
   options.map((item) => {
+    console.log('item', item);
     const groupName = widgetCategoryMsgs[item.optgroup];
-    const label = groupName ? intl.formatMessage(groupName) : item.optgroup;
+    console.log('groupName', groupName);
+    const label = groupName && groupName.id ? intl.formatMessage(groupName) : item.optgroup;
+    console.log('label', label);
     return (
       <optgroup key={item.optgroup} label={label}>
         {item.options.map(option =>
@@ -81,6 +84,8 @@ export class FragmentSearchFormBody extends Component {
 
   render() {
     const { intl, widgetTypes, plugins } = this.props;
+    console.log('widgetTypes', widgetTypes);
+    console.log('plugins', plugins);
     return (
       <form onSubmit={this.onSubmit} className="FragmentSearchForm form-horizontal well">
         <h3><FormattedMessage id="app.search" /></h3>

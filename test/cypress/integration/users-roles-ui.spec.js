@@ -34,7 +34,7 @@ describe('User Roles', () => {
     it('Role edit page', () => {
       cy.openPageFromMenu(['Users', 'Roles']);
       cy.log('Should have all defined page components');
-      cy.clickTableActions(ROLE_NAME);
+      cy.openTableActionsByTestId(ROLE_NAME);
       cy.getVisibleActionItemByClass(TEST_ID_ROLE_LIST_TABLE.ACTION_EDIT_ROLE).click();
       cy.validateUrlChanged(`/role/edit/${ROLE_NAME}`);
       // Page title
@@ -65,7 +65,7 @@ describe('User Roles', () => {
     it('View role details page', () => {
       cy.log('Should have all defined page components');
       cy.openPageFromMenu(['Users', 'Roles']);
-      cy.clickTableActions(ROLE_NAME);
+      cy.openTableActionsByTestId(ROLE_NAME);
       cy.getVisibleActionItemByClass(TEST_ID_ROLE_LIST_TABLE.ACTION_DETAIL_ROLE).click();
       cy.validateUrlChanged(`/role/view/${ROLE_NAME}`);
       // Page title

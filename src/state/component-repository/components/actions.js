@@ -254,7 +254,7 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
   })
 );
 
-export const installECRComponent = (component, version, logProgress, resolvedInstallPlan) =>
+export const installECRComponent = (component, version = 'latest', logProgress, resolvedInstallPlan) =>
   dispatch => (
     new Promise((resolve) => {
       const loadingId = `deComponentInstallUninstall-${component.code}`;
