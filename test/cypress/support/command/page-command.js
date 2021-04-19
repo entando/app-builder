@@ -79,7 +79,7 @@ function fillPageForm(page, languages, defaultLang, button) {
   });
   cy.getByTestId(TEST_ID_PAGE_FORM.OWNER_GROUP_TYPEAHEAD).click();
   cy.wait(500);
-  cy.getTypeaheadOption(page.ownerGroup).click();
+  cy.getTypeaheadOptionByValue(page.ownerGroup).click();
   cy.getInputByName(TEST_ID_PAGE_FORM.CODE_FIELD).clear();
   cy.getInputByName(TEST_ID_PAGE_FORM.CODE_FIELD).type(page.code);
   cy.getByTestId(TEST_ID_PAGE_FORM.PAGE_TREE_SELECTOR_FIELD).contains(page.parentPage).click();

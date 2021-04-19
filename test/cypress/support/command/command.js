@@ -24,7 +24,7 @@ Cypress.Commands.add('getInputByName', (name, ...args) => cy.get(`input[name=${e
  *  Get Typeahead Option by class
  *  @param value - The the exact Option text displayed in the UI
  */
-Cypress.Commands.add('getTypeaheadOption', (value, ...args) => cy.get('.dropdown-item', ...args).contains(value));
+Cypress.Commands.add('getTypeaheadOptionByValue', (value, ...args) => cy.get('.dropdown-item', ...args).contains(value));
 
 /**
  *  Get select elements by name
