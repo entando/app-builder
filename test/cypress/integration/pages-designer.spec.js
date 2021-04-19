@@ -18,11 +18,11 @@ describe('Pages Designer', () => {
       cy.log('Select the widget');
       cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Widgets').click();
       cy.log('Add the widget to the page in the first empty frame');
-      cy.addWidget('News Latest', 'Frame 4');
+      cy.addWidgetToFrame('News Latest', 'Frame 4');
       cy.moveWidget('Frame 4', 'Frame 3');
-      cy.getPageStatus().should('contain', 'Published, with pending changes');
+      cy.getPageStatus().should('match', new RegExp('^Published, with pending changes$'));
       cy.publishPageClick();
-      cy.getPageStatus().should('contain', 'Published');
+      cy.getPageStatus().should('match', new RegExp('^Published$'));
       cy.deletePageWidgetByFrame('Frame 3');
       cy.publishPageClick();
     });

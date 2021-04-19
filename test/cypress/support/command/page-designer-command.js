@@ -1,7 +1,7 @@
 import { TEST_ID_PAGE_DESIGNER, TEST_ID_WIDGET_FRAME } from '../../../../src/ui/test-const/page-designer-test-const';
 
 /**
- * Select a new widget from the widget list and drag&drop to an empty page frame
+ * Select a new widget from the widget list and add it to the first empty page frame
  * @param widgetName - the exact name displayed in the UI of the widget to drag&drop
  *        in the first empty frame of the page
  */
@@ -11,11 +11,11 @@ Cypress.Commands.add('dragAndDropWidgetToFirstEmptyFrame', (widgetName) => {
 });
 
 /**
- * Select a new widget from the widget list and drag & drop to a page frame
+ * Select a new widget from the widget list and add it to a page frame
  * @param widgetName - the exact name displayed in the UI of the widget to add to the page
  * @param frameName - the exact name displayed in the UI of the frame where to drop the widget
  */
-Cypress.Commands.add('addWidget', (widgetName, frameName) => {
+Cypress.Commands.add('addWidgetToFrame', (widgetName, frameName) => {
   cy.log(`Add a new widget ${widgetName} to ${frameName}`);
   cy.getByTestId(TEST_ID_PAGE_DESIGNER.WIDGET_LIST_ITEM).contains(widgetName)
     .drag(`[data-testid=WidgetFrame__${frameName.replace(/\s/g, '_')}]`, { position: 'center', force: true });
@@ -23,7 +23,7 @@ Cypress.Commands.add('addWidget', (widgetName, frameName) => {
 });
 
 /**
- * Move a widget with drag&drop from one frame to another
+ * Move a widget from one frame to another
  * @param fromFrameName - the exact frame name displayed in the UI of the widget to move
  * @param toFrameName - the exact frame name displayed in the UI where to drop the widget
  */

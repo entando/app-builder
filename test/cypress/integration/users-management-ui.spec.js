@@ -35,7 +35,7 @@ describe('Users Management', () => {
         cy.get('h3').contains('Search').should('be.visible');
       });
       // Form Fields
-      cy.getByName('username').should('be.visible');
+      cy.getInputByName('username').should('be.visible');
       cy.getByTestId(TEST_ID_USER_SEARCH_FORM.WITH_PROFILE_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_SEARCH_FORM.SEARCH_BUTTON).should('be.visible');
       cy.getByTestId(TEST_ID_USER_LIST_TABLE.TABLE).should('be.visible');
@@ -63,9 +63,9 @@ describe('Users Management', () => {
       // Page breadcrumb
       cy.validateBreadcrumbItems(['Users', 'Management', 'Edit']);
       // Form Fields
-      cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('be.visible');
-      cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).should('be.visible');
-      cy.getByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_USER_FORM.PASSWORD_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_FORM.STATUS_FIELD).should('be.visible');
       cy.getByTestId(TEST_ID_USER_FORM.RESET_FIELD).should('be.visible');
       // Labels
@@ -92,10 +92,10 @@ describe('Users Management', () => {
       // Page breadcrumb
       cy.validateBreadcrumbItems(['Users', 'Management', 'Edit user profile']);
       // Form Fields
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.PROFILE_TYPE_FIELD).should('be.visible');
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('be.visible').and('be.disabled');
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).should('be.visible');
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).should('be.visible');
+      cy.getSelectByName(TEST_ID_USER_PROFILE_FORM.PROFILE_TYPE_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('be.visible').and('be.disabled');
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).should('be.visible');
       // Labels
       cy.getLabelByText('Profile Type').should('be.visible');
       cy.getLabelByText('Username').should('be.visible');

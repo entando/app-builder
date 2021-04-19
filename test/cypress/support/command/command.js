@@ -1,3 +1,5 @@
+import { escapeRegExp } from 'lodash/string';
+
 const TEST_ID_KEY = 'data-testid';
 
 /**
@@ -11,6 +13,24 @@ Cypress.Commands.add('getByTestId', (selector, ...args) => cy.get(`[${TEST_ID_KE
  *  @param selector - The id of the DOM element
  */
 Cypress.Commands.add('getById', (selector, ...args) => cy.get(`[id=${selector}]`, ...args));
+
+/**
+ *  Get input elements by name
+ *  @param selector - The name of the DOM elements
+ */
+Cypress.Commands.add('getInputByName', (name, ...args) => cy.get(`input[name=${escapeRegExp(name)}]`, ...args));
+
+/**
+ *  Get Typeahead Option by aria label
+ *  @param value - The value of the aria label
+ */
+Cypress.Commands.add('getTypeaheadOption', (value, ...args) => cy.get('.dropdown-item', ...args).contains(value));
+
+/**
+ *  Get select elements by name
+ *  @param selector - The name of the DOM elements
+ */
+Cypress.Commands.add('getSelectByName', (name, ...args) => cy.get(`select[name=${escapeRegExp(name)}]`, ...args));
 
 /**
  *  Get DOM elements by name
@@ -150,6 +170,12 @@ Cypress.Commands.add('validateToastNotificationError', (text) => {
   cy.get('div.toast-notifications-list-pf > div > span.pficon.pficon-error-circle-o').should('be.visible');
   cy.get('div.toast-notifications-list-pf > div').contains(text).should('be.visible');
 });
+/**
+ * close the toast notification
+ */
+Cypress.Commands.add('closeToastNotification', () => {
+  cy.get('div.toast-notifications-list-pf > div > button').click();
+});
 
 /**
  *  Close the wizard App Tour if it's visible
@@ -158,7 +184,7 @@ Cypress.Commands.add('closeWizardAppTour', () => {
   cy.log('Close App Tour Wizard');
   const status = JSON.parse(localStorage.getItem('redux')).appTour.appTourProgress;
   cy.log(`AppTourWizardDialog status ${status}`);
-  if ((status) && (status !== 'cancelled')) {
+  if ((status !== 'cancelled')) {
     cy.log('AppTourWizardDialog is active');
     cy.get('.reactour__helper--is-open').then(() => {
       cy.wait(500); // Wait until the animation of the App Tour dialog is completed
@@ -187,6 +213,15 @@ Cypress.Commands.add('openPageFromMenu', (menuLinks) => {
     cy.log('Click Page Menu Item', menuLinks[1]);
     cy.get('li.secondary-nav-item-pf.is-hover.list-group-item').contains(menuLinks[1]).click();
   }
+});
+
+/**
+ * Click on the action menu table if the kebab menu is open (@see command.openTableActionsByTestId)
+ * @param actionMenuSelector - the selector of the action menu
+ * @param action - the action name displayed in the UI
+ */
+Cypress.Commands.add('clickOnTableActionMenu', (actionMenuSelector, action) => {
+  cy.getByTestId(actionMenuSelector).filter(':visible').contains(action).click();
 });
 
 export {};
