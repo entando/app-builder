@@ -21,8 +21,8 @@ Cypress.Commands.add('getById', (selector, ...args) => cy.get(`[id=${selector}]`
 Cypress.Commands.add('getInputByName', (name, ...args) => cy.get(`input[name=${escapeRegExp(name)}]`, ...args));
 
 /**
- *  Get Typeahead Option by aria label
- *  @param value - The value of the aria label
+ *  Get Typeahead Option by class
+ *  @param value - The the exact Option text displayed in the UI
  */
 Cypress.Commands.add('getTypeaheadOption', (value, ...args) => cy.get('.dropdown-item', ...args).contains(value));
 
@@ -171,7 +171,7 @@ Cypress.Commands.add('validateToastNotificationError', (text) => {
   cy.get('div.toast-notifications-list-pf > div').contains(text).should('be.visible');
 });
 /**
- * close the toast notification
+ * Close the toast notification
  */
 Cypress.Commands.add('closeToastNotification', () => {
   cy.get('div.toast-notifications-list-pf > div > button').click();
