@@ -62,7 +62,6 @@ describe('Pages Management', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
       cy.expandAllPageTree();
       cy.dragAndDropPageAbove('Sitemap', 'Error page');
-      // TODO add assertions to validate the correct page position in the tree
       cy.dragAndDropPageBelow('Error page', 'Sitemap');
     });
 
@@ -70,7 +69,6 @@ describe('Pages Management', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
       cy.expandAllPageTree();
       cy.dragAndDropPageBelow('Sitemap', 'My Homepage');
-      // TODO add assertions to validate the correct page position in the tree
       cy.dragAndDropPageAbove('My Homepage', 'Sitemap');
     });
 
