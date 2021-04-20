@@ -507,6 +507,7 @@ export default {
     'pages.designer.tabWidgetList': 'Widget',
     'pages.designer.tabPageTree': 'Pagine',
     'pages.designer.searchWidgetLabel': 'Cerca Widget',
+    'pages.fullPath': 'Percorso Completo',
     'pageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
     'pageSettings.status.published': 'Le modifiche alla pagina {page} sono state messe online!',
     'pageSettings.status.unpublished': 'La pagina {page} è stata messa offline!',

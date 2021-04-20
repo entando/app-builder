@@ -507,6 +507,7 @@ export default {
     'pages.designer.tabWidgetList': 'Widgets',
     'pages.designer.tabPageTree': 'Page Tree',
     'pages.designer.searchWidgetLabel': 'Search Widgets',
+    'pages.fullPath': 'Full Path',
     'pageSettings.help': 'The PAGE SETTING section allows the user to specify attributes and conditions for pages and define general page settings.',
     'pageSettings.status.published': 'The updates to page {page} are online now.',
     'pageSettings.status.unpublished': 'The page {page} is offline now.',
