@@ -403,9 +403,7 @@ class AppTour extends React.Component {
     const {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset,
     } = this.props;
-    if (wizardEnabled === false || appTourProgress === APP_TOUR_CANCELLED) {
-      return null;
-    }
+    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
     const scrollLock = window.innerWidth > 1024;
@@ -468,7 +466,7 @@ AppTour.propTypes = {
 };
 
 AppTour.defaultProps = {
-  wizardEnabled: true,
+  wizardEnabled: false,
   username: '',
   appTourProgress: '',
   appTourLastStep: 1,
