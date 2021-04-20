@@ -31,7 +31,10 @@ class GroupListTable extends Component {
       <tr key={group.code}>
         <td className="GroupListRow__td">{group.name}</td>
         <td className="GroupListRow__td">{group.code}</td>
-        <td className="GroupListRow__td text-center">
+        <td
+          className="GroupListRow__td text-center"
+          data-testid={`${group.code}-actions`}
+        >
           <GroupListMenuActions
             code={group.code}
             onClickDelete={this.props.onClickDelete}

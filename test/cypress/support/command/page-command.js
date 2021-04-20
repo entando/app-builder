@@ -111,7 +111,7 @@ Cypress.Commands.add('addPage', (
 */
 Cypress.Commands.add('deletePage', (pageCode) => {
   cy.log(`Delete page  ${pageCode}`);
-  cy.expandAllPageTree();
+  cy.expandAllPageTreeFolders();
   cy.wait(1000);
   cy.openTableActionsByTestId(pageCode).then(() => {
     cy.clickOnTableActionMenu(TEST_ID_LIST_PAGE_TREE.ACTION_MENU, 'Delete');
@@ -126,7 +126,7 @@ Cypress.Commands.add('deletePage', (pageCode) => {
  */
 Cypress.Commands.add('publishPageAction', (pageCode) => {
   cy.log(`Publish page  ${pageCode}`);
-  cy.expandAllPageTree();
+  cy.expandAllPageTreeFolders();
   cy.wait(1000);
   cy.openTableActionsByTestId(pageCode).then(() => {
     cy.clickOnTableActionMenu(TEST_ID_LIST_PAGE_TREE.ACTION_MENU, 'Publish');
@@ -141,7 +141,7 @@ Cypress.Commands.add('publishPageAction', (pageCode) => {
  */
 Cypress.Commands.add('unpublishPageAction', (pageCode) => {
   cy.log(`Unpublish page  ${pageCode}`);
-  cy.expandAllPageTree();
+  cy.expandAllPageTreeFolders();
   cy.wait(1000);
   cy.openTableActionsByTestId(pageCode).then(() => {
     cy.clickOnTableActionMenu(TEST_ID_LIST_PAGE_TREE.ACTION_MENU, 'Unpublish');

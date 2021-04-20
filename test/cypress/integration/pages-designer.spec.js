@@ -3,6 +3,7 @@ import { TEST_ID_PAGE_DESIGNER } from '../../../src/ui/test-const/page-designer-
 describe('Pages Designer', () => {
   beforeEach(() => {
     cy.appBuilderLogin();
+    cy.closeWizardAppTour();
   });
 
   afterEach(() => {

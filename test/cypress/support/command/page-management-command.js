@@ -55,7 +55,7 @@ function expandOrCollapse(folderName, isExpand) {
  * Expand one folder by click on the arrow aside the name.
  * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
  */
-Cypress.Commands.add('expandPageTree', (folderName) => {
+Cypress.Commands.add('expandPageTreeFolder', (folderName) => {
   expandOrCollapse(folderName, true);
 });
 
@@ -63,7 +63,7 @@ Cypress.Commands.add('expandPageTree', (folderName) => {
  * Collapse one folder by click on the arrow aside the name.
  * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
  */
-Cypress.Commands.add('collapsePageTree', (folderName) => {
+Cypress.Commands.add('collapsePageTreeFolder', (folderName) => {
   expandOrCollapse(folderName);
 });
 
@@ -74,14 +74,14 @@ function expandOrCollapseAll(label) {
 /**
  * Expand all folders by clicking on the "Expand" main button above the page tree.
  */
-Cypress.Commands.add('expandAllPageTree', () => {
+Cypress.Commands.add('expandAllPageTreeFolders', () => {
   expandOrCollapseAll('Expand');
 });
 
 /**
  * Collapse all folders by clicking on the "Collapse" main button above the page tree.
  */
-Cypress.Commands.add('collapseAllPageTree', () => {
+Cypress.Commands.add('collapseAllPageTreeFolders', () => {
   expandOrCollapseAll('Collapse');
 });
 

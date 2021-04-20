@@ -60,14 +60,14 @@ describe('Pages Management', () => {
   describe('Change page position in the page tree', () => {
     it('Should move the page in the right place according the place chosen in the tree (Above)', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
-      cy.expandAllPageTree();
+      cy.expandAllPageTreeFolders();
       cy.dragAndDropPageAbove('Sitemap', 'Error page');
       cy.dragAndDropPageBelow('Error page', 'Sitemap');
     });
 
     it('Should move the page in the right place according the place chosen in the tree (Below)', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
-      cy.expandAllPageTree();
+      cy.expandAllPageTreeFolders();
       cy.dragAndDropPageBelow('Sitemap', 'My Homepage');
       cy.dragAndDropPageAbove('My Homepage', 'Sitemap');
     });
@@ -76,7 +76,7 @@ describe('Pages Management', () => {
       cy.addPage(PAGE_WITHOUT_SEO_DATA, languages);
       cy.closeToastNotification();
       cy.openPageFromMenu(['Pages', 'Management']);
-      cy.expandAllPageTree();
+      cy.expandAllPageTreeFolders();
       cy.dragAndDropPageInto('Search Result', PAGE_WITHOUT_SEO_DATA.titles.en);
       cy.validateToastNotificationError('Cannot move a free page under a reserved page');
       cy.closeToastNotification();
@@ -87,7 +87,7 @@ describe('Pages Management', () => {
       cy.addPage(PAGE_FREE_OWNER_GROUP, languages);
       cy.closeToastNotification();
       cy.openPageFromMenu(['Pages', 'Management']);
-      cy.expandAllPageTree();
+      cy.expandAllPageTreeFolders();
       cy.wait(1000);
       cy.dragAndDropPageInto('Service', PAGE_FREE_OWNER_GROUP.titles.en);
       cy.validateToastNotificationError('Can not move a published page under an unpublished page');
@@ -96,7 +96,7 @@ describe('Pages Management', () => {
 
     it('Should forbid to move a published page under his published child page', () => {
       cy.openPageFromMenu(['Pages', 'Management']);
-      cy.expandAllPageTree();
+      cy.expandAllPageTreeFolders();
       cy.wait(1000);
       cy.dragAndDropPageInto('Service', 'Login');
       cy.validateToastNotificationError('The page \'login\' can not be the parent of \'service\' because he is one of his child');
