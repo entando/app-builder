@@ -58,7 +58,7 @@ class GroupListTable extends Component {
 
       return (
         <Col xs={12}>
-          <table className="GroupListTable__table table table-striped table-bordered">
+          <table className="GroupListTable__table table table-striped table-bordered" data-testid="groups-table">
             <thead>
               <tr>
                 <th className="GroupListTable__th-lg"><FormattedMessage id="app.name" /></th>
