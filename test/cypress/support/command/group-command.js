@@ -1,3 +1,5 @@
+import { TEST_ID_GROUP_DELETE_ACTION } from '../../../../src/ui/test-const/group-test-const';
+
 Cypress.Commands.add('addGroup', (groupName) => {
   cy.openPageFromMenu(['Users', 'Groups']);
   cy.getButtonByText('Add').click();
@@ -8,7 +10,7 @@ Cypress.Commands.add('addGroup', (groupName) => {
 Cypress.Commands.add('deleteGroup', (groupCode) => {
   cy.openPageFromMenu(['Users', 'Groups']);
   cy.clickTableActions(groupCode);
-  cy.getByTestId('group-delete-action').filter(':visible').click();
+  cy.getByTestId(TEST_ID_GROUP_DELETE_ACTION).filter(':visible').click();
   cy.getButtonByText('Delete').click();
 });
 
