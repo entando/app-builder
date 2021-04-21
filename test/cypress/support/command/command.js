@@ -211,7 +211,7 @@ Cypress.Commands.add('closeWizardAppTour', () => {
  */
 Cypress.Commands.add('openPageFromMenu', (menuLinks) => {
   cy.log('Open a page from menu');
-  cy.contains('Dashboard').click();
+  cy.contains('Dashboard').click({ force: true });
   cy.wait(500);
   cy.closeWizardAppTour();
   cy.log('Click Menu Group', menuLinks[0]);
