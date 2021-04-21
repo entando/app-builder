@@ -254,53 +254,68 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
   })
 );
 
+const procceedWithInstall = (component, body, resolve, dispatch, logProgress, loadingId) =>
+  putECRComponentInstallPlan(component, body)
+    .then((res) => {
+      res.json().then((data) => {
+        if (res.ok) {
+          dispatch(pollECRComponentInstallStatus(component.code, logProgress))
+            .then(payload => resolve(payload));
+          dispatch(toggleLoading(loadingId));
+        } else {
+          if (data && data.errors) {
+            dispatch(addErrors(data.errors.map(err => err.message)));
+            data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          }
+          // when version is not available, error payload is different
+          const versionUnavailable = data && data.message;
+          if (versionUnavailable) {
+            dispatch(addErrors([data.message]));
+            dispatch(addToast(data.message, TOAST_ERROR));
+          }
+          dispatch(toggleLoading(loadingId));
+          resolve();
+        }
+      });
+      if (logProgress) {
+        logProgress(0);
+      }
+    });
+
 export const installECRComponent = (component, version = 'latest', logProgress, resolvedInstallPlan) =>
   dispatch => (
     new Promise((resolve) => {
       const loadingId = `deComponentInstallUninstall-${component.code}`;
       dispatch(toggleLoading(loadingId));
-      // check for conflicts on install plan before install
-      postECRComponentInstallPlan(component, version)
-        .then((response) => {
-          response.json().then(({ payload: installPlan }) => {
-            if (!installPlan.hasConflicts || resolvedInstallPlan) {
-            // no conflicts or the install plan has been resolved, proceed with component install
-              putECRComponentInstallPlan(component, resolvedInstallPlan || { version })
-                .then((res) => {
-                  res.json().then((data) => {
-                    if (res.ok) {
-                      dispatch(pollECRComponentInstallStatus(component.code, logProgress))
-                        .then(payload => resolve(payload));
-                      dispatch(toggleLoading(loadingId));
-                    } else {
-                      if (data && data.errors) {
-                        dispatch(addErrors(data.errors.map(err => err.message)));
-                        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-                      }
-                      // when version is not available, error payload is different
-                      const versionUnavailable = data && data.message;
-                      if (versionUnavailable) {
-                        dispatch(addErrors([data.message]));
-                        dispatch(addToast(data.message, TOAST_ERROR));
-                      }
-                      dispatch(toggleLoading(loadingId));
-                      resolve();
-                    }
-                  });
-                  if (logProgress) {
-                    logProgress(0);
-                  }
-                });
-            } else {
-              // show conflict modal
-              dispatch(toggleLoading(loadingId));
-              dispatch(setVisibleModal(MODAL_ID));
-              dispatch(toggleConflictsModal(true, installPlan, component, version));
-            }
+
+      // is the install conflicts already resolved?
+      if (resolvedInstallPlan) {
+        procceedWithInstall(
+          component, { ...resolvedInstallPlan, version },
+          resolve, dispatch, logProgress, loadingId,
+        );
+      } else {
+        // check for conflicts on install plan before install
+        postECRComponentInstallPlan(component, version)
+          .then((response) => {
+            response.json().then(({ payload: installPlan }) => {
+              if (!installPlan.hasConflicts) {
+                // no conflicts
+                procceedWithInstall(
+                  component, { version }, resolve,
+                  dispatch, logProgress, loadingId,
+                );
+              } else {
+                // show conflict modal
+                dispatch(toggleLoading(loadingId));
+                dispatch(setVisibleModal(MODAL_ID));
+                dispatch(toggleConflictsModal(true, installPlan, component, version));
+              }
+            });
+          }).catch(() => {
+            dispatch(toggleLoading(loadingId));
           });
-        }).catch(() => {
-          dispatch(toggleLoading(loadingId));
-        });
+      }
     })
   );
 
