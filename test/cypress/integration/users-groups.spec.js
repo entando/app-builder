@@ -7,6 +7,7 @@ describe('Groups', () => {
 
   beforeEach(() => {
     cy.appBuilderLogin();
+    cy.closeWizardAppTour();
 
     groupName = generateRandomId();
     groupCode = groupName.toLowerCase();
@@ -42,7 +43,7 @@ describe('Groups', () => {
     cy.getTableRowsBySelector(groupCode).should('be.visible');
 
     cy.log('should redirect back to list on cancel');
-    cy.clickTableActions(groupCode);
+    cy.openTableActionsByTestId(groupCode);
     cy.get(`[data-id=edit-${groupCode}`).find('a').click();
     cy.getButtonByText('Cancel').click();
     cy.getByTestId(TEST_ID_GROUPS_TABLE).should('be.visible');
@@ -52,9 +53,9 @@ describe('Groups', () => {
 
   it('Delete group', () => {
     cy.addGroup(groupName);
-
+    cy.wait(1000);
     cy.log('should delete the group after clicking and confirming the delete action');
     cy.deleteGroup(groupCode);
-    cy.getTableRowsBySelector(groupCode).should('not.exist');
+    cy.contains(groupCode).should('not.be.visible');
   });
 });

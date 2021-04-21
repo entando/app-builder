@@ -9,9 +9,9 @@ Cypress.Commands.add('addUser', (username, password, profileTypeCode, button) =>
   cy.log(`Add the new user  ${username}`);
   cy.openPageFromMenu(['Users', 'Management']);
   cy.getButtonByText('Add').click();
-  cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).type(username);
-  cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(password);
-  cy.getByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).type(password);
+  cy.getInputByName(TEST_ID_USER_FORM.USERNAME_FIELD).type(username);
+  cy.getInputByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(password);
+  cy.getInputByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).type(password);
   cy.getByName(TEST_ID_USER_FORM.PROFILE_TYPE_FIELD).select(profileTypeCode);
   if (button) {
     cy.getByTestId(button).click();
@@ -42,8 +42,8 @@ Cypress.Commands.add('editUserProfile', (username, fullname, email) => {
   cy.openTableActionsByTestId(username);
   cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
   cy.validateUrlChanged(`/userprofile/${username}`);
-  cy.getByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).type(fullname);
-  cy.getByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).type(email);
+  cy.getInputByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).type(fullname);
+  cy.getInputByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).type(email);
   cy.getByTestId(TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON).click();
 });
 

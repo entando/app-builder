@@ -42,8 +42,8 @@ describe('User Roles', () => {
       // Page breadcrumb
       cy.validateBreadcrumbItems(['Users', 'Roles', 'Edit']);
       // Form Fields
-      cy.getByName(TEST_ID_ROLE_FORM.NAME_FIELD).should('be.visible');
-      cy.getByName(TEST_ID_ROLE_FORM.CODE_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_ROLE_FORM.NAME_FIELD).should('be.visible');
+      cy.getInputByName(TEST_ID_ROLE_FORM.CODE_FIELD).should('be.visible');
       // Labels
       // for some weird reason this first label cannot be found via getLabelByText function
       cy.contains('Content Editing').should('be.visible');

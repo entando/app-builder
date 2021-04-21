@@ -92,7 +92,7 @@ class RenderDropdownTypeaheadInput extends Component {
         ) : (
           ''
         )}
-        <Col xs={inputSize || 12 - labelSize}>
+        <Col xs={inputSize || 12 - labelSize} data-testid={`${input.name}-typeahead`}>
           <Typeahead
             filterBy={filterBy}
             id={input.name}

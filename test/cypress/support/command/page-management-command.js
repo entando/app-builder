@@ -15,7 +15,6 @@ function doDragAndDrop(dragPageName, targetPageName, position) {
         cy.getByTestId(TEST_ID_GENERIC_MODAL.BUTTON).contains('Move').click();
       });
   });
-  cy.wait(500);
 }
 
 /**
@@ -56,7 +55,7 @@ function expandOrCollapse(folderName, isExpand) {
  * Expand one folder by click on the arrow aside the name.
  * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
  */
-Cypress.Commands.add('expand', (folderName) => {
+Cypress.Commands.add('expandPageTreeFolder', (folderName) => {
   expandOrCollapse(folderName, true);
 });
 
@@ -64,7 +63,7 @@ Cypress.Commands.add('expand', (folderName) => {
  * Collapse one folder by click on the arrow aside the name.
  * @param folderName the exact name displayed in the UI e.g. "Home", "Sitemap"
  */
-Cypress.Commands.add('collapse', (folderName) => {
+Cypress.Commands.add('collapsePageTreeFolder', (folderName) => {
   expandOrCollapse(folderName);
 });
 
@@ -75,14 +74,14 @@ function expandOrCollapseAll(label) {
 /**
  * Expand all folders by clicking on the "Expand" main button above the page tree.
  */
-Cypress.Commands.add('expandAll', () => {
+Cypress.Commands.add('expandAllPageTreeFolders', () => {
   expandOrCollapseAll('Expand');
 });
 
 /**
  * Collapse all folders by clicking on the "Collapse" main button above the page tree.
  */
-Cypress.Commands.add('collapseAll', () => {
+Cypress.Commands.add('collapseAllPageTreeFolders', () => {
   expandOrCollapseAll('Collapse');
 });
 
@@ -91,7 +90,7 @@ Cypress.Commands.add('collapseAll', () => {
  * @param filterName the name in the UI dropdown list
  * @param value the value we want to search the page with
  */
-Cypress.Commands.add('searchBy', (filterName, value) => {
+Cypress.Commands.add('searchPageBy', (filterName, value) => {
   cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.DROPDOWN_BUTTON).click().then(() => {
     cy.getByTestId(TEST_ID_PAGE_TREE_SEARCH_FORM.DROPDOWN_MENU_ITEM).contains(filterName)
       .click().then(() => {
@@ -105,16 +104,19 @@ Cypress.Commands.add('searchBy', (filterName, value) => {
 /**
  * Clear all the results after a research.
  */
-Cypress.Commands.add('clearResults', () => {
+Cypress.Commands.add('clearSearchPageResults', () => {
   cy.getByTestId(TEST_ID_LIST_PAGE_TREE.BUTTON).contains('Clear results').click();
 });
 
 /**
- * Click on the action menu table if the kebab menu is open (@see command.openTableActionsByTestId)
- * @param the action name displayed in the UI
+ * Get page Status
+ * @param draggedPageName the exact displayed page name in the UI e.g. "Sitemap"
  */
-Cypress.Commands.add('clickOnTableActionMenu', (action) => {
-  cy.getByTestId(TEST_ID_LIST_PAGE_TREE.ACTION_MENU).contains(action).click();
+Cypress.Commands.add('getPageStatusInPageTree', (pageName) => {
+  cy.getByTestId(TEST_ID_PAGE_TREE.PAGE_NAME).contains(pageName).parents('td:first')
+    .siblings()
+    .find(`[data-testid=${TEST_ID_LIST_PAGE_TREE.STATUS}]`)
+    .invoke('attr', 'title');
 });
 
 export {};

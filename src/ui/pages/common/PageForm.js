@@ -67,7 +67,7 @@ export class PageFormBody extends Component {
     const parentPageComponent = parentCode ?
       <span>{parentTitle}</span> :
       (
-        <div className="app-tour-step-8">
+        <div className="app-tour-step-8" data-testid="PageForm__PageTreeSelector">
           <Field
             component={PageTreeSelectorContainer}
             name="parentCode"

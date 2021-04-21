@@ -8,6 +8,7 @@ import {
 describe('Pages', () => {
   beforeEach(() => {
     cy.appBuilderLogin();
+    cy.closeWizardAppTour();
   });
 
   afterEach(() => {

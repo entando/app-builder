@@ -4,9 +4,9 @@ Cypress.Commands.add('addRole', (roleName, roleCode, button) => {
   cy.log(`Add the new role  ${roleName}`);
   cy.openPageFromMenu(['Users', 'Roles']);
   cy.getButtonByText('Add').click();
-  cy.getByName(TEST_ID_ROLE_FORM.NAME_FIELD).type(roleName);
-  cy.getByName(TEST_ID_ROLE_FORM.CODE_FIELD).clear();
-  cy.getByName(TEST_ID_ROLE_FORM.CODE_FIELD).type(roleCode);
+  cy.getInputByName(TEST_ID_ROLE_FORM.NAME_FIELD).type(roleName);
+  cy.getInputByName(TEST_ID_ROLE_FORM.CODE_FIELD).clear();
+  cy.getInputByName(TEST_ID_ROLE_FORM.CODE_FIELD).type(roleCode);
   if (button) {
     cy.getByTestId(button).click();
   } else {
@@ -29,8 +29,8 @@ Cypress.Commands.add('editRole', (roleCode, roleName) => {
   cy.openTableActionsByTestId(roleCode);
   cy.getVisibleActionItemByClass(TEST_ID_ROLE_LIST_TABLE.ACTION_EDIT_ROLE).click();
   cy.validateUrlChanged(`/role/edit/${roleCode}`);
-  cy.getByName(TEST_ID_ROLE_FORM.NAME_FIELD).clear();
-  cy.getByName(TEST_ID_ROLE_FORM.NAME_FIELD).type(roleName);
+  cy.getInputByName(TEST_ID_ROLE_FORM.NAME_FIELD).clear();
+  cy.getInputByName(TEST_ID_ROLE_FORM.NAME_FIELD).type(roleName);
   cy.getByTestId(TEST_ID_ROLE_FORM.SAVE_BUTTON).click();
 });
 

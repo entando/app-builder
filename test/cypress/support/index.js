@@ -19,6 +19,7 @@ import './command/command';
 import './command/upload-command';
 import './command/user-command';
 import './command/role-command';
+import './command/page-command';
 import './command/group-command';
 import './command/page-designer-command';
 import './command/page-management-command';

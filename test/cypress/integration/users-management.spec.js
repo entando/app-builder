@@ -61,9 +61,9 @@ describe('Users Management', () => {
       cy.getTableRowsBySelector(username).contains('Not active').should('be.visible');
       cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_USER).click();
-      cy.getByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('have.value', username);
-      cy.getByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(newPassword);
-      cy.getByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).type(newPassword);
+      cy.getInputByName(TEST_ID_USER_FORM.USERNAME_FIELD).should('have.value', username);
+      cy.getInputByName(TEST_ID_USER_FORM.PASSWORD_FIELD).type(newPassword);
+      cy.getInputByName(TEST_ID_USER_FORM.CONFIRM_PASSWORD_FIELD).type(newPassword);
       cy.getByTestId(TEST_ID_USER_FORM.STATUS_FIELD).click('left');
       cy.getByTestId(TEST_ID_USER_FORM.SAVE_BUTTON).click();
       cy.validateUrlChanged('/user');
@@ -88,6 +88,7 @@ describe('Users Management', () => {
       cy.log('Add a new user with username that already exists');
       cy.addUser(username, password, PROFILE_TYPE_CODE);
       cy.validateToastNotificationError(`The user '${username}' already exists`);
+      cy.deleteUser(username);
     });
   });
 
@@ -100,7 +101,6 @@ describe('Users Management', () => {
       // Edit User Profile
       cy.editUserProfile(username, FULL_NAME, EMAIL);
       cy.validateToastNotificationOk('User profile has been updated');
-      cy.wait(2000);
       cy.log('Check edited user profile');
       cy.searchUser(username);
       cy.getTableRowsBySelector(username).should('be.visible');
@@ -110,10 +110,10 @@ describe('Users Management', () => {
       cy.openTableActionsByTestId(username);
       cy.getVisibleActionItemByClass(TEST_ID_USER_LIST_TABLE.ACTION_EDIT_PROFILE).click();
       cy.validateUrlChanged(`/userprofile/${username}`);
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('have.value', username);
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).should('have.value', FULL_NAME);
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).should('have.value', EMAIL);
-      cy.getByName(TEST_ID_USER_PROFILE_FORM.PROFILE_TYPE_FIELD).within(() => {
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.USERNAME_FIELD).should('have.value', username);
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.FULL_NAME_FIELD).should('have.value', FULL_NAME);
+      cy.getInputByName(TEST_ID_USER_PROFILE_FORM.EMAIL_FIELD).should('have.value', EMAIL);
+      cy.getSelectByName(TEST_ID_USER_PROFILE_FORM.PROFILE_TYPE_FIELD).within(() => {
         cy.get('option:selected')
           .should('have.text', 'Default user profile')
           .and('have.value', PROFILE_TYPE_CODE);
