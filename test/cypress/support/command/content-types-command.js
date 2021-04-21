@@ -2,7 +2,7 @@ import {
   TEST_ID_PAGE_CONTAINER,
   TEST_ID_CONTENTTYPES_LIST_TABLE,
   TEST_ID_CONTENTTYPE_FORM,
-} from '../../../../src/ui/test-const/contenttypes-complex-const';
+} from '../../../../src/ui/test-const/content-types-const';
 
 Cypress.Commands.add('openContentTypeFormWith', (contentTypeCode) => {
   cy.log(`Edit content type ${contentTypeCode}`);
