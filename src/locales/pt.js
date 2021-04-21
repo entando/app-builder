@@ -486,6 +486,7 @@ export default {
     'pages.status.unpublished': 'Rascunho',
     'pages.created': 'Página criada com sucesso',
     'pages.updated': 'Página atualizada com sucesso',
+    'pages.fullPath': 'Caminho Completo',
     'pageSettings.title': 'Configurações de Página',
     'pageSettings.help': 'A seção CONFIGURAÇÃO DE PÁGINA permite o administrador especificar que páginas devem ser usadas para um objetivo em específico e permite também definir algumas configurações gerais da página.',
     'pageSettings.status.published': 'A atualização da página {page} está online!',

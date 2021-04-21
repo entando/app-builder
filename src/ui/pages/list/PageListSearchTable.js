@@ -17,7 +17,7 @@ class PageListSearchTable extends Component {
   componentDidMount() {
     const { onWillMount, pageSearchColumnOrder, onSetColumnOrderPageSearch } = this.props;
     if (!pageSearchColumnOrder.length) {
-      onSetColumnOrderPageSearch(['code', 'titles']);
+      onSetColumnOrderPageSearch(['code', 'fullTitles']);
     }
     onWillMount();
   }
@@ -32,8 +32,8 @@ class PageListSearchTable extends Component {
           style: { width: '20%' },
         },
       },
-      titles: {
-        Header: <FormattedMessage id="app.title" />,
+      fullTitles: {
+        Header: <FormattedMessage id="pages.fullPath" />,
         Cell: ({ value }) => value[locale],
       },
     };
@@ -158,7 +158,7 @@ PageListSearchTable.defaultProps = {
   striped: true,
   onRowClick: () => {},
   onSetColumnOrderPageSearch: () => {},
-  pageSearchColumnOrder: ['code', 'titles'],
+  pageSearchColumnOrder: ['code', 'fullTitles'],
   rowAction: null,
 };
 
