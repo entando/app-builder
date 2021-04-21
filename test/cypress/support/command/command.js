@@ -16,7 +16,7 @@ Cypress.Commands.add('getById', (selector, ...args) => cy.get(`[id=${selector}]`
  *  Get DOM elements by name
  *  @param selector - The name of the DOM elements
  */
-Cypress.Commands.add('getByName', (selector, ...args) => cy.get(`[name=${selector}]`, ...args));
+Cypress.Commands.add('getByName', (selector, ...args) => cy.get(`[name="${selector}"]`, ...args));
 
 /**
  *  Get the modal dialog by title
@@ -43,6 +43,12 @@ Cypress.Commands.add('getLabelByText', text => cy.get('label').contains(text));
  *  @param text - the exact label text displayed in the UI
  */
 Cypress.Commands.add('getButtonByText', text => cy.get('button').contains(text));
+
+/**
+ *  Get DOM element by role
+ *  @param selector - The role value of the element
+ */
+Cypress.Commands.add('getByRole', (selector, ...args) => cy.get(`[role=${selector}]`, ...args));
 
 /**
  *  Get a row of the table using a selector

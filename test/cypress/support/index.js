@@ -22,4 +22,5 @@ import './command/role-command';
 import './command/group-command';
 import './command/page-designer-command';
 import './command/page-management-command';
+import './command/content-types-command';
 import './exception-handler';
