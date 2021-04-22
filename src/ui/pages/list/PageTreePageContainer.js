@@ -4,7 +4,7 @@ import { clearErrors } from '@entando/messages';
 import { formValueSelector } from 'redux-form';
 
 import PageTreePage from 'ui/pages/list/PageTreePage';
-import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree, SAMPLE_HOMEPAGE_CODE } from 'state/pages/actions';
+import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree } from 'state/pages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
 import { toggleLoading } from 'state/loading/actions';
@@ -12,7 +12,7 @@ import { getLoading } from 'state/loading/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
-import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 
 export const mapStateToProps = state => ({
@@ -32,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(handleExpandPage())
       .then(() => {
         if (appTourProgress === APP_TOUR_STARTED) {
-          dispatch(handleExpandPage(SAMPLE_HOMEPAGE_CODE)).finally(() => dispatch(toggleLoading('pageTree')));
+          dispatch(handleExpandPage(APP_TOUR_HOMEPAGE_CODEREF)).finally(() => dispatch(toggleLoading('pageTree')));
         } else {
           dispatch(toggleLoading('pageTree'));
         }

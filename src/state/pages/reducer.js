@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {
   ADD_PAGES,
   REMOVE_PAGE,
-  TOGGLE_PAGE_EXPANDED,
+  SET_PAGE_EXPANDED,
   SET_PAGE_LOADING,
   SET_PAGE_LOADED,
   SET_PAGE_PARENT,
@@ -167,12 +167,14 @@ const toggleBatchExpandedValues = (arr, toggleValue) => arr.reduce((currentState
 
 const statusMap = (state = {}, action = {}) => {
   switch (action.type) {
-    case TOGGLE_PAGE_EXPANDED: {
-      const { pageCode } = action.payload;
-      const expanded = !(state[pageCode] && state[pageCode].expanded);
+    case SET_PAGE_EXPANDED: {
+      const { pageCode, expanded } = action.payload;
       return {
         ...state,
-        [pageCode]: { ...state[pageCode], expanded },
+        [pageCode]: {
+          ...state[pageCode],
+          expanded: expanded !== undefined ? expanded : true,
+        },
       };
     }
     case SET_PAGE_LOADING: {

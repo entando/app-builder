@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import {
-  SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
+  SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
   SET_REFERENCES,
 } from 'state/categories/types';
@@ -90,14 +90,13 @@ const titlesMap = (state = {}, action = {}) => {
 
 const statusMap = (state = {}, action = {}) => {
   switch (action.type) {
-    case TOGGLE_CATEGORY_EXPANDED: {
+    case SET_CATEGORY_EXPANDED: {
       const { categoryCode, expanded } = action.payload;
-      const expand = !(state[categoryCode] && state[categoryCode].expanded);
       return {
         ...state,
         [categoryCode]: {
           ...state[categoryCode],
-          expanded: expanded !== undefined ? expanded : expand,
+          expanded: expanded !== undefined ? expanded : true,
         },
       };
     }

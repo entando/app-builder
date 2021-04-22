@@ -6,7 +6,7 @@ import {
 } from 'test/mocks/pages';
 
 import {
-  addPages, setPageParentSync, movePageSync, togglePageExpanded, setPageLoading, setPageLoaded,
+  addPages, setPageParentSync, movePageSync, setPageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
   setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded,
 } from 'state/pages/actions';
@@ -62,7 +62,7 @@ describe('state/pages/reducer', () => {
       beforeEach(() => {
         state = reducer(state, setFreePages(FREE_PAGES_PAYLOAD));
         state = reducer(state, setSelectedPage(HOMEPAGE_PAYLOAD));
-        state = reducer(state, togglePageExpanded(HOMEPAGE_CODE));
+        state = reducer(state, setPageExpanded(HOMEPAGE_CODE));
 
         state = reducer(state, clearTree());
       });
@@ -145,14 +145,14 @@ describe('state/pages/reducer', () => {
       });
     });
 
-    describe('action TOGGLE_PAGE_EXPANDED', () => {
+    describe('action SET_PAGE_EXPANDED', () => {
       let newState;
       const PAGE_CODE = HOMEPAGE_CODE;
       it('should toggle the page expanded flag', () => {
-        newState = reducer(state, togglePageExpanded(PAGE_CODE));
+        newState = reducer(state, setPageExpanded(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(true);
 
-        newState = reducer(newState, togglePageExpanded(PAGE_CODE));
+        newState = reducer(newState, setPageExpanded(PAGE_CODE, false));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(false);
       });
     });
@@ -316,7 +316,7 @@ describe('state/pages/reducer', () => {
 
     let newState;
     it('should collapse all the tree', () => {
-      newState = reducer(state, togglePageExpanded(HOMEPAGE_CODE));
+      newState = reducer(state, setPageExpanded(HOMEPAGE_CODE));
       expect(newState.statusMap.homepage.expanded).toBe(true);
       newState = reducer(newState, collapseAll());
       Object.values(newState.statusMap).map(v => expect(v.expanded).toBe(false));

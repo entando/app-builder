@@ -13,7 +13,7 @@ import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/route
 import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap, getChildrenMap } from 'state/categories/selectors';
 
 import {
-  SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
+  SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
   SET_REFERENCES,
 } from 'state/categories/types';
@@ -26,8 +26,8 @@ export const setCategories = categories => ({
   },
 });
 
-export const toggleCategoryExpanded = (categoryCode, expanded) => ({
-  type: TOGGLE_CATEGORY_EXPANDED,
+export const setCategoryExpanded = (categoryCode, expanded) => ({
+  type: SET_CATEGORY_EXPANDED,
   payload: {
     categoryCode,
     expanded,
@@ -97,7 +97,7 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
       const categoryStatus = getStatusMap(getState())[categoryCode];
       const toExpand = (!categoryStatus || !categoryStatus.expanded);
       if (toExpand) {
-        dispatch(toggleCategoryExpanded(categoryCode, true));
+        dispatch(setCategoryExpanded(categoryCode, true));
       }
       dispatch(toggleLoading('categories'));
       categoryTree = [responses[0].payload].concat(responses[1].payload);
@@ -120,11 +120,11 @@ export const handleExpandCategory = (categoryCode = ROOT_CODE, alwaysExpand) =>
       if (toLoad) {
         dispatch(setCategoryLoading(categoryCode));
         dispatch(fetchCategoryTree(categoryCode)).then(() => {
-          dispatch(toggleCategoryExpanded(categoryCode, true));
+          dispatch(setCategoryExpanded(categoryCode, true));
           dispatch(setCategoryLoaded(categoryCode));
         });
       } else {
-        dispatch(toggleCategoryExpanded(
+        dispatch(setCategoryExpanded(
           categoryCode,
           alwaysExpand !== undefined ? alwaysExpand : toExpand,
         ));
@@ -145,7 +145,7 @@ export const handleCollapseAll = () => (dispatch, getState) => {
 
   batch(() => {
     categoriesToCollapse
-      .forEach(categoryCode => dispatch(toggleCategoryExpanded(categoryCode, false)));
+      .forEach(categoryCode => dispatch(setCategoryExpanded(categoryCode, false)));
   });
 };
 
