@@ -21,11 +21,10 @@ import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
 import { toggleLoading } from 'state/loading/actions';
 
-import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
+import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 
-export const SAMPLE_HOMEPAGE_CODE = 'my_homepage';
 const RESET_FOR_CLONE = {
   code: '',
   titles: '',
@@ -211,7 +210,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
           dispatch(addPages(pages));
           dispatch(setPageExpanded(pageCode, true));
           dispatch(setPageLoaded(pageCode));
-          if (pageCode === SAMPLE_HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
+          if (pageCode === APP_TOUR_HOMEPAGE_CODEREF && getAppTourProgress(state) === APP_TOUR_STARTED) {
             dispatch(setExistingPages(pages));
           }
         }).catch(() => {});
