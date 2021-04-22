@@ -1,5 +1,4 @@
 import { initialize } from 'redux-form';
-import { flattenDeep } from 'lodash';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
@@ -12,7 +11,7 @@ import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'stat
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
-  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, TOGGLE_PAGE_EXPANDED, SET_PAGE_PARENT,
+  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
@@ -92,8 +91,8 @@ export const setPageLoaded = pageCode => ({
   },
 });
 
-export const togglePageExpanded = (pageCode, expanded) => ({
-  type: TOGGLE_PAGE_EXPANDED,
+export const setPageExpanded = (pageCode, expanded) => ({
+  type: SET_PAGE_EXPANDED,
   payload: {
     pageCode,
     expanded,
@@ -199,26 +198,31 @@ export const fetchPageTree = pageCode => async (dispatch) => {
  * http://confluence.entando.org/display/E5/Page+Tree
  * /pages
  */
-export const handleExpandPage = (pageCode = HOMEPAGE_CODE) => (dispatch, getState) => {
-  const state = getState();
-  const pageStatus = getStatusMap(state)[pageCode];
-  const toExpand = (!pageStatus || !pageStatus.expanded);
-  const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
-  if (toLoad) {
-    dispatch(setPageLoading(pageCode));
-    return fetchPageTree(pageCode)(dispatch)
-      .then((pages) => {
-        dispatch(addPages(pages));
-        dispatch(togglePageExpanded(pageCode, true));
-        dispatch(setPageLoaded(pageCode));
-        if (pageCode === SAMPLE_HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
-          dispatch(setExistingPages(pages));
-        }
-      }).catch(() => {});
+export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
+  (dispatch, getState) => {
+    const state = getState();
+    const pageStatus = getStatusMap(state)[pageCode];
+    const toExpand = (!pageStatus || !pageStatus.expanded);
+    const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
+    if (toLoad) {
+      dispatch(setPageLoading(pageCode));
+      return fetchPageTree(pageCode)(dispatch)
+        .then((pages) => {
+          dispatch(addPages(pages));
+          dispatch(setPageExpanded(pageCode, true));
+          dispatch(setPageLoaded(pageCode));
+          if (pageCode === SAMPLE_HOMEPAGE_CODE && getAppTourProgress(state) === APP_TOUR_STARTED) {
+            dispatch(setExistingPages(pages));
+          }
+        }).catch(() => {});
+    }
+    dispatch(setPageExpanded(
+      pageCode,
+      alwaysExpand !== undefined ? alwaysExpand : toExpand,
+    ));
+    return noopPromise();
   }
-  dispatch(togglePageExpanded(pageCode, toExpand));
-  return noopPromise();
-};
+);
 
 export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) => {
   const state = getState();
@@ -508,34 +512,9 @@ export const initPageForm = (pageData, redirectTo = null) => (dispatch) => {
   history.push(pageAddUrl);
 };
 
-export const fetchPageTreeAll = () => dispatch => new Promise((resolve) => {
-  dispatch(toggleLoading('pageTree'));
-  dispatch(clearTree());
-  const fetchBranch = pageCode => (
-    dispatch(fetchPageChildren(pageCode)).then(response => response.payload)
-  );
-
-  const loadChildrenBranch = pgArr => (
-    Promise.all(pgArr.map((pg) => {
-      if (pg.children.length > 0) {
-        return fetchBranch(pg.code).then(res => (
-          loadChildrenBranch(res)
-        )).then(loadedres => (
-          [pg, ...loadedres]
-        ));
-      }
-      return Promise.resolve(pg);
-    }))
-  );
-  dispatch(fetchPage(HOMEPAGE_CODE)).then((rootPg) => {
-    fetchBranch(HOMEPAGE_CODE).then((catResult) => {
-      loadChildrenBranch(catResult).then((fullResult) => {
-        const allPages = [rootPg.payload, ...flattenDeep(fullResult)];
-        dispatch(addPages(allPages));
-        dispatch(setBatchExpanded(allPages.map(p => p.code)));
-        dispatch(toggleLoading('pageTree'));
-        resolve(allPages);
-      });
-    });
-  }).catch(() => {});
-});
+export const fetchPageTreeAll = () => (dispatch, getState) => {
+  const pages = getChildrenMap(getState());
+  Object.keys(pages).forEach((page) => {
+    dispatch(handleExpandPage(page, true));
+  });
+};

@@ -9,7 +9,7 @@ import {
 } from 'test/mocks/categories';
 
 import {
-  setCategories, toggleCategoryExpanded,
+  setCategories, setCategoryExpanded,
   setCategoryLoading, setCategoryLoaded, removeCategory,
   setSelectedCategory, setReferences,
 } from 'state/categories/actions';
@@ -55,14 +55,14 @@ describe('state/categories/reducer', () => {
       });
     });
 
-    describe('action TOGGLE_CATEGORY_EXPANDED', () => {
+    describe('action SET_CATEGORY_EXPANDED', () => {
       let newState;
       const CATEGORY_CODE = 'home';
-      it('should toggle the category expanded flag', () => {
-        newState = reducer(state, toggleCategoryExpanded(CATEGORY_CODE));
+      it('should set the category expanded flag', () => {
+        newState = reducer(state, setCategoryExpanded(CATEGORY_CODE));
         expect(newState.statusMap[CATEGORY_CODE].expanded).toBe(true);
 
-        newState = reducer(newState, toggleCategoryExpanded(CATEGORY_CODE));
+        newState = reducer(newState, setCategoryExpanded(CATEGORY_CODE, false));
         expect(newState.statusMap[CATEGORY_CODE].expanded).toBe(false);
       });
     });

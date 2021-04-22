@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 import {
   setCategories,
-  toggleCategoryExpanded,
+  setCategoryExpanded,
   setCategoryLoading,
   setCategoryLoaded,
   setSelectedCategory,
@@ -32,13 +32,12 @@ import {
 import { mockApi } from 'test/testUtils';
 
 import {
-  SET_CATEGORIES, TOGGLE_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
+  SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, CATEGORY_TREE_HOME, SET_SELECTED_CATEGORY,
   SET_REFERENCES,
 } from 'state/categories/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { getCategoriesMap } from 'state/categories/selectors';
 import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
 import { history, ROUTE_CATEGORY_ADD } from 'app-init/router';
 
@@ -83,9 +82,9 @@ describe('state/categories/actions', () => {
     expect(action.payload).toHaveProperty('categories', []);
   });
 
-  it('toggleCategoryExpanded() should return a well formed action', () => {
-    const action = toggleCategoryExpanded(CATEGORY_CODE, true);
-    expect(action).toHaveProperty('type', TOGGLE_CATEGORY_EXPANDED);
+  it('setCategoryExpanded() should return a well formed action', () => {
+    const action = setCategoryExpanded(CATEGORY_CODE, true);
+    expect(action).toHaveProperty('type', SET_CATEGORY_EXPANDED);
     expect(action.payload).toHaveProperty('categoryCode', CATEGORY_CODE);
     expect(action.payload).toHaveProperty('expanded', true);
   });
@@ -124,7 +123,7 @@ describe('state/categories/actions', () => {
       store.dispatch(handleExpandCategory()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', TOGGLE_CATEGORY_EXPANDED);
+        expect(actions[0]).toHaveProperty('type', SET_CATEGORY_EXPANDED);
         expect(actions[0].payload).toHaveProperty('expanded', false);
         done();
       }).catch(done.fail);
@@ -155,7 +154,7 @@ describe('state/categories/actions', () => {
         expect(actions).toHaveLength(5);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_CATEGORY_LOADED);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_CATEGORY_EXPANDED);
+        expect(actions[2]).toHaveProperty('type', SET_CATEGORY_EXPANDED);
         expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[4]).toHaveProperty('type', SET_CATEGORIES);
         done();
