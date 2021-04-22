@@ -8,14 +8,14 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
-import { sendPostPage, loadSelectedPage, SAMPLE_HOMEPAGE_CODE } from 'state/pages/actions';
+import { sendPostPage, loadSelectedPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
 import { setVisibleModal } from 'state/modal/actions';
 import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/app-tour/selectors';
-import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import { fetchCurrentUserAuthorities } from 'state/users/actions';
@@ -108,7 +108,7 @@ export const mapStateToProps = (state) => {
         },
         code: pageCode,
         ownerGroup: 'free',
-        parentCode: SAMPLE_HOMEPAGE_CODE,
+        parentCode: APP_TOUR_HOMEPAGE_CODEREF,
         pageModel: '1-column',
         ...appTourLastPageData,
       }),
@@ -147,7 +147,7 @@ export const mapDispatchToProps = dispatch => ({
         },
         code: 'hello_world_app',
         ownerGroup: 'free',
-        parentCode: SAMPLE_HOMEPAGE_CODE,
+        parentCode: APP_TOUR_HOMEPAGE_CODEREF,
         pageModel: '1-column',
         ...appTourLastPageData,
       }));
