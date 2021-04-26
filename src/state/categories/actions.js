@@ -10,7 +10,14 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_CATEGORY_LIST, ROUTE_CATEGORY_ADD } from 'app-init/router';
-import { getStatusMap, getReferenceKeyList, getSelectedRefs, getCategoriesMap, getChildrenMap } from 'state/categories/selectors';
+import {
+  getStatusMap,
+  getReferenceKeyList,
+  getSelectedRefs,
+  getCategoriesMap,
+  getChildrenMap,
+  getCategoriesLoadedStatus,
+} from 'state/categories/selectors';
 
 import {
   SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
@@ -112,31 +119,33 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
 };
 
 export const handleExpandCategory = (categoryCode = ROOT_CODE, alwaysExpand) =>
-  (dispatch, getState) =>
-    new Promise((resolve) => {
-      const categoryStatus = getStatusMap(getState())[categoryCode];
-      const toExpand = (!categoryStatus || !categoryStatus.expanded);
-      const toLoad = (toExpand && (!categoryStatus || !categoryStatus.loaded));
-      if (toLoad) {
-        dispatch(setCategoryLoading(categoryCode));
-        dispatch(fetchCategoryTree(categoryCode)).then(() => {
-          dispatch(setCategoryExpanded(categoryCode, true));
-          dispatch(setCategoryLoaded(categoryCode));
-        });
-      } else {
-        dispatch(setCategoryExpanded(
-          categoryCode,
-          alwaysExpand !== undefined ? alwaysExpand : toExpand,
-        ));
-      }
-      resolve(categoryCode);
-    });
+  (dispatch, getState) => {
+    const categoryStatus = getStatusMap(getState())[categoryCode];
+    const toExpand = (!categoryStatus || !categoryStatus.expanded);
+    const toLoad = (toExpand && (!categoryStatus || !categoryStatus.loaded));
+    if (toLoad) {
+      dispatch(setCategoryLoading(categoryCode));
+      return dispatch(fetchCategoryTree(categoryCode)).then(() => {
+        dispatch(setCategoryExpanded(categoryCode, true));
+        dispatch(setCategoryLoaded(categoryCode));
+      });
+    }
+    dispatch(setCategoryExpanded(
+      categoryCode,
+      alwaysExpand !== undefined ? alwaysExpand : toExpand,
+    ));
+    return Promise.resolve();
+  };
 
 export const handleExpandAll = () => (dispatch, getState) => {
-  const categories = getChildrenMap(getState());
-  Object.keys(categories).forEach((category) => {
-    dispatch(handleExpandCategory(category, true));
-  });
+  const categories = Object.keys(getChildrenMap(getState()));
+  Promise.all(categories.map(category => dispatch(handleExpandCategory(category, true))))
+    .then(() => {
+      const categoriesToLoad = getCategoriesLoadedStatus(getState());
+      if (categoriesToLoad.length) {
+        dispatch(handleExpandAll());
+      }
+    });
 };
 
 export const handleCollapseAll = () => (dispatch, getState) => {
