@@ -4,7 +4,7 @@ import { KeycloakProvider } from 'react-keycloak';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 import { fetchLoggedUserPermissions } from 'state/permissions/actions';
-import { clearAppTourProgress } from 'state/app-tour/actions';
+import { fetchWizardEnabled, clearAppTourProgress } from 'state/app-tour/actions';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const { KEYCLOAK_JSON } = getRuntimeEnv();
@@ -28,11 +28,13 @@ export const mapDispatchToProps = dispatch => ({
       case 'onAuthSuccess':
         dispatch(clearAppTourProgress());
         dispatch(loginUser(username, token));
+        dispatch(fetchWizardEnabled(username));
         break;
       case 'onAuthRefreshSuccess':
         keycloak.setToRefreshToken(true);
         dispatch(loginUser(username, token));
         dispatch(fetchLoggedUserPermissions());
+        dispatch(fetchWizardEnabled(username));
         break;
       case 'onAuthRefreshError':
         keycloak.logout();
