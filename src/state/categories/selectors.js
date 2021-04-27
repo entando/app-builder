@@ -74,3 +74,13 @@ export const getCategoryTree = createSelector(
         title: categoriesTitles[categoryCode][locale],
       })),
 );
+
+export const getCategoriesLoadedStatus = createSelector(
+  [getChildrenMap, getStatusMap],
+  (childCategories, categoryStatuses) => (
+    Object.keys(childCategories).reduce((acc, curr) => {
+      const { expanded, loaded } = get(categoryStatuses, curr, {});
+      return !expanded && !loaded ? [...acc, curr] : acc;
+    }, [])
+  ),
+);

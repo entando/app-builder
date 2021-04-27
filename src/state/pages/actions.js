@@ -7,7 +7,13 @@ import {
   getPageSettings, putPage, putPageStatus, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO,
 } from 'api/pages';
-import { getStatusMap, getPagesMap, getChildrenMap, getSelectedPage } from 'state/pages/selectors';
+import {
+  getStatusMap,
+  getPagesMap,
+  getChildrenMap,
+  getSelectedPage,
+  getAllPageTreeLoadedStatus,
+} from 'state/pages/selectors';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
@@ -35,7 +41,7 @@ const RESET_FOR_CLONE = {
   references: {},
 };
 
-const noopPromise = arg => new Promise(resolve => resolve(arg));
+const noopPromise = arg => Promise.resolve(arg);
 
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -516,7 +522,11 @@ export const initPageForm = (pageData, redirectTo = null) => (dispatch) => {
 
 export const fetchPageTreeAll = () => (dispatch, getState) => {
   const pages = getChildrenMap(getState());
-  Object.keys(pages).forEach((page) => {
-    dispatch(handleExpandPage(page, true));
-  });
+  Promise.all(Object.keys(pages).map(page => dispatch(handleExpandPage(page, true))))
+    .then(() => {
+      const pageToLoad = getAllPageTreeLoadedStatus(getState());
+      if (pageToLoad.length) {
+        dispatch(fetchPageTreeAll());
+      }
+    });
 };

@@ -127,6 +127,16 @@ export const getPageTreePages = createSelector(
       })),
 );
 
+export const getAllPageTreeLoadedStatus = createSelector(
+  [getChildrenMap, getStatusMap],
+  (childPages, pageStatuses) => (
+    Object.keys(childPages).reduce((acc, curr) => {
+      const { expanded, loaded } = get(pageStatuses, curr, {});
+      return !expanded && !loaded ? [...acc, curr] : acc;
+    }, [])
+  ),
+);
+
 export const getCharsets = () => ([
   'iso-8859-1',
   'utf-8',
