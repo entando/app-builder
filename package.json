@@ -125,6 +125,7 @@
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js",
+      "<rootDir>/config/output.js",
       "jest-localstorage-mock"
     ],
     "testMatch": [

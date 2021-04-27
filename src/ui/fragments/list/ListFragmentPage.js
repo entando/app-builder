@@ -34,7 +34,6 @@ export class ListFragmentPageBody extends Component {
   }
 
   render() {
-    console.log('ListFragmentPageBody rendered');
     return (
       <InternalPage className="ListFragmentPage">
         <Grid fluid>
