@@ -42,6 +42,7 @@ class RenderDropdownTypeaheadInput extends Component {
       placeholder,
       options,
       onChange,
+      tourClass,
       ...others
     } = this.props;
 
@@ -104,6 +105,7 @@ class RenderDropdownTypeaheadInput extends Component {
             selected={selected}
             onChange={this.valueChanged}
             disabled={others.disabled}
+            className={tourClass}
           >
             {({ isMenuShown, toggleMenu }) => (
               renderToggleButton({ isMenuShown, onClick: toggleMenu })
@@ -144,6 +146,7 @@ RenderDropdownTypeaheadInput.propTypes = {
   alignClass: PropTypes.string,
   onChange: PropTypes.func,
   valueKey: PropTypes.string,
+  tourClass: PropTypes.string,
 };
 
 RenderDropdownTypeaheadInput.defaultProps = {
@@ -161,6 +164,7 @@ RenderDropdownTypeaheadInput.defaultProps = {
   onChange: null,
   valueKey: '',
   multiple: false,
+  tourClass: '',
 };
 
 export default injectIntl(RenderDropdownTypeaheadInput);

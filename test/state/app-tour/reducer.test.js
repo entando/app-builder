@@ -10,7 +10,7 @@ import {
 } from 'state/app-tour/selectors';
 
 describe('state/permssions/reducer', () => {
-  const state = reducer();
+  const state = reducer({ appTourProgress: 'started' });
 
   describe('default state', () => {
     it('should be an object', () => {

@@ -4,6 +4,7 @@ import {
   SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
   SET_EXISTING_PAGES,
 } from 'state/app-tour/types';
+import { APP_TOUR_STARTED } from './const';
 
 const appTour = (state = {}, action = {}) => {
   switch (action.type) {
@@ -14,6 +15,7 @@ const appTour = (state = {}, action = {}) => {
       };
     }
     case SET_APP_TOUR_LAST_STEP: {
+      if (state.appTourProgress !== APP_TOUR_STARTED) return state;
       return {
         ...state,
         lastStep: action.payload,
