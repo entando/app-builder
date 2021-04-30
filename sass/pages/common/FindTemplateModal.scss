@@ -1,7 +1,9 @@
 .FindTemplateModal {
   &__template-list {
+    height: 540px;
     padding: 0;
     list-style: none;
+    overflow-y: auto;
   }
 
   &__template-list-button {
