@@ -43,13 +43,17 @@ const loggedUser = (state = null, action = {}) => {
       const authorityMaps = result.map(authority => (
         stringToArr(authority.permissions ? authority.permissions : get(authority, 'role', []))
       ));
+      const groups = result;
       const roles = Array.from(new Set(flatten(authorityMaps)));
+      if (roles.includes(ROLE_SUPERUSER)) {
+        return { groups, roles: allPermissions };
+      }
       if (roles.includes(CRUD_USERS_PERMISSION) || roles.includes(EDIT_USER_PROFILES_PERMISSION)) {
         if (!roles.includes(VIEW_USERS_AND_PROFILES_PERMISSION)) {
           roles.push(VIEW_USERS_AND_PROFILES_PERMISSION);
         }
       }
-      return roles.includes(ROLE_SUPERUSER) ? allPermissions : roles;
+      return { groups, roles };
     }
     case CLEAR_LOGGED_USER_PERMISSIONS:
       return null;

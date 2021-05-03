@@ -3,6 +3,7 @@ import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
   getGroups,
+  getMyGroups,
   postGroup,
   getGroup,
   putGroup,
@@ -13,6 +14,7 @@ import { getMyGroupPermissions } from 'api/permissions';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
+import { getLoggedUserGroups } from 'state/permissions/selectors';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
@@ -22,8 +24,6 @@ import {
   SET_CURRENT_USER_GROUPS,
 } from 'state/groups/types';
 import { history, ROUTE_GROUP_LIST } from 'app-init/router';
-import { FREE_ACCESS_GROUP } from './const';
-
 
 export const setGroups = groups => ({
   type: SET_GROUPS,
@@ -62,7 +62,42 @@ export const setCurrentUserGroups = groups => ({
 
 // thunk
 
-export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+export const fetchGroups = () => (dispatch, getState) => new Promise((resolve) => {
+  dispatch(toggleLoading('groups'));
+  getMyGroups().then(response => (
+    response.json().then((data) => {
+      if (response.ok) {
+        dispatch(setGroups(data.payload));
+        console.log('loaded payload', data.payload);
+        return data.payload;
+      }
+      dispatch(addErrors(data.errors.map(err => err.message)));
+      data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      dispatch(toggleLoading('groups'));
+      return null;
+    })
+  )).then((groups) => {
+    console.log('does it had groups', groups);
+    if (groups) {
+      const myGroupPermissions = getLoggedUserGroups(getState());
+      const groupsMap = groups.reduce((acc, group) => ({
+        ...acc,
+        [group.code]: group,
+      }), {});
+      const currentUserGroups = myGroupPermissions
+        .map(({ group: groupCode, permissions }) => ({
+          ...groupsMap[groupCode],
+          permissions,
+        }));
+      console.log('currentusergroups', currentUserGroups);
+      dispatch(setCurrentUserGroups(currentUserGroups));
+    }
+    dispatch(toggleLoading('groups'));
+    resolve();
+  }).catch(() => {});
+});
+
+/* export const fetchGroupsDirectory = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('groups'));
   getGroups(page, params).then((response) => {
     response.json().then((data) => {
@@ -79,7 +114,7 @@ export const fetchGroups = (page = { page: 1, pageSize: 10 }, params = '') => di
       }
     });
   }).catch(() => {});
-});
+}); */
 
 export const fetchGroupsTotal = () => dispatch => (
   new Promise((resolve) => {
@@ -222,7 +257,7 @@ export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => 
 
 export const fetchCurrentUserGroups = () => async (dispatch) => {
   try {
-    const response = await getGroups({ page: 1, pageSize: 0 });
+    const response = await getMyGroups();
     const json = await response.json();
     if (response.ok) {
       const groups = json.payload;
@@ -235,17 +270,11 @@ export const fetchCurrentUserGroups = () => async (dispatch) => {
           ...acc,
           [group.code]: group,
         }), {});
-        const hasFreeAccessGroupPermissions = myGroupPermissions.some(({ group: groupCode }) => (
-          groupCode === FREE_ACCESS_GROUP.code
-        ));
         const currentUserGroups = myGroupPermissions
           .map(({ group: groupCode, permissions }) => ({
             ...groupsMap[groupCode],
             permissions,
           }));
-        if (!hasFreeAccessGroupPermissions) {
-          currentUserGroups.push(FREE_ACCESS_GROUP);
-        }
         dispatch(setCurrentUserGroups(currentUserGroups));
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));

@@ -7,6 +7,7 @@ import {
   clearLoggedUserPermissions,
 } from 'state/permissions/actions';
 import { clearAppTourProgress } from 'state/app-tour/actions';
+import { fetchGroups } from 'state/groups/actions';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
@@ -36,7 +37,8 @@ const ApiManager = ({
     } else {
       const { redirectUri, pathname } = opts;
       store.dispatch(fetchPermissions())
-        .then(() => store.dispatch(fetchLoggedUserPermissions()));
+        .then(() => store.dispatch(fetchLoggedUserPermissions()))
+        .then(() => store.dispatch(fetchGroups()));
       if (redirectUri) {
         window.location.href = redirectUri;
         return;
