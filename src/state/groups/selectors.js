@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { getLocale } from 'state/locale/selectors';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
 import {
   USER_REFERENCE_KEY,
   CONTENT_REFERENCE_KEY,
@@ -8,7 +7,6 @@ import {
   WIDGET_TYPE_REFERENCE_KEY,
   PAGE_REFERENCE_KEY,
 } from 'ui/common/references/const';
-import { FREE_ACCESS_GROUP } from './const';
 
 export const getGroups = state => state.groups;
 
@@ -107,25 +105,7 @@ export const getPageReferences =
     })) : []),
   );
 
-export const getCurrentUserGroups = createSelector(
+export const getGroupEntries = createSelector(
   getGroups,
-  groups => groups.currentUserGroups,
+  groups => groups.groupEntries,
 );
-
-export const currentUserGroupsPermissionsFilter = permissions =>
-  createSelector(
-    getCurrentUserGroups,
-    getGroupsList,
-    (currentUserGroups, allGroups) => {
-      const isAdmin = currentUserGroups.some(group => group.permissions
-        && group.permissions.includes(ROLE_SUPERUSER));
-      if (isAdmin) {
-        return allGroups;
-      }
-      return currentUserGroups.filter(group => (
-        group.code === FREE_ACCESS_GROUP.code
-        || group.permissions.includes(ROLE_SUPERUSER)
-        || permissions.every(permission => group.permissions.includes(permission))
-      ));
-    },
-  );

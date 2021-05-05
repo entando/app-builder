@@ -4,7 +4,7 @@ import { routeConverter } from '@entando/utils';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
@@ -13,16 +13,12 @@ import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
-import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 export const FORM_ID = 'pageEdit';
 
-const getCurrentUserGroupsWithManagePages =
-  currentUserGroupsPermissionsFilter([MANAGE_PAGES_PERMISSION]);
-
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
-  groups: getCurrentUserGroupsWithManagePages(state),
+  groups: getGroupsList(state),
   pageTemplates: getPageTemplatesList(state),
   pages: getPageTreePages(state),
   charsets: getCharsets(state),

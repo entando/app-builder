@@ -10,18 +10,16 @@ import {
   deleteGroup,
   getReferences,
 } from 'api/groups';
-import { getMyGroupPermissions } from 'api/permissions';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
-import { getLoggedUserGroups } from 'state/permissions/selectors';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
   SET_REFERENCES,
   REMOVE_GROUP,
   SET_GROUPS_TOTAL,
-  SET_CURRENT_USER_GROUPS,
+  SET_GROUP_ENTRIES,
 } from 'state/groups/types';
 import { history, ROUTE_GROUP_LIST } from 'app-init/router';
 
@@ -53,8 +51,8 @@ export const removeGroupSync = groupCode => ({
   },
 });
 
-export const setCurrentUserGroups = groups => ({
-  type: SET_CURRENT_USER_GROUPS,
+export const setGroupEntries = groups => ({
+  type: SET_GROUP_ENTRIES,
   payload: {
     groups,
   },
@@ -62,49 +60,13 @@ export const setCurrentUserGroups = groups => ({
 
 // thunk
 
-export const fetchGroups = () => (dispatch, getState) => new Promise((resolve) => {
+export const fetchGroups = () => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('groups'));
-  getMyGroups().then(response => (
-    response.json().then((data) => {
-      if (response.ok) {
-        dispatch(setGroups(data.payload));
-        console.log('loaded payload', data.payload);
-        return data.payload;
-      }
-      dispatch(addErrors(data.errors.map(err => err.message)));
-      data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-      dispatch(toggleLoading('groups'));
-      return null;
-    })
-  )).then((groups) => {
-    console.log('does it had groups', groups);
-    if (groups) {
-      const myGroupPermissions = getLoggedUserGroups(getState());
-      const groupsMap = groups.reduce((acc, group) => ({
-        ...acc,
-        [group.code]: group,
-      }), {});
-      const currentUserGroups = myGroupPermissions
-        .map(({ group: groupCode, permissions }) => ({
-          ...groupsMap[groupCode],
-          permissions,
-        }));
-      console.log('currentusergroups', currentUserGroups);
-      dispatch(setCurrentUserGroups(currentUserGroups));
-    }
-    dispatch(toggleLoading('groups'));
-    resolve();
-  }).catch(() => {});
-});
-
-/* export const fetchGroupsDirectory = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
-  dispatch(toggleLoading('groups'));
-  getGroups(page, params).then((response) => {
+  getMyGroups().then((response) => {
     response.json().then((data) => {
       if (response.ok) {
         dispatch(setGroups(data.payload));
         dispatch(toggleLoading('groups'));
-        dispatch(setPage(data.metaData));
         resolve();
       } else {
         dispatch(addErrors(data.errors.map(err => err.message)));
@@ -114,7 +76,7 @@ export const fetchGroups = () => (dispatch, getState) => new Promise((resolve) =
       }
     });
   }).catch(() => {});
-}); */
+});
 
 export const fetchGroupsTotal = () => dispatch => (
   new Promise((resolve) => {
@@ -255,36 +217,21 @@ export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => 
   })
 );
 
-export const fetchCurrentUserGroups = () => async (dispatch) => {
-  try {
-    const response = await getMyGroups();
-    const json = await response.json();
-    if (response.ok) {
-      const groups = json.payload;
-      dispatch(setGroups(groups));
-      const myGroupPermissionsResponse = await getMyGroupPermissions();
-      const myGroupPermissionsJson = await myGroupPermissionsResponse.json();
-      if (myGroupPermissionsResponse.ok) {
-        const myGroupPermissions = myGroupPermissionsJson.payload;
-        const groupsMap = groups.reduce((acc, group) => ({
-          ...acc,
-          [group.code]: group,
-        }), {});
-        const currentUserGroups = myGroupPermissions
-          .map(({ group: groupCode, permissions }) => ({
-            ...groupsMap[groupCode],
-            permissions,
-          }));
-        dispatch(setCurrentUserGroups(currentUserGroups));
+export const fetchEntireGroupEntries = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+  dispatch(toggleLoading('groups'));
+  getGroups(page, params).then((response) => {
+    response.json().then((data) => {
+      if (response.ok) {
+        dispatch(setGroupEntries(data.payload));
+        dispatch(toggleLoading('groups'));
+        dispatch(setPage(data.metaData));
+        resolve();
       } else {
-        dispatch(addErrors(json.errors.map(e => e.message)));
-        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        dispatch(addErrors(data.errors.map(err => err.message)));
+        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        dispatch(toggleLoading('groups'));
+        resolve();
       }
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-    }
-  } catch (e) {
-    // do nothing
-  }
-};
+    });
+  }).catch(() => {});
+});

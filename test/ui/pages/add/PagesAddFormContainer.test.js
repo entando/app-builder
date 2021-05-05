@@ -28,10 +28,6 @@ jest.mock('state/pages/actions', () => ({
   sendPostPage: jest.fn(() => Promise.resolve({})),
 }));
 
-jest.mock('state/groups/selectors/', () => ({
-  currentUserGroupsPermissionsFilter: jest.fn(() => () => 'filteredCurrentUserGroups_result'),
-}));
-
 jest.mock('state/app-tour/selectors', () => ({
   getAppTourProgress: jest.fn(),
   getTourCreatedPage: jest.fn(),

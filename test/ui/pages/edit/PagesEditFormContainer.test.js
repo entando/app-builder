@@ -1,6 +1,5 @@
 
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
-import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
@@ -18,11 +17,6 @@ jest.mock('state/pages/actions', () => ({
   fetchPageForm: jest.fn().mockReturnValue('fetchPageForm_result'),
   sendPutPage: jest.fn(() => Promise.resolve({})),
   clearTree: jest.fn().mockReturnValue('clearTree_result'),
-}));
-
-
-jest.mock('state/groups/selectors/', () => ({
-  currentUserGroupsPermissionsFilter: jest.fn(() => () => [{ code: 'group', name: 'groupName' }]),
 }));
 
 const ownProps = {

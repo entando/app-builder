@@ -20,8 +20,7 @@ import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import { fetchCurrentUserAuthorities } from 'state/users/actions';
 import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
-import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
-import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
+import { getGroupsList } from 'state/groups/selectors';
 
 const getNextPageProperty = ({
   pages,
@@ -60,12 +59,9 @@ export const getNextPageCode = ({ pages, pattern, separator }) => getNextPagePro
   separator,
 });
 
-const getCurrentUserGroupsWithManagePages =
-  currentUserGroupsPermissionsFilter([MANAGE_PAGES_PERMISSION]);
-
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
-  const groups = getCurrentUserGroupsWithManagePages(state);
+  const groups = getGroupsList(state);
   const seoDataByLang = languages.reduce((acc, curr) => ({
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },

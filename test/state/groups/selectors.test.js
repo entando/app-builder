@@ -11,7 +11,6 @@ import {
   getGroupsMap,
   getGroupsList,
   getCurrentUserGroups,
-  currentUserGroupsPermissionsFilter,
 } from 'state/groups/selectors';
 
 describe('state/groups/selectors', () => {
@@ -44,10 +43,5 @@ describe('state/groups/selectors', () => {
   it('verify getCurrentUserGroups selector', () => {
     const { currentUserGroups } = GROUPS_NORMALIZED.groups;
     expect(getCurrentUserGroups(GROUPS_NORMALIZED)).toEqual(currentUserGroups);
-  });
-
-  it('verify currentUserGroupsPermissionsFilter', () => {
-    const getCurrentUserGroupsWithManagePages = currentUserGroupsPermissionsFilter(['managePages']);
-    expect(getCurrentUserGroupsWithManagePages(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
   });
 });
