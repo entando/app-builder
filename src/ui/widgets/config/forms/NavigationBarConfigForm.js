@@ -14,12 +14,20 @@ import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 export default class NavigationBarConfigForm extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      isClonePage: false,
+    };
+  }
+
   componentDidMount() {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
     if (!lodash.isEmpty(initialValues)) {
       fetchExpressions(this.props);
     }
+    this.setPageMode();
   }
 
   componentDidUpdate(prevProps) {
@@ -28,6 +36,10 @@ export default class NavigationBarConfigForm extends PureComponent {
     if (JSON.stringify(initialValues) !== JSON.stringify(prevValues)) {
       fetchExpressions(this.props);
     }
+  }
+
+  setPageMode = () => {
+    this.setState({ isClonePage: window.location.pathname.includes('search_result/clone') });
   }
 
   render() {
@@ -50,6 +62,7 @@ export default class NavigationBarConfigForm extends PureComponent {
       onSpecificPageChoose,
       appTourProgress,
     } = this.props;
+    const { isClonePage } = this.state;
 
     const handleCancelClick = () => {
       if (dirty && appTourProgress !== APP_TOUR_STARTED) {
@@ -126,37 +139,39 @@ export default class NavigationBarConfigForm extends PureComponent {
               </fieldset>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              <Button
-                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting || expressionsNotAvailable}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-              <Button
-                className="pull-right NavigationBarConfigForm__cancel-btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="app.cancel" />
-              </Button>
-              {
-                appTourProgress !== APP_TOUR_STARTED && (
-                  <ConfirmCancelModalContainer
-                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                    invalid={invalid}
-                    submitting={submitting}
-                    onSave={onSave}
-                    onDiscard={onDiscard}
-                  />
-                )
-              }
-            </Col>
-            <AppTourContainer />
-          </Row>
+          {!isClonePage &&
+            <Row>
+              <Col xs={12}>
+                <Button
+                  className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                  type="submit"
+                  bsStyle="primary"
+                  disabled={invalid || submitting || expressionsNotAvailable}
+                >
+                  <FormattedMessage id="app.save" />
+                </Button>
+                <Button
+                  className="pull-right NavigationBarConfigForm__cancel-btn"
+                  bsStyle="default"
+                  onClick={handleCancelClick}
+                >
+                  <FormattedMessage id="app.cancel" />
+                </Button>
+                {
+                  appTourProgress !== APP_TOUR_STARTED && (
+                    <ConfirmCancelModalContainer
+                      contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                      invalid={invalid}
+                      submitting={submitting}
+                      onSave={onSave}
+                      onDiscard={onDiscard}
+                    />
+                  )
+                }
+              </Col>
+              <AppTourContainer />
+            </Row>
+          }
         </form>
       </div>
     );

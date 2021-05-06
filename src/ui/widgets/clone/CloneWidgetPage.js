@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Breadcrumb, Grid, Row, Col } from 'patternfly-react';
+import { Breadcrumb } from 'patternfly-react';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import CloneWidgetFormContainer from 'ui/widgets/clone/CloneWidgetFormContainer';
+import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
 class CloneWidgetPage extends Component {
@@ -16,16 +17,16 @@ class CloneWidgetPage extends Component {
 
   render() {
     return (
-      <InternalPage className="CloneWidgetPage">
-        <Grid fluid>
-          <Row>
-            <Col xs={12}>
+      <InternalPage className="AddWidgetPage WidgetPage">
+        <div className="WidgetPage__header">
+          <div className="WidgetPage__top">
+            <div>
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.uxComponents" />
                 </BreadcrumbItem>
                 <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-                  <FormattedMessage id="menu.widgets" />
+                  <FormattedMessage id="menu.uxComponents.widget" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.widgetClone" />
@@ -34,15 +35,20 @@ class CloneWidgetPage extends Component {
                   {this.props.widgetName}
                 </BreadcrumbItem>
               </Breadcrumb>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <PageTitle titleId="widget.page.clone.pageTitle" helpId="widget.help" />
-            </Col>
-          </Row>
+            </div>
+            <div>
+              <div id="widget-button-holder" />
+            </div>
+          </div>
+          <div>
+            <PageTitle titleId="widget.page.clone.pageTitle" helpId="widget.help" />
+          </div>
+        </div>
+
+        <div className="WidgetPage__body">
+          <ErrorsAlertContainer />
           <CloneWidgetFormContainer />
-        </Grid>
+        </div>
       </InternalPage>
     );
   }

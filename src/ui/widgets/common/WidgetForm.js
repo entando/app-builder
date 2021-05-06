@@ -27,6 +27,8 @@ const maxLength70 = maxLength(70);
 
 const widgetFormName = 'widget';
 
+// const withMode = (Comp) => ({ mode }) =><Comp mode={mode} />;
+
 export const renderDefaultUIField = (field) => {
   const { input } = field;
   if (!input.value) {
