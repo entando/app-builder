@@ -734,6 +734,8 @@ export default {
     'componentRepository.components.confirmUninstall': 'Deseja realmente desinstalar o componente {name}?',
     'componentRepository.components.cannotUninstall': 'Não é possível desinstalar',
     'componentRepository.components.usage': 'Uso de componentes: {usage}',
+    'componentRepository.components.showInstallPlan': 'Plano de instalação',
+    'componentRepository.components.showCustomInstallPlan': 'Plano de instalação personalizado',
     'componentRepository.sidebar.ratingFilter.title': 'Avaliação',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',
     'componentRepository.categories.all': 'Todos',

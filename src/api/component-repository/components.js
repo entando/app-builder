@@ -8,7 +8,7 @@ import {
   COMPONENT_USAGE_LIST,
   COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
-import { makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
 
 export const getECRComponent = code => (
   makeRequest({
@@ -21,7 +21,7 @@ export const getECRComponent = code => (
 );
 
 export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeRequest(
+  makeMockRequest(
     {
       uri: `/components${params}`,
       domain: '/digital-exchange',
@@ -103,11 +103,11 @@ export const postECRComponentInstallPlan = (component, version = 'latest') => (
 );
 
 export const getECRComponentInstallPlan = code => (
-  makeRequest({
+  makeMockRequest({
     uri: `/components/${code}/installplans`,
     domain: '/digital-exchange',
     method: METHODS.GET,
-    mockResponse: COMPONENT_INSTALLATION_COMPLETED,
+    mockResponse: COMPONENT_INSTALL_PLAN,
     useAuthentication: true,
   })
 );

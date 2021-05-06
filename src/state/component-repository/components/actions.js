@@ -165,13 +165,14 @@ export const setInstallUninstallProgress = progress => ({
   },
 });
 
-export const toggleConflictsModal = (open, installPlan, component, version) => ({
+export const toggleConflictsModal = (open, installPlan, component, version, readOnly) => ({
   type: TOGGLE_CONFLICTS_MODAL,
   payload: {
     open,
     installPlan,
     component,
     version,
+    readOnly,
   },
 });
 
@@ -318,6 +319,29 @@ export const installECRComponent = (component, version = 'latest', logProgress, 
       }
     })
   );
+
+export const getInstallPlan = component => dispatch => (
+  new Promise((resolve) => {
+    const loadingId = 'component-repository/component-usage';
+    dispatch(toggleLoading(loadingId));
+    getECRComponentInstallPlan(component.code).then((response) => {
+      response.json().then(({ payload: installPlan, errors }) => {
+        if (response.ok) {
+          // show conflict modal
+          dispatch(setVisibleModal(MODAL_ID));
+          dispatch(toggleConflictsModal(true, installPlan, component, null, true));
+        } else {
+          dispatch(addErrors(errors.map(err => err.message)));
+          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        dispatch(toggleLoading(loadingId));
+        resolve();
+      });
+    }).catch(() => {
+      dispatch(toggleLoading(loadingId));
+    });
+  })
+);
 
 export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {

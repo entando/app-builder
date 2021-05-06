@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { Button, Modal, ButtonGroup } from 'patternfly-react';
 
-import { getInstallPlan, getComponent, getComponentVersion } from 'state/component-repository/components/selectors';
+import { getInstallPlan, getComponent, getComponentVersion, isReadOnly } from 'state/component-repository/components/selectors';
 import { updateAllInstallPlan, installECRComponent, setInstallUninstallProgress } from 'state/component-repository/components/actions';
 import { setVisibleModal } from 'state/modal/actions';
 
@@ -32,6 +32,7 @@ const InstallationPlanModal = () => {
   const installPlan = useSelector(getInstallPlan);
   const selectedComponent = useSelector(getComponent);
   const version = useSelector(getComponentVersion);
+  const readOnly = useSelector(isReadOnly);
   const dispatch = useDispatch();
   const [filterType, setFilterType] = useState('all');
   const [requiredList, setRequiredList] = useState([]);
@@ -108,7 +109,11 @@ const InstallationPlanModal = () => {
             </ul>
           </div>
         </div>
-        <InstallationPlanTable tableRows={filteredList} requiredList={requiredList} />
+        <InstallationPlanTable
+          tableRows={filteredList}
+          requiredList={requiredList}
+          readOnly={readOnly}
+        />
       </div>
     </GenericModalContainer>
   );

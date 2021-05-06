@@ -42,6 +42,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.2',
     },
     installed: false,
+    customInstallation: null,
   },
   {
     code: 'installed-example-bundle',
@@ -83,6 +84,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.1',
     },
     installed: true,
+    customInstallation: true,
   },
   {
     code: 'regular-3-version-bundle',
@@ -111,6 +113,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.3',
     },
     installed: false,
+    customInstallation: false,
   },
   {
     code: 'install-error-bundle',
@@ -154,6 +157,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.2',
     },
     installed: false,
+    customInstallation: null,
   },
   {
     code: 'example-bundle-7',
@@ -197,6 +201,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.2',
     },
     installed: true,
+    customInstallation: false,
   },
 ];
 

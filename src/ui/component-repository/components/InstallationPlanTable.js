@@ -18,6 +18,7 @@ const InstallationPlanTable = ({
   intl,
   tableRows = [],
   requiredList,
+  readOnly,
 }) => {
   const dispatch = useDispatch();
 
@@ -52,25 +53,31 @@ const InstallationPlanTable = ({
                     : <i className="fa fa-exclamation-circle InstallationPlanTable__warning" />}
                 </td>
                 <td>
-                  <DropdownButton
-                    id="InstallationPlanTable__dropdown-button"
-                    onSelect={(key) => {
+                  {
+                    readOnly
+                    ? action && <FormattedMessage id={`componentRepository.${ACTIONS[action]}`} />
+                    :
+                    <DropdownButton
+                      id="InstallationPlanTable__dropdown-button"
+                      onSelect={(key) => {
                         handleSelect(category, component, key);
-                    }}
-                    title={ACTIONS[action] ? intl.formatMessage({ id: `componentRepository.${ACTIONS[action]}` }) : 'Select'}
-                    className="InstallationPlanTable__dropdown-button"
-                    disabled={status === 'NEW'}
-                  >
-                    {
-                        Object.keys(ACTIONS)
-                        .filter(act => act !== 'CREATE')
-                        .map(act => (
-                          <MenuItem key={act} eventKey={act}>
-                            <FormattedMessage id={`componentRepository.${ACTIONS[act]}`} />
-                          </MenuItem>
-                        ))
-                    }
-                  </DropdownButton>
+                      }}
+                      title={ACTIONS[action] ? intl.formatMessage({ id: `componentRepository.${ACTIONS[action]}` }) : 'Select'}
+                      className="InstallationPlanTable__dropdown-button"
+                      disabled={status === 'NEW'}
+                    >
+                      {
+                            Object.keys(ACTIONS)
+                            .filter(act => act !== 'CREATE')
+                            .map(act => (
+                              <MenuItem key={act} eventKey={act}>
+                                <FormattedMessage id={`componentRepository.${ACTIONS[act]}`} />
+                              </MenuItem>
+                            ))
+                        }
+                    </DropdownButton>
+                  }
+
                 </td>
               </tr>))
         }
@@ -88,11 +95,13 @@ InstallationPlanTable.propTypes = {
     action: PropTypes.string,
   })),
   requiredList: PropTypes.arrayOf(PropTypes.string),
+  readOnly: PropTypes.bool,
 };
 
 InstallationPlanTable.defaultProps = {
   tableRows: [],
   requiredList: [],
+  readOnly: false,
 };
 
 export default injectIntl(InstallationPlanTable);

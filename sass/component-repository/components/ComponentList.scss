@@ -117,6 +117,15 @@
     line-height: normal;
   }
 
+  &__show-install-plan {
+    padding: 0;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   &__status {
     display: block;
     border: 1px solid $color-ecr-component-installed-button-border;

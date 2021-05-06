@@ -39,6 +39,7 @@ class ComponentList extends Component {
       totalItems,
       componentRepositoryComponents,
       intl,
+      getInstallPlan,
     } = this.props;
 
     const pagination = {
@@ -47,8 +48,16 @@ class ComponentList extends Component {
       perPageOptions: [5, 10, 15, 25, 50],
     };
     const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
-      ? <ComponentListGridView components={componentRepositoryComponents} locale={intl.locale} />
-      : <ComponentListListView components={componentRepositoryComponents} locale={intl.locale} />;
+      ? (<ComponentListGridView
+        components={componentRepositoryComponents}
+        locale={intl.locale}
+        onClickInstallPlan={getInstallPlan}
+      />)
+      : (<ComponentListListView
+        components={componentRepositoryComponents}
+        locale={intl.locale}
+        onClickInstallPlan={getInstallPlan}
+      />);
 
     const components = (!componentRepositoryComponents
       || componentRepositoryComponents.length === 0)
@@ -84,6 +93,7 @@ class ComponentList extends Component {
 ComponentList.propTypes = {
   intl: intlShape.isRequired,
   onDidMount: PropTypes.func,
+  getInstallPlan: PropTypes.func.isRequired,
   fetchECRComponentsFiltered: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   viewMode: PropTypes.string,
