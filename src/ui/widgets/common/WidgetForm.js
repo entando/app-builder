@@ -279,7 +279,7 @@ export class WidgetFormBody extends Component {
                               extFormName={widgetFormName}
                               pageCode={params.pageCode}
                               frameId={params.frameId}
-                              mode={MODE_CLONE}
+                              mode={mode}
                             />
                           </fieldset>
                         </Tab>
