@@ -94,6 +94,7 @@ class AppTour extends React.Component {
       onAddLogo, onAddNavBarWidget, onAddSearchWidget,
       onAddLoginWidget, onAddBannerWidget,
       onAddContentListWidget, onAddSitemapMenu,
+      onAppTourFinish,
     } = this.props;
 
     const step3Element = document.querySelector('.app-tour-step-3');
@@ -315,7 +316,7 @@ class AppTour extends React.Component {
         step: 20,
         onNext: () => {
           simulateMouseClick(step20Element);
-          this.cancelTour(true);
+          onAppTourFinish();
         },
         onBack: ({ goTo }) => this.onNextStep(19, goTo),
         nextButtonDisabled: !step20Element,
@@ -463,6 +464,7 @@ AppTour.propTypes = {
   onAddBannerWidget: PropTypes.func.isRequired,
   onAddContentListWidget: PropTypes.func.isRequired,
   onAddSitemapMenu: PropTypes.func.isRequired,
+  onAppTourFinish: PropTypes.func.isRequired,
 };
 
 AppTour.defaultProps = {

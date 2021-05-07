@@ -57,6 +57,10 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));
   },
+  onAppTourFinish: () => {
+    dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
+    dispatch(setAppTourLastStep(1));
+  },
   setNextStep: step => dispatch(setAppTourLastStep(step)),
   onBackToAddPage: (code) => {
     history.push(ROUTE_PAGE_ADD);
