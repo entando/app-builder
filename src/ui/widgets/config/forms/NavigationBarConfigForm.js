@@ -12,22 +12,15 @@ import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTarget
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 
 export default class NavigationBarConfigForm extends PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      isClonePage: false,
-    };
-  }
-
   componentDidMount() {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
     if (!lodash.isEmpty(initialValues)) {
       fetchExpressions(this.props);
     }
-    this.setPageMode();
   }
 
   componentDidUpdate(prevProps) {
@@ -36,10 +29,6 @@ export default class NavigationBarConfigForm extends PureComponent {
     if (JSON.stringify(initialValues) !== JSON.stringify(prevValues)) {
       fetchExpressions(this.props);
     }
-  }
-
-  setPageMode = () => {
-    this.setState({ isClonePage: window.location.pathname.includes('search_result/clone') });
   }
 
   render() {
@@ -61,8 +50,8 @@ export default class NavigationBarConfigForm extends PureComponent {
       initialValues,
       onSpecificPageChoose,
       appTourProgress,
+      mode,
     } = this.props;
-    const { isClonePage } = this.state;
 
     const handleCancelClick = () => {
       if (dirty && appTourProgress !== APP_TOUR_STARTED) {
@@ -139,7 +128,7 @@ export default class NavigationBarConfigForm extends PureComponent {
               </fieldset>
             </Col>
           </Row>
-          {!isClonePage &&
+          {mode !== MODE_CLONE &&
             <Row>
               <Col xs={12}>
                 <Button
@@ -198,6 +187,7 @@ NavigationBarConfigForm.propTypes = {
   loading: PropTypes.bool,
   onSpecificPageChoose: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 NavigationBarConfigForm.defaultProps = {
@@ -208,4 +198,5 @@ NavigationBarConfigForm.defaultProps = {
   expressions: [],
   loading: null,
   appTourProgress: '',
+  mode: '',
 };

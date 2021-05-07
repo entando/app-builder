@@ -17,7 +17,7 @@ class CloneWidgetPage extends Component {
 
   render() {
     return (
-      <InternalPage className="AddWidgetPage WidgetPage">
+      <InternalPage className="CloneWidgetPage WidgetPage">
         <div className="WidgetPage__header">
           <div className="WidgetPage__top">
             <div>
