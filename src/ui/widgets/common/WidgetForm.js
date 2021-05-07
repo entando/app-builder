@@ -21,7 +21,7 @@ import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
-const MODE_CLONE = 'clone';
+export const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
@@ -279,6 +279,7 @@ export class WidgetFormBody extends Component {
                               extFormName={widgetFormName}
                               pageCode={params.pageCode}
                               frameId={params.frameId}
+                              mode={mode}
                             />
                           </fieldset>
                         </Tab>
