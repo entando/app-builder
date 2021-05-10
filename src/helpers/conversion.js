@@ -1,6 +1,6 @@
 const convertJSONtoWidgetConfigNotation = (srcValue) => {
   const isArr = t => Array.isArray(t);
-  const isObj = o => typeof o === 'object';
+  const isObj = o => o !== null && typeof o === 'object';
 
   const convertObject = (keymap) => {
     const keystr = Object.keys(keymap).map((key) => {
