@@ -12,6 +12,7 @@ import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTarget
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -49,6 +50,7 @@ export default class NavigationBarConfigForm extends PureComponent {
       initialValues,
       onSpecificPageChoose,
       appTourProgress,
+      mode,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -126,37 +128,39 @@ export default class NavigationBarConfigForm extends PureComponent {
               </fieldset>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              <Button
-                className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting || expressionsNotAvailable}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-              <Button
-                className="pull-right NavigationBarConfigForm__cancel-btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="app.cancel" />
-              </Button>
-              {
-                appTourProgress !== APP_TOUR_STARTED && (
-                  <ConfirmCancelModalContainer
-                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                    invalid={invalid}
-                    submitting={submitting}
-                    onSave={onSave}
-                    onDiscard={onDiscard}
-                  />
-                )
-              }
-            </Col>
-            <AppTourContainer />
-          </Row>
+          {mode !== MODE_CLONE &&
+            <Row>
+              <Col xs={12}>
+                <Button
+                  className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                  type="submit"
+                  bsStyle="primary"
+                  disabled={invalid || submitting || expressionsNotAvailable}
+                >
+                  <FormattedMessage id="app.save" />
+                </Button>
+                <Button
+                  className="pull-right NavigationBarConfigForm__cancel-btn"
+                  bsStyle="default"
+                  onClick={handleCancelClick}
+                >
+                  <FormattedMessage id="app.cancel" />
+                </Button>
+                {
+                  appTourProgress !== APP_TOUR_STARTED && (
+                    <ConfirmCancelModalContainer
+                      contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                      invalid={invalid}
+                      submitting={submitting}
+                      onSave={onSave}
+                      onDiscard={onDiscard}
+                    />
+                  )
+                }
+              </Col>
+              <AppTourContainer />
+            </Row>
+          }
         </form>
       </div>
     );
@@ -183,6 +187,7 @@ NavigationBarConfigForm.propTypes = {
   loading: PropTypes.bool,
   onSpecificPageChoose: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 NavigationBarConfigForm.defaultProps = {
@@ -193,4 +198,5 @@ NavigationBarConfigForm.defaultProps = {
   expressions: [],
   loading: null,
   appTourProgress: '',
+  mode: '',
 };
