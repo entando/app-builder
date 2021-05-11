@@ -201,7 +201,7 @@ export class WidgetFormBody extends Component {
       intl, onDiscard, onSave,
       invalid, submitting, loading, mode, config,
       parentWidget, parentWidgetParameters, defaultUIField,
-      match: { params }, groups, noPortal,
+      match: { params }, groups, noPortal, widget,
     } = this.props;
 
     let codeField = (
@@ -237,6 +237,8 @@ export class WidgetFormBody extends Component {
       && mode === MODE_CLONE
       && getAppBuilderWidgetForm(parentWidget, true);
 
+    const isUserWidget = widget && widget.typology === 'user';
+
     return (
       <Spinner loading={!!loading}>
         <form className="form-horizontal">
@@ -250,8 +252,8 @@ export class WidgetFormBody extends Component {
                         labelSize={0}
                         name="customUi"
                         component={RenderTextAreaInput}
-                        cols="50"
-                        rows="8"
+                        cols={50}
+                        rows={8}
                         className="form-control"
                         validate={[required]}
                       />
@@ -295,6 +297,7 @@ export class WidgetFormBody extends Component {
                                   labelText={param.code}
                                   helpText={param.description}
                                 />}
+                                disabled={isUserWidget}
                               />
                             ))}
                           </fieldset>
@@ -404,6 +407,7 @@ WidgetFormBody.propTypes = {
     params: PropTypes.shape({}),
   }),
   noPortal: PropTypes.bool,
+  widget: PropTypes.shape({}),
 };
 
 WidgetFormBody.defaultProps = {
@@ -427,6 +431,7 @@ WidgetFormBody.defaultProps = {
   },
   onReplaceSubmit: () => {},
   noPortal: false,
+  widget: {},
 };
 
 const WidgetForm = reduxForm({
