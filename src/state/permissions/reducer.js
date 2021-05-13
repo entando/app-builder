@@ -43,17 +43,28 @@ const loggedUser = (state = null, action = {}) => {
       const authorityMaps = result.map(authority => (
         stringToArr(authority.permissions ? authority.permissions : get(authority, 'role', []))
       ));
-      const groups = result;
       const roles = Array.from(new Set(flatten(authorityMaps)));
       if (roles.includes(ROLE_SUPERUSER)) {
-        return { groups, roles: allPermissions };
+        return allPermissions;
       }
       if (roles.includes(CRUD_USERS_PERMISSION) || roles.includes(EDIT_USER_PROFILES_PERMISSION)) {
         if (!roles.includes(VIEW_USERS_AND_PROFILES_PERMISSION)) {
           roles.push(VIEW_USERS_AND_PROFILES_PERMISSION);
         }
       }
-      return { groups, roles };
+      return roles;
+    }
+    case CLEAR_LOGGED_USER_PERMISSIONS:
+      return null;
+    default: return state;
+  }
+};
+
+const loggedUserGroup = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_LOGGED_USER_PERMISSIONS: {
+      const { result } = action.payload;
+      return result;
     }
     case CLEAR_LOGGED_USER_PERMISSIONS:
       return null;
@@ -65,4 +76,5 @@ export default combineReducers({
   list,
   map: permissionMap,
   loggedUser,
+  loggedUserGroup,
 });

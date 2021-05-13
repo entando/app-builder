@@ -20,6 +20,7 @@ import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import { fetchCurrentUserAuthorities } from 'state/users/actions';
 import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
+import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 
 const getNextPageProperty = ({
@@ -128,6 +129,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchCurrentUserAuthorities());
+    dispatch(fetchGroups());
   },
   onInitPageForm: (data) => {
     const {

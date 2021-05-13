@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => {
     dispatch(fetchLanguages(noPagination, activeLangQueryString));
-    dispatch(fetchGroups(noPagination));
+    dispatch(fetchGroups());
   },
   onSubmit: (updatedValues) => {
     dispatch(sendPatchPage(updatedValues));

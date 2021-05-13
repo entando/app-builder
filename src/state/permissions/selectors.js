@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
 
 export const getPermissions = state => state.permissions;
 export const getPermissionsIdList = state => state.permissions.list;
@@ -10,14 +9,10 @@ export const getPermissionsList = createSelector(
   (permissionsMap, idListPermissions) => idListPermissions.map(id => (permissionsMap[id])),
 );
 
-export const getLoggedUser = (
-  createSelector([getPermissions], permissions => permissions.loggedUser || {})
-);
-
-export const getLoggedUserGroups = (
-  createSelector([getLoggedUser], loggedUser => get(loggedUser, 'groups', null))
-);
-
 export const getLoggedUserPermissions = (
-  createSelector([getLoggedUser], loggedUser => get(loggedUser, 'roles', null))
+  createSelector([getPermissions], permissions => permissions.loggedUser)
+);
+
+export const getLoggedUserGroup = (
+  createSelector([getPermissions], permissions => permissions.loggedUserGroup)
 );
