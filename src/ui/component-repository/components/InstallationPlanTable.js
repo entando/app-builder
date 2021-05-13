@@ -27,17 +27,18 @@ const InstallationPlanTable = ({
   };
 
   return (
-    <Table className="InstallationPlanTable" striped bordered condensed hover >
-      <thead>
-        <tr>
-          <th><FormattedMessage id="componentRepository.category" /></th>
-          <th><FormattedMessage id="componentRepository.componentName" /></th>
-          <th><FormattedMessage id="componentRepository.status" /></th>
-          <th style={{ width: '110px' }}><FormattedMessage id="componentRepository.actions" /></th>
-        </tr>
-      </thead>
-      <tbody>
-        {
+    <div className="InstallationPlanTable">
+      <Table className="InstallationPlanTable__table" striped bordered condensed hover >
+        <thead>
+          <tr>
+            <th><FormattedMessage id="componentRepository.category" /></th>
+            <th><FormattedMessage id="componentRepository.componentName" /></th>
+            <th><FormattedMessage id="componentRepository.status" /></th>
+            <th style={{ width: '110px' }}><FormattedMessage id="componentRepository.actions" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
             tableRows.map(({
             component,
             category,
@@ -55,7 +56,7 @@ const InstallationPlanTable = ({
                 <td>
                   {
                     readOnly
-                    ? action && <FormattedMessage id={`componentRepository.${ACTIONS[action]}`} />
+                    ? action || ''
                     :
                     <DropdownButton
                       id="InstallationPlanTable__dropdown-button"
@@ -81,8 +82,9 @@ const InstallationPlanTable = ({
                 </td>
               </tr>))
         }
-      </tbody>
-    </Table>
+        </tbody>
+      </Table>
+    </div>
   );
 };
 

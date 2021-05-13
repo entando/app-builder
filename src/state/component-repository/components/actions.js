@@ -326,13 +326,13 @@ export const getInstallPlan = component => dispatch => (
     dispatch(toggleLoading(loadingId));
     getECRComponentInstallPlan(component.code).then((response) => {
       response.json().then(({ payload: installPlan, errors }) => {
-        if (response.ok) {
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        } else {
           // show conflict modal
           dispatch(setVisibleModal(MODAL_ID));
           dispatch(toggleConflictsModal(true, installPlan, component, null, true));
-        } else {
-          dispatch(addErrors(errors.map(err => err.message)));
-          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         dispatch(toggleLoading(loadingId));
         resolve();

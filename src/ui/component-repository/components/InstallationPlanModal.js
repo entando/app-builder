@@ -89,25 +89,27 @@ const InstallationPlanModal = () => {
               </Button>
             </ButtonGroup>
           </div>
-          <div>
-            <ul className="InstallationPlanModal__bulk-actions">
-              <li>{filteredList.length} <FormattedMessage id="componentRepository.categories.component" /></li>
-              <li>
-                <Button
-                  onClick={() => { dispatch(updateAllInstallPlan('OVERRIDE')); }}
-                >
-                  <FormattedMessage id="componentRepository.updateAll" />
-                </Button>
-              </li>
-              <li>
-                <Button
-                  onClick={() => { dispatch(updateAllInstallPlan('SKIP')); }}
-                >
-                  <FormattedMessage id="componentRepository.skipAll" />
-                </Button>
-              </li>
-            </ul>
-          </div>
+          {!readOnly &&
+            <div>
+              <ul className="InstallationPlanModal__bulk-actions">
+                <li>{filteredList.length} <FormattedMessage id="componentRepository.categories.component" /></li>
+                <li>
+                  <Button
+                    onClick={() => { dispatch(updateAllInstallPlan('OVERRIDE')); }}
+                  >
+                    <FormattedMessage id="componentRepository.updateAll" />
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    onClick={() => { dispatch(updateAllInstallPlan('SKIP')); }}
+                  >
+                    <FormattedMessage id="componentRepository.skipAll" />
+                  </Button>
+                </li>
+              </ul>
+            </div>
+          }
         </div>
         <InstallationPlanTable
           tableRows={filteredList}
