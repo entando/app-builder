@@ -1,11 +1,11 @@
-
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
+import { getGroupsList } from 'state/groups/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
-  fetchCurrentUserGroups: jest.fn().mockReturnValue('fetchCurrentUserGroups_result'),
+  fetchGroups: jest.fn().mockReturnValue('fetchGroups_result'),
 }));
 
 jest.mock('state/page-templates/actions', () => ({
@@ -27,6 +27,13 @@ const ownProps = {
   },
 };
 
+const GROUPS = [{ code: 'group', name: 'groupName' }];
+
+jest.mock('state/groups/selectors', () => ({
+  getGroupsList: jest.fn(),
+}));
+
+getGroupsList.mockReturnValue(GROUPS);
 
 jest.mock('state/page-templates/selectors', () => ({
   getPageTemplatesList: jest.fn().mockReturnValue('getPageTemplates_result'),
@@ -46,7 +53,6 @@ getActiveLanguages.mockReturnValue(LANGUAGES);
 
 const PAGE_CODE = 'page_code';
 const STATE = {};
-const GROUPS = [{ code: 'group', name: 'groupName' }];
 
 describe('PagesEditFormContainer', () => {
   beforeEach(() => {
@@ -95,7 +101,7 @@ describe('PagesEditFormContainer', () => {
       });
 
       it('dispatch fetchGroups', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('fetchCurrentUserGroups_result');
+        expect(dispatchMock).toHaveBeenCalledWith('fetchGroups_result');
       });
 
       it('dispatch fetchPageTemplates', () => {

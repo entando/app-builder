@@ -36,7 +36,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: (props) => {
     dispatch(fetchCurrentUserAuthorities());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchGroups());
     dispatch(initialize('widget', { group: props.group || '' }));
   },
   onSubmit: (values, saveType) => {

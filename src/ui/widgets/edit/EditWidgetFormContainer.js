@@ -31,7 +31,7 @@ export const mapStateToProps = state => (
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchGroups());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
   },

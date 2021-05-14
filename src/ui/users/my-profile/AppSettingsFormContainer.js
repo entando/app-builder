@@ -23,7 +23,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchGroups());
   },
   onSubmit: (values) => {
     const { username, data } = values;

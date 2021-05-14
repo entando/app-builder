@@ -54,7 +54,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     if (widgetAction && widgetAction === CONFIG_SIMPLE_PARAMETER) {
       // navigate to specific form
     }
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchGroups());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     if (widgetConfig) {
       dispatch(initWidgetConfigPage(pageCode, parentCode, parseInt(frameId, 10)));
