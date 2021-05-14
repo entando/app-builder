@@ -16,7 +16,7 @@ export const getPermissions = (page = { page: 1, pageSize: 10 }, params = '') =>
 
 export const getMyGroupPermissions = () => (
   makeRequest({
-    uri: '/api/users/userProfiles/myGroupPermissions',
+    uri: '/api/users/myGroupPermissions',
     method: METHODS.GET,
     mockResponse: MY_PERMISSIONS_PAYLOAD_OK,
     useAuthentication: true,
