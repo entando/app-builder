@@ -46,6 +46,7 @@ jest.mock('state/widgets/selectors', () => ({
   getSelectedWidgetDefaultUi: jest.fn(),
   getSelectedParentWidget: jest.fn(),
   getSelectedParentWidgetParameters: jest.fn(),
+  getSelectedWidget: jest.fn(),
 }));
 
 getSelectedWidgetDefaultUi.mockReturnValue('');
@@ -69,6 +70,7 @@ describe('EditWidgetFormContainer', () => {
       expect(props).toHaveProperty('groups', [GROUP]);
       expect(props).toHaveProperty('defaultUIField');
       expect(props).toHaveProperty('languages', LANGUAGES);
+      expect(props).toHaveProperty('widget');
     });
   });
 
