@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchECRComponents } from 'state/component-repository/components/actions';
+import { fetchECRComponents, getInstallPlan } from 'state/component-repository/components/actions';
 import { getECRComponentList, getECRComponentListViewMode } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
@@ -24,6 +24,9 @@ export const mapDispatchToProps = dispatch => ({
   },
   fetchECRComponentsFiltered: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchECRComponentsFiltered(page));
+  },
+  getInstallPlan: (code) => {
+    dispatch(getInstallPlan(code));
   },
 });
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Col } from 'patternfly-react';
+import { Col, Button } from 'patternfly-react';
 import cx from 'classnames';
 
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 import ComponentImage from 'ui/component-repository/components/item/ComponentImage';
 import { componentType } from 'models/component-repository/components';
 
-const ComponentListGridView = ({ components }) => (
+const ComponentListGridView = ({ components, onClickInstallPlan }) => (
   <div className="ComponentListGridView equal">
     {components.map((component, i) => (
       <Col
@@ -35,6 +35,24 @@ const ComponentListGridView = ({ components }) => (
                 }
               </p>
               <h1>{component.title}</h1>
+              {
+                component.installed &&
+                  <div>
+                    <Button
+                      bsStyle="link"
+                      className="ComponentList__show-install-plan"
+                      onClick={() => onClickInstallPlan(component)}
+                    >
+                      <i className="fa fa-info-circle" />
+                      {' '}
+                      {
+                        component.customInstallation
+                        ? <FormattedMessage id="componentRepository.components.showCustomInstallPlan" />
+                        : <FormattedMessage id="componentRepository.components.showInstallPlan" />
+                      }
+                    </Button>
+                  </div>
+              }
               <p className="ComponentList__description">{component.description}</p>
             </div>
             <div className="ComponentList__component-footer">
@@ -55,6 +73,7 @@ const ComponentListGridView = ({ components }) => (
 
 ComponentListGridView.propTypes = {
   components: PropTypes.arrayOf(componentType).isRequired,
+  onClickInstallPlan: PropTypes.func.isRequired,
 };
 
 export default ComponentListGridView;

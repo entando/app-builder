@@ -301,7 +301,7 @@ const progressStatus = (state = 0, action = {}) => {
 };
 
 const initialInstallConflictsState = {
-  open: false, installPlan: null, component: {}, version: 'latest',
+  open: false, installPlan: null, component: {}, version: 'latest', readOnly: false,
 };
 
 const updateAllActions = (installPlan, type) =>

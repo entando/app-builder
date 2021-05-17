@@ -1,4 +1,6 @@
 .InstallationPlanTable {
+  height: 400px;
+  overflow-y: auto;
 
   &__dropdown-button,
   &__dropdown-button:hover {

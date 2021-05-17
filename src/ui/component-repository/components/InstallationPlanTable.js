@@ -18,6 +18,7 @@ const InstallationPlanTable = ({
   intl,
   tableRows = [],
   requiredList,
+  readOnly,
 }) => {
   const dispatch = useDispatch();
 
@@ -26,17 +27,18 @@ const InstallationPlanTable = ({
   };
 
   return (
-    <Table className="InstallationPlanTable" striped bordered condensed hover >
-      <thead>
-        <tr>
-          <th><FormattedMessage id="componentRepository.category" /></th>
-          <th><FormattedMessage id="componentRepository.componentName" /></th>
-          <th><FormattedMessage id="componentRepository.status" /></th>
-          <th style={{ width: '110px' }}><FormattedMessage id="componentRepository.actions" /></th>
-        </tr>
-      </thead>
-      <tbody>
-        {
+    <div className="InstallationPlanTable">
+      <Table className="InstallationPlanTable__table" striped bordered condensed hover >
+        <thead>
+          <tr>
+            <th><FormattedMessage id="componentRepository.category" /></th>
+            <th><FormattedMessage id="componentRepository.componentName" /></th>
+            <th><FormattedMessage id="componentRepository.status" /></th>
+            <th style={{ width: '110px' }}><FormattedMessage id="componentRepository.actions" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
             tableRows.map(({
             component,
             category,
@@ -52,30 +54,37 @@ const InstallationPlanTable = ({
                     : <i className="fa fa-exclamation-circle InstallationPlanTable__warning" />}
                 </td>
                 <td>
-                  <DropdownButton
-                    id="InstallationPlanTable__dropdown-button"
-                    onSelect={(key) => {
+                  {
+                    readOnly
+                    ? action || ''
+                    :
+                    <DropdownButton
+                      id="InstallationPlanTable__dropdown-button"
+                      onSelect={(key) => {
                         handleSelect(category, component, key);
-                    }}
-                    title={ACTIONS[action] ? intl.formatMessage({ id: `componentRepository.${ACTIONS[action]}` }) : 'Select'}
-                    className="InstallationPlanTable__dropdown-button"
-                    disabled={status === 'NEW'}
-                  >
-                    {
-                        Object.keys(ACTIONS)
-                        .filter(act => act !== 'CREATE')
-                        .map(act => (
-                          <MenuItem key={act} eventKey={act}>
-                            <FormattedMessage id={`componentRepository.${ACTIONS[act]}`} />
-                          </MenuItem>
-                        ))
-                    }
-                  </DropdownButton>
+                      }}
+                      title={ACTIONS[action] ? intl.formatMessage({ id: `componentRepository.${ACTIONS[action]}` }) : 'Select'}
+                      className="InstallationPlanTable__dropdown-button"
+                      disabled={status === 'NEW'}
+                    >
+                      {
+                            Object.keys(ACTIONS)
+                            .filter(act => act !== 'CREATE')
+                            .map(act => (
+                              <MenuItem key={act} eventKey={act}>
+                                <FormattedMessage id={`componentRepository.${ACTIONS[act]}`} />
+                              </MenuItem>
+                            ))
+                        }
+                    </DropdownButton>
+                  }
+
                 </td>
               </tr>))
         }
-      </tbody>
-    </Table>
+        </tbody>
+      </Table>
+    </div>
   );
 };
 
@@ -88,11 +97,13 @@ InstallationPlanTable.propTypes = {
     action: PropTypes.string,
   })),
   requiredList: PropTypes.arrayOf(PropTypes.string),
+  readOnly: PropTypes.bool,
 };
 
 InstallationPlanTable.defaultProps = {
   tableRows: [],
   requiredList: [],
+  readOnly: false,
 };
 
 export default injectIntl(InstallationPlanTable);
