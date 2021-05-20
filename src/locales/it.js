@@ -759,6 +759,7 @@ export default {
     'componentRepository.components.usage': 'Utilizzo dei componenti: {usage}',
     'componentRepository.components.showInstallPlan': 'Piano di installazione',
     'componentRepository.components.showCustomInstallPlan': 'Piano di installazione personalizzato',
+    'componentRepository.components.installPlanFailed': 'Impossibile recuperare il piano di installazione',
     'componentRepository.sidebar.ratingFilter.title': 'Media voto',
     'componentRepository.sidebar.ratingFilter.itemLabel': 'e più',
     'componentRepository.categories.all': 'Tutti',

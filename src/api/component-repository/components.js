@@ -7,6 +7,7 @@ import {
   COMPONENT_UNINSTALLATION_COMPLETED,
   COMPONENT_USAGE_LIST,
   COMPONENT_INSTALL_PLAN,
+  // FAILED_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -108,6 +109,7 @@ export const getECRComponentInstallPlan = code => (
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALL_PLAN,
+    // mockResponse: FAILED_INSTALL_PLAN,
     useAuthentication: true,
   })
 );
