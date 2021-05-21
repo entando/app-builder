@@ -212,9 +212,16 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
           dispatch(finishComponentInstallation(componentCode, res.payload));
         } else {
           dispatch(componentInstallationFailed(componentCode));
-          if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+          if (res.payload.installErrorMessage) {
             dispatch(addToast(
-              { id: 'componentRepository.components.installRollback' },
+              res.payload.installErrorMessage,
+              TOAST_WARNING,
+            ));
+          }
+
+          if (res.payload.rollbackErrorMessage) {
+            dispatch(addToast(
+              res.payload.rollbackErrorMessage,
               TOAST_WARNING,
             ));
           }
@@ -338,6 +345,10 @@ export const getInstallPlan = component => dispatch => (
         resolve();
       });
     }).catch(() => {
+      dispatch(addToast(
+        { id: 'componentRepository.components.installPlanFailed' },
+        TOAST_ERROR,
+      ));
       dispatch(toggleLoading(loadingId));
     });
   })

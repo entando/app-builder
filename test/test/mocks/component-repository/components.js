@@ -411,3 +411,20 @@ export const COMPONENT_INSTALL_PLAN = {
     },
   },
 };
+
+export const FAILED_INSTALL_PLAN = {
+  id: '7183b6a5-9b26-4f2b-ac3a-646417513e17',
+  componentId: 'xmasbundle',
+  componentName: 'xmasbundle-bundle',
+  componentVersion: '0.0.7',
+  startedAt: '2021-05-06T09:35:04.132865',
+  finishedAt: '2021-05-06T09:35:06.629047',
+  progress: 0.0,
+  status: 'INSTALL_ERROR',
+  installErrorCode: 100,
+  installErrorMessage: 'The plugin lcorsettientando-xmasbundle descriptor contains an invalid descriptorVersion',
+  rollbackErrorCode: 100,
+  rollbackErrorMessage: 'Rollback ERROR!!!!',
+  installPlan: '{"hasConflicts":null,"widgets":{},"fragments":{},"pages":{},"pageTemplates":{},"contents":{},"contentTemplates":{},"contentTypes":{},"assets":{},"directories":{},"resources":{},"plugins":{},"categories":{},"groups":{},"labels":{},"languages":{},"version":"latest"}',
+  customInstallation: false,
+};

@@ -759,6 +759,7 @@ export default {
     'componentRepository.components.usage': 'Component usage: {usage}',
     'componentRepository.components.showInstallPlan': 'Show install plan',
     'componentRepository.components.showCustomInstallPlan': 'Show custom install plan',
+    'componentRepository.components.installPlanFailed': 'Failed to recover the install plan',
     'componentRepository.sidebar.ratingFilter.title': 'Rating',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',
     'componentRepository.categories.all': 'All',
