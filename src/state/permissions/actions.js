@@ -4,6 +4,7 @@ import {
   SET_PERMISSIONS,
   SET_LOGGED_USER_PERMISSIONS,
   CLEAR_LOGGED_USER_PERMISSIONS,
+  SET_MY_GROUP_PERMISSIONS,
 } from 'state/permissions/types';
 import { getPermissionsIdList } from 'state/permissions/selectors';
 import { getPermissions, getMyGroupPermissions } from 'api/permissions';
@@ -25,6 +26,11 @@ export const setLoggedUserPermissions = payload => ({
 
 export const clearLoggedUserPermissions = () => ({
   type: CLEAR_LOGGED_USER_PERMISSIONS,
+});
+
+export const setMyGroupPermissions = payload => ({
+  type: SET_MY_GROUP_PERMISSIONS,
+  payload,
 });
 
 // thunk
@@ -59,6 +65,20 @@ export const fetchLoggedUserPermissions = () => (dispatch, getState) => new Prom
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }
       dispatch(toggleLoading('loggedUserPermissions'));
+      resolve();
+    });
+  }).catch(() => {});
+});
+
+export const fetchMyGroupPermissions = () => dispatch => new Promise((resolve) => {
+  getMyGroupPermissions().then((res) => {
+    res.json().then((json) => {
+      if (res.ok) {
+        dispatch(setMyGroupPermissions(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      }
       resolve();
     });
   }).catch(() => {});

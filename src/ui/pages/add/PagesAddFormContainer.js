@@ -18,11 +18,11 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
-import { fetchCurrentUserAuthorities } from 'state/users/actions';
-import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
 import { fetchCurrentUserGroups } from 'state/groups/actions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
+import { getMyGroupPermissions } from 'state/permissions/selectors';
+import { fetchMyGroupPermissions } from 'state/permissions/actions';
 
 const getNextPageProperty = ({
   pages,
@@ -72,9 +72,10 @@ export const mapStateToProps = (state) => {
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
   const userPreferences = getUserPreferences(state);
-  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
-  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
-  const ownerGroup = userPreferences.defaultPageOwnerGroup || authorityWithAdmin.group;
+  const groupWithPagePermission = getMyGroupPermissions(state)
+    .find(groupPermission => groupPermission.permissions.includes(MANAGE_PAGES_PERMISSION));
+  const ownerGroup = userPreferences.defaultPageOwnerGroup
+    || (groupWithPagePermission && groupWithPagePermission.group);
   const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
@@ -132,7 +133,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (data) => {
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchCurrentUserAuthorities());
+    dispatch(fetchMyGroupPermissions());
     dispatch(fetchCurrentUserGroups());
   },
   onInitPageForm: (data) => {
