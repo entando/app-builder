@@ -11,6 +11,7 @@ import {
   getPermissionsMap,
   getPermissionsList,
   getLoggedUserPermissions,
+  getMyGroupPermissions,
 } from 'state/permissions/selectors';
 
 describe('state/permissions/selectors', () => {
@@ -37,5 +38,14 @@ describe('state/permissions/selectors', () => {
   it('verify getLoggedUserPermissions returns correct values', () => {
     const userAuthority = getLoggedUserPermissions(MYPERMISSIONS_STATE);
     expect(userAuthority).toEqual(MYPERMISSIONS_STATE.permissions.loggedUser);
+  });
+
+  it('verify getMyGroupPermissions selector', () => {
+    const myGroupPermissions = getMyGroupPermissions({
+      permissions: {
+        myGroupPermissions: [],
+      },
+    });
+    expect(myGroupPermissions).toEqual([]);
   });
 });

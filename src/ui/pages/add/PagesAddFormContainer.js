@@ -18,8 +18,9 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
-import { fetchCurrentUserAuthorities } from 'state/users/actions';
-import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
+import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
+import { getMyGroupPermissions } from 'state/permissions/selectors';
+import { fetchMyGroupPermissions } from 'state/permissions/actions';
 import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 
@@ -68,9 +69,12 @@ export const mapStateToProps = (state) => {
     [curr.code]: { ...SEO_LANGDATA_BLANK },
   }), {});
   const userPreferences = getUserPreferences(state);
-  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
-  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
-  const ownerGroup = userPreferences.defaultPageOwnerGroup || authorityWithAdmin.group;
+  const groupWithPagePermission = getMyGroupPermissions(state)
+    .find(({ permissions }) => (
+      permissions.includes(ROLE_SUPERUSER) || permissions.includes(MANAGE_PAGES_PERMISSION)
+    ));
+  const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
+    || (groupWithPagePermission && groupWithPagePermission.group);
   const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
@@ -95,7 +99,7 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
-      ownerGroup,
+      ownerGroup: defaultOwnerGroup,
       joinGroups,
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
@@ -128,7 +132,7 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: (data) => {
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchCurrentUserAuthorities());
+    dispatch(fetchMyGroupPermissions());
     dispatch(fetchMyGroups());
   },
   onInitPageForm: (data) => {

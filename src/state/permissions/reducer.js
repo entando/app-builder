@@ -5,6 +5,7 @@ import {
   SET_PERMISSIONS,
   SET_LOGGED_USER_PERMISSIONS,
   CLEAR_LOGGED_USER_PERMISSIONS,
+  SET_MY_GROUP_PERMISSIONS,
 } from 'state/permissions/types';
 
 export const toMap = array => array.reduce((acc, permission) => {
@@ -72,9 +73,19 @@ const loggedUserGroup = (state = null, action = {}) => {
   }
 };
 
+const myGroupPermissions = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_MY_GROUP_PERMISSIONS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: permissionMap,
   loggedUser,
+  myGroupPermissions,
   loggedUserGroup,
 });
