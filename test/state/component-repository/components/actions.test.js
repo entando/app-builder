@@ -30,6 +30,7 @@ import {
   COMPONENT_UNINSTALLATION_COMPLETED,
   COMPONENT_USAGE_LIST,
   COMPONENT_INSTALL_PLAN,
+  GET_COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
 import {
   getECRComponents,
@@ -133,7 +134,7 @@ describe('state/component-repository/components/actions', () => {
         },
       }));
       getECRComponentInstallPlan.mockImplementation(mockApi({
-        payload: COMPONENT_INSTALLATION_COMPLETED,
+        payload: GET_COMPONENT_INSTALL_PLAN,
       }));
       putECRComponentInstallPlan.mockImplementation(mockApi({
         payload: COMPONENT_INSTALLATION_CREATED,
