@@ -4,7 +4,6 @@ import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { setVisibleModal } from 'state/modal/actions';
-import { fetchPageTemplates } from 'state/page-templates/actions';
 import { change } from 'redux-form';
 
 export const mapStateToProps = state => ({
@@ -16,9 +15,6 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = { page: 1, pageSize: 10 }) => {
-    dispatch(fetchPageTemplates(page));
-  },
   onSelectClick: (value, isEditMode) => {
     dispatch(change(isEditMode ? 'pageEdit' : 'page', 'pageModel', value));
     dispatch(setVisibleModal(''));

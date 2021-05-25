@@ -8,7 +8,7 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
+import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters, getSelectedWidget } from 'state/widgets/selectors';
 import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
@@ -27,6 +27,7 @@ export const mapStateToProps = state => (
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
+    widget: getSelectedWidget(state),
   });
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({

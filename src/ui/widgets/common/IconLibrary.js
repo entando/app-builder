@@ -27,7 +27,7 @@ const IconLibrary = ({ intl, selected, onSelect }) => {
   };
 
   const buttons = [
-    <Button bsStyle="primary" onClick={handleSelect}>
+    <Button id="IconLibrary__select-btn" bsStyle="primary" onClick={handleSelect}>
       <FormattedMessage id="app.select" />
     </Button>,
   ];
