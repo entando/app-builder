@@ -5,7 +5,7 @@ import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 // mock actions
 jest.mock('state/groups/actions', () => ({
-  fetchGroups: jest.fn().mockReturnValue('fetchGroups_result'),
+  fetchMyGroups: jest.fn().mockReturnValue('fetchMyGroups_result'),
 }));
 
 jest.mock('state/page-templates/actions', () => ({
@@ -100,8 +100,8 @@ describe('PagesEditFormContainer', () => {
         expect(dispatchMock).toHaveBeenCalled();
       });
 
-      it('dispatch fetchGroups', () => {
-        expect(dispatchMock).toHaveBeenCalledWith('fetchGroups_result');
+      it('dispatch fetchMyGroups', () => {
+        expect(dispatchMock).toHaveBeenCalledWith('fetchMyGroups_result');
       });
 
       it('dispatch fetchPageTemplates', () => {
