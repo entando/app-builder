@@ -62,6 +62,10 @@ jest.mock('state/users/selectors', () => ({
   getSelectedUserAuthoritiesList: jest.fn(),
 }));
 
+jest.mock('state/permissions/selectors', () => ({
+  getMyGroupPermissions: jest.fn(() => ([{ group: 'free', permissions: [] }])),
+}));
+
 jest.mock('app-init/router', () => ({
   history: {
     push: jest.fn(),

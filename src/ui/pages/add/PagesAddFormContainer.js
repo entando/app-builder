@@ -19,7 +19,7 @@ import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/cons
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import { fetchCurrentUserGroups } from 'state/groups/actions';
-import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
 import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
 import { getMyGroupPermissions } from 'state/permissions/selectors';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
@@ -73,8 +73,10 @@ export const mapStateToProps = (state) => {
   }), {});
   const userPreferences = getUserPreferences(state);
   const groupWithPagePermission = getMyGroupPermissions(state)
-    .find(groupPermission => groupPermission.permissions.includes(MANAGE_PAGES_PERMISSION));
-  const ownerGroup = userPreferences.defaultPageOwnerGroup
+    .find(({ permissions }) => (
+      permissions.includes(ROLE_SUPERUSER) || permissions.includes(MANAGE_PAGES_PERMISSION)
+    ));
+  const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
     || (groupWithPagePermission && groupWithPagePermission.group);
   const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
@@ -100,7 +102,7 @@ export const mapStateToProps = (state) => {
         ...SEO_DATA_BLANK,
         seoDataByLang,
       },
-      ownerGroup,
+      ownerGroup: defaultOwnerGroup,
       joinGroups,
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {

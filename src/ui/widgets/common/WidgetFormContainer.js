@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { change, initialize, submit } from 'redux-form';
 import { clearErrors } from '@entando/messages';
-
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
@@ -12,17 +11,20 @@ import { fetchLanguages } from 'state/languages/actions';
 import { fetchGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { sendPostWidgets } from 'state/widgets/actions';
-import { fetchCurrentUserAuthorities } from 'state/users/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
-import { getSelectedUserAuthoritiesList } from 'state/users/selectors';
-
 import WidgetForm from 'ui/widgets/common/WidgetForm';
+import { getMyGroupPermissions } from 'state/permissions/selectors';
+import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
+import { fetchMyGroupPermissions } from 'state/permissions/actions';
 
 export const mapStateToProps = (state) => {
   const userPreferences = getUserPreferences(state);
-  const userAuthorities = getSelectedUserAuthoritiesList(state) || [];
-  const authorityWithAdmin = userAuthorities.find(ua => ua.role === 'admin') || {};
-  const defaultOwnerGroup = userPreferences.defaultWidgetOwnerGroup || authorityWithAdmin.group;
+  const groupWithPagePermission = getMyGroupPermissions(state)
+    .find(({ permissions }) => (
+      permissions.includes(ROLE_SUPERUSER) || permissions.includes(MANAGE_PAGES_PERMISSION)
+    ));
+  const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
+    || (groupWithPagePermission && groupWithPagePermission.group);
   return ({
     groups: getGroupsList(state),
     group: defaultOwnerGroup,
@@ -34,7 +36,7 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: (props) => {
-    dispatch(fetchCurrentUserAuthorities());
+    dispatch(fetchMyGroupPermissions());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchGroups({ page: 1, pageSize: 0 }));
     dispatch(initialize('widget', { group: props.group || '' }));
