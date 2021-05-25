@@ -165,13 +165,14 @@ export const setInstallUninstallProgress = progress => ({
   },
 });
 
-export const toggleConflictsModal = (open, installPlan, component, version) => ({
+export const toggleConflictsModal = (open, installPlan, component, version, readOnly) => ({
   type: TOGGLE_CONFLICTS_MODAL,
   payload: {
     open,
     installPlan,
     component,
     version,
+    readOnly,
   },
 });
 
@@ -211,9 +212,16 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
           dispatch(finishComponentInstallation(componentCode, res.payload));
         } else {
           dispatch(componentInstallationFailed(componentCode));
-          if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK) {
+          if (res.payload.installErrorMessage) {
             dispatch(addToast(
-              { id: 'componentRepository.components.installRollback' },
+              res.payload.installErrorMessage,
+              TOAST_WARNING,
+            ));
+          }
+
+          if (res.payload.rollbackErrorMessage) {
+            dispatch(addToast(
+              res.payload.rollbackErrorMessage,
               TOAST_WARNING,
             ));
           }
@@ -318,6 +326,33 @@ export const installECRComponent = (component, version = 'latest', logProgress, 
       }
     })
   );
+
+export const getInstallPlan = component => dispatch => (
+  new Promise((resolve) => {
+    const loadingId = 'component-repository/component-usage';
+    dispatch(toggleLoading(loadingId));
+    getECRComponentInstallPlan(component.code).then((response) => {
+      response.json().then(({ payload: installPlan, errors }) => {
+        if (errors && errors.length) {
+          dispatch(addErrors(errors.map(err => err.message)));
+          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        } else {
+          // show conflict modal
+          dispatch(setVisibleModal(MODAL_ID));
+          dispatch(toggleConflictsModal(true, installPlan, component, null, true));
+        }
+        dispatch(toggleLoading(loadingId));
+        resolve();
+      });
+    }).catch(() => {
+      dispatch(addToast(
+        { id: 'componentRepository.components.installPlanFailed' },
+        TOAST_ERROR,
+      ));
+      dispatch(toggleLoading(loadingId));
+    });
+  })
+);
 
 export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => dispatch => (
   new Promise((resolve) => {

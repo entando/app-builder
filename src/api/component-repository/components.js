@@ -107,7 +107,7 @@ export const getECRComponentInstallPlan = code => (
     uri: `/components/${code}/installplans`,
     domain: '/digital-exchange',
     method: METHODS.GET,
-    mockResponse: COMPONENT_INSTALLATION_COMPLETED,
+    mockResponse: COMPONENT_INSTALL_PLAN,
     useAuthentication: true,
   })
 );

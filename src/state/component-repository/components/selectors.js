@@ -79,3 +79,4 @@ export const getInstallUninstallProgress = createSelector(
 export const getInstallPlan = state => get(state, 'componentRepositoryComponents.installConflicts.installPlan', {});
 export const getComponent = state => get(state, 'componentRepositoryComponents.installConflicts.component', {});
 export const getComponentVersion = state => get(state, 'componentRepositoryComponents.installConflicts.version', null);
+export const isReadOnly = state => get(state, 'componentRepositoryComponents.installConflicts.readOnly', false);
