@@ -13,3 +13,7 @@ export const getPermissionsList = createSelector(
 export const getLoggedUserPermissions = (
   createSelector([getPermissions], permissions => permissions.loggedUser)
 );
+
+export const getLoggedUserGroup = (
+  createSelector([getPermissions], permissions => permissions.loggedUserGroup)
+);

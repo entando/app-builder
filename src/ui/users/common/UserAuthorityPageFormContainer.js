@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchAllGroupEntries } from 'state/groups/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getRolesList } from 'state/roles/selectors';
@@ -23,7 +23,7 @@ export const mapStateToProps = state =>
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchAllGroupEntries({ page: 1, pageSize: 0 }));
     dispatch(fetchRoles({ page: 1, pageSize: 0 }));
     dispatch(fetchUserAuthorities(params.username));
   },

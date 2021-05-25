@@ -18,11 +18,11 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
-import { fetchCurrentUserGroups } from 'state/groups/actions';
 import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
-import { currentUserGroupsPermissionsFilter } from 'state/groups/selectors';
 import { getMyGroupPermissions } from 'state/permissions/selectors';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
+import { fetchMyGroups } from 'state/groups/actions';
+import { getGroupsList } from 'state/groups/selectors';
 
 const getNextPageProperty = ({
   pages,
@@ -61,12 +61,9 @@ export const getNextPageCode = ({ pages, pattern, separator }) => getNextPagePro
   separator,
 });
 
-const getCurrentUserGroupsWithManagePages =
-  currentUserGroupsPermissionsFilter([MANAGE_PAGES_PERMISSION]);
-
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
-  const groups = getCurrentUserGroupsWithManagePages(state);
+  const groups = getGroupsList(state);
   const seoDataByLang = languages.reduce((acc, curr) => ({
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },
@@ -136,7 +133,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroupPermissions());
-    dispatch(fetchCurrentUserGroups());
+    dispatch(fetchMyGroups());
   },
   onInitPageForm: (data) => {
     const {

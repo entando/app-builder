@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { clearErrors } from '@entando/messages';
 
 import GroupListTable from 'ui/groups/list/GroupListTable';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchAllGroupEntries } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
@@ -23,7 +23,7 @@ export const mapStateToProps = state => (
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(clearErrors());
-    dispatch(fetchGroups(page, '?sort=name'));
+    dispatch(fetchAllGroupEntries(page, '?sort=name'));
   },
   onClickDelete: ({ code }) => {
     dispatch(setVisibleModal(MODAL_ID));

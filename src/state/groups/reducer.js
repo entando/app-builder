@@ -5,7 +5,7 @@ import {
   SET_SELECTED_GROUP,
   SET_REFERENCES,
   REMOVE_GROUP,
-  SET_CURRENT_USER_GROUPS,
+  SET_GROUP_ENTRIES,
 } from 'state/groups/types';
 
 export const toMap = array => array.reduce((acc, group) => {
@@ -81,9 +81,9 @@ export const total = (state = 0, action = {}) => {
   }
 };
 
-export const currentUserGroups = (state = [], action = {}) => {
+export const groupEntries = (state = [], action = {}) => {
   switch (action.type) {
-    case SET_CURRENT_USER_GROUPS:
+    case SET_GROUP_ENTRIES:
       return action.payload.groups;
     default:
       return state;
@@ -95,5 +95,5 @@ export default combineReducers({
   map: groupMap,
   selected,
   total,
-  currentUserGroups,
+  groupEntries,
 });
