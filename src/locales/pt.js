@@ -735,7 +735,7 @@ export default {
     'componentRepository.components.cannotUninstall': 'Não é possível desinstalar',
     'componentRepository.components.usage': 'Uso de componentes: {usage}',
     'componentRepository.components.showInstallPlan': 'Plano de instalação',
-    'componentRepository.components.showCustomInstallPlan': 'Plano de instalação personalizado',
+    'componentRepository.components.showCustomInstallPlan': 'Instalação personalizada',
     'componentRepository.components.installPlanFailed': 'Falha ao recuperar o plano de instalação',
     'componentRepository.sidebar.ratingFilter.title': 'Avaliação',
     'componentRepository.sidebar.ratingFilter.itemLabel': '& up',

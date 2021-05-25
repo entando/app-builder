@@ -310,7 +310,7 @@ export const installECRComponent = (component, version = 'latest', logProgress, 
               if (!installPlan.hasConflicts) {
                 // no conflicts
                 procceedWithInstall(
-                  component, { version }, resolve,
+                  component, { ...installPlan, version }, resolve,
                   dispatch, logProgress, loadingId,
                 );
               } else {
@@ -332,17 +332,23 @@ export const getInstallPlan = component => dispatch => (
     const loadingId = 'component-repository/component-usage';
     dispatch(toggleLoading(loadingId));
     getECRComponentInstallPlan(component.code).then((response) => {
-      response.json().then(({ payload: installPlan, errors }) => {
-        if (errors && errors.length) {
-          dispatch(addErrors(errors.map(err => err.message)));
-          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        } else {
-          // show conflict modal
-          dispatch(setVisibleModal(MODAL_ID));
-          dispatch(toggleConflictsModal(true, installPlan, component, null, true));
+      response.json().then(({ payload, errors }) => {
+        try {
+          if (errors && errors.length) {
+            dispatch(addErrors(errors.map(err => err.message)));
+            errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          } else {
+              const installPlan = JSON.parse(payload.installPlan);
+              // show conflict modal
+              dispatch(setVisibleModal(MODAL_ID));
+              dispatch(toggleConflictsModal(true, installPlan, component, null, true)); 
+          }
+        } catch (e) {
+          dispatch(addToast(e.message, TOAST_ERROR));
+        } finally {
+          dispatch(toggleLoading(loadingId));
+          resolve();
         }
-        dispatch(toggleLoading(loadingId));
-        resolve();
       });
     }).catch(() => {
       dispatch(addToast(
