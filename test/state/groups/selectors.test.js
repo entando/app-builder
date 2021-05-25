@@ -10,8 +10,7 @@ import {
   getGroupsIdList,
   getGroupsMap,
   getGroupsList,
-  getCurrentUserGroups,
-  currentUserGroupsPermissionsFilter,
+  getGroupEntries,
 } from 'state/groups/selectors';
 
 describe('state/groups/selectors', () => {
@@ -41,13 +40,8 @@ describe('state/groups/selectors', () => {
     expect(getGroupsList(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
   });
 
-  it('verify getCurrentUserGroups selector', () => {
-    const { currentUserGroups } = GROUPS_NORMALIZED.groups;
-    expect(getCurrentUserGroups(GROUPS_NORMALIZED)).toEqual(currentUserGroups);
-  });
-
-  it('verify currentUserGroupsPermissionsFilter', () => {
-    const getCurrentUserGroupsWithManagePages = currentUserGroupsPermissionsFilter(['managePages']);
-    expect(getCurrentUserGroupsWithManagePages(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
+  it('verify getGroupEntries selector', () => {
+    const { groupEntries } = GROUPS_NORMALIZED.groups;
+    expect(getGroupEntries(GROUPS_NORMALIZED)).toEqual(groupEntries);
   });
 });

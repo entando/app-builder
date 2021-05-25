@@ -124,6 +124,7 @@ export const GROUPS_NORMALIZED = {
         permissions: ['editContents'],
       },
     ],
+    groupEntries: ['a', 'b'],
   },
   pagination: {
     global: {

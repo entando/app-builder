@@ -5,7 +5,7 @@ import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   setGroups,
-  fetchGroups,
+  fetchMyGroups,
   setGroupsTotal,
   fetchGroupsTotal,
   sendPostGroup,
@@ -15,17 +15,17 @@ import {
   fetchCurrentPageGroupDetail,
   fetchReferences,
   removeGroupSync,
-  fetchCurrentUserGroups,
+  fetchAllGroupEntries,
 } from 'state/groups/actions';
 import {
   putGroup,
   getGroup,
+  getMyGroups,
   getGroups,
   postGroup,
   deleteGroup,
   getReferences,
 } from 'api/groups';
-import { getMyGroupPermissions } from 'api/permissions';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
 import { LIST_MY_GROUP_PERMISSIONS_OK } from 'test/mocks/permissions';
@@ -36,7 +36,7 @@ import {
   SET_SELECTED_GROUP,
   SET_REFERENCES,
   REMOVE_GROUP,
-  SET_CURRENT_USER_GROUPS,
+  SET_GROUP_ENTRIES,
 } from 'state/groups/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -55,6 +55,7 @@ const INITIALIZE_TYPE = '@@redux-form/INITIALIZE';
 
 jest.mock('api/groups', () => ({
   getGroups: jest.fn(),
+  getMyGroups: jest.fn(),
   getGroup: jest.fn(),
   postGroup: jest.fn(),
   putGroup: jest.fn(),
@@ -114,6 +115,7 @@ const MOCK_RETURN_PROMISE_ERROR =
   };
 
 getGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
+getMyGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
 getGroup.mockReturnValue(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
 getReferences.mockReturnValue(new Promise(resolve => resolve(GET_REFERENCES_PROMISE)));
 
@@ -157,20 +159,19 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroups', () => {
-    it('fetchGroups calls setGroups and setPage actions', (done) => {
-      store.dispatch(fetchGroups()).then(() => {
+    it('fetchMyGroupscalls setGroups and setPage actions', (done) => {
+      store.dispatch(fetchMyGroups()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(4);
+        expect(actions).toHaveLength(3);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1].type).toEqual(SET_GROUPS);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
-        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
 
     it('group is defined and properly valued', (done) => {
-      store.dispatch(fetchGroups()).then(() => {
+      store.dispatch(fetchMyGroups()).then(() => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.groups).toHaveLength(10);
         const group = actionPayload.groups[0];
@@ -181,9 +182,9 @@ describe('state/groups/actions', () => {
     });
 
     it('when getGroups get error, should dispatch addErrors', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
-        expect(getGroups).toHaveBeenCalled();
+      getMyGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
+      store.dispatch(fetchMyGroups()).then(() => {
+        expect(getMyGroups).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
@@ -196,7 +197,7 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroupsTotal', () => {
-    it('fetchGroups calls setGroupsTotal', (done) => {
+    it('fetchMyGroupscalls setGroupsTotal', (done) => {
       store.dispatch(fetchGroupsTotal()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
@@ -369,49 +370,40 @@ describe('state/groups/actions', () => {
     });
   });
 
-  describe('fetchCurrentUserGroups', () => {
-    const GET_MY_GROUP_PERMISSIONS_RESPONSE = {
-      ok: true,
-      json: () => new Promise(res => res({
-        payload: LIST_MY_GROUP_PERMISSIONS_OK, metaData: { totalItems: 3 },
-      })),
-    };
-
-    const CURRENT_USER_GROUPS = [{
-      code: 'administrators', name: 'Administrators', permissions: ['superuser'],
-    }, {
-      code: 'account_executive', name: 'Account Executive', permissions: ['managePages'],
-    }, {
-      code: 'bpm_admin', name: 'Bpm Admin', permissions: ['editContents'],
-    }, {
-      code: 'free', name: 'Free Access',
-    }];
-
-    it('should call the correct actions with the correct payloads on success', (done) => {
-      getGroups.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
-      getMyGroupPermissions.mockReturnValueOnce(new Promise(resolve =>
-        resolve(GET_MY_GROUP_PERMISSIONS_RESPONSE)));
-
-      store.dispatch(fetchCurrentUserGroups()).then(() => {
+  describe('fetchAllGroupEntries', () => {
+    it('fetchAllGroupEntries calls setGroupEntries and setPage actions', (done) => {
+      store.dispatch(fetchAllGroupEntries()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toEqual({
-          type: SET_GROUPS, payload: { groups: LIST_GROUPS_OK },
-        });
-        expect(actions[1]).toEqual({
-          type: SET_CURRENT_USER_GROUPS, payload: { groups: CURRENT_USER_GROUPS },
-        });
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1].type).toEqual(SET_GROUP_ENTRIES);
+        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[3].type).toEqual(SET_PAGE);
         done();
       }).catch(done.fail);
     });
 
-    it('should call the correct actions with messages on error', (done) => {
+    it('group is defined and properly valued', (done) => {
+      store.dispatch(fetchAllGroupEntries()).then(() => {
+        const actionPayload = store.getActions()[1].payload;
+        expect(actionPayload.groups).toHaveLength(10);
+        const group = actionPayload.groups[0];
+        expect(group).toHaveProperty('code', 'account_executive');
+        expect(group).toHaveProperty('name');
+        done();
+      }).catch(done.fail);
+    });
+
+    it('when getGroups get error, should dispatch addErrors', (done) => {
       getGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchCurrentUserGroups()).then(() => {
+      store.dispatch(fetchAllGroupEntries()).then(() => {
+        expect(getGroups).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions).toHaveLength(4);
+        expect(actions[0].type).toEqual(TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

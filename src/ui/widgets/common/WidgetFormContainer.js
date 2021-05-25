@@ -9,7 +9,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { fetchLanguages } from 'state/languages/actions';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { sendPostWidgets } from 'state/widgets/actions';
 import { fetchCurrentUserAuthorities } from 'state/users/actions';
@@ -36,7 +36,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: (props) => {
     dispatch(fetchCurrentUserAuthorities());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchGroups({ page: 1, pageSize: 0 }));
+    dispatch(fetchMyGroups());
     dispatch(initialize('widget', { group: props.group || '' }));
   },
   onSubmit: (values, saveType) => {
