@@ -60,7 +60,7 @@ export const setGroupEntries = groups => ({
 
 // thunk
 
-export const fetchGroups = () => dispatch => new Promise((resolve) => {
+export const fetchMyGroups = () => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('groups'));
   getMyGroups().then((response) => {
     response.json().then((data) => {

@@ -7,7 +7,7 @@ import { fetchLanguages } from 'state/languages/actions';
 import { activeLangQueryString, noPagination } from 'ui/categories/common/formUtils';
 import { getDefaultLanguage, getActiveNonDefaultLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchMyGroups } from 'state/groups/actions';
 
 export const mapStateToProps = state => ({
   initialValues: getSelectedPage(state),
@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: () => {
     dispatch(fetchLanguages(noPagination, activeLangQueryString));
-    dispatch(fetchGroups());
+    dispatch(fetchMyGroups());
   },
   onSubmit: (updatedValues) => {
     dispatch(sendPatchPage(updatedValues));

@@ -9,7 +9,7 @@ import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import { sendPutPage, fetchPageForm } from 'state/pages/actions';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchMyGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
@@ -52,7 +52,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     }).catch(() => {}),
   onWillMount: ({ pageCode }) => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchGroups());
+    dispatch(fetchMyGroups());
     dispatch(fetchPageTemplates({ page: 1, pageSize: 0 }));
     dispatch(fetchPageForm(pageCode));
   },

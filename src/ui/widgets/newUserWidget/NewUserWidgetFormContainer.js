@@ -7,7 +7,7 @@ import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import {
   getSelectedWidgetDefaultUi,
@@ -32,7 +32,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchGroups());
+    dispatch(fetchMyGroups());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(initNewUserWidget(params.widgetCode));
   },

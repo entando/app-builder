@@ -5,7 +5,7 @@ import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
   setGroups,
-  fetchGroups,
+  fetchMyGroups,
   setGroupsTotal,
   fetchGroupsTotal,
   sendPostGroup,
@@ -15,7 +15,6 @@ import {
   fetchCurrentPageGroupDetail,
   fetchReferences,
   removeGroupSync,
-  setGroupEntries,
   fetchAllGroupEntries,
 } from 'state/groups/actions';
 import {
@@ -160,8 +159,8 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroups', () => {
-    it('fetchGroups calls setGroups and setPage actions', (done) => {
-      store.dispatch(fetchGroups()).then(() => {
+    it('fetchMyGroupscalls setGroups and setPage actions', (done) => {
+      store.dispatch(fetchMyGroups()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
@@ -172,7 +171,7 @@ describe('state/groups/actions', () => {
     });
 
     it('group is defined and properly valued', (done) => {
-      store.dispatch(fetchGroups()).then(() => {
+      store.dispatch(fetchMyGroups()).then(() => {
         const actionPayload = store.getActions()[1].payload;
         expect(actionPayload.groups).toHaveLength(10);
         const group = actionPayload.groups[0];
@@ -184,7 +183,7 @@ describe('state/groups/actions', () => {
 
     it('when getGroups get error, should dispatch addErrors', (done) => {
       getMyGroups.mockReturnValueOnce(new Promise(resolve => resolve(MOCK_RETURN_PROMISE_ERROR)));
-      store.dispatch(fetchGroups()).then(() => {
+      store.dispatch(fetchMyGroups()).then(() => {
         expect(getMyGroups).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
@@ -198,7 +197,7 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroupsTotal', () => {
-    it('fetchGroups calls setGroupsTotal', (done) => {
+    it('fetchMyGroupscalls setGroupsTotal', (done) => {
       store.dispatch(fetchGroupsTotal()).then(() => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);

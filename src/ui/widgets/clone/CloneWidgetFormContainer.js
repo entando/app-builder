@@ -10,7 +10,7 @@ import { fetchLanguages } from 'state/languages/actions';
 import { removePageWidget, updatePageWidget } from 'state/page-config/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getConfigMap } from 'state/page-config/selectors';
-import { fetchGroups } from 'state/groups/actions';
+import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
 import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
@@ -54,7 +54,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     if (widgetAction && widgetAction === CONFIG_SIMPLE_PARAMETER) {
       // navigate to specific form
     }
-    dispatch(fetchGroups());
+    dispatch(fetchMyGroups());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     if (widgetConfig) {
       dispatch(initWidgetConfigPage(pageCode, parentCode, parseInt(frameId, 10)));
