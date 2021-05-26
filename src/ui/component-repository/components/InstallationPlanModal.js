@@ -67,7 +67,7 @@ const InstallationPlanModal = () => {
   );
 
   return (
-    <GenericModalContainer modalId={MODAL_ID} buttons={buttons} modalTitle={modalTitle} modalClassName="InstallationPlanModal">
+    <GenericModalContainer modalId={MODAL_ID} buttons={!readOnly && buttons} modalTitle={modalTitle} modalClassName="InstallationPlanModal">
       <h2 className="InstallationPlanModal__title">{selectedComponent.title}</h2>
       <div>
         <div className="InstallationPlanModal__filters-wrapper">
