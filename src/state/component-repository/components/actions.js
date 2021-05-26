@@ -341,7 +341,7 @@ export const getInstallPlan = component => dispatch => (
             const installPlan = typeof payload.installPlan === 'string' ? JSON.parse(payload.installPlan) : payload.installPlan;
             // show conflict modal
             dispatch(setVisibleModal(MODAL_ID));
-            dispatch(toggleConflictsModal(true, installPlan, component, null, true)); 
+            dispatch(toggleConflictsModal(true, installPlan, component, null, true));
           }
         } catch (e) {
           dispatch(addToast(e.message, TOAST_ERROR));
