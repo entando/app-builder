@@ -12,7 +12,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { getConfigMap } from 'state/page-config/selectors';
 import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
-import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters } from 'state/widgets/selectors';
+import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters, getSelectedWidget } from 'state/widgets/selectors';
 import { initNewUserWidget, sendPostWidgets } from 'state/widgets/actions';
 import { initWidgetConfigPage, initWidgetConfigPageWithConfigData, updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { getLoading } from 'state/loading/selectors';
@@ -21,6 +21,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { convertConfigObject } from 'helpers/conversion';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 
 const CONFIG_SIMPLE_PARAMETER = 'configSimpleParameter';
 const MODE_CLONE = 'clone';
@@ -33,6 +34,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     config,
     parentType: parentCode,
   };
+  const widget = getSelectedWidget(state);
   return ({
     mode: MODE_CLONE,
     groups: getGroupsList(state),
@@ -43,6 +45,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
     initialValues,
+    configUiRequired: isMicrofrontendWidgetForm(widget),
   });
 };
 

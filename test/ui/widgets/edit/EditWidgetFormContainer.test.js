@@ -71,6 +71,7 @@ describe('EditWidgetFormContainer', () => {
       expect(props).toHaveProperty('defaultUIField');
       expect(props).toHaveProperty('languages', LANGUAGES);
       expect(props).toHaveProperty('widget');
+      expect(props).toHaveProperty('configUiRequired');
     });
   });
 

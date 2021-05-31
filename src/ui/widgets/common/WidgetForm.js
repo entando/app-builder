@@ -198,10 +198,9 @@ export class WidgetFormBody extends Component {
 
   render() {
     const {
-      intl, onDiscard, onSave,
-      invalid, submitting, loading, mode, config,
-      parentWidget, parentWidgetParameters, defaultUIField,
-      match: { params }, groups, noPortal, widget,
+      intl, onDiscard, onSave, invalid, submitting, loading, mode, config,
+      parentWidget, parentWidgetParameters, defaultUIField, match: { params },
+      groups, noPortal, widget, configUiRequired,
     } = this.props;
 
     let codeField = (
@@ -239,6 +238,8 @@ export class WidgetFormBody extends Component {
 
     const isUserWidget = widget && widget.typology === 'user';
 
+    const configUiValidationRules = configUiRequired ? [validateJson, required] : [validateJson];
+
     return (
       <Spinner loading={!!loading}>
         <form className="form-horizontal">
@@ -260,11 +261,11 @@ export class WidgetFormBody extends Component {
                     </Tab>
                   }
                   {!parentWidgetParameters.length && defaultUITab}
-                  <Tab eventKey={2} title={`${intl.formatMessage(msgs.configUi)}`} >
+                  <Tab eventKey={2} title={`${intl.formatMessage(msgs.configUi)}${configUiRequired ? ' *' : ''}`} >
                     <Field
                       component={JsonCodeEditorRenderer}
                       name="configUi"
-                      validate={[validateJson]}
+                      validate={configUiValidationRules}
                     />
                   </Tab>
 
@@ -408,6 +409,7 @@ WidgetFormBody.propTypes = {
   }),
   noPortal: PropTypes.bool,
   widget: PropTypes.shape({}),
+  configUiRequired: PropTypes.bool,
 };
 
 WidgetFormBody.defaultProps = {
@@ -432,6 +434,7 @@ WidgetFormBody.defaultProps = {
   onReplaceSubmit: () => {},
   noPortal: false,
   widget: {},
+  configUiRequired: false,
 };
 
 const WidgetForm = reduxForm({
