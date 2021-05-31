@@ -15,11 +15,13 @@ import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
+import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 
 const EDIT_MODE = 'edit';
 
-export const mapStateToProps = state => (
-  {
+export const mapStateToProps = (state) => {
+  const widget = getSelectedWidget(state);
+  return ({
     mode: EDIT_MODE,
     groups: getGroupsList(state),
     parentWidget: getSelectedParentWidget(state),
@@ -27,8 +29,10 @@ export const mapStateToProps = state => (
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
-    widget: getSelectedWidget(state),
+    configUiRequired: isMicrofrontendWidgetForm(widget),
+    widget,
   });
+};
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
