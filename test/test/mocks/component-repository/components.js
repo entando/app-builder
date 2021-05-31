@@ -430,14 +430,14 @@ export const FAILED_INSTALL_PLAN = {
 };
 
 export const GET_COMPONENT_INSTALL_PLAN = {
-  componentId: "xmasbundle",
-  componentName: "xmasbundle-bundle",
-  componentVersion: "0.0.6",
+  componentId: 'xmasbundle',
+  componentName: 'xmasbundle-bundle',
+  componentVersion: '0.0.6',
   customInstallation: false,
-  finishedAt: "2021-05-24T14:54:04.093411",
-  id: "ffb9fdee-b1d9-4620-8e11-6fa857da4f6e",
-  installPlan: "{\"hasConflicts\":null,\"widgets\":{},\"fragments\":{},\"pages\":{},\"pageTemplates\":{},\"contents\":{},\"contentTemplates\":{},\"contentTypes\":{},\"assets\":{},\"directories\":{},\"resources\":{},\"plugins\":{},\"categories\":{},\"groups\":{},\"labels\":{},\"languages\":{},\"version\":\"0.0.6\"}",
+  finishedAt: '2021-05-24T14:54:04.093411',
+  id: 'ffb9fdee-b1d9-4620-8e11-6fa857da4f6e',
+  installPlan: '{"hasConflicts":null,"widgets":{},"fragments":{},"pages":{},"pageTemplates":{},"contents":{},"contentTemplates":{},"contentTypes":{},"assets":{},"directories":{},"resources":{},"plugins":{},"categories":{},"groups":{},"labels":{},"languages":{},"version":"0.0.6"}',
   progress: 1,
-  startedAt: "2021-05-24T14:51:55.634321",
-  status: "INSTALL_COMPLETED",
-}
+  startedAt: '2021-05-24T14:51:55.634321',
+  status: 'INSTALL_COMPLETED',
+};

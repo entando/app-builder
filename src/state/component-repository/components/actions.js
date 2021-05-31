@@ -50,6 +50,7 @@ import {
 } from 'state/component-repository/components/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
+import { updateAllActions } from './reducer';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
 
@@ -309,8 +310,9 @@ export const installECRComponent = (component, version = 'latest', logProgress, 
             response.json().then(({ payload: installPlan }) => {
               if (!installPlan.hasConflicts) {
                 // no conflicts
+                const defaultInstallPlan = updateAllActions(installPlan, 'CREATE');
                 procceedWithInstall(
-                  component, { ...installPlan, version }, resolve,
+                  component, { ...defaultInstallPlan, version }, resolve,
                   dispatch, logProgress, loadingId,
                 );
               } else {
