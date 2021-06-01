@@ -4,17 +4,25 @@ import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextInput = ({
   input, append, label, labelSize, inputSize, alignClass, tourClass, placeholder,
-  meta: { touched, error }, help, disabled, type, lowerCaseOnly,
+  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase,
 }) => {
   let inputProps = input;
+  const { onChange } = input;
 
-  if (lowerCaseOnly) {
-    const { onChange } = input;
-
+  if (disallowedInput || forceLowerCase) {
     inputProps = {
       ...input,
       onChange: (event) => {
-        onChange(event.target.value.toLowerCase());
+        const { value } = event.target;
+        let transformedValue = value;
+        if (disallowedInput) {
+          transformedValue = transformedValue.replace(disallowedInput, '');
+        }
+        if (forceLowerCase) {
+          transformedValue = transformedValue.toLowerCase();
+        }
+
+        onChange(transformedValue);
       },
     };
   }
@@ -59,7 +67,8 @@ RenderTextInput.propTypes = {
   append: PropTypes.string,
   alignClass: PropTypes.string,
   tourClass: PropTypes.string,
-  lowerCaseOnly: PropTypes.bool,
+  disallowedInput: PropTypes.instanceOf(RegExp),
+  forceLowerCase: PropTypes.bool,
 };
 
 RenderTextInput.defaultProps = {
@@ -75,6 +84,7 @@ RenderTextInput.defaultProps = {
   append: '',
   tourClass: '',
   alignClass: 'text-right',
-  lowerCaseOnly: false,
+  disallowedInput: null,
+  forceLowerCase: false,
 };
 export default RenderTextInput;

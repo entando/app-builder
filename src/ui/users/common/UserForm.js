@@ -91,7 +91,8 @@ export class UserFormBody extends Component {
         validate={mode !== EDIT_MODE ?
           [required, minLength4, maxLength80, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
-        lowerCaseOnly
+        disallowedInput={/[^0-9a-zA-Z_.]/g}
+        forceLowerCase
       />
     );
     const showEdit = () => {
