@@ -91,6 +91,7 @@ export class UserFormBody extends Component {
         validate={mode !== EDIT_MODE ?
           [required, minLength4, maxLength80, userFormText] : undefined}
         disabled={mode === EDIT_MODE}
+        lowerCaseOnly
       />
     );
     const showEdit = () => {
