@@ -3,7 +3,7 @@ import { clearErrors } from '@entando/messages';
 
 import GroupListTable from 'ui/groups/list/GroupListTable';
 import { fetchAllGroupEntries } from 'state/groups/actions';
-import { getGroupsList } from 'state/groups/selectors';
+import { getGroupEntries } from 'state/groups/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
@@ -12,7 +12,7 @@ import { MODAL_ID } from 'ui/groups/common/DeleteGroupModal';
 
 export const mapStateToProps = state => (
   {
-    groups: getGroupsList(state),
+    groups: getGroupEntries(state),
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
