@@ -304,7 +304,7 @@ const initialInstallConflictsState = {
   open: false, installPlan: null, component: {}, version: 'latest', readOnly: false,
 };
 
-const updateAllActions = (installPlan, type) =>
+export const updateAllActions = (installPlan, type) =>
   Object.keys(installPlan).reduce((acc, key) => {
     if (isPlainObject(installPlan[key]) && !isEmpty(installPlan[key])) {
       // map through component names
