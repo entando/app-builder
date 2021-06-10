@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ActivityStreamContainer from 'ui/activity-stream/ActivityStreamContainer';
 import NotificationListContainer from 'ui/activity-stream/NotificationListContainer';
 import VerticalMenuContainer from 'ui/internal-page/VerticalMenuContainer';
+import AboutInfoModalContainer from 'ui/about/AboutInfoModalContainer';
 
 const InternalPage = ({ className, children }) => (
   <div
@@ -13,6 +14,7 @@ const InternalPage = ({ className, children }) => (
     <ActivityStreamContainer >
       <NotificationListContainer />
     </ActivityStreamContainer>
+    <AboutInfoModalContainer />
     <div className="container-fluid container-cards-pf container-pf-nav-pf-vertical">
       {children}
     </div>

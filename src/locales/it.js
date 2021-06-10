@@ -318,7 +318,7 @@ export default {
     'menu.details': 'Dettagli',
     'menu.groups': 'Gruppi',
     'menu.database': 'Database',
-    'menu.widget': 'Micro Frontend & Widget',
+    'menu.widget': 'MFE & Widgets',
     'menu.labelsAndLanguages': 'Lingue ed Etichette',
     'menu.uxComponents.addLabels': 'Etichette di sistema',
     'menu.categories': 'Categorie',

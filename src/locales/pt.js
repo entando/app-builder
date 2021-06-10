@@ -311,7 +311,7 @@ export default {
     'menu.details': 'Detalhes',
     'menu.groups': 'Grupos',
     'menu.database': 'Banco de Dados',
-    'menu.widget': 'Micro frontends / Widgets',
+    'menu.widget': 'MFE & Widgets',
     'menu.labelsAndLanguages': 'Idiomas e Rótulos',
     'menu.uxComponents.addLabels': 'Adicionar Rótulos',
     'menu.categories': 'Categorias',

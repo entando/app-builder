@@ -107,6 +107,12 @@
     width: 214px;
     padding-left: 25px;
   }
+
+  &.collapsed { //sass-lint:disable-line class-name-format
+    + .VerticalMenu__secondary-collapse-btn {
+      left: 76px;
+    }
+  }
 }
 
 .secondary-nav-item-pf { //sass-lint:disable-line class-name-format
@@ -209,6 +215,42 @@
       }
 
     }
+  }
+}
+
+.nav-pf-secondary-nav {
+  left: 0;
+  width: #{$nav-pf-vertical-width + 14};
+  z-index: 1031;
+}
+
+.nav-item-pf-header {
+  margin-top: 12px;
+  margin-left: 48px;
+}
+
+.nav-pf-secondary-nav .list-group-item > a {
+  width: #{$nav-pf-vertical-width + 14};
+  margin-left: 0;
+  padding-left: 44px;
+}
+
+.VerticalMenu__secondary-collapse-btn {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: 48px;
+  background-color: $color-extra-dark-grey;
+  color: $color-white;
+  font-size: 20px;
+  z-index: 1032;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:active:focus {
+    background-color: $color-extra-dark-grey;
+    color: $color-white;
   }
 }
 // sass-lint:enable force-element-nesting class-name-format nesting-depth
