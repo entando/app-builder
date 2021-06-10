@@ -174,6 +174,7 @@ const VerticalMenu = ({
         pinnableMenus={false}
         hoverPath={openPath}
         onItemClick={handleItemClick}
+        isMobile={false}
       >
         <Masthead>
           <Brand

@@ -107,6 +107,12 @@
     width: 214px;
     padding-left: 25px;
   }
+
+  &.collapsed { //sass-lint:disable-line class-name-format
+    + .VerticalMenu__secondary-collapse-btn {
+      left: 76px;
+    }
+  }
 }
 
 .secondary-nav-item-pf { //sass-lint:disable-line class-name-format
