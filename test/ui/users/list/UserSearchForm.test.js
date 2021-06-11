@@ -47,7 +47,7 @@ describe('UserSearchForm', () => {
 
     it('root component renders withProfile field', () => {
       const withProfile = userSearchForm.find('.UserSearchForm__withProfile');
-      expect(withProfile).toExist();
+      expect(withProfile).not.toExist();
     });
   });
 

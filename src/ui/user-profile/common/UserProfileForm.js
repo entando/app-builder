@@ -239,6 +239,7 @@ export class UserProfileFormBody extends Component {
               label={<FormLabel
                 labelId="userProfile.typeCode"
               />}
+              validate={[required]}
             />
           </fieldset>
         </Col>

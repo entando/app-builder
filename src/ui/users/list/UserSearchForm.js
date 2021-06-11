@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
-import RenderRadioInput from 'ui/common/form/RenderRadioInput';
-import { PROFILE_FILTER_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import { TEST_ID_USER_SEARCH_FORM } from 'ui/test-const/user-test-const';
 
 export const renderSelectOptions = options => (
@@ -44,7 +42,6 @@ export class UserSearchFormBody extends Component {
 
   render() {
     const { intl } = this.props;
-    const profileFilterOptions = getTranslatedOptions(intl, PROFILE_FILTER_OPTIONS);
     return (
       <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well" data-testid={TEST_ID_USER_SEARCH_FORM.FORM}>
         <h3><FormattedMessage id="app.search" /></h3>
@@ -65,24 +62,7 @@ export class UserSearchFormBody extends Component {
             </Col>
           </Row>
         </FormGroup>
-        <FormGroup>
-          <Row>
-            <label className="control-label col-sm-2" htmlFor="username">
-              <FormattedMessage id="user.searchForm.users" />
-            </label>
-            <Col sm={9}>
-              <label htmlFor="withProfile" >
-                <Field
-                  component={RenderRadioInput}
-                  toggleElement={profileFilterOptions}
-                  defaultValue={profileFilterOptions[0].id}
-                  name="withProfile"
-                  className="UserSearchForm__withProfile"
-                />
-              </label>
-            </Col>
-          </Row>
-        </FormGroup>
+        {/* Form for user profiletype search */}
         {/* insert Advanced Search component when available */}
         {/* Manage profileType selection when avalaible */}
         <FormGroup>
