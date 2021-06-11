@@ -291,7 +291,7 @@ const procceedWithInstall = (component, body, resolve, dispatch, logProgress, lo
       }
     });
 
-export const installECRComponent = (component, version = 'latest', logProgress, resolvedInstallPlan) =>
+export const installECRComponent = (component, version, logProgress, resolvedInstallPlan) =>
   dispatch => (
     new Promise((resolve) => {
       const loadingId = `deComponentInstallUninstall-${component.code}`;

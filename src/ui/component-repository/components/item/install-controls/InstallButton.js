@@ -59,7 +59,7 @@ const InstallButton = ({
             <SplitButton
               bsStyle="primary"
               onSelect={version => onInstall(component, version)}
-              onClick={() => onInstall(component)}
+              onClick={() => onInstall(component, (component.latestVersion || {}).version)}
               id={component.code}
               title={<FormattedMessage id="componentRepository.components.install" />}
             >
