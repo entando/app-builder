@@ -17,6 +17,11 @@
     align-items: center;
     margin-left: 30px;
     color: $color-dark-white;
+
+    & > img  {
+      color: $color-dark-white;
+      filter: invert(73%) sepia(38%) saturate(11%) hue-rotate(39deg) brightness(103%) contrast(102%);
+    }
   }
 
   &__description {
