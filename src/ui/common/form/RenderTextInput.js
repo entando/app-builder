@@ -69,6 +69,7 @@ RenderTextInput.propTypes = {
   tourClass: PropTypes.string,
   disallowedInput: PropTypes.instanceOf(RegExp),
   forceLowerCase: PropTypes.bool,
+  readOnly: PropTypes.bool,
 };
 
 RenderTextInput.defaultProps = {
@@ -86,5 +87,6 @@ RenderTextInput.defaultProps = {
   alignClass: 'text-right',
   disallowedInput: null,
   forceLowerCase: false,
+  readOnly: false,
 };
 export default RenderTextInput;
