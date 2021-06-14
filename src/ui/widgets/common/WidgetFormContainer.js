@@ -36,7 +36,7 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: (props) => {
-    dispatch(fetchMyGroupPermissions());
+    dispatch(fetchMyGroupPermissions({ sort: 'group' }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroups());
     dispatch(initialize('widget', { group: props.group || '' }));
