@@ -24,4 +24,5 @@ import './command/group-command';
 import './command/page-designer-command';
 import './command/page-management-command';
 import './command/content-types-command';
+import './command/widget-form-command';
 import './exception-handler';
