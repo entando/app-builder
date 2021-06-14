@@ -4,9 +4,9 @@ import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextInput = ({
   input, append, label, labelSize, inputSize, alignClass, tourClass, placeholder,
-  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase,
+  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase, readOnly
 }) => {
-  let inputProps = input;
+  let inputProps = {...input, readOnly};
   const { onChange } = input;
 
   if (disallowedInput || forceLowerCase) {

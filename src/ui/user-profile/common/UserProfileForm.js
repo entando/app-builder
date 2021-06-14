@@ -78,6 +78,8 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
+const readOnlyFields = ['profilepicture'];
+
 export class UserProfileFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -143,6 +145,7 @@ export class UserProfileFormBody extends Component {
         required={attribute.mandatory}
       />}
       validate={validateArray}
+      readOnly={readOnlyFields.includes(attribute.code)}
       data-testid={`UserProfileForm__${attribute.code}Field`}
     />);
   }
