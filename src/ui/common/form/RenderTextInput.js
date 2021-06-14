@@ -4,9 +4,9 @@ import { Col, ControlLabel } from 'patternfly-react';
 
 const RenderTextInput = ({
   input, append, label, labelSize, inputSize, alignClass, tourClass, placeholder,
-  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase,
+  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase, readOnly,
 }) => {
-  let inputProps = input;
+  let inputProps = { ...input, readOnly };
   const { onChange } = input;
 
   if (disallowedInput || forceLowerCase) {
@@ -69,6 +69,7 @@ RenderTextInput.propTypes = {
   tourClass: PropTypes.string,
   disallowedInput: PropTypes.instanceOf(RegExp),
   forceLowerCase: PropTypes.bool,
+  readOnly: PropTypes.bool,
 };
 
 RenderTextInput.defaultProps = {
@@ -86,5 +87,6 @@ RenderTextInput.defaultProps = {
   alignClass: 'text-right',
   disallowedInput: null,
   forceLowerCase: false,
+  readOnly: false,
 };
 export default RenderTextInput;
