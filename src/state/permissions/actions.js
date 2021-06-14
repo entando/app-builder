@@ -70,11 +70,15 @@ export const fetchLoggedUserPermissions = () => (dispatch, getState) => new Prom
   }).catch(() => {});
 });
 
-export const fetchMyGroupPermissions = () => dispatch => new Promise((resolve) => {
+export const fetchMyGroupPermissions = ({ sort } = {}) => dispatch => new Promise((resolve) => {
   getMyGroupPermissions().then((res) => {
     res.json().then((json) => {
       if (res.ok) {
-        dispatch(setMyGroupPermissions(json.payload));
+        const groupPermissions = json.payload.slice();
+        if (sort) {
+          groupPermissions.sort((a, b) => a[sort].localeCompare(b[sort]));
+        }
+        dispatch(setMyGroupPermissions(groupPermissions));
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

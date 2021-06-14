@@ -15,7 +15,7 @@ export const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(fetchPlugins()),
   fetchUserPreferences: (username) => {
     dispatch(fetchUserPreferences(username));
-    dispatch(fetchMyGroups());
+    dispatch(fetchMyGroups({ sort: 'name' }));
   },
 });
 
