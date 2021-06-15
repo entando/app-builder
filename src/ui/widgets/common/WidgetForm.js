@@ -99,6 +99,10 @@ export class WidgetFormBody extends Component {
     this.portalContainer = document.getElementById('widget-button-holder');
   }
 
+  componentWillUnmount() {
+    if (this.props.onWillUnmount) this.props.onWillUnmount();
+  }
+
   renderTitleFields() {
     const { intl, onChangeDefaultTitle } = this.props;
     const languages = ['en', 'it'];
@@ -380,6 +384,7 @@ export class WidgetFormBody extends Component {
 WidgetFormBody.propTypes = {
   intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
+  onWillUnmount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -414,6 +419,7 @@ WidgetFormBody.propTypes = {
 
 WidgetFormBody.defaultProps = {
   onWillMount: null,
+  onWillUnmount: null,
   invalid: false,
   submitting: false,
   groups: [{

@@ -9,7 +9,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters, getSelectedWidget } from 'state/widgets/selectors';
-import { fetchWidget, sendPutWidgets } from 'state/widgets/actions';
+import { fetchWidget, sendPutWidgets, setSelectedWidget } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -39,6 +39,9 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     dispatch(fetchMyGroups());
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
+  },
+  onWillUnmount: () => {
+    dispatch(setSelectedWidget(null));
   },
   onSubmit: (values, saveType) => {
     const jsonData = {
