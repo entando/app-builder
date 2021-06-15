@@ -36,6 +36,7 @@ import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
+import useLocalStorage from 'helpers/useLocalStorage';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -151,8 +152,14 @@ const VerticalMenu = ({
 }) => {
   const [openPath, setOpenPath] = useState(null);
 
-  const handleCollapseBtnClick = () => {
+  const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
+
+  const handleSecondaryCollapseBtnClick = () => {
     setOpenPath('/');
+  };
+
+  const handleExpandCollapse = () => {
+    setCollapsed(!collapsed);
   };
 
   const handleItemClick = (item) => {
@@ -175,6 +182,7 @@ const VerticalMenu = ({
         hoverPath={openPath}
         onItemClick={handleItemClick}
         isMobile={false}
+        navCollapsed={collapsed}
       >
         <Masthead>
           <Brand
@@ -374,8 +382,13 @@ const VerticalMenu = ({
       }
       </VerticalNav>
       {(openPath !== null && openPath !== '/') && (
-        <Button className="VerticalMenu__secondary-collapse-btn" onClick={handleCollapseBtnClick}>
+        <Button className="VerticalMenu__secondary-collapse-btn" onClick={handleSecondaryCollapseBtnClick}>
           <Icon name="angle-double-left" />
+        </Button>
+      )}
+      {(openPath === null || openPath === '/') && (
+        <Button className="VerticalMenu__expand-collapse-btn" onClick={handleExpandCollapse}>
+          <Icon name={`angle-double-${collapsed ? 'right' : 'left'}`} />
         </Button>
       )}
     </div>
