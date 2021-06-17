@@ -94,26 +94,43 @@
 .VerticalAdminConsoleMenu {
   &__fixed-bottom {
     position: fixed;
-    bottom: 0;
+    bottom: 64px;
     left: 0;
     border-bottom: 0;
   }
 }
 
-.nav-pf-vertical { //sass-lint:disable-line class-name-format
+// sass-lint:disable force-element-nesting class-name-format no-important
+.nav-pf-vertical {
   width: auto;
 
-  .secondary-nav-item-pf > a { // sass-lint:disable-line force-element-nesting class-name-format
+  .secondary-nav-item-pf > a {
     width: 214px;
     padding-left: 25px;
   }
 
-  &.collapsed { //sass-lint:disable-line class-name-format
+  &.collapsed {
     + .VerticalMenu__secondary-collapse-btn {
       left: 76px;
     }
+
+    + .VerticalMenu__expand-collapse-btn {
+      width: 75px;
+      padding-right: 0 !important;
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .secondary-nav-item-pf > a::after {
+      display: none;
+    }
+
+    .nav-pf-secondary-nav .list-group-item > a {
+      width: 214px;
+    }
   }
 }
+// sass-lint:enable force-element-nesting class-name-format nesting-depth no-important
 
 .secondary-nav-item-pf { //sass-lint:disable-line class-name-format
   a::after {
@@ -192,7 +209,7 @@
   }
 }
 
-// sass-lint:disable force-element-nesting class-name-format nesting-depth
+// sass-lint:disable force-element-nesting class-name-format nesting-depth no-important
 .container-pf-nav-pf-vertical {
   .startLeftPos {
     left: #{$nav-pf-vertical-width + 14};
@@ -226,20 +243,22 @@
 
 .nav-item-pf-header {
   margin-top: 12px;
-  margin-left: 48px;
+  margin-left: 56px;
 }
 
 .nav-pf-secondary-nav .list-group-item > a {
   width: #{$nav-pf-vertical-width + 14};
   margin-left: 0;
-  padding-left: 44px;
+  padding-left: 52px;
 }
 
 .VerticalMenu__secondary-collapse-btn {
   position: fixed;
   top: 60px;
   left: 0;
+  width: 40px;
   height: 48px;
+  outline: none;
   background-color: $color-extra-dark-grey;
   color: $color-white;
   font-size: 20px;
@@ -249,6 +268,31 @@
   &:active,
   &:focus,
   &:active:focus {
+    outline: none;
+    background-color: $color-extra-dark-grey;
+    color: $color-white;
+  }
+}
+
+.VerticalMenu__expand-collapse-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 214px;
+  height: 64px;
+  padding-right: 20px !important;
+  outline: none;
+  background-color: $color-extra-dark-grey;
+  color: $color-white;
+  font-size: 20px;
+  text-align: right;
+  z-index: 1030;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:active:focus {
+    outline: none;
     background-color: $color-extra-dark-grey;
     color: $color-white;
   }
