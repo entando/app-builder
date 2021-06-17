@@ -6,6 +6,18 @@
  */
 import 'cypress-file-upload';
 
+const apiUrl = Cypress.config('apiUrl');
+
+const domainUrl = `${apiUrl || '/'}entando-de-app`;
+
+Cypress.Commands.add('addRouteListener', (url, method = 'PUT', waitId = 'upload') => {
+  cy.server({ method });
+  cy.route({
+    method,
+    url: `${domainUrl}/${url}`,
+  }).as(waitId);
+});
+
 Cypress.Commands.add('addAttachFile', (selector, fixture) => {
   cy.getByTestId(selector).attachFile(fixture);
 });

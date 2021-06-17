@@ -79,30 +79,32 @@ export const WidgetListTableBody = ({
     Cell: (cellinfo) => {
       const { values: { code, locked, hasConfig } } = cellinfo;
       return (
-        <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>
-          {hasConfig && (
+        <div data-testid={`${code}-actions`}>
+          <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>
+            {hasConfig && (
+              <MenuItem
+                className="WidgetListRow__menu-item-addwidget"
+                onClick={() => onNewUserWidget(code)}
+              >
+                <FormattedMessage id="widgets.addWidget" />
+              </MenuItem>
+            )}
             <MenuItem
-              className="WidgetListRow__menu-item-addwidget"
-              onClick={() => onNewUserWidget(code)}
+              className="WidgetListRow__menu-item-edit"
+              onClick={() => onEdit(code)}
             >
-              <FormattedMessage id="widgets.addWidget" />
+              <FormattedMessage id="app.edit" />
             </MenuItem>
-          )}
-          <MenuItem
-            className="WidgetListRow__menu-item-edit"
-            onClick={() => onEdit(code)}
-          >
-            <FormattedMessage id="app.edit" />
-          </MenuItem>
-          {!locked && (
-            <MenuItem
-              className="WidgetListRow__menu-item-delete"
-              onClick={() => onDelete(code)}
-            >
-              <FormattedMessage id="app.delete" />
-            </MenuItem>
-          )}
-        </DropdownKebab>
+            {!locked && (
+              <MenuItem
+                className="WidgetListRow__menu-item-delete"
+                onClick={() => onDelete(code)}
+              >
+                <FormattedMessage id="app.delete" />
+              </MenuItem>
+            )}
+          </DropdownKebab>
+        </div>
       );
     },
   }) : null;

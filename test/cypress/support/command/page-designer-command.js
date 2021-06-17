@@ -49,7 +49,29 @@ Cypress.Commands.add('deletePageWidgetByFrame', (frameName) => {
   cy.getByTestId(`WidgetFrame__${frameName.replace(/\s/g, '_')}`).contains(frameName)
     .parent().find('button')
     .click();
-  cy.getByTestId(TEST_ID_WIDGET_FRAME.ACTIONS).filter(':visible').contains('Delete').click();
+  cy.getByTestId(TEST_ID_WIDGET_FRAME.ACTIONS).filter(':visible').contains(/^Delete$/i).click();
+});
+
+/**
+  Open the details of the widget contained in the selected frame
+  @param frameName - the exact frame name displayed in the UI e.g. "Frame 1", "Logo"
+ */
+Cypress.Commands.add('openPageWidgetDetailsByFrame', (frameName) => {
+  cy.getByTestId(`WidgetFrame__${frameName.replace(/\s/g, '_')}`).contains(frameName)
+    .parent().find('button')
+    .click();
+  cy.getByTestId(TEST_ID_WIDGET_FRAME.ACTION_LINKS).filter(':visible').contains(/^Details$/i).click();
+});
+
+/**
+  Open widget form for saving as new widget
+  @param frameName - the exact frame name displayed in the UI e.g. "Frame 1", "Logo"
+ */
+Cypress.Commands.add('openSaveAsWidgetWithFrame', (frameName) => {
+  cy.getByTestId(`WidgetFrame__${frameName.replace(/\s/g, '_')}`).contains(frameName)
+    .parent().find('button')
+    .click();
+  cy.getByTestId(TEST_ID_WIDGET_FRAME.ACTIONS).filter(':visible').contains(/^Save As$/i).click();
 });
 
 /**
@@ -85,6 +107,20 @@ Cypress.Commands.add('pageInfoClick', () => {
  */
 Cypress.Commands.add('restorePageClick', () => {
   cy.getByTestId(TEST_ID_PAGE_DESIGNER.BUTTON).contains(new RegExp('^Restore$')).click();
+});
+
+/**
+ Open a page via Page Designer
+ @param pageInfo - object that consist of "title" (page name) and "code" (page code) properties
+ */
+Cypress.Commands.add('openPageViaPageDesigner', (pageInfo) => {
+  cy.openPageFromMenu(['Pages', 'Designer']);
+  cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Page Tree').click();
+  cy.wait(500);
+  cy.getByTestId(TEST_ID_PAGE_DESIGNER.PAGE_TREE).contains(pageInfo.title).click();
+  cy.log('Select widgets tab');
+  cy.getByTestId(TEST_ID_PAGE_DESIGNER.CONFIG_TABS).contains('Widgets').click();
+  cy.validateUrlChanged(`/page/configuration/${pageInfo.code}`);
 });
 
 export {};
