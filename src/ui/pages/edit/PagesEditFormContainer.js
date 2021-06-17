@@ -52,7 +52,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     }).catch(() => {}),
   onWillMount: ({ pageCode }) => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
-    dispatch(fetchMyGroups());
+    dispatch(fetchMyGroups({ sort: 'name' }));
     dispatch(fetchPageTemplates({ page: 1, pageSize: 0 }));
     dispatch(fetchPageForm(pageCode));
   },
