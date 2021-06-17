@@ -27,7 +27,7 @@ describe('Microfrontends and Widgets', () => {
     cy.appBuilderLogout();
   });
 
-  /* describe('Widgets CRUD', () => {
+  describe('Widgets CRUD', () => {
     it('Adding a basic widget with icon', () => {
       cy.openPageFromMenu(['Components', 'MFE & Widgets']);
       cy.validateUrlChanged('/widget');
@@ -355,7 +355,7 @@ describe('Microfrontends and Widgets', () => {
       cy.publishPageClick();
       cy.wait(500);
     });
-  }); */
+  });
 
   describe('Widget Usage for CMS News Archive and News Latest', () => {
     const THE_PAGE = {
@@ -401,6 +401,128 @@ describe('Microfrontends and Widgets', () => {
     });
 
     it('Open Widget Details from the dropped CMS Search Results widget', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.openPageWidgetDetailsByFrame(WIDGET_FRAME_2.frameName);
+      cy.validateUrlChanged(`/widget/detail/${WIDGET_FRAME_2.widgetCode}`);
+    });
+
+    it('Test widget cleanup', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+      cy.deletePageWidgetByFrame(WIDGET_FRAME_1.frameName);
+      cy.deletePageWidgetByFrame(WIDGET_FRAME_2.frameName);
+      cy.publishPageClick();
+      cy.wait(500);
+    });
+  });
+
+  describe('Widget Usage for Page Widgets - Language and Logo', () => {
+    const THE_PAGE = {
+      title: 'Sitemap',
+      code: 'sitemap',
+    };
+
+    const WIDGET_FRAME_1 = {
+      frameName: 'Frame 2',
+      frameNum: 5,
+      widgetCode: 'language',
+      widgetName: 'Language',
+    };
+
+    const WIDGET_FRAME_2 = {
+      frameName: 'Frame 3',
+      frameNum: 6,
+      widgetCode: 'logo',
+      widgetName: 'Logo',
+    };
+
+    it('Basic add', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.log(`Add the widget to the page in ${WIDGET_FRAME_1.frameName}`);
+      cy.addWidgetToFrame(WIDGET_FRAME_1.widgetName, WIDGET_FRAME_1.frameName);
+      cy.wait(500);
+      cy.log(`Add the widget to the page in ${WIDGET_FRAME_2.frameName}`);
+      cy.addWidgetToFrame(WIDGET_FRAME_2.widgetName, WIDGET_FRAME_2.frameName);
+      cy.wait(500);
+      cy.getPageStatus().should('match', /^Published, with pending changes$/);
+      cy.publishPageClick();
+      cy.getPageStatus().should('match', /^Published$/);
+    });
+
+    it('Open Widget Details from the dropped Language widget', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.openPageWidgetDetailsByFrame(WIDGET_FRAME_1.frameName);
+      cy.validateUrlChanged(`/widget/detail/${WIDGET_FRAME_1.widgetCode}`);
+    });
+
+    it('Open Widget Details from the dropped Logo widget', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.openPageWidgetDetailsByFrame(WIDGET_FRAME_2.frameName);
+      cy.validateUrlChanged(`/widget/detail/${WIDGET_FRAME_2.widgetCode}`);
+    });
+
+    it('Test widget cleanup', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+      cy.deletePageWidgetByFrame(WIDGET_FRAME_1.frameName);
+      cy.deletePageWidgetByFrame(WIDGET_FRAME_2.frameName);
+      cy.publishPageClick();
+      cy.wait(500);
+    });
+  });
+
+  describe('Widget Usage for System Widgets - APIs and System Messages', () => {
+    const THE_PAGE = {
+      title: 'Sitemap',
+      code: 'sitemap',
+    };
+
+    const WIDGET_FRAME_1 = {
+      frameName: 'Frame 2',
+      frameNum: 5,
+      widgetCode: 'entando_apis',
+      widgetName: 'APIs',
+    };
+
+    const WIDGET_FRAME_2 = {
+      frameName: 'Frame 3',
+      frameNum: 6,
+      widgetCode: 'messages_system',
+      widgetName: 'System Messages',
+    };
+
+    it('Basic add', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.log(`Add the widget to the page in ${WIDGET_FRAME_1.frameName}`);
+      cy.addWidgetToFrame(WIDGET_FRAME_1.widgetName, WIDGET_FRAME_1.frameName);
+      cy.wait(500);
+      cy.log(`Add the widget to the page in ${WIDGET_FRAME_2.frameName}`);
+      cy.addWidgetToFrame(WIDGET_FRAME_2.widgetName, WIDGET_FRAME_2.frameName);
+      cy.wait(500);
+      cy.getPageStatus().should('match', /^Published, with pending changes$/);
+      cy.publishPageClick();
+      cy.getPageStatus().should('match', /^Published$/);
+    });
+
+    it('Open Widget Details from the dropped APIs widget', () => {
+      cy.openPageViaPageDesigner(THE_PAGE);
+      cy.wait(500);
+
+      cy.openPageWidgetDetailsByFrame(WIDGET_FRAME_1.frameName);
+      cy.validateUrlChanged(`/widget/detail/${WIDGET_FRAME_1.widgetCode}`);
+    });
+
+    it('Open Widget Details from the dropped System Messages widget', () => {
       cy.openPageViaPageDesigner(THE_PAGE);
       cy.wait(500);
 
