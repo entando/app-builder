@@ -36,7 +36,7 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: () => {
-    dispatch(fetchMyGroups());
+    dispatch(fetchMyGroups({ sort: 'name' }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchWidget(params.widgetCode));
   },

@@ -133,7 +133,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroupPermissions({ sort: 'group' }));
-    dispatch(fetchMyGroups());
+    dispatch(fetchMyGroups({ sort: 'name' }));
   },
   onInitPageForm: (data) => {
     const {
