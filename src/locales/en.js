@@ -771,6 +771,7 @@ export default {
     'componentRepository.categories.plugin': 'Microservices',
     'componentRepository.categories.contentModel': 'Content Templates',
     'componentRepository.categories.contentType': 'Content Types',
+    'componentRepository.categories.contentTemplate': 'Content Templates',
     'componentRepository.categories.bundle': 'Bundle',
     'componentRepository.extraFilters.explore': 'Explore',
     'componentRepository.extraFilters.popular': 'Popular',
