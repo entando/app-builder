@@ -74,21 +74,11 @@ const msgs = defineMessages({
   },
 });
 
-const validateJson = (value) => {
-  try {
-    if (value) {
-      JSON.parse(value);
-    }
-    return undefined;
-  } catch (e) {
-    return `Invalid JSON format: ${e.message}`;
-  }
-};
-
 export class WidgetFormBody extends Component {
   constructor() {
     super();
     this.portalContainer = null;
+    this.validateJson = this.validateJson.bind(this);
   }
 
   componentWillMount() {
@@ -101,6 +91,27 @@ export class WidgetFormBody extends Component {
 
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount();
+  }
+
+  validateJson(value) {
+    const { intl } = this.props;
+    try {
+      if (value) {
+        const parsed = JSON.parse(value);
+        if (!('customElement' in parsed)) {
+          return intl.formatMessage({ id: 'validateForm.widgetJSON.noCustomElement' });
+        } else if (typeof parsed.customElement !== 'string') {
+          return intl.formatMessage({ id: 'validateForm.widgetJSON.customElementString' });
+        } else if ('resources' in parsed && !Array.isArray(parsed.resources)) {
+          return intl.formatMessage({ id: 'validateForm.widgetJSON.resourcesInvalid' });
+        } else if (parsed.resources.some(resource => typeof resource !== 'string')) {
+          return intl.formatMessage({ id: 'validateForm.widgetJSON.resourcesNotString' });
+        }
+      }
+      return undefined;
+    } catch (e) {
+      return intl.formatMessage({ id: 'validateForm.widgetJSON.formatInvalid' });
+    }
   }
 
   renderTitleFields() {
@@ -242,7 +253,9 @@ export class WidgetFormBody extends Component {
 
     const isUserWidget = widget && widget.typology === 'user';
 
-    const configUiValidationRules = configUiRequired ? [validateJson, required] : [validateJson];
+    const configUiValidationRules = configUiRequired
+      ? [this.validateJson, required]
+      : [this.validateJson];
 
     return (
       <Spinner loading={!!loading}>
