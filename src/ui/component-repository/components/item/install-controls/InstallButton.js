@@ -71,7 +71,7 @@ const InstallButton = ({
           : (
             <Button
               bsStyle="primary"
-              onClick={() => onInstall(component)}
+              onClick={() => onInstall(component, (component.latestVersion || {}).version)}
             >
               <FormattedMessage id="componentRepository.components.install" />
             </Button >
