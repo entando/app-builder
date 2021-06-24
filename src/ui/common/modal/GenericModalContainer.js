@@ -17,6 +17,20 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const GenericModalContainer = connect(mapStateToProps, mapDispatchToProps)(GenericModal);
+export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+  onCloseModal: () => {
+    dispatchProps.onCloseModal();
+    if (ownProps.onCloseModal) ownProps.onCloseModal();
+  },
+});
+
+const GenericModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(GenericModal);
 
 export default GenericModalContainer;
