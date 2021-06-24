@@ -1,5 +1,5 @@
 import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps, mergeProps } from 'ui/common/modal/GenericModalContainer';
+import { mapStateToProps, mapDispatchToProps } from 'ui/common/modal/GenericModalContainer';
 
 import { MODAL_VISIBILITY, MODAL_INFO } from 'test/mocks/modal';
 
@@ -26,23 +26,6 @@ describe('GenericModalContainer', () => {
       expect(props.onCloseModal).toBeDefined();
       props.onCloseModal();
       expect(dispatchMock).toHaveBeenCalled();
-    });
-  });
-
-  describe('mergeProps', () => {
-    it('should merge state, dispatch, and own props', () => {
-      const onCloseModalMock = jest.fn();
-      dispatchMock.mockClear();
-      const props = mergeProps(
-        mapStateToProps(TEST_STATE),
-        mapDispatchToProps(dispatchMock),
-        { onCloseModal: onCloseModalMock },
-      );
-      expect(props).toHaveProperty('visibleModal', MODAL_VISIBILITY.visibleModal);
-      expect(props).toHaveProperty('onCloseModal');
-      props.onCloseModal();
-      expect(dispatchMock).toHaveBeenCalled();
-      expect(onCloseModalMock).toHaveBeenCalled();
     });
   });
 });

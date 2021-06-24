@@ -95,7 +95,7 @@ const FindTemplateModal = ({
       modalTitle={modalTitle}
       modalClassName="FindTemplateModal__modal"
       buttons={[saveButton]}
-      onCloseModal={handleModalClose}
+      modalCloseCleanup={handleModalClose}
     >
       <Spinner loading={!!loading}>
         <Row>
