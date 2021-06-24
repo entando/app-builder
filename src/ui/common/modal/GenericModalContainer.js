@@ -17,6 +17,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const GenericModalContainer = connect(mapStateToProps, mapDispatchToProps)(GenericModal);
+const GenericModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GenericModal);
 
 export default GenericModalContainer;

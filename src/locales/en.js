@@ -488,6 +488,7 @@ export default {
     'pages.pageForm.pageTemplate': 'Page Template',
     'pages.pageForm.pageTemplateHelp': 'Select a page template',
     'pages.pageForm.findTemplate': 'Select template',
+    'pages.pageForm.chooseTemplate': 'Choose a page template',
     'pages.pageForm.displayedInMenu': 'Displayed in menu',
     'pages.pageForm.displayedInMenuHelp': 'Show this page in menu',
     'pages.pageForm.seo': 'SEO',

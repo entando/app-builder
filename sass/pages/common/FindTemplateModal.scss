@@ -1,6 +1,6 @@
 .FindTemplateModal {
   &__template-list {
-    height: 540px;
+    height: 372px;
     padding: 0;
     list-style: none;
     overflow-y: auto;
@@ -15,8 +15,12 @@
   &__template-list-li {
     display: inline-block;
     position: relative;
-    width: 132px;
+    width: 133px;
     margin: 10px;
+
+    &--selected {
+      border: 1px solid #7dc3e8;
+    }
   }
 
   &__dropdown-kebab {
@@ -26,10 +30,15 @@
   }
 
   &__modal {
-    width: 650px;
+    width: 672px;
   }
 
   &__caption {
     margin-top: 10px;
+  }
+
+  &__search-input {
+    width: 50%;
+    margin: 22px;
   }
 }
