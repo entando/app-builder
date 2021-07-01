@@ -218,7 +218,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
           dispatch(setPageLoaded(pageCode));
           if (
             pageCode === APP_TOUR_HOMEPAGE_CODEREF &&
-            getAppTourProgress(state) === APP_TOUR_STARTED
+            getAppTourProgress(state) !== APP_TOUR_CANCELLED
           ) {
             dispatch(setExistingPages(pages));
           }
