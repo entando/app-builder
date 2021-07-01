@@ -45,7 +45,7 @@ const InstallationPlanTable = ({
             status,
             action,
             }) => (
-              <tr key={component} className={cx(requiredList.includes(component) && 'InstallationPlanTable__is-required')}>
+              <tr key={`${category}-${component}`} className={cx(requiredList.includes(component) && 'InstallationPlanTable__is-required')}>
                 <td>{category}</td>
                 <td>{component}</td>
                 <td style={{ textAlign: 'center' }}>
