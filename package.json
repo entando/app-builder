@@ -105,8 +105,6 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "cypress:run": "cypress run --browser chrome",
-    "cypress:run:headless": "npm run cypress:run -- --headless",
     "lint": "eslint ./src",
     "coverage": "node scripts/test.js --env=jsdom --coverage",
     "sass-lint": "sass-lint -v",
@@ -140,9 +138,6 @@
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "testPathIgnorePatterns": [
-      "<rootDir>/test/cypress"
-    ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
     ],
@@ -230,14 +225,11 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@4tw/cypress-drag-drop": "^1.6.0",
     "@testing-library/dom": "^7.26.5",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^12.8.1",
     "commander": "^3.0.2",
-    "cypress": "4.10.0",
-    "cypress-file-upload": "^5.0.3",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest-enzyme": "^6.1.2",
