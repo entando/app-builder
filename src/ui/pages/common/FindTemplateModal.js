@@ -38,7 +38,7 @@ const FindTemplateModal = ({
   const renderRows = () => (
     pageTemplates
       .filter(({ code, descr }) =>
-        !searchValue || code.startsWith(searchValue) || descr.startsWith(searchValue))
+        !searchValue || code.includes(searchValue) || descr.includes(searchValue))
       .map(({ code, descr }) => (
         <li
           key={code}
