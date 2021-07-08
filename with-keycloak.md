@@ -32,6 +32,7 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 <keycloak.auth.url>http://localhost:8081/auth</keycloak.auth.url>
 <keycloak.realm>entando-development</keycloak.realm>
 <keycloak.client.id>entando-core</keycloak.client.id>
+<keycloak.public.client.id>entando-web</keycloak.public.client.id>
 <keycloak.client.secret>YOUR SECRET HERE from KEYCLOAK</keycloak.client.secret>
 ```
 As for secret you need to go to keycloak , then go to `Clients/entando-core` and click `Credentials` tab, there you will see a secret and put that secret into `pom.xml` . As for other lines, you can keep them same as in the snippet above.
