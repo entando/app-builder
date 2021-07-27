@@ -73,6 +73,7 @@ class RenderDropdownTypeaheadInput extends Component {
           e.preventDefault();
           onClick(e);
         }}
+        disabled={others.disabled}
       />
     );
 
