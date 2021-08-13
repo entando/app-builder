@@ -302,6 +302,7 @@ describe('Component repository reducer', () => {
         const componentCode = LIST_ECR_COMPONENTS_OK[itemId].code;
         expect(state.list).toHaveLength(5);
         expect(state.list[itemId]).toHaveProperty('installed', false);
+        expect(state.list[itemId]).toHaveProperty('customInstallation', true);
         state = reducer(state, finishComponentInstallation(componentCode));
         expect(state.list).toHaveLength(5);
         expect(state.list[itemId]).toHaveProperty('code', componentCode);

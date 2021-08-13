@@ -42,7 +42,7 @@ export const LIST_ECR_COMPONENTS_OK = [
       version: 'v0.0.2',
     },
     installed: false,
-    customInstallation: null,
+    customInstallation: true,
   },
   {
     code: 'installed-example-bundle',

@@ -96,7 +96,14 @@ const markComponentInstalledStatus = (state, componentCode, installed, installed
   if (componentIndex === -1) {
     return state;
   }
-  return updateComponentInfo(state, componentIndex, { installed, installedJob });
+  return updateComponentInfo(
+    state, componentIndex,
+    {
+      installed,
+      customInstallation: installedJob ? installedJob.customInstallation : false,
+      installedJob,
+    },
+  );
 };
 
 const markComponentAsInstalled = (state, componentCode, installedJob) => (
