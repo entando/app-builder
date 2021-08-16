@@ -319,7 +319,7 @@ export const updateAllActions = (installPlan, type) =>
         ...acc2,
         [key2]: {
           ...installPlan[key][key2],
-          action: installPlan[key][key2].status === 'NEW' ? 'CREATE' : type,
+          action: installPlan[key][key2].status === 'NEW' ? 'CREATE' : type || installPlan[key][key2].action,
         },
       }), {});
 

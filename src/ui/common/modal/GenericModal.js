@@ -4,7 +4,8 @@ import { Modal, Icon, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
 const GenericModal = ({
-  visibleModal, modalId, modalClassName, onCloseModal, children, buttons, modalFooter, modalTitle,
+  visibleModal, modalId, modalClassName, onCloseModal,
+  children, buttons, modalFooter, modalTitle, closeLabel,
 }) => {
   const footer = modalFooter || (
     <Modal.Footer>
@@ -13,7 +14,7 @@ const GenericModal = ({
         className="btn-cancel"
         onClick={onCloseModal}
       >
-        <FormattedMessage id="app.cancel" />
+        <FormattedMessage id={closeLabel || 'app.cancel'} />
       </Button>
       {buttons.map(button => (<Button {...button.props} key={button.props.id} />))}
     </Modal.Footer>
@@ -54,6 +55,7 @@ GenericModal.propTypes = {
   children: PropTypes.node.isRequired,
   modalFooter: PropTypes.node,
   buttons: PropTypes.arrayOf(PropTypes.node),
+  closeLabel: PropTypes.string,
 };
 
 GenericModal.defaultProps = {
@@ -62,6 +64,7 @@ GenericModal.defaultProps = {
   modalTitle: '',
   modalFooter: '',
   buttons: [],
+  closeLabel: undefined,
 };
 
 export default GenericModal;
