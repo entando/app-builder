@@ -56,7 +56,7 @@ const InstallationPlanTable = ({
                 <td>
                   {
                     readOnly
-                    ? action || ''
+                    ? <FormattedMessage id={`componentRepository.${ACTIONS[action]}`} /> || ''
                     :
                     <DropdownButton
                       id="InstallationPlanTable__dropdown-button"
