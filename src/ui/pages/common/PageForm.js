@@ -18,6 +18,7 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -279,6 +280,14 @@ export class PageFormBody extends Component {
       );
     };
 
+    const onSaveClick = (values, action) => {
+      const data = {
+        ...values,
+        titles: complementTitlesForActiveLanguages(values.titles, languages),
+      };
+      return this.props.onSubmit(data, action);
+    };
+
     return (
       <form className="PageForm form-horizontal">
         <Row>
@@ -356,7 +365,10 @@ export class PageFormBody extends Component {
                   bsStyle="success"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values =>
-                    this.props.onSubmit({ ...values, appTourProgress }, ACTION_SAVE_AND_CONFIGURE))}
+                    onSaveClick(
+                      { ...values, appTourProgress },
+                      ACTION_SAVE_AND_CONFIGURE,
+                  ))}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
@@ -368,7 +380,7 @@ export class PageFormBody extends Component {
                   bsStyle="primary"
                   disabled={invalid || submitting}
                   onClick={handleSubmit(values =>
-                  this.props.onSubmit(values, ACTION_SAVE))}
+                    onSaveClick(values, ACTION_SAVE))}
                 >
                   <FormattedMessage id="app.save" />
 

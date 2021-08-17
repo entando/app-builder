@@ -24,6 +24,23 @@ import { fetchMyGroupPermissions } from 'state/permissions/actions';
 import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 
+export const getDefaultLanguage = (languages) => {
+  const defaultLang = { code: 'en' };
+  if (!languages || languages.length === 0) return defaultLang;
+  const defaultFiltered = languages.filter(lang => lang.isDefault);
+  if (defaultFiltered && defaultFiltered.length > 0) return defaultFiltered[0];
+  return defaultLang;
+};
+
+export const complementTitlesForActiveLanguages = (existingTitles, languages) => {
+  const defaultLang = getDefaultLanguage(languages);
+  const defaultLangTitle = existingTitles && existingTitles[defaultLang.code];
+  return languages.reduce((acc, curr) => ({
+    ...acc,
+    [curr.code]: existingTitles[curr.code] || defaultLangTitle,
+  }), {});
+};
+
 const getNextPageProperty = ({
   pages,
   property,
