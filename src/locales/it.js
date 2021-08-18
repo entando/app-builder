@@ -747,6 +747,7 @@ export default {
     'componentRepository.components.notFound': 'Nessun componente disponibile',
     'componentRepository.des.notFound': 'Nessun component repository è stato ancora registrato. Per aggiungere un nuovo component repository fai clic sull\'icona a forma di ingranaggio nell\'angolo in alto a destra di questa pagina',
     'componentRepository.components.install': 'Installa',
+    'componentRepository.components.update': 'Aggiornare',
     'componentRepository.components.installRollback': 'Installazione non riuscita. L\'installazione è stata ripristinata',
     'componentRepository.components.installing': 'Installazione {version}',
     'componentRepository.components.uninstalling': 'Disinstallazione {version}',

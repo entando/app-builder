@@ -43,6 +43,14 @@
     text-align: center;
   }
 
+  &__buttons-container {
+    display: flex;
+
+    & > div {
+      margin-right: 10px;
+    }
+  }
+
   &__component-body {
     display: flex;
     flex-direction: column;
@@ -79,7 +87,7 @@
   &__component-footer {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding-top: 20px;
     border-top: solid 1px $color-grey-border;
     vertical-align: middle;
@@ -106,6 +114,10 @@
     font-size: 14px;
     font-weight: bold;
     line-height: normal;
+  }
+
+  &__version-container {
+    display: flex;
   }
 
   &__version {
@@ -183,6 +195,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    width: 100%;
     height: 100%;
   }
 }

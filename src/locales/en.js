@@ -747,6 +747,7 @@ export default {
     'componentRepository.components.notFound': 'No component available',
     'componentRepository.des.notFound': 'No component repository have been registered yet, to add a new component repository click on the gear icon on the top-right corner of this page',
     'componentRepository.components.install': 'Install',
+    'componentRepository.components.update': 'Update',
     'componentRepository.components.installRollback': 'Installation has failed. The install has been rolled back',
     'componentRepository.components.installing': 'Installing {version}',
     'componentRepository.components.uninstalling': 'Uninstalling {version}',

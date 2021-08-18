@@ -26,6 +26,7 @@ const InstallButton = ({
   onInstall,
   progress,
   intl,
+  update,
 }) => {
   const installing = jobProgressStatuses.includes(installationStatus);
   const uninstalling = jobProgressStatuses.includes(uninstallStatus);
@@ -50,6 +51,11 @@ const InstallButton = ({
   }
 
   const showVersionDropdown = Array.isArray(component.versions) && component.versions.length > 1;
+  const label = `componentRepository.components.${update ? 'update' : 'install'}`;
+
+  if (update && component.versions && component.versions.length <= 1) {
+    return null;
+  }
 
   return (
     <div className="ComponentListInstallButtons">
@@ -61,7 +67,7 @@ const InstallButton = ({
               onSelect={version => onInstall(component, version)}
               onClick={() => onInstall(component, (component.latestVersion || {}).version)}
               id={component.code}
-              title={<FormattedMessage id="componentRepository.components.install" />}
+              title={<FormattedMessage id={label} />}
             >
               {component.versions.map(({ version }) => (
                 <MenuItem key={version} eventKey={version}>{version}</MenuItem>
@@ -73,7 +79,7 @@ const InstallButton = ({
               bsStyle="primary"
               onClick={() => onInstall(component, (component.latestVersion || {}).version)}
             >
-              <FormattedMessage id="componentRepository.components.install" />
+              <FormattedMessage id={label} />
             </Button >
           )
         }
@@ -89,6 +95,11 @@ InstallButton.propTypes = {
   uninstallStatus: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
   selectedVersion: PropTypes.string.isRequired,
+  update: PropTypes.bool,
+};
+
+InstallButton.defaultProps = {
+  update: false,
 };
 
 export default injectIntl(InstallButton);
