@@ -53,10 +53,23 @@ const ComponentInstallActions = ({
   }
 
   const renderedButton = (component.installed && uninstallStatus === '')
-    ? (<UninstallButton
-      component={component}
-      onClickUninstall={onClickUninstall}
-    />)
+    ? (
+      <div className="ComponentList__buttons-container">
+        <InstallButton
+          component={component}
+          onInstall={handleInstall}
+          uninstallStatus={uninstallStatus}
+          installationStatus={installationStatus}
+          progress={progress}
+          selectedVersion={selectedVersion}
+          update
+        />
+        <UninstallButton
+          component={component}
+          onClickUninstall={onClickUninstall}
+        />
+      </div>
+    )
     : (
       <InstallButton
         component={component}

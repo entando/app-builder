@@ -718,6 +718,7 @@ export default {
     'componentRepository.sidebar.categoryFilterTitle': 'Categorias',
     'componentRepository.components.latestVersion': 'Última Versão',
     'componentRepository.components.install': 'Instalar',
+    'componentRepository.components.update': 'Atualizar',
     'componentRepository.components.installRollback': 'A instalação falhou. A instalação foi revertida',
     'componentRepository.components.installing': 'Instalando {version}',
     'componentRepository.components.uninstalling': 'Desinstalando {version}',

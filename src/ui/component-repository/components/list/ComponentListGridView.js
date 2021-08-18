@@ -54,14 +54,14 @@ const ComponentListGridView = ({ components, onClickInstallPlan }) => (
                   </div>
               }
               <p className="ComponentList__description">{component.description}</p>
-            </div>
-            <div className="ComponentList__component-footer">
-              <div>
+              <div className="ComponentList__version-container">
                 <FormattedMessage id="componentRepository.components.latestVersion" />{':'}&nbsp;
                 <span className="ComponentList__version">
                   {(component.latestVersion || {}).version}
                 </span>
               </div>
+            </div>
+            <div className="ComponentList__component-footer">
               <ComponentInstallActionsContainer component={component} />
             </div>
           </div>
