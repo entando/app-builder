@@ -21,8 +21,8 @@ import { getUserPreferences } from 'state/user-preferences/selectors';
 import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
 import { getMyGroupPermissions } from 'state/permissions/selectors';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
-import { fetchMyGroups } from 'state/groups/actions';
-import { getGroupsList } from 'state/groups/selectors';
+import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
+import { getGroupEntries, getGroupsList } from 'state/groups/selectors';
 
 export const getDefaultLanguage = (languages) => {
   const defaultLang = { code: 'en' };
@@ -81,6 +81,7 @@ export const getNextPageCode = ({ pages, pattern, separator }) => getNextPagePro
 export const mapStateToProps = (state) => {
   const languages = getActiveLanguages(state);
   const groups = getGroupsList(state);
+  const allGroups = getGroupEntries(state);
   const seoDataByLang = languages.reduce((acc, curr) => ({
     ...acc,
     [curr.code]: { ...SEO_LANGDATA_BLANK },
@@ -106,6 +107,7 @@ export const mapStateToProps = (state) => {
   return {
     languages,
     groups,
+    allGroups,
     pageTemplates: getPageTemplatesList(state),
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
@@ -150,6 +152,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(loadSelectedPage(data.parentCode));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroupPermissions({ sort: 'group' }));
+    dispatch(fetchAllGroupEntries());
     dispatch(fetchMyGroups({ sort: 'name' }));
   },
   onInitPageForm: (data) => {

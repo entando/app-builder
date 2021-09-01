@@ -48,7 +48,7 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl, handleSubmit, invalid, submitting, groups, pageTemplates,
+      intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
       onChangeOwnerGroup, readOnly, stayOnSave, form,
@@ -142,7 +142,7 @@ export class PageFormBody extends Component {
                 component={RenderDropdownTypeaheadInput}
                 name="joinGroups"
                 label={<FormLabel labelId="pages.pageForm.joinGroup" />}
-                options={groups}
+                options={allGroups}
                 labelKey="name"
                 valueKey="code"
                 placeholder={intl.formatMessage(msgs.chooseOptions)}
@@ -409,6 +409,10 @@ PageFormBody.propTypes = {
     isDefault: PropTypes.bool,
   })).isRequired,
   groups: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  allGroups: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
