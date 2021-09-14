@@ -322,7 +322,11 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
                 dispatch(toggleConflictsModal(true, installPlan, component, version));
               }
             });
-          }).catch(() => {
+          }).catch((error) => {
+            if (error && error.message) {
+              dispatch(addErrors([error.message]));
+              dispatch(addToast(error.message, TOAST_ERROR));
+            }
             dispatch(toggleLoading(loadingId));
           });
       }
