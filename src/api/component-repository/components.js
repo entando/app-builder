@@ -9,10 +9,10 @@ import {
   COMPONENT_INSTALL_PLAN,
   GET_COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
-import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getECRComponent = code => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${code}`,
     domain: '/digital-exchange',
     method: METHODS.GET,
@@ -22,7 +22,7 @@ export const getECRComponent = code => (
 );
 
 export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') => (
-  makeMockRequest(
+  makeRequest(
     {
       uri: `/components${params}`,
       domain: '/digital-exchange',
@@ -81,7 +81,7 @@ export const getComponentUsage = code => (
 // INSTALL PLAN API
 // new install endpoint
 export const putECRComponentInstallPlan = (component, body) => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${component.code}/installplans`,
     domain: '/digital-exchange',
     body,
@@ -93,7 +93,7 @@ export const putECRComponentInstallPlan = (component, body) => (
 
 // request the install plan for a component
 export const postECRComponentInstallPlan = (component, version = 'latest') => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${component.code}/installplans`,
     domain: '/digital-exchange',
     body: { version },
@@ -104,7 +104,7 @@ export const postECRComponentInstallPlan = (component, version = 'latest') => (
 );
 
 export const getECRComponentInstallPlan = code => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${code}/installplans`,
     domain: '/digital-exchange',
     method: METHODS.GET,
