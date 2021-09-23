@@ -1668,5 +1668,9 @@ export default {
     'cms.language.zh': 'Chinese - Traditional',
     'cms.language.zhs': 'Chinese - Simplified',
     'cms.language.zu': 'Zulu',
+    'hub.newRegistry': 'New Registry',
+    'hub.selectRegistry': 'Select Registry',
+    'hub.localRegistry.title': 'Local Registry',
+    'hub.localRegistry.description': 'This is a local registry where all your deployed bundles are appearing as well as ECR components',
   },
 };

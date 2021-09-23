@@ -1,0 +1,99 @@
+.HubRegistrySwitcher {
+  &__body {
+    display: flex;
+    height: 112px;
+    margin-bottom: 29px;
+    padding-top: 17px;
+    padding-right: 19px;
+    padding-left: 14px;
+    border: solid 1px $color-light-grey-border;
+    background: $color-white;
+  }
+
+  &__title {
+    color: $color-ecr-list-icon-active;
+    font-family: "Open Sans";
+    font-size: 22px;
+    font-style: normal;
+    line-height: 30px;
+  }
+
+  &__description {
+    margin-top: 20px;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 2px;
+    text-align: left;
+  }
+
+  &__switcher-label {
+    display: flex;
+    margin-top: 2px;
+    margin-right: 10px;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-align: right;
+  }
+
+  &__trash {
+    float: right;
+  }
+
+  &__action-label {
+    display: inline-block;
+    width: 190px;
+    margin-left: 0;
+    padding-left: 25px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &--new {
+      padding-left: 5px;
+      color: $color-mid-blue;
+      font-family: "Open Sans";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 16px;
+    }
+  }
+
+  &__kebab-menu-item {
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    a {
+      //sass-lint:disable no-important
+      display: flex !important;
+    }
+
+    &--new {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      background: $color-grey-background;
+    }
+  }
+
+  &__switcher-dropdown {
+    div {
+      //sass-lint:disable nesting-depth
+      ul {
+        width: 235px;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  &__switcher {
+    display: flex;
+    margin-top: 10px;
+    margin-left: auto;
+  }
+}
