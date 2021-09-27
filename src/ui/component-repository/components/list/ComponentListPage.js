@@ -9,6 +9,8 @@ import { ENTER_ECR_PERMISSION, SUPERUSER_PERMISSION } from 'state/permissions/co
 import { ROUTE_ECR_COMPONENT_LIST, ROUTE_ECR_CONFIG_LIST } from 'app-init/router';
 import InstallationPlanModal from 'ui/component-repository/components/InstallationPlanModal';
 import ComponentListWrapper from 'ui/component-repository/components/list/ComponentListWrapper';
+import AddNewRegistryModal from 'ui/component-repository/components/list/AddNewRegistryModal';
+import DeleteRegistryModalContainer from 'ui/component-repository/components/list/DeleteRegistryModalContainer';
 
 export const ComponentListPageBody = () => (
   <InternalPage className="ComponentListPage">
@@ -33,6 +35,8 @@ export const ComponentListPageBody = () => (
       <ComponentListWrapper />
     </Grid>
     <InstallationPlanModal />
+    <AddNewRegistryModal />
+    <DeleteRegistryModalContainer />
   </InternalPage>
 );
 

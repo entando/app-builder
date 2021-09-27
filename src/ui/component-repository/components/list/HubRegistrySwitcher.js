@@ -6,17 +6,33 @@ import { FormattedMessage } from 'react-intl';
 import { fetchRegistries, setActiveRegistry } from 'state/component-repository/hub/actions';
 import { getRegistries, getSelectedRegistry } from 'state/component-repository/hub/selectors';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
+import { setVisibleModal, setInfo } from 'state/modal/actions';
+import { ADD_NEW_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/AddNewRegistryModal';
+import { DELETE_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/DeleteRegistryModal';
 
 const HubRegistrySwitcher = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const registries = useSelector(getRegistries);
   const dispatch = useDispatch();
+
   const handleRegistryChange = ((registry) => {
     if (registry.name !== activeRegistry.name) {
       dispatch(setActiveRegistry(registry));
     }
   });
-  useEffect(() => dispatch(fetchRegistries()), [dispatch]);
+
+  const handleNewRegistryClick = () => {
+    dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
+    dispatch(setInfo({ type: 'Registry' }));
+  };
+
+  const handleDeleteRegistry = (registryName) => {
+    if (activeRegistry.name === registryName) return;
+    dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
+    dispatch(setInfo({ type: 'Registry', code: registryName }));
+  };
+
+  useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
   return (
     <Row className="HubRegistrySwitcher">
       <Col md={12}>
@@ -39,6 +55,7 @@ const HubRegistrySwitcher = () => {
                   registries.map(reg => (
                     <MenuItem
                       id={reg.name}
+                      key={reg.name}
                       className="HubRegistrySwitcher__kebab-menu-item"
                       onClick={() => handleRegistryChange(reg)}
                       disabled={reg.name === activeRegistry.name}
@@ -52,8 +69,8 @@ const HubRegistrySwitcher = () => {
                             role="button"
                             tabIndex={-1}
                             className="HubRegistrySwitcher__trash"
-                            onClick={() => console.log('trash clicked')}
-                            onKeyDown={() => console.log('trash clicked')}
+                            onClick={() => handleDeleteRegistry(reg.name)}
+                            onKeyDown={() => handleDeleteRegistry(reg.name)}
                           >
                             <Icon size="lg" name="trash" />
                           </div>
@@ -65,10 +82,7 @@ const HubRegistrySwitcher = () => {
                 <MenuItem
                   id="addNewRegistry"
                   className="HubRegistrySwitcher__kebab-menu-item--new"
-                  onClick={() => {}}
-                  disabled={false}
-                  divider={false}
-                  header={false}
+                  onClick={handleNewRegistryClick}
                 >
                   <div className="HubRegistrySwitcher__action-label--new">
                     <FormattedMessage id="hub.newRegistry" />

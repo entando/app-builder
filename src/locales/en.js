@@ -1672,5 +1672,9 @@ export default {
     'hub.selectRegistry': 'Select Registry',
     'hub.localRegistry.title': 'Local Registry',
     'hub.localRegistry.description': 'This is a local registry where all your deployed bundles are appearing as well as ECR components',
+    'hub.newRegistry.name': 'Name',
+    'hub.newRegistry.url': 'URL',
+    'hub.newRegistry.name.error': 'Registry name must be unique',
+    'hub.newRegistry.url.error': 'Registry URL must be unique',
   },
 };
