@@ -18,7 +18,7 @@ const parseVersion = (version) => {
   if (typeof version !== 'string') {
     return '0.0.0';
   }
-  return version.split('v')[1];
+  return version.indexOf('v') > 0 ? version.split('v')[1] : version;
 };
 
 const ComponentInstallActions = ({
@@ -39,10 +39,12 @@ const ComponentInstallActions = ({
   const latestVersion = (component.latestVersion || {}).version;
 
   const [selectedVersion, setSelectedVersion] = useState(latestVersion);
+  const [isConflictVersion, setIsConflictVersion] = useState(false);
 
   const handleInstall = (componentToInstall, version) => {
     setSelectedVersion(version || latestVersion);
     onInstall(componentToInstall, version);
+    setIsConflictVersion(false);
   };
 
   const handleUpdate = (componentToInstall, version) => {
@@ -51,6 +53,10 @@ const ComponentInstallActions = ({
       && parseVersion(version) < parseVersion(component.installedJob.componentVersion)) {
       setSelectedVersion(version || latestVersion);
       dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
+    } else if (parseVersion(version) === parseVersion(component.installedJob.componentVersion)) {
+      setSelectedVersion(version || latestVersion);
+      dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
+      setIsConflictVersion(true);
     } else {
       handleInstall(componentToInstall, version);
     }
@@ -120,6 +126,8 @@ const ComponentInstallActions = ({
         onConfirm={handleInstall}
         selectedVersion={selectedVersion}
         component={component}
+        isConflictVersion={isConflictVersion}
+        cleanUp={() => setIsConflictVersion(false)}
       />
     </div>
   );
