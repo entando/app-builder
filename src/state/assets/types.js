@@ -1,0 +1,11 @@
+export const SET_ASSET_CATEGORY_FILTER = 'assets/set-asset-category-filter';
+export const SET_ASSETS = 'assets/set-assets';
+export const SET_ACTIVE_FILTERS = 'assets/set-active-filters';
+export const SET_LIST_FILTER_PARAMS = 'assets/set-list-filter-params';
+export const REMOVE_ACTIVE_FILTER = 'assets/remove-active-filter';
+export const FILE_TYPE_CHANGE = 'assets/file-type-change';
+export const ASSETS_VIEW_CHANGE = 'assets/assets-view-change';
+export const SET_ASSET_SYNC = 'assets/set-asset-sync';
+export const SET_ASSET_SEARCH_KEYWORD = 'assets/set-assets-search-keyword';
+export const RESET_FILTERING_CATEGORIES = 'assets/reset-filtering-categories';
+export const SET_ASSET_COUNT = 'assets/set-asset-count';

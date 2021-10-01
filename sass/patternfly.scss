@@ -36,12 +36,16 @@ $color-ecr-list-icon: #BBBBBB;
 $color-ecr-component-border: #C3C3C3;
 $color-vmenu-header-bg-grey: #1D1D1D;
 $color-vmenu-header-text-grey: #c1c1c1;
+$dark-color-separator: #aaabad;
+$light-color-separator: #e5e5e5;
+$color-row-selected: #def3ff;
 $color-primary: #002F87;
 $color-primary-dark: #032a73;
 $color-published: #6CA100;
 $color-unpublished: #A6A6A6;
 $color-draft: #F0AB00;
 $color-mid-blue: #0088CE;
+$color-mid-blue-semi: rgba(0,136,206,.6);
 $color-row-selected: #def3ff;
 $color-tour-primary: #00A0DF;
 $color-border-gray: #BBBBBB;
@@ -162,6 +166,12 @@ $fa-square-o: "\f096";
 .scroll-overlay {
   margin-right: calc(-1 * (100vw - 100%));
   overflow-x: hidden;
+}
+
+.overflow-ellipsis {
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 // sass-lint:enable class-name-format

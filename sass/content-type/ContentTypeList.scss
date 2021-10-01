@@ -1,0 +1,36 @@
+.ContentTypeList {
+  &__filter {
+    padding-top: 24px;
+  }
+
+  &__wrap {
+    margin-top: 3.4rem;
+  }
+
+  &__addbutton {
+    width: 100%;
+    font-weight: 300;
+  }
+
+  &__table {
+    margin-bottom: 0;
+  }
+
+  &__td {
+    height: 30px;
+    line-height: 30px;
+  }
+
+  &__statusicon {
+    font-family: FontAwesome;
+
+    &--check {
+      color: $color-pf-green;
+    }
+
+    &--exclamation {
+      color: $color-pf-green;
+    }
+  }
+
+}

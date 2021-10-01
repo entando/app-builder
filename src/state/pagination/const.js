@@ -1,0 +1,10 @@
+export const NAMESPACE_GLOBAL = 'global';
+export const NAMESPACE_CONTENTS = 'contents';
+export const NAMESPACE_ASSETS = 'assets';
+export const NAMESPACE_CONTENT_TYPES = 'contentTypes';
+export const NAMESPACE_CONTENT_TEMPLATES = 'contentTemplates';
+export const NAMESPACE_GROUPS = 'groups';
+export const NAMESPACE_PERMISSIONS = 'permissions';
+export const NAMESPACE_VERSIONING = 'versioning';
+export const NAMESPACE_VERSION_HISTORY = 'versionHistory';
+export const NAMESPACE_USERS = 'users';

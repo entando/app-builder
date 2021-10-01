@@ -1,0 +1,28 @@
+.AddContentTemplateForm {
+  &__required-icon {
+    margin-left: 3px;
+    font-size: 8px;
+    vertical-align: super;
+  }
+
+  &__required-fields {
+    color: $color-pf-black-300;
+    font-size: 12px;
+  }
+
+  &__editassistbtn.btn { // sass-lint:disable-line class-name-format force-element-nesting
+    margin-bottom: 8px;
+  }
+}
+
+.modal-open .AddContentTemplateForm { // sass-lint:disable-line force-element-nesting class-name-format
+  &__editassistmodal.modal { // sass-lint:disable-line force-element-nesting class-name-format
+    height: 0;
+    overflow-x: unset;
+    overflow-y: unset;
+  }
+
+  &__editassistmodal .modal-title { // sass-lint:disable-line force-element-nesting class-name-format
+    cursor: move;
+  }
+}

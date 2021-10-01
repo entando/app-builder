@@ -1,0 +1,18 @@
+.CMSPageTitle {
+  &__header {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ededed;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  &__icon {
+    margin-left: 2.8rem;
+    color: $color-pf-black-500;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,18 @@
+.RenderTextAreaInput {
+  &__toolbar-body {
+    padding: 6px;
+    background: $color-offwhite;
+
+    & + textarea { // sass-lint:disable-line nesting-depth
+      resize: vertical;
+    }
+  }
+
+  &__textarea-body {
+    border: 1px solid $color-vertical-grey;
+
+    & > textarea { // sass-lint:disable-line nesting-depth
+      border: 0;
+    }
+  }
+}

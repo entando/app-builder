@@ -1,0 +1,55 @@
+.SectionTitle {
+  width: 100%;
+  padding: 20px 0;
+  outline: none;
+  font-size: 16px;
+  line-height: inherit;
+  text-transform: capitalize;
+
+  &__emphasize-caption,
+  &__non-collapsable {
+    margin-bottom: 30px;
+    padding-bottom: 0;
+    border-bottom: 1px solid $light-color-separator;
+    font-size: 18px;
+  }
+
+  &__emphasize-caption {
+    margin-bottom: 20px;
+    padding: 0;
+
+    .SectionTitle__collapse-button {
+      margin-right: 14px;
+    }
+  }
+
+  &__collapse-icon-end {
+    .SectionTitle__collapse-button {
+      margin-left: 14px;
+    }
+  }
+
+  &__collapse-button {
+    width: 14px;
+    height: 14px;
+    margin-right: 28px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  &__tip {
+    margin-top: 10px;
+    float: right;
+    color: $dark-color-separator;
+    font-size: 12px;
+    text-align: end;
+  }
+}
+
+.SectionTitle__tip {
+  margin-top: 10px;
+  float: right;
+  color: $dark-color-separator;
+  font-size: 12px;
+  text-align: end;
+}

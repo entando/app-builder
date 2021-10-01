@@ -1,0 +1,20 @@
+.RenderListField {
+  &__topcontrol--has-items {
+    margin-bottom: 20px !important; // sass-lint:disable-line no-important 
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-ultra-grey-border;
+  }
+
+  &__heading {
+    padding: 0;
+  }
+
+  &__body {
+    margin-left: 130px;
+  }
+
+  &__item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid $color-ultra-grey-border;
+  }
+}

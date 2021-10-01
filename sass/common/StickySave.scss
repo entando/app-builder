@@ -1,0 +1,83 @@
+.StickySave {
+  &__sidetop {
+    position: absolute;
+    top: -100px;
+    right: 0;
+    left: calc(100vw - 650px);
+    z-index: 1029;
+  }
+
+  .btn-toolbar { //sass-lint:disable-line class-name-format
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &__row {
+    padding: 18px 0;
+  }
+
+  .StickySave__saveDropdown { //sass-lint:disable-line class-name-format
+    width: 102px;
+    text-align: left;
+
+    & > span { //sass-lint:disable-line class-name-format
+      float: right;
+      margin-top: 6px;
+      margin-right: -3px;
+    }
+  }
+
+  .StickySave__row--top {
+    padding: 8px 0;
+
+    // sass-lint:disable class-name-format force-element-nesting
+    .btn {
+      margin-right: 10px;
+
+      &.StickySave__actionButton { // sass-lint:disable-line nesting-depth
+        margin-right: 0;
+      }
+
+      &.StickySave__btnwide { // sass-lint:disable-line nesting-depth
+        padding: 2px 30px;
+      }
+    }
+    // sass-lint:enable class-name-format force-element-nesting
+  }
+
+  .StickySave__btnlabel {
+    margin-right: 10px;
+    display: inline-block;
+    line-height: 2em;
+    vertical-align: middle;
+
+    // sass-lint:disable class-name-format force-element-nesting
+    &.withSep {
+      padding-right: 10px;
+      border-right: 1px solid $color-ultra-grey-border;
+      color: $color-dim-grey;
+
+      span { // sass-lint:disable-line nesting-depth
+        color: $color-inactive-dark;
+      }
+    }
+    // sass-lint:enable class-name-format force-element-nesting
+  }
+
+  &__select {
+    display: inline;
+    width: auto; //sass-lint:disable-line propertyIgnoredDueToDisplay
+  }
+
+  &__actionButton--last { //sass-lint:disable-line class-name-format
+    margin-right: 0;
+    margin-left: 16px;
+  }
+}
+
+.container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format
+  .StickySave__sidetop {
+    position: fixed;
+    top: 60px;
+  }
+}

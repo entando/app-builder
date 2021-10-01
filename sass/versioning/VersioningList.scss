@@ -1,0 +1,18 @@
+.VersioningList {
+  &__table {
+    margin-bottom: 0;
+  }
+}
+
+.SingleContentCurrentVersion {
+  &__description {
+    max-width: 300px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.VersioningConfig {
+  margin-top: 20px;
+}

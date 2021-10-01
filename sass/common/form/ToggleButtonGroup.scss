@@ -1,0 +1,21 @@
+.ToggleButtonGroup {
+  // sass-lint:disable class-name-format nesting-depth no-qualifying-elements force-element-nesting
+  .btn-toolbar {
+    .btn {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+
+    .btn-default.active {
+      border-color: $color-dark-grey;
+      background-color: $color-dark-grey;
+      color: $color-white;
+    }
+
+    select {
+      margin-left: 5px;
+      color: $color-dark-grey;
+    }
+  }
+  // sass-lint:enable class-name-format nesting-depth no-qualifying-elements force-element-nesting
+}

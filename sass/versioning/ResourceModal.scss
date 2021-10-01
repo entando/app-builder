@@ -1,0 +1,11 @@
+.ResourceModal {
+  &__title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__info {
+    word-break: break-word;
+  }
+}

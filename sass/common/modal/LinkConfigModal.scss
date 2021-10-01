@@ -1,0 +1,9 @@
+.LinkConfigModal {
+  .tab-content { // sass-lint:disable-line class-name-format
+    padding: 15px;
+  }
+
+  &.modal-dialog { // sass-lint:disable-line class-name-format
+    width: 800px;
+  }
+}

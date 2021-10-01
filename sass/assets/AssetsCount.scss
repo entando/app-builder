@@ -1,0 +1,17 @@
+.AssetsCount {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-family: "Open Sans";
+
+  &__box {
+    min-width: 30%;
+    border-top: 2px solid $color-border-blue;
+    text-align: center;
+  }
+
+  &__count {
+    font-family: "Open Sans";
+    font-size: 30px;
+  }
+}

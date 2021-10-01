@@ -1,0 +1,34 @@
+.FilterValueOptionSelector {
+  &__top {
+    margin-bottom: 2px;
+    border-bottom: 0;
+    font-size: 13px;
+  }
+
+  &__top-select {
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+    outline: none;
+  }
+
+  &__top-caption {
+    flex: 1;
+  }
+
+  &__top-options {
+    margin-top: 15px;
+  }
+
+  &__collapse-button {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  &__settings {
+    margin-top: 2px;
+    padding: 10px 0 20px;
+    border-top: 1px solid #e5e5e5;
+  }
+
+}

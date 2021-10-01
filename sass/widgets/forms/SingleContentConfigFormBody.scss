@@ -1,0 +1,32 @@
+.SingleContentConfigFormBody {
+  &__actionBar { // sass-lint:disable-line class-name-format
+    margin-top: 20px;
+    text-align: right;
+  }
+
+  &__widgetTitle { // sass-lint:disable-line class-name-format
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 13px;
+  }
+
+  &__templateTitle { // sass-lint:disable-line class-name-format
+    margin-top: 15px;
+  }
+
+  &__contentTitle { // sass-lint:disable-line class-name-format
+    margin: 0;
+  }
+
+  &__table { // sass-lint:disable-line class-name-format
+    margin-top: 10px;
+  }
+
+  &__addButtons { // sass-lint:disable-line class-name-format
+    text-align: right;
+  }
+}
+
+form.SingleContentConfigForm { // sass-lint:disable-line no-qualifying-elements force-element-nesting
+  background-color: white;
+}

@@ -1,0 +1,16 @@
+.ImagesListItem {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+
+  &__image {
+    width: 90px;
+    height: 90px;
+  }
+
+  &__description {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    line-height: 1.66666667;
+  }
+}

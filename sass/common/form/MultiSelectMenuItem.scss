@@ -1,0 +1,24 @@
+.MultiSelectMenuItem {
+  padding: 2px 10px;
+  color: $color-inactive-dark;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &--active {
+    background-color: $color-mid-blue;
+    color: $color-white;
+  }
+
+  &__text {
+    padding-left: 15px;
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  &__check {
+    color: $color-white;
+  }
+}

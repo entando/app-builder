@@ -1,0 +1,28 @@
+.ContTypeAttributeListTable {
+
+  margin-left: -8px;
+
+  &__table {
+    margin: 0;
+  }
+
+  &__th-lg {
+    width: 45%;
+  }
+
+  &__th-md {
+    width: 25%;
+  }
+
+  &__th-sm {
+    width: 10%;
+  }
+
+  &__th-xs {
+    width: 5%;
+  }
+
+  &__role-list {
+    list-style-type: none;
+  }
+}

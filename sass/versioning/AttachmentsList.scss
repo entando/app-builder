@@ -1,0 +1,33 @@
+.AttachmentsListItem {
+
+  &__description {
+
+    > div + div { // sass-lint:disable-line nesting-depth
+      margin-top: 10px;
+    }
+  }
+
+  &__file-details {
+    display: flex;
+    align-items: center;
+  }
+
+  &__filename {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__size-badge {
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: $color-light-blue;
+  }
+}
+
+.max-description-size { //sass-lint:disable-line class-name-format
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
