@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/roles/edit/EditFormContainer';
 import { ROUTE_ROLE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const EditRolePageBody = () => (
 
@@ -44,4 +44,4 @@ export const EditRolePageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(EditRolePageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(EditRolePageBody);

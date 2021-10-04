@@ -1,4 +1,4 @@
-export const ROLE_SUPERUSER = 'superuser';
+export const SUPERUSER_PERMISSION = 'superuser';
 export const ADMINISTRATION_AREA_PERMISSION = 'enterBackend';
 export const MANAGE_PAGES_PERMISSION = 'managePages';
 export const CRUD_USERS_PERMISSION = 'editUsers';

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import { ROUTE_PAGE_TREE } from 'app-init/router';
-import { ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 const pageStatusMsgs = defineMessages({
   pages: {
@@ -74,7 +74,7 @@ class PageStatus extends Component {
           }}
         />
         {
-          hasAccess([ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION], userPermissions) && (
+          hasAccess([SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION], userPermissions) && (
             <div className="PageStatus__bottom-link">
               <Link to={ROUTE_PAGE_TREE}>
                 <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />

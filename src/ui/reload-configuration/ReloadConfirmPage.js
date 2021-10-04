@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import ReloadConfirmContainer from 'ui/reload-configuration/ReloadConfirmContainer';
 import { ROUTE_RELOAD_CONFIG } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ReloadConfirmPageBody = () => (
 
@@ -43,4 +43,4 @@ export const ReloadConfirmPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(ReloadConfirmPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ReloadConfirmPageBody);

@@ -1,0 +1,45 @@
+.CategoryTreeFilter {
+  &__title {
+    margin-left: 5px;
+    color: $color-space-grey;
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  &__expand-area {
+    display: table-cell;
+    padding-right: 10px;
+    padding-left: 10px;
+    outline: 0;
+  }
+
+  &__item-cb.checkbox { // sass-lint:disable-line class-name-format force-element-nesting
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  &__head {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  &__apply-button {
+    width: 100%;
+    margin-top: 10px;
+    font-family: "Open Sans";
+    font-weight: 400;
+
+    @media (min-width: 992px) {
+      width: 95%;
+    }
+  }
+
+  &__separator {
+    width: 100%;
+    height: 1px;
+    margin-top: 5.4rem;
+    background-color: $color-vertical-grey;
+  }
+}

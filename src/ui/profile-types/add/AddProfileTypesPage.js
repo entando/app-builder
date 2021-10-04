@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/profile-types/add/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const AddProfileTypesPage = () => (
   <InternalPage className="AddProfileTypesPage">
@@ -41,4 +41,4 @@ const AddProfileTypesPage = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(AddProfileTypesPage);
+export default withPermissions(SUPERUSER_PERMISSION)(AddProfileTypesPage);

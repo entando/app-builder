@@ -178,15 +178,15 @@ const STATE_ATTRIBUTES_NO_LIST = {
 describe('state/content-type/selectors', () => {
   it('getContentTypeState(state) returns the content-type object', () => {
     const selected = getContentTypeState(TEST_STATE);
-    expect(selected).toBe(TEST_STATE.apps.cms.contentType);
+    expect(selected).toBe(TEST_state.contentType);
   });
 
   it('verify getContentTypeIdList selector', () => {
-    expect(getContentTypeIdList(TEST_STATE)).toEqual(TEST_STATE.apps.cms.contentType.list);
+    expect(getContentTypeIdList(TEST_STATE)).toEqual(TEST_state.contentType.list);
   });
 
   it('verify getContentTypeMap selector', () => {
-    expect(getContentTypeMap(TEST_STATE)).toEqual(TEST_STATE.apps.cms.contentType.map);
+    expect(getContentTypeMap(TEST_STATE)).toEqual(TEST_state.contentType.map);
   });
 
   it('verify getContentTypeList selector', () => {
@@ -195,7 +195,7 @@ describe('state/content-type/selectors', () => {
 
   it('verify getContentTypeSelectedAttribute selector', () => {
     expect(getContentTypeSelectedAttribute(STATE_ATTRIBUTES))
-      .toEqual(STATE_ATTRIBUTES.apps.cms.contentType.attributes.selected);
+      .toEqual(STATE_ATTRIBUTES..contentType.attributes.selected);
   });
 
   it('verify getContentTypeSelectedAttributeIsList selector', () => {
@@ -278,7 +278,7 @@ describe('state/content-type/selectors', () => {
 
   it('verify getContentTypeAttributesIdList returning list except selected attribute', () => {
     const LIST_SELECTED = { ...TEST_STATE_HAS_BLANKSELECTED };
-    LIST_SELECTED.apps.cms.contentType.attributes.selected = { code: 'List' };
+    LIST_SELECTED..contentType.attributes.selected = { code: 'List' };
     expect(getContentTypeAttributesIdList(LIST_SELECTED)).toEqual(['Enumerator', 'Monotext']);
   });
 

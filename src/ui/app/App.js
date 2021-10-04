@@ -94,6 +94,23 @@ import {
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
+  ROUTE_CMS_CONTENTTEMPLATE_LIST,
+  ROUTE_CMS_CONTENTTEMPLATE_ADD,
+  ROUTE_CMS_ADD_CONTENT,
+  ROUTE_CMS_EDIT_CONTENT,
+  ROUTE_CMS_CONTENTTEMPLATE_EDIT,
+  ROUTE_CMS_ASSETS_LIST,
+  ROUTE_CMS_CONTENTTYPE_LIST,
+  ROUTE_CMS_CONTENTTYPE_ADD,
+  ROUTE_CMS_CONTENTTYPE_EDIT,
+  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_ADD,
+  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_CMS_CONTENT_SETTINGS,
+  ROUTE_CMS_CONTENTS,
+  ROUTE_CMS_VERSIONING,
+  ROUTE_CMS_VERSIONING_CONTENT_DETAIL,
+  ROUTE_CMS_VERSIONING_CONTENT_HISTORY,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -182,6 +199,23 @@ import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
+import ContentTemplateListPage from 'ui/content-template/ContentTemplateListPage';
+import AddContentTemplatePage from 'ui/content-template/AddContentTemplatePage';
+import AddContentPage from 'ui/add-content/AddContentPage';
+import EditContentPage from 'ui/edit-content/EditContentPage';
+import EditContentTemplatePage from 'ui/content-template/EditContentTemplatePage';
+import AssetsListPage from 'ui/assets/AssetsListPage';
+import ContentTypeListPage from 'ui/content-type/ContentTypeListPage';
+import AddContentTypePage from 'ui/content-type/AddContentTypePage';
+import EditContentTypePage from 'ui/content-type/EditContentTypePage';
+import AddContentTypeAttributePage from 'ui/content-type/attributes/AddContentTypeAttributePage';
+import EditContentTypeAttributePage from 'ui/content-type/attributes/EditContentTypeAttributePage';
+import ContentTypeMonolistPageContainer from 'ui/content-type/attributes/monolist/MonolistPageContainer';
+import ContentSettingsPage from 'ui/content-settings/ContentSettingsPage';
+import ContentsPage from 'ui/contents/ContentsPage';
+import VersioningListPage from 'ui/versioning/VersioningListPage';
+import ContentVersionDetailsPage from 'ui/versioning/details/ContentVersionDetailsPage';
+import SingleContentVersioningHistoryPage from 'ui/versioning/SingleContentVersioningHistoryPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import entandoApps from 'entando-apps';
@@ -245,6 +279,44 @@ const getRouteComponent = () => {
       <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
+      {/* cms */}
+      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_LIST} component={ContentTemplateListPage} />
+      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_ADD} component={AddContentTemplatePage} />
+      <Route exact path={ROUTE_CMS_ADD_CONTENT} component={AddContentPage} />
+      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_EDIT} component={EditContentTemplatePage} />
+      <Route exact path={ROUTE_CMS_CONTENTTYPE_LIST} component={ContentTypeListPage} />
+      <Route exact path={ROUTE_CMS_CONTENTTYPE_ADD} component={AddContentTypePage} />
+      <Route exact path={ROUTE_CMS_CONTENTTYPE_EDIT} component={EditContentTypePage} />
+      <Route
+        exact
+        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_ADD}
+        component={AddContentTypeAttributePage}
+      />
+      <Route
+        exact
+        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT}
+        component={EditContentTypeAttributePage}
+      />
+      <Route
+        exact
+        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD}
+        component={ContentTypeMonolistPageContainer}
+      />
+      <Route exact path={ROUTE_CMS_EDIT_CONTENT} component={EditContentPage} />
+      <Route exact path={ROUTE_CMS_ASSETS_LIST} component={AssetsListPage} />
+      <Route exact path={ROUTE_CMS_CONTENT_SETTINGS} component={ContentSettingsPage} />
+      <Route exact path={ROUTE_CMS_CONTENTS} component={ContentsPage} />
+      <Route exact path={ROUTE_CMS_VERSIONING} component={VersioningListPage} />
+      <Route
+        exact
+        path={ROUTE_CMS_VERSIONING_CONTENT_DETAIL}
+        component={ContentVersionDetailsPage}
+      />
+      <Route
+        exact
+        path={ROUTE_CMS_VERSIONING_CONTENT_HISTORY}
+        component={SingleContentVersioningHistoryPage}
+      />
       {/* data models */}
       <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
       <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />

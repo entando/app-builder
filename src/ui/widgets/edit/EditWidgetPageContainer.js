@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import EditWidgetPage from 'ui/widgets/edit/EditWidgetPage';
 import { formValueSelector } from 'redux-form';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = state => (
   {
@@ -16,4 +16,4 @@ export const mapStateToProps = state => (
 const EditWidgetPageContainer = connect(mapStateToProps, null)(EditWidgetPage);
 
 // export connected component (Container)
-export default withPermissions(ROLE_SUPERUSER)(EditWidgetPageContainer);
+export default withPermissions(SUPERUSER_PERMISSION)(EditWidgetPageContainer);

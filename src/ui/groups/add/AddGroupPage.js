@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/groups/add/AddFormContainer';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const AddGroupPageBody = () => (
 
@@ -43,4 +43,4 @@ export const AddGroupPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(AddGroupPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(AddGroupPageBody);

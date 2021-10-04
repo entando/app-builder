@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/fragments/add/AddFormContainer';
 import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const AddFragmentPageBody = () => (
 
@@ -43,4 +43,4 @@ export const AddFragmentPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(AddFragmentPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(AddFragmentPageBody);

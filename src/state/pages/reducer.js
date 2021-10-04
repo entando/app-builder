@@ -6,6 +6,7 @@ import {
   SET_PAGE_LOADING,
   SET_PAGE_LOADED,
   SET_PAGE_PARENT,
+  SET_VIEWPAGES,
   MOVE_PAGE,
   SET_FREE_PAGES,
   SET_SELECTED_PAGE,
@@ -212,6 +213,18 @@ const statusMap = (state = {}, action = {}) => {
   }
 };
 
+const viewPages = (state = [], { type, payload } = {}) => {
+  switch (type) {
+    case SET_VIEWPAGES:
+      return payload;
+    case CLEAR_TREE: {
+      return [];
+    }
+    default:
+      return state;
+  }
+};
+
 const freePages = (state = [], action = {}) => {
   switch (action.type) {
     case SET_FREE_PAGES: {
@@ -268,6 +281,7 @@ export default combineReducers({
   childrenMap,
   titlesMap,
   statusMap,
+  viewPages,
   freePages,
   selected,
   search,

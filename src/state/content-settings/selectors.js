@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { reduce } from 'lodash';
 
-export const getSettingsState = state => state.apps.cms.contentSettings;
+export const getSettingsState = state => state.contentSettings;
 
 export const getIndexesStatus = createSelector(
   getSettingsState,

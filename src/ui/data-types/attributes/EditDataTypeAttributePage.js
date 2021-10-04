@@ -9,7 +9,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import EditFormContainer from 'ui/data-types/attributes/EditFormContainer';
 import { ROUTE_DATA_TYPE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const msgs = defineMessages({
   edit: {
@@ -60,4 +60,4 @@ EditDataTypeAttributePage.propTypes = {
   intl: intlShape.isRequired,
 };
 
-export default withPermissions(ROLE_SUPERUSER)(injectIntl(EditDataTypeAttributePage));
+export default withPermissions(SUPERUSER_PERMISSION)(injectIntl(EditDataTypeAttributePage));

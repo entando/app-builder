@@ -65,19 +65,19 @@ it('verify getContentTemplateOpened selector', () => {
 it('verify getContentTemplateSearchKeyword selector', () => {
   const keyword = getContentTemplateSearchKeyword(TEST_STATE);
   expect(keyword).toBeDefined();
-  expect(keyword).toEqual(TEST_STATE.apps.cms.contentTemplate.filters.keyword);
+  expect(keyword).toEqual(TEST_state.contentTemplate.filters.keyword);
 });
 
 it('verify getContentTemplateSearchAttribute selector', () => {
   const attribute = getContentTemplateSearchAttribute(TEST_STATE);
   expect(attribute).toBeDefined();
-  expect(attribute).toEqual(TEST_STATE.apps.cms.contentTemplate.filters.attribute);
+  expect(attribute).toEqual(TEST_state.contentTemplate.filters.attribute);
 });
 
 it('verify getContentTemplateFilterProps selector', () => {
   const filtProps = getContentTemplateFilterProps(TEST_STATE);
   expect(filtProps).toBeDefined();
-  expect(filtProps).toEqual(TEST_STATE.apps.cms.contentTemplate.filters.filterProps);
+  expect(filtProps).toEqual(TEST_state.contentTemplate.filters.filterProps);
 });
 
 it('verify getContentTemplateDictionaryList selector', () => {

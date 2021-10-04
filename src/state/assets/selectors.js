@@ -62,7 +62,7 @@ export const condenseAssetInfo = (asset, domain) => {
   };
 };
 
-export const getAssetsState = state => state.apps.cms.assets;
+export const getAssetsState = state => state.assets;
 
 export const getAssetsIdList = createSelector(
   getAssetsState,

@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 
-export const getVersionings = state => state.apps.cms.versioning;
-export const getVersioningsIdList = state => state.apps.cms.versioning.list;
-export const getVersioningsMap = state => state.apps.cms.versioning.map;
-export const getResourceVersioningsIdList = state => state.apps.cms.versioning.resourceList;
-export const getResourceVersioningsMap = state => state.apps.cms.versioning.resourceMap;
+export const getVersionings = state => state.versioning;
+export const getVersioningsIdList = state => state.versioning.list;
+export const getVersioningsMap = state => state.versioning.map;
+export const getResourceVersioningsIdList = state => state.versioning.resourceList;
+export const getResourceVersioningsMap = state => state.versioning.resourceMap;
 
-export const getSelectedVersioningType = state => state.apps.cms.versioning.selected;
-export const getDetailedContentVersion = state => state.apps.cms.versioning.contentVersionDetails;
+export const getSelectedVersioningType = state => state.versioning.selected;
+export const getDetailedContentVersion = state => state.versioning.contentVersionDetails;
 
 export const getVersioningList = createSelector(
   [getVersioningsMap, getVersioningsIdList],

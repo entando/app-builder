@@ -5,6 +5,7 @@ import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { routeConverter } from '@entando/utils';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import InternalPage from 'ui/internal-page/InternalPage';
 import CMSPageTitle from 'ui/common/CMSPageTitle';
 import MonolistAttributeFormContainer from 'ui/content-type/attributes/monolist/MonolistAttributeFormContainer';
 import { ROUTE_CMS_CONTENTTYPE_LIST, ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
@@ -42,40 +43,42 @@ class MonolistPage extends Component {
     const lastBreadcrumbLabel = type === TYPE_COMPOSITE ? TYPE_MONOLIST : selectedAttribute;
 
     return (
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <Breadcrumb>
-              <BreadcrumbItem active>
-                <FormattedMessage id="cms.title" />
-              </BreadcrumbItem>
-              <BreadcrumbItem to={ROUTE_CMS_CONTENTTYPE_LIST}>
-                <FormattedMessage id="cms.menu.contenttypes" />
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <FormattedMessage id="cms.label.edit" />: &nbsp;{contentTypeCode}
-              </BreadcrumbItem>
-              {nextBreadCrumbs}
-              <BreadcrumbItem active>{lastBreadcrumbLabel}</BreadcrumbItem>
-            </Breadcrumb>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <CMSPageTitle
-              titleId={titleId}
-              helpId="cms.contentType.helpattributes.label"
-              position="pull-right"
-              largeTitle
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <MonolistAttributeFormContainer />
-          </Col>
-        </Row>
-      </Grid>
+      <InternalPage>
+        <Grid>
+          <Row>
+            <Col xs={12}>
+              <Breadcrumb>
+                <BreadcrumbItem active>
+                  <FormattedMessage id="cms.title" />
+                </BreadcrumbItem>
+                <BreadcrumbItem to={ROUTE_CMS_CONTENTTYPE_LIST}>
+                  <FormattedMessage id="cms.menu.contenttypes" />
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <FormattedMessage id="cms.label.edit" />: &nbsp;{contentTypeCode}
+                </BreadcrumbItem>
+                {nextBreadCrumbs}
+                <BreadcrumbItem active>{lastBreadcrumbLabel}</BreadcrumbItem>
+              </Breadcrumb>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <CMSPageTitle
+                titleId={titleId}
+                helpId="cms.contentType.helpattributes.label"
+                position="pull-right"
+                largeTitle
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <MonolistAttributeFormContainer />
+            </Col>
+          </Row>
+        </Grid>
+      </InternalPage>
     );
   }
 }

@@ -21,11 +21,9 @@ import {
   ROUTE_EMAIL_CONFIG,
 } from 'app-init/router';
 
-import apps from 'entando-apps';
-
 import HomePageLinkContainer from 'ui/internal-page/HomePageLinkContainer';
 import {
-  ROLE_SUPERUSER, MANAGE_PAGES_PERMISSION,
+  SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION,
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
@@ -43,15 +41,12 @@ const {
 } = VerticalNav;
 
 const publicUrl = process.env.PUBLIC_URL;
-const CMS_APP_ID = 'cms';
 
 const ROUTE_CMS_CONTENTTEMPLATE_LIST = '/cms/content-templates';
 const ROUTE_CMS_CONTENTTYPE_LIST = '/cms/content-types';
 const ROUTE_CMS_CONTENTS = '/cms/contents';
 const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
 const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
-
-const isCmsInstalled = apps.some((app => app.id === CMS_APP_ID));
 
 const renderCmsMenuItems = (intl, history, userPermissions) => {
   const hasMenuContentsAccess = hasAccess([
@@ -60,10 +55,10 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
     [MANAGE_RESOURCES_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
     userPermissions,
   );
-  const hasMenuContentTypeAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
-  const hasMenuContentTemplatesAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const hasMenuContentTypeAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
+  const hasMenuContentTemplatesAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
-  const hasMenuContentSettingsAccess = hasAccess(ROLE_SUPERUSER, userPermissions);
+  const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
   return (
     <Item
       id="apps-cms"
@@ -108,7 +103,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
         )
       }
       {
-        hasAccess(ROLE_SUPERUSER, userPermissions) && (
+        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
         <SecondaryItem
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
           onClick={() => history.push(ROUTE_CMS_VERSIONING)}
@@ -230,7 +225,7 @@ const VerticalMenu = ({
               }
             />
             {
-              hasAccess(ROLE_SUPERUSER, userPermissions) && (
+              hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
                 <SecondaryItem
                   id="menu-ux-pattern-page-templates"
                   title={intl.formatMessage({ id: 'menu.pageTemplates', defaultMessage: 'Templates' })}
@@ -239,7 +234,7 @@ const VerticalMenu = ({
               )
             }
             {
-              hasAccess(ROLE_SUPERUSER, userPermissions) && (
+              hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
                 <SecondaryItem
                   id="menu-page-settings"
                   title={intl.formatMessage({ id: 'menu.pageSettings', defaultMessage: 'Settings' })}
@@ -264,7 +259,7 @@ const VerticalMenu = ({
               onClick={() => history.push(ROUTE_WIDGET_LIST)}
             />
             {
-            hasAccess(ROLE_SUPERUSER, userPermissions) && (
+            hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
               <SecondaryItem
                 id="menu-ux-pattern-fragments"
                 title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
@@ -276,7 +271,6 @@ const VerticalMenu = ({
         )
       }
         {
-          isCmsInstalled &&
           hasAccess([
             CRUD_CONTENTS_PERMISSION,
             MANAGE_RESOURCES_PERMISSION,
@@ -306,28 +300,28 @@ const VerticalMenu = ({
             title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
             onClick={() => history.push(ROUTE_USER_LIST)}
           />
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <SecondaryItem
             id="menu-roles"
             title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
             onClick={() => history.push(ROUTE_ROLE_LIST)}
           />
             )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <SecondaryItem
             id="menu-groups"
             title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
             onClick={() => history.push(ROUTE_GROUP_LIST)}
           />
             )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <SecondaryItem
             id="menu-profile"
             title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
             onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
           />
             )}
-          {hasAccess(ROLE_SUPERUSER, userPermissions) && (
+          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <SecondaryItem
             id="menu-user-restrictions"
             title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
@@ -339,12 +333,12 @@ const VerticalMenu = ({
         }
 
         {
-          (hasAccess(ROLE_SUPERUSER, userPermissions)
+          (hasAccess(SUPERUSER_PERMISSION, userPermissions)
           || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
           && renderComponentRepositoryMenuItem(history, intl)
         }
         {
-        hasAccess(ROLE_SUPERUSER, userPermissions) && (
+        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <Item
             className="VerticalAdminConsoleMenu__fixed-bottom"
             id="menu-configuration"

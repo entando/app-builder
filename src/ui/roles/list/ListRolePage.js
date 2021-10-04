@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';
 import { ROUTE_ROLE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { TEST_ID_ROLE_LIST_PAGE } from 'ui/test-const/role-test-const';
 
 export const ListRolePageBody = () => (
@@ -60,4 +60,4 @@ export const ListRolePageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(ListRolePageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ListRolePageBody);

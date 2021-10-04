@@ -1,6 +1,6 @@
 import { initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
-import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, clearErrors, TOAST_ERROR } from '@entando/messages';
 
 import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
@@ -286,3 +286,19 @@ export const editWidgetConfig = (frameId, pageCode) =>
       }
     }
   };
+
+export const sendPutWidgetConfig = (pageCode, frameId, configItem) => dispatch => (
+  new Promise(resolve => putPageWidget(pageCode, frameId, configItem)
+    .then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          resolve(json.payload);
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          dispatch(clearErrors());
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          resolve();
+        }
+      }).catch(() => { resolve(); });
+    }).catch(() => { resolve(); }))
+);

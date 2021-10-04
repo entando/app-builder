@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { getMethodsSelectedAttribute } from 'state/content-type/selectors';
 
-export const getContentTemplateState = state => state.apps.cms.contentTemplate;
+export const getContentTemplateState = state => state.contentTemplate;
 
 export const getContentTemplateList = createSelector(
   getContentTemplateState,

@@ -29,7 +29,7 @@ import {
   ROUTE_CMS_CONTENTTYPE_EDIT,
   ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
-} from 'app-init/routes';
+} from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import { toggleLoading } from 'state/loading/actions';
 import {

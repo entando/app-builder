@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const getEditContentState = state => state.apps.cms.editContent;
+export const getEditContentState = state => state.editContent;
 
 export const getOwnerGroupDisabled = createSelector(
   getEditContentState,

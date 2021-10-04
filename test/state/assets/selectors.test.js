@@ -134,7 +134,7 @@ it('verify getPaginationOptions selector', () => {
 });
 it('verify getAssetSearchKeyword selector', () => {
   const key = getAssetSearchKeyword(TEST_STATE);
-  expect(key).toEqual(TEST_STATE.apps.cms.assets.keyword);
+  expect(key).toEqual(TEST_state.assets.keyword);
 });
 it('verify getAssetsCount selector', () => {
   const ac = getAssetsCount(TEST_STATE);

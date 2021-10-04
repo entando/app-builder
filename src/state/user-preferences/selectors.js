@@ -1,2 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
-export const getUserPreferences = state => state.userPreferences;
+import { createSelector } from 'reselect';
+
+export const getUserPreferences = state => state.userPreferences || {};
+
+export const getTranslationWarning = (
+  createSelector([getUserPreferences], preferences => !!preferences.translationWarning)
+);

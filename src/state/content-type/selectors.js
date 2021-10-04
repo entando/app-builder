@@ -75,39 +75,39 @@ export const BOOL_FILTERABLE_ATTRIBUTES = [
   TYPE_THREESTATE,
 ];
 
-export const getContentTypeState = state => state.apps.cms.contentType;
-export const getContentTypeIdList = state => state.apps.cms.contentType.list;
-export const getContentTypeMap = state => state.apps.cms.contentType.map;
-export const getSelectedContentType = state => state.apps.cms.contentType.selected;
-export const getContentTypeAttributes = state => state.apps.cms.contentType.attributes;
-const getContentTypeReferences = state => state.apps.cms.contentType.references;
+export const getContentTypeState = state => state.contentType;
+export const getContentTypeIdList = state => state.contentType.list;
+export const getContentTypeMap = state => state.contentType.map;
+export const getSelectedContentType = state => state.contentType.selected;
+export const getContentTypeAttributes = state => state.contentType.attributes;
+const getContentTypeReferences = state => state.contentType.references;
 
-export const getContentTypeSelectedAttribute = state => state.apps.cms
-  . contentType.attributes.selected;
-export const getContentTypeParentSelectedAttribute = state => state.apps.cms
-  . contentType.attributes.parentSelected;
-export const getContentTypeSelectedAttributeType = state => state.apps.cms
-  . contentType.attributes.selected.listAttribute;
-export const getContentTypeSelectedAttributeSearchable = state => state.apps.cms
-  . contentType.attributes.selected.searchableOptionSupported;
-export const getContentTypeSelectedAttributeIndexable = state => state.apps.cms
-  . contentType.attributes.selected.indexableOptionSupported;
-export const getContentTypeSelectedAttributeAllowedRoles = state => state.apps.cms
+export const getContentTypeSelectedAttribute = state => state
+  .contentType.attributes.selected;
+export const getContentTypeParentSelectedAttribute = state => state
+  .contentType.attributes.parentSelected;
+export const getContentTypeSelectedAttributeType = state => state
+  .contentType.attributes.selected.listAttribute;
+export const getContentTypeSelectedAttributeSearchable = state => state
+  .contentType.attributes.selected.searchableOptionSupported;
+export const getContentTypeSelectedAttributeIndexable = state => state
+  .contentType.attributes.selected.indexableOptionSupported;
+export const getContentTypeSelectedAttributeAllowedRoles = state => state
   .contentType.attributes.selected.allowedRoles || [];
-export const getContentTypeSelectedAttributeAssignedRoles = state => state.apps.cms
+export const getContentTypeSelectedAttributeAssignedRoles = state => state
   .contentType.attributes.selected.assignedRoles || {};
-export const getContentTypeSelectedAttributeallowedDisablingCodes = state => state.apps.cms
-  . contentType.attributes.selected.allowedDisablingCodes;
-export const getContentTypeSelectedAttributeIsList = state => get(state.apps.cms.contentType.attributes.selected, 'listAttribute');
-export const getSelectedContentTypeAttributes = state => get(state.apps.cms.contentType.selected, 'attributes');
-export const getSelectedAttributeType = state => get(state.apps.cms.contentType.selected, 'attributeSelected.type');
-export const getSelectedAttributeNestedType = state => get(state.apps.cms.contentType.selected, 'attributeSelected.nestedAttribute.type');
-export const getSelectedValidationRules = state => get(state.apps.cms.contentType.selected, 'attributeSelected.validationRules');
-export const getContentTypeSelectedAttributeCode = state => get(state.apps.cms.contentType.attributes.selected, 'code');
-export const getContentTypeSelectedNestedAttributeIndexable = state => state.apps.cms
-  . contentType.attributes.selectedNested.indexableOptionSupported;
-export const getContentTypeSelectedNestedAttributeSearchable = state => state.apps.cms
-  . contentType.attributes.selectedNested.searchableOptionSupported;
+export const getContentTypeSelectedAttributeallowedDisablingCodes = state => state
+  .contentType.attributes.selected.allowedDisablingCodes;
+export const getContentTypeSelectedAttributeIsList = state => get(state.contentType.attributes.selected, 'listAttribute');
+export const getSelectedContentTypeAttributes = state => get(state.contentType.selected, 'attributes');
+export const getSelectedAttributeType = state => get(state.contentType.selected, 'attributeSelected.type');
+export const getSelectedAttributeNestedType = state => get(state.contentType.selected, 'attributeSelected.nestedAttribute.type');
+export const getSelectedValidationRules = state => get(state.contentType.selected, 'attributeSelected.validationRules');
+export const getContentTypeSelectedAttributeCode = state => get(state.contentType.attributes.selected, 'code');
+export const getContentTypeSelectedNestedAttributeIndexable = state => state
+  .contentType.attributes.selectedNested.indexableOptionSupported;
+export const getContentTypeSelectedNestedAttributeSearchable = state => state
+  .contentType.attributes.selectedNested.searchableOptionSupported;
 
 export const getParentSelectedAttribute = createSelector(
   [getContentTypeParentSelectedAttribute],

@@ -18,7 +18,7 @@ import { getAppTourProgress, getTourCreatedPage, getExistingPages } from 'state/
 import { APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setAppTourLastStep, setTourCreatedPage } from 'state/app-tour/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
-import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION, SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { getMyGroupPermissions } from 'state/permissions/selectors';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
 import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
@@ -89,7 +89,7 @@ export const mapStateToProps = (state) => {
   const userPreferences = getUserPreferences(state);
   const groupWithPagePermission = getMyGroupPermissions(state)
     .find(({ permissions }) => (
-      permissions.includes(ROLE_SUPERUSER) || permissions.includes(MANAGE_PAGES_PERMISSION)
+      permissions.includes(SUPERUSER_PERMISSION) || permissions.includes(MANAGE_PAGES_PERMISSION)
     ));
   const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
     || (groupWithPagePermission && groupWithPagePermission.group);
