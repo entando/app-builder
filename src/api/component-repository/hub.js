@@ -29,9 +29,9 @@ export const getRegistries = (params = '') => (
   )
 );
 
-export const deleteRegistry = registryName => (
+export const deleteRegistry = registryId => (
   makeRequest({
-    uri: `/registry/${registryName}`, // @TODO-hub set it correctly after having real API
+    uri: `/registry/${registryId}`, // @TODO-hub set it correctly after having real API
     domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
     method: METHODS.DELETE,
     mockResponse: LIST_REGISTRIES_OK,
@@ -41,7 +41,7 @@ export const deleteRegistry = registryName => (
 
 export const addRegistry = registryObject => (
   makeRequest({
-    uri: '/registry', // @TODO-hub set it correctly after having real API
+    uri: '/registries', // @TODO-hub set it correctly after having real API
     domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
     method: METHODS.POST,
     mockResponse: LIST_REGISTRIES_OK,

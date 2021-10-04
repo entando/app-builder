@@ -29,10 +29,12 @@ export const LIST_BUNDLES_FROM_REGISTRY_OK = [
 
 export const LIST_REGISTRIES_OK = [
   {
+    id: 'id1',
     name: 'Entando Public Hub',
     url: 'https://entando-publc-hub.com/api',
   },
   {
+    id: 'id2',
     name: 'ACME Private Hub',
     url: 'https://acme-private-hub.com/api',
   },

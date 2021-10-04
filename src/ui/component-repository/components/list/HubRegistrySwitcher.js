@@ -69,8 +69,8 @@ const HubRegistrySwitcher = () => {
                             role="button"
                             tabIndex={-1}
                             className="HubRegistrySwitcher__trash"
-                            onClick={() => handleDeleteRegistry(reg.name)}
-                            onKeyDown={() => handleDeleteRegistry(reg.name)}
+                            onClick={() => handleDeleteRegistry(reg.id)}
+                            onKeyDown={() => handleDeleteRegistry(reg.id)}
                           >
                             <Icon size="lg" name="trash" />
                           </div>

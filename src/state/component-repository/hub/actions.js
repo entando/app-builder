@@ -67,9 +67,9 @@ export const fetchRegistries = (params = '') => dispatch => (
   })
 );
 
-export const sendDeleteRegistry = registryName => dispatch => (
+export const sendDeleteRegistry = registryId => dispatch => (
   new Promise((resolve) => {
-    deleteRegistry(registryName).then((response) => {
+    deleteRegistry(registryId).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
