@@ -97,3 +97,15 @@
     margin-left: auto;
   }
 }
+
+.BundleGroupAutoComplete {
+  width: 170px;
+  margin-right: -20px;
+  margin-left: -20px;
+
+  div {
+    input {
+      height: 30px;
+    }
+  }
+}

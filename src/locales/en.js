@@ -1676,5 +1676,7 @@ export default {
     'hub.newRegistry.url': 'URL',
     'hub.newRegistry.name.error': 'Registry name must be unique',
     'hub.newRegistry.url.error': 'Registry URL must be unique',
+    'app.filterTypesSelect.organizationName': 'Organization Name',
+    'app.filterTypesSelect.bundleGroup': 'Bundle Group',
   },
 };
