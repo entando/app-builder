@@ -268,3 +268,11 @@ export const getReferencesPage = (pageCode, referenceKey) => makeRequest({
   mockResponse: MOCK_REFERENCES[referenceKey],
   useAuthentication: true,
 });
+
+export const postClonePage = (pageCode, pageObject) => makeRequest({
+  uri: `/api/pages/${pageCode}/clone`,
+  method: METHODS.POST,
+  body: pageObject,
+  mockResponse: {},
+  useAuthentication: true,
+});
