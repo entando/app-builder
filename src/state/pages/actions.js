@@ -5,7 +5,7 @@ import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getSearchPages,
-  putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO,
+  putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -313,6 +313,40 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
   }
 });
 
+export const sendClonePage = (pageCode, pageData) => dispatch => new Promise(async (resolve) => {
+  try {
+    const { titles, parentCode, code } = pageData;
+
+    const requestBody = {
+      newPageCode: code,
+      parentCode,
+      titles,
+    };
+
+    const response = await postClonePage(pageCode, requestBody);
+
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
+      dispatch(addPages([json.payload]));
+      resolve(response);
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      resolve();
+    }
+  } catch (e) {
+    const { details, defaultMessage } = e;
+    if (details && defaultMessage) {
+      const detailMessage = details.map(er => er.message).join('; ');
+      const combinedErrors = [defaultMessage, detailMessage].join(' - ');
+      dispatch(addErrors([combinedErrors]));
+      dispatch(addToast(combinedErrors, TOAST_ERROR));
+    }
+    resolve();
+  }
+});
+
 export const fetchFreePages = () => async (dispatch) => {
   try {
     const response = await getFreePages();
@@ -335,9 +369,9 @@ export const clonePage = (page, redirectTo = null) => async (dispatch) => {
       ...json.payload,
       ...RESET_FOR_CLONE,
     }));
-    let pageCloneUrl = ROUTE_PAGE_CLONE;
+    let pageCloneUrl = `${ROUTE_PAGE_CLONE}?pageCode=${page.code}`;
     if (redirectTo) {
-      pageCloneUrl += `?redirectTo=${redirectTo}`;
+      pageCloneUrl += `&redirectTo=${redirectTo}`;
     }
     history.push(pageCloneUrl);
   } catch (e) {
