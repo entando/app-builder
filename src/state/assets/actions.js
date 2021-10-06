@@ -33,9 +33,7 @@ import {
   getListFilterParams,
   getAssetsMap,
 } from 'state/assets/selectors';
-import {
-  getAssets, createAsset, editAsset, deleteAsset, cloneAsset,
-} from 'api/assets';
+import { getAssets, createAsset, editAsset, deleteAsset, cloneAsset } from 'api/assets';
 import { getPagination } from 'state/pagination/selectors';
 import { parseJoinGroups } from 'helpers/joinGroups';
 import { svgToBlob } from 'helpers/imageUtils';
@@ -152,9 +150,7 @@ export const fetchAssetsPaged = (
       categories = [categories];
     }
     const startIndex = Object.keys(newFilters.formValues || []).length;
-    categoryParams = categories.map(
-      (c, i) => `&filters[${i + startIndex}].attribute=categories&filters[${i + startIndex}].value=${c}`,
-    ).join('');
+    categoryParams = categories.map((c, i) => `&filters[${i + startIndex}].attribute=categories&filters[${i + startIndex}].value=${c}`).join('');
   }
 
   const params = compact([convertToQueryString(newFilters).slice(1), typeParams, categoryParams]).join('&').replace('toDateTimeString', 'createdAt');
@@ -241,7 +237,9 @@ export const filterAssetsBySearch = (
 };
 
 export const advancedSearchFilter = (
-  values, paginationMetadata = pageDefault, ownerGroup,
+  values,
+  paginationMetadata = pageDefault,
+  ownerGroup,
 ) => (dispatch, getState) => {
   dispatch(setListFilterParams({}));
   const state = getState();
@@ -373,9 +371,7 @@ export const sendUploadAsset = file => dispatch => new Promise(async (resolve) =
     group, categories, type,
   }));
 
-  createAsset(
-    formData,
-  )
+  createAsset(formData)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {

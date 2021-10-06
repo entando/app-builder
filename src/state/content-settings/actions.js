@@ -18,9 +18,7 @@ import {
 } from 'api/contentSettings';
 import { getCropRatios, getMetadataMappingFormData } from 'state/content-settings/selectors';
 import { toggleLoading } from 'state/loading/actions';
-import {
-  addErrors, addToast, clearErrors, TOAST_ERROR,
-} from '@entando/messages';
+import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 
 export const setContentSettings = payload => ({
   type: SET_CONTENT_SETTINGS,
@@ -234,12 +232,11 @@ export const checkAndPutMetadataMap = values => (dispatch, getState) => new Prom
   Object.entries(values).forEach(([key, mapping]) => {
     if (prevValues[key] !== mapping) {
       dispatch(toggleLoading(key));
-      proms.push(
-        dispatch(sendPutMetadataMap(key, mapping)).then((res) => {
+      proms.push(dispatch(sendPutMetadataMap(key, mapping))
+        .then((res) => {
           dispatch(toggleLoading(res.key));
           return res.json || null;
-        }),
-      );
+        }));
     }
   });
   Promise.all(proms).then(payloads => resolve(payloads));

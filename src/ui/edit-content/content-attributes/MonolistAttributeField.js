@@ -5,7 +5,7 @@ import {
   fieldArrayMetaPropTypes,
 } from 'redux-form';
 
-import ListField from 'ui/common/form/RenderListField';
+import ListField from 'ui/common/form/RenderCMSListField';
 import attributeShape from './attributeShape';
 
 const MonolistAttributeField = ({

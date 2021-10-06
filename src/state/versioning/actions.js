@@ -1,6 +1,4 @@
-import {
-  addToast, addErrors, TOAST_ERROR, clearErrors,
-} from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR, clearErrors } from '@entando/messages';
 import { get } from 'lodash';
 
 import {

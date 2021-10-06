@@ -55,9 +55,9 @@ const reducer = (state = defaultState, action = {}) => {
     case JOIN_CATEGORY: {
       const { category: newCategory } = action.payload;
       const currentJoinedCategories = state.joinedCategories;
-      const alreadyAdded = currentJoinedCategories.filter(
-        category => category === newCategory,
-      ).length > 0;
+      const alreadyAdded = currentJoinedCategories
+        .filter(category => category === newCategory)
+        .length > 0;
       if (!alreadyAdded) {
         return {
           ...state,

@@ -10,6 +10,7 @@ export const parseJoinGroups = (joinGroups) => {
     try {
       parsedJoinGroups = JSON.parse(joinGroups);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.warn('Problem parsing join groups string: ', err);
     }
   }

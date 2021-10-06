@@ -213,11 +213,9 @@ class FilterValueOptionSelector extends Component {
     const { key, attributeFilter } = value;
     const { optionSelected, filterableType } = this.state;
     if (!attributeFilter) {
-      return this.renderLabelWithSort(
-        <FormattedMessage
-          id={`widget.form.filteropt.${key === 'created' ? 'creationDate' : 'lastModify'}`}
-        />,
-      );
+      return this.renderLabelWithSort(<FormattedMessage
+        id={`widget.form.filteropt.${key === 'created' ? 'creationDate' : 'lastModify'}`}
+      />);
     }
     const {
       value: filterValue,
@@ -231,24 +229,20 @@ class FilterValueOptionSelector extends Component {
 
     if (filterableType === BOOL_FILTERABLE) {
       if (!isUndefined(filterValue)) {
-        return this.renderLabelWithSort(
-          <FormattedHTMLMessage
-            id="widget.form.filterable.valueOnly"
-            values={{ value: filterValue ? 'true' : 'false' }}
-          />,
-        );
-      }
-      return this.renderLabelWithSort(
-        <FormattedHTMLMessage
+        return this.renderLabelWithSort(<FormattedHTMLMessage
           id="widget.form.filterable.valueOnly"
-          values={{ value: 'all' }}
-        />,
-      );
+          values={{ value: filterValue ? 'true' : 'false' }}
+        />);
+      }
+      return this.renderLabelWithSort(<FormattedHTMLMessage
+        id="widget.form.filterable.valueOnly"
+        values={{ value: 'all' }}
+      />);
     }
 
     switch (optionSelected) {
       case BY_VALUE_ONLY: {
-        return this.renderLabelWithSort(
+        const rendered = (
           <Fragment>
             <FormattedHTMLMessage
               id="widget.form.filterable.valueOnly"
@@ -260,18 +254,17 @@ class FilterValueOptionSelector extends Component {
                 values={{ delay: valueDateDelay }}
               />
             )}
-          </Fragment>,
+          </Fragment>
         );
+        return this.renderLabelWithSort(rendered);
       }
       case BY_VALUE_PARTIAL: {
         const partial = likeOption
           && intl.formatMessage({ id: 'widget.form.filterable.valuePartialPhrase' });
-        return this.renderLabelWithSort(
-          <FormattedHTMLMessage
-            id="widget.form.filterable.valuePartial"
-            values={{ value: filterValue, partial }}
-          />,
-        );
+        return this.renderLabelWithSort(<FormattedHTMLMessage
+          id="widget.form.filterable.valuePartial"
+          values={{ value: filterValue, partial }}
+        />);
       }
       case BY_RANGE: {
         const fromMsg = start && (
@@ -303,24 +296,26 @@ class FilterValueOptionSelector extends Component {
           </Fragment>
         );
 
-        return this.renderLabelWithSort(
+        const rendered = (
           <Fragment>
             <FormattedMessage id="widget.form.filterable.labelRangeField" />
             {' '}
             {fromMsg}
             {' '}
             {toMsg}
-          </Fragment>,
+          </Fragment>
         );
+
+        return this.renderLabelWithSort(rendered);
       }
       case HAS_NO_VALUE:
-        return this.renderLabelWithSort(
-          <FormattedMessage id="widget.form.filterable.valueAbsence" />,
-        );
+        return this.renderLabelWithSort(<FormattedMessage
+          id="widget.form.filterable.valueAbsence"
+        />);
       default:
-        return this.renderLabelWithSort(
-          <FormattedMessage id="widget.form.filterable.valuePresence" />,
-        );
+        return this.renderLabelWithSort(<FormattedMessage
+          id="widget.form.filterable.valuePresence"
+        />);
     }
   }
 

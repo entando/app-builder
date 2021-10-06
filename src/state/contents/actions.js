@@ -12,9 +12,7 @@ import {
   getStatusChecked, getAccessChecked, getAuthorChecked, getCurrentQuickFilter,
   getSortingColumns, getCurrentAuthorShow, getCurrentStatusShow,
 } from 'state/contents/selectors';
-import {
-  addErrors, addToast, clearErrors, TOAST_ERROR,
-} from '@entando/messages';
+import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 import {
   SET_CONTENTS, SET_QUICK_FILTER, SET_CONTENT_CATEGORY_FILTER,
   CHECK_STATUS, CHECK_ACCESS, CHECK_AUTHOR, SET_CURRENT_AUTHOR_SHOW,
@@ -127,8 +125,12 @@ export const setContentsStatus = payload => ({
   payload,
 });
 
-export const fetchContents = (page = pageDefault,
-  params, namespace = NAMESPACE_CONTENTS, mode) => dispatch => new Promise((resolve) => {
+export const fetchContents = (
+  page = pageDefault,
+  params,
+  namespace = NAMESPACE_CONTENTS,
+  mode,
+) => dispatch => new Promise((resolve) => {
   dispatch(toggleLoading('contents'));
   getContents(page, params, mode)
     .then((response) => {
@@ -150,7 +152,11 @@ export const fetchContents = (page = pageDefault,
 });
 
 export const fetchContentsWithFilters = (
-  params, newPagination, newSort, quickFilterStatusParam = '', quickFilterOwnerGroup,
+  params,
+  newPagination,
+  newSort,
+  quickFilterStatusParam = '',
+  quickFilterOwnerGroup,
   joinGroupsToParse,
 ) => (dispatch, getState) => {
   const state = getState();
@@ -202,11 +208,9 @@ export const fetchContentsWithFilters = (
   let categories = '';
   filters.forEach(({ att, value, operator }) => {
     if (att === 'categories') {
-      value.forEach(
-        (filter, i) => {
-          categories += `&categories[${i}]=${filter.code}`;
-        },
-      );
+      value.forEach((filter, i) => {
+        categories += `&categories[${i}]=${filter.code}`;
+      });
       categories += '&orClauseCategoryFilter=true';
       return null;
     } if (att === 'status' && value === 'published') {
@@ -222,7 +226,10 @@ export const fetchContentsWithFilters = (
 };
 
 export const fetchContentsWithTabs = (
-  page, newSort, ownerGroup, joinGroupsToParse,
+  page,
+  newSort,
+  ownerGroup,
+  joinGroupsToParse,
 ) => (dispatch, getState) => {
   const state = getState();
   const pagination = page || getPagination(state, NAMESPACE_CONTENTS);
@@ -263,14 +270,14 @@ export const fetchContentsWithTabs = (
 export const fetchContentsPaged = ({
   params, page, sort, tabSearch,
   status, ownerGroup, joinGroups,
-} = {}) => (
-  dispatch,
-) => {
+} = {}) => (dispatch) => {
   if (tabSearch) {
     return dispatch(fetchContentsWithTabs(page, sort, ownerGroup, joinGroups));
   }
-  return dispatch(fetchContentsWithFilters(params, page, sort,
-    status, ownerGroup, joinGroups));
+  return dispatch(fetchContentsWithFilters(
+    params, page, sort,
+    status, ownerGroup, joinGroups,
+  ));
 };
 
 export const sendDeleteContent = id => dispatch => new Promise((resolve) => {

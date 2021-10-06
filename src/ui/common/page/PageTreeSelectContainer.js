@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 
 import { PageTreeSelector } from '@entando/pagetreeselector';
-import {
-  handleExpandPage, fetchPageTreeAll, collapseAll, clearTree,
-  HOMEPAGE_CODE,
-} from 'state/pages/actions';
+import { handleExpandPage, fetchPageTreeAll, collapseAll, clearTree } from 'state/pages/actions';
+import { HOMEPAGE_CODE } from 'state/pages/const';
 import { getPageTreePages } from 'state/pages/selectors';
 import { getLoading } from 'state/loading/selectors';
 

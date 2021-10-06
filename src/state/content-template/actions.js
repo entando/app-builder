@@ -1,7 +1,5 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import {
-  addErrors, addToast, clearErrors, TOAST_ERROR,
-} from '@entando/messages';
+import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 import { initialize } from 'redux-form';
 import { setPage } from 'state/pagination/actions';
 import { NAMESPACE_CONTENT_TEMPLATES } from 'state/pagination/const';
@@ -85,9 +83,10 @@ export const fetchContentTemplateList = (page = pageDefault, params = '') => dis
   }).catch(() => {});
 });
 
-export const fetchContentTemplateListPaged = (
-  paginationMetadata = pageDefault,
-) => (dispatch, getState) => {
+export const fetchContentTemplateListPaged = (paginationMetadata = pageDefault) => (
+  dispatch,
+  getState,
+) => {
   const filters = getContentTemplateFilterProps(getState());
   return dispatch(fetchContentTemplateList(paginationMetadata, convertToQueryString(filters)));
 };
@@ -173,8 +172,8 @@ export const fetchContentTemplateDictionary = () => dispatch => new Promise(reso
   })
     .catch(() => {})));
 
-export const sendPutContentTemplate = contModelObject => dispatch => new Promise(
-  resolve => putContentTemplate(contModelObject)
+export const sendPutContentTemplate = contModelObject => dispatch => (
+  new Promise(resolve => putContentTemplate(contModelObject)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -187,11 +186,10 @@ export const sendPutContentTemplate = contModelObject => dispatch => new Promise
         }
       });
     })
-    .catch(() => {}),
-);
+    .catch(() => {})));
 
-export const sendDeleteContentTemplate = id => dispatch => new Promise(
-  resolve => deleteContentTemplate(id)
+export const sendDeleteContentTemplate = id => dispatch => (
+  new Promise(resolve => deleteContentTemplate(id)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -205,5 +203,4 @@ export const sendDeleteContentTemplate = id => dispatch => new Promise(
         }
       });
     })
-    .catch(() => {}),
-);
+    .catch(() => {})));

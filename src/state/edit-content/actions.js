@@ -1,13 +1,9 @@
-import {
-  addErrors, addToast, clearErrors, TOAST_ERROR,
-} from '@entando/messages';
+import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 import { initialize, formValueSelector, change } from 'redux-form';
 import moment from 'moment';
 import { pickBy, isObject, cloneDeep } from 'lodash';
 
-import {
-  getContent, postAddContent, putUpdateContent,
-} from 'api/editContent';
+import { getContent, postAddContent, putUpdateContent } from 'api/editContent';
 
 import {
   TYPE_DATE, TYPE_CHECKBOX, TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_TIMESTAMP,
@@ -33,9 +29,7 @@ import {
   SET_MISSING_TRANSLATIONS,
   SET_SAVE_TYPE,
 } from './types';
-import {
-  getWorkMode, getContent as getStateContent, getJoinedCategories,
-} from './selectors';
+import { getWorkMode, getContent as getStateContent, getJoinedCategories } from './selectors';
 
 export const setContentEntry = content => ({
   type: SET_CONTENT_ENTRY,
@@ -69,14 +63,12 @@ export const fetchContent = params => dispatch => new Promise((resolve, reject) 
           const {
             mainGroup, groups, description, status,
           } = content;
-          dispatch(
-            initialize('editcontentform', {
-              mainGroup,
-              groups,
-              description,
-              ...(status !== 'PUBLIC' && { status }),
-            }),
-          );
+          dispatch(initialize('editcontentform', {
+            mainGroup,
+            groups,
+            description,
+            ...(status !== 'PUBLIC' && { status }),
+          }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           reject();
@@ -147,9 +139,7 @@ export const duplicateEngFieldValues = () => (dispatch, getState) => {
     });
   };
 
-  const mainAttributeValues = formValueSelector('editcontentform')(
-    state, 'attributes',
-  );
+  const mainAttributeValues = formValueSelector('editcontentform')(state, 'attributes');
 
   dispatch(change(
     'editcontentform',
@@ -181,8 +171,8 @@ export const setSaveType = saveType => ({
   payload: { saveType },
 });
 
-export const sendPostAddContent = newContentObject => dispatch => new Promise(
-  resolve => postAddContent(newContentObject)
+export const sendPostAddContent = newContentObject => dispatch => (
+  new Promise(resolve => postAddContent(newContentObject)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -195,11 +185,11 @@ export const sendPostAddContent = newContentObject => dispatch => new Promise(
         }
       });
     })
-    .catch(() => {}),
+    .catch(() => {}))
 );
 
-export const sendPutEditContent = (id, editContentObject) => dispatch => new Promise(
-  resolve => putUpdateContent(id, editContentObject)
+export const sendPutEditContent = (id, editContentObject) => dispatch => (
+  new Promise(resolve => putUpdateContent(id, editContentObject)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -212,7 +202,7 @@ export const sendPutEditContent = (id, editContentObject) => dispatch => new Pro
         }
       });
     })
-    .catch(() => {}),
+    .catch(() => {}))
 );
 
 const convertStringToBool = (item, hasNull = false) => {

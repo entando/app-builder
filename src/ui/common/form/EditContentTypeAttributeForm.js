@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage, intlShape } from 'react-intl';
-import {
-  Button, Row, Col, Alert,
-} from 'patternfly-react';
+import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/contenttype-attributes/AttributeInfo';
 import AttributeInfoComposite from 'ui/common/contenttype-attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/contenttype-attributes/AttributeRole';
@@ -244,12 +242,10 @@ EditContentTypeAttributeFormBody.propTypes = {
     code: PropTypes.string,
   }),
   attributeCode: PropTypes.string.isRequired,
-  allowedRoles: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string,
-      descr: PropTypes.string,
-    }),
-  ),
+  allowedRoles: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    descr: PropTypes.string,
+  })),
   indexable: PropTypes.bool,
   listFilter: PropTypes.bool,
   mode: PropTypes.string.isRequired,

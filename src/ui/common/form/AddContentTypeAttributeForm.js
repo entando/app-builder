@@ -229,12 +229,10 @@ AttributeFormBody.propTypes = {
     maxLength: PropTypes.string,
     regex: PropTypes.string,
   }),
-  allowedRoles: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string,
-      descr: PropTypes.string,
-    }),
-  ),
+  allowedRoles: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    descr: PropTypes.string,
+  })),
   mode: PropTypes.string.isRequired,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,

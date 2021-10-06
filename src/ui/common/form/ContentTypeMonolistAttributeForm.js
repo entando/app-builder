@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection, Field } from 'redux-form';
 import { FormattedMessage } from 'react-intl';
-import {
-  Button, Row, Col, FormGroup, Alert,
-} from 'patternfly-react';
+import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
 import AttributeOgnlValidation from 'ui/common/contenttype-attributes/AttributeOgnlValidation';
 import AttributeHypeLongMonoTextSettings from 'ui/common/contenttype-attributes/AttributeHypeLongMonoTextSettings';
 import AttributeEnumMapSettings from 'ui/common/contenttype-attributes/AttributeEnumMapSettings';

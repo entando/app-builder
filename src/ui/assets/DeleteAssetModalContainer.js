@@ -22,12 +22,10 @@ export const mapDispatchToProps = (dispatch, { intl }) => ({
   onConfirmDelete: (asset) => {
     dispatch(sendDeleteAsset(asset.id)).then((res) => {
       if (res) {
-        dispatch(
-          addToast(
-            intl.formatMessage(contentTemplateMsgs.removed, { modelname: asset.description }),
-            TOAST_SUCCESS,
-          ),
-        );
+        dispatch(addToast(
+          intl.formatMessage(contentTemplateMsgs.removed, { modelname: asset.description }),
+          TOAST_SUCCESS,
+        ));
         dispatch(fetchAssetsCount(asset.type));
       }
     });

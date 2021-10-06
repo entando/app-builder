@@ -1,7 +1,5 @@
 import { METHODS } from '@entando/apimanager';
-import {
-  addErrors, addToast, clearErrors, TOAST_ERROR, TOAST_SUCCESS,
-} from '@entando/messages';
+import { addErrors, addToast, clearErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import moment from 'moment';
 import { isUndefined } from 'lodash';
 import { setPage } from 'state/pagination/actions';
@@ -287,8 +285,8 @@ export const fetchContentTypeReferenceStatus = () => dispatch => new Promise((re
     .catch(() => {});
 });
 
-export const sendPostContentTypeReferenceStatus = contentTypeCodes => dispatch => new Promise(
-  (resolve) => {
+export const sendPostContentTypeReferenceStatus = contentTypeCodes => dispatch => (
+  new Promise((resolve) => {
     postContentTypesStatus({ profileTypeCodes: contentTypeCodes })
       .then((response) => {
         response.json().then((json) => {
@@ -301,11 +299,11 @@ export const sendPostContentTypeReferenceStatus = contentTypeCodes => dispatch =
         });
       })
       .catch(() => {});
-  },
+  })
 );
 
-export const sendPostRefreshContentType = contentTypeCode => dispatch => new Promise(
-  (resolve) => {
+export const sendPostRefreshContentType = contentTypeCode => dispatch => (
+  new Promise((resolve) => {
     postRefreshContentType(contentTypeCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -318,11 +316,11 @@ export const sendPostRefreshContentType = contentTypeCode => dispatch => new Pro
         resolve();
       });
     });
-  },
+  })
 );
 
-export const sendPutContentType = contentTypeObject => dispatch => new Promise(
-  resolve => putContentType(contentTypeObject)
+export const sendPutContentType = contentTypeObject => dispatch => (
+  new Promise(resolve => putContentType(contentTypeObject)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -333,11 +331,11 @@ export const sendPutContentType = contentTypeObject => dispatch => new Promise(
         }
       });
     })
-    .catch(() => {}),
+    .catch(() => {}))
 );
 
-export const sendDeleteContentType = contentTypeCode => dispatch => new Promise(
-  resolve => deleteContentType(contentTypeCode)
+export const sendDeleteContentType = contentTypeCode => dispatch => (
+  new Promise(resolve => deleteContentType(contentTypeCode)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
@@ -350,7 +348,7 @@ export const sendDeleteContentType = contentTypeCode => dispatch => new Promise(
         }
       });
     })
-    .catch(() => {}),
+    .catch(() => {}))
 );
 
 export const fetchContentTypeAttributeRefs = (page = { page: 1, pageSize: 0 }, params = '') => (
@@ -443,8 +441,8 @@ export const fetchContentTypeAttributeRef = (
   }
 });
 
-export const fetchNestedAttribute = (contentTypeCode, typeAttribute) => dispatch => new Promise(
-  (resolve) => {
+export const fetchNestedAttribute = (contentTypeCode, typeAttribute) => dispatch => (
+  new Promise((resolve) => {
     getContentTypeAttribute(contentTypeCode, typeAttribute)
       .then((response) => {
         response.json().then((json) => {
@@ -454,7 +452,7 @@ export const fetchNestedAttribute = (contentTypeCode, typeAttribute) => dispatch
           }
         });
       }).catch(() => resolve());
-  },
+  })
 );
 
 const fmtDateDDMMYYY = (date) => {
@@ -545,12 +543,10 @@ export const sendPostAttributeFromContentType = (attributeObject, entityCode, hi
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          history.push(
-            routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
-              entityCode,
-              attributeCode: attributeObject.code,
-            }),
-          );
+          history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
+            entityCode,
+            attributeCode: attributeObject.code,
+          }));
         } else {
           history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
         }
@@ -574,12 +570,10 @@ export const sendPutAttributeFromContentType = (attributeObject, entityCode, mod
           json.payload.type === TYPE_MONOLIST
             && !getIsMonolistCompositeAttributeType(getState())
         )) {
-          history.push(
-            routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
-              entityCode,
-              attributeCode: attributeObject.code,
-            }),
-          );
+          history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
+            entityCode,
+            attributeCode: attributeObject.code,
+          }));
         } else {
           dispatch(setSelectedContentTypeAttribute(json.payload));
           const { type, code } = attributeObject;
@@ -587,20 +581,16 @@ export const sendPutAttributeFromContentType = (attributeObject, entityCode, mod
             type === TYPE_MONOLIST
             && getIsMonolistCompositeAttributeType(getState())
           )) {
-            dispatch(
-              initialize('attribute', {
-                ...json.payload,
-                compositeAttributeType: TYPE_COMPOSITE,
-              }),
-            );
+            dispatch(initialize('attribute', {
+              ...json.payload,
+              compositeAttributeType: TYPE_COMPOSITE,
+            }));
             if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE
               || mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE) {
-              history.push(
-                routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT, {
-                  entityCode,
-                  attributeCode: code,
-                }),
-              );
+              history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT, {
+                entityCode,
+                attributeCode: code,
+              }));
             } else {
               history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
             }
@@ -614,22 +604,22 @@ export const sendPutAttributeFromContentType = (attributeObject, entityCode, mod
     .catch(() => {});
 });
 
-export const sendPostAttributeFromContentTypeMonolist = (
-  attributeObject, entityCode, history,
-) => dispatch => new Promise((resolve) => {
-  postAttributeFromContentType(entityCode, attributeObject)
-    .then((response) => {
-      response.json().then((json) => {
-        if (!response.ok) {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        } else {
-          history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
+export const sendPostAttributeFromContentTypeMonolist = (attributeObject, entityCode, history) => (
+  dispatch => new Promise((resolve) => {
+    postAttributeFromContentType(entityCode, attributeObject)
+      .then((response) => {
+        response.json().then((json) => {
+          if (!response.ok) {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          } else {
+            history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
+          }
+          resolve();
+        });
+      })
+      .catch(() => {});
+  })
+);
 
 const convertDate = date => `${date
   .split('/')
@@ -661,32 +651,32 @@ const convertDateValidationRules = (validationRules) => {
   return rules;
 };
 
-export const sendPutAttributeFromContentTypeMonolist = (
-  attributeObject, entityCode, history,
-) => dispatch => new Promise((resolve) => {
-  const { nestedAttribute } = attributeObject;
-  const payload = {
-    ...attributeObject,
-    nestedAttribute: {
-      ...nestedAttribute,
-      ...(nestedAttribute.type === TYPE_DATE ? ({
-        validationRules: convertDateValidationRules(nestedAttribute.validationRules),
-      }) : {}),
-    },
-  };
-  putAttributeFromContentType(entityCode, payload)
-    .then((response) => {
-      response.json().then((json) => {
-        if (!response.ok) {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        } else {
-          history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
+export const sendPutAttributeFromContentTypeMonolist = (attributeObject, entityCode, history) => (
+  dispatch => new Promise((resolve) => {
+    const { nestedAttribute } = attributeObject;
+    const payload = {
+      ...attributeObject,
+      nestedAttribute: {
+        ...nestedAttribute,
+        ...(nestedAttribute.type === TYPE_DATE ? ({
+          validationRules: convertDateValidationRules(nestedAttribute.validationRules),
+        }) : {}),
+      },
+    };
+    putAttributeFromContentType(entityCode, payload)
+      .then((response) => {
+        response.json().then((json) => {
+          if (!response.ok) {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          } else {
+            history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
+          }
+          resolve();
+        });
+      })
+      .catch(() => {});
+  })
+);
 
 const getPayloadFromTypeAttribute = (values, allowedRoles) => {
   const { nestedAttribute } = values;
@@ -751,12 +741,10 @@ export const handlerAttributeFromContentType = (
         dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
         const selectedAttr = getContentTypeSelectedAttribute(getState());
         dispatch(pushParentSelectedAttribute(selectedAttr));
-        history.push(
-          routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
-            entityCode,
-            attributeCode: payload.code,
-          }),
-        );
+        history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
+          entityCode,
+          attributeCode: payload.code,
+        }));
       }
     } else {
       const newAttributeComposite = getNewAttributeComposite(getState());
@@ -826,66 +814,62 @@ export const handlerAttributeFromContentType = (
   }
 };
 
-export const sendDeleteAttributeFromContentType = attributeCode => (
-  dispatch, getState,
-) => new Promise((resolve) => {
-  const contentTypeCode = getSelectedContentType(getState()).code;
-  deleteAttributeFromContentType(contentTypeCode, attributeCode)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(removeAttribute(contentTypeCode, attributeCode));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
+export const sendDeleteAttributeFromContentType = attributeCode => (dispatch, getState) => (
+  new Promise((resolve) => {
+    const contentTypeCode = getSelectedContentType(getState()).code;
+    deleteAttributeFromContentType(contentTypeCode, attributeCode)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(removeAttribute(contentTypeCode, attributeCode));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      })
+      .catch(() => {});
+  })
+);
 
-export const sendMoveAttributeUp = (
-  { entityCode, attributeCode, attributeIndex },
-) => dispatch => new Promise((resolve) => {
-  moveAttributeUp(entityCode, attributeCode)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(
-            moveAttributeUpSync({
+export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex }) => dispatch => (
+  new Promise((resolve) => {
+    moveAttributeUp(entityCode, attributeCode)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeUpSync({
               ...json.payload,
               entityCode,
               attributeIndex,
-            }),
-          );
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      })
+      .catch(() => {});
+  })
+);
 
-export const sendMoveAttributeDown = (
-  { entityCode, attributeCode, attributeIndex },
-) => dispatch => new Promise((resolve) => {
-  moveAttributeDown(entityCode, attributeCode)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(
-            moveAttributeDownSync({
+export const sendMoveAttributeDown = ({ entityCode, attributeCode, attributeIndex }) => (
+  dispatch => new Promise((resolve) => {
+    moveAttributeDown(entityCode, attributeCode)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(moveAttributeDownSync({
               ...json.payload,
               entityCode,
               attributeIndex,
-            }),
-          );
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
+            }));
+          } else {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+          }
+          resolve();
+        });
+      })
+      .catch(() => {});
+  })
+);

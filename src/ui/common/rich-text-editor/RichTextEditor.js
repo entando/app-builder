@@ -4,8 +4,8 @@ import ReactQuill, { Quill } from 'react-quill-2';
 import 'react-quill-2/dist/quill.snow.css';
 
 import EditorToolbar from 'ui/common/rich-text-editor/EditorToolbar';
-import SpecialCharSelectorModal from 'ui/common/rich-text-editor/SpecialCharSelectorModal';
 import LinkConfigModal from 'ui/common/modal/LinkConfigModal';
+import SpecialCharSelectorModal from 'ui/common/rich-text-editor/SpecialCharSelectorModal';
 
 const BlockEmbed = Quill.import('blots/block/embed');
 
@@ -212,7 +212,7 @@ class RichTextEditor extends Component {
 
   render() {
     const {
-      placeholder, disabled, input, extraOptions,
+      placeholder, disabled, input, mainGroup, joinGroups, extraOptions,
     } = this.props;
 
     const { modal, editorToolbarId, editorCanWrite } = this.state;
@@ -233,6 +233,9 @@ class RichTextEditor extends Component {
         />
         <LinkConfigModal
           isVisible={modal === 'enlink'}
+          hasResourceTab
+          mainGroup={mainGroup}
+          joinGroups={joinGroups}
           onSave={this.handleLinkConfigSave}
           onClose={this.handleModalClose}
         />

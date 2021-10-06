@@ -211,7 +211,8 @@
 
 // sass-lint:disable force-element-nesting class-name-format nesting-depth no-important
 .container-pf-nav-pf-vertical {
-  .startLeftPos {
+  .startLeftPos,
+  .CMSShell__fixed-heading.startLeftPos {
     left: #{$nav-pf-vertical-width + 14};
 
     .container {
@@ -219,7 +220,8 @@
     }
   }
 
-  .startTopPos {
+  .startTopPos,
+  .CMSShell__fixed-heading.startTopPos {
     top: 58px;
   }
 

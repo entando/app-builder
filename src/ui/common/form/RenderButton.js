@@ -40,7 +40,6 @@ const RenderButton = ({
 };
 
 RenderButton.propTypes = {
-  input: PropTypes.shape({}),
   meta: PropTypes.shape({
     touched: PropTypes.bool,
     error: PropTypes.shape({}),
@@ -56,7 +55,6 @@ RenderButton.propTypes = {
 };
 
 RenderButton.defaultProps = {
-  input: {},
   meta: {
     touched: false,
     error: {},

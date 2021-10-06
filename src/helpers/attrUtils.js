@@ -16,9 +16,9 @@ export const getAttrInitialValue = (attr, langCodes = ['en']) => {
   const initialValue = { code };
   switch (type) {
     case TYPE_COMPOSITE:
-      initialValue.compositeelements = compositeAttributes.map(
-        compAttr => getAttrInitialValue(compAttr, langCodes),
-      );
+      initialValue.compositeelements = compositeAttributes.map(compAttr => (
+        getAttrInitialValue(compAttr, langCodes)
+      ));
       break;
     case TYPE_LIST:
       initialValue.listelements = {
