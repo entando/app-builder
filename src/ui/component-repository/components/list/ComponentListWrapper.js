@@ -15,6 +15,7 @@ import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilte
 import HubRegistrySwitcher from 'ui/component-repository/components/list/HubRegistrySwitcher';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
 import BundleGroupAutoComplete from 'ui/component-repository/components/BundleGroupAutoComplete';
+import HubBundleList from 'ui/component-repository/components/list/HubBundleList';
 
 export const BUNDLE_GROUP_ID = 'bundleGroup';
 
@@ -79,7 +80,9 @@ const ComponentListWrapper = () => {
               </div>
             </div>
             <div className="ComponentListPage__container-body">
-              <ComponentListContainer />
+              {
+                isLocalRegistry ? <ComponentListContainer /> : <HubBundleList />
+              }
             </div>
           </div>
         </Col>

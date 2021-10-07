@@ -1,0 +1,103 @@
+.BundlePreview {
+  display: flex;
+  flex-direction: column;
+  margin-top: -10px;
+  margin-left: 7px;
+
+  &__info {
+    display: flex;
+  }
+
+  &__image {
+    > img {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  &__meta {
+    margin-left: 30px;
+  }
+
+  &__bundle-name {
+    margin-top: 8px;
+    color: $color-ecr-list-icon-active;
+    font-family: "Open Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+  }
+
+  &__hub-name {
+    margin-top: 5px;
+    color: $color-mid-blue;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 16px;
+  }
+
+  &__select-version {
+    margin-left: auto;
+  }
+
+  &__description {
+    margin-top: 20px;
+  }
+
+  &__description-title {
+    color: $color-ecr-list-icon-active;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 16px;
+  }
+
+  &__description-body {
+    margin-top: 6px;
+    margin-bottom: 35px;
+    color: $color-grey-description;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 20px;
+  }
+
+  &__select-version {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__version-dropdown {
+    width: 130px;
+  }
+
+  &__version-button {
+    display: flex;
+    width: 130px;
+    text-align: left;
+
+    //sass-lint:disable class-name-format
+    .caret {
+      display: flex;
+      align-self: center;
+      margin-left: auto;
+    }
+  }
+
+  &__select-label {
+    margin-top: 4px;
+    margin-right: 19px;
+    color: $color-ecr-list-icon-active;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 16px;
+
+  }
+}

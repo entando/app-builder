@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal } from 'patternfly-react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, destroy } from 'redux-form';
 import PropTypes from 'prop-types';
 import { required } from '@entando/utils';
 
@@ -37,6 +37,7 @@ const AddNewRegistryModalForm = ({
     setLoading(true);
     dispatch(sendAddRegistry(values)).then(() => {
       dispatch(setVisibleModal(''));
+      dispatch(destroy(NewRegistryFormId));
     }).catch(() => {
       setLoading(false);
     });

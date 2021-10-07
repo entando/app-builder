@@ -6,6 +6,8 @@ import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import ComponentList from 'ui/component-repository/components/list/ComponentList';
 import { fetchECRComponentsFiltered } from 'state/component-repository/actions';
+import { setInfo, setVisibleModal } from 'state/modal/actions';
+import { HUB_BUNDLE_MANAGEMENT_MODAL_ID } from 'ui/component-repository/components/list/HubBundleManagementModal';
 
 const ecrLoading = 'component-repository/components';
 
@@ -27,6 +29,10 @@ export const mapDispatchToProps = dispatch => ({
   },
   getInstallPlan: (code) => {
     dispatch(getInstallPlan(code));
+  },
+  openComponentManagementModal: (component) => {
+    dispatch(setInfo({ type: 'Component', payload: component }));
+    dispatch(setVisibleModal(HUB_BUNDLE_MANAGEMENT_MODAL_ID));
   },
 });
 

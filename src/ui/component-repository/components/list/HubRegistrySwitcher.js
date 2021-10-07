@@ -26,10 +26,10 @@ const HubRegistrySwitcher = () => {
     dispatch(setInfo({ type: 'Registry' }));
   };
 
-  const handleDeleteRegistry = (registryName) => {
-    if (activeRegistry.name === registryName) return;
+  const handleDeleteRegistry = (registry) => {
+    if (activeRegistry.id === registry.id) return;
     dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
-    dispatch(setInfo({ type: 'Registry', code: registryName }));
+    dispatch(setInfo({ type: 'Registry', code: registry.name }));
   };
 
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
@@ -57,10 +57,15 @@ const HubRegistrySwitcher = () => {
                       id={reg.name}
                       key={reg.name}
                       className="HubRegistrySwitcher__kebab-menu-item"
-                      onClick={() => handleRegistryChange(reg)}
                       disabled={reg.name === activeRegistry.name}
                     >
-                      <div className="HubRegistrySwitcher__action-label">
+                      <div
+                        role="button"
+                        tabIndex={-2}
+                        onClick={() => handleRegistryChange(reg)}
+                        onKeyDown={() => handleDeleteRegistry(reg)}
+                        className="HubRegistrySwitcher__action-label"
+                      >
                         {reg.name}
                       </div>
                       {
@@ -69,8 +74,8 @@ const HubRegistrySwitcher = () => {
                             role="button"
                             tabIndex={-1}
                             className="HubRegistrySwitcher__trash"
-                            onClick={() => handleDeleteRegistry(reg.id)}
-                            onKeyDown={() => handleDeleteRegistry(reg.id)}
+                            onClick={() => handleDeleteRegistry(reg)}
+                            onKeyDown={() => handleDeleteRegistry(reg)}
                           >
                             <Icon size="lg" name="trash" />
                           </div>

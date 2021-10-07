@@ -7,10 +7,18 @@ import ComponentInstallActionsContainer from 'ui/component-repository/components
 import ComponentImage from 'ui/component-repository/components/item/ComponentImage';
 import { componentType } from 'models/component-repository/components';
 
-const ComponentListListView = ({ components, onClickInstallPlan }) => (
+const ComponentListListView =
+({ components, onClickInstallPlan, openComponentManagementModal }) => (
   <div className="ComponentListListView">
-    {components.map(component => (
-      <div key={component.code} className="ComponentList__list-item">
+    {components.map((component, i) => (
+      <div
+        key={component.code}
+        role="button"
+        tabIndex={-1 * i}
+        className="ComponentList__list-item"
+        onClick={() => openComponentManagementModal(component)}
+        onKeyDown={() => openComponentManagementModal(component)}
+      >
         <div key={component.code} className="equal">
           <div className="ComponentList__component-image-wrapper">
             <ComponentImage component={component} />
@@ -66,6 +74,11 @@ const ComponentListListView = ({ components, onClickInstallPlan }) => (
 ComponentListListView.propTypes = {
   components: PropTypes.arrayOf(componentType).isRequired,
   onClickInstallPlan: PropTypes.func.isRequired,
+  openComponentManagementModal: PropTypes.func,
+};
+
+ComponentListListView.defaultProps = {
+  openComponentManagementModal: () => {},
 };
 
 export default ComponentListListView;

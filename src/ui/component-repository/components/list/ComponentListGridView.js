@@ -8,7 +8,8 @@ import ComponentInstallActionsContainer from 'ui/component-repository/components
 import ComponentImage from 'ui/component-repository/components/item/ComponentImage';
 import { componentType } from 'models/component-repository/components';
 
-const ComponentListGridView = ({ components, onClickInstallPlan }) => (
+const ComponentListGridView =
+({ components, onClickInstallPlan, openComponentManagementModal }) => (
   <div className="ComponentListGridView equal">
     {components.map((component, i) => (
       <Col
@@ -17,7 +18,13 @@ const ComponentListGridView = ({ components, onClickInstallPlan }) => (
         key={component.code}
         className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--odd', 'no-padding')}
       >
-        <div className="ComponentList__component-wrapper">
+        <div
+          role="button"
+          tabIndex={-1 * i}
+          className="ComponentList__component-wrapper"
+          onClick={() => openComponentManagementModal(component)}
+          onKeyDown={() => openComponentManagementModal(component)}
+        >
 
           <div className="ComponentList__component-image-wrapper">
             <ComponentImage component={component} />
@@ -74,6 +81,11 @@ const ComponentListGridView = ({ components, onClickInstallPlan }) => (
 ComponentListGridView.propTypes = {
   components: PropTypes.arrayOf(componentType).isRequired,
   onClickInstallPlan: PropTypes.func.isRequired,
+  openComponentManagementModal: PropTypes.func,
+};
+
+ComponentListGridView.defaultProps = {
+  openComponentManagementModal: () => {},
 };
 
 export default ComponentListGridView;

@@ -40,6 +40,7 @@ class ComponentList extends Component {
       componentRepositoryComponents,
       intl,
       getInstallPlan,
+      openComponentManagementModal,
     } = this.props;
 
     const pagination = {
@@ -52,11 +53,13 @@ class ComponentList extends Component {
         components={componentRepositoryComponents}
         locale={intl.locale}
         onClickInstallPlan={getInstallPlan}
+        openComponentManagementModal={openComponentManagementModal}
       />)
       : (<ComponentListListView
         components={componentRepositoryComponents}
         locale={intl.locale}
         onClickInstallPlan={getInstallPlan}
+        openComponentManagementModal={openComponentManagementModal}
       />);
 
     const components = (!componentRepositoryComponents
@@ -101,6 +104,7 @@ ComponentList.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  openComponentManagementModal: PropTypes.func,
 };
 
 ComponentList.defaultProps = {
@@ -108,6 +112,7 @@ ComponentList.defaultProps = {
   loading: false,
   componentRepositoryComponents: [],
   viewMode: ECR_COMPONENTS_GRID_VIEW,
+  openComponentManagementModal: () => {},
 };
 
 export default injectIntl(ComponentList);

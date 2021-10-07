@@ -51,6 +51,7 @@ import {
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
 import { updateAllActions } from './reducer';
+import { setDeployedBundles } from '../hub/actions';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
 
@@ -451,6 +452,7 @@ export const fetchECRComponents = (paginationMetadata = {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setECRComponents(data.payload));
+          dispatch(setDeployedBundles(data.payload));
           dispatch(setPage(data.metaData));
 
           if (data.payload.length) {

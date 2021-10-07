@@ -1678,5 +1678,10 @@ export default {
     'hub.newRegistry.url.error': 'Registry URL must be unique',
     'app.filterTypesSelect.organizationName': 'Organization Name',
     'app.filterTypesSelect.bundleGroup': 'Bundle Group',
+    'hub.bundle.installation': 'Bundle Installation',
+    'app.deploy': 'Deploy',
+    'app.deployed': 'Deployed',
+    'app.undeploy': 'Undeploy',
+    'app.undeployed': 'Undeployed',
   },
 };
